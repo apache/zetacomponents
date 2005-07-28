@@ -1,0 +1,101 @@
+<?xml version="1.0"  encoding="windows-1252"?>
+<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2005-07-28 10:34:48">
+	<XMI.header>
+		<XMI.documentation>
+			<XMI.exporter>Enterprise Architect</XMI.exporter>
+			<XMI.exporterVersion>2.5</XMI.exporterVersion>
+		</XMI.documentation>
+	</XMI.header>
+	<XMI.content>
+		<UML:Model name="EA Model" xmi.id="MX_EAID_8D472D93_F665_4189_8164_1FE73F728A55">
+			<UML:Namespace.ownedElement>
+				<UML:Class name="EARootClass" xmi.id="EAID_11111111_5487_4080_A7F4_41526CB0AA00" isRoot="true" isLeaf="false" isAbstract="false"/>
+				<UML:Package name="Example Classes" xmi.id="EAPK_8D472D93_F665_4189_8164_1FE73F728A55" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+					<UML:ModelElement.taggedValue>
+						<UML:TaggedValue tag="created" value="2005-07-12 00:00:00"/>
+						<UML:TaggedValue tag="modified" value="2005-07-12 00:00:00"/>
+						<UML:TaggedValue tag="iscontrolled" value="TRUE"/>
+						<UML:TaggedValue tag="xmlpath" value="E:\UML\eZ publish components\example classes\example classes.xml"/>
+						<UML:TaggedValue tag="lastsavedate" value="2005-07-28 10:34:47"/>
+						<UML:TaggedValue tag="version" value="1.0"/>
+						<UML:TaggedValue tag="isprotected" value="FALSE"/>
+						<UML:TaggedValue tag="usedtd" value="FALSE"/>
+						<UML:TaggedValue tag="owner" value="Jan Borsodi"/>
+						<UML:TaggedValue tag="xmiver" value="Enterprise Architect XMI/UML 1.3"/>
+						<UML:TaggedValue tag="logxml" value="FALSE"/>
+						<UML:TaggedValue tag="packageFlags" value="CRC=0;"/>
+						<UML:TaggedValue tag="batchsave" value="0"/>
+						<UML:TaggedValue tag="batchload" value="0"/>
+						<UML:TaggedValue tag="phase" value="1.0"/>
+						<UML:TaggedValue tag="status" value="Proposed"/>
+						<UML:TaggedValue tag="author" value="Jan Borsodi"/>
+						<UML:TaggedValue tag="complexity" value="1"/>
+						<UML:TaggedValue tag="ea_stype" value="Public"/>
+						<UML:TaggedValue tag="tpos" value="0"/>
+					</UML:ModelElement.taggedValue>
+					<UML:Namespace.ownedElement>
+						<UML:Class name="eZShuffleTranslator" xmi.id="EAID_40FFB174_5FD5_46a1_B7A7_D16192CD1807" visibility="public" namespace="EAPK_8D472D93_F665_4189_8164_1FE73F728A55" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="package" value="EAPK_8D472D93_F665_4189_8164_1FE73F728A55"/>
+								<UML:TaggedValue tag="date_created" value="2005-07-12 21:56:10"/>
+								<UML:TaggedValue tag="date_modified" value="2005-07-12 22:07:38"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="Example Classes"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Class>
+						<UML:Class name="eZBorkTranslator" xmi.id="EAID_870AA4AB_77E9_4a36_88D4_1222AFEA3C34" visibility="public" namespace="EAPK_8D472D93_F665_4189_8164_1FE73F728A55" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="package" value="EAPK_8D472D93_F665_4189_8164_1FE73F728A55"/>
+								<UML:TaggedValue tag="date_created" value="2005-07-12 21:56:09"/>
+								<UML:TaggedValue tag="date_modified" value="2005-07-12 22:08:32"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="Example Classes"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Class>
+						<UML:Class name="eZ1337Translator" xmi.id="EAID_E7AA9F87_D157_4cec_BBF8_7B61283DB3D5" visibility="public" namespace="EAPK_8D472D93_F665_4189_8164_1FE73F728A55" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="package" value="EAPK_8D472D93_F665_4189_8164_1FE73F728A55"/>
+								<UML:TaggedValue tag="date_created" value="2005-07-12 21:56:09"/>
+								<UML:TaggedValue tag="date_modified" value="2005-07-12 22:06:51"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="Example Classes"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Class>
+					</UML:Namespace.ownedElement>
+				</UML:Package>
+			</UML:Namespace.ownedElement>
+		</UML:Model>
+		<UML:Diagram name="Example Classes" xmi.id="EAID_A04DCA96_2D0B_4810_B04B_4D0CC5E43990" diagramType="ClassDiagram" owner="EAPK_8D472D93_F665_4189_8164_1FE73F728A55" toolName="Enterprise Architect 2.5">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="version" value="1.0"/>
+				<UML:TaggedValue tag="author" value="Jan Borsodi"/>
+				<UML:TaggedValue tag="created_date" value="2005-07-12 22:06:38"/>
+				<UML:TaggedValue tag="modified_date" value="2005-07-15 09:19:48"/>
+				<UML:TaggedValue tag="package" value="EAPK_8D472D93_F665_4189_8164_1FE73F728A55"/>
+				<UML:TaggedValue tag="type" value="Logical"/>
+				<UML:TaggedValue tag="swimlanes" value="locked=false;orientation=0;width=0;inbar=false;names=false;color=0;bold=false;fcol=0;;cls=0;"/>
+				<UML:TaggedValue tag="EAStyle" value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=0;PPgs.cy=0;DocSize.cx=827;DocSize.cy=1031;ShowDetails=0;Orientation=P;Zoom=100;ShowTags=0;OpParams=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=1;HideParents=0;UseAlias=0;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;"/>
+				<UML:TaggedValue tag="styleex" value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=0;TDurLow=0;TDurHigh=100;TDurUnit=;TDurHide=0;"/>
+			</UML:ModelElement.taggedValue>
+			<UML:Diagram.element>
+				<UML:DiagramElement geometry="Left=20;Top=20;Right=123;Bottom=90;" subject="EAID_40FFB174_5FD5_46a1_B7A7_D16192CD1807" seqno="1" style="DUID=646D4786;LBL=;"/>
+				<UML:DiagramElement geometry="Left=153;Top=20;Right=243;Bottom=90;" subject="EAID_870AA4AB_77E9_4a36_88D4_1222AFEA3C34" seqno="2" style="DUID=08C70E49;LBL=;"/>
+				<UML:DiagramElement geometry="Left=273;Top=20;Right=363;Bottom=90;" subject="EAID_E7AA9F87_D157_4cec_BBF8_7B61283DB3D5" seqno="3" style="DUID=6CEC1819;LBL=;"/>
+			</UML:Diagram.element>
+		</UML:Diagram>
+	</XMI.content>
+	<XMI.difference/>
+	<XMI.extensions xmi.extender="Enterprise Architect 2.5"/>
+</XMI>
