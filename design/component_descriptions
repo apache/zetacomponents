@@ -209,6 +209,7 @@ faster than both file access and database queries.
 
 System Information
 ------------------
+Responsible: Frederik
 Provides access to information about the underlying Operating System,
 such as installed Memory and CPU as well as platformed dependent items
 such as directory separator and EOL style. It will cover the things
