@@ -1,5 +1,6 @@
 <?xml version="1.0"  encoding="windows-1252"?>
-<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2005-07-29 10:03:29">
+<!DOCTYPE XMI SYSTEM "UML_EA.dtd">
+<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2005-08-02 11:32:25">
 	<XMI.header>
 		<XMI.documentation>
 			<XMI.exporter>Enterprise Architect</XMI.exporter>
@@ -152,10 +153,11 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={982C3605-FE69-4b6c-BBE7-738DA3C20209}$XID;$NAM=CustomProperties$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isSubstitutable@ENDNAME;@TYPE=boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={BB56BD5D-4066-488e-9CE2-55E3BFD1798C}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+								<UML:TaggedValue tag="privatedata5" value="EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
-						<UML:Class name="eZMailException::ErrorCodes" xmi.id="EAID_203C88AC_66A5_4028_89CD_587D91215375" visibility="public" namespace="EAPK_A3839461_89E1_4d43_A557_F85606C0592C" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+						<UML:Class name="ezcMailException::ErrorCodes" xmi.id="EAID_203C88AC_66A5_4028_89CD_587D91215375" visibility="public" namespace="EAPK_A3839461_89E1_4d43_A557_F85606C0592C" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
 							<UML:ModelElement.taggedValue>
 								<UML:TaggedValue tag="isSpecification" value="false"/>
 								<UML:TaggedValue tag="ea_stype" value="Class"/>
@@ -163,7 +165,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_A3839461_89E1_4d43_A557_F85606C0592C"/>
 								<UML:TaggedValue tag="date_created" value="2005-07-28 14:40:20"/>
-								<UML:TaggedValue tag="date_modified" value="2005-07-29 09:46:17"/>
+								<UML:TaggedValue tag="date_modified" value="2005-08-02 11:31:48"/>
 								<UML:TaggedValue tag="gentype" value="PHP"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
 								<UML:TaggedValue tag="package_name" value="eZ Mail"/>
@@ -241,9 +243,9 @@
 						</UML:Class>
 						<UML:Comment xmi.id="EAID_40F284ED_37EA_430d_BDCA_38013B61EB86" visibility="public" namespace="EAPK_A3839461_89E1_4d43_A557_F85606C0592C">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="documentation" value="All cmd commands are internal and throw Exceptions if they fail. The sendMail class is responsible for writing the error message to log. Only error codes are propgated further.
+								<UML:TaggedValue tag="documentation" value="All cmd commands are internal and throw Exceptions if they fail. The sendMail class is responsible for writing the error message to log. Only error codes are propagated further.
 
-More authentication methods have to be implemented. These can be snatched from PEAR
+More authentication methods have to be implemented.
 
 
 Note: What about multiple sends with one connect only?"/>
@@ -253,7 +255,7 @@ Note: What about multiple sends with one connect only?"/>
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_A3839461_89E1_4d43_A557_F85606C0592C"/>
 								<UML:TaggedValue tag="date_created" value="2005-07-28 14:31:44"/>
-								<UML:TaggedValue tag="date_modified" value="2005-07-28 15:12:35"/>
+								<UML:TaggedValue tag="date_modified" value="2005-08-02 11:21:29"/>
 								<UML:TaggedValue tag="gentype" value="&lt;none&gt;"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
 								<UML:TaggedValue tag="package_name" value="eZ Mail"/>
@@ -264,7 +266,7 @@ Note: What about multiple sends with one connect only?"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Comment>
-						<UML:Class name="eZSendmailTransport" xmi.id="EAID_423BB171_F548_404b_95CF_D1AAE3161404" visibility="public" namespace="EAPK_A3839461_89E1_4d43_A557_F85606C0592C" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+						<UML:Class name="ezcSendmailTransport" xmi.id="EAID_423BB171_F548_404b_95CF_D1AAE3161404" visibility="public" namespace="EAPK_A3839461_89E1_4d43_A557_F85606C0592C" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
 							<UML:ModelElement.taggedValue>
 								<UML:TaggedValue tag="isSpecification" value="false"/>
 								<UML:TaggedValue tag="ea_stype" value="Class"/>
@@ -272,7 +274,7 @@ Note: What about multiple sends with one connect only?"/>
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_A3839461_89E1_4d43_A557_F85606C0592C"/>
 								<UML:TaggedValue tag="date_created" value="2005-07-28 13:04:21"/>
-								<UML:TaggedValue tag="date_modified" value="2005-07-28 13:04:21"/>
+								<UML:TaggedValue tag="date_modified" value="2005-08-02 11:31:35"/>
 								<UML:TaggedValue tag="genfile" value="C:\Documents and Settings\El Frederico\My Documents\svn\trunk\lib\ezutils\classes\ezsendmailtransport.php"/>
 								<UML:TaggedValue tag="gentype" value="PHP"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -3255,7 +3257,7 @@ Note: What about multiple sends with one connect only?"/>
 								</UML:Operation>
 							</UML:Classifier.feature>
 						</UML:Class>
-						<UML:Class name="eZMail" xmi.id="EAID_8227FC5E_CEE0_4b5f_8A0B_4E57F996D849" visibility="public" namespace="EAPK_A3839461_89E1_4d43_A557_F85606C0592C" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+						<UML:Class name="ezcMail" xmi.id="EAID_8227FC5E_CEE0_4b5f_8A0B_4E57F996D849" visibility="public" namespace="EAPK_A3839461_89E1_4d43_A557_F85606C0592C" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
 							<UML:ModelElement.taggedValue>
 								<UML:TaggedValue tag="isSpecification" value="false"/>
 								<UML:TaggedValue tag="ea_stype" value="Class"/>
@@ -3263,7 +3265,7 @@ Note: What about multiple sends with one connect only?"/>
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_A3839461_89E1_4d43_A557_F85606C0592C"/>
 								<UML:TaggedValue tag="date_created" value="2005-07-28 15:40:13"/>
-								<UML:TaggedValue tag="date_modified" value="2005-07-29 09:42:28"/>
+								<UML:TaggedValue tag="date_modified" value="2005-08-02 11:31:17"/>
 								<UML:TaggedValue tag="gentype" value="PHP"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
 								<UML:TaggedValue tag="package_name" value="eZ Mail"/>
@@ -3508,7 +3510,7 @@ Note: What about multiple sends with one connect only?"/>
 											</UML:Parameter.type>
 											<UML:ModelElement.taggedValue>
 												<UML:TaggedValue tag="pos" value="0"/>
-												<UML:TaggedValue tag="type" value="eZMailBody"/>
+												<UML:TaggedValue tag="type" value="ezcMailBody"/>
 												<UML:TaggedValue tag="const" value="0"/>
 												<UML:TaggedValue tag="classifier" value="EAID_F5F2A165_B15B_4a2f_B070_6F7B1D15EBE0"/>
 												<UML:TaggedValue tag="ea_guid" value="{EAC36ACA-C38D-4eac-8867-71C449952561}"/>
@@ -3611,7 +3613,7 @@ Note: What about multiple sends with one connect only?"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Dependency>
-						<UML:Class name="eZMailException" xmi.id="EAID_994294AD_CDF0_4427_8888_807DEE0430C0" visibility="public" namespace="EAPK_A3839461_89E1_4d43_A557_F85606C0592C" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+						<UML:Class name="ezcMailException" xmi.id="EAID_994294AD_CDF0_4427_8888_807DEE0430C0" visibility="public" namespace="EAPK_A3839461_89E1_4d43_A557_F85606C0592C" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
 							<UML:ModelElement.taggedValue>
 								<UML:TaggedValue tag="isSpecification" value="false"/>
 								<UML:TaggedValue tag="ea_stype" value="Class"/>
@@ -3619,7 +3621,7 @@ Note: What about multiple sends with one connect only?"/>
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_A3839461_89E1_4d43_A557_F85606C0592C"/>
 								<UML:TaggedValue tag="date_created" value="2005-07-28 14:27:35"/>
-								<UML:TaggedValue tag="date_modified" value="2005-07-28 14:27:43"/>
+								<UML:TaggedValue tag="date_modified" value="2005-08-02 11:31:42"/>
 								<UML:TaggedValue tag="gentype" value="PHP"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
 								<UML:TaggedValue tag="package_name" value="eZ Mail"/>
@@ -3704,7 +3706,7 @@ Note: What about multiple sends with one connect only?"/>
 								<UML:TaggedValue tag="mb" value="«throws»"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Dependency>
-						<UML:Class name="eZMailTransport" xmi.id="EAID_AF963201_C9CC_423d_8C5E_0F9A9AE0985C" visibility="public" namespace="EAPK_A3839461_89E1_4d43_A557_F85606C0592C" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+						<UML:Class name="ezcMailTransport" xmi.id="EAID_AF963201_C9CC_423d_8C5E_0F9A9AE0985C" visibility="public" namespace="EAPK_A3839461_89E1_4d43_A557_F85606C0592C" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
 							<UML:ModelElement.taggedValue>
 								<UML:TaggedValue tag="documentation" value="! \class eZMailTransport ezmailtransport.php \brief Interface for mail transport handling
 
@@ -3715,7 +3717,7 @@ Function send is removed because it is application specific"/>
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_A3839461_89E1_4d43_A557_F85606C0592C"/>
 								<UML:TaggedValue tag="date_created" value="2005-07-28 12:55:53"/>
-								<UML:TaggedValue tag="date_modified" value="2005-07-28 14:40:02"/>
+								<UML:TaggedValue tag="date_modified" value="2005-08-02 11:31:29"/>
 								<UML:TaggedValue tag="genfile" value="C:\Documents and Settings\El Frederico\My Documents\svn\trunk\lib\ezutils\classes\ezmailtransport.php"/>
 								<UML:TaggedValue tag="gentype" value="PHP"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -3783,7 +3785,7 @@ Function send is removed because it is application specific"/>
 												<UML:Expression/>
 											</UML:Parameter.defaultValue>
 										</UML:Parameter>
-										<UML:Parameter name="mail" kind="inout" visibility="public">
+										<UML:Parameter name="mail" kind="in" visibility="public">
 											<UML:Parameter.type>
 												<UML:Classifier xmi.idref="eaxmiid0"/>
 											</UML:Parameter.type>
@@ -3910,7 +3912,7 @@ TODO:
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Comment>
-						<UML:Class name="eZSMTPTransport" xmi.id="EAID_F18814A0_7F4C_40a2_A1C9_7C8FBBBFBD10" visibility="public" namespace="EAPK_A3839461_89E1_4d43_A557_F85606C0592C" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+						<UML:Class name="ezcSmtpTransport" xmi.id="EAID_F18814A0_7F4C_40a2_A1C9_7C8FBBBFBD10" visibility="public" namespace="EAPK_A3839461_89E1_4d43_A557_F85606C0592C" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
 							<UML:ModelElement.taggedValue>
 								<UML:TaggedValue tag="documentation" value="This class needs to be completely reviewed since the implementation is somewhat flaky. Simply make sure that it follows SMTP standards.
 
@@ -3922,7 +3924,7 @@ set - This should be replaced with properties if necessary"/>
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_A3839461_89E1_4d43_A557_F85606C0592C"/>
 								<UML:TaggedValue tag="date_created" value="2005-07-28 13:04:22"/>
-								<UML:TaggedValue tag="date_modified" value="2005-07-28 14:25:06"/>
+								<UML:TaggedValue tag="date_modified" value="2005-08-02 11:30:56"/>
 								<UML:TaggedValue tag="genfile" value="C:\Documents and Settings\El Frederico\My Documents\svn\trunk\lib\ezutils\classes\ezsmtp.php"/>
 								<UML:TaggedValue tag="gentype" value="PHP"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -4215,21 +4217,20 @@ set - This should be replaced with properties if necessary"/>
 										<UML:TaggedValue tag="styleex" value="volatile=0;"/>
 									</UML:ModelElement.taggedValue>
 								</UML:Attribute>
-								<UML:Attribute name="auth" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+								<UML:Attribute name="doAuthenticate" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
 									<UML:Attribute.initialValue>
 										<UML:Expression/>
 									</UML:Attribute.initialValue>
 									<UML:StructuralFeature.type>
-										<UML:Classifier xmi.idref="eaxmiid6"/>
+										<UML:Classifier xmi.idref="eaxmiid3"/>
 									</UML:StructuralFeature.type>
 									<UML:ModelElement.stereotype>
 										<UML:Stereotype name="property"/>
 									</UML:ModelElement.stereotype>
 									<UML:ModelElement.taggedValue>
-										<UML:TaggedValue tag="type" value="string"/>
+										<UML:TaggedValue tag="type" value="boolean"/>
 										<UML:TaggedValue tag="derived" value="0"/>
 										<UML:TaggedValue tag="containment" value="Not Specified"/>
-										<UML:TaggedValue tag="ordered" value="0"/>
 										<UML:TaggedValue tag="stereotype" value="property"/>
 										<UML:TaggedValue tag="collection" value="false"/>
 										<UML:TaggedValue tag="position" value="13"/>
@@ -4824,7 +4825,7 @@ set - This should be replaced with properties if necessary"/>
 								</UML:Operation>
 							</UML:Classifier.feature>
 						</UML:Class>
-						<UML:Class name="eZMailBody" xmi.id="EAID_F5F2A165_B15B_4a2f_B070_6F7B1D15EBE0" visibility="public" namespace="EAPK_A3839461_89E1_4d43_A557_F85606C0592C" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+						<UML:Class name="ezcMailBody" xmi.id="EAID_F5F2A165_B15B_4a2f_B070_6F7B1D15EBE0" visibility="public" namespace="EAPK_A3839461_89E1_4d43_A557_F85606C0592C" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
 							<UML:ModelElement.taggedValue>
 								<UML:TaggedValue tag="isSpecification" value="false"/>
 								<UML:TaggedValue tag="ea_stype" value="Class"/>
@@ -4832,7 +4833,7 @@ set - This should be replaced with properties if necessary"/>
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_A3839461_89E1_4d43_A557_F85606C0592C"/>
 								<UML:TaggedValue tag="date_created" value="2005-07-29 08:58:31"/>
-								<UML:TaggedValue tag="date_modified" value="2005-07-29 09:14:05"/>
+								<UML:TaggedValue tag="date_modified" value="2005-08-02 11:31:09"/>
 								<UML:TaggedValue tag="gentype" value="PHP"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
 								<UML:TaggedValue tag="package_name" value="eZ Mail"/>
@@ -5337,7 +5338,7 @@ set - This should be replaced with properties if necessary"/>
 				<UML:TaggedValue tag="version" value="0.1"/>
 				<UML:TaggedValue tag="author" value="Frederik Holljen"/>
 				<UML:TaggedValue tag="created_date" value="2005-07-27 14:27:02"/>
-				<UML:TaggedValue tag="modified_date" value="2005-07-29 09:59:39"/>
+				<UML:TaggedValue tag="modified_date" value="2005-08-02 11:31:59"/>
 				<UML:TaggedValue tag="package" value="EAPK_A3839461_89E1_4d43_A557_F85606C0592C"/>
 				<UML:TaggedValue tag="type" value="Logical"/>
 				<UML:TaggedValue tag="swimlanes" value="locked=false;orientation=0;width=0;inbar=false;names=false;color=0;bold=false;fcol=0;;cls=0;"/>
@@ -5345,15 +5346,15 @@ set - This should be replaced with properties if necessary"/>
 				<UML:TaggedValue tag="styleex" value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;Layout=l=20:c=20:d=0:cr=1:la=2:i=1:it=4:a=0:;SuppressFOC=0;TDurLow=0;TDurHigh=100;TDurUnit=;TDurHide=0;"/>
 			</UML:ModelElement.taggedValue>
 			<UML:Diagram.element>
-				<UML:DiagramElement geometry="Left=445;Top=415;Right=790;Bottom=633;" subject="EAID_F5F2A165_B15B_4a2f_B070_6F7B1D15EBE0" seqno="1" style="DUID=113AB5F5;LBL=;"/>
+				<UML:DiagramElement geometry="Left=451;Top=351;Right=796;Bottom=569;" subject="EAID_F5F2A165_B15B_4a2f_B070_6F7B1D15EBE0" seqno="1" style="DUID=113AB5F5;LBL=;"/>
 				<UML:DiagramElement geometry="Left=831;Top=66;Right=1078;Bottom=475;" subject="EAID_DE43C272_87A3_496a_8C19_66CC696D0365" seqno="2" style="DUID=2C30AB3A;LBL=;"/>
-				<UML:DiagramElement geometry="Left=495;Top=58;Right=728;Bottom=211;" subject="EAID_8227FC5E_CEE0_4b5f_8A0B_4E57F996D849" seqno="3" style="DUID=094A8C11;LBL=;"/>
+				<UML:DiagramElement geometry="Left=506;Top=59;Right=739;Bottom=212;" subject="EAID_8227FC5E_CEE0_4b5f_8A0B_4E57F996D849" seqno="3" style="DUID=094A8C11;LBL=;"/>
 				<UML:DiagramElement geometry="Left=22;Top=442;Right=167;Bottom=526;" subject="EAID_203C88AC_66A5_4028_89CD_587D91215375" seqno="4" style="DUID=49B39F27;LBL=;"/>
-				<UML:DiagramElement geometry="Left=14;Top=592;Right=182;Bottom=793;" subject="EAID_40F284ED_37EA_430d_BDCA_38013B61EB86" seqno="5" style="DUID=D1C640AE;LBL=;"/>
+				<UML:DiagramElement geometry="Left=27;Top=557;Right=195;Bottom=758;" subject="EAID_40F284ED_37EA_430d_BDCA_38013B61EB86" seqno="5" style="DUID=D1C640AE;LBL=;"/>
 				<UML:DiagramElement geometry="Left=20;Top=335;Right=173;Bottom=405;" subject="EAID_994294AD_CDF0_4427_8888_807DEE0430C0" seqno="6" style="DUID=3724EB4E;LBL=;"/>
 				<UML:DiagramElement geometry="Left=20;Top=11;Right=185;Bottom=86;" subject="EAID_C8F13297_C679_48d9_A756_3B2228D083A3" seqno="7" style="DUID=B07BDB9E;"/>
-				<UML:DiagramElement geometry="Left=247;Top=178;Right=428;Bottom=637;" subject="EAID_F18814A0_7F4C_40a2_A1C9_7C8FBBBFBD10" seqno="8" style="DUID=2641BBBC;LBL=;"/>
-				<UML:DiagramElement geometry="Left=12;Top=215;Right=170;Bottom=291;" subject="EAID_423BB171_F548_404b_95CF_D1AAE3161404" seqno="9" style="DUID=3121D42D;LBL=;"/>
+				<UML:DiagramElement geometry="Left=240;Top=178;Right=440;Bottom=637;" subject="EAID_F18814A0_7F4C_40a2_A1C9_7C8FBBBFBD10" seqno="8" style="DUID=2641BBBC;LBL=;"/>
+				<UML:DiagramElement geometry="Left=24;Top=222;Right=182;Bottom=298;" subject="EAID_423BB171_F548_404b_95CF_D1AAE3161404" seqno="9" style="DUID=3121D42D;LBL=;"/>
 				<UML:DiagramElement geometry="Left=34;Top=96;Right=178;Bottom=175;" subject="EAID_AF963201_C9CC_423d_8C5E_0F9A9AE0985C" seqno="10" style="DUID=9B3F48C6;LBL=;"/>
 				<UML:DiagramElement geometry="EDGE=2;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;Path=;" subject="EAID_3A8FD659_DC1C_439d_AACA_75BDA7D70B54" style="Mode=3;EOID=094A8C11;SOID=9B3F48C6;Hidden=0;"/>
 				<UML:DiagramElement geometry="EDGE=3;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;Path=;" subject="EAID_48B44EB0_4EF5_4150_B596_125E6FE1999F" style="Mode=3;EOID=113AB5F5;SOID=094A8C11;Hidden=0;"/>
