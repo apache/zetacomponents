@@ -44,6 +44,7 @@ ability to parse options to scripts and output to consoles.
 
 Database
 --------
+Responsible: Sergey
 Provides database API and SQL abstraction for SQL databases. It also
 contains tools for more advanced database operations such as finding
 specific tables and cleaning them up.
