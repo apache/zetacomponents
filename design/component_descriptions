@@ -85,7 +85,7 @@ Provides support for file operations which are not covered by PHP or
 are just missing.
 
 
-File stream
+File Stream
 -----------
 This package provides functionality that wraps file storage. It can be
 set up to store files in a database as well as on your filesystem.
@@ -160,7 +160,7 @@ on any third party tools. You can use the template system to create
 PDF files through the template tie-in package.
 
 
-Persistent object
+Persistent Object
 -----------------
 Provides a functionality for dealing with database data in a unified
 way. The actual SQL calls are abstracted so the implementor only needs
@@ -228,7 +228,7 @@ template system can be used to generate HTML pages, text files and
 emails.
 
 
-Text tools  [Not now]
+Text Tools  [Not now]
 ----------
 The text tools package contains simple text to HTML transformation
 tools including tools to automatically convert URLs into links and a
