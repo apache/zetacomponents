@@ -90,6 +90,10 @@ means that your application will not rely on the debug package even if
 you use it.
 
 
+Execution
+-----
+
+
 File
 ----
 Provides support for file operations which are not covered by PHP or
@@ -137,6 +141,11 @@ information about them, such as getting the EXIF information from a
 JPEG and TIFF or animation information from a GIF.
 
 
+Image Composer
+-------------
+
+
+
 Image Conversion
 -------------
 Responsible: Tobias
@@ -160,6 +169,10 @@ The mail package provides functionality for sending and receiving
 mail. It supports easy sending of multipart MIME and HTML mail and
 also provides a simple way to control and send mail using the template
 system.
+
+
+Mail Composer
+----
 
 
 PDF [Not now]
