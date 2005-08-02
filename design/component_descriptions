@@ -1,6 +1,17 @@
 [Not now] - Means that this package will not be made for version 1.0
 
 
+Application Event
+-------
+Responsible: Raymond
+A set of classes that handles different kinds of logging
+methods. Provided methods include a file based logger that also
+supports log-rotations and a database based logging engine. Each
+logging engine is build as a handler to minimize external
+dependencies. We will also try to make the functionality general
+enough so it can be used to do event logging and create audit trails.
+
+
 Application Framework
 ---------------------
 The application framework package contains the basis of a module and
@@ -100,6 +111,24 @@ a file or directory in objects which can easily be modified or
 queried.
 
 
+File Storage
+-------------
+The uploaded file package provides easy access to files uploaded by
+clients over HTTP. The uploaded file is available as a temporary file
+that you can choose to move to its final destination. If you ignore
+the file it will be deleted at the end of the request.
+
+
+HTTP Request
+----------------
+A package to handle incoming requests in a correct way. This includes
+managing different sets of urls for setups such as a VHOST setups
+(where a whole application is the only thing in a virtual host),
+setups where the application is installed in a directory). A class to
+work with URLs and access specific parts of a request (as seen in an
+applications view) is included too.
+
+
 Image Analyzer
 --------------
 Responsible: Tobias
@@ -124,17 +153,6 @@ information in a locale-dependent formats. This will most likely be an
 interface to ICU's locale functionality.
 
 
-Application Event
--------
-Responsible: Raymond
-A set of classes that handles different kinds of logging
-methods. Provided methods include a file based logger that also
-supports log-rotations and a database based logging engine. Each
-logging engine is build as a handler to minimize external
-dependencies. We will also try to make the functionality general
-enough so it can be used to do event logging and create audit trails.
-
-
 Mail
 ----
 Responsible: Frederik
@@ -142,13 +160,6 @@ The mail package provides functionality for sending and receiving
 mail. It supports easy sending of multipart MIME and HTML mail and
 also provides a simple way to control and send mail using the template
 system.
-
-
-Persistent Operation  [Not now]
--------------
-This package provides functionality to make persistent requests that
-go over several client requests. This is useful if your application
-must perform long operations that would normally time out.
 
 
 PDF [Not now]
@@ -167,21 +178,18 @@ way. The actual SQL calls are abstracted so the implementor only needs
 to worry about which data to retrieive.
 
 
+Persistent Operation  [Not now]
+-------------
+This package provides functionality to make persistent requests that
+go over several client requests. This is useful if your application
+must perform long operations that would normally time out.
+
+
 PHP Generator
 -----------
 A class that let's you build a PHP file without that you have to take
 care about it's formatting such as indentation. Later on we might want
 to add tools to analyze or process PHP code too.
-
-
-HTTP Request
-----------------
-A package to handle incoming requests in a correct way. This includes
-managing different sets of urls for setups such as a VHOST setups
-(where a whole application is the only thing in a virtual host),
-setups where the application is installed in a directory). A class to
-work with URLs and access specific parts of a request (as seen in an
-applications view) is included too.
 
 
 Search  [Not now]
@@ -240,14 +248,6 @@ Translation
 A system for translating websites' static information, such as labels,
 help fields, menu options etc. The system works with a definition file
 and special translations can be plugged in easily.
-
-
-File Storage
--------------
-The uploaded file package provides easy access to files uploaded by
-clients over HTTP. The uploaded file is available as a temporary file
-that you can choose to move to its final destination. If you ignore
-the file it will be deleted at the end of the request.
 
 
 User Input
