@@ -108,7 +108,7 @@ information about them, such as getting the EXIF information from a
 JPEG and TIFF or animation information from a GIF.
 
 
-Image Creator
+Image Conversion
 -------------
 Responsible: Tobias
 Provides functionality for doing more advanced operations on image
@@ -124,7 +124,7 @@ information in a locale-dependent formats. This will most likely be an
 interface to ICU's locale functionality.
 
 
-Logging
+Application Event
 -------
 Responsible: Raymond
 A set of classes that handles different kinds of logging
@@ -144,7 +144,7 @@ also provides a simple way to control and send mail using the template
 system.
 
 
-Multi-Request  [Not now]
+Persistent Operation  [Not now]
 -------------
 This package provides functionality to make persistent requests that
 go over several client requests. This is useful if your application
@@ -167,14 +167,14 @@ way. The actual SQL calls are abstracted so the implementor only needs
 to worry about which data to retrieive.
 
 
-PHP Creator
+PHP Generator
 -----------
 A class that let's you build a PHP file without that you have to take
 care about it's formatting such as indentation. Later on we might want
 to add tools to analyze or process PHP code too.
 
 
-Request Handling
+HTTP Request
 ----------------
 A package to handle incoming requests in a correct way. This includes
 managing different sets of urls for setups such as a VHOST setups
@@ -242,7 +242,7 @@ help fields, menu options etc. The system works with a definition file
 and special translations can be plugged in easily.
 
 
-Uploaded file
+File Storage
 -------------
 The uploaded file package provides easy access to files uploaded by
 clients over HTTP. The uploaded file is available as a temporary file
@@ -250,7 +250,7 @@ that you can choose to move to its final destination. If you ignore
 the file it will be deleted at the end of the request.
 
 
-User Input Handler
+User Input
 ------------------
 Responsible: Derick
 This set of classes addresses the basic needs of filtering user
