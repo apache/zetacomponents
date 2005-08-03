@@ -1,5 +1,5 @@
 <?xml version="1.0"  encoding="windows-1252"?>
-<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2005-07-28 10:34:48">
+<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2005-08-03 11:10:41">
 	<XMI.header>
 		<XMI.documentation>
 			<XMI.exporter>Enterprise Architect</XMI.exporter>
@@ -16,7 +16,7 @@
 						<UML:TaggedValue tag="modified" value="2005-07-12 00:00:00"/>
 						<UML:TaggedValue tag="iscontrolled" value="TRUE"/>
 						<UML:TaggedValue tag="xmlpath" value="E:\UML\eZ publish components\example classes\example classes.xml"/>
-						<UML:TaggedValue tag="lastsavedate" value="2005-07-28 10:34:47"/>
+						<UML:TaggedValue tag="lastsavedate" value="2005-08-03 11:10:40"/>
 						<UML:TaggedValue tag="version" value="1.0"/>
 						<UML:TaggedValue tag="isprotected" value="FALSE"/>
 						<UML:TaggedValue tag="usedtd" value="FALSE"/>
@@ -34,6 +34,26 @@
 						<UML:TaggedValue tag="tpos" value="0"/>
 					</UML:ModelElement.taggedValue>
 					<UML:Namespace.ownedElement>
+						<UML:Comment xmi.id="EAID_296B8542_04C4_4364_A4CB_F68122AD08A0" visibility="public" namespace="EAPK_8D472D93_F665_4189_8164_1FE73F728A55">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="documentation" value="These classes will be kept as examples of the components."/>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Note"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_8D472D93_F665_4189_8164_1FE73F728A55"/>
+								<UML:TaggedValue tag="date_created" value="2005-08-03 11:09:40"/>
+								<UML:TaggedValue tag="date_modified" value="2005-08-03 11:10:03"/>
+								<UML:TaggedValue tag="gentype" value="&lt;none&gt;"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="Example Classes"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="Jan Borsodi"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Comment>
 						<UML:Class name="eZShuffleTranslator" xmi.id="EAID_40FFB174_5FD5_46a1_B7A7_D16192CD1807" visibility="public" namespace="EAPK_8D472D93_F665_4189_8164_1FE73F728A55" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
 							<UML:ModelElement.taggedValue>
 								<UML:TaggedValue tag="isSpecification" value="false"/>
@@ -73,6 +93,25 @@
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Class>
+						<UML:Comment xmi.id="EAID_EF6BC896_6E32_4beb_A0AB_7B623708AC51" visibility="public" namespace="EAPK_8D472D93_F665_4189_8164_1FE73F728A55">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Text"/>
+								<UML:TaggedValue tag="ea_ntype" value="18"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_8D472D93_F665_4189_8164_1FE73F728A55"/>
+								<UML:TaggedValue tag="date_created" value="2005-08-03 11:10:10"/>
+								<UML:TaggedValue tag="date_modified" value="2005-08-03 11:10:10"/>
+								<UML:TaggedValue tag="gentype" value="&lt;none&gt;"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="Example Classes"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="Jan Borsodi"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Comment>
 					</UML:Namespace.ownedElement>
 				</UML:Package>
 			</UML:Namespace.ownedElement>
@@ -82,7 +121,7 @@
 				<UML:TaggedValue tag="version" value="1.0"/>
 				<UML:TaggedValue tag="author" value="Jan Borsodi"/>
 				<UML:TaggedValue tag="created_date" value="2005-07-12 22:06:38"/>
-				<UML:TaggedValue tag="modified_date" value="2005-07-15 09:19:48"/>
+				<UML:TaggedValue tag="modified_date" value="2005-08-03 11:10:13"/>
 				<UML:TaggedValue tag="package" value="EAPK_8D472D93_F665_4189_8164_1FE73F728A55"/>
 				<UML:TaggedValue tag="type" value="Logical"/>
 				<UML:TaggedValue tag="swimlanes" value="locked=false;orientation=0;width=0;inbar=false;names=false;color=0;bold=false;fcol=0;;cls=0;"/>
@@ -90,9 +129,11 @@
 				<UML:TaggedValue tag="styleex" value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=0;TDurLow=0;TDurHigh=100;TDurUnit=;TDurHide=0;"/>
 			</UML:ModelElement.taggedValue>
 			<UML:Diagram.element>
-				<UML:DiagramElement geometry="Left=20;Top=20;Right=123;Bottom=90;" subject="EAID_40FFB174_5FD5_46a1_B7A7_D16192CD1807" seqno="1" style="DUID=646D4786;LBL=;"/>
-				<UML:DiagramElement geometry="Left=153;Top=20;Right=243;Bottom=90;" subject="EAID_870AA4AB_77E9_4a36_88D4_1222AFEA3C34" seqno="2" style="DUID=08C70E49;LBL=;"/>
-				<UML:DiagramElement geometry="Left=273;Top=20;Right=363;Bottom=90;" subject="EAID_E7AA9F87_D157_4cec_BBF8_7B61283DB3D5" seqno="3" style="DUID=6CEC1819;LBL=;"/>
+				<UML:DiagramElement geometry="Left=640;Top=20;Right=805;Bottom=95;" subject="EAID_EF6BC896_6E32_4beb_A0AB_7B623708AC51" seqno="1" style="DUID=BD9FF5EA;"/>
+				<UML:DiagramElement geometry="Left=90;Top=150;Right=210;Bottom=210;" subject="EAID_296B8542_04C4_4364_A4CB_F68122AD08A0" seqno="2" style="DUID=872FECAA;LBL=;"/>
+				<UML:DiagramElement geometry="Left=20;Top=20;Right=123;Bottom=90;" subject="EAID_40FFB174_5FD5_46a1_B7A7_D16192CD1807" seqno="3" style="DUID=646D4786;LBL=;"/>
+				<UML:DiagramElement geometry="Left=153;Top=20;Right=243;Bottom=90;" subject="EAID_870AA4AB_77E9_4a36_88D4_1222AFEA3C34" seqno="4" style="DUID=08C70E49;LBL=;"/>
+				<UML:DiagramElement geometry="Left=273;Top=20;Right=363;Bottom=90;" subject="EAID_E7AA9F87_D157_4cec_BBF8_7B61283DB3D5" seqno="5" style="DUID=6CEC1819;LBL=;"/>
 			</UML:Diagram.element>
 		</UML:Diagram>
 	</XMI.content>
