@@ -13,6 +13,11 @@
  *  $info = new eZSysInfo();
  *  print( $info->cpuType . "\n" );
  *  </code>
+ * @package SystemInformation
+ * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
+ * @version //autogentag//
+
  */
 
 class ezcSystemInfo
