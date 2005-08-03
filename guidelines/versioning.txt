@@ -62,3 +62,11 @@ Examples
 2.0.0
 	First production ready release of the "2.0" version.
 
+
+..
+   Local Variables:
+   mode: rst
+   indent-tabs-mode: nil
+   sentence-end-double-space: t
+   fill-column: 70
+   End:
