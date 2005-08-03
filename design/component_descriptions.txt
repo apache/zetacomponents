@@ -6,8 +6,8 @@ Components description
 
 Application Event
 =================
-
 Responsible: Raymond
+
 A set of classes that handles different kinds of logging
 methods. Provided methods include a file based logger that also
 supports log-rotations and a database based logging engine. Each
@@ -46,8 +46,8 @@ application.
 
 Configuration
 =============
-
 Responsible: Amos
+
 The configuration package provides the tools to store configuration
 settings for your application. Configuration options are stored on
 disk using INI files. The configuration package supports manipulation
@@ -64,8 +64,8 @@ ability to parse options to scripts and output to consoles.
 
 Database
 ========
-
 Responsible: Sergey
+
 Provides database API and SQL abstraction for SQL databases. It also
 contains tools for more advanced database operations such as finding
 specific tables and cleaning them up.
@@ -73,8 +73,8 @@ specific tables and cleaning them up.
 
 Database Schema
 ===============
-
 Responsible: Vadim
+
 The database schema package provides the means to maintain database
 schema's for several different database implementations. Database
 schema stores your database in a common XML format and it is possible
@@ -153,8 +153,8 @@ applications view) is included too.
 
 Image Analyzer
 ==============
-
 Responsible: Tobias
+
 Provides functionality for analyzing image formats and return detailed
 information about them, such as getting the EXIF information from a
 JPEG and TIFF or animation information from a GIF.
@@ -167,8 +167,8 @@ Image Composer
 
 Image Conversion
 ================
-
 Responsible: Tobias
+
 Provides functionality for doing more advanced operations on image
 formats. The package handles image conversion, filtering such as
 scaling and convenient alias management.
@@ -176,8 +176,8 @@ scaling and convenient alias management.
 
 Locale
 ======
-
 Responsible: Tobias
+
 A package that provides functionality to format all kinds of
 information in a locale-dependent formats. This will most likely be an
 interface to ICU's locale functionality.
@@ -185,8 +185,8 @@ interface to ICU's locale functionality.
 
 Mail
 ====
-
 Responsible: Frederik
+
 The mail package provides functionality for sending and receiving
 mail. It supports easy sending of multipart MIME and HTML mail and
 also provides a simple way to control and send mail using the template
@@ -298,8 +298,8 @@ and special translations can be plugged in easily.
 
 User Input
 ==========
-
 Responsible: Derick
+
 This set of classes addresses the basic needs of filtering user
 originated data, such as GET, POST and COOKIE data. It builds on top
 of PHP's filtering extension and allows you to register your own
@@ -320,8 +320,8 @@ processing it further in the application.
 
 Web Tools
 =========
-
 Responsible: Kirill
+
 Provides advanced functionality for dealing with the Web or HTTP, such
 as advanced redirection and web client detection.
 
@@ -341,3 +341,4 @@ wizard package will store temporary values in session variables.
    sentence-end-double-space: t
    fill-column: 70
    End:
+   vim: et syn=rst
