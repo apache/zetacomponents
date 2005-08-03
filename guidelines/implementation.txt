@@ -1,0 +1,91 @@
+Implementation guidelines
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+General
+=======
+Only use references where it is really needed, references do not
+increase performance (as one might think). There are many pitfalls
+with reference usage so stay away.
+
+Don't use @ in front of functions, this makes it much harder to
+debug.
+
+PHP is not a static-typed language and so you cannot rely on it to
+optimize your code. This means that complex Object Oriented constructs
+should be avoided.
+
+Use real static functions, never use fake static (or semi-static)
+functions. Real static functions will not include the $this variable
+from the calling function.
+
+Avoid dependencies at all costs, each class should be a small a unit
+as possible.
+
+* Unit testing depends on it, the more dependencies involved the
+  harder it is to test. e.g. to reproduce a valid or invalid
+  environment.
+
+* The components are meant to be used by PEAR and other PHP classes,
+  this means it cannot depend on a given config system or debug
+  handler.
+
+* PHP uses more memory for opcodes for each included class or general
+  code. This means that:
+
+  - Code that is meant to handle non-standard cases, e.g. missing PHP
+    extensions, should be placed in a separate class. This will reduce
+    running code size for most people.
+
+  - defines/constants should be placed as members of a class.
+
+  - Avoid using 0 and 1 or empty strings as boolean values, instead
+    use the real true and false boolean values. Also checking with ===
+    instead of == is adviced.
+
+  - Use exceptions ONLY for exceptional cases, e.g. running out of
+    diskspace. 
+
+  - Never hardcode file paths or file names.
+
+  - Provide sane default configuration switches, this allows
+    applications to use the classes without providing all kinds of
+    switches and also removes the need to bundle configuration files.
+
+  - Do not use include_once to include class files, rely on PHP 5's
+    autoload function
+
+Use join() function instead of implode(), this makes the code easier
+to read.
+
+Reading files
+=============
+If possible try to use some of the PHP functions for reading in files,
+eg. file(), instead of having custom PHP code.
+
+Avoid reading in whole files in memory if this is not needed. In this
+cases you should not use file() and the likes. Instead read a chunk of
+the file into a buffer (e.g. 4096 bytes) and work on that.
+
+Writing files
+=============
+When writing to files never assume that only one process will access
+the same file at the same time.
+This means you should create code that does either (or both):
+
+* File locking, lock the file for reading until the writing is
+  finished, this avoids other processes reading half-finished files. 
+
+* Temporary files, create a new file which is used for writing
+  (locking might be a good idea too).
+  When the file writing is done the original file is backed up
+  (renamed/moved) and the new one copied/moved as the original.
+  (A caveat: using tail -f will not work).
+
+
+..
+   Local Variables:
+   mode: rst
+   indent-tabs-mode: nil
+   sentence-end-double-space: t
+   fill-column: 70
+   End:
