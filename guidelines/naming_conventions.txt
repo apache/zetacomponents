@@ -61,8 +61,8 @@ booleans which start with *is*, *has* etc. and form a question.
 Abbreviations and Acronyms
 ==========================
 
-In general one should abbreviations and acronyms unless most programmers will
-know about them. Typical examples for this are:
+In general one should not use abbreviations and acronyms unless most
+programmers will know about them. Typical examples for this are:
 
   ::
 
