@@ -18,6 +18,7 @@ enough so it can be used to do event logging and create audit trails.
 
 Application Framework
 =====================
+Duration: 2
 
 The application framework package contains the basis of a module and
 view system that can be used to build many types of PHP
@@ -28,6 +29,7 @@ actual GUI built on top of this functionality.
 
 Archive
 =======
+Duration: 1
 
 A set of classes that implement stream wrapper around
 the different archival methods, such as tar and different compression
@@ -36,6 +38,7 @@ methods such as gzip and bzip2.
 
 Cache
 =====
+Duration: 3
 
 This package contains generic functionality for storing cache files on
 your system. It also contains a system to distribute messages about
@@ -57,6 +60,7 @@ settings using the override system.
 
 Console Tools
 =============
+Duration: 1
 
 Provides functionality for working on the console. This means the
 ability to parse options to scripts and output to consoles.
@@ -64,7 +68,7 @@ ability to parse options to scripts and output to consoles.
 
 Database
 ========
-Responsible: Sergey
+Responsible: Sergey (Finish week 31)
 
 Provides database API and SQL abstraction for SQL databases. It also
 contains tools for more advanced database operations such as finding
@@ -73,7 +77,7 @@ specific tables and cleaning them up.
 
 Database Schema
 ===============
-Responsible: Vadim
+Responsible: Vadim (Finish week 31)
 
 The database schema package provides the means to maintain database
 schema's for several different database implementations. Database
@@ -85,6 +89,7 @@ database. The changes can be provided as an upgrade SQL.
 
 Date
 ====
+Duration: 1.5
 
 A package that deals with processing dates and times, including
 formatting for different locales. The classes wrap around PHP's date
@@ -94,6 +99,8 @@ and date intervals a bit easier.
 
 Debug
 =====
+Responsible: Raymond
+Duration: 2
 
 The debug package provides advanced tools for debugging of your
 application. Typical features are several configurable levels of debug
@@ -109,6 +116,7 @@ Execution
 
 File
 ====
+Duration: 1
 
 Provides support for file operations which are not covered by PHP or
 are just missing.
@@ -116,6 +124,7 @@ are just missing.
 
 File Stream
 ===========
+Duration: 2
 
 This package provides functionality that wraps file storage. It can be
 set up to store files in a database as well as on your filesystem.
@@ -123,6 +132,7 @@ set up to store files in a database as well as on your filesystem.
 
 File Info
 =========
+Duration: 1
 
 Provides functionality for examining files in more detail and doing
 typical operations on their attributes. It can provides analysis on
@@ -133,8 +143,9 @@ queried.
 
 File Storage
 ============
+Duration: 1
 
-The uploaded file package provides easy access to files uploaded by
+The file storage package provides easy access to files uploaded by
 clients over HTTP. The uploaded file is available as a temporary file
 that you can choose to move to its final destination. If you ignore
 the file it will be deleted at the end of the request.
@@ -142,6 +153,7 @@ the file it will be deleted at the end of the request.
 
 HTTP Request
 ============
+Duration: 3
 
 A package to handle incoming requests in a correct way. This includes
 managing different sets of urls for setups such as a VHOST setups
@@ -162,7 +174,8 @@ JPEG and TIFF or animation information from a GIF.
 
 Image Composer
 ==============
-
+Responsible: Tobias
+Low priority
 
 
 Image Conversion
@@ -176,7 +189,8 @@ scaling and convenient alias management.
 
 Locale
 ======
-Responsible: Tobias
+Responsible: Derick
+Duration: 1
 
 A package that provides functionality to format all kinds of
 information in a locale-dependent formats. This will most likely be an
@@ -193,9 +207,8 @@ also provides a simple way to control and send mail using the template
 system.
 
 
-Mail Composer
-=============
-
+Mail Composer [Not now]
+=======================
 
 PDF [Not now]
 =============
@@ -209,6 +222,8 @@ PDF files through the template tie-in package.
 
 Persistent Object
 =================
+Responsible: 2
+Duration: 2
 
 Provides a functionality for dealing with database data in a unified
 way. The actual SQL calls are abstracted so the implementor only needs
@@ -225,6 +240,8 @@ must perform long operations that would normally time out.
 
 PHP Generator
 =============
+Responsible: Frederik
+Duration: 1
 
 A class that let's you build a PHP file without that you have to take
 care about it's formatting such as indentation. Later on we might want
@@ -251,6 +268,8 @@ manages SSL/non-SSL session switches and v.v.
 
 SRM
 ===
+Responsible: Derick
+Duration: ?
 
 This module will provide functionality to keep data in memory and to
 have it available from PHP independent of web requests. This allows
@@ -290,6 +309,7 @@ tag based language that is transformed into more advanced HTML.
 
 Translation
 ===========
+Duration: 2
 
 A system for translating websites' static information, such as labels,
 help fields, menu options etc. The system works with a definition file
