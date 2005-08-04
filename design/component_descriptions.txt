@@ -1,8 +1,7 @@
-Components description
-~~~~~~~~~~~~~~~~~~~~~~
+Components 1.0
+~~~~~~~~~~~~~~
 
-[Not now] - Means that this package will not be made for version 1.0
-
+The following components are planned for version 1.0.
 
 Application Event
 =================
@@ -207,19 +206,6 @@ also provides a simple way to control and send mail using the template
 system.
 
 
-Mail Composer [Not now]
-=======================
-
-PDF [Not now]
-=============
-
-This package provides functionality to create advanced PDF files
-directly from PHP.  The package supports tocs, fonts, tables, headers,
-images, links, headers, footers and margins. The package is not based
-on any third party tools. You can use the template system to create
-PDF files through the template tie-in package.
-
-
 Persistent Object
 =================
 Responsible: 2
@@ -230,14 +216,6 @@ way. The actual SQL calls are abstracted so the implementor only needs
 to worry about which data to retrieive.
 
 
-Persistent Operation  [Not now]
-===============================
-
-This package provides functionality to make persistent requests that
-go over several client requests. This is useful if your application
-must perform long operations that would normally time out.
-
-
 PHP Generator
 =============
 Responsible: Frederik
@@ -246,24 +224,6 @@ Duration: 1
 A class that let's you build a PHP file without that you have to take
 care about it's formatting such as indentation. Later on we might want
 to add tools to analyze or process PHP code too.
-
-
-Search  [Not now]
-=================
-
-This module will provide the functionality to make your application
-searchable through existing search engines. It will be compatible with
-search engines available in the common market.
-
-
-Session  [Not now]
-==================
-
-A package to handle and manage sessions. This works again with tie-ins
-to specific session handlers to minimize dependencies and offer more
-flexibility. The management features include listing active sessions,
-disconnecting sessions and linking sessions to user(id)s. It also
-manages SSL/non-SSL session switches and v.v.
 
 
 SRM
@@ -299,14 +259,6 @@ template system can be used to generate HTML pages, text files and
 emails.
 
 
-Text Tools  [Not now]
-=====================
-
-The text tools package contains simple text to HTML transformation
-tools including tools to automatically convert URLs into links and a
-tag based language that is transformed into more advanced HTML.
-
-
 Translation
 ===========
 Duration: 2
@@ -328,16 +280,6 @@ handle a set of input variables in f.e. the collection of a HTML form
 providing correct filtering with means of a definition structure.
 
 
-Webdav  [Not now]
-=================
-
-This is a component that let's you easily build a webdav server to
-handle file uploads and downloads. For each different mime type the
-webdav server can call a specially registered handler to handle
-storage of the file and/or do external processing on the file before
-processing it further in the application.
-
-
 Web Tools
 =========
 Responsible: Kirill
@@ -346,12 +288,79 @@ Provides advanced functionality for dealing with the Web or HTTP, such
 as advanced redirection and web client detection.
 
 
-Wizard  [Not now]
-=================
+
+Postponed components
+~~~~~~~~~~~~~~~~~~~~
+
+These components have been postponed for the moment. This either means
+we don't the have the time for it in the current phase or some details
+of the components are unclear.
+
+
+Mail Composer
+=============
+
+
+PDF
+===
+
+This package provides functionality to create advanced PDF files
+directly from PHP.  The package supports tocs, fonts, tables, headers,
+images, links, headers, footers and margins. The package is not based
+on any third party tools. You can use the template system to create
+PDF files through the template tie-in package.
+
+Persistent Operation
+====================
+
+This package provides functionality to make persistent requests that
+go over several client requests. This is useful if your application
+must perform long operations that would normally time out.
+
+
+Search
+======
+
+This module will provide the functionality to make your application
+searchable through existing search engines. It will be compatible with
+search engines available in the common market.
+
+
+Session
+=======
+
+A package to handle and manage sessions. This works again with tie-ins
+to specific session handlers to minimize dependencies and offer more
+flexibility. The management features include listing active sessions,
+disconnecting sessions and linking sessions to user(id)s. It also
+manages SSL/non-SSL session switches and v.v.
+
+
+Text Tools
+==========
+
+The text tools package contains simple text to HTML transformation
+tools including tools to automatically convert URLs into links and a
+tag based language that is transformed into more advanced HTML.
+
+
+WebDAV
+======
+
+This is a component that let's you easily build a webdav server to
+handle file uploads and downloads. For each different mime type the
+webdav server can call a specially registered handler to handle
+storage of the file and/or do external processing on the file before
+processing it further in the application.
+
+
+Wizard
+======
 
 The wizard package provides the means to create wizard like web-pages
 where the user has to go through a procedure over several pages. The
 wizard package will store temporary values in session variables.
+
 
 
 ..
@@ -359,6 +368,6 @@ wizard package will store temporary values in session variables.
    mode: rst
    indent-tabs-mode: nil
    sentence-end-double-space: t
-   fill-column: 70
+   fill-column: 79
    End:
    vim: et syn=rst
