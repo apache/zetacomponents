@@ -4,22 +4,12 @@ Naming conventions
 
 General guidelines
 ===================
-Avoid names which does not give additional meaning or are
-unclear. Some examples of such names are:
+Avoid names which does not give additional meaning or are unclear. Some
+examples of such names are:
 
- * Quick
+  ::
 
- * Smart
-
- * Clever
-
- * Simple
-
- * Fast
-
- * Strange
-
- * Stupid
+      Quick, Smart, Clever, Simple, Fast, Strange, Stupid
 
 Specific elements
 =================
@@ -27,44 +17,88 @@ Specific elements
 Class names
 -----------
 
-* Class names are prefixed with *ezc* which stands for eZ publish components.
-* Recommended number of words are 1-3
-* Do not use verbs for names
+Classes are named using `UpperCamelCase`_ and are always prefixed with *ezc*
+which stands for eZ publish components. Do not use more than three words for
+your names and make sure they are not verbs but nouns.
 
-Function names
---------------
+  ::
 
-* Recommended number of words are 1-3
-* Use setXXX() for setting a property and getXXX() for getting the property.
-* All functions that performs an action of some kind must use a verb,
-  like: printReport(), validateData().
+      ezcSystemInformation, ezcTemplate, ezcWebdavServer
+
+Method names
+------------
+
+Methods are named using `lowerCamelCase`_ and should not use more than three
+words. Methods which change an internal property should be named setXXX() and
+in addition the retrieval method must be named getXXX().  All methods must use
+a verb.
+
+  ::
+
+      printReport(), validateData(), publish()
 
 Property names
 --------------
 
-* Recommended number of words are 1-2
-* Do not use verbs for names
+Properties are named using `lowerCamelCase`_ and should not use more than two
+words. Properties must always use nouns and not verbs.
+
+  ::
+
+      $name, $path, $author
 
 Parameter names
 ---------------
 
-* Recommended number of words are 1-2
+Parameters are named using `lowerCamelCase`_ and should not use more than two
+words. Parameters must always use nouns and not verbs, the exception are
+booleans which start with *is*, *has* etc. and form a question.
+
+  ::
+
+      $name, $path, $isObject
+
+Abbreviations and Acronyms
+==========================
+
+In general one should abbreviations and acronyms unless most programmers will
+know about them. Typical examples for this are:
+
+  ::
+
+      HTTP, DAV, URL
 
 Recommended names
 ==================
 
-* For file or directory paths use $path
-* For filename without a path use $file
-* For directory name without a path use $dir
-* Use load(), save() for complete operations on the filesystem, for instance loading an entire INI file.
-* Use read(), write() for partial operations of data stream, for instance storing 10 bytes to a file.
-* Use fetch(), store() for remote operations, for instance fetching data from a web server or database.
-* Short names are adviced when their context is very clear. An example
-  is a copy() function in a File class which has a source and a
-  destination, it is quite clear that in this context we are working
-  with files and can use abbreviated forms, 'src' and 'dst'.
-  copy( $src, $dst )
-  The order of source and destination is always source first.
+To ensure consistency troughout all components the following naming conventions
+should be used. If the names don't make much sense in a given context other
+names should be found. These recommendations can also be used as prefix/suffix,
+e.g. *$srcX*, *$srcY*
+
+* For file or directory paths use *$path*.
+
+* For filename without a path use *$file*.
+
+* For directory name without a path use *$dir*.
+
+* Use *load()*, *save()* for complete operations on the filesystem, for
+  instance loading an entire *INI* file.
+
+* Use *read()*, *write()* for partial operations of data stream, for instance
+  storing 10 bytes to a file.
+
+* Use fetch(), store() for remote operations, for instance fetching data from a
+  web server or database.
+
+* Short names are adviced when their context is very clear. An example is a
+  copy() function in a File class which has a source and a destination, it is
+  quite clear that in this context we are working with files and can use
+  abbreviated forms, *src* and *dest*.  copy( $src, $dest ) The order of
+  source and destination is always source first.
+
+  .. _lowerCamelCase: http://en.wikipedia.org/wiki/CamelCase
+  .. _UpperCamelCase: http://en.wikipedia.org/wiki/CamelCase
 
 
 ..
@@ -72,5 +106,5 @@ Recommended names
    mode: rst
    indent-tabs-mode: nil
    sentence-end-double-space: t
-   fill-column: 70
+   fill-column: 79
    End:
