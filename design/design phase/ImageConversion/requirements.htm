@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.3.5: http://docutils.sourceforge.net/" />
+<title>eZ publish Enterprose Component: ImageConversion</title>
+<link rel="stylesheet" href="default.css" type="text/css" />
+</head>
+<body>
+<h1 class="title">eZ publish Enterprose Component: ImageConversion</h1>
+<div class="document" id="ez-publish-enterprose-component-imageconversion">
+<div class="section" id="introduction">
+<h1><a name="introduction">Introduction</a></h1>
+<div class="section" id="purpose-of-imageconversion-package">
+<h2><a name="purpose-of-imageconversion-package">Purpose of ImageConversion package</a></h2>
+<p>The ImageConversion package will be utilized to convert existing images 
+in different ways:</p>
+<ul class="simple">
+<li>Conversion between MIME types (e.g. image/BMP -&gt; image/JPEG,...)</li>
+<li>Resizing image files (e.g. scaling, cropping,...)</li>
+<li>Filtering image content (e.g. change of color pallet, add noise,...)</li>
+</ul>
+</div>
+<div class="section" id="current-implementation">
+<h2><a name="current-implementation">Current implementation</a></h2>
+<p>Currently the described functionality is implemented utilizing the following 
+classes, inside the library lib/ezimage/:</p>
+<dl>
+<dt>eZImageManager</dt>
+<dd>Controller for the other classes utilized in this library. Handles 
+configuration, dispatches the necessary action to the different classes.</dd>
+<dt>eZImageHandler</dt>
+<dd>Baseclass for image handlers. Provides common methods between image
+handlers and defines a common API.</dd>
+<dt>eZImageGDHandler</dt>
+<dd>Image handler implementation for ext/GD2. Extends eZImageHandler.</dd>
+<dt>eZImageShellHandler</dt>
+<dd>Image handler implementation for Image Magick. Extends eZImageHandler.</dd>
+</dl>
+</div>
+<div class="section" id="general-notes">
+<h2><a name="general-notes">General notes</a></h2>
+<p>The idea behind the design chosen for this class is definitly the right one,
+but it could have been much more modulized to gain a more clean code layout
+and more flexibillities. Beside that, the user interface seems pretty unclear
+and needs some general revision.</p>
+</div>
+</div>
+<div class="section" id="requirenments">
+<h1><a name="requirenments">Requirenments</a></h1>
+<div class="section" id="design-goals">
+<h2><a name="design-goals">Design goals</a></h2>
+<p>Several goals have to be kept in mind while re-designing the implemented
+functionality:</p>
+<ul class="simple">
+<li>Do not reduce possibilities, but enhance them.</li>
+<li>Create a more clean user interface and enhance usabillity.</li>
+<li>Raise flexibillity regarding backends and filter definition.</li>
+<li>Keep the code fast.</li>
+</ul>
+</div>
+<div class="section" id="detailed-requirenments">
+<h2><a name="detailed-requirenments">Detailed requirenments</a></h2>
+<p>The ImageConversion component allows to deal with quite complex image
+conversions in an easy to use ways. Beside that it handles automatic
+conversions, if necessary, like converting incoming image formats to a range
+of range of wanted output formats. This paragraph tries to summarize, what
+exactly has to be done by ImageConversion:</p>
+<dl>
+<dt>Conversion between image formats</dt>
+<dd>In general, ImageConversion should be able to convert images between MIME
+types utilizing it's backends. Conversions must be globally defineable to 
+allow forcing of conversions (like for GIF -&gt; PNG). Since some image
+formats have special cases, in which a conversion is not possible (like
+animated GIF), it must be possible to define exceptions for conversion.
+Beside the global conversion, it has to be possible, to convert images
+explicitly. Format conversions can ba parameterized (like the compression
+factor for JPEG, the colorpallet for GIF,...). The conversions possible
+depend on the image handlers available.</dd>
+<dt>Filtering of image contents</dt>
+<dd><p class="first">Filtering of images can have a lot of incarnation in this case:</p>
+<blockquote>
+<dl>
+<dt>Geometry manipulation</dt>
+<dd>down/up only, keep/change ratio, with/height only,...</dd>
+<dt>Attribute manipulation (was: colorspace)</dt>
+<dd>transform color space, change quality,...</dd>
+<dt>Content manipulation</dt>
+<dd>adding noise, swirrling, adding borders...</dd>
+</dl>
+</blockquote>
+<p>Which filters are available depends highly on the available image
+handlers, their version and maybe other factors in respect to them (PHP
+version,...).</p>
+<p class="last">Every filter can have a variaty of options and settings to influence its
+behaviour. Options and settings maybe completly different between filters.</p>
+</dd>
+<dt>Definition of image formats</dt>
+<dd><p class="first">To reduce the overhead of manually defining, which filters have to be
+applied to an image to achieve a certain goal (like &quot;create a
+thumbnail&quot;, &quot;create a preview&quot;, &quot;make it look like an old photo&quot;,...), the
+definition of different image formats should be allowed. A format
+definition can include all of the above stated transformations.</p>
+<p>Beside that, it has to be possible to define, that a format is based on
+another format (like a thumbnail should be created from a preview, to
+reduce conversion ammount). If a format references another format, this
+reference format will be created first (if it does not exist) and
+conversion to the target format will take place afterwards. This allows to
+define a tree of format conversions. Every node of the tree should be
+saved for later utilization.</p>
+<p class="last">Currently, this formats are called aliases.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</body>
+</html>
