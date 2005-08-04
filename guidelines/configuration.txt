@@ -27,9 +27,14 @@ is in a valid state when it is created.
 
 In addition to the *required* configuration there should also be an extra
 parameter for initial *options*. This makes it possible to configure the object
-in one expression.
+in one expression. This *options* parameter should *always* be the last
+parameter and should default to an empty array.
 
-The number of parameters to the constructor should not exceed 6.
+  ::
+
+    function __construct( $config1, $config2, $options = array() )
+    {
+    }
 
 Modification
 ============
@@ -52,7 +57,7 @@ configuration. This ensures that the object is at all times in a valid state.
       // $users->openFile( 'groups.txt' ); // Invalid
       $groups = new ezcCsvReader( 'groups.txt' );
 
-Modifying the *options* are done with a common method called `setOptions`_
+Modifying the *options* are done with a common method called *setOptions*
 which accepts an associate array of option values looked up with a string.
 
   ::
@@ -63,7 +68,7 @@ Inspection
 ==========
 
 If the programmer wants to inspect the current configuration he must either use
-specialised methods for the *required* configuration or `getOptions`_ for the
+specialised methods for the *required* configuration or *getOptions* for the
 *options*.
 
 *required* configuration:
@@ -88,7 +93,7 @@ configuration and *options*.
      *false* as the values and not *strings* or *integers*.
 
   2. *Required* configuration and *options* follows the naming standard as for
-     `properties`_
+     *properties*.
 
 Error handling
 ==============
