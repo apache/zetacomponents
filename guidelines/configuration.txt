@@ -1,0 +1,120 @@
+Component configuration
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Definition
+==========
+
+To ensure minimal set of dependencies on different configuration classes and to
+keep things consistent a common way of configuring an object is needed.
+
+A class consists of *required configuration* and *optional configuration* often
+called *options*.
+
+Required configuration
+    These are configuration settings which the class cannot operate
+    without. Typically this can be file to read or server to connect to.
+
+Optional configuration
+    These settings never modify the state of the object and are usually read
+    run-time when an operation is executed.
+
+Initialisation
+==============
+
+The *required* configuration is passed in the constructor of the class and if
+possible they should have useful default values. This ensures that the object
+is in a valid state when it is created.
+
+In addition to the *required* configuration there should also be an extra
+parameter for initial *options*. This makes it possible to configure the object
+in one expression.
+
+The number of parameters to the constructor should not exceed 6.
+
+Modification
+============
+
+Modifying *required* configuration must always be done with custom methods. The
+class and method must be documented so it is clear with methods performs this
+modification
+
+  ::
+
+      $csv->openFile( 'myfile.txt' );
+
+Also some configuration may not be allowed to be changed after the object is
+created, in this case the programmer must initialise a new object with the new
+configuration. This ensures that the object is at all times in a valid state.
+
+  ::
+
+      $users = new ezcCsvReader( 'users.txt' );
+      // $users->openFile( 'groups.txt' ); // Invalid
+      $groups = new ezcCsvReader( 'groups.txt' );
+
+Modifying the *options* are done with a common method called `setOptions`_
+which accepts an associate array of option values looked up with a string.
+
+  ::
+
+      $object->setOptions( array( 'eolStyle' => 'native' ) );
+
+Inspection
+==========
+
+If the programmer wants to inspect the current configuration he must either use
+specialised methods for the *required* configuration or `getOptions`_ for the
+*options*.
+
+*required* configuration:
+  ::
+
+      $path = $object->path();
+
+*options*:
+  ::
+
+      $eolStyle = $object->getOptions()['eolStyle'];
+
+This method must return all *options* as an associative array.
+
+Standards
+=========
+
+To ensure consistency the following should be followed when defining *required*
+configuration and *options*.
+
+  1. Options which behave like a flag (enabled/disabled) should use *true* and
+     *false* as the values and not *strings* or *integers*.
+
+  2. *Required* configuration and *options* follows the naming standard as for
+     `properties`_
+
+Error handling
+==============
+
+If the object failed to initialise to a sane state from the *required*
+configuration it must throw an exception. This ensures that the object will not
+be used in the invalid state. *Options* must **never** throw an exception.
+
+If non-existing *options* are passed warnings must be issued, use
+`trigger_error`_ for this.
+
+    .. _trigger_error: http://www.php.net/trigger_error
+
+Validation
+==========
+
+Validation depends a bit on the configuration setting but in general it is
+recommended that the settings are made sure they are of a given type. This
+means that in the worst case the values are cast to the given type and in the
+best case they are validated and proper warning feedback is issued.
+
+
+..
+   Local Variables:
+   mode: rst
+   indent-tabs-mode: nil
+   sentence-end-double-space: t
+   fill-column: 79
+   End:
