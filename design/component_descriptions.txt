@@ -239,8 +239,8 @@ faster than both file access and database queries.
 
 System Information
 ==================
+Responsible: Frederik - design done
 
-Responsible: Frederik
 Provides access to information about the underlying Operating System,
 such as installed Memory and CPU as well as platformed dependent items
 such as directory separator and EOL style. It will cover the things
@@ -250,8 +250,8 @@ those that are handled by PHP will be properly explained.
 
 Template
 ========
-
 Responsible: Amos
+
 Provides functionality for separating layout and design from the PHP
 code. The template system supports compiling the code into PHP code to
 speed up the execution and allows third party add-ons to be made. The
@@ -370,4 +370,4 @@ wizard package will store temporary values in session variables.
    sentence-end-double-space: t
    fill-column: 79
    End:
-   vim: et syn=rst
+   vim: et syn=rst tw=79
