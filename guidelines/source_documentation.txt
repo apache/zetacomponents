@@ -50,7 +50,6 @@ The following fields are required:
   classes.
 - @package
 - @version
-- @package
 - @copyright
 - @license
 
