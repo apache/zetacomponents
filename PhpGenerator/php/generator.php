@@ -1,41 +1,4 @@
 <?php
-/**
- * \class eZPHPCreator ezphpcreator.php
- *  \ingroup eZUtils
- *  \brief eZPHPCreator provides a simple interface for creating and executing PHP code.
- *
- *  To create PHP code you must create an instance of this class,
- *  add any number of elements you choose with
- *  addDefine(), addVariable(), addVariableUnset(), addVariableUnsetList(),
- *  addSpace(), addText(), addMethodCall(), addCodePiece(), addComment() and
- *  addInclude().
- *  After that you call store() to write all changes to disk.
- *
- * <code>
- * $php = new eZPHPCreator( 'cache', 'code.php' );
- *
- * $php->addComment( 'Auto generated' );
- * $php->addInclude( 'inc.php' );
- * $php->addVariable( 'count', 10 );
- *
- * $php->store();
- * </code>
- * cacher til internt array --> skrive senere (istedet skrive med en gang
- * Bytt fremgangsmåte til caching til array til direkte skriving
- * bruk call stack til de under så man kan gjøre error checking
- * mulighet for å sette indenting (bruk en streng)
- * fjern can-restore og restore
- * bruk flock til å låse filer mens du skriver
- * skrive til temporær fil og så ta move til slutt?!?
- * Må kunne bruke FileStream (så filer kan lagres til database)
- * - exchange all add with emit
- * øk indent
- * startIf( $conditions );
- * endIf();
- *
- * startForeach()
- * endForeach()
- */
 
 define( 'EZ_PHPCREATOR_VARIABLE', 1 );
 define( 'EZ_PHPCREATOR_SPACE', 2 );
@@ -59,9 +22,41 @@ define( 'EZ_PHPCREATOR_INCLUDE_ALWAYS', 2 );
 define( 'EZ_PPCREATOR_METHOD_CALL_PARAMETER_VALUE', 1 );
 define( 'EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE', 2 );
 
+/**
+ * class eczPhpGenerator
+ * eZPHPCreator provides a simple interface for creating and executing PHP code.
+ *
+ *  To create PHP code you must create an instance of this class,
+ *  add any number of elements you choose with
+ *  addDefine(), addVariable(), addVariableUnset(), addVariableUnsetList(),
+ *  addSpace(), addText(), addMethodCall(), addCodePiece(), addComment() and
+ *  addInclude().
+ *  After that you call store() to write all changes to disk.
+ *
+ * <code>
+ * $php = new eZPHPCreator( 'cache', 'code.php' );
+ *
+ * $php->addComment( 'Auto generated' );
+ * $php->addInclude( 'inc.php' );
+ * $php->addVariable( 'count', 10 );
+ *
+ * $php->store();
+ * </code>
+ * @todo For implementor: Direct writes, no caching to arrays first
+ * @todo Call stack for if/foreach etc. so you we can check that they are closed correctly
+ * bruk call stack til de under så man kan gjøre error checking
+ * @todo automatic indenting
+ * @todo: Use of flock while writing
+ * @todo: Write to temporary file while generating, then move? (faster)
+ * @todo: Must be able to use FileStream
+ *
+ * @package PhpGenerator
+ * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @license LGPL - {@link http://www.gnu.org/copyleft/lesser.html Online version}
+ * @version //autogentag//
+ */
 class ezcPhpGenerator
 {
-
     /// \privatesection
     private $phpDir;
     private $phpFile;
@@ -71,10 +66,10 @@ class ezcPhpGenerator
     private $requestedFilename;
 
     // options
-    var $indent = "    ";
-    var $spacing = true;
+    private $indent = "  ";
+    private $spacing = true;
 
-    var $indentLevel;
+    private $indentLevel;
 
     /**
      * Constructs a new PhpGenrator generator.
@@ -82,12 +77,12 @@ class ezcPhpGenerator
      * The generated PHP code will be saved to $file in $dir.
      * @throws PhpGeneratorException If the file can not be opened writing.
      */
-    function ezcPhpGenerator( $dir, $file, $options = array() )
+    public function ezcPhpGenerator( $dir, $file, $options = array() )
     {
     }
 
     /**
-     * Adds a new define statement to the code with the name \a $name and value \a $value.
+     * Inserts a new define statement to the code with the name \a $name and value \a $value.
      *
      * The parameter \a $caseSensitive determines if the define should be made case sensitive or not.
      *
@@ -113,12 +108,12 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the define to file.
      */
-    function addDefine( $name, $value, $caseSensitive = true )
+    public function emitDefine( $name, $value, $caseSensitive = true )
     {
     }
 
     /**
-     * Adds a new raw variable to the code with the name $name and value $value.
+     * Inserts a new raw variable to the code with the name $name and value $value.
      *
      * Example:
      * <code>
@@ -130,13 +125,12 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the define to file.
      */
-    function addRawVariable( $name, $value )
+    public function emitRawVariable( $name, $value )
     {
     }
 
     /**
-     *
-     * Adds a new variable to the code with the name \a $name and value \a $value.
+     * Inserts a new variable to the code with the name \a $name and value \a $value.
      *
      * Example:
      * <code>
@@ -159,20 +153,20 @@ class ezcPhpGenerator
      *            - \b EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, assign using \c = (default)
      *            - \b EZ_PHPCREATOR_VARIABLE_APPEND_TEXT, append using text concat operator \c .
      *            - \b EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT, append element to array using append operator \c []
-     *     \param $parameters Optional parameters, can be any of the following:
+     * @param $parameters Optional parameters, can be any of the following:
      *            - \a full-tree, Whether to displays array values as one large expression (\c true) or
      *                            split it up into multiple variables (\c false)
      *
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code.
      */
-    function addVariable( $name, $value, $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
+    public function emitVariable( $name, $value, $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
                           $parameters = array() )
     {
     }
 
     /**
-     * Adds code to unset a variable with the name \a $name.
+     * Inserts code to unset a variable with the name \a $name.
      *
      * Example:
      * <code>
@@ -189,12 +183,12 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code.
     */
-    function addVariableUnset( $name )
+    public function emitVariableUnset( $name )
     {
     }
 
     /**
-     * Adds code to unset a list of variables with name from \a $list.
+     * Inserts code to unset a list of variables with name from \a $list.
      *
      * Example:
      * <code>
@@ -212,12 +206,12 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code.
      */
-    function addVariableUnsetList( $list )
+    public function emitVariableUnsetList( $list )
     {
     }
 
     /**
-     * Adds $lines number of empty lines to the generated PHP code.
+     * Inserts $lines number of empty lines to the generated PHP code.
      *
      * Example:
      * <code>
@@ -226,12 +220,12 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code.
      */
-    function addSpace( $lines = 1 )
+    public function emitSpace( $lines = 1 )
     {
     }
 
     /**
-     * Add plaintext to the generated file.
+     * Inserts plaintext to the generated code.
      * The text will be placed outside of PHP start and end markers and will in principle
      * work as printing the text. This function may only be called before calling any
      * of the add* functions.
@@ -243,14 +237,19 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code.
      */
-    function prependText( $text )
+    public function prependText( $text )
     {
     }
 
     /**
-     * START HERE
-     * Adds code to call the method \a $methodName on the object named \a $objectName,
-     * \a $methodParameters should be an array with parameter entries where each entry contains:
+     * Adds a method call to the generated code.
+     *
+     * Adds a call to method $mehtodName to the object $objectName and parameters $methodParametes.
+     * You can catch the return value with the $returnValue parameter.
+     *
+     * @todo The way of changing behavior for the parameters and return type is somewhat
+     * weird. Change this to something sane.
+     * $methodParameters should be an array with parameter entries where each entry contains:
      *  - \a 0, The parameter value
      *  - \a 1 (\em optional), The type of parameter, is one of:
      *  - \b EZ_PPCREATOR_METHOD_CALL_PARAMETER_VALUE, Use value directly (default if this entry is missing)
@@ -269,130 +268,160 @@ class ezcPhpGenerator
      * <code>
      * $php->addMethodCall( 'node', 'name', array(), array( 'name' ) );
      * $php->addMethodCall( 'php', 'addMethodCall',
-     *    array( array( 'node' ), array( 'name' ) ) );
+     * array( array( 'node' ), array( 'name' ) ) );
      * </code>
      *
-     *     Would result in the PHP code.
+     * Produces the PHP code:
      *
-     *     \code
-     *$name = $node->name();
-     *$php->addMethodCall( 'node', 'name' );
-     *     \endcode
+     * <code>
+     * $name = $node->name();
+     * $php->addMethodCall( 'node', 'name' );
+     * </code>
+     *
+     * @param string $objectName
+     * @param string $methodName
+     * @param array $methodParameters
+     * @param array $returnValue
+     * @return void
+     * @throws PhpGeneratorException if it was not possible to write the code.
      */
-    function addMethodCall( $objectName, $methodName, $methodParameters, $returnValue = false, $parameters = array() )
+    public function emitMethodCall( $objectName, $methodName, $methodParameters, $returnValue = false )
     {
     }
 
-    /*!
-     Adds custom PHP code to the file, you should only use this a last resort if any
-     of the other \em add functions done give you the required result.
-
-     \param $code Contains the code as text, the text will not be modified (except for spacing).
-                  This means that each expression must be ended with a newline even if it's just one.
-     \param $parameters Optional parameters, can be any of the following:
-            - \a spacing, The number of spaces to place before each code line, default is \c 0.
-
-     Example:
-     \code
-$php->addCodePiece( "if ( \$value > 2 )\n{\n    \$value = 2;\n}\n" );
-     \endcode
-
-     Would result in the PHP code.
-
-     \code
-if ( $value > 2 )
-{
-    $value = 2;
-}
-     \endcode
-
-    */
-    function addCodePiece( $code, $parameters = array() )
-    {
-        $element = array( EZ_PHPCREATOR_CODE_PIECE,
-                          $code,
-                          $parameters );
-        $this->Elements[] = $element;
-    }
-
-    /*!
-     Adds a comment to the code, the comment will be display using multiple end-of-line
-     comments (//), one for each newline in the text \a $comment.
-
-     \param $eol Whether to add a newline at the last comment line
-     \param $whitespaceHandling Whether to remove trailing whitespace from each line
-     \param $parameters Optional parameters, can be any of the following:
-            - \a spacing, The number of spaces to place before each code line, default is \c 0.
-
-     Example:
-     \code
-$php->addComment( "This file is auto generated\nDo not edit!" );
-     \endcode
-
-     Would result in the PHP code.
-
-     \code
-// This file is auto generated
-// Do not edit!
-     \endcode
-
-    */
-    function addComment( $comment, $eol = true, $whitespaceHandling = true, $parameters = array() )
+    /**
+     * Inserts a custom piece of code into the generated code.
+     *
+     * The code $code will be inserted directly into the generated code
+     * except for added spacing. If your code does not end with a linebreak
+     * it is added automatically. You should only use this a last resort if any of the other
+     * \em add functions done give you the required result.
+     *
+     * Example:
+     * <code>
+     * $php->addCodePiece( "if ( \$value > 2 )\n{\n    \$value = 2;\n}\n" );
+     * </code>
+     *
+     * Produces the PHP code:
+     *
+     * <code>
+     * if ( $value > 2 )
+     * {
+     *   $value = 2;
+     * }
+     * </code>
+     *
+     * @param string $code
+     * @return void
+     * @throws PhpGeneratorException if it was not possible to write the code.
+     */
+    public function emitCodePiece( $code )
     {
     }
 
-    /*!
-     Adds an include statement to the code, the file to include is \a $file.
-
-     \param $type What type of include statement to use, can be one of the following:
-                  - \b EZ_PHPCREATOR_INCLUDE_ONCE, use \em include_once()
-                  - \b EZ_PHPCREATOR_INCLUDE_ALWAYS, use \em include()
-     \param $parameters Optional parameters, can be any of the following:
-            - \a spacing, The number of spaces to place before each code line, default is \c 0.
-
-     Example:
-     \code
-$php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
-     \endcode
-
-     Would result in the PHP code.
-
-     \code
-include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-     \endcode
-
-    */
-    function addInclude( $file, $type = EZ_PHPCREATOR_INCLUDE_ONCE, $parameters = array() )
+    /**
+     * Inserts a comment into the code.
+     *
+     * The comment will be display using multiple end-of-line
+     * comments (//), one for each newline in the $comment. A newline
+     * will automatically be generated after the last comment.
+     *
+     * Example:
+     * <code>
+     * $php->addComment( "This file is auto generated\nDo not edit!" );
+     * <code>
+     *
+     * Produces the PHP code:
+     *
+     * <code>
+     * // This file is auto generated
+     * // Do not edit!
+     * <code>
+     *
+     * @param string $comment
+     * @return void
+     * @throws PhpGeneratorException if it was not possible to write the code.
+     */
+    public function emitComment( $comment)
     {
-        $element = array( EZ_PHPCREATOR_INCLUDE,
-                          $file,
-                          $type,
-                          $parameters );
-        $this->Elements[] = $element;
     }
 
-    public function startIf( $condition ) {}
-    public function endIf() {}
+    /**
+     * Adds an include statement to $file.
+     *
+     * Example:
+     * <code>
+     * $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
+     * <code>
+     *
+     * Produces the PHP code:
+     *
+     * <code>
+     * include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+     * </code>
+     * @param string $file
+     * @param string $type EZ_PHPCREATOR_INCLUDE_ONCE | EZ_PHPCREATOR_INCLUDE_ALWAYS
+     * @return void
+     * @throws PhpGeneratorException if it was not possible to write the code.
+     */
+    function emitInclude( $file, $type = EZ_PHPCREATOR_INCLUDE_ONCE )
+    {
+    }
+
+    /**
+     * Adds the start of an if statement.
+     *
+     * The complete condition of the if statement must be present in $condition.
+     * The if statement must be closed properly with a call to emitEndIf.
+     * Example:
+     * <code>
+     * $php->emitIf( 'if( $myVar === 0 )' );
+     * $php->emitEndIf();
+     * </code>
+     *
+     * Produces the PHP code:
+     *
+     * <code>
+     * if( $myVar === 0 )
+     * {
+     * }
+     * </code>
+     *
+     * @see $ezcPhpGenerator::emitEndIf()
+     * @param string $condition
+     * @return void
+     * @throws PhpGeneratorException if it was not possible to write the code.
+     */
+    public function emitIf( $condition ) {}
+
+    /**
+     * Ends an if statement.
+     *
+     * @see $ezcPhpGenerator::emitIf()
+     * @return void
+     * @throws PhpGeneratorException if it was not possible to write the code or if the method was not properly nested with an emitIf.
+     */
+    public function emitEndIf() {}
     public function emitElse( $condition = false ) {}
-    public function startForeach( $condition ) {}
-    public function endForeach(){}
-    public function startWhile( $condition ) {}
-    public function endWhile(){}
-    public function startDo( $condition ) {}
-    public function endDo(){}
+    public function emitForeach( $condition ) {}
+    public function emitForeach(){}
+    public function emitWhile( $condition ) {}
+    public function emitEndWhile(){}
+    public function emitDo( $condition ) {}
+    public function emitEndDo(){}
 
-    /*!
-     \static
-     Creates a variable statement with an assignment type and returns it.
-     \param $variableName The name of the variable
-     \param $assignmentType What kind of assignment to use, is one of the following;
-                            - \b EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, assign using \c =
-                            - \b EZ_PHPCREATOR_VARIABLE_APPEND_TEXT, append to text using \c .
-                            - \b EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT, append to array using \c []
-     \param $variableParameters Optional parameters for the statement
+    /**
+     * Returns a variable statement with an assignment type.
+          \param $variableName The name of the variable
+     * @param array $assignmentType Controls the way the value is assigned, choose one of the following:
+     *            - \b EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, assign using \c = (default)
+     *            - \b EZ_PHPCREATOR_VARIABLE_APPEND_TEXT, append using text concat operator \c .
+     *            - \b EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT, append element to array using append operator \c []
+     * @param array $variableParameters Optional parameters for the statement
             - \a is-reference, whether to do the assignment with reference or not (default is not)
+     * @return string
     */
-    function variableNameText( $variableName, $assignmentType, $variableParameters = array() )
+    private static function variableNameText( $variableName, $assignmentType, $variableParameters = array() )
     {
         $variableParameters = array_merge( array( 'is-reference' => false ),
                                            $variableParameters );
@@ -420,17 +449,20 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
     }
 
 
-    /*!
-     \static
-     Splits \a $text into multiple lines using \a $splitString for splitting.
-     For each line it will prepend the string \a $spacingString n times as specified by \a $spacing.
-
-     It will try to be smart and not do anything when \a $spacing is set to \c 0.
-
-     \param $skipEmptyLines If \c true it will not prepend the string for empty lines.
-     \param $spacing Must be a positive number, \c 0 means to not prepend anything.
-    */
-    function prependSpacing( $text, $spacing, $skipEmptyLines = true, $spacingString = " ", $splitString = "\n" )
+    /**
+     * Returns the $text split by $splitString
+     *
+     * For each line it will prepend the string \a $spacingString n times as specified by \a $spacing.
+     *
+     * It will try to be smart and not do anything when \a $spacing is set to \c 0.
+     *
+     * @param string $text
+     * @param string $spacing
+     * @param boolean $skipEmptyLines If \c true it will not prepend the string for empty lines.
+     * @param $spacing Must be a positive number, \c 0 means to not prepend anything.
+     * @return array
+     */
+    private static function prependSpacing( $text, $spacing, $skipEmptyLines = true, $spacingString = "  ", $splitString = "\n" )
     {
         if ( $spacing == 0 or !$this->Spacing )
             return $text;
@@ -454,7 +486,7 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
      \note The file name and path is supplied to the constructor of this class.
      \note Multiple calls to this method will only open the file once.
     */
-    function open( $atomic = false )
+    private function open( $atomic = false )
     {
         if ( !$this->FileResource )
         {
@@ -492,7 +524,7 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
     /*!
      Closes the currently open file if any.
     */
-    function close()
+    private function close()
     {
         if ( $this->FileResource )
         {
@@ -511,7 +543,7 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
      \return \c true if the file and path already exists.
      \note The file name and path is supplied to the constructor of this class.
     */
-    function exists()
+    private function exists()
     {
         $path = $this->PHPDir . '/' . $this->PHPFile;
         return file_exists( $path );
@@ -522,7 +554,7 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
     /*!
      Stores the PHP cache, returns false if the cache file could not be created.
     */
-    function store( $atomic = false )
+    private function store( $atomic = false )
     {
         if ( $this->open( $atomic ) )
         {
