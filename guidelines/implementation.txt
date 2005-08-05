@@ -85,7 +85,6 @@ This means you should create code that does either (or both):
 ..
    Local Variables:
    mode: rst
-   indent-tabs-mode: nil
-   sentence-end-double-space: t
-   fill-column: 70
+   fill-column: 79
    End:
+   vim: et syn=rst tw=79

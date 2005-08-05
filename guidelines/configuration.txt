@@ -119,7 +119,6 @@ best case they are validated and proper warning feedback is issued.
 ..
    Local Variables:
    mode: rst
-   indent-tabs-mode: nil
-   sentence-end-double-space: t
    fill-column: 79
    End:
+   vim: et syn=rst tw=79
