@@ -1,10 +1,12 @@
 Source documentation standards
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This document explains how PHP source and source files should be documented in 
+
+This document explains how PHP source and source files should be documented in
 order to meet the required standards for documentation.
 
 All PHP source should be documented using phpDocumentor syntax. The rest of
 this document is concerned with:
+
 - Source that is required to be documented.
 - The tags that are required to be used in the various contexts.
 - Optional documentation
@@ -158,24 +160,25 @@ arguments)::
      Point $point2 Format array( 'x' => int, 'y' => int )
      int multiplier Multiplies the result by the given factor.
 
-Note how the additional optional parameter _is_ documented since it is 
-not mentioned in the normal description. Of course in this case you 
-could choose to mention it there instead.
+Note how the additional optional parameter _is_ documented since it is not
+mentioned in the normal description. Of course in this case you could choose to
+mention it there instead.
 
 
 Function parameter and return types
 ---------------------------------------
-- All parameter and return types must be documented with at least their
-  type and parameter name in the case of parameters. If it is not obvious 
-  what the return value/parameter does, and it is not explained in the 
-  description of the method, a description must be written. Do not add 
-  descriptions of obvious parameters/return types if they are explained
-  in the description text.This is to avoid cluttering the documentation 
-  with obvious stuff.
-- If the type is array, we must describe the requirements to the contents
-  of the array. This is done by specifying the type for normal arrays or
-  the expected key's and corresponding value type if it is a hash array.
-  Example of normal array of ints::
+
+- All parameter and return types must be documented with at least their type
+  and parameter name in the case of parameters. If it is not obvious what the
+  return value/parameter does, and it is not explained in the description of
+  the method, a description must be written. Do not add descriptions of obvious
+  parameters/return types if they are explained in the description text.This is
+  to avoid cluttering the documentation with obvious stuff.
+
+- If the type is array, we must describe the requirements to the contents of
+  the array. This is done by specifying the type for normal arrays or the
+  expected key's and corresponding value type if it is a hash array.  Example
+  of normal array of ints::
 
 	  array(int)
  
@@ -183,8 +186,8 @@ Function parameter and return types
 
 	  array( 'key' => valueType, ... )
 
-- Default values are auto documented, never document the default unless
-  it is not obvious what it does.
+- Default values are auto documented, never document the default unless it is
+  not obvious what it does.
 
 Documenting options
 ====================
@@ -208,29 +211,33 @@ PHP4 only and not used by us.
 
 @author 
 -----------
-Required in Page level dockblocks for files without classes and in class
-level dockblocks for files with classes. It should always read "eZ systems".
+Required in Page level dockblocks for files without classes and in class level
+dockblocks for files with classes. It should always read "eZ systems".
 
 @category
 -------------
-Required in the page level dockblocks in source files of tie-in packages. 
-That is packages directly related to some main package where the separation 
-exists only to avoid dependencies.
+Required in the page level dockblocks in source files of tie-in packages.  That
+is packages directly related to some main package where the separation exists
+only to avoid dependencies.
 
 @copyright
 -------------
-Required in either the page or class level dockblocks. It should be in the
-form "Copyright (C) 1999-2005 eZ systems as. All rights reserved."
+Required in either the page or class level dockblocks. It should be in the form
+
+  ::
+
+      "Copyright (C) 1999-2005 eZ systems as. All rights reserved."
 
 @deprecated 
 ---------------
 Required to use for everything that is deprecated. If a complete page or class
-is deprecated you should add this tag only to the page or class level dockblock.
+is deprecated you should add this tag only to the page or class level
+dockblock.
 
 @example 
 ------------
-Optional usage when making big examples. These can be in source files which we 
-can then actually check for correct behavior. 
+Optional usage when making big examples. These can be in source files which we
+can then actually check for correct behavior.
 
 @final 
 ---------
@@ -242,7 +249,7 @@ Required in the page level documentation.
 
 @global
 -----------
-Required when creating global variables. I can't think of any reasons why we 
+Required when creating global variables. I can't think of any reasons why we
 would want to create that though.
 
 @ignore
@@ -251,13 +258,16 @@ Use if needed
 
 @internal 
 -------------
-Required when documenting public functionality and you want to add information 
+Required when documenting public functionality and you want to add information
 that is developer specific.
 
 @license
 ------------
 Required for the documentation of all files. It should always read:
-"LGPL {@link http://www.gnu.org/copyleft/lesser.html}"
+
+  ::
+
+      "LGPL {@link http://www.gnu.org/copyleft/lesser.html}"
 
 @link
 -----------
@@ -269,19 +279,19 @@ Should never be used.
 
 @package
 -----------
-Required in the page level dockblock of all source files. Always use the package
-name.
+Required in the page level dockblock of all source files. Always use the
+package name.
 
 @param
 ----------
-Required for all function parameters. The type and variable name paramterers are
-required. The description should be used if the purpose of the parameter is not
-mentioned in the method description.
+Required for all function parameters. The type and variable name paramterers
+are required. The description should be used if the purpose of the parameter is
+not mentioned in the method description.
 
 @return 
 -----------
 Required for all methods. The type parameter is required and should be set to
-void for non-returning methods. The description should be used if the purpose 
+void for non-returning methods. The description should be used if the purpose
 of the return value is not mentioned in the method description.
 
 @see 
@@ -320,7 +330,7 @@ Required to use for all classes that have a relevant tutorial.
 
 @uses 
 --------
-Required for classes that have dependencies on other packages. The use should 
+Required for classes that have dependencies on other packages. The use should
 display what package you use. Should only be used in class documentation.
 
 @var

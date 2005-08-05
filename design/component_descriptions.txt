@@ -7,93 +7,88 @@ Application Event
 =================
 Responsible: Raymond
 
-A set of classes that handles different kinds of logging
-methods. Provided methods include a file based logger that also
-supports log-rotations and a database based logging engine. Each
-logging engine is build as a handler to minimize external
-dependencies. We will also try to make the functionality general
-enough so it can be used to do event logging and create audit trails.
+A set of classes that handles different kinds of logging methods. Provided
+methods include a file based logger that also supports log-rotations and a
+database based logging engine. Each logging engine is build as a handler to
+minimize external dependencies. We will also try to make the functionality
+general enough so it can be used to do event logging and create audit trails.
 
 
 Application Framework
 =====================
 Duration: 2
 
-The application framework package contains the basis of a module and
-view system that can be used to build many types of PHP
-applications. Each module should consist of a set of functionality
-that can be used throughout your application. The views represent the
-actual GUI built on top of this functionality.
+The application framework package contains the basis of a module and view
+system that can be used to build many types of PHP applications. Each module
+should consist of a set of functionality that can be used throughout your
+application. The views represent the actual GUI built on top of this
+functionality.
 
 
 Archive
 =======
 Duration: 1
 
-A set of classes that implement stream wrapper around
-the different archival methods, such as tar and different compression
-methods such as gzip and bzip2.
+A set of classes that implement stream wrapper around the different archival
+methods, such as tar and different compression methods such as gzip and bzip2.
 
 
 Cache
 =====
 Duration: 3
 
-This package contains generic functionality for storing cache files on
-your system. It also contains a system to distribute messages about
-content changes on your site. This system can be used by your
-application to regenerate or remove the caches in other parts of your
-application.
+This package contains generic functionality for storing cache files on your
+system. It also contains a system to distribute messages about content changes
+on your site. This system can be used by your application to regenerate or
+remove the caches in other parts of your application.
 
 
 Configuration
 =============
 Responsible: Amos
 
-The configuration package provides the tools to store configuration
-settings for your application. Configuration options are stored on
-disk using INI files. The configuration package supports manipulation
-and storage of INI files in addition to the possibility to override
-settings using the override system.
+The configuration package provides the tools to store configuration settings
+for your application. Configuration options are stored on disk using INI
+files. The configuration package supports manipulation and storage of INI files
+in addition to the possibility to override settings using the override system.
 
 
 Console Tools
 =============
 Duration: 1
 
-Provides functionality for working on the console. This means the
-ability to parse options to scripts and output to consoles.
+Provides functionality for working on the console. This means the ability to
+parse options to scripts and output to consoles.
 
 
 Database
 ========
 Responsible: Sergey (Finish week 31)
 
-Provides database API and SQL abstraction for SQL databases. It also
-contains tools for more advanced database operations such as finding
-specific tables and cleaning them up.
+Provides database API and SQL abstraction for SQL databases. It also contains
+tools for more advanced database operations such as finding specific tables and
+cleaning them up.
 
 
 Database Schema
 ===============
 Responsible: Vadim (Finish week 31)
 
-The database schema package provides the means to maintain database
-schema's for several different database implementations. Database
-schema stores your database in a common XML format and it is possible
-to create an sql file for each database, create an XML file from any
-database and to diff the changes between versions of your
-database. The changes can be provided as an upgrade SQL.
+The database schema package provides the means to maintain database schema's
+for several different database implementations. Database schema stores your
+database in a common XML format and it is possible to create an sql file for
+each database, create an XML file from any database and to diff the changes
+between versions of your database. The changes can be provided as an upgrade
+SQL.
 
 
 Date
 ====
 Duration: 1.5
 
-A package that deals with processing dates and times, including
-formatting for different locales. The classes wrap around PHP's date
-functionality and add some extra methods that make working with date
-and date intervals a bit easier.
+A package that deals with processing dates and times, including formatting for
+different locales. The classes wrap around PHP's date functionality and add
+some extra methods that make working with date and date intervals a bit easier.
 
 
 Debug
@@ -102,11 +97,10 @@ Responsible: Raymond
 Duration: 2
 
 The debug package provides advanced tools for debugging of your
-application. Typical features are several configurable levels of debug
-output, application timing and nice and consistent output of your
-debug information. The debug package is called only through PHP which
-means that your application will not rely on the debug package even if
-you use it.
+application. Typical features are several configurable levels of debug output,
+application timing and nice and consistent output of your debug
+information. The debug package is called only through PHP which means that your
+application will not rely on the debug package even if you use it.
 
 
 Execution
@@ -117,49 +111,47 @@ File
 ====
 Duration: 1
 
-Provides support for file operations which are not covered by PHP or
-are just missing.
+Provides support for file operations which are not covered by PHP or are just
+missing.
 
 
 File Stream
 ===========
 Duration: 2
 
-This package provides functionality that wraps file storage. It can be
-set up to store files in a database as well as on your filesystem.
+This package provides functionality that wraps file storage. It can be set up
+to store files in a database as well as on your filesystem.
 
 
 File Info
 =========
 Duration: 1
 
-Provides functionality for examining files in more detail and doing
-typical operations on their attributes. It can provides analysis on
-the file using MIME-Types and can also encapsulates information about
-a file or directory in objects which can easily be modified or
-queried.
+Provides functionality for examining files in more detail and doing typical
+operations on their attributes. It can provides analysis on the file using
+MIME-Types and can also encapsulates information about a file or directory in
+objects which can easily be modified or queried.
 
 
 File Storage
 ============
 Duration: 1
 
-The file storage package provides easy access to files uploaded by
-clients over HTTP. The uploaded file is available as a temporary file
-that you can choose to move to its final destination. If you ignore
-the file it will be deleted at the end of the request.
+The file storage package provides easy access to files uploaded by clients over
+HTTP. The uploaded file is available as a temporary file that you can choose to
+move to its final destination. If you ignore the file it will be deleted at the
+end of the request.
 
 
 HTTP Request
 ============
 Duration: 3
 
-A package to handle incoming requests in a correct way. This includes
-managing different sets of urls for setups such as a VHOST setups
-(where a whole application is the only thing in a virtual host),
-setups where the application is installed in a directory). A class to
-work with URLs and access specific parts of a request (as seen in an
-applications view) is included too.
+A package to handle incoming requests in a correct way. This includes managing
+different sets of urls for setups such as a VHOST setups (where a whole
+application is the only thing in a virtual host), setups where the application
+is installed in a directory). A class to work with URLs and access specific
+parts of a request (as seen in an applications view) is included too.
 
 
 Image Analyzer
@@ -167,8 +159,8 @@ Image Analyzer
 Responsible: Tobias
 
 Provides functionality for analyzing image formats and return detailed
-information about them, such as getting the EXIF information from a
-JPEG and TIFF or animation information from a GIF.
+information about them, such as getting the EXIF information from a JPEG and
+TIFF or animation information from a GIF.
 
 
 Image Composer
@@ -181,9 +173,9 @@ Image Conversion
 ================
 Responsible: Tobias
 
-Provides functionality for doing more advanced operations on image
-formats. The package handles image conversion, filtering such as
-scaling and convenient alias management.
+Provides functionality for doing more advanced operations on image formats. The
+package handles image conversion, filtering such as scaling and convenient
+alias management.
 
 
 Locale
@@ -191,19 +183,18 @@ Locale
 Responsible: Derick
 Duration: 1
 
-A package that provides functionality to format all kinds of
-information in a locale-dependent formats. This will most likely be an
-interface to ICU's locale functionality.
+A package that provides functionality to format all kinds of information in a
+locale-dependent formats. This will most likely be an interface to ICU's locale
+functionality.
 
 
 Mail
 ====
 Responsible: Frederik
 
-The mail package provides functionality for sending and receiving
-mail. It supports easy sending of multipart MIME and HTML mail and
-also provides a simple way to control and send mail using the template
-system.
+The mail package provides functionality for sending and receiving mail. It
+supports easy sending of multipart MIME and HTML mail and also provides a
+simple way to control and send mail using the template system.
 
 
 Persistent Object
@@ -211,9 +202,9 @@ Persistent Object
 Responsible: 2
 Duration: 2
 
-Provides a functionality for dealing with database data in a unified
-way. The actual SQL calls are abstracted so the implementor only needs
-to worry about which data to retrieive.
+Provides a functionality for dealing with database data in a unified way. The
+actual SQL calls are abstracted so the implementor only needs to worry about
+which data to retrieive.
 
 
 PHP Generator
@@ -221,9 +212,9 @@ PHP Generator
 Responsible: Frederik
 Duration: 1
 
-A class that let's you build a PHP file without that you have to take
-care about it's formatting such as indentation. Later on we might want
-to add tools to analyze or process PHP code too.
+A class that let's you build a PHP file without that you have to take care
+about it's formatting such as indentation. Later on we might want to add tools
+to analyze or process PHP code too.
 
 
 SRM
@@ -231,70 +222,69 @@ SRM
 Responsible: Derick
 Duration: ?
 
-This module will provide functionality to keep data in memory and to
-have it available from PHP independent of web requests. This allows
-you to store common data in memory which will make access to it much
-faster than both file access and database queries.
+This module will provide functionality to keep data in memory and to have it
+available from PHP independent of web requests. This allows you to store common
+data in memory which will make access to it much faster than both file access
+and database queries.
 
 
 System Information
 ==================
 Responsible: Frederik - design done
 
-Provides access to information about the underlying Operating System,
-such as installed Memory and CPU as well as platformed dependent items
-such as directory separator and EOL style. It will cover the things
-which are not immediately handled by PHP constants and functions,
-those that are handled by PHP will be properly explained.
+Provides access to information about the underlying Operating System, such as
+installed Memory and CPU as well as platformed dependent items such as
+directory separator and EOL style. It will cover the things which are not
+immediately handled by PHP constants and functions, those that are handled by
+PHP will be properly explained.
 
 
 Template
 ========
 Responsible: Amos
 
-Provides functionality for separating layout and design from the PHP
-code. The template system supports compiling the code into PHP code to
-speed up the execution and allows third party add-ons to be made. The
-template system can be used to generate HTML pages, text files and
-emails.
+Provides functionality for separating layout and design from the PHP code. The
+template system supports compiling the code into PHP code to speed up the
+execution and allows third party add-ons to be made. The template system can be
+used to generate HTML pages, text files and emails.
 
 
 Translation
 ===========
 Duration: 2
 
-A system for translating websites' static information, such as labels,
-help fields, menu options etc. The system works with a definition file
-and special translations can be plugged in easily.
+A system for translating websites' static information, such as labels, help
+fields, menu options etc. The system works with a definition file and special
+translations can be plugged in easily.
 
 
 User Input
 ==========
 Responsible: Derick
 
-This set of classes addresses the basic needs of filtering user
-originated data, such as GET, POST and COOKIE data. It builds on top
-of PHP's filtering extension and allows you to register your own
-filters too. It also provides a class that you can use to elegantly
-handle a set of input variables in f.e. the collection of a HTML form
-providing correct filtering with means of a definition structure.
+This set of classes addresses the basic needs of filtering user originated
+data, such as GET, POST and COOKIE data. It builds on top of PHP's filtering
+extension and allows you to register your own filters too. It also provides a
+class that you can use to elegantly handle a set of input variables in f.e. the
+collection of a HTML form providing correct filtering with means of a
+definition structure.
 
 
 Web Tools
 =========
 Responsible: Kirill
 
-Provides advanced functionality for dealing with the Web or HTTP, such
-as advanced redirection and web client detection.
+Provides advanced functionality for dealing with the Web or HTTP, such as
+advanced redirection and web client detection.
 
 
 
 Postponed components
 ~~~~~~~~~~~~~~~~~~~~
 
-These components have been postponed for the moment. This either means
-we don't the have the time for it in the current phase or some details
-of the components are unclear.
+These components have been postponed for the moment. This either means we don't
+the have the time for it in the current phase or some details of the components
+are unclear.
 
 
 Mail Composer
@@ -304,62 +294,61 @@ Mail Composer
 PDF
 ===
 
-This package provides functionality to create advanced PDF files
-directly from PHP.  The package supports tocs, fonts, tables, headers,
-images, links, headers, footers and margins. The package is not based
-on any third party tools. You can use the template system to create
-PDF files through the template tie-in package.
+This package provides functionality to create advanced PDF files directly from
+PHP.  The package supports tocs, fonts, tables, headers, images, links,
+headers, footers and margins. The package is not based on any third party
+tools. You can use the template system to create PDF files through the template
+tie-in package.
 
 Persistent Operation
 ====================
 
-This package provides functionality to make persistent requests that
-go over several client requests. This is useful if your application
-must perform long operations that would normally time out.
+This package provides functionality to make persistent requests that go over
+several client requests. This is useful if your application must perform long
+operations that would normally time out.
 
 
 Search
 ======
 
-This module will provide the functionality to make your application
-searchable through existing search engines. It will be compatible with
-search engines available in the common market.
+This module will provide the functionality to make your application searchable
+through existing search engines. It will be compatible with search engines
+available in the common market.
 
 
 Session
 =======
 
-A package to handle and manage sessions. This works again with tie-ins
-to specific session handlers to minimize dependencies and offer more
+A package to handle and manage sessions. This works again with tie-ins to
+specific session handlers to minimize dependencies and offer more
 flexibility. The management features include listing active sessions,
-disconnecting sessions and linking sessions to user(id)s. It also
-manages SSL/non-SSL session switches and v.v.
+disconnecting sessions and linking sessions to user(id)s. It also manages
+SSL/non-SSL session switches and v.v.
 
 
 Text Tools
 ==========
 
-The text tools package contains simple text to HTML transformation
-tools including tools to automatically convert URLs into links and a
-tag based language that is transformed into more advanced HTML.
+The text tools package contains simple text to HTML transformation tools
+including tools to automatically convert URLs into links and a tag based
+language that is transformed into more advanced HTML.
 
 
 WebDAV
 ======
 
-This is a component that let's you easily build a webdav server to
-handle file uploads and downloads. For each different mime type the
-webdav server can call a specially registered handler to handle
-storage of the file and/or do external processing on the file before
-processing it further in the application.
+This is a component that let's you easily build a webdav server to handle file
+uploads and downloads. For each different mime type the webdav server can call
+a specially registered handler to handle storage of the file and/or do external
+processing on the file before processing it further in the application.
 
 
 Wizard
 ======
 
-The wizard package provides the means to create wizard like web-pages
-where the user has to go through a procedure over several pages. The
-wizard package will store temporary values in session variables.
+The wizard package provides the means to create wizard like web-pages where the
+user has to go through a procedure over several pages. The wizard package will
+store temporary values in session variables.
 
 
 

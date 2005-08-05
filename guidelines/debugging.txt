@@ -3,22 +3,23 @@ General debugging guidelines
 
 Dumping data
 ============
-Don't use print_r for dumping values of a variable, use var_dump
-instead. Also var_export might be of use.
+Don't use print_r for dumping values of a variable, use var_dump instead. Also
+var_export might be of use.
 
 XDebug
 ======
-At all times have XDebug installed and use its features, it will
-dramatically reduce the implementation and debugging time.
-Some of the interesting features are:
+At all times have XDebug installed and use its features, it will dramatically
+reduce the implementation and debugging time.  Some of the interesting features
+are:
 
-* Function traces, this can easily provide clues about performance
-  and dependency issues.
+* Function traces, this can easily provide clues about performance and
+  dependency issues.
 
 Errors and warnings
 ===================
-To avoid dependency on a specific debug class, debugging and error
-handling must only rely on the internal PHP functions.
+
+To avoid dependency on a specific debug class, debugging and error handling
+must only rely on the internal PHP functions.
 
 To notify a debug message use:
 
