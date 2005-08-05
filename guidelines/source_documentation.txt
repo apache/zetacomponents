@@ -10,6 +10,8 @@ this document is concerned with:
 - Optional documentation
 - Wording rules
 
+In general the examples show in what order the various tags should be used.
+
 File  documentation
 =====================
 Required in all source files without a class. Should never be used in a source
@@ -70,6 +72,7 @@ Example: ::
       * like this
       * </code>
       * If you have, link to @tutorials
+      *
       * @see all_related_classes
       * @uses other_packages
       *
@@ -111,6 +114,8 @@ Example 1: (With object parameters) ::
      * Returns the length of the line defined in two dimensional space 
      * between point point1 and point2.
      * 
+     * @see any related method
+     *
      * @param Point $point1
      * @param Point $point2
      * @return int
@@ -181,6 +186,14 @@ Function parameter and return types
 - Default values are auto documented, never document the default unless
   it is not obvious what it does.
 
+Documenting options
+====================
+Options should be documented in the class dockblock. It should follow directly
+after the main description of the class and should look like this: ::
+
+  * Available options:
+  * - ignoreSpaces: Ignore whitespace
+  * - ignoreLineBreaks: Ignore linebreaks
 
 phpDocumentor tags and required usage
 ========================================
