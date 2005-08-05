@@ -1,6 +1,6 @@
 <?xml version="1.0"  encoding="windows-1252"?>
 <!DOCTYPE XMI SYSTEM "UML_EA.dtd">
-<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2005-08-05 12:50:36">
+<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2005-08-05 12:54:52">
 	<XMI.header>
 		<XMI.documentation>
 			<XMI.exporter>Enterprise Architect</XMI.exporter>
@@ -448,7 +448,7 @@
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="version" value="1.0"/>
 				<UML:TaggedValue tag="created_date" value="2005-08-05 12:41:15"/>
-				<UML:TaggedValue tag="modified_date" value="2005-08-05 12:42:59"/>
+				<UML:TaggedValue tag="modified_date" value="2005-08-05 12:53:47"/>
 				<UML:TaggedValue tag="package" value="EAPK_1FA3FABF_2A9C_48b5_8E90_3820638D021E"/>
 				<UML:TaggedValue tag="type" value="Logical"/>
 				<UML:TaggedValue tag="swimlanes" value="locked=false;orientation=0;width=0;inbar=false;names=false;color=0;bold=false;fcol=0;;cls=0;"/>
@@ -456,7 +456,7 @@
 				<UML:TaggedValue tag="styleex" value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=0;TDurLow=0;TDurHigh=100;TDurUnit=;TDurHide=0;"/>
 			</UML:ModelElement.taggedValue>
 			<UML:Diagram.element>
-				<UML:DiagramElement geometry="Left=10;Top=10;Right=303;Bottom=237;" subject="EAID_D688E68C_75E6_4aa7_840A_CE73540CE0C9" seqno="1" style="DUID=0D71B58A;LBL=;"/>
+				<UML:DiagramElement geometry="Left=16;Top=18;Right=309;Bottom=245;" subject="EAID_D688E68C_75E6_4aa7_840A_CE73540CE0C9" seqno="1" style="DUID=0D71B58A;LBL=;"/>
 			</UML:Diagram.element>
 		</UML:Diagram>
 	</XMI.content>
