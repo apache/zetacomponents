@@ -1,10 +1,8 @@
-================================================
-eZ publish Enterprise Component: ImageConversion
-================================================
+eZ publish Enterprise Component: ImageConversion, Requirenments
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-------------
 Introduction
-------------
+============
 
 Purpose of ImageConversion package
 ----------------------------------
@@ -44,9 +42,8 @@ but it could have been much more modulized to gain a more clean code layout
 and more flexibillities. Beside that, the user interface seems pretty unclear
 and needs some general revision.
 
--------------
 Requirenments
--------------
+=============
 
 Design goals
 ------------
@@ -119,3 +116,13 @@ Definition of image formats
     saved for later utilization.
     
     Currently, this formats are called aliases.
+
+^L
+..
+Local Variables:
+mode: rst
+indent-tabs-mode: nil
+sentence-end-double-space: t
+fill-column: 70
+End:
+vim: et syn=rst tw=78 wrap 
