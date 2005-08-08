@@ -18,13 +18,12 @@ class ezcImageManager
      * <code>
      * array(
      *      'tmpDir'    => <string>,
-     *      'outDir'    => <string>,
      * )
      * </code>
      *
      * @var array(string)
      */
-    public $settings;           // virtual, __get() only
+    public $settings;           // virtual, __get()/__set() 
     
     /**
      * Manager options
@@ -34,14 +33,14 @@ class ezcImageManager
      * array(
      *      'handlerDir' => <string>        // Additional directory to look for handlers
      *      'handlers'   => array(
-     *          <name>   => <class>
+     *          <name>   => <class>         // Additional handlers to use
      *      ),
      *      'conversions'=> array(
-     *          <mime>   => <mime>,
+     *          <mime>   => <mime>,         // Which MIME types to convert by default
      *      ),
      *      'exceptions' => array(
      *          <mime>   => array(
-     *              <criteria>  => <match>,
+     *              <criteria>  => <match>, // Exceptions from transformation, if this criteria matches, no transformation will be processed
      *          ),
      *      ),
      * )
@@ -51,27 +50,19 @@ class ezcImageManager
      */
     public $options = array();  // virtual, __get()/__set()
 
-    /**
-     * Receive ezcImageManager instance
-     * Creates a new ezcImageManager or returns an existing one.
-     *
-     */
-    public function instance( )
-    {
-        
-    }
+    private $init = false;
 
     /**
-     * Initialize the ezcImageManager
-     * This initialized the manager with the given settings/options.
-     * The ezcManager is reset completly at the start of this method.
-     * All added transformations will be lost when calling this.
+     * Create a new ezcImageManager
+     * The ezcImageManager can be directly instanciated, but it's
+     * highly recommended to use a manual singleton implementation
+     * to have just 1 instance of a ezcImageManager per Request.
      *
      * @param array(string) $settings
      * @param array(string) $options
-     * @return void
+     * @throws ezcImageConversionSettingsException
      */
-    public function init( $settings, $options = array() )
+    public function __construct( $settings, $options = array() )
     {
         
     }
@@ -114,10 +105,11 @@ class ezcImageManager
      * </code>
      *
      * @param string $name Name of the transformation to perform
-     * @param string $file The file to transform
+     * @param string $inFile The file to transform
+     * @param string $outFile The file to save transformed version to
      * @return array(string)
      */
-    public function transform( $name, $file )
+    public function transform( $name, $inFile, $outFile )
     {
         
     }

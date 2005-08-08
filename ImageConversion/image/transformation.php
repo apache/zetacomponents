@@ -39,13 +39,6 @@ class ezcImageTransformation {
     public $filters;    // virtual, __set()/__get()
 
     /**
-     * The parent transformation, if necessary.
-     *
-     * @var ezcImageTransformation
-     */
-    public $parentTransformation; // virtual, __get() only
-
-    /**
      * Create a transformation
      *
      * @param string $name
