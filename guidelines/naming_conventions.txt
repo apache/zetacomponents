@@ -60,6 +60,11 @@ e.g. *$srcX*, *$srcY*
 
   - Use *prepend* when adding elements to the beginning.
 
+* Use *create* for PHP object creation and *generate* for operations that
+  generate text, code, SQLs etc.
+  
+* Use *reset* for resetting elements in the object.
+
 * When removing elements the following naming should be used:
 
   - Use *remove* when elements are no longer referenced but not actually
