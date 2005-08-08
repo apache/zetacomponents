@@ -1,47 +1,41 @@
 <?php
 
-class ezcImageFilter {
-
-    private $handler;
-
-    private $name;
-
-    private $settings = array();    // virtual, __get() only
-
-    private $options = array();     // virtual, __get()/__set()
+interface ezcImageFilters {
 
     /**
-     * Create a new Filter.
-     * Do not use this method directly. Create filters using 
-     * {@link ezcImageHandler::createFilter()}.
-     *
-     * @param ImageHandler $handler Handler utilized by this filter.
-     * @param string $name Name of the filter.
-     * @param array(string) $settings
-     * @param array(string) $options
+     * The handler this filter class belongs to. Set while instnciating.
      */
-    public function __construct( ImageHandler $handler, $name, $settings, $options = null )
+//    private $handler;
+
+    /**
+     * Create a new Filters object for a handler.
+     * This class should never be instanciated directly. Objects are created
+     * by the specific handler, this class belongs to. It's just the outsourced
+     * filter callbacks of the handler {@link ezcImageHandler}.
+     *
+     * @param ezcImageHandler $handler Handler utilized by this filters.
+     */
+    public function __construct( ezcImageHandler $handler )
     {
         
     }
 
     /**
-     * Apply this filter to the given image handler resources.
+     * Apply the filter named to the image resource given.
+     * Apply's the filter named to the given resource using the given parameters.
      *
-     * @param string $image The input resource.
+     * @param mixed $image The input resource.
+     * @param string $filter Filter to apply.
+     * @param array(string) Parameters expected by the filter.
+     * 
+     * @throws ezcImageFiltersParameterException
+     * @throws ezcImageHandlerResourceException
+     * 
      * @return void
      */
-    public function apply( $image )
+    public function apply( $image, $filter, $parameters )
     {
         
-    }
-
-    /**
-     * Dispatches the filter action to the specific handler.
-     */
-    private function dispatch( )
-    {
-
     }
 }
 
