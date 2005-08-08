@@ -14,6 +14,34 @@
  * singleton pattern to have just 1 converter in place over the whole
  * application.
  *
+ * <code>
+ *
+ * $settings = array('GD', 'Shell');
+ * $options = array(
+ *  'conversions'   => array(
+ *      'image/GIF' => 'image/PNG',
+ *      'image/BMP' => 'image/JPG',
+ *  )
+ * );
+ * $converter = new ezcImageConverter($settings, $options);
+ *
+ * $thumbnail = array(
+ *  'filters' = array(
+ *      'scaleDownByWidth' => array(
+ *          'width' => 100
+ *      ),
+ *      'border' => array(
+ *          'width' => 2,
+ *          'color' => array(100, 100, 100),
+ *      ),
+ *  'mimeTypes' = array('image/JPEG', 'image/PNG');
+ * );
+ * $converter->createTransformation('thumbnail', $thumbnail);
+ *
+ * $converter->transform('thumbnail', 'var/storage/football.bmp', 'var/storage/footballThumb');
+ *
+ * </code>
+ *
  * @see ezcImageHandler
  * @see ezcImageTransformation
  * 
@@ -33,13 +61,16 @@ class ezcImageConverter
      * Array of the following structure:
      * <code>
      * array(
-     *      'tmpDir'    => <string>,
+     *      'handlers'    => array( // in priority order
+     *          <string>,           // handler name
+     *          ...
+     *      ),
      * )
      * </code>
      *
      * @var array(string)
      */
-    public $settings;           // virtual, __get()/__set() 
+    public $settings;           // virtual, __get()
     
     /**
      * Manager options
@@ -48,9 +79,6 @@ class ezcImageConverter
      * <code>
      * array(
      *      'handlerDir' => <string>        // Additional directory to look for handlers
-     *      'handlers'   => array(
-     *          <name>   => <class>         // Additional handlers to use
-     *      ),
      *      'conversions'=> array(
      *          <mime>   => <mime>,         // Which MIME types to convert by default
      *      ),
@@ -61,7 +89,8 @@ class ezcImageConverter
      *      ),
      * )
      * </code>
-     * 
+     *
+     * @todo Management of conversion exceptions has to be defined.
      * @var array(string)
      */
     public $options = array();  // virtual, __get()/__set()
@@ -76,7 +105,7 @@ class ezcImageConverter
      *
      * @param array(string) $settings
      * @param array(string) $options
-     * @throws ezcImageConversionSettingsException
+     * @throws ezcImageConverterException for missmatching settings.
      */
     public function __construct( $settings, $options = array() )
     {
@@ -89,11 +118,16 @@ class ezcImageConverter
      * transformation is returned by this method for further manipulation and 
      * to set options on it.
      *
-     * @param string $name Name of the transformation
-     * @param array(string) $settings Settings for the transformation
+     * @param string $name Name of the transformation.
+     * @param array(string) $filters Array definition of filters.
+     * @param array(sting) $mimeOut Array definition of output MIME types.
+     *
      * @return ezcImageTransformation
+     *
+     * @throws ezcImageFilterException on nonexistant filter.
+     * @throws eczImageMIMEException on not handlebar MIME type.
      */
-    public function createTransformation( $name, $settings )
+    public function createTransformation( $name, $filters, $mimeOut )
     {
         
     }
@@ -112,17 +146,18 @@ class ezcImageConverter
     /**
      * Apply transformation on a file
      * This applies the given transformation to teh given file.
-     * Returns an array containing all performed transformations 
-     * in the followin format:
+     * Returns an array of input filenames mapped to the outputted
+     * file names.
      * <code>
      * array(
-     *      <transformationName>    => <file>,
+     *      '<inFile>'    => '<outFile>',
      * )
      * </code>
      *
      * @param string $name Name of the transformation to perform
      * @param string $inFile The file to transform
      * @param string $outFile The file to save transformed version to
+     *
      * @return array(string)
      */
     public function transform( $name, $inFile, $outFile )
@@ -139,7 +174,9 @@ class ezcImageConverter
      * @param string $inFile Name of the input file.
      * @param string $outFile Name of the output file.
      * @param string $handler To choose a specific handler.
+     *
      * @return void
+     *
      * @throws ezcImageFiltersException if filter is notavailable
      * @throws ezcImageConverterFileException if an error occurs while file
      *                                        reading / writing.
