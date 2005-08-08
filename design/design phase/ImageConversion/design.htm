@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.3.5: http://docutils.sourceforge.net/" />
+<title>eZ publish Enterprise Component: ImageConversion, Design</title>
+<link rel="stylesheet" href="default.css" type="text/css" />
+</head>
+<body>
+<h1 class="title">eZ publish Enterprise Component: ImageConversion, Design</h1>
+<div class="document" id="ez-publish-enterprise-component-imageconversion-design">
+<div class="section" id="introduction">
+<h1><a name="introduction">Introduction</a></h1>
+<p>Find more info about the requirenments on which this design is based on in the
+requirenments.txt.</p>
+</div>
+<div class="section" id="design-description">
+<h1><a name="design-description">Design description</a></h1>
+<div class="section" id="ezcimagemanager">
+<h2><a name="ezcimagemanager">ezcImageManager</a></h2>
+<p>The main class of the component is the ezcImageManager, which implements a
+singleton pattern, because only 1 manager is needed for all actions performed.
+The ezcImageManager dispatches the actions performed on images, holds the
+ezcImageHandler's (which actually perform the actions) and manages / defines
+the ezcImageTransformations which hold conversions and ezcImageFilter's.</p>
+<p>Since 1 filter/conversion can be performed by several ezcImageHandler's, the
+manager has a preference list, to determine, which ezcImageHandler to take for
+a conversion.</p>
+</div>
+<div class="section" id="ezcimagehandler">
+<h2><a name="ezcimagehandler">ezcImageHandler</a></h2>
+<p>This interface defines how the abstraction class for an image handler looks
+like. ezcImageHandler's utilize a given backend to perform conversion and
+filtering (using ezcImageFilter's). A ezcImageHandler knows by hisself, which
+filters he implements. The manager will ask it for supported filters to get an
+overview, which filters exist.</p>
+<p>To avoid reopening an image file for every operation the ezcImageHandler has
+load()/save() methods. An image must be saved before another ezcImageHandler
+can perform his actions on it.</p>
+</div>
+<div class="section" id="ezcimagefilter">
+<h2><a name="ezcimagefilter">ezcImageFilter</a></h2>
+<p>This class implements a storage container for filters to keep them better
+consistant than an array could do. Filters are created by the ezcImageManager
+or directly through a ezcImageHandler. An ezcImageFilter knows, to which
+handler he belongs and dispatches itself to the right handler, when applied.</p>
+</div>
+<div class="section" id="ezcimagetransformation">
+<h2><a name="ezcimagetransformation">ezcImageTransformation</a></h2>
+<p>ezcImageTransformation's abstract MIME types to allow the easy combination of
+conversions and filters which are necessary to get a desired image type.
+For conversions only the target MIME type is necessary. Beside that,
+ezcImageTransformation's have a reference, which either points to another ezcImageTransformation
+or to the special reference __original__ which is the image itself.</p>
+<p>If a ezcImageTransformation references another one, which does not exist, yet, it will
+be created, too. This enables one to create a chain of ezcImageTransformation's which
+will be processed.</p>
+<p>ezcImageTransformation's will be created on the fly, when the user requests them and not
+during startup of the manager. A created ezcImageTransformation will be cached in the
+manager for possible later use. Same applies to the filters utilized by the
+ezcImageTransformation.</p>
+<div class="section" id="example-1">
+<h3><a name="example-1">Example 1</a></h3>
+<table border="1" class="table">
+<colgroup>
+<col width="49%" />
+<col width="51%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>Transformation:</td>
+<td>Preview</td>
+</tr>
+<tr><td>Reference:</td>
+<td>__original__</td>
+</tr>
+<tr><td>MIME:</td>
+<td><p class="first">image/JPEG</p>
+<p class="last">image/PNG</p>
+</td>
+</tr>
+<tr><td>Filters:</td>
+<td>scale 400x400</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="example-2">
+<h3><a name="example-2">Example 2</a></h3>
+<table border="1" class="table">
+<colgroup>
+<col width="49%" />
+<col width="51%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>Transformation:</td>
+<td>Thumbnail</td>
+</tr>
+<tr><td>Reference:</td>
+<td>Preview</td>
+</tr>
+<tr><td>MIME:</td>
+<td><p class="first">image/JPEG</p>
+<p class="last">image/PNG</p>
+</td>
+</tr>
+<tr><td>Filters:</td>
+<td><p class="first">scale 100x100</p>
+<p class="last">colorspace grey</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Will scale down the image to 100x100 pixels and convert it to greyscale.</p>
+</div>
+<div class="section" id="example-3">
+<h3><a name="example-3">Example 3</a></h3>
+<table border="1" class="table">
+<colgroup>
+<col width="49%" />
+<col width="51%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>Transformation:</td>
+<td>OldPhotos</td>
+</tr>
+<tr><td>Reference:</td>
+<td>original</td>
+</tr>
+<tr><td>MIME:</td>
+<td>image/JPEG</td>
+</tr>
+<tr><td>Filters:</td>
+<td><p class="first">colorspace grey</p>
+<p class="last">border 3</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Will convert the inserted image to image/JPEG, reduce the colorspace to 
+greyscale and add a border of 3 pixel.</p>
+<div class="section" id="l">
+<h4><a name="l">^L</a></h4>
+<p>Local Variables:
+mode: rst
+indent-tabs-mode: nil
+sentence-end-double-space: t
+fill-column: 70
+End:
+vim: et syn=rst tw=78 wrap</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
