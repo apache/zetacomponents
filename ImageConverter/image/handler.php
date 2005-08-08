@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file contains the ezcImageHandler interface.
+ * 
+ * @package ImageConversion
+ * @version //autogen//
+ * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
+ */
 
 /**
  * Driver interface to access different image manipulation backends of PHP.
@@ -6,11 +14,12 @@
  * used with the ImageConversion package. Reference implementations are 
  * the GD and ImageMagick backends.
  *
- * @see ezcImageManager
+ * @see ezcImageConverter
  * @see ezcImageHandlerGD
  * @see ezcImageHandlerShell
+ * @see ezcImageFilters
  * 
- * @package ImageConversion
+ * @package ImageConverter
  * @version //autogen//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
@@ -25,19 +34,11 @@ interface ezcImageHandler {
 //    public $name;       // virtual, __get() only
 
     /**
-     * Available filters.
-     * <pre>
-     * array( 
-     *      'filterName' => array(
-     *          'settings' => array(),
-     *          'options'  => array(),
-     *      )
-     * )
-     * </pre>
+     * ezcImageFilters object for the handler.
      *
-     * @var array
+     * @var ezcImageFilters
      */
-//    public $filters;    // virtual, __get() only
+//    private $filters;
 
     /**
      * Array of MIME types usable for input
@@ -113,26 +114,7 @@ interface ezcImageHandler {
      * @param string $name
      * @return array(string) Settings
      */
-    public function getFilterSettings( $name );
-
-    /**
-     * Returns the options possible for a filter.
-     *
-     * @param string $name
-     * @return array(string)
-     */
-    public function getFilterOptions( $name );
-
-    /**
-     * Creates a filter and returns it.
-     * This is a factory method, to create a filter from the current handler.
-     *
-     * @param string $name The filter to create.
-     * @param array(string) $settings Settings for the filter.
-     * @param array(string) $options Options for the filter.
-     * @return ImageFilter
-     */
-    public function createFilter( $name, $settings, $options = null );
+    public function getFilter( $name );
 
     /**
      * Applies a filter to a given image.
@@ -140,11 +122,11 @@ interface ezcImageHandler {
      * @internal This method is the main one, which will dispatch the
      * filter action to the specific function of the backend.
      * 
-     * @param ImageFilter $filter
+     * @param string $filter
      * @param string $image Image reference to apply the filter on.
      * @return void
      */
-    public function applyFilter( ImageFilter $filter, $image );
+    public function applyFilter( $filter, $image );
 
     /**
      * Converts an image to another MIME type.

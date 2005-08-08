@@ -28,8 +28,9 @@ interface ezcImageFilters {
      * @param string $filter Filter to apply.
      * @param array(string) Parameters expected by the filter.
      * 
-     * @throws ezcImageFiltersParameterException
-     * @throws ezcImageHandlerResourceException
+     * @throws ezcImageFiltersException if parameters not match.
+     * @throws ezcImageHandlerException if $image is not a valid
+     *                                  image resource.
      * 
      * @return void
      */

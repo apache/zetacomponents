@@ -1,12 +1,28 @@
 <?php
-
 /**
- * Manages image conversions.
+ * File containing the ezcImageConverter class.
  *
- * This is a global class to handle all kinds of image conversion
+ * @package ImageConverter
+ * @version //autogen//
+ * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  */
 
-class ezcImageManager
+/**
+ * Manager class to manage all image conversions/filterings/...
+ * This class is highly recommended to be used with an external
+ * singleton pattern to have just 1 converter in place over the whole
+ * application.
+ *
+ * @see ezcImageHandler
+ * @see ezcImageTransformation
+ * 
+ * @package ImageConverter
+ * @version //autogen//
+ * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
+ */
+class ezcImageConverter
 {
    
     private static $instance;
@@ -115,14 +131,20 @@ class ezcImageManager
     }
     
     /**
-     * Returns a single filter instance
-     * Returns a single filter to by manually applied to a file.
+     * Apply a single filter to an image.
+     * Applies just a single filter to an image. Optionally you can select
+     * a handler yourself, which is not recommended, but possible.
      *
-     * @param string $name Name of the filter
-     * @param string $handler To choose a specific handler
-     * @return ezcImageFilter
+     * @param string $name Name of the filter.
+     * @param string $inFile Name of the input file.
+     * @param string $outFile Name of the output file.
+     * @param string $handler To choose a specific handler.
+     * @return void
+     * @throws ezcImageFiltersException if filter is notavailable
+     * @throws ezcImageConverterFileException if an error occurs while file
+     *                                        reading / writing.
      */
-    public function getFilter( $name, $handler = null)
+    public function applyFilter( $name, $inFile, $outFile, $handler = null)
     {
         
     }
@@ -130,8 +152,17 @@ class ezcImageManager
     /**
      * Returns a list of enabled filters
      * Gives you an overview on filters enbled in the manager.
+     * Format is:
+     * <code>
+     * array(
+     *  '<filterName>' => array(
+     *      '<optionName>',
+     *      ...
+     *  ),
+     * );
+     * </code>
      *
-     * @return array(string) Names of enabled filters
+     * @return array(string) 
      */
     public function listFilters( )
     {
