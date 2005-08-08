@@ -49,9 +49,17 @@ class ezcSystemInfo
 
 
     /**
+     * Returns the single instance of the ezcSystemInfo class
+     * @return ezcSystemInfo
+     */
+    public getInstance()
+    {
+    }
+
+    /**
      * Constructs an empty sysinfo object.
      */
-    public function eZSysInfo()
+    private function __construct()
     {
     }
 
