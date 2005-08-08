@@ -1,27 +1,4 @@
 <?php
-
-define( 'EZ_PHPCREATOR_VARIABLE', 1 );
-define( 'EZ_PHPCREATOR_SPACE', 2 );
-define( 'EZ_PHPCREATOR_TEXT', 3 );
-define( 'EZ_PHPCREATOR_METHOD_CALL', 4 );
-define( 'EZ_PHPCREATOR_CODE_PIECE', 5 );
-define( 'EZ_PHPCREATOR_EOL_COMMENT', 6 );
-define( 'EZ_PHPCREATOR_INCLUDE', 7 );
-define( 'EZ_PHPCREATOR_VARIABLE_UNSET', 8 );
-define( 'EZ_PHPCREATOR_DEFINE', 9 );
-define( 'EZ_PHPCREATOR_VARIABLE_UNSET_LIST', 10 );
-define( 'EZ_PHPCREATOR_RAW_VARIABLE', 11 );
-
-define( 'EZ_PHPCREATOR_VARIABLE_ASSIGNMENT', 1 );
-define( 'EZ_PHPCREATOR_VARIABLE_APPEND_TEXT', 2 );
-define( 'EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT', 3 );
-
-define( 'EZ_PHPCREATOR_INCLUDE_ONCE', 1 );
-define( 'EZ_PHPCREATOR_INCLUDE_ALWAYS', 2 );
-
-define( 'EZ_PPCREATOR_METHOD_CALL_PARAMETER_VALUE', 1 );
-define( 'EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE', 2 );
-
 /**
  * class eczPhpGenerator
  * eZPHPCreator provides a simple interface for creating and executing PHP code.
@@ -44,11 +21,8 @@ define( 'EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE', 2 );
  * </code>
  * @todo For implementor: Direct writes, no caching to arrays first
  * @todo Call stack for if/foreach etc. so you we can check that they are closed correctly
- * bruk call stack til de under så man kan gjøre error checking
- * @todo automatic indenting
  * @todo: Use of flock while writing
  * @todo: Write to temporary file while generating, then move? (faster)
- * @todo: Must be able to use FileStream
  *
  * @package PhpGenerator
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
@@ -57,7 +31,12 @@ define( 'EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE', 2 );
  */
 class ezcPhpGenerator
 {
-    /// \privatesection
+    const EZ_PHPCREATOR_INCLUDE_ONCE =  1;
+    const EZ_PHPCREATOR_INCLUDE_ALWAYS = 2;
+
+    const EZ_PPCREATOR_METHOD_CALL_PARAMETER_VALUE = 1;
+    const EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE = 2;
+
     private $phpDir;
     private $phpFile;
     private $fileResource;
@@ -74,10 +53,12 @@ class ezcPhpGenerator
     /**
      * Constructs a new PhpGenrator generator.
      *
-     * The generated PHP code will be saved to $file in $dir.
+     * The generated PHP code will be saved to $resultUri
+     * @param string $resultURI
+     * @param array $options
      * @throws PhpGeneratorException If the file can not be opened writing.
      */
-    public function ezcPhpGenerator( $dir, $file, $options = array() )
+    public function __construct( $resultUri, $options = array() )
     {
     }
 
@@ -108,7 +89,7 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the define to file.
      */
-    public function emitDefine( $name, $value, $caseSensitive = true )
+    public function appendDefine( $name, $value, $caseSensitive = true )
     {
     }
 
@@ -125,7 +106,7 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the define to file.
      */
-    public function emitRawVariable( $name, $value )
+    public function appendRawVariable( $name, $value )
     {
     }
 
@@ -160,7 +141,7 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code.
      */
-    public function emitVariable( $name, $value, $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
+    public function appendVariable( $name, $value, $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
                           $parameters = array() )
     {
     }
@@ -183,7 +164,7 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code.
     */
-    public function emitVariableUnset( $name )
+    public function appendVariableUnset( $name )
     {
     }
 
@@ -206,7 +187,7 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code.
      */
-    public function emitVariableUnsetList( $list )
+    public function appendVariableUnsetList( $list )
     {
     }
 
@@ -220,24 +201,7 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code.
      */
-    public function emitSpace( $lines = 1 )
-    {
-    }
-
-    /**
-     * Inserts plaintext to the generated code.
-     * The text will be placed outside of PHP start and end markers and will in principle
-     * work as printing the text. This function may only be called before calling any
-     * of the add* functions.
-     *
-     * Example:
-     * <code>
-     * $php->addText( 'Print me!' );
-     * </code>
-     * @return void
-     * @throws PhpGeneratorException if it was not possible to write the code.
-     */
-    public function prependText( $text )
+    public function appendSpace( $lines = 1 )
     {
     }
 
@@ -285,7 +249,7 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code.
      */
-    public function emitMethodCall( $objectName, $methodName, $methodParameters, $returnValue = false )
+    public function appendMethodCall( $objectName, $methodName, $methodParameters, $returnValue = false )
     {
     }
 
@@ -315,7 +279,7 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code.
      */
-    public function emitCodePiece( $code )
+    public function appendCodePiece( $code )
     {
     }
 
@@ -342,7 +306,7 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code.
      */
-    public function emitComment( $comment)
+    public function appendComment( $comment)
     {
     }
 
@@ -364,7 +328,7 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code.
      */
-    function emitInclude( $file, $type = EZ_PHPCREATOR_INCLUDE_ONCE )
+    function appendInclude( $file, $type = EZ_PHPCREATOR_INCLUDE_ONCE )
     {
     }
 
@@ -372,11 +336,11 @@ class ezcPhpGenerator
      * Adds the start of an if statement.
      *
      * The complete condition of the if statement must be present in $condition.
-     * The if statement must be closed properly with a call to emitEndIf.
+     * The if statement must be closed properly with a call to appendEndIf.
      * Example:
      * <code>
-     * $php->emitIf( 'if( $myVar === 0 )' );
-     * $php->emitEndIf();
+     * $php->appendIf( 'if( $myVar === 0 )' );
+     * $php->appendEndIf();
      * </code>
      *
      * Produces the PHP code:
@@ -387,28 +351,28 @@ class ezcPhpGenerator
      * }
      * </code>
      *
-     * @see $ezcPhpGenerator::emitEndIf()
+     * @see $ezcPhpGenerator::appendEndIf()
      * @param string $condition
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code.
      */
-    public function emitIf( $condition ) {}
+    public function appendIf( $condition ) {}
 
     /**
      * Ends an if statement.
      *
-     * @see $ezcPhpGenerator::emitIf()
+     * @see $ezcPhpGenerator::appendIf()
      * @return void
-     * @throws PhpGeneratorException if it was not possible to write the code or if the method was not properly nested with an emitIf.
+     * @throws PhpGeneratorException if it was not possible to write the code or if the method was not properly nested with an appendIf.
      */
-    public function emitEndIf() {}
-    public function emitElse( $condition = false ) {}
-    public function emitForeach( $condition ) {}
-    public function emitForeach(){}
-    public function emitWhile( $condition ) {}
-    public function emitEndWhile(){}
-    public function emitDo( $condition ) {}
-    public function emitEndDo(){}
+    public function appendEndIf() {}
+    public function appendElse( $condition = false ) {}
+    public function appendForeach( $condition ) {}
+    public function appendEndForeach(){}
+    public function appendWhile( $condition ) {}
+    public function appendEndWhile(){}
+    public function appendDo( $condition ) {}
+    public function appendEndDo(){}
 
     /**
      * Returns a variable statement with an assignment type.
@@ -486,7 +450,7 @@ class ezcPhpGenerator
      \note The file name and path is supplied to the constructor of this class.
      \note Multiple calls to this method will only open the file once.
     */
-    private function open( $atomic = false )
+    private function open()
     {
         if ( !$this->FileResource )
         {
