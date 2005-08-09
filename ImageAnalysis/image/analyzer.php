@@ -28,10 +28,12 @@ class ezcImageAnalyzer
      * This method analyses the given file and returns information on it.
      * The information returned has the following format:
      *
+     * <code>
      * array(
      *  'mime'  => '<mimeType>',
      *  'extra' => array()      // optional extra information, depends on MIME type.
      * );
+     * </code>
      *
      * @param string The file to analyse.
      * @return array(string)
