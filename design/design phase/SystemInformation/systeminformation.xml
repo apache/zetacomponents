@@ -1,6 +1,6 @@
 <?xml version="1.0"  encoding="windows-1252"?>
 <!DOCTYPE XMI SYSTEM "UML_EA.dtd">
-<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2005-08-05 12:54:52">
+<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2005-08-09 09:10:55">
 	<XMI.header>
 		<XMI.documentation>
 			<XMI.exporter>Enterprise Architect</XMI.exporter>
@@ -27,6 +27,24 @@
 						<UML:TaggedValue tag="tpos" value="0"/>
 					</UML:ModelElement.taggedValue>
 					<UML:Namespace.ownedElement>
+						<UML:Comment xmi.id="EAID_A45A0C5A_7B74_4836_B3E8_F59D6B8EFC9B" visibility="public" namespace="EAPK_1FA3FABF_2A9C_48b5_8E90_3820638D021E">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Text"/>
+								<UML:TaggedValue tag="ea_ntype" value="18"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_1FA3FABF_2A9C_48b5_8E90_3820638D021E"/>
+								<UML:TaggedValue tag="date_created" value="2005-08-09 09:10:12"/>
+								<UML:TaggedValue tag="date_modified" value="2005-08-09 09:10:12"/>
+								<UML:TaggedValue tag="gentype" value="&lt;none&gt;"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="SystemInformation"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Comment>
 						<UML:Class name="ezcSystemInfo" xmi.id="EAID_D688E68C_75E6_4aa7_840A_CE73540CE0C9" visibility="public" namespace="EAPK_1FA3FABF_2A9C_48b5_8E90_3820638D021E" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
 							<UML:ModelElement.taggedValue>
 								<UML:TaggedValue tag="documentation" value="Provides access to common system variables.  The following information can be queried: - CPU Type (e.g Pentium) - cpuType() - CPU Speed (e.g 1000) - cpuSpeed() - CPU Unit (e.g. MHz) - cpuUnit() - Memory Size in bytes (e.g. 528424960) - memorySize() 
@@ -50,6 +68,7 @@
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
 								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="$ea_attsclassified" value="{508FECA3-F107-4aba-AD91-E81FDC22A704}"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=0;HSwimLanes=0;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -195,7 +214,24 @@
 										<UML:TaggedValue tag="styleex" value="volatile=0;"/>
 									</UML:ModelElement.taggedValue>
 								</UML:Attribute>
-								<UML:Operation name="eZSysInfo" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+								<UML:Attribute name="instance" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+									<UML:Attribute.initialValue>
+										<UML:Expression/>
+									</UML:Attribute.initialValue>
+									<UML:StructuralFeature.type>
+										<UML:Classifier xmi.idref="EAID_D688E68C_75E6_4aa7_840A_CE73540CE0C9"/>
+									</UML:StructuralFeature.type>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="ezcSystemInfo"/>
+										<UML:TaggedValue tag="collection" value="false"/>
+										<UML:TaggedValue tag="position" value="8"/>
+										<UML:TaggedValue tag="lowerBound" value="1"/>
+										<UML:TaggedValue tag="upperBound" value="1"/>
+										<UML:TaggedValue tag="ea_guid" value="{508FECA3-F107-4aba-AD91-E81FDC22A704}"/>
+										<UML:TaggedValue tag="styleex" value="volatile=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Attribute>
+								<UML:Operation name="__construct" visibility="private" ownerScope="instance" isQuery="false" concurrency="sequential">
 									<UML:ModelElement.taggedValue>
 										<UML:TaggedValue tag="documentation" value="Constructs an empty sysinfo object."/>
 										<UML:TaggedValue tag="type" value="void"/>
@@ -434,6 +470,35 @@
 										</UML:Parameter>
 									</UML:BehavioralFeature.parameter>
 								</UML:Operation>
+								<UML:Operation name="getInstance" visibility="private" ownerScope="instance" isQuery="false" concurrency="sequential">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="ezcSystemInfo"/>
+										<UML:TaggedValue tag="const" value="false"/>
+										<UML:TaggedValue tag="synchronised" value="0"/>
+										<UML:TaggedValue tag="concurrency" value="Sequential"/>
+										<UML:TaggedValue tag="position" value="6"/>
+										<UML:TaggedValue tag="returnarray" value="0"/>
+										<UML:TaggedValue tag="pure" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{1C759A37-408E-47fb-9AAD-31452DE612F8}"/>
+									</UML:ModelElement.taggedValue>
+									<UML:BehavioralFeature.parameter>
+										<UML:Parameter kind="return" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="EAID_D688E68C_75E6_4aa7_840A_CE73540CE0C9"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="type" value="ezcSystemInfo"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="classifier" value="EAID_D688E68C_75E6_4aa7_840A_CE73540CE0C9"/>
+												<UML:TaggedValue tag="ea_guid" value="{RETURNID-408E-47fb-9AAD-31452DE612F8}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+									</UML:BehavioralFeature.parameter>
+								</UML:Operation>
 							</UML:Classifier.feature>
 						</UML:Class>
 					</UML:Namespace.ownedElement>
@@ -446,9 +511,10 @@
 		</UML:Model>
 		<UML:Diagram name="SystemInformation" xmi.id="EAID_3413B784_2201_492e_9998_5AEBE05727EC" diagramType="ClassDiagram" owner="EAPK_1FA3FABF_2A9C_48b5_8E90_3820638D021E" toolName="Enterprise Architect 2.5">
 			<UML:ModelElement.taggedValue>
-				<UML:TaggedValue tag="version" value="1.0"/>
+				<UML:TaggedValue tag="version" value="0.2"/>
+				<UML:TaggedValue tag="author" value="Frederik Holljen"/>
 				<UML:TaggedValue tag="created_date" value="2005-08-05 12:41:15"/>
-				<UML:TaggedValue tag="modified_date" value="2005-08-05 12:53:47"/>
+				<UML:TaggedValue tag="modified_date" value="2005-08-09 09:10:33"/>
 				<UML:TaggedValue tag="package" value="EAPK_1FA3FABF_2A9C_48b5_8E90_3820638D021E"/>
 				<UML:TaggedValue tag="type" value="Logical"/>
 				<UML:TaggedValue tag="swimlanes" value="locked=false;orientation=0;width=0;inbar=false;names=false;color=0;bold=false;fcol=0;;cls=0;"/>
@@ -456,7 +522,8 @@
 				<UML:TaggedValue tag="styleex" value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=0;TDurLow=0;TDurHigh=100;TDurUnit=;TDurHide=0;"/>
 			</UML:ModelElement.taggedValue>
 			<UML:Diagram.element>
-				<UML:DiagramElement geometry="Left=16;Top=18;Right=309;Bottom=245;" subject="EAID_D688E68C_75E6_4aa7_840A_CE73540CE0C9" seqno="1" style="DUID=0D71B58A;LBL=;"/>
+				<UML:DiagramElement geometry="Left=35;Top=14;Right=200;Bottom=89;" subject="EAID_A45A0C5A_7B74_4836_B3E8_F59D6B8EFC9B" seqno="1" style="DUID=DB57BD60;"/>
+				<UML:DiagramElement geometry="Left=26;Top=129;Right=319;Bottom=386;" subject="EAID_D688E68C_75E6_4aa7_840A_CE73540CE0C9" seqno="2" style="DUID=0D71B58A;LBL=;"/>
 			</UML:Diagram.element>
 		</UML:Diagram>
 	</XMI.content>
