@@ -2,7 +2,7 @@
 /**
  * This file contains the ezcImageHandler interface.
  * 
- * @package ImageConversion
+ * @package ImageConverter
  * @version //autogen//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
