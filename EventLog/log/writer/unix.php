@@ -9,7 +9,7 @@
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  * @version //autogentag//
 **/
-abstract class ezcLoggerWriterUnix extends ezcLoggerWriterFile
+abstract class ezcLogWriterUnix extends ezcLogWriterFile
 {
     /**
      * Write the logEntries to a file in the unix style.

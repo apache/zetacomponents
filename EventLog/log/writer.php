@@ -9,7 +9,7 @@
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  * @version //autogentag//
 **/
-abstract class LoggerWriter
+abstract class LogWriter
 {
     /**
      * Write the logEntries to a specific group. 

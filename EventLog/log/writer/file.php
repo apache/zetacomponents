@@ -9,7 +9,7 @@
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  * @version //autogentag//
 **/
-abstract class ezcLoggerWriterFile extends ezcLoggerWriter
+abstract class ezcLogWriterFile extends ezcLogWriter
 {
     // Contains the open files. 
     private $openFiles;

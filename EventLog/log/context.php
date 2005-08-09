@@ -9,7 +9,7 @@
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  * @version //autogentag//
 **/
-class ezcLoggerContext
+class ezcLogContext
 {
 
     private $typeContexts;

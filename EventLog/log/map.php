@@ -1,6 +1,6 @@
 <?php
 
-class ezcLoggerMap
+class ezcLogMap
 {
     /**
      * An hash table which couples a (int, string, string) to an mixed variable.

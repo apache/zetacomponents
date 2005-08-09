@@ -8,7 +8,7 @@
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  * @version //autogentag//
 **/
-abstract class ezcLoggerWriterDatabase extends ezcLoggerWriter
+abstract class ezcLogWriterDatabase extends ezcLogWriter
 {
     /**
      *  Construct a new database log-writer.
