@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcImageAnalyser class.
+ * File containing the ezcImageAnalyzer class.
  *
  * @package ImageAnalysis
  * @version //autogen//
@@ -20,7 +20,7 @@
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  */
-class ezcImageAnalyser
+class ezcImageAnalyzer
 {
     
     /**
@@ -36,8 +36,8 @@ class ezcImageAnalyser
      * @param string The file to analyse.
      * @return array(string)
      *
-     * @throws ezcImageAnalyserException If image could not be analysed.
-     * @throws ezcImageAnalyserFileException If image is not readable.
+     * @throws ezcImageAnalyzerException If image could not be analysed.
+     * @throws ezcImageAnalyzerFileException If image is not readable.
      */
     public static function analyse( $file ) {
         
