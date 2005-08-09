@@ -9,7 +9,7 @@
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  * @version //autogentag//
 **/
-class Context
+class ezcLoggerContext
 {
 
     private $typeContexts;
@@ -24,51 +24,25 @@ class Context
     }
 
     /**
-     * Set the context for an eventType. 
+     * Set the context for an eventType. These events are hardcoded. 
      *
      * @param int $eventTypeMask    
      *      Bit pattern for the eventType assigned to a context. 
      * @param array $context
      *      Array with strings.
     **/
-    public function setEventTypeContext( $eventTypeMask, $context )
-    {
-    }
-
-    /**
-     * Set the auto context for an eventType. 
-     *
-     * @param int $eventTypeMask    
-     *      Bit pattern for the eventType assigned to a context. 
-     * @param array $context
-     *      Hash which maps a string to an function. For example
-     *      getCurrentUrl(), getCurrentUser(), etc.
-     */
-    public function setEventTypeAutoContext( $eventTypeMask, $context )
+    private function setEventTypeContext( $eventTypeMask, $context )
     {
     }
 
     /**
      * Set the context for an eventType. 
      *
-     * @param int $eventTypeMask    
-     *      Bit pattern for the eventType assigned to a context. 
-     * @param array $context
-     *      Array with strings.
+     * @param int $eventSource Bit pattern for the eventType assigned to a 
+     *                         context. 
+     * @param array $context   Array with strings.
     **/
-    public function setEventSourceContext( $eventSource, $context )
-    {
-    }
-
-    /**
-     * Set the auto context for an eventType. 
-     *
-     * @param int $eventTypeMask    
-     *      Bit pattern for the eventType assigned to an auto context. 
-     * @param array $context
-     *      Hash which maps the bit pattern to an function.
-    **/
-    public function setEventSourceAutoContext( $eventSource, $context )
+    public function setSourceContext( $eventSource, $context )
     {
     }
 
@@ -76,16 +50,10 @@ class Context
      * Check the context.
      * @return bool The value true if the context is correct, otherwise false.
      */
-    public function checkContext( $eventType, $eventSource, $context ) 
+    public function getContext( $eventType, $eventSource ) 
     {
     }
 
-    /**
-     * @return array Returns an hash which contains the auto contexts.
-    **/
-    public function getAutoContexts( $eventType, $eventSource )
-    {
-    }
 }
 
 

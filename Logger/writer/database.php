@@ -1,19 +1,33 @@
 <?php
 
-abstract class LoggerWriterDatabase extends Writer
+/**
+ * Writes the log messages to the database.
+ * 
+ * @package Logger
+ * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
+ * @version //autogentag//
+**/
+abstract class ezcLoggerWriterDatabase extends ezcLoggerWriter
 {
-    public function __constructor( /* Connect to my database*/)
+    /**
+     *  Construct a new database log-writer.
+     * 
+     *  This constructor is a tie-in.
+     *
+     *  @param Database $databaseInstance
+     *      An instance of the database that should be used. 
+    **/
+    public function __construct( $databaseInstance )
     {
     }
 
     /**
-     * The function that actuallty writes the log entry.
+     * The function that actually writes the log entry to the database.
      *
-     * Group determines the file name, to write to. 
      */
     public function writeLogEntry( string $group, array $logEntry)
     {
-
     }
 }
 

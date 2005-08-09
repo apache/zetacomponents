@@ -1,6 +1,15 @@
 <?php
 
-abstract class LoggerWriterFile extends Writer
+/**
+ * Writes the log messages to a file
+ * 
+ *
+ * @package Logger
+ * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
+ * @version //autogentag//
+**/
+abstract class ezcLoggerWriterFile extends ezcLoggerWriter
 {
     // Contains the open files. 
     private $openFiles;

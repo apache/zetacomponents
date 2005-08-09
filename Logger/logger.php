@@ -13,7 +13,7 @@
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  * @version //autogentag//
 **/
-class Logger
+class ezcLogger
 {
 	// Define the event types. 
 	const DEBUG          = 1;
@@ -25,7 +25,7 @@ class Logger
 	const FATAL          = 64; 
 	
 	/**
-     * @var Map
+     * @var ezcLoggerMap
 	 * Contains the mapping between the log message and the group.
 	 *
 	 * This mapping specifies the group or files, depending upon the writer,
@@ -35,7 +35,7 @@ class Logger
 	private $groupMap;
 
 	/**
-     * $var Map
+     * $var ezcLoggerMap
 	 * Contains the mapping between the log message and the writer.
 	 *
 	 * This mapping specifies the format and storage of the log entries. For
@@ -45,7 +45,7 @@ class Logger
 	private $writerMap;
 
     /**
-     * $var Context
+     * $var ezcLoggerContext
 	 * Stores the context of the eventType and eventSources
 	**/
 	private $context;
@@ -59,7 +59,8 @@ class Logger
 	
 
 	/**
-	 *  Don't call the constructor, use the getInstance method instead. 
+	 * Don't call the constructor, use the getInstance method instead to get an 
+     * Logger object. 
 	**/
 	private function __construct()
 	{
@@ -85,19 +86,19 @@ class Logger
 	}
 
     /**
-     * Enable context checking during development. 
-     */
-    public function enableContextChecking()
-    {
-    }
-
-    /**
-     * Do not check the log context. 
+     *  Set the context of event source. These context will be added everytime 
+     *  the set event source is given. 
+     *
+     *  @param array $eventSource
+     *      An array with strings specifying the event sources. 
+     *  @param array $context
+     *      Set the context with an associative array consisting of context name and 
+     *      value. 
     **/
-    public function disableContextChecking()
+    public function setContext( $eventSource, $context ) 
     {
     }
-	
+    
 	/**
 	 * Write a message to the log.
 	 * 
@@ -115,16 +116,16 @@ class Logger
 	 * @param string eventCategory
 	 *          The category of the message. This makes the most sense for audit 
 	 *          trails. Examples are: edit, published, login/logout, etc.
-     * @param array context
+     * @param array extraInfo
      *          An associative array to store additional fields to the log. 
      *          For the DEBUG, INFO, WARNING, ERROR, and FINAL event types 
      *          the File and Line contexts exist.
      *
 	 * @example
-     * $myLog->log( "Paynet failed to connect with the server", $myLog->WARNING, "PAYNET", false, array( "File" => __FILE__, "Line" => __LINE__) );
-	 * $mylog->log( "Wrong CC number inserted", $myLog->FAILED_AUDIT, "PAYNET", "Security");
+     * $myLog->log( "Paynet failed to connect with the server", Logger::WARNING, "PAYNET", false, array( "File" => __FILE__, "Line" => __LINE__) );
+	 * $mylog->log( "Wrong CC number inserted", Logger::FAILED_AUDIT, "PAYNET", "Security");
     **/ 
-	public function log( $message, $eventType, $eventSource, $eventCategory = false, $context = false ) 
+	public function log( $message, $eventType, $eventSource, $eventCategory = false, $extraInfo = false ) 
 	{
 	}
 
@@ -144,9 +145,9 @@ class Logger
 	 * @return void
 	 * 
 	 * @example
-	 * 	assignWriter( $log->SUCCES_AUDIT | $log->FAILED_AUDIT, array(), array(), new DatabaseWriter("localhost", ..) );
-	 * 	assignWriter( $log->ERROR | $log->FATAL, array("PAYNET"), array(), new MailWriter("rb@ez.no", ..) );
-	 * 	assignWriter( $log->ERROR | $log->FATAL, array(), new UnixFileWriter() );
+	 * 	assignWriter( Logger::SUCCES_AUDIT | Logger::FAILED_AUDIT, array(), array(), new DatabaseWriter("localhost", ..) );
+	 * 	assignWriter( Logger::ERROR | Logger::FATAL, array("PAYNET"), array(), new MailWriter("rb@ez.no", ..) );
+	 * 	assignWriter( Logger::ERROR | Logger::FATAL, array(), new UnixFileWriter() );
 	**/
 	public function assignWriter( $eventTypeMask, $eventSources, $eventCategories, $Writer)
 	{
