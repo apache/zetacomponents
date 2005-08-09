@@ -199,7 +199,7 @@ simple way to control and send mail using the template system.
 
 Persistent Object
 =================
-Responsible: 2
+Responsible: Frederik
 Duration: 2
 
 Provides a functionality for dealing with database data in a unified way. The
