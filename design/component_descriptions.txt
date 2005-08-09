@@ -156,7 +156,7 @@ parts of a request (as seen in an applications view) is included too.
 
 Image Analyzer
 ==============
-Responsible: Tobias
+Responsible: Tobias - design done
 
 Provides functionality for analyzing image formats and return detailed
 information about them, such as getting the EXIF information from a JPEG and
@@ -165,13 +165,13 @@ TIFF or animation information from a GIF.
 
 Image Composer
 ==============
-Responsible: Tobias
+Responsible: Tobias - postponed
 Low priority
 
 
 Image Conversion
 ================
-Responsible: Tobias
+Responsible: Tobias - design done, please review!
 
 Provides functionality for doing more advanced operations on image formats. The
 package handles image conversion, filtering such as scaling and convenient
