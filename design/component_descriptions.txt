@@ -45,6 +45,7 @@ in addition to the possibility to override settings using the override system.
 Console Tools
 =============
 Duration: 1
+Responsible: Tobias
 
 Provides functionality for working on the console. This means the ability to
 parse options to scripts and output to consoles.
