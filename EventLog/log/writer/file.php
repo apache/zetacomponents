@@ -1,13 +1,20 @@
 <?php
+/**
+ * File containing the ezcLogWriterFile class.
+ *
+ * @package EventLog
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
+**/
 
 /**
  * Writes the log messages to a file
- * 
  *
- * @package Logger
+ * @package EventLog
+ * @version //autogentag//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
- * @version //autogentag//
 **/
 abstract class ezcLogWriterFile extends ezcLogWriter
 {

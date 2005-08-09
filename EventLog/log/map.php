@@ -1,5 +1,21 @@
 <?php
+/**
+ * File containing the ezcLogMap class.
+ *
+ * @package EventLog
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
+**/
 
+/**
+ * Map a mixed variable to an eventType, eventSource, and eventCategory.
+ *
+ * @package EventLog
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
+**/
 class ezcLogMap
 {
     /**

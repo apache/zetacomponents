@@ -1,19 +1,27 @@
 <?php
+/**
+ * File containing the ezcLog class.
+ *
+ * @package EventLog
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
+**/
 
 /**
  * Record log messages and audit trails to a file, database, or any other 
  * writer.
  *
- * Call the getInstance() method from the logger in order to create a new 
+ * Call the getInstance() method from the log in order to create a new 
  * object. 
  * TODO long description
  *
- * @package Logger
+ * @package EventLog
+ * @version //autogentag//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
- * @version //autogentag//
 **/
-class ezcLogger
+class ezcLog
 {
 	// Define the event types. 
 	const DEBUG          = 1;
@@ -25,43 +33,43 @@ class ezcLogger
 	const FATAL          = 64; 
 	
 	/**
-     * @var ezcLoggerMap
+     * @var ezcLogMap
 	 * Contains the mapping between the log message and the group.
 	 *
 	 * This mapping specifies the group or files, depending upon the writer,
 	 * the log will be written. 
      *
-	**/
+	 */
 	private $groupMap;
 
 	/**
-     * $var ezcLoggerMap
+     * $var ezcLogMap
 	 * Contains the mapping between the log message and the writer.
 	 *
 	 * This mapping specifies the format and storage of the log entries. For
 	 * example: write the Audit trails to the database, and the error messages
 	 * to a file and a stream. 
-	**/
+	 */
 	private $writerMap;
 
     /**
-     * $var ezcLoggerContext
+     * $var ezcLogContext
 	 * Stores the context of the eventType and eventSources
-	**/
+	 */
 	private $context;
 
 
 	/**
-     * @var Logger
+     * @var Log
 	 * Store the instance of this class.
-	**/
+	 */
 	private static $instance = null;
 	
 
 	/**
 	 * Don't call the constructor, use the getInstance method instead to get an 
      * Logger object. 
-	**/
+	 */
 	private function __construct()
 	{
 	}
@@ -71,14 +79,14 @@ class ezcLogger
 	 * class.
 	 *
 	 * @return Instance of this class. 
-	**/
+	 */
 	public function getInstance()
 	{
 	}
 
 	/**
 	 * Set default logging values.
-	**/
+	 */
 	public function setDefaults()
 	{
 		// assignGroups
@@ -94,7 +102,7 @@ class ezcLogger
      *  @param array $context
      *      Set the context with an associative array consisting of context name and 
      *      value. 
-    **/
+     */
     public function setContext( $eventSource, $context ) 
     {
     }
@@ -121,10 +129,11 @@ class ezcLogger
      *          For the DEBUG, INFO, WARNING, ERROR, and FINAL event types 
      *          the File and Line contexts exist.
      *
-	 * @example
-     * $myLog->log( "Paynet failed to connect with the server", Logger::WARNING, "PAYNET", false, array( "File" => __FILE__, "Line" => __LINE__) );
-	 * $mylog->log( "Wrong CC number inserted", Logger::FAILED_AUDIT, "PAYNET", "Security");
-    **/ 
+	 * <code>
+     * $myLog->log( "Paynet failed to connect with the server", Log::WARNING, "PAYNET", false, array( "File" => __FILE__, "Line" => __LINE__) );
+	 * $mylog->log( "Wrong CC number inserted", Log::FAILED_AUDIT, "PAYNET", "Security");
+     * </code>
+     */ 
 	public function log( $message, $eventType, $eventSource, $eventCategory = false, $extraInfo = false ) 
 	{
 	}
@@ -144,17 +153,18 @@ class ezcLogger
 	 * 
 	 * @return void
 	 * 
-	 * @example
-	 * 	assignWriter( Logger::SUCCES_AUDIT | Logger::FAILED_AUDIT, array(), array(), new DatabaseWriter("localhost", ..) );
-	 * 	assignWriter( Logger::ERROR | Logger::FATAL, array("PAYNET"), array(), new MailWriter("rb@ez.no", ..) );
-	 * 	assignWriter( Logger::ERROR | Logger::FATAL, array(), new UnixFileWriter() );
-	**/
+	 * <code>
+	 * 	assignWriter( Log::SUCCES_AUDIT | Log::FAILED_AUDIT, array(), array(), new DatabaseWriter("localhost", ..) );
+	 * 	assignWriter( Log::ERROR | Log::FATAL, array("PAYNET"), array(), new MailWriter("rb@ez.no", ..) );
+	 * 	assignWriter( Log::ERROR | Log::FATAL, array(), new UnixFileWriter() );
+     * </code>
+	 */
 	public function assignWriter( $eventTypeMask, $eventSources, $eventCategories, $Writer)
 	{
 	}
 
     /**
-     * Returns an array with the writers attached to the logger.
+     * Returns an array with the writers attached to the log.
      * 
      * @return array
      */
@@ -165,11 +175,12 @@ class ezcLogger
 	/**
 	 * Assigns a group to a specific messages.
 	 * 
-	 * @example
+     * <code>
 	 * assignGroup( (SUCCESS_AUDIT | FAILED_AUDIT), array(), array("Login/Logout"), "Security" )
 	 * assignGroup( (ERROR | FATAL), array(), array(), "error")
 	 * assignGroup( DEBUG, array("Paynet"), array(), "paynet_debug"); 
-	**/
+     * </code>
+	 */
 	public function assignGroup ( $eventType, $eventSources, $eventCategories, $GroupName)
 	{
 		//writerMap->setMapping($eventType, eventSources, eventCategories, GroupName);
@@ -177,7 +188,7 @@ class ezcLogger
 
 
     /**
-     * Returns an array with the groups attached to the logger.
+     * Returns an array with the groups attached to the log.
      */
     public function getGroups()
     {
@@ -185,7 +196,7 @@ class ezcLogger
 
 
     /**
-     * Attaches an eventTypeContext the the logger.
+     * Attaches an eventTypeContext the the log.
      *
      * @param array $eventTypeMask 
      *      Mask with eventTypes which will trigger a certain context.
@@ -210,7 +221,7 @@ class ezcLogger
 
     /**
      * Write the log message to the correct writer. 
-    **/
+     */
     private function writeLogMessage ()
     {
     }

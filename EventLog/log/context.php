@@ -1,13 +1,21 @@
 <?php
+/**
+ * File containing the ezcLogContext class.
+ *
+ * @package EventLog
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
+**/
 
 /**
  * Stores and checks the eventTypeContexts and eventSourceContexts.
  * 
  *
- * @package Logger
+ * @package EventLog
+ * @version //autogentag//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
- * @version //autogentag//
 **/
 class ezcLogContext
 {
