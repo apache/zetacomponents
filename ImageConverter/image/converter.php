@@ -2,7 +2,7 @@
 /**
  * File containing the ezcImageConverter class.
  *
- * @package ImageConverter
+ * @package ImageConversion
  * @version //autogen//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
@@ -45,7 +45,7 @@
  * @see ezcImageHandler
  * @see ezcImageTransformation
  * 
- * @package ImageConverter
+ * @package ImageConversion
  * @version //autogen//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
@@ -82,11 +82,6 @@ class ezcImageConverter
      *      'conversions'=> array(
      *          <mime>   => <mime>,         // Which MIME types to convert by default
      *      ),
-     *      'exceptions' => array(
-     *          <mime>   => array(
-     *              <criteria>  => <match>, // Exceptions from transformation, if this criteria matches, no transformation will be processed
-     *          ),
-     *      ),
      * )
      * </code>
      *
@@ -98,10 +93,14 @@ class ezcImageConverter
     private $init = false;
 
     /**
-     * Create a new ezcImageManager
-     * The ezcImageManager can be directly instanciated, but it's
+     * Create a new ezcImageConverter
+     * The ezcImageConverter can be directly instanciated, but it's
      * highly recommended to use a manual singleton implementation
-     * to have just 1 instance of a ezcImageManager per Request.
+     * to have just 1 instance of a ezcImageConverter per Request.
+     *
+     * ATTENTION: The ezcImageConverter does not support animated
+     * GIFs. Animated GIFs will simply be ignored by all filters and
+     * conversions.
      *
      * @param array(string) $settings
      * @param array(string) $options
@@ -125,7 +124,7 @@ class ezcImageConverter
      * @return ezcImageTransformation
      *
      * @throws ezcImageFilterException on nonexistant filter.
-     * @throws eczImageMIMEException on not handlebar MIME type.
+     * @throws eczImageConversionException When the output type is unsupported.
      */
     public function createTransformation( $name, $filters, $mimeOut )
     {
@@ -192,10 +191,7 @@ class ezcImageConverter
      * Format is:
      * <code>
      * array(
-     *  '<filterName>' => array(
-     *      '<optionName>',
-     *      ...
-     *  ),
+     *  '<filterName>',
      * );
      * </code>
      *

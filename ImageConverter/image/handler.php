@@ -2,7 +2,7 @@
 /**
  * This file contains the ezcImageHandler interface.
  * 
- * @package ImageConverter
+ * @package ImageConversion
  * @version //autogen//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
@@ -19,40 +19,40 @@
  * @see ezcImageHandlerShell
  * @see ezcImageFilters
  * 
- * @package ImageConverter
+ * @package ImageConversion
  * @version //autogen//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  */
-interface ezcImageHandler {
+abstract class ezcImageHandler {
 
     /**
      * Name of the handler
      *
      * @var string
      */
-//    public $name;       // virtual, __get() only
+    public $name;       // virtual, __get() only
 
     /**
      * ezcImageFilters object for the handler.
      *
      * @var ezcImageFilters
      */
-//    private $filters;
+    protected $filters;
 
     /**
      * Array of MIME types usable for input
      *
      * @var array
      */
-//    public $inputTypes; // virtual, __get() only
+    public $inputTypes; // virtual, __get() only
 
     /**
      * Array of MIME types usable for output
      *
      * @var array
      */
-//    public $outputTypes;// virtual, __get() only
+    public $outputTypes;// virtual, __get() only
 
     /**
      * Create a new image handler.
@@ -63,7 +63,9 @@ interface ezcImageHandler {
      * @param array(string) $settings
      * @param array(string) $options
      */
-    public function __construct( $settings, $options = null );
+    public function __construct( $settings, $options = null ) {
+        
+    }
 
     /**
      * Load an image file.
@@ -72,7 +74,7 @@ interface ezcImageHandler {
      * @param string $file
      * @return string Reference to the file in this handler.
      */
-    public function load( $file );
+    public abstract function load( $file );
     
     /**
      * Save an image file.
@@ -82,7 +84,7 @@ interface ezcImageHandler {
      * @param string $newFile
      * @return void
      */
-    public function save( $image, $newFile = null );
+    public abstract function save( $image, $newFile = null );
 
     /**
      * Check wether a specific MIME type is allowed as input for this handler.
@@ -90,7 +92,9 @@ interface ezcImageHandler {
      * @param string $mime
      * @return bool
      */
-    public function allowsInput( $mime );
+    public function allowsInput( $mime ) {
+        
+    }
 
     /**
      * Checks wether a specific MIME type is allowed as output for this handler.
@@ -98,7 +102,9 @@ interface ezcImageHandler {
      * @param string $mime
      * @return bool
      */
-    public function allowsOutput( $mime );
+    public function allowsOutput( $mime ) {
+        
+    }
 
     /**
      * Checks if a given filter is available in this handler.
@@ -106,15 +112,9 @@ interface ezcImageHandler {
      * @param string $name
      * @return bool
      */
-    public function hasFilter( $name );
-
-    /**
-     * Returns the settings required by a filter.
-     *
-     * @param string $name
-     * @return array(string) Settings
-     */
-    public function getFilter( $name );
+    public function hasFilter( $name ) {
+        
+    }
 
     /**
      * Applies a filter to a given image.
@@ -122,11 +122,14 @@ interface ezcImageHandler {
      * @internal This method is the main one, which will dispatch the
      * filter action to the specific function of the backend.
      * 
-     * @param string $filter
-     * @param string $image Image reference to apply the filter on.
+     * @param string Image reference to apply the filter on.
+     * @param string Filter name
+     * @param array(string) Options for the filter
      * @return void
      */
-    public function applyFilter( $filter, $image );
+    public function applyFilter( $image, $filter, $options ) {
+        
+    }
 
     /**
      * Converts an image to another MIME type.

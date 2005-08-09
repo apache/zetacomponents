@@ -7,7 +7,7 @@
  * 
  * @see ezcImageConverter
  * 
- * @package ImageConverter
+ * @package ImageConversion
  * @version //autogen//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
@@ -29,17 +29,21 @@
  *  ),
  * );
  * $mimeTypes = array('image/JPEG', 'image/PNG');
- * $converter->createTransformation('thumbnail', array('filters' => $filters, 'mimeOut' => $mimeTypes));
+ * 
+ * // ezcImageTransformation object returned for further manipulation
+ * $thumbnail = $converter->createTransformation('thumbnail', array('filters' => $filters, 'mimeOut' => $mimeTypes));
+ * 
  * $converter->transform('thumbnail', 'var/storage/myOrinal1.jpg', 'var/storage/myThumbnail1'); // res: myThumbnail1.jpg
  * $converter->transform('thumbnail', 'var/storage/myOrinal2.png', 'var/storage/myThumbnail2'); // res: myThumbnail2.png
  * $converter->transform('thumbnail', 'var/storage/myOrinal3.gif', 'var/storage/myThumbnail3'); // res: myThumbnail2.png
- * // Animated GIF:
- * $converter->transform('thumbnail', 'var/storage/myOrinal4.gif', 'var/storage/myThumbnail4'); // res: error no transform on animated GIF!
+ * 
+ * // Animated GIF, will simply be copied!
+ * $converter->transform('thumbnail', 'var/storage/myOrinal4.gif', 'var/storage/myThumbnail4');
  * </code>
  * 
  * @see ezcImageConverter
  * 
- * @package ImageConverter
+ * @package ImageConversion
  * @version //autogen//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
@@ -74,10 +78,39 @@ class ezcImageTransformation {
      * @param string $name
      * @param array(ezcImageFilter) Filters to apply
      * @param array(string) Output MIME types
+     *
+     * @throws ezcImageFilterException On invalid filter or settings error
+     * @throws ezcImageConversionException When the output type is unsupported.
      */
-    public function __construct( $name, $filters, $mimeOut = array()  ) 
+    public function __construct( $name, $filters = array(), $mimeOut = array()  ) 
     {
         
+    }
+
+    /**
+     * Add a filter to the conversion.
+     * Adds a filter with the specific settings.
+     *
+     * @param string Name of the filter
+     * @param array(string) Settings for the filter
+     * @param string Before a specific filter. At the end if ommited.
+     * 
+     * @throws ezcImageFilterException On invalid filter or settings error
+     */
+    public function addFilter( $name, $settings, $before = null ) {
+        
+    }
+    /**
+     * Determine output MIME type
+     * Returns the MIME type that the transformation will output.
+     *
+     * @param string File that should deal as input for the transformation.
+     * @return string MIME type the transformation will output.
+     *
+     * @throws ezcImageConversionException When the input type is unsupported.
+     */
+    public function getOutType( $fileIn ) {
+
     }
 
     /**
@@ -86,6 +119,8 @@ class ezcImageTransformation {
      * @param string $fileIn The file to transform.
      * @param string $fileOut The file to save the transformed image to.
      * @return void
+     *
+     * @throws ezcImageConversionException When the input type is unsupported.
      */
     public function transform( $fileIn, $fileOut )
     {
