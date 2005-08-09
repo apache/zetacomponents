@@ -3,17 +3,6 @@ Components 1.0
 
 The following components are planned for version 1.0.
 
-Application Event
-=================
-Responsible: Raymond
-
-A set of classes that handles different kinds of logging methods. Provided
-methods include a file based logger that also supports log-rotations and a
-database based logging engine. Each logging engine is build as a handler to
-minimize external dependencies. We will also try to make the functionality
-general enough so it can be used to do event logging and create audit trails.
-
-
 Application Framework
 =====================
 Duration: 2
@@ -103,6 +92,17 @@ information. The debug package is called only through PHP which means that your
 application will not rely on the debug package even if you use it.
 
 
+Event Log
+=========
+Responsible: Raymond
+
+A set of classes that handles different kinds of logging methods. Provided
+methods include a file based logger that also supports log-rotations and a
+database based logging engine. Each logging engine is build as a handler to
+minimize external dependencies. We will also try to make the functionality
+general enough so it can be used to do event logging and create audit trails.
+
+
 Execution
 =========
 
@@ -190,7 +190,7 @@ functionality.
 
 Mail
 ====
-Responsible: Frederik
+Responsible: Frederik - design done
 
 The mail package provides functionality for sending and receiving mail. It
 supports easy sending of multipart MIME and HTML mail and also provides a
@@ -209,7 +209,7 @@ which data to retrieive.
 
 PHP Generator
 =============
-Responsible: Frederik
+Responsible: Frederik - design done
 Duration: 1
 
 A class that let's you build a PHP file without that you have to take care
@@ -260,7 +260,7 @@ translations can be plugged in easily.
 
 User Input
 ==========
-Responsible: Derick
+Responsible: Derick - design done
 
 This set of classes addresses the basic needs of filtering user originated
 data, such as GET, POST and COOKIE data. It builds on top of PHP's filtering
