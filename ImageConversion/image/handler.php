@@ -137,6 +137,6 @@ abstract class ezcImageHandler {
      * @param string $image Image reference to convert.
      * @param string $mime MIME type to convert to.
      */
-    public function convert( $image, $mime );
+    public abstract function convert( $image, $mime );
 }
 
