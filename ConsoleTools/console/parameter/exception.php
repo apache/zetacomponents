@@ -30,9 +30,13 @@ class ezcConsoleParameterException extends Exception
      */
     const CODE_EXCLUSION = -11;
     /**
+     * Dependency rule defined for parameter not met.
+     */
+    const CODE_DEPENDENCY = -12;
+    /**
      * Type rule defined for parameter not met.
      */
-    const CODE_TYPE      = -12;
+    const CODE_TYPE      = -13;
 
     /**
      * Parameter this exception is about.
