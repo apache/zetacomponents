@@ -156,7 +156,7 @@ is installed in a directory). A class to work with URLs and access specific
 parts of a request (as seen in an applications view) is included too.
 
 
-Image Analyzer
+Image Analysis
 ==============
 Responsible: Tobias - design done
 
