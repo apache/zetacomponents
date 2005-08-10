@@ -46,10 +46,18 @@ class ezcConsoleParameterException extends Exception
      *
      * @var string
      */
-    public $param;
+    public $paramName;
     
-    public function __construct( $message, $param, $code = -10 ) {
-        $this->param = $param;
+    /**
+     * Constructor
+     * The constructor additionally needs a parameter name.
+     *
+     * @param string
+     * @param string
+     * @param int
+     */
+    public function __construct( $message, $paramName, $code = -10 ) {
+        $this->paramName = $paramName;
         parent::__construct( $message, $code );
     }
 }
