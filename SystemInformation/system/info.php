@@ -1,7 +1,15 @@
 <?php
+/**
+ * File containing the ezcPersistentObject class
+ *
+ * @package SystemInfo
+ * @version //autogen//
+ * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
+ */
 
 /**
- *  Provides access to common system variables.
+ * Provides access to common system variables.
  *
  * The following information can be queried:
  * - CPU Type (e.g Pentium) - cpuType()
@@ -18,7 +26,6 @@
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  * @version //autogentag//
- *
  */
 class ezcSystemInfo
 {
