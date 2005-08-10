@@ -1,0 +1,112 @@
+eZ publish Enterprise Component: Cache, Requirenments
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Introduction
+============
+
+Purpose of Cache package
+------------------------
+
+The Cache package should provided general purpose caching for all kinds of
+imaginable data onto all kinds of imaginable media. Beside that, the package
+has to provide a way of informing other modules about the expiration of
+specifically cached data.
+
+Current implementation
+----------------------
+
+Currently the cache functionality is included in the eZ publish kernel using
+the following classes:
+
+eZCache
+    Main class for dealing with caches.
+
+eZExpiryHandler
+    Handles expiration of cache items.
+
+There are multiple classes accessing these infrastructure and creating their
+own management mechanisms around.
+
+General notes
+-------------
+
+The cache implementation should be completly rewised, since it's deeply
+integrated into eZ publish and not flexible enough. Beside that, the
+requirement of having a "messaging system" is solved in a complete different
+direction.
+
+Requirenments
+=============
+
+Design goals
+------------
+
+The caching mechanis should be as flexible as possible in the following
+directions:
+
+- Types of data it can save.
+- Storage backends it utilizes.
+- Types of modules it informs about data expiration.
+
+Detailed requirenments
+----------------------
+
+Types of data to save
+    Caching is a solution for every kind of data which is not dynamically
+    generated on every request. This can be e.g. text, an array or even an
+    object or different objects referenced by each other. All these kinds of
+    data must be manageable by the cache.
+
+Storage backends
+    Storing cache data can take place nearly everywhere around in a system.
+    That means e.g. the filesystem, inside a database, even maybe to another
+    server using whatever. This means that the storage backend has to be as
+    flexible as possible and as independant as possible from the rest.
+
+Module messaging
+    There are multiple cases inside eZ publish, where another component has to
+    actualize it's data or to react in any other way on data expiration from
+    another module. That means, that a way has to be found, how these modules
+    can be informed of certain events that occur in the cache (like expiration).
+
+Design
+======
+
+Introduction
+------------
+
+Backend
+^^^^^^^
+
+The backend must be defined through either an interface or an abstract class
+to allow custom backends. Beside that, it should not deal with anything except
+the real storage of the data. Therefore, backends should just receive a
+general purpose data format, which is storable anywhere. To avoid any
+overhead, the serialization of the data to cache should take place before the
+data is transmitted to the backend. Backends than only have to deal with
+storing plain text.
+
+Beside that, backends have to store additional attributes for the cached data
+as there is:
+
+ID
+    Every cache object has to be identified by a application wide unique ID.
+
+Expiration
+    Cache data has to expire to be regenerated. Expiration has to be possible
+    automatically or manually.
+
+Notifications
+    For every cache object different notifications have to be assignable. That
+    means, that the modules to notify have to be defined and saved with the
+    data.
+
+To avoid concurrent write access to cached data the backends have either to
+support locking of specific cache data or atomic access to it. Since some
+media supports only one of that, a standard (either of these) must be emulated
+by the backend.
+
+Management
+^^^^^^^^^^
+
+Access to the backends has to be managed by a global instance.
