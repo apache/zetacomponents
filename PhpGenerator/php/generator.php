@@ -309,7 +309,7 @@ class ezcPhpGenerator
      * <code>
      * // This file is auto generated
      * // Do not edit!
-     * <code>
+     * </code>
      *
      * @param string $comment
      * @return void
