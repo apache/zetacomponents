@@ -59,7 +59,7 @@ class ezcSystemInfo
      * Returns the single instance of the ezcSystemInfo class
      * @return ezcSystemInfo
      */
-    public getInstance()
+    public function getInstance()
     {
     }
 
