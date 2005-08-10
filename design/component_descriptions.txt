@@ -25,6 +25,7 @@ methods, such as tar and different compression methods such as gzip and bzip2.
 Cache
 =====
 Duration: 3
+Responsible: Tobias
 
 This package contains generic functionality for storing cache files on your
 system. It also contains a system to distribute messages about content changes
@@ -45,7 +46,7 @@ in addition to the possibility to override settings using the override system.
 Console Tools
 =============
 Duration: 1
-Responsible: Tobias
+Responsible: Tobias - design done, please review!
 
 Provides functionality for working on the console. This means the ability to
 parse options to scripts and output to consoles.
