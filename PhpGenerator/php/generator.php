@@ -1,5 +1,14 @@
 <?php
 /**
+ * File containing the ezcPhpGenerator class
+ *
+ * @package PhpGenerator
+ * @version //autogen//
+ * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
+ */
+
+/**
  * class eczPhpGenerator
  * eZPHPCreator provides a simple interface for creating and executing PHP code.
  *
@@ -21,8 +30,8 @@
  * </code>
  * @todo For implementor: Direct writes, no caching to arrays first
  * @todo Call stack for if/foreach etc. so you we can check that they are closed correctly
- * @todo: Use of flock while writing
- * @todo: Write to temporary file while generating, then move? (faster)
+ * @todo Use of flock while writing
+ * @todo Write to temporary file while generating, then move? (faster)
  *
  * @package PhpGenerator
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
@@ -83,7 +92,7 @@ class ezcPhpGenerator
      * @param boolean $caseSensitive
      *
      * note $name must start with a letter or underscore, followed by any number of letters, numbers, or underscores.
-     * @See http://php.net/manual/en/language.constants.php for more information.
+     * @see http://php.net/manual/en/language.constants.php for more information.
      * @see http://php.net/manual/en/function.define.php
      *
      * @return void
