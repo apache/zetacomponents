@@ -2,7 +2,7 @@
 /**
  * File containing the ezcPersistentObject class
  *
- * @package SystemInfo
+ * @package SystemInformation
  * @version //autogen//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
@@ -57,7 +57,7 @@ class ezcSystemInfo
 
     /**
      * Returns the single instance of the ezcSystemInfo class
-     * @return ezcSystemInfo
+     * @returns ezcSystemInfo
      */
     public function getInstance()
     {
