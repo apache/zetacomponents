@@ -10,13 +10,13 @@
 
 
 /**
- * Allows for object persistence in a database
+ * Database persistance for data objects.
  *
- *  Classes which stores simple types in databases should inherit from this
- *  and implement the definition() function. The class will then get initialization,
- *  fetching, listing, moving, storing and deleting for free as well as attribute
- *  access. The new class must have a constructor which takes one parameter called
- *  \c $row and pass that this constructor.
+ * This class is used to store an arbitrary data structures to a fixed database
+ * table. For each data structure you need to store you need to create one
+ * table in the database and one class extending eZPersistentObject containing
+ * the same fields. eZPersistentObject then provides all the functionality needed
+ * to fetch, list, delete etc.
  *
  * This class uses SQL that is compatible with MySQL, PostgreSQL and Oracle.
  * <code>
@@ -27,7 +27,7 @@
  *        $this->eZPersistentObject( $row );
  *    }
  * }
- * <code>
+ * </code>
  * @todo Explain exactly what we mean with a row (simply an array with the field values)
  * @todo Map of property names --> Database Names
  * @todo is the definition of set and getters here necessary if you do this in the derived property classes?
@@ -46,7 +46,7 @@ abstract class eczPersistentObject
     /**
      * Whether the data is dirty, ie needs to be stored, or not.
      */
-    private $PersistentDataDirty;
+     private $PersistentDataDirty;
 
     /**
      * Initializes the object with the row \a $row. It will try to set
@@ -69,18 +69,14 @@ abstract class eczPersistentObject
      *
      *
      * The definition array is an associative array consists of these keys:
-     * - keys - an array of fields which is used for uniquely identifying the object in the table.
-     * - function_attributes - an associative array of attributes which maps
-     *                         to member functions, used for fetching data with functions.
-     * - set_functions - an associative array of attributes which maps to member
-     *                   functions, used for setting data with functions.
+     * - name - the name of the database table
+     * - keys - an array containing the fieldnames uniquely identifying one row in the table
      * - increment_key - the field which is incremented on table inserts. When
      *                   you store a new object this field is set automatically.
      * - class_name - the classname which is used for instantiating new objecs when fetching from the
      *                database.
      * - sort - an associative array which defines the default sorting of lists, the key is the table field while the value
      *          is the sorting method which is either \c asc or \c desc.
-     * - name - the name of the database table
      * - fields - an associative array of fields which defines which database
      *            field (the key) is to fetched and how they map to object
      *            member variables (the value). In order to support all the
@@ -110,6 +106,8 @@ abstract class eczPersistentObject
 
     /**
      * Returns a new persistent object based the $row data.
+     *
+     * @return object
      */
     public static function constructFromRow( $row )
     {
@@ -118,7 +116,7 @@ abstract class eczPersistentObject
     /**
      * Returns PHP objects out of the database rows \a $rows.
      *
-     * @return object
+     * @return array(object)
      */
     public static function constructFromRows( $rows )
     {
@@ -132,21 +130,19 @@ abstract class eczPersistentObject
      * @todo throw exception instead if several objects are found?
      * @todo Make version of this that is not static? This makes more sense, but might be impractical for
      *       automated code.
-     * @param array $def The object definition
-     * @param $field_filters Defines which fields to extract. If empty all fields are fetched.
-     * @param array $conds Conditions which determines which rows are fetched
-     * @param array boolean $asObject If the result should be returned as a row or an object.
+     * @param array $conditions Conditions which determines which rows are fetched
      * @param array $grouping Which elements to group by when retrieving the right object.
-     * @param array $custom_fields
+     * @param $field_filter Defines which fields to extract. If empty all fields are fetched.
+     * @param array $custom_fields An array of extra fields to fetch, each field may be a SQL operation
      * @return mixed Returns either an array or an object depending on $asObject
      */
-    public static function fetchObject( $def, $field_filters, $conds, $asObject = true, $grouping = null, $custom_fields = null )
+    public static function fetch( $conditions, $grouping = null, $field_filter = null, $custom_fields = null )
     {
     }
 
-        /**
-     * Returns a list of objects fetched from the database    Creates an SQL query out of the different parameters and returns an array with the result.
-     *     If \a $asObject is true the array contains objects otherwise a db row.
+    /**
+     * Returns a list of objects fetched from the database.
+     * Creates an SQL query out of the different parameters and returns an array with the result.
      *
      * A full example:
      * <code>
@@ -162,7 +158,7 @@ abstract class eczPersistentObject
      * <code>
      * $custom = array( array( 'operation' => 'count( id )',
      *                         'name' => 'count' ) );
-     * // Here $field_filters is set to an empty array, that way only count is used in fields
+     * // Here $field_filter is set to an empty array, that way only count is used in fields
      * $rows = eZPersistentObject::fetchObjectList( $def, array(), null, null, null, false, false, $custom );
      * return $rows[0]['count'];
      * </code>
@@ -178,7 +174,7 @@ abstract class eczPersistentObject
      *
      * @param array $def A definition array of all fields, table name and
      *        sorting
-     * @param array $field_filters If defined determines the fields which are
+     * @param array $field_filter If defined determines the fields which are
      *        extracted (array of field names), if not all fields are fetched
      * @param array $conds \c null for no special condition or an associative
      *        array of fields to filter on.
@@ -206,8 +202,6 @@ abstract class eczPersistentObject
      * @param array $limit An associative array with limitiations, can contain
      *                   - offset - Numerical value defining the start offset for the fetch
      *                   - length - Numerical value defining the max number of items to return
-     * @param boolean $asObject If \c true then it will return an array with objects, objects are created from class defined in \a $def.
-     *        If \c false it will just return the rows fetch from database.
      * @param array $grouping An array of fields to group by or \c null to use grouping in defintion \a $def.
      * @param array $custom_fields Array of \c FIELD elements to add to SQL,
      *        can be used to perform custom fetches, e.g counts. FIELD is an
@@ -215,14 +209,12 @@ abstract class eczPersistentObject
      *        - operation - A text field which is included in the field list
      *        - name - If present it adds 'AS name' to the operation.
      */
-    static public function fetchObjectList( $def,
-                              $field_filters = null,
-                              $conds = null,
-                              $sorts = null,
-                              $limit = null,
-                              $asObject = true,
-                              $grouping = false,
-                              $custom_fields = null )
+    public static function fetchList( $conditions = null,
+                                      $sorts = null,
+                                      $limit = null,
+                                      $grouping = null,
+                                      $field_filter = null,
+                                      $custom_fields = null )
     {
     }
 
@@ -233,6 +225,9 @@ abstract class eczPersistentObject
      * for the delete. This can be overrided through the $conditions variable.
      * It uses removeObject to do the real job and passes the object defintion,
      * conditions and extra conditions \a $extraConditions to this function.
+     *
+     * When you have called delete on an object the increment_key's are reset.
+     * Any subsequent calls that store the object will create a new object.
      * \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      * the calls within a db transaction; thus within db->begin and db->commit.
      *
@@ -261,7 +256,7 @@ abstract class eczPersistentObject
      *        the existing conditions.
      * @return void
      */
-    public static function deleteObject( $def, $conditions = null, $extraConditions = null )
+    public static function deleteObjects( $conditions = null, $extraConditions = null )
     {
     }
 
@@ -269,74 +264,24 @@ abstract class eczPersistentObject
      * Stores this object to the database if the data is considered dirty.
      *
      * This method uses storeObject() to do the actual
-     * job and passes \a $fieldFilters to it.
+     * job and passes \a $fieldFilter to it.
      * \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      * the calls within a db transaction; thus within db->begin and db->commit.
      * @param array fieldFilters If specified only certain fields will be stored.
      * @return void
      */
-    public function store( $fieldFilters = null )
+    public function store( $fieldFilter = null )
     {
     }
 
     /**
-     * Stores the persistent object $obj to the database.
+     * Returns an SQL condition sentence from the conditions $conditions and row data $row.
      *
-     * \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     * the calls within a db transaction; thus within db->begin and db->commit.
-     *
-     * @param object @obj
-     * @param fieldFilters If specified only certain fields will be stored.
-     * @return void
-     */
-    public function storeObject( $obj, $fieldFilters = null )
-    {
-    }
-
-    /**
-     * Stores a list of objects to the database.
-     * Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     * the calls within a db transaction; thus within db->begin and db->commit.
-     * @param array $parameters The list of
-     *   $db =& eZDB::instance();
-     *   $def =& $parameters['definition'];
-     *   $table =& $def['name'];
-     *   $fields =& $def['fields'];
-     *   $keys =& $def['keys'];
-     *   $updateFields =& $parameters['update_fields'];
-     *   $conditions =& $parameters['conditions'];
-     * @return void
-     */
-    protected static function storeObjectList( $parameters )
-    {
-    }
-
-    /**
-     * Returns an SQL sentence from the conditions \a $conditions and row data \a $row.
-     * If \a $row is empty (null) it uses the condition data instead of row data.
+     * If $row is provided the data from it is preferred over the data provided by the conditions.
+     * @todo Move out?
      * @return string
      */
-    protected function conditionTextByRowSql( $conditions, $row = null )
-    {
-    }
-
-    /**
-     * Returns an update SQL call to make rows $id1 and $id2 change places.
-     */
-    protected function swapRowsSql( $table, $keys, $order_id, $rows, $id1, $id2 )
-    {
-    }
-
-    /**
-     * Returns an order value which can be used for new items in table, for instance placement.
-     * Uses \a $def, \a $orderField and \a $conditions to figure out the currently maximum order value
-     * and returns one that is larger.
-     * @param array $def
-     * @param string $orderField
-     * @param array $conditions
-     * @return int
-     */
-    protected function nextObjectOrder( $def, $orderField, $conditions )
+    protected static function conditionTextByRowSql( $conditions, $row = null )
     {
     }
 
