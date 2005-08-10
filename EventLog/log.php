@@ -6,7 +6,7 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
-**/
+ */
 
 /**
  * Record log messages and audit trails to a file, database, or any other 
@@ -20,7 +20,7 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
-**/
+ */
 class ezcLog
 {
 	// Define the event types. 

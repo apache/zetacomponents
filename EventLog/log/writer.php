@@ -6,7 +6,7 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
-**/
+ */
 
 /**
  * Writes the log messages to a specific output. 
@@ -16,7 +16,7 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
-**/
+ */
 abstract class ezcLogWriter
 {
     /**

@@ -6,7 +6,7 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
-**/
+ */
 
 /**
  * Stores and checks the eventTypeContexts and eventSourceContexts.
@@ -16,7 +16,7 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
-**/
+ */
 class ezcLogContext
 {
 
@@ -26,7 +26,7 @@ class ezcLogContext
 
     /**
      * Remove all contexts. 
-    **/
+     */
     public function reset()
     {
     }
@@ -38,7 +38,7 @@ class ezcLogContext
      *      Bit pattern for the eventType assigned to a context. 
      * @param array $context
      *      Array with strings.
-    **/
+     */
     private function setEventTypeContext( $eventTypeMask, $context )
     {
     }
@@ -49,7 +49,7 @@ class ezcLogContext
      * @param int $eventSource Bit pattern for the eventType assigned to a 
      *                         context. 
      * @param array $context   Array with strings.
-    **/
+     */
     public function setSourceContext( $eventSource, $context )
     {
     }

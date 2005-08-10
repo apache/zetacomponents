@@ -6,7 +6,7 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
-**/
+ */
 
 /**
  * Writes the log messages to the database.
@@ -15,7 +15,7 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
-**/
+ */
 abstract class ezcLogWriterDatabase extends ezcLogWriter
 {
     /**
@@ -25,7 +25,7 @@ abstract class ezcLogWriterDatabase extends ezcLogWriter
      *
      *  @param Database $databaseInstance
      *      An instance of the database that should be used. 
-    **/
+     */
     public function __construct( $databaseInstance )
     {
     }
