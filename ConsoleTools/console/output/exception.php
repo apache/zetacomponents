@@ -17,6 +17,6 @@
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  * @todo Error codes to be defined.
  */
-class ezcConsoleParameterException extends Exception
+class ezcConsoleOutputException extends Exception
 {
 }
