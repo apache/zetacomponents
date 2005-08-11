@@ -80,7 +80,7 @@ e.g. *$srcX*, *$srcY*
   abbreviated forms, *src* and *dest*.  copy( $src, $dest ) The order of
   source and destination is always source first.
 
-* Some words are different in Brithish English and American English. It is most
+* Some words are different in British English and American English. It is most
   common to use the American spelling and so all words should follow this.
   Some typical names are:
 

@@ -120,7 +120,7 @@ Example 1: (With object parameters) ::
      *
      * @param Point $point1
      * @param Point $point2
-     * @return int
+     * @returns int
      */
 
      Generates something like:
@@ -143,10 +143,10 @@ arguments)::
      * Returns the length of the line defined in two dimensional space 
      * between point point1 and point2.
      * 
-     * @param array $point1 Format array( 'x' => int, 'y' => int )
-     * @param array $point2 Format array( 'x' => int, 'y' => int )
-     * @param int $multiplier Multiplies the result by the given factor.
-     * @return int
+     * @param array $point1     Format array( 'x' => int, 'y' => int )
+     * @param array $point2     Format array( 'x' => int, 'y' => int )
+     * @param int   $multiplier Multiplies the result by the given factor.
+     * @returns int
      */
      
      Generates something like:
@@ -168,12 +168,14 @@ mention it there instead.
 Function parameter and return types
 ---------------------------------------
 
-- All parameter and return types must be documented with at least their type
-  and parameter name in the case of parameters. If it is not obvious what the
-  return value/parameter does, and it is not explained in the description of
-  the method, a description must be written. Do not add descriptions of obvious
-  parameters/return types if they are explained in the description text.This is
-  to avoid cluttering the documentation with obvious stuff.
+- All parameters must be documented with at least their type,
+  parameter name and short description. All returns should be documented with
+  at least their type. If it is not obvious what the return value/parameter
+  does with the short description, it should be described in the long
+  description of the method, a description must be written. Do not add
+  long descriptions of obvious parameters/return types if they are explained in
+  the description text.  This is to avoid cluttering the documentation with
+  obvious stuff.
 
 - If the type is array, we must describe the requirements to the contents of
   the array. This is done by specifying the type for normal arrays or the
@@ -188,6 +190,26 @@ Function parameter and return types
 
 - Default values are auto documented, never document the default unless it is
   not obvious what it does.
+
+- Parameters can be documented in either of the following styles: ::
+
+ /**
+  * @param array(integer) $somewhatLongerName A long description of
+  *                                           myParameter and it doesn't
+  *                                           fit with the 79 characters.
+  */
+
+ /**
+  * @param array(integer) $somewhatLongerName
+  *        A long description of myParameter and it doesn't fit with the 79
+  *        characters.
+  */
+
+The first format is prefered, but in case the parameters short description does
+not fit behind the type and parameter name on the line, then the multi-line
+comment like in format 2 is prefered. Do not use the "short" description for
+extensive documentation, this should go to the method's long function
+description.
 
 Documenting options
 ====================
