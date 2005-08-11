@@ -138,7 +138,7 @@ ezcCacheStorageSQL
 Frontend
 ^^^^^^^^
 
-ezcCache
+ezcCacheManager
     This is the main class of the caching package and represents the cache
     manager. The manager deals with ezcCacheObject s and ezcCacheStorage s.
 ezcCacheObject
