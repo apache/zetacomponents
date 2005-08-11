@@ -235,13 +235,9 @@ abstract class eczPersistentObject
      * the calls within a db transaction; thus within db->begin and db->commit.
      *
      * @throws PersistentObjectException If the delete operation failed.
-     * @param array $conditions An associative array of keys and values that
-     *        will be used as conditions for the delete.
-     * @param array @extraConditions Extra conditions that replace or append
-     *        the existing conditions.
      * @return void
      */
-    public function delete( $conditions = null, $extraConditions = null )
+    public function delete()
     {
     }
 
@@ -282,17 +278,6 @@ abstract class eczPersistentObject
     }
 
     /**
-     * Returns an SQL condition sentence from the conditions $conditions and row data $row.
-     *
-     * If $row is provided the data from it is preferred over the data provided by the conditions.
-     * @todo Move out?
-     * @return string
-     */
-    protected static function conditionTextByRowSql( $conditions, $row = null )
-    {
-    }
-
-    /**
      * Moves a row in a database table. \a $def is the object definition.
      * Uses \a $orderField to determine the order of objects in a table, usually this
      * is a placement of some kind. It uses this order field to figure out how move
@@ -307,7 +292,7 @@ abstract class eczPersistentObject
      * @todo Is this thing really necessary?!?
      * @return void
      */
-    protected function reorderObject( $def, $orderField, $conditions, $down = true )
+    protected function reorderObject( $def, $orderField, $conditions, $direction )
     {
     }
 
@@ -368,7 +353,7 @@ abstract class eczPersistentObject
      * @param array $array
      * @return array
      */
-    private function escapeArray( $array )
+    private function escapeArray( $strings )
     {
     }
 }

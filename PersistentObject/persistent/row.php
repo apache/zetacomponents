@@ -53,13 +53,6 @@ class ezcPersistentRow
     }
 
     /**
-     * Returns an update SQL call to make rows $id1 and $id2 change places.
-     */
-    public static function swapRowsSql( $table, $keys, $order_id, $rows, $id1, $id2 )
-    {
-    }
-
-    /**
      * Returns a value which can be used for new items in table, for instance placement.
      *
      * Uses $def, $orderField $conditions to figure out the currently maximum order value
@@ -72,6 +65,24 @@ class ezcPersistentRow
      * @return int
      */
     public static function nextObjectOrder( $def, $orderField, $conditions )
+    {
+    }
+
+    /**
+     * Returns an update SQL call to make rows $id1 and $id2 change places.
+     */
+    public static function swapRowsSql( $table, $keys, $order_id, $rows, $id1, $id2 )
+    {
+    }
+
+    /**
+     * Returns an SQL condition sentence from the conditions $conditions and row data $row.
+     *
+     * If $row is provided the data from it is preferred over the data provided by the conditions.
+     * @todo Move out?
+     * @return string
+     */
+    protected static function conditionTextByRowSql( $conditions, $row = null )
     {
     }
 }
