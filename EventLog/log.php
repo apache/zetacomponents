@@ -159,7 +159,7 @@ class ezcLog
 	 * 	assignWriter( Log::ERROR | Log::FATAL, array(), new UnixFileWriter() );
      * </code>
 	 */
-	public function assignWriter( $eventTypeMask, $eventSources, $eventCategories, $Writer)
+	public function assignWriter( $eventTypeMask, $eventSources, $eventCategories, $Writer )
 	{
 	}
 
@@ -172,29 +172,6 @@ class ezcLog
     {
     }
 
-	/**
-	 * Assigns a group to a specific messages.
-	 * 
-     * <code>
-	 * assignGroup( (SUCCESS_AUDIT | FAILED_AUDIT), array(), array("Login/Logout"), "Security" )
-	 * assignGroup( (ERROR | FATAL), array(), array(), "error")
-	 * assignGroup( DEBUG, array("Paynet"), array(), "paynet_debug"); 
-     * </code>
-	 */
-	public function assignGroup ( $eventType, $eventSources, $eventCategories, $GroupName)
-	{
-		//writerMap->setMapping($eventType, eventSources, eventCategories, GroupName);
-	}
-
-
-    /**
-     * Returns an array with the groups attached to the log.
-     */
-    public function getGroups()
-    {
-    }
-
-
     /**
      * Attaches an eventTypeContext the the log.
      *
@@ -203,7 +180,7 @@ class ezcLog
      * @param array context
      *      Array with context strings.
      */
-    public function assignEventTypeContext ($eventTypeMask, $context) 
+    public function assignEventTypeContext ( $eventTypeMask, $context ) 
     {
     }
 
@@ -222,7 +199,7 @@ class ezcLog
     /**
      * Write the log message to the correct writer. 
      */
-    private function writeLogMessage ()
+    private function writeLogMessage()
     {
     }
     
@@ -231,7 +208,7 @@ class ezcLog
 	 * 
 	 * This method calls the log function.
 	 */
-	public static function ErrorHandler ()
+	public static function ErrorHandler()
 	{
 	}
 }

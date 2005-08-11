@@ -26,7 +26,7 @@ abstract class ezcLogWriterUnix extends ezcLogWriterFile
      * @param array logEntries  
      *      An array with strings specifying each column to be written.
      */
-    public function writeLogEntry( $group, $logData )
+    public function writeLogEntry( $logData )
     {
     }
 }

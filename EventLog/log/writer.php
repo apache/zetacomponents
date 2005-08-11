@@ -26,12 +26,10 @@ abstract class ezcLogWriter
      * In the case of a database it can be a column. If the writer
      * writes to file it can be to specify the file name. 
      *
-     * @param string group 
-     *      Group of the log data.
      * @param array logEntries  
      *      An array with strings specifying each column to be written.
      */
-    public abstract function writeLogEntry( $group, $logData );
+    public abstract function writeLogEntry( $logData );
 }
 
 

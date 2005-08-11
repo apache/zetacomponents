@@ -34,7 +34,7 @@ abstract class ezcLogWriterDatabase extends ezcLogWriter
      * The function that actually writes the log entry to the database.
      *
      */
-    public function writeLogEntry( string $group, array $logEntry)
+    public function writeLogEntry( array $logEntry )
     {
     }
 }
