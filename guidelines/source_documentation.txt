@@ -193,13 +193,13 @@ Function parameter and return types
 
 - Parameters can be documented in either of the following styles: ::
 
- /**
+  /**
   * @param array(integer) $somewhatLongerName A long description of
   *                                           myParameter and it doesn't
   *                                           fit with the 79 characters.
   */
 
- /**
+  /**
   * @param array(integer) $somewhatLongerName
   *        A long description of myParameter and it doesn't fit with the 79
   *        characters.
