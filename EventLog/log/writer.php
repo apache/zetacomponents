@@ -28,6 +28,8 @@ abstract class ezcLogWriter
      *
      * @param array logEntries  
      *      An array with strings specifying each column to be written.
+     * 
+     * @throws ezcDebugWritterException when the log writer couldn't write.
      */
     public abstract function writeLogEntry( $logData );
 }

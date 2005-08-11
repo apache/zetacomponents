@@ -21,13 +21,13 @@ abstract class ezcLogWriterFile extends ezcLogWriter
     /**
      * @var file_handles  Contains the open files.
      */
-    private $openFiles;
+    protected $openFiles;
 
     /** 
      * @var ezcLogMap  Keeps track of which group of messages should be stored 
      *                 in which file. 
      */
-    private $fileMap;
+    protected $fileMap;
 
     /** 
      * Sets the log rotation size of the files. 
@@ -66,7 +66,7 @@ abstract class ezcLogWriterFile extends ezcLogWriter
     
 
     /**
-     * The function that actuallty writes the log entry. The logEntry is an array
+     * The function that actually writes the log entry. The logEntry is an array
      * describing the entries that should be logged. 
      * 
      * <code>
@@ -75,6 +75,8 @@ abstract class ezcLogWriterFile extends ezcLogWriter
      * $logEntry["source"]    The source. 
      * $logEntry["category"]  The category. 
      * </code>
+     *
+     * @returns boolean Returns true when the log entry is correctly written.
      */
     public function writeLogEntry( array $logEntry )
     {
@@ -96,6 +98,9 @@ abstract class ezcLogWriterFile extends ezcLogWriter
 
 	/**
 	 * Assigns a filename to a specific group of messages.
+     *
+     * @returns boolean True is returned when the filename is writable and 
+     *                  correctly bound to a group of messages.
 	 * 
      * <code>
 	 * assignGroup( (SUCCESS_AUDIT | FAILED_AUDIT), array(), array("Login/Logout"), "Security" )
@@ -103,7 +108,7 @@ abstract class ezcLogWriterFile extends ezcLogWriter
 	 * assignGroup( DEBUG, array("Paynet"), array(), "paynet_debug"); 
      * </code>
 	 */
-	public function setFileName ( $eventType, $eventSources, $eventCategories, $filename)
+	public function setFileName ( $eventTypeMask, $eventSources, $eventCategories, $filename)
 	{
 	}
 

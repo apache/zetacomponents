@@ -33,16 +33,6 @@ class ezcLog
 	const FATAL          = 64; 
 	
 	/**
-     * @var ezcLogMap
-	 * Contains the mapping between the log message and the group.
-	 *
-	 * This mapping specifies the group or files, depending upon the writer,
-	 * the log will be written. 
-     *
-	 */
-	private $groupMap;
-
-	/**
      * $var ezcLogMap
 	 * Contains the mapping between the log message and the writer.
 	 *
@@ -56,7 +46,7 @@ class ezcLog
      * $var ezcLogContext
 	 * Stores the context of the eventType and eventSources
 	 */
-	private $context;
+	protected $context;
 
 
 	/**
@@ -75,10 +65,9 @@ class ezcLog
 	}
 
 	/** 
- 	 * Creates and returns a new instance of the class or returns the existing
-	 * class.
+ 	 * Returns the instance of the class.
 	 *
-	 * @return Instance of this class. 
+	 * @returns Instance of this class. 
 	 */
 	public function getInstance()
 	{
@@ -93,13 +82,31 @@ class ezcLog
 		// assignWriters
 	}
 
+    /** 
+     * Enable writer exceptions to be thrown when an log entry couldn't be written 
+     * in a specific writer. 
+     */
+    public function enableWriterExceptions()
+    {
+    }
+
+    /** 
+     * Disable writer exceptions to be thrown when an log entry couldn't be written 
+     * in a specific writer. 
+     *
+     * Actually, this is quite the opposite of enableWriterExceptions() :-). 
+     */
+    public function disableWriterExceptions()
+    {
+    }
+
     /**
      *  Set the context of event source. These context will be added everytime 
      *  the set event source is given. 
      *
-     *  @param array $eventSource
+     *  @param array(string) $eventSource
      *      An array with strings specifying the event sources. 
-     *  @param array $context
+     *  @param array(string => string) $context
      *      Set the context with an associative array consisting of context name and 
      *      value. 
      */
@@ -114,25 +121,29 @@ class ezcLog
 	 * messages, audit trails, can be written.
 	 * 
 	 * @param string message
-	 *         The log message that should be written.
+	 *        The log message that should be written.
 	 * @param int eventType    
-	 *         The eventType which should be one of the following constants: 
-	 *         DEBUG, WARNING, SUCCES_AUDIT, FAIL_AUDIT, INFO, ERROR, FATAL.
+	 *        The eventType which should be one of the following constants: 
+	 *        DEBUG, WARNING, SUCCES_AUDIT, FAIL_AUDIT, INFO, ERROR, FATAL.
 	 * @param string eventSource 
-	 * 			The component or part of the program this log message applies to: 
-	 *          E.g. Paynet.
+	 * 		  The component or part of the program this log message applies to: 
+	 *        E.g. Paynet.
 	 * @param string eventCategory
-	 *          The category of the message. This makes the most sense for audit 
-	 *          trails. Examples are: edit, published, login/logout, etc.
-     * @param array extraInfo
-     *          An associative array to store additional fields to the log. 
-     *          For the DEBUG, INFO, WARNING, ERROR, and FINAL event types 
-     *          the File and Line contexts exist.
+	 *        The category of the message. This makes the most sense for audit 
+	 *        trails. Examples are: edit, published, login/logout, etc.
+     * @param array(string => string) extraInfo
+     *        An associative array to store additional fields to the log. 
+     *        For the DEBUG, INFO, WARNING, ERROR, and FINAL event types 
+     *        the File and Line contexts exist.
      *
+     * @throws ezcLogWriterException when exception are enabled in the Log 
+     *         class and a log entry couldn't be written.
+     * 
 	 * <code>
      * $myLog->log( "Paynet failed to connect with the server", Log::WARNING, "PAYNET", false, array( "File" => __FILE__, "Line" => __LINE__) );
 	 * $mylog->log( "Wrong CC number inserted", Log::FAILED_AUDIT, "PAYNET", "Security");
      * </code>
+     * 
      */ 
 	public function log( $message, $eventType, $eventSource, $eventCategory = false, $extraInfo = false ) 
 	{
@@ -143,15 +154,16 @@ class ezcLog
 	 *
 	 * @param integer eventTypeMask
 	 * 		The bit mask of the eventTypes. 
-	 * @param array eventSources
+	 * @param array(string) eventSources
 	 *      Multiple eventSources are assigned in the array. Empty array means all.
-	 * @param array eventCategories
+	 * @param array(string) eventCategories
 	 *      Multiple eventCategories are assigned in the array. Empty array means all.
 	 * @param object Writer
 	 * 		The writer that writes the log message. These writers implement the writer interface. 
 	 *      An user can implement its own log writer.
 	 * 
 	 * @return void
+     * @throws ezcLogWriterException if the assigned writer is from the wrong type.
 	 * 
 	 * <code>
 	 * 	assignWriter( Log::SUCCES_AUDIT | Log::FAILED_AUDIT, array(), array(), new DatabaseWriter("localhost", ..) );
@@ -166,30 +178,31 @@ class ezcLog
     /**
      * Returns an array with the writers attached to the log.
      * 
-     * @return array
+     * @return array(ezcLogWriter)
      */
     public function getWriters()
     {
     }
 
     /**
-     * Attaches an eventTypeContext the the log.
+     * Attaches an eventTypeContext the the log. These are hardcoded, so they 
+     * are set up by the Log.
      *
-     * @param array $eventTypeMask 
+     * @param integer $eventTypeMask 
      *      Mask with eventTypes which will trigger a certain context.
-     * @param array context
+     * @param array(string => string) $context
      *      Array with context strings.
      */
-    public function assignEventTypeContext ( $eventTypeMask, $context ) 
+    protected function assignEventTypeContext ( $eventTypeMask, $context ) 
     {
     }
 
 
     /**
-     * @param array $eventTypeSources 
+     * @param array(string) $eventTypeSources 
      *      Array with eventSources (strings) which will trigger a certain 
      *      context.
-     * @param array context
+     * @param array(string => string) context
      *      Array with context strings.
      */
     public function assignEventSourceContext ( $eventSources, $context )
@@ -211,6 +224,7 @@ class ezcLog
 	public static function ErrorHandler()
 	{
 	}
+
 }
 	
 ?>
