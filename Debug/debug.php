@@ -52,8 +52,8 @@ class ezcDebug
 
         // Set the writer.
         $this->writer = new ezcDebugWriterMemory();
-        $this->log->assignWriter((ezcLog::ERROR | ezcLog::WARNING | ezcLog::FATAL | ezcLog::NOTICE), array(), array(), $this->writer);
-        $this->log->assignGroup((ezcLog::ERROR | ezcLog::WARNING | ezcLog::FATAL | ezcLog::NOTICE), array(), array(), "Debug");
+        $this->log->assignWriter( ezcLog::DEBUG, array(), array(), $this->writer);
+        $this->log->assignGroup( ezcLog::DEBUG, array(), array(), "Debug"); // Write to the debug file if a filewriter is attached.
 
         $this->timer = new ezcDebugTimer();
 	}
@@ -116,10 +116,12 @@ class ezcDebug
 
     /**
      * Forward the messages to the log.
+     *  
      */
-	public function log( $message, $eventType, $eventSource, $eventCategory = false, $extraInfo = false ) 
+	public function log( $message, $verbosity, $eventSource, $eventCategory = false, $extraInfo = false ) 
 	{
-        return $this->log->log( $message, $eventType, $eventSource, $eventCategory, $extraInfo );
+        $extraInfo = array_merge( array( "Verbosity" => $verbosity ), $extraInfo );
+        return $this->log->log( $message, Log::DEBUG, $eventSource, $eventCategory, $extraInfo );
 	}
 
     /**
