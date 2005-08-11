@@ -96,17 +96,51 @@ Expiration
     Cache data has to expire to be regenerated. Expiration has to be possible
     automatically or manually.
 
-Notifications
-    For every cache object different notifications have to be assignable. That
-    means, that the modules to notify have to be defined and saved with the
-    data.
-
 To avoid concurrent write access to cached data the backends have either to
 support locking of specific cache data or atomic access to it. Since some
 media supports only one of that, a standard (either of these) must be emulated
 by the backend.
 
-Management
-^^^^^^^^^^
+Frontend
+^^^^^^^^
 
-Access to the backends has to be managed by a global instance.
+Access to the backends has to be managed by a global instance, which
+coordinates the caches and manages expiration and so on. This instance should
+only exist in a single place on the system, handling all possible cache
+locations and caches.
+
+The manager should also take care of the possibility to identify caches of a
+certain type (which for example come from the same module or contain related
+data). This shall allow one to manipulate several cached objects at once.
+
+Class design
+------------
+
+Backend
+^^^^^^^
+
+The backend has definitly to be driver based. Every driver has to implement
+the same interface to communicate with the frontend. A backend driver should
+only deal with an abstract data format, which it just has to store. Following
+Classes are necessary:
+
+
+ezcCacheStorage
+    The abstract base class for all cache drivers. This should implement the
+    common features needed by every cache driver like option handling,...
+ezcCacheStorageFile
+    Actual implementation of a storage driver which deals with file system
+    based caching.
+ezcCacheStorageSQL
+    Actual implementation of a storage driver which deals with sql database
+    based caching.
+
+Frontend
+^^^^^^^^
+
+ezcCache
+    This is the main class of the caching package and represents the cache
+    manager. The manager deals with ezcCacheObject s and ezcCacheStorage s.
+ezcCacheObject
+    Is a wrapper class to handle the actual data to cache. It handles creating
+    the id of the cache and handling of meta information like expiration date.
