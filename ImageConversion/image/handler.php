@@ -60,8 +60,8 @@ abstract class ezcImageHandler {
      * but only through the manager for configuration reasons. One can 
      * get a direct refernce through manager afterwards.
      *
-     * @param array(string) $settings
-     * @param array(string) $options
+     * @param array(string) $settings Settings
+     * @param array(string) $options  Options
      */
     public function __construct( $settings, $options = null ) {
         
@@ -71,7 +71,8 @@ abstract class ezcImageHandler {
      * Load an image file.
      * Loads an image file and returns a reference to it.
      *
-     * @param string $file
+     * @param string $file File to load.
+     * 
      * @return string Reference to the file in this handler.
      */
     public abstract function load( $file );
@@ -80,8 +81,10 @@ abstract class ezcImageHandler {
      * Save an image file.
      * Saves a given open file. Can optionally save to a new file name.
      *
-     * @param string $image File reference created through {@link load()}.
-     * @param string $newFile
+     * @see ezcImageHandler::load()
+     * 
+     * @param string $image   File reference created through.
+     * @param string $newFile Filename to save the image to.
      * @return void
      */
     public abstract function save( $image, $newFile = null );
@@ -89,7 +92,7 @@ abstract class ezcImageHandler {
     /**
      * Check wether a specific MIME type is allowed as input for this handler.
      *
-     * @param string $mime
+     * @param string $mime MIME type to check if it's allowed.
      * @return bool
      */
     public function allowsInput( $mime ) {
@@ -99,7 +102,7 @@ abstract class ezcImageHandler {
     /**
      * Checks wether a specific MIME type is allowed as output for this handler.
      *
-     * @param string $mime
+     * @param string $mime MIME type to check if it's allowed.
      * @return bool
      */
     public function allowsOutput( $mime ) {
@@ -109,7 +112,7 @@ abstract class ezcImageHandler {
     /**
      * Checks if a given filter is available in this handler.
      *
-     * @param string $name
+     * @param string $name Name of the filter to check for.
      * @return bool
      */
     public function hasFilter( $name ) {
@@ -122,9 +125,12 @@ abstract class ezcImageHandler {
      * @internal This method is the main one, which will dispatch the
      * filter action to the specific function of the backend.
      * 
-     * @param string Image reference to apply the filter on.
-     * @param string Filter name
-     * @param array(string) Options for the filter
+     * @see ezcImageHandler::load()
+     * @see ezcImageHandler::save()
+     * 
+     * @param string $image          Image reference to apply the filter on.
+     * @param string $filter         Filter name
+     * @param array(string) $options Options for the filter.
      * @return void
      */
     public function applyFilter( $image, $filter, $options ) {
@@ -133,9 +139,15 @@ abstract class ezcImageHandler {
 
     /**
      * Converts an image to another MIME type.
+     * 
+     * Use {@link ezcImageHandler::allowsOutput()} to determine,
+     * if the output MIME type is supported by this handler!
      *
+     * @see ezcImageHandler::load()
+     * @see ezcImageHandler::save()
+     * 
      * @param string $image Image reference to convert.
-     * @param string $mime MIME type to convert to.
+     * @param string $mime  MIME type to convert to.
      */
     public abstract function convert( $image, $mime );
 }

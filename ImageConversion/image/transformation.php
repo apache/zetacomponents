@@ -2,8 +2,9 @@
 /**
  * Representation of different image transformations.
  * Objects of this class group MIME type conversion and filtering of images
- * into transformations of images. Transformations can be chained by referencing to another transformation
- * so that multiple transformations will be produced after each other.
+ * into transformations of images. Transformations can be chained by referencing
+ * to another transformation so that multiple transformations will be produced 
+ * after each other.
  * 
  * @see ezcImageConverter
  * 
@@ -31,11 +32,16 @@
  * $mimeTypes = array('image/JPEG', 'image/PNG');
  * 
  * // ezcImageTransformation object returned for further manipulation
- * $thumbnail = $converter->createTransformation('thumbnail', array('filters' => $filters, 'mimeOut' => $mimeTypes));
+ * $thumbnail = $converter->createTransformation('thumbnail', 
+ *                                               array('filters' => $filters, 
+ *                                                     'mimeOut' => $mimeTypes));
  * 
- * $converter->transform('thumbnail', 'var/storage/myOrinal1.jpg', 'var/storage/myThumbnail1'); // res: myThumbnail1.jpg
- * $converter->transform('thumbnail', 'var/storage/myOrinal2.png', 'var/storage/myThumbnail2'); // res: myThumbnail2.png
- * $converter->transform('thumbnail', 'var/storage/myOrinal3.gif', 'var/storage/myThumbnail3'); // res: myThumbnail2.png
+ * $converter->transform('thumbnail', 'var/storage/myOrinal1.jpg', 
+ *                       'var/storage/myThumbnail1'); // res: myThumbnail1.jpg
+ * $converter->transform('thumbnail', 'var/storage/myOrinal2.png', 
+ *                       'var/storage/myThumbnail2'); // res: myThumbnail2.png
+ * $converter->transform('thumbnail', 'var/storage/myOrinal3.gif', 
+ *                       'var/storage/myThumbnail3'); // res: myThumbnail2.png
  * 
  * // Animated GIF, will simply be copied!
  * $converter->transform('thumbnail', 'var/storage/myOrinal4.gif', 'var/storage/myThumbnail4');
@@ -75,9 +81,9 @@ class ezcImageTransformation {
     /**
      * Create a transformation
      *
-     * @param string $name
-     * @param array(ezcImageFilter) Filters to apply
-     * @param array(string) Output MIME types
+     * @param string $name                   Name for the transformation
+     * @param array(ezcImageFilter) $filters Filters to apply
+     * @param array(string) $mimeOut         Output MIME types
      *
      * @throws ezcImageFilterException On invalid filter or settings error
      * @throws ezcImageConversionException When the output type is unsupported.
@@ -89,11 +95,12 @@ class ezcImageTransformation {
 
     /**
      * Add a filter to the conversion.
-     * Adds a filter with the specific settings.
+     * Adds a filter with the specific settings. Filters can be added either 
+     * before an existing filter or at the end (leave out $before parameter).
      *
-     * @param string Name of the filter
-     * @param array(string) Settings for the filter
-     * @param string Before a specific filter. At the end if ommited.
+     * @param string $name            Name of the filter
+     * @param array(string) $settings Settings for the filter
+     * @param string $before          Where to add the filter
      * 
      * @throws ezcImageFilterException On invalid filter or settings error
      */
@@ -104,7 +111,8 @@ class ezcImageTransformation {
      * Determine output MIME type
      * Returns the MIME type that the transformation will output.
      *
-     * @param string File that should deal as input for the transformation.
+     * @param string $fileIn File that should deal as input for the transformation.
+     *
      * @return string MIME type the transformation will output.
      *
      * @throws ezcImageConversionException When the input type is unsupported.
@@ -116,7 +124,7 @@ class ezcImageTransformation {
     /**
      * Apply the given transformations and create the image transformation wanted.
      *
-     * @param string $fileIn The file to transform.
+     * @param string $fileIn  The file to transform.
      * @param string $fileOut The file to save the transformed image to.
      * @return void
      *

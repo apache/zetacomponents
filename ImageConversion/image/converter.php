@@ -85,7 +85,6 @@ class ezcImageConverter
      * )
      * </code>
      *
-     * @todo Management of conversion exceptions has to be defined.
      * @var array(string)
      */
     public $options = array();  // virtual, __get()/__set()
@@ -102,8 +101,9 @@ class ezcImageConverter
      * GIFs. Animated GIFs will simply be ignored by all filters and
      * conversions.
      *
-     * @param array(string) $settings
-     * @param array(string) $options
+     * @param array(string) $settings Settings
+     * @param array(string) $options  Options
+     * 
      * @throws ezcImageConverterException for missmatching settings.
      */
     public function __construct( $settings, $options = array() )
@@ -134,7 +134,8 @@ class ezcImageConverter
     /**
      * Removes a transformation from the manager
      *
-     * @param string $name
+     * @param string $name Name of the transformation to remove
+     *
      * @return ezcImageTransformation The removed transformation
      */
     public function removeTransformation( $name )
@@ -153,8 +154,8 @@ class ezcImageConverter
      * )
      * </code>
      *
-     * @param string $name Name of the transformation to perform
-     * @param string $inFile The file to transform
+     * @param string $name    Name of the transformation to perform
+     * @param string $inFile  The file to transform
      * @param string $outFile The file to save transformed version to
      *
      * @return array(string)
@@ -169,8 +170,8 @@ class ezcImageConverter
      * Applies just a single filter to an image. Optionally you can select
      * a handler yourself, which is not recommended, but possible.
      *
-     * @param string $name Name of the filter.
-     * @param string $inFile Name of the input file.
+     * @param string $name    Name of the filter.
+     * @param string $inFile  Name of the input file.
      * @param string $outFile Name of the output file.
      * @param string $handler To choose a specific handler.
      *
@@ -203,11 +204,12 @@ class ezcImageConverter
     }
 
     /**
-     * Checks if a given filter is available
+     * Returns if a given filter is available
      * Returns either an array of handler names this filter
      * is available in or false if the filter is not enabled.
      *
-     * @param string $name
+     * @param string $name Name of the filter to query existance for
+     *
      * @return mixed Array of handlers on succes, otherwise false.
      */
     public function filterExists( $name )
