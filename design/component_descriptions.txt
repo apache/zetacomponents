@@ -5,6 +5,7 @@ The following components are planned for version 1.0.
 
 Application Framework
 =====================
+Responsible: Frederik
 Duration: 2
 
 The application framework package contains the basis of a module and view
@@ -16,6 +17,7 @@ functionality.
 
 Archive
 =======
+Responsible: Raymond
 Duration: 1
 
 A set of classes that implement stream wrapper around the different archival
@@ -201,7 +203,7 @@ simple way to control and send mail using the template system.
 
 Persistent Object
 =================
-Responsible: Frederik
+Responsible: Frederik - design done
 Duration: 2
 
 Provides a functionality for dealing with database data in a unified way. The
