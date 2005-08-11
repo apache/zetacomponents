@@ -47,6 +47,7 @@
  *      if ($e->code === ezcConsoleParameterException::CODE_DEPENDENCY) {
  *          $consoleOut->outputText('Parameter '.$e->paramName." may not occur here.\n", 'error');
  *      }
+ *      exit(1);
  * }
  *
  * </code>
