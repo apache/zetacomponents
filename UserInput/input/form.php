@@ -116,7 +116,7 @@ class ezcInputForm
      *                - optional parameters for the filter.
      * @param string  The character encoding to use while retrieving input
      *                variable data.
-     * @throws UserInputMissingData exception when one of the required input
+     * @throws InputFormException exception when one of the required input
      *         variables is missing.
      */
     public function __construct($inputSource, $definition, $characterEncoding)
@@ -134,7 +134,7 @@ class ezcInputForm
      *
      * @param   string The name of the property that is used in the assignment.
      * @returns mixed  The value of the input variable.
-     * @throws  UserInputInValidData exception when trying to read a property
+     * @throws  InputFormException exception when trying to read a property
      *          which has no valid data.
      */
     public function __get($propertyName)
@@ -150,7 +150,7 @@ class ezcInputForm
      *
      * @param string The name of the property that was assigned a new value.
      * @param mixed  The new value that was assigned to this property.
-     * @throws UserInputReadOnly exception for every call to this function.
+     * @throws InputFormException exception for every call to this function.
      */
     public function __set($propertyName, $value)
     {
@@ -192,7 +192,7 @@ class ezcInputForm
      * @param  string The name of the input field that you want to check if it
      *                was parsed.
      * @return string The original RAW data of the specified input field.
-     * @throws UserInputValidData exception when trying to get unsafe raw data
+     * @throws InputFormException exception when trying to get unsafe raw data
      *         from a input field with valid data.
      */
     public function getUnsafeRawData($fieldName)

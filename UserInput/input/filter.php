@@ -26,7 +26,7 @@
  */
 class ezcInputFilter
 {
-    /*
+    /**
      * Receives a variable for filtering. The filter function is free to modify
      * the variable. If 'false' is returned, the filter will be considered as
      * having failed, and if 'true' is returned, the filter will be considered
