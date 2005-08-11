@@ -130,6 +130,8 @@ abstract class eczPersistentObject
      * @todo throw exception instead if several objects are found?
      * @todo Make version of this that is not static? This makes more sense, but might be impractical for
      *       automated code.
+     *
+     * @throws PersistentObjectException If the fetching of the data failed.
      * @param array $conditions Conditions which determines which rows are fetched
      * @param array $grouping Which elements to group by when retrieving the right object.
      * @param $field_filter Defines which fields to extract. If empty all fields are fetched.
@@ -172,6 +174,7 @@ abstract class eczPersistentObject
      * return $rows[0]['count'];
      * </code>
      *
+     * @throws PersistentObjectException If the fetching of the data failed.
      * @param array $def A definition array of all fields, table name and
      *        sorting
      * @param array $field_filter If defined determines the fields which are
@@ -231,6 +234,7 @@ abstract class eczPersistentObject
      * \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      * the calls within a db transaction; thus within db->begin and db->commit.
      *
+     * @throws PersistentObjectException If the delete operation failed.
      * @param array $conditions An associative array of keys and values that
      *        will be used as conditions for the delete.
      * @param array @extraConditions Extra conditions that replace or append
@@ -249,6 +253,7 @@ abstract class eczPersistentObject
      * \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      * the calls within a db transaction; thus within db->begin and db->commit.
      *
+     * @throws PersistentObjectException If the delete operation failed.
      * @param array $def The definition of the object type to delete.
      * @param array $conditions An associative array of keys and values that
      *        will be used as conditions for the delete.
@@ -267,6 +272,8 @@ abstract class eczPersistentObject
      * job and passes \a $fieldFilter to it.
      * \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      * the calls within a db transaction; thus within db->begin and db->commit.
+     *
+     * @throws PersistentObjectException If the delete operation failed.
      * @param array fieldFilters If specified only certain fields will be stored.
      * @return void
      */
