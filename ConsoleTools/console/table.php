@@ -23,7 +23,7 @@
  * // Generate a header row:
  * $table->addRowHead(array('First col', 'Second col', 'Third col'));
  * // Right column will be the largest
- * $table->addRow(array('Data', 'Data', 'Very very very very very very long data'));
+ * $table->addRow(array('Data', 'Data', 'Very very very very very long data'));
  * $table->output();
  *
  * </code>
@@ -95,9 +95,9 @@ class ezcConsoleTable
     /**
      * Creates a new table.
      *
-     * @param ezcConsoleOutput
-     * @param array(string)
-     * @param array(string)
+     * @param ezcConsoleOutput $outHandler Output handler to utilize
+     * @param array(string) $settings      Settings
+     * @param array(string) $options       Options
      *
      * @see ezcConsoleTable::$settings
      * @see ezcConsoleTable::$options
@@ -123,9 +123,10 @@ class ezcConsoleTable
      * @see ezcConsoleTable::$settings
      * @see ezcConsoleTable::$options
      * 
-     * @param ezcConsoleOutput
-     * @param array(string)
-     * @param array(string)
+     * @param array(int -> string) $data   Data for the table
+     * @param ezcConsoleOutput $outHandler Output handler to utilize
+     * @param array(string) $settings      Settings
+     * @param array(string) $options       Options
      */
     public static function create( $data, ezcConsoleOutput $outHandler, $settings, $options = array() ) {
         
@@ -143,8 +144,8 @@ class ezcConsoleTable
      *
      * The options parameter overrides the globally set options.
      * 
-     * @param array(int => string)
-     * @param array(string) {@see eczConsoleTable::$options}
+     * @param array(int => string) $rowData The data for the row
+     * @param array(string) $options        Override {@link eczConsoleTable::$options}
      * @return int Number of the row.
      */
     public function addRow( $rowData, $options ) {
@@ -153,12 +154,12 @@ class ezcConsoleTable
 
     /**
      * Add a header row to the table.
-     * Add a header row to the table. Format {@see ezcConsoleTable::addRow()}.
+     * Add a header row to the table. Format {@link ezcConsoleTable::addRow()}.
      *
      * The options parameter overrides the globally set options.
      *
-     * @param array(int => string)
-     * @param array(string) {@see eczConsoleTable::$options}
+     * @param array(int => string) $rowData The row data
+     * @param array(string) $options        Override {@link eczConsoleTable::$options}
      * @return int Number of the row.
      */
     public function addHeadRow( $rowData, $options ) {
@@ -172,9 +173,9 @@ class ezcConsoleTable
      * previous rows do not exist, they are created with empty 
      * values. Existing cell data is overwriten.
      *
-     * @param int Row number.
-     * @param int Column number.
-     * @param string Data for the cell.
+     * @param int $row         Row number.
+     * @param int $column      Column number.
+     * @param string $cellData Data for the cell.
      */ 
     public function setCell( $row, $column, $cellData ) {
         
@@ -184,7 +185,7 @@ class ezcConsoleTable
      * Make a row to a header row.
      * Defines the row with the specified number to be a header row.
      *
-     * @param int
+     * @param int $row Number of the row to affect.
      * 
      * @see eczConsoleTable::setDefaultRow()
      */
@@ -197,7 +198,7 @@ class ezcConsoleTable
      * Defines the row with the specified number to be a default row.
      * (Used to bring header rows back to normal.)
      *
-     * @param int
+     * @param int $row Number of the row to affect.
      *
      * @see eczConsoleTable::setHeadRow()
      */
@@ -206,7 +207,7 @@ class ezcConsoleTable
     }
 
     /**
-     * Receive the table in a string.
+     * Returns the table in a string.
      * Returns the entire table as a string.
      *
      * @return string
@@ -217,7 +218,7 @@ class ezcConsoleTable
 
     /**
      * Output the table.
-     * Prints the complete table.
+     * Prints the complete table to the console.
      *
      * @return void
      */

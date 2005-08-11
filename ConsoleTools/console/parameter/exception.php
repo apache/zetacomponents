@@ -50,11 +50,13 @@ class ezcConsoleParameterException extends Exception
     
     /**
      * Constructor
-     * The constructor additionally needs a parameter name.
+     * The constructor additionally needs a parameter name, which is
+     * the shortcut name of the affected parameter.
+     * For error codes, see class constants!
      *
-     * @param string
-     * @param string
-     * @param int
+     * @param string string $message   Error message.
+     * @param string string $paramName Name of affected parameter
+     * @param int $code                Error code.
      */
     public function __construct( $message, $paramName, $code = -10 ) {
         $this->paramName = $paramName;

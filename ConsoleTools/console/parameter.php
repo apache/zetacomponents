@@ -45,7 +45,9 @@
  *      $paramHandler->processParams();
  * } catch (ezcConsoleParameterException $e) {
  *      if ($e->code === ezcConsoleParameterException::CODE_DEPENDENCY) {
- *          $consoleOut->outputText('Parameter '.$e->paramName." may not occur here.\n", 'error');
+ *          $consoleOut->outputText(
+ *              'Parameter '.$e->paramName." may not occur here.\n", 'error'
+ *          );
  *      }
  *      exit(1);
  * }
@@ -78,30 +80,36 @@ class ezcConsoleParameter
 
     /**
      * Register a new parameter.
-     * Register a new parameter to be recognized by the parser. The short option 
-     * is a single character, the long option can be any string containing
-     * [a-z-]+. Via the options array several options can be defined for a parameter:
+     * Register a new parameter to be recognized by the parser. The short 
+     * option is a single character, the long option can be any string 
+     * containing [a-z-]+. Via the options array several options can be 
+     * defined for a parameter:
      *
      * <code>
      * array(
-     *  'type'      => TYPE_NONE,       // option does not expect a value by default, use TYPE_* constants
-     *  'default'   => null,            // no default value by default
-     *  'short'     => '',             // no short description by default
-     *  'long'      => '',              // no help text by default
-     *  'depends'   => array(),         // no depending options by default
-     *  'excludes'  => array(),         // no excluded options by default
+     *  'type'      => TYPE_NONE,  // option does not expect a value by 
+     *                             // default, use TYPE_* constants
+     *  'default'   => null,       // no default value by default
+     *  'short'     => '',         // no short description by default
+     *  'long'      => '',         // no help text by default
+     *  'depends'   => array(),    // no depending options by default
+     *  'excludes'  => array(),    // no excluded options by default
      * );
      * </code>
      *
-     * Attention: Already existing parameter will be overwriten! If an already existing alias is
-     * attempted to be registered, the alias will be deleted and replaced by the new
-     * parameter.
+     * Attention: Already existing parameter will be overwriten! If an 
+     * already existing alias is attempted to be registered, the alias 
+     * will be deleted and replaced by the new parameter.
+     *
+     * Parameter shortcuts may only contain one character and will be 
+     * used in an application call using "-x <value>". Long parameter
+     * versions will be used like "--long-parameter=<value>".
      *
      * @see ezcConsoleParameter::unregisterParam()
      *
-     * @param string Short parameter (e.g. 'o'/'a'/'h'), will be '-o'/'-a'/'-h'.
-     * @param string Long version of parameter (e.g. 'my-param'), will be '--my-param'.
-     * @param array(string) See description.
+     * @param string $short          Short parameter
+     * @param string $long           Long version of parameter
+     * @param array(string) $options See description
      *
      * @return void
      */
@@ -116,9 +124,9 @@ class ezcConsoleParameter
      *
      * @see ezcConsoleParameter::unregisterAlias()
      *
-     * @param string Shortcut of the alias
-     * @param string Long version of the alias
-     * @param strung Reference to an existing param
+     * @param string $short    Shortcut of the alias
+     * @param string $long     Long version of the alias
+     * @param strung $refShort Reference to an existing param (short)
      *
      * @return void
      */
@@ -128,19 +136,22 @@ class ezcConsoleParameter
 
     /**
      * Remove a parameter to be no more supported.
-     * Using this function you will remove a parameter. Depending on the second option
-     * Dependencies to this parameter are handled. Per default, just all dependencies
-     * to that actual parameter are removed (false value). Setting it to true
-     * will completely unregister all parameters that depend on the current one.
+     * Using this function you will remove a parameter. Depending on the second 
+     * option dependencies to this parameter are handled. Per default, just 
+     * all dependencies to that actual parameter are removed (false value). 
+     * Setting it to true will completely unregister all parameters that depend 
+     * on the current one.
      *
      * @see ezcConsoleParameter::registerParam()
      *
-     * @param string Short option name for the parameter to be removed.
-     * @param bool Handling of dependencies while unregistering. See description!
+     * @param string $short Short option name for the parameter to be removed.
+     * @param bool $deps    Handling of dependencies while unregistering. 
      *
      * @return void
      *
-     * @throws ezcConsoleParameterException If requesting a nonexistant parameter {@link ezcConsoleParameterException::CODE_EXISTANCE}.
+     * @throws ezcConsoleParameterException 
+     *         If requesting a nonexistant parameter 
+     *         {@link ezcConsoleParameterException::CODE_EXISTANCE}.
      */
     public function unregisterParam( $short, $deps = false ) {
         
@@ -152,12 +163,13 @@ class ezcConsoleParameter
      *
      * @see ezcConsoleParameter::registerAlias()
      * 
-     * @param string Short option name for the parameter to be removed.
-     * @param bool Handling of dependencies while unregistering. See description!
+     * @param string $short Short option name for the parameter to be removed.
      *
      * @return void
      *
-     * @throws ezcConsoleParameterException If requesting a nonexistant alias {@link ezcConsoleParameterException::CODE_EXISTANCE}.
+     * @throws ezcConsoleParameterException 
+     *         If requesting a nonexistant alias 
+     *         {@link ezcConsoleParameterException::CODE_EXISTANCE}.
      */
     public function unregisterAlias( $short ) {
         
@@ -170,11 +182,16 @@ class ezcConsoleParameter
      * this:
      *
      * <code>
-     * [s:|size:][u:|user:][a|all]
+     * [s:|size:][u:|user:][a:|all:]
      * </code>
      *
-     * @param string $paramDef
-     * @throw ezcConsoleParameterException If definition string is not wellformed.
+     * This string will result in 3 parameters:
+     * -s / --size
+     * -u / --user
+     * -a / --all
+     *
+     * @param string $paramDef Parameter definition string.
+     * @throw ezcConsoleParameterException If string is not wellformed.
      */
     public function fromString( $paramDef ) {
         
@@ -192,13 +209,16 @@ class ezcConsoleParameter
      * All exceptions thrown by this method contain an additional attribute "param"
      * which specifies the parameter on which the error occured.
      * 
-     * @param array(int -> string) The arguments
+     * @param array(int -> string) $args The arguments
      *
-     * @throws ezcConsoleParameterDependecyException If dependencies are unmet 
+     * @throws ezcConsoleParameterDependecyException 
+     *         If dependencies are unmet 
      *         {@link ezcConsoleParameterException::CODE_DEPENDENCY}.
-     * @throws ezcConsoleParameterExclusionException If exclusion rules are unmet 
+     * @throws ezcConsoleParameterExclusionException 
+     *         If exclusion rules are unmet 
      *         {@link ezcConsoleParameterException::CODE_EXCLUSION}.
-     * @throws ezcConsoleParameterTypeException If type rules are unmet 
+     * @throws ezcConsoleParameterTypeException 
+     *         If type rules are unmet 
      *         {@link ezcConsoleParameterException::CODE_TYPE}.
      * 
      * @see ezcConsoleParameterException
@@ -211,10 +231,13 @@ class ezcConsoleParameter
      * Receive the data for a specific parameter.
      * Returns the data sumbitted for a specific parameter.
      *
-     * @param string The parameter shortcut
+     * @param string $short The parameter shortcut
+     *
      * @return mixed String value of the parameter or false if not set.
      *
-     * @throws ezcConsoleParameterException If requesting a nonexistant parameter {@link ezcConsoleParameterException::CODE_EXISTANCE}.
+     * @throws ezcConsoleParameterException 
+     *         If requesting a nonexistant parameter 
+     *         {@link ezcConsoleParameterException::CODE_EXISTANCE}.
      */
     public function getParam( $short ) {
         
@@ -222,24 +245,27 @@ class ezcConsoleParameter
 
     /**
      * Returns array of help info on parameters.
-     * If given a parameter shortcut, returns an array of several help information:
+     * If given a parameter shortcut, returns an array of several 
+     * help information:
      *
      * <code>
      * array(
      *  'short' => <string>,
      *  'long'  => <string>,
-     *  'usage' => <string>, // Autogenerated from the rules set for the parameter
+     *  'usage' => <string>, // Autogenerated from the rules for the parameter
      *  'alias' => <string>, // Info on the aliases of a parameter
      * );
      * </code>
      *
-     * If no parameter shortcut given, returns an array of above described arrays
-     * with a key for every parameter shortcut defined.
+     * If no parameter shortcut given, returns an array of above described 
+     * arrays with a key for every parameter shortcut defined.
      * 
-     * @param string Short cut value of the parameter.
+     * @param string $short Short cut value of the parameter.
      * @return array(string) See description.
      * 
-     * @throws ezcConsoleParameterException If requesting a nonexistant parameter {@link ezcConsoleParameterException::CODE_EXISTANCE}.
+     * @throws ezcConsoleParameterException 
+     *         If requesting a nonexistant parameter 
+     *         {@link ezcConsoleParameterException::CODE_EXISTANCE}.
      */
     public function getHelp( $short = null ) {
 
@@ -268,10 +294,13 @@ class ezcConsoleParameter
      * 
      * </code>
      * 
-     * @param string  Short cut value of the parameter.
+     * @param string $short Shortcut of the parameter to get help text for.
+
      * @return string See description.
      * 
-     * @throws ezcConsoleParameterException If requesting a nonexistant parameter {@link ezcConsoleParameterException::CODE_EXISTANCE}.
+     * @throws ezcConsoleParameterException 
+     *         If requesting a nonexistant parameter 
+     *         {@link ezcConsoleParameterException::CODE_EXISTANCE}.
      */
     public function getHelpText( $short = null ) {
         

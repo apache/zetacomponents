@@ -48,13 +48,13 @@ class ezcConsoleOutput
      *
      * <code>
      * array(
-     *   'verboseLevel'  => 1,          // Verbosity level
-     *   'autobreak'     => 0,          // Positive int to break lines automatically
-     *                                  // after this ammount of chars
-     *   'useStyles'     => true,       // Whether to enable styles or not
-     *   'styles'        => array(      // Style alias definition 
-     *                                  // {@link ezcConsoleOutput::outputText()}
-     *       'default'   => '',         // Default style. If blank, use console default
+     *   'verboseLevel'  => 1,       // Verbosity level
+     *   'autobreak'     => 0,       // Pos <int>. Break lines automatically
+     *                               // after this ammount of chars
+     *   'useStyles'     => true,    // Whether to enable styles or not
+     *   'styles'        => array(   // Style alias definition 
+     *                               // {@link ezcConsoleOutput::outputText()}
+     *       'default'   => '',      // Default style. If blank, sys default
      *       'error'     => 'red',
      *       'warning'   => 'yellow',
      *       'success'   => 'green',
@@ -128,7 +128,7 @@ class ezcConsoleOutput
      * @see ezcConsoleOutput::setOptions()
      * @see ezcConsoleOutput::getOptions()
      *
-     * @param array(string) $options
+     * @param array(string) $options Options.
      */
     public function __construct( $options = array() ) {
         
@@ -140,7 +140,7 @@ class ezcConsoleOutput
      * @see ezcConsoleOutput::getOptions()
      * @see ezcConsoleOutput::$options
      *
-     * @param array(string)
+     * @param array(string) $options Options.
      * @return void
      */
     public function setOptions( $options ) {
@@ -153,7 +153,7 @@ class ezcConsoleOutput
      * @see ezcConsoleOutput::setOptions()
      * @see ezcConsoleOutput::$options
      * 
-     * @return array(string)
+     * @return array(string) Options.
      */
     public function getOptions( ) {
         
@@ -166,8 +166,9 @@ class ezcConsoleOutput
      * {@link eczConsoleOutput::$options}, a style name 
      * {@link ezcConsoleOutput$styles} or 'none' to print without any styling.
      *
-     * @param string
-     * @param string
+     * @param string $text      The text to print.
+     * @param string $style     Style chosen for printing.
+     * @param int $verboseLevel On which verbose level to output this message.
      * @param int Output this text only in a specific verbosity level
      */
     public function outputText( $text, $style = 'default', $verboseLevel = 1 ) {
@@ -176,13 +177,15 @@ class ezcConsoleOutput
     
     /**
      * Returns a styled version of the text.
-     * Receive a styled version of the inputed text. If $style parameter is ommited, 
-     * the default style is chosen. Style can either be a special style
+     * Receive a styled version of the inputed text. If $style parameter is 
+     * ommited, the default style is chosen. Style can either be a special 
+     * style or a direct color name.
+     * 
      * {@link ezcConsoleOutput::$options}, a style name 
      * {@link ezcConsoleOutput::$styles} or 'none' to print without any styling.
      *
-     * @param string
-     * @param string
+     * @param string $text  Text to apply style to.
+     * @param string $style Style chosen to be applied.
      * @return string
      */
     public function styleText( $text, $style = 'default' ) {
@@ -195,6 +198,9 @@ class ezcConsoleOutput
      * {@link ezcConsoleOutput::restorePos()}. Multiple calls
      * to this method will override each other. Only the last
      * position is saved.
+     *
+     * @todo Shall multiple markers be supported? Must be emulated by the 
+     *       class, since not directly supported by ANSI escape seqs.
      *
      * @return void
      */

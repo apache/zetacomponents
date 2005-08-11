@@ -63,8 +63,8 @@ class ezcConsoleProgressbar
      * <code>
      * array(
      *   'barChar'       => '+',     // Char to fill progress bar with
-     *   'emptyChar'     => ' ',     // Char to fill empty space in progress bar with
-     *   'progressChar'  => '>',     // Right most char of the progress bar filling
+     *   'emptyChar'     => ' ',     // Char for empty space in progress bar
+     *   'progressChar'  => '>',     // Progress char of the bar filling
      *   'formatString'  => '[%bar%] %percent%%',   // == "[+++++>    ] 60%"
      *   'width'         => 10,      // Maximum width of the progressbar
      * );
@@ -89,9 +89,9 @@ class ezcConsoleProgressbar
     /**
      * Creates a new progress bar.
      *
-     * @param ezcConsoleOutput
-     * @param array(string)
-     * @param array(string)
+     * @param ezcConsoleOutput $outHandler Handler to utilize for output
+     * @param array(string) $settings      Settings
+     * @param array(string) $options       Options
      *
      * @see ezcConsoleTable::$settings
      * @see ezcConsoleTable::$options
@@ -103,8 +103,8 @@ class ezcConsoleProgressbar
     /**
      * Start the progress bar
      * Starts the progess bar and sticks it to the current line.
-     * No output will be done yet. Call {@link ezcConsoleProgressbar::output()} to
-     * ptint the bar.
+     * No output will be done yet. Call {@link ezcConsoleProgressbar::output()}
+     * to print the bar.
      * 
      * @return void
      */
@@ -114,8 +114,8 @@ class ezcConsoleProgressbar
      
     /**
      * Draw the progress bar.
-     * Prints the progressbar to the screen. If start() has not been called yet,
-     * the current line is used for {@link ezcConsolProgressbar::start()}.
+     * Prints the progressbar to the screen. If start() has not been called 
+     * yet, the current line is used for {@link ezcConsolProgressbar::start()}.
      */
     public function output( ) {
         
