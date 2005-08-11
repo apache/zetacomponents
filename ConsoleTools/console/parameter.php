@@ -12,6 +12,44 @@
  * Class for handling console parameters.
  * This class allows the complete handling of parameters submitted
  * to a console based application.
+ *
+ * <code>
+ *
+ * $paramHandler = new ezcConsoleParameter();
+ * 
+ * $help = array(
+ *  'short' => 'Get help output.',
+ *  'long'  => 'Retreive help on the usage of this command.',
+ * );
+ * $paramHandler->registerParam('h', 'help', $help);
+ *
+ * $file = array(
+ *  'type'     => ezcConsoleParameter::TYPE_STRING
+ *  'short'    => 'Process a file.',
+ *  'long'     => 'Processes a single file.',
+ *  'excludes' => array('d'),
+ * )
+ * $paramHandler->registerParam('f', 'file', $file);
+ *
+ * $dir = array(
+ *  'type'     => ezcConsoleParameter::TYPE_STRING
+ *  'short'    => 'Process a directory.',
+ *  'long'     => 'Processes a complete directory.',
+ *  'excludes' => array('f'),
+ * )
+ * $paramHandler->registerParam('d', 'dir', $dir);
+ *
+ * $paramHandler->registerAlias('d', 'directory', 'd');
+ *
+ * try {
+ *      $paramHandler->processParams();
+ * } catch (ezcConsoleParameterException $e) {
+ *      if ($e->code === ezcConsoleParameterException::CODE_DEPENDENCY) {
+ *          $consoleOut->outputText('Parameter '.$e->paramName." may not occur here.\n", 'error');
+ *      }
+ * }
+ *
+ * </code>
  * 
  * @package ConsoleTools
  * @version //autogen//
