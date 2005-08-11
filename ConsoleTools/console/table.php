@@ -11,6 +11,24 @@
 /**
  * Creating tables to be printed to the console. 
  *
+ * <code>
+ * 
+ * // ... creating ezcConsoleOutput object
+ *
+ * $options = array(
+ *  'lineColorHead' => 'red',  // Make header rows surrounded by red lines
+ * );
+ * 
+ * $table = new ezcConsoleTable($out, array('width' => 60, 'cols' = 3));
+ * // Generate a header row:
+ * $table->addRowHead(array('First col', 'Second col', 'Third col'));
+ * // Right column will be the largest
+ * $table->addRow(array('Data', 'Data', 'Very very very very very very long data'));
+ * $table->output();
+ *
+ * </code>
+ * 
+ *
  * @see ezcConsoleOutput
  * @package ConsoleTools
  * @version //autogen//
@@ -123,6 +141,7 @@ class ezcConsoleTable
      * );
      * </code>
      *
+     * The options parameter overrides the globally set options.
      * 
      * @param array(int => string)
      * @param array(string) {@see eczConsoleTable::$options}
@@ -135,6 +154,8 @@ class ezcConsoleTable
     /**
      * Add a header row to the table.
      * Add a header row to the table. Format {@see ezcConsoleTable::addRow()}.
+     *
+     * The options parameter overrides the globally set options.
      *
      * @param array(int => string)
      * @param array(string) {@see eczConsoleTable::$options}

@@ -14,6 +14,27 @@
  * @todo The author of the PEAR package "Console_ProgressBar" accepted
  *       us to take over his code from that package and improve it for
  *       our needs. {@link http://pear.php.net/package/console_progressbar}
+ *
+ * <code>
+ *
+ * // ... creating ezcConsoleOutput object
+ * 
+ * $set = array('max' => 150, 'step' => 5);
+ * $opt = array(
+ *  'emptyChar'     => '-',
+ *  'progressChar'  => '#',
+ *  'formatString'  => 'Uploading file '.$myFilename.' %act%/%max% kb [%bar%] %percent%%',
+ * );
+ * $progress = new ezcConsoleProgressbar($out, $set, $opt);
+ *
+ * while( $file->upload() ) {
+ *      $progress->advance();
+ * }
+ *
+ * $out->outputText("Successfully uploaded $myFilename.\n", 'success');
+ *
+ * </code>
+ *  
  * 
  * @package ConsoleTools
  * @version //autogen//
@@ -50,7 +71,7 @@ class ezcConsoleProgressbar
      * </code>
      *
      * 'formatString' can contain the following placeholders:
-     *  '%precent%' => Actual percent value
+     *  '%percent%' => Actual percent value
      *  '%max%'     => Maximum value
      *  '%act%'     => Actual value
      *  '%bar%'     => The actual progressbar
@@ -95,7 +116,6 @@ class ezcConsoleProgressbar
      * Draw the progress bar.
      * Prints the progressbar to the screen. If start() has not been called yet,
      * the current line is used for {@link ezcConsolProgressbar::start()}.
-     * 
      */
     public function output( ) {
         
@@ -103,6 +123,8 @@ class ezcConsoleProgressbar
 
     /**
      * Advance the progress bar.
+     * Advances the progress bar by one step. Redraws the bar by default, using
+     * the {@link ezcConsoleProgressbar::output()} method.
      *
      * @param bool Whether to redraw the bar immediatelly.
      */

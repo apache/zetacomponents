@@ -24,20 +24,16 @@ class ezcConsoleParameter
     const TYPE_NONE     = 10;
     const TYPE_INT      = 11;
     const TYPE_STRING   = 12;
+    const TYPE_ARRAY    = 12;
 
     private $paramDefs = array();
 
     private $paramValues = array();
 
     /**
-     * Create
-     *
-     * @var array(string)
-     * @var array(string)
-     *
-     * @todo No settings/options so far. Are there any??
+     * Create parameter handler
      */
-    public function __construct( $settings, $options = array() ) {
+    public function __construct( ) {
         
     }
 
@@ -105,7 +101,7 @@ class ezcConsoleParameter
      *
      * @return void
      *
-     * @throws ezcConsoleParameterException If requesting a nonexistant parameter {@see ezcConsoleParameterException::CODE_EXISTANCE}.
+     * @throws ezcConsoleParameterException If requesting a nonexistant parameter {@link ezcConsoleParameterException::CODE_EXISTANCE}.
      */
     public function unregisterParam( $short, $deps = false ) {
         
@@ -122,9 +118,26 @@ class ezcConsoleParameter
      *
      * @return void
      *
-     * @throws ezcConsoleParameterException If requesting a nonexistant alias {@see ezcConsoleParameterException::CODE_EXISTANCE}.
+     * @throws ezcConsoleParameterException If requesting a nonexistant alias {@link ezcConsoleParameterException::CODE_EXISTANCE}.
      */
     public function unregisterAlias( $short ) {
+        
+    }
+
+    /**
+     * Registeres parameters according to a string specification.
+     * Accepts a string like used in eZ publis 3.x to define parameters and
+     * registeres all parameters accordingly. String definitions look like
+     * this:
+     *
+     * <code>
+     * [s:|size:][u:|user:][a|all]
+     * </code>
+     *
+     * @param string $paramDef
+     * @throw ezcConsoleParameterException If definition string is not wellformed.
+     */
+    public function fromString( $paramDef ) {
         
     }
 
@@ -140,16 +153,18 @@ class ezcConsoleParameter
      * All exceptions thrown by this method contain an additional attribute "param"
      * which specifies the parameter on which the error occured.
      * 
-     * @param int Number of arguments
      * @param array(int -> string) The arguments
      *
-     * @throws ezcConsoleParameterDependecyException If dependencies are unmet {@see ezcConsoleParameterException::CODE_DEPENDENCY}.
-     * @throws ezcConsoleParameterExclusionException If exclusion rules are unmet {@see ezcConsoleParameterException::CODE_EXCLUSION}.
-     * @throws ezcConsoleParameterTypeException If type rules are unmet {@see ezcConsoleParameterException::CODE_TYPE}.
+     * @throws ezcConsoleParameterDependecyException If dependencies are unmet 
+     *         {@link ezcConsoleParameterException::CODE_DEPENDENCY}.
+     * @throws ezcConsoleParameterExclusionException If exclusion rules are unmet 
+     *         {@link ezcConsoleParameterException::CODE_EXCLUSION}.
+     * @throws ezcConsoleParameterTypeException If type rules are unmet 
+     *         {@link ezcConsoleParameterException::CODE_TYPE}.
      * 
      * @see ezcConsoleParameterException
      */ 
-    public function processParams( $args = null, $argNum = null ) {
+    public function processParams( $args = null ) {
         
     }
     
@@ -160,14 +175,14 @@ class ezcConsoleParameter
      * @param string The parameter shortcut
      * @return mixed String value of the parameter or false if not set.
      *
-     * @throws ezcConsoleParameterException If requesting a nonexistant parameter {@see ezcConsoleParameterException::CODE_EXISTANCE}.
+     * @throws ezcConsoleParameterException If requesting a nonexistant parameter {@link ezcConsoleParameterException::CODE_EXISTANCE}.
      */
     public function getParam( $short ) {
         
     }
 
     /**
-     * Receive help info on parameters.
+     * Returns array of help info on parameters.
      * If given a parameter shortcut, returns an array of several help information:
      *
      * <code>
@@ -185,9 +200,41 @@ class ezcConsoleParameter
      * @param string Short cut value of the parameter.
      * @return array(string) See description.
      * 
-     * @throws ezcConsoleParameterException If requesting a nonexistant parameter {@see ezcConsoleParameterException::CODE_EXISTANCE}.
+     * @throws ezcConsoleParameterException If requesting a nonexistant parameter {@link ezcConsoleParameterException::CODE_EXISTANCE}.
      */
     public function getHelp( $short = null ) {
 
+    }
+
+    /**
+     * Returns string of help info on parameters.
+     * If given a parameter shortcut, returns a string of help information:
+     *
+     * <code>
+     * 
+     * Usage: -<short> / --<long>= <type> <usageinfo>
+     * <shortdesc>
+     * <longdesc>
+     * <dependencies> / <exclusions>
+     *
+     * </code>
+     *
+     * If not given a parameter shortcut, returns a string of global help information:
+     *
+     * <code>
+     * 
+     * Usage: [-<short>] [-<short>] ...
+     * -<short> / --<long>  <type>  <default>   <shortdesc>
+     * ...
+     * 
+     * </code>
+     * 
+     * @param string  Short cut value of the parameter.
+     * @return string See description.
+     * 
+     * @throws ezcConsoleParameterException If requesting a nonexistant parameter {@link ezcConsoleParameterException::CODE_EXISTANCE}.
+     */
+    public function getHelpText( $short = null ) {
+        
     }
 }

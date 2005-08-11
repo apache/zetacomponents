@@ -9,7 +9,32 @@
  */
 
 /**
+ * Class for handling console output.
+ * This class handles outputting text to the console. It deals with styling 
+ * text in different ways and offers some comfortable options to deal
+ * with console text output.
  *
+ * <code>
+ *
+ * $opts = array(
+ *  'verboseLevel'  => 10,  // extremly verbose
+ *  'autobreak'     => 40,  // will break lines every 40 chars
+ *  'styles'        => array(
+ *      'default'   => 'green', // green default text
+ *      'success'   => 'white', // white success messages
+ *  ),
+ * );
+ * $out = new ezcConsoleOutput($opts);
+ *
+ * $out->outputText('This is default text ');
+ * $out->outputText('including success message', 'success');
+ * $out->outputText("and a manual linebreak.\n");
+ *
+ * $out->outputText("Some verbose output.\n", null, 10);
+ * $out->outputText("And some not so verbose, bold output.\n", 'bold', 5);
+ *
+ * </code>
+ * 
  * @package ConsoleTools
  * @version //autogen//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
@@ -18,24 +43,18 @@
 class ezcConsoleOutput
 {
     /**
-     * Settings, required
-     *
-     * @var array(string)
-     * @todo: None knowen, yet.
-     */
-    private $settings = array();
-    
-    /**
      * Options
      * Default:
      *
      * <code>
      * array(
-     *   'verboseLevel'  => 1,
-     *   'autobreak'     => 0,          // Do not break lines automatically
-     *   'useStyles'     => true,
-     *   'styles'        => array(
-     *       'default'   => '',
+     *   'verboseLevel'  => 1,          // Verbosity level
+     *   'autobreak'     => 0,          // Positive int to break lines automatically
+     *                                  // after this ammount of chars
+     *   'useStyles'     => true,       // Whether to enable styles or not
+     *   'styles'        => array(      // Style alias definition 
+     *                                  // {@link ezcConsoleOutput::outputText()}
+     *       'default'   => '',         // Default style. If blank, use console default
      *       'error'     => 'red',
      *       'warning'   => 'yellow',
      *       'success'   => 'green',
@@ -46,6 +65,9 @@ class ezcConsoleOutput
      * );
      * </code>
      *
+     * @see ezcConsoleOutput::setOptions()
+     * @see ezcConsoleOutput::getOptions()
+     * 
      * @var array(string)
      */
     private $options = array(
@@ -62,6 +84,11 @@ class ezcConsoleOutput
         ),
     );
 
+    /**
+     * Stores the hard coded styles available on the console.
+     *
+     * @var array(string => string)
+     */
     private $styles = array(
 		'red' => "\033[1;31m",
 		'green' => "\033[1;32m",
@@ -95,19 +122,23 @@ class ezcConsoleOutput
     );
 
     /**
-     * Create.
+     * Create a new console output handler.
      *
-     * @param array(string)
-     * @param array(string)
+     * @see ezcConsoleOutput::$options
+     * @see ezcConsoleOutput::setOptions()
+     * @see ezcConsoleOutput::getOptions()
      *
-     * @todo: Can the default style 
+     * @param array(string) $options
      */
-    public function __construct( $settings, $options ) {
+    public function __construct( $options = array() ) {
         
     }
 
     /**
      * Set options.
+     *
+     * @see ezcConsoleOutput::getOptions()
+     * @see ezcConsoleOutput::$options
      *
      * @param array(string)
      * @return void
@@ -119,6 +150,9 @@ class ezcConsoleOutput
     /**
      * Returns options
      *
+     * @see ezcConsoleOutput::setOptions()
+     * @see ezcConsoleOutput::$options
+     * 
      * @return array(string)
      */
     public function getOptions( ) {
@@ -129,14 +163,14 @@ class ezcConsoleOutput
      * Print text to the console.
      * Output a string to the console. If $style parameter is ommited, 
      * the default style is chosen. Style can either be a special style
-     * {@see $options}, a style name {@see $styles} or 'none' to print
-     * without any styling.
+     * {@link eczConsoleOutput::$options}, a style name 
+     * {@link ezcConsoleOutput$styles} or 'none' to print without any styling.
      *
      * @param string
-     * @param int Output this text only in a specific verbosity level
      * @param string
+     * @param int Output this text only in a specific verbosity level
      */
-    public function outputText( $text, $verboseLevel = 1, $style = 'default' ) {
+    public function outputText( $text, $style = 'default', $verboseLevel = 1 ) {
         
     }
     
@@ -144,8 +178,8 @@ class ezcConsoleOutput
      * Returns a styled version of the text.
      * Receive a styled version of the inputed text. If $style parameter is ommited, 
      * the default style is chosen. Style can either be a special style
-     * {@see $options}, a style name {@see $styles} or 'none' to print
-     * without any styling.
+     * {@link ezcConsoleOutput::$options}, a style name 
+     * {@link ezcConsoleOutput::$styles} or 'none' to print without any styling.
      *
      * @param string
      * @param string
@@ -156,7 +190,7 @@ class ezcConsoleOutput
     }
 
     /**
-     * Save the current cursor position.
+     * Store the current cursor position.
      * Saves the current cursor position to return to it using 
      * {@link ezcConsoleOutput::restorePos()}. Multiple calls
      * to this method will override each other. Only the last
@@ -164,14 +198,14 @@ class ezcConsoleOutput
      *
      * @return void
      */
-    public function savePos( ) {
+    public function storePos( ) {
         
     }
 
     /**
      * Restore a cursor position.
      * Restores the cursor position last saved using
-     * {@link ezcConsoleOutput::savePos()}.
+     * {@link ezcConsoleOutput::storePos()}.
      *
      * @return void
      *
