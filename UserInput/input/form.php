@@ -15,6 +15,7 @@
  * constructor of the class. The constructor will then initialize the class
  * with properties that contain the value of your request's input fields.
  *
+ * Example:
  * <code>
  * <?php
  * $definition = array(
@@ -26,7 +27,37 @@
  *                                    array('ezcInputFilter', 'special')),
  * );
  * $form = new ezcInputForm(ezcInputForm::INPUT_GET, $definition);
- * $xml = $form->xmlfield; // Uses dynamic properties
+ * if ( $form->hasInputField( 'textfield' ) ) // check for optional field
+ * {
+ *     $text = $form->textfield;
+ * }
+ *
+ * try {
+ *     $xml = $form->xmlfield; // Uses dynamic properties through __get().
+ *     $field = $form->fieldname;
+ *     $int = $form->integer1;
+ * } catch (InputFormException $e) {
+ *     // one of the required fields didn't have valid data.
+ *     $invalidProperties = $form->invalidProperties();
+ *
+ *     // Retrieve RAW data for invalid properties so that we can fill in the
+ *     // forms online with this RAW data again - Make sure to escape it on
+ *     // output though, but that should be done for all data anyway.
+ *     if ( in_array( 'xmlfield', $invalidProperties ) )
+ *     {
+ *         $xml = $form->getUnsafeRawData( 'xmlfield' );
+ *     }
+ * }
+ *
+ * // Checking optional fields
+ * foreach ( $form->optionalProperties as $property )
+ * {
+ *     $name = "property_{$property}";
+ *     if ( $form->hasValidData( $property ) )
+ *     {
+ *         $$name = $form->$property;
+ *     }
+ * }
  * ?>
  * </code>
  *
@@ -196,6 +227,38 @@ class ezcInputForm
      *         from a input field with valid data.
      */
     public function getUnsafeRawData($fieldName)
+    {
+    }
+
+    /**
+     * This function returns a list with all optional properties.
+     * @return array
+     */
+    public function optionalProperties()
+    {
+    }
+
+    /**
+     * This function returns a list with all required properties.
+     * @return array
+     */
+    public function requiredProperties()
+    {
+    }
+
+    /**
+     * This function returns a list with all properties that have valid data.
+     * @return array
+     */
+    public function validProperties()
+    {
+    }
+
+    /**
+     * This function returns a list with all properties having invalid data.
+     * @return array
+     */
+    public function invalidProperties()
     {
     }
 }
