@@ -191,7 +191,7 @@ class ezcConsoleParameter
      * -a / --all
      *
      * @param string $paramDef Parameter definition string.
-     * @throw ezcConsoleParameterException If string is not wellformed.
+     * @throws ezcConsoleParameterException If string is not wellformed.
      */
     public function fromString( $paramDef ) {
         

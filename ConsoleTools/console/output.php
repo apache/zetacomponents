@@ -215,7 +215,7 @@ class ezcConsoleOutput
      *
      * @return void
      *
-     * @throw ezcConsoleOutputException If no position saved.
+     * @throws ezcConsoleOutputException If no position saved.
      */
     public function restorePos( ) {
         
