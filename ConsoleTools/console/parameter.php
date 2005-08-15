@@ -94,6 +94,7 @@ class ezcConsoleParameter
      *  'long'      => '',         // no help text by default
      *  'depends'   => array(),    // no depending options by default
      *  'excludes'  => array(),    // no excluded options by default
+     *  'arguments' => true,       // are arguments allowed?
      * );
      * </code>
      *
@@ -108,6 +109,10 @@ class ezcConsoleParameter
      * A parameter can have no value (TYPE_NONE), an integer/string
      * value (TYPE_INT/TYPE_STRING) or multiple of those 
      * ('muliple' => true).
+     *
+     * A parameter can also include a rule that disallows arguments, when
+     * it's used. Per default arguments are allowed and can be retrieved
+     * using the {ezcConsoleParameter::getArguments()} method.
      *
      * @see ezcConsoleParameter::unregisterParam()
      *
@@ -227,7 +232,7 @@ class ezcConsoleParameter
      * 
      * @see ezcConsoleParameterException
      */ 
-    public function processParams( $args = null ) {
+    public function process( $args = null ) {
         
     }
     
@@ -244,6 +249,25 @@ class ezcConsoleParameter
      *         {@link ezcConsoleParameterException::CODE_EXISTANCE}.
      */
     public function getParam( $short ) {
+        
+    }
+
+    /**
+     * Returns arguments provided to the program.
+     * This method returns all arguments provided to a program in an
+     * integer indexed array. Arguments are sorted in the way
+     * they are submitted to the program. You can disable arguments
+     * through the 'arguments' flag of a parameter, if you want
+     * to disallow arguments.
+     *
+     * Arguments are either the last part of the program call (if the
+     * last parameter is not a 'multiple' one) or divided via the '--'
+     * method which is commonly used on Unix (if the last parameter
+     * accepts multiple values this is required).
+     *
+     * @return array(int => string) Arguments.
+     */
+    public function getArguments( ) {
         
     }
 
