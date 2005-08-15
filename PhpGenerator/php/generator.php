@@ -40,16 +40,15 @@
  */
 class ezcPhpGenerator
 {
-    const EZ_PHPCREATOR_INCLUDE_ONCE =  1;
-    const EZ_PHPCREATOR_INCLUDE_ALWAYS = 2;
+    const INCLUDE_ONCE =  1;
+    const INCLUDE_ALWAYS = 2;
 
-    const EZ_PPCREATOR_METHOD_CALL_PARAMETER_VALUE = 1;
-    const EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE = 2;
+    const METHOD_CALL_PARAMETER_VALUE = 1;
+    const METHOD_CALL_PARAMETER_VARIABLE = 2;
 
     private $phpDir;
     private $phpFile;
     private $fileResource;
-    private $isAtomic;
     private $tmpFilename;
     private $requestedFilename;
 
@@ -552,7 +551,7 @@ class ezcPhpGenerator
     /*!
      Stores the PHP cache, returns false if the cache file could not be created.
     */
-    private function store( $atomic = false )
+    private function store( )
     {
         if ( $this->open( $atomic ) )
         {
