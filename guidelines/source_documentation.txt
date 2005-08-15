@@ -193,17 +193,17 @@ Function parameter and return types
 
 - Parameters can be documented in either of the following styles: ::
 
-  /**
-  * @param array(integer) $somewhatLongerName A long description of
-  *                                           myParameter and it doesn't
-  *                                           fit with the 79 characters.
-  */
+     /*
+     * @param array(integer) $somewhatLongerName A long description of
+     *                                           myParameter and it doesn't
+     *                                           fit with the 79 characters.
+     */
 
-  /**
-  * @param array(integer) $somewhatLongerName
-  *        A long description of myParameter and it doesn't fit with the 79
-  *        characters.
-  */
+     /*
+     * @param array(integer) $somewhatLongerName
+     *        A long description of myParameter and it doesn't fit with the 79
+     *        characters.
+     */
 
 The first format is prefered, but in case the parameters short description does
 not fit behind the type and parameter name on the line, then the multi-line
