@@ -28,14 +28,7 @@
  *    }
  * }
  * </code>
- * @todo Explain exactly what we mean with a row (simply an array with the field values)
- * @todo Map of property names --> Database Names
- * @todo is the definition of set and getters here necessary if you do this in the derived property classes?
- * @todo attribute and setAttribute is no longer necessary because the values can be fetched directly using the
- *       properties.
- * @todo Make it possible to have private attributes
  * @todo Mention the various limits of the databases. (e.g No CLOB in conditions)
- * @todo Also store the type of the field used in the database in the definition (then we can do checking) (option, checking off?)
  *
  * @package PersistentObject
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
@@ -46,13 +39,22 @@ abstract class eczPersistentObject
     /**
      * Whether the data is dirty, ie needs to be stored, or not.
      */
-     private $PersistentDataDirty;
+     protected $persistentDataDirty;
 
     /**
-     * Initializes the object with the row \a $row. It will try to set
-     * each field taken from the database row. Calls fill to do the job.
+     * Initializes the object with the ID $id. If no $id is set the object is
+     * filled with the default values.
      */
     public function __construct( $id = -1 )
+    {
+    }
+
+
+    /**
+     * Resets unique ID fields to null when cloning. This way cloned objects
+     * get a new entry in the database when stored.
+     */
+    private function __clone()
     {
     }
 
@@ -70,7 +72,7 @@ abstract class eczPersistentObject
      *
      * The definition array is an associative array consists of these keys:
      * - name - the name of the database table
-     * - keys - an array containing the fieldnames uniquely identifying one row in the table
+     * - keys - an array containing the fieldnames uniquely identifying one record in the table
      * - increment_key - the field which is incremented on table inserts. When
      *                   you store a new object this field is set automatically.
      * - class_name - the classname which is used for instantiating new objecs when fetching from the
@@ -88,7 +90,6 @@ abstract class eczPersistentObject
      * The following fields are accepted:
      * - property - the name of the property that stores the value
      * - phptype - the type of the value in PHP.
-     * - dbtype - the type of the value in the database.
      * - default - the default value for this field. Note: this is automatically
      *             set to 'null' for fields marked as increment_key.
      * - visibility - the visibility of the field. Can be 'public' (default) and 'private'.
@@ -105,11 +106,11 @@ abstract class eczPersistentObject
     protected abstract function definition();
 
     /**
-     * Returns a new persistent object based the $row data.
+     * Returns a new persistent object based the $record data.
      *
      * @return object
      */
-    public static function constructFromRow( $row )
+    public static function constructFromRecord( $record )
     {
     }
 
@@ -118,7 +119,7 @@ abstract class eczPersistentObject
      *
      * @return array(object)
      */
-    public static function constructFromRows( $rows )
+    public static function constructFromRecords( $records )
     {
     }
 
@@ -127,18 +128,17 @@ abstract class eczPersistentObject
      *
      * If the conditions match several objects the first is returned.
      * @see fetchObjectList() for a full description of the input parameters.
-     * @todo throw exception instead if several objects are found?
-     * @todo Make version of this that is not static? This makes more sense, but might be impractical for
-     *       automated code.
      *
      * @throws PersistentObjectException If the fetching of the data failed.
-     * @param array $conditions Conditions which determines which rows are fetched
+     * @throws PersistentObjectException If more than one result was found.
+     *
+     * @param array $conditions Conditions which determines which records are fetched
      * @param array $grouping Which elements to group by when retrieving the right object.
      * @param $field_filter Defines which fields to extract. If empty all fields are fetched.
      * @param array $custom_fields An array of extra fields to fetch, each field may be a SQL operation
      * @return mixed Returns either an array or an object depending on $asObject
      */
-    public static function fetch( $conditions, $grouping = null, $field_filter = null, $custom_fields = null )
+    public static function fetch( $definition, $conditions, $grouping = null )
     {
     }
 
@@ -212,12 +212,21 @@ abstract class eczPersistentObject
      *        - operation - A text field which is included in the field list
      *        - name - If present it adds 'AS name' to the operation.
      */
-    public static function fetchList( $conditions = null,
-                                      $sorts = null,
-                                      $limit = null,
-                                      $grouping = null,
-                                      $field_filter = null,
-                                      $custom_fields = null )
+    public static function fetchObjects( $definition,
+                                         $conditions = null,
+                                         $sorts = null,
+                                         $limit = null,
+                                         $grouping = null )
+    {
+    }
+
+    /**
+     * Returns the number of matching records selecting based on $definition and $conditions
+     *
+     * @return int
+     */
+    public static function fetchObjectsCount( $definition,
+                                              $conditions = null )
     {
     }
 
@@ -278,47 +287,27 @@ abstract class eczPersistentObject
     }
 
     /**
-     * Moves a row in a database table. \a $def is the object definition.
-     * Uses \a $orderField to determine the order of objects in a table, usually this
-     * is a placement of some kind. It uses this order field to figure out how move
-     * the row, the row is either swapped with another row which is either above or
-     * below according to whether \a $down is true or false, or it is swapped
-     * with the first item or the last item depending on whether this row is first or last.
-     * Uses \a $conditions to figure out unique rows.
-     * \sa swapRow
-     * \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     * the calls within a db transaction; thus within db->begin and db->commit.
+     * Return the properties of this persistent object.
      *
-     * @todo Is this thing really necessary?!?
-     * @return void
-     */
-    protected function reorderObject( $def, $orderField, $conditions, $direction )
-    {
-    }
-
-    /**
-     * Return the attributes of this persistent object.
-     *
-     * The attributes are taken from the definition object.
+     * The properties are extracted from the definition array.
      * @return array
      */
-    public function attributes()
+    public function properties()
     {
     }
 
     /**
-     * Returns true if the attribute $attr is part of the definition fields or
-     * function attributes.
+     * Returns true if the property $attr is part of the definition.
      *
      * @param string @attr
      * @return boolean
      */
-    public function hasAttribute( $attr )
+    public function hasProperty( $attr )
     {
     }
 
     /**
-     * Return if the object data has been changed since last synchronization with the
+     * Return if any of the properties have been changed since last synchronization with the
      * database.
      * @return boolean
      */
@@ -327,33 +316,13 @@ abstract class eczPersistentObject
     }
 
     /**
-     * Sets whether the object has dirty data or not.
-     *
-     * @param boolean @hasDirtyData
-     * @return void
-     */
-    protected function setDirtyData( $dirtyData )
-    {
-    }
-
-    /**
      * Fills this object with the data from the $row.
      *
      * Matching of the data to the field is done through the object definition.
-     * @param array $row
+     * @param array $record
      * @return void
      */
-    private function fillFromRow( $row )
-    {
-    }
-
-    /**
-     * Returns the $array of strings properly escaped for the current database
-     *
-     * @param array $array
-     * @return array
-     */
-    private function escapeArray( $strings )
+    private function fillFromRecords( $record )
     {
     }
 }

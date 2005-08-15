@@ -9,7 +9,7 @@
  */
 
 /**
- * Functionality on the row level for eczPersistentObject.
+ * Functionality on the record level for eczPersistentObject.
  *
  * eczPersistentObject provides complete objects for all row level data.
  * This class provides the same database functionality, but with the data
@@ -21,34 +21,38 @@
  * @see eczPersisentObject
  *
  * @todo Write function descriptions. These should be snatched from eczPersistentObject once they are done!
+ * @todo Explain exactly what we mean with a record (simply an array with the field values)
  *
  * @package PersistentObject
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  */
-class ezcPersistentRow
+class ezcPersistentRecord
 {
-    public static function fetchRow( $def, $field_filter, $conditions, $grouping = null, $custom_fields = null )
+    public static function fetchRecord( $def, $conditions, $grouping = null )
     {
     }
 
-    public static function fetchRowList( $def,
-                                          $fieldFilter = null,
-                                          $conditions = null,
-                                          $sorts = null,
-                                          $limit = null,
-                                          $grouping = false,
-                                          $customFields = null )
+    public static function fetchRecords( $def,
+                                         $conditions = null,
+                                         $sorts = null,
+                                         $limit = null,
+                                         $grouping = false )
 
-    public static function deleteRows( $def, $conditions = null, $extraConditions = null )
+    public static function fetchRecordsCount( $def,
+                                              $conditions = null )
     {
     }
 
-    public static function storeRow( $row, $def, $fieldFilter )
+    public static function deleteRecords( $def, $conditions = null, $extraConditions = null )
     {
     }
 
-    public static function storeRows( $rows, $def, $fieldFilter  )
+    public static function storeRecords( $def, $records )
+    {
+    }
+
+    public static function storeRecords( $def, $records )
     {
     }
 
@@ -69,20 +73,13 @@ class ezcPersistentRow
     }
 
     /**
-     * Returns an update SQL call to make rows $id1 and $id2 change places.
-     */
-    public static function swapRowsSql( $table, $keys, $order_id, $rows, $id1, $id2 )
-    {
-    }
-
-    /**
      * Returns an SQL condition sentence from the conditions $conditions and row data $row.
      *
      * If $row is provided the data from it is preferred over the data provided by the conditions.
      * @todo Move out?
      * @return string
      */
-    protected static function conditionTextByRowSql( $conditions, $row = null )
+    protected static function conditionSql( $conditions, $record = null )
     {
     }
 }
