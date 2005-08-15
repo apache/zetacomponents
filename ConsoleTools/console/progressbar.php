@@ -9,7 +9,7 @@
  */
 
 /**
- * Creating  and maintaining progressbars to be printed to the console. 
+ * Creating and maintaining progressbars to be printed to the console. 
  *
  * @todo The author of the PEAR package "Console_ProgressBar" accepted
  *       us to take over his code from that package and improve it for
@@ -99,7 +99,7 @@ class ezcConsoleProgressbar
     public function __construct( ezcConsoleOutput $outHandler, $settings, $options = array() ) {
         
     }
-
+    
     /**
      * Start the progress bar
      * Starts the progess bar and sticks it to the current line.
