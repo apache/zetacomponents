@@ -49,7 +49,7 @@ class ezcDbSchema
      */
     public function __construct( $handlerParams = array() )
     {
-        $this->HandlerManager = new ezcDbSchemaHandlersManager( $handlerParams );
+        $this->HandlerManager = new ezcDbSchemaHandlerManager( $handlerParams );
     }
 
     /**

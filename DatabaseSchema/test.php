@@ -1,4 +1,12 @@
 <?php
+
+function __autoload( $className )
+{
+    $path = strtolower( preg_replace( '/([A-Z])/', '/\\1', $className ) );
+    $path = str_replace( 'ezc/', '', $path ) . '.php';
+    require_once( $path );
+}
+
 /**
  * Test script that is meant to give some clue on how to use the component.
  *

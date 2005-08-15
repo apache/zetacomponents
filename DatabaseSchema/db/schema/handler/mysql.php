@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcMySQLDBSchemaHandler class.
+ * File containing the ezcDbSchemaHandlerMysql class.
  *
  * @package DatabaseSchema
  * @version //autogentag//
@@ -16,7 +16,7 @@
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  */
-class ezcMySQLDBSchemaHandler extends ezcDbSchemaHandler
+class ezcDbSchemaHandlerMysql extends ezcDbSchemaHandler
 {
     public function __construct( $params )
     {

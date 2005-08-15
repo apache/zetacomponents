@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDbSchemaHandlersManager class.
+ * File containing the ezcDbSchemaHandlerManager class.
  *
  * @package DatabaseSchema
  * @version //autogentag//
@@ -18,7 +18,7 @@
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  */
-class ezcDbSchemaHandlersManager
+class ezcDbSchemaHandlerManager
 {
     /**
      * Parameters common for all the handlers.
@@ -30,10 +30,10 @@ class ezcDbSchemaHandlersManager
      * Set of standard handlers.
      * This array may be appended with user-specified handlers in the constructor.
      */
-    private $Handlers = array( 'ezcXMLDBSchemaHandler',
-                               'ezcPHPArrayDBSchemaHandler',
-                               'ezcMySQLDBSchemaHandler',
-                               'ezcPgSQLDBSchemaHandler' );
+    private $Handlers = array( 'ezcDbSchemaHandlerXml',
+                               'ezcDbSchemaHandlerPhpArray',
+                               'ezcDbSchemaHandlerMysql',
+                               'ezcDbSchemaHandlerPgsql' );
 
     /**
      * Constructs handlers manager instance, handling specified parameters.
@@ -97,7 +97,7 @@ class ezcDbSchemaHandlersManager
     private function & getHandler( $schemaType )
     {
         // FIXME: replace this with a real implementation
-        return new ezcPHPArrayDBSchemaHandler( $this->HandlerParams );
+        return new ezcDbSchemaHandlerPhpArray( $this->HandlerParams );
     }
 }
 

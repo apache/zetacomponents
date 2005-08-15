@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPgSQLDBSchemaHandler class.
+ * File containing the ezcDbSchemaHandlerPgsql class.
  *
  * @package DatabaseSchema
  * @version //autogentag//
@@ -16,7 +16,7 @@
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  */
-class ezcPgSQLDBSchemaHandler extends ezcDbSchemaHandler
+class ezcDbSchemaHandlerPgsql extends ezcDbSchemaHandler
 {
     public function __construct( $params )
     {

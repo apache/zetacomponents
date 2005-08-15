@@ -16,7 +16,7 @@
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  */
-class ezcXMLDBSchemaHandler extends ezcDbSchemaHandler
+class ezcDbSchemaHandlerXml extends ezcDbSchemaHandler
 {
     public function __construct( $params )
     {
