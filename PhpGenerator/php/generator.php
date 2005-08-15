@@ -337,7 +337,7 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code.
      */
-    function appendInclude( $file, $type = EZ_PHPCREATOR_INCLUDE_ONCE )
+    public function appendInclude( $file, $type = EZ_PHPCREATOR_INCLUDE_ONCE )
     {
     }
 
@@ -365,7 +365,9 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code.
      */
-    public function appendIf( $condition ) {}
+    public function appendIf( $condition )
+    {
+    }
 
     /**
      * Ends an if statement.
@@ -374,14 +376,37 @@ class ezcPhpGenerator
      * @return void
      * @throws PhpGeneratorException if it was not possible to write the code or if the method was not properly nested with an appendIf.
      */
-    public function appendEndIf() {}
-    public function appendElse( $condition = false ) {}
-    public function appendForeach( $condition ) {}
-    public function appendEndForeach(){}
-    public function appendWhile( $condition ) {}
-    public function appendEndWhile(){}
-    public function appendDo( $condition ) {}
-    public function appendEndDo(){}
+    public function appendEndIf()
+    {
+    }
+
+    public function appendElse( $condition = false )
+    {
+    }
+    
+    public function appendForeach( $condition )
+    {
+    }
+    
+    public function appendEndForeach()
+    {
+    }
+    
+    public function appendWhile( $condition ) 
+    {
+    }
+    
+    public function appendEndWhile()
+    {
+    }
+    
+    public function appendDo( $condition )
+    {
+    }
+    
+    public function appendEndDo()
+    {
+    }
 
     /**
      * Returns a variable statement with an assignment type.
