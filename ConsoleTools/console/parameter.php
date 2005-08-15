@@ -65,7 +65,6 @@ class ezcConsoleParameter
     const TYPE_NONE     = 10;
     const TYPE_INT      = 11;
     const TYPE_STRING   = 12;
-    const TYPE_ARRAY    = 12;
 
     private $paramDefs = array();
 
@@ -90,6 +89,7 @@ class ezcConsoleParameter
      *  'type'      => TYPE_NONE,  // option does not expect a value by 
      *                             // default, use TYPE_* constants
      *  'default'   => null,       // no default value by default
+     *  'multiple'  => false,      // are multiple values expected?
      *  'short'     => '',         // no short description by default
      *  'long'      => '',         // no help text by default
      *  'depends'   => array(),    // no depending options by default
@@ -104,6 +104,10 @@ class ezcConsoleParameter
      * Parameter shortcuts may only contain one character and will be 
      * used in an application call using "-x <value>". Long parameter
      * versions will be used like "--long-parameter=<value>".
+     *
+     * A parameter can have no value (TYPE_NONE), an integer/string
+     * value (TYPE_INT/TYPE_STRING) or multiple of those 
+     * ('muliple' => true).
      *
      * @see ezcConsoleParameter::unregisterParam()
      *
