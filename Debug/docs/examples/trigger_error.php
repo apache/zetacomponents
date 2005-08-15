@@ -1,8 +1,17 @@
 <?php
+/**
+ * This example demonstrates how the Debugger and Log can be used in
+ * combination with the trigger_error.
+ *
+ * @package Debug
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
+ */
 
-// This example demonstrates how the Debugger and Log can be used in
-// combination with the trigger_error.
-
+/**
+ * Callback function for the trigger_error function.
+ */
 function errorHandler($code, $msg, $file, $line)
 {
     if ( /*debug = */ true && $code == E_USER_NOTICE )
