@@ -1,17 +1,12 @@
 <?php
 /**
- * File containing the ezcDBSchema class.
+ * File containing the ezcDbSchema class.
  *
  * @package DatabaseSchema
  * @version //autogentag//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  */
-
-/**
- * @ignore
- */
-require_once( 'handlers_manager.php' );
 
 /**
  * Schema handling API.
@@ -22,7 +17,7 @@ require_once( 'handlers_manager.php' );
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  */
 
-class ezcDBSchema
+class ezcDbSchema
 {
     /**
      * Schema array.
@@ -37,6 +32,7 @@ class ezcDBSchema
 
     /**
      * Constructs schema objects, initializing it with specified parameters.
+     *
      * @param array $handlerParams Handler parameters
      *
      * There could be two types of information in the parameters:
@@ -50,11 +46,10 @@ class ezcDBSchema
      *        'pre-save-hooks'  => array( 'MyClass::expandLongTablesNames'  ),
      *        'user-handlers'   => array( 'MyOracleSchemaHandler', 'MyDB2SchemaHandler' ) )
      * </code>
-
      */
     public function __construct( $handlerParams = array() )
     {
-        $this->HandlerManager = new ezcDBSchemaHandlersManager( $handlerParams );
+        $this->HandlerManager = new ezcDbSchemaHandlersManager( $handlerParams );
     }
 
     /**
@@ -94,7 +89,7 @@ class ezcDBSchema
      * Compares the schema with another schema.
      * @returns array Array containing delta (differencies).
      */
-    public function compare( ezcDBSchema $otherSchema )
+    public function compare( ezcDbSchema $otherSchema )
     {
         // to be implemented
     }

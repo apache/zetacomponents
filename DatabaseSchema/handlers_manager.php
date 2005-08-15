@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDBSchemaHandlersManager class.
+ * File containing the ezcDbSchemaHandlersManager class.
  *
  * @package DatabaseSchema
  * @version //autogentag//
@@ -9,16 +9,7 @@
  */
 
 /**
- * @ignore
- */
-require_once( 'handler.php' );
-require_once( 'handlers/xml.php' );
-require_once( 'handlers/php_array.php' );
-require_once( 'handlers/mysql.php' );
-require_once( 'handlers/pgsql.php' );
-
-/**
- * Deals with schema handlers for a ezcDBSchema object.
+ * Deals with schema handlers for a ezcDbSchema object.
  * Determines which handlers to use for specified schema type.
  * Creates handlers on demand.
  *
@@ -27,7 +18,7 @@ require_once( 'handlers/pgsql.php' );
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  */
-class ezcDBSchemaHandlersManager
+class ezcDbSchemaHandlersManager
 {
     /**
      * Parameters common for all the handlers.
@@ -101,7 +92,7 @@ class ezcDBSchemaHandlersManager
 
     /**
      * Returns instance of the appropriate handler for schema of type $schemaType.
-     * @returns ezcDBSchemaHandler  The appropriate handler.
+     * @returns ezcDbSchemaHandler  The appropriate handler.
      */
     private function & getHandler( $schemaType )
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDBSchemaHandler class.
+ * File containing the ezcDbSchemaHandler class.
  *
  * @package DatabaseSchema
  * @version //autogentag//
@@ -19,7 +19,7 @@
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}
  */
 
-abstract class ezcDBSchemaHandler
+abstract class ezcDbSchemaHandler
 {
     private $Params;
 

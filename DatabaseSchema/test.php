@@ -13,14 +13,7 @@
  * @ignore
  * @package DatabaseSchema
  */
-require_once( 'schema.php'  );
-require_once( 'handler.php' );
-
-/**
- * @ignore
- * @package DatabaseSchema
- */
-class MyOracleHandler extends ezcDBSchemaHandler
+class MyOracleHandler extends ezcDbSchemaHandler
 {
     public function __construct( $params )
     {
@@ -49,7 +42,7 @@ class MyOracleHandler extends ezcDBSchemaHandler
  * @ignore
  * @package DatabaseSchema
  */
-class MyAppSchema extends ezcDBSchema
+class MyAppSchema extends ezcDbSchema
 {
     public function __construct()
     {
