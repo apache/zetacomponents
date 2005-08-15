@@ -75,6 +75,15 @@ both):
   backed up (renamed/moved) and the new one copied/moved as the original.  (A
   caveat: using tail -f will not work).
 
+Unicode caveats
+===============
+Case handling in PHP 6 will differ from earlier because it uses the current
+locale when doing the operation. This means that in some locales you can have
+non-revertible case changes.
+There is no workaround for this at the moment other than checking for the
+original string and the lowercase string at the same time or using only
+lowercase characters at all times.
+
 
 ..
    Local Variables:
