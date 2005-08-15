@@ -24,19 +24,19 @@ class ezcConsoleParameterException extends Exception
     /**
      * Required parameter/alias does not exist.
      */
-    const CODE_EXISTANCE = -10;
+    const CODE_EXISTANCE  = 1;
     /**
      * Exclusion rule defined for parameter not met.
      */
-    const CODE_EXCLUSION = -11;
+    const CODE_EXCLUSION  = 2;
     /**
      * Dependency rule defined for parameter not met.
      */
-    const CODE_DEPENDENCY = -12;
+    const CODE_DEPENDENCY = 3;
     /**
      * Type rule defined for parameter not met.
      */
-    const CODE_TYPE      = -13;
+    const CODE_TYPE       = 4;
 
     /**
      * Parameter this exception is about.
@@ -58,7 +58,7 @@ class ezcConsoleParameterException extends Exception
      * @param string string $paramName Name of affected parameter
      * @param int $code                Error code.
      */
-    public function __construct( $message, $paramName, $code = -10 ) {
+    public function __construct( $message, $paramName, $code ) {
         $this->paramName = $paramName;
         parent::__construct( $message, $code );
     }

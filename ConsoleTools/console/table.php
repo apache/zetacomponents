@@ -41,18 +41,18 @@ class ezcConsoleTable
      * Automatically wrap text to fit into a column.
      * @see ezcConsoleTable::$options
      */
-    const WRAP_AUTO = 10;
+    const WRAP_AUTO = 1;
     /**
      * Do not wrap text. Columns will be extended to fit the largest text.
      * ATTENTION: This is riscy!
      * @see ezcConsoleTable::$options
      */
-    const WRAP_NONE = 11;
+    const WRAP_NONE = 2;
     /**
      * Text will be cut to fit into a column.
      * @see ezcConsoleTable::$options
      */
-    const WRAP_CUT  = 12;
+    const WRAP_CUT  = 3;
     
     /**
      * Settings for the table.

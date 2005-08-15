@@ -62,9 +62,9 @@
 class ezcConsoleParameter
 {
 
-    const TYPE_NONE     = 10;
-    const TYPE_INT      = 11;
-    const TYPE_STRING   = 12;
+    const TYPE_NONE     = 1;
+    const TYPE_INT      = 2;
+    const TYPE_STRING   = 3;
 
     private $paramDefs = array();
 
