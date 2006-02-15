@@ -1,0 +1,97 @@
+eZ components - Execution
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+If there is a problem with your Web application you do not want that your
+visitors see "Fatal error" messages. Instead you want to be able to show them a
+more friendly page telling them what might be wrong, or what they should do
+when they encounter such an error.
+
+Fatal errors and uncaught exceptions in PHP abort your script, but with this
+component you can add hooks to the shutdown system of PHP. This gives you the
+change to show a user-friendly message.
+
+
+Class overview
+==============
+
+The Execution packages provides the ezcExecution class. This class provides the
+full interface to set up the catching of "fatal" errors. The component also
+provides the ezcExecutionErrorHandler interface that error handlers should
+implement. A basic error handler is supplied through the
+ezcExecutionBasicErrorHandler class.
+
+
+Usage
+=====
+
+When starting your application you need to initialize the ezcExecution class by
+calling ezcExecution::init( $className ). The $className is the name of the
+class that implements your handler. In our first example we simply use the
+default provided handler ezcExecutionBasicErrorHandler. Calling the init()
+method sets up the environment and registers the necessary handlers with PHP.
+
+Before you exit() or die() from your application you need to signal the
+ezcExecution environment that your application exitted properly. Without this
+signal the handlers assume that your application ended unsuspectedly. In that
+case they will call the onError() method of the class you specified in the
+init() method.
+
+This example shows the most basic usage:
+
+.. include:: tutorial_example_01.php
+   :literal:
+
+In line 4 we initialize the environment and in line 6 we signal the environment
+that we have a clean exit. If we would not have done this, then the script
+would have displayed the following message: ::
+
+    This application stopped in an unclean way.  Please contact the maintainer
+    of this system and explain him that the system doesn't work properly at the
+    moment.
+
+    Have a nice day!
+
+Of course this is just a default message and you most likely want to tune this
+to your needs. To do so you will have to create a new class that implements the
+ezcExecutionErrorHandler interface. You will only have to implement one method:
+onError(). In the next example we create such a class and implement a custom
+notice.
+
+.. include:: tutorial_example_02.php
+   :literal:
+
+In the lines 4-20 we declare our handler class "MyExecutionHandler" which
+implements the ezcExecutionErrorHandler interface. In it's only method
+(onError, line 6-19) we check on line 8 if the error was caused by an uncaught
+Exception. In that case we retrieve the exception's message into the $message
+variable. Otherwise we assign a static value to $message. The $message is the
+displayed in line 17 and 18.
+
+When you run the above script, you will be presented with the following warning
+(as we threw an exception on line 24 which we didn't catch): ::
+
+    This application did not succesfully finish its request. The reason was:
+    Throwing an exception that will not be caught.
+
+If you comment out line 24 and 26, the result will instead be: ::
+
+    This application did not succesfully finish its request. The reason was:
+    Unclean Exit - ezcExecution::cleanExit() was not called.
+
+More Information
+================
+
+For more information, see the ezcExecution API documentation.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79

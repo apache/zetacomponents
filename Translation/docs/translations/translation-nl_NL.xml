@@ -1,0 +1,16 @@
+<!DOCTYPE TS><TS>
+<context>
+    <name>tutorial/headers</name>
+    <message>
+        <source>header1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>search</name>
+    <message>
+        <source>Search for '%search_string' returned %matches matches.</source>
+        <translation>Er zijn %matches items gevonden bij het zoeken naar '%search_string'.</translation>
+    </message>
+</context>
+</TS>

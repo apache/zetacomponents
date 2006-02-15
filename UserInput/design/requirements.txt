@@ -1,0 +1,26 @@
+eZ publish Enterprise Component: UserInput, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author:   Derick Rethans
+:Revision: $Revision: $
+:Date:     $Date: $
+
+Introduction
+============
+
+Description
+-----------
+Provides access to input variables in a convenient way, with security in mind.
+
+Requirements
+============
+We all know that you should always check input variables, but PHP does not
+offer really good functionality for doing this in a safe way. The User Input
+component is meant to address this issue by implementing a set of filters and
+mechanisms that users can use to safely access their input data.
+
+Design goals
+============
+User Input handling is greatly improved in PHP, where there is a special filter
+extension to get to user inputted data. Although it's much easier than before
+for handling with user input in a secure way, it doesn't provide a very nice
+interface. This component is addressing this.

@@ -1,0 +1,53 @@
+<?php
+/**
+ * File containing the abstract class ezcImageTransformationException.
+ *
+ * @package ImageConversion
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @filesource
+ */
+
+/**
+ * Exception to be thrown be ezcImageTransformation classes.
+ *
+ * This is a special exception which is used in ezcImageTransformation to 
+ * catch all transformation exceptions. Purpose is to provide a catch
+ * all for all transformation inherited excptions, that leaves the source
+ * exception in tact for logging or analysis purposes.
+ *
+ * @see ezcImageTransformation
+ *
+ * @package ImageConversion
+ */
+class ezcImageTransformationException extends ezcImageException
+{
+
+    /**
+     * Stores the parent exception.
+     * Each transformation exception is based on a parent, which can be any 
+     * ezcImage* exception. The transformation exception deals as a collection 
+     * container to catch all these exception at once.
+     * 
+     * @var ezcImageException
+     */
+    public $parent;
+    
+    /**
+     * Creates a new ezcImageTransformationException using a parent exception. 
+     * Creates a new ezcImageTransformationException and appends an existing
+     * exception to it. The ezcImageTransformationException is just the catch-
+     * all container. The parent is stored for logging/debugging purpose.
+     * 
+     * @param Exception $e 
+     */
+    public function __construct( ezcImageException $e )
+    {
+        $this->parent = $e;
+        $message = $e->getMessage();
+        parent::__construct( "Transformation failed. <{$message}>." );
+    }
+
+}
+?>

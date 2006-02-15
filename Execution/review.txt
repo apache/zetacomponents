@@ -1,0 +1,14 @@
+Review Raymond 9.12.2005
+========================
+
+General:
+[done] - Use a dot when a sentence ends (in doc). 
+
+ezcExecution::exceptionCallbackHandler:
+[done] - Maybe an extra note that this method shouldn't be called directly. 
+
+ezcExecutionBasicErrorHandler::onError: 
+[done] - Don't think that the error message is useful. Either:
+[done]   - Add an description that the handlers should be extended.
+[done]   - The message can be used in an "Enterprise" environment ;-).
+

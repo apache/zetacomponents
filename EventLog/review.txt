@@ -1,0 +1,100 @@
+Review Frederik
+===============
+[done] ezcLogFilter - This is a struct. Place into structs directory and add constructur and the __ method.
+
+[done] ezcLog - Add large example on how to use the class a a logger.
+ezcLog::attach/detach - These names are strange as we are not attaching anything. What about: map and unmap?
+[done] ezcLog::setSeverityAttributes/setSourceAttributes - These need doc tag cleanup and examples in order to be understandable. Maybe a rename of the methods would be nice also. E.g setStandardSeverityAttributes
+[done] ezcLog::LogHandler - name starts with capital letter? Add example on how to use trigger_error.
+[done] ezcLog::__set and __get don't throw when they should.
+
+[done] ezcLogWriter::writeLogMessage - source and category, where do these come from?
+
+ezcLogContext - Class description needs a better introduction an example.
+
+ezcLogMap - rename to ezcWriterMap? Or are we using it for other things as well?
+ezcLogMap - The intro from "Our solution" is a bit unclear to me.
+ezcLogMap::map --> addMap? (remove ambiguity)
+ezcLogMap::mergeSingle - lacks doc. I'm not entirely sure what this method does. .. $tmp??
+ezcLogMap::mergeHash - lacks doc and is marked for rewriting.
+ezcLogMap::unmergeHash - lacks doc and is marked for rewriting.
+ezcLogMap::printStructure - lacks doc
+ezcLogMap::printStructureRecursive - lacks doc
+
+[done] ezcLogFileException - constants. Correct naming? (capital vs non capital?)
+
+[done] ezcLogMessage::__set and __get does not throw when they should
+[done] ezcLogMessage::parseMessage - document the format for $message.
+
+ezcLogDatabaseWriter - Document the properties and how they work with the table that is writes to.
+ezcLogDatabaseWriter::__construct - doc talks about tie-in. What do you mean by that in this context?
+
+RB assumed: ezcLogWriterBase -> ezcLogFileWriter
+ezcLogWriterBase:: last three methods. Should they be public? They also lack doc.
+[done] ezcLogWriterBase::writeLogEntry - only doc no impl. Should this be removed?
+
+[ no ] ezcLogWriterBase::rotateLog - shouldn't the for loop start at ($this->maxFiles - 1)?
+
+ezcLogWriterBase::logTo - you do not catch the exception from openFile, should it be catched and rethrown or should it be documented?
+[done] ezcLogWriterBase::logTo -> mapEventToFile ?
+[done] ezcLogWriterBase::logNotTo ->unmapEventToFile
+
+
+Comments by Jan Borsodi (15-12-2005)
+------------------------------------
+General:
+- Several @param entries lacks documentation, also the synax is wrong in many places.
+
+
+ezcLogMap::
+- This class definitely needs a cleanup, it's not easy to understand the code here
+  The current documentation for the class is something which belongs in a design.txt
+  file not here.
+- ::map(), should be named insert().
+- ::unmap(), should be named remove().
+- ::get(), the use of $tmp is not good, please use multiple variables with good names.
+  ie. $events, $sources, $categories
+  and the last if/elseif/else should return immediately with the found value.
+- ::printStructure - What is the purpose of this?
+  isn't this debug code which should be removed?
+
+ezcLogMessage:
+- [done] Document the properties, no mention of them.
+- [done] Make sure the property array is initialised with empty strings.
+
+ezcLogFilter:
+- [done] Needs better documentation, no explanation of what it is and what it used for.
+
+ezcLogContext:
+- I have no idea what a context is, please explain.
+- No constructor.
+
+ezcLogFileException:
+- [done] Document constants (after fixing the naming).
+
+ezcLogWriter:
+- Document how this is meant to be implemented by classes, e.g. by using an example class.
+
+ezcLogDatabaseWriter:
+- The database calls should either use the new Query class or use prepared statements with binding.
+  If the second is used the code could be changed so you can pass PDO objects to it making it more general.
+- [ no ] Why use $query->now(), isn't it better to insert the time with mktime()?
+- [done] Get rid of the ezcDbInstance::get() in the constructor, the instance should always be passed.
+- Throw exceptions if $databaseInstance or $defaultTable are not set.
+- Document the table structure it requires.
+- If this is meant to rely on the database component it should be moved out in a separate Tie-In package.
+- [done] ::getColumnTranslations() - rename, it has nothing to do with translations, the doc for it says coupling
+- [done] ::logTo() - rename, this sounds like it logs something to the database but it only sets up the mapping + doc
+- [done] ::logNotTo() - same as logTo() + doc
+- Document how this writer is meant to be used.
+
+ezcLogUnixFileWriter:
+- [done]  What is Unix style?
+- More documentation for class.
+- [done] ::implodeWithKey() - document!
+
+ezcLogFileWriter:
+- [done] Explain how this is meant to be subclassed.
+- [done] ::logTo(), ::logNotTo() - same as for writerdatabase
+- [done] ::openFile() - lacks @param doc, lacks @throw doc
+- [done] ::__destruct() - Make sure openFiles is initialised as an array, then you can get rid if the if() check.

@@ -1,0 +1,12 @@
+Review Frederik 7. dec 2005
+===========================
+[done] ezcConfiguration::__construct - it's not really obvious what the format of $settings and $comments is.
+[done] ezcConfiguration::groupSettingCheck - rename to assertGroupSetting?
+[done] ezcConfiguration::groupNames - has no implementation
+
+[done] ezcConfigurationWriter::setOptions - what options are available?
+
+[bogus] ezcConfigurationFileWriter - shouldn't getSuffix be declared as an abstract method here?
+[bogus] ezcConfigurationManager - fetchConfig, fetchSetting and the other setting methods. Something doesn't feel right about the names here.
+
+[done] ezcConfigurationIniWriter - The doc for writeSettings is a bit confusing. It says $settings but talks about groups. Could you clarify this?	

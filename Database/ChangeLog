@@ -1,0 +1,61 @@
+1.0.1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed bug #7764: ezcQuerySelect doesn't reset queries correctly	
+	
+1.0 - Monday 30 January 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Removed ezcDbHandler::begin(). It was a rename of PDO::beginTransaction()
+  because of the strange PDO naming. Unfortunately it caused problems with
+  re-implementations.
+- Removed ezcDbHandler::processLimitOffset. Leftover from old design.
+
+
+1.0rc1 - Monday 16 January 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Added support for aliases of column names.
+- Added SQLite driver.
+- Changed exception behavior. All errors will now throw a different exception
+  class.
+- Changed class names:
+
+  * ezcQueryOracle to ezcQuerySelectOracle
+
+- Removed destructor in ezcDbHandler. We should not throw exceptions that
+  can't be caught.	
+
+ezcDbFactory
+============
+
+- Added the static method getImplementations() which returns a list of all
+  available database implementations.
+- Changed exception usage to reveal more information in case no database type
+  is passed, or when a not-supported database type is used.
+- Fixed bug where we did not check if bound parameters actually existed before
+  binding them.
+
+
+1.0beta2 - Thursday 22 December 2005
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Refactored query design:
+
+  * Changed ezcQuery to an abstract class, which forms the base for the more
+    specific classes.
+  * Added ezcQuerySelect which now contains the functionality ezcQuery had
+    before.
+  * Added ezcQueryUpdate.
+  * Added ezcQueryInsert.
+  * Added ezcQueryDelete.
+  * Added ezcQueryExpression with all the SQL expressions. ezcQuery has a
+    publically available pointer to it through 'expr'.
+  * The various query types can now be retrieved through
+    create(Select/Insert/Update/Delete) query in the handler classes.
+
+	
+1.0beta1 - Friday 25 November 2005
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Initial release of this package.

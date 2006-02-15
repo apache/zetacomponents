@@ -1,0 +1,46 @@
+eZ publish Enterprise Component: PhpGenerator, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Introduction
+============
+
+Purpose of PhpGenerator package 
+------------------------------- 
+
+The purpose of the PhpGenerator package is to provide a simple tool to generate
+PHP code using PHP. It supports the construction of basic PHP code with
+indentation.
+
+Detailed requirements
+----------------------
+
+The tool must provide support for the following structures:
+
+- if/for/while/do structures
+- method calling
+- variable setting and unsetting
+- correct indentation
+- insertion of custom code
+- comments
+- defines
+- writing to file
+
+Design
+======
+
+
+Class design
+------------
+The PHP generator is designed into the class ezcPhpGenerator. The actual PHP
+generating functions are named append*. The mapping between the functions and
+the requirements above are more or less one to one. The various functions in
+ezcPhpGenerator will throw and ezcPhpGeneratorException if the call to that
+function failed.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79

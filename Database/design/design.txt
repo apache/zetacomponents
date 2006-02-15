@@ -1,0 +1,166 @@
+eZ publish Enterprise Component: Database, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Introduction
+============
+
+Purpose of the Database component
+---------------------------------
+
+The Database component provides an interface for:
+
+- Database API abstraction
+- SQL abstraction
+
+It lets the user interact with different DBMSs using a common API. Such
+differences between SQL dialects may include differences in OFFSET and LIMIT
+clauses, left/right joins, temporary tables and strings quoting. These are also
+handled transparently for the user.
+
+
+Current implementation
+----------------------
+
+The current implementation mostly supports database API abstraction (built
+on-top of PDO classes (see http://php.net/PDO); SQL abstraction is not
+implemented yet.
+
+Requirements
+============
+
+The component should provide simple but extensible API.
+It must be possible for application to register support for other DBMSs.
+
+Design
+======
+
+The component consists of the following main classes:
+
+- ezcDbHandler
+- ezcDbFactory
+- ezcDbInstance
+
+ezcDbHandler
+---------------------
+Provides the common interface for database operations, such as connecting,
+running queries, etc.
+
+This interface is derived by concrete *handlers*, e.g. MySQL handler or
+PostgreSQL handler.
+
+ezcDbFactory
+------------
+Implements a Factory design pattern.
+    
+It contains list of known handlers and is used to create instances of them.
+It is possible to register user-specified handlers with the factory.
+
+ezcDbInstance
+-------------
+Most applications need only one database connection. It is convenient for such
+applications to create a connection once, and then make it globally accessible
+and use it anywhere within the application.
+
+Even if an application requires two or more database connections, it's handy
+not to pass them to every method that needs them, but to access them easily
+from any place.
+
+To satisfy these requirements, the ezcDbInstance class is suggested.  It's
+capable of saving one or more database connections, with the ability to assign
+them names (identifiers). These names can then be used to refer to the
+connection.
+
+
+How to use
+==========
+
+Usually the component is used in the following way:
+
+- User creates an instance of a handler with ezcFactory class.
+- (optionally) User saves the instance to singleton.
+- He/she does misc. database operations on the instance.
+
+A more sophisticated scenario includes defining a custom handler and
+registering it with the factory.
+
+If the user needs to work with several database connections simultaneously,
+he/she creates several handler instances, then saves them to ezcDbInstance
+giving them short name for sake of convenience.
+
+Examples
+========
+
+Let's look at some examples to make everything clear.
+
+Example 1: The simplest case
+----------------------------
+::
+
+    $dbparams = array(
+        'dbname' => 'circus',
+        'user' => 'monty',
+        'pass' => 'python' );
+    $db = ezcDbFactory::create( 'mysql', $dbparams );
+    $rslt = $db->query( 'SELECT * FROM tbl' );
+
+In the example above we create an instance of MySQL handler and run a query on
+it.
+
+Example 2: Using singleton
+--------------------------
+::
+
+    $db = ezcDbFactory::create( 'mysql', $dbparams );
+    ezcDbInstance::set( $db );
+    unset( $db );
+    # ...
+    $db   = ezcDbInstance::get();
+    $rslt = $db->query( 'SELECT * FROM tbl' );
+
+In this case, we use ezcDbInstance to save the instance we have created.  It
+can be easily accessed from any place with just one one call to
+ezcDbInstance::get(). The class ezcDbInstance behaves much like singleton in
+this case.
+
+
+Example 3: Multiple connections
+-------------------------------
+::
+
+    $db1 = ezcDbFactory::create( 'mysql', $dbparams1 );
+    $db2 = ezcDbFactory::create( 'mysql', $dbparams2 );
+    ezcDbInstance::set( $db1, 'db1' );
+    ezcDbInstance::set( $db2, 'db2' );
+    unset( $db1, $db2 );
+    # ...
+    $db1 = ezcDbInstance::get( 'db1' );
+    $db2 = ezcDbInstance::get( 'db2' );
+
+Here we have two different MySQL connections. We save them to
+ezcDbInstance, giving them names 'db1' and 'db2', accordingly. The
+connections are then referred to in call to ezcDbInstance::get() by
+these names.
+
+Example 4: Custom handler
+-------------------------
+::
+
+    class MyOciDbHandler extends ezcDbHandler { ... }
+    # ...
+    ezcDbFactory::addImplementation( 'myoci', 'MyOciDbHandler' );
+    $db   = ezcDbFactory::create( 'myoci', $dbparams );
+    $rslt = $db->query( 'SELECT count(*) AS cnt FROM user_tables' );
+
+In this example we define our own handler for communicating with Oracle.  The
+handler is then registered with the factory by calling method
+ezcDbFactory::addImplementation().  Then we can use the handler in the usual
+way, as if it was a standard implementation.
+
+
+See also
+========
+
+- For more information about PDO please visit the following page:
+  http://php.net/PDO
+- See real examples (with errors handling) in test.php file bundled with
+  the Database package.

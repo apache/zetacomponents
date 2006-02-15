@@ -1,0 +1,135 @@
+eZ publish Enterprise Component: DatabaseSchema, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Introduction
+============
+
+Purpose of the DatabaseSchema component
+---------------------------------------
+
+The DatabaseSchema component is meant to represent database schema/data
+in a portable format.
+
+Thus, the following functionality is provided:
+
+- to transfer schema/data between two databases, even running under
+  different DBMSs;
+- to compare schemas of two databases (generate a diff);
+- to synchronize schema between two databases (apply the diff);
+- to represent schema/data in misc formats, such as XML, PHP array and SQL.
+
+
+Design
+======
+
+Basic concepts
+--------------
+
+The main design idea of the component is the usage of *schema*
+*handlers*. A user deals with schema object, loading/saving schema
+to/from it. But actual schema operations are done in concrete handlers,
+loaded depending on *storage* *type* (=where are you saving/loading
+schema to/from). For example, if you're loading schema from an XML file,
+the XML handler is used; if you're saving schema to a MySQL database,
+the MySQL handler is used.
+
+The component consists of the following main classes:
+
+- ezcDbSchema
+- ezcDbSchemaHandler
+- ezcDbSchemaHandlerManager
+
+ezcDbSchema
+-----------
+It is the main class for schema operation, representing the schema itself.
+
+Provides ability to load/save schema from/to files, databases or other
+sources/destinations, depending on available schema handlers.
+
+Besides, it allows to get schema without saving it to a file/database in
+one of the internal formats: PHP array, XML string, DOM tree, set of SQL
+queries.
+
+You can compare two schemas and save the difference to a file.
+
+
+ezcDbSchemaHandler
+------------------
+
+A schema handler knows everything about a specific storage type. If it
+is a database, the handler knows how to fetch schema of a database or
+fill a database with schema. If it is a file, the handler know how to
+parse or generate it.
+
+ezcDbSchemaHandler is the base class for all handlers.
+
+
+ezcDbSchemaHandlerManager
+-------------------------
+
+Keeps list of known handlers.
+Determines what handler to use for the specified storage type.
+User is able to register his/her custom handler with this class.
+
+Schema format
+=============
+
+To be defined later.
+
+Besides several SQL dialects, we're going to use two generic schema
+definition formats: PHP array and XML.
+
+PHP array format is going to be very similar to the one we use currently
+in eZ publish dbschema library.
+
+Schema transformations
+======================
+
+The component deals with different DBMSs having differences in the way
+database structure is defined. Since when loading a schema from DB we
+always try to keep maximum information, the differences remain in the
+loaded schemas. When transferring schema from a database of type X to a
+target database of type Y we of course have to transform the schema so
+that it can be understood by the target DBMS. Besides, before comparing
+schemas of different types we must make them comparamble (=of the same
+type).
+
+Thus, schema transformation mechanism is required. Since even different
+versions of the same DBMS may have differences in their features, it is
+not always possible to convert e.g. "mysql" schema to "pgsql" one.
+Instead, each DBMS is descrbed by a set of features it supports. All the
+transformations are done between those feature sets.
+
+Only a very basic set of features is supported by the component
+out-of-the box, and there is an ability to execute user-specified
+transformations (see ezcDbSchema::__construct()). There are two hooks
+defined for this. The first "feature detection hook" is called after a
+schema has been loaded to detect which features does the schema contain.
+The second hook is called "schema transformation hook" and is called
+when the schema is about to be compared to another one or saved. It is
+up to the user to define how feature detection and schema
+transformations should work. Usually the user just creates a class
+derived from ezcDbSchema and implements all the transformations there.
+
+How to use
+==========
+
+Usually the component is used in the following way:
+
+- User creates an object of ezcDbSchema class (or one of its descendants).
+- The object is then used to load schema, save it or compare with another
+  schema object.
+
+Examples
+========
+
+Example 1:
+----------
+::
+
+    $schema = new ezcDbSchema();
+    $schema->load( 'file.php', 'php-file' );
+    $schema->save( 'file.xml', 'xml-file' );
+
+In this example we load schema from file.php containing schema array.
+Then the schema is saved in file.xml using XML format.

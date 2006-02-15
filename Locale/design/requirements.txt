@@ -1,0 +1,30 @@
+eZ publish Enterprise Component: Locale, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author:   Derick Rethans
+:Revision: $Revision: $
+:Date:     $Date: $
+
+Introduction
+============
+
+Description
+-----------
+This class uses the default locale, or the one passed in the constructor, to
+format numbers, dates and currencies.
+
+Current implementation
+----------------------
+In the current implementation, there are locale definition files defining all
+the different aspects of a locale, such as weekday names, formatting rules etc.
+These locale definition files are read, and applied with several classes.
+
+Requirements
+============
+The component should deliver a wide range of formatting aids for localized data.
+
+Design goals
+============
+As there are a lot of different locales, definining them by hand in locale
+definition files is hardeous work. In the design of this component we then also
+want to make use of the Locale functionality that PHP offers through the ICU
+database to leverage a multitude of locale definitions.

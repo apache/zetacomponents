@@ -1,0 +1,155 @@
+eZ publish Enterprise Component: EventLog, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Introduction
+============
+
+
+Purpose of the EventLog package
+-------------------------------
+
+A set of classes that handles different kinds of logging methods. Provided
+methods include a file based logger that also supports log-rotations and a
+database based logging engine. Each logging engine is build as a handler to
+minimize external dependencies. We will also try to make the functionality
+general enough so it can be used to do event logging and create audit trails.
+
+
+Current implementation
+----------------------
+
+The current implementation is limited to write simple log messages to a file
+only. The log files can be rotated whenever a specific (hard-coded) log size 
+is exceeded. 
+
+
+Requirements
+============
+
+Messages
+--------
+
+*Message*
+  The message that should be written to the output or log. 
+
+*eventType*
+  The eventType defines the type of the log message. Possible event types are:
+
+  * Debug
+  * Notice
+  * Warning
+  * Error
+  * Fatal
+
+*eventSource*
+  The source where the debug message originates from. For example group them on
+  the module you're currently in.
+
+*eventCategory*
+  The category of the debug message. For some debug messages it may make sense to
+  categorize them. If the message shouldn't be categorized, then this message
+  can be left out.
+
+  For audit trailing the category will describe the type of user action. For
+  example: Edit, Publish, login/logout, etc.
+
+*extraInfo*
+  Additional types can be added. For example the file and line number. 
+
+
+Log writers 
+-----------
+
+By default a file and database writer will be available. Depending on the type
+of message, source, and category should the message be written to a specific
+writer. This should be configurable in the application. 
+
+The file writer should write the log messages to a specific file. The name of
+the file(s) and the location whereto will be written should be configurable as
+well. There should also be a log rotation mechanism available.
+
+The database writer can writes the log messages the current database. It is up
+to the application to define the database type (which should be supported by
+the components) and table.
+
+In the future, extra log writers may be added or an existing Log writer may be
+extended. For example when there should be written in another file format.
+
+
+
+Design
+======
+
+Zero or more writers can be assigned to the Log class. The writer is attached
+to the eventType, eventSource, and Category. This makes it possible to have a
+specific writer for specific message types.
+
+
+ezcLog
+------
+
+The main class that provides a public API for this package. This class is
+implemented as a singleton to make sure only one Log object exists and to get
+easily a reference of this object. 
+
+Exceptions can be enabled or disabled with the enableWriterException. On one
+hand the intention of the application developer will be to enable exceptions
+whenever an log message can not be written. This yields especially in the
+development phase. On the other hand, a live server should not throw a
+'deadly' exception when a relatively unimportant notice can not be written to
+the log. 
+
+The setContext method specifies the source contexts with their value. Every
+time a log message is written to the system, the contexts that match with the
+current eventSource are added as well. 
+Another type of context, eventType context, is hard-coded in the Log system.
+
+The log method writes to the log writers a: log message, eventType, eventSource,
+category, and possibly extra context information. 
+
+
+ezcLogWriter
+------------
+
+Abstract class that garantees that subclasses implement the writeLogEntry
+method.
+
+
+ezcLogFileWriter
+----------------
+
+Provides the basic implementation of the File writer(s). Log rotation and
+default file writer methods are implemented. The file structure is implemented
+in the subclasses. 
+
+
+ezcLogWriterUnix
+----------------
+
+Writes file in the Unix log format to disk. 
+
+
+ezcLogDatabaseWriter
+--------------------
+
+Implements a tie-in for a database.
+
+
+ezcLogContext
+-------------
+
+This class stores the eventType and eventSource contexts. The correct context
+for a specific message can be retrieved with the getContext method. 
+
+
+ezcLogMap
+---------
+
+This map keeps track of the writers attached to a specific message; thus
+eventType, eventSource, and category.
+
+
+
+ vim:filetype=rst:
+:q
+

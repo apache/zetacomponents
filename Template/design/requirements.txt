@@ -1,0 +1,593 @@
+eZ publish Enterprise Component: Template, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Jan Borsodi
+:Revision: $Revision$
+:Date: $Date$
+
+Introduction
+============
+
+Description
+-----------
+
+Provides functionality for separating layout and design from the PHP code. The
+template system comes with a basic set of functionality which can be used
+directly by applications or extended by third party addons. The template system
+can be used to generate HTML pages, text files, emails, PDFs and other output
+formats.
+
+The aim of the template component is to provide a high level language for
+working without output and formatting. The language is not meant as a thin
+layer on top of PHP but rather a sophisticated template system which simplifies
+the output logic. The system will handle the typical chores of output which
+usually are:
+
+- Whitespace trimming
+- Wrapping and indenting of text blocks.
+- Output washing for XSS exploits.
+- Looping lists and creating tables with delimiters and sequences.
+
+Current implementation
+----------------------
+
+The current implementation in eZ publish 3.x was built as a result of the
+experience with the 2.x series. It came with lots of benefits from the old
+series but it also introduced some new problems. The major benefit was that it
+was free from the strict structure of the find-and-replace template system in
+the 2.x series. The major problems were lack of documentation and confusing
+naming and syntax.
+
+A more detailed description of flaws follows, the list is split into one for
+template developers (those who make .tpl files) and PHP developers (those
+extending the language and maintaining it).
+
+Template developer
+^^^^^^^^^^^^^^^^^^
+
+- No automatic output washing so user must remember to wash all template
+  variables. This makes all templates insecure by default.
+
+- The usage of piping (|) vs normal function call can be a bit confusing
+  especially since some operators support both modes.
+
+- Lots of typical array and string functions are missing.
+
+- Some operators allowed you to build business logic instead of plain
+  presentation logic.
+
+- Lack of PHP style operators meant you have to program in LISP style,
+  i.e. nested function calls.
+
+- Using types like true, false and arrays meant using operators instead of
+  built-in syntax as one is used to.
+
+- Whitespace trimming in code was not properly handled so the output contained
+  unnecessary whitespace. To avoid this one had to write unreadable template
+  code.
+
+- Output was tailored toward HTML so supporting plain text was troublesome.
+
+- Changes to templates were not always picked up by the template system so one
+  was forced to clear all compiled templates after changes.
+
+- Naming of template elements was confusing, template operators referred to
+  what would seem like functions and template functions to what is usually seen
+  as blocks or tags.
+
+- The use of namespaces was a large source of problems, typically figuring out
+  where the variables were placed was troublesome.
+
+PHP Developer
+^^^^^^^^^^^^^
+
+- The system supports both processed and compiled mode but this requires each
+  template element to have two versions of their code. In the end this is very
+  hard to maintain.
+
+- The optimization is done in each element, this makes it very hard for the
+  compiler to generate fast PHP code and it also makes it harder than necessary
+  to create element code.
+
+- The interface for making template operators and functions is a bit undefined
+  making it hard to add new elements.
+
+- No easy way to bind existing PHP functions and scripts to the template
+  elements.
+
+- The compiler is really hard to work with, the internal structure were not
+  properly documented and the code had too many special cases to take care of.
+
+- The handling of variables was ineffective, accessing them (read or write)
+  required quite a lot of code something which shouldn't be necessary in most
+  cases.
+
+- Too much dynamic behavior of template operators which meant the compiled code
+  was too complicated (e.g. the append() operator which worked on both arrays
+  and strings).
+
+Requirements
+============
+
+The following requirements is based on the flaws of the previous system and
+reported needs from template designers. Each requirements is given a separate
+section and an ID which can be tracked to the design document.
+
+General
+-------
+
+FR-GEN-001: Presentation logic
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Separate businesss logic from presentation logic. This means that there should
+be no functionality for reading POST variables or performing advanced
+requests. If this is needed it should be handled by the underlying system,
+e.g. by extending existing functionality with PHP code.
+
+To ensure that the developers is not limited by this other means of accessing
+such data will be made.
+
+FR-GEN-002: Tag set
+^^^^^^^^^^^^^^^^^^^
+
+The template engine must have a clear separation between the tag set and the
+internal structure in use. This means that the parser transforms the template
+file into the internal structure which is then processed into opcodes.  This
+also makes it possible to have more tag sets later on, for instance a TAL based
+syntax.
+
+FR-GEN-003: Control of used tag set
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+With the inclusion of multiple tag set it could be chaos since it would be
+possible for multiple sets to be used in one application. To amend this the
+application must be able to define which sets should be allowed to use.
+
+
+FR-GEN-004: Standard functionality
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The template engine must come with a standard set of functionality which is
+complete enough for normal low level operations (e.g. string or array
+manipulation). This means the available functions and control structures must
+be available to work an all the available types without resorting to third
+party extensions.
+
+Performance
+-----------
+
+One of the major requirements is to raise the performance of the compiled code
+of templates. Several changes will need to be done in the way templates are
+parsed, variables accessed and function executed. Most of this must be done
+internally to ensure a degree of backwards compatability.
+
+FR-PERF-001: Compilation
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+The templates that are written will be transformed into pure PHP code by a
+compiler. The compilation process allows the template developer can concentrate
+on the presentation logic on a higher level and does not need to finetune his
+code.  To ensure this is possible the following must be part of the
+compilation.
+
+FR-PERF-002: Op-Codes
+^^^^^^^^^^^^^^^^^^^^^
+
+The various template operators, functions and blocks will generate what is
+known as template Op-Codes. The Op-Codes differs from the internal op-codes in
+PHP and is a structured system which allows easy travesal of the code to be
+generated.  The Op-Codes can be transformed into PHP code in PHP files which
+are later executed and they can also be improved being run trough an optimizer.
+The Op-Codes will remove the need for template elements to optimize and do
+conditional code.
+
+FR-PERF-003: Optimization
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The optimizer will examine the Op-Code structure and perform optimization based
+on the current rules. Here are some examples of what the optimizer could do:
+
+- Removing comment entries.
+
+- Propagating constants down in code, e.g. a variable is set to a constant
+  value but is never changed, only used.
+
+- Reducing functions and operators into constant values, e.g. adding two
+  constants values.
+
+- Inline functions when the Op-Code structure is known for it.
+
+- Optimize known PHP functions which are called with certain combinations of
+  constants.
+
+- Optimize special template functions, e.g. turning an i18n() call into a
+  constant string.
+
+- Flipping execution order when a parameter is conditional and one of the
+  condition results is constant.
+  e.g::
+
+    ezurl( $depth > 1 ? $url_alias : '/' )
+    to (the second condition is executed compile time to get the string)
+    $depth > 1 ? ezurl( $url_alias ) : '/'
+
+- Detecting nested function calls or expressions which can be replaced with
+  faster function calls.
+
+FR-PERF-004: Optimization names
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each optimization type must get a unique name which can be referenced by PHP
+code or used on the command line.
+
+FR-PERF-005: Optimization levels
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Having different optimizating levels allows the generated code to be tuned to
+the current need. For instance while developing a site you will need to change
+templates quite a lot so there is no need to optimize too much (takes time),
+but while running the site live you won't be doing any changes and the compiled
+code can be heavily optimized and skip things like filemtime checking.
+
+Each level should be able to turn on and off certain optimization types.
+The following levels should be available.
+
+- Level 0 - No optimization at all. Useful for debugging generated code
+
+- Level 1 - Basic optimization, the generated code can easily be copied to
+  another server and still work. This means for instance that INI reading,
+  translations etc.  are not turned into constants. This level is quite useful
+  for distributions.
+
+- Level 2 - Perform all optimization types.
+
+The level also determines how the unique filename is generated.
+
+FR-PERF-006: Transactions
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When compiling multiple templates it must use transaction for the files, this
+means giving the filenames another name temporarily until all compilation is
+done, when it is done it renames all the compiled templates to their correct
+names.  This means that the system uses the old templates until the new ones
+are ready.
+
+FR-PERF-007: Variable stack
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+All variables are now created on a stack instead of the namespace
+approach. This means that each template gets its own variable stack unless it
+is told to reuse another ones stack.
+
+FR-PERF-008: Parameters
+^^^^^^^^^^^^^^^^^^^^^^^
+
+When calling (including) a new template it should be possible to pass
+parameters which can be read by the template code.
+
+A parameter can be of one of these types:
+
+- In, the parameters is passed from caller to template file
+
+- Out - the parameter is passed from template file to caller
+
+- In/Out - the parameter is passed from caller to template file and then back
+  again. It should also be possible to export all variables without knowing
+  their names.
+
+Lastly the current stack can reused in the other template if they embedded,
+this means that any all created variables are available in both templates.
+Basically embedding can be seen as a way of copy/pasting the code from the
+referenced template into the current one.
+
+
+Security
+--------
+
+The template language must have security in mind when it is designed, basically
+the template developers should not have to think too much on these issues and
+instead concentrate on how to present the data.
+
+FR-SEC-001: Avoid XSS exploits
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If strings which have been input from a user (HTTP, CLI, DB) is not escaped
+when it is presented in XHTML output it can be used to generate XSS exploits by
+including JavaScript. This means that all strings which are output must be
+properly escaped.
+
+FR-SEC-002: No file access
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The template language should not allow template developers to access the
+filesystem, database or other critical parts of the system in any way unless it
+goes trough highly controlled operations and is part of a larger system.
+This means avoiding functions which can open files or request database data
+directly.
+
+FR-SEC-003: Indirect access to input
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+There should not be possible to access input variables directly, e.g. by
+reading HTTP POST variables, but instead it should rely on data which is
+delivered as template parameters or data from components.
+
+See also: _`FR-GEN-001`:
+
+FR-SEC-004: Output context
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It must be possible to define the current output context when parsing a
+template.
+
+The context is involved in the parsing of the template file and partly the
+handling of output. What the context can control is:
+
+- Whitespace trimming in parser. The idea is that it will remove all
+  unneccesary whitespace which is generated from structured template code. The
+  algorithm depends on the output format but in general it will trim away
+  whitespace in such a way that the tags just disappear from the output.
+
+- Endline handling:
+
+  * Use endline in template file
+  * Use native endline characters
+  * Use specific endline characters
+
+- Encoding of output, for instance encode as UTF-8 or quoted-printable.
+
+- Indentation trimming in parser. The used indentation level can be trimmed
+  away so unnecessary whitespace is included in the output, this allows the
+  template code as well as the output being readable.
+
+- Indentation of each line as seen by the parser. When each line is processed
+  the template can prepend a given string to use a indentation.
+
+- Empty lines at parse time, whether they should be kept or trimmed away.
+
+- Output washing of values, e.g. to use html_special_chars.
+
+- Wrapping of text, will wrap text to a certain column.
+
+  * simple wrapping, goes trough each line and wraps the text to fit into
+    column.
+
+  * fill wrapping, fills in region into a paragraph at the given column. This
+    is usually only done on sub regions.
+
+Changing the output context is done with a stack in which the previous settings
+are sometimes inherited. For instance setting the indentation text will append
+the indent text to the current one set.
+
+FR-SEC-005: XHTML context
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Provide output which is suited for XHTML.
+
+- Whitespace trim: Trim whitespace before and after tag
+- Indentation trim: Remove indent to level of current tag.
+- Output: XHTML washing
+- Wrap: No wrapping unless explicitly defined
+
+FR-SEC-006: Plain text context
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Provide output which is suited for plain text files or text formats.
+
+- Whitespace trim: Trim whitespace before and after tag
+- Indentation trim: Remove indent to level of current tag.
+- Output: No washing
+- Wrap: Normal wrap at 79 column
+
+FR-SEC-007: Mail context
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Provide output which is suited for inclusion in e-mails.
+
+- Whitespace: Trim whitespace before and after tag
+- Indentation trim: Remove indent to level of current tag.
+- Output: No washing unless XHTML code
+- Wrap: Normal wrap at 79 column
+
+FR-SEC-008: Custom context
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It must be possible to define a custom output context which controls
+the whitespace trimming, newline handling, indentation trimming and other
+elements of the output context.
+
+Usability
+---------
+
+A system is not of much use unless it is easy to use. This means that one
+should not have to read trough lots of document to understand how the basics
+work and reading the documentation should provide all the details on all the
+subjects the system handles.
+
+FR-USB-001: Naming and syntax
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The names for the various elements must be clear and consistent.  A developer
+starting with the language needs to be able to grasp the concepts in a short
+amount of time. This means using commonly used names from other programming
+languages (especially PHP) which makes concepts clear at a glance.
+
+Also the syntax for template language should reflect what is normal among
+programming languages such as C, C++, Java, PHP etc.  However it should not
+include syntax that does not make sense for a presentation language.
+
+FR-USB-002: Learning curve
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The initial learning curve needs to be low.  Developers needs to able to get
+started with the language quickly, for instance creating simple lists and
+manipulating variables.  Good documentation and simply syntax will help out
+with this.
+
+FR-USB-003: Template hints
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The template system should give you some hints if you're doing typical
+mistakes.  This can be to find existing functions which is close to what the
+developer wrote but in fact didn't exist.
+
+For instance::
+
+  No such function named isset, similarly named functions are is_set
+
+The system should also give hints on improvements to the template code whenever
+it is possible. The hints must not spend much time on their investigation to
+avoid increase in compilation time.
+
+FR-USB-004: Template dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It should be possible to record dependencies between elements, not only between
+.tpl files but also other elements such as caches, content engine expiry etc.
+When a template is changed the dependent item should be notified of the change
+and act accordingly.
+
+FR-USB-005: Object vs Array access
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The access of objects and arrays should be different from one another. This
+makes it clearer what one is accessing and also make it easier for the system
+to provide feedback about wrong usage.
+
+Accessing properties of objects is done with::
+
+  $object.prop1.prop2
+
+Accessing properties of arrays is done with::
+
+  $array[key1][key2][2]
+
+FR-USB-006: Reusable components
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It must be possible to define a component which can be placed in any
+template. A component consists of:
+
+- Constructor to initialize the component.
+
+- Destructor to clean up any resources used by the component.
+
+- Properties for querying information and changing options.
+
+- Displaying method for the component. The display method can choose how it
+  generates the result but it can use another template to do the work.
+  The display method must accept a parameter which controls how it should be
+  presented, e.g in full mode or just a brief description.
+
+A typical example of a component is the currently running module in the
+system. The pagelayout template can request the representation of the user
+interface for the module or accessing special properties such as related
+objects or other information.
+
+
+FR-USB-007: Configurable options
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The various options in the template system should be configurable by the
+application. The application can for instance turn on and off debugging or
+compile hints depending on the need.
+
+FR-USB-008: Design keys
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Creating overrides based on the design keys of an object is a powerful
+mechanism which should be handled internally in the template system. The design
+keys are values which are fetched from one or more objects or other input and
+form with the name of the template to fetch a combination. This combination can
+be defined externally and configured to use another template than the one
+requested.
+
+For instance the template system could get a request for the file called
+*view.tpl* but the design keys tells it what it views is an article and so the
+*article.tpl* file should be used instead.
+
+FR-USB-009: Validation
+^^^^^^^^^^^^^^^^^^^^^^
+
+It must be possible to validate a template file of your choice separately from
+the compilation process. This allows the developer to verify their syntax
+without applying it on the webpage and it also allows scripts to automate
+validation.
+
+FR-USB-010: Error handling
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Whenever errors occur runtime the template system should not continue as normal
+unless it is possible. This avoids errors to propagate down the template file
+and cause problems which is somewhat hidden for the template
+developer. Likewise errors in parser should not allow it be compiled or errors
+in compilation should not allow it be executed.
+All errors or warnings must also be properly logged.
+
+FR-USB-011: Integration
+^^^^^^^^^^^^^^^^^^^^^^^
+
+It should be easy to integrate existing PHP functions and scripts into the
+template language.
+
+You should be able to do one of the following:
+
+- Bind a PHP function or script to a template function which returns a given
+  object, parameters must be possible.
+
+- Bind a PHP function or script to template output function, any prints, echoes
+  or other output done by the PHP code is caught and sent back to the template
+  system.
+
+
+FR-USB-012: Migration
+^^^^^^^^^^^^^^^^^^^^^
+
+The new template syntax and structure must be made in such a way so it is easy
+to migrate from eZ publish 3.x to the current system. The system must make it
+possible to create upgrade scripts which transforms the existing templates to
+the new style or at least as close as possible.
+
+Design goals
+============
+
+The design should strike a fine balance between some of the requirements. This
+means providing a high enough execution speed without compromising the
+usability and flexibility of the system.
+
+Also the design should be less complex than it was earlier, this means smaller
+and more maintainable classes and smaller execution threads.
+
+Special considerations
+======================
+
+Variable leaks
+--------------
+
+In eZ publish 3.x the template variables set by one request would leak to the
+next (e.g. from content/view to pagelayout). This meant that other templates
+could read out values from the last request and use that for rendering, however
+this only worked when caching was turned off, it also meant that the variables
+were kept for the entire HTTP request using more memory than it needs to.
+
+To remedy this, template variables will no longer leak (see _`FR-PERF-007:
+Variable stack`). Instead alternative system for fetching information from the
+running module will be made (similar to $module_result.content_info.node_id).
+
+Uniform access
+--------------
+
+When one accessed object and arrays in eZ publish 3.x the same syntax was used
+(a dot). This meant that it was much harder to read what one was accessing when
+reading template code and validation was impossible. It also complicated the
+generated template code.
+
+To remedy this the access of arrays will now use the square brackets ([]) and
+object access uses the same dot (.)
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79

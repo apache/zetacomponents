@@ -1,0 +1,64 @@
+<?php
+/**
+ * File containing the ezcDbUtilities class.
+ *
+ * @package Database
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
+ */
+
+/**
+ * Various database methods.
+ *
+ * This implementation is postgreSQL specific.
+ *
+ * This class inherits most of its database handling functionality from
+ * PDO ({@link http://php.net/PDO}) -- an object-oriented database abstraction
+ * layer that is going to become a new standard for PHP applications.
+ *
+ * @package Database
+ * @todo this class must be renamed
+ * @access private
+ */
+class ezcDbUtilitiesPgsql extends ezcDbUtilities
+{
+    public function __construct( $db )
+    {
+        parent::__construct( $db );
+    }
+
+    // move out
+    public function cleanup()
+    {
+        $this->db->beginTransaction();
+
+        // drop tables
+        $rslt = $this->db->query( "SELECT tablename FROM pg_tables WHERE schemaname = 'public' AND tablename NOT LIKE 'pg_%'" );
+        $rslt->setFetchMode( PDO::FETCH_NUM );
+        $rows = $rslt->fetchAll();
+        unset( $rslt );
+        foreach ( $rows as $row )
+        {
+            $table = $row[0];
+            $this->db->exec( "DROP TABLE $table" );
+        }
+
+        // drop sequences
+        $rslt = $this->db->query( "SELECT relname FROM pg_catalog.pg_class WHERE relkind='S'" );
+        $rslt->setFetchMode( PDO::FETCH_NUM );
+        $rows = $rslt->fetchAll();
+        foreach ( $rows as $row )
+        {
+            $seq = $row[0];
+            $this->db->exec( "DROP SEQUENCE $seq" );
+        }
+
+        // FIXME: drop triggers?
+
+        $this->db->commit();
+    }
+}
+
+?>

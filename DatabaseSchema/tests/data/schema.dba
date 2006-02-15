@@ -1,0 +1,105 @@
+<?php
+$schema = array (
+  'schema' => 
+  array (
+    '_info' => 
+    array (
+      'dbms_type' => 'mysql',
+      'dbms_ver' => false,
+      'app' => false,
+      'features' => 
+      array (
+      ),
+    ),
+    'tables' => 
+    array (
+      'ezc_dbschema_test' => 
+      array (
+        'name' => 'ezc_dbschema_test',
+        'fields' => 
+        array (
+          'f_int1' => 
+          array (
+            'length' => 11,
+            'type' => 'int',
+            'default' => NULL,
+          ),
+          'f_int2' => 
+          array (
+            'length' => 11,
+            'type' => 'int',
+            'not_null' => '1',
+            'default' => 0,
+          ),
+          'f_int3' => 
+          array (
+            'length' => 11,
+            'type' => 'int',
+            'not_null' => '1',
+            'default' => 5,
+          ),
+          'f_float1' => 
+          array (
+            'type' => 'float',
+            'default' => NULL,
+          ),
+          'f_float2' => 
+          array (
+            'type' => 'float',
+            'default' => NULL,
+          ),
+          'f_char1' => 
+          array (
+            'length' => 3,
+            'type' => 'varchar',
+            'default' => NULL,
+          ),
+          'f_char2' => 
+          array (
+            'length' => 3,
+            'type' => 'varchar',
+            'default' => '',
+          ),
+          'f_char3' => 
+          array (
+            'length' => 3,
+            'type' => 'varchar',
+            'not_null' => '1',
+            'default' => 'zz1',
+          ),
+          'f_varchar1' => 
+          array (
+            'length' => 3,
+            'type' => 'varchar',
+            'default' => NULL,
+          ),
+          'f_varchar2' => 
+          array (
+            'length' => 3,
+            'type' => 'varchar',
+            'default' => '',
+          ),
+          'f_varchar3' => 
+          array (
+            'length' => 3,
+            'type' => 'varchar',
+            'not_null' => '1',
+            'default' => 'zz2',
+          ),
+          'f_varchar4' => 
+          array (
+            'length' => 3,
+            'type' => 'varchar',
+            'not_null' => '1',
+            'default' => '',
+          ),
+        ),
+        'indexes' => 
+        array (
+        ),
+      ),
+    ),
+  ),
+);
+
+?>

@@ -1,0 +1,41 @@
+Review Derick 12. dec 2005 [ALL DONE]
+==========================
+[FIXED] ezcPhpGenerator::$flowStack - I can't parse the documentation, perhaps you can
+reword it?
+
+[FIXED - method removed, was property] ezcPhpGenerator::lineBreak() - shouldn't this be named "getLineBreak()" ?
+
+[FIXED]ezcPhpGenerator::abort() - The docs describe something about subaequent calls,
+but I do not see how they are prohibitedi - or I don't see how.... Also, the
+tmpFilename is set to an empty string, while non-valid variables should be set
+to "null". [The calls will fail since the method will use write() which will throw an exception]
+
+[FIXED] ezcPhpGenerator::appendValueAssignment() - I do not see where the documented
+constants come from. If those constant names really exist, they should be class
+constants too. It also seems not all are documented.
+
+[FIXED] ezcPhpGenerator::appendVariableAssignment() - Same as above.
+
+[WNF] ezcPhpGenerator::appendUnset() - Misses long description.
+
+[WNF] ezcPhpGenerator::appendUnsetList() - Same as above.
+
+[WNF] ezcPhpGenerator::appendEndIf() - Misses long description.
+
+[WNF] ezcPhpGenerator::appendEndForeach() - Misses long description.
+
+[WNF] ezcPhpGenerator::appendEndWhile() - Misses long description.
+
+[WNF] ezcPhpGenerator::write() - Misses long description.
+
+[WNF] ezcPhpGenerator::indentCode() - Misses long description.
+
+
+[FIXED] ezcPhpGeneratorParameter::__set_state() - Not documented
+
+
+[FIXED] ezcPhpGeneratorReturnData - Short description misses, and I have no clue what the current description means.
+
+[FIXED] ezcPhpGeneratorReturnData::__set_state() - Not documented
+
+[FIXED] ezcPhpGeneratorException - The constants are not documented.

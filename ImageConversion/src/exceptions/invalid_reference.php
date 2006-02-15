@@ -1,0 +1,31 @@
+<?php
+/**
+ * File containing the ezcImageInvalidReferenceException.
+ * 
+ * @package ImageConversion
+ * @version //autogen//
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * Thrown if no valid image reference could be found for an action (conversion,
+ * filter, load, save,...).
+ *
+ * @package ImageConversion
+ * @version //autogen//
+ */
+class ezcImageInvalidReferenceException extends ezcImageException
+{
+    function __construct( $reason = null )
+    {
+        $reasonPart = "";
+        if ( $reason )
+        {
+            $reasonPart = " $reason";
+        }
+        parent::__construct( "No valid reference found for action.{$reasonPart}" );
+    }
+}
+
+?>

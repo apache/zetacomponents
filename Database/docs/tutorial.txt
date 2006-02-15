@@ -1,0 +1,217 @@
+eZ components - Database
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+The database component is built upon the PDO library in PHP 5 and consists of
+two main parts:
+
+1. Database handlers derived from PDO with some added functionality. A database
+   handler provides a common API for all databases to execute queries on a
+   a database. An introduction can be found in the PHP PDO documentation. Most
+   importantly the handlers in the components add support for nested 
+   ezcDbHandler::beginTransaction() and ezcDbHandler::commit() calls. The
+   handlers also provide factory methods for the query abstraction layer.
+
+2. The query abstraction layer. This layer provides an object oriented API for
+   creating SELECT, INSERT, UPDATE and DELETE queries. Using a single interface
+   you can create syntactic equal queries for the supported database. This
+   layer removes all need to do string processing in order bo build your
+   queries and helps avoiding syntax errors. Note that the query layer does
+   not remove semantical/logical differences between databases.
+
+Supported databases
+-------------------
+
+The Database component currently supports:
+
+- MySQL
+- PostgreSQL
+- Oracle
+- SQLite
+
+Class overview
+==============
+
+This section gives you an overview of the main classes of the Database
+component.
+
+Handlers
+--------
+
+ezcDbHandler
+  ezcDbHandler extends PDO and provides the common interface for all the
+  components database handlers. The handlers should be instantiated using
+  ezcDbFactory.
+
+ezcDbFactory
+  ezcDbFactory is exactly that: a factory for database handlers. It should
+  always be used when instanciating a database handler.
+   
+ezcDbInstance
+  Usually you want to use the database on several different places throughout
+  your application. It is inconvenient to pass the handler around and insecure
+  to store in a global variable. The singleton ezcDbInstance allows you to
+  store any number of database handlers and use these everywhere in your 
+  application.
+
+Query abstraction
+------------------
+
+ezcQuerySelect
+  Interface to create SELECT queries. Instances of ezcQuerySelect should be
+  retrieved from the database handler factory method
+  ezcDbHandler::createSelectQuery().
+
+ezcQueryInsert
+  Interface to create INSERT queries. Instances of ezcQueryInsert should be
+  retrieved from the database handler factory method
+  ezcDbHandler::createInsertQuery().
+
+ezcQueryUpdate
+  Interface to create UPDATE queries. Instances of ezcQueryUpdate should be
+  retrieved from the database handler factory method
+  ezcDbHandler::createUpdateQuery().
+
+ezcQueryDelete
+  Interface to create DELETE queries. Instances of ezcQueryDelete should be
+  retrieved from the database handler factory method
+  ezcDbHandler::createDeleteQuery().
+
+ezcQueryExpression
+   ezcQueryExpression provides the interface to create SQL statements common to
+   SELECT, INSERT, UPDATE and DELETE queries. Examples are methods like 
+   ezcQueryExpression::add() to add two or more numbers and
+   ezcQueryExpression::now() to create the current time. Each query has an
+   expression object available through the variable $expr on the query.
+
+Handler usage
+=============
+
+This chapter shows how to use the factory and the instance as well as how to
+execute some typical queries. For more details on how to perform queries using
+the handlers we recommend reading the PHP PDO documentation_.
+
+
+In order to get started you need a database handler. The first example shows
+how to create one using ezcDbFactory and how to store the handler in
+ezcDbInstance so it can easily be retrieved later:
+
+.. include:: tutorial_example_01.php
+   :literal:
+
+Executing a simple query and get the result right away can be done with the
+PDO::query() method:
+
+.. include:: tutorial_example_02.php
+   :literal:
+
+Next, we show a simple example with statements and the use of bind. Binding
+values can be very valuable both in terms of efficiency and security. The main
+difference with normal queries is that the bound value will be transfered to
+the SQL server independently from the main query. See the chapter 'Avoiding SQL
+injection' below.
+
+.. include:: tutorial_example_03.php
+   :literal:
+
+.. _documentation: http://www.php.net/pdo
+
+Query abstraction Usage
+=======================
+
+This chapter gives you a basic introduction on how to build queries using the
+query abstraction layer.
+
+We will start out with recreating the first query example:
+
+.. include:: tutorial_example_05.php
+   :literal:
+
+As you can see, building the query itself follows the build up of a normal
+query and is pretty straight forward. The rest of the example is a bit more
+verbose, this is mainly due to the fact that you need to fetch the query object
+from the handler and that you are required to use prepared statements with the
+query abstraction layer. The factory methods in the handler to fetch the query
+object ensures that you get a query of the correct type regardless of what
+database you use.
+
+The next example builds on the previous one, but builds a more complex query
+and introduces the usage of bind parameters in the query:
+
+.. include:: tutorial_example_04.php
+   :literal:
+
+The query will fetch the ten first quotes by Robert Foster sorted by the quote itself.
+Note that string parameters must be either bound using 
+ezcQuery::bindParam()/ezcQueryBindValue() or escaped and quoted manually.
+
+The final example shows that you in a similar way to the SELECT query can
+insert, update and delete rows from a table using the query abstraction layer.
+
+The final example shows how to create and use basic INSERT, UPDATE and DELETE
+query objects.
+
+.. include:: tutorial_example_06.php
+   :literal:
+
+Avoiding SQL injection
+======================
+
+SQL injection is possibly the biggest single cause of major security problems
+in web applications. SQL injections are caused when building SQL statements and
+parts of the statement is built up of untrusted data. If the untrusted data is
+not escaped properly or checked for proper input you will have a possible SQL
+injection problem.
+
+With the introduction of bound values it is possible to avoid SQL injection
+altogether. Simply always use bind to insert untrusted data into a query. This
+is usually also more efficient since you don't need to escape the data and the
+SQL server does not have to parse it as part of the query string.
+
+..
+  Notable differences between databases
+  =====================================
+..
+  Even though the query abstraction layer creates syntactic equal queries for the
+  supported databases, the results may still differ. This is due to a large
+  amount of differences between the databases. We will list the most important
+  ones here as a reference.
+..
+  - difference in case sensitivity
+  - difference in allowed field length
+  - difference in what you can compare (e.g TRUE =! 0)
+
+
+Adding support for a new database
+=================================
+
+This chapter explains the basic steps you have to go through when creating
+support for a new database. The following steps are rudimentary but should help
+you along the way. If you require additional information, feel free to ask in
+the forums_.
+
+1. Check out the Database component from the eZ systems SVN server. This is
+   necessary in order to use the testing system. This allows you to easily see
+   if your code works as it should.
+
+2. Create a handler for the new database. The handler must inherit from
+   ezcDbHandler. Don't reimplement the methods for the query abstraction
+   layer. They will then default to MySQL syntax.
+
+3. Run the test system and check if any of them fail. If any tests fail you
+   have to extend the class and method in question and make sure that the
+   generated SQL is correct for your database. When no tests fail: congratulations
+   you are done.
+
+.. _forums: http://www.ez.no/community/forums
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79

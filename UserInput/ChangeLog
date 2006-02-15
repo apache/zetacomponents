@@ -1,0 +1,51 @@
+1.0 - Monday 30 January 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Added dependency check on PHP's filter extension.
+
+
+1.0rc1 - Monday 16 January 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Added methods:
+
+  * ezcInputForm::hasGetData() - returns true if there is HTTP GET data
+    available.
+  * ezcInputForm::hasPostData() - returns true if there is HTTP POST data
+    available.
+
+- Changed ezcInputForm::validateDefinition() to return an error message
+  besides the error code only. This should make debugging of definition arrays
+  eaiser.
+- Changed exception behavior. All errors will now throw a different exception
+  class.
+
+
+1.0beta2 - Wednesday 21 December 2005
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+General
+=======
+
+- Added an ezcInputFormDefinitionElement struct that contains information
+  about form elements.
+
+- Changed the form definition array to contain ezcInputFormDefinitionElement
+  objects instead of arrays().
+
+ezcInputForm
+============
+
+- Changed the class' methods to use new ezcInputFormDefinitionElement structs.
+
+- Changed method names:
+  * invalidProperties() to getInvalidProperties()
+  * optionalProperties() to getOptionalProperties()
+  * requiredProperties() to getRequiredProperties()
+  * validProperties() to getValidProperties()
+
+
+1.0beta1 - Friday 25 November 2005
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Initial release of this package.

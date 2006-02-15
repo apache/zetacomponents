@@ -1,0 +1,56 @@
+1.0 - Monday 30 January 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ezcDebug
+========
+
+- Fixed PHP warning in switchTimer() when the given oldTimer does not exist. 
+- Fixed problem in switchTimer() when oldTimer and newTimer are the same.
+
+ezcDebugHtmlFormatter
+=====================
+
+- Improved the timing information output.  
+- Changed the access from protected to private in the methods: getGroups() and
+  addElement().
+
+
+1.0rc1 - Monday 16 January 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Changed Debug that it uses the ezcLogFilterSet mapping. 
+- Changed exception behavior. All errors will now throw a different exception
+  class.
+- Added property checks. Adding or reading a property throws an exception.
+- Fixed bug #7676: ezcDebugHtmlFormatter::getLog is buggy.
+
+ezcDebug
+========
+
+- Removed the source parameter from the startTimer() method.
+- Removed the verbosity constants.
+
+ezcDebugTimer
+=============
+
+- Changed the timing information structure. The more specific structures
+  ezcDebugTimerStruct and ezcDebugSwitchTimerStruct are used instead. 
+
+
+1.0beta2 - Thursday 22 December 2005
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Renamed the class ezcDebugReporter to ezcDebugOutputFormatter.
+- Renamed the class ezcDebugHtmlReporter to ezcDebugHtmlFormatter.
+
+ezcDebug
+========
+
+- Renamed the method getOutput() to generateOutput().
+- Renamed the method setReporter() to setOutputFormatter().
+
+
+1.0beta1 - Friday 25 November 2005
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Initial release of this package.

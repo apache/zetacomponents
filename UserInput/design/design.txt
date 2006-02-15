@@ -1,0 +1,48 @@
+eZ publish Enterprise Component: UserInput, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author:   Derick Rethans
+:Revision: $Revision: $
+:Date:     $Date: $
+
+Design Description
+==================
+We all know that you should always check input variables, but PHP does not
+offer really good functionality for doing this in a safe way. The User Input
+component is meant to address this issue by implementing a set of filters and
+mechanisms that users can use to safely access their input data. It makes heavy
+use of PHP's built in "filter" extension, for which you see a specification
+here.
+
+There are two classes in this component:
+
+ezcLocale
+---------
+This class provides method to format dates and different kinds of numbers:
+monetary information, decimal numbers, "spelled out formats" and user defined
+formats. It also offers a method to format date/time information through PHP's
+native date formatting functionality.
+
+Algorithms
+==========
+
+The following example shows how to utilize this class: ::
+
+    <?php
+    $date = date_create( 'now' );
+    $locale = new ezcLocale();
+
+    // shows "kl. 02.49.15 GMT-05:00 torsdag 18. august 2005"
+    $locale->formatDate( $date, DATETIME_FORMAT_FULL, DATETIME_FORMAT_FULL );
+
+    // shows "torsdag august 18 2005, 02:49"
+    $locale->formatDateCustom( $date, 'l F d Y, H:i' );
+
+    // shows "kr 31 415,92"
+    $locale->formatCurrency( 31415.92, 'NOK' );
+
+    // shows "SKr 31 415,92"
+    $locale->formatCurrency( 31415.92, 'SEK' );
+
+    // shows "1 457%"
+    $locale->formatNumber( 1457.1, FORMAT_PERCENT );
+    ?>

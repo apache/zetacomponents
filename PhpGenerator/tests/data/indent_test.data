@@ -1,0 +1,17 @@
+if ( true )
+{
+  foreach ( $counter as $count )
+  {
+    while ( false )
+    {
+      do
+      {
+        return true;
+      } while ( false );
+    }
+  }
+}
+else if ( true )
+{
+  return true;
+}

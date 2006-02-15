@@ -1,0 +1,149 @@
+eZ publish Enterprise Component: Cache, Requirenments
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Introduction
+============
+
+Purpose of Cache package
+------------------------
+
+The Cache package should provided general purpose caching for all kinds of
+imaginable data onto all kinds of imaginable media. Beside that, the package
+has to provide a way of informing other modules about the expiration of
+specifically cached data.
+
+Current implementation
+----------------------
+
+Currently the cache functionality is included in the eZ publish kernel using
+the following classes:
+
+eZCache
+    Main class for dealing with caches.
+
+eZExpiryHandler
+    Handles expiration of cache items.
+
+There are multiple classes accessing these infrastructure and creating their
+own management mechanisms around.
+
+General notes
+-------------
+
+The cache implementation should be completly rewised, since it's deeply
+integrated into eZ publish and not flexible enough. Beside that, the
+requirement of having a "messaging system" is solved in a complete different
+direction.
+
+Requirements
+=============
+
+Design goals
+------------
+
+The caching mechanis should be as flexible as possible in the following
+directions:
+
+- Types of data it can save.
+- Storage backends it utilizes.
+
+Detailed requirements
+----------------------
+
+Types of data to save
+    Caching is a solution for every kind of data which is not dynamically
+    generated on every request. This can be e.g. text, an array or even an
+    object or different objects referenced by each other. All these kinds of
+    data must be manageable by the cache.
+
+Storage backends
+    Storing cache data can take place nearly everywhere around in a system.
+    That means e.g. the filesystem, inside a database, even maybe to another
+    server using whatever. This means that the storage backend has to be as
+    flexible as possible and as independant as possible from the rest.
+
+Module messaging
+    There are multiple cases inside eZ publish, where another component has to
+    actualize it's data or to react in any other way on data expiration from
+    another module. That means, that a way has to be found, how these modules
+    can be informed of certain events that occur in the cache (like expiration).
+
+    The module messaging mechanism is necessary in multiple other places
+    around eZ publish and therefore has been moved to it's own package.
+
+Design
+======
+
+Introduction
+------------
+
+Backend
+^^^^^^^
+
+The backend must be defined through either an interface or an abstract class
+to allow custom backends. Beside that, it should not deal with anything except
+the real storage of the data. Therefore, backends should just receive a
+general purpose data format, which is storable anywhere. To avoid any
+overhead, the serialization of the data to cache should take place before the
+data is transmitted to the backend. Backends than only have to deal with
+storing plain text.
+
+Beside that, backends have to store additional attributes for the cached data
+as there is:
+
+ID
+    Every cache object has to be identified by a application wide unique ID.
+
+Expiration
+    Cache data has to expire to be regenerated. Expiration has to be possible
+    automatically or manually.
+
+Frontend
+^^^^^^^^
+
+Access to the backends has to be managed by a global instance, which
+coordinates the caches and manages expiration and so on. This instance should
+only exist in a single place on the system, handling all possible cache
+locations and caches.
+
+The manager should also take care of the possibility to identify caches of a
+certain type (which for example come from the same module or contain related
+data). This shall allow one to manipulate several cached objects at once.
+
+Class design
+------------
+
+Backend
+^^^^^^^
+
+The backend has definitly to be driver based. Every driver has to implement
+the same interface to communicate with the frontend. A backend driver should
+only deal with an abstract data format, which it just has to store. Following
+Classes are necessary:
+
+
+ezcCacheStorage
+    The abstract base class for all cache drivers. This should implement the
+    common features needed by every cache driver like option handling,...
+ezcCacheStorageArray
+    File system based backend which stores arrays of data in PHP code. Using
+    this technique allows one to simple include the cache data when restoring
+    it, which is pretty fast. Beside that it allows op-code caches like APC
+    to cache the data additionally between requests.
+ezcCacheStorageEvalarray
+    Similar functionality as the Array backend, but uses PHPs eval() function
+    to restore the cache data. This implies that the cached data can not be
+    cached by APC (e.g. huge ammounts of data).
+
+The infrastructure must be that general, that multiple other cache backends
+can be implemented for special use in eZ publish.
+    
+Frontend
+^^^^^^^^
+
+ezcCacheManager
+    The manager will keep track of caches available in an application. Each
+    cache will be configured inside tha manager at a central place. All over
+    the application, one can get single instances of these caches. The caches
+    will not be initialized during the manager initialization, but on their
+    first use. After that, the exising cache instances will be reused.

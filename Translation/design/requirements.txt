@@ -1,0 +1,30 @@
+eZ publish Enterprise Component: Translation, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author:   Derick Rethans
+:Revision: $Revision: $
+:Date:     $Date: $
+
+Introduction
+============
+
+Description
+-----------
+This component will provide an interface to localized strings. Localized
+strings are returned to the application based on context and identifier
+(usually the english text).  
+
+Requirements
+============
+The idea of this component is that applications can use translations in an easy
+way, where multiple file formats are supported for retrieving translated text
+froms. It also supports filters that can be applied on the text that is
+retrieved from the backends for special effects.
+
+Design goals
+============
+In order to make translating an application effective, there are several helper
+classes and functionality that allow you to read from one backend (file based),
+and write to another backend (for example a cached backend). This will greatly
+speed up performance. Because we can not depend on any other packages, the
+caching is done through an optional "tie-in" that links the CacheBackend with
+the Cache package.

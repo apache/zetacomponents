@@ -1,0 +1,83 @@
+1.0 - Monday 30 January 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed documentation regarding when which exception is thrown.
+
+ezcConfigurationManager
+=======================
+
+- Added getSettingsAsList() method to retrieve a group of settings but without
+  their names being used as keys in the returned array. This allows the list()
+  = $manager->getSettingsAsList( $name, $group, $settingsArray() ); syntax.
+	
+
+1.0rc1 - Monday 16 January 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Changed exception behavior. All errors will now throw a different exception
+  class.
+
+ezcConfigurationFileWriter
+==========================
+
+- Fixed generation of file names to include a . before appending the suffix.
+- Fixed a spelling error when throwing an exception in case a file could not
+  be written to.
+
+
+1.0beta2 - Wednesday 21 December 2005
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ezcConfiguration
+================
+
+- Added implementation of getGroupNames() that returns all group names from
+  a configuration file.
+- Changed method names:
+
+  * allComments() to getAllComments()
+  * allSettings() to getAllSettings()
+  * arraySetting() to getArraySetting()
+  * boolSetting() to getBoolSetting()
+  * comments() to getComments()
+  * comment() to getComment()
+  * floatSetting() to getFloatSetting()
+  * intSetting() to getIntSetting()
+  * numberSetting() to getNumberSetting()
+  * settingNames() to getSettingNames()
+  * settingsInGroup() to getSettingsInGroup()
+  * settings() to getSettings()
+  * setting() to getSetting()
+  * stringSetting() to getStringSetting()
+
+ezcConfigurationManager
+=======================
+
+- Changed method names:
+
+  * arraySetting() to getArraySetting()
+  * boolSetting() to getBoolSetting()
+  * numberSetting() to getNumberSetting()
+  * settings() to getSettings()
+  * setting() to getSetting()
+  * stringSetting() to getStringSetting()
+
+ezcConfigurationArrayReader
+===========================
+
+- Changed method name:
+
+  * timestamp() to getTimestamp()
+
+ezcConfigurationIniReader
+=========================
+
+- Changed method name:
+
+  * timestamp() to getTimestamp()
+
+
+1.0beta1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Initial release of this package.

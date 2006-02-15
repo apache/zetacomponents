@@ -1,0 +1,483 @@
+<?php
+/**
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogentag//
+ * @filesource
+ * @package Translation
+ */
+/**
+ * Translation backend that reads Qt's Linguist TS files.
+ *
+ * This class is the backend that can read Qt's Linguist files as source for a
+ * translation. The format is an XML file, which contains contexts and all the
+ * translatable strings.
+ *
+ * Example:
+ * <code>
+ * <?php
+ * $a = new ezcTranslationTsBackend(
+ *     'tests/translations',
+ *     array ( 'format' => '[LOCALE].xml' )
+ * );
+ *
+ * $b = new ezcTranslationManager( $a );
+ * ?>
+ * </code>
+ *
+ * The reader capabilities of this class (the implementation of
+ * ezcTranslationContextRead) can be used it two different ways, where the
+ * second one is the more elegant approach.
+ *
+ * Reader Example 1:
+ * <code>
+ * <?php
+ * $backend = new ezcTranslationTsBackend( "files/translations" );
+ * $backend->setOptions( array ( 'format' => '[LOCALE].xml' ) );
+ * $backend->initReader( 'nb-no' );
+ * $backend->next();
+ * 
+ * $contexts = array();
+ * while ( $backend->valid() )
+ * {
+ *     $contextName = $backend->key();
+ *     $contextData = $backend->current();
+ *     // do something with the data
+ *     $backend->next();
+ * }
+ * ?>
+ * </code>
+ *
+ * Reader Example 2:
+ * <code>
+ * <?php
+ * $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
+ * $backend->setOptions( array ( 'format' => '[LOCALE].xml' ) );
+ * $backend->initReader( 'nb-no' );
+ * 
+ * $contexts = array();
+ * foreach ( $backend as $contextName => $contextData )
+ * {
+ *     // do something with the data
+ * }
+ * ?>
+ * </code>
+ *
+ * For a more extensive example see {@link ezcTranslationManager}.
+ *
+ * @package Translation
+ */
+class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationContextRead
+{
+    /**
+     * Path to the directory that contains all TS .xml files.
+     *
+     * @var string
+     */
+    private $tsLocationPath;
+
+    /**
+     * Format for the translation file's name
+     *
+     * In this format string the special place holder [LOCALE] will be replaced
+     * with the requested locale's name. For example a format of
+     * "translations/[LOCALE].xml" will result in the filename for the
+     * translation file to be "translations/nl_NL.xml" if the nl_NL locale is
+     * requested.
+     *
+     * @var string
+     */
+    private $tsFilenameFormat = '[LOCALE].xml';
+
+    /**
+     * The last read context, as read by next() method.
+     *
+     * The next() method is a part of the {@link ezcTranslationContextRead}
+     * interface. The first element is the name, the second an array with
+     * {@link ezcTranslationData} objects. An example of such an array is:
+     *
+     * <code>
+     * array(
+     *     'design/admin/class/classlist',
+     *     array(
+     *         new ezcTranslationData( 'Edit', 'Rediger', false, ezcTranslationData::TRANSLATED ),
+     *         new ezcTranslationData( 'Create a copy of the <%class_name> class.', 'Lag en kopi av klassen <%class_name>.', false, ezcTranslationData::TRANSLATED ), 
+     *     ),
+     * );
+     * </code>
+     *
+     * @var array
+     */
+    private $currentContext = null;
+
+    /**
+     * Handle for the XML parser used as part of the ezcTranslationContextRead interface.
+     *
+     * @var resource
+     */
+    private $xmlParser = null;
+
+    /**
+     * Constructs a new ezcTranslationTsBackend that will use the file specified by $location.
+     *
+     * You can specify additional options through the $options parameter. See
+     * the documentation for the {@link ezcTranslationTsBackend::setOptions()}
+     * method for supported options.
+     *
+     * @throws ezcTranslationNotConfiguredException if $location is not set or is empty.
+     * @param string $location
+     * @param array(string=>mixed) $options
+     */
+    function __construct( $location, array $options = array() )
+    {
+        if ( !$location || !strlen( $location ) )
+        {
+            throw new ezcTranslationNotConfiguredException( $location );
+        }
+        $this->setOptions( array( 'location' => $location ) );
+        $this->setOptions( $options );
+    }
+
+    /**
+     * Sets the configuration options $configurationData.
+     *
+     * This backend accepts two settings which can be set through this
+     * function. The two options are 'location' that specifies the directory to
+     * the translation files and 'format' that specifies the of the
+     * translation's filename. See {@link ezcTsBackend::$tsFilenameFormat} on
+     * how this format works.  The options will be stored in the private
+     * properties $tsLocationPath and $tsFilenameFormat.
+     *
+     * Example:
+     * <code>
+     * <?php
+     *     $be = new ezcTranslationTsBackend();
+     *     $be->setOptions(
+     *         array( 'location' => 'usr/share/translations',
+     *                'format'   => 'translation-[LOCALE].xml' )
+     *     );
+     * ?>
+     * </code>
+     *
+     * @param array $configurationData
+     * @throws ezcBaseSettingNotFoundException if an unknown setting is passed.
+     * @return void
+     */
+    public function setOptions( array $configurationData )
+    {
+        foreach ( $configurationData as $name => $value )
+        {
+            switch ( $name )
+            {
+                case 'location':
+                    if ( $value[strlen( $value ) - 1] != '/' )
+                    {
+                        $value .= '/';
+                    }
+                    $this->tsLocationPath = $value;
+                    break;
+                case 'format':
+                    $this->tsFilenameFormat = $value;
+                    break;
+                default:
+                    throw new ezcBaseSettingNotFoundException( $name );
+            }
+        }
+    }
+
+    /**
+     * Returns the filename for the translation file using the locale $locale.
+     *
+     * This function uses the <i>location</i> and <i>format</i> properties,
+     * combined with the $locale parameter to form a filename that contains the
+     * translation belonging to the specified locale.
+     *
+     * @param string $locale
+     * @return string
+     */
+    public function buildTranslationFileName( $locale )
+    {
+        $filename = $this->tsLocationPath . $this->tsFilenameFormat;
+        $filename = str_replace( '[LOCALE]', $locale, $filename );
+        return $filename;
+    }
+
+    /**
+     * Creates an SimpleXML parser object for the locale $locale..
+     *
+     * You can set the class of the returned object through the $returnClass
+     * parameter. That class should extend the SimpleXMLElement class.
+     *
+     * This function checks if the <i>location</i> setting is made, if the file
+     * with the filename as returned by buildTranslationFileName() exists and
+     * creates a SimpleXML parser object for this file. If either the setting
+     * is not made, or the file doesn't exists it throws an exception.
+     *
+     * @throws ezcTranslationMissingTranslationFileException if the translation
+     *         could not be opened.
+     * @param string $locale
+     * @param string $returnClass The class of the returned XML Parser Object.
+     * @return object The created parser. The parameter $returnClass
+     *                 determines what type of class gets returned. The
+     *                 classname that you specify should be inherited from
+     *                 SimpleXMLElement.
+     */
+    public function openTranslationFile( $locale, $returnClass = 'SimpleXMLElement' )
+    {
+        $filename = $this->buildTranslationFileName( $locale );
+        if ( !file_exists( $filename ) )
+        {
+            throw new ezcTranslationMissingTranslationFileException( $filename );
+        }
+        return simplexml_load_file( $filename, $returnClass );
+    }
+
+    /**
+     * Returns the data from the XML element $message as an
+     * ezcTranslationData object.
+     *
+     * @param SimpleXMLElement $message
+     * @return ezcTranslationData
+     */
+    private function parseSimpleXMLMessage( SimpleXMLElement $message )
+    {
+        $status = ezcTranslationData::TRANSLATED;
+        if ( $message->translation['type'] == 'unfinished' )
+        {
+            $status = ezcTranslationData::UNFINISHED;
+        }
+        else if ( $message->translation['type'] == 'obsolete' )
+        {
+            return null;
+        }
+
+        $source = trim( (string) $message->source );
+        $translation = trim( (string) $message->translation );
+        $comment = trim( (string) $message->comment );
+
+        $source = strlen( $source ) ? $source : false;
+        $translation = strlen( $translation ) ? $translation : false;
+        $comment = strlen( $comment ) ? $comment : false;
+
+        return new ezcTranslationData( $source, $translation, $comment, $status );
+    }
+
+
+    /**
+     * Returns a array containing a translation map for the locale $locale
+     * and the context $context.
+     *
+     * This method returns an array containing the translation map for the
+     * specified $locale and $context. It uses the $tsLocationPath and
+     * $tsFilenameFormat properties to locate the file, unless caching is
+     * enabled.
+     *
+     * @throws ezcTranslationContextNotAvailableException if a context is not
+     *         available
+     * @throws ezcTranslationMissingTranslationFileException if the translation
+     *         file does not exist.
+     * @throws ezcTranslationNotConfiguredException if the option <i>format</i>
+     *         is not set before this method is called.
+     * @param $locale string
+     * @param $context string
+     * @return array(ezcTranslationData)
+     */
+    public function getContext( $locale, $context )
+    {
+        $ts = $this->openTranslationFile( $locale );
+        $contextElements = array();
+        foreach ( $ts as $trContext )
+        {
+            if ( (string) $trContext->name == $context )
+            {
+                foreach ( $trContext as $message )
+                {
+                    if ( $message->source != '' )
+                    {
+                        $element = $this->parseSimpleXMLMessage( $message );
+                        if ( is_null( $element ) )
+                        {
+                            continue;
+                        }
+                        $contextElements[] = $element;
+                    }
+                }
+                return $contextElements;
+            }
+        }
+        throw new ezcTranslationContextNotAvailableException( $context );
+    }
+
+    /**
+     * Initializes the reader to read from locale $locale.
+     *
+     * Opens the translation file.
+     *
+     * @throws ezcTranslationNotConfiguredException if the option <i>format</i>
+     *         is not set before this method is called.
+     *
+     * @param string $locale
+     * @return void
+     */
+    public function initReader( $locale )
+    {
+        $this->xmlParser = $this->openTranslationFile( $locale, 'SimpleXMLIterator' );
+        $this->xmlParser->rewind();
+    }
+
+    /**
+     * Deinitializes the reader
+     *
+     * This method should be called after the haveMore() method returns false
+     * to cleanup resources.
+     *
+     * @throws ezcTranslationException when the reader is not initialized with
+     *                                 initReader().
+     * @return void
+     */
+    public function deinitReader()
+    {
+        $this->xmlParser = null;
+    }
+
+    /**
+     * Advanced to the next context.
+     *
+     * This method parses a little bit more of the XML file to be able to
+     * return the next context.  If no more contexts are available it sets the
+     * $currentContext member variable to null, so that the valid() method can
+     * pick this up.  If there are more contexts available it reads the context
+     * from the file and stores it into the $currentContext member variable.
+     * This method is used for iteration as part of the Iterator interface.
+     *
+     * @throws ezcTranslationReaderNotInitializedException when the reader is
+     *         not initialized with initReader().
+     * @return void
+     */
+    public function next()
+    {
+        if ( is_null( $this->xmlParser ) )
+        {
+            throw new ezcTranslationReaderNotInitializedException();
+        }
+        $valid = $this->xmlParser->valid();
+
+        if ( $valid )
+        {
+            $newContext = array( trim( $this->xmlParser->getChildren()->name), array() );
+
+            foreach ( $this->xmlParser->getChildren()->message as $data )
+            {
+                $translationItem = $this->parseSimpleXMLMessage( $data );
+
+                if ( !is_null( $translationItem ) )
+                {
+                    $newContext[1][] = $translationItem;
+                }
+            }
+
+            $this->currentContext = $newContext;
+            $this->xmlParser->next();
+        }
+        else
+        {
+            $this->currentContext = null;
+        }
+    }
+
+    /**
+     * Returns whether there is a new context available.
+     *
+     * This method checks whether a valid context was read. It checks the
+     * $currentContext member variable for the status.
+     * This method is used for iteration as part of the Iterator interface.
+     *
+     * @throws ezcTranslationReaderNotInitializedException when the reader is
+     *         not initialized with initReader().
+     * @return bool
+     */
+    public function valid()
+    {
+        return $this->currentContext != null;
+    }
+
+    /**
+     * Returns the current context
+     *
+     * This method returns the latest read context, that the haveMore() method
+     * put into the $currentContext property. See
+     * {@link ezcTranslationTsBackend::$currentContext} for the format of this
+     * array.
+     * This method is used for iteration as part of the Iterator interface.
+     *
+     * @throws ezcTranslationReaderNotInitializedException when the reader is
+     *         not initialized with initReader().
+     * @return array The current context's translation map
+     */
+    public function currentContext()
+    {
+        if ( is_null( $this->xmlParser ) )
+        {
+            throw new ezcTranslationReaderNotInitializedException();
+        }
+        return $this->currentContext;
+    }
+
+    /**
+     * Returns the current context's data.
+     *
+     * This method returns the latest read context, that the next() method
+     * put into the $currentContext property. See
+     * {@link ezcTranslationTsBackend::$currentContext} for the format of this
+     * array.
+     * This method is used for iteration as part of the Iterator interface.
+     *
+     * @throws ezcTranslationReaderNotInitializedException when the reader is
+     *         not initialized with initReader().
+     * @return array The current context's translation map
+     */
+    public function current()
+    {
+        $context = $this->currentContext();
+        return $context[1];
+    }
+
+    /**
+     * Returns the current context's name.
+     *
+     * This method returns the latest read context, that the next() method
+     * put into the $currentContext property. See
+     * {@link ezcTranslationTsBackend::$currentContext} for the format of this
+     * array.
+     * This method is used for iteration as part of the Iterator interface.
+     *
+     * @throws ezcTranslationReaderNotInitializedException when the reader is
+     *         not initialized with initReader().
+     * @return string The current context's name
+     */
+    public function key()
+    {
+        $context = $this->currentContext();
+        return $context[0];
+    }
+
+    /**
+     * Empty function to satisfy the Iterator interface.
+     *
+     * The iterator interface expects this method to rewind to the start of
+     * the array. As we do not support rewinding actually, the only thing that
+     * the rewind() implementation does is reading the first element from the
+     * translation file.  There are no side effects either if you just use the
+     * foreach or while methods.  (See class introduction for an example).
+     * This method is used for iteration as part of the Iterator interface.
+     *
+     * @throws ezcTranslationReaderNotInitializedException when the reader is
+     *         not initialized with initReader().
+     * @return void
+     */
+    public function rewind()
+    {
+        $this->next();
+    }
+}
+?>

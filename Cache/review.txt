@@ -1,0 +1,128 @@
+> Comments by: Jan Borsodi (11-16-2005)
+> -------------------------------------
+
+> ezcCacheManager::createCache()
+> Documents that it throws an exception but there is no code for it.
+> Also it does not really explain why an exception would be thrown.
+> The test code lacks a check for a thrown exception.
+
+Thanks for information, there were some sanity checks missing. I fixed 
+that part. Regarding the documentation I consider it sufficient
+to set a link to the specific error constant (as I did in all of my
+packages), which then explais what a specific error code should mean.
+
+If this solution is insufficient for you, please inform me!
+
+> ezcCacheManager::getCache()
+> Does not check if the requested $id exists and no exception is thrown.
+> Also it does not really explain why an exception would be thrown.
+> The test code lacks a check for a thrown exception.
+
+Fixed.
+
+> ezcCacheStorage::store()
+> No explanation of when exceptions are thrown.
+
+Fixed.
+
+> ezcCacheManagerException
+> ezcCacheStorageException
+> This exception does not look complete, only contains some constants.
+
+Which is pretty much correct, since it is only invented to devide management
+exceptions from storage exceptions. Both classes are only containers for
+their error codes.
+
+> ezcCacheStorageFile
+> ezcCacheStorageFileArray
+> ezcCacheStorageFileEvalArray
+> ezcCacheStorageFilePlain
+
+> The naming is from the old standard, shouldn't this be named 
+> ezcCacheFileStorage etc.?
+
+I don't know of such a change in the naming scheme. By now, the
+docs/guidelines/class_filenames.txt document states:
+
+    Good example: ::
+    
+    ezcDbHandlerMysql
+    ezcDbHandlerPostgresql
+    
+    Bad example: ::
+    
+    ezcDbPostgresqlHandler
+    ezcDbMysqlHandler
+
+This means, if I change to your suggested names and someone create a storage
+backend later, to store arrays into a database, I'd have
+
+ezcCacheDatabaseStorageArray
+
+which sounds a bit rediculous for me. Specifying the file names after their
+inheritance from unspecific to specific sounds most logical to me. Therefore I
+chose
+
+ezcCacheStorageFileArray extends ezcCacheStorageFile extends ezcCacheStorage.
+
+Did I miss something in this direction?
+
+> ezcCacheStorageFile::hasData()
+> Doc for @return is not correct.
+
+Fixed.
+
+> ezcCacheStorageFileEvalArray
+> Doc for class does not really explain what it is meant for. Even the code is 
+> pretty similar to the ezcCacheStorageFileArray class. I'm not sure I 
+> understand why this class is present.
+
+Updated docs and explained difference between *Array and *Evalarray.
+
+> ezcCacheStorageFileArray::prepareData
+> ezcCacheStorageFileEvalArray::prepareData
+> ezcCacheStorageFilePlain::prepareData
+> No direct explanation of why the exception is thrown.
+
+Fixed.
+
+> Cache/trunk/src/
+
+> The directory structure does not follow our new standard. The abstract 
+> classes should be placed in an 'interfaces' directory and the storage 
+> handlers directly under 'storage' dir.
+
+I'm not sure I really understand. I did not see any "new dir strcture"
+document in SVN and the example listed in class_filenaming.txt looks quite
+similar to mine... I either do not consider this "new structure" a good thing,
+since it does not reflect the class structure correctly anymore. An abstract
+class is definitly not an interface (although it declares partly an interface,
+through it's abstract methods). It therefore should not be located under the
+interfaces/ directory. Another point is, that my handler structure is getting
+much more unclear, when moving those classes to a different directory. It
+would result in:
+
+src/
+	interfaces/
+		storage.php
+		storage_file.php
+		storage_db.php
+		storage_db_sql.php
+		storage_db_xml.php
+		...
+	storage/
+		file_array.php
+		file_evalarray.php
+		file_plain.php
+		db_sql_mysql.php
+		db_sql_sqlite.php
+		db_xml_tamino.php
+		...
+
+Please give me a hint how we will handle this and update the docs regarding
+the new standard. Thanks!
+
+Bugs:
+http://ez.no/bugs/view/7469
+
+> Fixed.

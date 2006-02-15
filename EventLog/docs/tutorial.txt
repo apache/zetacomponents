@@ -1,0 +1,213 @@
+eZ components - EventLog
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+The EventLog component provides an API to log events and audit trails. These
+events and audit trails are written to files or other storage spaces in
+various formats. How and where the log messages (events and audit trails) are
+written depends on the chosen or customized log writer.
+
+The available log writers are:
+
+- ezcLogDatabaseWriter, which writes log messages to the database.
+- ezcLogUnixFileWriter, which writes log messages to a file in an 'Unix' file 
+  format.
+
+Each of these writers can be customized or extended. 
+
+An incoming log message can be written to zero or more writers. The writers
+that write the log message depends on the variables of the log message itself and the
+ezcLogMapper implementation. An implementation of the ezcLogMapper checks the
+severity, source, and category from the log message and forwards the message 
+to the matching writers. 
+
+
+Class overview
+==============
+
+The following classes are most important to use, customize, or extend:
+
+ezcLog
+  The ezcLog is a singleton, meaning that only one instance to the log can 
+  exist. This class provides methods to configure and record log messages. The
+  recorded log messages are sent to an implementation of the ezcLogMapper,
+  deciding which writers should write the log message. 
+
+ezcLogMapper
+  The ezcLogMapper provides an interface for the log message mapping. Log
+  messages are dispatched from the ezcLog to a writer. To which writer a
+  message is dispatched is determined in the class that implements
+  ezclogMapper and is assigned in the ezcLog.  
+
+ezcLogFilterSet
+  The ezcLogFilterSet is an implementation of the ezcLogMapper. The
+  ezcLogFilterSet contains a set of ezcLogFilterRules. These rules are
+  processed sequentially. The rule assigned first will be processed first.  
+  Each rule determines whether the log message matches with the filter rule. If the
+  log message matches, it calls the writer and decide whether the filter set
+  stops processing.
+
+  The ezclogFilterSet is inspired by modern mail applications regarding the
+  mail filter settings. Normally these mail filter settings sort the incoming
+  mail and stores it in the correct mail folder.  
+
+ezcLogWriter
+  The ezcLogWriter provides an interface for the writers. An implementation
+  of this interface is a valid writer, and can be addressed by the ezcLogMapper. 
+  The writer itself can determine how and where the log message is stored.
+
+ezcLogUnixFileWriter
+  The ezcLogUnixFileWriter writes the log message to a file. 
+
+ezcLogDatabaseWriter
+  The ezcLogDatabaseWriter writes the log message to a database.
+
+ezcLogFilter
+  The ezcLogFilter is a structure to specify which log messages are accepted in
+  a filter set.
+  
+ 
+For more information about these classes, see the class documentation.
+
+
+Examples
+========
+
+Writing a log message to a file.
+--------------------------------
+
+This example creates a file writer, and assigns it to the default log mapper. 
+
+.. include:: tutorial_simple_file_writer.php
+   :literal:
+
+First the tutorial_autoload.php is included. The included file loads the
+correct php files for the EventLog component. Hereafter the time zone is set to
+"UTC". The log uses some date functions and without a time zone set, PHP may
+show warnings.
+
+Hereafter the log is set up, and a message is written to the log file
+"default.log" and the file will be placed in the "/tmp/log" directory.
+
+After execution, the file "/tmp/log/default.php" contains something like::
+
+    Jan 24 14:39:57 [Warning] [default] [default] Could not connect with the payment server. 
+
+Respectively the date, severity, source, category, and message are shown. The
+source and category are both set to default, because they were not specified in
+the message. 
+
+
+Assigning sources and categories
+--------------------------------
+
+The default source and category from the ezcLog can be set via the properties:
+"source" and "category". The next example demonstrates how the default
+properties can be set and how extra variables can be added to the log.
+
+.. include:: tutorial_sources_categories.php
+   :literal:
+
+After execution, the file "/tmp/log/default.php" contains something like::
+
+    Jan 24 15:45:04 [Warning] [Payment module] [Template] Could not find cache file: </var/cache/payment1234.cache>. 
+    Jan 24 15:45:04 [Error] [Payment module] [SQL] Cannot execute query: <SELECT * FROM Orders WHERE ID = '123'>. 
+    Jan 24 15:45:04 [Debug] [Payment module] Starting shutdown process. (file: /home/rb/php5/ezcomponents/packages/EventLog/trunk/docs/tutorial_sources_categories.php, line: 25)
+
+
+Adding log attributes automatically
+-----------------------------------
+
+Some cases it is convenient to add automatically log attributes to the log
+message. For example: 
+
+- Audit trails should include the current user. 
+- A payment system should always include the order number. 
+
+However, the log attributes appended to the log message are static. The
+value assigned to the attribute will be the same. 
+
+The next example assigns two automatic attributes:
+
+.. include:: tutorial_auto_variables.php
+   :literal:
+
+After execution, the file "/tmp/log/default.php" contains::
+
+    Jan 25 10:15:19 [Failed audit] [security] [login/logoff] Authentication failed (username: John Doe)
+    Jan 25 10:15:19 [Debug] [Payment] [external connections] Connecting with the server. (service: Paynet Terminal)
+    Jan 25 10:15:19 [Success audit] [Payment] [shop] Payed with creditcard. (username: John Doe, service: Paynet Terminal)
+
+
+Assigning log messages to different files
+-----------------------------------------
+
+Depending on the incoming log message, the message can be stored on different
+writers. This example handles the log message as follows:
+
+- Ignore all message with the severity DEBUG.
+- Store the audit trails in the "audit.log" file. 
+- Store the logs with the Payment category in the "payment.log" file.
+- Store all the messages, except DEBUG, in the "general.log" file.
+
+The code is as follows:
+
+.. include:: tutorial_multiple_log_files.php
+   :literal:
+
+
+
+Writing to the MySQL database
+-----------------------------
+
+To write log messages to the database, the Database component is used. The
+table to which the log is written should already exist.
+
+.. include:: tutorial_database.php
+   :literal:
+
+The database: "logs" and the table "general" should exist. The table should at
+least contain the columns: time, message, severity, source, category. An
+example MySQL query to create the table::
+
+  CREATE TABLE `general` 
+  ( 
+       `id` INT NOT NULL AUTO_INCREMENT, 
+       `time` DATETIME NOT NULL,
+       `message` VARCHAR( 255 ) NOT NULL, 
+       `severity` VARCHAR( 40 ) NOT NULL, 
+       `source` VARCHAR( 100 ) NOT NULL ,
+       `category` VARCHAR( 100 ) NOT NULL, 
+       `file` VARCHAR( 100 ) NOT NULL, 
+       `line` INT NOT NULL, 
+       PRIMARY KEY ( `id` )
+  )
+
+
+Using trigger_error()
+---------------------
+
+The EventLog component is designed that it can be used with trigger_error_ or
+stand-alone. Instead of calling the ezcLog::getInstance()->log() method, the
+trigger_error can be called.  Using the trigger_error method makes your code
+less Log package dependent and produces less overhead when logging is disabled.
+ 
+The function set_error_handler_ should set up a callback function (or method)
+that in its turn calls the EventLog. See for more information the
+ezcLog::logHandler() method.
+
+.. _trigger_error: http://www.php.net/trigger_error
+.. _set_error_handler: http://www.php.net/set_error_handler
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79

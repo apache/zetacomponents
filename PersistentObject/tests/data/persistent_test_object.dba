@@ -1,0 +1,75 @@
+<?php
+$schema = array (
+  'schema' => 
+  array (
+    '_info' => 
+    array (
+      'dbms_type' => 'mysql',
+      'dbms_ver' => false,
+      'app' => false,
+      'features' => 
+      array (
+        'auto_increment' => true,
+        'field_precision' => true,
+      ),
+    ),
+    'tables' => 
+    array (
+      'PO_test' => 
+      array (
+        'name' => 'PO_test',
+        'fields' => 
+        array (
+          'id' => 
+          array (
+            'length' => 10,
+            'type' => 'int',
+            'not_null' => '1',
+            'default' => 0,
+            'options' => 
+            array (
+              'auto_increment' => true,
+            ),
+          ),
+          'type_varchar' => 
+          array (
+            'length' => 20,
+            'type' => 'varchar',
+            'default' => NULL,
+          ),
+          'type_integer' => 
+          array (
+            'length' => 11,
+            'type' => 'int',
+            'default' => NULL,
+          ),
+          'type_decimal' => 
+          array (
+            'length' => 10,
+            'precision' => '2',
+            'type' => 'float',
+            'default' => NULL,
+          ),
+          'type_text' => 
+          array (
+            'type' => 'text',
+            'default' => false,
+          ),
+        ),
+        'indexes' => 
+        array (
+          'PRIMARY' => 
+          array (
+            'fields' => 
+            array (
+              0 => 'id',
+            ),
+            'type' => 'primary',
+          ),
+        ),
+      ),
+    ),
+  ),
+);
+
+?>

@@ -1,0 +1,91 @@
+1.0 - Monday 30 January 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Renamed classes:
+
+  * ezcLogWriterFile to ezcLogFileWriter
+  * ezcLogWriterUnixFile to ezcLogUnixFileWriter
+  * ezcLogWriterDatabase to ezcLogDatabaseWriter
+
+- Fixed bug #7706: ezcLogFileWriter truncates log files every request.
+- Fixed a problem that automatic attributes weren't appended to the log.
+- Moved ezcLogDatabaseWriter to the EventLogDatabaseTiein component.
+
+ezcLogUnixFileWriter
+====================
+
+- Empty parenthesis are not shown anymore.
+
+
+1.0rc1 - Monday 16 January 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Changed exception behavior. All errors will now throw a different exception
+  class.
+- Added an ezcLogMapper interface.
+- Added the ezcLogFilterRule class.
+
+ezcLog
+======
+
+- Added the methods:
+  * getMapper()
+  * setMapper()
+
+- Removed the methods:
+  * map()
+  * unmap()
+
+ezcMap
+======
+
+- Changed the mapping behavior. The mapping of severity, source, and category
+  to a container (or writer), are done in a filter rule set. 
+- Renamed ezcMap to ezcLogFilterSet.
+
+ezcLogWriterDatabase
+====================
+
+- Renamed the method map() to setTable(). 
+
+ezcLogWriterFile
+================
+
+- Renamed the method map() to setFile(). 
+
+
+1.0beta2 - Thursday 22 December 2005
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Moved ezcLogFilter to the structs directory.
+- Changed access to non-existing properties to throw exceptions.
+- Changed the ezcLogFileException constants.
+
+
+ezcLog
+======
+
+- Changed method names:
+  * attach() to map()
+  * detach() to unmap()
+  * LogHandler() to logHandler()
+
+ezcLogWriterDatabase
+====================
+
+- Changed method names:
+  * logTo() to map()
+  * logNotTo() to unmap()
+
+ezcLogWriterFile
+================
+
+- Changed method names:
+  * logTo() to map()
+  * logNotTo() to unmap()
+
+
+1.0beta1 - Friday 25 November 2005
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Initial release of this package.

@@ -1,0 +1,56 @@
+eZ publish Enterprise Component: Execution, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author:   Derick Rethans
+:Revision: $Revision$
+:Date:     $Date$
+
+Design Description
+==================
+The component uses the register_shutdown_function() and set_execution_handler()
+to allow the catching of fatal errors and uncatched exceptions. At the start of
+the script you need to initialize the execution environment and when your
+application is done executing you signal the component that you have a "clean
+exit".  In case there was not a clean exit the shutdown handler will pick up
+and call your defined callback handler to display the error message.
+
+There are two classes in this component:
+
+ezcExecution
+------------
+This class provides methods to intialize the class (with a static method) and
+to signal clean and unclean exists.
+
+ezcExecutionBasicErrorHandler
+-----------------------------
+This class implements a default handler that can be used and extended for use
+with the execution framework.
+
+Algorithms
+==========
+
+The following example shows how to utilize these classes: ::
+
+    <?php
+        class myExecutionHandler extends ezcExecutionBasicErrorHandler
+        {
+            public function onError( $exception = NULL )
+            {
+                echo "Error!\n";
+                parent::onError( $exception );
+            }
+        }
+
+        ezcExecution::init( 'myExecutionHandler' );
+
+        ....
+        
+        ezcExecution::cleanExit();
+    ?>
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79

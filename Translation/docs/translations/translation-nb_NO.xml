@@ -1,0 +1,27 @@
+<!DOCTYPE TS><TS>
+<context>
+    <name>tutorial/headers</name>
+    <message>
+        <source>header1</source>
+        <translation>overskrift 1</translation>
+    </message>
+</context>
+<context>
+    <name>tutorial/descriptions</name>
+    <message>
+        <source>desc1</source>
+        <translation>desc1 (norsk)</translation>
+    </message>
+    <message>
+        <source>desc2</source>
+        <translation>desc2 (norsk)</translation>
+    </message>
+</context>
+<context>
+    <name>search</name>
+    <message>
+        <source>The %fruit is round.</source>
+        <translation>%Fruit er rund.</translation>
+    </message>
+</context>
+</TS>

@@ -1,0 +1,323 @@
+<?php
+/**
+ * File containing the ezcTemplateSourceCode class
+ *
+ * @package Template
+ * @version //autogen//
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+/**
+ * Encapsulates information on a template file containing source code.
+ *
+ * This class is used by the manager when it parses template code and can be
+ * used by code to read and write template code or remove template files in
+ * a convenient way.
+ *
+ * Instantiate this class with the stream string and the optional arguments,
+ * then call either load(), save() or delete() to perform the requested action.
+ * The class will throw exceptions for failures so it is a good idea to call
+ * isReadable(), isWriteable() or isAvailable() before any of these actions.
+ *
+ * For instance to display the content of a template file one can do:
+ * <code>
+ * $source = new ezcTemplateSourceCode( "templates/main.tpl" );
+ * if ( $source->isReadable() )
+ * {
+ *    $source->load();
+ *    echo $source->code;
+ * }
+ * else
+ * {
+ *    echo "Cannot load template ", $source->stream, "\n";
+ * }
+ * </code>
+ *
+ * Similarly one can create template files with:
+ * <code>
+ * $source = new ezcTemplateSourceCode( "templates/left.tpl" );
+ * $source->code = '{$left|str_capitalize}';
+ * if ( !$source->isAvailable() )
+ * {
+ *    $source->save();
+ * }
+ * else if ( $source->isWriteable() )
+ * {
+ *    $source->save();
+ * }
+ * else
+ * {
+ *    echo "Cannot save template ", $source->stream, "\n";
+ * }
+ * </code>
+ *
+ * To check if any source code has been loaded or set use hasCode().
+ *
+ * @package Template
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogen//
+ */
+class ezcTemplateSourceCode
+{
+
+    /**
+     * The PHP stream path for the template source file.
+     *
+     * @note Use isAvailable() to check if it actually can be read.
+     *
+     * @var string
+     * @note __get/__set property
+     */
+    // private $stream;
+
+    /**
+     * The resource string which requested this template.
+     *
+     * @note Should be the same as $stream if no specific resource string is
+     * known.
+     *
+     * @var string
+     * @note __get/__set property
+     */
+    // private $resource;
+
+    /**
+     * The original template code taken from the template file or other
+     * resource. Contains a string with the source code or false if no code is
+     * read yet.
+     *
+     * @var string
+     * @note __get/__set property
+     */
+    // private $code;
+
+    /**
+     * The current context for the template code. Will be used for parsing and
+     * run-time behaviour.
+     *
+     * @var ezcTemplateContext
+     * @note __get/__set property
+     */
+    // private $context;
+
+    /**
+     * An array containing the properties of this object.
+     * stream   - The PHP stream path for the template source file.
+     * resource - The resource string which requested this template.
+     * code     - The original template code taken from the template file or
+     *            other resource. Contains a string with the source code or
+     *            false if no code is read yet.
+     * context  - The current context for the template code. Will be used for
+     *            parsing and run-time behaviour.
+     */
+    private $properties = array();
+
+    /**
+     * Property get
+     */
+    public function __get( $name )
+    {
+        switch( $name )
+        {
+            case 'stream':
+            case 'resource':
+            case 'code':
+            case 'context':
+                return $this->properties[$name];
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
+        }
+    }
+
+    /**
+     * Property set
+     */
+    public function __set( $name, $value )
+    {
+        switch( $name )
+        {
+            case 'stream':
+            case 'resource':
+            case 'code':
+            case 'context':
+                $this->properties[$name] = $value;
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
+        }
+    }
+
+    /**
+     * Property isset
+     */
+    public function __isset( $name )
+    {
+        switch( $name )
+        {
+            case 'stream':
+            case 'resource':
+            case 'code':
+            case 'context':
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * Initialises the source object with the code and output context.
+     *
+     * @param string $stream The actual PHP stream path for the template source
+     *                       file.
+     * @param string $resource The requested resource string, if false $stream
+     *                         is used as value.
+     * @param string $code The source code for the template.
+     * @param ezcTemplateContext $context The context for the parsing and
+     *                                    run-time behaviour, a value of null
+     *                                    means to use the current context in
+     *                                    the template manager.
+     *
+     * @todo Uncomment typehint when null values are fixed in PHP
+     */
+    public function __construct( $stream, $resource = false, $code = false, /*ezcTemplateContext*/ $context = null )
+    {
+        $this->stream = $stream;
+        $this->resource = $resource;
+        $this->code = $code;
+        $this->context = $context;
+    }
+
+    /**
+     * Loads the data from the PHP stream into the $code member variable.
+     *
+     * @throw ezcTemplateFileNotFoundException if the file does not exist on disk.
+     * @throw ezcTemplateFileNotReadableException if the file cannot be read.
+     *
+     * @see isAvailable(), isReadable()
+     *
+     * @note Calling this multiple times will re-init the $source variable.
+     *
+     */
+    public function load()
+    {
+        if ( !file_exists( $this->stream ) )
+            throw new ezcTemplateFileNotFoundException( $this->stream );
+        if ( !is_readable( $this->stream ) )
+            throw new ezcTemplateFileNotReadableException( $this->stream );
+        $this->code = file_get_contents( $this->stream );
+    }
+
+    /**
+     * Saves the data from $code member variable to the PHP stream.
+     *
+     * This method creates a backup from the exisiting template. The name of the
+     * backup template appends a tilde (~). If a backup already exists,
+     * this method overwrites the old backup.
+     *
+     * @throw ezcTemplateFileNotWritableException if the file cannot be written to.
+     *
+     * @see isWriteable()
+     * @note Storing the data will not record the template file in the system or
+     * signal the changes, call the template manager to perform these tasks.
+     *
+     * @note Calling this multiple times will overwrite the file contents over and
+     * over again. And the backup contains the same information as the original.
+     */
+    public function save()
+    {
+        if ( file_exists( $this->stream ) && !is_writeable( $this->stream ) )
+            throw new ezcTemplateFileNotWriteableException( $this->stream );
+
+        // Store data in a temporary file
+        $tempName = dirname( $this->stream ) . '/#' .  basename( $this->stream ) . '#';
+        if ( file_put_contents( $tempName, $this->code, LOCK_EX ) === false )
+            throw new ezcTemplateFileNotWriteableException( $this->stream );
+
+        $backupName = $this->stream . '~';
+        // Remove old backup (if it exists)
+        if ( file_exists( $backupName ) &&
+             !unlink( $backupName ) )
+        {
+            unlink( $tempName );
+            throw new ezcTemplateFileFailedUnlinkException( $backupName );
+        }
+
+        // Make the current file (if it exists) a backup
+        if ( file_exists( $this->stream ) &&
+             !rename( $this->stream, $backupName ) )
+        {
+            unlink( $tempName );
+            throw new ezcTemplateFileRenameFailedException( $this->stream, $backupName );
+        }
+
+        // Make the temporary file the current one
+        if ( !rename( $tempName, $this->stream ) )
+        {
+            unlink( $tempName );
+            rename( $backupName, $this->stream );
+            throw new ezcTemplateFileRenamedFailedException( $tempName, $this->stream );
+        }
+    }
+
+    /**
+     * Deletes the file from the file system.
+     *
+     * @throw ezcTemplateFileNotFoundException if the file does not exist on disk.
+     * @throw ezcTemplateFileFailedUnlinkException if the file could not be unlinked.
+     *
+     *
+     * @see isAvailable()
+     *
+     */
+    public function delete()
+    {
+        if ( !file_exists( $this->stream ) )
+            throw new ezcTemplateFileNotFoundException( $this->stream );
+        if ( !unlink( $this->stream ) )
+            throw new ezcTemplateFileFailedUnlinkException( $this->stream );
+    }
+
+    /**
+     * Checks if the template file exists on disk and can be read.
+     *
+     * @return bool
+     */
+    public function isAvailable()
+    {
+        return file_exists( $this->stream );
+    }
+
+    /**
+     * Checks if the template file can be read from.
+     *
+     * @return bool
+     */
+    public function isReadable()
+    {
+        return is_readable( $this->stream );
+    }
+
+    /**
+     * Checks if the template file can be written to.
+     *
+     * @return bool
+     */
+    public function isWriteable()
+    {
+        return is_writeable( $this->stream );
+    }
+
+    /**
+     * Checks if source code has been loaded from the template file or set by PHP
+     * code.
+     *
+     * @return bool
+     */
+    public function hasCode()
+    {
+        return $this->code !== false;
+    }
+
+}
+?>

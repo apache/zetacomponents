@@ -1,0 +1,218 @@
+eZ publish Enterprise Component: ImageConversion, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Introduction
+============
+
+Purpose of ImageConversion package
+----------------------------------
+
+The ImageConversion package will be utilized to convert existing images 
+in different ways:
+
+- Conversion between MIME types (e.g. image/BMP -> image/JPEG,...)
+- Resizing image files (e.g. scaling, cropping,...)
+- Filtering image content (e.g. change of color pallet, add noise,...)
+
+Current implementation
+----------------------
+
+Currently the described functionality is implemented utilizing the following 
+classes, inside the library lib/ezimage/:
+
+eZImageManager
+    Controller for the other classes utilized in this library. Handles 
+    configuration, dispatches the necessary action to the different classes.
+
+eZImageHandler
+    Baseclass for image handlers. Provides common methods between image
+    handlers and defines a common API.
+
+eZImageGDHandler
+    Image handler implementation for ext/GD2. Extends eZImageHandler.
+
+eZImageShellHandler
+    Image handler implementation for Image Magick. Extends eZImageHandler.
+
+General notes
+-------------
+
+The idea behind the design chosen for this class is definitly the right one,
+but it could have been much more modulized to gain a more clean code layout
+and more flexibillities. Beside that, the user interface seems pretty unclear
+and needs some general revision.
+
+Requirenments
+=============
+
+Design goals
+------------
+
+Several goals have to be kept in mind while re-designing the implemented
+functionality:
+
+- Do not reduce possibilities, but enhance them.
+- Create a more clean user interface and enhance usabillity.
+- Raise flexibillity regarding backends and filter definition.
+- Keep the code fast.
+
+Detailed requirenments
+----------------------
+
+The ImageConversion component allows to deal with quite complex image
+conversions in an easy to use ways. Beside that it handles automatic
+conversions, if necessary, like converting incoming image formats to a range
+of range of wanted output formats. This paragraph tries to summarize, what
+exactly has to be done by ImageConversion:
+
+Conversion between image formats
+    In general, ImageConversion should be able to convert images between MIME
+    types utilizing it's backends. Conversions must be globally defineable to 
+    allow forcing of conversions (like for GIF -> PNG). Since some image
+    formats have special cases, in which a conversion is not possible (like
+    animated GIF), it must be possible to define exceptions for conversion.
+    Beside the global conversion, it has to be possible, to convert images
+    explicitly. Format conversions can ba parameterized (like the compression
+    factor for JPEG, the colorpallet for GIF,...). The conversions possible
+    depend on the image handlers available.
+
+
+Filtering of image contents
+    Filtering of images can have a lot of incarnation in this case:
+    
+        Geometry manipulation
+            down/up only, keep/change ratio, with/height only,...
+
+
+        Attribute manipulation (was: colorspace)
+            transform color space, change quality,...
+
+
+        Content manipulation
+            adding noise, swirrling, adding borders...
+
+
+    Which filters are available depends highly on the available image
+    handlers, their version and maybe other factors in respect to them (PHP
+    version,...). 
+    
+    Every filter can have a variaty of options and settings to influence its
+    behaviour. Options and settings maybe completly different between filters.
+
+
+Definition of image formats
+    To reduce the overhead of manually defining, which filters have to be
+    applied to an image to achieve a certain goal (like "create a
+    thumbnail", "create a preview", "make it look like an old photo",...), the
+    definition of different image formats should be allowed. A format
+    definition can include all of the above stated transformations.
+
+    Beside that, it has to be possible to define, that a format is based on
+    another format (like a thumbnail should be created from a preview, to
+    reduce conversion ammount). If a format references another format, this
+    reference format will be created first (if it does not exist) and
+    conversion to the target format will take place afterwards. This allows to
+    define a tree of format conversions. Every node of the tree should be
+    saved for later utilization.
+    
+    Currently, this formats are called aliases.
+
+Design
+======
+
+ezcImageConverter
+-----------------
+
+The main class of the component is the ezcImageConverter, which dispatches the 
+actions performed on images, holds the ezcImageHandler's (which actually perform 
+the actions) and manages / defines the ezcImageTransformations which hold 
+conversions and filters.
+
+Since 1 filter/conversion can be performed by several ezcImageHandler's, the
+manager has a preference list, to determine, which ezcImageHandler to take for
+a conversion.
+
+ezcImageHandler
+---------------
+
+This interface defines how the abstraction class for an image handler looks
+like. ezcImageHandler's utilize a given backend to perform conversion and
+filtering (using ezcImageFilter's). A ezcImageHandler knows by hisself, which
+filters he implements. The manager will ask it for supported filters to get an
+overview, which filters exist.
+
+To avoid reopening an image file for every operation the ezcImageHandler has
+load()/save() methods. An image must be saved before another ezcImageHandler
+can perform his actions on it.
+
+ezcImageFilters
+---------------
+
+[[[------UPDATE NEEDED HERE!--------]]]
+
+This class implements a storage container for filters to keep them better
+consistant than an array could do. Filters are created by the ezcImageManager
+or directly through a ezcImageHandler. An ezcImageFilter knows, to which
+handler he belongs and dispatches itself to the right handler, when applied.
+
+ezcImageTransformation
+----------------------
+
+ezcImageTransformation's abstract image types to allow the easy combination of
+conversions between MIME types and filters which are necessary to get a desired image type.
+For conversions only the target MIME type is necessary.
+
+ezcImageTransformation's will be created on the fly, when the user requests them and not
+during startup of the manager. A created ezcImageTransformation will be cached in the
+manager for possible later use. Same applies to the filters utilized by the
+ezcImageTransformation.
+
+Example 1
+^^^^^^^^^
+
+======================  =======================
+Transformation:         Preview
+MIME:                   image/JPEG
+
+                        image/PNG
+Filters:                scale 400x400
+======================  =======================
+
+Example 2
+^^^^^^^^^
+
+======================  =======================
+Transformation:         Thumbnail
+MIME:                   image/JPEG
+
+                        image/PNG
+Filters:                scale 100x100
+
+                        colorspace grey
+======================  =======================
+
+Will scale down the image to 100x100 pixels and convert it to greyscale.
+
+Example 3
+^^^^^^^^^
+
+======================  =======================
+Transformation:         OldPhotos
+MIME:                   image/JPEG
+Filters:                colorspace grey
+
+                        border 3
+======================  =======================
+
+Will convert the inserted image to image/JPEG, reduce the colorspace to 
+greyscale and add a border of 3 pixel.
+
+^L
+..
+Local Variables:
+mode: rst
+indent-tabs-mode: nil
+sentence-end-double-space: t
+fill-column: 79
+End:
+vim: et syn=rst tw=79 wrap 

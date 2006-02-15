@@ -1,0 +1,39 @@
+Review Frederik
+===============
+- throughout all classes, class variables should _not_ start with a capital letter
+- throughout the classes I've added @todo's where examples etc. needs to be added
+- how are people supposed to add new handlers? Currently this must be done throught he constructor of the handler manager. But it is initialized with the schema class. This also means that all subclasses of schema must be updated in order to add a new handler. This doesn't make sense to me.
+
+
+ezcDbSchema - Use structs for the schema format instead of arrays.
+ezcDbSchema::__construct - $params should be replaced by a "struct"
+ezcDbSchema::__construct - when are you supposed to use the parameters. None of the examples use it?!?
+
+ezcDbSchema::load - $what should be renamed to $filter or something. It should also not use strings but class constants for the various types
+ezcDbSchema::load - what happens if this method fails? It should throw some sort of exception.
+
+ezcDbSchema::detectFeatures - Reference usage, is this needed?
+ezcDbSchema::detectFeatures - Features should be put into "structs" since it is much easier to document that way.
+ezcDbSchema::detectFeatures - why are there mysql and pgsql specific features here? Maybe this should be abstracted somehow.
+ezcDbSchema::detectFeatures - the features are detected, but where are they stored?
+
+ezcDbSchema::set - should be renamed to setSchema
+
+ezcDbSchema::saveDelta - Do we want to use "delta" or should we use diff instead? Diff is more known in generall in the computer world I think.
+
+ezcDbSchema::compare - this method should be renamed to diffWith or diffTo etc. This makes it more obvious that it actually returns a diff/delta.
+ezcDbSchema::compare - what is the format of the diff/delta returned?
+
+ezcDbSchema::transform - it talks about given parameters, what parameters are this?
+
+ezcDbSchema::getSupportedStorageTypes - what is the format of the result
+ezcDbSchema::getSupportedStorageTypes - how are people supposed to add new ones? There is no way to access the Handler object (as far as I can see). Maybe add an example of how this is supposed to be done.
+
+ezcDbSchema::getSupportedInternalFormats - what is the format of the returned values. Also, what is the real difference between an internal format and an external format?
+
+ezcDbSchema::transferData - what kind of data is actually transfered here? What is the method really for? (Example??)
+
+
+ezcDbSchemaHandlerManager::__construct - Handlerparams should be a "struct" not an array.
+
+... I think we should fix the above problems before continuing the review. Probably any remaining problems will solve themselves ones this is in place.

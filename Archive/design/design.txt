@@ -1,0 +1,69 @@
+eZ publish Enterprise Component: Archive, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Introduction
+============
+
+Purpose of the Archive package
+------------------------------
+
+The archive package takes care of the different archive and compression
+formats and handles them universally. Archive provides the basic
+implementation to extract and create the whole or a part of the archive.
+
+Some research will be done during the design phase whether the PHP stream
+wrapper classes can be used to provide a common interface. 
+
+
+Current implementation
+----------------------
+
+The current implementation implements only the Tar archive. The implemented 
+algorithm doesn't support many (or if possible all) Tar archive-types.
+Furthermore, a clean up of the design and code will be done to provide a
+better interface.
+
+
+Requirements
+============
+
+Design goals
+------------
+
+The Archive package should (at least) provide a low-level interface where
+simply (a part of) the files can be extracted to a specific location or an
+archive can be extended with new files. On top of this interface a part of a
+virtual file system can be build. In another package?
+
+
+Design
+======
+
+Introduction
+------------
+
+In the design we make a distinction between archivers and compression
+libraries. If a format supports both, it is categorized as an archiver.
+
+The compression libraries, if not available in PHP, will be implemented as a
+stream. The stream functions from PHP have a different resource handler for
+files and directories. Therefore they are hard to combine and makes it
+impractical to use them in an archive (which is streamed). 
+
+
+Supported file formats
+----------------------
+
+Archivers: 
+Tar, is a pure archive format. 
+Zip, is an archive plus compression algorithm. 
+
+Compressions:
+gzip, implemented as stream in PHP (zlib).
+bzip2, implemented as stream in PHP (bzip2).
+
+
+Since the most common compression formats are already available in PHP, we can
+simple use the stream functions to access them. (And use them directly in the
+archiver).
+

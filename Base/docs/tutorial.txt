@@ -1,0 +1,33 @@
+eZ components - Base
+~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+The Base component provides the basic functionality that the components need to
+function properly. As every other component depends on the Base package for
+e.g. autoloading, the Base component needs to be loaded specifically. 
+
+Besides the autoload functionality the Base component also contains a number of
+generic Exception classes that all inherit from the ezcBaseException class.
+
+
+Installation
+============
+
+The installation and configuration of the eZ components environment is
+described in a separate article. Please refer to the `Components Introduction`_
+for instructions on installation and configuration of the eZ components library
+and the Base component.
+
+.. _Components Introduction: http://ez.no/community/articles/an_introduction_to_ez_components
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79

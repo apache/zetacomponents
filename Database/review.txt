@@ -1,0 +1,16 @@
+Comments Frederik 5.12.2005
+===========================
+ezcDBfactory::create - param should be a struct, not an array
+ezcDBfactory::parseDSN - should return a struct, not an array
+ezcDBfactory::parseDSN - rewrite, or obey the license it has (PHP License)
+
+ezcDbHandler::__construct - $dbParams should be a struct, not an array
+ezcDbHandler::__destruct - throws an exception. Since we don't know when this is called it is impossible to
+                           catch it. Doesn't seem like a good idea to me.
+ezcDbHandler::hasFeature - What features can you actually query for?
+ezcDbHandler::processLimitOffset seems a bit misplaced. Maybe have this only in the SQL abstraction layer instead.
+
+ezcDbInstance::chooseDefault - rename to setDefault
+ezcDbInstance::set - this name is to vague I think. 
+ezcDbInstance::set - what the hell happens if you don't specify the $identifier, why not use that instead of
+                     chooseDefault?

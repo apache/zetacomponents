@@ -1,0 +1,43 @@
+Review Frederik
+===============
+ezcDebug - lacks examples
+ezcDebug - TODO about recursive timers: yes, ignore or throw an exception. I think ignore is ok.
+
+ezcDebug - Lacks a destructor. When this object is removed it should also remove itself from the log.
+RB: It's a singleton.. Maybe for explicit unsetting the object?
+
+
+ezcDebug::startTimer - what are you supposed to use source and group for?
+[done] ezcDebug::switchTimer - Needs an example. How is this supposed to be used.
+
+ezcDebug::stopTimer - what happens if you call this with a null paramter and several timers are running?
+ezcDebugTimer::switchTimer - same as above, I think we should use exceptions here....
+[done] ezcDebugTimer::getStructure - rename to e.g getTimeData.
+
+[done] ezcDebugReporter - I'd rename this class as I expect a reporter to retrieve information as well. What about ezcDebugOutputFormatter. I'd also rename getOutput to generateOutput.
+ezcDebugReporter - Format of $writerData?
+
+ezcDebugStructure --> ezcDebugMessage?
+ezcDebugStructure --> Documentation of properties
+ezcDebugStructure - AFAIK ezcMemoryWriter and ezcDebugTimer both uses this structure but stores different information in it. This is liking using an array, why not split this into two well documented structs?
+
+ezcDebugHtmlFormatter::getLog/getOuput - format of $writerData
+ezcDebugHtmlFormatter::getGroups - what exactly does it do?
+ezcDebugHtmlFormatter::addElement - what exactly does it do?
+
+Comments by Jan Borsodi (15-12-2005)
+------------------------------------
+General:
+- The switch/case syntax is used inconsistently in package,
+  sometimes the code is placed on the same line as the
+  case, othertimes not.
+
+ezcDebug
+- The $timer is not initialised in the constructor, the means that the methods
+  getOutput(), startTimer(), switchTimer() and stopTimer().
+  Please add a test for this first then fix the problem.
+
+
+RB: $timer *is* initialized in the reset() method, which is called by the constructor.
+  
+- reset() is undocumented.

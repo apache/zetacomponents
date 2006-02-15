@@ -1,0 +1,170 @@
+eZ publish Enterprise Component: ModuleMessaging, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Introduction
+============
+
+Purpose of ModuleMessaging package
+----------------------------------
+
+Inside eZ publish it happens often, that some module depends on data generated
+and maintained by another module. There is currently no clean possibility
+available to define that a module depends on some action of another module
+and to send notification messages for actions processed.
+
+Current implementation
+----------------------
+
+Generally not available.
+
+General notes
+-------------
+
+The assignment of a notification has to be stored persistently over multiple
+request and is usually applied only once and the left as it is for a longer
+time.
+
+Requirements
+=============
+
+Design goals
+------------
+
+The design of this package should be as flexible as possible, to allow any
+kind of module interaction through it. Beside that, it must be flexibly
+configurable to satisfy all kinds of messaging between modules. The speed of
+the notification process must be considered, too.
+
+Design
+======
+
+Introduction
+------------
+
+This package is required to allow communication between 2 completely unknown
+communication partners: 2 eZ publish modules. Because of this, some kind of
+protocol has to be defined, which provides a standard for message exchange
+between modules. The module which actually sends a message will be called the
+"source" in the following texts, the one that receives a message is named the
+"target".
+
+Protocol
+---------
+
+To allow communication between modules of a completely different kind, an
+abstract protocol for messages has to be defined. For this protocol 2
+different types of messages are necessary:
+
+Assignment message
+    The target module must inform the source module about it's request to be
+    informed on a certain action. The action to be notified on must be
+    specified as well as the way to notify the target class so that the source
+    module can act in the right way, if an observed action is performed. An
+    assignment message is send usually only once and stays persistent over a
+    large amount of requests.
+
+    Necessary input for the ModuleMessaging component to assign a certain
+    observation to a certain module are:
+
+    'source'
+        Which module is the source of the messages that should be received by
+        the target?
+
+    'action'
+        Which action should the target be notified of?
+
+    'target'
+        What is the target module to inform about the action in question has
+        taken place? Which way is used to inform the target module?
+        
+
+Notification message
+    If a source module performs an observable action it has to notify all
+    target modules in an according way. For that, it needs to call a specific
+    functionality on the target module as defined in an assignment and attach
+    a certain amount of data to it which is needed by the target module.
+
+    An action message needs to provide the following data to the target
+    module:
+
+    'source'
+        Where does the message come from?
+
+    'action'
+        Which action has been performed by the source module to issue this
+        notification message?
+
+    'context'
+        An action can produce a certain amount of data/information that has
+        to be submitted to the target in addition to the raw notification of
+        an action.
+
+There is a clear difference between these 2 kinds of messages described above:
+The "Assignment message" is extremely static and is issued usually during the
+configuration of the application or on the creation of a new area inside of a
+module. The "Notification message" in contrast is issued highly dynamically
+whenever the action specified occurs in the source module.
+
+Work-flow
+--------
+
+The usually expected work-flow is described in following. The source module is
+named "SOURCE", where the target module is called "TARGET":
+
+    1. TARGET is configured in the application.
+    2. Inside TARGET a new object is created by a user, which depends on
+    another object which is provided my SOURCE.
+    3. TARGET sends an Assignment message to SOURCE through the
+    ModuleMessaging component.
+    4. ModuleMessaging verifies the assignment and saves it for usage.
+    
+    5. SOURCE issues the action which TARGET has been assigned too.
+    6. SOURCE informs the ModuleMessaging component to inform all assigned
+    modules about the performed action.
+    7. ModuleMessaging issues the necessary messages to all TARGET modules
+    assigned to the specific action.
+    8. ModuleMessaging verifies the successful messaging to SOURCE.
+
+Classes
+-------
+
+The package contains 3 kinds of classes:
+
+1. The classes to manage messaging itself.
+2. The interface to describe, how classes that deal as TARGET look like.
+3. The interface to indicate that a class can deal as SOURCE.
+
+Number 2. and 3. are simple PHP5 interfaces that a module class has to
+implement. The management classes itself contain the following
+functionalities:
+
+a) Registration of SOURCE classes and announcement of their API.
+b) Registration of TARGET assignments to these announcement APIs.
+c) Handling of the messaging announcement itself and dispatching of those.
+
+The class ezcModuleMessageManager will provide the upper shown specification
+in implementing the following methods:
+
+- provideObservation($sourceClassName, $location, $actions);
+- assignObservation($sourceClassName, $actions, $targetClassname, $location);
+
+In case of an observable action being performed in the SOURCE module, it will
+call the following method on the ezcModuleMessageManager:
+
+- notifyAction($action, $data);
+
+The manager will dispatch this notifications to the assigned observers.
+
+The TARGET classes will implement the following method to receive messages:
+
+- notifyAction($sourceClassName, $action, $data);
+
+The SOURCE classes do not need to implement any interface at all, just call
+the specific methods on the manager to notify him they allow observation of
+several actions.
+
+Model
+=====
+
+Through a hint by Amos, these classes will be modeled after the Qt Signal-Slot
+model: http://doc.trolltech.com/4.0/signalsandslots.html

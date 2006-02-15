@@ -1,0 +1,199 @@
+eZ components - ImageConversion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+   :depth: 2
+
+Introduction
+============
+
+The ImageConversion component provides image manipulation facilities. It
+enables you to perform filter actions (filters are e.g. scaling, change of the 
+colorspace, adding a swirl effect) and to convert between different MIME types
+of images (so called conversions). Filters and conversions are collected in
+"transformations", which can be globally configured and accessed from anywhere
+in the application. Conversions and filters can be performed through different
+handlers (currently supported are PHP's GD extension and the external ImageMagick
+program). ImageConversion is capable to select a fitting handler
+automatically, while you can select handlers to be prioritized.
+
+Class overview
+==============
+
+This section gives you an overview on all classes, that are intended to be
+used directly.
+
+ezcImageConverter
+  This is the main class, that collects all transformations, communicates with
+  the handlers and applies filters and conversions.
+
+ezcImageFilter
+  This struct is used to represent the configuration of a filter.
+
+ezcImageTransformation
+  A transformation can contain any number of filters. Beside that, it
+  specifies, which output MIME types are acceptable by the transformation, so
+  that only these MIME types are output.
+
+
+Usage
+=====
+
+Converting MIME types
+---------------------
+
+The following example creates a very simple transformation to convert any other
+image type into JPEG:
+
+.. include:: tutorial_example_01.php
+   :literal:
+
+First the settings for the ezcImageConverter are defined (line 7-12), using the
+ezcImageConverterSettings struct. Whenever an ezcImageConverter is
+instantiated, it needs to know which handlers are available. The order in the
+array of ezcImageHandlerSettings defines the priority of the handlers. In this
+case, the ezcImageConverter will check if a given filter or conversion can be
+performed by the GD handler. If not, it will check the ImageMagick handler. On
+line 14 the ezcImageConverter is instantiated using the defined settings.
+
+Line 16 shows how an ezcImageTransformation is created in the
+ezcImageConverter. The first parameter to
+ezcImageConverter::createTransformation() defines the name of the
+transformation, the second parameter would usually contain filters, which are
+not used here. Instead just one output MIME type is defined as the third
+parameter, which makes this transformation only return images of the type
+"image/jpeg".
+
+On the lines 21-24 you see how the transformation is applied. The first
+parameter to ezcImageConverter::transform() contains the name of the
+transformation to apply. The second one gives the file to transform, while the
+third one specifies the filename to save the transformed image to. Besides
+exceptions of the type ezcBaseFileException, the ezcImageTransformation::transform() 
+method may only throw exceptions of the type ezcImageTransformationException, which 
+we catch here to print out some error message.
+
+The input and output images are shown below:
+
+=================== ====================
+|example_01_before| |example_01_after|
+BMP version (92k)   Converted JPEG (24k)
+=================== ====================
+
+.. |example_01_before| image:: img/imageconversion_example_01_before.bmp
+                       :alt:   Original BMP (92k).
+
+.. |example_01_after| image:: img/imageconversion_example_01_after.jpg
+                      :alt:   Converted JPEG (24k).
+
+Simple filtering
+----------------
+
+The next example shows a transformation, that, in addition to the conversion to
+JPEG, has a filter to scale images:
+
+.. include:: tutorial_example_02.php
+   :literal:
+
+After instantiating the ezcImageConverter, a definition for filters to apply in
+a conversion is created. Only one filter is contained in this example. Each
+filter definition must be an instance of ezcImageFilter. The first parameter to
+the constructor of ezcImageFilter (ezcImageFilter::__construct()) is the name
+of the filter to use. The second parameter is an array of settings for the
+filter. The filter name must correspond to a method name on one of the filter
+interfaces:
+
+- ezcImageGeometryFilters
+- ezcImageColorspaceFilters
+- ezcImageEffectFilters
+
+The settings array must contain all parameters, that the specific filter method
+expects and the keys of that array must correspond to the names of the
+parameters. For example the scale filter used here is defined in 
+ezcImageGeometryFilters::scale(). The image handlers available support the
+following filters:
+
+- ezcImageGdFilters
+
+ * ezcImageGeometryFilters
+ * ezcImageColorspaceFilters
+
+- ezcImageImagemagickFilters
+
+ * ezcImageGeometryFilters
+ * ezcImageColorspaceFilters
+ * ezcImageEffectFilters
+
+The filter definition shown here makes ezcImageConverter scale images to fit in
+a box of 320x240 pixel. Images will only be scaled, if they are larger than the
+given box, but not if they are already smaller or fit exactly.
+
+The rest of the example is pretty much the same as example 1. To keep the
+example images viewable on the web, we use a JPEG image as the source file here:
+
+Original image (450x246)
+++++++++++++++++++++++++
+
+.. image:: img/imageconversion_example_02_before.jpg
+   :alt: Original JPEG image.
+
+Converted image (320x175)
++++++++++++++++++++++++++
+
+.. image:: img/imageconversion_example_02_after.jpg
+   :alt: Converted JPEG image.
+
+.. _`source EPS`: img/imageconversion_example_02.eps
+
+Complex transformations
+-----------------------
+
+The next example shows a more advanced transformation in combination with some
+other features:
+
+.. include:: tutorial_example_03.php
+   :literal:
+
+In this example you see a second parameter to the constructor of
+ezcImageConverterSettings::__construct(), which defines explicit conversions
+between MIME types (line 13). In this case we define, that GIF images should be 
+converted to PNG. When the transformation takes place, it will first check, if an
+explicit conversion has been defined for the input MIME type. If this is the
+case, this explicit conversion will be performed. If not, the first available
+output MIME type will be chosen. Note, that you have to add the new MIME output
+type "image/png" to the allowed output types of the transformation, too (line
+43).
+
+In the transformation definition we define 3 filters. Note, that the
+order of the filters is important here. The first filter is "scale" again,
+after which the colorspace of the image is reduced to grey scale. The last
+filter adds a 5 pixel border with a grey value near to white to the image.
+
+For convenience of viewing this tutorial, here a JPEG image is used as the
+source again: 
+
+Original image (400x300):
++++++++++++++++++++++++++
+
+.. image:: img/imageconversion_example_03_before.jpg
+   :alt: Original JPEG image.
+
+Converted image (330x250):
+++++++++++++++++++++++++++
+
+.. image:: img/imageconversion_example_03_after.jpg
+   :alt: Converted JPEG image.
+
+.. _`downloaded here`: img/imageconversion_example_03.bmp
+
+More Information
+================
+
+For more information, see the ezcImageConverter API reference.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79

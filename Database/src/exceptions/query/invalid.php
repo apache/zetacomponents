@@ -1,0 +1,36 @@
+<?php
+/**
+ * File containing the ezcQueryException class.
+ *
+ * @package Database
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * Base class for exceptions related to the SQL abstraction.
+ *
+ * @package Database
+ */
+class ezcQueryInvalidException extends ezcQueryException
+{
+    /**
+     * Constructs a QueryInvalid exception with the type $type and the
+     * additional information $message.
+     *
+     * $type should be used to specify the type of the query that failed.
+     * Possible values are SELECT, INSERT, UPDATE and DELETE.
+     *
+     * Use $message to specify exactly what went wrong.
+     *
+     * @param string $type
+     * @param string $additionalInfo
+     */
+    public function __construct( $type, $message )
+    {
+        $info = "The {$type} query could not be built. {$message}";
+        parent::__construct( $message );
+    }
+}
+?>

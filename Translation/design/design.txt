@@ -1,0 +1,85 @@
+eZ publish Enterprise Component: Translation, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author:   Derick Rethans
+:Revision: $Revision: $
+:Date:     $Date: $
+
+Translation
+===========
+
+Purpose
+-------
+The localized strings are read not by the
+Translation class itself, but by backends that know how to deal with different
+formats for storing translations.
+
+Design Description
+==================
+The TranslationManager class receives in it's ctor a backend object that
+implements the TranslationBackendInterface to be used to read the localized
+data from.  After the TranslatorManager is instanciated, you can use a method
+to attach a filter. Filters can be used to modify the translated string. An
+example might be the "bork" filter to show which phrases are translatable, but
+not yet translated.
+
+For each location and locale combination you use a method, which returns to you
+a Translation object, which you can use to translate strings.  During one
+request, the TranslationManager keeps a 'reference' to the returned Translation
+object, so they are not created multiple times uncessarily during each request
+and this also saves loading/parsing time as each Translation object internally
+has the localized array.  When a Translator gets instanciated it receives the
+data from the TranslationManager through the backend after a possible existing
+TranslationFilters has been applied to it. Filters are applied in the order
+they are added to the TranslationManager.
+
+Backends
+--------
+A backend class implements the TranslationBackendInterface, which defines
+method for: setting the backend's configuration through an associative array;
+reading a context and returning this as an array where the key is the
+translation's key (usually the english text) and the value is the localized
+string. It is up to the backend to implement caching. For example the
+TranslationTsBackend class might offer an additional method to set the Caching
+Object to be used for caching.
+
+Filters
+-------
+Each filter implements the TranslationFilter interface. A translation filter is
+initialized when they are attached to the TranslationManager. They can define
+two methods. The first one will be called when they are attached to the
+TranslationManager. This second method receives (by reference) the data that
+comes out of the backend (for each context) and can then modify this data to
+change the localized string.  The TranslationFilter should not modify the
+original string and comment fields. One of the filters replaces the
+"translated" text with the "original" text if the translation is marked as
+"unfinished".
+
+Algorithms
+==========
+a = new TranslationTsBackend (which implements TranslationBackendInterface).
+a->setLocation('share/translation');
+
+b = new TranslationManager(TranslationBackendInterface a);
+b->addFilter("TranslationFilterFillin");
+b->addFilter("TranslationFilterBork");
+
+// Asks the backend for data, runs the attached filter, and creates a
+// Translation object
+tln1 = b->getContext("admin/login", "nl_NL"); 
+
+// Returns the localized string belonging to key "key", the filter has already
+// been applied to it. Possible parameters can be passed as associative array
+// as optional second parameter. 
+string = tln1->getString('key');
+
+
+Translation Map
+---------------
+Some methods return a context, which is an array of ezcTranslationData objects
+(structs).  The struct has the following elements:
+
+'original', 'comment', 'translation' and 'status'. The 'comment' is a free text
+field that provides some additional context for the localized string as
+reminder for translators. 'translation' is the localized string and 'status' is
+an integer containing one of the constants as defined in the ezcTranslationData
+class.

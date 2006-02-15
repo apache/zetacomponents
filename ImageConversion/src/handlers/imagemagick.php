@@ -1,0 +1,330 @@
+<?php
+/**
+ * This file contains the ezcImageImagemagickHandler class.
+ *
+ * @package ImageConversion
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @filesource
+ * @access private
+ */
+
+/**
+ * ezcImageHandler implementation for ImageMagick.
+ *
+ * @see ezcImageConverter
+ * @see ezcImageHandler
+ *
+ * @package ImageConversion
+ * @access private
+ */
+class ezcImageImagemagickHandler extends ezcImageMethodcallHandler
+{
+    private $binary;
+
+    private $tagMap = array();
+
+    private $filterOptions = array();
+
+    /**
+     * Create a new image handler.
+     * Creates an image handler. This should never be done directly,
+     * but only through the manager for configuration reasons. One can
+     * get a direct reference through manager afterwards.
+     *
+     * This handler has an option 'binary' available, which allows you to 
+     * explicitly set the path to your ImageMagicks "convert" binary (this
+     * may be necessary on Windows, since there may be an obscure "convert.exe"
+     * in the $PATH variable available, which has nothing to do with
+     * ImageMagick).
+     *
+     * @throws ezcImageHandlerNotAvailableException
+     *         If the ImageMagick binary is not found.
+     *
+     * @param ezcImageHandlerSettings $settings Settings for the handler.
+     */
+    public function __construct( ezcImageHandlerSettings $settings )
+    {
+        // Check for ImageMagick
+        $this->checkImageMagick( $settings );
+        $this->determineTypes();
+        parent::__construct( $settings );
+    }
+
+    /**
+     * Load an image file.
+     * Loads an image file and returns a reference to it.
+     *
+     * @param string $file File to load.
+     * @param string $mime The MIME type of the file.
+     *
+     * @return string Reference to the file in this handler.
+     *
+     * @see ezcImageAnalyzer
+     *
+     * @throws ezcBaseFileNotFoundException
+     *         If the desired file does not exist.
+     * @throws ezcImageMimeTypeUnsupportedException
+     *         If the desired file has a not recognized type.
+     */
+    public function load( $file, $mime = null )
+    {
+        $ref = $this->loadCommon( $file, isset( $mime ) ? $mime : null );
+
+        // Atomic file operation
+        $fileTmp = tempnam( dirname( $file ), '.' . basename( $file ) );
+        copy( $file, $fileTmp );
+
+        $this->setReferenceData( $ref, $fileTmp, 'resource' );
+        return $ref;
+    }
+
+    /**
+     * Save an image file.
+     * Saves a given open file. Can optionally save to a new file name.
+     *
+     * @see ezcImageHandler::load()
+     *
+     * @param string $image   File reference created through load().
+     * @param string $newFile Filename to save the image to.
+     * @param string $mime    New MIME type, if differs from initial one.
+     * @return void
+     *
+     * @throws ezcBaseFilePermissionException
+     *         If the desired file exists and is not writeable.
+     * @throws ezcImageMimeTypeUnsupportedException
+     *         If the desired MIME type is not recognized.
+     */
+    public function save( $image, $newFile = null, $mime = null )
+    {
+        $this->saveCommon( $image, isset( $newFile ) ? $newFile : null, isset( $mime ) ? $mime : null );
+        
+        // Prepare ImageMagick command
+        $command = $this->binary . ' ' .
+            escapeshellarg( $this->getReferenceData( $image, 'resource' ) ) . ' ' .
+            ( isset( $this->filterOptions[$image] ) ? implode( ' ', $this->filterOptions[$image] ) : '' ) . ' ' .
+            escapeshellarg( $this->tagMap[$this->getReferenceData( $image, 'mime' )] . ':' . $this->getReferenceData( $image, 'resource' ) );
+        
+        // Prepare to run ImageMagick command
+        $descriptors = array( 
+            array( 'pipe', 'r' ),
+            array( 'pipe', 'w' ),
+            array( 'pipe', 'w' ),
+        );
+        
+        // Open ImageMagick process
+        $imageProcess = proc_open( $command, $descriptors, $pipes );
+        // Close STDIN pipe
+        fclose( $pipes[0] );
+        
+        $errorString = '';
+        // Read STDERR 
+        do 
+        {
+            $errorString .= rtrim( fgets( $pipes[2], 1024) , "\n" );
+        } while ( !feof( $pipes[2] ) );
+        
+        // Wait for process to terminate and store return value
+        $return = proc_close( $imageProcess );
+        
+        // Process potential errors
+        if ( $return != 0 || strlen( $errorString ) > 0 )
+        {
+            // If this code is reached we have a bug in this component or in ImageMagick itself.
+            throw new Exception( "The command <{$command}> resulted in an error: <{$errorString}>." );
+        }
+        // Finish atomic file operation
+        copy( $this->getReferenceData( $image, 'resource' ), $this->getReferenceData( $image, 'file' ) );
+    }
+
+    /**
+     * Close the file referenced by $image.
+     * Frees the image reference. You should call close() before.
+     *
+     * @see ezcImageHandler::load()
+     * @see ezcImageHandler::save()
+     * @param string $image The image reference.
+     */
+    public function close( $image )
+    {
+        unlink( $this->getReferenceData( $image, 'resource' ) );
+        $this->setReferenceData( $image, false, 'resource' );
+        $this->closeCommon( $image );
+    }
+
+    /**
+     * Add a filter option to a given reference
+     *
+     * @param string $reference The reference to add a filter for.
+     * @param string $name      The option name.
+     * @param string $parameter The option parameter.
+     * @return void
+     */
+    public function addFilterOption( $reference, $name, $parameter )
+    {
+        $this->filterOptions[$reference][] = $name . ' ' . escapeshellarg( $parameter );
+    }
+
+    /**
+     * Determines the supported input/output types supported by handler.
+     * Set's various attributes to reflect the MIME types this handler is
+     * capable to process.
+     *
+     * @return void
+     */
+    private function determineTypes()
+    {
+        $tagMap = array(
+            'application/pcl' => 'PCL',
+            'application/pdf' => 'PDF',
+            'application/postscript' => 'PS',
+            'application/vnd.palm' => 'PDB',
+            'application/x-icb' => 'ICB',
+            'application/x-mif' => 'MIFF',
+            'image/bmp' => 'BMP3',
+            'image/dcx' => 'DCX',
+            'image/g3fax' => 'G3',
+            'image/gif' => 'GIF',
+            'image/jng' => 'JNG',
+            'image/jpeg' => 'JPG',
+            'image/pbm' => 'PBM',
+            'image/pcd' => 'PCD',
+            'image/pict' => 'PCT',
+            'image/pjpeg' => 'PJPEG',
+            'image/png' => 'PNG',
+            'image/ras' => 'RAS',
+            'image/sgi' => 'SGI',
+            'image/svg' => 'SVG',
+            'image/tga' => 'TGA',
+            'image/tiff' => 'TIF',
+            'image/vda' => 'VDA',
+            'image/vnd.wap.wbmp' => 'WBMP',
+            'image/vst' => 'VST',
+            'image/x-fits' => 'FITS',
+            'image/x-otb' => 'OTB',
+            'image/x-palm' => 'PALM',
+            'image/x-pcx' => 'PCX',
+            'image/x-pgm' => 'PGM',
+            'image/psd' => 'PSD',
+            'image/x-ppm' => 'PPM',
+            'image/x-ptiff' => 'PTIF',
+            'image/x-viff' => 'VIFF',
+            'image/x-xbitmap' => 'XPM',
+            'image/x-xv' => 'P7',
+            'image/xpm' => 'PICON',
+            'image/xwd' => 'XWD',
+            'text/plain' => 'TXT',
+            'video/mng' => 'MNG',
+            'video/mpeg' => 'MPEG',
+            'video/mpeg2' => 'M2V',
+        );
+        $types = array_keys( $tagMap );
+        $this->inputTypes = $types;
+        $this->outputTypes = $types;
+        $this->tagMap = $tagMap;
+    }
+
+    /**
+     * Checks for ImageMagick on the system.
+     *
+     * @param ezcImageHandlerSettings The settings object of the current handler instance.
+     * @return void
+     *
+     * @throws ezcImageHandlerNotAvailableException
+     *         If the ImageMagick binary is not found.
+     */
+    private function checkImageMagick( ezcImageHandlerSettings $settings )
+    {
+        if ( !isset( $settings->options['binary'] ) )
+        {
+            // Try to use basic binary names only, if not provided (standard case 
+            // on Unix, binary should be in the $PATH, so is accessable).
+            switch ( PHP_OS )
+            {
+                case 'Linux':
+                case 'Unix':
+                case 'FreeBSD':
+                case 'MacOS':
+                case 'Darwin':
+                    $this->binary = 'convert';
+                    break;
+                case 'Windows':
+                case 'WINNT':
+                case 'WIN32':
+                    $this->binary = 'convert.exe';
+                    break;
+                default:
+                    throw new ezcImageHandlerNotAvailableException( $this->name, 'System <'.PHP_OS.'> not supported by handler <'.$this->name.'>.' );
+                    break;
+            }
+        }
+        else
+        {
+            $this->binary = $settings->options['binary'];
+        }
+        
+        // Prepare to run ImageMagick command
+        $descriptors = array( 
+            array( 'pipe', 'r' ),
+            array( 'pipe', 'w' ),
+            array( 'pipe', 'w' ),
+        );
+
+        // Open ImageMagick process
+        $imageProcess = proc_open( $this->binary, $descriptors, $pipes );
+
+        // Close STDIN pipe
+        fclose( $pipes[0] );
+
+        $outputString = '';
+        // Read STDOUT 
+        do 
+        {
+            $outputString .= rtrim( fgets( $pipes[1], 1024 ), "\n" );
+        } while ( !feof( $pipes[1] ) );
+
+        $errorString = '';
+        // Read STDERR 
+        do 
+        {
+            $errorString .= rtrim( fgets( $pipes[2], 1024 ), "\n" );
+        } while ( !feof( $pipes[2] ) );
+        
+        // Wait for process to terminate and store return value
+        $return = proc_close( $imageProcess );
+
+        // Process potential errors
+        if ( $return != 0 || strlen( $errorString ) > 0 || strpos( $outputString, 'ImageMagick' ) === false )
+        {
+            throw new ezcImageHandlerNotAvailableException( $this->name, 'ImageMagick not installed or not available in PATH variable.' );
+        }
+    }
+
+    /**
+     * Creates the Shell filter and returns it.
+     *
+     * @return ezcImageImagemagickFilters The filters object.
+     */
+    protected function createFilter()
+    {
+        if ( !class_exists( 'ezcImageImagemagickFilters' ) )
+        {
+            // If this code is reached we have a bug in this component.
+            throw new Exception( "Filter class not found for filter <{$this->name}>. Must be named <ezcImageImagemagickFilters>" ); 
+        }
+        return new ezcImageImagemagickFilters( $this );
+    }
+
+    /**
+     * Creates default settings for the handler and returns it.
+     * The reference name will be set to 'ImageMagick'.
+     *
+     * @return ezcImageHandlerSettings
+     */
+    static public function defaultSettings()
+    {
+        return new ezcImageHandlerSettings( 'ImageMagick', 'ezcImageImagemagickHandler' );
+    }
+}
+?>

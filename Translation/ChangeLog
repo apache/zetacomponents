@@ -1,0 +1,61 @@
+1.0 - Monday 30 January 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Changed ezcTranslationManager's caching mechanism. It will now cache per
+  manager object and not globally.
+- Fixed ezcTranslationLeetFilter regarding parameters to translation strings.
+  Previously it would also leetify those resulting in broken names for
+  parameters.
+- Moved ezcTranslationCacheBackend to the TranslationCacheTiein component.
+
+
+1.0rc1 - Monday 16 January 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Changed exception behavior. All errors will now throw a different exception
+  class.
+
+
+1.0beta2 - Wednesday 21 December 2005
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+General
+=======
+
+- Changed class name:
+
+  * ezcTranslationFillinFilter to ezcTranslationComplementEmptyFilter
+
+ezcTranslation
+==============
+
+- Changed method name:
+
+  * getString() to getTranslation()
+
+ezcTranslationTsBackend
+=======================
+
+- Added an implementation of the Iterator interface, this allows you to use
+  foreach( ezcTranslationTsBackend as $contextName => $contextData ). This
+  is a more convinient way of looping through all the contexts that make up
+  a translation. It is also faster than having to loop through it yourself
+  with the next() and currentContext() methods.
+
+- Added methods:
+
+  * current() as part of the Iterator implementation
+  * key() as part of the Iterator implementation
+  * rewind() as part of the Iterator implementation
+  * valid() as part of the Iterator implementation
+
+- Changed method names:
+
+  * haveMore() to next()
+  * readContext() to currentContext()
+
+
+1.0beta1 - Thursday 24 November 2005
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Initial release of this package.

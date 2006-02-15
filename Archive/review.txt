@@ -1,0 +1,27 @@
+Comments by: Tobias Schlitt (16-01-2006)
+----------------------------------------
+
+ezcArchive
+
+- ezcArchive::appendToCurrent() should return an instance / an array of
+  entries of the newly created ezcArchiveEntry(s) for convenience.
+- ezcArchive::<constants> how is it possible to combine 2 archive formats,
+  e.g. tar.gz?
+- Documentation does not explain well, which drivers are capable of
+  read/write/read-write. In general the documentation is very unclear.
+- A convenience method to recursively create an archive from a directory with
+  1 call should be provided.
+- Newly created archives are not removed, if an error occurs during their
+  creation (e.g. error message below).
+- Error message "The archive </tmp/ezcArchiverTempeC6Qnu> has an invalid block
+  size. At least one block expected in tar archive" not very helpful. IMHO
+  ezcArchive should just use the file, if it's completly empty, and create the
+  specified archive type in it.
+- There is no possibility to wrap a created TAR into gz/bzip2 compression.
+  There should be at least a method to do so on a TAR archive, so that the
+  native PHP functions must not be used.
+- Determination of archive types from their filename extension while creating
+  archives would be very neat.
+- A lot of classes will never be used by end users, like ezcArchiveGnuHeader,
+  ezcArchiveFileStructure, etc. These classes should be marked as @access
+  private, to not blow up documentation with it.

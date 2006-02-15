@@ -1,0 +1,340 @@
+eZ publish Enterprise Component: Configuration, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Jan Borsodi
+:Revision: $Revision$
+:Date: $Date$
+
+Introduction
+============
+
+Description
+-----------
+
+The configuration package provides the tools to store configuration settings
+for your application. Configuration options are stored on disk using INI
+files or other configuration formats. The configuration package comes with
+support for manipulation and storage of INI files and caching.
+
+
+Current implementation
+----------------------
+
+The current implementation uses only INI files and one class (eZINI). The class
+will read in a given INI file when it is instantiated and uses caching in PHP
+arrays to speed up the process. It also supports a complex override system
+which allows a site-access, extension or site-wide settings to override the
+default values.
+
+The major problems with the current implementation are:
+
+- The override system is way too complex, the main problems were:
+
+  * Hard to understand for end-users.
+
+  * Performance problems since it needs to look in multiple directories each
+    time.
+
+  * Writing back INI settings is close to impossible since you don't in which
+    file a setting was set.
+
+- eZINI is used all over the components, this means that the class is always in
+  use in the system. This makes it use more memory than it needs to.
+
+- Only INI files are supported, adding support for other configuration formats
+  is not possible.
+
+Requirements
+============
+
+- Separate read and write operations as well as the storage of settings. This
+  reduces the memory needed for opcodes.
+
+- Support more than just INI formats, it should be able to read XML and other
+  formats that fit the configuration structure. While the first version may not
+  have all the other formats it should be able to new ones with ease later on.
+
+- The application must be able to tell if the configuration has been changed
+  since the last check.
+
+- Allow larger applications to read settings in advance and prepare them for
+  faster access when used on page loads. This means as little automatic
+  behavior as possible, separate automation into different classes depending
+  on the need.
+
+- The end-user must be able to get understandable feedback when there are
+  problems in the configuration they have made or modified. This means
+  reporting the exact location, what is wrong and eventually how to fix it.
+
+- The format of the end-user should be as relaxed as possible for the end-user,
+  this means not having to worry about whitespaces and cases for names.
+
+Design goals
+============
+
+Most applications and components needs to be able to configure their behavior
+so that the end-user can choose what to do with it. This can be configuring the
+name of the site or which email transport to use. However the applications
+wants to spend as little time or code when reading in the configuration and so
+a generic configuration system is needed. The goal of the design is:
+
+- To create a unified configuration system which is flexible while at the same
+  time being as simple and efficient as possible. The needs of applications are
+  different and so the classes must cater for the need of each application.
+
+- Split low-level operations from higher-level ones which are generally
+  automated. This makes it possible to optimize the application by getting rid
+  of layers one does not need.
+
+- Make it easier for developers to use the classes and easier for the end user
+  to use the configuration files. There are many pitfalls for both usage and
+  the design should make sure this is no longer an issue.
+
+- Reduce the amount of memory which is in use for PHP opcodes for the typical
+  operations.
+
+- Create a flexible system for reading and writing configuration formats. It
+  must be possible to extend this by external developers to support new formats
+  which fit the configuration structure.
+
+- The various readers must be able to report the last modification time and md5
+  sum of their configurations. This allows the application to use caching and
+  having them expired when the original configuration changes.
+
+- Whitespace handling must be done in the correct place which is in the
+  parser. Once the configuration is parsed any whitespace trimming should no
+  longer occur.
+
+- The readers and writers must take care in converting the configuration values
+  into proper PHP types, this means integers, floats, booleans, arrays and
+  strings. This means that the configuration settings are always in a proper
+  format internally in the application.
+
+Special considerations
+----------------------
+
+The following considerations must be followed when designing the component.
+
+Distribution vs dev settings
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The old syntax in eZ publish 3.x with ##! and #! in the arrays will no longer
+be in use when creating the distribution. The main problem was that the setting
+in SVN would differ from the live setting making it hard to go from one setup
+to the other.
+
+Validation
+^^^^^^^^^^
+Validation is not done by the configuration or the readers/writers, instead its
+up to the application to provide a validation system. The reason is that
+validation can be so complex that providing this in the configuration object is
+close to impossible and will only complicate the code.
+
+Defaults
+^^^^^^^^
+Handling default values for missing settings is up to the application. Default
+values also work together with validation. If validation fails the defaults can
+be used, but that it is much easier for the application to know how to handle
+than the configuration system.
+Default values could also be stored in a second config file if the application
+wants it.
+
+Format
+======
+
+The configuration format consists of four elements:
+
+- Groups, they allow you to group similar settings into one group and it also
+  allows you to have multiple settings with the same name but in different
+  groups. This means that you don't have to prefix your settings with the group
+  name.
+
+- Settings, the name of the setting which identifies the setting. A setting
+  contains a value.
+
+- Values, a value can be of the following types: boolean, integers, floats,
+  arrays and strings.
+
+- Comments, comments belongs to either a group or a setting and can be added to
+  describe what the group contains or what a setting controls.
+
+Group and setting identifiers can only contain the characters a to z, A to Z, 0
+to 9, underscore (_), dash (-) and dot (.). The case of settings are preserved
+but accessing them can be done with any case, this means you cannot have two
+settings with the same identifier only differing in case.
+
+The following are legal names::
+
+  ASimpleName
+  asimplename
+  a_simple_name
+  a.simple.name
+  a-simple_and.longName
+
+and these are illegal::
+
+  A simple name
+  -=A simple name=-
+  
+In addition the group names may contain forward slashes (/), for instance::
+
+  a/simple/groupname
+
+Format: INI
+-----------
+
+The parser will remove leading and trailing whitespace from group names,
+settings and setting values. If you wish to keep whitespace in a string it will
+have to be quoted.
+
+Comments are written using a # (hash) and must be placed at the start of the
+line. The whitespace block before the comment text on all the lines will be
+trimmed away while whitespace after this block is kept. Trailing whitespace is
+also trimmed. For instance the follow comments::
+
+  # A simple comment  
+  #  A simple comment
+  #       A simple comment
+
+will become::
+
+  #A simple comment
+  # A simple comment
+  #      A simple comment
+
+Multiple comment lines will be read as one comment with multiple lines, if
+there are empty lines in between comments they will be read as empty lines in
+the comment itself::
+
+  # A single line comment
+  Setting = value
+
+  # Multiple lines
+  # for this
+  # comment
+  Setting = value
+
+  # Multiple lines
+  
+  # with empty lines
+  # for this comment
+  Setting = value
+
+  # Multiple lines
+  #
+  # with empty lines
+  # for this comment
+  # Actually same as above
+  Setting = value
+
+Comments are always placed *in front* of the group or setting. A line
+that only contains whitespace will be ignored.
+
+The files are always encoded in UTF-8 format, this means it can contain Unicode
+characters if needed or plain ASCII without specific encoding.
+
+Groups are defined by placing an identifier inside square brackets alone on the
+string. Any setting that is read after this will be placed as part of this
+group. Settings without groups are not allowed and will cause an error to be
+issued. The group name will have its leading and trailing whitespace trimmed
+away::
+
+  [Group1]
+  [Another group]
+  [ Yet another group ]
+
+Settings are defined by placing an identifier with an equal sign (=) after it,
+the value follows after the equal sign. The setting and the value must be on
+one line, it cannot span multiple lines::
+
+  Setting1 = Some example string
+  Setting2 = 42
+
+The values of settings are generally seen as strings with the exception of:
+
+1. Booleans which can be written as *true* or *false*, if you need these
+   strings as text they must be quoted::
+
+     SystemEnabled = true
+     LogErrors = false
+
+2. Numbers are written using English locale and can be in the following format:
+
+  - decimal::
+
+      [1-9][0-9]* | [0]
+
+      MaxSize = 400
+      MinSize = 0
+
+  - hexadecimal::
+
+      0[xX][0-9a-fA-F]+
+
+      BackgroundColor = 0xaabbcc
+      TextColor = 0x0102FE
+
+  - octal::
+
+      0[0-7]+
+
+      Permission = 0666
+
+  - float::
+
+      LNUM          [0-9]+
+      DNUM          ([0-9]*[\.]{LNUM}) | ({LNUM}[\.][0-9]*)
+      EXPONENT_DNUM ( ({LNUM} | {DNUM}) [eE][+-]? {LNUM})
+
+      Price = 10.4
+      Seed = 10e5
+
+3. An explicit string which is enclosed in double quotes ("), all whitespace is
+   kept inside the quotes and characters are read literally with the exception
+   of escaped characters. The escaped characters are:
+
+  a) *\\"* which will be replaced with the quote character (")::
+
+       "This contains \"quote\" characters"
+
+  b) *\\\\* which will be replaced with the backslash character (\)::
+
+       "This contains a backslash \\"
+
+In addition it is possible to define arrays in a second way by using square
+brackets ([]) after the setting name and before the equal (=) character. This
+will make the setting an array and the value is parsed as explained above.
+In addition the square brackets may be enclosed around a string which turns the
+array into a hash (or associative array) with the text being used as the key. ::
+
+  List[] = First string
+  List[] = Second string
+  List[] = 5
+  Hash[abc] = 4
+  Hash["def"] = 5
+
+Format: Array
+-------------
+
+The *Array* format will be a simple `var_export`_ of the contained settings and
+for reading the PHP will parse the file. The file will contain three variables,
+one for the groups and settings, one for the comments to groups and one for
+comments to settings. For instance the file could look like::
+
+  array( 'settings' => array( "Group1" => array( "Setting1" => 5,
+                                                 "Setting2" => "a string" ) ),
+
+         'comments' => array( "Group1" => array( "#" => "Comment for the main group",
+                                                 "Setting1" => "A number",
+                                                 "Setting2" => "A simple string" ) )
+       );
+
+
+
+.. _var_export: http://www.php.net/var_export
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79

@@ -1,0 +1,118 @@
+1.0 - Monday 30 January 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed unreported bug: ezcImageTransformation will cause an error, if no
+  filters are submitted, but only a MIME type conversion is set.
+- Fixed unreported bug: ImageAnalysis and ImageConversion used different
+  MIME types for PSD files.
+- Fixed unreported bug: Missing sanity checks for file existance and
+  reabability in ezcImageTransformation::transform().
+
+
+1.0rc1 - Monday 16 January 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Added more MIME types to ezcImageImagemagickHandler to be able to
+  transform more formats.
+- Added option for ezcImageImagemagickHandler to allow the explicit setting of
+  ImageMagick's "convert" binary.
+
+- Changed exception behavior. All errors will now throw a different exception
+  class.
+- Changed OS detection of ezcImageImagemagickHandler to better detect Windows
+  versions.
+- Changed behavior of ezcImageGeometryFilters::scale() to its
+  original purpose. The scale() filter now allows scaling of images to fit
+  into a certain rectengular box. The former behavior is still available
+  throug the scaleExact() filter.
+- Changed execution of ImageMagick binary from exec() to proc_open(). This
+  avoids nasty error output on the console if something fails. Errors from
+  STDERR are now caught and used in the thrown exception for analysis.
+
+- Fixed bug #7640: "createTransformation aspect ratio scaling". 
+  The ImageMagick driver now does correct scaling, maintaining aspect ratio.
+- Fixed unreported bug, that $name attribute in ezcImageMethodcallHandler is
+  private, but accessed by it's derived classes for error reporting.
+- Fixed unreported bug in crop filter code of ezcImageImagemagickHandler, that
+  caused the crop to always start at the coordinates 0, 0.
+
+
+1.0beta2 - Friday 23 December 2005
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Added struct for ezcImageConverter settings: ezcImageConverterSettings.
+- Added new method getIdentifier() to handler classes which returns
+  a lowercase version of the name. The convert class uses this instead of
+  lowercasing the name manually.
+- Added ezcImageFilter struct to keep the filter name and
+  options. This replaces the associative arrays and separate parameters used
+  throughout the various classes (mostly ezcImageTransformation).
+
+- Changed settings handling in ezcImageConverter to new struct
+  ezcImageConverterSettings.
+- Changed ezcImageHandler objects to get their $name and $identifier in
+  their constructor.
+- Changed ezcImageHandlers not to automagically find the correct class name for
+  a filter. Instead the ezcImageFilters object is now created by the specific 
+  ezcImageHandler class.
+
+- Changed functions to properties:
+
+  * ezcImageHandler::getName() to property 'name'.
+  * ezcImageHandler::getIdentifier() to property 'identifier'.
+
+- Changed class names:
+
+  * ezcImageHandlerGd to ezcImageGdHandler.
+  * ezcImageHandlerShell to ezcImageShellHandler.
+  * ezcImageFiltersGd to ezcImageGdFilters.
+  * ezcImageFiltersShell to ezcImageShellFilters.
+  * ezcImageFiltersInterfaceEffect to ezcImageEffectFilters.
+  * ezcImageFiltersInterfaceGeomtry to ezcImageGeometryFilters.
+  * ezcImageFiltersInterfaceColorspace to ezcImageColorspaceFilters.
+  * ezcImageShellHandler to ezcImageImagemagickHandler.
+  * ezcImageShellFilters to ezcImageImagemagickFilters.
+
+- Changed function names:
+
+  * ezcImageHandler::listFilters() to getFilterNames().
+
+- Changed ezcImageTransformation::transform() to throw a catch-all exception
+  instead of all inherited ones. The catch-all exception stores the source
+  exception in it's 'parent' property.
+- Changed visibility of filter handling classes to private.
+  The code for the filter handling needs to more work before
+  becoming public. Any references to the filter classes from public
+  classes are also removed. This marks the GD and Imagemagick handlers as
+  private.
+- Changed ezcImageHandler::listFilters() to use the getFilters() method on
+  the filter object to get filter list.
+
+- Changed the way on how handlers can be referenced. The class names which are
+  passed in ezcImageConverterSettings are now stored in the
+  ezcImageHandlerSettings class:
+
+  * Added a reference name setting which are used by the converter
+    and handler. This allows the developer to reference the handler
+    with a simple name.
+  * Add a settings array which can be used by the handler as configuration.
+
+- Removed 'identifier' from ezcImageHandler and uses class name of handler
+  for lookup in ezcImageConverter::applyFilter().
+- Removed generation from class names out of values in
+  ezcImageConverterSettings.  Instead they should now pass the full class name
+  to the converter. This removes the need to prefix custom made handler
+  classes with ezcImageHandler.
+- Removed all the special code from the abstract class ezcImageHandler and
+  added them to ezcImageMethodcallHandler. The main handler class is now much
+  cleaner and exposes less special functions and properties to the public.
+
+  * Updated GD and ImageMagick handlers to extends the new class.
+
+- Fixed createTransformation() to return the transformation object.
+
+
+1.0beta1 - Thursday 24 November 2005
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Initial release of this package.

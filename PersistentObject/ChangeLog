@@ -1,0 +1,41 @@
+1.0.1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- fixed #7845: find fetches all column and not just the required columns.
+	
+	
+1.0 - Monday 30 January 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed faulty numeric id check in ezcPersistentSession::loadIntoObject().
+
+
+1.0rc1 - Monday 16 January 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Added new methods to ezcPersistentSession:
+
+  * removeFromQuery()
+  * updateFromQuery()
+  * findIterator which returns a ezcResultIterator
+
+- Added support for table and column aliases.
+- Added sequence strategy system, which makes this component also work
+  with PostGreSQL.
+- Changed exception behavior. All errors will now throw a different exception
+  class.
+
+- Added interfaces and classes:
+
+  * ezcPersistentIdentifierGenerator that defines the interface between
+    ezcPersistentSession and the code creating unique ID's for new rows.
+  * ezcPersistentSequenceGenerator that implements the ID generation
+    using sequence functionality in the database handlers.
+  * ezcPersistentGeneratorDefinition to set up what generator to use in the
+    definition.
+
+	
+1.0beta1 - Friday 23 December 2005
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Initial release of this package.

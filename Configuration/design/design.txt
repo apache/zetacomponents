@@ -1,0 +1,193 @@
+eZ publish Enterprise Component: Configuration, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Jan Borsodi
+:Revision: $Revision$
+:Date: $Date$
+
+Design description
+==================
+
+The main idea behind the design is to split the various operations and data
+into multiple classes which one can use depending on the need. It is much
+better if the application can choose at which level it wants to handle
+configuration than letting the components be the choice of that. This means
+building the configuration from the lowest possible operations and structures
+and then adding extra classes which can be used as an additional layer on-top
+of the other ones or as supplement. The description of each class or class
+group follows:
+
+Main classes
+------------
+
+|main_classes|
+
+.. |main_classes| image:: configuration.png
+
+ezcConfiguration
+^^^^^^^^^^^^^^^^
+
+The first thing that is done is to keep all groups, settings and values in one
+class which the application will work on. This class does not know anything
+about configuration formats and does not handle reading and writing. This
+design cleans up the interface and keeps the memory usage down depending on the
+application usage.
+
+ezcConfigurationReader
+^^^^^^^^^^^^^^^^^^^^^^
+
+This is the first half of the configuration IO operations and the one that is
+the most used. This interface defines the operations which is common for all
+readers allowing applications to only rely on this interface and not on any
+specific readers. The split of the read vs write allows the memory usage to be
+kept as low as possible since it is quite rare that one has to deal with
+writing.
+
+The main idea is to create an object of one of its subclasses and then call
+*init()* with the location to prepare the reading and finally a call to
+*load()* read in the configuration. The configuration object will then be
+available with the *getConfig()* method.
+
+ezcConfigurationWriter
+^^^^^^^^^^^^^^^^^^^^^^
+
+The other half of the configuration IO operations. This is basically the same
+as the reader with the obvious change of *load()* becoming the *save()*
+operation. Also the *init()* method is a bit different since it takes the
+configuration object in addition to the location settings.
+
+ezcConfigurationFileReader
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is a convenience class that implements most of the reader interface
+(except *load()*) but geared towards configuration format which stores them as
+a single file.
+
+This class also has a constructor which accepts a path string. This makes it
+easier to use since you don't need to figure out the location configuration.
+
+ezcConfigurationFileWriter
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is a convenience class that implements most of the writer interface
+(except *save()*) but geared towards configuration format which stores them as
+a single file.
+
+This class also has a constructor which accepts a path string. This makes it
+easier to use since you don't need to figure out the location configuration.
+
+ezcConfigurationManager
+^^^^^^^^^^^^^^^^^^^^^^^
+
+This class makes it easier to deal with configuration settings at the expense
+of speed and lack of control. This is typically useful for smaller applications
+and scripts which only cares about reading settings the easiest possible way.
+The usage is mostly trough static methods and handles loading and caching
+internally. The only configuration is telling it which reader class to use and
+the main location of the configuration.
+
+INI reader/writer
+-----------------
+
+|ini_classes|
+
+The classes ezcConfigurationINIReader and ezcConfigurationINIWriter handles INI
+style configuration files.
+
+.. |ini_classes| image:: configuration_ini.png
+
+Array reader/writer
+-------------------
+
+|array_classes|
+
+The classes ezcConfigurationArrayReader and ezcConfigurationArrayWriter handles
+simple PHP array configuration files which is mostly used for caching.
+
+.. |array_classes| image:: configuration_array.png
+
+Guidelines
+==========
+
+The methods of the ezcConfiguration class which deals with settings all use the
+following parameter order::
+
+  Reading:
+  $group, $setting
+
+  Reading multiple:
+  $group, $settings
+
+  Writing:
+  $group, $setting, $value
+
+  Writing multiple:
+  $group, $settings, $values
+
+Methods which in addition works with config files will have the name of the
+config as the first parameter, this means you get::
+
+  Reading:
+  $name, $group, $setting
+
+  Reading multiple:
+  $name, $group, $settings
+
+  Writing:
+  $name, $group, $setting, $value
+
+  Writing multiple:
+  $name, $group, $settings, $values
+
+
+Algorithms
+==========
+
+ezcConfigurationManager
+-----------------------
+
+The manager will use caching to speed up access to the configuration
+settings. The caching is done using the ezcConfigurationArrayReader and
+ezcConfigurationArrayWriter.
+When a setting is tried accessed for the first time it will try reading in the
+configuration using the array classes, if this fails it tries it using the
+normal reader class and then writes back the setting using the array writer for
+caching. The next time the same configuration is accessed it will simply use
+the configuration object which is available in memory.
+
+The basic caching algorithm is as follows::
+
+  $config = loadCache( $name )
+  if ( !$config )
+  {
+      $reader = new $readerClass();
+      $config = $reader->init( $location, $name, $options );
+      saveCache( $name, $config );
+  }
+
+Data structures
+===============
+
+ezcConfiguration
+----------------
+
+The data structure of the configuration classes consists of a list of groups
+each containing a list of settings with the values. For the sake of speed and
+memory usage it is recommended to use PHP arrays for this data structure and not
+objects.
+
+ezcConfigurationMananger
+------------------------
+
+The manager uses an internal data structure for mapping the name of a
+configuration to the configuration object. It will use the same mapping if it
+read the value from cache or from the actual reader. It is recommended to use
+PHP arrays for this mapping.
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79

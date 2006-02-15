@@ -1,0 +1,31 @@
+<!DOCTYPE TS><TS>
+<context>
+    <name>contentstructuremenu/show_content_structure</name>
+    <message>
+        <source>Node ID: %node_id Visibility: %visibility</source>
+        <translation>Node-ID: %node_id Synlig/skjult: %visibility</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/class/classlist</name>
+    <message>
+        <source>Edit</source>
+        <translation>Rediger</translation>
+    </message>
+    <message>
+        <source>Create a copy of the &lt;%class_name&gt; class.</source>
+        <translation>Lag en kopi av klassen &lt;%class_name&gt;.</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="obsolete">Lag ned</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/class/datatype/browse_objectrelationlist_placement</name>
+    <message>
+        <source>Choose initial location</source>
+        <translation>Velg første plassering</translation>
+    </message>
+</context>
+</TS>

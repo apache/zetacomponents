@@ -1,0 +1,197 @@
+Notes:
+======
+
+- Comment can be between almost every token. 
+- Counter, Sequence, (Render, Display, Block, table, Tidy, cleanup, etc) are ProcedureBlocks (Like a function call).
+- Is it LL(1) ? 
+
+
+
+EBNF
+====
+
+PROGRAM
+-------
+
+Program             ::= Version NewLine Text EOF
+
+Version             ::= '{?ezt version="' FloatLiteral '"}'
+
+Text                ::= ( Graphic | Block )*
+
+Block               ::= OutputBlock
+                    |   CommentBlock
+                    |   ProcedureBlock
+                    |   DeclarationBlock
+                    |   LoopBlock
+                    |   CodeFlowBlock
+                    |   LiteralBlock
+                    |   {ldelim /}
+                    |   {rdelim /}
+
+
+BLOCKS
+------
+OutputBlock         ::= '{' Expression '}'
+
+CommentBlock        ::= '{*' Grapic* '*}'
+
+literalBlock        ::= '{literal}' Text '{/literal}'
+
+ProcedureBlock      ::= '{' Identifier (Identifier ( ('=')? Expression)? )*  ( '/}' |  '}' Text '{/' Identifier '}' ) 
+
+DefineBlock         ::= '{def' SubDefineBlock '}'
+
+SubDefineBlock      ::= PrimaryVariable ( '=' Expression )? ( ',' SubDefineBlock )?
+
+UnDefineBlock       ::= '{undef' PrimaryVariable (',' PrimaryVariable)* '}'
+
+
+
+LOOP_CONTROL
+------------
+LoopControl         ::= ForeachStatement
+                    |   ForStatement
+                    |   WhileStatement
+                    |   DoWhileStatement
+                    |   CounterStatement
+
+ForeachStatement    ::= '{foreach' Expression as PrimaryVariable ('=>' PrimaryVariable)? (Sequence)? '}' Text '{/foreach}'
+
+ForStatement        ::= '{for' PrimaryVariable '=' Expression 'to' Expression (Step)? (Sequence)?'}' Text '{/for}'
+                    
+WhileStatement      ::= '{while' Expression (Sequence)? '}' Text '{/while}'
+
+DoWhileStatement    ::= '{do' (Sequence)? '}' Text '{/do while' Expression '}'
+
+Step                ::= 'step' Expression
+
+Sequence            ::=  'sequence' Expression 'as' PrimaryVariable 
+
+
+
+CODE_FLOW_CONTROL
+-----------------
+CodeFlowBlock       ::= IfStatement
+                    |   SwitchStatement
+                    |   IncludeStatement
+                    |   EmbedStatement
+                    |   DelimiterStatement
+                    |   '{break /}'
+                    |   '{skip /}'
+                    |   '{continue /}'
+
+
+IfStatement         ::= '{if' Expression '}' Text (ElseIf)* (Else)? '{/if}' 
+ElseIf              ::= '{elseif' Expression '}' Text
+Else                ::= '{else}' Text 
+
+SwitchStatement     ::= '{switch' Expression '}' (Case)* (DefaultCase)? '{/switch}'
+
+Case                ::= '{case' Expression '}' Text '{/case}'
+
+DefaultCase         ::= '{default' '}' Text '{/default}'
+                   
+IncludeStatement    ::= '{include' Expression '/}'
+
+EmbedStatement      ::= '{embed' Expression '/}'
+
+
+EXPRESSION
+----------
+Expression          ::= PreUnaryExpression (BinaryOperator Expression)? ( '?' Expression ':' Expression )?
+
+PreUnaryExpression  ::= '++' PrimaryVariable
+                    |   '--' PrimaryVariable
+                    |   UnaryExpression
+                    |   Expression 'instanceof' Identifier 
+                    |   ArrayDeclaration
+
+ArrayDeclaration    ::= 'array(' ( (Expression '=>')? Expression ( ',' Expression )* )? ')'
+                    |   '[' ( (Expression '=>')? Expression ( ',' Expression )* )? ']'
+
+UnaryExpression     ::= ( UnaryOperator )* PostFixExpression
+
+PostFixExpression   ::= PrimaryVariable ( '++' | '--' )?
+                    |   Literal
+                    |   FunctionCall
+                    |   '(' Expression ')'
+
+PrimaryVariable     ::= '$' Identifier ( '[' Expression ']' | '->' Expression )*
+
+FunctionCall        ::= Identifier '(' (ParameterList)? ')'  
+                                                                
+ParameterList       ::= Expression ( ',' Expression )* 
+
+Identifier          ::= Letter ( Letter | Digit | '_' )*
+
+
+BASIC_LITERALS
+--------------
+Literal              ::= NumeralLiteral 
+                     |   StringLiteral 
+                     |   BooleanLiteral
+
+NumeralLiteral       ::=  HexLiteral | OctLiteral | FloatLiteral
+
+HexLiteral           ::= '0x' HexDigit+
+
+OctLiteral           ::= '0' OctDigit+
+
+FloatLiteral         ::= NonZeroDigit Digit* ( '.' Digit+ )? (('e'|'E') ('+'|'-')? Digit+)?
+
+StringLiteral        ::= '"' Graphic* '"' 
+                     |   "'" Graphic* "'"
+
+BooleanLiteral       ::= true 
+                     |   false 
+
+
+LEXICON
+-------
+Comment             ::= '//' Graphic* EOL
+                    |   '/*' Grapic* '*/'
+
+Graphic             ::= Digit | Letter | Blank | Operators | Assignment | RemainingCharSet
+
+EOL                 ::= end-of-line
+
+EOF                 ::= end-of-file
+
+Blank               ::= Tab | Space 
+
+NewLine             ::= '\n'
+
+Space               ::= ' '
+
+Tab                 ::= '\t'
+
+Letter              ::= 'a' ... 'z' | 'A' ... 'Z'  
+
+Hexdigit            ::= '0' .. '9' | 'A' .. 'F'
+
+Octdigit            ::= '0' .. '8'
+
+NonZeroDigit        ::= '1' .. '9' 
+
+Digit               ::= '0' | NonZeroDigit
+
+Assignment          ::= '='
+
+Operators           ::= BinaryOperator | UnaryOperator | '++' | '--'
+
+BinaryOperator      ::= ArithmeticOperator | CombinedOperator | ComparisonOperator | BooleanOperator | StringOperator
+
+ArithmeticOperator  ::= '+'  | '-'   | '*' | '/' | '%' 
+
+CombinedOperator    ::= '+=' | '-='  | '*=' | '/=' | '%=' | '.=' 
+
+ComparisonOperator  ::= '==' | '===' | '!=' | '!==' | '<' | '<=' | '>' | '>=' 
+
+BooleanOperator     ::= '&&' | '||'
+
+StringOperator      ::= '.'  | '.='
+
+UnaryOperator       ::= '+'  | '-'   | '!'
+
+RemainingCharSet    ::= '.' | ':' | ';' | ',' | '~' | '(' | ')' | '[' | ']' | '{' | '}' | '_' | '|' | "'" | '"' | '`' | '#' | '$' | '@'

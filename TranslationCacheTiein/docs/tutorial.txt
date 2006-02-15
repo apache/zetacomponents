@@ -1,0 +1,19 @@
+eZ components - TranslationCacheTiein
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+The TranslationCacheTiein ties together the Translation component with the
+Cache component.  This component only implements one class, the
+ezcTranslationCacheBackend which is a backend for the Translation component. 
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79

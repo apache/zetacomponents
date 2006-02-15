@@ -1,0 +1,66 @@
+eZ publish Enterprise Component: Persistent Object, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Introduction
+============
+
+Purpose of Persistent Object package
+------------------------------------
+
+The purpose of the Persistent Object class is to provide the means to store an
+object to a database in a transparant manner. The idea is to be able to quickly
+develop "objects" that should be stored to the database without having to write
+SQL calls compatible with all databases etc.
+
+Current implementation
+----------------------
+
+Currrently Persistent Object functionality is implemented in the class
+eZPersistentObject. The design of this package should be based around this
+class. However, a general cleanup of the class is necessary. It should also
+be refactored to use PHP 5 properties.
+
+Requirements
+=============
+
+Most importantly you must be able to do the most basic operations on an object:
+
+- create a new with default values
+- copy another from another
+- fetch an object from the database
+- delete and object from the database
+- fetch a list of objects based on some conditions
+- remove a list of objects
+
+The persistent object must be able do deal with
+
+- sorting
+- types
+- property visibility
+- required fields
+- (auto) incrementing fields
+
+There must also be an option for quick access to records without having to 
+instantiate a lot of objects.
+
+Design
+======
+
+Class design
+------------
+
+ezcPersistentObject
+    This class implements the persistet object with the above requirements.
+    In order to use it you must inherit it and define the various properties,
+    and implement the definition method which is used to tell 
+    ezcPersistentObject what your object looks like.
+
+ezcPersistentRecord
+   This class contains the main functionality for ezcPersistentObject as static
+   methods that work on the Record level (array of attribute data). This class
+   can also be used if you have large amounts of persistent objects to deal
+   with.
+
+ezcPeristentObjectValidator
+   This is a convinience class that contains functionality to check if your
+   ezcPersistentObject definitions are valid or not.

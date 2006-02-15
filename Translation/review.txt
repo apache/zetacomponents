@@ -1,0 +1,24 @@
+Review Frederik
+===============
+[done] ezcTranslation::parameter_callback - what is the ctype_upper if good for?
+[done] ezcTranslation::getString - rename to getTranslation?
+
+[done] ezcTranslationBackend - misses an example
+[bogus] ezcTranslationBackend - What is the exact relation between this and ezcTranslationBackend.
+[done] ezcTranslationBackend::setOptions - What should happen when a erroneous setting is set? Ignore / throw?
+
+[done] ezcTranslationContextRead - See above
+[done,different] ezcTranslationContextRead::haveMore - This method is improperly named as i doesn't just check but it also advances.
+                                      I propose call it getNextContext() and making it return null if there are no more.
+[done,different] ezcTranslationContextRead::readContext - Along the same lines as the above, this should be named getCurrentContext instead.
+[done,different] ezcTranslationContextRead::readContext - format of the returned data
+
+[done] ezcTranslationFillinFilter - Shouldn't it be ezcTranslationFillInFilter, or ezcTranslationReplaceMissing ezcTranslationComplementEmptyFilter
+
+[done] ezcTranslationCacheBackend - is missing an example
+[done] ezcTranslationCacheBackend::setOptions FIXME here.
+[done] ezcTranslationCacheBackend::__construct and $cache, what is the correct type for this? I used ezcCacheStorageFileArray (this is what you used in your examples)
+
+[done] ezcTranslationTsBackend - tsFilenameFormat, what possible formats are available?
+[done] ezcTranslationTsBackend - missing example
+[done] ezcTranslationTsBackend::readContext - what exactly does it return? The comment and the description of currentContext differ. Should we have used a struct for this (in case the comment of currentContext is correct)

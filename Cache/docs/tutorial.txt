@@ -1,0 +1,153 @@
+eZ components - Cache
+~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+The Cache package provides a collection of lightweight classes to cache
+different kinds of data. Beside that, it provides a manager class, which takes
+care of instantiating and reusing caches.
+
+Class overview
+==============
+
+This section gives you an overview on all classes, that are intended to be
+used directly.
+
+ezcCacheManager
+  This is the manager, which will take care of your caches. It is optional to
+  use the manager, but recommended if your application needs to cache different
+  data for different purposes. It allows you to configure all needed caches in
+  a central place and to retrieve them through the ezcCacheManager. The cache
+  manager will store only the configurations at first and only instantiate the
+  cache object itself when you request it for use.
+
+ezcCacheStorage
+  This is the base class for all cache storages (the cache classes themselves).
+  All cache classes inherit from this base class.
+
+ezcCacheStorageFilePlain
+  Cache objects of this class are capable to store plain text data on the file
+  system. It utilizes the file_get_contents() and file_put_contents() functions
+  of PHP.
+
+ezcCacheStorageFileArray
+  In contrast to ezcCacheStorageFilePlain, objects of this class can store
+  array structures and will keep PHP data types intact.
+  The ezcCacheStorageFileArray class generates PHP code, which will be stored
+  on the file system. Restoring data from the cache uses the require()
+  construct.
+
+ezcCacheStorageFileEvalArray
+  Objects of this storage class follow a similar approach like
+  ezcCacheStorageFileArray and is also capable of storing array
+  structures. The major difference between both classes is, that
+  ezcCacheStorageFileEvalArray will use PHPs eval() method to restore the
+  cached data, instead of using required() to restore the cache data. This has the effect,
+  that the stored data will not be cached again in PHP accelerators like APC_.
+  This might be desirable, if you store large amounts of data at once.
+
+.. _APC: http://pecl.php.net/package/APC
+
+
+Usage
+=====
+
+A simple example
+----------------
+
+This example shows how to create and use a simple cache with the
+ezcCacheManager:
+
+.. include:: tutorial_example_01.php
+   :literal:
+
+In the options for the cache to create, the time-to-life is defined. If left
+out, the cache has a lifetime of 24 hours. In this place, a lifetime of 30
+seconds is defined. On line 9 the cache configuration is stored in the cache
+manager. The cache created will be named "simple" and will reside in the directory
+/tmp/cache/plain (Note: This directory must exists and must be writable to
+the user running the code, else you will get an ezcBaseFileNotFoundException or
+an ezcBaseFilePermissionException!). To store the data, the storage class
+ezcConsoleStorageFilePlain will be used and as defined before, the stored data
+will expire after 30 seconds.
+
+Line 11 defines a unique ID for the data to cache. After that (line 13), the
+cache storage object is retrieved from the ezcCacheManager (the object itself
+is created right now, since we access it for the first time). Line 15 shows how
+to check for cached data: The method ezcCacheStorage::restore() will return
+bool false, if no valid cache data is found.
+
+In case the cache storage did not find valid data, the data will be generated
+and stored in the cache afterwards (lines 17 and 18). The last line shows the
+data, so you can follow how it's cached for 30 seconds, by simple running the
+example multiple times in a short time frame.
+
+Using multiple caches
+---------------------
+
+The following example shows how the cache manager deals with multiple caches:
+
+.. include:: tutorial_example_02.php
+   :literal:
+
+In the lines 12 and 13 you see how 2 caches are created. Each cache must reside
+in it's own location and must have a different name. We use 2 different options
+for the lifetime of the caches to show how they act independently later.
+
+Since the first cache reuses the location already used in example 1, the unique 
+ID has changed. Lines 15 to 25 are almost identical to the code from example 1, 
+except that the program will sleep for 2 seconds, when it generated new data for 
+the plain cache, to show different generation times in the 2 caches.
+
+On line 30 the second cache object is retrieved, which is capable of storing arrays.
+Therefore, we store the data from the plain cache here and additionally
+generate some more data, all stored in an array. Running this example multiple
+times will give you different results now after some time, since the second cache 
+has a longer lifetime and will therefore hold its data longer than the first one.
+
+Complex caching
+---------------
+
+As the next example shows, ezcCacheStorage classes are capable of more advanced
+features. This example uses attributes to identify cached data, additionally to their
+unique ID:
+
+.. include:: tutorial_example_03.php
+   :literal:
+
+After the creation of an array cache, some sample data is created (lines
+11-16). Each data is keyed by it's unique ID, which is associated to an array.
+This array will be used as the content and the attributes together later on. Attributes 
+describe cached data in further detail. We will see, what to do with attributes of
+cached data later on, too.
+
+In line 20 a foreach loop starts, which stores all example data in the cache. After
+that the method ezcCacheStorageFile::countDataItems() is used to let
+the storage object count it's data items. The first parameter here would be an
+ID. When this is set, the method should always return 1 or 0, because only 1
+data item per ID may exist. Instead, the data items with a specific attribute
+are counted. The attributes to match are supplied as the second parameter. The first 
+method call will return 3 (line 28), since we have 3 cache items which have the attribute 
+"section" set to "articles". The second call (line 32) should return 2, because
+2 data items have the attribute "language" set to the value "de".
+
+On line 36 the storage object is told to delete all cache items, which have
+the attribute "language" set to "de". Therefore the next to calls to
+ezcCacheStorageFile::countDataItems() will return 2 and 0.
+
+More Information
+================
+
+For more information, see the ezcCacheManager and ezcCacheStorageFile API
+documentation.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79

@@ -1,0 +1,26 @@
+eZ publish Enterprise Component: Execution, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author:   Derick Rethans
+:Revision: $Revision$
+:Date:     $Date$
+
+Introduction
+============
+
+Description
+-----------
+Provides a way to handle fatal errors and uncatched exceptions.
+
+Requirements
+============
+Fatal errors on your website should be handled in a somewhat nice way. This
+Component checks if there was a fatal error or uncatched exception during your
+application and allows you to run a specific function in case this happens.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
