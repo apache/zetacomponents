@@ -22,7 +22,9 @@ Text                ::= ( Graphic | Block )*
 Block               ::= OutputBlock
                     |   CommentBlock
                     |   ProcedureBlock
-                    |   DeclarationBlock
+                    |   DefineBlock
+                    |   UnDefineBlock
+                    |   AssignBlock
                     |   LoopBlock
                     |   CodeFlowBlock
                     |   LiteralBlock
@@ -38,7 +40,9 @@ CommentBlock        ::= '{*' Grapic* '*}'
 
 literalBlock        ::= '{literal}' Text '{/literal}'
 
-ProcedureBlock      ::= '{' Identifier (Identifier ( ('=')? Expression)? )*  ( '/}' |  '}' Text '{/' Identifier '}' ) 
+ProcedureBlock      ::= '{' Identifier ( ProcedureArgument )*  ( '/}' |  '}' Text '{/' Identifier '}' ) 
+
+ProcedureArgument   ::= Identifier ( ('=')? Expression)? 
 
 DefineBlock         ::= '{def' SubDefineBlock '}'
 
@@ -46,11 +50,15 @@ SubDefineBlock      ::= PrimaryVariable ( '=' Expression )? ( ',' SubDefineBlock
 
 UnDefineBlock       ::= '{undef' PrimaryVariable (',' PrimaryVariable)* '}'
 
+AssignBlock         ::= '{set' SubAssignBlock '}'
+
+SubAssignBlock      ::= PrimaryVariable (Assignment|CombinedAssignment) Expression (',' SubAssignBlock)?
+
 
 
 LOOP_CONTROL
 ------------
-LoopControl         ::= ForeachStatement
+LoopBlock           ::= ForeachStatement
                     |   ForStatement
                     |   WhileStatement
                     |   DoWhileStatement
@@ -90,7 +98,7 @@ SwitchStatement     ::= '{switch' Expression '}' (Case)* (DefaultCase)? '{/switc
 
 Case                ::= '{case' Expression '}' Text '{/case}'
 
-DefaultCase         ::= '{default' '}' Text '{/default}'
+DefaultCase         ::= '{default}' Text '{/default}'
                    
 IncludeStatement    ::= '{include' Expression '/}'
 
@@ -152,7 +160,7 @@ LEXICON
 Comment             ::= '//' Graphic* EOL
                     |   '/*' Grapic* '*/'
 
-Graphic             ::= Digit | Letter | Blank | Operators | Assignment | RemainingCharSet
+Graphic             ::= Digit | Letter | Blank | Operators | Assignment | CombinedAssignment | RemainingCharSet
 
 EOL                 ::= end-of-line
 
@@ -178,13 +186,13 @@ Digit               ::= '0' | NonZeroDigit
 
 Assignment          ::= '='
 
+CombinedAssignment  ::= '+=' | '-='  | '*=' | '/=' | '%=' | '.=' 
+
 Operators           ::= BinaryOperator | UnaryOperator | '++' | '--'
 
-BinaryOperator      ::= ArithmeticOperator | CombinedOperator | ComparisonOperator | BooleanOperator | StringOperator
+BinaryOperator      ::= ArithmeticOperator | ComparisonOperator | BooleanOperator | StringOperator
 
 ArithmeticOperator  ::= '+'  | '-'   | '*' | '/' | '%' 
-
-CombinedOperator    ::= '+=' | '-='  | '*=' | '/=' | '%=' | '.=' 
 
 ComparisonOperator  ::= '==' | '===' | '!=' | '!==' | '<' | '<=' | '>' | '>=' 
 
