@@ -2,10 +2,10 @@
 
 // All errors must be reported
 error_reporting( E_ALL | E_STRICT );
+require_once("Base/src/base.php");
 
 function __autoload( $class_name )
 {
-    require_once("Base/trunk/src/base.php");
     if ( strpos( $class_name, "_" ) !== false )
     {
         $file = str_replace( "_", "/", $class_name ) . ".php";

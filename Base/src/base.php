@@ -127,18 +127,16 @@ class ezcBase
         // Get the path to the components.
         $baseDir = dirname( __FILE__ );
 
-		switch ( ezcBase::libraryMode )
-		{
-			case "devel":
-		        ezcBase::$packageDir = $baseDir. "/../../../";
-				break;
-			case "tarball":
-		        ezcBase::$packageDir = $baseDir. "/../../";
-				break;
-			case "pear";
-		        ezcBase::$packageDir = $baseDir. "/../";
-				break;
-		}
+        switch ( ezcBase::libraryMode )
+        {
+            case "devel":
+            case "tarball":
+                ezcBase::$packageDir = $baseDir. "/../../";
+                break;
+            case "pear";
+                ezcBase::$packageDir = $baseDir. "/../";
+                break;
+        }
     }
 
     /**
@@ -185,20 +183,16 @@ class ezcBase
     {
         list( $first, $second ) = explode( '/', $file, 2 );
         switch ( ezcBase::libraryMode )
-		{
-			case "devel":
-	            // Add the "trunk/src/" after the package name.
-    	        $file = $first . "/trunk/src/" . $second;
-				break;
+        {
+            case "devel":
+            case "tarball":
+                // Add the "src/" after the package name.
+                $file = $first . "/src/" . $second;
+                break;
 
-			case "tarball":
-	            // Add the "src/" after the package name.
-	            $file = $first . "/src/" . $second;
-				break;
-
-			case "pear":
-				$file = $first . '/'. $second;
-				break;
+            case "pear":
+                $file = $first . '/'. $second;
+                break;
         }
 
         require( ezcBase::$packageDir . $file );

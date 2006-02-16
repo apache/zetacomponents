@@ -192,12 +192,12 @@ class ezcTestRunner extends PHPUnit2_TextUI_TestRunner
 
     protected function prepareTests( $packages, $release )
     {
-        $directory = dirname( __FILE__ ) . "/../../../../";
+        $directory = dirname( __FILE__ ) . "/../../..";
  
         $allSuites = new ezcTestSuite();
         $allSuites->setName( "[Testing]" );
 
-        if( sizeof( $packages ) == 0 )
+        if ( sizeof( $packages ) == 0 )
         {
             $packages = $this->getPackages( $directory );
         }
@@ -345,7 +345,8 @@ class ezcTestRunner extends PHPUnit2_TextUI_TestRunner
      */
     protected function getTestSuite( $dir, $package, $release )
     {
-        $suitePath = implode( "/", array( $dir, $package, $release, self::SUITE_FILENAME ) );
+        $suitePath = implode( "/", array( $dir, '..', $release, $package, self::SUITE_FILENAME ) );
+
         if ( file_exists( $suitePath ) )
         {
             require_once( $suitePath );
