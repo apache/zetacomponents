@@ -23,6 +23,7 @@ class ezcLogTest extends ezcTestCase
     {
         set_error_handler(array( $this, "TestErrorHandler"));
         $this->log = ezcLog::getInstance();
+        $this->log->reset();
         $this->createTempDir( "ezcLogTest_" );
     }
 
