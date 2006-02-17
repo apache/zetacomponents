@@ -76,6 +76,11 @@ class ezcConfigurationIniParser implements Iterator
     private $currentComments = array();
 
     /**
+     * Stores whether an item has been found on the last parser run
+     */
+    private $itemFound = false;
+
+    /**
      * Constructs the parser object
      *
      * Constructs the parser and initializes it with the file to read. After
@@ -304,11 +309,11 @@ class ezcConfigurationIniParser implements Iterator
      */
     private function parseNext()
     {
-        $itemFound = false;
         $commentArray = array();
 
         do
         {
+            $this->itemFound = false;
             $line = trim( fgets( $this->fp ) );
             $this->lineNr++;
 
@@ -325,6 +330,7 @@ class ezcConfigurationIniParser implements Iterator
 
                     if ( $this->emitGroupHeader( $this->currentGroup, $headerComments ) )
                     {
+                        $this->itemFound = true;
                         return;
                     }
                 }
@@ -359,6 +365,7 @@ class ezcConfigurationIniParser implements Iterator
                 $settingComments = $this->fetchComments();
                 if ( $this->emitSetting( $this->currentGroup, $settingID, $settingDimensions, $settingComments, $settingValue ) )
                 {
+                    $this->itemFound = true;
                     return;
                 }
             }
@@ -376,7 +383,7 @@ class ezcConfigurationIniParser implements Iterator
                 return;
             }
         }
-        while ( !$itemFound && !feof( $this->fp ) );
+        while ( !feof( $this->fp ) );
     }
 
     /**
@@ -417,8 +424,7 @@ class ezcConfigurationIniParser implements Iterator
      */
     public function valid()
     {
-        return !feof( $this->fp );
+        return !feof( $this->fp ) || $this->itemFound;
     }
-
 }
 ?>
