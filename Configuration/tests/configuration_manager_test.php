@@ -55,7 +55,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
     public function testHasSetting()
     {
         $config = ezcConfigurationManager::getInstance();
-        $config->init( 'ezcConfigurationIniReader', 'Configuration/trunk/tests/files', array() );
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files', array() );
 
         $setting = $config->hasSetting( 'one-group', 'TheOnlyGroup', 'Setting1' );
         $this->assertEquals( true, $setting );
@@ -67,7 +67,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
     public function testExists()
     {
         $config = ezcConfigurationManager::getInstance();
-        $config->init( 'ezcConfigurationIniReader', 'Configuration/trunk/tests/files', array() );
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files', array() );
 
         $setting = $config->exists( 'one-group' );
         $this->assertEquals( true, $setting );
@@ -79,7 +79,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
     public function testHasSettingNotExists()
     {
         $config = ezcConfigurationManager::getInstance();
-        $config->init( 'ezcConfigurationIniReader', 'Configuration/trunk/tests/files', array() );
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files', array() );
 
         try
         {
@@ -95,7 +95,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
     public function testSetting1()
     {
         $config = ezcConfigurationManager::getInstance();
-        $config->init( 'ezcConfigurationIniReader', 'Configuration/trunk/tests/files', array() );
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files', array() );
         $hasSetting = $config->hasSetting( 'one-group', 'TheOnlyGroup', 'Setting1' );
         $setting = $config->getSetting( 'one-group', 'TheOnlyGroup', 'Setting1' );
         $this->assertEquals( true, $setting );
@@ -104,7 +104,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
     public function testSetting2()
     {
         $config = ezcConfigurationManager::getInstance();
-        $config->init( 'ezcConfigurationIniReader', 'Configuration/trunk/tests/files', array() );
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files', array() );
 
         $setting = $config->getSetting( 'types', 'Types', 'Bool' );
         $this->assertEquals( true, $setting );
@@ -125,7 +125,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
     public function testSetting3()
     {
         $config = ezcConfigurationManager::getInstance();
-        $config->init( 'ezcConfigurationIniReader', 'Configuration/trunk/tests/files', array() );
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files', array() );
 
         $setting = $config->getBoolSetting( 'types', 'Types', 'Bool' );
         $this->assertEquals( true, $setting );
@@ -146,7 +146,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
     public function testSettingWrongType()
     {
         $config = ezcConfigurationManager::getInstance();
-        $config->init( 'ezcConfigurationIniReader', 'Configuration/trunk/tests/files', array() );
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files', array() );
 
         try
         {
@@ -202,7 +202,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
     public function testSettingWrongGroup()
     {
         $config = ezcConfigurationManager::getInstance();
-        $config->init( 'ezcConfigurationIniReader', 'Configuration/trunk/tests/files', array() );
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files', array() );
 
         try
         {
@@ -218,7 +218,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
     public function testSettings()
     {
         $config = ezcConfigurationManager::getInstance();
-        $config->init( 'ezcConfigurationIniReader', 'Configuration/trunk/tests/files', array() );
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files', array() );
 
         $settings = $config->getSettings( 'types', 'Types', array( 'Bool', 'Float', 'Int', 'String', 'Array' ) );
         $expected = array( 'Bool' => true, 'Float' => 3.14, 'Int' => 42, 'String' => 'Components', 'Array' => array( 1 => 'Een', 2 => 'Twee' ) );
@@ -228,7 +228,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
     public function testSettingsAsList()
     {
         $config = ezcConfigurationManager::getInstance();
-        $config->init( 'ezcConfigurationIniReader', 'Configuration/trunk/tests/files', array() );
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files', array() );
 
         $settings = $config->getSettingsAsList( 'types', 'Types', array( 'Bool', 'Float', 'Int', 'String', 'Array' ) );
         $expected = array( true, 3.14, 42, 'Components', array( 1 => 'Een', 2 => 'Twee' ) );
