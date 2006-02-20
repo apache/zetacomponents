@@ -1,4 +1,4 @@
-1.0.1 - [RELEASEDATE]
+1.0.1 - Monday 20 February 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed #7845: Find fetches all columns and not just the required columns.
