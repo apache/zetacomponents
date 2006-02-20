@@ -1,6 +1,7 @@
 1.0.1 - [RELEASEDATE] 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- Fixed bug #7821: zcArchiveFile::removeStreamFilter() appears to re-append a
+
+- Fixed bug #7821: ezcArchiveFile::removeStreamFilter() appears to re-append a
   filter instead of removing.
 
 
