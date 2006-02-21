@@ -66,14 +66,6 @@ class ezcUrl
     private $properties = array();
 
     /**
-     * Holds the mapping between path element names and the elements
-     * index in the query property.
-     *
-     * @var array(string=>int)
-     */
-    private $pathNames = array();
-
-    /**
      * Holds the URL prefixes for the URL.
      *
      * @var array(string=>mixed)
