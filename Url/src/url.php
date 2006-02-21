@@ -66,6 +66,14 @@ class ezcUrl
     private $properties = array();
 
     /**
+     * Holds the mapping between path element names and the elements
+     * index in the query property.
+     *
+     * @var array(string=>int)
+     */
+    private $pathNames = array();
+
+    /**
      * Holds the URL prefixes for the URL.
      *
      * @var array(string=>mixed)
@@ -209,28 +217,46 @@ class ezcUrl
         return count( $this->path );
     }
 
+    /**
+     * Names a path element.
+     *
+     * The named can be used directly on the path array to both
+     * set and retrieve the path element:
+     * <code>
+     * $url = new ezcUrl( 'http://www.example.com/one/two' );
+     * $url->namePathElement( 0, 'first' );
+     * echo $url->path['first']; // yields 'one'
+     *
+     * $url->path['first'] = 'new_value';
+     * echo $url->path[0]; // yields 'new_value'
+     * </code>
+     *
+     * @param int $index
+     * @param string $name
+     * @return void
+     */
     public function namePathElement( $index, $name )
     {
+        if( array_key_exists( $index, $this->path ) )
+        {
+            $this->path[$name] =& $this->path[$index];
+        }
     }
 
-    public function getNamedPathElement( $name )
-    {
-    }
-
-    public function getQueryElements() // return array(key=>value)
-    {
-    }
-
-    public function getQueryElement( $key )
-    {
-    }
-
-    public function setQueryElement( $key, $value ) // value can be an array or a string
-    {
-    }
-
+    /**
+     * Returns true if this URL is relative.
+     *
+     * This method returns false if the URL is absolute.
+     *
+     * @return bool
+     */
     public function isRelative()
     {
+        if( $this->host === null || $this->host == '' )
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -345,10 +371,6 @@ class ezcUrl
         }
         $newElements = explode( '/', trim( self::$prefixes[$name], '/' ) );
         $this->properties['path'] = array_merge( $newElements, $this->properties['path'] );
-    }
-
-    public function createHashCode() // a unique hash based on the URL
-    {
     }
 }
 

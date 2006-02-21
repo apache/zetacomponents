@@ -41,7 +41,7 @@ class ezcUrlTest extends ezcTestCase
 
     public function testBuildUrlFromScratch()
     {
-        $reference = "http://user:pass@www.example.com:82/first/second?me=you#cat";
+        $reference = "http://user:pass@www.example.com:82/first/second?me=you&you=me#cat";
         $url = new ezcUrl();
         $url->scheme = 'http';
         $url->user = 'user';
@@ -51,6 +51,7 @@ class ezcUrlTest extends ezcTestCase
         $url->path[0] = 'first';
         $url->path[1] = 'second';
         $url->query['me'] = 'you';
+        $url->query['you'] = 'me';
         $url->fragment = 'cat';
         $this->assertEquals( $reference, $url->toString() );
     }
@@ -120,12 +121,32 @@ class ezcUrlTest extends ezcTestCase
     {
         try
         {
-            $url = new ezcUrl( "http://www.db.no", 'no_such_prefix' );
+            $url = new ezcUrl( "http://www.example.com", 'no_such_prefix' );
         }catch( ezcUrlPrefixNotFoundException $e ) { return; }
         $this->fail( "Did not get exception when it was expected" );
     }
 
+    public function testIsRelativeFalse()
+    {
+        $url = new ezcUrl( "http://www.example.com/blah/index.php"  );
+        $this->assertEquals( false, $url->isRelative() );
+    }
 
+    public function testIsRelativeTrue()
+    {
+        $url = new ezcUrl( "blah/index.php"  );
+        $this->assertEquals( true, $url->isRelative() );
+    }
+
+    public function testNamePathElement()
+    {
+        $url = new ezcUrl( "http://www.example.com/one/two/three/index.php"  );
+        $url->namePathElement( 0, 'first' );
+        $this->assertEquals( 'one', $url->path['first'] );
+
+        $url->path['first'] = 'the_one';
+        $this->assertEquals( 'the_one', $url->path[0] );
+    }
 }
 
 ?>
