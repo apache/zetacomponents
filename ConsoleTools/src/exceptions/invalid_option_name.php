@@ -9,7 +9,8 @@
  */
 
 /**
- * An option excludes the usage of arguments, but there were arguments submitted.
+ * Throwen if an invalid option name (containing whitespaces or starting with 
+ * a "-") was reiceived by {@link ezcConsoleOption::__construct}.
  *
  * @package ConsoleTools
  * @version //autogen//
