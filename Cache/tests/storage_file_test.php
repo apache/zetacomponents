@@ -76,7 +76,7 @@ class ezcCacheStorageFileTest extends ezcTestCase
         $this->assertEquals( $cache->countDataItems( 0 ), 1, 'Count data items failed with ID.' );
         $this->assertEquals( $cache->countDataItems( null, array( 'lang' => 'no' ) ), 1, 'Count data items failed with attribute <lang>.' );
         $this->assertEquals( $cache->countDataItems( null, array( 'section' => 'articles' ) ), 3, 'Count data items failed with attribute <articles>.' );
-
+        $this->removeTempDir();
     }
 
     public static function suite()
