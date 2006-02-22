@@ -14,11 +14,11 @@ require_once "invariant_parse_cursor.php";
  * @package Template
  * @subpackage Tests
  */
-class ezcTemplateParserTest extends ezcMockCase
+class ezcTemplateSourceToTstParserTest extends ezcMockCase
 {
     public static function suite()
     {
-         return new ezcTestSuite( "ezcTemplateParserTest" );
+         return new ezcTestSuite( __CLASS__ );
     }
 
     public function setUp()

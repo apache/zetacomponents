@@ -70,7 +70,7 @@ class ezcTemplateSuite extends ezcTestSuite
         $this->addTest( ezcTemplateXhtmlContextTest::suite() );
 
         $this->addTest( ezcTemplateCursorTest::suite() );
-        $this->addTest( ezcTemplateParserTest::suite() );
+        $this->addTest( ezcTemplateSourceToTstParserTest::suite() );
         $this->addTest( ezcTemplateWhitespaceRemovalTest::suite() );
 
         $this->addTest( ezcTemplateTextBlockElementTest::suite() );
