@@ -1,6 +1,8 @@
 1.0 - Monday 30 January 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed unreported bug: ezcImageAnalyzerImagemagickHandler threw old exception
+  style in isAvailable() if the operating system is not supported.
 - Fixed bug #7606: Fatal error without exif-extension. Exif information is
   only provided when extension is available.
 
