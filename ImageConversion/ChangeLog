@@ -1,3 +1,11 @@
+1.0.1 - Monday 27 February 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fix unreported bug: ezcImageTransformation::setFilters() threw old style
+  exceptions on an invalid filter class. Now throws correct 
+  ezcBaseSettingValueException.
+
+
 1.0 - Monday 30 January 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
