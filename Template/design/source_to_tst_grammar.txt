@@ -1,0 +1,89 @@
+This file describes the current implementation of the source_to_tst parser in
+an EBNF like grammar. 
+
+From this grammar one can reason where what is parsed and how the TST-tree
+will look like. 
+
+
+
+%ReadabilityNode    Nodes to improve the readability of this file.
+^NotAnElement       Nodes that are a part of the parser, but not an element of the TST.
+RealNode            Nodes that are a part of the parser, and also an element of the TST.
+!AddThisNode        Add this node.
+
+
+Source parser code
+==================
+
+
+Root            	::= Text* (Block Root)? EOF
+
+
+Block           	::= '{' ( '*' DocComment | LiteralBlock | ExpressionBlock |  (  ('/')? (ControlStructure | CustomBlock )  |  '}' )  )
+
+
+DocComment     		::=  Text* '*}'
+
+
+LiteralBlock  		::= 'literal' '}' Graphic* {/literal}
+
+
+ExpressionBlock     ::= Expression
+
+
+Expression          ::=  Operand
+
+%Operand			::= ( '(' ExpressionBlock ')' | Type | Variable | FunctionCall ) Operator
+                    |   ( '++' !PreIncrementOperator | '--'  !PreDecrementOperator | '-'  !NegateOperator | '!' !LogicalNegateOperator ) Operator
+
+%Operator           ::= ( '.') !PropertyFetch (Operand | Identifier)
+                    |   ( '+' !X | '-' !X | '.' !X | '*' !X | '/' !X | '%' !X | '==' !X | '!=' !X | '===' !X | '!==' !X | '<' !X | '>' !X | 
+                         '<=' !X | '>=' !X | '&&' !X | '||' !X | '=' !X | '+=' !X | '-=' !X | '*=' !X | '/=' !X | '.=' !X | '%=' !X | '++' !X | 
+                         '--' !X | 'instanceof' !X ) Operand
+                    |   '[' ArrayFetch Operand
+                    |   '?' ConditionOperator Operand
+                    |   ':' !ConditionalOperator Operand
+
+
+ArrayFetch          ::= Expression
+
+ConditionOperator   ::= Expression  TODO
+
+FunctionCall        ::= Identifier '(' Expression ( ',' Expression )* ')' 
+
+CustomBlock         ::= TODO
+
+ControlStructure    ::= (foreach Foreach | for For | while While | do | if | elseif | else !X ..  etc, TODO
+
+Variable            ::= '$' Identifier 
+
+
+
+Types
+=====
+
+Type                ::= (Float | Integer | String | Bool | Array)
+
+^Float              ::= ('-')? Digit* '.' Digit+ 
+
+^Integer            ::= (-)? Digit+
+
+^String             ::= '"' Text* '"' 
+			        |   "'" Text* "'"
+
+^Bool				::=  'true' | 'false'
+
+^Array				::= 'array' '('  ( SubArray  ( ',' SubArray )* ( ',' )? )? ')'
+
+%SubArray           ::= Type  ('=>' Type)?
+
+
+
+Lexer
+=====
+
+%Identifier          ::= Letter (Letter | Digit | '_')*
+
+%Letter             ::= 'a' ... 'z' | 'A' ... 'Z'  
+
+%Digit              ::= '0' ... '9'
