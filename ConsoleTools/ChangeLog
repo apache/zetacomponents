@@ -1,4 +1,4 @@
-1.0.1 - Monday 27 February 2006
+1.0.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 - Fixed unreported bug: ezcConsoleOption::__construct() still threw old
   exception style. Now throws correct ezcConsoleInvalidOptionNameException on
