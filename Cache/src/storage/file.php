@@ -338,8 +338,8 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
     {
         $filename = (string) $id;
         $illegalFileNameChars = array(
-            ' ' => '_',
-            '/' => DIRECTORY_SEPARATOR,
+            ' '  => '_',
+            '/'  => DIRECTORY_SEPARATOR,
             '\\' => DIRECTORY_SEPARATOR,
         );
         $filename = strtr( $filename, $illegalFileNameChars );
@@ -348,7 +348,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
         $illegalChars = array(
             '-' => '#',
             ' ' => '%',
-            ':' => '+',
+            '=' => '+',
             '.' => '+',
         );
         if ( is_array( $attributes ) && count( $attributes ) > 0 ) 
@@ -356,7 +356,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
             ksort( $attributes );
             foreach ( $attributes as $key => $val ) 
             {
-                $attrStr = '-' . strtr( $key, $illegalChars ) . ':' . strtr( $val, $illegalChars );
+                $attrStr = '-' . strtr( $key, $illegalChars ) . '=' . strtr( $val, $illegalChars );
                 if ( strlen( $filename . $attrStr ) > 250 ) 
                 {
                     // Max filename length
