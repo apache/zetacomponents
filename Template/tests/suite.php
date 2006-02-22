@@ -24,7 +24,7 @@ require_once 'output_context_test.php';
 require_once 'xhtml_context_test.php';
 
 require_once 'cursor_test.php';
-require_once 'parser_test.php';
+require_once 'source_to_tst_parser_test.php';
 require_once 'whitespace_removal_test.php';
 
 require_once 'text_block_element_test.php';
