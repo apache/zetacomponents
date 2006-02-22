@@ -115,7 +115,7 @@ PreUnaryExpression  ::= '++' PrimaryVariable
                     |   Expression 'instanceof' Identifier 
                     |   ArrayDeclaration
 
-ArrayDeclaration    ::= 'array(' ( (Expression '=>')? Expression ( ',' Expression )* )? ')'
+ArrayDeclaration    ::= 'array(' ( (Expression '=>')? Expression ( ',' Expression )* (',')? )? ')'
                     |   '[' ( (Expression '=>')? Expression ( ',' Expression )* )? ']'
 
 UnaryExpression     ::= ( UnaryOperator )* PostFixExpression
