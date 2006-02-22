@@ -9,8 +9,8 @@
  */
 
 /**
- * Throwen if an invalid option name (containing whitespaces or starting with 
- * a "-") was reiceived by {@link ezcConsoleOption::__construct}.
+ * Thrown if an invalid option name (containing whitespaces or starting with 
+ * a "-") was received by {@link ezcConsoleOption::__construct}.
  *
  * @package ConsoleTools
  * @version //autogen//
