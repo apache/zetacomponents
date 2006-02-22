@@ -408,7 +408,9 @@ class ezcTemplateParserTest extends ezcMockCase
                         array( 'Type', 'value', 100 ),
                         array( 'ConcatOperator' ),
                         array( 'Type', 'value', "a" ),
-                        array( 'ExpressionBlock' ) );
+                        array( 'ExpressionBlock' ),
+
+                        array( 'TextBlock') );
 
         $this->setupExpectedElements( $parser, $text, $source, $items );
 
@@ -779,7 +781,6 @@ class ezcTemplateParserTest extends ezcMockCase
 
         if ( $parser->debug )
             echo "\n\n", $root->outputTree(), "\n";
-
         $parser->verify();
     }
 
