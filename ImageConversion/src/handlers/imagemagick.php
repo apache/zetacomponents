@@ -17,7 +17,6 @@
  * @see ezcImageHandler
  *
  * @package ImageConversion
- * @access private
  */
 class ezcImageImagemagickHandler extends ezcImageMethodcallHandler implements ezcImageGeometryFilters, ezcImageColorspaceFilters, ezcImageEffectFilters
 {
