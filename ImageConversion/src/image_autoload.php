@@ -26,7 +26,10 @@ return array (
     'ezcImageEffectFilters'                         => 'ImageConversion/interfaces/effect.php',
 
     'ezcImageGdHandler'                             => 'ImageConversion/handlers/gd.php',
+    'ezcImageGdBaseHandler'                         => 'ImageConversion/handlers/gd_base.php',
+
     'ezcImageImagemagickHandler'                    => 'ImageConversion/handlers/imagemagick.php',
+    'ezcImageImagemagickBaseHandler'                => 'ImageConversion/handlers/imagemagick_base.php',
     
     'ezcImageException'                             => 'ImageConversion/exceptions/exception.php',
     'ezcImageMissingFilterParameterException'       => 'ImageConversion/exceptions/missing_filter_parameter.php',
