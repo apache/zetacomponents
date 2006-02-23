@@ -4,6 +4,10 @@
 - Fix unreported bug: ezcImageTransformation::setFilters() threw old style
   exceptions on an invalid filter class. Now throws correct 
   ezcBaseSettingValueException.
+- Added checks for file names that could cause potential security issues. File
+  names containing one of ', " or $ will be rejected to load/save with an
+  ezcImageFileNameInvalidException. (See
+  http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=345238).
 
 
 1.0 - Monday 30 January 2006
