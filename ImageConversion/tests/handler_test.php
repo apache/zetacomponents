@@ -50,7 +50,7 @@ class ezcImageConversionHandlerTest extends ezcTestCase
     {
         static $i = 1;
         $this->basePath = dirname( __FILE__ ) . '/data/';
-        $this->testPath = $this->createTempDir('ezcImageConversionHandlerTest_' . sprintf( '%03d', $i++ ) . '_' ) . '/';
+        $this->testPath = $this->createTempDir(get_class($this) . '_' . sprintf( '%03d', $i++ ) . '_' ) . '/';
         $this->handler  = new $this->handlerClass( call_user_func( array( $this->handlerClass, 'defaultSettings' ) ) );
     }
 
@@ -81,7 +81,7 @@ class ezcImageConversionHandlerTest extends ezcTestCase
             file_exists( $dstPath ),
             'File not correctly saved to old destination.'
         );
-        $this->handler->close();
+        $this->handler->close( $ref );
         $this->removeTempDir();
     }
 
@@ -97,7 +97,7 @@ class ezcImageConversionHandlerTest extends ezcTestCase
             file_exists( $dstPath ),
             'File not correctly saved to new destination.'
         );
-        $this->handler->close();
+        $this->handler->close( $ref );
         $this->removeTempDir();
     }
 
@@ -115,7 +115,7 @@ class ezcImageConversionHandlerTest extends ezcTestCase
             $analyzer->mime === 'image/png',
             'File not correctly saved to new destination.'
         );
-        $this->handler->close();
+        $this->handler->close( $ref );
         $this->removeTempDir();
     }
 

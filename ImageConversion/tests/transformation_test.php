@@ -428,7 +428,7 @@ class ezcImageConversionTransformationTest extends ezcTestCase
         $this->commonTransformTestSuccess(
             'png',
             0,
-            'b1d842a9d1f1558c8f6e2db67a90ab30',
+            '151828979c8b76e0ddd922d7707cc0eb',
             __METHOD__
         );
     }
@@ -448,7 +448,7 @@ class ezcImageConversionTransformationTest extends ezcTestCase
         $this->commonTransformTestSuccess(
             'png',
             2,
-            '7d767ecd7b180b9927a0f765355a6ab0',
+            '455cdcc06e091d8aa59321d5fd3bdf1a',
             __METHOD__
         );
     }
@@ -458,7 +458,7 @@ class ezcImageConversionTransformationTest extends ezcTestCase
         $this->commonTransformTestSuccess(
             'jpeg',
             0,
-            '6189790a171de230781c13a51cd05713',
+            'd80369dc2442357ac4dbd58af83ac398',
             __METHOD__
         );
     }
@@ -597,9 +597,9 @@ class ezcImageConversionTransformationTest extends ezcTestCase
             $this->removeTempDir();
             return;
         }
+        $this->fail( 'Transformation did not throw exception on invalid data.' );
         // If we failed, this stays.
         $this->removeTempDir();
-        $this->fail( 'Transformation did not throw exception on invalid data.' );
     }
 }
 ?>

@@ -178,7 +178,7 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
         $this->handler->applyFilter( $ref, new ezcImageFilter( 'scale', array( 'width' => 200, 'height' => 200, 'direction' => ezcImageGeometryFilters::SCALE_BOTH ) ) );
         $this->handler->save( $ref, $dstPath );
         $this->assertEquals(
-             '33b37736e5d90b92b94b8d450bd7bf6a',
+             '8fdbaa50ce1c403814a623babc7ca686',
              md5_file( $dstPath ),
             'Applying single filter through handler failed.'
         );
@@ -191,12 +191,12 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
 
         $ref = $this->handler->load( $srcPath );
         $this->handler->applyFilter( $ref, new ezcImageFilter( 'scale', array( 'width' => 200, 'height' => 200, 'direction' => ezcImageGeometryFilters::SCALE_BOTH ) ) );
-        $this->handler->applyFilter( $ref, new ezcImageFilter( 'crop', array( 'x' => 50, 'width' => 100, 'y' => 50, 'height' => 100 ) ) );
+        $this->handler->applyFilter( $ref, new ezcImageFilter( 'crop', array( 'x' => 50, 'width' => 100, 'y' => 100, 'height' => 100 ) ) );
         $this->handler->applyFilter( $ref, new ezcImageFilter( 'colorspace', array( 'space' => ezcImageColorspaceFilters::COLORSPACE_SEPIA ) ) );
         $this->handler->save( $ref, $dstPath );
 
         $this->assertEquals(
-            'ae042c4b8723ac4f0e4ed30db6f96bf4',
+            '015a3bd639eeb06b2ef5ae081ef9f5b8',
             md5_file( $dstPath ),
             'Applying multiple filter through handler failed.'
         );
