@@ -119,6 +119,28 @@ class ezcImageConversionHandlerTest extends ezcTestCase
         $this->removeTempDir();
     }
 
+    public function testSaveIllegalFileNameFailure()
+    {
+        $srcPath = $this->basePath . $this->testFiles['jpeg'];
+        $dstPath = $this->testPath . '$'.__METHOD__;
+
+        $ref = $this->handler->load( $srcPath );
+
+        $exceptionCaught = false;
+        try
+        {
+            $this->handler->save( $ref, $dstPath, 'image/png' );
+        }
+        catch ( ezcImageFileNameInvalidException $e )
+        {
+            $exceptionCaught = true;
+        }
+        $this->assertTrue( $exceptionCaught, 'ezcImageFileNameInvalidException not thrown on illigal character $.' );
+
+        $this->handler->close( $ref );
+        $this->removeTempDir();
+    }
+
     public function testCloseSuccess()
     {
         $srcPath = $this->basePath . $this->testFiles['jpeg'];

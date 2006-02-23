@@ -67,9 +67,12 @@ class ezcImageImagemagickHandler extends ezcImageMethodcallHandler
      *         If the desired file does not exist.
      * @throws ezcImageMimeTypeUnsupportedException
      *         If the desired file has a not recognized type.
+     * @throws ezcImageFileNameInvalidException 
+     *         If an invalid character (", ', $) is found in the file name.
      */
     public function load( $file, $mime = null )
     {
+        $this->checkFileName( $file );
         $ref = $this->loadCommon( $file, isset( $mime ) ? $mime : null );
 
         // Atomic file operation
@@ -95,9 +98,15 @@ class ezcImageImagemagickHandler extends ezcImageMethodcallHandler
      *         If the desired file exists and is not writeable.
      * @throws ezcImageMimeTypeUnsupportedException
      *         If the desired MIME type is not recognized.
+     * @throws ezcImageFileNameInvalidException 
+     *         If an invalid character (", ', $) is found in the file name.
      */
     public function save( $image, $newFile = null, $mime = null )
     {
+        if ( $newFile !== null )
+        {
+            $this->checkFileName( $newFile );
+        }
         $this->saveCommon( $image, isset( $newFile ) ? $newFile : null, isset( $mime ) ? $mime : null );
         
         // Prepare ImageMagick command

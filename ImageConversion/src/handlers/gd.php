@@ -60,9 +60,12 @@ class ezcImageGdHandler extends ezcImageMethodcallHandler
      *         If the type of the given file is not recognized
      * @throws ezcImageFileNotProcessableException
      *         If the given file is not processable using this handler.
+     * @throws ezcImageFileNameInvalidException 
+     *         If an invalid character (", ', $) is found in the file name.
      */
     public function load( $file, $mime = null )
     {
+        $this->checkFileName( $file );
         $ref = $this->loadCommon( $file, isset( $mime ) ? $mime : null );
         $loadFunction = $this->getLoadFunction( $this->getReferenceData( $ref, 'mime' ) );
         if ( !function_exists( $loadFunction ) || ( $handle = @$loadFunction( $file ) ) === '' )
@@ -90,9 +93,15 @@ class ezcImageGdHandler extends ezcImageMethodcallHandler
      *         If the desired file exists and is not writeable.
      * @throws ezcImageMimeTypeUnsupportedException
      *         If the desired MIME type is not recognized
+     * @throws ezcImageFileNameInvalidException 
+     *         If an invalid character (", ', $) is found in the file name.
      */
     public function save( $image, $newFile = null, $mime = null )
     {
+        if ( $newFile !== null )
+        {
+            $this->checkFileName( $newFile );
+        }
         $this->saveCommon( $image, isset( $newFile ) ? $newFile : null, isset( $mime ) ? $mime : null );
         $saveFunction = $this->getSaveFunction( $this->getReferenceData( $image, 'mime' ) );
         if ( !function_exists( $saveFunction ) ||

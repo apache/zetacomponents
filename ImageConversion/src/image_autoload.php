@@ -35,6 +35,7 @@ return array (
     'ezcImageException'                             => 'ImageConversion/exceptions/exception.php',
     'ezcImageMissingFilterParameterException'       => 'ImageConversion/exceptions/missing_filter_parameter.php',
     'ezcImageFileNotProcessableException'           => 'ImageConversion/exceptions/file_not_processable.php',
+    'ezcImageFileNameInvalidException'              => 'ImageConversion/exceptions/file_name_invalid.php',
     'ezcImageFilterFailedException'                 => 'ImageConversion/exceptions/filter_failed.php',
     'ezcImageFilterNotAvailableException'           => 'ImageConversion/exceptions/filter_not_available.php',
     'ezcImageHandlerNotAvailableException'          => 'ImageConversion/exceptions/handler_not_available.php',

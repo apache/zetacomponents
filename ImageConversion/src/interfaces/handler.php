@@ -106,6 +106,25 @@ abstract class ezcImageHandler
     }
 
     /**
+     * Checks a file name for illegal characters.
+     * Checks if a file name contains illegal characters, which are ", ' and $.
+     * 
+     * @param string $file The file name to check.
+     * @return void
+     *
+     * @throws ezcImageFileNameInvalidException 
+     *         If an invalid character (", ', $) is found in the file name.
+     */
+    protected function checkFileName( $file )
+    {
+        if ( strpos( $file, "'" ) !== false || strpos( $file, "'" ) !== false || strpos( $file, '$' ) !== false )
+        {
+            throw new ezcImageFileNameInvalidException( $file );
+        }
+        
+    }
+
+    /**
      * Load an image file.
      * Loads an image file and returns a reference to it.
      *

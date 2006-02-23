@@ -447,6 +447,8 @@ class ezcImageConverter
      *         If fitting handler is not available.
      * @throws ezcImageFilterNotAvailableException 
      *         If filter is not available.
+     * @throws ezcImageFileNameInvalidException 
+     *         If an invalid character (", ', $) is found in the file name.
      */
     public function applyFilter( ezcImageFilter $filter, $inFile, $outFile, $handlerName = null )
     {
