@@ -49,11 +49,11 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
     protected $outputTypes;
 
     /**
-     * ezcImageFilters object for the handler.
-     *
-     * @var ezcImageFilters
+     * Array of filter names cached from getFilterNames().
+     * 
+     * @var array
      */
-    private $filters;
+    protected $filterNameCache;
 
     /**
      * Image references created through load().
@@ -95,18 +95,7 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
     public function __construct( ezcImageHandlerSettings $settings )
     {
         parent::__construct( $settings );
-        $this->filters = null;
     }
-
-    /**
-     * Creates the filter object for the handler and returns it.
-     * This must be reimplemented in the subclasses to return the correct
-     * object.
-     *
-     * @var ezcImageFilters
-     * @return void
-     */
-    abstract protected function createFilter();
 
     /**
      * Check wether a specific MIME type is allowed as input for this handler.
@@ -139,11 +128,7 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
      */
     public function hasFilter( $name )
     {
-        if ( $this->filters === null )
-        {
-            $this->filters = $this->createFilter();;
-        }
-        return method_exists( $this->filters, $name );
+        return method_exists( $this, $name );
     }
 
     /**
@@ -162,11 +147,37 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
      */
     public function getFilterNames()
     {
-        if ( $this->filters === null )
+        if ( !isset( $this->filterNameCache ) || !is_array( $this->filterNameCache || sizeof( $this->filterNameCache ) === 0 ) )
         {
-            $this->filters = $this->createFilter();;
+            $this->filterNameCache = array();
+            $excludeMethods = array( 
+                '__construct',
+                '__destruct',
+                '__get',
+                '__set',
+                '__call',
+                'allowsInput',
+                'allowsOutput',
+                'hasFilter',
+                'getFilterNames',
+                'applyFilter',
+                'convert',
+                'load',
+                'save',
+                'close',
+                'defaultSettings',
+            );
+            
+            $refClass = new ReflectionClass( get_class( $this ) );
+            foreach ( $refClass->getMethods() as $method )
+            {
+                if ( $method->isPublic() && !in_array( $method->getName(), $excludeMethods ) )
+                {
+                    $this->filterNameCache[] = $method->getName();
+                }
+            }
         }
-        return $this->filters->getFilters();
+        return $this->filterNameCache;
     }
 
     /**
@@ -201,11 +212,7 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
         {
             throw new ezcImageFilterNotAvailableException( $filter->name );
         }
-        if ( $this->filters === null )
-        {
-            $this->filters = $this->createFilter();;
-        }
-        $reflectClass = new ReflectionClass( get_class( $this->filters ) );
+        $reflectClass = new ReflectionClass( get_class( $this ) );
         $reflectParameters = $reflectClass->getMethod( $filter->name )->getParameters();
         $parameters = array();
         foreach ( $reflectParameters as $id => $parameter )
@@ -217,8 +224,13 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
             }
             $parameters[] = $filter->options[$paramName];
         }
+        // Backup last active reference
+        $oldRef = $this->getActiveReference();
+        // Perform actual filtering on given image
         $this->setActiveReference( $image );
-        call_user_func_array( array( $this->filters, $filter->name ), $parameters );
+        call_user_func_array( array( $this, $filter->name ), $parameters );
+        // Restore last active reference
+        $this->setActiveReference($oldRef);
     }
 
     /**
@@ -259,7 +271,7 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
      * @throws ezcImageInvalidReferenceException
      *         If no valid resource for the active reference could be found.
      */
-    public function getActiveResource()
+    protected function getActiveResource()
     {
         $ref = $this->getActiveReference();
         if ( ( $resource = $this->getReferenceData( $ref, 'resource' ) ) === false )
@@ -277,7 +289,7 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
      * @param resource(GD) $resource
      * @return void
      */
-    public function setActiveResource( $resource )
+    protected function setActiveResource( $resource )
     {
         $this->setReferenceData(
             $this->getActiveReference(),
@@ -301,7 +313,7 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
      * 
      * @return string The active reference.
      */
-    public function getActiveReference()
+    protected function getActiveReference()
     {
         if ( !isset( $this->activeReference ) )
         {
@@ -539,20 +551,6 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
     {
         $data = $this->getReferenceData( $reference );
         unset( $this->references[$reference] );
-    }
-
-    /**
-     * Returns the current filters object.
-     *
-     * @return ezcImageFilters
-     */
-    protected function getFilters()
-    {
-        if ( $this->filters === null )
-        {
-            $this->filters = $this->createFilter();
-        }
-        return $this->filters;
     }
 }
 ?>

@@ -69,6 +69,12 @@ class ezcImageConversionFiltersShellTest extends ezcTestCase
         'testBorder_5' => '45e2819f4813c674da346999b137eff2',
     );
 
+    protected function getActiveReference()
+    {
+        $handlerArr = (array) $this->handler;
+        return $handlerArr["\0ezcImageMethodcallHandler\0activeReference"];
+    }
+
 	public static function suite()
 	{
 		return new ezcTestSuite( "ezcImageConversionFiltersShellTest" );
@@ -99,576 +105,574 @@ class ezcImageConversionFiltersShellTest extends ezcTestCase
     public function testScale()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scale( 500, 500, ezcImageGeometryFilters::SCALE_BOTH );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScaleDown_do()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scale( 500, 2, ezcImageGeometryFilters::SCALE_DOWN );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScaleDown_dont()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scale( 500, 500, ezcImageGeometryFilters::SCALE_DOWN );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScaleUp_do()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scale( 500, 500, ezcImageGeometryFilters::SCALE_UP );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScaleUp_dont()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scale( 2, 2, ezcImageGeometryFilters::SCALE_UP );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScaleWidthBoth()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scaleWidth( 50, ezcImageGeometryFilters::SCALE_BOTH );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScaleWidthUp_1()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scaleWidth( 50, ezcImageGeometryFilters::SCALE_UP );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScaleWidthUp_2()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scaleWidth( 300, ezcImageGeometryFilters::SCALE_UP );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScaleWidthDown_1()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scaleWidth( 300, ezcImageGeometryFilters::SCALE_DOWN );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScaleWidthDown_2()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scaleWidth( 50, ezcImageGeometryFilters::SCALE_DOWN );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScaleHeightUp_1()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scaleHeight( 300, ezcImageGeometryFilters::SCALE_UP );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScaleHeightUp_2()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scaleHeight( 300, ezcImageGeometryFilters::SCALE_DOWN );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScaleHeightDown_1()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scaleHeight( 30, ezcImageGeometryFilters::SCALE_UP );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScaleHeightDown_2()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scaleHeight( 30, ezcImageGeometryFilters::SCALE_DOWN );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScalePercent_1()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scalePercent( 50, 50 );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScalePercent_2()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scaleExact( 200, 200 );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScaleExact_1()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scaleExact( 200, 200 );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScaleExact_2()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scaleExact( 10, 200 );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testScaleExact_3()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->scaleExact( 200, 10 );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testCrop_1()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->crop( 50, 38, 50, 37 );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testCrop_2()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->crop( 100, 75, -50, -37 );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testCrop_3()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->crop( 50, 75, 250, 38 );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testColorspaceGrey()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->colorspace( ezcImageColorspaceFilters::COLORSPACE_GREY );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testColorspaceMonochrome()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->colorspace( ezcImageColorspaceFilters::COLORSPACE_MONOCHROME );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testColorspaceSepia()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->colorspace( ezcImageColorspaceFilters::COLORSPACE_SEPIA );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testNoiseUniform()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->noise( 'Uniform' );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertTrue(
             file_exists( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testNoiseGaussian()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->noise( 'Gaussian' );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertTrue(
             file_exists( $dstPath ),
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testNoiseMultiplicative()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->noise( 'Multiplicative' );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertTrue(
             file_exists( $dstPath ),
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testNoiseImpulse()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->noise( 'Impulse' );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertTrue(
             file_exists( $dstPath ),
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testNoiseLaplacian()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->noise( 'Laplacian' );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertTrue(
             file_exists( $dstPath ),
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testNoisePoisson()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->noise( 'Poisson' );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertTrue(
             file_exists( $dstPath ),
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testSwirl_10()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->swirl( 10 );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testSwirl_50()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->swirl( 50 );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testSwirl_100()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->swirl( 100 );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testBorder_2()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->border( 2, array( 0x00, 0x00, 0xFF ) );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
+        $this->handler->close( $this->getActiveReference() );
         $this->removeTempDir();
     }
 
     public function testBorder_5()
     {
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
-        $filters = new ezcImageImagemagickFilters( $this->handler );
+        $filters = $this->handler;
         $filters->border( 5, array( 255, 0, 0 ) );
-        $this->handler->save( $this->handler->getActiveReference(), $dstPath );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(
             $this->expectedResults[__FUNCTION__],
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
-        $this->handler->close( $this->handler->getActiveReference() );
-        $this->removeTempDir();
     }
 }
 ?>

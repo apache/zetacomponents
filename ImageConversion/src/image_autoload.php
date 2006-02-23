@@ -19,7 +19,6 @@ return array (
     'ezcImageHandlerSettings'                       => 'ImageConversion/structs/handler_settings.php',
     'ezcImageMethodcallHandler'                     => 'ImageConversion/interfaces/methodcall_handler.php',
 
-    'ezcImageFilters'                               => 'ImageConversion/interfaces/filters.php',
     'ezcImageFilter'                                => 'ImageConversion/structs/filter.php',
 
     'ezcImageGeometryFilters'                       => 'ImageConversion/interfaces/geometry.php',
@@ -27,10 +26,7 @@ return array (
     'ezcImageEffectFilters'                         => 'ImageConversion/interfaces/effect.php',
 
     'ezcImageGdHandler'                             => 'ImageConversion/handlers/gd.php',
-    'ezcImageGdFilters'                             => 'ImageConversion/filters/gd.php',
-
     'ezcImageImagemagickHandler'                    => 'ImageConversion/handlers/imagemagick.php',
-    'ezcImageImagemagickFilters'                    => 'ImageConversion/filters/imagemagick.php',
     
     'ezcImageException'                             => 'ImageConversion/exceptions/exception.php',
     'ezcImageMissingFilterParameterException'       => 'ImageConversion/exceptions/missing_filter_parameter.php',
