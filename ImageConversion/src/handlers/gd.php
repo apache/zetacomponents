@@ -224,6 +224,12 @@ class ezcImageGdHandler extends ezcImageMethodcallHandler implements ezcImageGeo
      *      In this case, the image does not necessarily fit into the given box
      *      afterwards.
      *
+     * ATTENTION: Using this filter method directly results in the filter being 
+     * applied to the image which is internally marked as "active" (most 
+     * commonly this is the last recently loaded one). It is highly recommended
+     * to apply filters through the {@link ezcImageGdHandler::applyFilter()} method, 
+     * which enables you to specify the image a filter is applied to.
+     *
      * @param int $width     Scale to width
      * @param int $height    Scale to height
      * @param int $direction Scale to which direction.
@@ -284,6 +290,12 @@ class ezcImageGdHandler extends ezcImageMethodcallHandler implements ezcImageGeo
      * image may only be scaled {@link self::SCALE_UP}, {@link self::SCALE_DOWN}
      * or if the scale may work in {@link self::SCALE_BOTH} directions.
      *
+     * ATTENTION: Using this filter method directly results in the filter being 
+     * applied to the image which is internally marked as "active" (most 
+     * commonly this is the last recently loaded one). It is highly recommended
+     * to apply filters through the {@link ezcImageGdHandler::applyFilter()} method, 
+     * which enables you to specify the image a filter is applied to.
+     *
      * @param int $width     Scale to width
      * @param int $direction Scale to which direction
      * @return void
@@ -341,6 +353,12 @@ class ezcImageGdHandler extends ezcImageMethodcallHandler implements ezcImageGeo
      * image may only be scaled {@link self::SCALE_UP}, {@link self::SCALE_DOWN}
      * or if the scale may work in {@link self::SCALE_BOTH} directions.
      *
+     * ATTENTION: Using this filter method directly results in the filter being 
+     * applied to the image which is internally marked as "active" (most 
+     * commonly this is the last recently loaded one). It is highly recommended
+     * to apply filters through the {@link ezcImageGdHandler::applyFilter()} method, 
+     * which enables you to specify the image a filter is applied to.
+     *
      * @param int $height    Scale to height
      * @param int $direction Scale to which direction
      * @return void
@@ -395,6 +413,12 @@ class ezcImageGdHandler extends ezcImageMethodcallHandler implements ezcImageGeo
      * Scale percent measures filter.
      * Scale an image to a given percentage value size.
      *
+     * ATTENTION: Using this filter method directly results in the filter being 
+     * applied to the image which is internally marked as "active" (most 
+     * commonly this is the last recently loaded one). It is highly recommended
+     * to apply filters through the {@link ezcImageGdHandler::applyFilter()} method, 
+     * which enables you to specify the image a filter is applied to.
+     *
      * @param int $width  Scale to width
      * @param int $height Scale to height
      * @return void
@@ -430,6 +454,12 @@ class ezcImageGdHandler extends ezcImageMethodcallHandler implements ezcImageGeo
      * Scale the image to a fixed given pixel size, no matter to which
      * direction.
      *
+     * ATTENTION: Using this filter method directly results in the filter being 
+     * applied to the image which is internally marked as "active" (most 
+     * commonly this is the last recently loaded one). It is highly recommended
+     * to apply filters through the {@link ezcImageGdHandler::applyFilter()} method, 
+     * which enables you to specify the image a filter is applied to.
+     *
      * @param int $width  Scale to width
      * @param int $height Scale to height
      * @return void
@@ -459,6 +489,12 @@ class ezcImageGdHandler extends ezcImageMethodcallHandler implements ezcImageGeo
      * image resource (not the input image immediately, if you use the
      * {@link ezcImageConverter}).  Coordinates are given as integer values and
      * are measured from the top left corner.
+     *
+     * ATTENTION: Using this filter method directly results in the filter being 
+     * applied to the image which is internally marked as "active" (most 
+     * commonly this is the last recently loaded one). It is highly recommended
+     * to apply filters through the {@link ezcImageGdHandler::applyFilter()} method, 
+     * which enables you to specify the image a filter is applied to.
      *
      * @param int $x      Start cropping, x coordinate.
      * @param int $y      Start cropping, y coordinate.
@@ -536,6 +572,12 @@ class ezcImageGdHandler extends ezcImageMethodcallHandler implements ezcImageGeo
      * - {@link self::COLORSPACE_GREY} - 255 grey colors
      * - {@link self::COLORSPACE_SEPIA} - Sepia colors
      * - {@link self::COLORSPACE_MONOCHROME} - 2 colors black and white
+     *
+     * ATTENTION: Using this filter method directly results in the filter being 
+     * applied to the image which is internally marked as "active" (most 
+     * commonly this is the last recently loaded one). It is highly recommended
+     * to apply filters through the {@link ezcImageGdHandler::applyFilter()} method, 
+     * which enables you to specify the image a filter is applied to.
      *
      * @param int $space Colorspace, one of self::COLORSPACE_* constants.
      *
