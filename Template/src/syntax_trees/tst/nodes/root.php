@@ -61,13 +61,9 @@ class ezcTemplateRootTstNode extends ezcTemplateBlockTstNode
         $removal->trimBlockLines( $this, $this->children );
     }
 
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform(  )
+    public function accept( ezcTemplateTstNodeVisitor $visitor  )
     {
+        $visitor->visitRootTstNode( $this );
     }
 }
 ?>

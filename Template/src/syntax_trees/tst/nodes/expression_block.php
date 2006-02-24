@@ -89,14 +89,5 @@ class ezcTemplateExpressionBlockTstNode extends ezcTemplateTstNode
         return $this->startCursor->column;
     }
 
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

@@ -237,5 +237,21 @@ abstract class ezcTemplateTstNode
         return false;
     }
 
+    /**
+     * The accept part for the visitor. 
+     *
+     * The sub classes don't need to implement the usual accept() method.
+     *
+     * If the current object is: ezcTemplateExpressionBlockTstNode then
+     * the method: $visitor->visitExpressionBlockTstNode( $this )  will be called.
+     */
+    public function accept( ezcTemplateTstNodeVisitor $visitor  )
+    {
+        $class = get_class( $this );
+        $visit = "visit" . substr( $class, 11 );
+
+        return $visitor->$visit( $this );
+    }
+
 }
 ?>

@@ -18,7 +18,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateAstNodeGenerator implements ezcTemplateBasicAstNodeVisitor
+class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
 {
     /**
      * The default value to increase the indentation with.

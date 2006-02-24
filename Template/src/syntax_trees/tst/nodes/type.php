@@ -38,15 +38,5 @@ class ezcTemplateTypeTstNode extends ezcTemplateInlineTstNode
         parent::__construct( $source, $start, $end );
         $this->value = null;
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

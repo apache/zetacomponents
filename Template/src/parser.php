@@ -82,7 +82,7 @@ class ezcTemplateParser
      */
     public function reportElementCursor( $startCursor, $endCursor, $element )
     {
-        echo "element <", get_class( $element ) . ">\n";
+        //echo "element <", get_class( $element ) . ">\n";
     }
 
     /**

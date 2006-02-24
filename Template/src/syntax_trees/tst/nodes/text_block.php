@@ -155,14 +155,5 @@ class ezcTemplateTextBlockTstNode extends ezcTemplateTextTstNode
         return $text;
     }
 
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform(  )
-    {
-    }
-
 }
 ?>

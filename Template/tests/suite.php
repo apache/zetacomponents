@@ -43,6 +43,10 @@ require_once 'configuration_test.php';
 
 require_once 'manager_test.php';
 
+require_once 'parser_test.php';
+
+require_once 'regression_test.php';
+
 /**
  * @package Template
  * @subpackage Tests
@@ -53,6 +57,9 @@ class ezcTemplateSuite extends ezcTestSuite
     {
         parent::__construct();
         $this->setName( "Template" );
+        $this->addTest( ezcTemplateRegressionTest::suite() );
+
+        $this->addTest( ezcTemplateParserTest::suite() );
 
         $this->addTest( ezcTemplateVariableExceptionTest::suite() );
         $this->addTest( ezcTemplateFileExceptionTest::suite() );
@@ -88,6 +95,7 @@ class ezcTemplateSuite extends ezcTestSuite
         $this->addTest( ezcTemplateConfigurationTest::suite() );
 
         $this->addTest( ezcTemplateManagerTest::suite() );
+
     }
 
     public static function suite()

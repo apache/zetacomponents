@@ -19,7 +19,7 @@
  * e.g.
  * <code>
  * $cb = new ezcTemplateAstBuilder;
- * $cb->assign( "a", 5 ); // $a == 5
+ * $cb->assign( "a", 5 ); // $a = 5
  * $cb->call( "echo", $cb->variable( "a" ) ); // echo $a;
  * </code>
  *

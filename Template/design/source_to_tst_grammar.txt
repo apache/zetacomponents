@@ -19,7 +19,7 @@ Source parser code
 Root            	::= Text* (Block Root)? EOF
 
 
-Block           	::= '{' ( '*' DocComment | LiteralBlock | ExpressionBlock |  (  ('/')? (ControlStructure | CustomBlock )  |  '}' )  )
+%Block           	::= '{' ( '*' DocComment | LiteralBlock | ExpressionBlock |  (  ('/')? (ControlStructure | CustomBlock )  |  '}' )  )
 
 
 DocComment     		::=  Text* '*}'
@@ -30,8 +30,7 @@ LiteralBlock  		::= 'literal' '}' Graphic* {/literal}
 
 ExpressionBlock     ::= Expression
 
-
-Expression          ::=  Operand
+Expression          ::= Operand
 
 %Operand			::= ( '(' ExpressionBlock ')' | Type | Variable | FunctionCall ) Operator
                     |   ( '++' !PreIncrementOperator | '--'  !PreDecrementOperator | '-'  !NegateOperator | '!' !LogicalNegateOperator ) Operator

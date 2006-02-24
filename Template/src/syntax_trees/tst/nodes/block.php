@@ -320,13 +320,10 @@ class ezcTemplateBlockTstNode extends ezcTemplateTstNode
     }
 
 
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform(  )
+    public function accept( ezcTemplateTstNodeVisitor $visitor  )
     {
+        die ("Implement: ezcTemplateBlockTstNode::accept()");
+        $visitor->visitBlockTstNode( $this );
     }
 }
 ?>

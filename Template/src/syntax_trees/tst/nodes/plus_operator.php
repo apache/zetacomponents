@@ -34,13 +34,9 @@ class ezcTemplatePlusOperatorTstNode extends ezcTemplateOperatorTstNode
         return '+';
     }
 
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
+    public function accept( ezcTemplateTstNodeVisitor $visitor  )
     {
+        return $visitor->visitPlusOperatorTstNode( $this );
     }
 
 }

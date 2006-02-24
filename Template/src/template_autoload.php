@@ -44,6 +44,7 @@ return array(
              "ezcTemplateInlineTstNode" => "Template/syntax_trees/tst/interfaces/inline_tst.php",
              "ezcTemplateOperatorTstNode" => "Template/syntax_trees/tst/interfaces/operator_tst.php",
              "ezcTemplateTextTstNode" => "Template/syntax_trees/tst/interfaces/text_tst.php",
+             "ezcTemplateTstNodeVisitor" => "Template/syntax_trees/tst/interfaces/tst_visitor.php",
 
 // Syntax trees / TST nodes
              "ezcTemplateBlockTstNode" => "Template/syntax_trees/tst/nodes/block.php",
@@ -231,8 +232,12 @@ return array(
 // Parsers / tst_to_tst implementations
              "ezcTemplateWhitespaceRemoval" => "Template/parsers/tst_to_tst/implementations/whitespace_removal.php",
 
+// Parsers / tst_to_ast implementations
+             "ezcTemplateTstToAstTransformer" => "Template/parsers/tst_to_ast/implementations/tst_to_ast_transformer.php",
+
+
 // Parsers / ast_to_php implementations
-             "ezcTemplateAstNodeGenerator" => "Template/parsers/ast_to_php/implementations/php_generator.php",
+             "ezcTemplateAstToPhpGenerator" => "Template/parsers/ast_to_php/implementations/php_generator.php",
 
 // Exceptions
              "ezcTemplateVariableUndefinedException" => "Template/exceptions/variable_undefined_exception.php",
