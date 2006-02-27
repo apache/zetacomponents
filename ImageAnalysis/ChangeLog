@@ -1,5 +1,6 @@
 1.0.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 - Fixed unreported bug: ezcImageAnalyzerImagemagickHandler threw old exception
   style in isAvailable() if the operating system is not supported.
 

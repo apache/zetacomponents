@@ -1,9 +1,9 @@
 1.0.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed bug #7830: ezcCacheStorageFile::generateIdentifier is using HFS directory
-  separator (colon) in filename. It now uses a "=". Attention: This
-  invalidates all cache files, when upgrading. You should purge the cache
+- Fixed bug #7830: ezcCacheStorageFile::generateIdentifier is using HFS
+  directory separator (colon) in filename. It now uses a "=". Attention: This
+  invalidates all cache files when upgrading. You should purge the cache
   manually.
 
 
