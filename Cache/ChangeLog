@@ -1,4 +1,4 @@
-1.0.1 - [RELEASEDATE]
+1.0.1 - Monday 27 February 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed bug #7830: ezcCacheStorageFile::generateIdentifier is using HFS
