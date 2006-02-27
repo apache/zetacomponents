@@ -387,6 +387,7 @@ class ezcPersistentSession
         }
 
         $row = $stmt->fetch( PDO::FETCH_ASSOC );
+        $stmt->closeCursor();
         if ( $row !== false ) // we got a result
         {
             // we could check if there was more than one result here
