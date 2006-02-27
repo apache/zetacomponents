@@ -102,7 +102,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
         foreach( $directories as $directory )
         {
-            $this->compileTemplate( $directory, $regressionDir . "/current.tmp" ); 
+            list( $tstRoot, $astRoot ) = $this->compileTemplate( $directory, $regressionDir . "/current.tmp" ); 
 
             $cont = file_get_contents( $regressionDir . "/current.tmp" );
 
@@ -161,6 +161,16 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 $help .= "----------\n" . file_get_contents( $expected ) . "----------\n";
                 $help .= "\n";
 
+                $help .= "The TST tree:\n";
+                $help .= "----------\n" . $tstRoot->outputTree()  . "----------\n";
+                $help .= "\n";
+
+                $help .= "The AST tree:\n";
+                $help .= "----------\n" . $astRoot->getTreeRepresentation()  . "----------\n";
+                $help .= "\n";
+
+
+
                 if( $this->requestRegeneration )
                 {
                     echo $help;
@@ -198,13 +208,13 @@ class ezcTemplateRegressionTest extends ezcTestCase
         $parser->trimWhitespace = false;
         $root = $parser->parseIntoTextElements();
 
-        //echo $root->outputTree();
-
         $tstToAst = new ezcTemplateTstToAstTransformer();
         $root->accept( $tstToAst );
 
         $g = new ezcTemplateAstToPhpGenerator( "$output" );
         $tstToAst->rootNode->accept($g);
+
+        return array( $root, $tstToAst->rootNode );
     }
 }
 

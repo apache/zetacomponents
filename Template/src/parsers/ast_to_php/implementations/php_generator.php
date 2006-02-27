@@ -877,5 +877,18 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $empty->expression->accept( $this );
         $this->write( ");\n" );
     }
+
+    /**
+     * Visits a code element containing empty construct.
+     *
+     * @param ezcTemplateEmptyAstNode $empty The code element containing the empty construct.
+     */
+    public function visitParenthesis( ezcTemplateParenthesisAstNode $parenthesis )
+    {
+        $this->write( "(" );
+        $parenthesis->expression->accept( $this );
+        $this->write( ")" );
+    }
+
 }
 ?>

@@ -122,6 +122,7 @@ return array(
              "ezcTemplateGenericStatementAstNode" => "Template/syntax_trees/ast/nodes/generic_statement.php",
              "ezcTemplateFunctionCallAstNode" => "Template/syntax_trees/ast/nodes/function_call.php",
              "ezcTemplateConditionBodyAstNode" => "Template/syntax_trees/ast/nodes/condition_body.php",
+             "ezcTemplateParenthesisAstNode" => "Template/syntax_trees/ast/nodes/parenthesis.php",
 
              // Control
              "ezcTemplateIfAstNode" => "Template/syntax_trees/ast/nodes/control/if.php",
