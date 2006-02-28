@@ -5,6 +5,9 @@
 - Fixed unreported bug: ezcConsoleOption::__construct() still threw old
   exception style. Now throws correct ezcConsoleInvalidOptionNameException on
   an invalid option name.
+- Fixed bug #7897: Access to 'step' property does not work through overloading in
+  ezcConsoleProgressbar.
+
 
 ezcConsoleProgressbar
 ---------------------

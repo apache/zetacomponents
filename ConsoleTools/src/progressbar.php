@@ -175,6 +175,9 @@ class ezcConsoleProgressbar
         {
             case 'options':
                 return $this->options;
+            case 'step':
+                // Step is now an option
+                return $this->options->step;
             case 'max':
                 return $this->settings[$key];
             default:
@@ -206,11 +209,19 @@ class ezcConsoleProgressbar
                 };
                 break;
             case 'max':
+                if ( ( !is_int( $val ) && !is_float( $val ) ) || $val < 0 )
+                {
+                    throw new ezcBaseValueException( $key, $val, 'number >= 0' );
+                }
+                break;
             case 'step':
                 if ( ( !is_int( $val ) && !is_float( $val ) ) || $val < 0 )
                 {
                     throw new ezcBaseValueException( $key, $val, 'number >= 0' );
                 }
+                // Step is now an option.
+                $this->options->step = $val;
+                return;
                 break;
             default:
                 throw new ezcBasePropertyNotFoundException( $key );
