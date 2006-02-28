@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateConditionalOperatorTstNodeSourceToTstParser class
+ * File containing the ezcTemplateConditionalOperatorSourceToTstParser class
  *
  * @package Template
  * @version //autogen//
@@ -37,7 +37,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateConditionalOperatorTstNodeSourceToTstParser extends ezcTemplateSourceToTstParser
+class ezcTemplateConditionalOperatorSourceToTstParser extends ezcTemplateSourceToTstParser
 {
     /**
      * State which reads in the branch for a true condition. This is the
@@ -102,7 +102,7 @@ class ezcTemplateConditionalOperatorTstNodeSourceToTstParser extends ezcTemplate
                 break;
             }
             default:
-                throw new Exception( "Illegal state reached in ezcTemplateConditionalOperatorTstNodeSourceToTstParser::atEnd() with state value <" . var_export( $this->state, true ) . ">" );
+                throw new Exception( "Illegal state reached in ezcTemplateConditionalOperatorSourceToTstParser::atEnd() with state value <" . var_export( $this->state, true ) . ">" );
         }
         if ( $this->parser->debug )
             echo "conditional::atEnd() state:<", var_export( $this->state, true ), "> not at end yet\n";

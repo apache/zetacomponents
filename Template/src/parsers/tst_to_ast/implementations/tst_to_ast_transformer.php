@@ -75,6 +75,30 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return $node;
     }
 
+    private function createBinaryOperatorAstNode( $type, ezcTemplateOperatorAstNode $astNode, $addParenthesis = true )
+    {
+        $astNode->appendParameter( $type->parameters[0]->accept( $this ));
+        $astNode->appendParameter( $type->parameters[1]->accept( $this ));
+
+        return ( $addParenthesis ?  new ezcTemplateParenthesisAstNode( $astNode ) : $astNode );
+    }
+
+    private function createUnaryOperatorAstNode( $type, ezcTemplateOperatorAstNode $astNode, $addParenthesis = true )
+    {
+        $astNode->appendParameter( $type->parameters[0]->accept( $this ));
+
+        return ( $addParenthesis ?  new ezcTemplateParenthesisAstNode( $astNode ) : $astNode );
+    }
+ 
+
+    private function isAssignmentNode( $astNode )
+    {
+        if ( $astNode instanceof ezcTemplateAssignmentOperatorAstNode ) return true;
+        if ( $astNode instanceof ezcTemplateIncrementOperatorAstNode )  return true;
+        if ( $astNode instanceof ezcTemplateDecrementOperatorAstNode )  return true;
+
+        return false;
+    }
 
     public function visitBlockTstNode( ezcTemplateBlockTstNode $type ) 
     {
@@ -97,35 +121,22 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
             foreach( $type->elements as $element )
             {
-                $this->rootNode->appendStatement( new ezcTemplateEchoAstNode( array( $element->accept( $this ) ) ) );
+                $astNode = $element->accept( $this );
+
+                if( $this->isAssignmentNode( $astNode ) )
+                {
+                    $this->rootNode->appendStatement( new ezcTemplateGenericStatementAstNode( $astNode ) );
+                }
+                else
+                {
+                    $this->rootNode->appendStatement( new ezcTemplateEchoAstNode( array( $astNode  ) ) );
+                }
             }
         }
         else
         {
             die ("PANIC, root node is not null ");
         }
-
-
-        /*
-        if( $this->rootNode === null )
-        {
-            $this->rootNode = new ezcTemplateBodyAstNode();
-
-            $this->push( $this->rootNode );
-        }
-        else
-        {
-            die( "Multiple root nodes?" );
-        }
-
-        foreach( $type->elements as $element )
-        {
-            // Point to the root node;
-            $this->currentNode = $this->rootNode;
-
-            $element->accept( $this );
-        }
-        */
     }
 
     public function visitLiteralBlockTstNode( ezcTemplateLiteralBlockTstNode $type )
@@ -160,7 +171,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitVariableTstNode( ezcTemplateVariableTstNode $type )
     {
-        die("visitVariableTstNode");
+        return new ezcTemplateVariableAstNode( $type->name );
     }
 
     public function visitTextBlockTstNode( ezcTemplateTextBlockTstNode $type )
@@ -214,14 +225,13 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitPropertyFetchOperatorTstNode( ezcTemplatePropertyFetchOperatorTstNode $type )
     {
-        die ("visitPropertyFetchOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateObjectAccessOperatorAstNode() );
     }
 
     public function visitArrayFetchOperatorTstNode( ezcTemplateArrayFetchOperatorTstNode $type )
     {
-        die("visitArrayFetchOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateArrayFetchOperatorAstNode() );
     }
-
 
     // return ezcTemplateTstNode;
     public function visitPlusOperatorTstNode( ezcTemplatePlusOperatorTstNode $type )
@@ -256,60 +266,52 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitEqualOperatorTstNode( ezcTemplateEqualOperatorTstNode $type )
     {
-        $equal = new ezcTemplateEqualOperatorAstNode();
-        $equal->appendParameter( $type->parameters[0]->accept( $this ));
-        $equal->appendParameter( $type->parameters[1]->accept( $this ));
-
-        return new ezcTemplateParenthesisAstNode( $equal );
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateEqualOperatorAstNode() );
     }
 
     public function visitNotEqualOperatorTstNode( ezcTemplateNotEqualOperatorTstNode $type )
     {
-        $equal = new ezcTemplateNotEqualOperatorAstNode();
-        $equal->appendParameter( $type->parameters[0]->accept( $this ));
-        $equal->appendParameter( $type->parameters[1]->accept( $this ));
-
-        return new ezcTemplateParenthesisAstNode( $equal );
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateNotEqualOperatorAstNode() );
     }
 
     public function visitIdenticalOperatorTstNode( ezcTemplateIdenticalOperatorTstNode $type )
     {
-        die ("visitIdenticalOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateIdenticalOperatorAstNode() );
     }
 
     public function visitNotIdenticalOperatorTstNode( ezcTemplateNotIdenticalOperatorTstNode $type )
     {
-        die ("visitNotIdenticalOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateNotIdenticalOperatorAstNode() );
     }
 
     public function visitLessThanOperatorTstNode( ezcTemplateLessThanOperatorTstNode $type )
     {
-        die ("visitLessThanOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateLessThanOperatorAstNode() );
     }
 
     public function visitGreaterThanOperatorTstNode( ezcTemplateGreaterThanOperatorTstNode $type )
     {
-        die ("visitGreaterThanOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateGreaterThanOperatorAstNode() );
     }
 
     public function visitLessEqualOperatorTstNode( ezcTemplateLessEqualOperatorTstNode $type )
     {
-        die ("visitLessEqualOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateLessEqualOperatorAstNode() );
     }
 
     public function visitGreaterEqualOperatorTstNode( ezcTemplateGreaterEqualOperatorTstNode $type )
     {
-        die ("visitGreaterEqualOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateGreaterEqualOperatorAstNode() );
     }
 
     public function visitLogicalAndOperatorTstNode( ezcTemplateLogicalAndOperatorTstNode $type )
     {
-        die ("visitLogicalAndOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateLogicalAndOperatorAstNode() );
     }
 
     public function visitLogicalOrOperatorTstNode( ezcTemplateLogicalOrOperatorTstNode $type )
     {
-        die ("visitLogicalOrOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateLogicalOrOperatorAstNode() );
     }
 
     public function visitConditionalOperatorTstNode( ezcTemplateConditionalOperatorTstNode $type )
@@ -319,57 +321,61 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitAssignmentOperatorTstNode( ezcTemplateAssignmentOperatorTstNode $type )
     {
-        die ("visitAssignmentOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateAssignmentOperatorAstNode(), false );
     }
 
     public function visitPlusAssignmentOperatorTstNode( ezcTemplatePlusAssignmentOperatorTstNode $type )
     {
-        die ("visitPlusAssignmentOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateAdditionAssignmentOperatorAstNode(), false );
     }
 
     public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentOperatorTstNode $type )
     {
-        die ("visitMinusAssignmentOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateSubtractionAssignmentOperatorAstNode(), false );
     }
 
     public function visitMultiplicationAssignmentOperatorTstNode( ezcTemplateMultiplicationAssignmentOperatorTstNode $type )
     {
-        die ("visitMultiplicationAssignmentOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateMultiplicationAssignmentOperatorAstNode(), false );
     }
 
     public function visitDivisionAssignmentOperatorTstNode( ezcTemplateDivisionAssignmentOperatorTstNode $type )
     {
-        die ("visitDivisionAssignmentOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateDivisionAssignmentOperatorAstNode(), false );
     }
 
     public function visitConcatAssignmentOperatorTstNode( ezcTemplateConcatAssignmentOperatorTstNode $type )
     {
-        die("visitConcatAssignmentOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateConcatAssignmentOperatorAstNode(), false );
     }
 
     public function visitModuloAssignmentOperatorTstNode( ezcTemplateModuloAssignmentOperatorTstNode $type )
     {
-        die ("visitModuloAssignmentOperatorTstNode");
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateModulusAssignmentOperatorAstNode(), false );
     }
 
     public function visitPreIncrementOperatorTstNode( ezcTemplatePreIncrementOperatorTstNode $type )
     {
-        die ("visitPreIncrementOperatorTstNode");
+        // Pre increment has the parameter in the constructor set to true.
+        return $this->createUnaryOperatorAstNode( $type, new ezcTemplateIncrementOperatorAstNode( true ), false );
     }
 
     public function visitPreDecrementOperatorTstNode( ezcTemplatePreDecrementOperatorTstNode $type )
     {
-        die ("visitPreDecrementOperatorTstNode");
+        // Pre increment has the parameter in the constructor set to false.
+        return $this->createUnaryOperatorAstNode( $type, new ezcTemplateDecrementOperatorAstNode( true ), false );
     }
 
     public function visitPostIncrementOperatorTstNode( ezcTemplatePostIncrementOperatorTstNode $type )
     {
-        die ("visitPostIncrementOperatorTstNode");
+        // Post increment has the parameter in the constructor set to false.
+        return $this->createUnaryOperatorAstNode( $type, new ezcTemplateIncrementOperatorAstNode( false ), false );
     }
 
     public function visitPostDecrementOperatorTstNode( ezcTemplatePostDecrementOperatorTstNode $type )
     {
-        die ("visitPostDecrementOperatorTstNode");
+        // Post increment has the parameter in the constructor set to false.
+        return $this->createUnaryOperatorAstNode( $type, new ezcTemplateDecrementOperatorAstNode( false ), false );
     }
 
     public function visitNegateOperatorTstNode( ezcTemplateNegateOperatorTstNode $type )
@@ -379,7 +385,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitLogicalNegateOperatorTstNode( ezcTemplateLogicalNegateOperatorTstNode $type )
     {
-        die ("visitLogicalNegateOperatorTstNode");
+        return $this->createUnaryOperatorAstNode( $type, new ezcTemplateLogicalNegationOperatorAstNode(), false );
     }
 
     public function visitInstanceOfOperatorTstNode( ezcTemplateInstanceOfOperatorTstNode $type )

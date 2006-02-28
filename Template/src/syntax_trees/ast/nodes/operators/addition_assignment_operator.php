@@ -15,7 +15,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateAdditionAssignmentOperatorAstNode extends ezcTemplateOperatorAstNode
+class ezcTemplateAdditionAssignmentOperatorAstNode extends ezcTemplateAssignmentOperatorAstNode
 {
     /**
      * Initialize operator code constructor with 2 parameters (binary).

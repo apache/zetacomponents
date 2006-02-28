@@ -222,7 +222,7 @@ return array(
              "ezcTemplateArraySourceToTstParser" => "Template/parsers/source_to_tst/implementations/array.php",
              "ezcTemplateFunctionCallSourceToTstParser" => "Template/parsers/source_to_tst/implementations/function_call.php",
              "ezcTemplateArrayFetchSourceToTstParser" => "Template/parsers/source_to_tst/implementations/array_fetch.php",
-             "ezcTemplateConditionalOperatorTstNodeSourceToTstParser" => "Template/parsers/source_to_tst/implementations/conditional_operator.php",
+             "ezcTemplateConditionalOperatorSourceToTstParser" => "Template/parsers/source_to_tst/implementations/conditional_operator.php",
              "ezcTemplateVariableSourceToTstParser" => "Template/parsers/source_to_tst/implementations/variable.php",
              "ezcTemplateIdentifierSourceToTstParser" => "Template/parsers/source_to_tst/implementations/identifier.php",
              "ezcTemplateDocCommentSourceToTstParser" => "Template/parsers/source_to_tst/implementations/doc_comment.php",

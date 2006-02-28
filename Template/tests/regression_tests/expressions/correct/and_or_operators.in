@@ -1,0 +1,5 @@
+#{ true || false }
+#{ true && false }
+#{ true && (false || 1 < 2) }
+#{ true || false && true }
+#{ false || false && true }
