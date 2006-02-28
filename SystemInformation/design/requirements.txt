@@ -1,0 +1,26 @@
+eZ publish Enterprise Component: SystemInformation, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author:   Sergey Alexeev
+:Revision: $Revision: $
+:Date:     $Date: $
+
+Introduction
+============
+
+Description
+-----------
+This component will provide access to common system variables, 
+such as CPU type and speed, and the available amount of memory.
+
+Requirements
+============
+
+The SystemInformation package should provide interface for accessing
+to the underlying Operating System information. At least Unix systems
+should be supported win32 is desired as well.
+
+Design goals
+============
+In order to make system information retrieval more flexible, there 
+are several helper classes that represents specific way of receiving 
+system info for major operating systems.

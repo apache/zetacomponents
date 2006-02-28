@@ -1,0 +1,68 @@
+eZ publish Enterprise Component: SystemInformation, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Introduction
+============
+
+
+Purpose of the SystemInformation package
+----------------------------------------
+
+A set of classes that provides access to information about the underlying
+Operating System, such as installed Memory and CPU speed and type as well
+as platform dependent items such as system temporary directory, backup 
+filename and EOL style. Covers the things which are not immediately 
+handled by PHP constants and functions, those that are handled 
+by PHP are properly explained.
+
+
+Current implementation
+----------------------
+
+The current implementation is limited to get system 
+information only for unix systems.
+
+Design
+======
+
+There is one singleton class that provides public API to information
+about the underlying Operating System. Running OS detected during singleton 
+initialization and corresponding specific ezcSystemInfoReader 
+class attached to do work for system info retrieval.
+
+ezcSystemInfo
+-------------
+
+The main class that provides a public API for this package. 
+This class is implemented as a singleton to make sure only 
+one ezcSystemInfo object exists and to get easily a reference
+of this object. 
+
+ezcSystemInfoReader
+-------------------
+
+Interface that guarantees that subclasses implement the methods 
+for retrieving information about underlying system.
+
+
+ezcSystemInfoUnix
+-----------------
+
+Provides the basic implementation of the unix system info retrieval.
+
+
+ezcSystemInfoWin
+----------------
+
+Provides the basic implementation of the win32 system info retrieval.
+
+
+ezcSystemInfoMac
+----------------
+
+Provides the basic implementation of the Mac system info retrieval.
+
+
+vim:filetype=rst:
+:q
+
