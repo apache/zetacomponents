@@ -222,7 +222,6 @@ class ezcConsoleProgressbar
                 // Step is now an option.
                 $this->options->step = $val;
                 return;
-                break;
             default:
                 throw new ezcBasePropertyNotFoundException( $key );
                 break;
