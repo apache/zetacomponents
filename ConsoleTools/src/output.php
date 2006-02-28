@@ -386,7 +386,7 @@ class ezcConsoleOutput
      * Moves the cursor to a specific column index of the current line (default
      * is 1).
      * 
-     * @param int $col Column to jump to.
+     * @param int $column Column to jump to.
      * @return void
      */
     public function toPos( $column = 1 ) 
