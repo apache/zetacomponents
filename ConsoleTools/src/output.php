@@ -389,7 +389,7 @@ class ezcConsoleOutput
      * @param int $col Column to jump to.
      * @return void
      */
-    public function toPos( $col = 1 ) 
+    public function toPos( $column = 1 ) 
     {
         echo "\033[{$column}G";
     }
