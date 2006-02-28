@@ -93,6 +93,11 @@ class ezcConsoleToolsProgressbarTest extends ezcTestCase
         $this->commonProgressbarTest( __FUNCTION__, 100, 1, array ( 'redrawFrequency' => 10 ) );
     }
     
+    public function testProgress11()
+    {
+        $this->commonProgressbarTest( __FUNCTION__, 100, 2.5, array ( 'actFormat' => '%01.2f', 'maxFormat' => '%01.2f' ) );
+    }
+    
     private function commonProgressbarTest( $refFile, $max, $step, $options )
     {
         $out = new ezcConsoleOutput();
@@ -106,6 +111,7 @@ class ezcConsoleToolsProgressbarTest extends ezcTestCase
         {
             ob_start();
             $bar->advance();
+            // sleep(1);
             $resTmp = ob_get_contents();
             if (trim($resTmp) !== '')
             {

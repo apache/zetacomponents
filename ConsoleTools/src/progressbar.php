@@ -352,14 +352,17 @@ class ezcConsoleProgressbar
         );
 
         // Act / max
-        $actVal = ( $actVal = $this->currentStep * $this->options->step ) > $this->max ? $this->max : $actVal;
+        $actVal = sprintf(
+            $this->options->actFormat,
+            ( $actVal = $this->currentStep * $this->options->step ) > $this->max ? $this->max : $actVal
+        );
         $this->valueMap['act'] = str_pad( 
             $actVal, 
-            strlen( $this->max ),
+            strlen( sprintf( $this->options->actFormat, $this->max ) ),
             ' ',
             STR_PAD_LEFT
         );
-        $this->valueMap['max'] = $this->max;
+        $this->valueMap['max'] = sprintf( $this->options->maxFormat, $this->max );
     }
 
     /**
@@ -390,12 +393,12 @@ class ezcConsoleProgressbar
         $this->measures['fixedCharSpace'] = strlen( $this->stripEscapeSequences( $this->insertValues() ) );
         if ( strpos( $this->options->formatString,'%max%' ) !== false )
         {
-            $this->measures['maxSpace'] = strlen( $this->max );
+            $this->measures['maxSpace'] = strlen( sprintf( $this->options->maxFormat, $this->max ) );
 
         }
         if ( strpos( $this->options->formatString, '%act%' ) !== false )
         {
-            $this->measures['actSpace'] = strlen( $this->max );
+            $this->measures['actSpace'] = strlen( sprintf( $this->options->actFormat, $this->max ) );
         }
         if ( strpos( $this->options->formatString, '%fraction%' ) !== false )
         {

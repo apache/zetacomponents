@@ -1,6 +1,12 @@
 1.0.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Added formatting options for %max% and %act% in ezcConsoleProgressbar.
+- Added possibility to use float values as maximal and step values in
+  ezcConsoleProgressbar.
+- Added possibility to specify step value on each advance() call in
+  ezcConsoleProgressbar.
+
 - Fixed unreported bug: ezcConsoleOutput::toPos() has a typo in a parameter.
 - Fixed unreported bug: ezcConsoleOption::__construct() still threw old
   exception style. Now throws correct ezcConsoleInvalidOptionNameException on
