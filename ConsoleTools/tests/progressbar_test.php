@@ -21,7 +21,7 @@ class ezcConsoleToolsProgressbarTest extends ezcTestCase
 	{
 		return new ezcTestSuite( "ezcConsoleToolsProgressbarTest" );
 	}
-
+    
     public function testProgress1()
     {
         $this->commonProgressbarTest( __FUNCTION__, 42, 13, array () );
@@ -96,6 +96,16 @@ class ezcConsoleToolsProgressbarTest extends ezcTestCase
     public function testProgress11()
     {
         $this->commonProgressbarTest( __FUNCTION__, 100, 2.5, array ( 'actFormat' => '%01.2f', 'maxFormat' => '%01.2f' ) );
+    }
+    
+    public function testProgress12()
+    {
+        $this->commonProgressbarTest( __FUNCTION__, 100, 2.5, array ( 'actFormat' => '%01.2f', 'maxFormat' => '%01.8f' ) );
+    }
+    
+    public function testProgress13()
+    {
+        $this->commonProgressbarTest( __FUNCTION__, 100, 2.5, array ( 'actFormat' => '%01.8f', 'maxFormat' => '%01.2f' ) );
     }
     
     private function commonProgressbarTest( $refFile, $max, $step, $options )

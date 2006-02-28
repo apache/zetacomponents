@@ -41,8 +41,8 @@ class ezcConsoleProgressbarOptions
         'redrawFrequency' => 1,
         'step' => 1,
         'width' => 78,
-        'actFormat' => '%s',
-        'maxFormat' => '%s',
+        'actFormat' => '%.0f',
+        'maxFormat' => '%.0f',
     );
 
     /**
@@ -64,8 +64,8 @@ class ezcConsoleProgressbarOptions
         $fractionFormat = '%01.2f',
         $redrawFrequency = 1,
         $step = 1,
-        $actFormat = '%s',
-        $maxFormat = '%s'
+        $actFormat = '%.0f',
+        $maxFormat = '%.0f'
     )
     {
         $this->__set( 'barChar', $barChar );
