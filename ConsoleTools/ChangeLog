@@ -1,9 +1,17 @@
 1.0.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- Fixed unreported bug: ezcConsoleOutput::toPos() fixed typo in parameter.
+
+- Fixed unreported bug: ezcConsoleOutput::toPos() has a typo in a parameter.
 - Fixed unreported bug: ezcConsoleOption::__construct() still threw old
   exception style. Now throws correct ezcConsoleInvalidOptionNameException on
   an invalid option name.
+
+ezcConsoleProgressbar
+---------------------
+
+- Added support for a non-integer maximum.
+- Added an optional parameter to the advance() method that advances the
+  progress bar with a different step size than 1.
 
 
 1.0 - Monday 30 January 2006

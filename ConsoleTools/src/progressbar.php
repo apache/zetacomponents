@@ -207,9 +207,9 @@ class ezcConsoleProgressbar
                 break;
             case 'max':
             case 'step':
-                if ( !is_int( $val ) || $val < 0 )
+                if ( ( !is_int( $val ) && !is_float( $val ) ) || $val < 0 )
                 {
-                    throw new ezcBaseValueException( $key, $val, 'int >= 0' );
+                    throw new ezcBaseValueException( $key, $val, 'number >= 0' );
                 }
                 break;
             default:
@@ -275,15 +275,16 @@ class ezcConsoleProgressbar
 
     /**
      * Advance the progress bar.
-     * Advances the progress bar by one step. Redraws the bar by default, using
-     * the {@link ezcConsoleProgressbar::output()} method.
+     * Advances the progress bar by $step steps. Redraws the bar by default,
+     * using the {@link ezcConsoleProgressbar::output()} method.
      *
-     * @param bool Whether to redraw the bar immediatelly.
+     * @param bool  $redraw Whether to redraw the bar immediately.
+     * @param float $steps  How far the progress bar should advance on this call.
      * @return void
      */
-    public function advance( $redraw = true ) 
+    public function advance( $redraw = true, $step = 1 ) 
     {
-        $this->currentStep += 1;
+        $this->currentStep += $step;
         if ( $redraw === true && $this->currentStep % $this->options->redrawFrequency === 0 )
         {
             $this->output();
