@@ -226,6 +226,9 @@ abstract class ezcTestCase extends PHPUnit2_Framework_TestCase
         }
     }
 
-    public static abstract function suite();
+    /*
+     * @todo recheck this later, as this might change again.
+     */
+    //public static abstract function suite();
 }
 ?>

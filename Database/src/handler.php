@@ -85,9 +85,10 @@ abstract class ezcDbHandler extends PDO
      * This method can be used to choose more optimal query
      * for the given Database.
      *
+     * @todo recheck this later, as this might change again.
      * @return string
      */
-    abstract static public function getName();
+    //abstract static public function getName();
 
     /**
      * Returns true if the given $feature is supported by the handler.
