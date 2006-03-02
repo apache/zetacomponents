@@ -543,7 +543,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      * alignment setting and uses the default alignment if not found.
      * 
      * @param ezcConsoleTableRow $row   The row this cell belongs to.
-     * @param ezcConsoleTableCell $cell Index of the desired cell.
+     * @param ezcConsoleTableCell $cellId Index of the desired cell.
      * @return int An alignement constant (ezcConsoleTable::ALIGN_*).
      */
     private function determineAlign( $row, $cellId = 0 )
