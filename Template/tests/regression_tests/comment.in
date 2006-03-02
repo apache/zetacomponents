@@ -1,0 +1,9 @@
+{* Doc comment *}
+Hello world.
+
+{*Another docComment *}
+blablabla
+
+{ 4 // + 4 
+}
+{ 2 /* + 2 */ }

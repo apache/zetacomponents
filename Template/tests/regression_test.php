@@ -207,6 +207,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
         $parser->trimWhitespace = false;
         $root = $parser->parseIntoTextElements();
+        //echo $root->outputTree();
 
         $tstToAst = new ezcTemplateTstToAstTransformer();
         $root->accept( $tstToAst );

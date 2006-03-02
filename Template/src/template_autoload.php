@@ -123,6 +123,7 @@ return array(
              "ezcTemplateFunctionCallAstNode" => "Template/syntax_trees/ast/nodes/function_call.php",
              "ezcTemplateConditionBodyAstNode" => "Template/syntax_trees/ast/nodes/condition_body.php",
              "ezcTemplateParenthesisAstNode" => "Template/syntax_trees/ast/nodes/parenthesis.php",
+             "ezcTemplateCurlyBracesAstNode" => "Template/syntax_trees/ast/nodes/curly_braces.php",
 
              // Control
              "ezcTemplateIfAstNode" => "Template/syntax_trees/ast/nodes/control/if.php",

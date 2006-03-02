@@ -1,0 +1,12 @@
+{if true}
+It's true
+{/if}
+{if 2 < 1}False{/if}
+{if 1 < 2}True{/if}
+{if 1 < 2}{3 + 4}{/if}
+
+{if true}Hello{else}World{/if}
+{if false}Hi{else}Earth{/if}
+
+{if false}First{elseif true}second{/if}
+{if false}first{elseif false}second{/if}

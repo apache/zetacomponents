@@ -159,7 +159,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
                 fwrite( $this->fd, $str );
                 $this->newline = true;
             }
-            else
+            else // The last line.
             {
                 if ( strlen( $line ) > 0 )
                 {
@@ -825,6 +825,12 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     {
         $outputList = $echo->getOutputList();
         $this->write( "echo " );
+
+        // No indentation.
+        $oldIndentation = $this->indentationText;
+        $this->indentationText = "";
+        
+
         foreach ( $outputList as $i => $output )
         {
             if ( $i > 0 )
@@ -832,6 +838,10 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
             $output->accept( $this );
         }
         $this->write( ";\n" );
+
+        // Restore indentation.
+        $this->indentationText = $oldIndentation;
+
     }
 
     /**
@@ -878,16 +888,18 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $this->write( ");\n" );
     }
 
-    /**
-     * Visits a code element containing empty construct.
-     *
-     * @param ezcTemplateEmptyAstNode $empty The code element containing the empty construct.
-     */
     public function visitParenthesis( ezcTemplateParenthesisAstNode $parenthesis )
     {
         $this->write( "(" );
         $parenthesis->expression->accept( $this );
         $this->write( ")" );
+    }
+
+    public function visitCurlyBraces( ezcTemplateCurlyBracesAstNode $curly )
+    {
+        $this->write( "{" );
+        $curly->expression->accept( $this );
+        $this->write( "}" );
     }
 
 }

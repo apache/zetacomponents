@@ -34,7 +34,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
     }
 
-
     public function push( $node )
     {
         array_push( $this->pathToCurrentNode, $this->rootNode );
@@ -51,7 +50,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         return $this->pathToCurrentNode[ $this->stackSize - 1];
     }
-
 
     private function appendOperatorRecursively( ezcTemplateOperatorTstNode $type, ezcTemplateOperatorAstNode $astNode, $currentParameterNumber = 0)
     {
@@ -90,7 +88,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return ( $addParenthesis ?  new ezcTemplateParenthesisAstNode( $astNode ) : $astNode );
     }
  
-
     private function isAssignmentNode( $astNode )
     {
         if ( $astNode instanceof ezcTemplateAssignmentOperatorAstNode ) return true;
@@ -100,38 +97,61 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return false;
     }
 
+    private function addOutputNodeIfNeeded( ezcTemplateAstNode $astNode )
+    {
+        if( $this->isAssignmentNode( $astNode ) ||  $astNode instanceof ezcTemplateStatementAstNode )
+        {
+            return $astNode;
+        }
+
+        return new ezcTemplateEchoAstNode( array( $astNode ) );
+    }
+
+    private function createBody( array $elements )
+    {
+        $body = new ezcTemplateBodyAstNode();
+
+        foreach( $elements as $element )
+        {
+            $astNode = $element->accept( $this );
+
+            if( $this->isAssignmentNode( $astNode ) )
+            {
+                // Assignments are just a generic statements, which don't need echo-ing.
+                $body->appendStatement( new ezcTemplateGenericStatementAstNode( $astNode ) );
+            }
+            elseif ( $astNode instanceof ezcTemplateStatementAstNode )
+            {
+                // Statements don't need echoing, and are not generic.
+                $body->appendStatement($astNode );
+            }
+            else
+            {
+                // Expressions need a echo.
+                $body->appendStatement( new ezcTemplateEchoAstNode( array( $astNode  ) ) );
+            }
+        }
+
+        return $body;
+    }
+
+
     public function visitBlockTstNode( ezcTemplateBlockTstNode $type ) 
     {
+        // Should be abstract.
         die("visitBlockTstNode");
     }
 
-
     public function visitCustomBlockTstNode( ezcTemplateCustomBlockTstNode $type )
     {
-
         die("visitCustomTstNode");
     }
-
 
     public function visitRootTstNode( ezcTemplateRootTstNode $type )
     {
         if ( $this->rootNode === null )
         {
-            $this->rootNode = new ezcTemplateBodyAstNode();
-
-            foreach( $type->elements as $element )
-            {
-                $astNode = $element->accept( $this );
-
-                if( $this->isAssignmentNode( $astNode ) )
-                {
-                    $this->rootNode->appendStatement( new ezcTemplateGenericStatementAstNode( $astNode ) );
-                }
-                else
-                {
-                    $this->rootNode->appendStatement( new ezcTemplateEchoAstNode( array( $astNode  ) ) );
-                }
-            }
+            $this->rootNode = $this->createBody( $type->elements );
         }
         else
         {
@@ -176,11 +196,8 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitTextBlockTstNode( ezcTemplateTextBlockTstNode $type )
     {
-        // Add a text entry.
-        $type =  new ezcTemplateTypeAstNode( $type->text );
-        return $type;
-        //$echo = new ezcTemplateEchoAstNode( array( new ezcTemplateTypeAstNode( $type->text ) ) );
-        //return $echo;
+        $echo = new ezcTemplateEchoAstNode( array( new ezcTemplateTypeAstNode( $type->text ) ) );
+        return $echo;
     }
 
     public function visitFunctionCallTstNode( ezcTemplateFunctionCallTstNode $type )
@@ -190,42 +207,120 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitDocCommentTstNode( ezcTemplateDocCommentTstNode $type )
     {
-        die("visitDocCommentTstNode");
+        return new ezcTemplateBlockCommentAstNode ( $type->commentText );
     }
 
     public function visitBlockCommentTstNode( ezcTemplateBlockCommentTstNode $type )
     {
+        // NOT USED.
         die("visitBlockCommentTstNode");
     }
 
     public function visitEolCommentTstNode( ezcTemplateEolCommentTstNode $type )
     {
+        // NOT USED.
         die("visitEolCommentTstNode");
     }
 
+    /** 
+     * TST:
+     * [Foreach]
+     *  TypeTstNode array
+     *  string keyVariableName
+     *  string itemVariableName
+     *  array(Block) elements
+     *
+     * AST:
+     * [Foreach]
+     *  Expression arrayExpression
+     *  ezcTemplateVariableAstNode keyVariable
+     *  ezcTemplateVariableAstNode valueVariable
+     *  Body statements
+     */
     public function visitForeachLoopTstNode( ezcTemplateForeachLoopTstNode $type )
     {
-        die("visitForeachLoopTstNode");
+        $astNode = new ezcTemplateForeachAstNode();
+
+        $astNode->arrayExpression = $type->array->accept( $this );
+
+        if( $type->keyVariableName  !== null )
+        {
+            $astNode->keyVariable = new ezcTemplateVariableAstNode( $type->keyVariableName );
+        }
+
+        $astNode->valueVariable = new ezcTemplateVariableAstNode( $type->itemVariableName );
+
+        $astNode->body = $this->createBody( $type->elements );
+
+        return $astNode;
     }
 
     public function visitWhileLoopTstNode( ezcTemplateWhileLoopTstNode $type )
     {
-        die ("visitWhileLoopTstNode");
+        if( $type->name == "do" )
+        {
+            $astNode = new ezcTemplateDoWhileAstNode();
+        }
+        else
+        {
+            $astNode = new ezcTemplateWhileAstNode();
+        }
+
+        $cb = new ezcTemplateConditionBodyAstNode();
+        $cb->condition = $type->condition->accept( $this );
+        $cb->body = $this->createBody( $type->elements );
+
+        $astNode->conditionBody = $cb; 
+
+        return $astNode;
     }
 
     public function visitIfConditionTstNode( ezcTemplateIfConditionTstNode $type )
     {
-        die ("visitIfConditionTstNode");
+        $astNode = new ezcTemplateIfAstNode();
+
+        // First condition, the 'if'.
+        $if = new ezcTemplateConditionBodyAstNode();
+        $if->condition = $type->condition->accept( $this );
+        $if->body = $this->addOutputNodeIfNeeded( $type->elements[0]->accept( $this ) );
+        $astNode->conditions[0] = $if;
+
+        // Second condition, the 'elseif'.
+        /*
+        if( count( $type->elements ) == 3 )
+        {
+            $elseif = new ezcTemplateConditionBodyAstNode();
+            $elseif->body = $this->addOutputNodeIfNeeded( $type->elements[1]->accept( $this ) );
+            $astNode->conditions[1] = $else;
+
+        }
+        */
+
+        if( isset( $type->elements[1] ) )
+        {
+            var_dump ( $type->condition );
+            $else = new ezcTemplateConditionBodyAstNode();
+            $else->body = $this->addOutputNodeIfNeeded( $type->elements[1]->accept( $this ) );
+            $astNode->conditions[2] = $else;
+        }
+
+        return $astNode;
     }
 
     public function visitLoopTstNode( ezcTemplateLoopTstNode $type )
     {
+        // STRANGE name, break, continue
         die ("visitLoopTstNode");
     }
 
     public function visitPropertyFetchOperatorTstNode( ezcTemplatePropertyFetchOperatorTstNode $type )
     {
-        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateObjectAccessOperatorAstNode() );
+        $astNode = new ezcTemplateObjectAccessOperatorAstNode();
+        $astNode->appendParameter( $type->parameters[0]->accept( $this ));
+        $astNode->appendParameter( new ezcTemplateCurlyBracesAstNode( $type->parameters[1]->accept( $this ) ) );
+
+        return $astNode;
+
     }
 
     public function visitArrayFetchOperatorTstNode( ezcTemplateArrayFetchOperatorTstNode $type )
@@ -380,6 +475,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitNegateOperatorTstNode( ezcTemplateNegateOperatorTstNode $type )
     {
+        // Is the minus.
         die ("visitNegateOperatorTstNode");
     }
 
