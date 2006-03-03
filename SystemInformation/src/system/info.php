@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcSystemInfoReader class
+ * File containing the ezcSystemInfo class
  *
  * @package SystemInformation
  * @version //autogen//
