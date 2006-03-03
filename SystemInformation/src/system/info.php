@@ -1,15 +1,26 @@
 <?php
 /**
- * File containing the ezcPersistentObject class
+ * File containing the ezcSystemInfoReader class
  *
  * @package SystemInformation
  * @version //autogen//
- * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
 /**
  * Provides access to common system variables.
+ * 
+ * Variables that not available from PHP directly are fetched using readers
+ * specific for each supported system.
+ * 
+ * Available readers are:
+ * - {@link ezcSystemInfoLinuxReader} reader
+ * - {@link ezcSystemInfoMacReader} reader
+ * - {@link ezcSystemInfoFreeBsdReader} reader
+ * - {@link ezcSystemInfoWindowsReader} reader
+ *
+ * Extra readers can be added by implementing the {@link ezcSystemInfoReader} interface.* 
  *
  * The following information can be queried:
  * - CPU Type (e.g Pentium) - cpuType()
@@ -18,8 +29,8 @@
  * - Memory Size in bytes (e.g. 528424960) - memorySize()
  *
  *  <code>
- *  $info = new eZSysInfo();
- *  print( $info->cpuType . "\n" );
+ *  $info = eZSystemInfo()->getInstance();
+ *  print( $info->cpuType() . "\n" );
  *  </code>
  *
  * @package SystemInformation
@@ -27,30 +38,22 @@
  */
 class ezcSystemInfo
 {
-    private $isValid = false;
-    private $validProcInfo = false;
-    /**
-     * Contains the speed of CPU, the type is taken directly from the OS
-     * and can vary a lot. The speed is just a number so use cpuUnit()
-     * to get the proper unit (e.g MHz).
-     */
-    private $cpuSpeed = false; // property
 
     /**
-     * Contains the type of CPU, the type is taken directly from the OS
-     * and can vary a lot.
+     * Instance of the singleton ezcSystemInfo object.
+     *
+     * Use the getInstance() method to retrieve the instance.
+     *
+     * @var ezcSystemInfo
      */
-    private $cpuType = false;  // property
-
-    private $cpuUnit = false;  // property
+    private static $instance = null;
 
     /**
-     * Contains the amount of system memory the OS has, the value is
-     * in bytes.
+     * Contains object that provide info about underlaying OS
+     *
+     * @var ezcSystemInfoReader
      */
-    private $memorySize = false; // property
-    private $phpAccelerator; // property
-    private $webServer; // property
+    private static $systemInfoReader = null;
 
 
     /**
@@ -59,65 +62,202 @@ class ezcSystemInfo
      */
     public function getInstance()
     {
+        if ( is_null( self::$instance ) )
+        {
+            self::$instance = new self();
+        }
+        return self::$instance;
     }
 
     /**
-     * Constructs an empty sysinfo object.
+     * Constructs ezcSystemInfo object and init it with correspondent underlaying OS object.
+     * 
      */
     private function __construct()
     {
+        $this->init();
     }
 
+    /**
+     * Detect underlaying system and setup system properties.
+     * @return void
+     */
+    private function init()
+    {
+    }
 
     /**
-     * Returns true if the property $propertyName holds a valid value and false otherwise.
-     * @param string $propertyName
+     * Returns true if the $systemInfoReader holds a valid value and false otherwise.
      * @return bool
      */
-    public function isValid( $propertyName )
+    private function isInfoReaderValid()
     {
     }
 
 
     /**
-     * Scans the system depending on the OS and fills in the information internally.
-     * @return bool true if it was able to scan the system or false if it failed.
+     * Sets the the systemInfoReader depending of the OS and fills in the system 
+     * information internally.
+     * Returns true if it was able to set appropriate systemInfoReader
+     * or false if failed.
+     * 
+     * @return bool
      */
-    private function scanOs()
+    private function setSystemInfoReader()
     {
     }
 
     /**
-     * Scans the /proc/cpuinfo and /proc/meminfo files for CPU and memory information.
+     * Returns the name of the specific os or false if it could not be determined.
+     * 
+     * @return string
+     */
+    public function osName()
+    {
+    }
+
+    /**
+     * Returns the os type, either "win", "unix" or "mac"
+     * @return string
+     */
+    public function osType()
+    {
+    }
+    
+    /**
+     * Returns the filesystem type, either "win" or "unix"
+     * @return string
+     */
+    public function filesystemType()
+    {
+    }
+
+    /**
+     * Returns string with CPU type.
      *
-     * If the files are unavailable or could not be read false is returned.
-     * @param bool $cpuinfoPath The path to the cpuinfo file, if \c false it uses '/proc/cpuinfo'
-     * which should be sufficient.
-     * @param bool $meminfoPath The path to the meminfo file, if \c false it uses '/proc/meminfo'
-     * which should be sufficient.
-     * @return bool
+     * If the CPU type could not be read false is returned.
+     * @return string
      */
-    private function scanProc( $cpuinfoPath = false, $meminfoPath = false )
+    public function cpuType()
     {
     }
 
     /**
-     * Scans the dmesg.boot file which is created by the kernel.
-     * If the files are unavailable or could not be read false is returned.
-     * @param string $dmesgPath The path to the dmesg file, the default is
-     * to use '/var/run/dmesg.boot' which should be sufficient.
-     * @return bool
+     * Returns CPU speed
+     * 
+     * If the CPU speed could not be read false is returned.
+     * @return int
      */
-    private function scanDMesg( $dmesgPath = false )
+    public function cpuSpeed()
+    {
+    }
+    
+    /**
+     * Returns string with unit in wich CPU speed measured.
+     * 
+     * If the CPU unit could not be read false is returned.
+     * @return string
+     */
+    public function cpuUnit()
+    {
+    }
+    
+    /**
+     * Returns memory size in bytes.
+     * 
+     * If the memory size could not be read false is returned.
+     * @return int
+     */
+    public function memorySize()
     {
     }
 
     /**
      * Detects if this system is running a PHP accelerator and what type it is if one
      * found.
+     * 
+     * @return string
+     */
+    public function phpAccellerator()
+    {
+    }
+
+
+    /**
+     * Returns the PHP version as an array with the version elements.
+     * 
+     * @return array
+     */
+    public function phpVersion()
+    {
+    }
+
+    /**
+     * Returns true if the PHP version is equal or higher than $requiredVersion.
+     * $requiredVersion must be an array with version number.
+     * 
+     * $param array $requiredVersion 
+     * @return bool
+     */
+    public function isPHPVersionSufficient( $requiredVersion )
+    {
+    }
+
+    /**
+     * Determins if the script got executed over the web or the shell/command line.
+     *
+     * @return bool
+     */
+    public function isShellExecution()
+    {
+    }
+
+    /**
+     * Returns the backup filename for this platform, returns .bak for win32 and ~ for unix and mac.
+     * 
+     * @return string
+     */
+    public function backupFilename()
+    {
+    }
+
+    /**
+     * Returns the string which is used for line separators on the current OS (server).
+     * 
+     * @return string
+     */
+    public function lineSeparator()
+    {
+    }
+
+    /**
+     * Returns the string which is used for enviroment separators on the current OS (server).
+     * 
+     * @return string
+     */
+    public function envSeparator()
+    {
+    }
+
+    /**
+     * Returns the variable named $variableName in the global $_ENV variable.
+     * 
+     * $param string $variableName
+     * $param bool   $quiet
+     * @return string
+     */
+    public function environmentVariable( $variableName, $quiet = false )
+    {
+    }
+
+    /**
+     * Sets the environment variable named $variableName to $variableValue.
+     * 
+     * $param string $variableName
+     * $param string $variableValue
      * @return void
      */
-    private function scanPhpAccellerator()
+    public function setEnvironmentVariable( $variableName, $variableValue )
     {
     }
 }
