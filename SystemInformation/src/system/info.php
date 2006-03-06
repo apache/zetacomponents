@@ -70,7 +70,7 @@ class ezcSystemInfo
      * @var string
      */
     private $OSName = '';
-
+    
     /**
      * Contains string with file system type
      * or empty string if OS can't be detected
@@ -294,17 +294,7 @@ class ezcSystemInfo
      */
     public function phpVersion()
     {
-    }
-
-    /**
-     * Returns true if the PHP version is equal or higher than $requiredVersion.
-     * $requiredVersion must be an array with version number.
-     * 
-     * $param array $requiredVersion 
-     * @return bool
-     */
-    public function isPHPVersionSufficient( $requiredVersion )
-    {
+        return explode( '.', phpVersion() );
     }
 
     /**
@@ -314,6 +304,21 @@ class ezcSystemInfo
      */
     public function isShellExecution()
     {
+        $sapiType = php_sapi_name();
+
+        if ( $sapiType == 'cli' )
+            return true;
+
+        // For CGI we have to check, if the script has been executed over shell.
+        // Currently it looks like the HTTP_HOST variable is the most reasonable to check.
+        if ( substr( $sapiType, 0, 3 ) == 'cgi' )
+        {
+            if ( !isset( $_SERVER['HTTP_HOST'] ) )
+                return true;
+            else
+                return false;
+        }
+        return false;
     }
 
     /**
@@ -334,37 +339,6 @@ class ezcSystemInfo
     public function lineSeparator()
     {
         return $this->lineSeparator;
-    }
-
-    /**
-     * Returns the string which is used for enviroment separators on the current OS (server).
-     * 
-     * @return string
-     */
-    public function envSeparator()
-    {
-    }
-
-    /**
-     * Returns the variable named $variableName in the global $_ENV variable.
-     * 
-     * $param string $variableName
-     * $param bool   $quiet
-     * @return string
-     */
-    public function environmentVariable( $variableName, $quiet = false )
-    {
-    }
-
-    /**
-     * Sets the environment variable named $variableName to $variableValue.
-     * 
-     * $param string $variableName
-     * $param string $variableValue
-     * @return void
-     */
-    public function setEnvironmentVariable( $variableName, $variableValue )
-    {
     }
 }
 

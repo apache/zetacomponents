@@ -144,7 +144,32 @@ class ezcSystemInfoTest extends ezcTestCase
         $this->assertSame( 
             $backupFileName,
             "~",
-            'Backup file name  was not determined correctly for linux'
+            'Backup file name was not determined correctly for linux'
+        );
+    }
+
+    public function testSystemInfoPhpVersionTest()
+    {
+        $info = ezcSystemInfo::getInstance();
+        $phpVersion = $info->phpVersion();
+        $waitVersion = array( "5", "1", "1");
+
+        $this->assertSame( 
+            $phpVersion,
+            $waitVersion,
+            'Php version was not determined correctly for linux'
+        );
+    }
+
+    public function testSystemInfoIsShellExecutionTest()
+    {
+        $info = ezcSystemInfo::getInstance();
+        $isShellExecution = $info->isShellExecution();
+
+        $this->assertSame( 
+            $isShellExecution,
+            true,
+            'Execution from shell was not determined correctly for linux'
         );
     }
 
