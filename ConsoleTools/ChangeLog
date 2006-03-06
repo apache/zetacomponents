@@ -1,4 +1,4 @@
-1.0.1 - [RELEASEDATE]
+1.0.1 - Monday 06 March 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed unreported bug: ezcConsoleOutput::toPos() has a typo in a parameter.
