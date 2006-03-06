@@ -973,6 +973,24 @@ class ezcConsoleToolsInputTest extends ezcTestCase
             'Program synopsis not generated correctly.'
         );
     }
+    
+    public function testGetSynopsis1()
+    {
+        $this->assertEquals( 
+            '$ '.$_SERVER['argv'][0].' [-t] [-s] [-o <string>]  [[--] <args>]',
+            $this->consoleParameter->getSynopsis( array( 't', 's', 'o' ) ),
+            'Program synopsis not generated correctly.'
+        );
+    }
+    
+    public function testGetSynopsis2()
+    {
+        $this->assertEquals( 
+            '$ '.$_SERVER['argv'][0].' [-t] [-s] [-v]  [[--] <args>]',
+            $this->consoleParameter->getSynopsis( array( 't', 's', 'v' ) ),
+            'Program synopsis not generated correctly.'
+        );
+    }
 
     public function testInvalidOptionName_short()
     {
