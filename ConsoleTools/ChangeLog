@@ -13,6 +13,8 @@
   an invalid option name.
 - Fixed bug #7897: Access to 'step' property does not work through overloading in
   ezcConsoleProgressbar.
+- Fixed bug #7923: ezcConsoleInput::getSynopsis() does not work when
+  suplying parameters to show.
 
 
 ezcConsoleProgressbar
