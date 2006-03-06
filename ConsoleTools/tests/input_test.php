@@ -974,6 +974,65 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         );
     }
     
+    public function testGetHelpTable()
+    {
+        $output = new ezcConsoleOutput();
+        
+        $res = new ezcConsoleTable( $output, 80 ); 
+        $res[0][0]->content = '-t / --testing';
+        $res[0][1]->content = 'Sorry, there is no help text available for this parameter.';
+                
+        $res[1][0]->content = '-s / --subway';
+        $res[1][1]->content = 'Sorry, there is no help text available for this parameter.';
+                
+        $res[2][0]->content = '-y / --yank';
+        $res[2][1]->content = 'Some even more stupid, but somewhat longer long describtion.';
+                
+        $res[3][0]->content = '-e / --edit';
+        $res[3][1]->content = 'Sorry, there is no help text available for this parameter.';
+                
+        $table = new ezcConsoleTable( $output, 80 );
+        $table = $this->consoleParameter->getHelpTable( $table, true, array( 't', 'subway', 'yank', 'e' ) );
+        $this->assertEquals(
+            $res,
+            $table,
+            'Help table not generated correctly.'
+        );
+    }
+
+    public function testGetHelpText()
+    {
+        $res = <<<EOF
+Usage: $ UnitTest/src/runtests.php [-y <string>] [-e]  [[--] <args>]
+Lala
+
+-y / --yank  Some
+             even
+             more
+             stupid,
+             but
+             somewhat
+             longer
+             long
+             describtion.
+-e / --edit  Sorry,
+             there
+             is no
+             help
+             text
+             available
+             for
+             this
+             parameter.
+
+EOF;
+        $this->assertEquals(
+            $res,
+            $this->consoleParameter->getHelpText( 'Lala', 20, true, array( 'e', 'y' ) ),
+            'Help text not generated correctly.'
+        );
+    }
+    
     public function testGetSynopsis1()
     {
         $this->assertEquals( 

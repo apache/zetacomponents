@@ -611,6 +611,78 @@ class ezcConsoleInput
         }
         return $help;
     }
+    
+    /**
+     * Get help information for your options as a table.
+     *
+     * This method provides the information returned by 
+     * {@link ezcConsoleInput::getHelp()} in a table.
+     * 
+     * @param ezcConsoleTable $table     The table object to fill.
+     * @param bool $long                 Set this to true for getting the 
+     *                                   long help version.
+     * @param array(int=>string) $params Set of option names to generate help 
+     *                                   for, default is all.
+     * @return ezcConsoleTable           The filled table.
+     */
+    public function getHelpTable( ezcConsoleTable $table, $long = false, array $params = array() )
+    {
+        $help = $this->getHelp( $long, $params );
+        $i = 0;
+        foreach ( $help as $row )
+        {
+            $table[$i][0]->content = $row[0];
+            $table[$i++][1]->content = $row[1];
+        }
+        return $table;
+    }
+
+    /**
+     * Returns a standard help output for your program.
+     *
+     * This method generates a help text as it's commonly known from Unix
+     * command line programs. The output will contain the synopsis, your 
+     * provided program description and the selected parameter help
+     * as also provided by {@link ezcConsoleInput::getHelp()}. The returned
+     * string can directly be printed to the console.
+     * 
+     * @param string $prograDesc         The description of your program.
+     * @param int $width                 The width to adjust the output text to.
+     * @param bool $long                 Set this to true for getting the long 
+     *                                   help version.
+     * @param array(int=>string) $params Set of option names to generate help 
+     *                                   for, default is all.
+     * @return string The generated help text.
+     */
+    public function getHelpText( $prograDesc, $width = 80, $long = false, array $params = array() )
+    {
+        $help = $this->getHelp( $long, $params );
+        // Determine max length of first column text.
+        $maxLength = 0;
+        foreach ( $help as $row )
+        {
+            $maxLength = max( $maxLength, strlen($row[0]) );
+        }
+        // Width of left column
+        $leftColWidth = $maxLength + 2;
+        // Width of righ column
+        $rightColWidth = $width - $leftColWidth;
+
+        $res = 'Usage: ' . $this->getSynopsis( $params ) . "\n";
+        $res .= wordwrap( $prograDesc, $width );
+        $res .= "\n\n";
+        foreach ( $help as $row )
+        {
+            $rowParts = explode( "\n", wordwrap( $row[1], $rightColWidth ) );
+            $res .= sprintf( "%-{$leftColWidth}s", $row[0] );
+            $res .= $rowParts[0] . "\n";
+            for ( $i = 1; $i < sizeof( $rowParts ); $i++ )
+            {
+                $res .= str_repeat( ' ', $leftColWidth ) . $rowParts[$i] . "\n";
+            }
+        }
+        return $res;
+    }
 
     /**
      * Returns the synopsis string for the program.
