@@ -88,6 +88,18 @@ class ezcSystemInfoTest extends ezcTestCase
         );
     }
 
+    public function testSystemInfoOsTypeTest()
+    {
+        $info = ezcSystemInfo::getInstance();
+        $osType = $info->osType();
+
+        $this->assertSame( 
+            $osType,
+            'unix',
+            'CPU type was not determined correctly for linux'
+        );
+    }
+
     public function testSystemInfoMemorySizeTest()
     {
         $info = ezcSystemInfo::getInstance();
@@ -99,5 +111,42 @@ class ezcSystemInfoTest extends ezcTestCase
             'Amount of system memory was not determined correctly for linux'
         );
     }
+
+    public function testSystemInfoFileSystemTypeTest()
+    {
+        $info = ezcSystemInfo::getInstance();
+        $fileSystemType = $info->fileSystemType();
+
+        $this->assertSame( 
+            $fileSystemType,
+            'unix',
+            'File System type was not determined correctly for linux'
+        );
+    }
+
+    public function testSystemInfoLineSeparatorTest()
+    {
+        $info = ezcSystemInfo::getInstance();
+        $lineSeparator = $info->lineSeparator();
+
+        $this->assertSame( 
+            $lineSeparator,
+            "\n",
+            'Line separator was not determined correctly for linux'
+        );
+    }
+
+    public function testSystemInfoBackupFileNameTest()
+    {
+        $info = ezcSystemInfo::getInstance();
+        $backupFileName = $info->backupFileName();
+
+        $this->assertSame( 
+            $backupFileName,
+            "~",
+            'Backup file name  was not determined correctly for linux'
+        );
+    }
+
 }
 ?>

@@ -56,7 +56,7 @@ class ezcSystemInfo
     private $systemInfoReader = null;
 
     /**
-     * Contains string with type of OS underlaying OS
+     * Contains string with type of underlaying OS
      * or empty string if OS can't be detected
      *
      * @var string
@@ -64,14 +64,37 @@ class ezcSystemInfo
     private $OSType = '';
 
     /**
-     * Contains string with name of OS underlaying OS
+     * Contains string with name of underlaying OS
      * or empty string if OS can't be detected
      *
      * @var string
      */
     private $OSName = '';
 
+    /**
+     * Contains string with file system type
+     * or empty string if OS can't be detected
+     *
+     * @var string
+     */
+    private $fileSystemType = '';
+    
+    /**
+     * Contains string with file system type
+     * or empty string if OS can't be detected
+     *
+     * @var string
+     */
+    private $lineSeparator = '';
 
+    /**
+     * Contains string with file system type
+     * or empty string if OS can't be detected
+     *
+     * @var string
+     */
+    private $backupFileName = '';
+    
     /**
      * Returns the single instance of the ezcSystemInfo class
      * @return ezcSystemInfo
@@ -115,33 +138,45 @@ class ezcSystemInfo
     private function setSystemInfoReader()
     {
         // Determine OS
-        $uname = strtolower( php_uname( 's' ) );
+        $uname = php_uname( 's' );
 
-        if ( substr( $uname, 0, 7 ) == "Windows" )
+        if ( substr( $uname, 0, 7 ) == 'Windows' )
         {
             $this->systemInfoReader = new ezcSystemInfoWindowsReader( $uname );
-            $this->OSType = "win32";
-            $this->OSName = "Windows";
+            $this->OSType = 'win32';
+            $this->OSName = 'Windows';
+            $this->fileSystemType = 'win32';
+            $this->lineSeparator= "\r\n";
+            $this->backupFileName = '.bak';
         }
-        else if ( substr( $uname, 0, 3 ) == "Mac" )
+        else if ( substr( $uname, 0, 3 ) == 'Mac' )
         {
             $this->systemInfoReader = new ezcSystemInfoMacReader();
-            $this->OSType = "mac";
-            $this->OSName = "Mac";
+            $this->OSType = 'mac';
+            $this->OSName = 'Mac';
+            $this->fileSystemType = 'unix';
+            $this->lineSeparator= "\r";
+            $this->backupFileName = '~';
         }
         else
         {
-            $this->OSType = "unix";
+            $this->OSType = 'unix';
 
             if ( strtolower( $uname ) == 'linux' )
             {
                 $this->systemInfoReader = new ezcSystemInfoLinuxReader();
-                $this->OSName = "Linux";
+                $this->OSName = 'Linux';
+                $this->fileSystemType = 'unix';
+                $this->lineSeparator= "\n";
+                $this->backupFileName = '~';
             }
             else if ( strtolower( substr( $uname, 0, 0 ) ) == 'freebsd' )
             {
                 $this->systemInfoReader = new ezcSystemInfoFreeBsdReader();
-                $this->OSName = "FreeBSD";
+                $this->OSName = 'FreeBSD';
+                $this->fileSystemType = 'unix';
+                $this->lineSeparator= "\n";
+                $this->backupFileName = '~';
             }
             else
             {
@@ -178,6 +213,7 @@ class ezcSystemInfo
      */
     public function filesystemType()
     {
+        return $this->fileSystemType;
     }
 
     /**
@@ -285,8 +321,9 @@ class ezcSystemInfo
      * 
      * @return string
      */
-    public function backupFilename()
+    public function backupFileName()
     {
+        return $this->backupFileName;
     }
 
     /**
@@ -296,6 +333,7 @@ class ezcSystemInfo
      */
     public function lineSeparator()
     {
+        return $this->lineSeparator;
     }
 
     /**
