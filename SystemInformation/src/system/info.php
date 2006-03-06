@@ -233,6 +233,11 @@ class ezcSystemInfo
      */
     public function memorySize()
     {
+        if ( $this->systemInfoReader !== null )
+        {
+            return $this->systemInfoReader->memorySize();
+        }
+        return false;
     }
 
     /**

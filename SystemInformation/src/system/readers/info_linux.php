@@ -189,9 +189,10 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
                 {
                     $memBytes = (int)$memBytes;
                 }
-                $this->MemorySize = $memBytes;
+                $this->memorySize = $memBytes;
+                $this->validProperties['memory_size'] = $this->memorySize;
             }
-            if ( $this->MemorySize !== false )
+            if ( $this->memorySize !== false )
                 break;
         }
 
@@ -240,6 +241,7 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
      */
     public function memorySize()
     {
+        return $this->memorySize;
     }
 }
 
