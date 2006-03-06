@@ -262,7 +262,7 @@ class ezcImageConverter
      *
      * @throws ezcImageFiltersException 
      *         If a given filter does not exist.
-     * @throws ezcImageTransformationAlredayExists 
+     * @throws ezcImageTransformationAlreadyExists 
      *         If a transformation with the given name does already exist. 
      */
     public function createTransformation( $name, array $filters, array $mimeOut )
