@@ -983,6 +983,11 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         );
     }
     
+    /**
+     * Tests bug #7923. 
+     * 
+     * @return void
+     */
     public function testGetSynopsis2()
     {
         $this->assertEquals( 
