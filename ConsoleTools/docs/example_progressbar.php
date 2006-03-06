@@ -1,6 +1,6 @@
 <?php
 /**
- * Example for the usage of eczConsoleProgressbar class.
+ * Example for the usage of ezcConsoleProgressbar class.
  *
  * @package ConsoleTools
  * @version //autogen//

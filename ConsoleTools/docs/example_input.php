@@ -1,6 +1,6 @@
 <?php
 /**
- * Example for the usage of eczConsoleParameter class.
+ * Example for the usage of ezcConsoleParameter class.
  *
  * @package ConsoleTools
  * @version //autogen//

@@ -25,7 +25,7 @@ ezcConsoleProgressbar
 
 - Fixed unreported bug: ezcConsoleTableOptions struct caried deprecated
   options and missed 2 in its constructor.
-- Fixed unreported bug: Option values not properly checked for eczConsoleTable,
+- Fixed unreported bug: Option values not properly checked for ezcConsoleTable,
   ezcConsoleOutput.
 - Fixed unreported bug: ezcConsoleProgressbarOptions disallowed option
   read access.
@@ -67,7 +67,7 @@ ezcConsoleProgressbar
 - Added convenience method ezcConsoleOutput::outputLine(). 
   This one adds a line break after outputting the desired text and works also
   without any text to print a blank line (similar to Pascals writeln()).
-- Added option filter parameter to eczConsoleParameter::getHelp().
+- Added option filter parameter to ezcConsoleParameter::getHelp().
   This allows you to filter which parameters the information will return
   information about.
 - Added a new class ezcConsoleOption. 
@@ -120,7 +120,7 @@ ezcConsoleProgressbar
   * ezcConsoleOutputOptions (stores the options for ezcConsoleOutput).
   * ezcConsoleProgressbarOptions (stores the options for
     ezcConsoleProgressbar).
-  * eczConsoleTableOptions (stores the options for ezcConsoleTable).
+  * ezcConsoleTableOptions (stores the options for ezcConsoleTable).
 
 - Changed to the use of "extended structs" where it made sense to avoid
   complex arrays:
