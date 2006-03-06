@@ -4,11 +4,13 @@
  *
  * @package SystemInformation
  * @version //autogen//
- * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 return array(
     'ezcSystemInfo' => 'SystemInformation/system/info.php',
+    'ezcSystemInfoReader' => 'SystemInformation/system/interfaces/info_reader.php',    
+    'ezcSystemInfoLinuxReader' => 'SystemInformation/system/readers/info_linux.php',        
 );
 
 ?>

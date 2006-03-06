@@ -17,16 +17,14 @@
  * @package SystemInformation
  * @version //autogentag//
  */
-interface ezcSystemInfoReader
+abstract class ezcSystemInfoReader
 {
     /**
      * Returns true if the property $propertyName holds a valid value and false otherwise.
      * @param string $propertyName
      * @return bool
      */
-    public function isValid( $propertyName )
-    {
-    }
+    abstract public function isValid( $propertyName );
 
     /**
      * Returns string with CPU type.
@@ -34,9 +32,7 @@ interface ezcSystemInfoReader
      * If the CPU type could not be read false is returned.
      * @return string
      */
-    public function cpuType()
-    {
-    }
+    abstract public function cpuType();
 
     /**
      * Returns CPU speed
@@ -44,9 +40,7 @@ interface ezcSystemInfoReader
      * If the CPU speed could not be read false is returned.
      * @return int
      */
-    public function cpuSpeed()
-    {
-    }
+    abstract public function cpuSpeed();
     
     /**
      * Returns string with unit in wich CPU speed measured.
@@ -54,9 +48,7 @@ interface ezcSystemInfoReader
      * If the CPU unit could not be read false is returned.
      * @return string
      */
-    public function cpuUnit()
-    {
-    }
+    abstract public function cpuUnit();
     
     /**
      * Returns memory size in bytes.
@@ -64,19 +56,8 @@ interface ezcSystemInfoReader
      * If the memory size could not be read false is returned.
      * @return int
      */
-    public function memorySize()
-    {
-    }
+    abstract public function memorySize();
 
-    /**
-     * Detects if this system is running a PHP accelerator and what type it is if one
-     * found.
-     * 
-     * @return string
-     */
-    public function phpAccellerator()
-    {
-    }
 }
 
 ?>

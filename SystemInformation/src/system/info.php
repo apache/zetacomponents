@@ -29,7 +29,7 @@
  * - Memory Size in bytes (e.g. 528424960) - memorySize()
  *
  *  <code>
- *  $info = eZSystemInfo()->getInstance();
+ *  $info = ezcSystemInfo::getInstance();
  *  print( $info->cpuType() . "\n" );
  *  </code>
  *
@@ -53,14 +53,30 @@ class ezcSystemInfo
      *
      * @var ezcSystemInfoReader
      */
-    private static $systemInfoReader = null;
+    private $systemInfoReader = null;
+
+    /**
+     * Contains string with type of OS underlaying OS
+     * or empty string if OS can't be detected
+     *
+     * @var string
+     */
+    private static $OsType = '';
+
+    /**
+     * Contains string with name of OS underlaying OS
+     * or empty string if OS can't be detected
+     *
+     * @var string
+     */
+    private static $OsName = '';
 
 
     /**
      * Returns the single instance of the ezcSystemInfo class
      * @return ezcSystemInfo
      */
-    public function getInstance()
+    public static function getInstance()
     {
         if ( is_null( self::$instance ) )
         {
@@ -84,14 +100,7 @@ class ezcSystemInfo
      */
     private function init()
     {
-    }
-
-    /**
-     * Returns true if the $systemInfoReader holds a valid value and false otherwise.
-     * @return bool
-     */
-    private function isInfoReaderValid()
-    {
+        $this->setSystemInfoReader();
     }
 
 
@@ -105,23 +114,62 @@ class ezcSystemInfo
      */
     private function setSystemInfoReader()
     {
+        // Determine OS
+        $uname = strtolower( php_uname( 's' ) );
+
+        if ( substr( $uname, 0, 7 ) == "Windows" )
+        {
+            $this->systemInfoReader = new ezcSystemInfoWindowsReader( $uname );
+            $this->OSType = "win32";
+            $this->OSName = "Windows";
+        }
+        else if ( substr( $uname, 0, 3 ) == "Mac" )
+        {
+            $this->systemInfoReader = new ezcSystemInfoMacReader();
+            $this->OSType = "mac";
+            $this->OSName = "Mac";
+        }
+        else
+        {
+            $this->OSType = "unix";
+
+            if ( strtolower( $uname ) == 'linux' )
+            {
+                $this->systemInfoReader = new ezcSystemInfoLinuxReader();
+                $this->OSName = "Linux";
+            }
+            else if ( strtolower( substr( $uname, 0, 0 ) ) == 'freebsd' )
+            {
+                $this->systemInfoReader = new ezcSystemInfoFreeBsdReader();
+                $this->OSName = "FreeBSD";
+            }
+            else
+            {
+                $this->systemInfoReader = null; 
+//                throw new exceptionOsUndetected()
+            }
+        }
     }
 
     /**
-     * Returns the name of the specific os or false if it could not be determined.
+     * Returns the name of the underlaying OS or empty string
+     * if name could not be determined.
      * 
      * @return string
      */
     public function osName()
     {
+        return $this->OSName;
     }
 
     /**
-     * Returns the os type, either "win", "unix" or "mac"
+     * Returns the OS type, either "win", "unix" or "mac"
+     * Empty string returned if OS type can't be detected.
      * @return string
      */
     public function osType()
     {
+        return $this->OSType;
     }
     
     /**
@@ -140,6 +188,11 @@ class ezcSystemInfo
      */
     public function cpuType()
     {
+        if ( $this->systemInfoReader !== null )
+        {
+            return $this->systemInfoReader->cpuType();
+        }
+        return false;
     }
 
     /**
@@ -150,6 +203,11 @@ class ezcSystemInfo
      */
     public function cpuSpeed()
     {
+        if ( $this->systemInfoReader !== null )
+        {
+            return $this->systemInfoReader->cpuSpeed();
+        }
+        return false;
     }
     
     /**
@@ -160,6 +218,11 @@ class ezcSystemInfo
      */
     public function cpuUnit()
     {
+        if ( $this->systemInfoReader !== null )
+        {
+            return $this->systemInfoReader->cpuUnit();
+        }
+        return false;
     }
     
     /**
@@ -178,7 +241,7 @@ class ezcSystemInfo
      * 
      * @return string
      */
-    public function phpAccellerator()
+    public static function phpAccellerator()
     {
     }
 
