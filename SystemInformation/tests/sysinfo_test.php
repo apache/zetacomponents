@@ -88,5 +88,16 @@ class ezcSystemInfoTest extends ezcTestCase
         );
     }
 
+    public function testSystemInfoMemorySizeTest()
+    {
+        $info = ezcSystemInfo::getInstance();
+        $memorySize = $info->memorySize();
+
+        $this->assertSame( 
+            $memorySize,
+            527499264,
+            'Amount of system memory was not determined correctly for linux'
+        );
+    }
 }
 ?>

@@ -61,7 +61,7 @@ class ezcSystemInfo
      *
      * @var string
      */
-    private static $OsType = '';
+    private $OSType = '';
 
     /**
      * Contains string with name of OS underlaying OS
@@ -69,7 +69,7 @@ class ezcSystemInfo
      *
      * @var string
      */
-    private static $OsName = '';
+    private $OSName = '';
 
 
     /**
