@@ -1,0 +1,224 @@
+eZ publish Enterprise Component: Component, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Jan Borsodi
+:Revision: $Revision$
+:Date: $Date$
+
+Design description
+==================
+
+Note: Widgets will not be handled for version 1.0, it might also be split into
+a separate component.
+
+Blocks
+^^^^^^
+
+User interface
+``````````````
+
+- display
+
+  Displays a widget using its run-time display method::
+
+    {display $widget [as view] [context string]}
+
+  Parameters:
+
+  - view - The specific view to display the widget in, if not supplied widget
+    should pick a suitable default.
+  - context - The current context to render in, e.g. text/plain or HTML. If not
+    supplied the current context is used.
+
+- render
+
+  Renders the specified widget as Op-Codes, this can be used to have widget
+  components such as buttons and edit fields but not have the run-time overhead
+  of using real PHP objects::
+
+    {render <widget> [as view] [context string] [parameters...]}
+
+    {render button label="OK"}
+    {render line-edit text="Default text..."}
+    {render content-view as line nodeId 5}
+
+  Parameters:
+
+  - view - The specific view to display the widget in, if not supplied widget
+    should pick a suitable default.
+  - context - The current context to render in, e.g. text/plain or HTML. If not
+    supplied the current context is used.
+
+  The rest of the parameters are passed on to the widget. If there is a
+  mismatch between parameter name, their types or content it will generate an
+  exception.
+
+Widgets
+^^^^^^^
+
+Widgets are reusable user interface objects which can be queried for
+information or can be called to display itself in a given way (e.g. using
+another template). The widget encapsulates much of the information you would
+normally pass as multiple variables and allows extensions to extend some of the
+functionality it handles.
+
+.. figure:: template_widget.png
+
+   Widget interface and their supporting classes.
+
+A widget consists of:
+
+- id
+
+  A unique name for the widget, the component/module name should be part of
+  this to make it really unique. This is used to identify widgets in use.
+  This id can also be used as HTML id for CSS markup and Javascript usage.
+
+
+- class
+
+  A classification for the widget which can tell what kind of widget it is,
+  e.g. push-button or line-edit. Multiple widget classes can exist for one
+  *class* allowing for specialization.
+
+  This name is used for fetching widgets dynamically.
+
+- name
+
+  A name which can be displayed to the end user.
+
+- tooltip
+
+  A short description of the widget which can be placed in the HTML.
+
+- whatsThis
+
+  Description of the widget, what it does and how to use it. Can be shown as
+  help text or popped up by Javascript code.
+
+- properties
+
+  Widgets are PHP objects so properties are accessed as any other object.
+
+- enabled
+
+  Controls if the widget can be used or not, this can be used to turn off
+  certain elements of the page when for instance editing is active.
+
+- hidden
+
+  Whether the widget is to be shown at all or not. If hidden the widget cannot
+  display itself anymore.
+
+- sizeHint
+
+  Controls how the widget wants to size itself. e.g. to use as much space as
+  possible. This information can be tied together with CSS to get the correct
+  display.
+
+- layout
+
+  Controls how to render itself, e.g. to choose the basic CSS layout (not
+  colors).
+
+- control
+
+  Can return Javascript for controlling the widget dynamically.
+
+- signals/slots
+
+  Signals the widget can emit, e.g. when the widget is displayed it can send a
+  signal about it which can be connected to other widgets or objects.
+  Also slots for signals to connect to.
+
+- files
+
+  A list of files involved in the making of the widgets, this includes PHP
+  code, template files, CSS files, images and settings.
+
+- parent
+
+  The widget which is the parent of the current one.
+
+- children
+
+  A list of child widgets the current one is composed of.
+
+Also all widgets supports events. Events are the communication method between
+the webbrowser and the widgets. Events are generated from the input parameters
+(path, request method and request parameters) and passed to a specific widget.
+The same events can also be triggered by Javascript code for dynamic behaviour
+(AJAX), in this case the event will trigger an event response which can be read
+by the JS code.
+
+
+Examples of what can be conceived as widgets (taken from eZ publish 3.x):
+
+- The tree structure menu in the admin interface.
+
+- The display of a content object in the admin interface consists of several
+  widgets, one of them is for instance the child listing.
+
+- The navigator (google) used in most lists.
+
+- The left and right toolbar, these again contains sub-widgets.
+
+- The login/user box on the right.
+
+- Each datatype in the edit field or display field of content objects.
+
+- Smaller UI elements like buttons and edit fields can be widgets, might be too
+  much overhead?
+
+
+The benefits of using widgets are:
+
+- All parts related to the widgets is encapsulated in one place. Figuring out
+  what files belongs to a widget is easy.
+
+- Widgets are easily reusable meaning you can build interfaces quite quickly.
+
+- The properties of a widget makes it easy to configure, it is very clear what
+  each property controls. No longer does one have to figure out which variables
+  to pass on to an included template file.
+
+- No more need for attribute_view_gui, attribute_edit_gui etc. The widget knows
+  how to display itself.
+
+- Widgets are classes so they can be extended in PHP code to give them more
+  functionality.
+
+- Widgets can be combined with dynamic Javascript code (e.g. AJAX) to change
+  them dynamically or fetch them on demand.
+
+- Can in many cases replace fetch() calls.
+
+- Widgets can be registered globally in the system so one can know what is
+  available for usage. A admin interface can be provided for examining
+  widgets.
+  
+- Fetching HTTP POST/GET variables and other processing can be done by PHP
+  code instead of in templates.
+
+Questions:
+
+1. Should classes like eZContentObjectTreeNode be a widget or should it return
+   a widget.
+
+   Being a widget::
+
+     {display $node}
+
+   Returning a widget::
+
+     {display $node.widget}
+
+   Keeping the widget separate is generally a good idea code wise, also this
+   will make it easier to override the widget returned by a custom made one.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
