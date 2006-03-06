@@ -628,10 +628,10 @@ class ezcConsoleInput
     {
         $usedOptions = array();
         $allowsArgs = true;
-        $synopsis = '$ ' . ( isset( $argv ) && sizeoff( $argv ) > 0 ? $argv[0] : $_SERVER['argv'][0] ) . ' ';
+        $synopsis = '$ ' . ( isset( $argv ) && sizeof( $argv ) > 0 ? $argv[0] : $_SERVER['argv'][0] ) . ' ';
         foreach ( $this->getOptions() as $option )
         {
-            if ( $optionNames === null || is_array( $optionNames ) && ( in_array( $optionNames, $option->short ) ||  in_array( $optionNames, $option->long ) ) )
+            if ( $optionNames === null || is_array( $optionNames ) && ( in_array( $option->short, $optionNames ) ||  in_array( $option->long, $optionNames ) ) )
             {
                 $synopsis .= $this->createOptionSynopsis( $option, $usedOptions, $allowsArgs );
             }
