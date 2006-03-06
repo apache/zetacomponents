@@ -1,21 +1,14 @@
 1.0.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Added formatting options for %max% and %act% in ezcConsoleProgressbar.
-- Added possibility to use float values as maximal and step values in
-  ezcConsoleProgressbar.
-- Added possibility to specify step value on each advance() call in
-  ezcConsoleProgressbar.
-
 - Fixed unreported bug: ezcConsoleOutput::toPos() has a typo in a parameter.
 - Fixed unreported bug: ezcConsoleOption::__construct() still threw old
   exception style. Now throws correct ezcConsoleInvalidOptionNameException on
   an invalid option name.
-- Fixed bug #7897: Access to 'step' property does not work through overloading in
-  ezcConsoleProgressbar.
+- Fixed bug #7897: Access to 'step' property does not work through overloading
+  in ezcConsoleProgressbar.
 - Fixed bug #7923: ezcConsoleInput::getSynopsis() does not work when
-  suplying parameters to show.
-
+  supplying parameters to show.
 
 ezcConsoleProgressbar
 ---------------------
@@ -23,6 +16,8 @@ ezcConsoleProgressbar
 - Added support for a non-integer maximum.
 - Added an optional parameter to the advance() method that advances the
   progress bar with a different step size than 1.
+- Added formatting options for %max% and %act%.
+
 
 
 1.0 - Monday 30 January 2006
