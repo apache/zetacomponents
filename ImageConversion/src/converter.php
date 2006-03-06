@@ -262,7 +262,7 @@ class ezcImageConverter
      *
      * @throws ezcImageFiltersException 
      *         If a given filter does not exist.
-     * @throws eczImageTransformationAlredayExists 
+     * @throws ezcImageTransformationAlredayExists 
      *         If a transformation with the given name does already exist. 
      */
     public function createTransformation( $name, array $filters, array $mimeOut )
@@ -282,7 +282,7 @@ class ezcImageConverter
      *
      * @return ezcImageTransformation The removed transformation
      *
-     * @throws eczImageTransformationNotAvailableExeption 
+     * @throws ezcImageTransformationNotAvailableExeption 
      *         If the requested transformation is unknown.
      */
     public function removeTransformation( $name )
@@ -302,7 +302,7 @@ class ezcImageConverter
      * @param string $inFile  The file to transform
      * @param string $outFile The file to save transformed version to
      *
-     * @throws eczImageTransformationNotAvailableExeption
+     * @throws ezcImageTransformationNotAvailableExeption
      *         If the requested transformation is unknown.
      * @throws ezcImageTransformationException If an error occurs during the 
      *         transformation. The returned exception contains the exception
@@ -368,7 +368,7 @@ class ezcImageConverter
      * @param string $mimeIn Input MIME type.
      * @return string Output MIME type.
      *
-     * @throws eczImageMimeTypeUnsupportedException
+     * @throws ezcImageMimeTypeUnsupportedException
      *         If the input MIME type is not supported.
      */
     public function getMimeOut( $mimeIn )
