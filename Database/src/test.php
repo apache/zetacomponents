@@ -230,7 +230,6 @@ function __autoload( $className )
 
 
 ##############################################################################
-error_reporting( E_ALL );
 $dbSettings = array( 'my_dbname1' => 'trunk',
                      'my_dbname2' => 'stable35',
                      'my_user'    => 'root',
