@@ -20,7 +20,7 @@ The template language starts with the non-terminal token: "Program".
                       |   AssignmentBlock
                       |   OutputBlock
                       |   LiteralBlock
-                      |   SequenceBlock
+                      |   CycleBlock
                       |   {ldelim}
                       |   {rdelim} 
                       |   LoopBlock
@@ -47,7 +47,7 @@ Blocks
 
   LiteralBlock        ::= '{' 'literal' '}' Text '{' '/literal' '}'
 
-  SequenceBlock       ::= '{' 'increment' PrimaryVariable '}'
+  CycleBlock       ::= '{' 'increment' PrimaryVariable '}'
                       |   '{' 'decrement' PrimaryVariable '}'
                       |   '{' 'reset' PrimaryVariable '}'
 
@@ -59,11 +59,11 @@ Loop control
   LoopBlock           ::= ForeachStatement
                       |   WhileStatement
 
-  ForeachStatement    ::= '{' 'foreach' Expression 'as' PrimaryVariable ('=>' PrimaryVariable)? (Sequence)? (OffsetAndLimit)? '}' Text '{' '/foreach' '}'
+  ForeachStatement    ::= '{' 'foreach' Expression 'as' PrimaryVariable ('=>' PrimaryVariable)? (Cycle)* (OffsetAndLimit)? '}' Text '{' '/foreach' '}'
 
   WhileStatement      ::= '{' 'while' Expression '}' Text '{' '/while' '}'
 
-  Sequence            ::= ('increment' | 'decrement') PrimaryVariable (',' PrimaryVariable)* 
+  Cycle               ::= ('increment' | 'decrement') PrimaryVariable (',' PrimaryVariable)* 
 
   OffsetAndLimit      ::= ('offset' Expression)? ('limit' Expression)?
 
@@ -124,7 +124,7 @@ Expression
                       |   Expression 'instanceof' Identifier 
                       |   ArrayDeclaration
 
-  ArrayDeclaration    ::= 'array(' ( (Expression '=>')? Expression ( ',' Expression )* (',')? )? ')'
+  ArrayDeclaration    ::= 'array' '(' ( (Expression '=>')? Expression ( ',' Expression )* (',')? )? ')'
                       |   Expression '..' Expression
 
 
