@@ -1,0 +1,32 @@
+1. {str_replace( "Say yes!", 4, 3, "no")}
+2. {str_remove( "Say yes!", 4, 3 )}
+3. {str_chop( "Say yes!", 5 )}
+4. {str_chop_front( "Say yes!", 4 )}
+5. {str_append( "abc", "def" )}
+6. {str_prepend( "abc", "def" )}
+7. {str_compare( "abcd", "abcd" ) == 0}{str_compare( "abc2", "abc12" ) > 0}
+8. {str_nat_compare( "abc2", "abc12" ) < 0}
+9. {str_contains("je moeder", "moe")}
+10. {str_len("abcdefg")}
+
+11. {str_left("abcdefg", 3)}
+12. {str_starts_with("abcdefg", "abc")}
+13. {str_right("abcdefg", 3)}
+14. {str_ends_with("abcdefg", "efg")}
+15. {str_mid( "abcdefg", 3, 2)}
+16. {str_at( "abcdefg", 1)}
+17. {str_fill( "ab", 3)}
+18. {str_index_of( "abcdefgcdab", "def")} {str_index_of( "abcdefgcdab", "cd", 5 ) }
+19. {str_is_empty( "" )} {str_is_empty("") !== false}
+20. {str_pad_left( "abc", 5, ".." )}
+
+21. {str_pad_right( "abc", 5, ".." )}
+22. {str_number( 3.14159, 2, ",", "")}
+23. #{str_trimmed( "  blabla    ")}# #{str_trimmed( ". bla", ".")}#
+24. #{str_trimmed_left( "  blabla  ")}#
+25. #{str_trimmed_right( "  blabla  ")}#
+26. #{str_simplified( "    hello    world
+
+bla     " )}#
+27. {$a = str_split("hello/world", "/")}{$a[1]} {$a[0]}
+28. {str_join( array("hello", "world"), " ")}

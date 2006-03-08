@@ -236,6 +236,7 @@ return array(
 
 // Parsers / tst_to_ast implementations
              "ezcTemplateTstToAstTransformer" => "Template/parsers/tst_to_ast/implementations/tst_to_ast_transformer.php",
+             "ezcTemplateFunctions" => "Template/parsers/tst_to_ast/implementations/functions.php",
 
 
 // Parsers / ast_to_php implementations

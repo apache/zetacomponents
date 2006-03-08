@@ -20,9 +20,16 @@ class ezcTemplateAdditionOperatorAstNode extends ezcTemplateOperatorAstNode
     /**
      * Initialize operator code constructor with 2 parameters (binary).
      */
-    public function __construct()
+    public function __construct( $p1 = null, $p2 = null )
     {
         parent::__construct( self::OPERATOR_TYPE_BINARY );
+
+        if( $p1 != null && $p2 != null )
+        {
+            $this->appendParameter( $p1 );
+            $this->appendParameter( $p2 );
+        }
+
     }
 
     /**

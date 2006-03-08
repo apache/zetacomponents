@@ -21,13 +21,14 @@
 class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 {
     public $rootNode = null;
-
     public $pathToCurrentNode = array();
-
     public $stackSize = 0; 
 
-    public function __construct( )
+    public $functions; 
+
+    public function __construct()
     {
+        $this->functions = new ezcTemplateFunctions();
     }
 
     public function __destruct()
@@ -136,12 +137,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     }
 
 
-    public function visitBlockTstNode( ezcTemplateBlockTstNode $type ) 
-    {
-        // Should be abstract.
-        die("visitBlockTstNode");
-    }
-
     public function visitCustomBlockTstNode( ezcTemplateCustomBlockTstNode $type )
     {
         die("visitCustomTstNode");
@@ -161,22 +156,13 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitLiteralBlockTstNode( ezcTemplateLiteralBlockTstNode $type )
     {
-        die ("visitLiteralBlockTstNode");
+        return new ezcTemplateTypeAstNode( $type->text );
     }
 
     public function visitExpressionBlockTstNode( ezcTemplateExpressionBlockTstNode $type )
     {
         $expression = $type->expressionRoot->accept( $this ); 
-
         return $expression;
-/*
-
-        $lastElement->appendStatement( $echo );
-
-        $this->push( $echo );
-
-        $type->element->accept( $this );
-        */
     }
 
     public function visitTypeTstNode( ezcTemplateTypeTstNode $type )
@@ -202,24 +188,36 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitFunctionCallTstNode( ezcTemplateFunctionCallTstNode $type )
     {
-        die("visitFunctionCallTstNode");
+        /*
+        $registeredFunction = getRegisteredFunction( $type->name, count( $type->parameters ) );
+
+        if( !$registeredFunction )
+        {
+            die ( $this->getHelp( $registeredFunction ) );
+        }
+        */
+
+        $paramAst = array();
+        foreach( $type->parameters as $parameter )
+        {
+            $paramAst[] = $parameter->accept( $this );
+        }
+
+        return $this->functions->getAstTree( $type->name, $paramAst );
+
+        /*
+        $astNode = new ezcTemplateFunctionCallAstNode( $type->name, $paramAst );
+        return $astNode;
+        */
+
+ //       exit();
+       
+//        die("visitFunctionCallTstNode");
     }
 
     public function visitDocCommentTstNode( ezcTemplateDocCommentTstNode $type )
     {
         return new ezcTemplateBlockCommentAstNode ( $type->commentText );
-    }
-
-    public function visitBlockCommentTstNode( ezcTemplateBlockCommentTstNode $type )
-    {
-        // NOT USED.
-        die("visitBlockCommentTstNode");
-    }
-
-    public function visitEolCommentTstNode( ezcTemplateEolCommentTstNode $type )
-    {
-        // NOT USED.
-        die("visitEolCommentTstNode");
     }
 
     /** 
@@ -476,18 +474,35 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     public function visitNegateOperatorTstNode( ezcTemplateNegateOperatorTstNode $type )
     {
         // Is the minus.
-        die ("visitNegateOperatorTstNode");
+        return $this->createUnaryOperatorAstNode( $type, new ezcTemplateArithmeticNegationOperatorAstNode(), true );
     }
 
     public function visitLogicalNegateOperatorTstNode( ezcTemplateLogicalNegateOperatorTstNode $type )
     {
-        return $this->createUnaryOperatorAstNode( $type, new ezcTemplateLogicalNegationOperatorAstNode(), false );
+        return $this->createUnaryOperatorAstNode( $type, new ezcTemplateLogicalNegationOperatorAstNode(), true );
     }
 
     public function visitInstanceOfOperatorTstNode( ezcTemplateInstanceOfOperatorTstNode $type )
     {
         die ("visitInstanceOfOperatorTstNode");
     }
+
+    public function visitBlockCommentTstNode( ezcTemplateBlockCommentTstNode $type )
+    {
+        die("The visitBlockCommentTstNode is called, however this node shouldn't be in the TST tree. It's used for testing purposes.");
+    }
+
+    public function visitEolCommentTstNode( ezcTemplateEolCommentTstNode $type )
+    {
+        die("The visitEolCommentTstNode is called, however this node shouldn't be in the TST tree. It's used for testing purposes.");
+    }
+
+    public function visitBlockTstNode( ezcTemplateBlockTstNode $type ) 
+    {
+        // Used abstract, but is parsed. Unknown.
+        die("visitBlockTstNode");
+    }
+
 
 }
 ?>

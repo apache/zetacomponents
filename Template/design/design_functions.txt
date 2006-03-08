@@ -33,9 +33,11 @@ String manipulation
 
     preg_replace( "/%[0-9]/", $v );
 
+    Skipped
+
 - *string* str_replace( $sl, $index, $len, $sr ) ( QString::replace )::
 
-    substr( $s, 0, $index ) . $sr . substr( $s, $index + $len );
+    substr( $sl, 0, $index ) . $sr . substr( $sl, $index + $len );
 
 - *string* str_remove( $s, $index, $len ) ( QString::remove )::
 
@@ -43,7 +45,7 @@ String manipulation
 
 - *string* str_chop( $s, $len ) ( QString::chop )::
 
-    substr( $s, 0, strlen( $len ) - $len );
+    substr( $s, 0, strlen( $s ) - $len );
 
 - *string* str_chop_front( $s, $len ) ( QString::chop )::
 
@@ -67,7 +69,7 @@ String manipulation
 
 - *string* str_contains( $sl, $sr ) ( QString::compare )::
 
-    strstr( $sl, $sr )
+    strpos( $sl, $sr ) !== false
 
 - *string* str_len( $s ) ( QString::count )::
 
@@ -83,7 +85,7 @@ String manipulation
 
 - *string* str_right( $s, $len ) ( QString::right )::
 
-    substr( $s, 0, -$len )
+    substr( $s, -$len )
 
 - *string* str_ends_with( $sl, $sr ) ( QString::endsWith )::
 
@@ -115,11 +117,11 @@ String manipulation
 
 - *string* str_pad_left( $s, $len, $fill ) ( QString::leftJustified() )::
 
-    str_pad( $s, $len, $fill, STR_PAD_LEFT ) === 0
+    str_pad( $s, $len, $fill, STR_PAD_LEFT )
 
 - *string* str_pad_right( $s, $len, $fill ) ( QString::rightJustified() )::
 
-    str_pad( $s, $len, $fill, STR_PAD_RIGHT ) === 0
+    str_pad( $s, $len, $fill, STR_PAD_RIGHT )
 
 - *string* str_number( $num, $decimals, $point, $sep )::
 
@@ -137,13 +139,13 @@ String manipulation
 
     rtrim( $s, $chars )
 
-- *string* str_simplified( $s, $chars = false ) ( QString::simplified )::
+- *string* str_simplified( $s ) ( QString::simplified )::
 
-    preg_replace( "/($s)+/", $chars, "" )
+    trim( preg_replace( "/(\n|\t|\r\n|\s)+/", " ", $s ) )
 
 - *array* str_split( $s, $sep, $max = false ) ( QString::split )::
 
-    explode( $s, $sep, $max )
+    explode( $sep, $s, $max )
 
 - *string* str_join( $s_list, $sep ) ( QStringList::join )::
 
