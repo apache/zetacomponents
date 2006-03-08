@@ -11,7 +11,7 @@ The template language starts with the non-terminal token: "Program".
 
   Program             ::= Version NewLine Text EOF
 
-  Version             ::= '{?ezt version="' FloatLiteral '"}'
+  Version             ::= '{?' 'ezt' 'version' '=' '"' FloatLiteral '"' '}'
 
   Text                ::= ( Graphic | Block )*
 
@@ -31,11 +31,11 @@ Blocks
 ------
 ::
 
-  CommentBlock        ::= '{*' Grapic* '*}'
+  CommentBlock        ::= '{*' Graphic* '*}'
 
-  DeclarationBlock    ::= '{var' SubDefineBlock '}'
-                      |   '{cycle' SubDefineBlock '}' 
-                      |   '{use' SubDefineBlock '}'
+  DeclarationBlock    ::= '{' 'var' SubDefineBlock '}'
+                      |   '{' 'cycle' SubDefineBlock '}' 
+                      |   '{' 'use' SubDefineBlock '}'
 
   SubDefineBlock      ::= PrimaryVariable ( '=' Expression )? ( ',' SubDefineBlock )?
 
@@ -45,11 +45,11 @@ Blocks
 
   OutputBlock         ::= '{' Expression '}'
 
-  LiteralBlock        ::= '{literal}' Text '{/literal}'
+  LiteralBlock        ::= '{' 'literal' '}' Text '{' '/literal' '}'
 
-  SequenceBlock       ::= '{increment' PrimaryVariable '}'
-                      |   '{decrement' PrimaryVariable '}'
-                      |   '{reset' PrimaryVariable '}'
+  SequenceBlock       ::= '{' 'increment' PrimaryVariable '}'
+                      |   '{' 'decrement' PrimaryVariable '}'
+                      |   '{' 'reset' PrimaryVariable '}'
 
 
 Loop control
@@ -59,9 +59,9 @@ Loop control
   LoopBlock           ::= ForeachStatement
                       |   WhileStatement
 
-  ForeachStatement    ::= '{foreach' Expression 'as' PrimaryVariable ('=>' PrimaryVariable)? (Sequence)? (OffsetAndLimit)? '}' Text '{/foreach}'
+  ForeachStatement    ::= '{' 'foreach' Expression 'as' PrimaryVariable ('=>' PrimaryVariable)? (Sequence)? (OffsetAndLimit)? '}' Text '{' '/foreach' '}'
 
-  WhileStatement      ::= '{while' Expression '}' Text '{/while}'
+  WhileStatement      ::= '{' 'while' Expression '}' Text '{' '/while' '}'
 
   Sequence            ::= ('increment' | 'decrement') PrimaryVariable (',' PrimaryVariable)* 
 
@@ -82,21 +82,21 @@ Code flow control
                       |   ReturnStatement
 
 
-  IfStatement         ::= '{if' Expression '}' Text (ElseIf)* (Else)? '{/if}' 
-  ElseIf              ::= '{elseif' Expression '}' Text
-  Else                ::= '{else}' Text 
+  IfStatement         ::= '{' 'if' Expression '}' Text (ElseIf)* (Else)? '{' '/if' '}' 
+  ElseIf              ::= '{' 'elseif' Expression '}' Text
+  Else                ::= '{' 'else' '}' Text 
 
-  SwitchStatement     ::= '{switch' Expression '}' (Case)* (DefaultCase)? '{/switch}'
+  SwitchStatement     ::= '{' 'switch' Expression '}' (Case)* (DefaultCase)? '{' '/switch' '}'
 
-  Case                ::= '{case' Literal ( ',' Literal)* '}' Text '{/case}'
+  Case                ::= '{' 'case' Literal ( ',' Literal)* '}' Text '{' '/case' '}'
 
-  DefaultCase         ::= '{default}' Text '{/default}'
+  DefaultCase         ::= '{' 'default' '}' Text '{' '/default' '}'
                      
-  IncludeStatement    ::= '{include' Expression ('send' ExprAsPrimVarList)? ('receive' PrimVarAsPrimVarList)? '}'
+  IncludeStatement    ::= '{' 'include' Expression ('send' ExprAsPrimVarList)? ('receive' PrimVarAsPrimVarList)? '}'
 
-  DelimiterStatement  ::= '{delimiter' (modulo Expression ('is' Expression)? )? '}' Text '{/delimiter}
+  DelimiterStatement  ::= '{' 'delimiter' (modulo Expression ('is' Expression)? )? '}' Text '{' '/delimiter' '}'
 
-  ReturnStatement     ::= '{return' ExprAsPrimVarList '}' 
+  ReturnStatement     ::= '{' 'return' ExprAsPrimVarList '}' 
 
   ExprAsPrimVarList   ::=  ( Expression 'as' PrimaryVariable | PrimaryVariable ) (',' ExprAsPrimVarList)?
 
@@ -107,7 +107,7 @@ Custom block
 ------------
 ::
 
-  CustomBlock         ::= '{' Identifier ( Expression )? ( CustomArgument )*  '}' (Text '{/' Identifier '}')?  
+  CustomBlock         ::= '{' Identifier ( Expression )? ( CustomArgument )*  '}' (Text '{' '/'Identifier '}')?  
 
   CustomArgument      ::= Identifier ( ('=')? Expression)? 
 
@@ -173,7 +173,7 @@ Lexicon
 ::
 
   Comment             ::= '//' Graphic* ( EOL | '}' )
-                      |   '/*' Grapic* '*/'
+                      |   '/*' Graphic* '*/'
 
   Graphic             ::= Digit | Letter | Blank | Operators | Assignment | CombinedAssignment | RemainingCharSet
 
