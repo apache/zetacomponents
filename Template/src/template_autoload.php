@@ -105,6 +105,7 @@ return array(
              "ezcTemplateAstNode" => "Template/syntax_trees/ast/interfaces/ast_node.php",
              "ezcTemplateParameterizedAstNode" => "Template/syntax_trees/ast/interfaces/parameterized_ast.php",
              "ezcTemplateOperatorAstNode" => "Template/syntax_trees/ast/interfaces/operator_ast.php",
+             "ezcTemplateBinaryOperatorAstNode" => "Template/syntax_trees/ast/interfaces/binary_operator.php",
              "ezcTemplateStatementAstNode" => "Template/syntax_trees/ast/interfaces/statement_ast.php",
              "ezcTemplateAstNodeVisitor" => "Template/syntax_trees/ast/interfaces/ast_visitor.php",
 

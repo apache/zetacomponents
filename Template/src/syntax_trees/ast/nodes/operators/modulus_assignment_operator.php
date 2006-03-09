@@ -18,14 +18,6 @@
 class ezcTemplateModulusAssignmentOperatorAstNode extends ezcTemplateAssignmentOperatorAstNode
 {
     /**
-     * Initialize operator code constructor with 2 parameters (binary).
-     */
-    public function __construct()
-    {
-        parent::__construct( self::OPERATOR_TYPE_BINARY );
-    }
-
-    /**
      * Returns a text string representing the PHP operator.
      * @return string
      */

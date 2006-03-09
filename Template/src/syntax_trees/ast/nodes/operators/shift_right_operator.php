@@ -15,16 +15,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateShiftRightOperatorAstNode extends ezcTemplateOperatorAstNode
+class ezcTemplateShiftRightOperatorAstNode extends ezcTemplateBinaryOperatorAstNode
 {
-    /**
-     * Initialize operator code constructor with 2 parameters (binary).
-     */
-    public function __construct()
-    {
-        parent::__construct( self::OPERATOR_TYPE_BINARY );
-    }
-
     /**
      * Returns a text string representing the PHP operator.
      * @return string

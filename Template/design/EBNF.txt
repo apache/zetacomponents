@@ -47,7 +47,7 @@ Blocks
 
   LiteralBlock        ::= '{' 'literal' '}' Text '{' '/literal' '}'
 
-  CycleBlock       ::= '{' 'increment' PrimaryVariable '}'
+  CycleBlock          ::= '{' 'increment' PrimaryVariable '}'
                       |   '{' 'decrement' PrimaryVariable '}'
                       |   '{' 'reset' PrimaryVariable '}'
 
@@ -289,3 +289,200 @@ outputs::
   world
 
 
+Foreach
+-------
+
+
+Foreach-ing over an array
+^^^^^^^^^^^^^^^^^^^^^^^^^
+::
+
+  {var $colors = array( "red" => "#FF0000", "green" => "#00FF00" )}
+
+  {foreach $colors as $name => $value}
+    <font color="{$value}">$name</font>
+  {/foreach}
+
+
+Counting from 1 to 10
+^^^^^^^^^^^^^^^^^^^^^
+Using a function::
+
+  {foreach array_range(1, 10) as $value}
+      Iteration number: {$value} 
+  {/foreach}
+
+
+Or the short notation::
+
+  {foreach 1..10 as $value}
+      Iteration number: {$value} 
+  {/foreach}
+
+
+Using the cycle
+^^^^^^^^^^^^^^^
+::
+
+  {* Declaring the $blackAndWhite cycle *}
+  {cycle $blackAndWhite = array( '#00000', '#FFFFFF' )}
+
+  {foreach 1..10 as $value increment $blackAndWhite}
+      <font color="{$blackAndWhite}">Numbers: {$value}</font>
+  {/foreach}
+
+
+Using offset and limit
+^^^^^^^^^^^^^^^^^^^^^^
+::
+
+  {var $hugeArray = 1..1000
+
+  {*show number 50 to 100 *}
+  {foreach $hugeArray as $value offset 50 limit 50}
+    My favourite numbers are: {$value}
+  {/foreach}
+
+
+
+While
+-----
+
+
+Counting from 1 to 10
+^^^^^^^^^^^^^^^^^^^^^
+::
+
+  {var $i = 0}
+  {while $i <= 10}
+    Number: {$i}
+    {$i++}
+  {/while}
+
+
+Using the cycle
+^^^^^^^^^^^^^^^
+For the while loop, you have to do the cycling yourself. Note that the 
+while loop is used rarely.
+
+::
+
+  {var $i = 0}
+  {cycle $oddOrEven = array("odd", "even")}
+
+  {while $i <= 10}
+    Number {$i} is {$oddOrEven}
+    
+    {increment $oddOrEven}
+    {$i++}
+  {/while}
+
+
+If
+--
+::
+
+  {var $i = 10}
+  {if $i % 2 == 0}
+    The number is even.
+  {elseif $i % 2 == 1}
+    The number is odd.
+  {else}
+    The number is neither odd nor even. Which is a tiny bit strange.
+  {/if}
+
+
+Switch
+------
+::
+
+  {var $number = 4}
+
+  {switch $number}
+      {case 1}
+          One
+      {/case}
+      {case 2}
+          Two
+      {/case}
+      {case 3,4,5}
+          Three, Four, or Five 
+      {/case}
+      {default}
+          Any number except 1 to 5.
+      {/default}
+  {/switch}
+
+
+
+Properties
+----------
+
+Use
+^^^
+The nodes: $node and $optionalNode come from the application, and need therefore be known in the template code.
+If the $optionalNode is not set, it will get the default value "false"::
+
+  {use $node, $optionalNode = false}
+
+
+Accessing a property
+^^^^^^^^^^^^^^^^^^^^
+::
+
+  {use $node, $optionalNode = false}
+
+  Impressive title: {$node->impressiveTitle}
+
+  Norwegian title: {$node->titles["norwegian"]}
+
+  {if $optionalNode != false}
+    Extra title: {$optionalNode->titles["norwegian"]}
+  {/if}
+
+
+Dynamic names
+^^^^^^^^^^^^^
+::
+
+  {use $node}
+
+  {$property = "impressive" . "Title"}
+
+  Impressive title: {$node->$property}
+
+
+
+Delimiter
+---------
+::
+
+  {var $columns = 4}
+  <table>
+  <tr>
+  {foreach 1..12 as $nr}
+    <td>{$nr}</td>
+  
+    {delimiter modulo $columns /* is 0 */ }
+      </tr><tr>
+    {/delimiter}
+  
+  {/foreach}
+  </tr>
+
+
+Including templates
+-------------------
+::
+
+  {use $currentNode}
+  
+  {* Call the template with the variable $node that contains the value $currentNode *} 
+  {include 'showAndAlterNode.tpl'
+  	send     $currentNode as $node
+  	receive  $node as $alteredNode}
+  {* The template returns a $node, but we rename it to $alteredNode *} 
+  
+  
+  {* Rename the $alteredNode to $currentNode *}
+  {return $alteredNode as $currentNode}
