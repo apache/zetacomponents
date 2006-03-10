@@ -30,3 +30,15 @@
 bla     " )}#
 27. {$a = str_split("hello/world", "/")}{$a[1]} {$a[0]}
 28. {str_join( array("hello", "world"), " ")}
+29. {str_upper( "heLLo World" )}
+30. {str_lower( "HelLO WoRLd" )}
+
+31. {str_capitalize( "hello world" )}
+32. {str_find_replace( "Hello earth!", "earth", "world" )}
+33. {str_reverse( "Hello world" )}
+34. {str_word_count( "Hello world" )}
+35. {str_paragraph_count("This text
+
+contains 
+
+two paragraphs")}
