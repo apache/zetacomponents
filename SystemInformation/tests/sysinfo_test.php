@@ -33,7 +33,6 @@ class ezcSystemInfoTest extends ezcTestCase
     {
         $info = ezcSystemInfo::getInstance();
         $cpuSpeed = $info->cpuSpeed;
-echo($cpuSpeed);
         $haveCpuSpeed = preg_match( '/([0-9]+)(\.)?([0-9]+)$/', $cpuSpeed ) ? true : false;
         
         if( !is_string($cpuSpeed) || $cpuSpeed=='' || !$haveCpuSpeed ) 
