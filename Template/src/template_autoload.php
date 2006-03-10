@@ -237,7 +237,7 @@ return array(
 
 // Parsers / tst_to_ast implementations
              "ezcTemplateTstToAstTransformer" => "Template/parsers/tst_to_ast/implementations/tst_to_ast_transformer.php",
-             "ezcTemplateFunctions" => "Template/parsers/tst_to_ast/implementations/functions.php",
+
 
 
 // Parsers / ast_to_php implementations
@@ -260,6 +260,15 @@ return array(
              "ezcTemplateSourceToTstParserException" => "Template/exceptions/element_parser_exception.php",
 
              "ezcTemplateTstNodeException" => "Template/exceptions/element_exception.php",
+
+
+// Functions
+             "ezcTemplateFunctions" => "Template/functions/functions.php",
+             "ezcTemplateStringFunctions" => "Template/functions/string_functions.php",
+
+// Functions code
+             "ezcTemplateString" => "Template/functions/string_code.php",
+
             );
 
 

@@ -155,9 +155,13 @@ String manipulation
 
     sprintf( $format [...] )
 
+    skipped
+
 - *string* str_chr( $ord1 [, $ord2...] )::
 
     ord( $ord1 ) [ . ord( $ord2 ) ...]
+
+    skipped
 
 - *string* str_ord( $c )::
 
@@ -166,6 +170,8 @@ String manipulation
 - *string* str_ord_list( $s )::
 
     chr( $s[0] ) [ . chr( $s[1] ) ]
+
+    skipped
 
 - *string* str_upper( $s ) ( QString::toUpper )::
 
@@ -179,9 +185,9 @@ String manipulation
 
     ucfirst( $s )
 
-- *string* str_find_replace( $s, $find, $replace, $count )::
+- *string* str_find_replace( $s, $find, $replace[, $count] )::
 
-    str_replace( $s, $replace, $find, $count )
+    str_replace( $find, $replace, $s[, $count] )
 
 - *string* str_reverse( $s )::
 
@@ -191,13 +197,15 @@ String manipulation
 
    join( array_slice( split( $s, $sep, $end != -1 ? $end, false ), $start, $end ? $end : false ) )
 
+   Skipped
+
 - *string* str_char_count( $s )::
 
     strlen( $s )
 
-- *string* str_word_count( $s, $wordsep = false )::
+- *string* str_word_count( $s [, $wordsep] )::
 
-    str_word_count( $s, 0, $wordsep )
+    str_word_count( $s, 0 [, $wordsep] )
 
 - *string* str_paragraph_count( $s )::
 
@@ -206,7 +214,7 @@ String manipulation
     while ( preg_match( "/\n\n+/", $s, $m, PREG_OFFSET_CAPTURE, $pos )
     {
         ++$count;
-        $pos = $m[0][1];
+        $pos = $m[0][1] + 1;
     }
 
 - *string* str_sentence_count( $s )::
@@ -216,7 +224,7 @@ String manipulation
     while ( preg_match( "/. /", $s, $m, PREG_OFFSET_CAPTURE, $pos )
     {
         ++$count;
-        $pos = $m[0][1];
+        $pos = $m[0][1] + 1;
     }
 
 - *string* str_break( $s, $eol = contextaware, $lbreak = contextaware )::
