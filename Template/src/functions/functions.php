@@ -128,14 +128,9 @@ class ezcTemplateFunctions
             {
                 return $class;
             }
-            else
-            {
-                echo $func . "\n";
-                echo $class . "\n"; 
-            }
         }
 
-        die ("Function not found!");
+        die ("Function not found: $functionName");
     }
 
     public function getAstTree( $functionName, $parameters )

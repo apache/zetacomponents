@@ -265,9 +265,11 @@ return array(
 // Functions
              "ezcTemplateFunctions" => "Template/functions/functions.php",
              "ezcTemplateStringFunctions" => "Template/functions/string_functions.php",
+             "ezcTemplateArrayFunctions" => "Template/functions/array_functions.php",
 
 // Functions code
              "ezcTemplateString" => "Template/functions/string_code.php",
+             "ezcTemplateArray" => "Template/functions/array_code.php",
 
             );
 

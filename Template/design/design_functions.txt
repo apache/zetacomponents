@@ -155,13 +155,13 @@ String manipulation
 
     sprintf( $format [...] )
 
-    skipped
+    Skipped
 
 - *string* str_chr( $ord1 [, $ord2...] )::
 
     ord( $ord1 ) [ . ord( $ord2 ) ...]
 
-    skipped
+    Skipped
 
 - *string* str_ord( $c )::
 
@@ -171,7 +171,7 @@ String manipulation
 
     chr( $s[0] ) [ . chr( $s[1] ) ]
 
-    skipped
+    Skipped
 
 - *string* str_upper( $s ) ( QString::toUpper )::
 
@@ -227,9 +227,13 @@ String manipulation
         $pos = $m[0][1] + 1;
     }
 
+   Skipped
+
 - *string* str_break( $s, $eol = contextaware, $lbreak = contextaware )::
 
     str_replace( context_eol_char( $eol ), context_linebreak_char( $eol ), $s )
+
+   Skipped
 
 - *string* str_break_chars( $s, $cbreak )::
 
@@ -240,9 +244,13 @@ String manipulation
     }
     $sNew .= $s[strlen( $s ) - 1];
 
+   Skipped
+
 - *string* str_wrap( $s, $width, $break, $cut )::
 
     wordwrap( $s, $width, $break, $cut )
+
+   Skipped
 
 - *string* str_wrap_indent::
 
@@ -255,29 +263,47 @@ String manipulation
    }
    return join( "\n", $newLines )
 
+   Skipped
+
 - *string* str_block( $s, $prefix, $suffix )
+
+   Skipped
 
 - *string* str_shorten_right( $s, $max_size )
 
+   Skipped
+
 - *string* str_shorten_mid( $s, $max_size )
 
+   Skipped
+
 - *string* str_shorten_left( $s, $max_size )
+
+   Skipped
 
 - *string* str_crc32( $s )::
 
     crc32( $s )
 
+   Skipped
+
 - *string* str_md5( $s )::
 
     md5( $s )
+
+   Skipped
 
 - *string* str_sha1( $s )::
 
     sha1( $s )
 
+   Skipped
+
 - *string* str_rot13( $s )::
 
     str_rot13( $s )
+
+   Skipped
 
 Some of the functions are also available as case insensitive versions, they are:
 
@@ -285,33 +311,49 @@ Some of the functions are also available as case insensitive versions, they are:
 
     stristr( $sl, $sr ) !== false
 
+   Skipped
+
 - *string* stri_starts_with( $sl, $sr ) ( QString::startsWith )::
 
     stripos( strtolower( $sl ), strtolower( $sr ) ) === 0
+
+   Skipped
 
 - *string* stri_ends_with( $sl, $sr ) ( QString::endsWith )::
 
     strripos( $sl, $sr ) === ( strlen( $sl ) - 1 )
 
+   Skipped
+
 - *string* stri_index( $sl, $sr [, $from] ) ( QString::indexOf )::
 
     stripos( $sl, $sr [, $from ] )
+
+   Skipped
 
 - *string* stri_last_index( $sl, $sr [, $from] ) ( QString::lastIndexOf )::
 
     strirpos( $sl, $sr [, $from ] )
 
+   Skipped
+
 - *string* stri_find_replace( $s, $find, $replace, $count )::
 
     str_ireplace( $s, $replace, $find, $count )
+
+   Skipped
 
 - *string* stri_compare( $sl, $sr ) ( QString::compare )::
 
     strcasecmp( $sl, $sr );
 
+   Skipped
+
 - *string* stri_nat_compare( $sl, $sr )::
 
     strnatcasecmp( $sl, $sr );
+
+   Skipped
 
 
 Array manipulation
