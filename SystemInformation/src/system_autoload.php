@@ -10,7 +10,8 @@
 return array(
     'ezcSystemInfo' => 'SystemInformation/system/info.php',
     'ezcSystemInfoReader' => 'SystemInformation/system/interfaces/info_reader.php',    
-    'ezcSystemInfoLinuxReader' => 'SystemInformation/system/readers/info_linux.php',        
+    'ezcSystemInfoLinuxReader' => 'SystemInformation/system/readers/info_linux.php',    
+    'ezcSystemInfoAccelerator' => 'SystemInformation/system/structs/accelerator_info.php'
 );
 
 ?>

@@ -20,17 +20,25 @@
  * - {@link ezcSystemInfoFreeBsdReader} reader
  * - {@link ezcSystemInfoWindowsReader} reader
  *
- * Extra readers can be added by implementing the {@link ezcSystemInfoReader} interface.* 
+ * Extra readers can be added by implementing the {@link ezcSystemInfoReader} interface.
  *
- * The following information can be queried:
- * - CPU Type (e.g Pentium) - cpuType()
- * - CPU Speed (e.g 1000) - cpuSpeed()
- * - CPU Unit (e.g. MHz) - cpuUnit()
- * - Memory Size in bytes (e.g. 528424960) - memorySize()
- *
+ * The ezcSystemInfo class has the following properties
+ * <b>osType</b> - OS type string (e.g unix) or null
+ * <b>osName</b> - OS name string (e.g Linux) or null
+ * <b>fileSystemType</b> - filesystem type string (e.g linux) or null
+ * <b>cpuType</b> - CPU type string (e.g AMD Sempron(tm) Processor 3000+) or null
+ * <b>cpuSpeed</b> - CPU speed string (e.g 1808.743) or null
+ * <b>cpuUnit</b> - CPU speed unit string (e.g. MHz) or null
+ * <b>memorySize</b>- Memory Size in bytes int (e.g. 528424960) or null
+ * <b>lineSeparator</b> - string which is used for line separators on the current OS.
+ * <b>backupFileName</b> - backup filename for this platform, .bak for win32 and ~ for unix and mac
+ * <b>phpVersion</b> - array with PHP version (e.g. array(5,1,1) )
+ * <b>phpAccelerator</b> - ezcSystemInfoAccelerator structure or null @see ezcSystemInfoAccelerator
+ * <b>isShellExecution</b> - bool flag indicates if the script executed over the web or the shell/command line
+ *  
  *  <code>
  *  $info = ezcSystemInfo::getInstance();
- *  print( $info->cpuType() . "\n" );
+ *  print( $info->cpuType . "\n" );
  *  </code>
  *
  * @package SystemInformation
@@ -61,7 +69,7 @@ class ezcSystemInfo
      *
      * @var string
      */
-    private $OSType = '';
+    private $osType = null;
 
     /**
      * Contains string with name of underlaying OS
@@ -69,7 +77,7 @@ class ezcSystemInfo
      *
      * @var string
      */
-    private $OSName = '';
+    private $osName = null;
     
     /**
      * Contains string with file system type
@@ -77,7 +85,7 @@ class ezcSystemInfo
      *
      * @var string
      */
-    private $fileSystemType = '';
+    private $fileSystemType = null;
     
     /**
      * Contains string with file system type
@@ -85,7 +93,7 @@ class ezcSystemInfo
      *
      * @var string
      */
-    private $lineSeparator = '';
+    private $lineSeparator = null;
 
     /**
      * Contains string with file system type
@@ -93,7 +101,7 @@ class ezcSystemInfo
      *
      * @var string
      */
-    private $backupFileName = '';
+    private $backupFileName = null;
     
     /**
      * Returns the single instance of the ezcSystemInfo class
@@ -143,8 +151,8 @@ class ezcSystemInfo
         if ( substr( $uname, 0, 7 ) == 'Windows' )
         {
             $this->systemInfoReader = new ezcSystemInfoWindowsReader( $uname );
-            $this->OSType = 'win32';
-            $this->OSName = 'Windows';
+            $this->osType = 'win32';
+            $this->osName = 'Windows';
             $this->fileSystemType = 'win32';
             $this->lineSeparator= "\r\n";
             $this->backupFileName = '.bak';
@@ -152,20 +160,20 @@ class ezcSystemInfo
         else if ( substr( $uname, 0, 3 ) == 'Mac' )
         {
             $this->systemInfoReader = new ezcSystemInfoMacReader();
-            $this->OSType = 'mac';
-            $this->OSName = 'Mac';
+            $this->osType = 'mac';
+            $this->osName = 'Mac';
             $this->fileSystemType = 'unix';
             $this->lineSeparator= "\r";
             $this->backupFileName = '~';
         }
         else
         {
-            $this->OSType = 'unix';
+            $this->osType = 'unix';
 
             if ( strtolower( $uname ) == 'linux' )
             {
                 $this->systemInfoReader = new ezcSystemInfoLinuxReader();
-                $this->OSName = 'Linux';
+                $this->osName = 'Linux';
                 $this->fileSystemType = 'unix';
                 $this->lineSeparator= "\n";
                 $this->backupFileName = '~';
@@ -173,7 +181,7 @@ class ezcSystemInfo
             else if ( strtolower( substr( $uname, 0, 0 ) ) == 'freebsd' )
             {
                 $this->systemInfoReader = new ezcSystemInfoFreeBsdReader();
-                $this->OSName = 'FreeBSD';
+                $this->osName = 'FreeBSD';
                 $this->fileSystemType = 'unix';
                 $this->lineSeparator= "\n";
                 $this->backupFileName = '~';
@@ -181,120 +189,70 @@ class ezcSystemInfo
             else
             {
                 $this->systemInfoReader = null; 
-//                throw new exceptionOsUndetected()
             }
         }
     }
 
     /**
-     * Returns the name of the underlaying OS or empty string
-     * if name could not be determined.
+     * Detects if a PHP accelerator running and what type it is if one found.
      * 
-     * @return string
+     * 
+     * @return ezcSystemInfoAccelerator or null if no PHP accelerator detected
      */
-    public function osName()
+    public static function phpAccelerator()
     {
-        return $this->OSName;
-    }
-
-    /**
-     * Returns the OS type, either "win", "unix" or "mac"
-     * Empty string returned if OS type can't be detected.
-     * @return string
-     */
-    public function osType()
-    {
-        return $this->OSType;
-    }
-    
-    /**
-     * Returns the filesystem type, either "win" or "unix"
-     * @return string
-     */
-    public function filesystemType()
-    {
-        return $this->fileSystemType;
-    }
-
-    /**
-     * Returns string with CPU type.
-     *
-     * If the CPU type could not be read false is returned.
-     * @return string
-     */
-    public function cpuType()
-    {
-        if ( $this->systemInfoReader !== null )
+        $phpAcceleratorInfo = null;
+        if ( isset( $GLOBALS['_PHPA'] ) )
         {
-            return $this->systemInfoReader->cpuType();
+            $phpAcceleratorInfo = new ezcSystemInfoAccelerator(
+                    "ionCube PHP Accelerator",          // name
+                    "http://www.php-accelerator.co.uk", // url
+                    $GLOBALS['_PHPA']['ENABLED'],       // isEnabled
+                    $GLOBALS['_PHPA']['iVERSION'],      // version int
+                    $GLOBALS['_PHPA']['VERSION']        // version string
+                );
         }
-        return false;
-    }
-
-    /**
-     * Returns CPU speed
-     * 
-     * If the CPU speed could not be read false is returned.
-     * @return int
-     */
-    public function cpuSpeed()
-    {
-        if ( $this->systemInfoReader !== null )
+        if ( extension_loaded( "Turck MMCache" ) )
         {
-            return $this->systemInfoReader->cpuSpeed();
+            $phpAcceleratorInfo = new ezcSystemInfoAccelerator(
+                    "Turck MMCache",                        // name
+                    "http://turck-mmcache.sourceforge.net", // url
+                    true,                                   // isEnabled
+                    false,                                  // version int
+                    false                                   // version string
+                );
         }
-        return false;
-    }
-    
-    /**
-     * Returns string with unit in wich CPU speed measured.
-     * 
-     * If the CPU unit could not be read false is returned.
-     * @return string
-     */
-    public function cpuUnit()
-    {
-        if ( $this->systemInfoReader !== null )
+        if ( extension_loaded( "eAccelerator" ) )
         {
-            return $this->systemInfoReader->cpuUnit();
+            $phpAcceleratorInfo = new ezcSystemInfoAccelerator(
+                    "eAccelerator",                                     // name            
+                    "http://sourceforge.net/projects/eaccelerator/",    // url
+                    true,                                               // isEnabled
+                    false,                                              // version int
+                    phpversion('eAccelerator')                          // version string
+                );
         }
-        return false;
-    }
-    
-    /**
-     * Returns memory size in bytes.
-     * 
-     * If the memory size could not be read false is returned.
-     * @return int
-     */
-    public function memorySize()
-    {
-        if ( $this->systemInfoReader !== null )
+        if ( extension_loaded( "apc" ) )
         {
-            return $this->systemInfoReader->memorySize();
+            $phpAcceleratorInfo = new ezcSystemInfoAccelerator(
+                    "APC",                                  // name
+                    "http://pecl.php.net/package/APC",      // url
+                    (ini_get( 'apc.enabled' ) != 0),        // isEnabled
+                    false,                                  // version int
+                    phpversion( 'apc' )                     // version string
+                );
         }
-        return false;
-    }
-
-    /**
-     * Detects if this system is running a PHP accelerator and what type it is if one
-     * found.
-     * 
-     * @return string
-     */
-    public static function phpAccellerator()
-    {
-    }
-
-
-    /**
-     * Returns the PHP version as an array with the version elements.
-     * 
-     * @return array
-     */
-    public function phpVersion()
-    {
-        return explode( '.', phpVersion() );
+        if ( extension_loaded( "Zend Performance Suite" ) )
+        {
+            $phpAcceleratorInfo = new ezcSystemInfoAccelerator(
+                    "Zend WinEnabler (Zend Performance Suite)",                // name
+                    "http://www.zend.com/store/products/zend-win-enabler.php", // url
+                    true,                                                      // isEnabled
+                    false,                                                     // version int
+                    false                                                      // version string
+                );
+        }
+        return $phpAcceleratorInfo;
     }
 
     /**
@@ -302,7 +260,7 @@ class ezcSystemInfo
      *
      * @return bool
      */
-    public function isShellExecution()
+    public static function isShellExecution()
     {
         $sapiType = php_sapi_name();
 
@@ -322,23 +280,69 @@ class ezcSystemInfo
     }
 
     /**
-     * Returns the backup filename for this platform, returns .bak for win32 and ~ for unix and mac.
-     * 
-     * @return string
+     * Returns the PHP version as an array with the version elements.
+     *
+     * @return array
      */
-    public function backupFileName()
+    public static function phpVersion()
     {
-        return $this->backupFileName;
+        return explode( '.', phpVersion() );
     }
 
     /**
-     * Returns the string which is used for line separators on the current OS (server).
-     * 
-     * @return string
+     * Property read access.
+     *
+     * @param string $property Name of the property.
+     * @return mixed Value of the property or null.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If the the desired property is not found.
      */
-    public function lineSeparator()
+    function __get( $property )
     {
-        return $this->lineSeparator;
+        if ( $this->systemInfoReader == null &&
+             ( $property == 'cpuType'  || 
+               $property == 'cpuSpeed' || 
+               $property == 'cpuUnit'  || 
+               $property == 'memorySize'
+             )
+           )
+        {
+            return null;
+        }
+
+        switch ( $property )
+        {
+            case 'osType':
+                return $this->osType;
+            case 'osName':
+                return $this->osName;
+            case 'fileSystemType':
+                return $this->fileSystemType;
+            case 'cpuType':
+                return $this->systemInfoReader->cpuType();
+            case 'cpuSpeed':
+                return $this->systemInfoReader->cpuSpeed();
+            case 'cpuUnit':
+                return $this->systemInfoReader->cpuUnit();
+            case 'memorySize':
+                return $this->systemInfoReader->memorySize();
+            case 'lineSeparator':
+                return $this->lineSeparator;
+            case 'backupFileName':
+                return $this->backupFileName;
+            case 'phpVersion':
+                return $this->phpVersion();
+            case 'phpAccelerator':
+                return $this->phpAccelerator();
+            case 'isShellExecution':
+                return $this->isShellExecution();
+
+
+            default: 
+                break;
+        }
+        throw new ezcBasePropertyNotFoundException( $name );
     }
 }
 
