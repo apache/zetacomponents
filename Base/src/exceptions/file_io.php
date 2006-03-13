@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPropertyReadOnlyException class
+ * File containing the ezcBaseFileIoException class
  *
  * @package Base
  * @version //autogen//
@@ -37,13 +37,13 @@ class ezcBaseFileIoException extends ezcBaseFileException
                 $operation = "An error occurred while writing to <{$path}>";
                 break;
         }
-        
+
         $messagePart = '';
         if ( $message )
         {
             $messagePart = " ($message)";
         }
-        
+
         parent::__construct( "$operation.$messagePart" );
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPropertyReadOnlyException class
+ * File containing the ezcBaseFilePermissionException class
  *
  * @package Base
  * @version //autogen//
@@ -46,13 +46,13 @@ class ezcBaseFilePermissionException extends ezcBaseFileException
                 $operation = "The file <{$path}> can not be opened for reading and writing";
                 break;
         }
-        
+
         $messagePart = '';
         if ( $message )
         {
             $messagePart = " ($message)";
         }
-        
+
         parent::__construct( "$operation.$messagePart" );
     }
 }

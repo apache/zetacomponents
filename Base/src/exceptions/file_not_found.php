@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPropertyReadOnlyException class
+ * File containing the ezcBaseFileNotFoundException class
  *
  * @package Base
  * @version //autogen//
@@ -30,13 +30,13 @@ class ezcBaseFileNotFoundException extends ezcBaseFileException
         {
             $typePart = "$type ";
         }
-        
+
         $messagePart = '';
         if ( $message )
         {
             $messagePart = " ($message)";
         }
-        
+
         parent::__construct( "The {$typePart}file <{$path}> could not be found.$messagePart" );
     }
 }

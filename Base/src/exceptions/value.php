@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcBaseTypeException class.
+ * File containing the ezcBaseValueException class.
  *
  * @package Base
  * @version //autogen//

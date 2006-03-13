@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPropertyReadOnlyException class
+ * File containing the ezcBaseFileException class
  *
  * @package Base
  * @version //autogen//
