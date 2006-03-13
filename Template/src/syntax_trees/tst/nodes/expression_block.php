@@ -89,5 +89,39 @@ class ezcTemplateExpressionBlockTstNode extends ezcTemplateTstNode
         return $this->startCursor->column;
     }
 
+    /**
+     * @return true if the block is considered an output block.
+     */
+    public function isOutput()
+    {
+        if ( $this->expressionRoot instanceof ezcTemplateAssignmentOperatorTstNode )
+            return false;
+        if ( $this->expressionRoot instanceof ezcTemplateAssignmentOperatorTstNode )
+            return false;
+        if ( $this->expressionRoot instanceof ezcTemplateConcatAssignmentOperatorTstNode )
+            return false;
+        if ( $this->expressionRoot instanceof ezcTemplateDivisionAssignmentOperatorTstNode )
+            return false;
+        if ( $this->expressionRoot instanceof ezcTemplateMinusAssignmentOperatorTstNode )
+            return false;
+        if ( $this->expressionRoot instanceof ezcTemplateModuloAssignmentOperatorTstNode )
+            return false;
+        if ( $this->expressionRoot instanceof ezcTemplateMultiplicationAssignmentOperatorTstNode )
+            return false;
+        if ( $this->expressionRoot instanceof ezcTemplatePlusAssignmentOperatorTstNode )
+            return false;
+
+        if ( $this->expressionRoot instanceof ezcTemplatePostIncrementOperatorTstNode )
+            return false;
+        if ( $this->expressionRoot instanceof ezcTemplatePreIncrementOperatorTstNode )
+            return false;
+
+        if ( $this->expressionRoot instanceof ezcTemplatePostDecrementOperatorTstNode )
+            return false;
+        if ( $this->expressionRoot instanceof ezcTemplatePreDecrementOperatorTstNode )
+            return false;
+
+        return true;
+    }
 }
 ?>

@@ -32,12 +32,16 @@ class ezcTemplateWhitespaceRemovalTest extends ezcMockCase
                         array( "\t", "\r" ),
                         array( "\x0B", false ) );
 
-        $empty = array( array( "", false ),
-                        array( "", false ),
-                        array( "", false ) );
+        $leading = array( array( "", false ),
+                          array( "", false ),
+                          array( "", false ) );
 
-        self::assertSame( $empty , $ws->trimLeading( $lines ), 'Trimming leading WS does not return an empty string.' );
-        self::assertSame( $empty, $ws->trimTrailing( $lines ), 'Trimming trailing WS does not return an empty string.' );
+        $trailing = array( array( "", "\n" ),
+                           array( "", false ),
+                           array( "", false ) );
+
+        self::assertSame( $leading, $ws->trimLeading( $lines ), 'Trimming leading WS does not return an empty string.' );
+        self::assertSame( $trailing, $ws->trimTrailing( $lines ), 'Trimming trailing WS does not return an empty string.' );
     }
 
     /**
@@ -74,7 +78,7 @@ class ezcTemplateWhitespaceRemovalTest extends ezcMockCase
         $leading = false;
 
         $trailing = array( array( "a simple line", "\n" ),
-                           array( "and a second one with whitespace to keep   ", false),
+                           array( "and a second one with whitespace to keep   ", "\n" ),
                            array( "", false ),
                            array( "", false ) );
 

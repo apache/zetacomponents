@@ -208,7 +208,8 @@ class ezcTemplateWhitespaceRemoval
         foreach ( $elements as $element )
         {
             if ( $element instanceof ezcTemplateTextTstNode &&
-                 $previousSibling instanceof ezcTemplateBlockTstNode )
+                 ( $previousSibling instanceof ezcTemplateBlockTstNode ||
+                   ( $previousSibling instanceof ezcTemplateExpressionBlockTstNode && !$previousSibling->isOutput() ) ) )
             {
                 // This text element is placed directly after a block element
                 // so we need to trim it.
@@ -384,15 +385,13 @@ class ezcTemplateWhitespaceRemoval
     public function trimTrailing( $lines )
     {
         $count = count( $lines );
-        // We subtract by two to skip the delimiter.
         for ( $i = $count - 1; $i >= 0; --$i )
         {
             $line = $lines[$i];
             $lineText = rtrim( $line[0] );
             if ( strlen( $lineText ) != 0 )
             {
-                // Remove the EOL marker since this will be the last line.
-                $line[1] = false;
+                // EOL marker is kept as it is, while line is replaced with new trimmed text
                 $lines[$i] = $line;
                 break;
             }
@@ -400,7 +399,11 @@ class ezcTemplateWhitespaceRemoval
             // The line is empty so we disable the line by setting empty line
             // text and removing the EOL marker.
             $line[0] = $lineText;
-            $line[1] = false;
+            // Keep the EOL marker if this is the top-most line
+            if ( $i > 0 )
+            {
+                $line[1] = false;
+            }
             $lines[$i] = $line;
         }
         // If $i is is the same as the starting iteration value

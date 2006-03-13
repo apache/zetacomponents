@@ -205,7 +205,6 @@ class ezcTemplateRegressionTest extends ezcTestCase
         $source = new ezcTemplateSourceCode( 'mock', 'mock', $text );
         $parser = new ezcTemplateParser( $source, $this->manager );
 
-        $parser->trimWhitespace = false;
         $root = $parser->parseIntoTextElements();
         //echo $root->outputTree();
 
