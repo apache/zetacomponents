@@ -10,8 +10,10 @@
 return array(
     'ezcSystemInfo' => 'SystemInformation/system/info.php',
     'ezcSystemInfoReader' => 'SystemInformation/system/interfaces/info_reader.php',    
-    'ezcSystemInfoLinuxReader' => 'SystemInformation/system/readers/info_linux.php',    
-    'ezcSystemInfoAccelerator' => 'SystemInformation/system/structs/accelerator_info.php'
+    'ezcSystemInfoLinuxReader' => 'SystemInformation/system/readers/info_linux.php',
+    'ezcSystemInfoFreeBsdReader' => 'SystemInformation/system/readers/info_freebsd.php',
+    'ezcSystemInfoAccelerator' => 'SystemInformation/system/structs/accelerator_info.php',
+    'ezcSystemInfoReaderCantScanOSException' => 'SystemInformation/system/exceptions/cant_scan.php'
 );
 
 ?>

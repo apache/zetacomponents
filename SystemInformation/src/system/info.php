@@ -105,6 +105,9 @@ class ezcSystemInfo
     
     /**
      * Returns the single instance of the ezcSystemInfo class
+     * 
+     * @throws ezcSystemInfoReaderCantScanOSException
+     *         If system variables can't be received from OS.
      * @return ezcSystemInfo
      */
     public static function getInstance()
@@ -117,8 +120,10 @@ class ezcSystemInfo
     }
 
     /**
-     * Constructs ezcSystemInfo object and init it with correspondent underlaying OS object.
+     * Constructs ezcSystemInfo object, init it with correspondent underlaying OS object.
      * 
+     * @throws ezcSystemInfoReaderCantScanOSException
+     *         If system variables can't be received from OS.
      */
     private function __construct()
     {
@@ -127,6 +132,8 @@ class ezcSystemInfo
 
     /**
      * Detect underlaying system and setup system properties.
+     * 
+     * @throws ezcSystemInfoReaderCantScanOSException
      * @return void
      */
     private function init()
@@ -140,6 +147,9 @@ class ezcSystemInfo
      * information internally.
      * Returns true if it was able to set appropriate systemInfoReader
      * or false if failed.
+     * 
+     * @throws ezcSystemInfoReaderCantScanOSException
+     *         If system variables can't be received from OS.
      * 
      * @return bool
      */
@@ -169,7 +179,6 @@ class ezcSystemInfo
         else
         {
             $this->osType = 'unix';
-
             if ( strtolower( $uname ) == 'linux' )
             {
                 $this->systemInfoReader = new ezcSystemInfoLinuxReader();
@@ -178,7 +187,7 @@ class ezcSystemInfo
                 $this->lineSeparator= "\n";
                 $this->backupFileName = '~';
             }
-            else if ( strtolower( substr( $uname, 0, 0 ) ) == 'freebsd' )
+            else if ( strtolower( substr( $uname, 0, 7 ) ) == 'freebsd' )
             {
                 $this->systemInfoReader = new ezcSystemInfoFreeBsdReader();
                 $this->osName = 'FreeBSD';
@@ -195,7 +204,6 @@ class ezcSystemInfo
 
     /**
      * Detects if a PHP accelerator running and what type it is if one found.
-     * 
      * 
      * @return ezcSystemInfoAccelerator or null if no PHP accelerator detected
      */

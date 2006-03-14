@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcSystemInfoLinuxReader class
+ * File containing the ezcSystemInfoFreeBsdReader class
  *
  * @package SystemInformation
  * @version //autogen//
@@ -17,7 +17,7 @@
  * @package SystemInformation
  * @version //autogentag//
  */
-class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
+class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
 {
     /**
      * Contains true if ezcSystemInfoReader object initialized 
@@ -31,7 +31,7 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
      * 
      * @var string
      */
-    protected $readerName = 'Linux system info reader';
+    protected $readerName = 'FreeBSD system info reader';
     
     /**
      * Stores properties that fetched form system once during construction
@@ -80,7 +80,7 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
     /**
      * Constructs ezcSystemInfoReader object and fill it with system information.
      * 
-     * @throws ezcSystemInfoReaderCantScanOSException if 
+     * @throws ezcSystemInfoReaderCantScanOSException 
      */
     public function __construct()
     {
@@ -111,91 +111,56 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
         return true;
     }
 
-
     /**
      * Scans the OS and fills in the information internally.
      * Returns true if it was able to scan the system or false if it failed.
      * 
-     * @param string $cpuinfoPath path to the source of cpu information in system 
-     * @param string $meminfoPath path to the source of memory information in system
+     * @param string $dmesgPath path to the source of system information in OS 
      * @return bool 
      */
-    private function getOsInfo( $cpuinfoPath = false, $meminfoPath = false )
+    private function getOsInfo( $dmesgPath = false )
     {
-        if ( !$cpuinfoPath )
-            $cpuinfoPath = '/proc/cpuinfo';
-        if ( !$meminfoPath )
-            $meminfoPath = '/proc/meminfo';
-
-        if ( !file_exists( $cpuinfoPath ) )
+        if ( !$dmesgPath )
+            $dmesgPath = '/var/run/dmesg.boot';
+        if ( !file_exists( $dmesgPath ) )
             return false;
-        if ( !file_exists( $meminfoPath ) )
-            return false;
-
-        $fileLines = file( $cpuinfoPath );
+        $fileLines = file( $dmesgPath );
         foreach ( $fileLines as $line )
         {
-            if ( substr( $line, 0, 7 ) == 'cpu MHz' )
+            if ( substr( $line, 0, 3 ) == 'CPU' )
             {
-                $cpu = trim( substr( $line, 11, strlen( $line ) - 11 ) );
-                if ( $cpu != '' ) 
+                $system = trim( substr( $line, 4, strlen( $line ) - 4 ) );
+                $cpu = false;
+                $cpuunit = false;
+                //we should have line like "CPU: AMD Duron(tm)  (1800.07-MHz 686-class CPU)" parse it.
+                if ( preg_match( "#^(.+)\\((.+)-(MHz) +([^)]+)\\)#", $system, $matches ) )
                 {
-                    $this->cpuSpeed = $cpu;
-                    $this->cpuUnit = 'MHz';
-                    $this->validProperties['cpu_speed'] = $this->cpuSpeed;
-                    $this->validProperties['cpu_unit'] = $this->cpuUnit;
+                    $system = trim( $matches[1] ) . ' (' . trim( $matches[4] ) . ')';
+                    $cpu = $matches[2];
+                    $cpuunit = $matches[3];
                 }
+                $this->cpuSpeed = $cpu;
+                $this->cpuType = $system;
+                $this->cpuUnit = $cpuunit;
             }
-            if ( substr( $line, 0, 10 ) == 'model name' )
+            if ( substr( $line, 0, 11 ) == 'real memory' )
             {
-                $system = trim( substr( $line, 13, strlen( $line ) - 13 ) );
-                if ( $system != '' ) 
+                $mem = trim( substr( $line, 12, strlen( $line ) - 12 ) );
+                $memBytes = $mem;
+                if ( preg_match( "#^= *([0-9]+)#", $mem, $matches ) )
                 {
-                    $this->cpuType = $system;
-                    $this->validProperties['cpu_type'] = $this->cpuType;
+                    $memBytes = $matches[1];
                 }
+                $memBytes = (int)$memBytes;
+                $this->memorySize = $memBytes;
             }
             if ( $this->cpuSpeed !== false and
                  $this->cpuType !== false and
-                 $this->cpuUnit !== false )
+                 $this->cpuUnit !== false and
+                 $this->memorySize !== false )
                 break;
-        }
 
-        $fileLines = file( $meminfoPath );
-        foreach ( $fileLines as $line )
-        {
-            if ( substr( $line, 0, 8 ) == 'MemTotal' )
-            {
-                $mem = trim( substr( $line, 11, strlen( $line ) - 11 ) );
-                $memBytes = $mem;
-                if ( preg_match( "#^([0-9]+) *([a-zA-Z]+)#", $mem, $matches ) )
-                {
-                    $memBytes = (int)$matches[1];
-                    $unit = strtolower( $matches[2] );
-                    if ( $unit == 'kb' )
-                    {
-                        $memBytes *= 1024;
-                    }
-                    else if ( $unit == 'mb' )
-                    {
-                        $memBytes *= 1024*1024;
-                    }
-                    else if ( $unit == 'gb' )
-                    {
-                        $memBytes *= 1024*1024*1024;
-                    }
-                }
-                else
-                {
-                    $memBytes = (int)$memBytes;
-                }
-                $this->memorySize = $memBytes;
-                $this->validProperties['memory_size'] = $this->memorySize;
-            }
-            if ( $this->memorySize !== false )
-                break;
         }
-
         return true;
     }
 
@@ -231,7 +196,6 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
     {
         return $this->cpuType;
     }
-
     
     /**
      * Returns memory size in bytes.
