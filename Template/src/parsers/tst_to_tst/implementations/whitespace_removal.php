@@ -208,8 +208,8 @@ class ezcTemplateWhitespaceRemoval
         foreach ( $elements as $element )
         {
             if ( $element instanceof ezcTemplateTextTstNode &&
-                 ( $previousSibling instanceof ezcTemplateBlockTstNode ||
-                   ( $previousSibling instanceof ezcTemplateExpressionBlockTstNode && !$previousSibling->isOutput() ) ) )
+                 ( $previousSibling instanceof ezcTemplateBlockTstNode &&
+                   !$previousSibling instanceof ezcTemplateExpressionBlockTstNode ) )
             {
                 // This text element is placed directly after a block element
                 // so we need to trim it.

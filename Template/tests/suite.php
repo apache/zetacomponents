@@ -57,7 +57,7 @@ class ezcTemplateSuite extends ezcTestSuite
     {
         parent::__construct();
         $this->setName( "Template" );
-//        $this->addTest( ezcTemplateRegressionTest::suite() );
+        $this->addTest( ezcTemplateRegressionTest::suite() );
 
         $this->addTest( ezcTemplateParserTest::suite() );
 
