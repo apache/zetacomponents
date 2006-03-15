@@ -9,9 +9,9 @@
  */
 
 /**
- * Provide functionality to read system information from Linux systems.
+ * Provide functionality to read system information from FreeBSD systems.
  * 
- * Try to scan Linux system parameters on initialization and fill 
+ * Try to scan FreeBSD system parameters on initialization and fill 
  * correspondent values.
  *
  * @package SystemInformation
