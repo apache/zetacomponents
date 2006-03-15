@@ -12,7 +12,7 @@
  * @package Template
  * @subpackage Tests
  */
-class ezcTemplateCodeElementsTest extends ezcMockCase
+class ezcTemplateCodeElementsTest extends ezcTestCase
 {
     public static function suite()
     {

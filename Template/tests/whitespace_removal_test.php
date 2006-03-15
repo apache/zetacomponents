@@ -12,7 +12,7 @@
  * @package Template
  * @subpackage Tests
  */
-class ezcTemplateWhitespaceRemovalTest extends ezcMockCase
+class ezcTemplateWhitespaceRemovalTest extends ezcTestCase
 {
     public static function suite()
     {

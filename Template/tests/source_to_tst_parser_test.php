@@ -14,11 +14,21 @@ require_once "invariant_parse_cursor.php";
  * @package Template
  * @subpackage Tests
  */
-class ezcTemplateSourceToTstParserTest extends ezcMockCase
+class ezcTemplateSourceToTstParserTest extends ezcTestCase
 {
     public static function suite()
     {
          return new ezcTestSuite( __CLASS__ );
+    }
+
+    /**
+     * Returns a constraint which checks if the input path exist on the filesystem.
+     *
+     * @return ezcMockFileExistsConstraint
+     */
+    static public function existsOnDisk()
+    {
+        return new ezcMockFileExistsConstraint();
     }
 
     public function setUp()
@@ -27,7 +37,7 @@ class ezcTemplateSourceToTstParserTest extends ezcMockCase
         class_exists( 'ezcTemplateSourceCode' );
         //class_exists( 'ezcTemplateManager' );
         $this->manager = new ezcTemplateManager();
-        ezcMock::generate( 'ezcTemplateParser', array( "reportElementCursor" ), 'MockElement_ezcTemplateParser' );
+        PHPUnit2_Extensions_MockObject_Mock::generate( 'ezcTemplateParser', array( "reportElementCursor" ), 'MockElement_ezcTemplateParser' );
 
         $this->basePath = realpath( dirname( __FILE__ ) ) . '/';
         $this->templatePath = $this->basePath . 'templates/';
