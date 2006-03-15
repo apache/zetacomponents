@@ -4,7 +4,7 @@
  *
  * The file path to check is passed as $other in evaluate().
  */
-class ezcMockFileExistsConstraint implements ezcMockConstraint
+class ezcMockFileExistsConstraint implements PHPUnit2_Framework_Constraint
 {
     /**
      * Initialise constraint with value to match.
@@ -13,7 +13,7 @@ class ezcMockFileExistsConstraint implements ezcMockConstraint
     {
     }
 
-    public function generateDescription()
+    public function toString()
     {
         return "file exists";
     }

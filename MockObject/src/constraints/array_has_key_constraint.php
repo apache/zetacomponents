@@ -7,7 +7,7 @@
  *
  * The array key is passed in the constructor.
  */
-class ezcMockArrayHasKeyConstraint implements ezcMockConstraint
+class ezcMockArrayHasKeyConstraint implements PHPUnit2_Framework_Constraint
 {
     /**
      * The array key which should exist in the input array.
@@ -22,7 +22,7 @@ class ezcMockArrayHasKeyConstraint implements ezcMockConstraint
         $this->key = $key;
     }
 
-    public function generateDescription()
+    public function toString()
     {
         return "has key <" . gettype( $this->key ) . ":" . var_export( $this->key, true ) . ">";
     }
