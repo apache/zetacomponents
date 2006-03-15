@@ -182,6 +182,18 @@ class ezcTemplateParser
     }
 
     /**
+     * Creates a new modifying block element object with the cursor positions and returns it.
+     *
+     * @param ezcTemplateCursor $start The starting point of the element.
+     * @param ezcTemplateCursor $end The ending point of the element.
+     * @return ezcTemplateModifyingBlockTstNode
+     */
+    public function createModifyingBlock( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    {
+        return new ezcTemplateModifyingBlockTstNode( $this->source, $start, $end );
+    }
+
+    /**
      * Creates a new literal block element object with the cursor positions and returns it.
      *
      * @param ezcTemplateCursor $start The starting point of the element.

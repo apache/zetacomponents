@@ -108,6 +108,17 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
                 // *** DEBUG END ***
             }
         }
+
+        // Change the block type if the top-most operator is a modifiying operator.
+        if ( $rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+        {
+            $oldBlock = $this->block;
+            $this->block = $this->parser->createModifyingBlock( clone $this->startCursor, $cursor );
+            $this->block->startBracket = $this->startBracket;
+            $this->block->endBracket = $this->endBracket;
+            $this->block->elements = $oldBlock->elements;
+        }
+
         $this->block->expressionRoot = $rootOperator;
         $this->block->elements = array( $rootOperator );
 
