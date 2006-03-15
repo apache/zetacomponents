@@ -15,7 +15,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateMultiplicationAssignmentOperatorTstNode extends ezcTemplateOperatorTstNode
+class ezcTemplateMultiplicationAssignmentOperatorTstNode extends ezcTemplateModifyingOperatorTstNode
 {
     /**
      *

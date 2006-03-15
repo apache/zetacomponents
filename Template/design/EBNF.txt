@@ -22,7 +22,7 @@ The template language starts with the non-terminal token: "Program".
 
   Block               ::= CommentBlock 
                       |   DeclarationBlock
-                      |   AssignmentBlock
+                      |   ModifyingBlock
                       |   OutputBlock
                       |   LiteralBlock
                       |   CycleBlock
@@ -53,9 +53,15 @@ Blocks
 
   SubDefineBlock      ::= PrimaryVariable ( '=' Expression )? ( ',' SubDefineBlock )?
 
-  AssignmentBlock     ::= '{' SubAssignBlock '}'
+  ModifyingBlock      ::= '{' SubAssignBlock (',' SubAssignBlock)* '}'
 
-  SubAssignBlock      ::= PrimaryVariable ( '=' | CombinedAssignment) Expression (',' SubAssignBlock)?
+  SubAssignBlock      ::= AssignmentExpr | IncrementExpr | DecrementExpr
+
+  AssignmentExpr      ::= PrimaryVariable ( '=' | CombinedAssignment) Expression
+
+  IncrementExpr       ::= ( ( '++' PrimaryVariable ) | ( PrimaryVariable '++' ) )
+
+  DecrementExpr       ::= ( ( '--' PrimaryVariable ) | ( PrimaryVariable '--' ) )
 
   OutputBlock         ::= '{' Expression '}'
 
