@@ -16,7 +16,7 @@
  */
 class ezcTemplateStringFunctions extends ezcTemplateFunctions
 {
-    public static function getFunctionSubstitution( $functionName )
+    public static function getFunctionSubstitution( $functionName, $parameters )
     {
         switch( $functionName )
         {

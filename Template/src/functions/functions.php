@@ -25,7 +25,7 @@ class ezcTemplateFunctions
 
     protected static function functionCall( $name, $parameters )
     {
-        return array( "ezcTemplateFunctionCallAstNode", array( $name, array( "array", $parameters ) ) );
+        return array( "ezcTemplateFunctionCallAstNode", array( $name, array( "_array", $parameters ) ) );
     }
 
     protected static function value( $val )
@@ -42,10 +42,36 @@ class ezcTemplateFunctions
     {
         return array( "ezcTemplateConcatOperatorAstNode", array( $left, $right ) );
     }
+    
+    protected static function isSubstitution( $parameter )
+    {
+        return (strpos( $parameter, "%" ) !== false );
+    }
+
+    protected static function isOptional( $parameter )
+    {
+        return $parameter[0] == "["; 
+    }
+
+    protected static function isMany( $parameter )
+    {
+        return ( $parameter[1] == "." && $parameter[2] == "." );
+    }   
+
+    protected static function countParameters( $parameters )
+    {
+        $total = sizeof( $parameters );
+        if( isset( $parameterMap[ "__rest__" ] ) )
+        {
+            $total += sizeof( $parametersMap["__rest__"] ) - 1;
+        }
+
+        return $total;
+    }
 
     protected function createObject( $className, $functionParameters )
     {
-        if( $className == "array" )
+        if( $className == "_array" )
         {
             return $functionParameters;
         }
@@ -54,42 +80,48 @@ class ezcTemplateFunctions
             array( new ReflectionClass( $className ), 'newInstance' ), $functionParameters );
     }
  
-    protected function processAst( $struct, $parameters )
+    protected function processAst( $struct, $parameterMap )
     {
-        $name = $struct[0];
-        $params = $struct[1];
-
         $pOut = array();
-        foreach( $params as $pIn )
+        foreach( $struct[1] as $pIn )
         {
             if( is_array( $pIn ) )
             {
-                $pOut[] = $this->processAst( $pIn, $parameters );
+                $pOut[] = $this->processAst( $pIn, $parameterMap );
             }
             else
             {
-                // Skip the optional parameter is the value is NULL.
-                if( !($pIn[0] == "[" && $parameters[ $pIn ] === null ) )
+                if( self::isSubstitution( $pIn ) )
                 {
-                    // If it starts with a percent or square bracket, then it is a parameter.
-                    if( $pIn[0] == "%" || $pIn[0] == "[" )
+                    // Skip the optional parameter is the value is NULL.
+                    if( $parameterMap[$pIn] !== null )
                     {
-                        $pOut[] = $parameters[ $pIn ];
+                        $pOut[] = $parameterMap[ $pIn ];
+
+                        if( self::isMany( $pIn ) && isset( $parameterMap[ "__rest__" ]  ) )
+                        {
+                            foreach( $parameterMap[ "__rest__" ] as $restParameter )
+                            {
+                                $pOut[] = $restParameter;
+                            }
+                        }
                     }
-                    else // Otherwise a hardcoded value.
+                    elseif( !self::isOptional( $pIn ) )
                     {
-                        $pOut[] = $pIn;
+                        exit("Parameter $pIn is not set.");
                     }
+                }
+                else 
+                {
+                    // No substitution needed. 
+                    $pOut[] = $pIn;
                 }
             }
         }
-
-        $ast = $this->createObject( $name, $pOut );
-
-        return $ast;
+        return $this->createObject( $struct[0], $pOut );
     }
 
-    protected function createAstNodes( $astStructure, $processedParameters )
+    protected function createAstNodes( $functionDefinition, $processedParameters )
     {
         /*
         if ( sizeof( $astStructure[0] ) != $templateParams )
@@ -98,24 +130,33 @@ class ezcTemplateFunctions
             // Check the stuff between : "[ .. ] ".
         }
         */
+        $realParameters = sizeof( $processedParameters );
+        $definedParameters = self::countParameters( $functionDefinition[0] );
 
-        // For now, assume it's okay.
+        // Map the parameters from the function definition to the given (real) parameters.
+        $parameterMap = array();
         $i = 0;
-        foreach( $astStructure[0] as $p )
+        foreach( $functionDefinition[0] as $p )
         {
-            if( $p[0] == "[" && !isset( $processedParameters[$i] ) )
+            if( self::isOptional( $p ) && $realParameters < $definedParameters)
             {
-                $parameters[ $p ] = null;
+                // We should skip this parameter.
+                $parameterMap[$p] = null;
             }
             else
             {
-                $parameters[ $p ] = $processedParameters[$i];
+                $parameterMap[$p] = isset( $processedParameters[$i] ) ? $processedParameters[$i] : null;
+                $i++;
             }
-
-            $i++;
         }
 
-        $ast = $this->processAst( $astStructure[1], $parameters );
+        // Remaining parameters are stored in the "__rest__".
+        while( isset( $processedParameters[$i] ) )
+        {
+            $parameterMap[ "__rest__" ][] = $processedParameters[$i++];
+        }
+
+        $ast = $this->processAst( $functionDefinition[1], $parameterMap );
 
         return new ezcTemplateParenthesisAstNode( $ast );
     }
@@ -137,11 +178,9 @@ class ezcTemplateFunctions
     {
         $class = $this->getClass( $functionName );
 
-           // The name is available in the hash.
-            //$f = $class::getFunctionSubstitution( $functionName );
-            $f = call_user_func( array( $class, "getFunctionSubstitution"), $functionName );
-
-            if( $f !== null ) return $this->createAstNodes( $f, $parameters );
+        //$f = $class::getFunctionSubstitution( $functionName );
+        $f = call_user_func( array( $class, "getFunctionSubstitution"), $functionName, $parameters );
+        if( $f !== null ) return $this->createAstNodes( $f, $parameters );
 
             // Try to find a manual function.
 

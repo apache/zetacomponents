@@ -371,7 +371,7 @@ Array manipulation
 
     count( $a ) === 0
 
-- *array* array_index_of( $a, $v, $index = 0 ) ( QList::indexOf() )::
+- *array* array_index_of( $a, $v ) ( QList::indexOf() )::
 
     array_search( $v, $a )
 
@@ -397,11 +397,9 @@ Array manipulation
 
 - *array* array_append( $a, $v1 [, $v2 ...] ) ( QList::append() )::
 
-    value count > 1 ? array_push( $a, $v1 [, $v2 ...] ) : $a[] = $v1
 
 - *array* array_prepend( $a, $v1 [, $v2 ...] ) ( QList::prepend )::
 
-    array_unshift( $a, $v1 [, $v2 ...] )
 
 - *array* array_merge( $a1, $a2 [, $a3 ..] ) ( QList::+ )::
 
@@ -409,7 +407,7 @@ Array manipulation
 
 - *array* array_remove( $a, $index, $len = 1 ) ( QList::remove )::
 
-    array_slice( $a, 0, $index ) + array_slice( $a, $index + $len )
+    array_merge( array_slice( $a, 0, $index ), array_slice( $a, $index + $len) )
 
 - *array* array_remove_first( $a ) ( QList::removeFirst() )::
 
@@ -417,7 +415,7 @@ Array manipulation
 
 - *array* array_remove_last( $a ) ( QList::removeLast() )::
 
-    array_slice( $a, -1 )
+    array_slice( $a, 0, -1 )
 
 - *array* array_first( $a ) ( QList::first )::
 
@@ -439,6 +437,8 @@ Array manipulation
 
     $a[$index]
 
+    Skipped, $a cannot be an array definition. A function will make it slow.
+
 - *array* array_reverse( $a )::
 
     array_reverse( $a )
@@ -451,7 +451,7 @@ Array manipulation
 
     array_intersect( $a1, $a2 [, $a3 ...] )
 
-- *array* array_pad( $a, $len, $fill )::
+- *array* array_pad( [$a = array(),] $len, $fill )::
 
     array_pad( $a, $len, $fill )
 
@@ -538,6 +538,8 @@ Creating arrays can be done with:
 - *array* array_fill( $v, $len ) ( QVector::fill )::
 
     array_fill( 0, $len, $v )
+
+    Skipped, can be done with array_pad.
 
 - *array* array_repeat( $asrc, $len ) ( QVector::fill )::
 

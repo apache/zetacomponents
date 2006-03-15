@@ -1,1 +1,118 @@
-1. { array_count(array('a', 'b', 'c') )}
+array_count:
+{ array_count(array('a', 'b', 'c') )}
+
+array_contains:
+{ array_contains( array('a','b'), 'b')}
+
+array_is_empty:
+{ array_is_empty( array() ) }
+
+array_index_of:
+{ array_index_of( array('k1' => 'a', 'k2' => 'b'), 'b') }
+
+array_index_exists:
+{ array_index_exists( array('k1' => 'a', 'k2' => 'b'), 'k2') }
+
+array_left:
+{ array_count( array_left( array('a', 'b', 'c'), 1 ) ) }
+
+array_right:
+{ array_count( array_right( array('a','b', 'c'), 1 ) ) }
+
+array_mid:
+{ $a = array_mid( array( 'a','b','c' ), 1, 1 ) }{$a[0]}
+
+array_insert:
+{ $a = array_insert( array("a", "b"), 1, "c", "d", "e" ) }{$a[0]}{$a[1]}{$a[2]}{$a[3]}{$a[4]}
+
+array_append:
+{$arr = array('a')}{ $a = array_append( $arr, 'b', 'c' ) }{$a[0]}{$a[1]}{$a[2]}
+
+array_prepend:
+{$arr = array('a')}{ $a = array_prepend( $arr, 'b', 'c' ) }{$a[0]}{$a[1]}{$a[2]}
+
+array_merge:
+{ $a = array_merge( array('a'), array('b'), array('c') )}{$a[0]}{$a[1]}{$a[2]}
+
+array_remove:
+{ $a = array_remove( array('a', 'b', 'c', 'd', 'e'), 1, 2) }{$a[0]}{$a[1]}{$a[2]}
+{ $a = array_remove( array('a', 'b', 'c', 'd', 'e'), 1) }{$a[0]}{$a[1]}{$a[2]}{$a[3]}
+
+array_remove_first:
+{$a = array_remove_first( array( 'a', 'b' ) )}{$a[0]}
+
+array_remove_last:
+{$a = array_remove_last( array( 'a', 'b' ) )}{$a[0]}
+
+array_replace:
+{$a = array_replace( array('a','b','c','d'), 1, 2, 'x', 'y' )}{$a[0]}{$a[1]}{$a[2]}{$a[3]}
+
+array_swap:
+{$a = array_swap( array('a','b'), 0, 1)}{$a[0]}{$a[1]}
+
+array_reverse:
+{$a = array_reverse( array('a', 'b'))}{$a[0]}{$a[1]}
+
+array_diff:
+{$a = array_diff(array('a', 'b'), array('z', 'a', 'q') )}{$a[1]}
+
+array_intersect:
+{$a = array_intersect(array('a', 'b'), array('a') )}{$a[0]}
+
+array_pad:
+{$a = array_pad(array('a'), 3, 'b' )}{$a[0]}{$a[1]}{$a[2]}
+{$a = array_pad(3, 'a' )}{$a[0]}{$a[1]}{$a[2]}
+
+array_unique:
+{$a = array_unique(array('a', 'b', 'a'))}{$a[0]}{$a[1]}
+
+array_find:
+{array_find(array('a', 'b', 'c' ), 'c')}
+
+array_find_replace:
+{ $a = array_find_replace( array('a', 'b', 'c', 'a' ), 'a', 'z' ) }{$a[0]}{$a[1]}{$a[2]}{$a[3]}
+
+array_fill_range:
+{$a = array_fill_range( 0, 2 )}{$a[0]}{$a[1]}{$a[2]}
+
+array_sum:
+{array_sum( array( 1,2,3) )}
+
+array_repeat:
+{ $a = array_repeat( array('a', 'b'), 2 ) }{$a[0]}{$a[1]}{$a[2]}{$a[3]}
+
+array_sort:
+{$a = array_sort( array('b', 'a', 'c') )}{$a[0]}{$a[1]}{$a[2]}
+
+array_sort_reverse:
+{$a = array_sort_reverse( array('b', 'a', 'c') )}{$a[0]}{$a[1]}{$a[2]}
+
+hash_sort:
+{$a = hash_sort( array('x' => 'b', 'y' => 'a', 'z' => 'c') )}
+
+hash_sort_reverse:
+{$a = hash_sort_reverse( array('x' => 'b', 'y' => 'a', 'z' => 'c') )}
+
+hash_sort_keys:
+{$a = hash_sort_reverse( array('x' => 'b', 'y' => 'a', 'z' => 'c') )}
+
+hash_sort_keys_reverse:
+{$a = hash_sort_reverse( array('x' => 'b', 'y' => 'a', 'z' => 'c') )}
+
+hash_diff:
+{$a = hash_diff( array( 'x' => 'b', 'y' => 'c' ), array( 'x' => 'c' ) )}
+
+hash_diff_key:
+{$a = hash_diff_key( array( 'x' => 'b', 'y' => 'c' ), array( 'x' => 'c' ) )}
+
+hash_intersect:
+{$a = hash_intersect( array( 'x' => 'b', 'y' => 'c' ), array( 'x' => 'c' ) )}
+
+hash_intersect_key:
+{$a = hash_intersect_key( array( 'x' => 'b', 'y' => 'c' ), array( 'x' => 'c' ) )}
+
+hash_keys:
+{$a = hash_keys( array( 'x' => 'b', 'y' => 'c' ), array( 'x' => 'c' ) )}
+
+hash_values:
+{$a = hash_values( array( 'x' => 'b', 'y' => 'c' ), array( 'x' => 'c' ) )}
