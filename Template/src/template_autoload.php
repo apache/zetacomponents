@@ -43,6 +43,7 @@ return array(
              "ezcTemplateTstNode" => "Template/syntax_trees/tst/interfaces/tst_node.php",
              "ezcTemplateInlineTstNode" => "Template/syntax_trees/tst/interfaces/inline_tst.php",
              "ezcTemplateOperatorTstNode" => "Template/syntax_trees/tst/interfaces/operator_tst.php",
+             "ezcTemplateCodeTstNode" => "Template/syntax_trees/tst/interfaces/code_tst.php",
              "ezcTemplateTextTstNode" => "Template/syntax_trees/tst/interfaces/text_tst.php",
              "ezcTemplateTstNodeVisitor" => "Template/syntax_trees/tst/interfaces/tst_visitor.php",
 

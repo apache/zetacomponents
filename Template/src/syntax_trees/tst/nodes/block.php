@@ -15,7 +15,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateBlockTstNode extends ezcTemplateTstNode
+class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
 {
 
     /**

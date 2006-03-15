@@ -18,7 +18,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-abstract class ezcTemplateTextTstNode extends ezcTemplateTstNode
+abstract class ezcTemplateTextTstNode extends ezcTemplateCodeTstNode
 {
     /**
      * The extracted text from the source code. How the text is extracted and
