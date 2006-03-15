@@ -49,7 +49,7 @@ return array(
 // Syntax trees / TST nodes
              "ezcTemplateBlockTstNode" => "Template/syntax_trees/tst/nodes/block.php",
              "ezcTemplateCustomBlockTstNode" => "Template/syntax_trees/tst/nodes/custom_block.php",
-             "ezcTemplateProgramTstNode" => "Template/syntax_trees/tst/nodes/root.php",
+             "ezcTemplateProgramTstNode" => "Template/syntax_trees/tst/nodes/program.php",
              "ezcTemplateLiteralBlockTstNode" => "Template/syntax_trees/tst/nodes/literal_block.php",
              "ezcTemplateExpressionBlockTstNode" => "Template/syntax_trees/tst/nodes/expression_block.php",
              "ezcTemplateTypeTstNode" => "Template/syntax_trees/tst/nodes/type.php",
@@ -205,7 +205,7 @@ return array(
              "ezcTemplateSourceToTstParser" => "Template/parsers/source_to_tst/interfaces/source_to_tst_parser.php",
 
 // Parsers / source_to_tst implementations 
-             "ezcTemplateProgramSourceToTstParser" => "Template/parsers/source_to_tst/implementations/root.php",
+             "ezcTemplateProgramSourceToTstParser" => "Template/parsers/source_to_tst/implementations/program.php",
              "ezcTemplateBlockSourceToTstParser" => "Template/parsers/source_to_tst/implementations/block.php",
              "ezcTemplateLiteralBlockSourceToTstParser" => "Template/parsers/source_to_tst/implementations/literal_block.php",
              "ezcTemplateControlStructureSourceToTstParser" => "Template/parsers/source_to_tst/implementations/control_structure.php",
