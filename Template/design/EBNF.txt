@@ -9,11 +9,16 @@ The template language starts with the non-terminal token: "Program".
 
 ::
 
-  Program             ::= Version NewLine Text EOF
+  Program             ::= Version NewLine Code EOF
 
   Version             ::= '{?' 'ezt' 'version' '=' '"' FloatLiteral '"' '}'
 
-  Text                ::= ( Graphic | Block )*
+  Code                ::= ( Text | Block )*
+
+  Text                ::= TextBlock
+                      |   LiteralBlock
+                      |   DelimiterBlock
+
 
   Block               ::= CommentBlock 
                       |   DeclarationBlock
@@ -21,11 +26,20 @@ The template language starts with the non-terminal token: "Program".
                       |   OutputBlock
                       |   LiteralBlock
                       |   CycleBlock
-                      |   {ldelim}
-                      |   {rdelim} 
                       |   LoopBlock
                       |   CodeFlowBlock
                       |   CustomBlock
+
+Text blocks
+-----------
+::
+
+  TextBlock           ::= ( ~'{' | '\'! '{' )*
+
+  LiteralBlock        ::= '{' 'literal' '}' Graphic* '{' '/literal' '}'
+
+  DelimiterBlock      :==  '{ldelim}' | '{rdelim}'
+
 
 Blocks
 ------
@@ -45,8 +59,6 @@ Blocks
 
   OutputBlock         ::= '{' Expression '}'
 
-  LiteralBlock        ::= '{' 'literal' '}' Text '{' '/literal' '}'
-
   CycleBlock          ::= '{' 'increment' PrimaryVariable '}'
                       |   '{' 'decrement' PrimaryVariable '}'
                       |   '{' 'reset' PrimaryVariable '}'
@@ -59,9 +71,9 @@ Loop control
   LoopBlock           ::= ForeachStatement
                       |   WhileStatement
 
-  ForeachStatement    ::= '{' 'foreach' Expression 'as' PrimaryVariable ('=>' PrimaryVariable)? (Cycle)* (OffsetAndLimit)? '}' Text '{' '/foreach' '}'
+  ForeachStatement    ::= '{' 'foreach' Expression 'as' PrimaryVariable ('=>' PrimaryVariable)? (Cycle)* (OffsetAndLimit)? '}' Code '{' '/foreach' '}'
 
-  WhileStatement      ::= '{' 'while' Expression '}' Text '{' '/while' '}'
+  WhileStatement      ::= '{' 'while' Expression '}' Code '{' '/while' '}'
 
   Cycle               ::= ('increment' | 'decrement') PrimaryVariable (',' PrimaryVariable)* 
 
@@ -82,19 +94,19 @@ Code flow control
                       |   ReturnStatement
 
 
-  IfStatement         ::= '{' 'if' Expression '}' Text (ElseIf)* (Else)? '{' '/if' '}' 
-  ElseIf              ::= '{' 'elseif' Expression '}' Text
-  Else                ::= '{' 'else' '}' Text 
+  IfStatement         ::= '{' 'if' Expression '}' Code (ElseIf)* (Else)? '{' '/if' '}' 
+  ElseIf              ::= '{' 'elseif' Expression '}' Code
+  Else                ::= '{' 'else' '}' Code 
 
   SwitchStatement     ::= '{' 'switch' Expression '}' (Case)* (DefaultCase)? '{' '/switch' '}'
 
-  Case                ::= '{' 'case' Literal ( ',' Literal)* '}' Text '{' '/case' '}'
+  Case                ::= '{' 'case' Literal ( ',' Literal)* '}' Code '{' '/case' '}'
 
-  DefaultCase         ::= '{' 'default' '}' Text '{' '/default' '}'
+  DefaultCase         ::= '{' 'default' '}' Code '{' '/default' '}'
                      
   IncludeStatement    ::= '{' 'include' Expression ('send' ExprAsPrimVarList)? ('receive' PrimVarAsPrimVarList)? '}'
 
-  DelimiterStatement  ::= '{' 'delimiter' (modulo Expression ('is' Expression)? )? '}' Text '{' '/delimiter' '}'
+  DelimiterStatement  ::= '{' 'delimiter' (modulo Expression ('is' Expression)? )? '}' Code '{' '/delimiter' '}'
 
   ReturnStatement     ::= '{' 'return' ExprAsPrimVarList '}' 
 
@@ -107,7 +119,7 @@ Custom block
 ------------
 ::
 
-  CustomBlock         ::= '{' Identifier ( Expression )? ( CustomArgument )*  '}' (Text '{' '/'Identifier '}')?  
+  CustomBlock         ::= '{' Identifier ( Expression )? ( CustomArgument )*  '}' (Code '{' '/'Identifier '}')?  
 
   CustomArgument      ::= Identifier ( ('=')? Expression)? 
 
@@ -486,3 +498,11 @@ Including templates
   
   {* Rename the $alteredNode to $currentNode *}
   {return $alteredNode as $currentNode}
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
