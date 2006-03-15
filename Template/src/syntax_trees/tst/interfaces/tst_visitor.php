@@ -33,6 +33,9 @@ interface ezcTemplateTstNodeVisitor
     public function visitExpressionBlockTstNode( ezcTemplateExpressionBlockTstNode $type );
 
 
+    public function visitModifyingBlockTstNode( ezcTemplateModifyingBlockTstNode $type );
+
+
     public function visitTypeTstNode( ezcTemplateTypeTstNode $type );
 
 
