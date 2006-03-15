@@ -205,16 +205,16 @@ class ezcTemplateRegressionTest extends ezcTestCase
         $source = new ezcTemplateSourceCode( 'mock', 'mock', $text );
         $parser = new ezcTemplateParser( $source, $this->manager );
 
-        $root = $parser->parseIntoTextElements();
-        //echo $root->outputTree();
+        $program = $parser->parseIntoTextElements();
+        //echo $program->outputTree();
 
         $tstToAst = new ezcTemplateTstToAstTransformer();
-        $root->accept( $tstToAst );
+        $program->accept( $tstToAst );
 
         $g = new ezcTemplateAstToPhpGenerator( "$output" );
-        $tstToAst->rootNode->accept($g);
+        $tstToAst->programNode->accept($g);
 
-        return array( $root, $tstToAst->rootNode );
+        return array( $program, $tstToAst->programNode );
     }
 }
 

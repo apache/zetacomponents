@@ -20,7 +20,7 @@
  */
 class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 {
-    public $rootNode = null;
+    public $programNode = null;
     public $pathToCurrentNode = array();
     public $stackSize = 0; 
 
@@ -37,7 +37,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function push( $node )
     {
-        array_push( $this->pathToCurrentNode, $this->rootNode );
+        array_push( $this->pathToCurrentNode, $this->programNode );
         $this->stackSize++;
     }
 
@@ -142,15 +142,15 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         die("visitCustomTstNode");
     }
 
-    public function visitRootTstNode( ezcTemplateRootTstNode $type )
+    public function visitProgramTstNode( ezcTemplateProgramTstNode $type )
     {
-        if ( $this->rootNode === null )
+        if ( $this->programNode === null )
         {
-            $this->rootNode = $this->createBody( $type->elements );
+            $this->programNode = $this->createBody( $type->elements );
         }
         else
         {
-            die ("PANIC, root node is not null ");
+            die ("PANIC, program node is not null ");
         }
     }
 

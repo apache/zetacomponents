@@ -215,7 +215,7 @@ class ezcTemplateBlockTstNode extends ezcTemplateTstNode
      *
      * The sub-classes need to re-implement canHandleElement() and this method
      * to handle special cases which are not covered by the general child/closure
-     * rules in the root parser.
+     * rules in the program parser.
      * Typically block elements which have special child blocks need to
      * re-implement this.
      *

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateRootTstNode class
+ * File containing the ezcTemplateProgramTstNode class
  *
  * @package Template
  * @version //autogen//
@@ -15,7 +15,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateRootTstNode extends ezcTemplateBlockTstNode
+class ezcTemplateProgramTstNode extends ezcTemplateBlockTstNode
 {
     /**
      * Array of all elements.
@@ -48,7 +48,7 @@ class ezcTemplateRootTstNode extends ezcTemplateBlockTstNode
     /**
      * @inheritdocs
      * Trims away ending whitespace for all sub-blocks, the trimming of the
-     * first text block is not done since this is a root element and not a
+     * first text block is not done since this is a program element and not a
      * standard block element.
      */
     public function trimLine( ezcTemplateWhitespaceRemoval $removal )
@@ -63,7 +63,7 @@ class ezcTemplateRootTstNode extends ezcTemplateBlockTstNode
 
     public function accept( ezcTemplateTstNodeVisitor $visitor  )
     {
-        $visitor->visitRootTstNode( $this );
+        $visitor->visitProgramTstNode( $this );
     }
 }
 ?>

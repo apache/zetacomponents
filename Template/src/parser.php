@@ -86,15 +86,15 @@ class ezcTemplateParser
     }
 
     /**
-     * Creates a new root element object with the cursor positions and returns it.
+     * Creates a new program element object with the cursor positions and returns it.
      *
      * @param ezcTemplateCursor $start The starting point of the element.
      * @param ezcTemplateCursor $end The ending point of the element.
-     * @return ezcTemplateRootTstNode
+     * @return ezcTemplateProgramTstNode
      */
-    public function createRoot( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    public function createProgram( ezcTemplateCursor $start, ezcTemplateCursor $end )
     {
-        return new ezcTemplateRootTstNode( $this->source, $start, $end );
+        return new ezcTemplateProgramTstNode( $this->source, $start, $end );
     }
 
     /**
@@ -910,7 +910,7 @@ class ezcTemplateParser
 
         $this->textElements = array();
 
-        $parser = new ezcTemplateRootSourceToTstParser( $this, null, null );
+        $parser = new ezcTemplateProgramSourceToTstParser( $this, null, null );
         $parser->setAllCursors( $cursor );
         if ( !$parser->parse() )
         {
@@ -927,13 +927,13 @@ class ezcTemplateParser
         // Trim starting/trailing whitespace
         if ( $this->trimWhitespace )
         {
-            $this->whitespaceRemoval->trimRoot( $parser->root );
+            $this->whitespaceRemoval->trimProgram( $parser->program );
         }
 
         // temporary compatability
-        $parser->root->elements = $parser->root->children;
+        $parser->program->elements = $parser->program->children;
 
-        return $parser->root;
+        return $parser->program;
 
 //        $this->textElements = $parser->elements;
 

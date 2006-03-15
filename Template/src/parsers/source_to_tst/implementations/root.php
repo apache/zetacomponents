@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateRootSourceToTstParser class
+ * File containing the ezcTemplateProgramSourceToTstParser class
  *
  * @package Template
  * @version //autogen//
@@ -8,20 +8,20 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Element parser for the root of the template code.
+ * Element parser for the program part of the template code.
  *
  * @package Template
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateRootSourceToTstParser extends ezcTemplateSourceToTstParser
+class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
 {
     /**
-     * The root element of the parse operation if the parsing was successful.
-     * @var ezcTemplateRootTstNode
+     * The program element of the parse operation if the parsing was successful.
+     * @var ezcTemplateProgramTstNode
      */
-    public $root;
+    public $program;
 
     /**
      * The last block which was processed by the parser. This is used to
@@ -35,7 +35,7 @@ class ezcTemplateRootSourceToTstParser extends ezcTemplateSourceToTstParser
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
         parent::__construct( $parser, $parentParser, $startCursor );
-        $this->root = null;
+        $this->program = null;
         $this->lastBlock = null;
     }
 
@@ -47,8 +47,8 @@ class ezcTemplateRootSourceToTstParser extends ezcTemplateSourceToTstParser
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
-        $this->root = $this->parser->createRoot( $this->startCursor, $cursor );
-        $this->lastBlock = $this->root;
+        $this->program = $this->parser->createProgram( $this->startCursor, $cursor );
+        $this->lastBlock = $this->program;
 
         while ( !$cursor->atEnd() )
         {
@@ -125,7 +125,7 @@ class ezcTemplateRootSourceToTstParser extends ezcTemplateSourceToTstParser
      * location and if so appends a new ezcTextElement object containing the
      * text.
      *
-     * It also checks if the $lastBlock contains the current root parser, if it
+     * It also checks if the $lastBlock contains the current program parser, if it
      * does not it means the nesting in the current source code is incorrect.
      */
     protected function handleSuccessfulResult( ezcTemplateCursor $lastCursor, ezcTemplateCursor $cursor )
@@ -142,7 +142,7 @@ class ezcTemplateRootSourceToTstParser extends ezcTemplateSourceToTstParser
             throw new Exception( "lastBlock is null, should have been a parser element object." );
         }
 
-        if ( !$this->lastBlock instanceof ezcTemplateRootTstNode )
+        if ( !$this->lastBlock instanceof ezcTemplateProgramTstNode )
         {
             $parents = array();
 
@@ -150,7 +150,7 @@ class ezcTemplateRootSourceToTstParser extends ezcTemplateSourceToTstParser
             $level = 0;
             $block = $this->lastBlock;
             while ( $block->parentBlock !== null &&
-                    !( $block->parentBlock instanceof ezcTemplateRootTstNode ) )
+                    !( $block->parentBlock instanceof ezcTemplateProgramTstNode ) )
             {
                 if ( $block === $block->parentBlock )
                 {
@@ -166,7 +166,7 @@ class ezcTemplateRootSourceToTstParser extends ezcTemplateSourceToTstParser
 
             // Go trough all parents until the root is reached
             while ( $block->parentBlock !== null &&
-                    !( $block->parentBlock instanceof ezcTemplateRootTstNode ) )
+                    !( $block->parentBlock instanceof ezcTemplateProgramTstNode ) )
             {
                 if ( $block === $block->parentBlock )
                 {
@@ -188,8 +188,8 @@ class ezcTemplateRootSourceToTstParser extends ezcTemplateSourceToTstParser
             throw new ezcTemplateSourceToTstParserException( $error );
         }
 
-        // Get rid of whitespace for the block line of the root element
-        $this->parser->trimBlockLine( $this->root );
+        // Get rid of whitespace for the block line of the program element
+        $this->parser->trimBlockLine( $this->program );
     }
 
     public function handleElements( $elements )
@@ -249,7 +249,7 @@ class ezcTemplateRootSourceToTstParser extends ezcTemplateSourceToTstParser
             throw new ezcTemplateSourceToTstParserException( $error );
 
             // Element cannot be handled so throw an exception
-            throw new ezcTemplateParseException( ezcTemplateParseException::INVALID_ROOT_ELEMENT,
+            throw new ezcTemplateParseException( ezcTemplateParseException::INVALID_PROGRAM_ELEMENT,
                                                  get_class( $element ) );
         }
     }
@@ -293,7 +293,7 @@ class ezcTemplateRootSourceToTstParser extends ezcTemplateSourceToTstParser
         // Get rid of whitespace for the block line
         $this->parser->trimBlockLine( $this->lastBlock );
 
-        // Go up (closer to root) one level in the nested tree structure
+        // Go up (closer to program) one level in the nested tree structure
         $this->lastBlock = $this->lastBlock->parentBlock;
     }
 }

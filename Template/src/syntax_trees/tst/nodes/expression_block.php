@@ -15,7 +15,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateExpressionBlockTstNode extends ezcTemplateTstNode
+class ezcTemplateExpressionBlockTstNode extends ezcTemplateBlockTstNode
 {
     /**
      * The bracket start character.
@@ -42,7 +42,7 @@ class ezcTemplateExpressionBlockTstNode extends ezcTemplateTstNode
      *
      * @var ezcTemplateInlineTstNode
      */
-    public $element;
+//    public $element; // removed, not needed
 
     /**
      * The root of the parsed expression.
@@ -58,7 +58,7 @@ class ezcTemplateExpressionBlockTstNode extends ezcTemplateTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end );
-        $this->element = null;
+//        $this->element = null; // removed, not needed
         $this->startBracket = '{';
         $this->endBracket = '}';
         $this->expressionRoot = null;

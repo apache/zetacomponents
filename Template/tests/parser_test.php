@@ -48,15 +48,15 @@ class ezcTemplateParserTest extends ezcTestCase
         $source = new ezcTemplateSourceCode( 'mock', 'mock', $text );
         $parser = new ezcTemplateParser( $source, $this->manager );
 
-        $root = $parser->parseIntoTextElements();
+        $program = $parser->parseIntoTextElements();
 
-        echo $root->outputTree();
+        echo $program->outputTree();
 
         $tstToAst = new ezcTemplateTstToAstTransformer();
-        $root->accept( $tstToAst );
+        $program->accept( $tstToAst );
 
         $g = new ezcTemplateAstToPhpGenerator( "/dev/stdout" );
-        $tstToAst->rootNode->accept($g);
+        $tstToAst->programNode->accept($g);
 
 
 
@@ -74,7 +74,7 @@ class ezcTemplateParserTest extends ezcTestCase
 
        
 
-        //echo $root->getFirstChild()->text;
+        //echo $program->getFirstChild()->text;
 
     }
 

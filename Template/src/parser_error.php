@@ -100,7 +100,7 @@ class ezcTemplateParserError
         {
             $parser = $this->parser;
             $parsers = array();
-            $currentParser = $parser->rootParser;
+            $currentParser = $parser->programParser;
             $parsers = get_class( $currentParser );
             $level = 0;
             while( $currentParser->subParser !== null )

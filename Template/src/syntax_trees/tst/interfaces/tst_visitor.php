@@ -24,7 +24,7 @@ interface ezcTemplateTstNodeVisitor
     public function visitCustomBlockTstNode( ezcTemplateCustomBlockTstNode $type );
 
 
-    public function visitRootTstNode( ezcTemplateRootTstNode $type );
+    public function visitProgramTstNode( ezcTemplateProgramTstNode $type );
 
 
     public function visitLiteralBlockTstNode( ezcTemplateLiteralBlockTstNode $type );

@@ -62,7 +62,7 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
             // reached end of expression
             $cursor->advance( 1 );
             $this->block->endCursor = clone $this->block->endCursor;
-            $this->block->element = $operator;
+//            $this->block->element = $operator; // removed, not needed
             $this->appendElement( $this->block );
             return true;
         }

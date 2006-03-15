@@ -93,9 +93,9 @@ class ezcTemplateWhitespaceRemoval
      * Trims away trailing and leading whitespace lines from the top of the
      * element tree.
      *
-     * @param ezcTemplateRootTstNode $tree The root element for the tree.
+     * @param ezcTemplateProgramTstNode $tree The program element for the tree.
      */
-    public function trimRoot( ezcTemplateRootTstNode $tree )
+    public function trimProgram( ezcTemplateProgramTstNode $tree )
     {
         if ( !$tree->hasChildren() )
         {
@@ -361,7 +361,7 @@ class ezcTemplateWhitespaceRemoval
     /**
      * Removes all lines (from the end) which are empty after trimming.
      * As soon as a non-empty line is found it stops the process and keeps the
-     * rest of the lines and returns the modified lines or false it nothing
+     * rest of the lines and returns the modified lines, or false it nothing
      * was modified.
      *
      * For instance the text:
@@ -377,6 +377,19 @@ class ezcTemplateWhitespaceRemoval
      * "    \n" .
      * "\n" .
      * "  abc\n"
+     * </code>
+     *
+     * and the text:
+     * <code>
+     * "    \n" .
+     * "\r\n" .
+     * "  \r" .
+     * "    \n" .
+     * "\n"
+     * </code>
+     * Will be turned into:
+     * <code>
+     * "\n"
      * </code>
      *
      * @param array(array) $lines The text lines to trim.

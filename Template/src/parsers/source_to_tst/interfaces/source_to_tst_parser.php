@@ -64,7 +64,7 @@ abstract class ezcTemplateSourceToTstParser
      */
     public $parentParser;
 
-    public $rootParser;
+    public $programParser;
 
     /**
      * An array of elements which have been created by the parsers.
@@ -163,11 +163,11 @@ abstract class ezcTemplateSourceToTstParser
     {
         $this->parser = $parser;
         $this->parentParser = $parentParser;
-        // Make sure root parser is set correctly
+        // Make sure program parser is set correctly
         if ( $parentParser !== null )
-            $this->rootParser = $parentParser->rootParser;
+            $this->programParser = $parentParser->programParser;
         else
-            $this->rootParser = $this;
+            $this->programParser = $this;
         $this->elements = array();
         $this->subParser = null;
         $this->lastParser = null;
