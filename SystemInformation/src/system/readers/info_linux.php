@@ -86,7 +86,7 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
     {
         if ( !$this->getOsInfo() )
         {
-            throw new ezcSystemInfoReaderCantScanOSException( "Exception: < $this->readerName > can't scan OS for system values." );
+            throw new ezcSystemInfoReaderCantScanOSException( "<{$this->readerName}>: can't scan OS for system values." );
         }
 
     }
@@ -123,14 +123,22 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
     private function getOsInfo( $cpuinfoPath = false, $meminfoPath = false )
     {
         if ( !$cpuinfoPath )
+        {
             $cpuinfoPath = '/proc/cpuinfo';
+        }
         if ( !$meminfoPath )
+        {
             $meminfoPath = '/proc/meminfo';
+        }
 
         if ( !file_exists( $cpuinfoPath ) )
+        {
             return false;
+        }
         if ( !file_exists( $meminfoPath ) )
+        {
             return false;
+        }
 
         $fileLines = file( $cpuinfoPath );
         foreach ( $fileLines as $line )
@@ -158,7 +166,9 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
             if ( $this->cpuSpeed !== false and
                  $this->cpuType !== false and
                  $this->cpuUnit !== false )
+            {
                 break;
+            }
         }
 
         $fileLines = file( $meminfoPath );
@@ -193,7 +203,9 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
                 $this->validProperties['memory_size'] = $this->memorySize;
             }
             if ( $this->memorySize !== false )
+            {
                 break;
+            }
         }
 
         return true;

@@ -86,7 +86,7 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
     {
         if ( !$this->getOsInfo() )
         {
-            throw new ezcSystemInfoReaderCantScanOSException( "Exception: < $this->readerName > can't scan OS for system values." );
+            throw new ezcSystemInfoReaderCantScanOSException( "<{$this->readerName}>: can't scan OS for system values." );
         }
 
     }
@@ -121,9 +121,13 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
     private function getOsInfo( $dmesgPath = false )
     {
         if ( !$dmesgPath )
+        {
             $dmesgPath = '/var/run/dmesg.boot';
+        }
         if ( !file_exists( $dmesgPath ) )
+        {
             return false;
+        }
         $fileLines = file( $dmesgPath );
         foreach ( $fileLines as $line )
         {
@@ -158,7 +162,9 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
                  $this->cpuType !== false and
                  $this->cpuUnit !== false and
                  $this->memorySize !== false )
+            {
                 break;
+            }
 
         }
         return true;
