@@ -69,34 +69,5 @@ class ezcTemplateBodyAstNode extends ezcTemplateAstNode
         }
         return $this->statements[$count - 1];
     }
-
-    /**
-     * Returns the statements which makes up the body.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return $this->statements;
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "body";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitBody() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        $visitor->visitBody( $this );
-    }
 }
 ?>

@@ -46,34 +46,5 @@ class ezcTemplateVariableAstNode extends ezcTemplateAstNode
         }
         $this->name = $name;
     }
-
-    /**
-     * Returns an empty array.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "variable <{$this->name}>";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitVariable() for ezcTemplateBasicAstNodeVisitor interfaces.
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        $visitor->visitVariable( $this );
-    }
-
 }
 ?>

@@ -62,38 +62,5 @@ class ezcTemplateIfAstNode extends ezcTemplateStatementAstNode
         }
         return $this->conditions[$count - 1];
     }
-
-    /**
-     * Returns the conditions of this element.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return $this->conditions;
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "if/else/elseif";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitIfControl() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        if ( count( $this->conditions ) == 0 )
-        {
-            throw new Exception( "If structure must have at least 1 condition but this has none" );
-        }
-        $visitor->visitIfControl( $this );
-    }
 }
 ?>

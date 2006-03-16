@@ -41,38 +41,5 @@ class ezcTemplateConditionBodyAstNode extends ezcTemplateAstNode
         $this->condition = $condition;
         $this->body = $body;
     }
-
-    /**
-     * Returns the condition and body for this element.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array( $this->condition, $this->body );
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "condition body";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitConditionBody() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        if ( $this->body === null )
-        {
-            throw new Exception( "If-condition control element does not have the \$body variable set." );
-        }
-        $visitor->visitConditionBody( $this );
-    }
 }
 ?>

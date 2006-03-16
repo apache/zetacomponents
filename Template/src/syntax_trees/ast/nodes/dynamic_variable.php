@@ -46,38 +46,5 @@ class ezcTemplateDynamicVariableAstNode extends ezcTemplateAstNode
         parent::__construct();
         $this->nameExpression = $nameExpression;
     }
-
-    /**
-     * Returns the variable name expression.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array( $this->nameExpression );
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "dynamic-variable";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitDynamicVariable() for ezcTemplateBasicAstNodeVisitor interfaces.
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        if ( $this->nameExpression === null )
-        {
-            throw new Exception( "Dynamic variable element does not have the \$nameExpression variable set." );
-        }
-        $visitor->visitDynamicVariable( $this );
-    }
-
 }
 ?>

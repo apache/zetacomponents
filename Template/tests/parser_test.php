@@ -69,7 +69,7 @@ class ezcTemplateParserTest extends ezcTestCase
         $body = new ezcTemplateBodyAstNode();
         $body->appendStatement( $echo );
 
-        $body->getTreeRepresentation();
+        echo ezcTemplateAstTreeDump::dump( $body );
         */
 
        

@@ -53,19 +53,10 @@ class ezcTemplateArrayFetchOperatorAstNode extends ezcTemplateOperatorAstNode
     /**
      * @inheritdocs
      * Calls visitArrayFetchOperator() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
      */
     public function accept( ezcTemplateAstNodeVisitor $visitor )
     {
-        $count = count( $this->parameters );
-        if ( $count >= 2 )
-        {
-            $visitor->visitArrayFetchOperator( $this );
-        }
-        else
-        {
-            throw new Exception( "Operator must have 2 or more operands but this has {$count}" );
-        }
+        $visitor->visitArrayFetchOperatorAstNode( $this );
     }
 }
 ?>

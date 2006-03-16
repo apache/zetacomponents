@@ -50,42 +50,5 @@ class ezcTemplateCatchAstNode extends ezcTemplateStatementAstNode
         $this->variableExpression = $var;
         $this->body = $body;
     }
-
-    /**
-     * Returns the expression for the variable and the body of this element.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array( $this->variableExpression, $this->body );
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "catch";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitCatchControl() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        if ( $this->variableExpression === null )
-        {
-            throw new Exception( "Catch control element does not have the \$variableExpression variable set." );
-        }
-        if ( $this->body === null )
-        {
-            throw new Exception( "Catch control element does not have the \$body variable set." );
-        }
-        $visitor->visitCatchControl( $this );
-    }
 }
 ?>

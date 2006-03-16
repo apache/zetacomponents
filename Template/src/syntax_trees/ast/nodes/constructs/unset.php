@@ -64,17 +64,6 @@ class ezcTemplateUnsetAstNode extends ezcTemplateStatementAstNode
     }
 
     /**
-     * Returns the expressions of this element.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return $this->expressions;
-    }
-
-    /**
      * Validates the expressions against their constraints.
      *
      * @throw Exception if the constraints are not met.
@@ -86,28 +75,6 @@ class ezcTemplateUnsetAstNode extends ezcTemplateStatementAstNode
         {
             throw new Exception( "Too few expressions for class <" . get_class( $this ) . ">, needs at least 1 but got 0." );
         }
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "unset";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitUnsetControl() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        if ( count( $this->expressions ) === 0 )
-        {
-            throw new Exception( "Unset construct element needs at least one expression in the \$expression variable." );
-        }
-        $visitor->visitUnsetControl( $this );
     }
 }
 ?>

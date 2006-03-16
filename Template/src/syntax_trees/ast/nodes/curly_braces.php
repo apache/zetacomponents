@@ -32,34 +32,5 @@ class ezcTemplateCurlyBracesAstNode extends ezcTemplateAstNode
 
         $this->expression = $expression;
     }
-
-    /**
-     * Returns the expression of the statement for this element.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array( $this->expression );
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "curly";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitGenericStatement() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        $visitor->visitCurlyBraces( $this );
-    }
 }
 ?>

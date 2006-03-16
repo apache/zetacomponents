@@ -14,9 +14,6 @@
  * and append new ones. In addition it can control the minimum and maxium
  * number of parameters a class should have.
  *
- * This class also implements the getSubElements() to return the parameter list
- * so most sub-classes don't need to implement it.
- *
  * @package Template
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
@@ -110,22 +107,6 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
         if ( $this->minParameterCount !== false &&
              count( $this->parameters ) < $this->minParameterCount )
             throw new Exception( "Too few parameters for class <" . get_class( $this ) . ">, needs at least {$this->minParameterCount} but got <" . count( $this->parameters ) . ">." );
-    }
-
-    /**
-     * Returns the parameters of the code element.
-     *
-     * This must be re-implemented to return all sub-elements for the current
-     * element as an array of code elements. This method is used by the
-     * getTreeRepresentation() method to generate an overview of all
-     * sub-elements.
-     * @note The values returned from this method must never be modified.
-     *
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return $this->parameters;
     }
 }
 ?>

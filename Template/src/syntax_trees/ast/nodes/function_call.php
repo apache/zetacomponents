@@ -39,34 +39,5 @@ class ezcTemplateFunctionCallAstNode extends ezcTemplateParameterizedAstNode
             }
         }
     }
-
-    /**
-     * Returns the parameters of the function call.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return $this->parameters;
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "call <{$this->name}>";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitFunctionCall() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        $visitor->visitFunctionCall( $this );
-    }
 }
 ?>

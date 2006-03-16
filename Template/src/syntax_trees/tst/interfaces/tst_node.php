@@ -143,12 +143,12 @@ abstract class ezcTemplateTstNode
     abstract public function minimumWhitespaceColumn();
 
     /**
-     * The accept part for the visitor. 
+     * The accept part for the visitor.
      *
      * The sub classes don't need to implement the usual accept() method.
      *
      * If the current object is: ezcTemplateOutputBlockTstNode then
-     * the method: $visitor->visitOutputBlockTstNode( $this )  will be called.
+     * the method: $visitor->visitOutputBlockTstNode( $this ) will be called.
      */
     public function accept( ezcTemplateTstNodeVisitor $visitor  )
     {

@@ -40,38 +40,5 @@ class ezcTemplateDynamicFunctionCallAstNode extends ezcTemplateParameterizedAstN
             }
         }
     }
-
-    /**
-     * Returns the parameters of the function call.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array_merge( array( $this->nameExpression ), $this->parameters );
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "call";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitFunctionCall() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        if ( $this->nameExpression === null )
-        {
-            throw new Exception( "Function call element does not have the \$nameExpression variable set." );
-        }
-        $visitor->visitFunctionCall( $this );
-    }
 }
 ?>

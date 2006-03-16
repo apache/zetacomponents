@@ -66,53 +66,5 @@ class ezcTemplateLiteralAstNode extends ezcTemplateAstNode
             throw new Exception( "The magic method __set_state is not implemented for passed object, the type code cannot create a representation of the object without it." );
         }
     }
-
-    /**
-     * Returns an empty array.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        if ( is_int( $this->value ) )
-            return "integer <{$this->value}>";
-
-        if ( is_float( $this->value ) )
-            return "float <{$this->value}>";
-
-        if ( is_bool( $this->value ) )
-            return "boolean <" . ( $this->value ? "true" : "false" ) . ">";
-
-        if ( is_null( $this->value ) )
-            return "null <>";
-
-        if ( is_string( $this->value ) )
-            return "string <" . var_export( $this->value, true ) . ">";
-
-        if ( is_array( $this->value ) )
-            return "array <" . var_export( $this->value, true ) . ">";
-
-        if ( is_object( $this->value ) )
-            return "object <" . var_export( $this->value, true ) . ">";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitLiteral() for ezcTemplateBasicAstNodeVisitor interfaces.
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        $visitor->visitLiteral( $this );
-    }
-
 }
 ?>

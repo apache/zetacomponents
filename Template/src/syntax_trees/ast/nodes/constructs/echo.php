@@ -57,17 +57,6 @@ class ezcTemplateEchoAstNode extends ezcTemplateStatementAstNode
     }
 
     /**
-     * Returns the output list of this element.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return $this->outputList;
-    }
-
-    /**
      * Validates the output parameters against their constraints.
      *
      * @throw Exception if the constraints are not met.
@@ -79,24 +68,6 @@ class ezcTemplateEchoAstNode extends ezcTemplateStatementAstNode
         {
             throw new Exception( "Too few output parameters for class <" . get_class( $this ) . ">, needs at least 1 but got 0." );
         }
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "echo";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitEchoControl() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        $visitor->visitEchoControl( $this );
     }
 }
 ?>

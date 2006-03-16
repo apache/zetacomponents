@@ -24,29 +24,5 @@ class ezcTemplateNopAstNode extends ezcTemplateAstNode
     {
         parent::__construct();
     }
-
-    /**
-     * Returns an empty array.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "nop";
-    }
-
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-    }
-
 }
 ?>

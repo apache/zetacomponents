@@ -234,6 +234,9 @@ return array(
              "ezcTemplateEolCommentSourceToTstParser" => "Template/parsers/source_to_tst/implementations/eol_comment.php",
 
 
+// Generic parser interfaces
+             "ezcTemplateTreeDump"       => "Template/parsers/interfaces/tree_dump.php",
+
 // Parsers / tst_to_tst implementations
              "ezcTemplateWhitespaceRemoval" => "Template/parsers/tst_to_tst/implementations/whitespace_removal.php",
              "ezcTemplateTstTreeDump"       => "Template/parsers/tst_to_tst/implementations/tst_tree_dump.php",
@@ -245,6 +248,9 @@ return array(
 
 // Parsers / ast_to_php implementations
              "ezcTemplateAstToPhpGenerator" => "Template/parsers/ast_to_php/implementations/php_generator.php",
+
+// Parsers / ast_to_php implementations
+             "ezcTemplateAstTreeDump"       => "Template/parsers/ast_to_ast/implementations/ast_tree_dump.php",
 
 // Exceptions
              "ezcTemplateVariableUndefinedException" => "Template/exceptions/variable_undefined_exception.php",

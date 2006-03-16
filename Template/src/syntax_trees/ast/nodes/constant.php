@@ -39,33 +39,5 @@ class ezcTemplateConstantAstNode extends ezcTemplateAstNode
         $this->value = $value;
     }
 
-    /**
-     * Returns an empty array.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "constant <{$this->value}>";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitConstant() for ezcTemplateBasicAstNodeVisitor interfaces.
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        $visitor->visitConstant( $this );
-    }
-
 }
 ?>

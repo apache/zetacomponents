@@ -35,34 +35,5 @@ class ezcTemplateContinueAstNode extends ezcTemplateStatementAstNode
         parent::__construct();
         $this->expression = $expression;
     }
-
-    /**
-     * Returns the expression of this element.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array( $this->expression );
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "continue";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitContinueControl() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        $visitor->visitContinueControl( $this );
-    }
 }
 ?>

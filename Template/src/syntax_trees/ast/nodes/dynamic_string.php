@@ -24,23 +24,5 @@ class ezcTemplateDynamicStringAstNode extends ezcTemplateParameterizedAstNode
     {
         parent::__construct( 0, false );
     }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "dynamic-string";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitDynamicStringControl() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        $visitor->visitDynamicString( $this );
-    }
 }
 ?>

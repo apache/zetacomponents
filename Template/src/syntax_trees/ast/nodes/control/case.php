@@ -38,42 +38,5 @@ class ezcTemplateCaseAstNode extends ezcTemplateStatementAstNode
         $this->match = $match;
         $this->body = $body;
     }
-
-    /**
-     * Returns the match and body of this element.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array( $this->match, $this->body );
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "case";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitCaseControl() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        if ( $this->match === null )
-        {
-            throw new Exception( "Case control element does not have the \$match variable set." );
-        }
-        if ( $this->body === null )
-        {
-            throw new Exception( "Case control element does not have the \$body variable set." );
-        }
-        $visitor->visitCaseControl( $this );
-    }
 }
 ?>

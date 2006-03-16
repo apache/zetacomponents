@@ -31,38 +31,8 @@ class ezcTemplateTypeCastAstNode extends ezcTemplateAstNode
 
         // TODO, check for int, string, array, etc.
 
-        $this->type = $castToType;
+        $this->type  = $castToType;
         $this->value = $value;
     }
-
-    /**
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-
-        return array( $this->value );
-        //return $this->value;
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "type_cast (".$this->type.")";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitType() for ezcTemplateBasicAstNodeVisitor interfaces.
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        $visitor->visitTypeCast( $this );
-    }
-
 }
 ?>

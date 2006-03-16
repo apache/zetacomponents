@@ -31,37 +31,5 @@ class ezcTemplateReturnAstNode extends ezcTemplateStatementAstNode
         parent::__construct();
         $this->expression = $expression;
     }
-
-    /**
-     * Returns the expression of this element.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array( $this->expression );
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "return";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitReturnControl() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        if ( $visitor instanceof ezcTemplateBasicAstNodeVisitor )
-        {
-            $visitor->visitReturnControl( $this );
-        }
-    }
 }
 ?>

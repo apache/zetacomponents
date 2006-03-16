@@ -32,38 +32,5 @@ class ezcTemplateWhileAstNode extends ezcTemplateStatementAstNode
         parent::__construct();
         $this->conditionBody = $conditionBody;
     }
-
-    /**
-     * Returns the condition element for this element.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array( $this->conditionBody );
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "while";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitWhileControl() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        if ( $this->conditionBody === null )
-        {
-            throw new Exception( "While control element does not have the \$conditionBody variable set." );
-        }
-        $visitor->visitWhileControl( $this );
-    }
 }
 ?>

@@ -50,42 +50,5 @@ class ezcTemplateTryAstNode extends ezcTemplateStatementAstNode
             }
         }
     }
-
-    /**
-     * Returns the body and list of catche elements for this element.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array_merge( array( $this->body ), $this->catches );
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "try";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitTryControl() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        if ( $this->body === null )
-        {
-            throw new Exception( "Try control element does not have the \$body variable set." );
-        }
-        if ( count( $this->catches ) === 0 )
-        {
-            throw new Exception( "Try control element does not have any catch elements, at least one is required." );
-        }
-        $visitor->visitTryControl( $this );
-    }
 }
 ?>

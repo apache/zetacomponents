@@ -68,42 +68,5 @@ class ezcTemplateSwitchAstNode extends ezcTemplateStatementAstNode
             $this->hasDefaultCase = $hasDefault;
         }
     }
-
-    /**
-     * Returns the expression and the case entries of this element.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array_merge( array( $this->expression ), $this->cases );
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        return "switch";
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitSwitchControl() of the ezcTemplateBasicAstNodeVisitor interface.
-     * @todo Fix exception class
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        if ( $this->expression === null )
-        {
-            throw new Exception( "Switch control element does not have the \$expression variable set." );
-        }
-        if ( count( $this->cases ) === 0 )
-        {
-            throw new Exception( "Switch control element does not have any case entries set, need at least one." );
-        }
-        $visitor->visitSwitchControl( $this );
-    }
 }
 ?>

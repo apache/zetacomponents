@@ -166,7 +166,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 $help .= "\n";
 
                 $help .= "The AST tree:\n";
-                $help .= "----------\n" . $astRoot->getTreeRepresentation()  . "----------\n";
+                $help .= "----------\n" . ezcTemplateAstTreeDump::dump( $astRoot )  . "----------\n";
                 $help .= "\n";
 
 

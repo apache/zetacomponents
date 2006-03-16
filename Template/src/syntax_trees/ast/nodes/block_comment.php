@@ -60,36 +60,5 @@ class ezcTemplateBlockCommentAstNode extends ezcTemplateStatementAstNode
         $this->text         = $text;
         $this->hasSeparator = $hasSeparator;
     }
-
-    /**
-     * Returns an empty array.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        $text = "block comment <{$this->text}>";
-        $text .= ", separator <" . ( $this->hasSeparator ? "yes" : "no" ) . ">";
-        return $text;
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitComment() for ezcTemplateBasicAstNodeVisitor interfaces.
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        $visitor->visitBlockComment( $this );
-    }
-
 }
 ?>

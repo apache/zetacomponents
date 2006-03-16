@@ -87,17 +87,6 @@ class ezcTemplateEolCommentAstNode extends ezcTemplateStatementAstNode
     }
 
     /**
-     * Returns an empty array.
-     *
-     * @note The values returned from this method must never be modified.
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return array();
-    }
-
-    /**
      * Creates the text representation of the marker {@link self::$type type}
      * and returns it.
      *
@@ -113,35 +102,5 @@ class ezcTemplateEolCommentAstNode extends ezcTemplateStatementAstNode
                 return '#';
         }
     }
-
-    /**
-     * @inheritdocs
-     */
-    public function getRepresentation()
-    {
-        $text = "EOL comment <{$this->text}>";
-        $text .= ", type ";
-        switch ( $this->type )
-        {
-            case self::MARKER_DOUBLE_SLASH:
-                $text .= '<//>';
-                break;
-            case self::MARKER_HASH:
-                $text .= '<#>';
-                break;
-        }
-        $text .= ", separator <" . ( $this->hasSeparator ? "yes" : "no" ) . ">";
-        return $text;
-    }
-
-    /**
-     * @inheritdocs
-     * Calls visitComment() for ezcTemplateBasicAstNodeVisitor interfaces.
-     */
-    public function accept( ezcTemplateAstNodeVisitor $visitor )
-    {
-        $visitor->visitEolComment( $this );
-    }
-
 }
 ?>

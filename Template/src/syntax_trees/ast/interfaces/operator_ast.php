@@ -86,30 +86,6 @@ abstract class ezcTemplateOperatorAstNode extends ezcTemplateParameterizedAstNod
     }
 
     /**
-     * Returns the parameters of the operator element.
-     *
-     * @note The values returned from this method must never be modified.
-     *
-     * @return array(ezcTemplateAstNode)
-     */
-    public function getSubElements()
-    {
-        return $this->parameters;
-    }
-
-    /**
-     * @inheritdocs
-     * @todo Fix exception class + doc for it
-     */
-    public function getRepresentation()
-    {
-        if ( count( $this->parameters ) < $this->minParameterCount )
-            throw new Exception( "The operator contains only " . count( $this->parameters ) . " parameters but should at least have {$this->minParameterCount} parameters." );
-
-        return "op '" . $this->getOperatorPHPSymbol() . "'";
-    }
-
-    /**
      * @inheritdocs
      * Calls visitUnaryOperator if it has one parameter, visitBinaryOperator() if it has two and visitTernaryOperator() if it has three.
      * All part of the ezcTemplateBasicAstNodeVisitor interface.
@@ -120,15 +96,15 @@ abstract class ezcTemplateOperatorAstNode extends ezcTemplateParameterizedAstNod
         $count = count( $this->parameters );
         if ( $count == 1 )
         {
-            $visitor->visitUnaryOperator( $this );
+            $visitor->visitUnaryOperatorAstNode( $this );
         }
         else if ( $count == 2 )
         {
-            $visitor->visitBinaryOperator( $this );
+            $visitor->visitBinaryOperatorAstNode( $this );
         }
         else if ( $count == 3 )
         {
-            $visitor->visitTrinaryOperator( $this );
+            $visitor->visitTernaryOperatorAstNode( $this );
         }
         else
         {
