@@ -107,7 +107,6 @@ class ezcTemplateTypeFunctions extends ezcTemplateFunctions
             case "cast_float": return array( array( "%var" ), 
                     array( "ezcTemplateTypeCastAstNode", array("float", "%var") )  );
 
-
         }
 
         return null;

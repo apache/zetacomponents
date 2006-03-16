@@ -271,6 +271,7 @@ return array(
              "ezcTemplateArrayFunctions" => "Template/functions/array_functions.php",
              "ezcTemplateRegExpFunctions" => "Template/functions/regexp_functions.php",
              "ezcTemplateTypeFunctions" => "Template/functions/type_functions.php",
+             "ezcTemplateMathFunctions" => "Template/functions/math_functions.php",
 
 // Functions code
              "ezcTemplateString" => "Template/functions/string_code.php",

@@ -750,8 +750,6 @@ sense to handle this in the template language.
 
     getclass( $v )
 
-  Note: Use debug_dump instead?
-
 Casting to a specific type is done with:
 
 - *string* string( $v )::
@@ -779,14 +777,15 @@ Casting to a specific type is done with:
 
 Arithmetics
 ```````````
+All functions are prefixed with math\_.
 
-- max( $v1 [, $v2 ...] )::
+- max( $v1 , $v2 [, ...] )::
 
-    max( $v1 [, $v2 ...] )
+    max( $v1 , $v2 [, ...] )
 
-- min( $v1 [, $v2 ...] )::
+- min( $v1 , $v2 [, ...] )::
 
-    min( $v1 [, $v2 ...] )
+    min( $v1 , $v2 [, ...] )
 
 - abs( $v )::
 
@@ -847,6 +846,10 @@ Arithmetics
 - is_nan( $v )::
 
     is_nan( $v )
+
+    Implemented, although a bit useless. Devision by zero is not possible to
+    test, and this function can mainly be used by Trigonometry functions. Which
+    are not implemented at the time.
 
 - bin_to_dec( $s )::
 

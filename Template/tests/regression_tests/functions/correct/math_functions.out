@@ -1,0 +1,67 @@
+math_max:
+4 4
+
+math_min:
+2 2
+
+math_abs:
+2 4
+
+math_ceil:
+3 3
+
+math_floor:
+2 2
+
+math_round:
+2 3
+
+math_sqrt:
+3 2
+
+math_exp:
+299
+
+math_pow:
+8
+
+math_log:
+3
+
+math_log10:
+2
+
+math_float_mod:
+0.5
+
+math_rand:
+2
+
+math_pi:
+3
+
+math_is_finite:
+1
+
+math_is_infinite:
+1
+
+math_is_nan:
+
+math_bin_to_dec:
+5
+
+math_hex_to_dec:
+26
+
+math_oct_to_dec:
+10
+
+math_dec_to_bin:
+101
+
+math_dec_to_hex:
+11
+
+math_dec_to_oct:
+21
