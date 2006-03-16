@@ -34,7 +34,7 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
 
     /**
      * The block element object which is the result of the parse operation.
-     * @var ezcTemplateExpressionBlockTstNode
+     * @var ezcTemplateOutputBlockTstNode
      */
 
     /**
@@ -78,7 +78,7 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
             echo "Starting expression using brackets ", $this->startBracket, '...', $this->endBracket, "\n";
 
         // $cursor will be update as the parser continues
-        $this->block = $this->parser->createExpressionBlock( clone $this->startCursor, $cursor );
+        $this->block = $this->parser->createOutputBlock( clone $this->startCursor, $cursor );
         $this->block->startBracket = $this->startBracket;
         $this->block->endBracket = $this->endBracket;
 

@@ -118,7 +118,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'PlusOperator' ),
                         array( 'EolComment', 'commentText', 'eol comment' ),
                         array( 'Type' ),
-                        array( 'ExpressionBlock' ) );
+                        array( 'OutputBlock' ) );
 
         $this->setupExpectedElements( $parser, $text, $source, $items );
 
@@ -146,59 +146,59 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
             echo "\nexpression_types_test.tpl\n";
 
         $items = array( array( 'Type', 'value', 1 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 42 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', -1234 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1.0 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', -4.2 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 0.5 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', "1" ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', "a short string" ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', "a short \"quoted\" string" ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', "1" ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', "a short string" ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', "a short \'quoted\' string" ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', true ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', false ),
-                        array( 'ExpressionBlock' ) );
+                        array( 'OutputBlock' ) );
 
         $this->setupExpectedElements( $parser, $text, $source, $items );
 
@@ -226,14 +226,14 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
             echo "\nexpression_array_types_test.tpl\n";
 
         $items = array( array( 'Type', 'value', array() ),
-                        array( 'ExpressionBlock' ) );
+                        array( 'OutputBlock' ) );
 
         $items_array1 = array( array( 'TextBlock' ),
                                array( 'Type', 'value', 1 ),
                                array( 'Type', 'value', 2 ),
                                array( 'Type', 'value', 3 ),
                                array( 'Type', 'value', array( 1, 2, 3 ) ),
-                               array( 'ExpressionBlock' ) );
+                               array( 'OutputBlock' ) );
 
         $items = array_merge( $items,
                               $items_array1, $items_array1, $items_array1 );
@@ -246,7 +246,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                                array( 'Type', 'value', 2 ),
                                array( 'Type', 'value', 3 ),
                                array( 'Type', 'value', array( 0 => 1, 1 => 2, 2 => 3 ) ),
-                               array( 'ExpressionBlock' ) );
+                               array( 'OutputBlock' ) );
 
         $items = array_merge( $items,
                               $items_array2, $items_array2, $items_array2 );
@@ -261,7 +261,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                                array( 'Type', 'value', "key1" ),
                                array( 'Type', 'value', -50 ),
                                array( 'Type', 'value', array( "abc" => "def", "foo" => "bar", 5 => "el1", "key1" => -50 ) ),
-                               array( 'ExpressionBlock' ) );
+                               array( 'OutputBlock' ) );
 
         $items = array_merge( $items,
                               $items_array3, $items_array3, $items_array3 );
@@ -273,7 +273,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                                array( 'Type', 'value', array( array( 3 ), 2 ) ),
                                array( 'Type', 'value', 1 ),
                                array( 'Type', 'value', array( array( array( 3 ), 2 ), 1  ) ),
-                               array( 'ExpressionBlock' ) );
+                               array( 'OutputBlock' ) );
 
         $items = array_merge( $items,
                               $items_array4 );
@@ -304,22 +304,22 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
 
         $items = array( array( 'Type', 'value', 'var' ),
                         array( 'Variable', 'name', 'var' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 'varName' ),
                         array( 'Variable', 'name', 'varName' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 'var_name' ),
                         array( 'Variable', 'name', 'var_name' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 'var_0_name' ),
                         array( 'Variable', 'name', 'var_0_name' ),
-                        array( 'ExpressionBlock' ) );
+                        array( 'OutputBlock' ) );
 
         $this->setupExpectedElements( $parser, $text, $source, $items );
 
@@ -349,28 +349,28 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Variable', 'name', 'item' ),
                         array( 'PropertyFetchOperator' ),
                         array( 'Type', 'value', 'prop1' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 'item' ),
                         array( 'Variable', 'name', 'item' ),
                         array( 'PropertyFetchOperator' ),
                         array( 'Type', 'value', 0 ),
-                        array( 'ExpressionBlock' ), // index 10
+                        array( 'OutputBlock' ), // index 10
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 'item' ),
                         array( 'Variable', 'name', 'item' ),
                         array( 'Type', 'value', 'prop1' ),
                         array( 'ArrayFetchOperator' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 'item' ),
                         array( 'Variable', 'name', 'item' ),
                         array( 'Type', 'value', 0 ), // index 20
                         array( 'ArrayFetchOperator' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 'item' ),
@@ -381,13 +381,13 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Type', 'value', 'subitem' ),
                         array( 'Type', 'value', "test" ), // index 30
                         array( 'ArrayFetchOperator' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
                         array( 'PlusOperator' ),
                         array( 'Type', 'value', 2 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
@@ -395,7 +395,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Type', 'value', 2 ),
                         array( 'PlusOperator' ),
                         array( 'Type', 'value', 3 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
@@ -418,7 +418,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Type', 'value', 100 ),
                         array( 'ConcatOperator' ),
                         array( 'Type', 'value', "a" ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock') );
 
@@ -449,8 +449,8 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Type', 'value', 2 ),
                         array( 'MultiplicationOperator' ),
                         array( 'Type', 'value', 3 ),
-                        array( 'ExpressionBlock' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
@@ -464,9 +464,9 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Type', 'value', 200 ),
                         array( 'MultiplicationOperator' ),
                         array( 'Type', 'value', 2 ),
-                        array( 'ExpressionBlock' ),
-                        array( 'ExpressionBlock' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
+                        array( 'OutputBlock' ),
+                        array( 'OutputBlock' ),
                         array( 'PlusOperator' ),
                         array( 'Type', 'value', 5 ),
                         array( 'PlusOperator' ),
@@ -474,8 +474,8 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Variable', 'name', 'node' ),
                         array( 'PlusOperator' ),
                         array( 'Type', 'value', 200 ),
-                        array( 'ExpressionBlock' ),
-                        array( 'ExpressionBlock' ) );
+                        array( 'OutputBlock' ),
+                        array( 'OutputBlock' ) );
 
         $this->setupExpectedElements( $parser, $text, $source, $items );
 
@@ -502,50 +502,50 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Variable', 'name', 'obj' ),
                         array( 'PropertyFetchOperator' ),
                         array( 'Type', 'value', 'prop' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 'a' ),
                         array( 'Variable', 'name', 'a' ),
                         array( 'Type', 'value', 0 ),
                         array( 'ArrayFetchOperator' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
                         array( 'PlusOperator' ),
                         array( 'Type', 'value', 2 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
                         array( 'MinusOperator' ),
                         array( 'Type', 'value', 2 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 'a' ),
                         array( 'ConcatOperator' ),
                         array( 'Type', 'value', 'b' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
                         array( 'MultiplicationOperator' ),
                         array( 'Type', 'value', 2 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
                         array( 'DivisionOperator' ),
                         array( 'Type', 'value', 2 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
                         array( 'ModuloOperator' ),
                         array( 'Type', 'value', 2 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
@@ -553,7 +553,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Type', 'value', 2 ),
                         array( 'EqualOperator' ),
                         array( 'Type', 'value', 3 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
@@ -561,7 +561,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Type', 'value', 2 ),
                         array( 'NotEqualOperator' ),
                         array( 'Type', 'value', 3 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
@@ -569,7 +569,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Type', 'value', 2 ),
                         array( 'IdenticalOperator' ),
                         array( 'Type', 'value', 3 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
@@ -577,7 +577,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Type', 'value', 2 ),
                         array( 'NotIdenticalOperator' ),
                         array( 'Type', 'value', 3 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
@@ -585,7 +585,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Type', 'value', 2 ),
                         array( 'LessThanOperator' ),
                         array( 'Type', 'value', 3 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
@@ -593,7 +593,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Type', 'value', 2 ),
                         array( 'GreaterThanOperator' ),
                         array( 'Type', 'value', 3 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
@@ -601,7 +601,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Type', 'value', 2 ),
                         array( 'LessEqualOperator' ),
                         array( 'Type', 'value', 3 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
@@ -609,7 +609,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Type', 'value', 2 ),
                         array( 'GreaterEqualOperator' ),
                         array( 'Type', 'value', 3 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
@@ -617,7 +617,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Type', 'value', 2 ),
                         array( 'LogicalAndOperator' ),
                         array( 'Type', 'value', 3 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
@@ -625,59 +625,59 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Type', 'value', 2 ),
                         array( 'LogicalOrOperator' ),
                         array( 'Type', 'value', 3 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
                         array( 'AssignmentOperator' ),
                         array( 'Type', 'value', 2 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
                         array( 'PlusAssignmentOperator' ),
                         array( 'Type', 'value', 2 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
                         array( 'MinusAssignmentOperator' ),
                         array( 'Type', 'value', 2 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
                         array( 'MultiplicationAssignmentOperator' ),
                         array( 'Type', 'value', 2 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
                         array( 'DivisionAssignmentOperator' ),
                         array( 'Type', 'value', 2 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
                         array( 'ConcatAssignmentOperator' ),
                         array( 'Type', 'value', 2 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
                         array( 'ModuloAssignmentOperator' ),
                         array( 'Type', 'value', 2 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'PreIncrementOperator' ),
                         array( 'Type', 'value', 1 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'PreDecrementOperator' ),
                         array( 'Type', 'value', 1 ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
@@ -685,29 +685,29 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'PlusOperator' ),
                         array( 'Type', 'value', 1 ),
                         array( 'PostDecrementOperator' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
                         array( 'PostIncrementOperator' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 1 ),
                         array( 'PostDecrementOperator' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'NegateOperator' ),
                         array( 'Type', 'value', 'a' ),
                         array( 'Variable', 'name', 'a' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'LogicalNegateOperator' ),
                         array( 'Type', 'value', 'a' ),
                         array( 'Variable', 'name', 'a' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
                         array( 'Type', 'value', 'a' ),
@@ -715,7 +715,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'InstanceOfOperator' ),
                         array( 'Type', 'value', 'b' ),
                         array( 'Variable', 'name', 'b' ),
-                        array( 'ExpressionBlock' ),
+                        array( 'OutputBlock' ),
 
                         );
 

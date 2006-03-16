@@ -159,7 +159,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return new ezcTemplateTypeAstNode( $type->text );
     }
 
-    public function visitExpressionBlockTstNode( ezcTemplateExpressionBlockTstNode $type )
+    public function visitOutputBlockTstNode( ezcTemplateOutputBlockTstNode $type )
     {
         $expression = $type->expressionRoot->accept( $this ); 
         return $expression;

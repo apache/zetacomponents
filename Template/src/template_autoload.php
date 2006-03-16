@@ -53,7 +53,7 @@ return array(
              "ezcTemplateCustomBlockTstNode" => "Template/syntax_trees/tst/nodes/custom_block.php",
              "ezcTemplateProgramTstNode" => "Template/syntax_trees/tst/nodes/program.php",
              "ezcTemplateLiteralBlockTstNode" => "Template/syntax_trees/tst/nodes/literal_block.php",
-             "ezcTemplateExpressionBlockTstNode" => "Template/syntax_trees/tst/nodes/expression_block.php",
+             "ezcTemplateOutputBlockTstNode" => "Template/syntax_trees/tst/nodes/expression_block.php",
              "ezcTemplateModifyingBlockTstNode" => "Template/syntax_trees/tst/nodes/modifying_block.php",
              "ezcTemplateTypeTstNode" => "Template/syntax_trees/tst/nodes/type.php",
              "ezcTemplateIntegerTstNode" => "Template/syntax_trees/tst/nodes/integer.php",

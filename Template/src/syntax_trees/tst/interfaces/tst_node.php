@@ -160,8 +160,8 @@ abstract class ezcTemplateTstNode
      *
      * The sub classes don't need to implement the usual accept() method.
      *
-     * If the current object is: ezcTemplateExpressionBlockTstNode then
-     * the method: $visitor->visitExpressionBlockTstNode( $this )  will be called.
+     * If the current object is: ezcTemplateOutputBlockTstNode then
+     * the method: $visitor->visitOutputBlockTstNode( $this )  will be called.
      */
     public function accept( ezcTemplateTstNodeVisitor $visitor  )
     {

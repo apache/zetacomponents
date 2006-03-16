@@ -170,15 +170,15 @@ class ezcTemplateParser
     }
 
     /**
-     * Creates a new expression block element object with the cursor positions and returns it.
+     * Creates a new output block element object with the cursor positions and returns it.
      *
      * @param ezcTemplateCursor $start The starting point of the element.
      * @param ezcTemplateCursor $end The ending point of the element.
-     * @return ezcTemplateExpressionBlockTstNode
+     * @return ezcTemplateOutputBlockTstNode
      */
-    public function createExpressionBlock( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    public function createOutputBlock( ezcTemplateCursor $start, ezcTemplateCursor $end )
     {
-        return new ezcTemplateExpressionBlockTstNode( $this->source, $start, $end );
+        return new ezcTemplateOutputBlockTstNode( $this->source, $start, $end );
     }
 
     /**

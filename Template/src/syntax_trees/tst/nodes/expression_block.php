@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateExpressionBlockTstNode class
+ * File containing the ezcTemplateOutputBlockTstNode class
  *
  * @package Template
  * @version //autogen//
@@ -8,14 +8,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Block element containing an expression.
+ * Block element containing an output expression.
  *
  * @package Template
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateExpressionBlockTstNode extends ezcTemplateBlockTstNode
+class ezcTemplateOutputBlockTstNode extends ezcTemplateBlockTstNode
 {
     /**
      * The bracket start character.
@@ -38,14 +38,14 @@ class ezcTemplateExpressionBlockTstNode extends ezcTemplateBlockTstNode
     public $elements;
 
     /**
-     * The inline element starting the expression.
+     * The inline element starting the output expression.
      *
      * @var ezcTemplateInlineTstNode
      */
 //    public $element; // removed, not needed
 
     /**
-     * The root of the parsed expression.
+     * The root of the parsed output expression.
      */
     public $expressionRoot;
 
@@ -72,13 +72,13 @@ class ezcTemplateExpressionBlockTstNode extends ezcTemplateBlockTstNode
     }
 
     /**
-     * Returns true since expression block elements can always be children of blocks.
+     * Returns true since output expression block elements can always be children of blocks.
      *
      * @return true
      */
     public function canBeChildOf( ezcTemplateBlockTstNode $block )
     {
-        // Expression block elements can always be child of blocks
+        // Output expression block elements can always be child of blocks
         return true;
     }
 

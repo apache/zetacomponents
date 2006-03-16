@@ -52,7 +52,7 @@ class ezcTemplateTstTreeDump implements ezcTemplateTstNodeVisitor
         $this->text .= $this->dumpTstNode( $node );
     }
 
-    public function visitExpressionBlockTstNode( ezcTemplateExpressionBlockTstNode $node )
+    public function visitOutputBlockTstNode( ezcTemplateOutputBlockTstNode $node )
     {
         $this->text .= $this->dumpTstNode( $node );
     }

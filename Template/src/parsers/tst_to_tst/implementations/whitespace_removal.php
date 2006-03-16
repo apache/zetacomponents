@@ -209,7 +209,7 @@ class ezcTemplateWhitespaceRemoval
         {
             if ( $element instanceof ezcTemplateTextTstNode &&
                  ( $previousSibling instanceof ezcTemplateBlockTstNode &&
-                   !$previousSibling instanceof ezcTemplateExpressionBlockTstNode ) )
+                   !$previousSibling instanceof ezcTemplateOutputBlockTstNode ) )
             {
                 // This text element is placed directly after a block element
                 // so we need to trim it.
