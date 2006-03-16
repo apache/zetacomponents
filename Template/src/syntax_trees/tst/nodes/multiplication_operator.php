@@ -29,15 +29,5 @@ class ezcTemplateMultiplicationOperatorTstNode extends ezcTemplateOperatorTstNod
                              8, 3, self::LEFT_ASSOCIATIVE,
                              '*' );
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

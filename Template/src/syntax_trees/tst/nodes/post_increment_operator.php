@@ -30,15 +30,5 @@ class ezcTemplatePostIncrementOperatorTstNode extends ezcTemplateModifyingOperat
                              '++' );
         $this->maxParameterCount = 1;
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

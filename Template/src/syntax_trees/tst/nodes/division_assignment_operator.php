@@ -29,15 +29,5 @@ class ezcTemplateDivisionAssignmentOperatorTstNode extends ezcTemplateModifyingO
                              1, 5, self::RIGHT_ASSOCIATIVE,
                              '/=' );
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

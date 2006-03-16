@@ -29,15 +29,5 @@ class ezcTemplateConcatOperatorTstNode extends ezcTemplateOperatorTstNode
                              7, 1, self::LEFT_ASSOCIATIVE,
                              '.' );
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

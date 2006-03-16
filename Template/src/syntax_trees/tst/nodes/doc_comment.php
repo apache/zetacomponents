@@ -59,15 +59,5 @@ class ezcTemplateDocCommentTstNode extends ezcTemplateBlockTstNode
     {
         return $this->startCursor->column;
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

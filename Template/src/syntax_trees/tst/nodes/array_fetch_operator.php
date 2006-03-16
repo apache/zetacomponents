@@ -62,15 +62,5 @@ class ezcTemplateArrayFetchOperatorTstNode extends ezcTemplateOperatorTstNode
         $this->parameters = array_merge( array( $this->sourceOperand ),
                                          $this->arrayKeys );
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

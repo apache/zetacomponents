@@ -30,15 +30,5 @@ class ezcTemplateInstanceOfOperatorTstNode extends ezcTemplateOperatorTstNode
                              'instanceof' );
         $this->maxParameterCount = 2;
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

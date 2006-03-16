@@ -30,15 +30,5 @@ class ezcTemplateLogicalNegateOperatorTstNode extends ezcTemplateOperatorTstNode
                              '!' );
         $this->maxParameterCount = 1;
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

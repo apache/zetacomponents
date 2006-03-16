@@ -61,15 +61,5 @@ class ezcTemplatePropertyFetchOperatorTstNode extends ezcTemplateOperatorTstNode
             $this->property = $element;
         $this->parameters[] = $element;
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

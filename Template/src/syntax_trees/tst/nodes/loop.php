@@ -31,14 +31,5 @@ class ezcTemplateLoopTstNode extends ezcTemplateBlockTstNode
         parent::__construct( $source, $start, $end );
         $this->name = $name;
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
 }
 ?>

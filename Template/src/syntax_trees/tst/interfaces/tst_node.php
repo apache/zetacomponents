@@ -143,19 +143,6 @@ abstract class ezcTemplateTstNode
     abstract public function minimumWhitespaceColumn();
 
     /**
-     * Transforms the parse element into a code element which can be used to
-     * generate PHP code.
-     *
-     * @retval ezcTemplateAstNode
-     */
-    //abstract public function transform();
-    public function transform()
-    {
-        // temporary code until code elements are ready
-        return false;
-    }
-
-    /**
      * The accept part for the visitor. 
      *
      * The sub classes don't need to implement the usual accept() method.

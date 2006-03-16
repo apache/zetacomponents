@@ -30,15 +30,5 @@ class ezcTemplateDivisionOperatorTstNode extends ezcTemplateOperatorTstNode
                              8, 2, self::LEFT_ASSOCIATIVE,
                              '/' );
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

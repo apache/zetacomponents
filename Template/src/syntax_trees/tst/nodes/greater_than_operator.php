@@ -30,15 +30,5 @@ class ezcTemplateGreaterThanOperatorTstNode extends ezcTemplateOperatorTstNode
                              6, 2, self::NON_ASSOCIATIVE,
                              '>' );
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

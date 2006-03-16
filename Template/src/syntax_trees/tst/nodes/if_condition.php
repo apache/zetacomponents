@@ -39,15 +39,6 @@ class ezcTemplateIfConditionTstNode extends ezcTemplateBlockTstNode
                       'children'  => $this->children );
     }
 
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
     public function canHandleElement( ezcTemplateTstNode $element )
     {
         return (

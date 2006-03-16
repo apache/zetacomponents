@@ -29,15 +29,5 @@ class ezcTemplateLogicalAndOperatorTstNode extends ezcTemplateOperatorTstNode
                              4, 1, self::LEFT_ASSOCIATIVE,
                              '&&' );
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

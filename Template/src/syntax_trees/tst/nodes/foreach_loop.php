@@ -47,15 +47,6 @@ class ezcTemplateForeachLoopTstNode extends ezcTemplateBlockTstNode
                       'children'         => $this->children );
     }
 
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
     public function canHandleElement( ezcTemplateTstNode $element )
     {
         return ( $element instanceof ezcTemplateLoopTstNode && $element->name != 'delimiter' );

@@ -68,15 +68,5 @@ class ezcTemplateLiteralBlockTstNode extends ezcTemplateTextTstNode
     {
         $this->text = $this->textStartCursor->subString( $this->textEndCursor->position );
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

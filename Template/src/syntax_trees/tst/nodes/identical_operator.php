@@ -30,15 +30,5 @@ class ezcTemplateIdenticalOperatorTstNode extends ezcTemplateOperatorTstNode
                              5, 2, self::NON_ASSOCIATIVE,
                              '===' );
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

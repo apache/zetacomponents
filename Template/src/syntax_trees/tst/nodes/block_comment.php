@@ -34,15 +34,5 @@ class ezcTemplateBlockCommentTstNode extends ezcTemplateExpressionTstNode
     {
         return array( 'commentText' => $this->commentText );
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform(  )
-    {
-    }
-
 }
 ?>

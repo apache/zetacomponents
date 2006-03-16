@@ -64,14 +64,5 @@ class ezcTemplateCustomBlockTstNode extends ezcTemplateBlockTstNode
     {
         return isset( $this->customParameters[$parameterName] );
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform(  )
-    {
-    }
 }
 ?>

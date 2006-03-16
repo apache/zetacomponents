@@ -29,15 +29,5 @@ class ezcTemplateMinusOperatorTstNode extends ezcTemplateOperatorTstNode
                              7, 2, self::LEFT_ASSOCIATIVE,
                              '-' );
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

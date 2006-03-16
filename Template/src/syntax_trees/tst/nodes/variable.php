@@ -41,15 +41,5 @@ class ezcTemplateVariableTstNode extends ezcTemplateExpressionTstNode
     {
         return array( 'name' => $this->name );
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>

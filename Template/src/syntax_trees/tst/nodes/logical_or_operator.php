@@ -29,15 +29,5 @@ class ezcTemplateLogicalOrOperatorTstNode extends ezcTemplateOperatorTstNode
                              3, 1, self::LEFT_ASSOCIATIVE,
                              '||' );
     }
-
-    /**
-     *
-     * @retval ezcTemplateAstNode
-     * @todo Not implemented yet.
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>
