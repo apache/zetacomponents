@@ -15,7 +15,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateBlockCommentTstNode extends ezcTemplateInlineTstNode
+class ezcTemplateBlockCommentTstNode extends ezcTemplateExpressionTstNode
 {
     /**
      * The parsed comment text without the start and end markers.

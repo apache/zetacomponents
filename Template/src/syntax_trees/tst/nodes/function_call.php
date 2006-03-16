@@ -15,7 +15,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateFunctionCallTstNode extends ezcTemplateInlineTstNode
+class ezcTemplateFunctionCallTstNode extends ezcTemplateExpressionTstNode
 {
     /**
      * Evaluation is handled by processing each parameter and then calling

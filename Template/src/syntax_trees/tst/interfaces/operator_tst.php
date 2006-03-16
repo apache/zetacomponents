@@ -33,7 +33,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-abstract class ezcTemplateOperatorTstNode extends ezcTemplateInlineTstNode
+abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
 {
     /**
      * The associativity order is not significant.

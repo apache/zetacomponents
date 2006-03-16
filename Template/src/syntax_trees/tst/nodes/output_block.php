@@ -38,9 +38,9 @@ class ezcTemplateOutputBlockTstNode extends ezcTemplateBlockTstNode
     public $elements;
 
     /**
-     * The inline element starting the output expression.
+     * The node starting the output expression.
      *
-     * @var ezcTemplateInlineTstNode
+     * @var ezcTemplateExpressionTstNode
      */
 //    public $element; // removed, not needed
 

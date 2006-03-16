@@ -8,14 +8,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Variable referal in an inline expression.
+ * Variable referal in an expression.
  *
  * @package Template
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateVariableTstNode extends ezcTemplateInlineTstNode
+class ezcTemplateVariableTstNode extends ezcTemplateExpressionTstNode
 {
 
     /**

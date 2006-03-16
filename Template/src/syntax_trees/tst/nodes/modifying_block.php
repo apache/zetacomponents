@@ -38,9 +38,9 @@ class ezcTemplateModifyingBlockTstNode extends ezcTemplateBlockTstNode
     public $elements;
 
     /**
-     * The inline element starting the modifying expression.
+     * The node starting the modifying expression.
      *
-     * @var ezcTemplateInlineTstNode
+     * @var ezcTemplateExpressionTstNode
      */
 //    public $element; // removed, not needed
 

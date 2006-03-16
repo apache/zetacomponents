@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateInlineTstNode class
+ * File containing the ezcTemplateExpressionTstNode class
  *
  * @package Template
  * @version //autogen//
@@ -8,14 +8,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Interface for inline elements in parser trees.
+ * Interface for expression nodes in parser trees.
  *
  * @package Template
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-abstract class ezcTemplateInlineTstNode extends ezcTemplateTstNode
+abstract class ezcTemplateExpressionTstNode extends ezcTemplateTstNode
 {
     /**
      */
@@ -25,14 +25,14 @@ abstract class ezcTemplateInlineTstNode extends ezcTemplateTstNode
     }
 
     /**
-     * Returns false since inline elements can never be children of blocks.
+     * Returns false since expression nodes can never be children of blocks.
      *
      * @return true
      */
     public function canBeChildOf( ezcTemplateBlockTstNode $block )
     {
-        // Inline elements can never be children of blocks,
-        // these elements should only be used inside expressions
+        // Expression nodes can never be children of blocks,
+        // these nodes should only be used inside expressions
         return false;
     }
 

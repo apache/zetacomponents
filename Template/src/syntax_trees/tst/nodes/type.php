@@ -8,14 +8,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Builtin type value in an inline expression.
+ * Builtin type value in an expression.
  *
  * @package Template
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateTypeTstNode extends ezcTemplateInlineTstNode
+class ezcTemplateTypeTstNode extends ezcTemplateExpressionTstNode
 {
 
     /**
