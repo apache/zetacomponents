@@ -27,3 +27,20 @@ is_string:
 
 is_set:
 1
+
+is_constant:
+1
+
+get_constant:
+1
+
+get_class:
+
+cast_string:
+5.7
+
+cast_int:
+5
+
+cast_float:
+5.7

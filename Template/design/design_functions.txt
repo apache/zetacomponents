@@ -736,11 +736,15 @@ sense to handle this in the template language.
 
     !is_set( $v )
 
+    Skipped
+
 - *string* get_type( $v )::
 
     gettype( $v )
 
   Note: Use debug_dump instead?
+
+  Skipped
 
 - *string* get_class( $v )::
 
@@ -764,7 +768,9 @@ Casting to a specific type is done with:
 
 - *mixed* get_constant( $const )::
 
-    if ( defined( $const ) ) return constant( $const );
+    // if ( defined( $const ) ) return constant( $const );
+    const( $const);
+
 
 - *bool* is_constant( $const )::
 

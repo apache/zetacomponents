@@ -77,42 +77,35 @@ class ezcTemplateTypeFunctions extends ezcTemplateFunctions
             case "is_set": return array( array( "%var" ), 
                     self::functionCall( "isset", array( "%var" ) ) );
 
-            // is_unset( $v )::
-            // !is_set( $v )
-            // SKIPPED.
+            // is_constant( $const )::
+            // return defined( $const )
+            case "is_constant": return array( array( "%var" ), 
+                    self::functionCall( "defined", array( "%var" ) ) );
 
+            // get_constant( $const )::
+            // constant( $const );
+            case "get_constant": return array( array( "%var" ), 
+                    self::functionCall( "constant", array( "%var" ) ) );
 
-/*            // get_type( $v )::
-            // gettype( $v )
+            // get_class( $var )::
+            // getclass( $var );
+            case "get_class": return array( array( "%var" ), 
+                    self::functionCall( "getclass", array( "%var" ) ) );
 
-  Note: Use debug_dump instead?
-
-            // get_class( $v )::
-            // getclass( $v )
-
-  Note: Use debug_dump instead?
-
-Casting to a specific type is done with:
-
-            // string( $v )::
+            // cast_string( $v )::
             // (string)$v
-*/
+            case "cast_string": return array( array( "%var" ), 
+                    array( "ezcTemplateTypeCastAstNode", array("string", "%var") )  );
 
             // cast_int( $v )::
             // (int)$v
-//            case "cast_int": return array( array( "%var" ), 
+            case "cast_int": return array( array( "%var" ), 
+                    array( "ezcTemplateTypeCastAstNode", array("int", "%var") )  );
 
-                    /*
-
-            // float( $v )::
+            // cast_float( $v )::
             // (float)$v
-
-            // get_constant( $const )::
-            // if ( defined( $const ) ) return constant( $const );
-
-            // is_constant( $const )::
-            // return defined( $const )
-*/
+            case "cast_float": return array( array( "%var" ), 
+                    array( "ezcTemplateTypeCastAstNode", array("float", "%var") )  );
 
 
         }

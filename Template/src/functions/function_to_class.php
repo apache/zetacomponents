@@ -10,6 +10,8 @@ return array
 "/^preg_.*/" => "ezcTemplateRegExpFunctions",
 "/^preg_.*/" => "ezcTemplateRegExpFunctions",
 "/^is_.*/"   => "ezcTemplateTypeFunctions",
+"/^get_constant$/"   => "ezcTemplateTypeFunctions",
+"/^cast_.*/" => "ezcTemplateTypeFunctions",
 );
 
 

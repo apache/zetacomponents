@@ -282,6 +282,17 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         // Output type using var_export
         $this->write( var_export( $type->value, true ) );
     }
+    
+    /**
+     * Casts the value to the type.
+     *
+     * @param ezcTemplateTypeAstNode $type 
+     */
+    public function visitTypeCast( ezcTemplateTypeCastAstNode $type ) {
+       $this->write( "(".$type->type.")" );
+
+       $type->value->accept( $this );
+    }
 
     /**
      * Writes the constant as-is.

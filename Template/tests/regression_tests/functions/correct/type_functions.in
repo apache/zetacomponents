@@ -27,3 +27,20 @@ is_string:
 
 is_set:
 {!is_set( $qasodifjdaosd )}
+
+is_constant:
+{is_constant( "SEEK_CUR" )}
+
+get_constant:
+{get_constant( "SEEK_CUR") }
+
+get_class:
+
+cast_string:
+{cast_string(5.7)}
+
+cast_int:
+{cast_int( 5.7 )}
+
+cast_float:
+{cast_float(5.7)}
