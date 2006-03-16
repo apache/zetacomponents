@@ -901,7 +901,7 @@ class ezcTemplateParser
         }
     }
 
-    public function parseIntoTextElements()
+    public function parseIntoNodeTree()
     {
         if ( !$this->source->hasCode() )
             throw new ezcTemplateParseException( ezcTemplateParseException::NO_SOURCE_CODE );

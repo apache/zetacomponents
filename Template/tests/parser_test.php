@@ -48,7 +48,7 @@ class ezcTemplateParserTest extends ezcTestCase
         $source = new ezcTemplateSourceCode( 'mock', 'mock', $text );
         $parser = new ezcTemplateParser( $source, $this->manager );
 
-        $program = $parser->parseIntoTextElements();
+        $program = $parser->parseIntoNodeTree();
 
         echo ezcTemplateTstTreeDump::dump( $program );
 
