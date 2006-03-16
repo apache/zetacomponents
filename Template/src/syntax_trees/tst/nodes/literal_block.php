@@ -56,9 +56,8 @@ class ezcTemplateLiteralBlockTstNode extends ezcTemplateTextTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end );
-        $this->text = false;
         $this->textStartCursor = null;
-        $this->textEndCursor = null;
+        $this->textEndCursor   = null;
     }
 
     /**

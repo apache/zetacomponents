@@ -61,7 +61,9 @@ abstract class ezcTemplateTextTstNode extends ezcTemplateCodeTstNode
     {
         parent::__construct( $source, $start, $end );
         $this->minimumWhitespace = null;
-        $this->startColumn = $start->column;
+        $this->startColumn       = $start->column;
+        $this->text              = false;
+        $this->lines             = array();
     }
 
     public function getTreeProperties()

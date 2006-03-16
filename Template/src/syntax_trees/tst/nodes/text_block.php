@@ -51,7 +51,7 @@ class ezcTemplateTextBlockTstNode extends ezcTemplateTextTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end );
-        $this->text = self::stripText( $start->subString( $end->position ) );
+        $this->text  = self::stripText( $start->subString( $end->position ) );
         $this->lines = $this->splitIntoLines( $this->text );
     }
 
