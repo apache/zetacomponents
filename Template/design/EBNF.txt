@@ -170,6 +170,7 @@ Basic literals
   Literal              ::= NumeralLiteral 
                        |   StringLiteral 
                        |   BooleanLiteral
+                       |   NullLiteral
 
   NumeralLiteral       ::=  HexLiteral | OctLiteral | FloatLiteral
 
@@ -182,8 +183,10 @@ Basic literals
   StringLiteral        ::= '"' Graphic* '"' 
                        |   "'" Graphic* "'"
 
-  BooleanLiteral       ::= true 
-                       |   false 
+  BooleanLiteral       ::= 'true'
+                       |   'false'
+
+  NullLiteral          ::= 'null'
 
 
 Lexicon
