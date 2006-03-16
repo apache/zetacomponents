@@ -18,157 +18,157 @@
 interface ezcTemplateTstNodeVisitor
 {
 
-    public function visitBlockTstNode( ezcTemplateBlockTstNode $type ); 
+    public function visitBlockTstNode( ezcTemplateBlockTstNode $node ); 
 
 
-    public function visitCustomBlockTstNode( ezcTemplateCustomBlockTstNode $type );
+    public function visitCustomBlockTstNode( ezcTemplateCustomBlockTstNode $node );
 
 
-    public function visitProgramTstNode( ezcTemplateProgramTstNode $type );
+    public function visitProgramTstNode( ezcTemplateProgramTstNode $node );
 
 
-    public function visitLiteralBlockTstNode( ezcTemplateLiteralBlockTstNode $type );
+    public function visitLiteralBlockTstNode( ezcTemplateLiteralBlockTstNode $node );
 
 
-    public function visitExpressionBlockTstNode( ezcTemplateExpressionBlockTstNode $type );
+    public function visitExpressionBlockTstNode( ezcTemplateExpressionBlockTstNode $node );
 
 
-    public function visitModifyingBlockTstNode( ezcTemplateModifyingBlockTstNode $type );
+    public function visitModifyingBlockTstNode( ezcTemplateModifyingBlockTstNode $node );
 
 
-    public function visitTypeTstNode( ezcTemplateTypeTstNode $type );
+    public function visitTypeTstNode( ezcTemplateTypeTstNode $node );
 
 
-    public function visitIntegerTstNode( ezcTemplateIntegerTstNode $type );
+    public function visitIntegerTstNode( ezcTemplateIntegerTstNode $node );
 
 
-    public function visitVariableTstNode( ezcTemplateVariableTstNode $type );
+    public function visitVariableTstNode( ezcTemplateVariableTstNode $node );
 
 
-    public function visitTextBlockTstNode( ezcTemplateTextBlockTstNode $type );
+    public function visitTextBlockTstNode( ezcTemplateTextBlockTstNode $node );
 
 
-    public function visitFunctionCallTstNode( ezcTemplateFunctionCallTstNode $type );
+    public function visitFunctionCallTstNode( ezcTemplateFunctionCallTstNode $node );
 
 
-    public function visitDocCommentTstNode( ezcTemplateDocCommentTstNode $type );
+    public function visitDocCommentTstNode( ezcTemplateDocCommentTstNode $node );
 
 
-    public function visitBlockCommentTstNode( ezcTemplateBlockCommentTstNode $type );
+    public function visitBlockCommentTstNode( ezcTemplateBlockCommentTstNode $node );
 
 
-    public function visitEolCommentTstNode( ezcTemplateEolCommentTstNode $type );
+    public function visitEolCommentTstNode( ezcTemplateEolCommentTstNode $node );
 
 
-    public function visitForeachLoopTstNode( ezcTemplateForeachLoopTstNode $type );
+    public function visitForeachLoopTstNode( ezcTemplateForeachLoopTstNode $node );
 
 
-    public function visitWhileLoopTstNode( ezcTemplateWhileLoopTstNode $type );
+    public function visitWhileLoopTstNode( ezcTemplateWhileLoopTstNode $node );
 
 
-    public function visitIfConditionTstNode( ezcTemplateIfConditionTstNode $type );
+    public function visitIfConditionTstNode( ezcTemplateIfConditionTstNode $node );
 
 
-    public function visitLoopTstNode( ezcTemplateLoopTstNode $type );
+    public function visitLoopTstNode( ezcTemplateLoopTstNode $node );
 
 
-    public function visitPropertyFetchOperatorTstNode( ezcTemplatePropertyFetchOperatorTstNode $type );
+    public function visitPropertyFetchOperatorTstNode( ezcTemplatePropertyFetchOperatorTstNode $node );
 
 
-    public function visitArrayFetchOperatorTstNode( ezcTemplateArrayFetchOperatorTstNode $type );
+    public function visitArrayFetchOperatorTstNode( ezcTemplateArrayFetchOperatorTstNode $node );
 
 
-    public function visitPlusOperatorTstNode( ezcTemplatePlusOperatorTstNode $type );
+    public function visitPlusOperatorTstNode( ezcTemplatePlusOperatorTstNode $node );
 
 
-    public function visitMinusOperatorTstNode( ezcTemplateMinusOperatorTstNode $type );
+    public function visitMinusOperatorTstNode( ezcTemplateMinusOperatorTstNode $node );
 
 
-    public function visitConcatOperatorTstNode( ezcTemplateConcatOperatorTstNode $type );
+    public function visitConcatOperatorTstNode( ezcTemplateConcatOperatorTstNode $node );
 
 
-    public function visitMultiplicationOperatorTstNode( ezcTemplateMultiplicationOperatorTstNode $type );
+    public function visitMultiplicationOperatorTstNode( ezcTemplateMultiplicationOperatorTstNode $node );
 
 
-    public function visitDivisionOperatorTstNode( ezcTemplateDivisionOperatorTstNode $type );
+    public function visitDivisionOperatorTstNode( ezcTemplateDivisionOperatorTstNode $node );
 
 
-    public function visitModuloOperatorTstNode( ezcTemplateModuloOperatorTstNode $type );
+    public function visitModuloOperatorTstNode( ezcTemplateModuloOperatorTstNode $node );
 
 
-    public function visitEqualOperatorTstNode( ezcTemplateEqualOperatorTstNode $type );
+    public function visitEqualOperatorTstNode( ezcTemplateEqualOperatorTstNode $node );
 
 
-    public function visitNotEqualOperatorTstNode( ezcTemplateNotEqualOperatorTstNode $type );
+    public function visitNotEqualOperatorTstNode( ezcTemplateNotEqualOperatorTstNode $node );
 
 
-    public function visitIdenticalOperatorTstNode( ezcTemplateIdenticalOperatorTstNode $type );
+    public function visitIdenticalOperatorTstNode( ezcTemplateIdenticalOperatorTstNode $node );
 
 
-    public function visitNotIdenticalOperatorTstNode( ezcTemplateNotIdenticalOperatorTstNode $type );
+    public function visitNotIdenticalOperatorTstNode( ezcTemplateNotIdenticalOperatorTstNode $node );
 
 
-    public function visitLessThanOperatorTstNode( ezcTemplateLessThanOperatorTstNode $type );
+    public function visitLessThanOperatorTstNode( ezcTemplateLessThanOperatorTstNode $node );
 
 
-    public function visitGreaterThanOperatorTstNode( ezcTemplateGreaterThanOperatorTstNode $type );
+    public function visitGreaterThanOperatorTstNode( ezcTemplateGreaterThanOperatorTstNode $node );
 
 
-    public function visitLessEqualOperatorTstNode( ezcTemplateLessEqualOperatorTstNode $type );
+    public function visitLessEqualOperatorTstNode( ezcTemplateLessEqualOperatorTstNode $node );
 
 
-    public function visitGreaterEqualOperatorTstNode( ezcTemplateGreaterEqualOperatorTstNode $type );
+    public function visitGreaterEqualOperatorTstNode( ezcTemplateGreaterEqualOperatorTstNode $node );
 
 
-    public function visitLogicalAndOperatorTstNode( ezcTemplateLogicalAndOperatorTstNode $type );
+    public function visitLogicalAndOperatorTstNode( ezcTemplateLogicalAndOperatorTstNode $node );
 
 
-    public function visitLogicalOrOperatorTstNode( ezcTemplateLogicalOrOperatorTstNode $type );
+    public function visitLogicalOrOperatorTstNode( ezcTemplateLogicalOrOperatorTstNode $node );
 
 
-    public function visitConditionalOperatorTstNode( ezcTemplateConditionalOperatorTstNode $type );
+    public function visitConditionalOperatorTstNode( ezcTemplateConditionalOperatorTstNode $node );
 
 
-    public function visitAssignmentOperatorTstNode( ezcTemplateAssignmentOperatorTstNode $type );
+    public function visitAssignmentOperatorTstNode( ezcTemplateAssignmentOperatorTstNode $node );
 
 
-    public function visitPlusAssignmentOperatorTstNode( ezcTemplatePlusAssignmentOperatorTstNode $type );
+    public function visitPlusAssignmentOperatorTstNode( ezcTemplatePlusAssignmentOperatorTstNode $node );
 
 
-    public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentOperatorTstNode $type );
+    public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentOperatorTstNode $node );
 
 
-    public function visitMultiplicationAssignmentOperatorTstNode( ezcTemplateMultiplicationAssignmentOperatorTstNode $type );
+    public function visitMultiplicationAssignmentOperatorTstNode( ezcTemplateMultiplicationAssignmentOperatorTstNode $node );
 
 
-    public function visitDivisionAssignmentOperatorTstNode( ezcTemplateDivisionAssignmentOperatorTstNode $type );
+    public function visitDivisionAssignmentOperatorTstNode( ezcTemplateDivisionAssignmentOperatorTstNode $node );
 
 
-    public function visitConcatAssignmentOperatorTstNode( ezcTemplateConcatAssignmentOperatorTstNode $type );
+    public function visitConcatAssignmentOperatorTstNode( ezcTemplateConcatAssignmentOperatorTstNode $node );
 
 
-    public function visitModuloAssignmentOperatorTstNode( ezcTemplateModuloAssignmentOperatorTstNode $type );
+    public function visitModuloAssignmentOperatorTstNode( ezcTemplateModuloAssignmentOperatorTstNode $node );
 
 
-    public function visitPreIncrementOperatorTstNode( ezcTemplatePreIncrementOperatorTstNode $type );
+    public function visitPreIncrementOperatorTstNode( ezcTemplatePreIncrementOperatorTstNode $node );
 
 
-    public function visitPreDecrementOperatorTstNode( ezcTemplatePreDecrementOperatorTstNode $type );
+    public function visitPreDecrementOperatorTstNode( ezcTemplatePreDecrementOperatorTstNode $node );
 
 
-    public function visitPostIncrementOperatorTstNode( ezcTemplatePostIncrementOperatorTstNode $type );
+    public function visitPostIncrementOperatorTstNode( ezcTemplatePostIncrementOperatorTstNode $node );
 
 
-    public function visitPostDecrementOperatorTstNode( ezcTemplatePostDecrementOperatorTstNode $type );
+    public function visitPostDecrementOperatorTstNode( ezcTemplatePostDecrementOperatorTstNode $node );
 
 
-    public function visitNegateOperatorTstNode( ezcTemplateNegateOperatorTstNode $type );
+    public function visitNegateOperatorTstNode( ezcTemplateNegateOperatorTstNode $node );
 
 
-    public function visitLogicalNegateOperatorTstNode( ezcTemplateLogicalNegateOperatorTstNode $type );
+    public function visitLogicalNegateOperatorTstNode( ezcTemplateLogicalNegateOperatorTstNode $node );
 
 
-    public function visitInstanceOfOperatorTstNode( ezcTemplateInstanceOfOperatorTstNode $type );
+    public function visitInstanceOfOperatorTstNode( ezcTemplateInstanceOfOperatorTstNode $node );
 
 
 
