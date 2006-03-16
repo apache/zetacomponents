@@ -41,7 +41,7 @@ return array(
 
 // Syntax trees / TST interfaces
              "ezcTemplateTstNode" => "Template/syntax_trees/tst/interfaces/tst_node.php",
-             "ezcTemplateExpressionTstNode" => "Template/syntax_trees/tst/interfaces/inline_tst.php",
+             "ezcTemplateExpressionTstNode" => "Template/syntax_trees/tst/interfaces/expression_tst.php",
              "ezcTemplateOperatorTstNode" => "Template/syntax_trees/tst/interfaces/operator_tst.php",
              "ezcTemplateModifyingOperatorTstNode" => "Template/syntax_trees/tst/interfaces/modifying_operator_tst.php",
              "ezcTemplateCodeTstNode" => "Template/syntax_trees/tst/interfaces/code_tst.php",
