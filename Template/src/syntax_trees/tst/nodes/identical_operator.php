@@ -27,17 +27,8 @@ class ezcTemplateIdenticalOperatorTstNode extends ezcTemplateOperatorTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end,
-                             5, 2, self::NON_ASSOCIATIVE );
-    }
-
-    /**
-     * Returns the identical sign (===) symbol.
-     *
-     * @return string
-     */
-    public function symbol()
-    {
-        return '===';
+                             5, 2, self::NON_ASSOCIATIVE,
+                             '===' );
     }
 
     /**

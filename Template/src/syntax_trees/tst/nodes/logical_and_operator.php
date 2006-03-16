@@ -26,12 +26,8 @@ class ezcTemplateLogicalAndOperatorTstNode extends ezcTemplateOperatorTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end,
-                             4, 1, self::LEFT_ASSOCIATIVE );
-    }
-
-    public function symbol()
-    {
-        return '&&';
+                             4, 1, self::LEFT_ASSOCIATIVE,
+                             '&&' );
     }
 
     /**

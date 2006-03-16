@@ -26,12 +26,8 @@ class ezcTemplateMultiplicationAssignmentOperatorTstNode extends ezcTemplateModi
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end,
-                             1, 4, self::RIGHT_ASSOCIATIVE );
-    }
-
-    public function symbol()
-    {
-        return '*=';
+                             1, 4, self::RIGHT_ASSOCIATIVE,
+                             '*=' );
     }
 
     /**

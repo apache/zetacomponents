@@ -48,19 +48,6 @@ class ezcTemplateIfConditionTstNode extends ezcTemplateBlockTstNode
     {
     }
 
-    public function symbol()
-    {
-        if ( $this->name == 'if' )
-        {
-            $c = $this->condition;
-            $text = "if $c";
-        }
-        else
-            $text = "else";
-
-        return $text;
-    }
-
     public function canHandleElement( ezcTemplateTstNode $element )
     {
         return (

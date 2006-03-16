@@ -42,11 +42,6 @@ class ezcTemplateCustomBlockTstNode extends ezcTemplateBlockTstNode
                       'children'         => $this->children );
     }
 
-    public function symbol()
-    {
-        return '{' . ( $this->isClosingBlock ? '/' : '' ) . 'custom:' . $this->name . '}';
-    }
-
     /**
      * Adds the element $parameter as a parameter of this custom block element.
      *

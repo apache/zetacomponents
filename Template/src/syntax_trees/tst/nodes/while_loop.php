@@ -48,11 +48,6 @@ class ezcTemplateWhileLoopTstNode extends ezcTemplateBlockTstNode
     {
     }
 
-    public function symbol()
-    {
-        return $this->name . "(" . $this->condition . ")";
-    }
-
     public function canHandleElement( ezcTemplateTstNode $element )
     {
         return ( $element instanceof ezcTemplateLoopTstNode && $element->name != 'delimiter' );

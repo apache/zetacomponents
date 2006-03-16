@@ -26,12 +26,8 @@ class ezcTemplateConcatOperatorTstNode extends ezcTemplateOperatorTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end,
-                             7, 1, self::LEFT_ASSOCIATIVE );
-    }
-
-    public function symbol()
-    {
-        return '.';
+                             7, 1, self::LEFT_ASSOCIATIVE,
+                             '.' );
     }
 
     /**

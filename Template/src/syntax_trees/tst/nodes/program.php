@@ -31,11 +31,6 @@ class ezcTemplateProgramTstNode extends ezcTemplateBlockTstNode
         parent::__construct( $source, $start, $end );
     }
 
-    public function symbol()
-    {
-        return '/';
-    }
-
     public function getTreeProperties()
     {
         return array( 'children' => $this->children );

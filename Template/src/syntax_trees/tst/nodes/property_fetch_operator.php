@@ -40,21 +40,17 @@ class ezcTemplatePropertyFetchOperatorTstNode extends ezcTemplateOperatorTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end,
-                             11, 2, self::LEFT_ASSOCIATIVE );
+                             11, 2, self::LEFT_ASSOCIATIVE,
+                             '->' );
         $this->sourceOperand = null;
         $this->property = null;
     }
 
     public function getTreeProperties()
     {
-        return array( 'symbol'         => $this->symbol(),
+        return array( 'symbol'         => $this->symbol,
                       'sourceOperand'  => $this->sourceOperand,
                       'property'       => $this->property );
-    }
-
-    public function symbol()
-    {
-        return '->';
     }
 
     public function appendParameter( $element )

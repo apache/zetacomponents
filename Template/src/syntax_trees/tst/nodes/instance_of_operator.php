@@ -26,13 +26,9 @@ class ezcTemplateInstanceOfOperatorTstNode extends ezcTemplateOperatorTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end,
-                             9, 1, self::NON_ASSOCIATIVE );
+                             9, 1, self::NON_ASSOCIATIVE,
+                             'instanceof' );
         $this->maxParameterCount = 2;
-    }
-
-    public function symbol()
-    {
-        return 'instanceof';
     }
 
     /**

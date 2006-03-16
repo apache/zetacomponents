@@ -81,11 +81,6 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
         $this->minimumWhitespace = null;
     }
 
-    public function symbol()
-    {
-        return '{' . ( $this->isClosingBlock ? '/' : '' ) . $this->name . '}';
-    }
-
     public function getTreeProperties()
     {
         return array( 'name'           => $this->name,

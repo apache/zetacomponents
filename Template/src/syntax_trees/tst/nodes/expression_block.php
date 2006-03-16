@@ -71,11 +71,6 @@ class ezcTemplateExpressionBlockTstNode extends ezcTemplateBlockTstNode
                       'expressionRoot' => $this->expressionRoot );
     }
 
-    public function symbol()
-    {
-        return $this->startBracket . 'expr' . $this->endBracket;
-    }
-
     /**
      * Returns true since expression block elements can always be children of blocks.
      *

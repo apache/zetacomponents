@@ -74,15 +74,6 @@ class ezcTemplateFunctionCallTstNode extends ezcTemplateInlineTstNode
     }
 
     /**
-     * Returns a symbol representation of the operator.
-     * @return string
-     */
-    public function symbol()
-    {
-        return $this->name . '()';
-    }
-
-    /**
      * Prepends the element $element as a parameter to the current operator.
      * @param ezcTemplateTstNode
      */

@@ -26,13 +26,9 @@ class ezcTemplateLogicalNegateOperatorTstNode extends ezcTemplateOperatorTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end,
-                             9, 3, self::NON_ASSOCIATIVE );
+                             9, 3, self::NON_ASSOCIATIVE,
+                             '!' );
         $this->maxParameterCount = 1;
-    }
-
-    public function symbol()
-    {
-        return '!';
     }
 
     /**

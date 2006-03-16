@@ -26,12 +26,8 @@ class ezcTemplatePlusOperatorTstNode extends ezcTemplateOperatorTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end,
-                             7, 3, self::LEFT_ASSOCIATIVE );
-    }
-
-    public function symbol()
-    {
-        return '+';
+                             7, 3, self::LEFT_ASSOCIATIVE,
+                             '+' );
     }
 
     public function accept( ezcTemplateTstNodeVisitor $visitor  )

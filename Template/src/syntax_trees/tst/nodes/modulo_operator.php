@@ -27,17 +27,8 @@ class ezcTemplateModuloOperatorTstNode extends ezcTemplateOperatorTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end,
-                             8, 1, self::LEFT_ASSOCIATIVE );
-    }
-
-    /**
-     * Returns the slash (%) symbol.
-     *
-     * @return string
-     */
-    public function symbol()
-    {
-        return '%';
+                             8, 1, self::LEFT_ASSOCIATIVE,
+                             '%' );
     }
 
     /**

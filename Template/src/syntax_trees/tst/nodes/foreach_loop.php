@@ -56,28 +56,6 @@ class ezcTemplateForeachLoopTstNode extends ezcTemplateBlockTstNode
     {
     }
 
-    public function symbol()
-    {
-        $text = 'foreach ';
-        $a = $this->array;
-        $k = $this->keyVariableName;
-        $i = $this->itemVariableName;
-
-        if ( is_array( $a ) )
-            $text .= "<array>";
-        else
-            $text .= "\$$a";
-
-        $text .= " as ";
-
-        if ( isset( $k ) )
-            $text .= "\$$k => \$$i";
-        else
-            $text .= "\$$i";
-
-        return $text;
-    }
-
     public function canHandleElement( ezcTemplateTstNode $element )
     {
         return ( $element instanceof ezcTemplateLoopTstNode && $element->name != 'delimiter' );

@@ -26,13 +26,9 @@ class ezcTemplatePreIncrementOperatorTstNode extends ezcTemplateModifyingOperato
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end,
-                             10, 2, self::NON_ASSOCIATIVE );
+                             10, 2, self::NON_ASSOCIATIVE,
+                             '++' );
         $this->maxParameterCount = 1;
-    }
-
-    public function symbol()
-    {
-        return '++<type>';
     }
 
     /**

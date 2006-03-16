@@ -70,16 +70,6 @@ class ezcTemplateLiteralBlockTstNode extends ezcTemplateTextTstNode
         $this->text = $this->textStartCursor->subString( $this->textEndCursor->position );
     }
 
-    public function symbol()
-    {
-        return "{literal}\n" .
-            join( "\n",
-                  array_map( create_function( '$e',
-                                              'return "[" . $e . "]";' ),
-                             explode( "\n", $this->text ) ) ) . "\n" .
-            "{/literal}";
-    }
-
     /**
      *
      * @retval ezcTemplateAstNode

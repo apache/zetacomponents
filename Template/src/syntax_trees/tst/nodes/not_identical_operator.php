@@ -27,17 +27,8 @@ class ezcTemplateNotIdenticalOperatorTstNode extends ezcTemplateOperatorTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end,
-                             5, 1, self::NON_ASSOCIATIVE );
-    }
-
-    /**
-     * Returns the not identical sign (!==) symbol.
-     *
-     * @return string
-     */
-    public function symbol()
-    {
-        return '!==';
+                             5, 1, self::NON_ASSOCIATIVE,
+                             '!==' );
     }
 
     /**

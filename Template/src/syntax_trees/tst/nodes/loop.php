@@ -40,10 +40,5 @@ class ezcTemplateLoopTstNode extends ezcTemplateBlockTstNode
     public function transform()
     {
     }
-
-    public function symbol()
-    {
-        return isset( $this->name ) ? $this->name : '<an unknown flow control block>';
-    }
 }
 ?>

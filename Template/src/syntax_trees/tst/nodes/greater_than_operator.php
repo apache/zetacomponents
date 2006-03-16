@@ -27,17 +27,8 @@ class ezcTemplateGreaterThanOperatorTstNode extends ezcTemplateOperatorTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end,
-                             6, 2, self::NON_ASSOCIATIVE );
-    }
-
-    /**
-     * Returns the right angle bracket sign (>) symbol.
-     *
-     * @return string
-     */
-    public function symbol()
-    {
-        return '>';
+                             6, 2, self::NON_ASSOCIATIVE,
+                             '>' );
     }
 
     /**

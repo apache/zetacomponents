@@ -109,31 +109,77 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateInlineTstNode
     public $maxParameterCount;
 
     /**
+     * The symbol representing this operator.
+     *
+     * @note This is a read-only property.
+     * @access public
+     * @var string
+     */
+    private $symbol;
+
+    /**
      * Initialize element with source and cursor positions.
      */
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end,
-                                 $precedence, $order, $associativity )
+                                 $precedence, $order, $associativity, $symbol = false )
     {
         parent::__construct( $source, $start, $end );
-        $this->precedence = $precedence;
-        $this->order = $order;
+        $this->precedence    = $precedence;
+        $this->order         = $order;
         $this->associativity = $associativity;
+        $this->symbol        = $symbol;
 
-        $this->parameters = array();
-        $this->parentOperator = null;
+        $this->parameters        = array();
+        $this->parentOperator    = null;
         $this->maxParameterCount = false;
     }
 
-    /**
-     * Returns a symbol representation of the operator.
-     * @return string
-     */
-    abstract public function symbol();
-
     public function getTreeProperties()
     {
-        return array( 'symbol' => $this->symbol(),
+        return array( 'symbol' => $this->symbol,
                       'parameters' => $this->parameters );
+    }
+
+    /**
+     * Property get
+     */
+    public function __get( $name )
+    {
+        switch( $name )
+        {
+            case 'symbol':
+                return $this->symbol;
+            default:
+                return parent::__get( $name );
+        }
+    }
+
+    /**
+     * Property set
+     */
+    public function __set( $name, $value )
+    {
+        switch( $name )
+        {
+            case 'symbol':
+                throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
+            default:
+                return parent::__set( $name, $value );
+        }
+    }
+
+    /**
+     * Property isset
+     */
+    public function __isset( $name )
+    {
+        switch( $name )
+        {
+            case 'symbol':
+                return true;
+            default:
+                return parent::__isset( $name );
+        }
     }
 
     /**

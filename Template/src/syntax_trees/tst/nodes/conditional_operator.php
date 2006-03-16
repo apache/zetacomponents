@@ -26,16 +26,12 @@ class ezcTemplateConditionalOperatorTstNode extends ezcTemplateOperatorTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end,
-                             2, 1, self::LEFT_ASSOCIATIVE );
+                             2, 1, self::LEFT_ASSOCIATIVE,
+                             '?' );
         // This can have three parameters, the first is the condition
         // and the second and third is the expression for when the condition is
         // true or false.
         $this->maxParameterCount = 3;
-    }
-
-    public function symbol()
-    {
-        return '?';
     }
 
     /**
