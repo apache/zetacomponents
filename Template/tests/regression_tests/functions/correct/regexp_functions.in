@@ -1,0 +1,17 @@
+preg_has_match:
+{preg_has_match( "I just want to say: hi", "/hi/" )}
+
+preg_match:
+{$a = preg_match( "Hello world", "/^.*$/" )}{$a[0]}
+
+preg_replace:
+{$a = preg_replace( "Hello world", "/.ello/", "Hi")}{$a}
+
+preg_quote:
+{ preg_quote( "(bla)?" ) }
+
+preg_split:
+{ $a = preg_split( "Hello world", "/\s/" )}{$a[1]} {$a[0]}
+
+preg_grep:
+{$in = array("Hello", "world" )}{$out = preg_grep($in, "/orld/" )}{$out[1]}

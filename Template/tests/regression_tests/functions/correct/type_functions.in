@@ -1,0 +1,29 @@
+is_empty:
+{is_empty( "" )}
+
+is_array:
+{is_array( array(1,2) )}
+
+is_bool:
+{is_bool( true )}
+
+is_float:
+{is_float( 1.1 )}
+
+is_int:
+{is_int( 7 )}
+
+is_numeric:
+{is_numeric( 22 )}
+
+is_object:
+{!is_object( 2 )}
+
+is_scalar:
+{is_scalar( 2 )}
+
+is_string:
+{is_string( "hello" )}
+
+is_set:
+{!is_set( $qasodifjdaosd )}

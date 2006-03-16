@@ -1,0 +1,17 @@
+preg_has_match:
+1
+
+preg_match:
+Hello world
+
+preg_replace:
+Hi world
+
+preg_quote:
+\(bla\)\?
+
+preg_split:
+world Hello
+
+preg_grep:
+world

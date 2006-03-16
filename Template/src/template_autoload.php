@@ -268,10 +268,14 @@ return array(
              "ezcTemplateFunctions" => "Template/functions/functions.php",
              "ezcTemplateStringFunctions" => "Template/functions/string_functions.php",
              "ezcTemplateArrayFunctions" => "Template/functions/array_functions.php",
+             "ezcTemplateRegExpFunctions" => "Template/functions/regexp_functions.php",
+             "ezcTemplateTypeFunctions" => "Template/functions/type_functions.php",
 
 // Functions code
              "ezcTemplateString" => "Template/functions/string_code.php",
              "ezcTemplateArray" => "Template/functions/array_code.php",
+             "ezcTemplateRegExp" => "Template/functions/regexp_code.php",
+             "ezcTemplateType" => "Template/functions/type_code.php",
 
             );
 

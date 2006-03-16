@@ -592,16 +592,18 @@ Note: The user defined sorting is delibaretely not supported.
 Regular expression
 ``````````````````
 
-- *bool* preg_match( $reg, $s )::
+- *bool* preg_has_match( $s, $reg )::
 
     preg_match( $reg, $s )
 
-- *array* preg_matches( $reg, $s, $flags = false [, $offset] )::
+- *array* preg_match( $s, $reg, $flags = false [, $offset] )::
 
     preg_match( $reg, $s, $matches, $flags [, $offset] )
     return $matches;
 
-- *string* preg_replace( $reg, $replace, $s [, $limit] )::
+    The last two parameters are skipped for now. 
+
+- *string* preg_replace( $s, $reg, $replace [, $limit] )::
 
     preg_replace( $reg, $replace, $s [, $limit] )
 
@@ -620,6 +622,8 @@ Regular expression
 
 Web manipulation
 ````````````````
+
+Skipped the web manipulation functions.
 
 - base64_encode( $s ) ?::
 
@@ -685,6 +689,8 @@ sense to handle this in the template language.
     !empty( $v )
     
   Might not be needed, using !is_empty should do it.
+
+    Skipped 
 
 - *bool* is_array( $v )::
 
