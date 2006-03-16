@@ -67,7 +67,7 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateInlineTstNode
      * The operator element which has this as child (parameter) or null if no parent.
      *
      * @var ezcTemplateOperatorTstNode
-     * @see getRoot(), outputTree()
+     * @see getRoot()
      */
     public $parentOperator;
 
@@ -79,7 +79,7 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateInlineTstNode
      * The value starts at 1 (low precedence) to 12 (high).
      *
      * @var int
-     * @see ezcTemplateParser::handleOperatorPrecedence(), outputTree()
+     * @see ezcTemplateParser::handleOperatorPrecedence()
      */
     public $precedence;
 
@@ -129,6 +129,12 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateInlineTstNode
      * @return string
      */
     abstract public function symbol();
+
+    public function getTreeProperties()
+    {
+        return array( 'symbol' => $this->symbol(),
+                      'parameters' => $this->parameters );
+    }
 
     /**
      * Prepends the element $element as a parameter to the current operator.

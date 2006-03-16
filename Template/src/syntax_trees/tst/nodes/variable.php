@@ -37,6 +37,11 @@ class ezcTemplateVariableTstNode extends ezcTemplateInlineTstNode
         $this->name = false;
     }
 
+    public function getTreeProperties()
+    {
+        return array( 'name' => $this->name );
+    }
+
     /**
      *
      * @retval ezcTemplateAstNode

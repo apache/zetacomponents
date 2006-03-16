@@ -64,6 +64,13 @@ class ezcTemplateExpressionBlockTstNode extends ezcTemplateBlockTstNode
         $this->expressionRoot = null;
     }
 
+    public function getTreeProperties()
+    {
+        return array( 'startBracket'   => $this->startBracket,
+                      'endBracket'     => $this->endBracket,
+                      'expressionRoot' => $this->expressionRoot );
+    }
+
     public function symbol()
     {
         return $this->startBracket . 'expr' . $this->endBracket;

@@ -35,6 +35,18 @@ class ezcTemplateForeachLoopTstNode extends ezcTemplateBlockTstNode
         $this->name = 'foreach';
     }
 
+    public function getTreeProperties()
+    {
+        return array( 'name'             => $this->name,
+                      'isClosingBlock'   => $this->isClosingBlock,
+                      'isNestingBlock'   => $this->isNestingBlock,
+                      'array'            => $this->array,
+                      'keyVariableName'  => $this->keyVariableName,
+                      'itemVariableName' => $this->itemVariableName,
+                      'value'            => $this->value,
+                      'children'         => $this->children );
+    }
+
     /**
      *
      * @retval ezcTemplateAstNode

@@ -33,6 +33,15 @@ class ezcTemplateCustomBlockTstNode extends ezcTemplateBlockTstNode
         $this->customParameters = array();
     }
 
+    public function getTreeProperties()
+    {
+        return array( 'name'             => $this->name,
+                      'isClosingBlock'   => $this->isClosingBlock,
+                      'isNestingBlock'   => $this->isNestingBlock,
+                      'customParameters' => $this->customParameters,
+                      'children'         => $this->children );
+    }
+
     public function symbol()
     {
         return '{' . ( $this->isClosingBlock ? '/' : '' ) . 'custom:' . $this->name . '}';

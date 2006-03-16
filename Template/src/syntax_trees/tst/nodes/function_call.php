@@ -66,6 +66,13 @@ class ezcTemplateFunctionCallTstNode extends ezcTemplateInlineTstNode
         $this->parameters = array();
     }
 
+    public function getTreeProperties()
+    {
+        return array( 'name' => $this->name,
+                      'evaluation' => $this->parameterEvaluation,
+                      'parameters' => $this->parameters );
+    }
+
     /**
      * Returns a symbol representation of the operator.
      * @return string

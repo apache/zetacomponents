@@ -44,7 +44,8 @@ abstract class ezcTemplateTstNode
      *
      * @var array
      */
-    private $properties = array( 'originalText' => false );
+    private $properties = array( 'originalText' => false,
+                                 'treeProperties' => false );
 
     /**
      * Initialize with the source code and start/stop cursors.
@@ -67,6 +68,8 @@ abstract class ezcTemplateTstNode
                 if ( $this->properties[$name] === false )
                     $this->properties[$name] = $this->startCursor->subString( $this->endCursor->position );
                 return $this->properties[$name];
+            case 'treeProperties':
+                return $this->getTreeProperties();
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
         }
@@ -80,6 +83,7 @@ abstract class ezcTemplateTstNode
         switch( $name )
         {
             case 'originalText':
+            case 'treeProperties':
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
@@ -94,6 +98,7 @@ abstract class ezcTemplateTstNode
         switch( $name )
         {
             case 'originalText':
+            case 'treeProperties':
                 return true;
             default:
                 return false;
@@ -114,98 +119,11 @@ abstract class ezcTemplateTstNode
     }
 
     /**
-     * Creates a representation of the operator and its parameters as a text
-     * string and returns it.
+     * Returns an array with all properties related to the node tree.
      *
-     * @note If any of the parameter is an operator it will call outputTree() on
-     *       it, ie. recursive calls.
-     * @param $level The current recursion level, initial call should start at 0.
-     * @return string
+     * @note This must be reimplemented by sub-classes.
      */
-    public function outputTree( $level = 0 )
-    {
-        $text = "";
-        $classText = "<" . preg_replace( "#^ezcTemplate(.+)Element$#", '$1', get_class( $this ) ) . ">";
-        $cursorText = " @ " . $this->startCursor->line . ":" . $this->startCursor->column . "->" .
-                              $this->endCursor->line . ":" . $this->endCursor->column;
-        if ( method_exists( $this, 'symbol' ) )
-        {
-            $text .= "'" . $this->symbol() . "' " . $classText . $cursorText;
-        }
-        elseif ( $this instanceof ezcTemplateTypeTstNode )
-        {
-            $text = var_export( $this->value, true ) . " " . $classText . $cursorText;
-        }
-        elseif ( $this instanceof ezcTemplateVariableTstNode )
-        {
-            $text = '$' . $this->name . " " . $classText . $cursorText;
-        }
-        elseif ( $this instanceof ezcTemplateTextTstNode )
-        {
-            $text = '';
-            $lines = explode( "\n", $this->text );
-            foreach ( $lines as $i => $line )
-            {
-                if ( $i > 0 )
-                    $text .= " . \"\\n\" .\n";
-                $text .= "\"{$line}\"";
-            }
-            $text = "#text {$classText}{$cursorText}\n{$text}";
-        }
-        else
-            $text .= $classText;
-
-        if ( isset( $this->precedence ) )
-            $text .= " (" . $this->precedence . ")\n";
-        else
-            $text .= "\n";
-
-        if ( isset( $this->parameters ) )
-            $parameters = $this->parameters;
-        elseif ( isset( $this->elements ) )
-            $parameters = $this->elements;
-        else
-            $parameters = false;
-
-        if ( !is_array( $parameters ) )
-            return $text;
-
-        foreach ( $parameters as $i => $parameter )
-        {
-            if ( $i == count( $parameters ) - 1 )
-            {
-                $text .= '`-- ';
-                $prefix = '    ';
-            }
-            else
-            {
-                $text .= '|-- ';
-                $prefix = '|   ';
-            }
-            if ( !is_object( $parameter ) )
-                throw new Exception( "Non-object <" . gettype( $parameter ) . "> found as parameter of object <" . get_class( $this ) . ">" );
-//            if ( $parameter instanceof ezcTemplateOperatorTstNode )
-                $parameterText = $parameter->outputTree( $level + 1 );
-/*            elseif ( $parameter instanceof ezcTemplateTypeTstNode )
-                $parameterText = $parameter->value;
-            elseif ( $parameter instanceof ezcTemplateVariableTstNode )
-                $parameterText = '$' . $parameter->name;
-            elseif ( method_exists( $parameter, 'symbol' ) )
-                $parameterText = $parameter->symbol();
-            else
-                $parameterText = preg_replace( "#^ezcTemplate(.+)Element$#", '$1', get_class( $parameter ) );*/
-
-            $lines = explode( "\n", $parameterText );
-            $text .= $lines[0];
-            // Last line is a newline only so we skip it
-            for ( $line = 1; $line < count( $lines ) - 1; ++$line )
-            {
-                $text .= "\n" . $prefix . $lines[$line];
-            }
-            $text .= "\n";
-        }
-        return $text;
-    }
+    abstract public function getTreeProperties();
 
     /**
      * Checks if the current element can be added as child of block object $block,

@@ -103,7 +103,7 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
                 // *** DEBUG START ***
                 echo "\n\n\n expression yielded:\n";
                 echo "<", $this->startCursor->subString( $cursor->position ), ">\n";
-                echo $rootOperator->outputTree();
+                echo ezcTemplateTstTreeDump::dump( $rootOperator );
                 echo "\n\n\n";
                 // *** DEBUG END ***
             }

@@ -64,6 +64,11 @@ abstract class ezcTemplateTextTstNode extends ezcTemplateCodeTstNode
         $this->startColumn = $start->column;
     }
 
+    public function getTreeProperties()
+    {
+        return array( 'text' => $this->text );
+    }
+
     /**
      * Returns true since text elements can always be children of blocks.
      *

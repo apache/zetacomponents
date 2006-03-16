@@ -36,6 +36,11 @@ class ezcTemplateProgramTstNode extends ezcTemplateBlockTstNode
         return '/';
     }
 
+    public function getTreeProperties()
+    {
+        return array( 'children' => $this->children );
+    }
+
     /**
      * @inheritdocs
      * Returns the column of the starting cursor.

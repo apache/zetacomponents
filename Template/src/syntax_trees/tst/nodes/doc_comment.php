@@ -34,6 +34,12 @@ class ezcTemplateDocCommentTstNode extends ezcTemplateBlockTstNode
         $this->commentText = null;
     }
 
+    public function getTreeProperties()
+    {
+        return array( 'name'        => $this->name,
+                      'commentText' => $this->commentText );
+    }
+
     /**
      * Returns true since doc comment elements can always be children of blocks.
      *

@@ -50,7 +50,7 @@ class ezcTemplateParserTest extends ezcTestCase
 
         $program = $parser->parseIntoTextElements();
 
-        echo $program->outputTree();
+        echo ezcTemplateTstTreeDump::dump( $program );
 
         $tstToAst = new ezcTemplateTstToAstTransformer();
         $program->accept( $tstToAst );

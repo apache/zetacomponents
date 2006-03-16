@@ -159,7 +159,7 @@ class ezcTemplateConditionalOperatorSourceToTstParser extends ezcTemplateSourceT
             {
                 // *** DEBUG START ***
                 echo "\n\n\n conditional 'true' expression yielded:\n";
-                echo $rootOperator->outputTree();
+                echo ezcTemplateTstTreeDump::dump( $rootOperator );
                 echo "\n\n\n";
                 // *** DEBUG END ***
             }
@@ -223,7 +223,7 @@ class ezcTemplateConditionalOperatorSourceToTstParser extends ezcTemplateSourceT
             {
                 // *** DEBUG START ***
                 echo "\n\n\n conditional 'false' expression yielded:\n";
-                echo $rootOperator->outputTree();
+                echo ezcTemplateTstTreeDump::dump( $rootOperator );
                 echo "\n\n\n";
                 // *** DEBUG END ***
             }

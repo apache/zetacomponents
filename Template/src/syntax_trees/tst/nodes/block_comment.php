@@ -30,6 +30,11 @@ class ezcTemplateBlockCommentTstNode extends ezcTemplateInlineTstNode
         $this->commentText = null;
     }
 
+    public function getTreeProperties()
+    {
+        return array( 'commentText' => $this->commentText );
+    }
+
     /**
      *
      * @retval ezcTemplateAstNode

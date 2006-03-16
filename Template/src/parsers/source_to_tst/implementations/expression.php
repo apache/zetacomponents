@@ -189,7 +189,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     {
                         // *** DEBUG START ***
                         echo "\n\n\n function call parser yielded:\n";
-                        echo $this->lastParser->functionCall->outputTree(), "\n";
+                        echo ezcTemplateTstTreeDump::dump( $this->lastParser->functionCall );
                         echo "\n\n\n";
                         // *** DEBUG END ***
                     }
@@ -492,7 +492,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     {
                         // *** DEBUG START ***
                         echo "\n\n\n conditional parser yielded:\n";
-                        echo "<", $operator->outputTree(), ">\n";
+                        echo "<", ezcTemplateTstTreeDump::dump( $operator ), ">\n";
                         echo "\n\n\n";
                         // *** DEBUG END ***
                     }
@@ -519,7 +519,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     {
                         // *** DEBUG START ***
                         echo "\n\n\n conditional operator after precedence handling:\n";
-                        echo "<", $operator->outputTree(), ">\n";
+                        echo "<", ezcTemplateTstTreeDump::dump( $operator ), ">\n";
                         echo "\n\n\n";
                         // *** DEBUG END ***
                     }

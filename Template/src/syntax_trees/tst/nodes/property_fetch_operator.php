@@ -45,6 +45,13 @@ class ezcTemplatePropertyFetchOperatorTstNode extends ezcTemplateOperatorTstNode
         $this->property = null;
     }
 
+    public function getTreeProperties()
+    {
+        return array( 'symbol'         => $this->symbol(),
+                      'sourceOperand'  => $this->sourceOperand,
+                      'property'       => $this->property );
+    }
+
     public function symbol()
     {
         return '->';

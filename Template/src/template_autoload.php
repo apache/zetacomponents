@@ -237,6 +237,7 @@ return array(
 
 // Parsers / tst_to_tst implementations
              "ezcTemplateWhitespaceRemoval" => "Template/parsers/tst_to_tst/implementations/whitespace_removal.php",
+             "ezcTemplateTstTreeDump"       => "Template/parsers/tst_to_tst/implementations/tst_tree_dump.php",
 
 // Parsers / tst_to_ast implementations
              "ezcTemplateTstToAstTransformer" => "Template/parsers/tst_to_ast/implementations/tst_to_ast_transformer.php",

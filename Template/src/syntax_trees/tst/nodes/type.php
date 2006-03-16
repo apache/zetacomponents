@@ -38,5 +38,10 @@ class ezcTemplateTypeTstNode extends ezcTemplateInlineTstNode
         parent::__construct( $source, $start, $end );
         $this->value = null;
     }
+
+    public function getTreeProperties()
+    {
+        return array( 'value' => $this->value );
+    }
 }
 ?>

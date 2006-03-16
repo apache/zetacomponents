@@ -86,6 +86,14 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
         return '{' . ( $this->isClosingBlock ? '/' : '' ) . $this->name . '}';
     }
 
+    public function getTreeProperties()
+    {
+        return array( 'name'           => $this->name,
+                      'isClosingBlock' => $this->isClosingBlock,
+                      'isNestingBlock' => $this->isNestingBlock,
+                      'children'       => $this->children );
+    }
+
     /**
      * Checks if the block has any children, returns true or false.
      *
