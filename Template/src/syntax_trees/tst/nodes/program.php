@@ -60,10 +60,5 @@ class ezcTemplateProgramTstNode extends ezcTemplateBlockTstNode
         // and after all sub-blocks.
         $removal->trimBlockLines( $this, $this->children );
     }
-
-    public function accept( ezcTemplateTstNodeVisitor $visitor  )
-    {
-        $visitor->visitProgramTstNode( $this );
-    }
 }
 ?>

@@ -30,10 +30,5 @@ class ezcTemplatePlusOperatorTstNode extends ezcTemplateOperatorTstNode
                              '+' );
     }
 
-    public function accept( ezcTemplateTstNodeVisitor $visitor  )
-    {
-        return $visitor->visitPlusOperatorTstNode( $this );
-    }
-
 }
 ?>
