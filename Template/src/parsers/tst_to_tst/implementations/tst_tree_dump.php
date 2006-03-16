@@ -202,11 +202,6 @@ class ezcTemplateTstTreeDump implements ezcTemplateTstNodeVisitor
         $this->text .= $this->dumpTstNode( $node );
     }
 
-    public function visitConditionalOperatorTstNode( ezcTemplateConditionalOperatorTstNode $node )
-    {
-        $this->text .= $this->dumpTstNode( $node );
-    }
-
     public function visitAssignmentOperatorTstNode( ezcTemplateAssignmentOperatorTstNode $node )
     {
         $this->text .= $this->dumpTstNode( $node );

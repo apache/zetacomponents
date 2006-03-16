@@ -71,8 +71,6 @@ class ezcTemplateOperatorTest extends ezcTestCase
         $this->operators[] = new ezcTemplateLogicalAndOperatorTstNode( $source, $start, $end );
         $this->operators[] = new ezcTemplateLogicalOrOperatorTstNode( $source, $start, $end );
 
-        $this->operators[] = new ezcTemplateConditionalOperatorTstNode( $source, $start, $end );
-
         $this->operators[] = new ezcTemplateAssignmentOperatorTstNode( $source, $start, $end );
         $this->operators[] = new ezcTemplatePlusAssignmentOperatorTstNode( $source, $start, $end );
         $this->operators[] = new ezcTemplateMinusAssignmentOperatorTstNode( $source, $start, $end );
@@ -131,6 +129,11 @@ class ezcTemplateOperatorTest extends ezcTestCase
         self::assertThat( count( $levels ), self::greaterThan( 1 ), "Level list did not even fill two items" );
         for ( $i = $min; $i <= $max; ++$i )
         {
+            // We skip level 2 which is the ?: operator which is not supported
+            if ( $i == 2 )
+            {
+                continue;
+            }
             self::assertThat( $levels, self::hasArrayKey( $i ) );
         }
     }

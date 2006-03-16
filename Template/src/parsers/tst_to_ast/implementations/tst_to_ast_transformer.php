@@ -413,11 +413,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return $this->createBinaryOperatorAstNode( $type, new ezcTemplateLogicalOrOperatorAstNode() );
     }
 
-    public function visitConditionalOperatorTstNode( ezcTemplateConditionalOperatorTstNode $type )
-    {
-        die ("visitConditionalOperatorTstNode");
-    }
-
     public function visitAssignmentOperatorTstNode( ezcTemplateAssignmentOperatorTstNode $type )
     {
         return $this->createBinaryOperatorAstNode( $type, new ezcTemplateAssignmentOperatorAstNode(), false );

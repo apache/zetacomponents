@@ -126,9 +126,6 @@ interface ezcTemplateTstNodeVisitor
     public function visitLogicalOrOperatorTstNode( ezcTemplateLogicalOrOperatorTstNode $node );
 
 
-    public function visitConditionalOperatorTstNode( ezcTemplateConditionalOperatorTstNode $node );
-
-
     public function visitAssignmentOperatorTstNode( ezcTemplateAssignmentOperatorTstNode $node );
 
 

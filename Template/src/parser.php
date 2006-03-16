@@ -446,17 +446,6 @@ class ezcTemplateParser
     }
 
     /**
-     * Creates a new conditional operator object with the cursor positions and returns it.
-     *
-     * @param ezcTemplateCursor $start The starting point of the element.
-     * @param ezcTemplateCursor $end The ending point of the element.
-     * @return ezcTemplateEqualOperatorTstNode
-     */
-    public function createConditionalOperator( ezcTemplateCursor $start, ezcTemplateCursor $end )
-    {
-        return new ezcTemplateConditionalOperatorTstNode( $this->source, $start, $end );
-    }
-
     /**
      * Creates a new assignment operator object with the cursor positions and returns it.
      *

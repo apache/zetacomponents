@@ -717,17 +717,6 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Variable', 'name', 'b' ),
                         array( 'ExpressionBlock' ),
 
-                        array( 'TextBlock' ),
-                        array( 'Type', 'value', 'a' ),
-                        array( 'Variable', 'name', 'a' ),
-                        array( 'ConditionalOperator' ),
-                        array( 'Type', 'value', 'b' ),
-                        array( 'Variable', 'name', 'b' ),
-                        array( 'ConditionalOperator' ),
-                        array( 'Type', 'value', 'c' ),
-                        array( 'Variable', 'name', 'c' ),
-                        array( 'ExpressionBlock' ),
-
                         );
 
         if ( $parser->debug )
