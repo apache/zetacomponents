@@ -30,7 +30,7 @@ class ezcTemplateFunctions
 
     protected static function value( $val )
     {
-        return array( "ezcTemplateTypeAstNode", array( $val ) );
+        return array( "ezcTemplateLiteralAstNode", array( $val ) );
     }
 
     protected static function constant( $val )

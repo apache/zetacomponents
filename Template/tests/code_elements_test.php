@@ -340,7 +340,7 @@ class ezcTemplateCodeElementsTest extends ezcTestCase
 
     public function testEchoConstruct()
     {
-        $type = new ezcTemplateTypeAstNode( "text" );
+        $type = new ezcTemplateLiteralAstNode( "text" );
         $outputList = array( $type );
 
         $construct = new ezcTemplateEchoAstNode( $outputList );
@@ -384,7 +384,7 @@ class ezcTemplateCodeElementsTest extends ezcTestCase
 
     public function testIssetConstruct()
     {
-        $type = new ezcTemplateTypeAstNode( "text" );
+        $type = new ezcTemplateLiteralAstNode( "text" );
         $expressionList = array( $type );
 
         $construct = new ezcTemplateIssetAstNode( $expressionList );
@@ -428,7 +428,7 @@ class ezcTemplateCodeElementsTest extends ezcTestCase
 
     public function testUnsetConstruct()
     {
-        $type = new ezcTemplateTypeAstNode( "text" );
+        $type = new ezcTemplateLiteralAstNode( "text" );
         $expressionList = array( $type );
 
         $construct = new ezcTemplateUnsetAstNode( $expressionList );
@@ -472,7 +472,7 @@ class ezcTemplateCodeElementsTest extends ezcTestCase
 
     public function testEmptyConstruct()
     {
-        $type = new ezcTemplateTypeAstNode( "text" );
+        $type = new ezcTemplateLiteralAstNode( "text" );
 
         $construct = new ezcTemplateEmptyAstNode( $type );
         self::assertSame( $type, $construct->expression );
@@ -515,7 +515,7 @@ class ezcTemplateCodeElementsTest extends ezcTestCase
 
     public function testPrintConstruct()
     {
-        $type = new ezcTemplateTypeAstNode( "text" );
+        $type = new ezcTemplateLiteralAstNode( "text" );
 
         $construct = new ezcTemplatePrintAstNode( $type );
         self::assertSame( $type, $construct->expression );

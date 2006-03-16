@@ -20,7 +20,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateArraySourceToTstParser extends ezcTemplateTypeSourceToTstParser
+class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstParser
 {
     /**
      * Array type must use lowercase characters only.
@@ -105,7 +105,7 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateTypeSourceToTstParser
             if ( $cursor->current() == ')' )
             {
                 $cursor->advance();
-                $array = $this->parser->createType( $this->startCursor, $cursor );
+                $array = $this->parser->createLiteral( $this->startCursor, $cursor );
                 $array->value = $currentArray;
                 $this->value = $array->value;
                 $this->element = $array;
@@ -128,7 +128,7 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateTypeSourceToTstParser
             }
 
             // Check for type
-            if ( !$this->parseRequiredType( 'Type' ) )
+            if ( !$this->parseRequiredType( 'Literal' ) )
             {
 //                $this->operationState = self::STATE_INVALID_TYPE;
                 return false;
@@ -150,7 +150,7 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateTypeSourceToTstParser
                     return false;
 
                 // We have the key => value syntax so we need to find the value
-                if ( !$this->parseRequiredType( 'Type' ) )
+                if ( !$this->parseRequiredType( 'Literal' ) )
                 {
                     return false;
                 }
@@ -184,7 +184,7 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateTypeSourceToTstParser
             if ( $cursor->current() == ')' )
             {
                 $cursor->advance();
-                $array = $this->parser->createType( $this->startCursor, $cursor );
+                $array = $this->parser->createLiteral( $this->startCursor, $cursor );
                 $array->value = $currentArray;
                 $this->value = $array->value;
                 $this->element = $array;

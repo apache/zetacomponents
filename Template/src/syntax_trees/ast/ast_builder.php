@@ -96,7 +96,7 @@ class ezcTemplateAstBuilder
     /**
      * Appends a function call to the current body and returns $this.
      * The $parameters can consist of PHP types in which case they are converted
-     * into ezcTemplateTypeAstNode objects, in addition a single parameter can be
+     * into ezcTemplateLiteralAstNode objects, in addition a single parameter can be
      * passed in $parameters.
      *
      * @param string $name The name of the function to call.
@@ -115,7 +115,7 @@ class ezcTemplateAstBuilder
             if ( !is_object( $parameter ) ||
                  !$parameter instanceof ezcTemplateAstNode )
             {
-                $parameter = new ezcTemplateTypeAstNode( $parameter );
+                $parameter = new ezcTemplateLiteralAstNode( $parameter );
                 $parameters[$i] = $parameter;
             }
         }
@@ -136,7 +136,7 @@ class ezcTemplateAstBuilder
      * The left hand side can either be a code element or a string which
      * is turned into an ezcTemplateVariableAstNode object.
      * The right hand side can either be a code element or a PHP type which
-     * is turned into an ezcTemplateTypeAstNode object.
+     * is turned into an ezcTemplateLiteralAstNode object.
      *
      * @param mixed $lhs The left hand side of the expression.
      * @param mixed $rhs The right hand side of the expression.
@@ -152,7 +152,7 @@ class ezcTemplateAstBuilder
         if ( !is_object( $rhs ) ||
              !$rhs instanceof ezcTemplateAstNode )
         {
-            $rhs = new ezcTemplateTypeAstNode( $rhs );
+            $rhs = new ezcTemplateLiteralAstNode( $rhs );
         }
         $assignment = new ezcTemplateAssignmentOperatorAstNode();
         $assignment->appendParameter( $lhs );
@@ -164,7 +164,7 @@ class ezcTemplateAstBuilder
     /**
      * Appends an if control structure to the current body and returns $this.
      * The $expression parameter can either be a code element or a PHP type
-     * which is turned into an ezcTemplateTypeAstNode object.
+     * which is turned into an ezcTemplateLiteralAstNode object.
      * The $body parameter can either be an ezcTemplateBodyAstNode element or
      * an ezcTemplateAstBuilder object in which case the body is taken from
      * the builder.
@@ -193,7 +193,7 @@ class ezcTemplateAstBuilder
         if ( !is_object( $expression ) ||
              !$expression instanceof ezcTemplateAstNode )
         {
-            $expression = new ezcTemplateTypeAstNode( $expression );
+            $expression = new ezcTemplateLiteralAstNode( $expression );
         }
 
         if ( $body instanceof ezcTemplateAstBuilder )
@@ -213,7 +213,7 @@ class ezcTemplateAstBuilder
      * Note: This can only called directly after a call to {@link self::_if() if()}.
      *
      * The $expression parameter can either be a code element or a PHP type
-     * which is turned into an ezcTemplateTypeAstNode object.
+     * which is turned into an ezcTemplateLiteralAstNode object.
      * The $body parameter can either be an ezcTemplateBodyAstNode element or
      * an ezcTemplateAstBuilder object in which case the body is taken from
      * the builder.
@@ -254,7 +254,7 @@ class ezcTemplateAstBuilder
         if ( !is_object( $expression ) ||
              !$expression instanceof ezcTemplateAstNode )
         {
-            $expression = new ezcTemplateTypeAstNode( $expression );
+            $expression = new ezcTemplateLiteralAstNode( $expression );
         }
 
         if ( $body instanceof ezcTemplateAstBuilder )
@@ -320,7 +320,7 @@ class ezcTemplateAstBuilder
     /**
      * Appends a while control structure to the current body and returns $this.
      * The $expression parameter can either be a code element or a PHP type
-     * which is turned into an ezcTemplateTypeAstNode object.
+     * which is turned into an ezcTemplateLiteralAstNode object.
      * The $body parameter can either be an ezcTemplateBodyAstNode element or
      * an ezcTemplateAstBuilder object in which case the body is taken from
      * the builder.
@@ -351,7 +351,7 @@ class ezcTemplateAstBuilder
         if ( !is_object( $expression ) ||
              !$expression instanceof ezcTemplateAstNode )
         {
-            $expression = new ezcTemplateTypeAstNode( $expression );
+            $expression = new ezcTemplateLiteralAstNode( $expression );
         }
 
         if ( $body instanceof ezcTemplateAstBuilder )
@@ -368,7 +368,7 @@ class ezcTemplateAstBuilder
     /**
      * Appends a do/while control structure to the current body and returns $this.
      * The $expression parameter can either be a code element or a PHP type
-     * which is turned into an ezcTemplateTypeAstNode object.
+     * which is turned into an ezcTemplateLiteralAstNode object.
      * The $body parameter can either be an ezcTemplateBodyAstNode element or
      * an ezcTemplateAstBuilder object in which case the body is taken from
      * the builder.
@@ -399,7 +399,7 @@ class ezcTemplateAstBuilder
         if ( !is_object( $expression ) ||
              !$expression instanceof ezcTemplateAstNode )
         {
-            $expression = new ezcTemplateTypeAstNode( $expression );
+            $expression = new ezcTemplateLiteralAstNode( $expression );
         }
 
         if ( $body instanceof ezcTemplateAstBuilder )

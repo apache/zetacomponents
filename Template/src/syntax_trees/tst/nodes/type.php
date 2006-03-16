@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateTypeTstNode class
+ * File containing the ezcTemplateLiteralTstNode class
  *
  * @package Template
  * @version //autogen//
@@ -8,21 +8,21 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Builtin type value in an expression.
+ * Builtin literal type value in an expression.
  *
  * @package Template
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateTypeTstNode extends ezcTemplateExpressionTstNode
+class ezcTemplateLiteralTstNode extends ezcTemplateExpressionTstNode
 {
 
     /**
-     * The value of the type.
+     * The value of the literal type.
      *
      * @note This value contains null if it is not set yet, this means null is
-     *       considered a type.
+     *       considered a literal type.
      * @var mixed
      */
     public $value;

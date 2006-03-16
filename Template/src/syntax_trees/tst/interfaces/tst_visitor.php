@@ -36,7 +36,7 @@ interface ezcTemplateTstNodeVisitor
     public function visitModifyingBlockTstNode( ezcTemplateModifyingBlockTstNode $node );
 
 
-    public function visitTypeTstNode( ezcTemplateTypeTstNode $node );
+    public function visitLiteralTstNode( ezcTemplateLiteralTstNode $node );
 
 
     public function visitIntegerTstNode( ezcTemplateIntegerTstNode $node );

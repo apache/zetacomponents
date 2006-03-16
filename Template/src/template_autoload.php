@@ -55,7 +55,7 @@ return array(
              "ezcTemplateLiteralBlockTstNode" => "Template/syntax_trees/tst/nodes/literal_block.php",
              "ezcTemplateOutputBlockTstNode" => "Template/syntax_trees/tst/nodes/output_block.php",
              "ezcTemplateModifyingBlockTstNode" => "Template/syntax_trees/tst/nodes/modifying_block.php",
-             "ezcTemplateTypeTstNode" => "Template/syntax_trees/tst/nodes/type.php",
+             "ezcTemplateLiteralTstNode" => "Template/syntax_trees/tst/nodes/type.php",
              "ezcTemplateIntegerTstNode" => "Template/syntax_trees/tst/nodes/integer.php",
              "ezcTemplateVariableTstNode" => "Template/syntax_trees/tst/nodes/variable.php",
              "ezcTemplateTextBlockTstNode" => "Template/syntax_trees/tst/nodes/text_block.php",
@@ -113,7 +113,7 @@ return array(
 
 // Syntax trees / AST  nodes
              "ezcTemplateNopAstNode" => "Template/syntax_trees/ast/nodes/nop.php",
-             "ezcTemplateTypeAstNode" => "Template/syntax_trees/ast/nodes/type.php",
+             "ezcTemplateLiteralAstNode" => "Template/syntax_trees/ast/nodes/type.php",
              "ezcTemplateConstantAstNode" => "Template/syntax_trees/ast/nodes/constant.php",
              "ezcTemplateIdentifierAstNode" => "Template/syntax_trees/ast/nodes/identifier.php",
              "ezcTemplateEolCommentAstNode" => "Template/syntax_trees/ast/nodes/eol_comment.php",
@@ -218,7 +218,7 @@ return array(
              "ezcTemplateLoopSourceToTstParser" => "Template/parsers/source_to_tst/implementations/loop.php",
              "ezcTemplateExpressionBlockSourceToTstParser" => "Template/parsers/source_to_tst/implementations/expression_block.php",
              "ezcTemplateExpressionSourceToTstParser" => "Template/parsers/source_to_tst/implementations/expression.php",
-             "ezcTemplateTypeSourceToTstParser" => "Template/parsers/source_to_tst/implementations/type.php",
+             "ezcTemplateLiteralSourceToTstParser" => "Template/parsers/source_to_tst/implementations/type.php",
              "ezcTemplateIntegerSourceToTstParser" => "Template/parsers/source_to_tst/implementations/integer.php",
              "ezcTemplateFloatSourceToTstParser" => "Template/parsers/source_to_tst/implementations/float.php",
              "ezcTemplateStringSourceToTstParser" => "Template/parsers/source_to_tst/implementations/string.php",

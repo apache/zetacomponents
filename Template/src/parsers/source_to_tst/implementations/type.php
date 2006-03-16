@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateTypeSourceToTstParser class
+ * File containing the ezcTemplateLiteralSourceToTstParser class
  *
  * @package Template
  * @version //autogen//
@@ -10,7 +10,7 @@
 /**
  * Parser for all builtin types.
  *
- * Types are parsed by utilizing the various sub-parser for known
+ * Literal types are parsed by utilizing the various sub-parser for known
  * types.
  *
  * Once the type has been parsed it can be fetched by using the
@@ -21,7 +21,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateTypeSourceToTstParser extends ezcTemplateSourceToTstParser
+class ezcTemplateLiteralSourceToTstParser extends ezcTemplateSourceToTstParser
 {
     /**
      * No known type found.

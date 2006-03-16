@@ -26,9 +26,9 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
     /**
      * Visits a code element containing a builtin constant type.
      *
-     * @param ezcTemplateTypeAstNode $type The code element containing the constant value.
+     * @param ezcTemplateLiteralAstNode $type The code element containing the constant value.
      */
-    public function visitType( ezcTemplateTypeAstNode $type );
+    public function visitLiteral( ezcTemplateLiteralAstNode $type );
 
     /**
      * Visits a code element containing an constant.

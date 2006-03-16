@@ -65,7 +65,7 @@ class ezcTemplateParserTest extends ezcTestCase
  
         //$cb = new ezcTemplateAstBuilder();
 
-        $echo = new ezcTemplateEchoAstNode( array( new ezcTemplateTypeAstNode( "Hello\n world" ) ) );
+        $echo = new ezcTemplateEchoAstNode( array( new ezcTemplateLiteralAstNode( "Hello\n world" ) ) );
         $body = new ezcTemplateBodyAstNode();
         $body->appendStatement( $echo );
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateTypeAstNode class
+ * File containing the ezcTemplateLiteralAstNode class
  *
  * @package Template
  * @version //autogen//
@@ -28,9 +28,9 @@
  *       properly exported.
  *
  * <code>
- * $tInt = new ezcTemplateTypeAstNode( 5 );
- * $tFloat = new ezcTemplateTypeAstNode( 5.2 );
- * $tString = new ezcTemplateTypeAstNode( "a simple string" );
+ * $tInt = new ezcTemplateLiteralAstNode( 5 );
+ * $tFloat = new ezcTemplateLiteralAstNode( 5.2 );
+ * $tString = new ezcTemplateLiteralAstNode( "a simple string" );
  * </code>
  *
  * @package Template
@@ -38,7 +38,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateTypeAstNode extends ezcTemplateAstNode
+class ezcTemplateLiteralAstNode extends ezcTemplateAstNode
 {
     /**
      * The constant value for the type.
@@ -107,11 +107,11 @@ class ezcTemplateTypeAstNode extends ezcTemplateAstNode
 
     /**
      * @inheritdocs
-     * Calls visitType() for ezcTemplateBasicAstNodeVisitor interfaces.
+     * Calls visitLiteral() for ezcTemplateBasicAstNodeVisitor interfaces.
      */
     public function accept( ezcTemplateAstNodeVisitor $visitor )
     {
-        $visitor->visitType( $this );
+        $visitor->visitLiteral( $this );
     }
 
 }

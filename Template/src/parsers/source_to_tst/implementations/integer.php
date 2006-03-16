@@ -17,7 +17,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateIntegerSourceToTstParser extends ezcTemplateTypeSourceToTstParser
+class ezcTemplateIntegerSourceToTstParser extends ezcTemplateLiteralSourceToTstParser
 {
     /**
      * Passes control to parent.
@@ -38,7 +38,7 @@ class ezcTemplateIntegerSourceToTstParser extends ezcTemplateTypeSourceToTstPars
             if ( $matches !== false )
             {
                 $cursor->advance( strlen( $matches[0][0] ) );
-                $integer = $this->parser->createType( $this->startCursor, $cursor );
+                $integer = $this->parser->createLiteral( $this->startCursor, $cursor );
                 $integer->value = (int)$matches[0][0];
                 $this->value = $integer->value;
                 $this->element = $integer;

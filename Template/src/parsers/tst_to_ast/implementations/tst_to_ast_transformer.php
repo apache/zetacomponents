@@ -156,7 +156,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitLiteralBlockTstNode( ezcTemplateLiteralBlockTstNode $type )
     {
-        return new ezcTemplateTypeAstNode( $type->text );
+        return new ezcTemplateLiteralAstNode( $type->text );
     }
 
     public function visitOutputBlockTstNode( ezcTemplateOutputBlockTstNode $type )
@@ -171,9 +171,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return $expression;
     }
 
-    public function visitTypeTstNode( ezcTemplateTypeTstNode $type )
+    public function visitLiteralTstNode( ezcTemplateLiteralTstNode $type )
     {
-        return new ezcTemplateTypeAstNode( $type->value );
+        return new ezcTemplateLiteralAstNode( $type->value );
     }
 
     public function visitIntegerTstNode( ezcTemplateIntegerTstNode $type )
@@ -188,7 +188,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitTextBlockTstNode( ezcTemplateTextBlockTstNode $type )
     {
-        $echo = new ezcTemplateEchoAstNode( array( new ezcTemplateTypeAstNode( $type->text ) ) );
+        $echo = new ezcTemplateEchoAstNode( array( new ezcTemplateLiteralAstNode( $type->text ) ) );
         return $echo;
     }
 
@@ -229,7 +229,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     /** 
      * TST:
      * [Foreach]
-     *  TypeTstNode array
+     *  LiteralTstNode array
      *  string keyVariableName
      *  string itemVariableName
      *  array(Block) elements

@@ -115,7 +115,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
             return false;
 
         $arrayElement = $elements[0];
-        if ( get_class( $arrayElement ) == 'ezcTemplateTypeTstNode' && !is_array( $arrayElement->value ) )
+        if ( get_class( $arrayElement ) == 'ezcTemplateLiteralTstNode' && !is_array( $arrayElement->value ) )
         {
             $this->operationState = self::STATE_BAD_ARRAY;
             return false;

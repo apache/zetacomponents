@@ -62,7 +62,7 @@ class ezcTemplateTstTreeDump implements ezcTemplateTstNodeVisitor
         $this->text .= $this->dumpTstNode( $node );
     }
 
-    public function visitTypeTstNode( ezcTemplateTypeTstNode $node )
+    public function visitLiteralTstNode( ezcTemplateLiteralTstNode $node )
     {
         $this->text .= $this->dumpTstNode( $node );
     }
@@ -341,13 +341,13 @@ class ezcTemplateTstTreeDump implements ezcTemplateTstNodeVisitor
      *
      * Dumping an array with objects:
      * <code>
-     * array( 'children' => array( new ezcTemplateTypeTstNode( 5 ),
+     * array( 'children' => array( new ezcTemplateLiteralTstNode( 5 ),
      *                             new ezcTemplateTextBlockTstNode( "line1\nline2" ) ) );
      * </code>
      * will become:
      * <code>
      * `-- children: array[2]
-     *     |-- <Type> @ 1:0->2:0
+     *     |-- <Literal> @ 1:0->2:0
      *     |   `-- value: 5
      *     `-- <TextBlock> @ 2:0->3:0
      *         "line1" . "\n" .

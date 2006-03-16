@@ -210,11 +210,11 @@ class ezcTemplateParser
      *
      * @param ezcTemplateCursor $start The starting point of the element.
      * @param ezcTemplateCursor $end The ending point of the element.
-     * @return ezcTemplateTypeTstNode
+     * @return ezcTemplateLiteralTstNode
      */
-    public function createType( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    public function createLiteral( ezcTemplateCursor $start, ezcTemplateCursor $end )
     {
-        return new ezcTemplateTypeTstNode( $this->source, $start, $end );
+        return new ezcTemplateLiteralTstNode( $this->source, $start, $end );
     }
 
     /**
@@ -880,7 +880,7 @@ class ezcTemplateParser
         {
             if ( $this->debug )
             {
-                if ( $operand instanceof ezcTemplateTypeTstNode )
+                if ( $operand instanceof ezcTemplateLiteralTstNode )
                     echo "adding operand <" . get_class( $operand ) . ">::<" . var_export( $operand->value, true ) . "> to operator <" . get_class( $currentOperator ) . ">\n";
                 else
                     echo "adding operand <" . get_class( $operand ) . "> to operator <" . get_class( $currentOperator ) . ">\n";
@@ -892,7 +892,7 @@ class ezcTemplateParser
         {
             if ( $this->debug )
             {
-                if ( $operand instanceof ezcTemplateTypeTstNode )
+                if ( $operand instanceof ezcTemplateLiteralTstNode )
                     echo "setting operand <" . get_class( $operand ) . ">::<" . var_export( $operand->value, true ) . "> as \$currentOperator\n";
                 else
                     echo "setting operand <" . get_class( $operand ) . "> as \$currentOperator\n";

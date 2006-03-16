@@ -17,7 +17,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateFloatSourceToTstParser extends ezcTemplateTypeSourceToTstParser
+class ezcTemplateFloatSourceToTstParser extends ezcTemplateLiteralSourceToTstParser
 {
     /**
      * Passes control to parent.
@@ -38,7 +38,7 @@ class ezcTemplateFloatSourceToTstParser extends ezcTemplateTypeSourceToTstParser
             if ( $matches !== false )
             {
                 $cursor->advance( strlen( $matches[0][0] ) );
-                $float = $this->parser->createType( $this->startCursor, $cursor );
+                $float = $this->parser->createLiteral( $this->startCursor, $cursor );
                 $float->value = (float)$matches[0][0];
                 $this->value = $float->value;
                 $this->element = $float;

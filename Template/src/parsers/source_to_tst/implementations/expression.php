@@ -154,7 +154,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 $failedCursor = clone $cursor;
 
                 // Try parsing a type
-                if ( $this->parseOptionalType( 'Type' ) )
+                if ( $this->parseOptionalType( 'Literal' ) )
                 {
                     if ( $this->lastParser->status == self::PARSE_PARTIAL_SUCCESS )
                     {

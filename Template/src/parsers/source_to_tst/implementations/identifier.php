@@ -17,7 +17,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateIdentifierSourceToTstParser extends ezcTemplateTypeSourceToTstParser
+class ezcTemplateIdentifierSourceToTstParser extends ezcTemplateLiteralSourceToTstParser
 {
     /**
      * The identifier which was found while parsing or null if no identifier
@@ -46,7 +46,7 @@ class ezcTemplateIdentifierSourceToTstParser extends ezcTemplateTypeSourceToTstP
             if ( $matches !== false )
             {
                 $cursor->advance( strlen( $matches[0][0] ) );
-                $identifier = $this->parser->createType( $this->startCursor, $cursor );
+                $identifier = $this->parser->createLiteral( $this->startCursor, $cursor );
                 $identifier->value = (string)$matches[0][0];
                 $this->identifierName = $identifier->value;
                 $this->element = $identifier;

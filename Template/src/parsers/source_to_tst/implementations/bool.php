@@ -17,7 +17,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateBoolSourceToTstParser extends ezcTemplateTypeSourceToTstParser
+class ezcTemplateBoolSourceToTstParser extends ezcTemplateLiteralSourceToTstParser
 {
     /**
      * Boolean type must use lowercase characters only.
@@ -58,7 +58,7 @@ class ezcTemplateBoolSourceToTstParser extends ezcTemplateTypeSourceToTstParser
             // $failure = "Boolean type must use lowercase characters only, got <{$name}>, expected <{$lower}>.";
 
             $cursor->advance( strlen( $matches[0][0] ) );
-            $bool = $this->parser->createType( $this->startCursor, $cursor );
+            $bool = $this->parser->createLiteral( $this->startCursor, $cursor );
             $bool->value = $matches[0][0] == 'true' ? true : false;
             $this->value = $bool->value;
             $this->element = $bool;

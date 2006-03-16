@@ -18,7 +18,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateStringSourceToTstParser extends ezcTemplateTypeSourceToTstParser
+class ezcTemplateStringSourceToTstParser extends ezcTemplateLiteralSourceToTstParser
 {
     /**
      * Passes control to parent.
@@ -46,7 +46,7 @@ class ezcTemplateStringSourceToTstParser extends ezcTemplateTypeSourceToTstParse
                 $nextChar = $cursor->current();
                 if ( $nextChar === $char )
                 {
-                    $string = $this->parser->createType( $this->startCursor, $cursor );
+                    $string = $this->parser->createLiteral( $this->startCursor, $cursor );
                     // We know it is an empty string, no need to extract
                     $str = "";
                     $string->value = $str;
@@ -63,7 +63,7 @@ class ezcTemplateStringSourceToTstParser extends ezcTemplateTypeSourceToTstParse
                         return false;
 
                     $cursor->advance( $matches[0][1] + strlen( $matches[0][0] ) );
-                    $string = $this->parser->createType( $this->startCursor, $cursor );
+                    $string = $this->parser->createLiteral( $this->startCursor, $cursor );
                     $str = (string)$this->startCursor->subString( $cursor->position );
                     $str = substr( $str, 1, -1 );
                     $str = str_replace( array( "\\\"", "\\\'", "\\\\" ),

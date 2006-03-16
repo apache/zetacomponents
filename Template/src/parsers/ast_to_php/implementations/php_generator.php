@@ -275,9 +275,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     /**
      * Exports the constant type value.
      *
-     * @param ezcTemplateTypeAstNode $type The code element containing the constant value.
+     * @param ezcTemplateLiteralAstNode $type The code element containing the constant value.
      */
-    public function visitType( ezcTemplateTypeAstNode $type )
+    public function visitLiteral( ezcTemplateLiteralAstNode $type )
     {
         // Output type using var_export
         $this->write( var_export( $type->value, true ) );
@@ -362,7 +362,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $this->write( '"' );
         foreach ( $parameters as $parameter )
         {
-            if ( $parameter instanceof ezcTemplateTypeAstNode )
+            if ( $parameter instanceof ezcTemplateLiteralAstNode )
             {
                 // Extract value as string and write it without the quotation marks.
                 $value = (string)$parameter->value;
