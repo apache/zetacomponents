@@ -920,8 +920,7 @@ class ezcTemplateParser
                                                  $currentParser,
                                                  $this->source,
                                                  $currentParser->getErrorMessage(),
-                                                 $currentParser->getErrorDetails(),
-                                                 $currentParser->getGrammarDescription() );
+                                                 $currentParser->getErrorDetails() );
             throw new ezcTemplateSourceToTstParserException( $error );
         }
 

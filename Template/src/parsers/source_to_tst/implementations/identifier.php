@@ -56,19 +56,6 @@ class ezcTemplateIdentifierSourceToTstParser extends ezcTemplateLiteralSourceToT
         }
         return false;
     }
-
-    /**
-     * Returns grammar description for <i>Identifier</i> rule.
-     *
-     * @see ezcTemplateSourceToTstParser::getGrammarDescription()
-     * @return ezcTemplateGrammarDescription
-     */
-    static public function getGrammarDescription()
-    {
-        return new ezcTemplateGrammarDescription( array( "Identifier" => "( Letter | '_' ) ( Letter | Digit | '_' )*" ),
-                                                  array( array( "class" => "ezcTemplateSourceToTstParser",
-                                                                "rules" => array( "Letter", "Digit" ) ) ) );
-    }
 }
 
 ?>

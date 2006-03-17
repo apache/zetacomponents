@@ -601,28 +601,6 @@ abstract class ezcTemplateSourceToTstParser
     }
 
     /**
-     * Returns the grammars of the current parser in EBNF format.
-     *
-     * The grammars are returned as an ezcTemplateGrammarDescription object
-     * which contains the grammar rules for the current parser. The grammars
-     * may reference other rules in other parsers in which case they are included
-     * in the final result.
-     *
-     * The default grammar returns the rules <i>Letter</i> and <i>Digit</i>.
-     *
-     * @link http://en.wikipedia.org/wiki/Extended_Backus-Naur_form
-     *
-     * @return ezcTemplateGrammarDescription
-     */
-    static public function getGrammarDescription()
-    {
-        return new ezcTemplateGrammarDescription( array( "Letter" => "( 'a' - 'z' ) | ( 'A' - 'Z' )",
-                                                         "Digit"  => "'0' - '9'" ),
-                                                  array() );
-    }
-
-
-    /**
      * Parses for known inline comments by using ezcTemplateBlockCommentSourceToTstParser
      * and ezcTemplateEolCommentSourceToTstParser.
      *

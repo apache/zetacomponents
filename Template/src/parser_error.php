@@ -46,13 +46,6 @@ class ezcTemplateParserError
     public $errorDetails;
 
     /**
-     * The grammar object which describes the expected syntax in EBNF form.
-     *
-     * @var ezcTemplateGrammarDescription
-     */
-    public $grammar;
-
-    /**
      * Initialises the exception with the failing elements, parser, source code
      * and error messages.
      *
@@ -63,20 +56,13 @@ class ezcTemplateParserError
      * @param ezcTemplateSource $source The source code which caused the error, used for file path.
      * @param string $errorMessage The error message.
      * @param string $errorDetails Extra details for error.
-     * @param ezcTemplateGrammarDescription $grammar Grammar object explaining what is the expected syntax.
      */
     public function __construct( $elements,
                                  /*ezcTemplateSourceToTstParser*/ $parser,
                                  ezcTemplateSourceCode $source,
                                  $errorMessage,
-                                 $errorDetails = "",
-                                 /*ezcTemplateGrammarDescription*/ $grammar = null )
+                                 $errorDetails = "" )
     {
-        // Temporary until TypeHinting actually works, urk
-        if ( $grammar !== null &&
-             !$grammar instanceof ezcTemplateGrammarDescription )
-            throw new ezcBaseValueException( "grammar", $grammar, 'ezcTemplateGrammarDescription' );
-
         if ( count( $elements ) == 0)
             throw new Exception( "Parameter \$elements in class ezcTemplateParserError needs to have at least one element." );
 
@@ -86,7 +72,6 @@ class ezcTemplateParserError
 
         $this->errorMessage = $errorMessage;
         $this->errorDetails = $errorDetails;
-        $this->grammar = $grammar;
     }
 
     /**
@@ -140,11 +125,6 @@ class ezcTemplateParserError
             $details = "\n" . $details;
         $locationMessage = "{$this->source->stream}:{$lastEndCursor->line}:{$lastEndCursor->column}:";
         $message = $locationMessage . " " . $this->errorMessage . "\n\n" . $code . $details . "\n\nfailed in:\n" . $parsers;
-
-        if ( $this->grammar instanceof ezcTemplateGrammarDescription )
-        {
-            $message .= "\nEBNF:\n" . $this->grammar->generateString();
-        }
 
         return $message;
     }

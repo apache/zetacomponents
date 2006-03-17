@@ -140,19 +140,6 @@ class ezcTemplateVariableSourceToTstParser extends ezcTemplateSourceToTstParser
         // Default error details handler.
         return parent::generateErrorDetails();
     }
-
-    /**
-     * Returns grammar description for <i>Variable</i> rule.
-     *
-     * @see ezcTemplateSourceToTstParser::getGrammarDescription()
-     * @return ezcTemplateGrammarDescription
-     */
-    static public function getGrammarDescription()
-    {
-        return new ezcTemplateGrammarDescription( array( "Variable" => "'$' Identifier" ),
-                                                  array( array( "class" => "ezcTemplateIdentifierSourceToTstParser",
-                                                                "rules" => array( "Identifier" ) ) ) );
-    }
 }
 
 ?>

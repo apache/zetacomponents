@@ -21,7 +21,6 @@ return array(
 
              "ezcTemplateParser" => "Template/parser.php",
              "ezcTemplateParserError" => "Template/parser_error.php",
-             "ezcTemplateGrammarDescription" => "Template/grammar_description.php",
              "ezcTemplateCursor" => "Template/cursor.php",
 
              "ezcTemplateSourceCode" => "Template/source_code.php",
