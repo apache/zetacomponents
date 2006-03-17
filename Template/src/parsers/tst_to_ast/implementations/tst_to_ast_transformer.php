@@ -21,8 +21,6 @@
 class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 {
     public $programNode = null;
-    public $pathToCurrentNode = array();
-    public $stackSize = 0; 
 
     public $functions; 
 
@@ -33,23 +31,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function __destruct()
     {
-    }
-
-    public function push( $node )
-    {
-        array_push( $this->pathToCurrentNode, $this->programNode );
-        $this->stackSize++;
-    }
-
-    public function pop()
-    {
-        $this->stackSize--;
-        return array_pop( $this->pathToCurrentNode );
-    }
-
-    public function last()
-    {
-        return $this->pathToCurrentNode[ $this->stackSize - 1];
     }
 
     private function appendOperatorRecursively( ezcTemplateOperatorTstNode $type, ezcTemplateOperatorAstNode $astNode, $currentParameterNumber = 0)
@@ -115,22 +96,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         foreach( $elements as $element )
         {
             $astNode = $element->accept( $this );
-
-            if( $this->isAssignmentNode( $astNode ) )
-            {
-                // Assignments are just a generic statements, which don't need echo-ing.
-                $body->appendStatement( new ezcTemplateGenericStatementAstNode( $astNode ) );
-            }
-            elseif ( $astNode instanceof ezcTemplateStatementAstNode )
-            {
-                // Statements don't need echoing, and are not generic.
-                $body->appendStatement($astNode );
-            }
-            else
-            {
-                // Expressions need a echo.
-                $body->appendStatement( new ezcTemplateEchoAstNode( array( $astNode  ) ) );
-            }
+            $body->appendStatement( $astNode );
         }
 
         return $body;
@@ -156,7 +122,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitLiteralBlockTstNode( ezcTemplateLiteralBlockTstNode $type )
     {
-        return new ezcTemplateLiteralAstNode( $type->text );
+        return new ezcTemplateEchoAstNode( array( new ezcTemplateLiteralAstNode( $type->text ) ) );
     }
 
     public function visitParenthesisTstNode( ezcTemplateParenthesisTstNode $type )
@@ -168,13 +134,13 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     public function visitOutputBlockTstNode( ezcTemplateOutputBlockTstNode $type )
     {
         $expression = $type->expressionRoot->accept( $this ); 
-        return $expression;
+        return new ezcTemplateEchoAstNode( array( $expression ) );
     }
 
     public function visitModifyingBlockTstNode( ezcTemplateModifyingBlockTstNode $type )
     {
         $expression = $type->expressionRoot->accept( $this ); 
-        return $expression;
+        return  new ezcTemplateGenericStatementAstNode( $expression );
     }
 
     public function visitLiteralTstNode( ezcTemplateLiteralTstNode $type )
@@ -200,15 +166,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitFunctionCallTstNode( ezcTemplateFunctionCallTstNode $type )
     {
-        /*
-        $registeredFunction = getRegisteredFunction( $type->name, count( $type->parameters ) );
-
-        if( !$registeredFunction )
-        {
-            die ( $this->getHelp( $registeredFunction ) );
-        }
-        */
-
         $paramAst = array();
         foreach( $type->parameters as $parameter )
         {
@@ -216,15 +173,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         }
 
         return $this->functions->getAstTree( $type->name, $paramAst );
-
-        /*
-        $astNode = new ezcTemplateFunctionCallAstNode( $type->name, $paramAst );
-        return $astNode;
-        */
-
- //       exit();
-       
-//        die("visitFunctionCallTstNode");
     }
 
     public function visitDocCommentTstNode( ezcTemplateDocCommentTstNode $type )
