@@ -13,6 +13,7 @@ return array
 "/^get_constant$/"   => "ezcTemplateTypeFunctions",
 "/^cast_.*/" => "ezcTemplateTypeFunctions",
 "/^math_.*/" => "ezcTemplateMathFunctions",
+"/^debug_.*/" => "ezcTemplateDebugFunctions",
 );
 
 

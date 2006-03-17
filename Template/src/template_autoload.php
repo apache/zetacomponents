@@ -278,12 +278,14 @@ return array(
              "ezcTemplateRegExpFunctions" => "Template/functions/regexp_functions.php",
              "ezcTemplateTypeFunctions" => "Template/functions/type_functions.php",
              "ezcTemplateMathFunctions" => "Template/functions/math_functions.php",
+             "ezcTemplateDebugFunctions" => "Template/functions/debug_functions.php",
 
 // Functions code
              "ezcTemplateString" => "Template/functions/string_code.php",
              "ezcTemplateArray" => "Template/functions/array_code.php",
              "ezcTemplateRegExp" => "Template/functions/regexp_code.php",
              "ezcTemplateType" => "Template/functions/type_code.php",
+             "ezcTemplateDebug" => "Template/functions/debug_code.php",
 
             );
 

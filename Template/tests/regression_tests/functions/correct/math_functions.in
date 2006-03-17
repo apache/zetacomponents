@@ -38,7 +38,7 @@ math_rand:
 {math_rand( 2, 2)}
 
 math_pi:
-{$pi = math_pi()}{math_round($pi)}
+{math_round( math_pi() )}
 
 math_is_finite:
 {math_is_finite( 3 )}
