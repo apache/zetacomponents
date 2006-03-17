@@ -1,7 +1,6 @@
 
 Source to TST (+ TST nodes)
 ---------------------------
-- Change the property operator to: "->". Without it's not possible to do: "a"."b";
 - Clean up expressionBlock->rootExpression.
 - Condition operator may not work.
 - Var implementation? 

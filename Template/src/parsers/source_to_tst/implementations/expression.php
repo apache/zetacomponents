@@ -292,34 +292,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 // Restore identifier allowance from value in object.
                 $allowIdentifier = $this->allowIdentifier;
 
-                // First check if the property fetch operator is found. This
-                // needs to be placed righter after the operand to distuingish
-                // it from concatenation operator.
-                if ( $cursor->current() == '.' &&
-                     $cursor->current( 2 ) != '.=' ) // Check for .= operator
-                {
-                    $operatorStartCursor = clone $cursor;
-                    $cursor->advance();
-                    $operator = $this->parser->createPropertyFetch( clone $this->lastCursor, $cursor );
-
-                    // If the min precedence has been reached we immediately stop parsing
-                    // and return a successful parse result
-                    if ( $this->minPrecedence !== false &&
-                         $operator->precedence < $this->minPrecedence )
-                    {
-                        $cursor->copy( $operatorStartCursor );
-                        return true;
-                    }
-
-                    $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
-
-                    $this->parser->reportElementCursor( $operator->startCursor, $operator->endCursor, $operator );
-                    $this->lastCursor->copy( $cursor );
-                    $allowIdentifier = true;
-                    $this->state = 'operand';
-                    continue;
-                }
-
                 // skip whitespace and comments
                 if ( !$this->findNextElement() )
                 {
@@ -353,7 +325,8 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                                           array( 3,
                                                  array( '===', '!==' ) ),
                                           array( 2,
-                                                 array( '==', '!=',
+                                                 array( '->',
+                                                        '==', '!=',
                                                         '<=', '>=',
                                                         '&&', '||',
                                                         '+=', '-=', '*=', '/=', '.=', '%=',
@@ -386,6 +359,8 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                                           '*' => 'MultiplicationOperator',
                                           '/' => 'DivisionOperator',
                                           '%' => 'ModuloOperator',
+
+                                          '->' => 'PropertyFetch',
 
                                           '==' => 'EqualOperator',
                                           '!=' => 'NotEqualOperator',
@@ -436,7 +411,8 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     $this->lastCursor->copy( $cursor );
 
                     // instanceof operator can have an identifier as the next operand
-                    if ( $requestedName == 'instanceof' )
+                    if ( $requestedName == 'instanceof' ||
+                         $requestedName == '->' )
                     {
                         $allowIdentifier = true;
                     }

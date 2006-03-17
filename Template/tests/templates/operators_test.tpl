@@ -1,5 +1,5 @@
 {!$obj instanceof what}
-{$obj.prop}
+{$obj->prop}
 {$a[0]}
 {$a[]}
 {1+2}
