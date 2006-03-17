@@ -1,0 +1,104 @@
+
+Source to TST (+ TST nodes)
+---------------------------
+- Change the property operator to: "->". Without it's not possible to do: "a"."b";
+- Clean up expressionBlock->rootExpression.
+- Condition operator may not work.
+- Var implementation? 
+- There is no distinction between an else and an elseif
+- break, continue, etc. implemented?
+- { // bla \n} doesn't work, at least not without the tst_to_tst clean up.
+- { // bla } should work as well.
+- Functions without parameters are passed incorrectly?
+
+TST to AST (+ AST nodes)
+------------------------
+
+
+
+AST to PHP (+ PHP code )
+------------------------
+- Condition operator not present?
+
+
+
+
+
+
+
+
+Amos' old list:
+---------------
+
+- IMPORTANT!!!!!!!!! the expression does not give errors for invalid expression, needs fixing.
+
+- Code element interface should have a generic accept() method which calls a method named after the class name?
+- Add methods/property code for modifying the various elements of code objects.
+- Set @subpackage for code elements and parse elements
+- Create meta-code class which are elements which wrap around real code elements, it has a method to fetch the first real element from its children.
+  this allows optimizer and other code which inspects the code tree to go past these elements.
+  typical meta-code are:
+  - changing run-time options such indentation, spacing, hanging braces etc.
+  - inlining code
+- add these code elements: 
+  * docblock comment
+    /**
+      */
+  * global
+  * rest of operators
+    + clone
+    + new
+    + ternary ?:
+    + @
+    + execution ``
+  * casts
+  * reference
+  * open tag/close tag
+  * class
+  * function
+  * const
+  * static
+  * interface
+  * abstract class
+
+- Operator names need to be consistant, ie. either addition and multiplication or plus and multiply.
+- Go over inheritance of elements and element parser, they should be grouped better.
+- Move whitespace removal to root parser while it opens/closes blocks.
+- Fix expression parser so it stops when it has read an operand but the next element is not an operator.
+- Add support for all operators + operands to return a typehint, this can be used to detect type parse-time and to provide type-hints to the transformed code.
+- Rename ezcParser to ezcParserControl and all references of 'main parser' to 'parser control'.
+
+- Added syntax validator class which is invoked when new type, operator and block elements are made.
+  * Check for assignment usage inside an expression, not allowed.
+  * Check for typical mistakes when coming from PHP.
+    o Check for isset()
+  * Check for identifiers which are reserved keywords (by template or PHP):
+    o true, false, and, or
+- Operators:
+  * The ! operator needs special attention when used together with other operators,
+    see PHP manual for this.
+    !$obj instanceof SomeClass
+- Uncomment all typehints.
+- Make private class have the @access private in doc blocks (file + class)
+- Add EBNF grammar to all parser classes.
+- Move nesting check to block class, each block sub-class should be able to override it to allow
+  more complex nesting rules. e.g. {section} {section-else} {/section}
+- Start cursor for block are 1 off.
+
+- Move abstract classes to abstract/ subdir?
+- Make sure cursor class handles tab characters
+- Don't expose all variables in element types, instead use methods or magic-properties.
+
+- trimBlockLine(s) might not need the $parentBlock parameter.
+- whitespace trimming object needs to be fetched from the current output context in main parser.
+
+CS:
+- Fix all @param with long texts to use the alternative syntax
+- Fix @returns -> @return
+- Fix @inheritdocs for re-implemented functions (if it works).
+- Fix class descriptions with examples.
+- Make sure @param blocks are properly aligned
+
+compiler:
+- There should be an 'object' style file generated with information about a template, e.g. related templates
+  and other files.
