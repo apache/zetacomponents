@@ -77,7 +77,7 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
             {
                 $this->functionCall->endCursor = clone $operator->endCursor;
                 $this->functionCall->appendParameter( $operator );
-                $this->parser->reportElementCursor( $this->functionCall->startCursor, $this->functionCall->endCursor, $this->functionCall );
+                $this->appendElement( $this->functionCall );
             }
             else
             {
@@ -146,7 +146,7 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
             {
                 $this->functionCall->endCursor = clone $cursor;
                 $cursor->advance( 1 );
-                $this->parser->reportElementCursor( $this->functionCall->startCursor, $this->functionCall->endCursor, $this->functionCall );
+                $this->appendElement( $this->functionCall );
                 return true;
             }
 
