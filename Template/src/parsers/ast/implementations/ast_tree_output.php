@@ -8,10 +8,10 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Generator of PHP code.
+ * Iterates the AST tree and outputs the result as text.
  *
- * Implements the ezcTemplateBasicAstNodeVisitor interface for visiting code elements
- * and generating code for them.
+ * Implements the ezcTemplateTstNodeVisitor interface for visiting the nodes
+ * and generating the appropriate ast nodes for them.
  *
  * @package Template
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
@@ -21,12 +21,13 @@
 class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTemplateAstNodeVisitor
 {
     /**
-     * @param string $path File path for the file which should be generated.
-     * @param int $indentation The default indentation to use when increasing it.
+     * Initialize with correct node class name and regex for extraction.
+     * The extraction will remove the prefix <i>ezcTemplate</i> and the suffix
+     * <i>AstNode</i>.
      */
     public function __construct()
     {
-        parent::__construct( 'ezcTemplateAstNode' );
+        parent::__construct( 'ezcTemplateAstNode', "#^ezcTemplate(.+)AstNode#" );
     }
 
     /**
@@ -242,18 +243,6 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     public function visitTypeCastAstNode( ezcTemplateTypeCastAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
-    }
-
-    /**
-     * Extracts the name of the node and returns it as a string.
-     * The name is taken from the class name by removing ezcTemplate and AstNode.
-     *
-     * @param Object $node The node to examine.
-     * @return string
-     */
-    protected function extractNodeName( $node )
-    {
-        return preg_replace( "#^ezcTemplate(.+)AstNode#", '$1', get_class( $node ) );
     }
 
     /**

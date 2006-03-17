@@ -75,13 +75,22 @@ abstract class ezcTemplateTreeOutput
 
     /**
      * The name of the class which all nodes inherit from.
+     * @var string
      */
     public $nodeClass;
 
-    public function __construct( $nodeClass )
+    /**
+     * The regex (preg style) used to extract the name from the class name.
+     * @see extractNodeName() uses this variable.
+     * @var string
+     */
+    public $nodeClassRegex;
+
+    public function __construct( $nodeClass, $nodeClassRegex = '' )
     {
-        $this->text      = '';
-        $this->nodeClass = $nodeClass;
+        $this->text           = '';
+        $this->nodeClass      = $nodeClass;
+        $this->nodeClassRegex = $nodeClassRegex;
     }
 
     /**
@@ -92,7 +101,10 @@ abstract class ezcTemplateTreeOutput
      * @param Object $node The node to examine.
      * @return string
      */
-    abstract protected function extractNodeName( $node );
+    protected function extractNodeName( $node )
+    {
+        return preg_replace( $this->nodeClassRegex, '$1', get_class( $node ) );
+    }
 
     /**
      * Extracts position data from the specified node and set in the out parameters.

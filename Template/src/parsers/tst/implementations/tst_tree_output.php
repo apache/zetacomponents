@@ -11,7 +11,7 @@
  * Iterates the TST tree and outputs the result as text.
  *
  * Implements the ezcTemplateTstNodeVisitor interface for visiting the nodes
- * and generating the appropriate ast nodes for them.
+ * and generating the appropriate tst nodes for them.
  *
  * @package Template
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
@@ -20,9 +20,14 @@
  */
 class ezcTemplateTstTreeOutput extends ezcTemplateTreeOutput implements ezcTemplateTstNodeVisitor
 {
+    /**
+     * Initialize with correct node class name and regex for extraction.
+     * The extraction will remove the prefix <i>ezcTemplate</i> and the suffix
+     * <i>TstNode</i>.
+     */
     public function __construct()
     {
-        parent::__construct( 'ezcTemplateTstNode' );
+        parent::__construct( 'ezcTemplateTstNode', "#^ezcTemplate(.+)TstNode#" );
     }
 
     /**
@@ -288,18 +293,6 @@ class ezcTemplateTstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     public function visitBlockTstNode( ezcTemplateBlockTstNode $node )
     {
         $this->text .= $this->outputNode( $node );
-    }
-
-    /**
-     * Extracts the name of the node and returns it as a string.
-     * The name is taken from the class name by removing ezcTemplate and TstNode.
-     *
-     * @param Object $node The node to examine.
-     * @return string
-     */
-    protected function extractNodeName( $node )
-    {
-        return preg_replace( "#^ezcTemplate(.+)TstNode#", '$1', get_class( $node ) );
     }
 
     /**
