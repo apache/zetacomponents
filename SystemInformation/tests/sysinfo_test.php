@@ -82,6 +82,18 @@ class ezcSystemInfoTest extends ezcTestCase
     {
         $info = ezcSystemInfo::getInstance();
         $memorySize = $info->memorySize;
+        
+        if ( substr( php_uname( 's' ), 0, 7 ) == 'Windows' && !extension_loaded("win32ps") )
+        {
+            // scanning of Total Physical memory not implemented for Windows
+            // without php_win32ps.dll extention installed
+            if ( $memorySize != null )
+            {
+                self::fail('OS memory size should be null in Windows when win32ps extention is not installed in PHP');
+            }
+            return;
+        }
+        
         if ( !is_int( $memorySize ) || $memorySize == 0 || $memorySize % 1024 != 0 )
         {
             self::fail('OS memory size was not determined correctly');

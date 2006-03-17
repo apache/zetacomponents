@@ -12,6 +12,7 @@ return array(
     'ezcSystemInfoReader' => 'SystemInformation/system/interfaces/info_reader.php',    
     'ezcSystemInfoLinuxReader' => 'SystemInformation/system/readers/info_linux.php',
     'ezcSystemInfoFreeBsdReader' => 'SystemInformation/system/readers/info_freebsd.php',
+    'ezcSystemInfoWindowsReader' => 'SystemInformation/system/readers/info_windows.php',
     'ezcSystemInfoAccelerator' => 'SystemInformation/system/structs/accelerator_info.php',
     'ezcSystemInfoReaderCantScanOSException' => 'SystemInformation/system/exceptions/cant_scan.php'
 );

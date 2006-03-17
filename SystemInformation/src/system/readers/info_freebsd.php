@@ -88,7 +88,6 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
         {
             throw new ezcSystemInfoReaderCantScanOSException( "<{$this->readerName}>: can't scan OS for system values." );
         }
-
     }
 
     /**
@@ -108,7 +107,11 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
      */
     public function isValid( $propertyName )
     {
-        return true;
+        if ( isset( $validProperties[$propertyName]) )
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -146,6 +149,9 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
                 $this->cpuSpeed = $cpu;
                 $this->cpuType = $system;
                 $this->cpuUnit = $cpuunit;
+                $this->validProperties['cpu_speed'] = $this->cpuSpeed;
+                $this->validProperties['cpu_type'] = $this->cpuType;
+                $this->validProperties['cpu_unit'] = $this->cpuUnit;
             }
             if ( substr( $line, 0, 11 ) == 'real memory' )
             {
@@ -157,6 +163,7 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
                 }
                 $memBytes = (int)$memBytes;
                 $this->memorySize = $memBytes;
+                $this->validProperties['memory_size'] = $this->memorySize;
             }
             if ( $this->cpuSpeed !== false and
                  $this->cpuType !== false and
@@ -165,7 +172,6 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
             {
                 break;
             }
-
         }
         return true;
     }

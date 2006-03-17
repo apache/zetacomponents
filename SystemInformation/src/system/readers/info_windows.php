@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcSystemInfoLinuxReader class
+ * File containing the ezcSystemInfoWindowsReader class
  *
  * @package SystemInformation
  * @version //autogen//
@@ -9,15 +9,16 @@
  */
 
 /**
- * Provide functionality to read system information from Linux systems.
+ * Provide functionality to read system information from Windows systems.
  * 
- * Try to scan Linux system parameters on initialization and fill 
- * correspondent values.
+ * Try to scan Windows system parameters on initialization and fill 
+ * correspondent values. CPU parameters are taken from Windows registry.
+ * Memory size received using functions in php_win32ps.dll PHP extension.
  *
  * @package SystemInformation
  * @version //autogentag//
  */
-class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
+class ezcSystemInfoWindowsReader extends ezcSystemInfoReader
 {
     /**
      * Contains true if ezcSystemInfoReader object initialized 
@@ -31,7 +32,7 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
      * 
      * @var string
      */
-    protected $readerName = 'Linux system info reader';
+    protected $readerName = 'Windows system info reader';
     
     /**
      * Stores properties that fetched form system once during construction
@@ -80,7 +81,7 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
     /**
      * Constructs ezcSystemInfoReader object and fill it with system information.
      * 
-     * @throws ezcSystemInfoReaderCantScanOSException if 
+     * @throws ezcSystemInfoReaderCantScanOSException 
      */
     public function __construct()
     {
@@ -108,11 +109,7 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
      */
     public function isValid( $propertyName )
     {
-        if ( isset( $validProperties[$propertyName]) )
-        {
-            return true;
-        }
-        return false;
+        return true;
     }
 
 
@@ -120,98 +117,43 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
      * Scans the OS and fills in the information internally.
      * Returns true if it was able to scan the system or false if it failed.
      * 
-     * @param string $cpuinfoPath path to the source of cpu information in system 
-     * @param string $meminfoPath path to the source of memory information in system
+     * @param string $dmesgPath path to the source of system information in OS 
      * @return bool 
      */
-    private function getOsInfo( $cpuinfoPath = false, $meminfoPath = false )
+    private function getOsInfo( )
     {
-        if ( !$cpuinfoPath )
+        $output =shell_exec ("reg query HKLM\\HARDWARE\\DESCRIPTION\\SYSTEM\\CentralProcessor\\0 /v ProcessorNameString" );
+        preg_match( "/ProcessorNameString\s*\S*\s*(.*)/", $output, $matches );
+        if ( isset($matches[1]) )
         {
-            $cpuinfoPath = '/proc/cpuinfo';
+            $this->cpuType = $matches[1];
+            $this->validProperties['cpuType'] = $this->cpuType;
         }
-        if ( !$meminfoPath )
+        unset ($matches);
+
+        $output =shell_exec ("reg query HKLM\\HARDWARE\\DESCRIPTION\\SYSTEM\\CentralProcessor\\0 /v ~MHz" );
+        preg_match( "/~MHz\s*\S*\s*(\S*)/", $output, $matches );
+        if ( isset($matches[1]) )
         {
-            $meminfoPath = '/proc/meminfo';
+            $this->cpuSpeed = hexdec( $matches[1] ).'.0'; //force to be a string with speed float value
+            $this->cpuUnit = 'MHz';
+            $this->validProperties['cpu_speed'] = $this->cpuSpeed;
+            $this->validProperties['cpu_unit'] = $this->cpuUnit;
         }
 
-        if ( !file_exists( $cpuinfoPath ) )
-        {
-            return false;
-        }
-        if ( !file_exists( $meminfoPath ) )
-        {
-            return false;
-        }
+        // if no php_win32ps.dll extension installed than scanning of 
+        // Total Physical memory is not supported.
+        // It's could be implemented on WinXP and Win2003 using call to 
+        // Windows Management Instrumentation (WMI) service like "wmic memphysical" 
+        // (should be researched in details) or with help of some free third party 
+        // utility like psinfo.exe from SysInternals ( www.sysinternals.com ).
 
-        $fileLines = file( $cpuinfoPath );
-        foreach ( $fileLines as $line )
+        if ( extension_loaded("win32ps") )
         {
-            if ( substr( $line, 0, 7 ) == 'cpu MHz' )
-            {
-                $cpu = trim( substr( $line, 11, strlen( $line ) - 11 ) );
-                if ( $cpu != '' ) 
-                {
-                    $this->cpuSpeed = $cpu;
-                    $this->cpuUnit = 'MHz';
-                    $this->validProperties['cpu_speed'] = $this->cpuSpeed;
-                    $this->validProperties['cpu_unit'] = $this->cpuUnit;
-                }
-            }
-            if ( substr( $line, 0, 10 ) == 'model name' )
-            {
-                $system = trim( substr( $line, 13, strlen( $line ) - 13 ) );
-                if ( $system != '' ) 
-                {
-                    $this->cpuType = $system;
-                    $this->validProperties['cpu_type'] = $this->cpuType;
-                }
-            }
-            if ( $this->cpuSpeed !== false and
-                 $this->cpuType !== false and
-                 $this->cpuUnit !== false )
-            {
-                break;
-            }
+            $memInfo = win32_ps_stat_mem();
+            $this->memorySize= $memInfo['total_phys']*$memInfo['unit'];
+            $this->validProperties['memory_size'] = $this->memorySize;
         }
-
-        $fileLines = file( $meminfoPath );
-        foreach ( $fileLines as $line )
-        {
-            if ( substr( $line, 0, 8 ) == 'MemTotal' )
-            {
-                $mem = trim( substr( $line, 11, strlen( $line ) - 11 ) );
-                $memBytes = $mem;
-                if ( preg_match( "#^([0-9]+) *([a-zA-Z]+)#", $mem, $matches ) )
-                {
-                    $memBytes = (int)$matches[1];
-                    $unit = strtolower( $matches[2] );
-                    if ( $unit == 'kb' )
-                    {
-                        $memBytes *= 1024;
-                    }
-                    else if ( $unit == 'mb' )
-                    {
-                        $memBytes *= 1024*1024;
-                    }
-                    else if ( $unit == 'gb' )
-                    {
-                        $memBytes *= 1024*1024*1024;
-                    }
-                }
-                else
-                {
-                    $memBytes = (int)$memBytes;
-                }
-                $this->memorySize = $memBytes;
-                $this->validProperties['memory_size'] = $this->memorySize;
-            }
-            if ( $this->memorySize !== false )
-            {
-                break;
-            }
-        }
-
         return true;
     }
 
