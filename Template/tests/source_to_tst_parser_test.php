@@ -852,11 +852,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
     {
         $texts = array(
             '{while}{/while}',
-            '{do}{/do}',
-            '{do}{/do while}',
             '{while}',
-            '{while}{/do}',
-            '{do}{/while}',
         );
 
         $nFailures = 0;

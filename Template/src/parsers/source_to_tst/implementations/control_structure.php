@@ -65,7 +65,7 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
         // Check if any control structure names are used.
         // Note: The code inside the (?:) brace ensures that the next character
         // is not an alphabetical character ie. a word boundary
-        $matches = $cursor->pregMatch( "#^(foreach|for|while|do|if|elseif|else|switch|case|include|embed|break|continue|skip|delimiter|once|def|undef|set)(?:[^a-zA-Z])#i" );
+        $matches = $cursor->pregMatch( "#^(foreach|for|while|if|elseif|else|switch|case|include|embed|break|continue|skip|delimiter|once|def|undef|set)(?:[^a-zA-Z])#i" );
 
         if ( $matches === false )
             return false;
@@ -87,7 +87,6 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
         $csMap['foreach'] = 'ForeachLoop';
         $csMap['for'] = 'ForLoop';
         $csMap['while'] = 'WhileLoop';
-        $csMap['do'] = 'WhileLoop';
         $csMap['if'] = 'IfCondition';
         $csMap['elseif'] = 'IfCondition';
         $csMap['else'] = 'IfCondition';
@@ -149,7 +148,7 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
         switch ( $this->operationState )
         {
             case self::STATE_NON_LOWERCASE:
-                return "Available control structures are: foreach, for, while, do, if, elseif, else, switch, case, include, embed, break, continue, skip, delimiter, once, def";
+                return "Available control structures are: foreach, for, while, if, elseif, else, switch, case, include, embed, break, continue, skip, delimiter, once, def";
         }
         // Default error details handler.
         return parent::generateErrorDetails();

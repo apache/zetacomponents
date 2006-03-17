@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Control structures: while, do..while.
+ * Control structures: while
  *
  * @package Template
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
@@ -48,17 +48,6 @@ class ezcTemplateWhileLoopTstNode extends ezcTemplateBlockTstNode
     {
         $this->elements[] = $element;
         $element->parentBlock = $this;
-    }
-
-    /**
-     * Saves the do..while condition in the open block.
-     *
-     * @param ezcTemplateBlockTstNode $openBlock The block which is currently open.
-     */
-    public function closeOpenBlock( ezcTemplateBlockTstNode $openBlock )
-    {
-        if ( $this->name == 'do' )
-            $openBlock->condition = $this->condition;
     }
 
 }
