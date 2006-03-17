@@ -753,7 +753,7 @@ class ezcTemplateParser
                 {
                     // *** DEBUG START ***
                     echo "\n\n\n";
-                    echo ezcTemplateTstTreeDump::dump( $newOperator );
+                    echo ezcTemplateTstTreeOutput::output( $newOperator );
                     echo "\n\n\n";
                     // *** DEBUG END ***
                 }
@@ -781,7 +781,7 @@ class ezcTemplateParser
             {
                 // *** DEBUG START ***
                 echo "\n\n\n";
-                echo ezcTemplateTstTreeDump::dump( $currentOperator );
+                echo ezcTemplateTstTreeOutput::output( $currentOperator );
                 echo "\n\n\n";
                 // *** DEBUG END ***
             }
@@ -809,7 +809,7 @@ class ezcTemplateParser
             {
                 // *** DEBUG START ***
                 echo "\n\n\n";
-                echo ezcTemplateTstTreeDump::dump( $currentOperator );
+                echo ezcTemplateTstTreeOutput::output( $currentOperator );
                 echo "\n\n\n";
                 // *** DEBUG END ***
             }
@@ -844,7 +844,7 @@ class ezcTemplateParser
             {
                 // *** DEBUG START ***
                 echo "\n\n\n";
-                echo ezcTemplateTstTreeDump::dump( $newOperator );
+                echo ezcTemplateTstTreeOutput::output( $newOperator );
                 echo "\n\n\n";
                 // *** DEBUG END ***
             }
@@ -857,7 +857,7 @@ class ezcTemplateParser
             // *** DEBUG START ***
             echo "new operator <", get_class( $newOperator ), ">:", $newOperator->precedence, " /\ <", get_class( $currentOperator ), ">:", $currentOperator->precedence, "\n";
             echo "\n\n\n";
-            echo ezcTemplateTstTreeDump::dump( $currentOperator );
+            echo ezcTemplateTstTreeOutput::output( $currentOperator );
             echo "\n\n\n";
             // *** DEBUG END ***
         }

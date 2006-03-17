@@ -235,11 +235,11 @@ return array(
 
 
 // Generic parser interfaces
-             "ezcTemplateTreeDump"       => "Template/parsers/interfaces/tree_dump.php",
+             "ezcTemplateTreeOutput"       => "Template/parsers/interfaces/tree_output.php",
 
 // Parsers / tst_to_tst implementations
              "ezcTemplateWhitespaceRemoval" => "Template/parsers/tst_to_tst/implementations/whitespace_removal.php",
-             "ezcTemplateTstTreeDump"       => "Template/parsers/tst_to_tst/implementations/tst_tree_dump.php",
+             "ezcTemplateTstTreeOutput"       => "Template/parsers/tst/implementations/tst_tree_output.php",
 
 // Parsers / tst_to_ast implementations
              "ezcTemplateTstToAstTransformer" => "Template/parsers/tst_to_ast/implementations/tst_to_ast_transformer.php",
@@ -250,7 +250,7 @@ return array(
              "ezcTemplateAstToPhpGenerator" => "Template/parsers/ast_to_php/implementations/php_generator.php",
 
 // Parsers / ast_to_php implementations
-             "ezcTemplateAstTreeDump"       => "Template/parsers/ast_to_ast/implementations/ast_tree_dump.php",
+             "ezcTemplateAstTreeOutput"       => "Template/parsers/ast/implementations/ast_tree_output.php",
 
 // Exceptions
              "ezcTemplateVariableUndefinedException" => "Template/exceptions/variable_undefined_exception.php",

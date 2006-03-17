@@ -189,7 +189,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     {
                         // *** DEBUG START ***
                         echo "\n\n\n function call parser yielded:\n";
-                        echo ezcTemplateTstTreeDump::dump( $this->lastParser->functionCall );
+                        echo ezcTemplateTstTreeOutput::output( $this->lastParser->functionCall );
                         echo "\n\n\n";
                         // *** DEBUG END ***
                     }

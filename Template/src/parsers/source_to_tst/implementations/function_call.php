@@ -186,7 +186,7 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
                     // *** DEBUG START ***
                     echo "\n\n\n parameter expression yielded:\n";
                     echo "<", $expressionStartCursor->subString( $cursor->position ), ">\n";
-                    echo ezcTemplateTstTreeDump::dump( $rootOperator );
+                    echo ezcTemplateTstTreeOutput::output( $rootOperator );
                     echo "\n\n\n";
                     // *** DEBUG END ***
                 }

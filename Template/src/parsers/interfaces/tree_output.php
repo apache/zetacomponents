@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateTreeDump abstract class
+ * File containing the ezcTemplateTreeOutput abstract class
  *
  * @package Template
  * @version //autogen//
@@ -8,10 +8,10 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Iterates the given tree and dumps the result as text.
+ * Iterates the given tree and outputs the result as text.
  *
  * This class must be extended and combined with a visitor (e.g. ezcTemplateTstNodeVisitor)
- * to create a specific tree visitor for dumping the tree structure.
+ * to create a specific tree visitor for outputting the tree structure.
  *
  * This class has some abstract functions which must be implemented by the
  * extending class, they are used to gain more detailed information about tree
@@ -30,12 +30,12 @@
  * `-- isEnabled: true
  * </code>
  *
- * It can also handle arrays and objects which will be dumped recursively.
- * For objects it will dump the properties if it is an instance of $this->nodeClass
- * by calling dumpNode() while array is dumped by calling dumpArray().
- * All other objects will be cast to a string and dumped.
+ * It can also handle arrays and objects which will be output recursively.
+ * For objects it will output the properties if it is an instance of $this->nodeClass
+ * by calling outputNode() while array is output by calling outputArray().
+ * All other objects will be cast to a string and output.
  *
- * Dumping an array with array:
+ * Outputting an array with array:
  * <code>
  * array( 'children' => array( 'foo', 'bar' ) );
  * </code>
@@ -46,7 +46,7 @@
  *     `-- "bar"
  * </code>
  *
- * Dumping an array with objects:
+ * Outputting an array with objects:
  * <code>
  * array( 'children' => array( new ezcTemplateLiteralTstNode( 5 ),
  *                             new ezcTemplateTextBlockTstNode( "line1\nline2" ) ) );
@@ -66,10 +66,10 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-abstract class ezcTemplateTreeDump
+abstract class ezcTemplateTreeOutput
 {
     /**
-     * @var string $text Will contain the dumped tree.
+     * @var string $text Will contain the output tree.
      */
     public $text;
 
@@ -119,18 +119,18 @@ abstract class ezcTemplateTreeDump
     abstract protected function extractNodeProperties( $node );
 
     /**
-     * Dumps the contents of any node.
+     * Outputs the contents of any node.
      *
-     * Will display the name of the node, the position in the file and then dump
+     * Will display the name of the node, the position in the file and then output
      * all the properties.
      *
-     * @param  Object $node The node to dump.
+     * @param  Object $node The node to output.
      * @return string
      * @see extractNodeName()
      * @see extractNodePosition()
      * @see extractNodeProperties()
      */
-    protected function dumpNode( $node )
+    protected function outputNode( $node )
     {
         $text  = "<" . $this->extractNodeName( $node ) . ">";
         if ( $this->extractNodePosition( $node, $startLine, $startColumn,
@@ -141,18 +141,18 @@ abstract class ezcTemplateTreeDump
         }
         $text .= "\n";
         $properties  = $this->extractNodeProperties( $node );
-        $text .= $this->dumpArray( $properties, true );
+        $text .= $this->outputArray( $properties, true );
         return $text;
     }
 
     /**
-     * Dumps the array as a tree structure (recursively).
+     * Outputs the array as a tree structure (recursively).
      *
-     * @param array $properties The array to dump
+     * @param array $properties The array to output
      * @param bool  $useKey     If true then the keys of the array is displayed.
      * @return string
      */
-    protected function dumpArray( $properties, $useKey )
+    protected function outputArray( $properties, $useKey )
     {
         $text = '';
         $maxLen = 0;
@@ -201,7 +201,7 @@ abstract class ezcTemplateTreeDump
             {
                 if ( $property instanceof $this->nodeClass )
                 {
-                    $textBlock = $this->dumpNode( $property, true );
+                    $textBlock = $this->outputNode( $property, true );
                 }
                 else
                 {
@@ -211,13 +211,13 @@ abstract class ezcTemplateTreeDump
             elseif ( is_array( $property ) )
             {
                 $text .= "array[" . count( $property ) . "]";
-                $textBlock = $this->dumpArray( $property, false );
+                $textBlock = $this->outputArray( $property, false );
             }
             elseif ( is_string( $property ) )
             {
                 if ( strpos( $property, "\n" ) === false )
                 {
-                    $line = self::dumpString( $property );
+                    $line = self::outputString( $property );
                     $text .= "\"{$line}\"";
                 }
                 else
@@ -227,7 +227,7 @@ abstract class ezcTemplateTreeDump
                     {
                         if ( $offset > 0 )
                             $textBlock .= " . \"\\n\" .\n";
-                        $line = self::dumpString( $line );
+                        $line = self::outputString( $line );
                         $textBlock .= "\"{$line}\"";
                     }
                 }
@@ -264,13 +264,13 @@ abstract class ezcTemplateTreeDump
     }
 
     /**
-     * Dumps the string by escaping special characters making them readable.
+     * Outputs the string by escaping special characters making them readable.
      *
      * The special characters are: \n, \r, \t, \b, \" and '
-     * @param string $str The string to dump.
+     * @param string $str The string to output.
      * @return string
      */
-    protected static function dumpString( $str )
+    protected static function outputString( $str )
     {
         return str_replace( array( "\n",  "\r",  "\t",  "\b",  "\"",   "'" ),
                             array( "\\n", "\\r", "\\t", "\\b", "\\\"", "\\'" ),

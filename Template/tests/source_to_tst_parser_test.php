@@ -65,7 +65,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         $program = $parser->parseIntoNodeTree();
 
         if ( $parser->debug )
-            echo ezcTemplateTstTreeDump::dump( $program ), "\n";
+            echo ezcTemplateTstTreeOutput::output( $program ), "\n";
 
         $parser->verify();
     }
@@ -125,7 +125,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         $program = $parser->parseIntoNodeTree();
 
         if ( $parser->debug )
-            echo ezcTemplateTstTreeDump::dump( $program ), "\n";
+            echo ezcTemplateTstTreeOutput::output( $program ), "\n";
 
         $parser->verify();
     }
@@ -205,7 +205,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         $program = $parser->parseIntoNodeTree();
 
         if ( $parser->debug )
-            echo ezcTemplateTstTreeDump::dump( $program ), "\n";
+            echo ezcTemplateTstTreeOutput::output( $program ), "\n";
 
         $parser->verify();
     }
@@ -283,7 +283,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         $program = $parser->parseIntoNodeTree();
 
         if ( $parser->debug )
-            echo ezcTemplateTstTreeDump::dump( $program ), "\n";
+            echo ezcTemplateTstTreeOutput::output( $program ), "\n";
 
         $parser->verify();
     }
@@ -326,7 +326,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         $program = $parser->parseIntoNodeTree();
 
         if ( $parser->debug )
-            echo ezcTemplateTstTreeDump::dump( $program ), "\n";
+            echo ezcTemplateTstTreeOutput::output( $program ), "\n";
 
         $parser->verify();
     }
@@ -427,7 +427,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         $program = $parser->parseIntoNodeTree();
 
         if ( $parser->debug )
-            echo ezcTemplateTstTreeDump::dump( $program ), "\n";
+            echo ezcTemplateTstTreeOutput::output( $program ), "\n";
 
         $parser->verify();
     }
@@ -482,7 +482,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         $program = $parser->parseIntoNodeTree();
 
         if ( $parser->debug )
-            echo ezcTemplateTstTreeDump::dump( $program ), "\n";
+            echo ezcTemplateTstTreeOutput::output( $program ), "\n";
 
         $parser->verify();
     }
@@ -727,7 +727,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         $program = $parser->parseIntoNodeTree();
 
         if ( $parser->debug )
-            echo ezcTemplateTstTreeDump::dump( $program ), "\n";
+            echo ezcTemplateTstTreeOutput::output( $program ), "\n";
 
         $parser->verify();
     }
@@ -756,7 +756,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         $program = $parser->parseIntoNodeTree();
 
         if ( $parser->debug )
-            echo ezcTemplateTstTreeDump::dump( $program ), "\n";
+            echo ezcTemplateTstTreeOutput::output( $program ), "\n";
 
         $parser->verify();
     }
@@ -779,7 +779,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         $program = $parser->parseIntoNodeTree();
 
         if ( $parser->debug )
-            echo "\n\n", ezcTemplateTstTreeDump::dump( $program ), "\n";
+            echo "\n\n", ezcTemplateTstTreeOutput::output( $program ), "\n";
         $parser->verify();
     }
 
@@ -803,7 +803,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
             {
                 $program = $parser->parseIntoNodeTree();
                 if ( $parser->debug )
-                    echo "\n\n", ezcTemplateTstTreeDump::dump( $program ), "\n";
+                    echo "\n\n", ezcTemplateTstTreeOutput::output( $program ), "\n";
             }
             catch( Exception $e )
             {
@@ -840,7 +840,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         $program = $parser->parseIntoNodeTree();
 
         if ( $parser->debug )
-            echo "\n\n", ezcTemplateTstTreeDump::dump( $program ), "\n";
+            echo "\n\n", ezcTemplateTstTreeOutput::output( $program ), "\n";
 
         $parser->verify();
     }
@@ -870,7 +870,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
             {
                 $program = $parser->parseIntoNodeTree();
                 if ( $parser->debug )
-                    echo "\n\n", ezcTemplateTstTreeDump::dump( $program ), "\n";
+                    echo "\n\n", ezcTemplateTstTreeOutput::output( $program ), "\n";
             }
             catch( Exception $e )
             {
@@ -907,7 +907,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         $program = $parser->parseIntoNodeTree();
 
         if ( $parser->debug )
-            echo "\n\n", ezcTemplateTstTreeDump::dump( $program ), "\n";
+            echo "\n\n", ezcTemplateTstTreeOutput::output( $program ), "\n";
 
         $parser->verify();
 
@@ -978,19 +978,6 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         $parser->expects( self::exactly( $index ) )
             ->method( "reportElementCursor" )
             ->withAnyParameters();
-    }
-
-    /**
-     * Helper function to dump contents of an element.
-     */
-    static public function dumpElement( $element )
-    {
-        echo ezcTemplateTstTreeDump::dump( $element ), "\n";
-/*        echo "Element start {$element->startCursor->line}[{$element->startCursor->column}]:\n";
-        if ( $element->startCursor->column > 0 )
-            echo str_repeat( " ", $element->startCursor->column );
-        echo $element->text();
-        echo "Element end {$element->endCursor->line}[{$element->endCursor->column}]:\n";*/
     }
 }
 

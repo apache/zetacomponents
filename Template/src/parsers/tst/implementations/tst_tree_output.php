@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateTstTreeDump class
+ * File containing the ezcTemplateTstTreeOutput class
  *
  * @package Template
  * @version //autogen//
@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Iterates the TST tree and dumps the result as text.
+ * Iterates the TST tree and outputs the result as text.
  *
  * Implements the ezcTemplateTstNodeVisitor interface for visiting the nodes
  * and generating the appropriate ast nodes for them.
@@ -18,7 +18,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateTstTreeDump extends ezcTemplateTreeDump implements ezcTemplateTstNodeVisitor
+class ezcTemplateTstTreeOutput extends ezcTemplateTreeOutput implements ezcTemplateTstNodeVisitor
 {
     public function __construct()
     {
@@ -26,268 +26,268 @@ class ezcTemplateTstTreeDump extends ezcTemplateTreeDump implements ezcTemplateT
     }
 
     /**
-     * Convenience function for dumping a node.
-     * Instantiates the ezcTemplateTstTreeDump class and calls accept() on
+     * Convenience function for outputting a node.
+     * Instantiates the ezcTemplateTstTreeOutput class and calls accept() on
      * $node, the resulting text is returned.
      *
      * @param ezcTemplateAstNode $node
      * @return string
      */
-    static public function dump( ezcTemplateTstNode $node )
+    static public function output( ezcTemplateTstNode $node )
     {
-        $treeDump = new ezcTemplateTstTreeDump();
-        $node->accept( $treeDump );
-        return $treeDump->text . "\n";
+        $treeOutput = new ezcTemplateTstTreeOutput();
+        $node->accept( $treeOutput );
+        return $treeOutput->text . "\n";
     }
 
     public function visitProgramTstNode( ezcTemplateProgramTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitCustomBlockTstNode( ezcTemplateCustomBlockTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitLiteralBlockTstNode( ezcTemplateLiteralBlockTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitOutputBlockTstNode( ezcTemplateOutputBlockTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitModifyingBlockTstNode( ezcTemplateModifyingBlockTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitLiteralTstNode( ezcTemplateLiteralTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitIntegerTstNode( ezcTemplateIntegerTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitVariableTstNode( ezcTemplateVariableTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitTextBlockTstNode( ezcTemplateTextBlockTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitFunctionCallTstNode( ezcTemplateFunctionCallTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitDocCommentTstNode( ezcTemplateDocCommentTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitForeachLoopTstNode( ezcTemplateForeachLoopTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitWhileLoopTstNode( ezcTemplateWhileLoopTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitIfConditionTstNode( ezcTemplateIfConditionTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitLoopTstNode( ezcTemplateLoopTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitPropertyFetchOperatorTstNode( ezcTemplatePropertyFetchOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitArrayFetchOperatorTstNode( ezcTemplateArrayFetchOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitPlusOperatorTstNode( ezcTemplatePlusOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitMinusOperatorTstNode( ezcTemplateMinusOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitConcatOperatorTstNode( ezcTemplateConcatOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitMultiplicationOperatorTstNode( ezcTemplateMultiplicationOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitDivisionOperatorTstNode( ezcTemplateDivisionOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitModuloOperatorTstNode( ezcTemplateModuloOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitEqualOperatorTstNode( ezcTemplateEqualOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitNotEqualOperatorTstNode( ezcTemplateNotEqualOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitIdenticalOperatorTstNode( ezcTemplateIdenticalOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitNotIdenticalOperatorTstNode( ezcTemplateNotIdenticalOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitLessThanOperatorTstNode( ezcTemplateLessThanOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitGreaterThanOperatorTstNode( ezcTemplateGreaterThanOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitLessEqualOperatorTstNode( ezcTemplateLessEqualOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitGreaterEqualOperatorTstNode( ezcTemplateGreaterEqualOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitLogicalAndOperatorTstNode( ezcTemplateLogicalAndOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitLogicalOrOperatorTstNode( ezcTemplateLogicalOrOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitAssignmentOperatorTstNode( ezcTemplateAssignmentOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitPlusAssignmentOperatorTstNode( ezcTemplatePlusAssignmentOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitMultiplicationAssignmentOperatorTstNode( ezcTemplateMultiplicationAssignmentOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitDivisionAssignmentOperatorTstNode( ezcTemplateDivisionAssignmentOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitConcatAssignmentOperatorTstNode( ezcTemplateConcatAssignmentOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitModuloAssignmentOperatorTstNode( ezcTemplateModuloAssignmentOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitPreIncrementOperatorTstNode( ezcTemplatePreIncrementOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitPreDecrementOperatorTstNode( ezcTemplatePreDecrementOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitPostIncrementOperatorTstNode( ezcTemplatePostIncrementOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitPostDecrementOperatorTstNode( ezcTemplatePostDecrementOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitNegateOperatorTstNode( ezcTemplateNegateOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitLogicalNegateOperatorTstNode( ezcTemplateLogicalNegateOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitInstanceOfOperatorTstNode( ezcTemplateInstanceOfOperatorTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitBlockCommentTstNode( ezcTemplateBlockCommentTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     public function visitEolCommentTstNode( ezcTemplateEolCommentTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
-    public function visitBlockTstNode( ezcTemplateBlockTstNode $node ) 
+    public function visitBlockTstNode( ezcTemplateBlockTstNode $node )
     {
-        $this->text .= $this->dumpNode( $node );
+        $this->text .= $this->outputNode( $node );
     }
 
     /**

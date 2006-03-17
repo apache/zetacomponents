@@ -162,11 +162,11 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 $help .= "\n";
 
                 $help .= "The TST tree:\n";
-                $help .= "----------\n" . ezcTemplateTstTreeDump::dump( $tstRoot )  . "----------\n";
+                $help .= "----------\n" . ezcTemplateTstTreeOutput::output( $tstRoot )  . "----------\n";
                 $help .= "\n";
 
                 $help .= "The AST tree:\n";
-                $help .= "----------\n" . ezcTemplateAstTreeDump::dump( $astRoot )  . "----------\n";
+                $help .= "----------\n" . ezcTemplateAstTreeOutput::output( $astRoot )  . "----------\n";
                 $help .= "\n";
 
 
@@ -206,7 +206,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
         $parser = new ezcTemplateParser( $source, $this->manager );
 
         $program = $parser->parseIntoNodeTree();
-        //echo ezcTemplateTstTreeDump::dump( $program );
+        //echo ezcTemplateTstTreeOutput::output( $program );
 
         $tstToAst = new ezcTemplateTstToAstTransformer();
         $program->accept( $tstToAst );

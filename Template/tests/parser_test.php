@@ -18,7 +18,7 @@ class ezcTemplateParserTest extends ezcTestCase
 {
     public static function suite()
     {
-         return new ezcTestSuite( __CLASS__ );
+        return new ezcTestSuite( __CLASS__ );
     }
 
     public function setUp()
@@ -50,7 +50,7 @@ class ezcTemplateParserTest extends ezcTestCase
 
         $program = $parser->parseIntoNodeTree();
 
-        echo ezcTemplateTstTreeDump::dump( $program );
+        echo ezcTemplateTstTreeOutput::output( $program );
 
         $tstToAst = new ezcTemplateTstToAstTransformer();
         $program->accept( $tstToAst );
@@ -69,7 +69,7 @@ class ezcTemplateParserTest extends ezcTestCase
         $body = new ezcTemplateBodyAstNode();
         $body->appendStatement( $echo );
 
-        echo ezcTemplateAstTreeDump::dump( $body );
+        echo ezcTemplateAstTreeOutput::output( $body );
         */
 
        
