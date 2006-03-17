@@ -449,10 +449,11 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Literal', 'value', 2 ),
                         array( 'MultiplicationOperator' ),
                         array( 'Literal', 'value', 3 ),
-                        array( 'OutputBlock' ),
+                        array( 'Parenthesis' ),
                         array( 'OutputBlock' ),
 
                         array( 'TextBlock' ),
+
                         array( 'Literal', 'value', 1 ),
                         array( 'MultiplicationOperator' ),
                         array( 'Literal', 'value', 2 ),
@@ -464,9 +465,9 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Literal', 'value', 200 ),
                         array( 'MultiplicationOperator' ),
                         array( 'Literal', 'value', 2 ),
-                        array( 'OutputBlock' ),
-                        array( 'OutputBlock' ),
-                        array( 'OutputBlock' ),
+                        array( 'Parenthesis' ),
+                        array( 'Parenthesis' ),
+                        array( 'Parenthesis' ),
                         array( 'PlusOperator' ),
                         array( 'Literal', 'value', 5 ),
                         array( 'PlusOperator' ),
@@ -474,7 +475,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                         array( 'Variable', 'name', 'node' ),
                         array( 'PlusOperator' ),
                         array( 'Literal', 'value', 200 ),
-                        array( 'OutputBlock' ),
+                        array( 'Parenthesis' ),
                         array( 'OutputBlock' ) );
 
         $this->setupExpectedElements( $parser, $text, $source, $items );
