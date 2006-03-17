@@ -239,6 +239,11 @@ class ezcTemplateAstTreeDump extends ezcTemplateTreeDump implements ezcTemplateA
         $this->text .= $this->dumpNode( $node );
     }
 
+    public function visitTypeCastAstNode( ezcTemplateTypeCastAstNode $node )
+    {
+        $this->text .= $this->dumpNode( $node );
+    }
+
     /**
      * Extracts the name of the node and returns it as a string.
      * The name is taken from the class name by removing ezcTemplate and AstNode.
