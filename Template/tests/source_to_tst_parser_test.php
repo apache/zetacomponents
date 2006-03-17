@@ -111,13 +111,22 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
             echo "\ncomments_test.tpl\n";
 
         $items = array( array( 'TextBlock' ),
+
                         array( 'DocComment', 'commentText', ' Documentation block ' ),
+
                         array( 'TextBlock' ),
+
                         array( 'Literal' ),
                         array( 'BlockComment', 'commentText', 'inside comment' ),
                         array( 'PlusOperator' ),
                         array( 'EolComment', 'commentText', 'eol comment' ),
                         array( 'Literal' ),
+                        array( 'OutputBlock' ),
+
+                        array( 'TextBlock' ),
+
+                        array( 'Literal' ),
+                        array( 'EolComment', 'commentText', 'eol comment #2' ),
                         array( 'OutputBlock' ) );
 
         $this->setupExpectedElements( $parser, $text, $source, $items );

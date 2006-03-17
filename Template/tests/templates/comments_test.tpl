@@ -4,3 +4,4 @@ abc def
  //eol comment
 6
 }
+{5 //eol comment #2}

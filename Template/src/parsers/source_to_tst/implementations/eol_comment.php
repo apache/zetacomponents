@@ -37,18 +37,35 @@ class ezcTemplateEolCommentSourceToTstParser extends ezcTemplateSourceToTstParse
         {
             $cursor->advance( 2 );
 
-            $matches = $cursor->pregMatch( "#(.+)(\r|\r\n|\n)#" );
+            $matches = $cursor->pregMatch( "#^([^}\r\n]+)(?:(?:})|(\r|\r\n|\n))#" );
             if ( $matches )
             {
                 // reached end of comment
-                $cursor->advance( $matches[2][1] + strlen( $matches[2][0] ) );
+                $cutOff = false;
+                if ( isset( $matches[2] ) )
+                {
+                    $cursor->advance( $matches[2][1] + strlen( $matches[2][0] ) );
+                    // Do not include the newline itself in the comment.
+                    $cutOff = -1;
+                }
+                else
+                {
+                    $cursor->advance( $matches[1][1] + strlen( $matches[1][0] ) );
+                }
             }
             else
             {
                 $cursor->gotoEnd();
             }
             $commentBlock = $this->parser->createEolComment( $this->startCursor, clone $cursor );
-            $commentBlock->commentText = substr( $commentBlock->text(), 2, -1 );
+            if ( $cutOff )
+            {
+                $commentBlock->commentText = substr( $commentBlock->text(), 2, $cutOff );
+            }
+            else
+            {
+                $commentBlock->commentText = substr( $commentBlock->text(), 2 );
+            }
             $this->appendElement( $commentBlock );
             return true;
         }
