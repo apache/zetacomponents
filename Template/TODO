@@ -6,7 +6,6 @@ Source to TST (+ TST nodes)
 - Var implementation? 
 - There is no distinction between an else and an elseif
 - break, continue, etc. implemented?
-- { // bla \n} doesn't work, at least not without the tst_to_tst clean up.
 - Functions without parameters are passed incorrectly?
 
 TST to AST (+ AST nodes)
