@@ -170,6 +170,18 @@ class ezcTemplateParser
     }
 
     /**
+     * Creates a new parenthesis expression node with the cursor positions and returns it.
+     *
+     * @param ezcTemplateCursor $start The starting point of the element.
+     * @param ezcTemplateCursor $end The ending point of the element.
+     * @return ezcTemplateParenthesisTstNode
+     */
+    public function createParenthesis( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    {
+        return new ezcTemplateParenthesisTstNode( $this->source, $start, $end );
+    }
+
+    /**
      * Creates a new output block element object with the cursor positions and returns it.
      *
      * @param ezcTemplateCursor $start The starting point of the element.

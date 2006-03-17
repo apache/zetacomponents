@@ -78,9 +78,19 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
             echo "Starting expression using brackets ", $this->startBracket, '...', $this->endBracket, "\n";
 
         // $cursor will be update as the parser continues
-        $this->block = $this->parser->createOutputBlock( clone $this->startCursor, $cursor );
-        $this->block->startBracket = $this->startBracket;
-        $this->block->endBracket = $this->endBracket;
+        if ( $this->startBracket == '(' )
+        {
+            // This is a parenthesis so we use a different node type
+            $this->block = $this->parser->createParenthesis( clone $this->startCursor, $cursor );
+            $this->block->startBracket = $this->startBracket;
+            $this->block->endBracket = $this->endBracket;
+        }
+        else
+        {
+            $this->block = $this->parser->createOutputBlock( clone $this->startCursor, $cursor );
+            $this->block->startBracket = $this->startBracket;
+            $this->block->endBracket = $this->endBracket;
+        }
 
         // skip whitespace and comments
         if ( !$this->findNextElement() )
@@ -112,6 +122,7 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
         // Change the block type if the top-most operator is a modifiying operator.
         if ( $rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
         {
+            // @todo if the parser block is a parenthesis it is not allowed to have modifying nodes
             $oldBlock = $this->block;
             $this->block = $this->parser->createModifyingBlock( clone $this->startCursor, $cursor );
             $this->block->startBracket = $this->startBracket;

@@ -1,0 +1,68 @@
+<?php
+/**
+ * File containing the ezcTemplateParenthesisTstNode class
+ *
+ * @package Template
+ * @version //autogen//
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+/**
+ * Block element containing an parenthesis expression.
+ *
+ * e.g. ( 5 + 2 )
+ *
+ * @package Template
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogen//
+ */
+class ezcTemplateParenthesisTstNode extends ezcTemplateExpressionTstNode
+{
+    /**
+     * The bracket start character.
+     * @var string
+     */
+    public $startBracket;
+
+    /**
+     * The bracket end character.
+     * @var string
+     */
+    public $endBracket;
+
+    /**
+     * Array of all child elements.
+     * @note Temporary compatability with $children
+     *
+     * @var array
+     */
+    public $elements;
+
+    /**
+     * The root of the parsed parenthesis expression.
+     */
+    public $expressionRoot;
+
+    /**
+     *
+     * @param ezcTemplateSource $source
+     * @param ezcTemplateCursor $start
+     * @param ezcTemplateCursor $end
+     */
+    public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
+    {
+        parent::__construct( $source, $start, $end );
+        $this->startBracket   = '(';
+        $this->endBracket     = ')';
+        $this->expressionRoot = null;
+    }
+
+    public function getTreeProperties()
+    {
+        return array( 'startBracket'   => $this->startBracket,
+                      'endBracket'     => $this->endBracket,
+                      'expressionRoot' => $this->expressionRoot );
+    }
+}
+?>
