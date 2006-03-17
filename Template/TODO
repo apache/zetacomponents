@@ -32,7 +32,6 @@ Amos' old list:
 
 - IMPORTANT!!!!!!!!! the expression does not give errors for invalid expression, needs fixing.
 
-- Code element interface should have a generic accept() method which calls a method named after the class name?
 - Add methods/property code for modifying the various elements of code objects.
 - Set @subpackage for code elements and parse elements
 - Create meta-code class which are elements which wrap around real code elements, it has a method to fetch the first real element from its children.
@@ -40,7 +39,7 @@ Amos' old list:
   typical meta-code are:
   - changing run-time options such indentation, spacing, hanging braces etc.
   - inlining code
-- add these code elements: 
+- add these code elements (only if needed for the 1.0 release):
   * docblock comment
     /**
       */
