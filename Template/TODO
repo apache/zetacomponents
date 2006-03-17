@@ -79,7 +79,6 @@ Amos' old list:
     !$obj instanceof SomeClass
 - Uncomment all typehints.
 - Make private class have the @access private in doc blocks (file + class)
-- Add EBNF grammar to all parser classes.
 - Move nesting check to block class, each block sub-class should be able to override it to allow
   more complex nesting rules. e.g. {section} {section-else} {/section}
 - Start cursor for block are 1 off.
