@@ -245,6 +245,11 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
         $this->text .= $this->outputNode( $node );
     }
 
+    public function visitNopAstNode( ezcTemplateNopAstNode $node )
+    {
+        $this->text .= $this->outputNode( $node );
+    }
+
     /**
      * Extracts position data from the specified node and set in the out parameters.
      * Ast nodes has no position so it always returns false.

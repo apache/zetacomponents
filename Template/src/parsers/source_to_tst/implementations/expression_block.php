@@ -100,7 +100,11 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
 
         // Check for expression, the parser will call atEnd() of this class to
         // check for end of the expression.
-        if ( !$this->parseRequiredType( 'Expression', $this->startCursor, false ) )
+        $expressionParser = new ezcTemplateExpressionSourceToTstParser( $this->parser, $this, null );
+        $expressionParser->setAllCursors( $cursor );
+        $expressionParser->startCursor = clone $cursor;
+        $expressionParser->allowEmptyExpressions = true;
+        if ( !$this->parseRequiredType( $expressionParser /*'Expression'*/, $this->startCursor, false ) )
             return false;
 
         $rootOperator = $this->lastParser->currentOperator;
@@ -117,6 +121,14 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
                 echo "\n\n\n";
                 // *** DEBUG END ***
             }
+        }
+
+        // If there is no root operator the block is empty, change the block type.
+        if ( $rootOperator === null )
+        {
+            $this->block = $this->parser->createEmptyBlock( clone $this->startCursor, $cursor );
+            $this->appendElement( $this->block );
+            return true;
         }
 
         // Change the block type if the top-most operator is a modifiying operator.

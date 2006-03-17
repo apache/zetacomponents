@@ -170,6 +170,18 @@ class ezcTemplateParser
     }
 
     /**
+     * Creates a new empty block element object with the cursor positions and returns it.
+     *
+     * @param ezcTemplateCursor $start The starting point of the element.
+     * @param ezcTemplateCursor $end The ending point of the element.
+     * @return ezcTemplateEmptyBlockTstNode
+     */
+    public function createEmptyBlock( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    {
+        return new ezcTemplateEmptyBlockTstNode( $this->source, $start, $end );
+    }
+
+    /**
      * Creates a new parenthesis expression node with the cursor positions and returns it.
      *
      * @param ezcTemplateCursor $start The starting point of the element.

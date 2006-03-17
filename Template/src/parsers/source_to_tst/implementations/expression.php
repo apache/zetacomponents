@@ -73,6 +73,12 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
     public $rootOperator;
 
     /**
+     * Controls whether empty expressions are allowed, the default is false.
+     * @var bool
+     */
+    public $allowEmptyExpressions;
+
+    /**
      * Passes control to parent.
      * @param int $minPrecedence The minimum precedence level which is allowed
      *                           for operators.
@@ -84,6 +90,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         $this->rootOperator = null;
         $this->allowIdentifier = false;
         $this->minPrecedence = false;
+        $this->allowEmptyExpressions = false;
     }
 
     /**
@@ -124,7 +131,8 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 // Stop if we are at end of expression
                 if ( $this->parentParser->atEnd( $cursor, $this->currentOperator ) )
                 {
-                    if ( count( $this->elements ) === 0 )
+                    if ( !$this->allowEmptyExpressions &&
+                         count( $this->elements ) === 0 )
                     {
                         $this->operationState = self::STATE_NO_OPERAND;
                         return false;

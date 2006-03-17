@@ -30,6 +30,9 @@ interface ezcTemplateTstNodeVisitor
     public function visitLiteralBlockTstNode( ezcTemplateLiteralBlockTstNode $node );
 
 
+    public function visitEmptyBlockTstNode( ezcTemplateEmptyBlockTstNode $node );
+
+
     public function visitParenthesisTstNode( ezcTemplateParenthesisTstNode $node );
 
 

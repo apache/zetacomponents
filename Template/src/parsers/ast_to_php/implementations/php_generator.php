@@ -914,5 +914,14 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $this->write( "}" );
     }
 
+    /**
+     * Visits a node containing a nop node.
+     *
+     * @param ezcTemplateNopAstNode $node The node containing the nop node.
+     */
+    public function visitNopAstNode( ezcTemplateNopAstNode $node )
+    {
+        // Nops don't create any output
+    }
 }
 ?>

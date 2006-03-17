@@ -60,6 +60,11 @@ class ezcTemplateTstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
         $this->text .= $this->outputNode( $node );
     }
 
+    public function visitEmptyBlockTstNode( ezcTemplateEmptyBlockTstNode $node )
+    {
+        $this->text .= $this->outputNode( $node );
+    }
+
     public function visitParenthesisTstNode( ezcTemplateParenthesisTstNode $node )
     {
         $this->text .= $this->outputNode( $node );

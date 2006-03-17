@@ -272,5 +272,12 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * @param ezcTemplateTypeCastAstNode $node The node containing the type cast construct.
      */
     public function visitTypeCastAstNode( ezcTemplateTypeCastAstNode $node );
+
+    /**
+     * Visits a node containing a nop node.
+     *
+     * @param ezcTemplateNopAstNode $node The node containing the nop node.
+     */
+    public function visitNopAstNode( ezcTemplateNopAstNode $node );
 }
 ?>

@@ -52,6 +52,7 @@ return array(
              "ezcTemplateCustomBlockTstNode" => "Template/syntax_trees/tst/nodes/custom_block.php",
              "ezcTemplateProgramTstNode" => "Template/syntax_trees/tst/nodes/program.php",
              "ezcTemplateLiteralBlockTstNode" => "Template/syntax_trees/tst/nodes/literal_block.php",
+             "ezcTemplateEmptyBlockTstNode" => "Template/syntax_trees/tst/nodes/empty_block.php",
              "ezcTemplateParenthesisTstNode" => "Template/syntax_trees/tst/nodes/parenthesis.php",
              "ezcTemplateOutputBlockTstNode" => "Template/syntax_trees/tst/nodes/output_block.php",
              "ezcTemplateModifyingBlockTstNode" => "Template/syntax_trees/tst/nodes/modifying_block.php",
