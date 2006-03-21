@@ -290,6 +290,12 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         }
     }
 
+    public function visitTextAstNode( ezcTemplateTextAstNode $type )
+    {
+        $this->visitLiteralAstNode( $type );
+    }
+
+
     /**
      * Casts the value to the type.
      *

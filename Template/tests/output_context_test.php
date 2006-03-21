@@ -49,7 +49,7 @@ class ezcTemplateMockContext implements ezcTemplateOutputContext
         return false;
     }
 
-    public function transformOutput()
+    public function transformOutput( $text )
     {
         return false;
     }

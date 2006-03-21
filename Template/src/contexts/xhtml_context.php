@@ -45,8 +45,9 @@ class ezcTemplateXhtmlContext implements ezcTemplateOutputContext
     /**
      *
      */
-    public function transformOutput()
+    public function transformOutput( $text )
     {
+        return $text;
     }
 
     /**
