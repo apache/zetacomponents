@@ -280,7 +280,14 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     public function visitLiteralAstNode( ezcTemplateLiteralAstNode $type )
     {
         // Output type using var_export
-        $this->write( var_export( $type->value, true ) );
+        if( is_string( $type->value ) )
+        {
+            $this->write( '"'. addcslashes( preg_replace( "/\n/", "\\n", $type->value), '"' ) . '"');
+        }
+        else
+        {
+            $this->write( var_export( $type->value, true ) );
+        }
     }
 
     /**
@@ -838,11 +845,6 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $outputList = $echo->getOutputList();
         $this->write( "echo " );
 
-        // No indentation.
-        $oldIndentation = $this->indentationText;
-        $this->indentationText = "";
-        
-
         foreach ( $outputList as $i => $output )
         {
             if ( $i > 0 )
@@ -850,10 +852,6 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
             $output->accept( $this );
         }
         $this->write( ";\n" );
-
-        // Restore indentation.
-        $this->indentationText = $oldIndentation;
-
     }
 
     /**
