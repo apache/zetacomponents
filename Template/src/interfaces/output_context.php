@@ -50,7 +50,7 @@ interface ezcTemplateOutputContext
      * correctly.
      *
      */
-    public function transformOutput( $text );
+    public function transformOutput( ezcTemplateAstNode $node );
 
     /**
      * Returns the unique identifier for the context handler. This is used to

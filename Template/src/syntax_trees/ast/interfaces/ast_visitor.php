@@ -98,6 +98,13 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
     public function visitBodyAstNode( ezcTemplateBodyAstNode $node );
 
     /**
+     * Visits the node $node containing an output.
+     *
+     * @param ezcTemplateBodyAstNode 
+     */
+    public function visitOutputAstNode( ezcTemplateOutputAstNode $node );
+
+    /**
      * Visits a node containing a generic statement.
      * A generic statement contains a generic code expression but is terminated with a semi-colon.
      *

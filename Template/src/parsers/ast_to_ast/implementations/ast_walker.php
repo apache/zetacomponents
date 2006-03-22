@@ -32,14 +32,19 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     {
     }
 
-    public function visitTextAstNode( ezcTemplateTextAstNode $type )
+    public function visitOutputAstNode( ezcTemplateOutputAstNode $type )
     {
+        array_unshift( $this->nodePath, $type );
+
+        $this->acceptAndUpdate( $type->expression );
+
+        array_shift( $this->nodePath );
     }
 
     public function visitTypeCastAstNode( ezcTemplateTypeCastAstNode $node )
     {
         array_unshift( $this->nodePath, $node );
-        $node->value->accept( $this );
+        $this->acceptAndUpdate( $node->value );
         array_shift( $this->nodePath );
     }
 
@@ -62,18 +67,20 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     public function visitDynamicVariableAstNode( ezcTemplateDynamicVariableAstNode $var )
     {
         array_unshift( $this->nodePath, $var );
-        $var->nameExpression->accept( $this );
+        $this->acceptAndUpdate( $var->nameExpression );
         array_shift( $this->nodePath );
     }
 
     public function visitDynamicStringAstNode( ezcTemplateDynamicStringAstNode $dynamic )
     {
+        die("TODO: dynamicstring Ast node , tree walker");
+
         array_unshift( $this->nodePath, $dynamic );
         foreach ( $parameters as $parameter )
         {
             if ( !$parameter instanceof ezcTemplateLiteralAstNode )
             {
-                $parameter->accept( $this );
+                $this->acceptAndUpdate( $parameter );
             }
         }
         array_shift( $this->nodePath );
@@ -86,7 +93,7 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
         $count = count( $parameters );
         for ( $i = 0; $i < $count; ++$i )
         {
-            $parameters[$i]->accept( $this );
+            $this->acceptAndUpdate( $operator->parameters[$i] );
         }
         array_shift( $this->nodePath );
     }
@@ -100,7 +107,9 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
         }
 
         array_unshift( $this->nodePath, $operator );
-        $parameters[0]->accept( $this );
+
+        $this->acceptAndUpdate( $operator->parameters[0] );
+       
         array_shift( $this->nodePath );
 
     }
@@ -114,8 +123,8 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
         }
 
         array_unshift( $this->nodePath, $operator );
-        $parameters[0]->accept( $this );
-        $parameters[1]->accept( $this );
+        $this->acceptAndUpdate( $operator->parameters[0] );
+        $this->acceptAndUpdate( $operator->parameters[1] );
         array_shift( $this->nodePath );
     }
 
@@ -124,7 +133,7 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
         array_unshift( $this->nodePath, $fcall );
         foreach ( $fcall->getParameters() as $i => $parameter )
         {
-            $parameter->accept( $this );
+            $this->acceptAndUpdate( $fcall->parameters[$i] );
         }
         array_shift( $this->nodePath );
     }
@@ -133,11 +142,11 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     {
 
         array_unshift( $this->nodePath, $fcall );
-        $fcall->nameExpression->accept( $this );
+        $this->acceptAndUpdate( $fcall->nameExpression );
 
         foreach ( $fcall->getParameters() as $i => $parameter )
         {
-            $parameter->accept( $this );
+            $this->acceptAndUpdate( $fcall->parameters[$i] ); 
         }
 
         array_shift( $this->nodePath );
@@ -146,17 +155,26 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     public function visitBodyAstNode( ezcTemplateBodyAstNode $body )
     {
         array_unshift( $this->nodePath, $body );
+
+        for( $i = 0; $i < sizeof( $body->statements ); $i++)
+        {
+            $this->acceptAndUpdate( $body->statements[$i] );
+        }
+/*
         foreach ( $body->statements as $statement )
         {
-            $statement->accept( $this );
+            $ret = $statement->accept( $this );
         }
+        */
         array_shift( $this->nodePath );
     }
 
     public function visitGenericStatementAstNode( ezcTemplateGenericStatementAstNode $statement )
     {
         array_unshift( $this->nodePath, $statement );
-        $statement->expression->accept( $this );
+
+        $this->acceptAndUpdate( $statement->expression );
+
         array_shift( $this->nodePath );
     }
 
@@ -168,10 +186,10 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
             $condition = $conditionBody->condition;
             if ( $condition !== null )
             {
-                $condition->accept( $this );
+                $this->acceptAndUpdate( $if->conditions[$i]->condition );
             }
 
-            $conditionBody->body->accept( $this );
+            $this->acceptAndUpdate( $conditionBody->body );
         }
         array_shift( $this->nodePath );
     }
@@ -185,14 +203,17 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     {
         array_unshift( $this->nodePath, $while );
         $conditionBody = $while->conditionBody;
-        $conditionBody->condition->accept( $this );
 
-        $conditionBody->body->accept( $this );
+        $this->acceptAndUpdate( $conditionBody->condition );
+        $this->acceptAndUpdate( $conditionBody->body );
+
         array_shift( $this->nodePath );
     }
 
     public function visitDoWhileAstNode( ezcTemplateDoWhileAstNode $while )
     {
+        die(" Remove Do while ");
+
         array_unshift( $this->nodePath, $while );
         $conditionBody = $while->conditionBody;
         $conditionBody->body->accept( $this );
@@ -202,6 +223,8 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
 
     public function visitForAstNode( ezcTemplateForAstNode $for )
     {
+        die(" Remove FOR ");
+
         array_unshift( $this->nodePath, $for );
         $for->initial->accept( $this );
         $for->condition->accept( $this );
@@ -214,13 +237,17 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     public function visitForeachAstNode( ezcTemplateForeachAstNode $foreach )
     {
         array_unshift( $this->nodePath, $foreach );
-        $foreach->arrayExpression->accept( $this );
+
+        $this->acceptAndUpdate( $foreach->arrayExpression );
+
         if ( $foreach->keyVariable !== null )
         {
-            $foreach->keyVariable->accept( $this );
+            $this->acceptAndUpdate( $foreach->keyVariable );
         }
-        $foreach->valueVariable->accept( $this );
-        $foreach->body->accept( $this );
+
+        $this->acceptAndUpdate( $foreach->valueVariable );
+        $this->acceptAndUpdate( $foreach->body );
+
         array_shift( $this->nodePath );
     }
 
@@ -255,10 +282,12 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     public function visitSwitchAstNode( ezcTemplateSwitchAstNode $switch )
     {
         array_unshift( $this->nodePath, $switch );
-        $switch->expression->accept( $this );
-        foreach ( $switch->cases as $case )
+
+        $this->acceptAndUpdate( $switch->expression );
+
+        foreach ( $switch->cases as $key => $case )
         {
-            $case->accept( $this );
+            $this->acceptAndUpdate( $case );
         }
         array_shift( $this->nodePath );
     }
@@ -266,15 +295,15 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     public function visitCaseAstNode( ezcTemplateCaseAstNode $case )
     {
         array_unshift( $this->nodePath, $case );
-        $case->match->accept( $this );
-        $case->body->accept( $this );
+        $this->acceptAndUpdate( $case->match );
+        $this->acceptAndUpdate( $case->body );
         array_shift( $this->nodePath );
     }
 
     public function visitDefaultAstNode( ezcTemplateDefaultAstNode $default )
     {
         array_unshift( $this->nodePath, $default );
-        $default->body->accept( $this );
+        $this->acceptAndUpdate( $default->body );
         array_shift( $this->nodePath );
     }
 
@@ -286,10 +315,11 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     {
         array_unshift( $this->nodePath, $try );
         $try->body->accept( $this );
+        $this->acceptAndUpdate( $try->body );
 
-        foreach ( $try->catches as $catch )
+        foreach ( $try->catches as $key => $catch )
         {
-            $catch->accept( $this );
+            $this->acceptAndUpdate( $try->catches[$key] );
         }
         array_shift( $this->nodePath );
     }
@@ -297,8 +327,10 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     public function visitCatchAstNode( ezcTemplateCatchAstNode $catch )
     {
         array_unshift( $this->nodePath, $catch );
-        $catch->variableExpression->accept( $this );
-        $catch->body->accept( $this );
+
+        $this->acceptAndUpdate( $catch->variableExpression );
+        $this->acceptAndUpdate( $catch->body );
+
         array_shift( $this->nodePath );
     }
 
@@ -308,7 +340,7 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
         $outputList = $echo->getOutputList();
         foreach ( $outputList as $i => $output )
         {
-            $output->accept( $this );
+            $this->acceptAndUpdate( $echo->outputList[$i] );
         }
         array_shift( $this->nodePath );
     }
@@ -316,7 +348,7 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     public function visitPrintAstNode( ezcTemplatePrintAstNode $print )
     {
         array_unshift( $this->nodePath, $print );
-        $print->expression->accept( $this );
+        $this->acceptAndUpdate( $print->expression );
         array_shift( $this->nodePath );
     }
 
@@ -331,26 +363,32 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     public function visitEmptyAstNode( ezcTemplateEmptyAstNode $empty )
     {
         array_unshift( $this->nodePath, $empty );
-        $empty->expression->accept( $this );
+        $this->acceptAndUpdate( $empty->expression );
         array_shift( $this->nodePath );
     }
 
     public function visitParenthesisAstNode( ezcTemplateParenthesisAstNode $parenthesis )
     {
         array_unshift( $this->nodePath, $parenthesis );
-        $parenthesis->expression->accept( $this );
+        $this->acceptAndUpdate( $parenthesis->expression );
         array_shift( $this->nodePath );
     }
 
     public function visitCurlyBracesAstNode( ezcTemplateCurlyBracesAstNode $curly )
     {
         array_unshift( $this->nodePath, $curly );
-        $curly->expression->accept( $this );
+        $this->acceptAndUpdate( $parenthesis->expression );
         array_shift( $this->nodePath );
     }
 
     public function visitNopAstNode( ezcTemplateNopAstNode $node )
     {
+    }
+
+    private function acceptAndUpdate( ezcTemplateAstNode &$node )
+    {
+        $ret = $node->accept( $this );
+        if( $ret !== null ) $node = $ret;
     }
 }
 ?>

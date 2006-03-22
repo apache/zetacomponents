@@ -165,8 +165,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     public function visitOutputBlockTstNode( ezcTemplateOutputBlockTstNode $type )
     {
         $expression = $type->expressionRoot->accept( $this ); 
+        $output = new ezcTemplateOutputAstNode( $expression );
 
-        return $this->assignToOutput( $expression );
+        return $this->assignToOutput( $output );
         //return new ezcTemplateEchoAstNode( array( $expression ) );
     }
 
@@ -193,8 +194,8 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitTextBlockTstNode( ezcTemplateTextBlockTstNode $type )
     {
-        $echo = new ezcTemplateTextAstNode( $type->text );
-        return $this->assignToOutput( $echo );
+        //$echo = new ezcTemplateOutputAstNode( $type->text );
+        return $this->assignToOutput( new ezcTemplateLiteralAstNode( $type->text ) );
 
         //$echo = new ezcTemplateEchoAstNode( array( new ezcTemplateLiteralAstNode( $type->text ) ) );
         //return $echo;

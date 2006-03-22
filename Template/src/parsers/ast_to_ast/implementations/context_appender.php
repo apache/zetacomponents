@@ -23,12 +23,15 @@ class ezcTemplateAstToAstContextAppender extends ezcTemplateAstWalker
     {
     }
 
-
-    public function visitTextAstNode( ezcTemplateTextAstNode $type )
+    public function visitOutputAstNode( ezcTemplateOutputAstNode $type )
     {
-        $this->nodePath[0]->parameters[1] = new ezcTemplateFunctionCallAstNode( "ezcTemplateXhtmlContext::transformOutput", array( $type ) );
+        parent::visitOutputAstNode( $type );
 
-        parent::visitTextAstNode( $type );
+        $tmp = $type;
+         new  ezcTemplateFunctionCallAstNode( "ezcTemplateXhtmlContext::transformOutput", array( $type ) );
+         return ezcTemplateXhtmlContext::transformOutput( $type->expression );
+
+
     }
 
 

@@ -115,7 +115,7 @@ return array(
 // Syntax trees / AST  nodes
              "ezcTemplateNopAstNode" => "Template/syntax_trees/ast/nodes/nop.php",
              "ezcTemplateLiteralAstNode" => "Template/syntax_trees/ast/nodes/literal.php",
-             "ezcTemplateTextAstNode" => "Template/syntax_trees/ast/nodes/text.php",
+             "ezcTemplateOutputAstNode" => "Template/syntax_trees/ast/nodes/output.php",
              "ezcTemplateTypeCastAstNode" => "Template/syntax_trees/ast/nodes/type_cast.php",
              "ezcTemplateConstantAstNode" => "Template/syntax_trees/ast/nodes/constant.php",
              "ezcTemplateIdentifierAstNode" => "Template/syntax_trees/ast/nodes/identifier.php",
