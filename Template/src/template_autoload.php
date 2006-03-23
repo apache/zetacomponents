@@ -249,6 +249,7 @@ return array(
 // Parsers / ast_to_ast implementations
              "ezcTemplateAstWalker"               => "Template/parsers/ast_to_ast/implementations/ast_walker.php",
              "ezcTemplateAstToAstContextAppender" => "Template/parsers/ast_to_ast/implementations/context_appender.php",
+             "ezcTemplateAstToAstAssignmentOptimizer" => "Template/parsers/ast_to_ast/implementations/assignment_optimizer.php",
 
 // Parsers / ast_to_php implementations
              "ezcTemplateAstToPhpGenerator" => "Template/parsers/ast_to_php/implementations/php_generator.php",

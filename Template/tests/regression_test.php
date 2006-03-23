@@ -211,8 +211,12 @@ class ezcTemplateRegressionTest extends ezcTestCase
         $tstToAst = new ezcTemplateTstToAstTransformer();
         $program->accept( $tstToAst );
 
-        $astToAst = new ezcTemplateAstToAstContextAppender();
+        $astToAst = new ezcTemplateAstToAstAssignmentOptimizer();
         $tstToAst->programNode->accept( $astToAst );
+
+//        $astToAst = new ezcTemplateAstToAstContextAppender();
+        //$tstToAst->programNode->accept( $astToAst );
+
 
         $g = new ezcTemplateAstToPhpGenerator( "$output" );
         $tstToAst->programNode->accept($g);

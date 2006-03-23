@@ -385,7 +385,7 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     {
     }
 
-    private function acceptAndUpdate( ezcTemplateAstNode &$node )
+    protected function acceptAndUpdate( ezcTemplateAstNode &$node )
     {
         $ret = $node->accept( $this );
         if( $ret !== null ) $node = $ret;
