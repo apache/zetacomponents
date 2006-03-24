@@ -12,7 +12,9 @@
  * Provides access to common system variables.
  * 
  * Variables that not available from PHP directly are fetched using readers
- * specific for each supported system.
+ * specific for each supported system. óorresponding reader automatically
+ * detected, attached and forced to scan system info during initialisation.
+ * Exception throws if reader can't scan sistem info.
  * 
  * Available readers are:
  * - {@link ezcSystemInfoLinuxReader} reader
@@ -20,22 +22,28 @@
  * - {@link ezcSystemInfoFreeBsdReader} reader
  * - {@link ezcSystemInfoWindowsReader} reader
  *
- * Extra readers can be added by implementing the {@link ezcSystemInfoReader} interface.
+ * Readers for otner systems could be added by 
+ * implementing the {@link ezcSystemInfoReader} interface.
  *
- * The ezcSystemInfo class has the following properties
- * <b>osType</b> - OS type string (e.g unix) or null
- * <b>osName</b> - OS name string (e.g Linux) or null
- * <b>fileSystemType</b> - filesystem type string (e.g linux) or null
- * <b>cpuType</b> - CPU type string (e.g AMD Sempron(tm) Processor 3000+) or null
- * <b>cpuSpeed</b> - CPU speed string (e.g 1808.743) or null
- * <b>cpuUnit</b> - CPU speed unit string (e.g. MHz) or null
- * <b>memorySize</b>- Memory Size in bytes int (e.g. 528424960) or null
- * <b>lineSeparator</b> - string which is used for line separators on the current OS.
- * <b>backupFileName</b> - backup filename for this platform, .bak for win32 and ~ for unix and mac
- * <b>phpVersion</b> - array with PHP version (e.g. array(5,1,1) )
- * <b>phpAccelerator</b> - ezcSystemInfoAccelerator structure or null @see ezcSystemInfoAccelerator
- * <b>isShellExecution</b> - bool flag indicates if the script executed over the web or the shell/command line
- *  
+ * The ezcSystemInfo class has the following properties:<br><br>
+ * Reader independent, these properties are availiable even if system reader was not initialized.
+ * - String <b>osType</b>, OS type (e.g 'unix') or null.
+ * - String <b>osName</b>, OS name (e.g 'Linux') or null.
+ * - String <b>fileSystemType</b>, filesystem type (e.g 'linux') or null.
+ * - String <b>lineSeparator</b>, which is used for line separators on the current OS.
+ * - String <b>backupFileName</b>, backup filename for this platform, '.bak' for win32 
+ *   and '~' for unix and mac.
+ * - Array <b>phpVersion</b>, with PHP version (e.g. array(5,1,1) )
+ * - ezcSystemInfoAccelerator <b>phpAccelerator</b>, structure with PHP accelerator info or null 
+ * {@link ezcSystemInfoAccelerator}.
+ * - Bool <b>isShellExecution</b>, flag indicates if the script executed over the web or the shell/command line.
+ * <br><br>
+ * Reader dependent, these properties are not availiable if reader was not intnialized and didn't scan OS:
+ * - <b>cpuType</b> CPU type string (e.g 'AMD Sempron(tm) Processor 3000+') or null.
+ * - <b>cpuSpeed</b> CPU speed string (e.g '1808.743') or null.
+ * - <b>cpuUnit</b> CPU speed unit string (e.g. 'MHz') or null.
+ * - <b>memorySize</b> Memory Size in bytes int (e.g. 528424960) or null.
+ * Example:<br>
  *  <code>
  *  $info = ezcSystemInfo::getInstance();
  *  print( $info->cpuType . "\n" );
@@ -134,6 +142,7 @@ class ezcSystemInfo
      * Detect underlaying system and setup system properties.
      * 
      * @throws ezcSystemInfoReaderCantScanOSException
+     *         If system variables can't be received from OS.
      * @return void
      */
     private function init()
@@ -345,7 +354,6 @@ class ezcSystemInfo
                 return $this->phpAccelerator();
             case 'isShellExecution':
                 return $this->isShellExecution();
-
 
             default: 
                 break;

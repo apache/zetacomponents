@@ -38,7 +38,7 @@ abstract class ezcSystemInfoReader
      * Returns CPU speed
      * 
      * If the CPU speed could not be read false is returned.
-     * @return int
+     * @return string
      */
     abstract public function cpuSpeed();
     

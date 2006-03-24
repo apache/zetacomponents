@@ -59,7 +59,7 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
      * Contains the speed of CPU, the type is taken directly from the OS
      * and can vary a lot. The speed is just a number so use cpuUnit()
      * to get the proper unit (e.g MHz).
-     * @var int
+     * @var string
      */
     protected $cpuSpeed = false;
 
@@ -177,10 +177,10 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
     }
 
     /**
-     * Returns CPU speed
+     * Returns string with CPU speed
      * 
      * If the CPU speed could not be read false is returned.
-     * @return int
+     * @return string
      */
     public function cpuSpeed()
     {
