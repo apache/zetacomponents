@@ -8,10 +8,13 @@
  * @subpackage Tests
  */
 
-/**
- * Include schema conversion test.
- */
-require_once 'conversion_test.php';
+require_once 'schema_test.php';
+require_once 'handler_manager_test.php';
+require_once 'php_array_test.php';
+require_once 'xml_test.php';
+require_once 'mysql_test.php';
+require_once 'validator_test.php';
+require_once 'comparator_test.php';
 
 /**
  * @package DatabaseSchema
@@ -24,7 +27,13 @@ class ezcDatabaseSchemaSuite extends ezcTestSuite
         parent::__construct();
         $this->setName( 'DatabaseSchema' );
 
-        $this->addTest( ezcDatabaseSchemaConversionTest::suite() );
+        $this->addTest( ezcDatabaseSchemaTest::suite() );
+        $this->addTest( ezcDatabaseSchemaHandlerManagerTest::suite() );
+        $this->addTest( ezcDatabaseSchemaValidatorTest::suite() );
+        $this->addTest( ezcDatabaseSchemaComparatorTest::suite() );
+        $this->addTest( ezcDatabasePhpArrayTest::suite() );
+        $this->addTest( ezcDatabaseXmlTest::suite() );
+        $this->addTest( ezcDatabaseSchemaMysqlTest::suite() );
 	}
 
     public static function suite()

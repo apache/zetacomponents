@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDatabaseSchemaException class
+ * File containing the ezcDbSchemaFileReader interface
  *
  * @package DatabaseSchema
  * @version //autogen//
@@ -8,13 +8,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * This class provides an exception container for use with the DatabaseSchema
- * component.
+ * This class provides the interface for database schema readers
  *
  * @package DatabaseSchema
  * @version //autogen//
  */
-abstract class ezcDbSchemaException extends ezcBaseException
+interface ezcDbSchemaFileReader
 {
+    public function getReaderType();
+    public function loadFromFile( $file );
 }
 ?>

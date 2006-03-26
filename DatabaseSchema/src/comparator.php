@@ -28,49 +28,34 @@ class ezcDbSchemaComparator
      *          - removed_indexes - A list of removed indexes in the table
      *          - changed_indexes - A list of indexes that have changed definition
      */
-    public static final function compareSchemas( $schema1, $schema2 )
+    public static final function compareSchemas( ezcDbSchema $schema1, ezcDbSchema $schema2 )
     {
-        if ( !is_array( $schema1 ) )
-        {
-            return false;
-        }
         $diff = array();
+        $schema1 = $schema1->getSchema();
+        $schema2 = $schema2->getSchema();
 
-        foreach ( $schema2['tables'] as $name => $def )
+        foreach ( $schema2 as $tableName => $tableDefinition )
         {
-            // Skip the info structure, this is not a table
-            if ( $name == '_info' )
-                continue;
-
-            if ( !isset( $schema1['tables'][$name] ) )
+            if ( !isset( $schema1[$tableName] ) )
             {
-                $diff['new_tables'][$name] = $def;
+                $diff['new_tables'][$tableName] = $tableDefinition;
             }
             else
             {
-                $table_diff = self::diffTable( $schema1['tables'][$name], $def );
-                if ( count( $table_diff ) )
+                $tableDifferences = ezcDbSchemaComparator::diffTable( $schema1[$tableName], $tableDefinition );
+                if ( count( $tableDifferences ) )
                 {
-                    $diff['table_changes'][$name] = $table_diff;
+                    $diff['table_changes'][$tableName] = $tableDifferences;
                 }
             }
         }
 
         /* Check if there are tables removed */
-        foreach ( $schema1['tables'] as $name => $def )
+        foreach ( $schema1 as $tableName => $tableDefinition )
         {
-            // Skip the info structure, this is not a table
-            if ( $name == '_info' )
-                continue;
-
-            if ( !isset( $schema2['tables'][$name] ) )
+            if ( !isset( $schema2[$tableName] ) )
             {
-                $diff['removed_tables'][$name] = $def;
-            }
-            else if ( isset( $schema2['tables'][$name]['removed'] ) and
-                      $schema2['tables'][$name]['removed'] )
-            {
-                $diff['removed_tables'][$name] = $def;
+                $diff['removed_tables'][$tableName] = $tableDefinition;
             }
         }
 
@@ -89,83 +74,72 @@ class ezcDbSchemaComparator
      *        - removed_indexes - A list of removed indexes in the table
      *        - changed_indexes - A list of indexes that have changed definition
      */
-    private static final function diffTable( $table1, $table2 )
+    private static final function diffTable( ezcDbSchemaTable $table1, ezcDbSchemaTable $table2 )
     {
-        $table_diff = array();
+        $tableDifferences = array();
 
         /* See if all the fields in table 1 exist in table 2 */
-        foreach ( $table2['fields'] as $name => $def )
+        foreach ( $table2->fields as $fieldName => $fieldDefinition )
         {
-            if ( !isset( $table1['fields'][$name] ) )
+            if ( !isset( $table1->fields[$fieldName] ) )
             {
-                $table_diff['added_fields'][$name] = $def;
+                $tableDifferences['added_fields'][$fieldName] = $fieldDefinition;
             }
         }
         /* See if there are any removed fields in table 2 */
-        foreach ( $table1['fields'] as $name => $def )
+        foreach ( $table1->fields as $fieldName => $fieldDefinition )
         {
-            if ( !isset( $table2['fields'][$name] ) )
+            if ( !isset( $table2->fields[$fieldName] ) )
             {
-                $table_diff['removed_fields'][$name] = true;
-            }
-            else if ( isset( $table2['fields'][$name]['removed'] ) and
-                      $table2['fields'][$name]['removed'] )
-            {
-                $table_diff['removed_fields'][$name] = true;
+                $tableDifferences['removed_fields'][$fieldName] = true;
             }
         }
-        /* See if there are any changed definitions */
-        foreach ( $table1['fields'] as $name => $def )
+        /* See if there are any changed fieldDefinitioninitions */
+        foreach ( $table1->fields as $fieldName => $fieldDefinition )
         {
-            if ( isset( $table2['fields'][$name] ) )
+            if ( isset( $table2->fields[$fieldName] ) )
             {
-                if ( is_array( $field_diff = self::diffField( $def, $table2['fields'][$name] ) ) )
+                $fieldDifferences = ezcDbSchemaComparator::diffField( $fieldDefinition, $table2->fields[$fieldName] );
+                if ( $fieldDifferences )
                 {
-                    $table_diff['changed_fields'][$name] = $field_diff;
+                    $tableDifferences['changed_fields'][$fieldName] = $fieldDifferences;
                 }
             }
         }
 
-        $table1Indexes = $table1['indexes'];
-        $table2Indexes = $table2['indexes'];
+        $table1Indexes = $table1->indexes;
+        $table2Indexes = $table2->indexes;
 
         /* See if all the indexes in table 1 exist in table 2 */
-        foreach ( $table2Indexes as $name => $def )
+        foreach ( $table2Indexes as $indexName => $indexDefinition )
         {
-            if ( !isset( $table1Indexes[$name] ) )
+            if ( !isset( $table1Indexes[$indexName] ) )
             {
-                $table_diff['added_indexes'][$name] = $def;
+                $tableDifferences['added_indexes'][$indexName] = $indexDefinition;
             }
         }
         /* See if there are any removed indexes in table 2 */
-        foreach ( $table1Indexes as $name => $def )
+        foreach ( $table1Indexes as $indexName => $indexDefinition )
         {
-            if ( !isset( $table2Indexes[$name] ) )
+            if ( !isset( $table2Indexes[$indexName] ) )
             {
-                $table_diff['removed_indexes'][$name] = $def;
-            }
-            else if ( isset( $table2Indexes[$name]['removed'] ) and
-                      $table2Indexes[$name]['removed'] )
-            {
-                if ( isset( $table2Indexes[$name]['comments'] ) )
-                    $def['comments'] = array_merge( isset( $def['comments'] ) ? $def['comments'] : array(),
-                                                    $table2Indexes[$name]['comments'] );
-                $table_diff['removed_indexes'][$name] = $def;
+                $tableDifferences['removed_indexes'][$indexName] = $indexDefinition;
             }
         }
-        /* See if there are any changed definitions */
-        foreach ( $table1Indexes as $name => $def )
+        /* See if there are any changed indexDefinitions */
+        foreach ( $table1Indexes as $indexName => $indexDefinition )
         {
-            if ( isset( $table2Indexes[$name] ) )
+            if ( isset( $table2Indexes[$indexName] ) )
             {
-                if ( is_array( $index_diff = self::diffIndex( $def, $table2Indexes[$name] ) ) )
+                $indexDifferences = ezcDbSchemaComparator::diffIndex( $indexDefinition, $table2Indexes[$indexName] );
+                if ( $indexDifferences )
                 {
-                    $table_diff['changed_indexes'][$name] = $index_diff;
+                    $tableDifferences['changed_indexes'][$indexName] = $indexDifferences;
                 }
             }
         }
 
-        return $table_diff;
+        return $tableDifferences;
     }
 
     /**
@@ -173,95 +147,77 @@ class ezcDbSchemaComparator
      *
      * @return The field definition of the changed field or \c false if there are no changes.
      */
-    private static final function diffField( $field1, $field2 )
+    private static final function diffField( ezcDbSchemaField $field1, ezcDbSchemaField $field2 )
     {
         /* Type is always available */
-        if ( $field1['type'] != $field2['type'] )
+        if ( $field1->type != $field2->type )
         {
-            return array( 'different-options' => array( 'type' ), 'field-def' => $field2 );
             return $field2;
         }
 
-        $test_fields = array( 'length', 'default', 'not_null' );
-        $different_options = array();
-
-        foreach ( $test_fields as $test_field )
+        $testFields = array( 'type', 'length', 'notNull', 'default', 'autoIncrement' );
+        foreach ( $testFields as $property )
         {
-            if ( isset( $field1[$test_field] ) )
+            if ( $field1->$property !== $field2->$property )
             {
-                if ( !isset( $field2[$test_field] ) ||
-                     ( $field1[$test_field] != $field2[$test_field] ) )
-                {
-                    $different_options[] = $test_field;
-                }
-            }
-            else
-            {
-                if ( isset( $field2[$test_field] ) )
-                {
-                    $different_options[] = $test_field;
-                }
+                return $field2;
             }
         }
 
-        if ( $different_options )
-            return array( 'different-options' => $different_options, 'field-def' => $field2 );
-        else
-            return false;
+        return false;
     }
 
     /**
-     * Finds the difference between the indexes \a $index1 and \a $index2.
+     * Finds the difference between the indexes $index1 and $index2.
      *
-     * @return The index definition of the changed index or \c false if there are no changes.
+     * Compares $index1 with $index2 and returns $index2 if there are any
+     * differences or false in case there are no differences.
+     *
+     * @param ezcDbSchemaIndex $index1
+     * @param ezcDbSchemaIndex $index2
+     * @return ezcDbSchemaIndex
      */
-    private static final function diffIndex( $index1, $index2 )
+    private static final function diffIndex( ezcDbSchemaIndex $index1, ezcDbSchemaIndex $index2 )
     {
-        if ( ( $index1['type'] != $index2['type'] ) ||
-             count( array_diff( $index1, $index2 ) ) )
+        $testFields = array( 'primary', 'unique' );
+        foreach ( $testFields as $property )
         {
-            return $index2;
-        }
-
-        $test_fields = array( 'link_table' );
-        foreach ( $test_fields as $test_field )
-        {
-            if ( isset( $index1[$test_field] ) )
+            if ( $index1->$property !== $index2->$property )
             {
-                if ( !isset( $index2[$test_field] ) ||
-                     ( $index1[$test_field] != $index2[$test_field] ) )
-                {
-                    return $index2;
-                }
-            }
-            else
-            {
-                if ( isset( $index2[$test_field] ) )
-                {
-                    return $index2;
-                }
+                return $index2;
             }
         }
 
-        $test_fields = array( 'fields', 'link_fields' );
-        foreach ( $test_fields as $test_field )
+        // Check for removed index fields in $index2
+        foreach ( $index1->indexFields as $indexFieldName => $indexFieldDefinition )
         {
-            if ( isset( $index1[$test_field] ) )
+            if ( !isset( $index2->indexFields[$indexFieldName] ) )
             {
-                if ( !isset( $index2[$test_field] ) ||
-                     !( $index1[$test_field] == $index2[$test_field] ) )
-                {
-                    return $index2;
-                }
+                return $index2;
             }
-            else
+        }
+
+        // Check for new index fields in $index2
+        foreach ( $index2->indexFields as $indexFieldName => $indexFieldDefinition )
+        {
+            if ( !isset( $index1->indexFields[$indexFieldName] ) )
             {
-                if ( isset( $index2[$test_field] ) )
+                return $index2;
+            }
+        }
+
+        $testFields = array( 'sorting' );
+        foreach ( $index1->indexFields as $indexFieldName => $indexFieldDefinition )
+        {
+            foreach ( $testFields as $testField )
+            {
+                if ( $indexFieldDefinition->$testField != $index2->indexFields[$indexFieldName]->$testField )
                 {
                     return $index2;
                 }
             }
         }
+        return false;
     }
 }
 ?>

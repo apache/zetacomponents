@@ -19,148 +19,53 @@
 class ezcDbSchemaHandlerManager
 {
     /**
-     * Parameters common for all the handlers.
-     * Currently only user-specified schema transformation hooks are saved here.
+     * Set of standard read handlers.
      */
-    private $HandlerParams = array();
+    static public $readHandlers = array(
+        'array' => 'ezcDbSchemaPhpArrayReader',
+        'mysql' => 'ezcDbSchemaMysqlReader',
+        'oracle' => 'ezcDbSchemaOracleReader',
+        'pgsql' => 'ezcDbSchemaPgsqlReader',
+        'sqlite' => 'ezcDbSchemaSqliteReader',
+        'xml' => 'ezcDbSchemaXmlReader',
+    );
 
     /**
-     * Set of standard handlers.
-     * This array may be appended with user-specified handlers in the constructor.
+     * Set of standard write handlers.
      */
-    private $Handlers = array( 'ezcDbSchemaHandlerXml',
-                               'ezcDbSchemaHandlerPhpArray',
-                               'ezcDbSchemaHandlerMysql',
-                               'ezcDbSchemaHandlerPgsql',
-                               'ezcDbSchemaHandlerOracle',
-                             );
+    static public $writeHandlers = array(
+        'array' => 'ezcDbSchemaPhpArrayWriter',
+        'mysql' => 'ezcDbSchemaMysqlWriter',
+        'oracle' => 'ezcDbSchemaOracleWriter',
+        'pgsql' => 'ezcDbSchemaPgsqlWriter',
+        'sqlite' => 'ezcDbSchemaSqliteWriter',
+        'xml' => 'ezcDbSchemaXmlWriter',
+    );
 
     /**
-     * Constructs handlers manager instance, handling specified parameters.
+     * Returns the name of the appropriate handler for the specified format.
+     *
      */
-    public function __construct( $handlerParams = array() )
+    static public function getReaderByFormat( $format )
     {
-        $this->HandlerParams = $handlerParams;
-        if ( $this->HandlerParams )
+        if ( !isset( self::$readHandlers[$format] ) )
         {
-            if ( isset( $this->HandlerParams['user-handlers'] ) )
-            {
-                $this->Handlers = array_merge( $this->HandlerParams['user-handlers'], $this->Handlers );
-                unset( $this->HandlerParams['user-handlers'] );
-            }
+            throw new ezcDbSchemaUnknownFormatException( $format, 'read' );
         }
+        return self::$readHandlers[$format];
     }
 
     /**
-     * Load schema, using appropriate handler for the specified storage type.
+     * Returns the name of the appropriate handler for the specified format.
      *
-     * @param mixed  $src         Where to load schema from.
-     * @param string $storageType Schema type: determines which handler to use.
-     * @param string $what        What to load. Possible values:
-     *                            'none', 'schema', 'data', 'both'.
-     *                            Default value is 'schema'.
-     * @return      mixed        Loaded schema on success, false otherwise.
      */
-    public function loadSchema( $src, $storageType, $what )
+    static public function getWriterByFormat( $format )
     {
-        return $this->getHandler( $storageType )->loadSchema( $src, $storageType, $what );
-    }
-
-    /**
-     * Save given schema.
-     *
-     * @param array  $schema      Schema to save.
-     * @param mixed  $dst         Where to save to.
-     * @param string $storageType Format to use when saving.
-     * @param string $what        What to save. Possible values:
-     *                            'none', 'schema', 'data', 'both'.
-     *                            Default value is 'schema'.
-     * @return      bool         true on success, false otherwise.
-     */
-    public function saveSchema( $schema, $dst, $storageType, $what )
-    {
-        return $this->getHandler( $storageType )->saveSchema( $schema, $dst, $storageType, $what );
-    }
-
-    /**
-     * Return schema in one of internal formats without saving it to a file or database.
-     *
-     * For example, you might want to get schema as XML string, or DOM tree,
-     * or as a set of SQL queries.
-     *
-     * @param   array  $schema         Schema to return in the specified format.
-     * @param   string $internalFormat Format you want to get schema in.
-     * @param   string $what           What to load. Possible values:
-     *                                 'none', 'schema', 'data', 'both'.
-     *                                 Default value is 'schema'.
-     * @return mixed                  Schema in the specified format, false on error.
-     *
-     * @see ezcDbSchema::get()
-     */
-    public function getSchema( $schema, $internalFormat, $what )
-    {
-        return $this->getHandlerByInternalFormat( $internalFormat )->getSchema( $schema, $internalFormat, $what );
-    }
-
-    /**
-     * Save given difference between schemas in the specified format.
-     *
-     * @param   array  $delta       The difference.
-     * @param   mixed  $dst         Where to save to.
-     * @param   string $storageType Schema storage type.
-     * @return bool                true on success, false otherwise
-     */
-    public function saveDelta( $delta, $dst, $storageType )
-    {
-        return $this->getHandler( $storageType )->saveDelta( $delta, $dst, $storageType );
-    }
-
-    /**
-     * Returns instance of the appropriate handler for the specified storage type.
-     *
-     * @param   string $storageType Storage type that determines the handler to load.
-     * @return ezcDbSchemaHandler  The appropriate handler.
-     * @throws ezcDbSchemaException::UNKNOWN_STORAGE_TYPE if an appropriate handler
-     *         cannot be found.
-     */
-    public function getHandler( $storageType )
-    {
-        foreach ( $this->Handlers as $handlerClass )
+        if ( !isset( self::$writeHandlers[$format] ) )
         {
-            $types = call_user_func( array( $handlerClass, 'getSupportedStorageTypes' ) );
-            if ( in_array( $storageType, $types ) )
-            {
-                $appropriateHandler = new $handlerClass( $this->HandlerParams );
-                return $appropriateHandler;
-            }
-
+            throw new ezcDbSchemaUnknownFormatException( $format, 'write' );
         }
-
-        throw new ezcDbSchemaException( ezcDbSchemaException::UNKNOWN_STORAGE_TYPE );
-    }
-
-    /**
-     * Returns instance of the appropriate handler for the specified internal format.
-     *
-     * @param   string $internalFormat Internal schema format that determines
-     *                                 the handler to load.
-     * @return ezcDbSchemaHandler     The appropriate handler.
-     * @throws ezcDbSchemaException::UNKNOWN_INTERNAL_FORMAT if an appropriate handler
-     *          cannot be found.
-     */
-    private function getHandlerByInternalFormat( $internalFormat )
-    {
-        foreach ( $this->Handlers as $handlerClass )
-        {
-            $supportedFormats = call_user_func( array( $handlerClass, 'getSupportedInternalFormats' ) );
-            if ( in_array( $internalFormat, $supportedFormats ) )
-            {
-                $appropriateHandler = new $handlerClass( $this->HandlerParams );
-                return $appropriateHandler;
-            }
-        }
-
-        throw new ezcDbSchemaException( ezcDbSchemaException::UNKNOWN_INTERNAL_FORMAT );
+        return self::$writeHandlers[$format];
     }
 
     /**
@@ -169,40 +74,65 @@ class ezcDbSchemaHandlerManager
      * Goes through the list of known handlers and gathers information
      * of which schema types do they support.
      */
-    public function getSupportedStorageTypes()
+    static public function getSupportedFormats()
     {
-        $supportedSchemaTypes = array();
-
-        foreach ( $this->Handlers as $handlerClass )
-        {
-            $types = call_user_func( array( $handlerClass, 'getSupportedStorageTypes' ) );
-            $supportedSchemaTypes = array_merge( $supportedSchemaTypes, $types );
-        }
-
-        return $supportedSchemaTypes;
+        return array_keys( self::$readHandlers ) + array_keys( self::$writeHandlers );
     }
 
     /**
-     * Return list of supported internal schema formats.
+     * Adds the read handler class $readerClass to the manager for $type
      *
-     * Goes through the list of known handlers and gathers information
-     * of which internal formats do they support.
-     *
-     * @see getSchema()
-     * @see ezcDbSchema::get()
+     * @throws ezcDbSchemaInvalidReaderClassException if the $readerClass
+     *         doesn't exist or doesn't extend the abstract class
+     *         ezcDbSchemaReader.
+     * @param string $type
+     * @param string $readerClass
      */
-    public function getSupportedInternalFormats()
+    static public function addReader( $type, $readerClass )
     {
-        $supportedInternalFormats = array();
-
-        foreach ( $this->Handlers as $handlerClass )
+        // Check if the passed classname actually exists
+        if ( !class_exists( $readerClass, true ) )
         {
-            $types = call_user_func( array( $handlerClass, 'getSupportedInternalFormats' ) );
-            $supportedInternalFormats = array_merge( $supportedInternalFormats, $types );
+            throw new ezcDbSchemaInvalidReaderClassException( $readerClass );
         }
 
-        return $supportedInternalFormats;
+        // Check if the passed classname actually implements the interface. We
+        // have to do that with reflection here unfortunately
+        $interfaceClass = new ReflectionClass( 'ezcDbSchemaReader' );
+        $handlerClass = new ReflectionClass( $readerClass );
+        if ( !$handlerClass->isSubclassOf( $interfaceClass ) )
+        {
+            throw new ezcDbSchemaInvalidReaderClassException( $readerClass );
+        }
+        self::$readHandlers[$type] = $readerClass;
+    }
+
+    /**
+     * Adds the write handler class $writerClass to the manager for $type
+     *
+     * @throws ezcDbSchemaInvalidWriterClassException if the $writerClass
+     *         doesn't exist or doesn't extend the abstract class
+     *         ezcDbSchemaWriter.
+     * @param string $type
+     * @param string $writerClass
+     */
+    static public function addWriter( $type, $writerClass )
+    {
+        // Check if the passed classname actually exists
+        if ( !class_exists( $writerClass, true ) )
+        {
+            throw new ezcDbSchemaInvalidWriterClassException( $writerClass );
+        }
+
+        // Check if the passed classname actually implements the interface. We
+        // have to do that with reflection here unfortunately
+        $interfaceClass = new ReflectionClass( 'ezcDbSchemaWriter' );
+        $handlerClass = new ReflectionClass( $writerClass );
+        if ( !$handlerClass->isSubclassOf( $interfaceClass ) )
+        {
+            throw new ezcDbSchemaInvalidWriterClassException( $writerClass );
+        }
+        self::$writeHandlers[$type] = $writerClass;
     }
 }
-
 ?>

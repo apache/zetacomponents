@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDatabaseSchemaException class
+ * File containing the ezcDbSchemaFileWriter interface
  *
  * @package DatabaseSchema
  * @version //autogen//
@@ -8,13 +8,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * This class provides an exception container for use with the DatabaseSchema
- * component.
+ * This class provides the interface for database schema writers
  *
  * @package DatabaseSchema
  * @version //autogen//
  */
-abstract class ezcDbSchemaException extends ezcBaseException
+interface ezcDbSchemaDbWriter
 {
+    public function getWriterType();
+    public function saveToDb( ezcDbHandler $db, ezcDbSchema $schema );
 }
 ?>

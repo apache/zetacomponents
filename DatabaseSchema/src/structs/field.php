@@ -1,0 +1,86 @@
+<?php
+/**
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogentag//
+ * @filesource
+ * @package DatabaseSchema
+ */
+/**
+ * A container to store a field definition in.
+ *
+ * @package DatabaseSchema
+ */
+class ezcDbSchemaField
+{
+    /**
+     * The type of this field, can be one of this class' TYPE_ constants.
+     *
+     * @var integer
+     */
+    public $type;
+    
+    /**
+     * The length of this field.
+     *
+     * @var integer
+     */
+    public $length;
+    
+    /**
+     * Whether this field can store NULL values.
+     *
+     * @var bool
+     */
+    public $notNull;
+
+    /**
+     * The default value for this field.
+     *
+     * @var mixed
+     */
+    public $default;
+
+    /**
+     * Whether this field is an auto increment field.
+     *
+     * @var bool
+     */
+    public $autoIncrement;
+
+    /**
+     * Whether the values for this field contain unsigned integers.
+     *
+     * @var bool
+     */
+    public $unsigned;
+
+    /**
+     * Constructs an ezcDbSchemaField object.
+     *
+     * @var string  $type
+     * @var integer $length
+     * @var bool    $notNull
+     * @var mixed   $default
+     * @var bool    $autoIncrement
+     * @var bool    $unsigned
+     */
+    function __construct( $type, $length = false, $notNull = false, $default = null, $autoIncrement = false, $unsigned = false )
+    {
+        $this->type = (string) $type;
+        $this->length = (int) $length;
+        $this->notNull = (bool) $notNull;
+        $this->default = $default;
+        $this->autoIncrement = (bool) $autoIncrement;
+        $this->unsigned = (bool) $unsigned;
+    }
+
+    static public function __set_state( array $array )
+    {
+        return new ezcDbSchemaField(
+            $array['type'], $array['length'], $array['notNull'],
+            $array['default'], $array['autoIncrement'], $array['unsigned']
+        );
+    }
+}
+?>
