@@ -37,9 +37,9 @@ persistent object. It is a simple class with only a few members: ::
     <?php
     class Person
     {
-        private id = null;
-        public name = null;
-        public age = null;
+        private $id = null;
+        public $name = null;
+        public $age = null;
 
         public function getState()
         {
