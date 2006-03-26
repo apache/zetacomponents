@@ -52,7 +52,7 @@ persistent object. It is a simple class with only a few members: ::
 
         public function setState( array $properties )
         {
-            foreach( $state as $key => $value )
+            foreach( $properties as $key => $value )
             {
                 $this->$key = $value;
             }
