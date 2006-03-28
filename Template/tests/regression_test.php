@@ -14,7 +14,7 @@
  */
 class ezcTemplateRegressionTest extends ezcTestCase
 {
-    public $requestRegeneration = false;
+    public $requestRegeneration = true;
 
     private $stdin = null;
 

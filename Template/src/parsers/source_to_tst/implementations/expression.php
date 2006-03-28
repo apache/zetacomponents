@@ -189,7 +189,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     $type = $this->parser->symbolTable->retrieve( $this->lastParser->element->name );
                     if ( $type === false )
                     {
-                        throw new ezcTemplateSourceToTstParserException( $this, $this->parser->symbolTable->getErrorMessage() );
+                        throw new ezcTemplateSourceToTstParserException( $this, $this->startCursor, $this->parser->symbolTable->getErrorMessage() );
                     }
 
                     $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );

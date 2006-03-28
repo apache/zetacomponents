@@ -1,0 +1,10 @@
+mock:1:1: The symbol <$a> is not declared
+
+{$a}
+ ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateExpressionBlockSourceToTstParser
+   -> ezcTemplateExpressionSourceToTstParser

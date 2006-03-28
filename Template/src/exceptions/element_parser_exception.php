@@ -93,6 +93,7 @@ class ezcTemplateSourceToTstParserException extends Exception
 
     public function __construct( 
                                  /*ezcTemplateSourceToTstParser*/ $parser,
+                                 ezcTemplateCursor $cursor,
                                  $errorMessage,
                                  $errorDetails = "" )
     {
@@ -109,6 +110,7 @@ class ezcTemplateSourceToTstParserException extends Exception
         $this->elements = array( $parser );
         $this->parser = $parser;
         $this->source = $parser->parser->source;
+        $this->elements[0]->startCursor = $cursor;
 
         $this->errorMessage = $errorMessage;
         $this->errorDetails = $errorDetails;

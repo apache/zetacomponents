@@ -1,0 +1,9 @@
+mock:1:1: A variable is expected
+
+{var }
+     ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateDeclarationBlockSourceToTstParser

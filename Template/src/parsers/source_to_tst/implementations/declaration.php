@@ -19,8 +19,8 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
     /**
      * No known type found.
      */
-    const VARIABLE_EXPECTED    = "A variable is expected";
-    const INVALID_EXPRESSION   = "The expression is not valid";
+    const MSG_VARIABLE_EXPECTED    = "A variable is expected";
+    const MSG_INVALID_EXPRESSION   = "The expression is not valid";
 
     /**
      * The value of the parsed type or null if nothing was parsed.
@@ -54,12 +54,11 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
-        if( $this->currentCursor->current(3) == "var" )
+        if( $this->currentCursor->match("var") )
         {
             $symbolType = ezcTemplateSymbolTable::VARIABLE; 
 
             $this->status = self::PARSE_PARTIAL_SUCCESS;
-            $this->currentCursor->advance(3);
             $this->findNextElement();
 
             // $var
@@ -91,9 +90,7 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
 
             if( ! ($this->parseOptionalType( "Variable", $this->currentCursor, false ) && $this->lastParser->status === self::PARSE_SUCCESS ) )
             {
-                $this->startCursor = $this->currentCursor;
-                $this->operationState = self::VARIABLE_EXPECTED;
-                return false;
+                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, self::MSG_VARIABLE_EXPECTED );
             }
 
             $declaration->variable = $this->lastParser->elements[0];
@@ -101,7 +98,7 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
             // Variable name.
             if ( !$this->parser->symbolTable->enter( $declaration->variable->name, $symbolType ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $this->parser->symbolTable->getErrorMessage() );
+                throw new ezcTemplateSourceToTstParserException( $this, $this->startCursor, $this->parser->symbolTable->getErrorMessage() );
             }
 
             $this->findNextElement();
@@ -112,10 +109,7 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
 
                 if( !$this->parseOptionalType( "Expression", null, false ) )
                 {
-
-                    $this->operationState = sprintf( self::INVALID_EXPRESSION );
-                    $this->startCursor = $this->currentCursor;
-                    return false;
+                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, self::MSG_INVALID_EXPRESSION );
                 }
 
                 $declaration->expression = $this->lastParser->rootOperator;
