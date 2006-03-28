@@ -50,6 +50,15 @@ class ezcTemplateParser
     protected $whitespaceRemoval;
 
     /**
+     * Stores the symbol table. At the beginning of parsing (at ProgramSourceToTstParser)
+     * a new symbol table is created. The rest of the nodes can access the symbol
+     * table.
+     *
+     * @var ezcTemplateSymboLTable
+     */
+    public $symbolTable;
+
+    /**
      *
      * @note The source code in $code must be loaded/created before passing it to this parser.
     */
@@ -60,6 +69,8 @@ class ezcTemplateParser
         $this->textElements = array();
         $this->trimWhitespace = true;
         $this->debug = false;
+
+        $this->symbolTable = new ezcTemplateSymbolTable();
 
         $this->whitespaceRemoval = new ezcTemplateWhitespaceRemoval();
     }
@@ -252,6 +263,19 @@ class ezcTemplateParser
     {
         return new ezcTemplateVariableTstNode( $this->source, $start, $end );
     }
+
+    /**
+     * Creates a new declaration element object with the cursor positions and returns it.
+     *
+     * @param ezcTemplateCursor $start The starting point of the element.
+     * @param ezcTemplateCursor $end The ending point of the element.
+     * @return ezcTemplateDeclarationTstNode
+     */
+    public function createDeclaration( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    {
+        return new ezcTemplateDeclarationTstNode( $this->source, $start, $end );
+    }
+
 
     /**
      * Creates a new property fetch operator object with the cursor positions and returns it.
@@ -937,15 +961,13 @@ class ezcTemplateParser
 
         $parser = new ezcTemplateProgramSourceToTstParser( $this, null, null );
         $parser->setAllCursors( $cursor );
+        
         if ( !$parser->parse() )
         {
             $currentParser = $parser->getFailingParser();
-            $error = new ezcTemplateParserError( array( $currentParser ),
-                                                 $currentParser,
-                                                 $this->source,
-                                                 $currentParser->getErrorMessage(),
-                                                 $currentParser->getErrorDetails() );
-            throw new ezcTemplateSourceToTstParserException( $error );
+
+            // TODO, This exception may disappear in the future, as the Parser elements should throw their own errors.
+            throw new ezcTemplateSourceToTstParserException( $currentParser, $currentParser->getErrorMessage(), $currentParser->getErrorDetails() );
         }
 
         // Trim starting/trailing whitespace

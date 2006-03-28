@@ -46,29 +46,18 @@ class ezcTemplateParserError
     public $errorDetails;
 
     /**
-     * Initialises the exception with the failing elements, parser, source code
-     * and error messages.
+     * Initialises the exception.
      *
-     * @param array $elements An array of elements which contains the start and
-     *                        end cursor for the errors, needs at least one
-     *                        element entry.
      * @param ezcTemplateSourceToTstParser $parser The parser which was used when error occured, can be null.
-     * @param ezcTemplateSource $source The source code which caused the error, used for file path.
      * @param string $errorMessage The error message.
      * @param string $errorDetails Extra details for error.
      */
-    public function __construct( $elements,
-                                 /*ezcTemplateSourceToTstParser*/ $parser,
-                                 ezcTemplateSourceCode $source,
-                                 $errorMessage,
-                                 $errorDetails = "" )
+    public function __construct( ezcTemplateSourceToTstParser $parser, $errorMessage, $errorDetails = "" )
     {
-        if ( count( $elements ) == 0)
-            throw new Exception( "Parameter \$elements in class ezcTemplateParserError needs to have at least one element." );
-
-        $this->elements = $elements;
+            // TODO fix this. 
+        $this->elements = array( $parser );
         $this->parser = $parser;
-        $this->source = $source;
+        $this->source = $parser->parser->source;
 
         $this->errorMessage = $errorMessage;
         $this->errorDetails = $errorDetails;

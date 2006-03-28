@@ -81,7 +81,6 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 {
                     if( !$onlyWithExtension || substr( $file,  -$extensionLength - 1 ) == ".$onlyWithExtension" )
                     {
-
                          $total[] = $new;
                     }
                 }
@@ -100,23 +99,31 @@ class ezcTemplateRegressionTest extends ezcTestCase
         $directories = array();
         $this->readDirRecursively( $regressionDir, $directories, "in" );
 
+        // Sort it, than the file a.in will be processed first. Handy for development.
+        natsort( $directories );
+
         foreach( $directories as $directory )
         {
-            list( $tstRoot, $astRoot ) = $this->compileTemplate( $directory, $regressionDir . "/current.tmp" ); 
-
-            $cont = file_get_contents( $regressionDir . "/current.tmp" );
-
-            $cont = str_replace( "<"."?php", "", $cont );
-            $cont = str_replace( "?" . ">", "", $cont ); 
-
-            ob_start();
-
-            eval( $cont );
-            $out = ob_get_contents();
-
-            ob_end_clean();
-
+            list( $status, $message, $tstRoot, $astRoot ) = $this->compileTemplate( $directory, $regressionDir . "/current.tmp" ); 
             $expected = substr( $directory, 0, -3 ) . ".out";
+
+            $out = "";
+            $cont = "";
+            if( $status ) // Template compiled successfully
+            {
+                $cont = file_get_contents( $regressionDir . "/current.tmp" );
+                $cont = str_replace( "<"."?php", "", $cont );
+                $cont = str_replace( "?" . ">", "", $cont ); 
+
+                ob_start();
+                eval( $cont );
+                $out = ob_get_contents();
+                ob_end_clean();
+            }
+            else
+            {
+                $out = $message;
+            }
 
             if( !file_exists( $expected ) ) 
             {
@@ -161,14 +168,19 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 $help .= "----------\n" . file_get_contents( $expected ) . "----------\n";
                 $help .= "\n";
 
-                $help .= "The TST tree:\n";
-                $help .= "----------\n" . ezcTemplateTstTreeOutput::output( $tstRoot )  . "----------\n";
-                $help .= "\n";
+                if( $tstRoot !== null )
+                {
+                    $help .= "The TST tree:\n";
+                    $help .= "----------\n" . ezcTemplateTstTreeOutput::output( $tstRoot )  . "----------\n";
+                    $help .= "\n";
+                }
 
-                $help .= "The AST tree:\n";
-                $help .= "----------\n" . ezcTemplateAstTreeOutput::output( $astRoot )  . "----------\n";
-                $help .= "\n";
-
+                if( $astRoot !== null )
+                {
+                    $help .= "The AST tree:\n";
+                    $help .= "----------\n" . ezcTemplateAstTreeOutput::output( $astRoot )  . "----------\n";
+                    $help .= "\n";
+                }
 
 
                 if( $this->requestRegeneration )
@@ -202,26 +214,34 @@ class ezcTemplateRegressionTest extends ezcTestCase
     {
         $text = file_get_contents( $input );
 
-        $source = new ezcTemplateSourceCode( 'mock', 'mock', $text );
-        $parser = new ezcTemplateParser( $source, $this->manager );
+        try
+        {
+            $source = new ezcTemplateSourceCode( 'mock', 'mock', $text );
+            $parser = new ezcTemplateParser( $source, $this->manager );
 
-        $program = $parser->parseIntoNodeTree();
-        //echo ezcTemplateTstTreeOutput::output( $program );
+            $program = $parser->parseIntoNodeTree();
+    //        echo ezcTemplateTstTreeOutput::output( $program );
+            //exit();
 
-        $tstToAst = new ezcTemplateTstToAstTransformer();
-        $program->accept( $tstToAst );
+            $tstToAst = new ezcTemplateTstToAstTransformer();
+            $program->accept( $tstToAst );
 
-        $astToAst = new ezcTemplateAstToAstAssignmentOptimizer();
-        $tstToAst->programNode->accept( $astToAst );
+            $astToAst = new ezcTemplateAstToAstAssignmentOptimizer();
+            $tstToAst->programNode->accept( $astToAst );
 
-//        $astToAst = new ezcTemplateAstToAstContextAppender();
-        //$tstToAst->programNode->accept( $astToAst );
+    //        $astToAst = new ezcTemplateAstToAstContextAppender();
+            //$tstToAst->programNode->accept( $astToAst );
 
 
-        $g = new ezcTemplateAstToPhpGenerator( "$output" );
-        $tstToAst->programNode->accept($g);
+            $g = new ezcTemplateAstToPhpGenerator( "$output" );
+            $tstToAst->programNode->accept($g);
+        } 
+        catch( Exception $e )
+        {
+            return array( false, $e->getMessage(), null, null );
+        }
 
-        return array( $program, $tstToAst->programNode );
+        return array( true, "", $program, $tstToAst->programNode );
     }
 }
 

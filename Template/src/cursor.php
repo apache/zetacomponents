@@ -345,6 +345,26 @@ class ezcTemplateCursor
 
         return $matches;
     }
+
+
+    /**
+     * @return bool  True if the $word matches, otherwise false.
+     */
+    public function match( $word, $advance = true)
+    {
+        $len = strlen( $word );
+        if( $this->current( $len ) == $word )
+        {
+            if( $advance ) $this->advance( $len );
+
+            return true;
+        }
+
+        return false;
+    }
+
 }
+
+
 
 ?>

@@ -20,8 +20,8 @@ return array(
              "ezcTemplateLocation" => "Template/location.php",
 
              "ezcTemplateParser" => "Template/parser.php",
-             "ezcTemplateParserError" => "Template/parser_error.php",
              "ezcTemplateCursor" => "Template/cursor.php",
+             "ezcTemplateSymbolTable" => "Template/symbol_table.php",
 
              "ezcTemplateSourceCode" => "Template/source_code.php",
              "ezcTemplateCompiledCode" => "Template/compiled_code.php",
@@ -100,6 +100,7 @@ return array(
              "ezcTemplateNegateOperatorTstNode" => "Template/syntax_trees/tst/nodes/negate_operator.php",
              "ezcTemplateLogicalNegateOperatorTstNode" => "Template/syntax_trees/tst/nodes/logical_negate_operator.php",
              "ezcTemplateInstanceOfOperatorTstNode" => "Template/syntax_trees/tst/nodes/instance_of_operator.php",
+             "ezcTemplateDeclarationTstNode" => "Template/syntax_trees/tst/nodes/declaration.php",
 
 // Syntax trees / AST
              "ezcTemplateAstBuilder" => "Template/syntax_trees/ast/ast_builder.php",
@@ -221,6 +222,7 @@ return array(
              "ezcTemplateLoopSourceToTstParser" => "Template/parsers/source_to_tst/implementations/loop.php",
              "ezcTemplateExpressionBlockSourceToTstParser" => "Template/parsers/source_to_tst/implementations/expression_block.php",
              "ezcTemplateExpressionSourceToTstParser" => "Template/parsers/source_to_tst/implementations/expression.php",
+             "ezcTemplateDeclarationBlockSourceToTstParser" => "Template/parsers/source_to_tst/implementations/declaration.php",
              "ezcTemplateLiteralSourceToTstParser" => "Template/parsers/source_to_tst/implementations/literal.php",
              "ezcTemplateIntegerSourceToTstParser" => "Template/parsers/source_to_tst/implementations/integer.php",
              "ezcTemplateFloatSourceToTstParser" => "Template/parsers/source_to_tst/implementations/float.php",

@@ -495,6 +495,13 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         die("visitBlockTstNode");
     }
 
+    public function visitDeclarationTstNode( ezcTemplateBlockTstNode $type ) 
+    {
+        $expression = $type->expression === null ? new ezcTemplateConstantAstNode( "NULL") : $type->expression->accept($this);
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $type->variable->accept($this), $expression ) );
+    }
+
+
 
 }
 ?>

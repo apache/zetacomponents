@@ -92,6 +92,7 @@ class ezcTemplateVariableSourceToTstParser extends ezcTemplateSourceToTstParser
                 }
 
                 $this->variableName = $this->lastParser->identifierName;
+
                 $variable = $this->parser->createVariable( $this->startCursor, $cursor );
                 $variable->name = $this->variableName;
                 $this->element = $variable;

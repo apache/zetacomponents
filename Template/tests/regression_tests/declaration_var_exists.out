@@ -1,0 +1,10 @@
+mock:3:7: The variable <$a> is already declared.
+
+{var $a}
+^
+The variable <$a> is already declared.
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateDeclarationBlockSourceToTstParser

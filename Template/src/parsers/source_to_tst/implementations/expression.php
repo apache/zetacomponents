@@ -53,6 +53,12 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
      * The comma operator , was used but it is not allowed.
      */
     const STATE_OPERATOR_COMMA_NOT_ALLOWED = 6;
+   
+    /**
+     * The variable was not declared.
+     */
+    const STATE_VARIABLE_NOT_DECLARED = 7;
+
 
     /**
      * The current operator element if any.
@@ -180,6 +186,13 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     {
                         return false;
                     }
+
+                    $type = $this->parser->symbolTable->retrieve( $this->lastParser->element->name );
+                    if ( $type === null )
+                    {
+                        //throw new ezcTemplateSourceToTstParserException( $this, "Variable is not declared" );
+                    }
+
                     $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );
                     $this->state = 'operator';
                     continue;
@@ -501,6 +514,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
                 $cursor->copy( $this->lastCursor );
                 $this->operationState = self::STATE_NO_OPERATOR;
+
                 return false;
             }
 
@@ -544,6 +558,9 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 return "The modifier operator | is not supported in the template engine, the syntax is also invalid.";
             case self::STATE_OPERATOR_COMMA_NOT_ALLOWED:
                 return "The comma operator is not allowed at this context.";
+            case self::STATE_VARIABLE_NOT_DECLARED:
+                return "The variable is not declared";
+
         }
         // Default error message handler.
         return parent::generateErrorMessage();
@@ -577,6 +594,11 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 }
                 return $text;
 //                $string|wash -> wash( $string )";
+
+
+            case self::STATE_VARIABLE_NOT_DECLARED:
+                return "The variable is not declared";
+
         }
         // Default error details handler.
         return parent::generateErrorDetails();

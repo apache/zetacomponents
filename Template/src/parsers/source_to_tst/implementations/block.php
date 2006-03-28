@@ -58,6 +58,12 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
         if ( $this->parseOptionalType( 'LiteralBlock', $this->startCursor ) )
             return $this->lastParser->status == self::PARSE_SUCCESS;
 
+        // Try to parse a declaration block
+        if ( $this->parseOptionalType( 'DeclarationBlock', $this->startCursor ) )
+        {
+            return $this->lastParser->status == self::PARSE_SUCCESS;
+        }
+
         // Try to parse as an expression, if this fails the normal block parser
         // is tried.
         if ( $this->parseOptionalType( 'ExpressionBlock', $this->startCursor ) )
