@@ -1,3 +1,4 @@
+{var $item, $var}
 {$item->prop1}
 {$item->0}
 {$item[prop1]}

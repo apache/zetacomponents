@@ -1,3 +1,4 @@
+{var $a, $arr}
 array_count:
 { array_count(array('a', 'b', 'c') )}
 

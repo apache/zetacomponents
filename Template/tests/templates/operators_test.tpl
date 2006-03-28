@@ -1,3 +1,4 @@
+{var $obj, $a, $b}
 {!$obj instanceof what}
 {$obj->prop}
 {$a[0]}

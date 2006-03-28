@@ -1,7 +1,7 @@
-{$a = array( 1, 2, 3 )}
+{var $a = array( 1, 2, 3 )}
 {$a[0]}
 {$a[1]}
 {$a[2]}
 
-{$b = array( "monkey", 42, true )}
+{var $b = array( "monkey", 42, true )}
 {$b[ $a[ 2 - 2] - 1 ]}

@@ -24,7 +24,7 @@ require_once 'output_context_test.php';
 require_once 'xhtml_context_test.php';
 
 require_once 'cursor_test.php';
-require_once 'source_to_tst_parser_test.php';
+//require_once 'source_to_tst_parser_test.php';
 require_once 'whitespace_removal_test.php';
 
 require_once 'text_block_element_test.php';
@@ -77,7 +77,7 @@ class ezcTemplateSuite extends ezcTestSuite
         $this->addTest( ezcTemplateXhtmlContextTest::suite() );
 
         $this->addTest( ezcTemplateCursorTest::suite() );
-        $this->addTest( ezcTemplateSourceToTstParserTest::suite() );
+ //       $this->addTest( ezcTemplateSourceToTstParserTest::suite() );
         $this->addTest( ezcTemplateWhitespaceRemovalTest::suite() );
 
         $this->addTest( ezcTemplateTextBlockElementTest::suite() );

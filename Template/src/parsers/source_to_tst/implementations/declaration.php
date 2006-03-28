@@ -21,7 +21,7 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
      */
     const VARIABLE_EXPECTED    = "A variable is expected";
     const INVALID_EXPRESSION   = "The expression is not valid";
-    const SYMBOL_REDECLARATION = "The variable <\$%s> is already declared.";
+
     /**
      * The value of the parsed type or null if nothing was parsed.
      * @var mixed
@@ -99,12 +99,10 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
             $declaration->variable = $this->lastParser->elements[0];
 
             // Variable name.
-            if(!$this->parser->symbolTable->enter ( $declaration->variable->name, $symbolType ) )
+            if ( !$this->parser->symbolTable->enter( $declaration->variable->name, $symbolType ) )
             {
-                $this->operationState = sprintf( self::SYMBOL_REDECLARATION, $declaration->variable->name );
-                return false;
+                throw new ezcTemplateSourceToTstParserException( $this, $this->parser->symbolTable->getErrorMessage() );
             }
-            
 
             $this->findNextElement();
 

@@ -1,4 +1,4 @@
-{$var}
-{$varName}
-{$var_name}
-{$var_0_name}
+{var $var}
+{var $varName}
+{var $var_name}
+{var $var_0_name}

@@ -26,7 +26,7 @@ is_string:
 {is_string( "hello" )}
 
 is_set:
-{!is_set( $qasodifjdaosd )}
+{var $qasodifjdaosd}{!is_set( $qasodifjdaosd )}
 
 is_constant:
 {is_constant( "SEEK_CUR" )}

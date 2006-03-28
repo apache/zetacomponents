@@ -1,2 +1,2 @@
 debug_dump:
-{$a = 22}{debug_dump( $a )}
+{var $a = 22}{debug_dump( $a )}

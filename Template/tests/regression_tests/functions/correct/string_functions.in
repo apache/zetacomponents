@@ -28,7 +28,7 @@
 26. #{str_simplified( "    hello    world
 
 bla     " )}#
-27. {$a = str_split("hello/world", "/")}{$a[1]} {$a[0]}
+27. {var $a = str_split("hello/world", "/")}{$a[1]} {$a[0]}
 28. {str_join( array("hello", "world"), " ")}
 29. {str_upper( "heLLo World" )}
 30. {str_lower( "HelLO WoRLd" )}

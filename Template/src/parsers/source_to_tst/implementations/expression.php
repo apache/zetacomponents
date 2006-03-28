@@ -57,7 +57,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
     /**
      * The variable was not declared.
      */
-    const STATE_VARIABLE_NOT_DECLARED = 7;
 
 
     /**
@@ -188,9 +187,9 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     }
 
                     $type = $this->parser->symbolTable->retrieve( $this->lastParser->element->name );
-                    if ( $type === null )
+                    if ( $type === false )
                     {
-                        //throw new ezcTemplateSourceToTstParserException( $this, "Variable is not declared" );
+                        throw new ezcTemplateSourceToTstParserException( $this, $this->parser->symbolTable->getErrorMessage() );
                     }
 
                     $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );

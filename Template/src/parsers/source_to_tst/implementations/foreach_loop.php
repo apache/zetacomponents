@@ -167,7 +167,18 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
                 return false;
 
             $el->keyVariableName  = $el->itemVariableName;
+
+            if( !$this->parser->symbolTable->enter( $el->keyVariableName, ezcTemplateSymbolTable::VARIABLE, true ) )
+            {
+                throw new ezcTemplateSourceToTstParserException( $this, $this->parser->symbolTable->getErrorMessage() );
+            }
+
             $el->itemVariableName = $this->lastParser->variableName;
+        }
+        
+        if( !$this->parser->symbolTable->enter( $el->itemVariableName, ezcTemplateSymbolTable::VARIABLE, true ) )
+        {
+            throw new ezcTemplateSourceToTstParserException( $this, $this->parser->symbolTable->getErrorMessage() );
         }
 
         $cursor->advance();

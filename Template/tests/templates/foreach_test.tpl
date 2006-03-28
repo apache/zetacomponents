@@ -9,6 +9,7 @@ test 1
 {/foreach}
 
 test 2
+{var $a = array(1)}
 {foreach $a as $i}
 {skip}
 {/foreach}
