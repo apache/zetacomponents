@@ -208,6 +208,9 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 echo "!";
             }
         }
+
+        unlink ( $regressionDir . "/current.tmp" );
+
     }
 
     public function compileTemplate($input, $output)
