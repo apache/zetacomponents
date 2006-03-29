@@ -1,0 +1,12 @@
+mock:1:10: Missing ending brace
+
+array (
+^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateDeclarationBlockSourceToTstParser
+   -> ezcTemplateExpressionSourceToTstParser
+    -> ezcTemplateLiteralSourceToTstParser
+     -> ezcTemplateArraySourceToTstParser

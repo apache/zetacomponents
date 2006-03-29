@@ -19,6 +19,7 @@
  */
 class ezcTemplateVariableSourceToTstParser extends ezcTemplateSourceToTstParser
 {
+ 
     /**
      * The variable declaration is missing an identifier.
      */
@@ -33,6 +34,12 @@ class ezcTemplateVariableSourceToTstParser extends ezcTemplateSourceToTstParser
      * The variable declaration contains a namespace-root marker, this is not allowed.
      */
     const STATE_INVALID_NAMESPACE_ROOT_MARKER = 3;
+
+    const MSG_INVALID_VARIABLE              = "The variable name is invalid.";
+    const LNG_INVALID_IDENTIFIER            = "Invalid identifier";
+
+    const LNG_INVALID_NAMESPACE_ROOT_MARKER = "The namespace-root marker (#) was used in the template engine of eZ publish 3.x but it's no longer allowed.";
+    const LNG_INVALID_NAMESPACE_MARKER      = "The namespace marker (:) was used in template engine in eZ publish 3.x but is no longer allowed.";
 
     /**
      * The variable name which was found while parsing or null if no variable
@@ -59,35 +66,23 @@ class ezcTemplateVariableSourceToTstParser extends ezcTemplateSourceToTstParser
     {
         if ( !$cursor->atEnd() )
         {
-            if ( $cursor->current() == '$' )
+            if ( $cursor->match('$') )
             {
                 $this->status = self::PARSE_PARTIAL_SUCCESS;
 
-                $cursor->advance();
-
                 if ( $cursor->current() == '#' )
                 {
-                    $this->operationState = self::STATE_INVALID_NAMESPACE_ROOT_MARKER;
-                    return false;
+                    throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_INVALID_VARIABLE, self::LNG_INVALID_NAMESPACE_ROOT_MARKER);
                 }
 
                 if ( $cursor->current() == ':' )
                 {
-                    $this->operationState = self::STATE_INVALID_NAMESPACE_MARKER;
-                    return false;
+                    throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_INVALID_VARIABLE, self::LNG_INVALID_NAMESPACE_MARKER);
                 }
 
                 if ( !$this->parseRequiredType( 'Identifier', null, false ) )
                 {
-                    $this->subParser = null;
-                    $this->operationState = self::STATE_NO_IDENTIFIER;
-                    return false;
-                }
-
-                // Secondary check for the namespace marker
-                if ( $cursor->current() == ':' )
-                {
-                    $this->operationState = self::STATE_INVALID_NAMESPACE_MARKER;
+                    throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_INVALID_VARIABLE, self::LNG_INVALID_IDENTIFIER );
                     return false;
                 }
 

@@ -21,6 +21,9 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
      */
     const MSG_VARIABLE_EXPECTED    = "A variable is expected";
     const MSG_INVALID_EXPRESSION   = "The expression is not valid";
+    const MSG_UNEXPECTED_TOKEN     = "Unexpected token: %s";
+
+    const LNG_INVALID_NAMESPACE_MARKER      = "The namespace marker (:) was used in template engine in eZ publish 3.x but is no longer allowed.";
 
     /**
      * The value of the parsed type or null if nothing was parsed.
@@ -54,6 +57,7 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
+        $this->findNextElement();
         $symbolType = null;
 
         if ( $this->currentCursor->match( "var" ) )       $symbolType = ezcTemplateSymbolTable::VARIABLE;
@@ -62,14 +66,30 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
 
         if( $symbolType !== null )
         {
-            $this->status = self::PARSE_PARTIAL_SUCCESS;
             $this->findNextElement();
 
             // $var
-            if( $this->parseSubDefineBlock( $symbolType ) && $this->status == self::PARSE_SUCCESS )
+            if( $this->parseSubDefineBlock( $symbolType ) )
             {
-                $this->status = self::PARSE_SUCCESS;
-                return true;
+                if( $this->currentCursor->match( "}" ) )
+                {
+                    $this->status = self::PARSE_SUCCESS;
+                    return true;
+                }
+                elseif( $this->currentCursor->match( ":", false ) )
+                {
+                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, 
+                        sprintf( self::MSG_UNEXPECTED_TOKEN, $this->currentCursor->current(1) ), self::LNG_INVALID_NAMESPACE_MARKER); 
+                }
+                else
+                {
+                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, 
+                        sprintf( self::MSG_UNEXPECTED_TOKEN, $this->currentCursor->current(1) ) );
+                }
+            }
+            else
+            {
+                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, self::MSG_VARIABLE_EXPECTED );
             }
         }
 
@@ -84,6 +104,8 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
 
     protected function parseSubDefineBlock( $symbolType )
     {
+        $isFirst = true; // First Variable parse, may be invalid. Return false in that case. 
+
         do
         {
             $this->findNextElement();
@@ -92,11 +114,14 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
             $declaration->isClosingBlock = false;
             $declaration->isNestingBlock = false;
 
-            if( ! ($this->parseOptionalType( "Variable", $this->currentCursor, false ) && $this->lastParser->status === self::PARSE_SUCCESS ) )
+            if( ! $this->parseOptionalType( "Variable", $this->currentCursor, false ) )
             {
+                if( $isFirst ) return false;
+
                 throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, self::MSG_VARIABLE_EXPECTED );
             }
 
+            $isFirst = false;
             $declaration->variable = $this->lastParser->elements[0];
 
             // Variable name.
@@ -107,10 +132,8 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
 
             $this->findNextElement();
 
-            if( $this->currentCursor->current( 1 ) == "=" )
+            if( $this->currentCursor->match( "=" ) )
             {
-                $this->currentCursor->advance();
-
                 if( !$this->parseOptionalType( "Expression", null, false ) )
                 {
                     throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, self::MSG_INVALID_EXPRESSION );
@@ -122,26 +145,11 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
             $this->appendElement( $declaration );
             $this->findNextElement();
 
-        } 
-        while ( $this->currentCursor->match(",") );
+        } while ( $this->currentCursor->match(",") );
 
-        $this->currentCursor->advance();
-        //var_dump ( $this->currentCursor->current(5) );
-
-        $this->status = self::PARSE_SUCCESS;
         return true;
+   }
 
-    }
-
-    protected function generateErrorMessage()
-    {
-        return is_string( $this->operationState ) ? $this->operationState : parent::generateErrorMesssage();
-    }
-
-    protected function generateErrorDetails()
-    {
-        return is_string( $this->operationState ) ? $this->operationState : parent::generateErrorDetails();
-    }
 }
 
 ?>

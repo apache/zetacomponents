@@ -11,6 +11,12 @@ Source to TST (+ TST nodes)
 - Implement cycles.
 - If is broken. {if false} blabla {/if} works!
 
+- Error message is sometimes  incorrect: 
+  var $a = array( "aa
+  ___________________________^
+
+
+
 TST to AST (+ AST nodes)
 ------------------------
 

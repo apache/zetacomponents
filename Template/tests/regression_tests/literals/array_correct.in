@@ -1,0 +1,9 @@
+{ var    $a=array   /*myarray*/  ( 1, "a", 2 => "b", "3", )}
+{var $b = array      ()}
+{var $c = array()}
+{var $d = array( 1 )}
+{var $e = array( 1, 2 )}
+{var $f = array( 1, 2, )}
+{var $g = array( 1 => 2 )}
+{var $h = array( 1 => 2, )}
+{$a[2]}

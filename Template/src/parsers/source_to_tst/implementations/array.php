@@ -47,6 +47,11 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
      */
     const STATE_COMMA_BEFORE_TYPE = 5;
 
+    const MSG_NON_LOWERCASE_ARRAY = "The array identifier must consist of lowercase characters only.";
+    const MSG_ARRAY_START_BRACE_MISSING = "Missing starting brace '('";
+    const MSG_ARRAY_END_BRACE_MISSING = "Missing ending brace";
+    const MSG_ARRAY_LITERAL_EXPECTED = "A literal type is expected";
+ 
     /**
      * Passes control to parent.
      */
@@ -81,27 +86,28 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
         if ( $name !== $lower )
         {
             $this->findNonLowercase();
-            $this->operationState = self::STATE_NON_LOWERCASE;
-            return false;
+            throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_NON_LOWERCASE_ARRAY ); 
         }
 
         $cursor->advance( 5 );
 
         // skip whitespace and comments
-        if ( !$this->findNextElement() )
-            return false;
+        $this->findNextElement();
 
-        if ( $cursor->current() != '(' )
+        if ( !$cursor->match('(') )
         {
-            $this->operationState = self::STATE_NO_STARTING_BRACE;
-            return false;
+            throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_ARRAY_START_BRACE_MISSING ); 
         }
 
-        $cursor->advance();
         $currentArray = array();
-        while ( !$cursor->atEnd() )
+        while ( true )
         {
-            $this->operationState = self::STATE_NO_ENDING_BRACE;
+            // skip whitespace and comments
+            if ( !$this->findNextElement() )
+            {
+                throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_ARRAY_END_BRACE_MISSING ); 
+            }
+
             if ( $cursor->current() == ')' )
             {
                 $cursor->advance();
@@ -111,91 +117,46 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
                 $this->element = $array;
                 $this->appendElement( $array );
                 return true;
-            }
-
-            // skip whitespace and comments
-            if ( !$this->findNextElement() )
-            {
-                return false;
-            }
-
-            // We allow a comma after the key/value even if there are no more
-            // entries. This is compatible with PHP syntax.
-            if ( $cursor->current() == ',' )
-            {
-                $this->operationState = self::STATE_COMMA_BEFORE_TYPE;
-                return false;
             }
 
             // Check for type
             if ( !$this->parseRequiredType( 'Literal' ) )
             {
-//                $this->operationState = self::STATE_INVALID_TYPE;
-                return false;
+                throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_ARRAY_LITERAL_EXPECTED ); 
             }
 
-            // skip whitespace and comments
-            if ( !$this->findNextElement() )
-                return false;
+            $this->findNextElement();
 
-            if ( $cursor->current( 2 ) == '=>' )
+            if ( $cursor->match( '=>' ) )
             {
-                $cursor->advance( 2 );
-
-                // Apparently we have the key only
+                // Found the array key. Store it, and continue with the search for the value.
                 $arrayKey = $this->lastParser->value;
-
-                // skip whitespace and comments
-                if ( !$this->findNextElement() )
-                    return false;
+                $this->findNextElement();
 
                 // We have the key => value syntax so we need to find the value
                 if ( !$this->parseRequiredType( 'Literal' ) )
                 {
-                    return false;
+                    throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_ARRAY_LITERAL_EXPECTED ); 
                 }
 
+                // Store the value.
                 $currentArray[$arrayKey] = $this->lastParser->value;
             }
             else
             {
+                // Store the value.
                 $currentArray[] = $this->lastParser->value;
             }
 
-            // skip whitespace and comments
-            if ( !$this->findNextElement() )
-                return false;
+            $this->findNextElement();
 
             // We allow a comma after the key/value even if there are no more
             // entries. This is compatible with PHP syntax.
-            if ( $cursor->current() == ',' )
+            if ( $cursor->match(',') )
             {
-                $cursor->advance();
-                // skip whitespace and comments
-                if ( !$this->findNextElement() )
-                    return false;
-
-                // Start iteration again
-                continue;
+                $this->findNextElement();
             }
-
-            // We did not find a comma so we expect the end of the array
-            $this->operationState = self::STATE_NO_ENDING_BRACE_OR_COMMA;
-            if ( $cursor->current() == ')' )
-            {
-                $cursor->advance();
-                $array = $this->parser->createLiteral( $this->startCursor, $cursor );
-                $array->value = $currentArray;
-                $this->value = $array->value;
-                $this->element = $array;
-                $this->appendElement( $array );
-                return true;
-            }
-            return false;
         }
-
-        $this->operationState = self::STATE_NO_ENDING_BRACE_OR_COMMA;
-        return false;
     }
 
     protected function generateErrorMessage()

@@ -24,6 +24,9 @@ class ezcTemplateBoolSourceToTstParser extends ezcTemplateLiteralSourceToTstPars
      */
     const STATE_NON_LOWERCASE = 1;
 
+    const MSG_NON_LOWERCASE_BOOLEAN  = "Boolean type must use lowercase characters only.";
+    const LNG_ALLOWED_BOOLEANS       = "Acceptable values are: 'true' or 'false'";
+
     /**
      * Passes control to parent.
      */
@@ -52,10 +55,8 @@ class ezcTemplateBoolSourceToTstParser extends ezcTemplateLiteralSourceToTstPars
             if ( $name !== $lower )
             {
                 $this->findNonLowercase();
-                $this->operationState = self::STATE_NON_LOWERCASE;
-                return false;
+                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, self::MSG_NON_LOWERCASE_BOOLEAN, self::LNG_ALLOWED_BOOLEANS ); 
             }
-            // $failure = "Boolean type must use lowercase characters only, got <{$name}>, expected <{$lower}>.";
 
             $cursor->advance( strlen( $matches[0][0] ) );
             $bool = $this->parser->createLiteral( $this->startCursor, $cursor );

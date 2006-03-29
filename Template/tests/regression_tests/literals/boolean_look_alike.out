@@ -1,0 +1,10 @@
+mock:1:5: Invalid expression, no operator found.
+
+{trueIsNotFalse
+ ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateExpressionBlockSourceToTstParser
+   -> ezcTemplateExpressionSourceToTstParser

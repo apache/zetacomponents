@@ -34,7 +34,7 @@ class ezcTemplateLiteralSourceToTstParser extends ezcTemplateSourceToTstParser
     public $value;
 
     /**
-     * The parsed element object which defines the type or null if notthing
+     * The parsed element object which defines the type or null if nothing
      * was parsed.
      */
     public $element;
@@ -63,18 +63,13 @@ class ezcTemplateLiteralSourceToTstParser extends ezcTemplateSourceToTstParser
         if ( !$cursor->atEnd() )
         {
             // Try parsing the various type types until one is found
-
             $failedCursor = clone $cursor;
 
-            // @todo We should add null parser too, but only so it can give a failure back
-            // to the user, since null should not be used
             $types = array( 'Float', 'Integer', 'String', 'Bool', 'Array' );
             foreach ( $types as $type )
             {
                 if ( $this->parseOptionalType( $type ) )
                 {
-                    if ( $this->lastParser->status == self::PARSE_PARTIAL_SUCCESS )
-                        return false;
                     $this->lastCursor->copy( $this->startCursor );
                     $this->value = $this->lastParser->value;
                     $this->element = $this->lastParser->element;
@@ -82,6 +77,7 @@ class ezcTemplateLiteralSourceToTstParser extends ezcTemplateSourceToTstParser
                 }
             }
 
+            // TODO REMOVE THIS.
             $this->operationState = self::STATE_NO_KNOWN_TYPE;
         }
         return false;
@@ -89,6 +85,7 @@ class ezcTemplateLiteralSourceToTstParser extends ezcTemplateSourceToTstParser
 
     protected function generateErrorMessage()
     {
+        die ("Parent parser should know what to do if no literal matches. Remove this.");
         switch ( $this->operationState )
         {
             case self::STATE_NO_KNOWN_TYPE:
@@ -100,6 +97,7 @@ class ezcTemplateLiteralSourceToTstParser extends ezcTemplateSourceToTstParser
 
     protected function generateErrorDetails()
     {
+        die ("Parent parser should know what to do if no literal matches. Remove this.");
         if ( $this->operationState == self::STATE_NON_LOWERCASE )
             return "Supports types: floats, integers, strings, booleans and arrays.";
         // Default error details handler.

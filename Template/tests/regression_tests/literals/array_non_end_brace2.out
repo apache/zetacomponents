@@ -1,0 +1,13 @@
+mock:1:10: A literal type is expected
+
+{var $a = array( 12,
+                     ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateDeclarationBlockSourceToTstParser
+   -> ezcTemplateExpressionSourceToTstParser
+    -> ezcTemplateLiteralSourceToTstParser
+     -> ezcTemplateArraySourceToTstParser
+      -> ezcTemplateLiteralSourceToTstParser
