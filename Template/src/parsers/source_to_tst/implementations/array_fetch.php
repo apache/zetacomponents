@@ -30,6 +30,8 @@ class ezcTemplateArrayFetchSourceToTstParser extends ezcTemplateSourceToTstParse
      */
     public $fetch;
 
+    const MSG_EXPECT_EXPRESSION = "Expression expected";
+
     /**
      * Passes control to parent.
     */
@@ -80,27 +82,32 @@ class ezcTemplateArrayFetchSourceToTstParser extends ezcTemplateSourceToTstParse
 
         $failedParser = null;
 
+        if( !$cursor->match("[") )
+        {
+            return false;
+        }
+        
         // $cursor will be update as the parser continues
         $this->fetch = $this->parser->createArrayFetch( clone $this->startCursor, $cursor );
 
-        // skip the [ character
-        $cursor->advance();
-
         while ( !$cursor->atEnd() )
         {
-            // skip whitespace and comments
-            if ( !$this->findNextElement() )
-                return false;
+            $this->findNextElement();
 
             if ( $this->atEnd( $cursor, null ) )
+            {
                 // We allow for no expression, ie. a [] call.
                 return true;
+            }
 
             // Check for expression, the parser will call self::atEnd() to check for end of expression.
             $expressionParser = new ezcTemplateExpressionSourceToTstParser( $this->parser, $this, null );
             $expressionParser->allowIdentifier = true;
+
             if ( !$this->parseRequiredType( $expressionParser ) )
-                return false;
+            {
+                throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_EXPECT_EXPRESSION );
+            }
 
             return true;
         }
