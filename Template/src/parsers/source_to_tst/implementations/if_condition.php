@@ -83,7 +83,7 @@ class ezcTemplateIfConditionSourceToTstParser extends ezcTemplateSourceToTstPars
         // handle opening block
 
         if ( $this->parser->debug )
-            echo "Starting foreach loop\n";
+            echo "Starting if\n";
 
         // parse the conditional expression
 

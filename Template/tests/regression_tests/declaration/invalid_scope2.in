@@ -1,0 +1,6 @@
+{foreach array(1) as $a}
+{/foreach}
+
+{foreach array(1) as $a}
+{var $b}
+{/foreach}

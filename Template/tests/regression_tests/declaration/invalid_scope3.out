@@ -1,7 +1,7 @@
-mock:3:1: The symbol <$a> is already declared.
+mock:3:9: The variable <$b> is cannot be declared in a subblock: while, foreach, if, etc
 
-{var $a}
-^
+        {var $b}
+        ^
 
 failed in:
 ezcTemplateProgramSourceToTstParser

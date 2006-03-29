@@ -1,6 +1,6 @@
-mock:3:1: The symbol <$a> is already declared.
+mock:2:1: 'Use' should be declared before other declarations
 
-{var $a}
+{use $b}
 ^
 
 failed in:

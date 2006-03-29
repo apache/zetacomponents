@@ -1,3 +1,5 @@
+{use $myuse}
+{cycle $mycycle}
 {var $a = 5, $b, $c = "hello", $d = 2*3, $e = $a}
 {$a}
 {$b = 2}{$b}
@@ -7,3 +9,4 @@
 {foreach array("key" => "value") as $a => $x}
 {$a} {$x}
 {/foreach}
+{var $z = 2}

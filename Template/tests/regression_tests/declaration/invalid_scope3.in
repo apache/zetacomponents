@@ -1,0 +1,5 @@
+{foreach array(1) as $a}
+    {foreach array(1) as $q}
+        {var $b}
+    {/foreach}
+{/foreach}

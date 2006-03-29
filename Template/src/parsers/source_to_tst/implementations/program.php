@@ -210,6 +210,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
             if ( $element->isClosingBlock )
             {
                 $this->closeOpenBlock( $element );
+                $this->parser->symbolTable->decreaseScope();
                 continue;
             }
 
@@ -239,6 +240,8 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
 
                 $element->parentBlock = $this->lastBlock;
                 $this->lastBlock = $element;
+
+                $this->parser->symbolTable->increaseScope();
                 continue;
             }
 

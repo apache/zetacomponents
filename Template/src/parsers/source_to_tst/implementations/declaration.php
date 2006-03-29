@@ -54,10 +54,14 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
-        if( $this->currentCursor->match("var") )
-        {
-            $symbolType = ezcTemplateSymbolTable::VARIABLE; 
+        $symbolType = null;
 
+        if ( $this->currentCursor->match( "var" ) )       $symbolType = ezcTemplateSymbolTable::VARIABLE;
+        elseif ( $this->currentCursor->match( "cycle" ) ) $symbolType = ezcTemplateSymbolTable::CYCLE;
+        elseif ( $this->currentCursor->match( "use" ) )   $symbolType = ezcTemplateSymbolTable::IMPORT;
+
+        if( $symbolType !== null )
+        {
             $this->status = self::PARSE_PARTIAL_SUCCESS;
             $this->findNextElement();
 
