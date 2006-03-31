@@ -27,22 +27,27 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
     /**
      * No starting brace for function call.
      */
-    const STATE_NO_STARTING_BRACE = 1;
+//    const STATE_NO_STARTING_BRACE = 1;
+//
+//    /**
+//     * No ending brace for function call.
+//     */
+//    const STATE_NO_ENDING_BRACE = 2;
+//
+//    /**
+//     * A comma is required between parameters, it is missing.
+//     */
+//    const STATE_MISSING_COMMA = 3;
+//
+//    /**
+//     * No expresssion was found for parameter.
+//     */
+//    const STATE_NO_EXPRESSION = 4;
 
-    /**
-     * No ending brace for function call.
-     */
-    const STATE_NO_ENDING_BRACE = 2;
 
-    /**
-     * A comma is required between parameters, it is missing.
-     */
-    const STATE_MISSING_COMMA = 3;
-
-    /**
-     * No expresssion was found for parameter.
-     */
-    const STATE_NO_EXPRESSION = 4;
+    const MSG_PARAMETER_EXPECTS_EXPRESSION = "Parameter %s expects a value.";
+    const MSG_FUNCTION_EXPECTS_END_BRACE = "Missing ending brace for the function call.";
+    const MSG_FUNCTION_EXPECTS_END_BRACE_OR_COMMA = "Missing ending brace or comma for the function call.";
 
     /**
      * The function call object if the parser was succesful.
@@ -70,7 +75,7 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
         {
 //            if ( !$finalize )
                 return true;
-
+/*
             $endCursor = clone $cursor;
             $cursor->advance( 1 );
             if ( $operator !== null )
@@ -84,6 +89,7 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
                 $this->functionCall->endCursor = $endCursor;
             }
             return true;
+            */
         }
         else if ( $this->readingParameter &&
                   $cursor->current() == ',' )
@@ -98,6 +104,10 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
      * using the generic expression parser.
      * The expression will callback the atEnd() function to figure out if the
      * end is reached or not.
+     *
+     * Look ahead: Identifier '('
+     * Complete  : Identifier '(' ( Parameter ( ',' Parameter )* )? ')'
+     * 
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
@@ -110,129 +120,138 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
         if ( !$this->findNextElement() )
             return false;
 
-        $matches = $cursor->pregMatch( "#^[a-zA-Z_][a-zA-Z0-9_]*#" );
-        if ( $matches === false )
+        $this->functionCall->name = $cursor->pregMatch( "#^[a-zA-Z_][a-zA-Z0-9_]*#" );
+        if ( $this->functionCall->name === false )
             return false;
 
-        $this->functionCall->name = $matches[0][0];
-        $cursor->advance( strlen( $matches[0][0] ) );
+        $this->findNextElement();
 
-        // skip whitespace and comments
-        if ( !$this->findNextElement() )
+        if ( !$cursor->match( '(' ) )
         {
             return false;
         }
 
-        if ( $cursor->current() != '(' )
-        {
-            $this->operationState = self::STATE_NO_STARTING_BRACE;
-            return false;
-        }
-
-        // skip the ( character
-        $cursor->advance();
         $this->status = self::PARSE_PARTIAL_SUCCESS;
 
-        $i = 0;
-        $this->parameterCount = 0;
-        while ( !$cursor->atEnd() )
-        {
-            $this->operationState = self::STATE_NO_ENDING_BRACE;
-            // skip whitespace and comments
-            if ( !$this->findNextElement() )
-                return false;
+        $this->findNextElement();
 
-            if ( $cursor->current() == ')' )
+        //$i = 0;
+        $this->parameterCount = 1;
+
+        if( !$this->parseParameter( $cursor ) )
+        {
+            $this->findNextElement();
+            if( !$cursor->match( ')' ) )
+            {
+                throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_FUNCTION_EXPECTS_END_BRACE );
+            }
+
+            $this->functionCall->endCursor = clone $cursor;
+            $this->appendElement( $this->functionCall );
+            return true;
+        }
+
+        while ( true )
+        {
+            $this->findNextElement();
+
+            if ( $cursor->match( ')' ) )
             {
                 $this->functionCall->endCursor = clone $cursor;
-                $cursor->advance( 1 );
                 $this->appendElement( $this->functionCall );
                 return true;
             }
 
-            if ( $i > 0 )
+            if ( !$cursor->match(',') )
             {
-                if ( $cursor->current() != ',' )
-                {
-                    $this->operationState = self::STATE_MISSING_COMMA;
-                    return false;
-                }
-
-                // skip whitespace and comments
-                if ( !$this->findNextElement() )
-                    return false;
-
-                $cursor->advance();
+                throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_FUNCTION_EXPECTS_END_BRACE_OR_COMMA );
             }
-            ++$i;
+
+            $this->findNextElement();
+
             ++$this->parameterCount;
 
-            $this->operationState = false;
-            $this->readingParameter = true;
-            // Check for expression, the parser will call self::atEnd() to check for end of expression.
-            $expressionStartCursor = clone $cursor;
-            $expressionParser = new ezcTemplateExpressionSourceToTstParser( $this->parser, $this, null );
-            $expressionParser->allowIdentifier = true;
-            if ( !$this->parseRequiredType( $expressionParser ) )
-                return false;
+            //$this->operationState = false;
 
-            $rootOperator = $this->lastParser->currentOperator;
-            if ( $rootOperator instanceof ezcTemplateOperatorTstNode )
+            if( !$this->parseParameter( $cursor ) )
             {
-                $rootOperator = $rootOperator->getRoot();
-
-                if ( $this->parser->debug )
-                {
-                    // *** DEBUG START ***
-                    echo "\n\n\n parameter expression yielded:\n";
-                    echo "<", $expressionStartCursor->subString( $cursor->position ), ">\n";
-                    echo ezcTemplateTstTreeOutput::output( $rootOperator );
-                    echo "\n\n\n";
-                    // *** DEBUG END ***
-                }
+                throw new ezcTemplateSourceToTstParserException( $this, $cursor, sprintf( self::MSG_PARAMETER_EXPECTS_EXPRESSION, $this->parameterCount ) );
             }
-            if ( $rootOperator === null )
+
+        }
+    }
+
+    protected function parseParameter( $cursor )
+    {
+        // Without this, the expression parser keeps on reading.
+        if( $cursor->match( ')', false ) )
+        {
+            return false;
+        }
+
+        $this->readingParameter = true;
+
+        // Check for expression, the parser will call self::atEnd() to check for end of expression.
+        $expressionStartCursor = clone $cursor;
+        $expressionParser = new ezcTemplateExpressionSourceToTstParser( $this->parser, $this, null );
+        $expressionParser->allowIdentifier = true;
+        if ( !$this->parseRequiredType( $expressionParser ) || $this->lastParser->currentOperator === null )
+        {
+            return false;
+        }
+
+        $rootOperator = $this->lastParser->currentOperator;
+        if ( $rootOperator instanceof ezcTemplateOperatorTstNode )
+        {
+            $rootOperator = $rootOperator->getRoot();
+
+            if ( $this->parser->debug )
             {
-                $this->operationState = self::STATE_NO_EXPRESSION;
-                return false;
+                // *** DEBUG START ***
+                echo "\n\n\n parameter expression yielded:\n";
+                echo "<", $expressionStartCursor->subString( $cursor->position ), ">\n";
+                echo ezcTemplateTstTreeOutput::output( $rootOperator );
+                echo "\n\n\n";
+                // *** DEBUG END ***
             }
-            $this->functionCall->appendParameter( $rootOperator );
-
-            $this->readingParameter = false;
         }
-        return false;
+
+        $this->functionCall->appendParameter( $rootOperator );
+
+        $this->readingParameter = false;
+        return true;
     }
 
-    protected function generateErrorMessage()
-    {
-        switch ( $this->operationState )
-        {
-            case self::STATE_NO_STARTING_BRACE:
-                return "Missing starting brace for function call.";
-            case self::STATE_NO_ENDING_BRACE:
-                return "Missing ending brace for function call.";
-            case self::STATE_MISSING_COMMA:
-                return "A comma is required between parameters, it is missing.";
-            case self::STATE_NO_EXPRESSION:
-                return "Missing type or expresssion for parameter {$this->parameterCount} of function call {$this->functionCall->name}().";
-        }
-        // Default error message handler.
-        return parent::generateErrorMessage();
-    }
-
-    protected function generateErrorDetails()
-    {
-        switch ( $this->operationState )
-        {
-            case self::STATE_NO_STARTING_BRACE:
-            case self::STATE_NO_ENDING_BRACE:
-            case self::STATE_MISSING_COMMA:
-            case self::STATE_NO_EXPRESSION:
-                return "Accepted syntax is: functionName( PARAMETER [, PARAMETER ...] )";
-        }
-        // Default error details handler.
-        return parent::generateErrorDetails();
-    }
+//    protected function generateErrorMessage()
+//    {
+//        switch ( $this->operationState )
+//        {
+//            case self::STATE_NO_STARTING_BRACE:
+//                return "Missing starting brace for function call.";
+//            case self::STATE_NO_ENDING_BRACE:
+//                return "Missing ending brace for function call.";
+//            case self::STATE_MISSING_COMMA:
+//                return "A comma is required between parameters, it is missing.";
+//            case self::STATE_NO_EXPRESSION:
+//                return "Missing type or expresssion for parameter {$this->parameterCount} of function call {$this->functionCall->name}().";
+//        }
+//        // Default error message handler.
+//        return parent::generateErrorMessage();
+//    }
+//
+//    protected function generateErrorDetails()
+//    {
+//        switch ( $this->operationState )
+//        {
+//            case self::STATE_NO_STARTING_BRACE:
+//            case self::STATE_NO_ENDING_BRACE:
+//            case self::STATE_MISSING_COMMA:
+//            case self::STATE_NO_EXPRESSION:
+//                return "Accepted syntax is: functionName( PARAMETER [, PARAMETER ...] )";
+//        }
+//        // Default error details handler.
+//        return parent::generateErrorDetails();
+//    }
 }
 
 ?>

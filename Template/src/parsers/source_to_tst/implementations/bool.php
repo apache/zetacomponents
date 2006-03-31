@@ -44,13 +44,13 @@ class ezcTemplateBoolSourceToTstParser extends ezcTemplateLiteralSourceToTstPars
         {
             // @todo This should check that there is no alphabetical characters
             //       after the true|false.
-            $matches = $cursor->pregMatch( "#^(true|false)#i" );
+            $matches = $cursor->pregMatchComplete( "#^(true|false)(?:\W)#i" );
             if ( $matches === false )
                 return false;
 
+            $name = $matches[1][0];
             $this->status = self::PARSE_PARTIAL_SUCCESS;
 
-            $name = $matches[0][0];
             $lower = strtolower( $name );
             if ( $name !== $lower )
             {
@@ -58,9 +58,9 @@ class ezcTemplateBoolSourceToTstParser extends ezcTemplateLiteralSourceToTstPars
                 throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, self::MSG_NON_LOWERCASE_BOOLEAN, self::LNG_ALLOWED_BOOLEANS ); 
             }
 
-            $cursor->advance( strlen( $matches[0][0] ) );
+            $cursor->advance( strlen( $name ) );
             $bool = $this->parser->createLiteral( $this->startCursor, $cursor );
-            $bool->value = $matches[0][0] == 'true' ? true : false;
+            $bool->value = $name == 'true';
             $this->value = $bool->value;
             $this->element = $bool;
             $this->appendElement( $bool );

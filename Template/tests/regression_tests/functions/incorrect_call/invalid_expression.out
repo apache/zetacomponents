@@ -1,0 +1,11 @@
+mock:1:1: Parameter 2 expects a value.
+
+{my_func( "
+                 ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateExpressionBlockSourceToTstParser
+   -> ezcTemplateExpressionSourceToTstParser
+    -> ezcTemplateFunctionCallSourceToTstParser

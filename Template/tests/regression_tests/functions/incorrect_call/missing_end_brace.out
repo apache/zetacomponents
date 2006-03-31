@@ -1,0 +1,12 @@
+mock:1:1: Missing ending brace for the function call.
+
+{str_len(}
+         ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateExpressionBlockSourceToTstParser
+   -> ezcTemplateExpressionSourceToTstParser
+    -> ezcTemplateFunctionCallSourceToTstParser
+     -> ezcTemplateExpressionSourceToTstParser

@@ -37,7 +37,7 @@ class ezcTemplateEolCommentSourceToTstParser extends ezcTemplateSourceToTstParse
         {
             $cursor->advance( 2 );
 
-            $matches = $cursor->pregMatch( "#^([^}\r\n]+)(?:(?:})|(\r|\r\n|\n))#" );
+            $matches = $cursor->pregMatchComplete( "#^([^}\r\n]+)(?:(?:})|(\r|\r\n|\n))#" );
             if ( $matches )
             {
                 // reached end of comment

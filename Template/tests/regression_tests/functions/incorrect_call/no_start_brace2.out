@@ -1,0 +1,9 @@
+mock:1:1: The expression is not valid
+
+{var $a = s
+         ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateDeclarationBlockSourceToTstParser

@@ -107,6 +107,8 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
         if ( !$this->parseRequiredType( $expressionParser /*'Expression'*/, $this->startCursor, false ) )
             return false;
 
+        $this->findNextElement();
+
         $rootOperator = $this->lastParser->currentOperator;
         if ( $rootOperator instanceof ezcTemplateOperatorTstNode )
         {

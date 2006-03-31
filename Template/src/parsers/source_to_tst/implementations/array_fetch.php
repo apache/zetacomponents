@@ -40,36 +40,7 @@ class ezcTemplateArrayFetchSourceToTstParser extends ezcTemplateSourceToTstParse
         parent::__construct( $parser, $parentParser, $startCursor );
     }
 
-    /**
-     * Figures out if the end as been reached and returns true if it has.
-     *
-     * The end is reached when it finds the character ].
-     */
-    public function atEnd( ezcTemplateCursor $cursor, /*ezcTemplateTstNode*/ $operator, $finalize = true )
-    {
-        if ( $cursor->current() == ']' )
-        {
-            if ( !$finalize )
-                return true;
-
-            $endCursor = clone $cursor;
-            $cursor->advance( 1 );
-            if ( $operator !== null )
-            {
-                $this->fetch->endCursor = clone $operator->endCursor;
-                $this->fetch->appendParameter( $operator );
-                $this->parser->reportElementCursor( $this->fetch->startCursor, $this->fetch->endCursor, $this->fetch );
-            }
-            else
-            {
-                $this->fetch->endCursor = $endCursor;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
+   /**
      * Parses the array fetch expression by using the generic expression parser.
      * The expression will callback the atEnd() function to figure out if the
      * end is reached or not.
@@ -90,17 +61,10 @@ class ezcTemplateArrayFetchSourceToTstParser extends ezcTemplateSourceToTstParse
         // $cursor will be update as the parser continues
         $this->fetch = $this->parser->createArrayFetch( clone $this->startCursor, $cursor );
 
-        while ( !$cursor->atEnd() )
+        while ( true )
         {
             $this->findNextElement();
 
-            if ( $this->atEnd( $cursor, null ) )
-            {
-                // We allow for no expression, ie. a [] call.
-                return true;
-            }
-
-            // Check for expression, the parser will call self::atEnd() to check for end of expression.
             $expressionParser = new ezcTemplateExpressionSourceToTstParser( $this->parser, $this, null );
             $expressionParser->allowIdentifier = true;
 
@@ -108,6 +72,10 @@ class ezcTemplateArrayFetchSourceToTstParser extends ezcTemplateSourceToTstParse
             {
                 throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_EXPECT_EXPRESSION );
             }
+
+                $this->fetch->endCursor = clone $this->lastParser->currentOperator->endCursor;
+                $this->fetch->appendParameter( $this->lastParser->currentOperator );
+                $this->parser->reportElementCursor( $this->fetch->startCursor, $this->fetch->endCursor, $this->fetch );
 
             return true;
         }

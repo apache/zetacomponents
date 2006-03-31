@@ -67,7 +67,14 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
         // Try to parse as an expression, if this fails the normal block parser
         // is tried.
         if ( $this->parseOptionalType( 'ExpressionBlock', $this->startCursor ) )
+        {
+            if( !$this->currentCursor->match('}') )
+            {
+                die("Expected closing brace");
+            }
+
             return $this->lastParser->status == self::PARSE_SUCCESS;
+        }
 
         // skip whitespace and comments
         if ( !$this->findNextElement() )

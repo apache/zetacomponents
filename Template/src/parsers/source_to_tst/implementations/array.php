@@ -73,15 +73,14 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
             return false;
 
         // @todo Check for non-lowercase array entry, give partial success then.
-        $matches = $cursor->pregMatch( "#^array[^\w]#i" );
-        if ( $matches === false )
+        $name = $cursor->pregMatch( "#^array[^\w]#i", false );
+        if ( $name === false )
         {
             return false;
         }
 
         $this->status = self::PARSE_PARTIAL_SUCCESS;
 
-        $name = $matches[0][0];
         $lower = strtolower( $name );
         if ( $name !== $lower )
         {

@@ -1,0 +1,12 @@
+mock:2:5: Operand expected
+
+{$a[ 0 + ]}
+         ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateExpressionBlockSourceToTstParser
+   -> ezcTemplateExpressionSourceToTstParser
+    -> ezcTemplateArrayFetchSourceToTstParser
+     -> ezcTemplateExpressionSourceToTstParser

@@ -1,0 +1,12 @@
+mock:2:12: Expression expected
+
+{var $b = $a[] + 2}
+             ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateDeclarationBlockSourceToTstParser
+   -> ezcTemplateExpressionSourceToTstParser
+    -> ezcTemplateArrayFetchSourceToTstParser
+     -> ezcTemplateExpressionSourceToTstParser

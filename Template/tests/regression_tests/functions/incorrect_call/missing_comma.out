@@ -1,0 +1,11 @@
+mock:1:1: Missing ending brace or comma for the function call.
+
+{math_add( 
+               ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateExpressionBlockSourceToTstParser
+   -> ezcTemplateExpressionSourceToTstParser
+    -> ezcTemplateFunctionCallSourceToTstParser

@@ -259,11 +259,8 @@ abstract class ezcTemplateSourceToTstParser
         if ( $this->currentCursor->atEnd() )
             return false;
 
-        $matches = $this->currentCursor->pregMatch( "#^(\r\n|[\r\n\t ])+#" );
-        if ( !$matches )
+        if ( $this->currentCursor->pregMatch( "#^(\r\n|[\r\n\t ])+#") === false )
             return true;
-
-        $this->currentCursor->advance( strlen( $matches[0][0] ) );
 
         return !$this->currentCursor->atEnd();
     }
@@ -700,12 +697,11 @@ abstract class ezcTemplateSourceToTstParser
         {
             return false;
         }
-        $matches = $this->currentCursor->pregMatch( "#^[a-z]+#" );
-        if ( $matches === false )
+        
+        if ( $this->currentCursor->pregMatch( "#^[a-z]+#" ) === false )
         {
             return false;
         }
-        $this->currentCursor->advance( strlen( $matches[0][0]) );
     }
 
     /**

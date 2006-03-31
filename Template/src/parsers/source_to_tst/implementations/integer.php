@@ -37,9 +37,8 @@ class ezcTemplateIntegerSourceToTstParser extends ezcTemplateLiteralSourceToTstP
             $matches = $cursor->pregMatch( "#^-?[0-9]+#" );
             if ( $matches !== false )
             {
-                $cursor->advance( strlen( $matches[0][0] ) );
                 $integer = $this->parser->createLiteral( $this->startCursor, $cursor );
-                $integer->value = (int)$matches[0][0];
+                $integer->value = (int)$matches;
                 $this->value = $integer->value;
                 $this->element = $integer;
                 $this->appendElement( $integer );

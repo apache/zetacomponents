@@ -68,7 +68,7 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
             return true;
         }
         // Check for parameter assignment
-        if ( $cursor->pregMatch( "#^[$]?[a-zA-Z_][a-zA-Z0-9_]*[ \t\r\n]*=[^=]#" ) )
+        if ( $cursor->pregMatchComplete( "#^[$]?[a-zA-Z_][a-zA-Z0-9_]*[ \t\r\n]*=[^=]#" ) )
         {
             return true;
         }
@@ -86,7 +86,7 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
         // Check for the name of the custom block
         // Note: The code inside the (?:) brace ensures that the next character
         // is not an alphabetical character ie. a word boundary
-        $matches = $cursor->pregMatch( "#^([a-zA-Z_][a-zA-Z0-9_-]*)(?:[^a-zA-Z])#i" );
+        $matches = $cursor->pregMatchComplete( "#^([a-zA-Z_][a-zA-Z0-9_-]*)(?:[^a-zA-Z])#i" );
 
         if ( $matches === false )
             return false;
@@ -171,7 +171,7 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
                 return false;
             }
 
-            $matches = $cursor->pregMatch( "#^(=)(?:[^=])#" );
+            $matches = $cursor->pregMatchComplete( "#^(=)(?:[^=])#" );
             if ( $matches === false )
             {
                 $this->operationState = self::STATE_WRONG_ASSIGNMENT;

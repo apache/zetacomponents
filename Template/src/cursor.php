@@ -323,6 +323,8 @@ class ezcTemplateCursor
         return substr( $this->text, $this->position, $length );
     }
 
+
+
     /**
      * Performs a preg_match() on the current position to figure out if the
      * pattern matches. The preg_match() will be called with PREG_OFFSET_CAPTURE
@@ -332,10 +334,12 @@ class ezcTemplateCursor
      * @note To check that a pattern matches immediately at the start position use the
      *       ^ in the pattern string.
      *
+     * 
+     * 
      * @param tring $pattern The pattern which is passed to preg_match().
      * @return The result of the preg_match() if successful or false it it failed.
      */
-    public function pregMatch( $pattern )
+    public function pregMatchComplete( $pattern )
     {
         if ( $this->position === strlen( $this->text ) )
             return false;
@@ -343,7 +347,28 @@ class ezcTemplateCursor
         if ( !preg_match( $pattern, substr( $this->text, $this->position ), $matches, PREG_OFFSET_CAPTURE ) )
             return false;
 
+
         return $matches;
+    }
+
+    /**
+     * Does a pregMatchComplete and returns only the [0][0] part.
+     */
+    public function pregMatch( $pattern, $advance = true )
+    {
+        $matches = $this->pregMatchComplete( $pattern );
+
+        if( $matches === false ) 
+        {
+            return false;
+        }
+
+        if( $advance )
+        {
+            $this->advance( strlen( $matches[0][0] ) );
+        }
+
+        return $matches[0][0];
     }
 
 

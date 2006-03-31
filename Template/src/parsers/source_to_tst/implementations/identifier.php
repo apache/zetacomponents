@@ -45,9 +45,8 @@ class ezcTemplateIdentifierSourceToTstParser extends ezcTemplateLiteralSourceToT
             $matches = $cursor->pregMatch( "#^[a-zA-Z_][a-zA-Z0-9_]*#" );
             if ( $matches !== false )
             {
-                $cursor->advance( strlen( $matches[0][0] ) );
                 $identifier = $this->parser->createLiteral( $this->startCursor, $cursor );
-                $identifier->value = (string)$matches[0][0];
+                $identifier->value = (string)$matches;
                 $this->identifierName = $identifier->value;
                 $this->element = $identifier;
                 $this->appendElement( $identifier );

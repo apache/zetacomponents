@@ -58,6 +58,13 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     private function createBinaryOperatorAstNode( $type, ezcTemplateOperatorAstNode $astNode, $addParenthesis = true )
     {
         $astNode->appendParameter( $type->parameters[0]->accept( $this ));
+
+        if( !isset( $type->parameters[1] ) )
+        {
+            // TODO>
+            var_dump ($type );
+        }
+
         $astNode->appendParameter( $type->parameters[1]->accept( $this ));
 
         return ( $addParenthesis ?  new ezcTemplateParenthesisAstNode( $astNode ) : $astNode );

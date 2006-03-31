@@ -57,10 +57,10 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
         }
 
 //        if ( $cursor->current( 2 ) == 'as' )
-        $matches = $cursor->pregMatch( "#^[a-zA-Z]+#" );
+        $matches = $cursor->pregMatch( "#^[a-zA-Z]+#", false );
         if ( $matches !== false )
         {
-            if ( $matches[0][0] == 'as' )
+            if ( $matches == 'as' )
                 return true;
         }
         return false;

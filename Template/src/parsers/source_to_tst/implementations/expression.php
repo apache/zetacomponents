@@ -107,24 +107,71 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
      *
      * When an operator is found it will call ezcTemplateParser::handleOperatorPrecedence()
      * to get proper order of operators in the tree.
+     *
+     * Look ahead: Operand 
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
         $this->expressionStartCursor = clone $this->currentCursor;
 
-        // skip whitespace and comments
-        if ( !$this->findNextElement() )
+        $this->findNextElement();
+        
+        
+        $this->state = 'operand';
+
+
+        // If it has a preOperator, it must have an operand.
+        if( $this->parsePreOperator( $cursor ) )
         {
+            if( !$this->parseOperand( $cursor ) )
+            {
+                die ("OPERAND EXPECTED");
+            }
+        }
+        else if( !$this->parseOperand( $cursor ) ) // Only an operand?
+        {
+            // No, then it's not an expression.
             return false;
         }
 
-        $this->state = 'operand';
+        // Optional a post operator.
+        $this->parsePostOperator( $cursor );
 
-        $allowIdentifier = $this->allowIdentifier;
+        while ( true )
+        {
+            ////  Operator check. //// 
+            $this->findNextElement();
+
+            if( $this->parseArrayFetch( $cursor ) )
+            {
+                $this->findNextElement();
+            }
+
+            if( !$this->parseOperator( $cursor ) )
+            {
+                return true;
+            }
+
+            // An operand is mandantory.
+            $this->findNextElement();
+
+            $failedCursor = clone $cursor;
+            $this->parsePreOperator( $cursor );
+
+            if( !$this->parseOperand( $cursor ) )
+            {
+                throw new ezcTemplateSourceToTstParserException( $this, $cursor, "Operand expected");
+            }
+
+            $this->parsePostOperator( $cursor );
+        }
+
+// Never reached.
         while ( !$cursor->atEnd() )
         {
             if ( $this->parser->debug )
                 echo "state is <", $this->state, ">\n";
+
             if ( $this->state == 'operand' )
             {
                 // skip whitespace and comments
@@ -136,102 +183,230 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 // Stop if we are at end of expression
                 if ( $this->parentParser->atEnd( $cursor, $this->currentOperator ) )
                 {
+                    /*
                     if ( !$this->allowEmptyExpressions &&
                          count( $this->elements ) === 0 )
                     {
                         $this->operationState = self::STATE_NO_OPERAND;
                         return false;
                     }
+                    */
                     return true;
-                }
-
-                // Check if we have a subexpression
-                if ( $cursor->current() == '(' )
-                {
-                    $expressionCursor = clone $cursor;
-                    $expressionCursor->advance();
-                    $expressionParser = new ezcTemplateExpressionBlockSourceToTstParser( $this->parser, $this, null );
-                    $expressionParser->setAllCursors( $expressionCursor );
-                    $expressionParser->startCursor = clone $cursor;
-                    $expressionParser->startBracket = '(';
-                    $expressionParser->endBracket = ')';
-                    if ( !$this->parseRequiredType( $expressionParser ) )
-                    {
-                        return false;
-                    }
-                    $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->block );
-                    $this->state = 'operator';
-                    continue;
                 }
 
                 $failedCursor = clone $cursor;
 
-                // Try parsing a type
-                if ( $this->parseOptionalType( 'Literal' ) )
+                $this->parsePreOperator( $cursor );
+
+                if( !$this->parseOperand( $cursor ) )
                 {
-                    if ( $this->lastParser->status == self::PARSE_PARTIAL_SUCCESS )
-                    {
-                        return false;
-                    }
-                    $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );
-                    $this->state = 'operator';
+                    die ("OPERAND EXPECTED!!!");
+                }
+               
+                $this->parsePostOperator( $cursor );
+
+
+                $this->state = 'operator';
+                /*
+                if( $this->parsePreOperator( $cursor ) )
+                {
+                    $this->state = 'operand';
                     continue;
                 }
+                */
 
-                // Try parsing a variable
-                if ( $this->parseOptionalType( 'Variable' ) )
+                // No operand found so we perform a failure at the end of the function
+                //$this->operationState = self::STATE_NO_OPERAND;
+                //return false;
+            }
+            elseif ( $this->state == 'operator' )
+            {
+                // Since at least one operand has been read we mark this parser
+                // as having parsed something.
+                $this->status = self::PARSE_PARTIAL_SUCCESS;
+
+                // Restore identifier allowance from value in object.
+
+                // skip whitespace and comments
+                if ( !$this->findNextElement() )
                 {
-                    if ( $this->lastParser->status == self::PARSE_PARTIAL_SUCCESS )
+                    return true; //false;
+                }
+
+                // Stop if we are at end of expression
+                if ( $this->parentParser->atEnd( $cursor, $this->currentOperator ) )
+                {
+                    /*
+                    if ( count( $this->elements ) === 0 )
                     {
+                        $this->operationState = self::STATE_NO_OPERAND;
                         return false;
                     }
+                    */
+                    return true;
+                }
 
-                    $type = $this->parser->symbolTable->retrieve( $this->lastParser->element->name );
-                    if ( $type === false )
-                    {
-                        throw new ezcTemplateSourceToTstParserException( $this, $this->startCursor, $this->parser->symbolTable->getErrorMessage() );
-                    }
+                /*
+                if ( $cursor->current() == ')' )
+                {
+                    $this->operationState = self::STATE_END_BRACE_WITHOUT_START;
+                    return false;
+                }
+                */
 
-                    $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );
-                    $this->state = 'operator';
+
+                if( $this->parseOperator( $cursor ) )
+                {
                     continue;
                 }
-
-                // Try parsing a function call
-                if ( $this->parseOptionalType( 'FunctionCall' ) )
+                else
                 {
-                    if ( $this->lastParser->status == self::PARSE_PARTIAL_SUCCESS )
-                    {
-                        return false;
-                    }
-                    $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->functionCall );
-                    if ( $this->parser->debug )
-                    {
-                        // *** DEBUG START ***
-                        echo "\n\n\n function call parser yielded:\n";
-                        echo ezcTemplateTstTreeOutput::output( $this->lastParser->functionCall );
-                        echo "\n\n\n";
-                        // *** DEBUG END ***
-                    }
-                    $this->state = 'operator';
-                    continue;
+                //$cursor->copy( $this->lastCursor );
+                //$this->operationState = self::STATE_NO_OPERATOR;
+
+                    return true;
                 }
 
-                if ( $allowIdentifier )
-                {
-                    // Try parsing an identifier since it is allowed
-                    if ( $this->parseOptionalType( 'Identifier' ) )
-                    {
-                        if ( $this->lastParser->status == self::PARSE_PARTIAL_SUCCESS )
-                        {
-                            return false;
-                        }
-                        $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );
-                        $this->state = 'operator';
-                        continue;
-                    }
-                }
 
+                // Try the '|' operator, this is part of eZ publish 3.x but not
+                // supported in the this template engine.
+
+                // TODO, move this to the parent parser
+                
+//                if ( $cursor->current() == '|' )
+//                {
+//                    $this->modifierCursor = clone $cursor;
+//                    $cursor->advance();
+//                    $this->findNextElement();
+//                    $this->modifierStartCursor = clone $cursor;
+//                    if ( $this->parseOptionalType( 'Identifier' ) )
+//                    {
+//                        if ( $this->lastParser->status == self::PARSE_PARTIAL_SUCCESS )
+//                        {
+//                            $this->modifierName = false;
+//                            $this->operationState = self::STATE_UNSUPPORTED_OPERATOR_MODIFIER_INVALID;
+//                        }
+//                        else
+//                        {
+//                            $this->modifierName = $this->lastParser->identifierName;
+//                            $this->operationState = self::STATE_UNSUPPORTED_OPERATOR_MODIFIER;
+//                        }
+//                    }
+//                    else
+//                    {
+//                        $this->operationState = self::STATE_UNSUPPORTED_OPERATOR_MODIFIER_INVALID;
+//                    }
+//                    return false;
+//                }
+//            
+//
+//                // Check for the ',' operator, this should not be handled by the expression parser
+//                // but rather by the parent parser which have more knowledge of its usage
+//
+//                // TODO, move this to the parent parser
+//                if ( $cursor->current() == ',' )
+//                {
+//                    // @todo Figure out why startCursor needs to be copied to get correct position
+//                    //       this should not be required
+//                    $this->startCursor->copy( $cursor );
+//                    $this->operationState = self::STATE_OPERATOR_COMMA_NOT_ALLOWED;
+//                    return false;
+//                }
+
+
+
+            }
+            
+
+            // State is not known, internal error.
+            //throw new Exception( "Invalid state <" . $this->state . ">" );
+        }
+        $this->operationState = self::STATE_NO_OPERAND;
+        return false;
+    }
+
+    /**
+     * Makes sure the element list contains the root operator/operand from the
+     * expression.
+     */
+    protected function handleSuccessfulResult( ezcTemplateCursor $lastCursor, ezcTemplateCursor $cursor )
+    {
+        $rootOperator = $this->currentOperator;
+        if ( $rootOperator instanceof ezcTemplateOperatorTstNode )
+        {
+            $rootOperator = $rootOperator->getRoot();
+        }
+        $this->rootOperator = $rootOperator;
+
+        // Make sure element list contains the root
+        $this->elements = array( $this->rootOperator );
+    }
+
+
+    protected function parseOperand( $cursor )
+    {
+        if ( $this->parseOptionalType( 'Literal' ) )
+        {
+            $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );
+        }
+        elseif ( $this->parseOptionalType( 'Variable' ) )
+        {
+            $type = $this->parser->symbolTable->retrieve( $this->lastParser->element->name );
+            if ( $type === false )
+            {
+                throw new ezcTemplateSourceToTstParserException( $this, $this->startCursor, $this->parser->symbolTable->getErrorMessage() );
+            }
+
+            $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );
+        }
+        elseif ( $this->parseOptionalType( 'FunctionCall' ) )
+        {
+            $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->functionCall );
+            if ( $this->parser->debug )
+            {
+                // *** DEBUG START ***
+                echo "\n\n\n function call parser yielded:\n";
+                echo ezcTemplateTstTreeOutput::output( $this->lastParser->functionCall );
+                echo "\n\n\n";
+                // *** DEBUG END ***
+            }
+        }
+        elseif ( $this->allowIdentifier && $this->parseOptionalType( 'Identifier' ) )
+        {
+            // Try parsing an identifier since it is allowed
+            $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );
+        }
+        elseif( $cursor->match( '(' ) )
+        {
+            $expressionCursor = clone $cursor;
+            $expressionParser = new ezcTemplateExpressionBlockSourceToTstParser( $this->parser, $this, null );
+            $expressionParser->setAllCursors( $expressionCursor );
+            $expressionParser->startCursor = clone $cursor;
+            $expressionParser->startBracket = '(';
+            $expressionParser->endBracket = ')';
+
+            if ( !$this->parseRequiredType( $expressionParser ) )
+            {
+                return false;
+            }
+
+            if( !$cursor->match( ')' ) )
+            {
+                exit( "Expected an closing ')' ");
+            }
+
+            $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->block );
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+        protected function parsePreOperator( $cursor )
+        {
                 // Check if we have ++, --, -, ! operators
                 $operator = null;
                 // This will contain the name of the operator if it is found.
@@ -275,6 +450,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     if ( $this->minPrecedence !== false &&
                          $operator->precedence < $this->minPrecedence )
                     {
+                        die ("FOUND MIN PRECEDENCE");
                         $cursor->copy( $operatorStartCursor );
                         return true;
                     }
@@ -296,250 +472,194 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     $this->lastCursor->copy( $cursor );
                     $this->state = 'operand';
                     $this->status = self::PARSE_PARTIAL_SUCCESS;
-                    continue;
+                    return true;
                 }
+                return false;
+        }
 
-                // No operand found so we perform a failure at the end of the function
-                $this->operationState = self::STATE_NO_OPERAND;
+        protected function parsePostOperator( $cursor )
+        {
+            if( $cursor->match( '++' ) )
+            {
+                $operatorStartCursor = clone $cursor;
+                $operator = $this->parser->createPostIncrementOperator( clone $this->lastCursor, $cursor );
+            }
+            elseif(  $cursor->match( '--' ) )
+            {
+                $operatorStartCursor = clone $cursor;
+                $operator = $this->parser->createPostDecrementOperator( clone $this->lastCursor, $cursor );
+            }
+            else
+            {
                 return false;
             }
-            elseif ( $this->state == 'operator' )
+
+            $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
+
+            $this->parser->reportElementCursor( $operator->startCursor, $operator->endCursor, $operator );
+            $this->lastCursor->copy( $cursor );
+
+
+            return true;
+        }
+
+        protected function parseArrayFetch( $cursor )
+        {
+            // Try the special array fetch operator
+            $operator = null;
+            if ( $cursor->current() == '[' )
             {
-                // Since at least one operand has been read we mark this parser
-                // as having parsed something.
-                $this->status = self::PARSE_PARTIAL_SUCCESS;
-
-                // Restore identifier allowance from value in object.
-                $allowIdentifier = $this->allowIdentifier;
-
-                // skip whitespace and comments
-                if ( !$this->findNextElement() )
+                $operatorStartCursor = clone $cursor;
+                if ( !$this->parseRequiredType( 'ArrayFetch' ) )
                 {
                     return false;
                 }
 
-                // Stop if we are at end of expression
-                if ( $this->parentParser->atEnd( $cursor, $this->currentOperator ) )
+                $this->findNextElement();
+                if( !$cursor->match("]") )
                 {
-                    if ( count( $this->elements ) === 0 )
-                    {
-                        $this->operationState = self::STATE_NO_OPERAND;
-                        return false;
-                    }
+                    throw new ezcTemplateSourceToTstParserException( $this, $cursor, "Expect closing ']' in expression");
+                }
+                
+                $operator = $this->lastParser->fetch;
+
+                // If the min precedence has been reached we immediately stop parsing
+                // and return a successful parse result
+                if ( $this->minPrecedence !== false &&
+                $operator->precedence < $this->minPrecedence )
+                {
+                    $cursor->copy( $operatorStartCursor );
                     return true;
                 }
 
-                if ( $cursor->current() == ')' )
-                {
-                    $this->operationState = self::STATE_END_BRACE_WITHOUT_START;
-                    return false;
-                }
-
-                // Try som generic operators
-                $operator = null;
-                // This will contain the name of the operator if it is found.
-                $operatorName = false;
-
-                $operatorSymbols = array( array( 10,
-                                                 array( 'instanceof' ) ),
-                                          array( 3,
-                                                 array( '===', '!==' ) ),
-                                          array( 2,
-                                                 array( '->',
-                                                        '==', '!=',
-                                                        '<=', '>=',
-                                                        '&&', '||',
-                                                        '+=', '-=', '*=', '/=', '.=', '%=',
-                                                        '++', '--' ) ),
-                                          array( 1,
-                                                 array( '+', '-', '.',
-                                                        '*', '/', '%',
-                                                        '<', '>',
-                                                        '=' ) ) );
-                foreach ( $operatorSymbols as $symbolEntry )
-                {
-                    $chars = $cursor->current( $symbolEntry[0] );
-                    if ( in_array( $chars, $symbolEntry[1] ) )
-                    {
-                        $operatorName = $chars;
-                        break;
-                    }
-                }
-
-                if ( $operatorName !== false )
-                {
-                    $operatorStartCursor = clone $cursor;
-                    $cursor->advance( strlen( $operatorName ) );
-                    if ( $this->parser->debug )
-                        echo "operator {$operatorName} <", $this->lastCursor->subString( $cursor->position ), ">\n";
-                    $operatorMap = array( '+' => 'PlusOperator',
-                                          '-' => 'MinusOperator',
-                                          '.' => 'ConcatOperator',
-
-                                          '*' => 'MultiplicationOperator',
-                                          '/' => 'DivisionOperator',
-                                          '%' => 'ModuloOperator',
-
-                                          '->' => 'PropertyFetch',
-
-                                          '==' => 'EqualOperator',
-                                          '!=' => 'NotEqualOperator',
-
-                                          '===' => 'IdenticalOperator',
-                                          '!==' => 'NotIdenticalOperator',
-
-                                          '<' => 'LessThanOperator',
-                                          '>' => 'GreaterThanOperator',
-
-                                          '<=' => 'LessEqualOperator',
-                                          '>=' => 'GreaterEqualOperator',
-
-                                          '&&' => 'LogicalAndOperator',
-                                          '||' => 'LogicalOrOperator',
-
-                                          '=' => 'AssignmentOperator',
-                                          '+=' => 'PlusAssignmentOperator',
-                                          '-=' => 'MinusAssignmentOperator',
-                                          '*=' => 'MultiplicationAssignmentOperator',
-                                          '/=' => 'DivisionAssignmentOperator',
-                                          '.=' => 'ConcatAssignmentOperator',
-                                          '%=' => 'ModuloAssignmentOperator',
-
-                                          '++' => 'PostIncrementOperator',
-                                          '--' => 'PostDecrementOperator',
-                                          'instanceof' => 'InstanceOfOperator',
-
-                                          );
-                    $requestedName = $operatorName;
-                    $operatorName = $operatorMap[$operatorName];
-                    $operatorClass = 'ezcTemplate' . $operatorName;
-                    $function = 'create' . $operatorName;
-                    $operator = $this->parser->$function( clone $this->lastCursor, $cursor );
-
-                    // If the min precedence has been reached we immediately stop parsing
-                    // and return a successful parse result
-                    if ( $this->minPrecedence !== false &&
-                         $operator->precedence < $this->minPrecedence )
-                    {
-                        $cursor->copy( $operatorStartCursor );
-                        return true;
-                    }
-
-                    $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
-
-                    $this->parser->reportElementCursor( $operator->startCursor, $operator->endCursor, $operator );
-                    $this->lastCursor->copy( $cursor );
-
-                    // instanceof operator can have an identifier as the next operand
-                    if ( $requestedName == 'instanceof' ||
-                         $requestedName == '->' )
-                    {
-                        $allowIdentifier = true;
-                    }
-
-                    $this->state = 'operand';
-                    if ( $operator->maxParameterCount !== false &&
-                         $operator->getParameterCount() >= $operator->maxParameterCount )
-                    {
-                        $this->state = 'operator';
-                    }
-                    continue;
-                }
-
-                // Try the special array fetch operator
-                $operator = null;
-                if ( $cursor->current() == '[' )
-                {
-                    $operatorStartCursor = clone $cursor;
-                    if ( !$this->parseRequiredType( 'ArrayFetch' ) )
-                    {
-                        return false;
-                    }
-
-                    $operator = $this->lastParser->fetch;
-
-                    // If the min precedence has been reached we immediately stop parsing
-                    // and return a successful parse result
-                    if ( $this->minPrecedence !== false &&
-                         $operator->precedence < $this->minPrecedence )
-                    {
-                        $cursor->copy( $operatorStartCursor );
-                        return true;
-                    }
-
-                    $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
-                    $this->lastCursor = clone $cursor;
-                    continue;
-                }
-
-                // Try the '|' operator, this is part of eZ publish 3.x but not
-                // supported in the this template engine.
-                if ( $cursor->current() == '|' )
-                {
-                    $this->modifierCursor = clone $cursor;
-                    $cursor->advance();
-                    $this->findNextElement();
-                    $this->modifierStartCursor = clone $cursor;
-                    if ( $this->parseOptionalType( 'Identifier' ) )
-                    {
-                        if ( $this->lastParser->status == self::PARSE_PARTIAL_SUCCESS )
-                        {
-                            $this->modifierName = false;
-                            $this->operationState = self::STATE_UNSUPPORTED_OPERATOR_MODIFIER_INVALID;
-                        }
-                        else
-                        {
-                            $this->modifierName = $this->lastParser->identifierName;
-                            $this->operationState = self::STATE_UNSUPPORTED_OPERATOR_MODIFIER;
-                        }
-                    }
-                    else
-                    {
-                        $this->operationState = self::STATE_UNSUPPORTED_OPERATOR_MODIFIER_INVALID;
-                    }
-                    return false;
-                }
-
-                // Check for the ',' operator, this should not be handled by the expression parser
-                // but rather by the parent parser which have more knowledge of its usage
-                if ( $cursor->current() == ',' )
-                {
-                    // @todo Figure out why startCursor needs to be copied to get correct position
-                    //       this should not be required
-                    $this->startCursor->copy( $cursor );
-                    $this->operationState = self::STATE_OPERATOR_COMMA_NOT_ALLOWED;
-                    return false;
-                }
-
-                $cursor->copy( $this->lastCursor );
-                $this->operationState = self::STATE_NO_OPERATOR;
-
-                return false;
+                $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
+                $this->lastCursor = clone $cursor;
+                return true;
+                //continue;
             }
 
-            // State is not known, internal error.
-            throw new Exception( "Invalid state <" . $this->state . ">" );
+            return false;
         }
-        $this->operationState = self::STATE_NO_OPERAND;
-        return false;
-    }
 
-    /**
-     * Makes sure the element list contains the root operator/operand from the
-     * expression.
-     */
-    protected function handleSuccessfulResult( ezcTemplateCursor $lastCursor, ezcTemplateCursor $cursor )
-    {
-        $rootOperator = $this->currentOperator;
-        if ( $rootOperator instanceof ezcTemplateOperatorTstNode )
+
+        protected function parseOperator( $cursor )
         {
-            $rootOperator = $rootOperator->getRoot();
-        }
-        $this->rootOperator = $rootOperator;
+            // Try som generic operators
+            $operator = null;
+            // This will contain the name of the operator if it is found.
+            $operatorName = false;
 
-        // Make sure element list contains the root
-        $this->elements = array( $this->rootOperator );
-    }
+            $operatorSymbols = array( array( 10,
+            array( 'instanceof' ) ),
+            array( 3,
+            array( '===', '!==' ) ),
+            array( 2,
+            array( '->',
+            '==', '!=',
+            '<=', '>=',
+            '&&', '||',
+            '+=', '-=', '*=', '/=', '.=', '%=',
+            '++', '--' ) ),
+            array( 1,
+            array( '+', '-', '.',
+            '*', '/', '%',
+            '<', '>',
+            '=' ) ) );
+            foreach ( $operatorSymbols as $symbolEntry )
+            {
+                $chars = $cursor->current( $symbolEntry[0] );
+                if ( in_array( $chars, $symbolEntry[1] ) )
+                {
+                    $operatorName = $chars;
+                    break;
+                }
+            }
+
+            if ( $operatorName !== false )
+            {
+                $operatorStartCursor = clone $cursor;
+                $cursor->advance( strlen( $operatorName ) );
+                if ( $this->parser->debug )
+                echo "operator {$operatorName} <", $this->lastCursor->subString( $cursor->position ), ">\n";
+                $operatorMap = array( '+' => 'PlusOperator',
+                '-' => 'MinusOperator',
+                '.' => 'ConcatOperator',
+
+                '*' => 'MultiplicationOperator',
+                '/' => 'DivisionOperator',
+                '%' => 'ModuloOperator',
+
+                '->' => 'PropertyFetch',
+
+                '==' => 'EqualOperator',
+                '!=' => 'NotEqualOperator',
+
+                '===' => 'IdenticalOperator',
+                '!==' => 'NotIdenticalOperator',
+
+                '<' => 'LessThanOperator',
+                '>' => 'GreaterThanOperator',
+
+                '<=' => 'LessEqualOperator',
+                '>=' => 'GreaterEqualOperator',
+
+                '&&' => 'LogicalAndOperator',
+                '||' => 'LogicalOrOperator',
+
+                '=' => 'AssignmentOperator',
+                '+=' => 'PlusAssignmentOperator',
+                '-=' => 'MinusAssignmentOperator',
+                '*=' => 'MultiplicationAssignmentOperator',
+                '/=' => 'DivisionAssignmentOperator',
+                '.=' => 'ConcatAssignmentOperator',
+                '%=' => 'ModuloAssignmentOperator',
+
+        //        '++' => 'PostIncrementOperator',
+        //        '--' => 'PostDecrementOperator',
+                'instanceof' => 'InstanceOfOperator',);
+
+                $requestedName = $operatorName;
+                $operatorName = $operatorMap[$operatorName];
+                $operatorClass = 'ezcTemplate' . $operatorName;
+                $function = 'create' . $operatorName;
+                $operator = $this->parser->$function( clone $this->lastCursor, $cursor );
+
+                // If the min precedence has been reached we immediately stop parsing
+                // and return a successful parse result
+                if ( $this->minPrecedence !== false &&
+                $operator->precedence < $this->minPrecedence )
+                {
+                    die ("MIN PRECEDENCE !!");
+                    $cursor->copy( $operatorStartCursor );
+                    return true;
+                }
+
+                $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
+
+                $this->parser->reportElementCursor( $operator->startCursor, $operator->endCursor, $operator );
+                $this->lastCursor->copy( $cursor );
+
+                // instanceof operator can have an identifier as the next operand
+                if ( $requestedName == 'instanceof' ||
+                $requestedName == '->' )
+                {
+                    $this->allowIdentifier = true;
+                }
+
+                $this->state = 'operand';
+                if ( $operator->maxParameterCount !== false && $operator->getParameterCount() >= $operator->maxParameterCount )
+                {
+                    $this->state = 'operator';
+                }
+
+                return true;
+                //continue;
+            }
+
+            return false;
+        }
+
+
 
     protected function generateErrorMessage()
     {

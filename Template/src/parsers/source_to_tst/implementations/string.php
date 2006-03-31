@@ -58,7 +58,7 @@ class ezcTemplateStringSourceToTstParser extends ezcTemplateLiteralSourceToTstPa
                 }
                 else
                 {
-                    $matches = $cursor->pregMatch( "#((?!\\\\)[^{$char}])+{$char}#" );
+                    $matches = $cursor->pregMatchComplete( "#((?!\\\\)[^{$char}])+{$char}#" );
                     if ( $matches === false )
                         return false;
 
