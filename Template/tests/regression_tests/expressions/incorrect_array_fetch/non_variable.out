@@ -1,0 +1,8 @@
+mock:1:1: Unexpected opening square bracket '['. Array fetch needs a variable. ( $variable [ 0 ] )
+
+{5[0]}
+  ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser

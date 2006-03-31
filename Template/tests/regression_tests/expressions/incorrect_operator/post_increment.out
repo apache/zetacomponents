@@ -1,12 +1,10 @@
-mock:2:5: Expecting an operand.
+mock:1:1: Expecting an operand.
 
-{$a[ 0 + ]}
-         ^
+{5++}
+   ^
 
 failed in:
 ezcTemplateProgramSourceToTstParser
  -> ezcTemplateBlockSourceToTstParser
   -> ezcTemplateExpressionBlockSourceToTstParser
    -> ezcTemplateExpressionSourceToTstParser
-    -> ezcTemplateArrayFetchSourceToTstParser
-     -> ezcTemplateExpressionSourceToTstParser

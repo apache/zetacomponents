@@ -19,12 +19,6 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
     /**
      * No known type found.
      */
-    const MSG_VARIABLE_EXPECTED    = "A variable is expected";
-    const MSG_INVALID_EXPRESSION   = "The expression is not valid";
-    const MSG_UNEXPECTED_TOKEN     = "Unexpected token: %s";
-
-    const LNG_INVALID_NAMESPACE_MARKER      = "The namespace marker (:) was used in template engine in eZ publish 3.x but is no longer allowed.";
-
     /**
      * The value of the parsed type or null if nothing was parsed.
      * @var mixed
@@ -79,17 +73,17 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
                 elseif( $this->currentCursor->match( ":", false ) )
                 {
                     throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, 
-                        sprintf( self::MSG_UNEXPECTED_TOKEN, $this->currentCursor->current(1) ), self::LNG_INVALID_NAMESPACE_MARKER); 
+                        sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_TOKEN, $this->currentCursor->current(1) ), ezcTemplateSourceToTstErrorMessages::LNG_INVALID_NAMESPACE_MARKER); 
                 }
                 else
                 {
                     throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, 
-                        sprintf( self::MSG_UNEXPECTED_TOKEN, $this->currentCursor->current(1) ) );
+                        sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_TOKEN, $this->currentCursor->current(1) ) );
                 }
             }
             else
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, self::MSG_VARIABLE_EXPECTED );
+                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
             }
         }
 
@@ -118,7 +112,7 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
             {
                 if( $isFirst ) return false;
 
-                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, self::MSG_VARIABLE_EXPECTED );
+                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
             }
 
             $isFirst = false;
@@ -134,9 +128,18 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
 
             if( $this->currentCursor->match( "=" ) )
             {
+                $this->findNextElement();
+
                 if( !$this->parseOptionalType( "Expression", null, false ) )
                 {
-                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, self::MSG_INVALID_EXPRESSION );
+                    if( $this->parseOptionalType( "Identifier", null, false ) )
+                    {
+                        throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION_NOT_IDENTIFIER );
+                    }
+                    else
+                    {
+                        throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
+                    }
                 }
 
                 $declaration->expression = $this->lastParser->rootOperator;

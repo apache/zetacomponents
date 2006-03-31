@@ -70,7 +70,12 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
         {
             if( !$this->currentCursor->match('}') )
             {
-                die("Expected closing brace");
+                if( $this->currentCursor->match('[', false) )
+                {
+                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_OPENING_BRACKET );
+                }
+
+                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CLOSING_CURLY_BRACE );
             }
 
             return $this->lastParser->status == self::PARSE_SUCCESS;
@@ -113,7 +118,6 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
         {
             if ( $this->lastParser->status == self::PARSE_PARTIAL_SUCCESS )
                 return false;
-            //$this->elements[] = $this->lastParser->block;
             $this->mergeElements( $this->lastParser );
             return true;
         }

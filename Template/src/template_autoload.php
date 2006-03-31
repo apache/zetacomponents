@@ -237,6 +237,8 @@ return array(
              "ezcTemplateBlockCommentSourceToTstParser" => "Template/parsers/source_to_tst/implementations/block_comment.php",
              "ezcTemplateEolCommentSourceToTstParser" => "Template/parsers/source_to_tst/implementations/eol_comment.php",
 
+             "ezcTemplateSourceToTstErrorMessages" => "Template/parsers/source_to_tst/implementations/error_messages.php",
+
 
 // Generic parser interfaces
              "ezcTemplateTreeOutput"       => "Template/parsers/interfaces/tree_output.php",

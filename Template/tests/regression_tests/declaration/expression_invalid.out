@@ -1,9 +1,10 @@
-mock:1:1: Expecting an expression, not an identifier. (Braces missing?)
+mock:1:10: Expecting an operand.
 
-{var $a = s
-                 ^
+{var $a = 5 + }
+              ^
 
 failed in:
 ezcTemplateProgramSourceToTstParser
  -> ezcTemplateBlockSourceToTstParser
   -> ezcTemplateDeclarationBlockSourceToTstParser
+   -> ezcTemplateExpressionSourceToTstParser
