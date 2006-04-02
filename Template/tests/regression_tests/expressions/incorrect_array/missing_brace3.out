@@ -1,7 +1,7 @@
 mock:1:10: Expecting a literal
 
-{var $a = array( 12,
-                     ^
+{var $a = array(}
+                ^
 
 failed in:
 ezcTemplateProgramSourceToTstParser

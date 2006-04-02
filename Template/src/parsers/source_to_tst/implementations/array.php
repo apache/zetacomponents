@@ -22,36 +22,7 @@
  */
 class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstParser
 {
-    /**
-     * Array type must use lowercase characters only.
-     */
-    const STATE_NON_LOWERCASE = 1;
 
-    /**
-     * No starting brace for array.
-     */
-    const STATE_NO_STARTING_BRACE = 2;
-
-    /**
-     * No ending brace or missing comma for array.
-     */
-    const STATE_NO_ENDING_BRACE_OR_COMMA = 3;
-
-    /**
-     * No ending brace for array.
-     */
-    const STATE_NO_ENDING_BRACE = 4;
-
-    /**
-     * A comma was specified before the type.
-     */
-    const STATE_COMMA_BEFORE_TYPE = 5;
-
-    const MSG_NON_LOWERCASE_ARRAY = "The array identifier must consist of lowercase characters only.";
-    const MSG_ARRAY_START_BRACE_MISSING = "Missing starting brace '('";
-    const MSG_ARRAY_END_BRACE_MISSING = "Missing ending brace";
-    const MSG_ARRAY_LITERAL_EXPECTED = "A literal type is expected";
- 
     /**
      * Passes control to parent.
      */
@@ -79,13 +50,11 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
             return false;
         }
 
-        $this->status = self::PARSE_PARTIAL_SUCCESS;
-
         $lower = strtolower( $name );
         if ( $name !== $lower )
         {
             $this->findNonLowercase();
-            throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_NON_LOWERCASE_ARRAY ); 
+            throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_ARRAY_NOT_LOWERCASE); 
         }
 
         $cursor->advance( 5 );
@@ -95,16 +64,17 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
 
         if ( !$cursor->match('(') )
         {
-            throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_ARRAY_START_BRACE_MISSING ); 
+            throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ROUND_BRACKET_OPEN ); 
         }
 
         $currentArray = array();
+        $expectItem = true;
         while ( true )
         {
             // skip whitespace and comments
             if ( !$this->findNextElement() )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_ARRAY_END_BRACE_MISSING ); 
+                throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ROUND_BRACKET_CLOSE ); 
             }
 
             if ( $cursor->current() == ')' )
@@ -118,10 +88,15 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
                 return true;
             }
 
+            if( !$expectItem )
+            {
+                throw new ezcTemplateSourceToTstParserException ( $this, $cursor, "EXPECT ITEM");
+            }
+
             // Check for type
             if ( !$this->parseRequiredType( 'Literal' ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_ARRAY_LITERAL_EXPECTED ); 
+                throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_LITERAL ); 
             }
 
             $this->findNextElement();
@@ -135,7 +110,7 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
                 // We have the key => value syntax so we need to find the value
                 if ( !$this->parseRequiredType( 'Literal' ) )
                 {
-                    throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_ARRAY_LITERAL_EXPECTED ); 
+                    throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_LITERAL ); 
                 }
 
                 // Store the value.
@@ -154,48 +129,13 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
             if ( $cursor->match(',') )
             {
                 $this->findNextElement();
+                $expectItem = true;
+            }
+            else
+            {
+                $expectItem = false;
             }
         }
-    }
-
-    protected function generateErrorMessage()
-    {
-        switch ( $this->operationState )
-        {
-            case self::STATE_NON_LOWERCASE:
-                return "Array type must use lowercase characters only.";
-            case self::STATE_NO_STARTING_BRACE:
-                return "Missing starting brace for array.";
-            case self::STATE_NO_ENDING_BRACE_OR_COMMA:
-                return "Missing ending brace or comma for array.";
-            case self::STATE_NO_ENDING_BRACE:
-                return "Missing ending brace for array.";
-            case self::STATE_COMMA_BEFORE_TYPE:
-                return "A comma was found but no type has yet been specified.";
-        }
-        // Default error message handler.
-        return parent::generateErrorMessage();
-    }
-
-    protected function generateErrorDetails()
-    {
-        $text = '';
-        switch ( $this->operationState )
-        {
-            case self::STATE_NON_LOWERCASE:
-            case self::STATE_NO_STARTING_BRACE:
-            case self::STATE_NO_ENDING_BRACE:
-            case self::STATE_COMMA_BEFORE_TYPE:
-                break;
-            case self::STATE_NO_ENDING_BRACE_OR_COMMA:
-                $text = "This typically happens if there is a comma missing between values or the ending brace was forgotten.\n";
-                break;
-            default:
-                // Default error details handler.
-                return parent::generateErrorDetails();
-        }
-        $text .= "Acceptable syntax is: array(), array( VALUE [, VALUE ...] ) or array( KEY => VALUE [, KEY => VALUE ...] )";
-        return $text;
     }
 
     public function getTypeName()

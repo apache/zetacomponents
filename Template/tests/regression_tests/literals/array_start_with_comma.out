@@ -1,4 +1,4 @@
-mock:1:10: A literal type is expected
+mock:1:10: Expecting a literal
 
 {var $a = array(, 2)
                 ^

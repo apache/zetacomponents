@@ -1,4 +1,4 @@
-mock:1:10: Missing ending brace
+mock:1:10: Missing closing parentheses: ')'
 
 array (
 ^

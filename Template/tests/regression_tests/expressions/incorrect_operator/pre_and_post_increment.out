@@ -1,4 +1,4 @@
-mock:2:1: Expecting a closing curly brace
+mock:2:1: Expecting an closing curly bracket: '}'
 
 {++$a++}
      ^

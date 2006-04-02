@@ -1,4 +1,4 @@
-mock:1:10: Missing starting brace '('
+mock:1:10: Missing opening parentheses: '('
 
 {var $a = array }
                 ^
