@@ -11,6 +11,8 @@ class ezcTemplateSourceToTstErrorMessages
     
     const MSG_EXPECT_OPERAND                    = "Expecting an operand.";
 
+    const MSG_EXPECT_NON_MODIFYING_OPERAND      = "Expecting an operand without a pre- or post operator.";
+
     const MSG_EXPECT_CLOSING_CURLY_BRACE        = "Expecting a closing curly brace";
 
     const MSG_UNEXPECTED_TOKEN                  = "Unexpected token: %s";

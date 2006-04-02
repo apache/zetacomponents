@@ -18,7 +18,6 @@ Source to TST (+ TST nodes)
 - Test COMMA missing for parse function_call, and also ending_brace. Now the expression keeps reading, and throws the wrong error.
 - Function call: strange characters after expression will throw an incorrect error. (Expression keeps on reading)
 - ArrayAppend {$a[] = 5}, needs to be fixed.
-- Fix: {15[0]}
 
 TST to AST (+ AST nodes)
 ------------------------

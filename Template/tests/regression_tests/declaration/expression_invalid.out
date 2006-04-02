@@ -1,4 +1,4 @@
-mock:1:10: Expecting an operand.
+mock:1:10: Expecting an operand without a pre- or post operator.
 
 {var $a = 5 + }
               ^

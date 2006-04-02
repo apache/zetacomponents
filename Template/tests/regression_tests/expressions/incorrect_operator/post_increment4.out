@@ -1,0 +1,8 @@
+mock:2:1: Expecting a closing curly brace
+
+{$a++ + 1}
+      ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser

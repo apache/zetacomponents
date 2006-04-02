@@ -1,6 +1,6 @@
-mock:1:1: Expecting an operand without a pre- or post operator.
+mock:1:1: Expecting a variable
 
-{5++}
+{++!false}
    ^
 
 failed in:
