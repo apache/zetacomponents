@@ -24,9 +24,15 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public $functions; 
 
+    public $type;
+
+    const TYPE_ARRAY = 1;
+    const TYPE_VALUE = 2;
+
     public function __construct()
     {
         $this->functions = new ezcTemplateFunctions();
+        $this->type = self::TYPE_ARRAY | self::TYPE_VALUE;
     }
 
     public function __destruct()
@@ -186,6 +192,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitLiteralTstNode( ezcTemplateLiteralTstNode $type )
     {
+        $this->type = (is_array( $type->value ) ? self::TYPE_ARRAY : self::TYPE_VALUE );
         return new ezcTemplateLiteralAstNode( $type->value );
     }
 
@@ -216,6 +223,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $paramAst[] = $parameter->accept( $this );
         }
 
+        $this->type = self::TYPE_ARRAY | self::TYPE_VALUE;
         return $this->functions->getAstTree( $type->name, $paramAst );
     }
 
@@ -510,14 +518,67 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitArrayRangeOperatorTstNode( ezcTemplateArrayRangeOperatorTstNode $type ) 
     {
+        return $this->appendFunctionCallRecursively( $type, "array_fill_range", true );
+
+
+
+
+
+/*
         $paramAst = array();
         foreach( $type->parameters as $parameter )
         {
             $paramAst[] = $parameter->accept( $this );
+
+            if( $this->type != self::TYPE_VALUE )
+            {
+
+                throw new ezcTemplateParserException( $type->source, $parameter->startCursor, $parameter->endCursor, "Operand must be a value and cannot be an array." );
+            }
         }
 
+        $this->type = self::TYPE_ARRAY;
         return $this->functions->getAstTree( "array_fill_range", $paramAst );
+        */
     }
+
+    private function appendFunctionCallRecursively( ezcTemplateOperatorTstNode $type, $functionName, $checkNonArray = false, $currentParameterNumber = 0)
+    {
+        $paramAst = array();
+        $paramAst[] = $type->parameters[ $currentParameterNumber ]->accept( $this );
+
+        if( $checkNonArray && $this->type != self::TYPE_VALUE )
+        {
+            throw new ezcTemplateParserException( $type->source, $type->parameters[$currentParameterNumber]->startCursor, 
+                $type->parameters[$currentParameterNumber]->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VALUE_NOT_ARRAY );
+        }
+        
+        $currentParameterNumber++;
+
+        if( $currentParameterNumber == sizeof( $type->parameters ) - 1 ) 
+        {
+            // The last node.
+            $paramAst[] = $type->parameters[ $currentParameterNumber ]->accept( $this );
+            
+        }
+        else
+        {
+            // More than two parameters, so repeat.
+            $paramAst[] = $this->appendFunctionCallRecursively( $type, $functionName, $checkNonArray, $currentParameterNumber );
+        }
+
+        if( $checkNonArray && $this->type != self::TYPE_VALUE )
+        {
+            throw new ezcTemplateParserException( $type->source, $type->parameters[$currentParameterNumber]->startCursor, 
+                $type->parameters[$currentParameterNumber]->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VALUE_NOT_ARRAY );
+        }
+
+
+
+        $this->type = self::TYPE_ARRAY;
+        return $this->functions->getAstTree( $functionName, $paramAst );
+   }
+
 
 
 

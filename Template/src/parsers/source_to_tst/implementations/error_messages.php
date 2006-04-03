@@ -33,6 +33,11 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_ARRAY_NOT_LOWERCASE               = "The array identifier must consist of lowercase characters only.";
 
 
+
+    const MSG_EXPECT_VALUE_NOT_ARRAY            = "Expecting a value and not an array.";
+
+
+
     // Inconsistencies with eZ publish 3.
     const LNG_INVALID_NAMESPACE_MARKER          = "The namespace marker (:) was used in template engine in eZ publish 3.x but is no longer allowed.";
 }

@@ -280,6 +280,8 @@ return array(
              "ezcTemplateSourceToTstParserException" => "Template/exceptions/element_parser_exception.php",
 
              "ezcTemplateTstNodeException" => "Template/exceptions/element_exception.php",
+             "ezcTemplateParserException" => "Template/exceptions/parser_exception.php",
+
 
 
 // Functions
