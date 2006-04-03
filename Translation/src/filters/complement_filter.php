@@ -53,7 +53,6 @@ class ezcTranslationComplementEmptyFilter implements ezcTranslationFilter
      */
     public function runFilter( array $context )
     {
-        xdebug_break();
         foreach ( $context as $element )
         {
             if ( $element->status == ezcTranslationData::UNFINISHED )
