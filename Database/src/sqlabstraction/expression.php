@@ -475,7 +475,7 @@ class ezcQueryExpression
      * @param string|array(string) values that will be matched against $column
      * @return string logical expression
      */
-    public function in( $value )
+    public function in( $column )
     {
         $args = func_get_args();
         if ( count( $args ) < 2 )
@@ -485,13 +485,13 @@ class ezcQueryExpression
 
         $values = ezcQuerySelect::arrayFlatten( array_slice( $args, 1 ) );
         $values = $this->getIdentifiers( $values );
-        $value = $this->getIdentifier( $value );
+        $column = $this->getIdentifier( $column );
 
         if ( count( $values ) == 0 )
         {
             throw new ezcQueryVariableParameterException( 'in', count( $args ), 2 );
         }
-        return "{$value} IN ( " . join( ', ', $values ) . ' )';
+        return "{$column} IN ( " . join( ', ', $values ) . ' )';
     }
 
     /**
