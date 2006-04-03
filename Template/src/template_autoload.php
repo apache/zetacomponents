@@ -230,7 +230,6 @@ return array(
              "ezcTemplateStringSourceToTstParser" => "Template/parsers/source_to_tst/implementations/string.php",
              "ezcTemplateBoolSourceToTstParser" => "Template/parsers/source_to_tst/implementations/bool.php",
              "ezcTemplateArraySourceToTstParser" => "Template/parsers/source_to_tst/implementations/array.php",
-             "ezcTemplateArrayRangeSourceToTstParser" => "Template/parsers/source_to_tst/implementations/array_range.php",
              "ezcTemplateFunctionCallSourceToTstParser" => "Template/parsers/source_to_tst/implementations/function_call.php",
              "ezcTemplateArrayFetchSourceToTstParser" => "Template/parsers/source_to_tst/implementations/array_fetch.php",
              "ezcTemplateVariableSourceToTstParser" => "Template/parsers/source_to_tst/implementations/variable.php",
