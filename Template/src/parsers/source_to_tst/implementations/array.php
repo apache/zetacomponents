@@ -90,11 +90,11 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
 
             if( !$expectItem )
             {
-                throw new ezcTemplateSourceToTstParserException ( $this, $cursor, "EXPECT ITEM");
+                throw new ezcTemplateSourceToTstParserException ( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ROUND_BRACKET_CLOSE_OR_COMMA);
             }
 
             // Check for type
-            if ( !$this->parseRequiredType( 'Literal' ) )
+            if ( !$expectItem || !$this->parseRequiredType( 'Literal' ) )
             {
                 throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_LITERAL ); 
             }

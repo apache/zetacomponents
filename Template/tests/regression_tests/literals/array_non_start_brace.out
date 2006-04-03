@@ -1,4 +1,4 @@
-mock:1:10: Missing opening parentheses: '('
+mock:1:10: Expecting an opening parentheses: '('
 
 {var $a = array }
                 ^

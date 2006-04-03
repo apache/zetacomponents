@@ -1,4 +1,4 @@
-mock:1:10: EXPECT ITEM
+mock:1:10: Expecting a closing parentheses: ')' or a comma ','
 
 {var $a = array( 1 2
                    ^

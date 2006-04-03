@@ -101,6 +101,7 @@ return array(
              "ezcTemplateLogicalNegateOperatorTstNode" => "Template/syntax_trees/tst/nodes/logical_negate_operator.php",
              "ezcTemplateInstanceOfOperatorTstNode" => "Template/syntax_trees/tst/nodes/instance_of_operator.php",
              "ezcTemplateDeclarationTstNode" => "Template/syntax_trees/tst/nodes/declaration.php",
+             "ezcTemplateArrayRangeOperatorTstNode" => "Template/syntax_trees/tst/nodes/array_range_operator.php",
 
 // Syntax trees / AST
              "ezcTemplateAstBuilder" => "Template/syntax_trees/ast/ast_builder.php",
@@ -229,6 +230,7 @@ return array(
              "ezcTemplateStringSourceToTstParser" => "Template/parsers/source_to_tst/implementations/string.php",
              "ezcTemplateBoolSourceToTstParser" => "Template/parsers/source_to_tst/implementations/bool.php",
              "ezcTemplateArraySourceToTstParser" => "Template/parsers/source_to_tst/implementations/array.php",
+             "ezcTemplateArrayRangeSourceToTstParser" => "Template/parsers/source_to_tst/implementations/array_range.php",
              "ezcTemplateFunctionCallSourceToTstParser" => "Template/parsers/source_to_tst/implementations/function_call.php",
              "ezcTemplateArrayFetchSourceToTstParser" => "Template/parsers/source_to_tst/implementations/array_fetch.php",
              "ezcTemplateVariableSourceToTstParser" => "Template/parsers/source_to_tst/implementations/variable.php",

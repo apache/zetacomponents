@@ -18,9 +18,11 @@ class ezcTemplateSourceToTstErrorMessages
 
     //  expected brackets
     const MSG_EXPECT_CURLY_BRACKET_OPEN         = "Expecting an opening curly bracket: '{'";
-    const MSG_EXPECT_CURLY_BRACKET_CLOSE        = "Expecting an closing curly bracket: '}'";
-    const MSG_EXPECT_ROUND_BRACKET_OPEN         = "Missing opening parentheses: '('";
-    const MSG_EXPECT_ROUND_BRACKET_CLOSE        = "Missing closing parentheses: ')'";
+    const MSG_EXPECT_CURLY_BRACKET_CLOSE        = "Expecting a closing curly bracket: '}'";
+    const MSG_EXPECT_ROUND_BRACKET_OPEN         = "Expecting an opening parentheses: '('";
+    const MSG_EXPECT_ROUND_BRACKET_CLOSE        = "Expecting a closing parentheses: ')'";
+
+    const MSG_EXPECT_ROUND_BRACKET_CLOSE_OR_COMMA  = "Expecting a closing parentheses: ')' or a comma ','";
 
 
     // Unexpected brackets

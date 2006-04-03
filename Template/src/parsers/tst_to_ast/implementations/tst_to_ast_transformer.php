@@ -508,6 +508,17 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $type->variable->accept($this), $expression ) );
     }
 
+    public function visitArrayRangeOperatorTstNode( ezcTemplateArrayRangeOperatorTstNode $type ) 
+    {
+        $paramAst = array();
+        foreach( $type->parameters as $parameter )
+        {
+            $paramAst[] = $parameter->accept( $this );
+        }
+
+        return $this->functions->getAstTree( "array_fill_range", $paramAst );
+    }
+
 
 
 }

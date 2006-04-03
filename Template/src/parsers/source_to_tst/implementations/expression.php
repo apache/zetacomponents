@@ -465,7 +465,8 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             '==', '!=',
             '<=', '>=',
             '&&', '||',
-            '+=', '-=', '*=', '/=', '.=', '%=') ),
+            '+=', '-=', '*=', '/=', '.=', '%=',
+            '..') ),
             array( 1,
             array( '+', '-', '.',
             '*', '/', '%',
@@ -519,6 +520,8 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 '/=' => 'DivisionAssignmentOperator',
                 '.=' => 'ConcatAssignmentOperator',
                 '%=' => 'ModuloAssignmentOperator',
+
+                '..' => 'ArrayRangeOperator',
 
         //        '++' => 'PostIncrementOperator',
         //        '--' => 'PostDecrementOperator',

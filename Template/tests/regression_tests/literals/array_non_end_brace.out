@@ -1,4 +1,4 @@
-mock:1:10: Missing closing parentheses: ')'
+mock:1:10: Expecting a closing parentheses: ')'
 
 array (
 ^

@@ -302,6 +302,14 @@ class ezcTemplateParser
     }
 
     /**
+     * Creats a new array range operator.
+     */
+    public function createArrayRangeOperator( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    {
+        return new ezcTemplateArrayRangeOperatorTstNode( $this->source, $start, $end );
+    }
+
+    /**
      * Creates a new plus operator object with the cursor positions and returns it.
      *
      * @param ezcTemplateCursor $start The starting point of the element.

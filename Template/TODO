@@ -16,6 +16,8 @@ Source to TST (+ TST nodes)
   ___________________________^
 
 - ArrayAppend {$a[] = 5}, needs to be fixed.
+- Check operand types in an expression: {var $a = 1 + array(1,2)}
+
 
 TST to AST (+ AST nodes)
 ------------------------
