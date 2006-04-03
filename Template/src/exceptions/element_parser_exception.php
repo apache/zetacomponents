@@ -19,32 +19,6 @@
  */
 class ezcTemplateSourceToTstParserException extends Exception
 {
-    /**
-     * The object containing the error details.
-     * @var ezcTemplateParserError
-     */
-//    public $parserError;
-
-    /**
-     * Initialises the exception with the parser error object and sets the
-     * exception message from it.
-     *
-     * @param ezcTemplateParserError $error The object containing error details.
-     */
-     /*
-    public function __construct( ezcTemplateParserError $error )
-    {
-        $this->parserError = $error;
-
-        parent::__construct( $error->getErrorMessage() );
-    }
-
-    */
-
-
-
-
-
 
     /**
      * Array of elements which should be used to extract failed code.
@@ -85,27 +59,12 @@ class ezcTemplateSourceToTstParserException extends Exception
      * @param string $errorDetails Extra details for error.
      */
      
-//    public function __construct( $elements,
-//                                 /*ezcTemplateSourceToTstParser*/ $parser,
-//                                 ezcTemplateSourceCode $source,
-//                                 $errorMessage,
-//                                 $errorDetails = "" )
-
-    public function __construct( 
-                                 /*ezcTemplateSourceToTstParser*/ $parser,
+    public function __construct( /*ezcTemplateSourceToTstParser*/ $parser,
                                  ezcTemplateCursor $cursor,
                                  $errorMessage,
                                  $errorDetails = "" )
     {
         
-
-        /*
-
-        
-        if ( count( $elements ) == 0)
-            throw new Exception( "Parameter \$elements in class ezcTemplateParserError needs to have at least one element." );
-            */
-
             // TODO fix this. 
         $this->elements = array( $parser );
         $this->parser = $parser;
@@ -194,7 +153,9 @@ class ezcTemplateSourceToTstParserException extends Exception
         // Include some code which appears after the failure points, max 10 characters
         $extraAstNode = substr( $startCursor->text,
                              $endCursor->position,
-                             10 );
+                             $markCursor->position - $endCursor->position + 10 );
+
+
         $eolPos = strpos( $extraAstNode, "\n" );
         if ( $eolPos !== false )
             $extraAstNode = substr( $extraAstNode, 0, $eolPos );
