@@ -203,6 +203,8 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitVariableTstNode( ezcTemplateVariableTstNode $type )
     {
+        // Don't do array or value checking for variables.. (yet).
+        $this->type = self::TYPE_ARRAY | self::TYPE_VALUE;
         return new ezcTemplateVariableAstNode( $type->name );
     }
 
@@ -545,14 +547,14 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     private function appendFunctionCallRecursively( ezcTemplateOperatorTstNode $type, $functionName, $checkNonArray = false, $currentParameterNumber = 0)
     {
         $paramAst = array();
-        $paramAst[] = $type->parameters[ $currentParameterNumber ]->accept( $this );
 
-        if( $checkNonArray && $this->type != self::TYPE_VALUE )
+        $paramAst[] = $type->parameters[ $currentParameterNumber ]->accept( $this );
+        if( $checkNonArray && !( $this->type & self::TYPE_VALUE ) )
         {
             throw new ezcTemplateParserException( $type->source, $type->parameters[$currentParameterNumber]->startCursor, 
                 $type->parameters[$currentParameterNumber]->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VALUE_NOT_ARRAY );
         }
-        
+
         $currentParameterNumber++;
 
         if( $currentParameterNumber == sizeof( $type->parameters ) - 1 ) 
@@ -567,7 +569,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $paramAst[] = $this->appendFunctionCallRecursively( $type, $functionName, $checkNonArray, $currentParameterNumber );
         }
 
-        if( $checkNonArray && $this->type != self::TYPE_VALUE )
+        if( $checkNonArray && !( $this->type & self::TYPE_VALUE ) )
         {
             throw new ezcTemplateParserException( $type->source, $type->parameters[$currentParameterNumber]->startCursor, 
                 $type->parameters[$currentParameterNumber]->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VALUE_NOT_ARRAY );
