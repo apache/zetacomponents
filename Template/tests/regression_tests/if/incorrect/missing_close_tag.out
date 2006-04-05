@@ -1,0 +1,7 @@
+mock:1:0: Incorrect nesting in code, the block {if} was not correctly terminated.
+
+{if true}
+^
+
+failed in:
+ezcTemplateProgramSourceToTstParser

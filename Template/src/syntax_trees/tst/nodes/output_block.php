@@ -62,6 +62,8 @@ class ezcTemplateOutputBlockTstNode extends ezcTemplateBlockTstNode
         $this->startBracket = '{';
         $this->endBracket = '}';
         $this->expressionRoot = null;
+
+        $this->isNestingBlock = false;
     }
 
     public function getTreeProperties()
@@ -76,11 +78,13 @@ class ezcTemplateOutputBlockTstNode extends ezcTemplateBlockTstNode
      *
      * @return true
      */
+     /*
     public function canBeChildOf( ezcTemplateBlockTstNode $block )
     {
         // Output expression block elements can always be child of blocks
         return true;
     }
+    */
 
     /**
      * @inheritdocs

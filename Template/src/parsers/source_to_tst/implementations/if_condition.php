@@ -21,24 +21,6 @@
 class ezcTemplateIfConditionSourceToTstParser extends ezcTemplateSourceToTstParser
 {
     /**
-     * The array to iterate through is specified incorrectly.
-     */
-    const STATE_BAD_ARRAY = 1;
-
-    /**
-     * No "=>"
-     */
-    const STATE_NO_EQUALGT = 2;
-
-    /**
-     * No/bad item variable.
-     *
-     * Item variable is the one following "=>".
-     * Example: {foreach $objects as $keyVar => $itemVar}
-     */
-    const STATE_BAD_ITEMVAR = 3;
-
-    /**
      * Passes control to parent.
      */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
@@ -54,9 +36,6 @@ class ezcTemplateIfConditionSourceToTstParser extends ezcTemplateSourceToTstPars
     {
         $name = $this->block->name;
 
-        if ( $name == 'else' )
-            return $this->parseElse( $cursor );
-
         $this->status = self::PARSE_PARTIAL_SUCCESS;
 
         // handle closing block
@@ -66,12 +45,12 @@ class ezcTemplateIfConditionSourceToTstParser extends ezcTemplateSourceToTstPars
                 echo "Starting end of \"if\"\n";
 
             // skip whitespace and comments
-            if ( !$this->findNextElement() )
-                return false;
-
-            if ( !$this->parentParser->atEnd( $cursor, null, false ) )
-                return false;
-            $cursor->advance();
+            $this->findNextElement();
+            
+            if( !$cursor->match( '}' ) )
+            {
+                throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
+            }
 
             $el = $this->parser->createIfCondition( $this->startCursor, $cursor );
             $el->name = 'if';
@@ -80,72 +59,44 @@ class ezcTemplateIfConditionSourceToTstParser extends ezcTemplateSourceToTstPars
             return true;
         }
 
-        // handle opening block
+        $condition = null;
 
-        if ( $this->parser->debug )
-            echo "Starting if\n";
+        $this->findNextElement();
 
-        // parse the conditional expression
-
-        if ( !$this->parseRequiredType( 'Expression', null, false ) )
+        if( $name != 'else' ) // Parse condition
         {
-            $this->operationState = self::STATE_BAD_ITEMVAR;
-            return false;
+            if ( !$this->parseRequiredType( 'Expression', null, false ) )
+            {
+                throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
+            }
+
+            $condition = $this->lastParser->rootOperator;
+            $this->findNextElement();
         }
 
-        $condition = $this->lastParser->rootOperator;
+        if( !$cursor->match( '}' ) )
+        {
+            throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
+        }
 
-        // skip whitespace and comments
-        if ( !$this->findNextElement() )
-            return false;
+        $cb = $this->parser->createConditionBody( $this->startCursor, $cursor );
+        $cb->condition = $condition;
 
-        if ( !$this->parentParser->atEnd( $cursor, null, false ) )
-            return false;
-
-        $cursor->advance();
-        $el = $this->parser->createIfCondition( $this->startCursor, $cursor );
-        $el->name = 'if';
-        $el->condition = $condition;
-        $this->appendElement( $el );
+        if ($name == 'if' )
+        {
+            $el = $this->parser->createIfCondition( $this->startCursor, $cursor );
+            $el->children[] = $cb;
+            $el->condition = null;
+            $el->name = 'if';
+            $this->appendElement( $el );
+        }
+        else
+        {
+            $this->appendElement( $cb );
+        }
 
         return true;
     }
-
-    /**
-     * Parse 'else' block.
-     */
-    private function parseElse( ezcTemplateCursor $cursor )
-    {
-        /*
-        require_once 'bt.php';
-        bt();
-        die( 'fuck' );
-        */
-        $cursor->advance();
-        $el = $this->parser->createIfCondition( $this->startCursor, $cursor );
-        $el->name = 'else';
-        $this->appendElement( $el );
-        return true;
-    }
-
-    protected function generateErrorMessage()
-    {
-        switch ( $this->operationState )
-        {
-            case self::STATE_BAD_ARRAY:
-                return 'Bad array';
-
-            case self::STATE_NO_EQUALGT:
-                return "'=>' expected.";
-
-            case self::STATE_BAD_ITEMVAR:
-                return "No/bad item variable";
-        }
-
-        // Default error message handler.
-        return parent::generateErrorMessage();
-    }
-
 }
 
 ?>

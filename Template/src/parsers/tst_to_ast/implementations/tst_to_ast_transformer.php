@@ -291,11 +291,23 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         $astNode = new ezcTemplateIfAstNode();
 
+        $i = 0;
+        foreach( $type->children as $child )
+        {
+            $astNode->conditions[$i++] = $child->accept( $this );
+        }
+
+        //$cb = $type->children[0]->accept( $this );
+        //$astNode->conditions[0] = $cb;
+
+        /*
+
         // First condition, the 'if'.
         $if = new ezcTemplateConditionBodyAstNode();
-        $if->condition = $type->condition->accept( $this );
-        $if->body = $this->addOutputNodeIfNeeded( $type->elements[0]->accept( $this ) );
+        $if->condition = null; //$type->condition->accept( $this );
+        $if->body = $this->addOutputNodeIfNeeded( $type->children[0]->accept( $this ) );
         $astNode->conditions[0] = $if;
+        */
 
         // Second condition, the 'elseif'.
         /*
@@ -307,16 +319,32 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
         }
         */
-
+/*
         if( isset( $type->elements[1] ) )
         {
-            var_dump ( $type->condition );
             $else = new ezcTemplateConditionBodyAstNode();
             $else->body = $this->addOutputNodeIfNeeded( $type->elements[1]->accept( $this ) );
             $astNode->conditions[2] = $else;
         }
+        */
 
         return $astNode;
+    }
+
+    public function visitConditionBodyTstNode( ezcTemplateConditionBodyTstNode $type ) 
+    {
+        $cb = new ezcTemplateConditionBodyAstNode();
+        $cb->condition = ( $type->condition !== null ? $type->condition->accept( $this ) : null );
+        $cb->body = $this->createBody( $type->children ); //$this->addOutputNodeIfNeeded( $type->children[0]->accept( $this ) );
+        return $cb;
+
+/* 
+        $condition = $type->condition->accept( $this );
+        $body = $this->createBody( $type->elements );
+
+        var_dump ( $cbbody );
+        exit();
+        */
     }
 
     public function visitLoopTstNode( ezcTemplateLoopTstNode $type )
@@ -521,27 +549,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     public function visitArrayRangeOperatorTstNode( ezcTemplateArrayRangeOperatorTstNode $type ) 
     {
         return $this->appendFunctionCallRecursively( $type, "array_fill_range", true );
-
-
-
-
-
-/*
-        $paramAst = array();
-        foreach( $type->parameters as $parameter )
-        {
-            $paramAst[] = $parameter->accept( $this );
-
-            if( $this->type != self::TYPE_VALUE )
-            {
-
-                throw new ezcTemplateParserException( $type->source, $parameter->startCursor, $parameter->endCursor, "Operand must be a value and cannot be an array." );
-            }
-        }
-
-        $this->type = self::TYPE_ARRAY;
-        return $this->functions->getAstTree( "array_fill_range", $paramAst );
-        */
     }
 
     private function appendFunctionCallRecursively( ezcTemplateOperatorTstNode $type, $functionName, $checkNonArray = false, $currentParameterNumber = 0)

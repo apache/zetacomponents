@@ -142,6 +142,13 @@ abstract class ezcTemplateTstNode
      */
     abstract public function minimumWhitespaceColumn();
 
+
+    public function handleElement( ezcTemplateTstNode $element )
+    {
+        return false;
+    }
+
+
     /**
      * The accept part for the visitor.
      *

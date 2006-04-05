@@ -32,6 +32,7 @@ class ezcTemplateDocCommentTstNode extends ezcTemplateBlockTstNode
     {
         parent::__construct( $source, $start, $end );
         $this->commentText = null;
+        $this->isNestingBlock = false;
     }
 
     public function getTreeProperties()
@@ -45,11 +46,13 @@ class ezcTemplateDocCommentTstNode extends ezcTemplateBlockTstNode
      *
      * @return true
      */
+     /*
     public function canBeChildOf( ezcTemplateBlockTstNode $block )
     {
         // Doc comment elements can always be child of blocks
         return true;
     }
+    */
 
     /**
      * @inheritdocs

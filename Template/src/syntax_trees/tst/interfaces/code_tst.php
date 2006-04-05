@@ -29,5 +29,8 @@ abstract class ezcTemplateCodeTstNode extends ezcTemplateTstNode
         parent::__construct( $source, $start, $end );
     }
 
+
+
+
 }
 ?>

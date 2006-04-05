@@ -41,16 +41,49 @@ class ezcTemplateIfConditionTstNode extends ezcTemplateBlockTstNode
 
     public function canHandleElement( ezcTemplateTstNode $element )
     {
-        return (
-            $element instanceof ezcTemplateIfConditionTstNode ||
-            $element instanceof ezcTemplateLoopTstNode
-        );
+        if( $element instanceof ezcTemplateIfConditionTstNode )
+        {
+            if( $element->name == "if" ) 
+            {
+                return false;
+            }
+
+            echo "NAME: " . $element->name;
+            return true;
+        }
+
+        return ( $element instanceof ezcTemplateLoopTstNode );
     }
 
     public function handleElement( ezcTemplateTstNode $element )
     {
-        $this->elements[] = $element;
-        $element->parentBlock = $this;
+        $last = sizeof( $this->children ) - 1;
+
+        if( !$element instanceof ezcTemplateConditionBodyTstNode )
+        {
+            $this->children[$last]->children[] = $element;
+            //var_dump ($this->children[$last]->children );
+        }
+        else
+        {
+            $this->children[] = $element;
+        }
+
+        /*
+
+        if( $this->canHandleElement( $element ) )
+        {
+            $this->elements[] = $element;
+            $element->parentBlock = $this;
+            $element->isNestingBlock = false;
+        }
+        else
+        {
+            parent::handleElement( $element );
+        }
+        */
+
+
     }
 }
 ?>

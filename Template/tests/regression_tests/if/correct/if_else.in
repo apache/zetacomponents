@@ -1,0 +1,10 @@
+{if true}yes{else}no{/if}
+{if false}no{else}yes{/if}
+
+{if false}
+1
+{else}
+	{if true}
+2
+	{/if}
+{/if}

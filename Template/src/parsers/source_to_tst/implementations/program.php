@@ -180,12 +180,18 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
 
             $parents = array_reverse( $parents );
             $treeText = "The current nesting structure:\n" . join( "\n", $parents );
+
+            throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor,
+                                                 "Incorrect nesting in code, the block {" . $this->lastBlock->name . "} was not correctly terminated." );
+
+                                                 /*
             $error = new ezcTemplateParserError( array( $this->lastBlock ),
                                                  $this,
                                                  $this->parser->source,
                                                  "Incorrect nesting in code, the block {" . $this->lastBlock->name . "} was not correctly terminated.",
                                                  $treeText );
             throw new ezcTemplateSourceToTstParserException( $error );
+            */
         }
 
         // Get rid of whitespace for the block line of the program element
@@ -196,10 +202,83 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
     {
         foreach ( $elements as $element )
         {
+            
+            if ( $element instanceof ezcTemplateBlockTstNode && $element->isClosingBlock ) 
+            {
+                // Check for closing of current block
+
+ //                echo ("Closing block: ".  get_class( $element ) ."\n"  );
+                $this->closeOpenBlock( $element );
+                $this->parser->symbolTable->decreaseScope();
+            }
+            else 
+            {
+
+                $this->lastBlock->handleElement( $element );
+
+                if ( $element instanceof ezcTemplateBlockTstNode && $element->isNestingBlock)
+                {
+                    // No special handling required so we check if the element
+                    // is a nesting block and should start a new nesting level
+
+                    $element->parentBlock = $this->lastBlock;
+                    $this->lastBlock = $element;
+
+                    $this->parser->symbolTable->increaseScope();
+                }
+/*
+
+                if ( $this->lastBlock->canHandleElement( $element ) )
+                {
+                    echo ("lastBlock: ". get_class( $this->lastBlock ) . " can handle element: ".  get_class( $element ) ."\n"  );
+                    $this->lastBlock->handleElement( $element );
+                }
+                elseif ( $element instanceof ezcTemplateBlockTstNode && $element->isNestingBlock)
+                {
+                    // No special handling required so we check if the element
+                    // is a nesting block and should start a new nesting level
+
+                     echo ("Nesting block: ".  get_class( $element ) ."\n"  );
+
+                    // Check if the current object is the same as the one being
+                    // checked as child. If they are the same it means one of
+                    // parsers has duplicated the element.
+                    if ( $this->lastBlock === $element )
+                    {
+                        throw new Exception( "Detected infinite recursion creation in parser element " . get_class( $this->lastBlock ) );
+                    }
+
+                    $this->lastBlock->children[] = $element;
+                    // temporary compatability
+                    $this->lastBlock->elements = $this->lastBlock->children;
+
+                    $element->parentBlock = $this->lastBlock;
+                    $this->lastBlock = $element;
+
+                    $this->parser->symbolTable->increaseScope();
+                }
+                else
+                {
+
+                    $this->lastBlock->handleElement( $element );
+    //                echo ("Child of: ".  get_class( $element )  ."\n" );
+
+                    $this->lastBlock->children[] = $element;
+                    // temporary compatability
+                    $this->lastBlock->elements = $this->lastBlock->children;
+
+                }
+                */
+            }
+            
+
+/*
             // Check if we should place it as a child, this is usually
             // text elements and non-nesting blocks.
             if ( $element->canBeChildOf( $this->lastBlock ) )
             {
+//                echo ("Child of: ".  get_class( $element )  ."\n" );
+
                 $this->lastBlock->children[] = $element;
                 // temporary compatability
                 $this->lastBlock->elements = $this->lastBlock->children;
@@ -209,6 +288,8 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
             // Check for closure of current block
             if ( $element->isClosingBlock )
             {
+ //                echo ("Closing block: ".  get_class( $element ) ."\n"  );
+
                 $this->closeOpenBlock( $element );
                 $this->parser->symbolTable->decreaseScope();
                 continue;
@@ -218,6 +299,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
             // check if the current block can do something with it
             if ( $this->lastBlock->canHandleElement( $element ) )
             {
+  //               echo ("lastBlock: ". get_class( $this->lastBlock ) . " can handle element: ".  get_class( $element ) ."\n"  );
                 $this->lastBlock->handleElement( $element );
                 continue;
             }
@@ -227,6 +309,8 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
             if ( $element instanceof ezcTemplateBlockTstNode &&
                  $element->isNestingBlock )
             {
+   //              echo ("Nesting block: ".  get_class( $element ) ."\n"  );
+
                 // Check if the current object is the same as the one being
                 // checked as child. If they are the same it means one of
                 // parsers has duplicated the element.
@@ -245,6 +329,10 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
                 continue;
             }
 
+
+            throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor,
+                                                 "The element <" . get_class( $element ) . "> could not be handled by current block <" . get_class( $this->lastBlock ) . ">:{$this->lastBlock->name}" );
+/*
             $error = new ezcTemplateParserError( array( $this->lastBlock, $element ),
                                                  $this,
                                                  $this->parser->source,
@@ -254,6 +342,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
             // Element cannot be handled so throw an exception
             throw new ezcTemplateParseException( ezcTemplateParseException::INVALID_PROGRAM_ELEMENT,
                                                  get_class( $element ) );
+                                                 */
         }
     }
 
@@ -274,11 +363,11 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
         // if not throw an exception
         if ( $this->lastBlock->name != $element->name )
         {
-            $error = new ezcTemplateParserError( array( $this->lastBlock, $element ),
-                                                 $this,
-                                                 $this->parser->source,
+            
+            throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, //array( $this->lastBlock, $element ),
+                                                 //$this,
+                                                 //$this->parser->source,
                                                  "Found closing block {/" . $element->name . "} which does not match previous block {" . $this->lastBlock->name . "}");
-            throw new ezcTemplateSourceToTstParserException( $error );
         }
 
         // Sanity check

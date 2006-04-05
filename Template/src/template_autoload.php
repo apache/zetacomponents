@@ -102,6 +102,7 @@ return array(
              "ezcTemplateInstanceOfOperatorTstNode" => "Template/syntax_trees/tst/nodes/instance_of_operator.php",
              "ezcTemplateDeclarationTstNode" => "Template/syntax_trees/tst/nodes/declaration.php",
              "ezcTemplateArrayRangeOperatorTstNode" => "Template/syntax_trees/tst/nodes/array_range_operator.php",
+             "ezcTemplateConditionBodyTstNode" => "Template/syntax_trees/tst/nodes/condition_body.php",
 
 // Syntax trees / AST
              "ezcTemplateAstBuilder" => "Template/syntax_trees/ast/ast_builder.php",

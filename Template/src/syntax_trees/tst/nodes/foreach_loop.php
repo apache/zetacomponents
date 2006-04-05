@@ -54,8 +54,16 @@ class ezcTemplateForeachLoopTstNode extends ezcTemplateBlockTstNode
 
     public function handleElement( ezcTemplateTstNode $element )
     {
-        $this->elements[] = $element;
-        $element->parentBlock = $this;
+        if( $this->canHandleElement( $element ) )
+        {
+            $this->elements[] = $element;
+            $element->parentBlock = $this;
+        }
+        else
+        {
+            parent::handleElement( $element );
+        }
+
     }
 }
 ?>

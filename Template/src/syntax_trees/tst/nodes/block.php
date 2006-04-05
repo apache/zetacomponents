@@ -229,6 +229,18 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
     public function handleElement( ezcTemplateTstNode $element )
     {
         // Sub-classes need to implement the special handling here
+        if ( $this === $element )
+        {
+            throw new Exception( "Detected invalid recursion creation in parser element " . get_class( $this ) );
+        }
+
+        $this->children[] = $element;
+
+        // temporary compatability
+        $this->elements = $this->children;
+
+        return true;
+
     }
 
     /**

@@ -1,0 +1,11 @@
+mock:1:3: Expecting an expression.
+
+{if}
+   ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateControlStructureSourceToTstParser
+   -> ezcTemplateIfConditionSourceToTstParser
+    -> ezcTemplateExpressionSourceToTstParser

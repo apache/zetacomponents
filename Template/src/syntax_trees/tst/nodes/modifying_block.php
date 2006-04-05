@@ -62,6 +62,8 @@ class ezcTemplateModifyingBlockTstNode extends ezcTemplateBlockTstNode
         $this->startBracket = '{';
         $this->endBracket = '}';
         $this->expressionRoot = null;
+
+        $this->isNestingBlock = false;
     }
 
     /**
@@ -69,11 +71,13 @@ class ezcTemplateModifyingBlockTstNode extends ezcTemplateBlockTstNode
      *
      * @return true
      */
+     /*
     public function canBeChildOf( ezcTemplateBlockTstNode $block )
     {
         // Modifying expression block elements can always be child of blocks
         return true;
     }
+    */
 
     /**
      * @inheritdocs

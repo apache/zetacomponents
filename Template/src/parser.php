@@ -719,6 +719,15 @@ class ezcTemplateParser
         return new ezcTemplateIfConditionTstNode( $this->source, $start, $end );
     }
 
+    /** 
+     * Create a condition body 
+     */
+    public function createConditionBody( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    {
+        return new ezcTemplateConditionBodyTstNode( $this->source, $start, $end );
+    }
+
+
     /**
      * Creates a new "if" condition object with the cursor positions and returns it.
      *
