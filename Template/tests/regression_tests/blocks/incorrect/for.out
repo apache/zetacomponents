@@ -1,0 +1,10 @@
+mock:1:1: Unknown block <for>.
+
+{for $i = 0
+ ^
+Available blocks types are: section, include, let, set, tool_bar, ldelim, rdelim
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateCustomBlockSourceToTstParser

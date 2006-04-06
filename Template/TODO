@@ -2,21 +2,18 @@
 Source to TST (+ TST nodes)
 ---------------------------
 - Clean up expressionBlock->rootExpression.
-- Condition operator may not work.
-- Half expressions, { 3 + } doesn't throw an parser error.
-- There is no distinction between an else and an elseif
 - break, continue, etc. implemented?
-- Functions without parameters are passed incorrectly?
 - The "Available block types are: ..." are incorrect.
-- Implement cycles.
-- If is broken. {if false} blabla {/if} shows blabla :-(. 
-
-- Error message is sometimes  incorrect: 
-  var $a = array( "aa
-  ___________________________^
-
+- Implement cycles. Incl. increment, decrement, reset.
 - ArrayAppend {$a[] = 5}, needs to be fixed.
 - Check operand types in an expression: {var $a = 1 + array(1,2)}
+- Implement switch, case.
+- Check function names while parsing.
+- Implement offset and limit.
+- Implement the required version number.
+- check delimiters: {rdelim, ldelim}
+- Implement include + return.
+- Implement / check custom blocks.
 
 
 TST to AST (+ AST nodes)
@@ -26,8 +23,6 @@ TST to AST (+ AST nodes)
 
 AST to PHP (+ PHP code )
 ------------------------
-- Condition operator not present?
-
 
 
 
