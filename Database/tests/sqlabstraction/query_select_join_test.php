@@ -275,8 +275,9 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
     {
         if ( $this->db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
         {
-            return;
+            self::markTestSkipped( "Complex right joins not supported by sqlite yet" );
         }
+
         $this->q->select( 'employees.name', 'orders.product' )
                  ->from( 'employees' )->rightJoin( 'orders', $this->e->eq('employees.id', 'orders.employee_id') );
         $stmt = $this->db->query( $this->q->getQuery() );
@@ -292,8 +293,9 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
     {
         if ( $this->db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
         {
-            return;
+            self::markTestSkipped( "Complex right joins not supported by sqlite yet" );
         }
+
         $this->q->select( 'employees.name', 'orders.product' )
                  ->from( 'employees' )->rightJoin( 'orders', 'employees.id', 'orders.employee_id' );
         $stmt = $this->db->query( $this->q->getQuery() );
@@ -309,7 +311,7 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
     {
         if ( $this->db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
         {
-            return;
+            self::markTestSkipped( "Complex right joins not supported by sqlite yet" );
         }
 
         $this->q->select( 'employees.name', 'orders.product', 'in_use.amount' )
