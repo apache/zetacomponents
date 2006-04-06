@@ -1,0 +1,2 @@
+{foreach 1..2 as $val}
+{$val}

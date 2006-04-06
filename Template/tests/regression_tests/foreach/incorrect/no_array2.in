@@ -1,0 +1,2 @@
+{foreach 4+2 as $i}
+{/foreach}

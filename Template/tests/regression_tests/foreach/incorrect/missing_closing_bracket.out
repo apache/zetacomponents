@@ -1,0 +1,10 @@
+mock:1:8: Expecting the keyword '=>' or closing curly bracket '}'
+
+{$i} 1..2 as $i
+^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateControlStructureSourceToTstParser
+   -> ezcTemplateForeachLoopSourceToTstParser

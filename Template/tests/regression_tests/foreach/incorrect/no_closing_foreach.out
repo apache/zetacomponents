@@ -1,0 +1,7 @@
+mock:1:0: Incorrect nesting in code, the block {foreach} was not correctly terminated.
+
+{foreach 1..2 as $val}
+^
+
+failed in:
+ezcTemplateProgramSourceToTstParser

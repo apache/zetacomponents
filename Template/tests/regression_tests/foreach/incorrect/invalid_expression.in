@@ -1,0 +1,1 @@
+{foreach 3 + as $i}{/foreach}

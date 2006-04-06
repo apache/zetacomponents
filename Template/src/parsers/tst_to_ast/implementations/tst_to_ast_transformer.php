@@ -254,6 +254,10 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $astNode = new ezcTemplateForeachAstNode();
 
         $astNode->arrayExpression = $type->array->accept( $this );
+        if( !($this->type & self::TYPE_ARRAY) )
+        {
+            throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
+        }
 
         if( $type->keyVariableName  !== null )
         {

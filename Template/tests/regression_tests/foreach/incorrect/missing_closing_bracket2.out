@@ -1,0 +1,10 @@
+mock:1:8: Expecting a closing curly bracket: '}'
+
+ 1..2 as $key => $value 
+^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateControlStructureSourceToTstParser
+   -> ezcTemplateForeachLoopSourceToTstParser

@@ -1,0 +1,10 @@
+mock:1:8: Expecting the keyword 'as'.
+
+{foreach 1..2 $i}{/forea
+              ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateControlStructureSourceToTstParser
+   -> ezcTemplateForeachLoopSourceToTstParser

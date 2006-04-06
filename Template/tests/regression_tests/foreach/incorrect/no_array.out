@@ -1,0 +1,4 @@
+mock:1:17: Expecting an array.
+
+{foreach 5 as $i}
+        ^

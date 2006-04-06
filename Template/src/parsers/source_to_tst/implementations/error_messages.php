@@ -4,6 +4,8 @@
 class ezcTemplateSourceToTstErrorMessages
 {
     // Expected types
+    const MSG_EXPECT_ARROW_OR_CLOSE_CURLY_BRACKET = "Expecting the keyword '=>' or closing curly bracket '}'";
+    const MSG_EXPECT_AS                         = "Expecting the keyword 'as'.";
     const MSG_EXPECT_EXPRESSION                 = "Expecting an expression.";
     const MSG_EXPECT_EXPRESSION_NOT_IDENTIFIER  = "Expecting an expression, not an identifier. (Braces missing?)";
     const MSG_EXPECT_OPERAND                    = "Expecting an operand.";
@@ -34,6 +36,7 @@ class ezcTemplateSourceToTstErrorMessages
 
 
 
+    const MSG_EXPECT_ARRAY                      = "Expecting an array.";
     const MSG_EXPECT_VALUE_NOT_ARRAY            = "Expecting a value and not an array.";
 
 

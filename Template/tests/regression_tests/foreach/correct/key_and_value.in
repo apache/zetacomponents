@@ -1,0 +1,16 @@
+{foreach array('a','b') as $key => $value}
+{$key." : ".$value}
+{/foreach}
+
+{var $array = array('a','b')}
+{foreach $array as $key => $value} 
+{$key." : ".$value}
+{/foreach}
+
+{foreach 'a'..'b' as $key => $value}
+{$key." : ".$value}
+{/foreach}
+
+{foreach array_fill_range('a','b') as $key => $value}
+{$key." : ".$value}
+{/foreach}
