@@ -1,0 +1,11 @@
+mock:1:6: Expecting an expression.
+
+{while }
+       ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateControlStructureSourceToTstParser
+   -> ezcTemplateWhileLoopSourceToTstParser
+    -> ezcTemplateExpressionSourceToTstParser

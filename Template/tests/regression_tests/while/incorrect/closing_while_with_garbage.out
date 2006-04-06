@@ -1,0 +1,10 @@
+mock:2:7: Expecting a closing curly bracket: '}'
+
+{/while oaidjf ao}
+        ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateControlStructureSourceToTstParser
+   -> ezcTemplateWhileLoopSourceToTstParser

@@ -1,0 +1,10 @@
+mock:3:7: Expecting a closing curly bracket: '}'
+
+
+^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateControlStructureSourceToTstParser
+   -> ezcTemplateWhileLoopSourceToTstParser

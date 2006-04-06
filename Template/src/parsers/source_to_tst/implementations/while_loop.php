@@ -18,11 +18,6 @@
 class ezcTemplateWhileLoopSourceToTstParser extends ezcTemplateSourceToTstParser
 {
     /**
-     * Bad/missing condition.
-     */
-    const STATE_BAD_CONDITION = 1;
-
-    /**
      * Passes control to parent.
      */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
@@ -40,25 +35,26 @@ class ezcTemplateWhileLoopSourceToTstParser extends ezcTemplateSourceToTstParser
         $this->status = self::PARSE_PARTIAL_SUCCESS;
 
         // skip whitespace and comments
-        if ( !$this->findNextElement() )
-            return false;
+        $this->findNextElement();
 
         if ( !$this->block->isClosingBlock )
         {
             if ( !$this->parseRequiredType( 'Expression', null, false ) )
             {
-                $this->operationState = self::STATE_BAD_CONDITION;
-                return false;
+                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
             }
 
             $condition = $this->lastParser->rootOperator;
         }
 
         if ( !$this->parentParser->atEnd( $cursor, null, false ) )
-            return false;
+        {
+            throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
+        }
 
         // Everything went well. Let's create the element.
         $cursor->advance();
+
         $el = $this->parser->createWhileLoop( $this->startCursor, $cursor );
         $el->name = $name;
         if ( isset( $condition ) )
@@ -67,18 +63,6 @@ class ezcTemplateWhileLoopSourceToTstParser extends ezcTemplateSourceToTstParser
         $this->appendElement( $el );
 
         return true;
-    }
-
-    protected function generateErrorMessage()
-    {
-        switch ( $this->operationState )
-        {
-            case self::STATE_BAD_CONDITION:
-                return 'Bad/missing condition.';
-        }
-
-        // Default error message handler.
-        return parent::generateErrorMessage();
     }
 }
 

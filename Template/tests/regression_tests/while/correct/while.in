@@ -1,0 +1,10 @@
+{var $i = 0}
+{while $i < 5}
+{"count: " . $i}
+{$i++}
+{/while}
+
+{while $i > 0}
+{"count: " . $i}
+{$i -= 1}
+{/while}
