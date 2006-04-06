@@ -101,6 +101,10 @@ class ezcQuerySelectTest extends ezcTestCase
         $reference = 'SELECT column1, column2, column3, column4';
         $this->q->select( 'column1', array( 'column2', 'column3' ), 'column4' );
         $this->assertEquals( $reference, $this->q->buildSelect() );
+        $this->q->reset();
+
+        $this->q->select( 'column1' )->select( array( 'column2', 'column3' ) )->select( 'column4' );
+        $this->assertEquals( $reference, $this->q->buildSelect() );
     }
 
     public function testAliAs()
@@ -121,6 +125,14 @@ class ezcQuerySelectTest extends ezcTestCase
     {
         $reference = 'FROM table1, table2, table3, table4';
         $this->q->from( 'table1', array( 'table2', 'table3' ), 'table4' );
+        $this->assertEquals( $reference, $this->q->buildFrom() );
+        $this->q->reset();
+        
+        $this->q->from( 'table1' )->from( array( 'table2', 'table3' ), 'table4' );
+        $this->assertEquals( $reference, $this->q->buildFrom() );
+        $this->q->reset();
+        
+        $this->q->from( 'table1' )->from( 'table2')->from( 'table3' )->from( 'table4' );
         $this->assertEquals( $reference, $this->q->buildFrom() );
     }
 
@@ -156,6 +168,10 @@ class ezcQuerySelectTest extends ezcTestCase
     {
         $reference = 'WHERE true AND false';
         $this->q->where( 'true', 'false' );
+        $this->assertEquals( $reference, $this->q->buildWhere() );
+        $this->q->reset();
+
+        $this->q->where( 'true' ) ->where( 'false' );
         $this->assertEquals( $reference, $this->q->buildWhere() );
     }
 
@@ -287,46 +303,6 @@ class ezcQuerySelectTest extends ezcTestCase
         $this->q->select( '*' )->from( 'table' )
                 ->limit( 1 );
         $this->assertEquals( $reference, $this->q->getQuery() );
-    }
-
-    // multicalls
-    public function testMultipleSelect()
-    {
-        try
-        {
-            $this->q->select( '*' )->select( '*' );
-        }
-        catch( ezcQueryException $e ) 
-        {
-            return;
-        }
-        $this->fail( "Two calls to select() did not fail" );
-    }
-
-    public function testMultipleFrom()
-    {
-        try
-        {
-            $this->q->from( 'id' )->from( 'id' );
-        }
-        catch( ezcQueryException $e )
-        {
-            return;
-        }
-        $this->fail( "Two calls to from() did not fail" );
-    }
-
-    public function testMultipleWhere()
-    {
-        try
-        {
-            $this->q->where( 'id' )->where( 'id' );
-        }
-        catch( ezcQueryException $e )
-        {
-            return;
-        }
-        $this->fail( "Two calls to where() did not fail" );
     }
 
     public static function suite()

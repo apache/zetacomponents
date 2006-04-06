@@ -32,6 +32,7 @@ class ezcQuerySelectTestImpl extends ezcTestCase
         try 
         {
             $this->db->exec( 'DROP TABLE query_test' );
+            $this->db->exec( 'DROP TABLE query_test2' );
         }
         catch ( Exception $e ) {} // eat
 
@@ -41,11 +42,19 @@ class ezcQuerySelectTestImpl extends ezcTestCase
         $this->db->exec( "INSERT INTO query_test VALUES ( 2, 'IBM', 'Norway', 500 )" );
         $this->db->exec( "INSERT INTO query_test VALUES ( 3, 'eZ systems', 'Ukraine', 10 )" );
         $this->db->exec( "INSERT INTO query_test VALUES ( 4, 'IBM', 'Germany', null )" );
+        
+        // insert some data
+        $this->db->exec( 'CREATE TABLE query_test2 ( id int, company VARCHAR(255), section VARCHAR(255), employees int )' );
+        $this->db->exec( "INSERT INTO query_test2 VALUES ( 1, 'eZ systems', 'Norway', 20 )" );
+        $this->db->exec( "INSERT INTO query_test2 VALUES ( 2, 'IBM', 'Norway', 500 )" );
+        $this->db->exec( "INSERT INTO query_test2 VALUES ( 3, 'eZ systems', 'Ukraine', 10 )" );
+        $this->db->exec( "INSERT INTO query_test2 VALUES ( 4, 'IBM', 'Germany', null )" );
     }
 
     public function tearDown()
     {
         $this->db->exec( 'DROP TABLE query_test' );
+        $this->db->exec( 'DROP TABLE query_test2' );
     }
 
     public function testBindString()
@@ -190,17 +199,32 @@ class ezcQuerySelectTestImpl extends ezcTestCase
         catch ( ezcQueryVariableParameterException $e ) {}
     }
 
-    public function testSelectMulti()
+    public function testSelectMultiInOne()
     {
         $this->q->select( 'id', 'company' )->from( 'query_test' );
         $stmt = $this->db->query( $this->q->getQuery() );
         $this->assertEquals( 2, $stmt->columnCount() );
     }
 
-    public function testSelectMultiWithAlias()
+    public function testSelectMultiInMulti()
+    {
+        $this->q->select( 'id' )->from( 'query_test' )->select( 'company' );
+        $stmt = $this->db->query( $this->q->getQuery() );
+        $this->assertEquals( 2, $stmt->columnCount() );
+    }
+
+    public function testSelectMultiWithAliasInOne()
     {
         $this->q->setAliases( array( 'identifier' => 'id', 'text' => 'company' ) );
         $this->q->select( 'identifier', 'text' )->from( 'query_test' );
+        $stmt = $this->db->query( $this->q->getQuery() );
+        $this->assertEquals( 2, $stmt->columnCount() );
+    }
+
+    public function testSelectMultiWithAliasInMulti()
+    {
+        $this->q->setAliases( array( 'identifier' => 'id', 'text' => 'company' ) );
+        $this->q->select( 'identifier')->select( 'text' )->from( 'query_test' );
         $stmt = $this->db->query( $this->q->getQuery() );
         $this->assertEquals( 2, $stmt->columnCount() );
     }
@@ -223,31 +247,18 @@ class ezcQuerySelectTestImpl extends ezcTestCase
         $this->assertEquals( 'other', $meta['name'] );
     }
 
-
-    public function testWhereMulti()
+    public function testMultipleFromInOne()
     {
-        $this->q->select( '*' )->from( 'query_test' )
-            ->where( $this->e->eq( 1, 1 ), $this->e->eq( 1, 0 ) );
+        $this->q->select( 'query_test.id', 'query_test2.company' )->from( 'query_test', 'query_test2');
         $stmt = $this->db->query( $this->q->getQuery() );
-        $rows = 0;
-        foreach ( $stmt as $row )
-        {
-            $rows++;
-        }
-        $this->assertEquals( 0, $rows );
+        $this->assertEquals( 2, $stmt->columnCount() );
     }
 
-    public function testMultipleSelect()
+    public function testMultipleFromInMulti()
     {
-        try
-        {
-            $this->q->select( '*' )->select( '*' );
-        }
-        catch ( ezcQueryException $e )
-        {
-            return;
-        }
-        $this->fail( "Two calls to select() did not fail" );
+        $this->q->select( 'query_test.id', 'query_test2.company' )->from( 'query_test')->from( 'query_test2' );
+        $stmt = $this->db->query( $this->q->getQuery() );
+        $this->assertEquals( 2, $stmt->columnCount() );
     }
 
     public function testEmptyFrom()
@@ -260,17 +271,30 @@ class ezcQuerySelectTestImpl extends ezcTestCase
         catch ( ezcQueryVariableParameterException $e ) {}
     }
 
-    public function testMultipleFrom()
+    public function testWhereMultiInOne()
     {
-        try
+        $this->q->select( '*' )->from( 'query_test' )
+            ->where( $this->e->eq( 1, 1 ), $this->e->eq( 1, 0 ) );
+        $stmt = $this->db->query( $this->q->getQuery() );
+        $rows = 0;
+        foreach ( $stmt as $row )
         {
-            $this->q->from( 'id' )->from( 'id' );
+            $rows++;
         }
-        catch ( ezcQueryException $e )
+        $this->assertEquals( 0, $rows );
+    }
+
+    public function testWhereMultiInMulti()
+    {
+        $this->q->select( '*' )->from( 'query_test' )
+            ->where( $this->e->eq( 1, 1 ))->where( $this->e->eq( 1, 0 ) );
+        $stmt = $this->db->query( $this->q->getQuery() );
+        $rows = 0;
+        foreach ( $stmt as $row )
         {
-            return;
+            $rows++;
         }
-        $this->fail( "Two calls to from() did not fail" );
+        $this->assertEquals( 0, $rows );
     }
 
     public function testEmptyWhere()
@@ -281,19 +305,6 @@ class ezcQuerySelectTestImpl extends ezcTestCase
             $this->fail( "Expected exception" );
         }
         catch ( ezcQueryVariableParameterException $e ) {}
-    }
-
-    public function testMultipleWhere()
-    {
-        try
-        {
-            $this->q->where( 'id' )->where( 'id' );
-        }
-        catch ( ezcQueryException $e )
-        {
-            return;
-        }
-        $this->fail( "Two calls to where() did not fail" );
     }
 
     public function testEmptyGroupBy()
