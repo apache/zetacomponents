@@ -16,7 +16,7 @@ class ezcTestSuite extends PHPUnit2_Framework_TestSuite
     }
 
 
-    public function run( $result = NULL )
+    public function run( PHPUnit2_Framework_TestResult $result = NULL )
     {
         print ( "\n" );
         ezcTestSuite::$depth++;
