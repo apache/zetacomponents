@@ -1,0 +1,8 @@
+{switch 2}
+{case 1}
+Hello
+{/case}
+case
+{case 2}
+{/case}
+{/switch}

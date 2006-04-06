@@ -719,6 +719,19 @@ class ezcTemplateParser
         return new ezcTemplateIfConditionTstNode( $this->source, $start, $end );
     }
 
+    /**
+     * Create a switch
+     */
+    public function createSwitch( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    {
+        return new ezcTemplateSwitchTstNode( $this->source, $start, $end );
+    }
+
+    public function createCase( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    {
+        return new ezcTemplateCaseTstNode( $this->source, $start, $end );
+    }
+  
     /** 
      * Create a condition body 
      */

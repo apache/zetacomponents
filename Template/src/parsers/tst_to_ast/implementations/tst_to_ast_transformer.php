@@ -550,6 +550,77 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $type->variable->accept($this), $expression ) );
     }
 
+    public function visitSwitchTstNode( ezcTemplateSwitchTstNode $type )
+    {
+        $astNode = new ezcTemplateSwitchAstNode();
+        $astNode->expression = $type->condition->accept( $this );
+
+        foreach( $type->children as $child )
+        {
+            $res = $child->accept( $this );
+            if( is_array( $res ) )
+            {
+                foreach( $res as $r )
+                {
+                    $astNode->cases[] = $r;
+                }
+            }
+            else
+            {
+                $astNode->cases[] = $res;
+            }
+        }
+
+        return $astNode;
+    }
+
+    public function visitCaseTstNode( ezcTemplateCaseTstNode $type ) 
+    {
+        // Default.
+        if( $type->conditions === null  )
+        {
+            $default = new ezcTemplateDefaultAstNode();
+            $default->body = $this->createBody( $type->children );
+            $default->body->statements[] = new ezcTemplateBreakAstNode(); // Add break;
+            return $default;
+        }
+
+        // Case, with multipe values. {case 1,2,3}, return as an array with astNodes.
+        // Switch will create multiple cases: case 1: case2: case3: <my code>
+        foreach ($type->conditions as $condition )
+        {
+            $cb = new ezcTemplateCaseAstNode();
+            $cb->match = $condition->accept($this);
+            $cb->body = new ezcTemplateBodyAstNode();
+            
+            $res[] = $cb;
+        }
+
+        $cb->body = $this->createBody( $type->children );
+        $cb->body->statements[] = new ezcTemplateBreakAstNode();
+
+
+        return $res;
+
+        
+      /* 
+        $cb = new ezcTemplateConditionBodyAstNode();
+        $cb->condition = ( $type->condition !== null ? $type->condition->accept( $this ) : null );
+        $cb->body = $this->createBody( $type->children ); //$this->addOutputNodeIfNeeded( $type->children[0]->accept( $this ) );
+        return $cb;
+        */
+
+/* 
+        $condition = $type->condition->accept( $this );
+        $body = $this->createBody( $type->elements );
+
+        var_dump ( $cbbody );
+        exit();
+        */
+    }
+
+
+
     public function visitArrayRangeOperatorTstNode( ezcTemplateArrayRangeOperatorTstNode $type ) 
     {
         return $this->appendFunctionCallRecursively( $type, "array_fill_range", true );

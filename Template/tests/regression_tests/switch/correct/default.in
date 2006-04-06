@@ -1,0 +1,8 @@
+{switch 2}
+{case 1}
+Hello
+{/case}
+{default}
+World
+{/default}
+{/switch}

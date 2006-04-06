@@ -1,0 +1,5 @@
+{switch 1}
+{case 1}bla{/case} 
+{default}bla{/default} 
+{default}bla{/default} 
+{/switch}

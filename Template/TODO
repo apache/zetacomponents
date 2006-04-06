@@ -7,13 +7,14 @@ Source to TST (+ TST nodes)
 - Implement cycles. Incl. increment, decrement, reset.
 - ArrayAppend {$a[] = 5}, needs to be fixed.
 - Check operand types in an expression: {var $a = 1 + array(1,2)}
-- Implement switch, case.
 - Check function names while parsing.
 - Implement offset and limit.
 - Implement the required version number.
 - check delimiters: {rdelim, ldelim}
 - Implement include + return.
 - Implement / check custom blocks.
+
+- Remove the condition property from the ezcTemplateIfConditionTstNode.
 
 
 TST to AST (+ AST nodes)

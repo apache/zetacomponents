@@ -1,0 +1,9 @@
+{var $a = 2}
+{switch $a}
+{case 1}
+	Hello
+{/case}
+{case 2}
+	World
+{/case}
+{/switch}
