@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDbSchemaWriter interface
+ * File containing the ezcDbSchemaFileWriter interface
  *
  * @package DatabaseSchema
  * @version //autogen//
@@ -13,7 +13,9 @@
  * @package DatabaseSchema
  * @version //autogen//
  */
-interface ezcDbSchemaWriter
+interface ezcDbSchemaDiffFileWriter extends ezcDbSchemaDiffWriter
 {
+    public function getDiffWriterType();
+    public function saveDiffToFile( $file, ezcDbSchemaDiff $schemaDiff );
 }
 ?>

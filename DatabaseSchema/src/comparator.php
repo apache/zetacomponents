@@ -30,7 +30,7 @@ class ezcDbSchemaComparator
      */
     public static final function compareSchemas( ezcDbSchema $schema1, ezcDbSchema $schema2 )
     {
-        $diff = array();
+        $diff = new ezcDbSchemaDiff();
         $schema1 = $schema1->getSchema();
         $schema2 = $schema2->getSchema();
 
@@ -38,14 +38,14 @@ class ezcDbSchemaComparator
         {
             if ( !isset( $schema1[$tableName] ) )
             {
-                $diff['new_tables'][$tableName] = $tableDefinition;
+                $diff->newTables[$tableName] = $tableDefinition;
             }
             else
             {
                 $tableDifferences = ezcDbSchemaComparator::diffTable( $schema1[$tableName], $tableDefinition );
-                if ( count( $tableDifferences ) )
+                if ( $tableDifferences !== false )
                 {
-                    $diff['table_changes'][$tableName] = $tableDifferences;
+                    $diff->changedTables[$tableName] = $tableDifferences;
                 }
             }
         }
@@ -55,7 +55,7 @@ class ezcDbSchemaComparator
         {
             if ( !isset( $schema2[$tableName] ) )
             {
-                $diff['removed_tables'][$tableName] = $tableDefinition;
+                $diff->removedTables[$tableName] = true;
             }
         }
 
@@ -66,24 +66,20 @@ class ezcDbSchemaComparator
      * Finds the difference between the tables \a $table1 and \a $table2 by looking
      * at the fields and indexes.
      *
-     * @return array(mixed)  an array containing:
-     *        - added_fields - A list of new fields in the table
-     *        - removed_fields - A list of removed fields in the table
-     *        - changed_fields - A list of fields that have changed definition
-     *        - added_indexes - A list of new indexes in the table
-     *        - removed_indexes - A list of removed indexes in the table
-     *        - changed_indexes - A list of indexes that have changed definition
+     * @return bool|ezcDbSchemaTableDiff
      */
     private static final function diffTable( ezcDbSchemaTable $table1, ezcDbSchemaTable $table2 )
     {
-        $tableDifferences = array();
+        $changes = 0;
+        $tableDifferences = new ezcDbSchemaTableDiff();
 
         /* See if all the fields in table 1 exist in table 2 */
         foreach ( $table2->fields as $fieldName => $fieldDefinition )
         {
             if ( !isset( $table1->fields[$fieldName] ) )
             {
-                $tableDifferences['added_fields'][$fieldName] = $fieldDefinition;
+                $tableDifferences->addedFields[$fieldName] = $fieldDefinition;
+                $changes++;
             }
         }
         /* See if there are any removed fields in table 2 */
@@ -91,7 +87,8 @@ class ezcDbSchemaComparator
         {
             if ( !isset( $table2->fields[$fieldName] ) )
             {
-                $tableDifferences['removed_fields'][$fieldName] = true;
+                $tableDifferences->removedFields[$fieldName] = true;
+                $changes++;
             }
         }
         /* See if there are any changed fieldDefinitioninitions */
@@ -102,7 +99,8 @@ class ezcDbSchemaComparator
                 $fieldDifferences = ezcDbSchemaComparator::diffField( $fieldDefinition, $table2->fields[$fieldName] );
                 if ( $fieldDifferences )
                 {
-                    $tableDifferences['changed_fields'][$fieldName] = $fieldDifferences;
+                    $tableDifferences->changedFields[$fieldName] = $fieldDifferences;
+                    $changes++;
                 }
             }
         }
@@ -115,7 +113,8 @@ class ezcDbSchemaComparator
         {
             if ( !isset( $table1Indexes[$indexName] ) )
             {
-                $tableDifferences['added_indexes'][$indexName] = $indexDefinition;
+                $tableDifferences->addedIndexes[$indexName] = $indexDefinition;
+                $changes++;
             }
         }
         /* See if there are any removed indexes in table 2 */
@@ -123,7 +122,8 @@ class ezcDbSchemaComparator
         {
             if ( !isset( $table2Indexes[$indexName] ) )
             {
-                $tableDifferences['removed_indexes'][$indexName] = $indexDefinition;
+                $tableDifferences->removedIndexes[$indexName] = true;
+                $changes++;
             }
         }
         /* See if there are any changed indexDefinitions */
@@ -134,12 +134,13 @@ class ezcDbSchemaComparator
                 $indexDifferences = ezcDbSchemaComparator::diffIndex( $indexDefinition, $table2Indexes[$indexName] );
                 if ( $indexDifferences )
                 {
-                    $tableDifferences['changed_indexes'][$indexName] = $indexDifferences;
+                    $tableDifferences->changedIndexes[$indexName] = $indexDifferences;
+                    $changes++;
                 }
             }
         }
 
-        return $tableDifferences;
+        return $changes ? $tableDifferences : false;
     }
 
     /**

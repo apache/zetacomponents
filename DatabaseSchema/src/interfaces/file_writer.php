@@ -13,7 +13,7 @@
  * @package DatabaseSchema
  * @version //autogen//
  */
-interface ezcDbSchemaFileWriter
+interface ezcDbSchemaFileWriter extends ezcDbSchemaWriter
 {
     public function getWriterType();
     public function saveToFile( $file, ezcDbSchema $schema );

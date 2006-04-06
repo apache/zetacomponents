@@ -13,13 +13,31 @@
  *
  * @package DatabaseSchema
  */
-class ezcDbSchemaPhpArrayReader implements ezcDbSchemaFileReader
+class ezcDbSchemaPhpArrayReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFileReader
 {
     /**
      * This handler supports loading schema
      * from XML files.
      */
     public function getReaderType()
+    {
+        return ezcDbSchema::FILE;
+    }
+
+    /**
+     * This handler supports loading a difference schema
+     * from XML files.
+     */
+    public function getDiffReaderType()
+    {
+        return ezcDbSchema::FILE;
+    }
+
+    /**
+     * This handler supports loading schema
+     * from XML files.
+     */
+    public function getReaderDiffType()
     {
         return ezcDbSchema::FILE;
     }
@@ -40,8 +58,29 @@ class ezcDbSchemaPhpArrayReader implements ezcDbSchemaFileReader
         {
             throw new ezcDbSchemaInvalidSchemaException( 'File does not have the correct structure' );
         }
+        // @TODO: Add validator call here
 
         return new ezcDbSchema( $schema[0], $schema[1] );
+    }
+    
+    /**
+     * Load schema differences from a .php file.
+     * @returns ezcDbSchemaDiff
+     */
+    public function loadDiffFromFile( $file )
+    {
+        if ( !file_exists( $file ) )
+        {
+            throw new ezcBaseFileNotFoundException( $file, 'differences schema' );
+        }
+
+        $schema = include $file;
+        if ( !is_object( $schema ) || get_class( $schema ) != 'ezcDbSchemaDiff' )
+        {
+            throw new ezcDbSchemaInvalidSchemaException( 'File does not have the correct structure' );
+        }
+
+        return $schema;
     }
 }
 ?>

@@ -13,11 +13,18 @@
  *
  * @package DatabaseSchema
  */
-class ezcDbSchemaPhpArrayWriter implements ezcDbSchemaFileWriter
+class ezcDbSchemaPhpArrayWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDiffFileWriter
 {
     /**
      */
     public function getWriterType()
+    {
+        return ezcDbSchema::FILE;
+    }
+
+    /**
+     */
+    public function getDiffWriterType()
     {
         return ezcDbSchema::FILE;
     }
@@ -31,6 +38,15 @@ class ezcDbSchemaPhpArrayWriter implements ezcDbSchemaFileWriter
         $data = $dbSchema->getData();
         
         $fileData = '<?php return '. var_export( array( $schema, $data ), true ) . '; ?>';
+        file_put_contents( $file, (string) $fileData, FILE_TEXT );
+    }
+
+    /**
+     * Save schema diff to an .php file
+     */
+    public function saveDiffToFile( $file, ezcDbSchemaDiff $dbSchemaDiff )
+    {
+        $fileData = '<?php return '. var_export( $dbSchemaDiff, true ) . '; ?>';
         file_put_contents( $file, (string) $fileData, FILE_TEXT );
     }
 }

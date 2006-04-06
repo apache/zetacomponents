@@ -1,8 +1,14 @@
 <?php
-class TestSchemaReaderImplementation extends ezcDbSchemaReader
+class TestSchemaReaderImplementation implements ezcDbSchemaReader
 {
 }
-class TestSchemaWriterImplementation extends ezcDbSchemaWriter
+class TestSchemaWriterImplementation implements ezcDbSchemaWriter
+{
+}
+class TestSchemaDiffReaderImplementation implements ezcDbSchemaDiffReader
+{
+}
+class TestSchemaDiffWriterImplementation implements ezcDbSchemaDiffWriter
 {
 }
 ?>

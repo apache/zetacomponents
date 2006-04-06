@@ -11,7 +11,9 @@
 require_once 'schema_test.php';
 require_once 'handler_manager_test.php';
 require_once 'php_array_test.php';
+require_once 'php_array_diff_test.php';
 require_once 'xml_test.php';
+require_once 'xml_diff_test.php';
 require_once 'mysql_test.php';
 require_once 'validator_test.php';
 require_once 'comparator_test.php';
@@ -31,8 +33,10 @@ class ezcDatabaseSchemaSuite extends ezcTestSuite
         $this->addTest( ezcDatabaseSchemaHandlerManagerTest::suite() );
         $this->addTest( ezcDatabaseSchemaValidatorTest::suite() );
         $this->addTest( ezcDatabaseSchemaComparatorTest::suite() );
-        $this->addTest( ezcDatabasePhpArrayTest::suite() );
-        $this->addTest( ezcDatabaseXmlTest::suite() );
+        $this->addTest( ezcDatabaseSchemaPhpArrayTest::suite() );
+        $this->addTest( ezcDatabaseSchemaPhpArrayDiffTest::suite() );
+        $this->addTest( ezcDatabaseSchemaXmlTest::suite() );
+        $this->addTest( ezcDatabaseSchemaXmlDiffTest::suite() );
         $this->addTest( ezcDatabaseSchemaMysqlTest::suite() );
 	}
 

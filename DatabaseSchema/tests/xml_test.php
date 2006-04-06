@@ -12,7 +12,7 @@
  * @package DatabaseSchema
  * @subpackage Tests
  */
-class ezcDatabaseXmlTest extends ezcTestCase
+class ezcDatabaseSchemaXmlTest extends ezcTestCase
 {
     public function setUp()
     {
@@ -86,7 +86,7 @@ class ezcDatabaseXmlTest extends ezcTestCase
 
     public function testXml()
     {
-        $fileName = $this->tempDir . '/php_array_write_result.xml'; 
+        $fileName = $this->tempDir . '/xml_write_result.xml'; 
         $schema = new ezcDbSchema( self::getSchema() );
         $schema->writeToFile( 'xml', $fileName );
         $newSchema = ezcDbSchema::createFromFile( 'xml', $fileName );
@@ -95,7 +95,7 @@ class ezcDatabaseXmlTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcDatabaseXmlTest' );
+        return new ezcTestSuite( 'ezcDatabaseSchemaXmlTest' );
     }
 }
 ?>

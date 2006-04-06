@@ -13,7 +13,7 @@
  * @package DatabaseSchema
  * @version //autogen//
  */
-interface ezcDbSchemaFileReader
+interface ezcDbSchemaFileReader extends ezcDbSchemaReader
 {
     public function getReaderType();
     public function loadFromFile( $file );

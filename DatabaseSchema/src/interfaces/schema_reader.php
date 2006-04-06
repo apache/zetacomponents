@@ -13,7 +13,7 @@
  * @package DatabaseSchema
  * @version //autogen//
  */
-abstract class ezcDbSchemaReader
+interface ezcDbSchemaReader
 {
 }
 ?>

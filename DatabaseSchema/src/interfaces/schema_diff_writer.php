@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDbSchemaWriter interface
+ * File containing the ezcDbSchemaDiffWriter interface
  *
  * @package DatabaseSchema
  * @version //autogen//
@@ -8,12 +8,12 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * This class provides the interface for database schema writers
+ * This class provides the interface for database schema difference writers
  *
  * @package DatabaseSchema
  * @version //autogen//
  */
-interface ezcDbSchemaWriter
+interface ezcDbSchemaDiffWriter
 {
 }
 ?>

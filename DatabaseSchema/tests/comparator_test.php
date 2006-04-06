@@ -35,7 +35,7 @@ class ezcDatabaseSchemaComparatorTest extends ezcTestCase
                 )
             ),
         ) );
-        self::assertEquals( array(), ezcDbSchemaComparator::compareSchemas( $schema1, $schema2 ) );
+        self::assertEquals( new ezcDbSchemaDiff(), ezcDbSchemaComparator::compareSchemas( $schema1, $schema2 ) );
     }
 
     public function testCompareSame2()
@@ -56,7 +56,7 @@ class ezcDatabaseSchemaComparatorTest extends ezcTestCase
                 )
             ),
         ) );
-        self::assertEquals( array(), ezcDbSchemaComparator::compareSchemas( $schema1, $schema2 ) );
+        self::assertEquals( new ezcDbSchemaDiff(), ezcDbSchemaComparator::compareSchemas( $schema1, $schema2 ) );
     }
 
     public function testCompareMissingTable()
@@ -71,13 +71,11 @@ class ezcDatabaseSchemaComparatorTest extends ezcTestCase
         $schema2 = new ezcDbSchema( array(
         ) );
 
-        $expected = array( 'removed_tables' => array(
-            'bugdb' => new ezcDbSchemaTable(
-                array (
-                    'integerfield1' => new ezcDbSchemaField( 'integer' ),
-                )
-            ),
-        ) );
+        $expected = new ezcDbSchemaDiff( array(), array(),
+            array(
+                'bugdb' => true
+            )
+        );
         self::assertEquals( $expected, ezcDbSchemaComparator::compareSchemas( $schema1, $schema2 ) );
     }
 
@@ -93,7 +91,7 @@ class ezcDatabaseSchemaComparatorTest extends ezcTestCase
             ),
         ) );
 
-        $expected = array( 'new_tables' => array(
+        $expected = new ezcDbSchemaDiff( array(
             'bugdb' => new ezcDbSchemaTable(
                 array (
                     'integerfield1' => new ezcDbSchemaField( 'integer' ),
@@ -121,14 +119,14 @@ class ezcDatabaseSchemaComparatorTest extends ezcTestCase
             ),
         ) );
 
-        $expected = array (
-            'table_changes' => array (
-                'bugdb' => array (
-                    'removed_fields' => array (
+        $expected = new ezcDbSchemaDiff ( array(), 
+            array (
+                'bugdb' => new ezcDbSchemaTableDiff( array(), array(),
+                    array (
                         'integerfield1' => true,
-                    ),
-                ),
-            ),
+                    )
+                )
+            )
         );
         self::assertEquals( $expected, ezcDbSchemaComparator::compareSchemas( $schema1, $schema2 ) );
     }
@@ -151,14 +149,14 @@ class ezcDatabaseSchemaComparatorTest extends ezcTestCase
             ),
         ) );
 
-        $expected = array (
-            'table_changes' => array (
-                'bugdb' => array (
-                    'added_fields' => array (
+        $expected = new ezcDbSchemaDiff ( array(), 
+            array (
+                'bugdb' => new ezcDbSchemaTableDiff (
+                    array (
                         'integerfield2' => new ezcDbSchemaField( 'integer' ),
-                    ),
+                    )
                 ),
-            ),
+            )
         );
         self::assertEquals( $expected, ezcDbSchemaComparator::compareSchemas( $schema1, $schema2 ) );
     }
@@ -180,14 +178,14 @@ class ezcDatabaseSchemaComparatorTest extends ezcTestCase
             ),
         ) );
 
-        $expected = array (
-            'table_changes' => array (
-                'bugdb' => array (
-                    'changed_fields' => array (
+        $expected = new ezcDbSchemaDiff ( array(), 
+            array (
+                'bugdb' => new ezcDbSchemaTableDiff( array(),
+                    array (
                         'charfield1' => new ezcDbSchemaField( 'char', 32, true, "default", true ),
-                    ),
+                    )
                 ),
-            ),
+            )
         );
         self::assertEquals( $expected, ezcDbSchemaComparator::compareSchemas( $schema1, $schema2 ) );
     }
@@ -219,14 +217,14 @@ class ezcDatabaseSchemaComparatorTest extends ezcTestCase
             ),
         ) );
 
-        $expected = array (
-            'table_changes' => array (
-                'bugdb' => array (
-                    'removed_indexes' => array (
+        $expected = new ezcDbSchemaDiff ( array(), 
+            array (
+                'bugdb' => new ezcDbSchemaTableDiff( array(), array(), array(), array(), array(),
+                    array (
                         'primary' => true
-                    ),
+                    )
                 ),
-            ),
+            )
         );
         self::assertEquals( $expected, ezcDbSchemaComparator::compareSchemas( $schema1, $schema2 ) );
     }
@@ -258,19 +256,19 @@ class ezcDatabaseSchemaComparatorTest extends ezcTestCase
             ),
         ) );
 
-        $expected = array (
-            'table_changes' => array (
-                'bugdb' => array (
-                    'added_indexes' => array (
+        $expected = new ezcDbSchemaDiff ( array(), 
+            array (
+                'bugdb' => new ezcDbSchemaTableDiff( array(), array(), array(),
+                    array (
                         'primary' => new ezcDbSchemaIndex(
                             array(
                                 'integerfield1' => new ezcDbSchemaIndexField()
                             ),
                             true
                         )
-                    ),
+                    )
                 ),
-            ),
+            )
         );
         self::assertEquals( $expected, ezcDbSchemaComparator::compareSchemas( $schema1, $schema2 ) );
     }
@@ -311,20 +309,20 @@ class ezcDatabaseSchemaComparatorTest extends ezcTestCase
             ),
         ) );
 
-        $expected = array (
-            'table_changes' => array (
-                'bugdb' => array (
-                    'changed_indexes' => array (
+        $expected = new ezcDbSchemaDiff ( array(), 
+            array (
+                'bugdb' => new ezcDbSchemaTableDiff( array(), array(), array(), array(),
+                    array (
                         'primary' => new ezcDbSchemaIndex(
                             array(
-                            'integerfield1' => new ezcDbSchemaIndexField(),
-                            'integerfield2' => new ezcDbSchemaIndexField()
+                                'integerfield1' => new ezcDbSchemaIndexField(),
+                                'integerfield2' => new ezcDbSchemaIndexField()
                             ),
                             true
                         )
-                    ),
+                    )
                 ),
-            ),
+            )
         );
         self::assertEquals( $expected, ezcDbSchemaComparator::compareSchemas( $schema1, $schema2 ) );
     }

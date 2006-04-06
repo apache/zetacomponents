@@ -12,7 +12,7 @@
  * @package DatabaseSchema
  * @subpackage Tests
  */
-class ezcDatabasePhpArrayTest extends ezcTestCase
+class ezcDatabaseSchemaPhpArrayTest extends ezcTestCase
 {
     public function setUp()
     {
@@ -95,7 +95,7 @@ class ezcDatabasePhpArrayTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcDatabasePhpArrayTest' );
+        return new ezcTestSuite( 'ezcDatabaseSchemaPhpArrayTest' );
     }
 }
 ?>

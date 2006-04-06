@@ -13,13 +13,244 @@
  *
  * @package DatabaseSchema
  */
-class ezcDbSchemaXmlWriter implements ezcDbSchemaFileWriter
+class ezcDbSchemaXmlWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDiffFileWriter
 {
     /**
      */
     public function getWriterType()
     {
         return ezcDbSchema::FILE;
+    }
+
+    /**
+     */
+    public function getDiffWriterType()
+    {
+        return ezcDbSchema::FILE;
+    }
+
+    private function writeField( $fieldName, ezcDbSchemaField $field )
+    {
+        $this->writer->startElement( 'name' );
+        $this->writer->text( $fieldName );
+        $this->writer->endElement();
+
+        $this->writer->startElement( 'type' );
+        $this->writer->text( $field->type );
+        $this->writer->endElement();
+
+        if ( $field->length )
+        {
+            $this->writer->startElement( 'length' );
+            $this->writer->text( $field->length );
+            $this->writer->endElement();
+        }
+
+        if ( $field->autoIncrement )
+        {
+            $this->writer->startElement( 'autoincrement' );
+            $this->writer->text( 'true' );
+            $this->writer->endElement();
+        }
+
+        if ( $field->notNull )
+        {
+            $this->writer->startElement( 'notnull' );
+            $this->writer->text( 'true' );
+            $this->writer->endElement();
+        }
+
+        if ( !is_null( $field->default ) )
+        {
+            $this->writer->startElement( 'default' );
+            $this->writer->text( $field->default );
+            $this->writer->endElement();
+        }
+    }
+
+    private function writeIndexField( $fieldName, ezcDbSchemaIndexField $field )
+    {
+        $this->writer->startElement( 'name' );
+        $this->writer->text( $fieldName );
+        $this->writer->endElement();
+
+        if ( !is_null( $field->sorting ) )
+        {
+            $this->writer->startElement( 'sorting' );
+            $this->writer->text( $field->sorting ? 'ascending' : 'descending' );
+            $this->writer->endElement();
+        }
+    }
+
+    private function writeIndex( $indexName, ezcDbSchemaIndex $index )
+    {
+        $this->writer->startElement( 'name' );
+        $this->writer->text( $indexName );
+        $this->writer->endElement();
+
+        if ( $index->primary )
+        {
+            $this->writer->startElement( 'primary' );
+            $this->writer->text( 'true' );
+            $this->writer->endElement();
+        }
+
+        if ( $index->unique )
+        {
+            $this->writer->startElement( 'unique' );
+            $this->writer->text( 'true' );
+            $this->writer->endElement();
+        }
+        $this->writer->flush();
+
+        foreach ( $index->indexFields as $fieldName => $field )
+        {
+            $this->writer->startElement( 'field' );
+            $this->writeIndexField( $fieldName, $field );
+
+            $this->writer->endElement();
+            $this->writer->flush();
+        }
+    }
+
+    private function writeTable( $tableName, ezcDbSchemaTable $table )
+    {
+        $this->writer->startElement( 'table' );
+        $this->writer->startElement( 'name' );
+        $this->writer->text( $tableName );
+        $this->writer->endElement();
+        $this->writer->flush();
+
+        $this->writer->startElement( 'declaration' );
+        $this->writer->flush();
+
+        // fields 
+        foreach ( $table->fields as $fieldName => $field )
+        {
+            $this->writer->startElement( 'field' );
+            $this->writeField( $fieldName, $field );
+
+            $this->writer->endElement();
+            $this->writer->flush();
+        }
+
+        // indices
+        foreach ( $table->indexes as $indexName => $index )
+        {
+            $this->writer->startElement( 'index' );
+            $this->writeIndex( $indexName, $index );
+
+            $this->writer->endElement();
+            $this->writer->flush();
+        }
+        $this->writer->endElement();
+        $this->writer->flush();
+
+        $this->writer->endElement();
+    }
+
+    private function writeChangedTable( $tableName, ezcDbSchemaTableDiff $changedTable )
+    {
+        $this->writer->startElement( 'table' );
+        $this->writer->startElement( 'name' );
+        $this->writer->text( $tableName );
+        $this->writer->endElement();
+        $this->writer->flush();
+
+        // added fields 
+        $this->writer->startElement( 'added-fields' );
+        $this->writer->flush();
+        foreach ( $changedTable->addedFields as $fieldName => $field )
+        {
+            $this->writer->startElement( 'field' );
+            $this->writeField( $fieldName, $field );
+
+            $this->writer->endElement();
+            $this->writer->flush();
+        }
+        $this->writer->endElement();
+        $this->writer->flush();
+
+        // changed fields 
+        $this->writer->startElement( 'changed-fields' );
+        $this->writer->flush();
+        foreach ( $changedTable->changedFields as $fieldName => $field )
+        {
+            $this->writer->startElement( 'field' );
+            $this->writeField( $fieldName, $field );
+
+            $this->writer->endElement();
+            $this->writer->flush();
+        }
+        $this->writer->endElement();
+        $this->writer->flush();
+
+        // Removed fields
+        $this->writer->startElement( 'removed-fields' );
+        $this->writer->flush();
+        foreach ( $changedTable->removedFields as $fieldName => $fieldStatus )
+        {
+            $this->writer->startElement( 'field' );
+            $this->writer->startElement( 'name' );
+            $this->writer->text( $fieldName );
+            $this->writer->endElement();
+            $this->writer->startElement( 'removed' );
+            $this->writer->text( $fieldStatus ? 'true' : 'false' );
+            $this->writer->endElement();
+            $this->writer->endElement();
+            $this->writer->flush();
+        }
+        $this->writer->endElement();
+        $this->writer->flush();
+
+        // added indexes 
+        $this->writer->startElement( 'added-indexes' );
+        $this->writer->flush();
+        foreach ( $changedTable->addedIndexes as $indexName => $index )
+        {
+            $this->writer->startElement( 'index' );
+            $this->writeIndex( $indexName, $index );
+
+            $this->writer->endElement();
+            $this->writer->flush();
+        }
+        $this->writer->endElement();
+        $this->writer->flush();
+
+        // changed indexes 
+        $this->writer->startElement( 'changed-indexes' );
+        $this->writer->flush();
+        foreach ( $changedTable->changedIndexes as $indexName => $index )
+        {
+            $this->writer->startElement( 'index' );
+            $this->writeIndex( $indexName, $index );
+
+            $this->writer->endElement();
+            $this->writer->flush();
+        }
+        $this->writer->endElement();
+        $this->writer->flush();
+
+        // Removed indexes
+        $this->writer->startElement( 'removed-indexes' );
+        $this->writer->flush();
+        foreach ( $changedTable->removedIndexes as $indexName => $indexStatus )
+        {
+            $this->writer->startElement( 'index' );
+            $this->writer->startElement( 'name' );
+            $this->writer->text( $indexName );
+            $this->writer->endElement();
+            $this->writer->startElement( 'removed' );
+            $this->writer->text( $indexStatus ? 'true' : 'false' );
+            $this->writer->endElement();
+            $this->writer->endElement();
+            $this->writer->flush();
+        }
+
+        $this->writer->endElement();
+        $this->writer->flush();
+
+        $this->writer->endElement();
     }
 
     /**
@@ -30,121 +261,76 @@ class ezcDbSchemaXmlWriter implements ezcDbSchemaFileWriter
         $schema = $dbSchema->getSchema();
         $data = $dbSchema->getData();
 
-        $writer = new XMLWriter();
-        $writer->openUri( $file );
-        $writer->startDocument( '1.0', 'utf-8' );
+        $this->writer = new XMLWriter();
+        $this->writer->openUri( $file );
+        $this->writer->startDocument( '1.0', 'utf-8' );
 
-        $writer->startElement( 'database' );
+        $this->writer->startElement( 'database' );
 
         foreach ( $schema as $tableName => $table )
         {
-            $writer->flush();
-            $writer->startElement( 'table' );
-            $writer->startElement( 'name' );
-            $writer->text( $tableName );
-            $writer->endElement();
-            $writer->flush();
-
-            $writer->startElement( 'declaration' );
-            $writer->flush();
-
-            // fields 
-            foreach ( $table->fields as $fieldName => $field )
-            {
-                $writer->startElement( 'field' );
-
-                $writer->startElement( 'name' );
-                $writer->text( $fieldName );
-                $writer->endElement();
-
-                $writer->startElement( 'type' );
-                $writer->text( $field->type );
-                $writer->endElement();
-
-                if ( $field->length )
-                {
-                    $writer->startElement( 'length' );
-                    $writer->text( $field->length );
-                    $writer->endElement();
-                }
-
-                if ( $field->autoIncrement )
-                {
-                    $writer->startElement( 'autoincrement' );
-                    $writer->text( 'true' );
-                    $writer->endElement();
-                }
-
-                if ( $field->notNull )
-                {
-                    $writer->startElement( 'notnull' );
-                    $writer->text( 'true' );
-                    $writer->endElement();
-                }
-
-                if ( !is_null( $field->default ) )
-                {
-                    $writer->startElement( 'default' );
-                    $writer->text( $this->default );
-                    $writer->endElement();
-                }
-
-                $writer->endElement();
-                $writer->flush();
-            }
-
-            // indices
-            foreach ( $table->indexes as $indexName => $index )
-            {
-                $writer->startElement( 'index' );
-
-                $writer->startElement( 'name' );
-                $writer->text( $indexName );
-                $writer->endElement();
-
-                if ( $index->primary )
-                {
-                    $writer->startElement( 'primary' );
-                    $writer->text( 'true' );
-                    $writer->endElement();
-                }
-
-                if ( $index->unique )
-                {
-                    $writer->startElement( 'unique' );
-                    $writer->text( 'true' );
-                    $writer->endElement();
-                }
-
-                foreach ( $index->indexFields as $fieldName => $field )
-                {
-                    $writer->startElement( 'field' );
-
-                    $writer->startElement( 'name' );
-                    $writer->text( $fieldName );
-                    $writer->endElement();
-
-                    if ( !is_null( $field->sorting ) )
-                    {
-                        $writer->startElement( 'sorting' );
-                        $writer->text( $field->sorting ? 'ascending' : 'descending' );
-                        $writer->endElement();
-                    }
-
-                    $writer->endElement();
-                }
-
-                $writer->endElement();
-                $writer->flush();
-            }
-            $writer->endElement();
-            $writer->flush();
-
-            $writer->endElement();
+            $this->writer->flush();
+            $this->writeTable( $tableName, $table );
         }
 
-        $writer->endElement();
-        $writer->endDocument();
+        $this->writer->endElement();
+        $this->writer->endDocument();
+    }
+
+    /**
+     * Save schema differences to a .xml file
+     */
+    public function saveDiffToFile( $file, ezcDbSchemaDiff $dbSchema )
+    {
+        $this->writer = new XMLWriter();
+        $this->writer->openUri( $file );
+        $this->writer->startDocument( '1.0', 'utf-8' );
+
+        $this->writer->startElement( 'database' );
+        $this->writer->flush();
+
+        // New tables
+        $this->writer->startElement( 'new-tables' );
+        $this->writer->flush();
+        foreach ( $dbSchema->newTables as $tableName => $table )
+        {
+            $this->writeTable( $tableName, $table );
+            $this->writer->flush();
+        }
+        $this->writer->endElement();
+        $this->writer->flush();
+
+        // Removed tables
+        $this->writer->startElement( 'removed-tables' );
+        $this->writer->flush();
+        foreach ( $dbSchema->removedTables as $tableName => $tableStatus )
+        {
+            $this->writer->startElement( 'table' );
+            $this->writer->startElement( 'name' );
+            $this->writer->text( $tableName );
+            $this->writer->endElement();
+            $this->writer->startElement( 'removed' );
+            $this->writer->text( $tableStatus ? 'true' : 'false' );
+            $this->writer->endElement();
+            $this->writer->endElement();
+            $this->writer->flush();
+        }
+        $this->writer->endElement();
+        $this->writer->flush();
+
+        // Changed tables
+        $this->writer->startElement( 'changed-tables' );
+        $this->writer->flush();
+        foreach ( $dbSchema->changedTables as $tableName => $table )
+        {
+            $this->writeChangedTable( $tableName, $table );
+            $this->writer->flush();
+        }
+        $this->writer->endElement();
+        $this->writer->flush();
+
+        $this->writer->endElement();
+        $this->writer->endDocument();
     }
 }
 ?>
