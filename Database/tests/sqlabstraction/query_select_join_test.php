@@ -273,6 +273,10 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
 
     public function testRightJoinAfterFrom()
     {
+        if ( $this->db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
+        {
+            return;
+        }
         $this->q->select( 'employees.name', 'orders.product' )
                  ->from( 'employees' )->rightJoin( 'orders', $this->e->eq('employees.id', 'orders.employee_id') );
         $stmt = $this->db->query( $this->q->getQuery() );
@@ -286,6 +290,10 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
 
     public function testRightJoinAfterFromSimplified()
     {
+        if ( $this->db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
+        {
+            return;
+        }
         $this->q->select( 'employees.name', 'orders.product' )
                  ->from( 'employees' )->rightJoin( 'orders', 'employees.id', 'orders.employee_id' );
         $stmt = $this->db->query( $this->q->getQuery() );
@@ -299,6 +307,11 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
 
     public function testRightMultiJoin()
     {
+        if ( $this->db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
+        {
+            return;
+        }
+
         $this->q->select( 'employees.name', 'orders.product', 'in_use.amount' )
                  ->from( 'employees' )
                    ->rightJoin( 'orders', 'employees.id', 'orders.employee_id' )
@@ -315,6 +328,11 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
 
     public function testRightMultiJoinWithWhere()
     {
+        if ( $this->db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
+        {
+            return;
+        }
+
         $this->q->select( 'employees.name', 'orders.product', 'in_use.amount' )
                  ->from( 'employees' )
                    ->rightJoin( 'orders', 'employees.id', 'orders.employee_id' )

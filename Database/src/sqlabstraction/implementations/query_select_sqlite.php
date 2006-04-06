@@ -46,13 +46,33 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
      * @param string $column2 the column to join on
      * @return string the SQL call for a right join.
      */
-    public function rightJoin( $table1, $table2, $column1, $column2 )
+    public function rightJoin()
     {
-        $table1 = $this->getIdentifier( $table1 );
-        $table2 = $this->getIdentifier( $table2 );
-        $column1 = $this->getIdentifier( $column1 );
-        $column2 = $this->getIdentifier( $column2 );
-        return "{$table2} LEFT JOIN {$table1} ON {$column1} = {$column2}";
+        $args = func_get_args();
+        $passedArgsCount = count( $args );
+        //process old simple sintax.
+        if ( $passedArgsCount == 4 ) 
+        {
+            if ( is_string( $args[0] ) && is_string( $args[1] ) &&
+                 is_string( $args[2] ) && is_string( $args[3] ) 
+               ) 
+            {
+                $table1 = $this->getIdentifier( $args[0] );
+                $table2 = $this->getIdentifier( $args[1] );
+                $column1 = $this->getIdentifier( $args[2] );
+                $column2 = $this->getIdentifier( $args[3] );
+
+                return "{$table2} LEFT JOIN {$table1} ON {$column1} = {$column2}";
+            }
+            else
+            {
+                throw new ezcQueryInvalidException( 'SELECT', 'Inconsistent types of arguments passed to rightJoin().' );
+            }
+        }
+        else 
+        {
+            throw new ezcQueryInvalidException( 'SELECT', 'Complex right joins are not supported by ezcQuerySelectSqlite.' );
+        }
     }
 }
 ?>
