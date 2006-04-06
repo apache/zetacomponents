@@ -111,13 +111,15 @@ class ezcQueryUpdate extends ezcQuery
      * must contain a logical expression or an array with logical expressions.
      * If you specify multiple logical expression they are connected using
      * a logical and.
+     * where() could be invoked several times. All provided arguments 
+     * added to the end of $whereString and form final WHERE clause of the query.
+     * 
      *
      * Example:
      * <code>
      * $q->update( 'MyTable' )->where( $q->eq( 'id', 1 ) );
      * </code>
      *
-     * @throws ezcQueryException if called more than once.
      * @throws ezcQueryVariableParameterException if called with no parameters.
      * @param string|array(string) Either a string with a logical expression name
      * or an array with logical expressions.
@@ -125,9 +127,9 @@ class ezcQueryUpdate extends ezcQuery
      */
     public function where()
     {
-        if ( $this->whereString != null )
+        if ( $this->whereString == null )
         {
-            throw new ezcQueryException( "Double calls to where() are not allowed" );
+            $this->whereString = 'WHERE ';
         }
 
         $args = func_get_args();
@@ -137,7 +139,13 @@ class ezcQueryUpdate extends ezcQuery
             throw new ezcQueryVariableParameterException( 'where', count( $args ), 1 );
         }
 
-        $this->whereString = 'WHERE ' . join( ' AND ', $expressions );
+        //glue string should be inserted each time but not before first entry
+        if ( $this->whereString != 'WHERE ' ) 
+        {
+            $this->whereString .= ' AND ';
+        }
+
+        $this->whereString .= join( ' AND ', $expressions );
         return $this;
     }
 

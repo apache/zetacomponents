@@ -68,21 +68,15 @@ class ezcQueryUpdateTest extends ezcTestCase
         $this->assertEquals( $reference, $this->q->getQuery() );
     }
 
-    public function testWithDoubleWhere()
+    public function testWithSeveralWhere()
     {
-        try
-        {
-            $this->q->update( 'legends' )
-                ->set( 'Gretzky', '99' )
-                ->set( 'Lindros', '88' )
-                ->where( $this->q->expr->eq( 'Gretzky', 'Lindros' ) )
-                ->where( $this->q->expr->eq( 'Gretzky', 'Lindros' ) );
-        }
-        catch ( ezcQueryException $e )
-        {
-            return;
-        }
-        $this->fail( "Got no exception when an exception was expected" );
+        $reference = "UPDATE legends SET Gretzky = 99, Lindros = 88 WHERE Gretzky = Lindros AND 1 = 1";
+        $this->q->update( 'legends' )
+            ->set( 'Gretzky', '99' )
+            ->set( 'Lindros', '88' )
+            ->where( $this->q->expr->eq( 'Gretzky', 'Lindros' ) )
+            ->where( $this->q->expr->eq( 1, 1 ) );
+        $this->assertEquals( $reference, $this->q->getQuery() );
     }
 
     public function testInvalidWhereCall()
@@ -170,8 +164,10 @@ class ezcQueryUpdateTest extends ezcTestCase
         $stmt = $q->prepare();
         $stmt->execute();
 
+        $q->insertInto( 'query_test' );
         $q->set( 'id', 2 );
         $q->set( 'company', $q->bindValue( 'trolltech' ) );
+        $q->set( 'section', $q->bindValue( 'Norway' ) );
         $q->set( 'employees', 70 );
         $stmt = $q->prepare();
         $stmt->execute();

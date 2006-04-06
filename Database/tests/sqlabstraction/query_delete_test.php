@@ -56,19 +56,14 @@ class ezcQueryDeleteTest extends ezcTestCase
         $this->assertEquals( $reference, $this->q->getQuery() );
     }
 
-    public function testWithDoubleWhere()
+    public function testWithSeveralWhere()
     {
-        try
-        {
-            $this->q->deleteFrom( 'legends' )
-                ->where( $this->q->expr->eq( 'Gretzky', 'Lindros' ) )
-                ->where( $this->q->expr->eq( 'Gretzky', 'Lindros' ) );
-        }
-        catch ( ezcQueryException $e )
-        {
-            return;
-        }
-        $this->fail( "Got no exception when an exception was expected" );
+        $reference = "DELETE FROM legends WHERE Gretzky = Lindros AND 1 = 1";
+        
+        $this->q->deleteFrom( 'legends' )
+            ->where( $this->q->expr->eq( 'Gretzky', 'Lindros' ) )
+            ->where( $this->q->expr->eq( 1, 1 ) );
+        $this->assertEquals( $reference, $this->q->getQuery() );
     }
 
     public function testInvalidWhereCall()

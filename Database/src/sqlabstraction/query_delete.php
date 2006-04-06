@@ -81,6 +81,8 @@ class ezcQueryDelete extends ezcQuery
      *
      * where() accepts an arbitrary number of parameters. Each parameter
      * must contain a logical expression or an array with logical expressions.
+     * where() could be invoked several times. All provided arguments 
+     * added to the end of $whereString and form final WHERE clause of the query.
      * If you specify multiple logical expression they are connected using
      * a logical and.
      *
@@ -89,7 +91,6 @@ class ezcQueryDelete extends ezcQuery
      * $q->deleteFrom( 'MyTable' )->where( $q->eq( 'id', 1 ) );
      * </code>
      *
-     * @throws ezcQueryException if called more than once.
      * @throws ezcQueryVaraibleParameterException if called with no parameters.
      * @param string|array(string) Either a string with a logical expression name
      * or an array with logical expressions.
@@ -97,9 +98,9 @@ class ezcQueryDelete extends ezcQuery
      */
     public function where()
     {
-        if ( $this->whereString != null )
+        if ( $this->whereString == null )
         {
-            throw new ezcQueryException( "double call to where()" );
+            $this->whereString = 'WHERE ';
         }
 
         $args = func_get_args();
@@ -109,7 +110,13 @@ class ezcQueryDelete extends ezcQuery
             throw new ezcQueryVariableParameterException( 'where', count( $args ), 1 );
         }
 
-        $this->whereString = 'WHERE ' . join( ' AND ', $expressions );
+        //glue string should be inserted each time but not before first entry
+        if ( $this->whereString != 'WHERE ' ) 
+        {
+            $this->whereString .= ' AND ';
+        }
+
+        $this->whereString .= join( ' AND ', $expressions );
         return $this;
     }
 
