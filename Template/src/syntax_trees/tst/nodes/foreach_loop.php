@@ -22,6 +22,9 @@ class ezcTemplateForeachLoopTstNode extends ezcTemplateBlockTstNode
     public $itemVariableName;
     public $value;
 
+    public $offset;
+    public $limit;
+
     /**
      *
      * @param ezcTemplateSource $source
@@ -33,6 +36,8 @@ class ezcTemplateForeachLoopTstNode extends ezcTemplateBlockTstNode
         parent::__construct( $source, $start, $end );
         $this->value = $this->keyVariableName = $this->itemVariableName = null;
         $this->name = 'foreach';
+
+        $this->offset = $this->limit = null;
     }
 
     public function getTreeProperties()

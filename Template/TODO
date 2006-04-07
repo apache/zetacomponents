@@ -1,3 +1,10 @@
+$manager = new ezcTemplateManager( "
+
+
+Documentation
+-------------
+- Set the private classes to '@access private'.
+
 
 Source to TST (+ TST nodes)
 ---------------------------
@@ -8,13 +15,16 @@ Source to TST (+ TST nodes)
 - ArrayAppend {$a[] = 5}, needs to be fixed.
 - Check operand types in an expression: {var $a = 1 + array(1,2)}
 - Check function names while parsing.
-- Implement offset and limit.
-- Implement the required version number.
+- Implement the required version number.: 1.0
 - check delimiters: {rdelim, ldelim}
 - Implement include + return.
 - Implement / check custom blocks.
 
 - Remove the condition property from the ezcTemplateIfConditionTstNode.
+- Test the function array_remove_last(), array_remove_first()
+
+- Manger should have 'send', 'receive' names.
+- Fix error message exceptions.
 
 
 TST to AST (+ AST nodes)
@@ -29,25 +39,18 @@ AST to PHP (+ PHP code )
 
 
 
-
-
 Amos' old list:
 ---------------
 
-- IMPORTANT!!!!!!!!! the expression does not give errors for invalid expression, needs fixing.
-
-- Add methods/property code for modifying the various elements of code objects.
-- Set @subpackage for code elements and parse elements
 - Create meta-code class which are elements which wrap around real code elements, it has a method to fetch the first real element from its children.
   this allows optimizer and other code which inspects the code tree to go past these elements.
   typical meta-code are:
   - changing run-time options such indentation, spacing, hanging braces etc.
   - inlining code
-- add these code elements (only if needed for the 1.0 release):
+- add these AST nodes (only if needed for the 1.0 release):
   * docblock comment
     /**
       */
-  * global
   * rest of operators
     + clone
     + new
@@ -59,15 +62,13 @@ Amos' old list:
   * open tag/close tag
   * class
   * function
-  * const
   * static
   * interface
   * abstract class
 
+
 - Operator names need to be consistant, ie. either addition and multiplication or plus and multiply.
-- Go over inheritance of elements and element parser, they should be grouped better.
 - Move whitespace removal to root parser while it opens/closes blocks.
-- Fix expression parser so it stops when it has read an operand but the next element is not an operator.
 - Add support for all operators + operands to return a typehint, this can be used to detect type parse-time and to provide type-hints to the transformed code.
 - Rename ezcParser to ezcParserControl and all references of 'main parser' to 'parser control'.
 
@@ -82,7 +83,6 @@ Amos' old list:
     see PHP manual for this.
     !$obj instanceof SomeClass
 - Uncomment all typehints.
-- Make private class have the @access private in doc blocks (file + class)
 - Move nesting check to block class, each block sub-class should be able to override it to allow
   more complex nesting rules. e.g. {section} {section-else} {/section}
 - Start cursor for block are 1 off.

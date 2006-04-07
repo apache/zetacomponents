@@ -83,7 +83,6 @@
  */
 class ezcTemplateVariableCollection
 {
-
     /**
      * The collection where all variables are stored. Each entry is an
      * ezcTemplateVariable object and is looked up with the name of the variable.

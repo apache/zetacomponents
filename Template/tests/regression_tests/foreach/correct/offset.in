@@ -1,0 +1,11 @@
+{foreach 1..10 as $i offset 5}
+{$i}
+{/foreach}
+
+{foreach 1..10 as $i offset 4+3}
+{$i}
+{/foreach}
+
+{foreach 1..10 as $i offset 11}
+{$i}
+{/foreach}

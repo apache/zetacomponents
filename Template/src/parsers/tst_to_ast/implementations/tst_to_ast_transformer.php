@@ -26,6 +26,8 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public $type;
 
+    private $variableNames = array();
+
     const TYPE_ARRAY = 1;
     const TYPE_VALUE = 2;
 
@@ -38,6 +40,20 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     public function __destruct()
     {
     }
+     private function getUniqueVariableName( $name )
+     {
+            if( !isset( $this->variableNames[$name] ) )
+            {
+                $this->variableNames[$name] = 1;
+            }
+            else
+            {
+                ++$this->variableNames[$name];
+            }
+
+            return "_ezcTemplate_" . $name . $this->variableNames[$name];
+     }
+
 
     private function appendOperatorRecursively( ezcTemplateOperatorTstNode $type, ezcTemplateOperatorAstNode $astNode, $currentParameterNumber = 0)
     {
@@ -110,7 +126,17 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         foreach( $elements as $element )
         {
             $astNode = $element->accept( $this );
-            $body->appendStatement( $astNode );
+            if( is_array( $astNode ) )
+            {
+                foreach( $astNode as $ast )
+                {
+                    $body->appendStatement( $ast );
+                }
+            }
+            else
+            {
+                $body->appendStatement( $astNode );
+            }
         }
 
         return $body;
@@ -143,7 +169,17 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             foreach( $type->elements as $element )
             {
                 $astNode = $element->accept( $this );
-                $this->programNode->appendStatement( $astNode );
+                if( is_array( $astNode ) )
+                {
+                    foreach( $astNode as $ast )
+                    {
+                        $this->programNode->appendStatement( $ast);
+                    }
+                }
+                else
+                {
+                    $this->programNode->appendStatement( $astNode );
+                }
             }
 
 
@@ -251,23 +287,74 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
      */
     public function visitForeachLoopTstNode( ezcTemplateForeachLoopTstNode $type )
     {
-        $astNode = new ezcTemplateForeachAstNode();
-
-        $astNode->arrayExpression = $type->array->accept( $this );
-        if( !($this->type & self::TYPE_ARRAY) )
+        $i = 0;
+        // Define the variable, _ezcTemplate_limit and set it to 0.
+        $limitVar = null;
+        if( $type->limit !== null )
         {
-            throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
+            $limitVar = new ezcTemplateVariableAstNode( $this->getUniqueVariableName( "limit" ) );
+
+            $assign = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
+                    $limitVar, new ezcTemplateLiteralAstNode( 0 ) ) );
+
+            $astNode[$i++] = $assign;
+        }
+
+        $astNode[$i] = new ezcTemplateForeachAstNode();
+
+        if( $type->offset !== null )
+        {
+            $params[] = $type->array->accept( $this );
+            if( !($this->type & self::TYPE_ARRAY) )
+            {
+                throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
+            }
+
+            $params[] = $type->offset->accept( $this );
+
+            $astNode[$i]->arrayExpression = $this->functions->getAstTree( "array_remove_first", $params);
+        }
+        else
+        {
+            $astNode[$i]->arrayExpression = $type->array->accept( $this );
+
+            if( !($this->type & self::TYPE_ARRAY) )
+            {
+                throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
+            }
+     
         }
 
         if( $type->keyVariableName  !== null )
         {
-            $astNode->keyVariable = new ezcTemplateVariableAstNode( $type->keyVariableName );
+            $astNode[$i]->keyVariable = new ezcTemplateVariableAstNode( $type->keyVariableName );
         }
 
-        $astNode->valueVariable = new ezcTemplateVariableAstNode( $type->itemVariableName );
+        $astNode[$i]->valueVariable = new ezcTemplateVariableAstNode( $type->itemVariableName );
+        $astNode[$i]->body = $this->createBody( $type->elements );
+        
 
-        $astNode->body = $this->createBody( $type->elements );
+        // Increment by one, and do the limit check.
+        if( $type->limit !== null )
+        {
+            $inc = new ezcTemplateIncrementOperatorAstNode( true );
+            $inc->appendParameter( $limitVar );
 
+            $astNode[$i]->body->statements[] = new ezcTemplateGenericStatementAstNode( $inc );
+
+            $eq = new ezcTemplateEqualOperatorAstNode();
+            $eq->appendParameter( $limitVar );
+            $eq->appendParameter( $type->limit->accept($this) );
+
+            $if = new ezcTemplateIfAstNode();
+            $cb = new ezcTemplateConditionBodyAstNode();
+            $cb->condition = $eq;
+            $cb->body = new ezcTemplateBreakAstNode();
+            $if->conditions[] = $cb;
+
+            $astNode[$i]->body->statements[] = $if;
+        }
+                
         return $astNode;
     }
 

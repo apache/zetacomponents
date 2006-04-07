@@ -1,0 +1,13 @@
+{foreach 1..10 as $i limit 5} 
+{$i}
+{/foreach}
+
+{foreach 'a'..'z' as $key => $value limit 5} 
+{$key} : {$value}
+{/foreach}
+
+{foreach 1..10 as $i limit 2}
+	{foreach 1..10 as $k limit 5}
+		$i : $k
+	{/foreach}
+{/foreach}

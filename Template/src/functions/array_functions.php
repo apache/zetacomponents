@@ -98,10 +98,12 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
                             array( "ezcTemplateAdditionOperatorAstNode", array("%index", $length ) )
                         ) ) ) ) );
 
-            // array_remove_first( $a ) ( QList::removeFirst() )::
+            // array_remove_first( $a, $len = 1 ) ( QList::removeFirst() )::
             // array_slice( $a, 1 )
-            case "array_remove_first": return array( array( "%array" ), 
-                    self::functionCall( "array_slice", array( "%array", self::value(1) ) ) );
+            case "array_remove_first": 
+                $length = ( self::countParameters( $parameters ) == 1 ? self::value(1) : "[%length]" );
+                return array( array( "%array", "[%length]" ), 
+                    self::functionCall( "array_slice", array( "%array", $length ) ) );
 
             // array_remove_last( $a ) ( QList::removeLast() )::
             // array_slice( $a, 0, -1 )
