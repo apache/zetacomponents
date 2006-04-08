@@ -118,6 +118,15 @@ class ezcConsoleOption {
     public $mandatory = false;
 
     /**
+     * Wether a parameter is a help option.
+     * If this flag is true, and the parameter is set, all options marked as 
+     * mandatory may be skipped.
+     *  
+     * @var bool
+     */
+    public $isHelpOption = false;
+
+    /**
      * The value the parameter was assigned to when being submitted.
      * Boolean false indicates the parameter was not submitted, boolean
      * true means the parameter was submitted, but did not have a value.
@@ -154,17 +163,21 @@ class ezcConsoleOption {
      * attribute is set to it's default value. You can simply manipulate
      * those attributes by accessing them directly.
      * 
-     * @param string $short     Short name of the parameter without '-' (eg. 'f').
-     * @param string $long      Long name of the parameter without '--' (eg. 'file').
-     * @param int $type         Value type of the parameter. One of ezcConsoleInput::TYPE_*.
-     * @param mixed $default    Default value the parameter holds if not submitted.
-     * @param bool $multiple    If the parameter may be submitted multiple times.
-     * @param string $shorthelp Short help text.
-     * @param string $longhelp  Long help text.
+     * @param string $short      Short name of the parameter without '-' (eg. 'f').
+     * @param string $long       Long name of the parameter without '--' (eg. 'file').
+     * @param int $type          Value type of the parameter. One of ezcConsoleInput::TYPE_*.
+     * @param mixed $default     Default value the parameter holds if not submitted.
+     * @param bool $multiple     If the parameter may be submitted multiple times.
+     * @param string $shorthelp  Short help text.
+     * @param string $longhelp   Long help text.
      * @param array(int=>ezcConsoleOptionRule) $dependencies Dependency rules.
      * @param array(int=>ezcConsoleOptionRule) $exclusions   Exclusion rules.
-     * @param bool $arguments   Whether supplying arguments is allowed when this parameter is set.
-     * @param bool $mandatory   Whether the parameter must be always submitted.
+     * @param bool $arguments    Whether supplying arguments is allowed when this parameter is set.
+     * @param bool $mandatory    Whether the parameter must be always submitted.
+     * @param bool $isHelpOption Indicates that the given parameter is a help 
+     *                           option. If a help option is set, all rule 
+     *                           checking is skipped (dependency/exclusion/
+     *                           mandatory).
      *
      * @throws ezcConsoleInvalidOptionNameException If the option names start with a "-" 
      *                                              sign or contain whitespaces.
@@ -180,7 +193,8 @@ class ezcConsoleOption {
         array $dependencies = array(),
         array $exclusions = array(), 
         $arguments = true,
-        $mandatory = false
+        $mandatory = false,
+        $isHelpOption = false
     ) {
         if ( !self::validateOptionName( $short ) )
         {
@@ -213,6 +227,7 @@ class ezcConsoleOption {
         }
 
         $this->mandatory = $mandatory !== null ? $mandatory : false;
+        $this->isHelpOption = $isHelpOption !== null ? $isHelpOption : false;
     }
 
     /* Add a new dependency for a parameter.

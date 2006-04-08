@@ -682,6 +682,40 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         );
         $this->commonProcessTestSuccess( $args, $res );
     }
+    
+    public function testProcessSuccessHelp()
+    {
+        $args = array(
+            'foo.php',
+            '-h',
+        );
+        $this->consoleParameter->registerOption(
+            $this->createFakeParam(
+                array( 
+                    'short'     => 'q',
+                    'long'      => 'quite',
+                    'options'   => array(
+                        'mandatory' => true,
+                    ),
+                )
+            )
+        );
+        $this->consoleParameter->registerOption(
+            $this->createFakeParam(
+                array( 
+                    'short'     => 'h',
+                    'long'      => 'help',
+                    'options'   => array(
+                        'isHelpOption' => true,
+                    ),
+                )
+            )
+        );
+        $res = array( 
+            'h' => true,
+        );
+        $this->commonProcessTestSuccess( $args, $res );
+    }
 
     public function testProcessFailureExistance_1()
     {

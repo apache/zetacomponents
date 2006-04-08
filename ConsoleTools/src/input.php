@@ -162,6 +162,14 @@ class ezcConsoleInput
      */
     private $arguments = array();
 
+
+    /**
+     * Indecates if an option was submitted, that has the isHelpOption flag set.
+     * 
+     * @var bool
+     */
+    private $helpOptionSet = false;
+
     /**
      * Creates an input handler.
      */
@@ -713,6 +721,18 @@ class ezcConsoleInput
     }
 
     /**
+     * Returns if a help option was set.
+     * This method returns if an option was submitted, which was defined to be
+     * a help option, using the isHelpOption flag.
+     * 
+     * @return bool If a help option was set.
+     */
+    public function helpOptionSet()
+    {
+        return $this->helpOptionSet;
+    }
+
+    /**
      * Returns the synopsis string for a single option and its dependencies.
      *
      * This method returns a part of the program synopsis, specifically for a
@@ -800,6 +820,11 @@ class ezcConsoleInput
     private function processOptions( array $args, &$i )
     {
         $option = $this->getOption( preg_replace( '/^-+/', '', $args[$i++] ) );
+        // Is the actual option a help option?
+        if ( $option->isHelpOption === true )
+        {
+            $this->helpOptionSet = true;
+        }
         // No value expected
         if ( $option->type === ezcConsoleInput::TYPE_NONE )
         {
@@ -889,6 +914,11 @@ class ezcConsoleInput
      */
     private function checkRules()
     {
+        // If a help option is set, skip rule checking
+        if ( $this->helpOptionSet === true )
+        {
+            return true;
+        }
         $values = $this->getOptionValues();
         foreach ( $this->options as $id => $option )
         {

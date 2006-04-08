@@ -3,6 +3,11 @@
 
 - Added getHelpTable() and getHelpText() methods to ezcConsoleInput for more
   convenient help output generation.
+- Added ezcConsoleOption::$isHelpOption flag to indicate, that an option is to
+  request help. If this flag is set and the option is submitted by the user,
+  rule checking (dependencies/exclusions/madatoryness) is disabled.
+- Added ezcConsoleInput::helpOptionSet() method which returns if an option
+  that was defined to be a help option was submitted.
 
 1.0.1 - Monday 06 March 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
