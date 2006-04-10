@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Misc flow control blocks: break/continue/skip/delimiter.
+ * Misc flow control blocks: break/continue/skip.
  *
  * @package Template
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
@@ -30,6 +30,13 @@ class ezcTemplateLoopTstNode extends ezcTemplateBlockTstNode
     {
         parent::__construct( $source, $start, $end );
         $this->name = $name;
+        $this->isNestingBlock = false;
     }
+
+    public function getTreeProperties()
+    {
+        return array( 'name' => $this->name );
+    }
+
 }
 ?>

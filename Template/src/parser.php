@@ -695,6 +695,15 @@ class ezcTemplateParser
     }
 
     /**
+     * Create delimiter
+     */
+    public function createDelimiter( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    {
+        return new ezcTemplateDelimiterTstNode( $this->source, $start, $end );
+    }
+
+
+    /**
      * Creates a new "while"/"do..whole" control structure object with the cursor positions and returns it.
      *
      * @param ezcTemplateCursor $start The starting point of the element.
@@ -742,7 +751,6 @@ class ezcTemplateParser
 
 
     /**
-     * Creates a new "if" condition object with the cursor positions and returns it.
      *
      * @param ezcTemplateCursor $start The starting point of the element.
      * @param ezcTemplateCursor $end The ending point of the element.

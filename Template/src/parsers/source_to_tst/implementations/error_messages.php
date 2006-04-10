@@ -11,6 +11,7 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_EXPECT_EXPRESSION_NOT_IDENTIFIER  = "Expecting an expression, not an identifier. (Braces missing?)";
     const MSG_EXPECT_OPERAND                    = "Expecting an operand.";
     const MSG_EXPECT_LITERAL                    = "Expecting a literal";
+    const MSG_EXPECT_MODULO                     = "Expecting a modulo";
     const MSG_EXPECT_NON_MODIFYING_OPERAND      = "Expecting an operand without a pre- or post operator.";
     const MSG_EXPECT_VARIABLE                   = "Expecting a variable";
 

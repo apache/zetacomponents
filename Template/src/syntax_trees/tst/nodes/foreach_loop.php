@@ -54,11 +54,13 @@ class ezcTemplateForeachLoopTstNode extends ezcTemplateBlockTstNode
 
     public function canHandleElement( ezcTemplateTstNode $element )
     {
-        return ( $element instanceof ezcTemplateLoopTstNode && $element->name != 'delimiter' );
+        //return ( $element instanceof ezcTemplateLoopTstNode && $element->name != 'delimiter' );
+        return false;
     }
 
     public function handleElement( ezcTemplateTstNode $element )
     {
+        // TODO, is this correct?
         if( $this->canHandleElement( $element ) )
         {
             $this->elements[] = $element;

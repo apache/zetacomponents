@@ -97,8 +97,8 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
         $csMap['embed'] = 'Include';
         $csMap['break'] = 'Loop';
         $csMap['continue'] = 'Loop';
-        $csMap['skip'] = 'Loop';
-        $csMap['delimiter'] = 'Loop';
+        $csMap['skip'] = 'Delimiter';
+        $csMap['delimiter'] = 'Delimiter';
         $csMap['once'] = 'Once';
         $csMap['def'] = 'Def';
 

@@ -105,6 +105,7 @@ return array(
              "ezcTemplateDeclarationTstNode" => "Template/syntax_trees/tst/nodes/declaration.php",
              "ezcTemplateArrayRangeOperatorTstNode" => "Template/syntax_trees/tst/nodes/array_range_operator.php",
              "ezcTemplateConditionBodyTstNode" => "Template/syntax_trees/tst/nodes/condition_body.php",
+             "ezcTemplateDelimiterTstNode" => "Template/syntax_trees/tst/nodes/delimiter.php",
 
 // Syntax trees / AST
              "ezcTemplateAstBuilder" => "Template/syntax_trees/ast/ast_builder.php",
@@ -241,6 +242,7 @@ return array(
              "ezcTemplateDocCommentSourceToTstParser" => "Template/parsers/source_to_tst/implementations/doc_comment.php",
              "ezcTemplateBlockCommentSourceToTstParser" => "Template/parsers/source_to_tst/implementations/block_comment.php",
              "ezcTemplateEolCommentSourceToTstParser" => "Template/parsers/source_to_tst/implementations/eol_comment.php",
+             "ezcTemplateDelimiterSourceToTstParser" => "Template/parsers/source_to_tst/implementations/delimiter.php",
 
              "ezcTemplateSourceToTstErrorMessages" => "Template/parsers/source_to_tst/implementations/error_messages.php",
 
