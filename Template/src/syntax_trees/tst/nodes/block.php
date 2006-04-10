@@ -236,7 +236,7 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
 
         if( $element instanceof ezcTemplateDelimiterTstNode )
         {
-            throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, "Delimiter can only be used inside a foreach block." );
+            throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_DELIMITER_INSIDE_FOREACH );
         }
 
         $this->children[] = $element;

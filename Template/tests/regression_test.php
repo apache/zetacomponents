@@ -226,7 +226,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
     //        echo ezcTemplateTstTreeOutput::output( $program );
             //exit();
 
-            $tstToAst = new ezcTemplateTstToAstTransformer();
+            $tstToAst = new ezcTemplateTstToAstTransformer( $parser );
             $program->accept( $tstToAst );
 
             $astToAst = new ezcTemplateAstToAstAssignmentOptimizer();

@@ -22,6 +22,7 @@ return array(
              "ezcTemplateParser" => "Template/parser.php",
              "ezcTemplateCursor" => "Template/cursor.php",
              "ezcTemplateSymbolTable" => "Template/symbol_table.php",
+             "ezcTemplateCycle" => "Template/cycle.php",
 
              "ezcTemplateSourceCode" => "Template/source_code.php",
              "ezcTemplateCompiledCode" => "Template/compiled_code.php",
@@ -162,6 +163,7 @@ return array(
              "ezcTemplateIssetAstNode" => "Template/syntax_trees/ast/nodes/constructs/isset.php",
              "ezcTemplateUnsetAstNode" => "Template/syntax_trees/ast/nodes/constructs/unset.php",
              "ezcTemplateEmptyAstNode" => "Template/syntax_trees/ast/nodes/constructs/empty.php",
+             "ezcTemplateNewAstNode"   => "Template/syntax_trees/ast/nodes/constructs/new.php",
 
              // Operators
              "ezcTemplateArrayFetchOperatorAstNode" => "Template/syntax_trees/ast/nodes/operators/array_fetch_operator.php",

@@ -25,6 +25,7 @@ Source to TST (+ TST nodes)
 
 - Manger should have 'send', 'receive' names.
 - Fix error message exceptions.
+- References, are not implemented but used. 
 
 
 TST to AST (+ AST nodes)

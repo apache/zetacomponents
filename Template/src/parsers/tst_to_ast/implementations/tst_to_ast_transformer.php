@@ -26,6 +26,8 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public $type;
 
+    public $parser;
+
     private $foundDelimiter = false;
     private $variableNames = array();
     private $delimiterVariable = null;
@@ -33,13 +35,16 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     private $delimiterOutput = null;
     private $writeDelimiterOutput = false;
 
+    private $noProperty = false;
+
     const TYPE_ARRAY = 1;
     const TYPE_VALUE = 2;
 
-    public function __construct()
+    public function __construct( $parser )
     {
         $this->functions = new ezcTemplateFunctions();
         $this->type = self::TYPE_ARRAY | self::TYPE_VALUE;
+        $this->parser = $parser;
     }
 
     public function __destruct()
@@ -251,6 +256,13 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         // Don't do array or value checking for variables.. (yet).
         $this->type = self::TYPE_ARRAY | self::TYPE_VALUE;
+
+        if( !$this->noProperty && $this->parser->symbolTable->retrieve( $type->name ) == ezcTemplateSymbolTable::CYCLE ) 
+        {
+            return new ezcTemplateVariableAstNode( $type->name . "->v" );
+
+        }
+
         return new ezcTemplateVariableAstNode( $type->name );
     }
 
@@ -732,6 +744,23 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitDeclarationTstNode( ezcTemplateBlockTstNode $type ) 
     {
+        
+        if( $this->parser->symbolTable->retrieve( $type->variable->name ) == ezcTemplateSymbolTable::CYCLE ) 
+        {
+            $this->noProperty = true;
+            $var = $type->variable->accept( $this );
+            $a = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $var, new ezcTemplateNewAstNode( "ezcTemplateCycle()" ) ) );
+            $this->noProperty = false;
+
+            //$b = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( $var, array( $type->expression->accept($this ) ) ) ); 
+
+            $expression = $type->expression === null ? new ezcTemplateConstantAstNode( "NULL") : $type->expression->accept($this);
+            $b =  new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $type->variable->accept($this), $expression ) );
+            
+
+            return array($a, $b); // array( $a, $b );
+        }
+
         $expression = $type->expression === null ? new ezcTemplateConstantAstNode( "NULL") : $type->expression->accept($this);
         return new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $type->variable->accept($this), $expression ) );
     }
