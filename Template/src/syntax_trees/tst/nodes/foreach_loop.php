@@ -60,16 +60,11 @@ class ezcTemplateForeachLoopTstNode extends ezcTemplateBlockTstNode
 
     public function handleElement( ezcTemplateTstNode $element )
     {
-        // TODO, is this correct?
-        if( $this->canHandleElement( $element ) )
-        {
-            $this->elements[] = $element;
-            $element->parentBlock = $this;
-        }
-        else
-        {
-            parent::handleElement( $element );
-        }
+        // Also accept the Delimiter TSTNode.
+        $this->children[] = $element;
+
+        // temporary compatability
+        $this->elements = $this->children;
 
     }
 }

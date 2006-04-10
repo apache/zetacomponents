@@ -234,6 +234,11 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
             throw new Exception( "Detected invalid recursion creation in parser element " . get_class( $this ) );
         }
 
+        if( $element instanceof ezcTemplateDelimiterTstNode )
+        {
+            throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, "Delimiter can only be used inside a foreach block." );
+        }
+
         $this->children[] = $element;
 
         // temporary compatability

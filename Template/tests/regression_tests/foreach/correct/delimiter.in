@@ -1,0 +1,31 @@
+{var $x = 1}
+{foreach 1..10 as $i}
+
+	{delimiter modulo 2}
+even
+	{/delimiter}
+
+	{delimiter modulo 5} 
+[ {$x} / 2 ] 
+        {$x++}
+	{/delimiter}
+{$i}
+
+{/foreach}
+
+
+{foreach 1..4 as $i}
+{$i}
+{delimiter modulo 1}
+FAILURE
+{/delimiter}
+{skip}
+{/foreach}
+
+{foreach 1..4 as $i}
+{$i}
+{delimiter modulo 1}
+ok
+{/delimiter}
+{continue}
+{/foreach}

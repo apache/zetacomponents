@@ -1,0 +1,6 @@
+{foreach 1..10 as $i}
+{$i}
+{delimiter modulo 1+1 is 2 / 2 - 1}
+even
+{/delimiter}
+{/foreach}

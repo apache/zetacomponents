@@ -1,0 +1,7 @@
+{foreach 1..10 as $i}
+{if $i == 5}{skip}{/if}
+{$i}
+{delimiter modulo 2}
+a
+{/delimiter}
+{/foreach}

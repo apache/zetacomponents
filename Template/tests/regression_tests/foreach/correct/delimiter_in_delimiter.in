@@ -1,0 +1,14 @@
+{foreach 1..5 as $i}
+	{delimiter modulo 2}
+	outer
+	{/delimiter}
+
+	{foreach 1..10 as $k}
+		{delimiter modulo 4}
+		inner
+		{/delimiter}
+		$i : $k
+	{/foreach}
+
+{/foreach}
+
