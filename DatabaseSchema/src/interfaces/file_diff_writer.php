@@ -15,7 +15,6 @@
  */
 interface ezcDbSchemaDiffFileWriter extends ezcDbSchemaDiffWriter
 {
-    public function getDiffWriterType();
     public function saveDiffToFile( $file, ezcDbSchemaDiff $schemaDiff );
 }
 ?>

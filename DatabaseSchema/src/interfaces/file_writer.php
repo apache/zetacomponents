@@ -15,7 +15,6 @@
  */
 interface ezcDbSchemaFileWriter extends ezcDbSchemaWriter
 {
-    public function getWriterType();
     public function saveToFile( $file, ezcDbSchema $schema );
 }
 ?>

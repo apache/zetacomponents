@@ -15,5 +15,6 @@
  */
 interface ezcDbSchemaDiffWriter
 {
+    public function getDiffWriterType();
 }
 ?>

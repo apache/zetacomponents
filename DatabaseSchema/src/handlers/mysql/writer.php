@@ -13,9 +13,9 @@
  *
  * @package DatabaseSchema
  */
-class ezcDbSchemaMysqlWriter implements ezcDbSchemaDbWriter
+class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDbSchemaDbWriter, ezcDbSchemaDiffDbWriter
 {
-    static private $typeMap = array(
+    private $typeMap = array(
         'integer' => 'bigint',
         'boolean' => 'boolean',
         'float' => 'double',
@@ -39,15 +39,7 @@ class ezcDbSchemaMysqlWriter implements ezcDbSchemaDbWriter
      */
     public function saveToDb( ezcDbHandler $db, ezcDbSchema $dbSchema )
     {
-        $this->schema = $dbSchema->getSchema();
-        $data = $dbSchema->getData();
-
-        // reset queries
-        $this->queries = array();
-        $this->context = array();
-
-        $this->generateSchemaAsSql();
-        foreach ( $this->queries as $query )
+        foreach ( $this->convertToDDL( $dbSchema ) as $query )
         {
             $db->query( $query );
         }
@@ -71,52 +63,48 @@ class ezcDbSchemaMysqlWriter implements ezcDbSchemaDbWriter
     }
 
     /**
-     * Dump specified schema as an array of SQL queries.
-     *
-     * @return array The queries.
      */
-    private function generateSchemaAsSql()
+    public function getDiffWriterType()
     {
-        foreach ( $this->schema as $tableName => $tableDefinition )
-        {
-            $this->generateCreateTableSql( $tableName, $tableDefinition );
-        }
+        return ezcDbSchema::DATABASE;
     }
 
     /**
-     * Generate SQL queries for table creation.
+     * Save schema to an .php file
      */
-    private function generateCreateTableSql( $tableName, ezcDbSchemaTable $tableDefinition )
+    public function applyDiffToDb( ezcDbHandler $db, ezcDbSchemaDiff $dbSchemaDiff )
     {
-        $sql = '';
-
-        $this->queries[] = "DROP TABLE IF EXISTS $tableName";
-        
-        $sql .= "CREATE TABLE $tableName (\n";
-
-        // dump fields
-        $fieldsSQL = array();
-
-        foreach ( $tableDefinition->fields as $fieldName => $fieldDefinition )
+        $db->query( "BEGIN" );
+        foreach ( $this->convertDiffToDDL( $dbSchemaDiff ) as $query )
         {
-            $fieldsSQL[] = "\t" . $this->generateFieldSql( $fieldName, $fieldDefinition );
+            $db->query( $query );
         }
-
-        $sql .= join( ",\n", $fieldsSQL );
-
-        $sql .= "\n)";
-
-        $this->queries[] = $sql;
-
-        // dump indexes
-        foreach ( $tableDefinition->indexes as $indexName => $indexDefinition)
-        {
-            $fieldsSQL[] = $this->generateAddIndexSql( $tableName, $indexName, $indexDefinition );
-        }
-
+        $db->query( "COMMIT" );
     }
 
-    static function convertFromGenericType( ezcDbSchemaField $fieldDefinition )
+    /**
+     * Get schema as database specific DDL
+     *
+     * @returns array
+     */
+    public function convertDiffToDDL( ezcDbSchemaDiff $dbSchemaDiff )
+    {
+        $this->diffSchema = $dbSchemaDiff;
+
+        // reset queries
+        $this->queries = array();
+        $this->context = array();
+
+        $this->generateDiffSchemaAsSql();
+        return $this->queries;
+    }
+
+    protected function generateDropTableSql( $tableName )
+    {
+        $this->queries[] = "DROP TABLE IF EXISTS $tableName";
+    }
+
+    protected function convertFromGenericType( ezcDbSchemaField $fieldDefinition )
     {
         $typeAddition = '';
         if ( in_array( $fieldDefinition->type, array( 'numeric', 'text' ) ) )
@@ -131,9 +119,24 @@ class ezcDbSchemaMysqlWriter implements ezcDbSchemaDbWriter
             $typeAddition = "(255)";
         }
 
-        $type = self::$typeMap[$fieldDefinition->type];
+        $type = $this->typeMap[$fieldDefinition->type];
 
         return "$type$typeAddition";
+    }
+
+    protected function generateAddFieldSql( $tableName, $fieldName, ezcDbSchemaField $fieldDefinition )
+    {
+        $this->queries[] = "ALTER TABLE $tableName ADD " . $this->generateFieldSql( $fieldName, $fieldDefinition );
+    }
+
+    protected function generateChangeFieldSql( $tableName, $fieldName, ezcDbSchemaField $fieldDefinition )
+    {
+        $this->queries[] = "ALTER TABLE $tableName CHANGE $fieldName " . $this->generateFieldSql( $fieldName, $fieldDefinition );
+    }
+
+    protected function generateDropFieldSql( $tableName, $fieldName )
+    {
+        $this->queries[] = "ALTER TABLE $tableName DROP $fieldName";
     }
 
     /**
@@ -142,13 +145,13 @@ class ezcDbSchemaMysqlWriter implements ezcDbSchemaDbWriter
      * @param   array  $fieldSchema Field schema.
      * @return string              Field schema in SQL.
      */
-    private function generateFieldSql( $fieldName, ezcDbSchemaField $fieldDefinition )
+    protected function generateFieldSql( $fieldName, ezcDbSchemaField $fieldDefinition )
     {
         $sqlDefinition = $fieldName . ' ';
 
         $defList = array();
 
-        $type = self::convertFromGenericType( $fieldDefinition );
+        $type = $this->convertFromGenericType( $fieldDefinition );
         $defList[] = $type;
 
         if ( $fieldDefinition->notNull )
@@ -173,6 +176,11 @@ class ezcDbSchemaMysqlWriter implements ezcDbSchemaDbWriter
         return $sqlDefinition;
     }
 
+    protected function generateDropIndexSql( $tableName, $indexName )
+    {
+        $this->queries[] = "ALTER TABLE $tableName DROP INDEX `$indexName`";
+    }
+
     /**
      * Generate index creation SQL query.
      *
@@ -185,7 +193,7 @@ class ezcDbSchemaMysqlWriter implements ezcDbSchemaDbWriter
 
         if ( $indexDefinition->primary )
         {
-            if ( $this->context['skip_primary'] )
+            if ( isset( $this->context['skip_primary'] ) && $this->context['skip_primary'] )
             {
                 return;
             }
@@ -203,9 +211,12 @@ class ezcDbSchemaMysqlWriter implements ezcDbSchemaDbWriter
         $sql .= " ( ";
 
         $indexFieldSql = array();
-        foreach ( $indexDefinition->indexFields as $indexFieldName => $IndexFieldDefinition )
+        foreach ( $indexDefinition->indexFields as $indexFieldName => $dummy )
         {
-            if ( in_array( $this->schema[$tableName]->fields[$indexFieldName]->type, array( 'blob', 'clob' ) ) )
+            if ( isset( $this->schema[$tableName] ) &&
+                isset( $this->schema[$tableName]->fields[$indexFieldName] ) &&
+                isset( $this->schema[$tableName]->fields[$indexFieldName]->type ) &&
+                in_array( $this->schema[$tableName]->fields[$indexFieldName]->type, array( 'blob', 'clob' ) ) )
             {
                 $indexFieldSql[] = "{$indexFieldName}(250)";
             }
@@ -217,28 +228,6 @@ class ezcDbSchemaMysqlWriter implements ezcDbSchemaDbWriter
         $sql .= join( ', ', $indexFieldSql ) . " )";
 
         $this->queries[] = $sql;
-    }
-
-    private function generateDefault( $type, $value )
-    {
-        switch ( $type )
-        {
-            case 'boolean':
-                return $value ? 'true' : 'false';
-
-            case 'integer':
-                return (int) $value;
-
-            case 'float':
-            case 'decimal':
-                return (float) $value;
-
-            case 'timestamp':
-                return (int) $value;
-
-            default:
-                return "'$value'";
-        }
     }
 }
 ?>

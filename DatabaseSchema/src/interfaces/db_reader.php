@@ -15,7 +15,6 @@
  */
 interface ezcDbSchemaDbReader extends ezcDbSchemaReader
 {
-    public function getReaderType();
     public function loadFromDb( ezcDbHandler $db );
 }
 ?>

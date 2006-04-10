@@ -96,7 +96,7 @@ class ezcDbSchemaDiff
         $className = ezcDbSchemaHandlerManager::getDiffWriterByFormat( $db->getName() );
         $writer = new $className();
         self::checkSchemaDiffWriter( $writer, self::DATABASE );
-        $writer->applyToDb( $db, $this );
+        $writer->applyDiffToDb( $db, $this );
     }
 
     public function convertToDDL( ezcDbHandler $db )
@@ -104,7 +104,7 @@ class ezcDbSchemaDiff
         $className = ezcDbSchemaHandlerManager::getDiffWriterByFormat( $db->getName() );
         $writer = new $className();
         self::checkSchemaDiffWriter( $writer, self::DATABASE );
-        return $writer->convertToDDL( $this );
+        return $writer->convertDiffToDDL( $this );
     }
 
 }

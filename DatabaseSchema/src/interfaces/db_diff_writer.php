@@ -13,8 +13,9 @@
  * @package DatabaseSchema
  * @version //autogen//
  */
-interface ezcDbSchemaDbDiffWriter extends ezcDbSchemaDiffWriter
+interface ezcDbSchemaDiffDbWriter extends ezcDbSchemaDiffWriter
 {
-    public function saveDiffToDb( ezcDbHandler $db, ezcDbSchemaDiff $schemaDiff );
+    public function applyDiffToDb( ezcDbHandler $db, ezcDbSchemaDiff $schemaDiff );
+    public function convertDiffToDDL( ezcDbSchemaDiff $schemaDiff );
 }
 ?>

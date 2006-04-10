@@ -33,6 +33,7 @@ return array(
     'ezcDbSchemaDiffFileReader'         => 'DatabaseSchema/interfaces/file_diff_reader.php',
     'ezcDbSchemaDiffFileWriter'         => 'DatabaseSchema/interfaces/file_diff_writer.php',
 
+    'ezcDbSchemaCommonSqlWriter'        => 'DatabaseSchema/handlers/common_sql_writer.php',
     'ezcDbSchemaPhpArrayReader'         => 'DatabaseSchema/handlers/php_array/reader.php',
     'ezcDbSchemaPhpArrayWriter'         => 'DatabaseSchema/handlers/php_array/writer.php',
     'ezcDbSchemaXmlReader'              => 'DatabaseSchema/handlers/xml/reader.php',
@@ -61,7 +62,6 @@ return array(
     'ezcDbSchemaHandler'             => 'DatabaseSchema/handler.php',
     'ezcDbSchemaHandlerDataTransfer' => 'DatabaseSchema/handlers/data_transfer.php',
     'ezcDbSchemaHandlerXml'          => 'DatabaseSchema/handlers/xml.php',
-    'ezcDbSchemaHandlerSql'          => 'DatabaseSchema/handlers/sql.php',
     'ezcDbSchemaHandlerPgsql'        => 'DatabaseSchema/handlers/pgsql.php',
     'ezcDbSchemaHandlerMysql'        => 'DatabaseSchema/handlers/mysql.php',
     'ezcDbSchemaHandlerOracle'       => 'DatabaseSchema/handlers/oracle.php',

@@ -15,7 +15,7 @@
  */
 interface ezcDbSchemaDbWriter extends ezcDbSchemaWriter
 {
-    public function getWriterType();
     public function saveToDb( ezcDbHandler $db, ezcDbSchema $schema );
+    public function convertToDDL( ezcDbSchema $dbSchema );
 }
 ?>

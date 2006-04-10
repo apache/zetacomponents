@@ -15,6 +15,7 @@ require_once 'php_array_diff_test.php';
 require_once 'xml_test.php';
 require_once 'xml_diff_test.php';
 require_once 'mysql_test.php';
+require_once 'mysql_diff_test.php';
 require_once 'validator_test.php';
 require_once 'comparator_test.php';
 
@@ -38,6 +39,7 @@ class ezcDatabaseSchemaSuite extends ezcTestSuite
         $this->addTest( ezcDatabaseSchemaXmlTest::suite() );
         $this->addTest( ezcDatabaseSchemaXmlDiffTest::suite() );
         $this->addTest( ezcDatabaseSchemaMysqlTest::suite() );
+        $this->addTest( ezcDatabaseSchemaMysqlDiffTest::suite() );
 	}
 
     public static function suite()
