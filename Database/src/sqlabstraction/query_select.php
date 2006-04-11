@@ -768,7 +768,7 @@ class ezcQuerySelect extends ezcQuery
     }
 
     /**
-     * Returns the complete select query.
+     * Returns the complete select query string.
      *
      * This method uses the build methods to build the
      * various parts of the select query.
@@ -807,6 +807,23 @@ class ezcQuerySelect extends ezcQuery
         }
         return $query;
     }
+
+    /**
+     * Returns the ezcQuerySubSelect query object.
+     *
+     * This method creates new ezcQuerySubSelect object
+     * and pass $this for using database stuff inside.
+     * various parts of the select query.
+     *
+     * @todo add newlines? easier for debugging
+     * @throws ezcQueryInvalidException if it was not possible to build a valid query.
+     * @return string
+     */
+    public function subSelect()
+    {
+        return new ezcQuerySubSelect( &$this );
+    }
+
 }
 
 ?>

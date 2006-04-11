@@ -110,6 +110,57 @@ class ezcQueryInsertTest extends ezcTestCase
         $this->assertEquals( 'eZ systems', $result[0][1] );
     }
 
+    // test several inserts on a real database.
+    public function testSeveralInsertsOnDatabase()
+    {
+        $db = ezcDbInstance::get();
+        if ( $db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
+        {
+            self::markTestSkipped( "Complex right joins not supported by sqlite yet" );
+        }
+
+        $q = $this->q;
+        $q->insertInto( 'query_test' )
+            ->set( 'id', 1 )
+            ->set( 'company', $q->bindValue( 'eZ systems' ) )
+            ->set( 'section', $q->bindValue( 'Norway' ) )
+            ->set( 'employees', 20 );
+        $stmt = $q->prepare();
+        $stmt->execute();
+    
+        $q->insertInto( 'query_test' );
+        $q->set( 'id', 2 );
+        $q->set( 'company', $q->bindValue( 'trolltech' ) );
+        $q->set( 'section', $q->bindValue( 'Norway' ) );
+        $q->set( 'employees', 70 );
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        // check that it was actually correctly set
+        $db = ezcDbInstance::get();
+        $q = $db->createSelectQuery(); // get select query
+        $q->select( '*' )->from( 'query_test' )
+            ->where( $q->expr->eq( 'id', 1 ) );
+        $stmt = $q->prepare();
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        $this->assertEquals( 1, (int)$result[0][0] );
+        $this->assertEquals( 'eZ systems', $result[0][1] );
+
+        // check that it was actually correctly set
+        $db = ezcDbInstance::get();
+        $q = $db->createSelectQuery(); // get select query
+        $q->select( '*' )->from( 'query_test' )
+            ->where( $q->expr->eq( 'id', 2 ) );
+        $stmt = $q->prepare();
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        $this->assertEquals( 2, (int)$result[0][0] );
+        $this->assertEquals( 'trolltech', $result[0][1] );
+
+    }
+
+
     public static function suite()
     {
         return new ezcTestSuite( 'ezcQueryInsertTest' );

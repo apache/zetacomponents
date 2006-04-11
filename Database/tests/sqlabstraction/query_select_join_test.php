@@ -332,9 +332,9 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
     {
         if ( $this->db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
         {
-            return;
+            self::markTestSkipped( "Complex right joins not supported by sqlite yet" );
         }
-
+                                        
         $this->q->select( 'employees.name', 'orders.product', 'in_use.amount' )
                  ->from( 'employees' )
                    ->rightJoin( 'orders', 'employees.id', 'orders.employee_id' )

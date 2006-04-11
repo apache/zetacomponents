@@ -154,6 +154,12 @@ class ezcQueryUpdateTest extends ezcTestCase
 
     public function testOnDatabaseWithWhere()
     {
+        $db = ezcDbInstance::get();
+        if ( $db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
+        {
+            self::markTestSkipped( "Complex right joins not supported by sqlite yet" );
+        }
+
         $q = new ezcQueryInsert( ezcDbInstance::get() );
         // insert some data we can update
         $q->insertInto( 'query_test' )

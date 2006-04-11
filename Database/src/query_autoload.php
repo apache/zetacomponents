@@ -15,6 +15,7 @@ return array(
     'ezcQueryInvalidException' => 'Database/exceptions/query/invalid.php',
     'ezcQueryVariableParameterException' => 'Database/exceptions/query/variable_parameter.php',
     'ezcQuerySelect' => 'Database/sqlabstraction/query_select.php',
+    'ezcQuerySubSelect' => 'Database/sqlabstraction/query_subselect.php',    
     'ezcQuerySelectOracle' => 'Database/sqlabstraction/implementations/query_select_oracle.php',
     'ezcQuerySelectSqlite' => 'Database/sqlabstraction/implementations/query_select_sqlite.php',
     'ezcQueryExpression' => 'Database/sqlabstraction/expression.php',

@@ -18,11 +18,13 @@ require_once 'handler_test.php';
 require_once 'sqlabstraction/expression_test.php';
 require_once 'sqlabstraction/query_test.php';
 require_once 'sqlabstraction/query_select_test.php';
+require_once 'sqlabstraction/query_subselect_test.php';
 require_once 'sqlabstraction/query_select_test_impl.php';
 require_once 'sqlabstraction/query_select_join_test.php';
 require_once 'sqlabstraction/query_insert_test.php';
 require_once 'sqlabstraction/query_update_test.php';
 require_once 'sqlabstraction/query_delete_test.php';
+require_once 'sqlabstraction/query_subselect_test_impl.php';
 
 /**
  * @package Database
@@ -41,7 +43,9 @@ class ezcDatabaseSuite extends ezcTestSuite
         $this->addTest( ezcQueryExpressionTest::suite() );
         $this->addTest( ezcQueryTest::suite() );
         $this->addTest( ezcQuerySelectTest::suite() );
+        $this->addTest( ezcQuerySubSelectTest::suite() );        
         $this->addTest( ezcQuerySelectTestImpl::suite() );
+        $this->addTest( ezcQuerySubSelectTestImpl::suite() );
         $this->addTest( ezcQuerySelectJoinTestImpl::suite() );
         $this->addTest( ezcQueryInsertTest::suite() );
         $this->addTest( ezcQueryUpdateTest::suite() );

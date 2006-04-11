@@ -98,6 +98,12 @@ class ezcQueryDeleteTest extends ezcTestCase
     // test on a real database.
     public function testOnDatabaseWithoutWhere()
     {
+        $db = ezcDbInstance::get();
+        if ( $db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
+        {
+            self::markTestSkipped( "Complex right joins not supported by sqlite yet" );
+        }
+
         // fill database with some dummy data
         $q = new ezcQueryInsert( ezcDbInstance::get() );
         // insert some data we can update
@@ -132,6 +138,12 @@ class ezcQueryDeleteTest extends ezcTestCase
 
     public function testOnDatabaseWithWhere()
     {
+        $db = ezcDbInstance::get();
+        if ( $db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
+        {
+            self::markTestSkipped( "Complex right joins not supported by sqlite yet" );
+        }
+
         // fill database with some dummy data
         $q = new ezcQueryInsert( ezcDbInstance::get() );
         // insert some data we can update
