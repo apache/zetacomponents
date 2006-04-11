@@ -1,0 +1,29 @@
+eZ component: File, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author:   Derick Rethans
+:Revision: $Revision$
+:Date:     $Date$
+
+Introduction
+============
+
+Description
+-----------
+Provides functionality related to file and filesystem that PHP doesn't cover,
+or doesn't cover enough.
+
+Requirements
+============
+The methods in the file component are all standalone methods and cover missing
+functionality and higher level file/filesystem operations. In the first version
+the component should include a static method to recursively scan through a
+directory and pick out files matching a specific pattern specfied by one or
+more regular expressions.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79

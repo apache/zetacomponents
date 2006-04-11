@@ -1,0 +1,55 @@
+eZ component: File, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author:   Derick Rethans
+:Revision: $Revision$
+:Date:     $Date$
+
+Design Description
+==================
+The component uses the register_shutdown_function() and set_execution_handler()
+to allow the catching of fatal errors and uncatched exceptions. At the start of
+the script you need to initialize the execution environment and when your
+application is done executing you signal the component that you have a "clean
+exit".  In case there was not a clean exit the shutdown handler will pick up
+and call your defined callback handler to display the error message.
+
+There is one classes in this component:
+
+ezcFile
+-------
+Contains a static method that allows you to scan through a directory
+recursively and include only the files that match the specified pattern. A
+pattern consists of an array of regular expressions which all need to match
+with the filename before it is returned in the array of scanned files.
+
+Algorithms
+==========
+
+The ezcFile::findRecursive() method accepts a directory name and a set of
+filters. The algorithm is recursive in the following way: ::
+
+
+    method findRecursive ( directory, filters )
+
+    foreach file in directory:
+        if file is a directory:
+            files_in_subdir = findRecursive( file, filters )
+            files += files_in_subdir
+        else:
+            include = true
+            foreach filters as filter:
+                if !match filter on file:
+                    include = false
+                    break
+            if include:
+                files += file
+    
+    return files
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
