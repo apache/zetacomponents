@@ -203,13 +203,13 @@ abstract class ezcQuery
      * $stmt->execute(); // executed with 'id = 2'
      * </code>
      *
-     * @param &mixed $param
+     * @param mixed $value
      * @param string $placeHolder the name to bind with. The string must start with a colon ':'.
-     * @return &mixed the placeholder name used.
+     * @return string the placeholder name used.
      */
     public function bindValue( $value, $placeHolder = null )
     {
-        if ( $placeHolder == null )
+        if ( $placeHolder === null )
         {
             $this->boundCounter++;
             $placeHolder = ":ezcValue{$this->boundCounter}";
@@ -243,11 +243,11 @@ abstract class ezcQuery
      *
      * @param &mixed $param
      * @param string $placeHolder the name to bind with. The string must start with a colon ':'.
-     * @return &mixed the placeholder name used.
+     * @return string the placeholder name used.
      */
     public function bindParam( &$param, $placeHolder = null )
     {
-        if ( $placeHolder == null )
+        if ( $placeHolder === null )
         {
             $this->boundCounter++;
             $placeHolder = ":ezcValue{$this->boundCounter}";

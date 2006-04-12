@@ -817,11 +817,11 @@ class ezcQuerySelect extends ezcQuery
      *
      * @todo add newlines? easier for debugging
      * @throws ezcQueryInvalidException if it was not possible to build a valid query.
-     * @return string
+     * @return ezcQuerySubSelect
      */
     public function subSelect()
     {
-        return new ezcQuerySubSelect( &$this );
+        return new ezcQuerySubSelect( $this );
     }
 
 }

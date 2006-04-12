@@ -44,7 +44,7 @@ class ezcQuerySubSelect extends ezcQuerySelect
      *
      * @param ezcQuery $outer reference to inclusive ezcQuery object.
      */
-    public function __construct( ezcQuery &$outer )
+    public function __construct( ezcQuery $outer )
     {
         $this->outerQuery = $outer;
 
@@ -86,7 +86,7 @@ class ezcQuerySubSelect extends ezcQuerySelect
      * 
      * @param &mixed $param
      * @param string $placeHolder the name to bind with. The string must start with a colon ':'.
-     * @return &mixed the placeholder name used.
+     * @return string the placeholder name used.
      */
     public function bindParam( &$param, $placeHolder = null )
     {
@@ -125,13 +125,13 @@ class ezcQuerySubSelect extends ezcQuerySelect
      * </code>
      * 
      *
-     * @param &mixed $param
+     * @param mixed $value
      * @param string $placeHolder the name to bind with. The string must start with a colon ':'.
-     * @return &mixed the placeholder name used.
+     * @return string the placeholder name used.
      */
-    public function bindValue( $param, $placeHolder = null )
+    public function bindValue( $value, $placeHolder = null )
     {
-        return $this->outerQuery->bindValue( $param, $placeHolder );
+        return $this->outerQuery->bindValue( $value, $placeHolder );
     }
 
 
@@ -156,7 +156,7 @@ class ezcQuerySubSelect extends ezcQuerySelect
      */
     public function __toString()
     {
-        return '( '.$this->getQuery().' )';
+        return $this->getQuery();
     }
 
     /**
