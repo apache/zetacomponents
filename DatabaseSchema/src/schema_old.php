@@ -15,8 +15,8 @@
  * ability to load/save schema from/to files, databases or other
  * sources/destinations, depending on available schema handlers.
  *
- * @todo: what is a database schema
- * @todo: what are the available built in types
+ * @todo what is a database schema
+ * @todo what are the available built in types
  *
  * The following example shows you how you can load a database schema
  * from the php format and store it into the XML format.
@@ -30,7 +30,7 @@
  * @todo Example, create SQL diff between file on disk and database. Apply patch.
  *
  * A more complex example:
- * @todo: This example is cryptic to me. What does it explain?
+ * @todo This example is cryptic to me. What does it explain?
  * <code>
  *  class MyAppSchema extends ezcDbSchema { ... }
  *
@@ -320,7 +320,7 @@ class ezcDbSchema
     /**
      * Manually set schema.
      *
-     * @params array $schema Schema to set.
+     * @param array $schema Schema to set.
      * @return void
      */
     public function set( array $schema )

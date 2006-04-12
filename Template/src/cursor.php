@@ -312,7 +312,7 @@ class ezcTemplateCursor
      * Returns the character(s) at the current position. If the position is at the
      * end it returns false.
      *
-     * @params int $length The number of character to fetch from current position, negative values fetches in reverse.
+     * @param int $length The number of character to fetch from current position, negative values fetches in reverse.
      * @return string/false
      * @see atEnd()
      */
@@ -334,8 +334,8 @@ class ezcTemplateCursor
      * @note To check that a pattern matches immediately at the start position use the
      *       ^ in the pattern string.
      *
-     * 
-     * 
+     *
+     *
      * @param tring $pattern The pattern which is passed to preg_match().
      * @return The result of the preg_match() if successful or false it it failed.
      */
@@ -358,7 +358,7 @@ class ezcTemplateCursor
     {
         $matches = $this->pregMatchComplete( $pattern );
 
-        if( $matches === false ) 
+        if( $matches === false )
         {
             return false;
         }

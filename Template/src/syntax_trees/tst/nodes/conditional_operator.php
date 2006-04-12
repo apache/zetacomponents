@@ -49,8 +49,8 @@ class ezcTemplateConditionalOperatorTstNode extends ezcTemplateOperatorTstNode
 
     /**
      *
-     * @retval ezcTemplateAstNode
      * @todo Not implemented yet.
+     * @return ezcTemplateAstNode
      */
     public function transform()
     {

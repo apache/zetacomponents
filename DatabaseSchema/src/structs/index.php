@@ -19,7 +19,7 @@ class ezcDbSchemaIndex
      * @var array(string=>ezcDbSchemaIndexField)
      */
     public $indexFields;
-    
+
     /**
      * Whether this is the primary index for a table.
      *
@@ -37,9 +37,9 @@ class ezcDbSchemaIndex
     /**
      * Constructs an ezcDbSchemaIndex object.
      *
-     * @var array(string=>ezcDbSchemaIndexField) $indexFields
-     * @var bool  $primary
-     * @var bool  $unique
+     * @param array(string=>ezcDbSchemaIndexField) $indexFields
+     * @param bool  $primary
+     * @param bool  $unique
      */
     function __construct( $indexFields, $primary = false, $unique = true )
     {

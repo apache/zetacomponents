@@ -19,14 +19,14 @@ class ezcDbSchemaField
      * @var integer
      */
     public $type;
-    
+
     /**
      * The length of this field.
      *
      * @var integer
      */
     public $length;
-    
+
     /**
      * Whether this field can store NULL values.
      *
@@ -58,12 +58,12 @@ class ezcDbSchemaField
     /**
      * Constructs an ezcDbSchemaField object.
      *
-     * @var string  $type
-     * @var integer $length
-     * @var bool    $notNull
-     * @var mixed   $default
-     * @var bool    $autoIncrement
-     * @var bool    $unsigned
+     * @param string  $type
+     * @param integer $length
+     * @param bool    $notNull
+     * @param mixed   $default
+     * @param bool    $autoIncrement
+     * @param bool    $unsigned
      */
     function __construct( $type, $length = false, $notNull = false, $default = null, $autoIncrement = false, $unsigned = false )
     {
