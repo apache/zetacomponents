@@ -1,0 +1,32 @@
+eZ component: Graph, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author:   Derick Rethans
+:Revision: $Revision$
+:Date:     $Date$
+
+Design Description
+==================
+
+
+There is ??? classeses in this component:
+
+ezc????
+-------
+
+Guidelines
+==========
+
+Algorithms
+==========
+
+Data Structures
+===============
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79

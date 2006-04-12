@@ -1,0 +1,75 @@
+eZ component: Graph, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author:   Derick Rethans
+:Revision: $Revision$
+:Date:     $Date$
+
+Introduction
+============
+
+Description
+-----------
+
+The purpose of this component is to generate different kinds of diagrams from
+different kinds of data. The diagrams' appearance needs to be slick and
+customizable.
+
+Requirements
+============
+The first version of the component should cover the following types of
+charts:
+
+Piechart
+--------
+A diagram showing values as elements of a piechart. It should support:
+
+- highlighted parts (shown as a little bit outwards of the pie)
+- setting a tresh hold under which values are combined together in an "others"
+  part
+- automatic colours, but they should be able to set manually too
+- automatic legenda generation and label placement
+- 2D view, like:
+  http://www.eia.doe.gov/neic/brochure/gas04/images/pie%20chart.gif
+- 3D view, like: http://www.chambersfund.org/images/piechart.jpg
+- background image and/or colours
+
+Linechart
+---------
+A diagram with a variable y-axis showing values for a finite set of data
+points. The chart should be able to show different data sets, but all measured
+only in the same unit. 
+
+Line charts should support:
+
+- automatic colours and styles, but each dataset should be able to be styled
+  manually
+- automatic scaling of the x and y-axis
+- automatic legenda generation
+- automatic label placement for both x and y-axis
+- options for setting when to draw vertical and horizontal lines, and in which
+  style they should be drawn
+- 2D view, like: http://www.swiftchart.com/line_ex5.jpg
+- 3D view, like: http://www.jspwiki.org/attach/LineChart/Line+Chart+3D.png
+- background image and/or colours
+
+Special Considerations
+======================
+
+The component should be flexible enough to allow averaging and other analysis
+methods to work on datasets and add rendered data to the resulting graph. This
+can for example be trend analysis or mean average etc.
+
+Formats
+=======
+
+Graphs should be rendered as PNGs in the first version, but it should be
+possible to have different renders to render to f.e. SVG or flash in later
+versions of the component.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
