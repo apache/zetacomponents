@@ -1,0 +1,4 @@
+mock:1:27: Expecting an array.
+
+{foreach 42 as $i offset 2}
+        ^

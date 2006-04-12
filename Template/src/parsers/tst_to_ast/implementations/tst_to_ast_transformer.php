@@ -37,13 +37,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     private $noProperty = false;
 
-    const TYPE_ARRAY = 1;
-    const TYPE_VALUE = 2;
-
     public function __construct( $parser )
     {
         $this->functions = new ezcTemplateFunctions();
-        $this->type = self::TYPE_ARRAY | self::TYPE_VALUE;
         $this->parser = $parser;
     }
 
@@ -69,36 +65,60 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         $node = clone( $astNode );
         
-        $node->appendParameter( $type->parameters[ $currentParameterNumber ]->accept( $this ) );
-
-        $currentParameterNumber++;
-
-        if( $currentParameterNumber == sizeof( $type->parameters ) - 1 ) 
+        try
         {
-            // The last node.
-            $node->appendParameter( $type->parameters[ $currentParameterNumber ]->accept( $this ) );
+            $appendNode = $type->parameters[ $currentParameterNumber ]->accept( $this );
+            $node->appendParameter( $appendNode );
+            $typeHint1 = $appendNode->typeHint;
+
+            $currentParameterNumber++;
+
+            if( $currentParameterNumber == sizeof( $type->parameters ) - 1 ) 
+            {
+                // The last node.
+                $appendNode = $type->parameters[ $currentParameterNumber ]->accept( $this );
+                $node->appendParameter( $appendNode );
+            }
+            else
+            {
+                // More than two parameters, so repeat.
+                $appendNode = $this->appendOperatorRecursively( $type, $astNode, $currentParameterNumber );
+                $node->appendParameter( $appendNode  );
+            }
+
         }
-        else
+        catch( Exception $e )
         {
-            // More than two parameters, so repeat.
-            $node->appendParameter( $this->appendOperatorRecursively( $type, $astNode, $currentParameterNumber ) );
+            throw new ezcTemplateParserException( $type->source, $type->endCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VALUE );
         }
+        /*
+        $typeHint2 = $appendNode->typeHint;
+        if( $typeHint1 != null && $typeHint2 != null )
+        {
+            $node->typeHint = $typeHint1 & $typeHint2;
+            if( !$node->typeHint)
+            {
+                throw new ezcTemplateParserException( $type->source, $type->endCursor, $type->endCursor, "Expect the same operand types. (Both values or both arrays)" );
+            }
+        }
+        */
 
         return $node;
     }
 
+    private function checkSameBinaryTypeHint( $astNode, $type )
+    {
+        var_dump ($astNode );
+        if( !( $astNode->parameters[0]->typeHint & $astNode->parameters[1]->typeHint ) )
+        {
+            throw new ezcTemplateParserException( $type->source, $type->endCursor, $type->endCursor, "Expect the same operand types. (Both values or both arrays)" );
+        }
+    }
+
     private function createBinaryOperatorAstNode( $type, ezcTemplateOperatorAstNode $astNode, $addParenthesis = true )
     {
-        $astNode->appendParameter( $type->parameters[0]->accept( $this ));
-
-        if( !isset( $type->parameters[1] ) )
-        {
-            // TODO>
-            var_dump ($type );
-        }
-
-        $astNode->appendParameter( $type->parameters[1]->accept( $this ));
-
+        $astNode->appendParameter( $type->parameters[0]->accept( $this ) );
+        $astNode->appendParameter( $type->parameters[1]->accept( $this ) );
         return ( $addParenthesis ?  new ezcTemplateParenthesisAstNode( $astNode ) : $astNode );
     }
 
@@ -197,13 +217,28 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
                 }
             }
 
-
             $this->programNode->appendStatement( $body->statements[1] );
         }
         else
         {
             die ("PANIC, program node is not null ");
         }
+    }
+
+    public function visitCycleControlTstNode( ezcTemplateCycleControlTstNode $cycle )
+    {
+        if( $cycle->name == "increment" || $cycle->name == "decrement" || $cycle->name == "reset" )
+        {
+            foreach( $cycle->variables as $var )
+            {
+                $this->noProperty = true;
+                $b = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$".$var->name . "->".$cycle->name, array() ) ); 
+                $this->noProperty = false;
+
+                return $b;
+            }
+        }
+
     }
 
     public function visitLiteralBlockTstNode( ezcTemplateLiteralBlockTstNode $type )
@@ -223,7 +258,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     public function visitParenthesisTstNode( ezcTemplateParenthesisTstNode $type )
     {
         $expression = $type->expressionRoot->accept( $this );
-        return new ezcTemplateParenthesisAstNode( $expression );
+        $newNode = new ezcTemplateParenthesisAstNode( $expression );
+        $newNode->typeHint = $expression->typeHint;
+        return $newNode;
     }
 
     public function visitOutputBlockTstNode( ezcTemplateOutputBlockTstNode $type )
@@ -232,7 +269,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $output = new ezcTemplateOutputAstNode( $expression );
 
         return $this->assignToOutput( $output );
-        //return new ezcTemplateEchoAstNode( array( $expression ) );
     }
 
     public function visitModifyingBlockTstNode( ezcTemplateModifyingBlockTstNode $type )
@@ -243,8 +279,12 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitLiteralTstNode( ezcTemplateLiteralTstNode $type )
     {
-        $this->type = (is_array( $type->value ) ? self::TYPE_ARRAY : self::TYPE_VALUE );
-        return new ezcTemplateLiteralAstNode( $type->value );
+        // TODO REMOVE next line
+
+        $newNode = new ezcTemplateLiteralAstNode( $type->value );
+        $newNode->typeHint = is_array( $type->value ) ? ezcTemplateAstNode::TYPE_ARRAY : ezcTemplateAstNode::TYPE_VALUE;
+
+        return $newNode; 
     }
 
     public function visitIntegerTstNode( ezcTemplateIntegerTstNode $type )
@@ -255,12 +295,10 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     public function visitVariableTstNode( ezcTemplateVariableTstNode $type )
     {
         // Don't do array or value checking for variables.. (yet).
-        $this->type = self::TYPE_ARRAY | self::TYPE_VALUE;
 
         if( !$this->noProperty && $this->parser->symbolTable->retrieve( $type->name ) == ezcTemplateSymbolTable::CYCLE ) 
         {
             return new ezcTemplateVariableAstNode( $type->name . "->v" );
-
         }
 
         return new ezcTemplateVariableAstNode( $type->name );
@@ -283,7 +321,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $paramAst[] = $parameter->accept( $this );
         }
 
-        $this->type = self::TYPE_ARRAY | self::TYPE_VALUE;
         return $this->functions->getAstTree( $type->name, $paramAst );
     }
 
@@ -364,7 +401,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         if( $type->offset !== null )
         {
             $params[] = $type->array->accept( $this );
-            if( !($this->type & self::TYPE_ARRAY) )
+            if( !( $params[ sizeof( $params ) - 1 ]->typeHint & ezcTemplateAstNode::TYPE_ARRAY) )
             {
                 throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
             }
@@ -377,11 +414,10 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         {
             $astNode[$i]->arrayExpression = $type->array->accept( $this );
 
-            if( !($this->type & self::TYPE_ARRAY) )
+            if( !( $astNode[$i]->arrayExpression->typeHint & ezcTemplateAstNode::TYPE_ARRAY) )
             {
                 throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
             }
-     
         }
 
         if( $type->keyVariableName  !== null )
@@ -603,12 +639,14 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitEqualOperatorTstNode( ezcTemplateEqualOperatorTstNode $type )
     {
-        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateEqualOperatorAstNode() );
+        $astNode = $this->createBinaryOperatorAstNode( $type, new ezcTemplateEqualOperatorAstNode() );
+        return $astNode;
     }
 
     public function visitNotEqualOperatorTstNode( ezcTemplateNotEqualOperatorTstNode $type )
     {
-        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateNotEqualOperatorAstNode() );
+        $astNode = $this->createBinaryOperatorAstNode( $type, new ezcTemplateNotEqualOperatorAstNode() );
+        return $astNode;
     }
 
     public function visitIdenticalOperatorTstNode( ezcTemplateIdenticalOperatorTstNode $type )
@@ -752,13 +790,10 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $a = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $var, new ezcTemplateNewAstNode( "ezcTemplateCycle()" ) ) );
             $this->noProperty = false;
 
-            //$b = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( $var, array( $type->expression->accept($this ) ) ) ); 
-
             $expression = $type->expression === null ? new ezcTemplateConstantAstNode( "NULL") : $type->expression->accept($this);
             $b =  new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $type->variable->accept($this), $expression ) );
-            
 
-            return array($a, $b); // array( $a, $b );
+            return array($a, $b);
         }
 
         $expression = $type->expression === null ? new ezcTemplateConstantAstNode( "NULL") : $type->expression->accept($this);
@@ -846,7 +881,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $paramAst = array();
 
         $paramAst[] = $type->parameters[ $currentParameterNumber ]->accept( $this );
-        if( $checkNonArray && !( $this->type & self::TYPE_VALUE ) )
+        if( $checkNonArray && !( $paramAst[0]->typeHint & ezcTemplateAstNode::TYPE_VALUE ) )
         {
             throw new ezcTemplateParserException( $type->source, $type->parameters[$currentParameterNumber]->startCursor, 
                 $type->parameters[$currentParameterNumber]->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VALUE_NOT_ARRAY );
@@ -866,16 +901,19 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $paramAst[] = $this->appendFunctionCallRecursively( $type, $functionName, $checkNonArray, $currentParameterNumber );
         }
 
-        if( $checkNonArray && !( $this->type & self::TYPE_VALUE ) )
+        if( $checkNonArray && !( $paramAst[1]->typeHint & ezcTemplateAstNode::TYPE_VALUE ) )
         {
             throw new ezcTemplateParserException( $type->source, $type->parameters[$currentParameterNumber]->startCursor, 
                 $type->parameters[$currentParameterNumber]->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VALUE_NOT_ARRAY );
         }
 
 
+        //return $this->functions->getAstTree( $functionName, $paramAst );
 
-        $this->type = self::TYPE_ARRAY;
-        return $this->functions->getAstTree( $functionName, $paramAst );
+        $ast = $this->functions->getAstTree( $functionName, $paramAst );
+        // TODO. The function should specify the typeHint.
+        $ast->typeHint = ezcTemplateAstNode::TYPE_ARRAY;
+        return $ast;
    }
 
 

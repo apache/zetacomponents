@@ -45,6 +45,11 @@ class ezcTemplateLiteralAstNode extends ezcTemplateAstNode
      */
     public $value;
 
+    public function checkAndSetTypeHint()
+    {
+        $this->typeHint = is_array( $this->value ) ? ezcTemplateAstNode::TYPE_ARRAY : ezcTemplateAstNode::TYPE_VALUE;
+    }
+
     /**
      * @param mixed $value The value of PHP type to be stored in code element.
      * @todo Fix exception class + doc for it
@@ -65,6 +70,8 @@ class ezcTemplateLiteralAstNode extends ezcTemplateAstNode
         {
             throw new Exception( "The magic method __set_state is not implemented for passed object, the type code cannot create a representation of the object without it." );
         }
+
+        $this->checkAndSetTypeHint();
     }
 }
 ?>

@@ -16,6 +16,8 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_EXPECT_NON_MODIFYING_OPERAND      = "Expecting an operand without a pre- or post operator.";
     const MSG_EXPECT_VARIABLE                   = "Expecting a variable";
 
+    const MSG_EXPECT_VALUE                      = "Expected two operands that are not an array.";
+
     // Unexpected types
     const MSG_UNEXPECTED_TOKEN                  = "Unexpected token: %s";
 

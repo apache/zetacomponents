@@ -65,7 +65,7 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
         // Check if any control structure names are used.
         // Note: The code inside the (?:) brace ensures that the next character
         // is not an alphabetical character ie. a word boundary
-        $matches = $cursor->pregMatchComplete( "#^(foreach|while|if|elseif|else|switch|case|default|include|embed|break|continue|skip|delimiter|once|def|undef|set)(?:[^a-zA-Z])#i" );
+        $matches = $cursor->pregMatchComplete( "#^(foreach|while|if|elseif|else|switch|case|default|include|embed|break|continue|skip|delimiter|increment|decrement|reset|once|def|undef|set)(?:[^a-zA-Z])#i" );
 
         if ( $matches === false )
             return false;
@@ -99,6 +99,9 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
         $csMap['continue'] = 'Loop';
         $csMap['skip'] = 'Delimiter';
         $csMap['delimiter'] = 'Delimiter';
+        $csMap['increment'] = 'Cycle';
+        $csMap['decrement'] = 'Cycle';
+        $csMap['reset'] = 'Cycle';
         $csMap['once'] = 'Once';
         $csMap['def'] = 'Def';
 

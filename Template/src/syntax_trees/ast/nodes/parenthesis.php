@@ -31,6 +31,7 @@ class ezcTemplateParenthesisAstNode extends ezcTemplateAstNode
         parent::__construct();
 
         $this->expression = $expression;
+        $this->typeHint = $expression->typeHint;
     }
 }
 ?>

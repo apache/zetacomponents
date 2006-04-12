@@ -25,6 +25,47 @@ class ezcTemplateAssignmentOperatorAstNode extends ezcTemplateBinaryOperatorAstN
         parent::__construct( self::OPERATOR_TYPE_BINARY );
     }
     */
+
+    public function checkAndSetTypeHint()
+    {
+        $symbolTable = ezcTemplateSymbolTable::getInstance();
+
+        $this->typeHint = $this->parameters[1]->typeHint;
+
+        $symbolTable->setTypeHint( $this->parameters[0]->name, $this->typeHint );
+        
+
+        /*
+
+
+        $first = true;
+        foreach( $this->parameters as $parameter )
+        {
+            if( $parameter->typeHint == null )
+            {
+                
+                exit( get_class( $parameter ) . " is null" ); 
+            }
+
+            if( $first )
+            {
+                $this->typeHint = $parameter->typeHint;
+                $first = false;
+            }
+            else
+            {
+                $this->typeHint &= $parameter->typeHint;
+
+                if( !( $this->typeHint & self::TYPE_VALUE  ) )
+                {
+                    throw new Exception ("Typehint failure");
+                }
+            }
+        }
+        */
+    }
+
+
     
     /**
      * Returns a text string representing the PHP operator.

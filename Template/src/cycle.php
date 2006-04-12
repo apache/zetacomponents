@@ -29,7 +29,6 @@ class ezcTemplateCycle
         if( $this->value !== false )
         {
             $res = $this->value[ $this->counter ];
-            $this->counter = ++$this->counter % $this->size;
 
             return $res;
         }
@@ -37,18 +36,20 @@ class ezcTemplateCycle
         return "Invalid cycle";
     }
 
-    /*
-    public function assign( $value )
+    public function increment()
     {
-        $this->value = $value;
+        $this->counter = ++$this->counter % $this->size;
     }
 
-    public function toString()
+    public function decrement()
     {
-        return $this->value[0];
+        if ( --$this->counter  < 0 ) $this->counter = $this->size - 1;
     }
-    */
 
+    public function reset()
+    {
+        $this->counter = 0;
+    }
 }
 
 

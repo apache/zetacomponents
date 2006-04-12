@@ -48,7 +48,6 @@ class ezcTemplateIfConditionTstNode extends ezcTemplateBlockTstNode
                 return false;
             }
 
-            echo "NAME: " . $element->name;
             return true;
         }
 
@@ -62,28 +61,11 @@ class ezcTemplateIfConditionTstNode extends ezcTemplateBlockTstNode
         if( !$element instanceof ezcTemplateConditionBodyTstNode )
         {
             $this->children[$last]->children[] = $element;
-            //var_dump ($this->children[$last]->children );
         }
         else
         {
             $this->children[] = $element;
         }
-
-        /*
-
-        if( $this->canHandleElement( $element ) )
-        {
-            $this->elements[] = $element;
-            $element->parentBlock = $this;
-            $element->isNestingBlock = false;
-        }
-        else
-        {
-            parent::handleElement( $element );
-        }
-        */
-
-
     }
 }
 ?>

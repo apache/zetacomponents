@@ -15,12 +15,30 @@ class ezcTemplateSymbolTable
     const SYMBOL_IMPORT_FIRST = "'Use' should be declared before other declarations";
 
     protected $symbols;
+    protected $typehints;
 
     private $scope;
 
     private $errorMessage = "";
 
-    public function __construct()
+    private static $instance = null;
+
+    private function __construct()
+    {
+        $this->reset();
+    }
+
+    public function getInstance()
+    {
+        if( self::$instance === null)
+        {
+            self::$instance = new ezcTemplateSymbolTable();
+        }
+
+        return self::$instance;
+    }
+
+    public function reset()
     {
         $this->symbols = array();
         $this->scope = 1;
@@ -112,6 +130,16 @@ class ezcTemplateSymbolTable
     }
 
 
+    public function setTypeHint( $name, $hint )
+    {
+        $this->typehints[$name] = $hint;
+    }
+
+    public function getTypeHint( $name )
+    {
+        return isset( $this->typehints[$name] ) ? $this->typehints[$name] : false;
+
+    }
 
 }
 

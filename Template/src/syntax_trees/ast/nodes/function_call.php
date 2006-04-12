@@ -23,6 +23,11 @@ class ezcTemplateFunctionCallAstNode extends ezcTemplateParameterizedAstNode
      */
     public $name;
 
+    public function checkAndSetTypeHint()
+    {
+        $this->typeHint = self::TYPE_ARRAY | self::TYPE_VALUE; 
+    }
+
     /**
      * Initialize with function name code and optional arguments
      */

@@ -17,6 +17,7 @@
  */
 class ezcTemplateIdenticalOperatorAstNode extends ezcTemplateBinaryOperatorAstNode
 {
+
     /**
      * Returns a text string representing the PHP operator.
      * @return string

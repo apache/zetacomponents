@@ -50,6 +50,30 @@ class ezcTemplateArrayFetchOperatorAstNode extends ezcTemplateOperatorAstNode
         return '[..]';
     }
 
+    public function checkAndSetTypeHint()
+    {
+        if( $this->parameters[0]->typeHint & self::TYPE_ARRAY && $this->parameters[1]->typeHint & self::TYPE_VALUE )
+        {
+            $this->typeHint = self::TYPE_VALUE;
+            return;
+        }
+        else
+        {
+            if ( $this->parameters[0]->typeHint == null || $this->parameters[1]->typeHint == null  )
+            {
+                if( $this->parameters[0]->typeHint == null ) echo "FOUND: ".get_class( $this->parameters[0] );
+                if( $this->parameters[1]->typeHint == null ) echo "FOUND: ". get_class( $this->parameters[1] );
+
+                echo ("ONE OF THE PARAMETERS was null. array_fetch_operator.php ");
+                $this->typeHint = self::TYPE_VALUE;
+                return;
+            }
+        }
+
+        throw new Exception ("Typehint failure");
+    }
+ 
+
     /**
      * @inheritdocs
      * Calls visitArrayFetchOperator() of the ezcTemplateBasicAstNodeVisitor interface.

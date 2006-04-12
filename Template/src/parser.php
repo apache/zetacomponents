@@ -70,7 +70,8 @@ class ezcTemplateParser
         $this->trimWhitespace = true;
         $this->debug = false;
 
-        $this->symbolTable = new ezcTemplateSymbolTable();
+        $this->symbolTable = ezcTemplateSymbolTable::getInstance();
+        $this->symbolTable->reset();
 
         $this->whitespaceRemoval = new ezcTemplateWhitespaceRemoval();
     }
@@ -761,6 +762,13 @@ class ezcTemplateParser
     {
         return new ezcTemplateLoopTstNode( $this->source, $start, $end, $name );
     }
+
+    public function createCycleControl( ezcTemplateCursor $start, ezcTemplateCursor $end, $name = null )
+    {
+        return new ezcTemplateCycleControlTstNode( $this->source, $start, $end, $name );
+    }
+
+
 
     /**
      * Figures out the operator precedence for the new operator $newOperator

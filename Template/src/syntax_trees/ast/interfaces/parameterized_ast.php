@@ -78,7 +78,41 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
             throw new Exception( "Parameter count {$this->maxParameterCount} exceeded." );
 
         $this->parameters[] = $code;
+
+        if( $this->minParameterCount !== false && $this->minParameterCount == sizeof( $this->parameters ) )
+        {
+            $this->checkAndSetTypeHint();
+        }
     }
+
+       
+    public function checkAndSetTypeHint()
+    {
+        $first = true;
+        foreach( $this->parameters as $parameter )
+        {
+            if( $parameter->typeHint == null )
+            {
+                exit( get_class( $parameter ) . " is null" ); 
+            }
+
+            if( $first )
+            {
+                $this->typeHint = $parameter->typeHint;
+                $first = false;
+            }
+            else
+            {
+                $this->typeHint &= $parameter->typeHint;
+
+                if( !( $this->typeHint & self::TYPE_VALUE  ) )
+                {
+                    throw new Exception ("Typehint failure");
+                }
+            }
+        }
+    }
+
 
     /**
      * Returns the parameters of the code element.

@@ -45,6 +45,16 @@ class ezcTemplateVariableAstNode extends ezcTemplateAstNode
             throw new ezcBaseValueException( "name", $name, 'string' );
         }
         $this->name = $name;
+
+        $symbolTable = ezcTemplateSymbolTable::getInstance();
+        if( $symbolTable->getTypeHint( $name ) == false)
+        {
+            $this->typeHint = self::TYPE_ARRAY | self::TYPE_VALUE; 
+        }
+        else
+        {
+            $this->typeHint = $symbolTable->getTypeHint($name); 
+        }
     }
 }
 ?>

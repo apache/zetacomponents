@@ -1,0 +1,4 @@
+mock:1:13: Expected two operands that are not an array.
+
+{array(1) + 2}
+             ^

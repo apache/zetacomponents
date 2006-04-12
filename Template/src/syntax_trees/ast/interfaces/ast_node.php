@@ -17,6 +17,11 @@
  */
 abstract class ezcTemplateAstNode
 {
+    const TYPE_ARRAY = 1;
+    const TYPE_VALUE = 2;
+
+    public $typeHint = null;
+
     /**
      */
     public function __construct()

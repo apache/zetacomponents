@@ -1,0 +1,17 @@
+{cycle $a = array("red", "green", "blue")}
+red: {$a}
+{increment $a}
+green: {$a}
+{increment $a}
+blue: {$a}
+{increment $a}
+red: {$a}
+{decrement $a}
+blue: {$a}
+{decrement $a}
+green: {$a}
+{reset $a}
+red: {$a}
+{increment $a}
+{reset $a}
+red: {$a}
