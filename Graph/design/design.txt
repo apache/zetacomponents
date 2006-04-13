@@ -1,26 +1,101 @@
 eZ component: Graph, Design
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:Author:   Derick Rethans
+:Author:   Kore Nordmann
 :Revision: $Revision$
 :Date:     $Date$
 
 Design Description
 ==================
 
+Purpose of Graph package
+------------------------
 
-There is ??? classeses in this component:
+The Graph package will be used to generate different chart types from a user
+defined set of data. There will be 2D and 3D presentations for each chart
+type.
 
-ezc????
+Classes
 -------
 
-Guidelines
-==========
+ezcGraphManager
+	Controller for the generated graphs. Offers factory methods for the other
+	classes, handles and dispatches the configuration and actions to the other
+	classes.
 
-Algorithms
-==========
+ezcGraphDataset
+	Receives the user data, and stores the configuration for the dataset, like
+	color, label, etc. Contains a finite count of ezcGraphDatasetData objects.
+	Can be extended to perform algorithms like polynomial interpolation, 
+	averaging and bezier interpolation on the data.
+
+ezcGraphChart
+	Abstract class, which handles the global charts options like background
+	colors or images. Aggregates ezcGraphChartElement for configurable sub
+	elements.
+
+ezcGraphChartPie
+	Extends ezcGraphChart for pie charts. Offers additional options for pie
+	charts like tresh hold under which data is combined.
+
+ezcGraphChartLine
+	Extends ezcGraphChart for line charts. Additionally contains two objects
+	to represent and configure the axes.
+
+ezcGraphChartElement
+	Abstract class to define the interface how to access the configuration
+	directives of different chart elements like axes and legend.
+
+ezcGraphChartElementLegend
+	Offers configuration options for the charts legend like background color,
+	position and size.
+
+ezcGraphChartElementAxe
+	Offers the axes configuration options like scaling, lines within the
+	graph and labeling. Can do automagic scaling of the axes.
+
+ezcGraphRenderer
+	Abstract class which transforms the chart elements like pie segments,
+	bars, texts and lines to image primitives depending on the renderer.
+
+ezcGraphRenderer2D
+	Creates image primitives for the chart elements considered as two
+	dimensional.
+
+ezcGraphRenderer3D
+	Creates image primitives for the chart elements considered as three
+	dimensional.
+
+ezcGraphDriver
+	Offers methods to draw image primitives like textboxes, arcs, rectangles,
+	polygons and lines. Needs to be extended for each output format.
+
+ezcGraphDriverGD
+	Creates PNG images utilizing the GDlib bundled with PHP.
+
+Implementation
+==============
+
+ezcGraphManagager
+-----------------
+
+Offers factory methods to build up the wanted graph, containing a chart of a
+selected type, a renderer and a driver. Once aggregated the manager offers an
+unified interface to configure all parts of the graph.
+
+The manager can aggregate a finite count of datasets and forwards the to the
+chart. The chart builds the visual chart elements like pie segments, lines or
+bars, which are forwarded to the renderer. They are transformed to image 
+primitives accoringly to the selected renderer.
+
+The datasets can be configured individually by the user of the package.
 
 Data Structures
 ===============
+
+ezcGraphDatasetData
+	Stores the data and offers options to set color and label for single
+	potions of data. Data can be highlighted, the presentation depends on the
+	charttype (Label value in line charts, move pie outwards in pie charts).
 
 
 
