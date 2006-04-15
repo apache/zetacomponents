@@ -8,6 +8,8 @@
   rule checking (dependencies/exclusions/madatoryness) is disabled.
 - Added ezcConsoleInput::helpOptionSet() method which returns if an option
   that was defined to be a help option was submitted.
+- Added new class ezcConsoleStatusindicator that is capable of printing status
+  information and percentage progress to the console.
 
 1.0.1 - Monday 06 March 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -24,6 +24,7 @@ return array (
     'ezcConsoleProgressbar'                         => 'ConsoleTools/progressbar.php',
     'ezcConsoleProgressbarOptions'                  => 'ConsoleTools/structs/progressbar_options.php',
     'ezcConsoleStatusbar'                           => 'ConsoleTools/statusbar.php',
+    'ezcConsoleStatusindicator'                     => 'ConsoleTools/statusindicator.php',
 
     'ezcConsoleException'                           => 'ConsoleTools/exceptions/exception.php',
     'ezcConsoleNoPositionStoredException'           => 'ConsoleTools/exceptions/no_position_stored.php',
