@@ -17,7 +17,7 @@
  * $status = new ezcConsoleStatusbar( new ezcConsoleOutput() );
  *
  * // Set option
- * $status->options->successChar = '*';
+ * $status->options['successChar'] = '*';
  *
  * // Run statusbar
  * foreach ( $files as $file )
@@ -76,7 +76,6 @@ class ezcConsoleStatusbar
      * Creates a new status bar.
      *
      * @param ezcConsoleOutput $outHandler Handler to utilize for output
-     * @param array(string=>string) $settings      Settings
      * @param array(string=>string) $options       Options
      *
      * @see ezcConsoleStatusbar::$options
