@@ -97,8 +97,6 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
 
         $this->fromTables = array_merge( $this->fromTables, $tables );
 
-        $this->lastTable = end( $this->fromTables );
-
         $this->fromString ='FROM '.join( ', ', $this->fromTables );
 
         //adding right join part of query to the end of fromString.
