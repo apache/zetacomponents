@@ -7,15 +7,13 @@
  * @package DatabaseSchema
  */
 /**
- * A container to store schema difference information in.
+ * ezcDbSchemaDiff is the main class for schema differences operations.
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaDiff
 {
-    const FILE = 1;
-    const DATABASE = 2;
-
     /**
      * All added tables
      *
@@ -58,6 +56,15 @@ class ezcDbSchemaDiff
         );
     }
 
+    /**
+     * Checks whether the object in $obj implements the correct $type of reader handler.
+     *
+     * @throws ezcDbSchemaInvalidReaderClassException if the object in $obj is
+     *         not a schema reader of the correct type.
+     *
+     * @param ezcDbSchemaReader $obj
+     * @param int               $type
+     */
     static private function checkSchemaDiffReader( $obj, $type )
     {
         if ( !( ( $obj->getDiffReaderType() & $type ) == $type ) )
@@ -66,15 +73,32 @@ class ezcDbSchemaDiff
         }
     }
 
+    /**
+     * Factory method to create a ezcDbSchemaDiff object from the file $file with the format $format.
+     *
+     * @throws ezcDbSchemaInvalidReaderClassException if the handler associated
+     *         with the $format is not a file schema reader.
+     *
+     * @param string $format
+     * @param string $file
+     */
     static public function createFromFile( $format, $file )
     {
         $className = ezcDbSchemaHandlerManager::getDiffReaderByFormat( $format );
         $reader = new $className();
-        self::checkSchemaDiffReader( $reader, self::FILE );
+        self::checkSchemaDiffReader( $reader, ezcDbSchema::FILE );
         return $reader->loadDiffFromFile( $file );
     }
 
-
+    /**
+     * Checks whether the object in $obj implements the correct $type of writer handler.
+     *
+     * @throws ezcDbSchemaInvalidWriterClassException if the object in $obj is
+     *         not a schema writer of the correct type.
+     *
+     * @param ezcDbSchemaWriter $obj
+     * @param int               $type
+     */
     static private function checkSchemaDiffWriter( $obj, $type )
     {
         if ( !( ( $obj->getDiffWriterType() & $type ) == $type ) )
@@ -83,29 +107,54 @@ class ezcDbSchemaDiff
         }
     }
 
+    /**
+     * Writes the schema differences to the file $file in format $format.
+     *
+     * @throws ezcDbSchemaInvalidWriterClassException if the handler associated
+     *         with the $format is not a file schema writer.
+     *
+     * @param string $format
+     * @param string $file
+     */
     public function writeToFile( $format, $file )
     {
         $className = ezcDbSchemaHandlerManager::getDiffWriterByFormat( $format );
         $reader = new $className();
-        self::checkSchemaDiffWriter( $reader, self::FILE );
+        self::checkSchemaDiffWriter( $reader, ezcDbSchema::FILE );
         $reader->saveDiffToFile( $file, $this );
     }
 
+    /**
+     * Upgrades the database $db with the differences.
+     *
+     * @throws ezcDbSchemaInvalidWriterClassException if the handler associated
+     *         with the $format is not a database schema writer.
+     *
+     * @param ezcDbHandler $db
+     */
     public function applyToDb( ezcDbHandler $db )
     {
         $className = ezcDbSchemaHandlerManager::getDiffWriterByFormat( $db->getName() );
         $writer = new $className();
-        self::checkSchemaDiffWriter( $writer, self::DATABASE );
+        self::checkSchemaDiffWriter( $writer, ezcDbSchema::DATABASE );
         $writer->applyDiffToDb( $db, $this );
     }
 
+    /**
+     * Returns the $db specific SQL queries that would update the database $db
+     *
+     * @throws ezcDbSchemaInvalidWriterClassException if the handler associated
+     *         with the $format is not a database schema writer.
+     *
+     * @param ezcDbHandler $db
+     * @return array(string)
+     */
     public function convertToDDL( ezcDbHandler $db )
     {
         $className = ezcDbSchemaHandlerManager::getDiffWriterByFormat( $db->getName() );
         $writer = new $className();
-        self::checkSchemaDiffWriter( $writer, self::DATABASE );
+        self::checkSchemaDiffWriter( $writer, ezcDbSchema::DATABASE );
         return $writer->convertDiffToDDL( $this );
     }
-
 }
 ?>

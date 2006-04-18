@@ -10,6 +10,7 @@
  * A container to store a table index' field in.
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaIndexField
 {

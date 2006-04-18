@@ -15,6 +15,11 @@
  */
 class ezcDbSchemaInvalidDiffReaderClassException extends ezcDbSchemaException
 {
+    /**
+     * Constructs an ezcDbSchemaInvalidDiffReaderClassException for reader class $readerClass
+     *
+     * @param string $readerClass
+     */
     function __construct( $readerClass )
     {
         parent::__construct( "Class <{$readerClass}> does not exist, or does not implement the <ezcDbSchemaDiffReader> interface." );

@@ -15,11 +15,30 @@
  */
 class ezcDbSchemaValidator
 {
+    /**
+     * An array containing all the different classes that implement validation methods.
+     *
+     * The array contains the classnames that implement validators. The
+     * validation classes all should implement a method called "validate()"
+     * which accepts an ezcDbSchema object.
+     */
     static private $validators = array(
         'ezcDbSchemaTypesValidator',
         'ezcDbSchemaIndexFieldsValidator'
     );
 
+    /**
+     * Validates the ezcDbSchema object $schema with the recorded validator classes.
+     *
+     * This method loops over all the known validator classes and calls their
+     * validate() method with the $schema as argument. It returns an array
+     * containing validation errors as strings.
+     * 
+     * @todo implement from an interface
+     *
+     * @param ezcDbSchema $schema
+     * @return array(string)
+     */
     static public function validate( ezcDbSchema $schema )
     {
         $validationErrors = array();
@@ -35,3 +54,4 @@ class ezcDbSchemaValidator
         return $validationErrors;
     }
 }
+?>

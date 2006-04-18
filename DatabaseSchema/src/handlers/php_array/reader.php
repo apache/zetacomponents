@@ -9,15 +9,18 @@
  */
 
 /**
- * Handler for files containing PHP arrays that represent DB schema.
+ * Handler that reads database definitions and database difference definitions from a file containing a PHP variable.
  *
  * @package DatabaseSchema
  */
 class ezcDbSchemaPhpArrayReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFileReader
 {
     /**
-     * This handler supports loading schema
-     * from XML files.
+     * Returns what type of reader writer this class implements.
+     *
+     * This method always returns ezcDbSchema::FILE
+     *
+     * @return int
      */
     public function getReaderType()
     {
@@ -25,8 +28,11 @@ class ezcDbSchemaPhpArrayReader implements ezcDbSchemaFileReader, ezcDbSchemaDif
     }
 
     /**
-     * This handler supports loading a difference schema
-     * from XML files.
+     * Returns what type of schema difference reader this class implements.
+     *
+     * This method always returns ezcDbSchema::FILE
+     *
+     * @return int
      */
     public function getDiffReaderType()
     {
@@ -34,17 +40,15 @@ class ezcDbSchemaPhpArrayReader implements ezcDbSchemaFileReader, ezcDbSchemaDif
     }
 
     /**
-     * This handler supports loading schema
-     * from XML files.
-     */
-    public function getReaderDiffType()
-    {
-        return ezcDbSchema::FILE;
-    }
-
-    /**
-     * Load schema from a .php file.
-     * @returns ezcDbSchema
+     * Returns the database schema stored in the file $file
+     *
+     * @throws ezcBaseFileNotFoundException if the file $file could not be
+     *         found.
+     * @throws ezcDbSchemaInvalidSchemaException if the data in the $file is
+     *         corrupt or when the file could not be opened.
+     *
+     * @param string $file
+     * @return ezcDbSchema
      */
     public function loadFromFile( $file )
     {
@@ -64,8 +68,15 @@ class ezcDbSchemaPhpArrayReader implements ezcDbSchemaFileReader, ezcDbSchemaDif
     }
     
     /**
-     * Load schema differences from a .php file.
-     * @returns ezcDbSchemaDiff
+     * Returns the database differences stored in the file $file
+     *
+     * @throws ezcBaseFileNotFoundException if the file $file could not be
+     *         found.
+     * @throws ezcDbSchemaInvalidSchemaException if the data in the $file is
+     *         corrupt or when the file could not be opened.
+     *
+     * @param string $file
+     * @return ezcDbSchemaDiff
      */
     public function loadDiffFromFile( $file )
     {

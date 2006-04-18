@@ -15,6 +15,9 @@
  */
 class ezcDbSchemaInvalidSchemaException extends ezcDbSchemaException
 {
+    /**
+     * Constructs an ezcDbSchemaInvalidSchemaException with an optional message.
+     */
     function __construct( $message = null )
     {
         $messagePart = $message !== null ? " ($message)" : "";

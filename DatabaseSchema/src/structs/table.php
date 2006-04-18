@@ -10,6 +10,7 @@
  * A container to store a table definition in.
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaTable
 {

@@ -10,6 +10,7 @@
  * A container to store table difference information in.
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaTableDiff
 {

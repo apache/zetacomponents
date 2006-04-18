@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDbSchemaException class
+ * File containing the ezcDbSchemaInvalidReaderClassException class
  *
  * @package DatabaseSchema
  * @version //autogen//
@@ -15,6 +15,11 @@
  */
 class ezcDbSchemaInvalidReaderClassException extends ezcDbSchemaException
 {
+    /**
+     * Constructs an ezcDbSchemaInvalidReaderClassException for reader class $readerClass
+     *
+     * @param string $readerClass
+     */
     function __construct( $readerClass )
     {
         parent::__construct( "Class <{$readerClass}> does not exist, or does not implement the <ezcDbSchemaReader> interface." );

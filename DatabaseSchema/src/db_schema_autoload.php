@@ -54,17 +54,5 @@ return array(
     'ezcDbSchemaInvalidWriterClassException' => 'DatabaseSchema/exceptions/invalid_writer_class.php',
     'ezcDbSchemaInvalidDiffReaderClassException' => 'DatabaseSchema/exceptions/invalid_diff_reader_class.php',
     'ezcDbSchemaInvalidDiffWriterClassException' => 'DatabaseSchema/exceptions/invalid_diff_writer_class.php',
-
-   /*
-    'ezcDbSchemaException'           => 'DatabaseSchema/exceptions/exception.php',
-    'ezcDbSchemaComparator'          => 'DatabaseSchema/comparator.php',
-    'ezcDbSchemaTransformations'     => 'DatabaseSchema/transformations.php',
-    'ezcDbSchemaHandler'             => 'DatabaseSchema/handler.php',
-    'ezcDbSchemaHandlerDataTransfer' => 'DatabaseSchema/handlers/data_transfer.php',
-    'ezcDbSchemaHandlerXml'          => 'DatabaseSchema/handlers/xml.php',
-    'ezcDbSchemaHandlerPgsql'        => 'DatabaseSchema/handlers/pgsql.php',
-    'ezcDbSchemaHandlerMysql'        => 'DatabaseSchema/handlers/mysql.php',
-    'ezcDbSchemaHandlerOracle'       => 'DatabaseSchema/handlers/oracle.php',
-    */
 );
 ?>

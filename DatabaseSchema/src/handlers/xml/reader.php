@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDbSchemaPhpArrayReader class.
+ * File containing the ezcDbSchemaXmlReader class.
  *
  * @package DatabaseSchema
  * @version //autogentag//
@@ -9,15 +9,19 @@
  */
 
 /**
- * Handler for files containing PHP arrays that represent DB schema.
+ * Handler that reads database definitions and database difference definitions from a file in an XML format.
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFileReader
 {
     /**
-     * This handler supports loading schema
-     * from XML files.
+     * Returns what type of reader writer this class implements.
+     *
+     * This method always returns ezcDbSchema::FILE
+     *
+     * @return int
      */
     public function getReaderType()
     {
@@ -25,15 +29,25 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
     }
 
     /**
-     * This handler supports loading difference schema
-     * from XML files.
+     * Returns what type of schema difference reader this class implements.
+     *
+     * This method always returns ezcDbSchema::FILE
+     *
+     * @return int
      */
     public function getDiffReaderType()
     {
         return ezcDbSchema::FILE;
     }
 
-    private function parseField( $field )
+    /**
+     * Extracts information about a table field from the XML element $field
+     * 
+     * @param SimpleXMLElement $field
+     *
+     * @return ezcDbSchemaField
+     */
+    private function parseField( SimpleXMLElement $field )
     {
         return new ezcDbSchemaField(
             (string) $field->type,
@@ -45,7 +59,14 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
         );
     }
 
-    private function parseIndex( $index )
+    /**
+     * Extracts information about an index from the XML element $index
+     * 
+     * @param SimpleXMLElement $index
+     *
+     * @return ezcDbSchemaIndex
+     */
+    private function parseIndex( SimpleXMLElement $index )
     {
         $indexFields = array();
 
@@ -65,7 +86,14 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
         );
     }
 
-    private function parseTable( $table )
+    /**
+     * Extracts information about a table from the XML element $table
+     * 
+     * @param SimpleXMLElement $table
+     *
+     * @return ezcDbSchemaTable
+     */
+    private function parseTable( SimpleXMLElement $table )
     {
         $fields = array();
         $indexes = array();
@@ -85,7 +113,14 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
         return new ezcDbSchemaTable( $fields, $indexes );
     }
 
-    private function parseChangedTable( $table )
+    /**
+     * Extracts information about changes to a table from the XML element $table
+     * 
+     * @param SimpleXMLElement $table
+     *
+     * @return ezcDbSchemaTableDiff
+     */
+    private function parseChangedTable( SimpleXMLElement $table )
     {
         $addedFields = array();
         foreach ( $table->{'added-fields'}->field as $field )
@@ -141,6 +176,13 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
         );
     }
 
+    /**
+     * Returns the schema definition in $xml as an ezcDbSchema
+     * 
+     * @param SimpleXMLElement $xml
+     *
+     * @return ezcDbSchema
+     */
     private function parseXml( SimpleXMLElement $xml )
     {
         $schema = array();
@@ -154,6 +196,13 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
         return new ezcDbSchema( $schema );
     }
 
+    /**
+     * Returns the schema differences definition in $xml as an ezcDbSchemaDiff
+     * 
+     * @param SimpleXMLElement $xml
+     *
+     * @return ezcDbSchemaDiff
+     */
     private function parseDiffXml( SimpleXMLElement $xml )
     {
         $newTables = array();
@@ -184,8 +233,12 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
     }
 
     /**
-     * Opens the XML file for parsing
+     * Opens the XML file $file for parsing
      *
+     * @throws ezcBaseFileNotFoundException if the file $file could not be
+     *         found.
+     * @throws ezcDbSchemaInvalidSchemaException if the XML in the $file is
+     *         corrupted or when the file could not be opened.
      * @return SimpleXML
      */
     private function openXmlFile( $file )
@@ -205,9 +258,15 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
     }
 
     /**
-     * Load schema from a .xml file.
-
-     * @returns ezcDbSchema
+     * Returns the database schema stored in the XML file $file
+     *
+     * @throws ezcBaseFileNotFoundException if the file $file could not be
+     *         found.
+     * @throws ezcDbSchemaInvalidSchemaException if the XML in the $file is
+     *         corrupt or when the file could not be opened.
+     *
+     * @param string $file
+     * @return ezcDbSchema
      */
     public function loadFromFile( $file )
     {
@@ -215,6 +274,17 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
         return $this->parseXml( $xml );
     }
 
+    /**
+     * Returns the database differences stored in the XML file $file
+     *
+     * @throws ezcBaseFileNotFoundException if the file $file could not be
+     *         found.
+     * @throws ezcDbSchemaInvalidSchemaException if the XML in the $file is
+     *         corrupt or when the file could not be opened.
+     *
+     * @param string $file
+     * @return ezcDbSchemaDiff
+     */
     public function loadDiffFromFile( $file )
     {
         $xml = $this->openXmlFile( $file );

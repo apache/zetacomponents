@@ -15,6 +15,11 @@
  */
 class ezcDbSchemaInvalidDiffWriterClassException extends ezcDbSchemaException
 {
+    /**
+     * Constructs an ezcDbSchemaInvalidDiffWriterClassException for writer class $writerClass
+     *
+     * @param string $writerClass
+     */
     function __construct( $writerClass )
     {
         parent::__construct( "Class <{$writerClass}> does not exist, or does not implement the <ezcDbSchemaDiffWriter> interface." );

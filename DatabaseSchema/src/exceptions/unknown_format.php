@@ -16,6 +16,12 @@
  */
 class ezcDbSchemaUnknownFormatException extends ezcDbSchemaException
 {
+    /**
+     * Constructs an ezcDatabaseSchemaUnknownFormatException for the $format and handler type $type.
+     *
+     * @param string $format
+     * @param string $type
+     */
     function __construct( $format, $type )
     {
         parent::__construct( "There is no <$type> handler available for the <$format> format." );

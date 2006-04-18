@@ -12,9 +12,15 @@
  * Handler for files containing PHP arrays that represent DB schema.
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
 {
+    /**
+     * Contains a type map from MySQL native types to generic DbSchema types.
+     *
+     * @var array
+     */
     static private $typeMap = array(
         'tinyint' => 'integer',
         'smallint' => 'integer',
@@ -52,8 +58,11 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
             
             
     /**
-     * This handler supports loading schema
-     * from XML files.
+     * Returns what type of schema reader this class implements.
+     *
+     * This method always returns ezcDbSchema::DATABASE
+     *
+     * @return int
      */
     public function getReaderType()
     {
@@ -61,9 +70,10 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
     }
 
     /**
-     * Load schema from a .xml file.
-
-     * @returns ezcDbSchema
+     * Returns a ezcDbSchema object from the database that is referenced with $db.
+     *
+     * @param ezcDbHandler $db
+     * @return ezcDbSchema
      */
     public function loadFromDb( ezcDbHandler $db )
     {
@@ -71,6 +81,14 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
         return new ezcDbSchema( $this->fetchSchema() );
     }
 
+    /**
+     * Loops over all the tables in the database and extracts schema information.
+     *
+     * This method extracts information about a database's schema from the
+     * database itself and returns this schema as an ezcDbSchema object.
+     *
+     * @return ezcDbSchema
+     */
     private function fetchSchema()
     {
         $schemaDefinition = array();
@@ -90,10 +108,14 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
     }
 
     /**
-     * Fetch fields definition for the given table.
+     * Fetch fields definition for the table $tableName
      *
-     * @param ezcDbHandler $db    Database to use.
-     * @param string       $table Table to fetch fields from.
+     * This method loops over all the fields in the table $tableName and
+     * returns an array with the field specification. The key in the returned
+     * array is the name of the field.
+     *
+     * @param string $tableName
+     * @return array(string=>ezcDbSchemaField)
      */
     private function fetchTableFields( $tableName )
     {
@@ -135,12 +157,16 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
     }
 
     /**
-     * Extracts length/precision information from mysql type.
+     * Converts the native MySQL type in $typeString to a generic DbSchema type.
      *
-     * @param string $typeString      A string like "float(5,10)"
-     * @param ref    $typeLength    Used to return field length.
-     * @param ref    $typePrecision Used to return field precision.
-     * @return string type name.
+     * This method converts a string like "float(5,10)" to the generic DbSchema
+     * type and uses the by-reference parameters $typeLength and $typePrecision
+     * to communicate the optional length and precision of the field's type.
+     *
+     * @param string  $typeString
+     * @param int    &$typeLength
+     * @param int    &$typePrecision
+     * @return string
      */
     static function convertToGenericType( $typeString, &$typeLength, &$typePrecision )
     {
@@ -163,18 +189,33 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
         return $genericType;
     }
 
+    /**
+     * Returns whether the type $type is a numeric type
+     *
+     * @return bool
+     */
     private function isNumericType( $type )
     {
         $types = array( 'float', 'int' );
         return in_array( $type, $types );
     }
 
+    /**
+     * Returns whether the type $type is a string type
+     *
+     * @return bool
+     */
     private function isStringType( $type )
     {
         $types = array( 'tinytext', 'text', 'mediumtext', 'longtext' );
         return in_array( $type, $types );
     }
 
+    /**
+     * Returns whether the type $type is a blob type
+     *
+     * @return bool
+     */
     private function isBlobType( $type )
     {
         $types = array( 'varchar', 'char' );
@@ -183,8 +224,14 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
 
 
     /**
-     * Fetches all indexes from a database along with their schema.
-     * @return array(mixed)  Indexes schema.
+     * Loops over all the indexes in the table $table and extracts information.
+     *
+     * This method extracts information about the table $tableName's indexes
+     * from the database and returns this schema as an array of
+     * ezcDbSchemaIndex objects. The key in the array is the index' name.
+     *
+     * @param  string
+     * @return array(string=>ezcDbSchemaIndex)
      */
     private function fetchTableIndexes( $tableName )
     {

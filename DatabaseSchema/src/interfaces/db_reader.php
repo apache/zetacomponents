@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDbSchemaFileReader interface
+ * File containing the ezcDbSchemaDbReader interface
  *
  * @package DatabaseSchema
  * @version //autogen//
@@ -15,6 +15,16 @@
  */
 interface ezcDbSchemaDbReader extends ezcDbSchemaReader
 {
+    /**
+     * Returns an ezcDbSchema created from the database schema in the database referenced by $db
+     *
+     * This method analyses the current database referenced by $db and creates
+     * a schema definition out of this. This schema definition is returned as
+     * an (@link ezcDbSchema) object.
+     *
+     * @param ezcDbHandler $db
+     * @return ezcDbSchema
+     */
     public function loadFromDb( ezcDbHandler $db );
 }
 ?>

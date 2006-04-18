@@ -10,6 +10,7 @@
  * A container to store a field definition in.
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaField
 {

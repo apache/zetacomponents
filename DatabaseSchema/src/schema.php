@@ -11,12 +11,15 @@
 /**
  * ezcDbSchema is the main class for schema operations.
  *
- * ezcDbSchema represents the schema itself and has the
- * ability to load/save schema from/to files, databases or other
+ * ezcDbSchema represents the schema itself and provide proxy methods to the
+ * handlers that ability to load/save schema from/to files, databases or other
  * sources/destinations, depending on available schema handlers.
  *
- * @todo what is a database schema
- * @todo what are the available built in types
+ * A database schema is a definition of all the tables inside a database,
+ * including field definitions and indexes.
+ * @see ezcDbSchemaTable, ezcDbSchemaField, ezcDbSchemaIndex and ezcDbSchemaIndexField.
+ *
+ * The available builtin handlers are currently for MySQL, XML files and PHP Arrays.
  *
  * The following example shows you how you can load a database schema
  * from the PHP format and store it into the XML format.
@@ -33,48 +36,78 @@
  *     $schema->writeToDb( $db );
  * </code>
  *
- * @todo Example, create SQL diff between file on disk and database. Apply patch.
- *
- * A more complex example:
- * @todo This example is cryptic to me. What does it explain?
+ * Examples that shows how to make a comparison between a file on disk and a
+ * database, and how to apply the changes.
  * <code>
- *  class MyAppSchema extends ezcDbSchema { ... }
- *
- *  $schema1 = new MyAppSchema;
- *  $schema2 = new MyAppSchema;
- *
- *  $schema1->load( 'file1.xml', 'xml-file' );
- *  $schema2->load( $db, 'oracle-db' );
- *
- *  $diff = $schema1->compare( $schema2 );
- *  $schema1->saveDelta( $diff, 'delta.sql', 'mysql-file' );
- *
- *  $schema2->save( 'schema2.sql', 'oracle-file' );
+ *     $xmlSchema = ezcDbSchema::createFromFile( 'xml', 'wanted-schema.xml' );
+ *     $dbSchema = ezcDbSchema::createFromDb( $db );
+ *     $diff = ezcDbSchemaComparator::compareSchemas( $xmlSchema, $dbSchema );
+ *     $diff->applyToDb( $db );
  * </code>
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
-
 class ezcDbSchema
 {
+    /**
+     * Used by reader and writer classes to inform that it implements a file
+     * based handler.
+     */
     const FILE = 1;
+
+    /**
+     * Used by reader and writer classes to inform that it implements a
+     * database based handler.
+     */
     const DATABASE = 2;
 
+    /**
+     * Stores the schema information.
+     *
+     * @var array(string=>ezcDbSchemaTable)
+     */
     private $schema;
+
+    /**
+     * Meant to store data - not currently in use
+     *
+     * @var array
+     */
     private $data;
 
+    /**
+     * A list of all the supported database filed types
+     *
+     * @var array(string)
+     */
     static public $supportedTypes = array(
         'integer', 'boolean', 'float', 'decimal', 'timestamp', 'time', 'date',
         'text', 'blob', 'clob'
     );
 
+    /**
+     * Constructs a new ezcDbSchema object with schema definition $schema.
+     *
+     * @param array(ezcDbSchemaTable) $schema
+     * @param array                   $data
+     */
     public function __construct( array $schema, $data = array() )
     {
         $this->schema = $schema;
         $this->data = $data;
     }
 
-    static private function checkSchemaReader( $obj, $type )
+    /**
+     * Checks whether the object in $obj implements the correct $type of reader handler.
+     *
+     * @throws ezcDbSchemaInvalidReaderClassException if the object in $obj is
+     *         not a schema reader of the correct type.
+     *
+     * @param ezcDbSchemaReader $obj
+     * @param int               $type
+     */
+    static private function checkSchemaReader( ezcDbSchemaReader $obj, $type )
     {
         if ( !( ( $obj->getReaderType() & $type ) == $type ) )
         {
@@ -82,6 +115,15 @@ class ezcDbSchema
         }
     }
 
+    /**
+     * Factory method to create a ezcDbSchema object from the file $file with the format $format.
+     *
+     * @throws ezcDbSchemaInvalidReaderClassException if the handler associated
+     *         with the $format is not a file schema reader.
+     *
+     * @param string $format
+     * @param string $file
+     */
     static public function createFromFile( $format, $file )
     {
         $className = ezcDbSchemaHandlerManager::getReaderByFormat( $format );
@@ -90,6 +132,14 @@ class ezcDbSchema
         return $reader->loadFromFile( $file );
     }
 
+    /**
+     * Factory method to create a ezcDbSchema object from the database $db.
+     *
+     * @throws ezcDbSchemaInvalidReaderClassException if the handler associated
+     *         with the $format is not a database schema reader.
+     *
+     * @param ezcDbHandler $db
+     */
     static public function createFromDb( ezcDbHandler $db )
     {
         $className = ezcDbSchemaHandlerManager::getReaderByFormat( $db->getName() );
@@ -98,7 +148,15 @@ class ezcDbSchema
         return $reader->loadFromDb( $db );
     }
 
-
+    /**
+     * Checks whether the object in $obj implements the correct $type of writer handler.
+     *
+     * @throws ezcDbSchemaInvalidWriterClassException if the object in $obj is
+     *         not a schema writer of the correct type.
+     *
+     * @param ezcDbSchemaWriter $obj
+     * @param int               $type
+     */
     static private function checkSchemaWriter( $obj, $type )
     {
         if ( !( ( $obj->getWriterType() & $type ) == $type ) )
@@ -107,6 +165,15 @@ class ezcDbSchema
         }
     }
 
+    /**
+     * Writes the schema to the file $file in format $format.
+     *
+     * @throws ezcDbSchemaInvalidWriterClassException if the handler associated
+     *         with the $format is not a file schema writer.
+     *
+     * @param string $format
+     * @param string $file
+     */
     public function writeToFile( $format, $file )
     {
         $className = ezcDbSchemaHandlerManager::getWriterByFormat( $format );
@@ -115,6 +182,14 @@ class ezcDbSchema
         $reader->saveToFile( $file, $this );
     }
 
+    /**
+     * Creates the tables defined in the schema into the database specified through $db.
+     *
+     * @throws ezcDbSchemaInvalidWriterClassException if the handler associated
+     *         with the $format is not a database schema writer.
+     *
+     * @param ezcDbHandler $db
+     */
     public function writeToDb( ezcDbHandler $db )
     {
         $className = ezcDbSchemaHandlerManager::getWriterByFormat( $db->getName() );
@@ -123,6 +198,15 @@ class ezcDbSchema
         $writer->saveToDb( $db, $this );
     }
 
+    /**
+     * Returns the $db specific SQL queries that would create the tables defined in the schema.
+     *
+     * @throws ezcDbSchemaInvalidWriterClassException if the handler associated
+     *         with the $format is not a database schema writer.
+     *
+     * @param ezcDbHandler $db
+     * @return array(string)
+     */
     public function convertToDDL( ezcDbHandler $db )
     {
         $className = ezcDbSchemaHandlerManager::getWriterByFormat( $db->getName() );
@@ -131,11 +215,23 @@ class ezcDbSchema
         return $writer->convertToDDL( $this );
     }
 
+    /**
+     * Returns the internal schema.
+     *
+     * @return array(string=>ezcDbSchemaTable)
+     */
     public function getSchema()
     {
         return $this->schema;
     }
 
+    /**
+     * Returns the internal data.
+     *
+     * This data is not used anywhere though.
+     *
+     * @return array
+     */
     public function getData()
     {
         return $this->data;

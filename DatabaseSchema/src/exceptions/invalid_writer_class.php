@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDbSchemaException class
+ * File containing the ezcDbSchemaInvalidWriterClassException class
  *
  * @package DatabaseSchema
  * @version //autogen//
@@ -15,6 +15,11 @@
  */
 class ezcDbSchemaInvalidWriterClassException extends ezcDbSchemaException
 {
+    /**
+     * Constructs an ezcDbSchemaInvalidWriterClassException for writer class $writerClass
+     *
+     * @param string $writerClass
+     */
     function __construct( $writerClass )
     {
         parent::__construct( "Class <{$writerClass}> does not exist, or does not implement the <ezcDbSchemaWriter> interface." );

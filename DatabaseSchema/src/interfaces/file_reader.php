@@ -8,13 +8,19 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * This class provides the interface for database schema readers
+ * This class provides the interface for file schema readers
  *
  * @package DatabaseSchema
  * @version //autogen//
  */
 interface ezcDbSchemaFileReader extends ezcDbSchemaReader
 {
+    /**
+     * Returns an ezcDbSchema with the definition from $file
+     *
+     * @param string $file
+     * @return ezcDbSchema
+     */
     public function loadFromFile( $file );
 }
 ?>

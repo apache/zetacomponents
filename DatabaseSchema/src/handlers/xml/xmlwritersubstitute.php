@@ -9,9 +9,10 @@
  */
 
 /**
- * Handler for files containing PHP arrays that represent DB schema.
+ * This class implements a quick and dirty fallback in the case the PHP extension XMLWriter is not available.
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  * @access private
  */
 class XMLWriter

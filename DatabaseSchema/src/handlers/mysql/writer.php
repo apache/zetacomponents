@@ -9,12 +9,17 @@
  */
 
 /**
- * Handler for files containing PHP arrays that represent DB schema.
+ * Handler for storing database schemas and applying differences that uses MySQL as backend.
  *
  * @package DatabaseSchema
  */
 class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDbSchemaDbWriter, ezcDbSchemaDiffDbWriter
 {
+    /**
+     * Contains a type map from DbSchema types to MySQL native types.
+     *
+     * @var array
+     */
     private $typeMap = array(
         'integer' => 'bigint',
         'boolean' => 'boolean',
@@ -28,6 +33,11 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
     );
 
     /**
+     * Returns what type of schema writer this class implements.
+     *
+     * This method always returns ezcDbSchema::DATABASE
+     *
+     * @return int
      */
     public function getWriterType()
     {
@@ -35,20 +45,33 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
     }
 
     /**
-     * Save schema to an .php file
+     * Creates tables defined in $dbSchema in the database referenced by $db.
+     *
+     * This method uses {@link convertToDDL} to create SQL for the schema
+     * definition and then executes the return SQL statements on the database
+     * handler $db.
+     *
+     * @todo check for failed transaction
+     *
+     * @param ezcDbHandler $db
+     * @param ezcDbSchema  $dbSchema
      */
     public function saveToDb( ezcDbHandler $db, ezcDbSchema $dbSchema )
     {
+        $db->query( "BEGIN" );
         foreach ( $this->convertToDDL( $dbSchema ) as $query )
         {
             $db->query( $query );
         }
+        $db->query( "COMMIT" );
     }
 
     /**
-     * Get schema as database specific DDL
+     * Returns the definition in $dbSchema as database specific SQL DDL queries.
      *
-     * @returns array
+     * @param ezcDbSchema $dbSchema
+     *
+     * @return array(string)
      */
     public function convertToDDL( ezcDbSchema $dbSchema )
     {
@@ -63,6 +86,11 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
     }
 
     /**
+     * Returns what type of schema difference writer this class implements.
+     *
+     * This method always returns ezcDbSchema::DATABASE
+     *
+     * @return int
      */
     public function getDiffWriterType()
     {
@@ -70,7 +98,16 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
     }
 
     /**
-     * Save schema to an .php file
+     * Applies the differences defined in $dbSchemaDiff to the database referenced by $db.
+     *
+     * This method uses {@link convertDiffToDDL} to create SQL for the
+     * differences and then executes the returned SQL statements on the
+     * database handler $db.
+     *
+     * @todo check for failed transaction
+     *
+     * @param ezcDbHandler    $db
+     * @param ezcDbSchemaDiff $dbSchemaDiff
      */
     public function applyDiffToDb( ezcDbHandler $db, ezcDbSchemaDiff $dbSchemaDiff )
     {
@@ -83,9 +120,11 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
     }
 
     /**
-     * Get schema as database specific DDL
+     * Returns the differences definition in $dbSchema as database specific SQL DDL queries.
      *
-     * @returns array
+     * @param ezcDbSchema $dbSchema
+     *
+     * @return array(string)
      */
     public function convertDiffToDDL( ezcDbSchemaDiff $dbSchemaDiff )
     {
@@ -99,11 +138,22 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
         return $this->queries;
     }
 
+    /**
+     * Adds a "drop table" query for the table $tableName to the internal list of queries.
+     *
+     * @param string $tableName
+     */
     protected function generateDropTableSql( $tableName )
     {
         $this->queries[] = "DROP TABLE IF EXISTS $tableName";
     }
 
+    /**
+     * Converts the generic field type contained in $fieldDefinition to a database specific field definition.
+     *
+     * @param ezcDbSchemaField $fieldDefinition
+     * @return string
+     */
     protected function convertFromGenericType( ezcDbSchemaField $fieldDefinition )
     {
         $typeAddition = '';
@@ -124,26 +174,47 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
         return "$type$typeAddition";
     }
 
+    /**
+     * Adds a "alter table" query to add the field $fieldName to $tableName with the definition $fieldDefinition.
+     *
+     * @param string           $tableName
+     * @param string           $fieldName
+     * @param ezcDbSchemaField $fieldDefinition
+     */
     protected function generateAddFieldSql( $tableName, $fieldName, ezcDbSchemaField $fieldDefinition )
     {
         $this->queries[] = "ALTER TABLE $tableName ADD " . $this->generateFieldSql( $fieldName, $fieldDefinition );
     }
 
+    /**
+     * Adds a "alter table" query to change the field $fieldName to $tableName with the definition $fieldDefinition.
+     *
+     * @param string           $tableName
+     * @param string           $fieldName
+     * @param ezcDbSchemaField $fieldDefinition
+     */
     protected function generateChangeFieldSql( $tableName, $fieldName, ezcDbSchemaField $fieldDefinition )
     {
         $this->queries[] = "ALTER TABLE $tableName CHANGE $fieldName " . $this->generateFieldSql( $fieldName, $fieldDefinition );
     }
 
+    /**
+     * Adds a "alter table" query to drop the field $fieldName from $tableName.
+     *
+     * @param string $tableName
+     * @param string $fieldName
+     */
     protected function generateDropFieldSql( $tableName, $fieldName )
     {
         $this->queries[] = "ALTER TABLE $tableName DROP $fieldName";
     }
 
     /**
-     * Dumps field schema as part of a DDL query.
-     * @param   string $fieldName   Field name.
-     * @param   array  $fieldSchema Field schema.
-     * @return string              Field schema in SQL.
+     * Returns a column definition for $fieldName with definition $fieldDefinition.
+     *
+     * @param  string           $fieldName
+     * @param  ezcDbSchemaField $fieldDefinition
+     * @return string
      */
     protected function generateFieldSql( $fieldName, ezcDbSchemaField $fieldDefinition )
     {
@@ -176,16 +247,12 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
         return $sqlDefinition;
     }
 
-    protected function generateDropIndexSql( $tableName, $indexName )
-    {
-        $this->queries[] = "ALTER TABLE $tableName DROP INDEX `$indexName`";
-    }
-
     /**
-     * Generate index creation SQL query.
+     * Adds a "alter table" query to add the index $indexName to the table $tableName with definition $indexDefinition to the internal list of queries
      *
-     * @return string The query.
-     * @see ezcDbSchemaHandlerSql::generateAddIndexSql()
+     * @param string           $tableName
+     * @param string           $indexName
+     * @param ezcDbSchemaIndex $indexDefinition
      */
     protected function generateAddIndexSql( $tableName, $indexName, ezcDbSchemaIndex $indexDefinition )
     {
@@ -228,6 +295,17 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
         $sql .= join( ', ', $indexFieldSql ) . " )";
 
         $this->queries[] = $sql;
+    }
+    
+    /**
+     * Adds a "alter table" query to remote the index $indexName from the table $tableName to the internal list of queries.
+     *
+     * @param string           $tableName
+     * @param string           $indexName
+     */
+    protected function generateDropIndexSql( $tableName, $indexName )
+    {
+        $this->queries[] = "ALTER TABLE $tableName DROP INDEX `$indexName`";
     }
 }
 ?>

@@ -9,12 +9,25 @@
  */
 
 /**
- * ezcDbSchemaIndexFieldsValidator 
+ * ezcDbSchemaIndexFieldsValidator validates whether fields used in indexes exist.
  *
+ * @todo implement from an interface
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaIndexFieldsValidator
 {
+    /**
+     * Validates if all the fields used in all indexes exist.
+     *
+     * This method loops over all the fields in the indexes of each table and
+     * checks whether the fields that is used in an index is also defined in
+     * the table definition. It will return an array containing error strings
+     * for each non-supported type that it finds.
+     *
+     * @param ezcDbSchema $schema
+     * @return array(string)
+     */
     static public function validate( ezcDbSchema $schema )
     {
         $errors = array();

@@ -11,10 +11,22 @@
 /**
  * ezcDbSchemaTypesValidator validates field definition types.
  *
+ * @todo implement from an interface
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaTypesValidator
 {
+    /**
+     * Validates if all the types used in the $schema are supported.
+     *
+     * This method loops over all the fields in a table and checks whether the
+     * type that is used for each field is supported. It will return an array
+     * containing error strings for each non-supported type that it finds.
+     *
+     * @param ezcDbSchema $schema
+     * @return array(string)
+     */
     static public function validate( ezcDbSchema $schema )
     {
         $errors = array();

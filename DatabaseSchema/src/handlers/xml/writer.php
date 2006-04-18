@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDbSchemaPhpArrayWriter class.
+ * File containing the ezcDbSchemaXmlWriter class.
  *
  * @package DatabaseSchema
  * @version //autogentag//
@@ -9,13 +9,26 @@
  */
 
 /**
- * Handler for files containing PHP arrays that represent DB schema.
+ * Handler that stores database definitions and database difference definitions to a file in an XML format.
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaXmlWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDiffFileWriter
 {
     /**
+     * Stores the XMLWriter object
+     *
+     * @var XMLWriter
+     */
+    private $writer;
+    
+    /**
+     * Returns what type of schema writer this class implements.
+     *
+     * This method always returns ezcDbSchema::FILE
+     *
+     * @return int
      */
     public function getWriterType()
     {
@@ -23,12 +36,23 @@ class ezcDbSchemaXmlWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDiffFile
     }
 
     /**
+     * Returns what type of schema difference writer this class implements.
+     *
+     * This method always returns ezcDbSchema::FILE
+     *
+     * @return int
      */
     public function getDiffWriterType()
     {
         return ezcDbSchema::FILE;
     }
 
+    /**
+     * Uses the $writer object to write the field definition $field for $fieldName
+     *
+     * @param string           $fieldName
+     * @param ezcDbSchemaField $field
+     */
     private function writeField( $fieldName, ezcDbSchemaField $field )
     {
         $this->writer->startElement( 'name' );
@@ -68,6 +92,12 @@ class ezcDbSchemaXmlWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDiffFile
         }
     }
 
+    /**
+     * Uses the $writer object to write the index field definition $field for $fieldName
+     *
+     * @param string                $fieldName
+     * @param ezcDbSchemaIndexField $field
+     */
     private function writeIndexField( $fieldName, ezcDbSchemaIndexField $field )
     {
         $this->writer->startElement( 'name' );
@@ -82,6 +112,12 @@ class ezcDbSchemaXmlWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDiffFile
         }
     }
 
+    /**
+     * Uses the $writer object to write the index definition $index for $indexName
+     *
+     * @param string           $indexName
+     * @param ezcDbSchemaIndex $index
+     */
     private function writeIndex( $indexName, ezcDbSchemaIndex $index )
     {
         $this->writer->startElement( 'name' );
@@ -113,6 +149,12 @@ class ezcDbSchemaXmlWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDiffFile
         }
     }
 
+    /**
+     * Uses the $writer object to write the table definition $table for $tableName
+     *
+     * @param string           $tableName
+     * @param ezcDbSchemaTable $table
+     */
     private function writeTable( $tableName, ezcDbSchemaTable $table )
     {
         $this->writer->startElement( 'table' );
@@ -149,6 +191,12 @@ class ezcDbSchemaXmlWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDiffFile
         $this->writer->endElement();
     }
 
+    /**
+     * Uses the $writer object to write the table changes definition $changedTable for $tableName
+     *
+     * @param string               $tableName
+     * @param ezcDbSchemaTableDiff $changedTable
+     */
     private function writeChangedTable( $tableName, ezcDbSchemaTableDiff $changedTable )
     {
         $this->writer->startElement( 'table' );
@@ -254,7 +302,11 @@ class ezcDbSchemaXmlWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDiffFile
     }
 
     /**
-     * Save schema to an .php file
+     * Writes the schema definition in $dbSchema to the file $file.
+     *
+     * @param string      $file
+     * @param ezcDbSchema $dbSchema
+     * @todo throw exception when file can not be opened
      */
     public function saveToFile( $file, ezcDbSchema $dbSchema )
     {
@@ -278,7 +330,11 @@ class ezcDbSchemaXmlWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDiffFile
     }
 
     /**
-     * Save schema differences to a .xml file
+     * Writes the schema difference definition in $dbSchema to the file $file.
+     *
+     * @param string          $file
+     * @param ezcDbSchemaDiff $dbSchema
+     * @todo throw exception when file can not be opened
      */
     public function saveDiffToFile( $file, ezcDbSchemaDiff $dbSchema )
     {

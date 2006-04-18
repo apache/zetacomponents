@@ -8,13 +8,26 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * This class provides the interface for database schema writers
+ * This class provides the base interface for schema writers.
+ *
+ * This interface is extended by both a specific interface for schema writers
+ * who writer to a file (@link ezcDbSchemaFileWriter) and one for writers which 
+ * create tables in a database (@link ezcDbSchemaDbWriter).
  *
  * @package DatabaseSchema
  * @version //autogen//
  */
 interface ezcDbSchemaWriter
 {
+    /**
+     * Returns what type of schema writer this class implements.
+     *
+     * Depending on the class it either returns ezcDbSchema::DATABASE (for
+     * writers that create tables in a database) or ezcDbSchema::FILE (for writers
+     * that writer schema definitions to a file).
+     *
+     * @return int
+     */
     public function getWriterType();
 }
 ?>

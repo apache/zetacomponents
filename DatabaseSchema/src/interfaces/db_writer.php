@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDbSchemaFileWriter interface
+ * File containing the ezcDbSchemaDbWriter interface
  *
  * @package DatabaseSchema
  * @version //autogen//
@@ -15,7 +15,30 @@
  */
 interface ezcDbSchemaDbWriter extends ezcDbSchemaWriter
 {
+    /**
+     * Creates the tables contained in $schema in the database that is related to $db
+     *
+     * This method takes the table definitions from $schema and will create the
+     * tables according to this definition in the database that is references
+     * by the $db handler. If tables with the same name as contained in the
+     * definitions already exist they will be removed and recreated with the
+     * new definition.
+     *
+     * @param ezcDbHandler $db
+     * @param ezcDbSchema  $schema
+     */
     public function saveToDb( ezcDbHandler $db, ezcDbSchema $schema );
+
+    /**
+     * Returns an array with SQL DDL statements that creates the database definition in $dbSchema
+     *
+     * Converts the schema definition contained in $dbSchema to DDL SQL. This
+     * SQL can be used to create tables in an existing database according to
+     * the definition.  The SQL queries are returned as an array.
+     * 
+     * @param ezcDbSchemaDiff $schemaDiff
+     * @return array(string)
+     */
     public function convertToDDL( ezcDbSchema $dbSchema );
 }
 ?>

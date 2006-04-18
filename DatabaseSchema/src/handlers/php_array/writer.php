@@ -9,13 +9,19 @@
  */
 
 /**
- * Handler for files containing PHP arrays that represent DB schema.
+ * Writer handler for files containing PHP arrays that represent DB schemas.
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaPhpArrayWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDiffFileWriter
 {
     /**
+     * Returns what type of schema writer this class implements.
+     *
+     * This method always returns ezcDbSchema::FILE
+     *
+     * @return int
      */
     public function getWriterType()
     {
@@ -23,6 +29,11 @@ class ezcDbSchemaPhpArrayWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDif
     }
 
     /**
+     * Returns what type of schema difference writer this class implements.
+     *
+     * This method always returns ezcDbSchema::FILE
+     *
+     * @return int
      */
     public function getDiffWriterType()
     {
@@ -30,7 +41,11 @@ class ezcDbSchemaPhpArrayWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDif
     }
 
     /**
-     * Save schema to an .php file
+     * Saves the schema definition in $schema to the file $file.
+     * @todo throw exception when file can not be opened
+     *
+     * @param string      $file
+     * @param ezcDbSchema $schema
      */
     public function saveToFile( $file, ezcDbSchema $dbSchema )
     {
@@ -42,7 +57,11 @@ class ezcDbSchemaPhpArrayWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDif
     }
 
     /**
-     * Save schema diff to an .php file
+     * Saves the differences in $schemaDiff to the file $file
+     * @todo throw exception when file can not be opened
+     *
+     * @param string          $file
+     * @param ezcDbSchemaDiff $schemaDiff
      */
     public function saveDiffToFile( $file, ezcDbSchemaDiff $dbSchemaDiff )
     {

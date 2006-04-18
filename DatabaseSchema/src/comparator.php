@@ -9,24 +9,23 @@
  */
 
 /**
- * Incapsulates schema comparison functionality.
+ * This class provides database comparison functionality.
+ *
+ * @see ezcDbSchema for a small example
+ * @todo Add an example here
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaComparator
 {
     /**
-     * Finds the difference between the scemas \a $schema1 and \a $schema2.
-     * @return array(mixed) an array containing:
-     *        - new_tables - A list of new tables that have been added
-     *        - removed_tables - A list of tables that have been removed
-     *        - table_changes - Changes in table definition
-     *          - added_fields - A list of new fields in the table
-     *          - removed_fields - A list of removed fields in the table
-     *          - changed_fields - A list of fields that have changed definition
-     *          - added_indexes - A list of new indexes in the table
-     *          - removed_indexes - A list of removed indexes in the table
-     *          - changed_indexes - A list of indexes that have changed definition
+     * Returns a ezcDbSchemaDiff object containing the differences between the schemas $schema1 and $schema2.
+     *
+     * @param ezcDbSchema $schema1
+     * @param ezcDbSchema $schema2
+     *
+     * @return ezcDbSchemaDiff
      */
     public static final function compareSchemas( ezcDbSchema $schema1, ezcDbSchema $schema2 )
     {
@@ -63,8 +62,12 @@ class ezcDbSchemaComparator
     }
 
     /**
-     * Finds the difference between the tables \a $table1 and \a $table2 by looking
-     * at the fields and indexes.
+     * Returns the difference between the tables $table1 and $table2.
+     *
+     * If there are no differences this method returns the boolean false.
+     *
+     * @param ezcDbSchemaTable $index1
+     * @param ezcDbSchemaTable $index2
      *
      * @return bool|ezcDbSchemaTableDiff
      */
@@ -144,9 +147,15 @@ class ezcDbSchemaComparator
     }
 
     /**
-     * Finds the difference between the field \a $field1 and \a $field2.
+     * Returns the difference between the fields $field1 and $field2.
      *
-     * @return The field definition of the changed field or \c false if there are no changes.
+     * If there are differences this method returns $field2, otherwise the
+     * boolean false.
+     *
+     * @param ezcDbSchemaTableField $field1
+     * @param ezcDbSchemaTableField $field2
+     *
+     * @return bool|ezcDbSchemaTableField
      */
     private static final function diffField( ezcDbSchemaField $field1, ezcDbSchemaField $field2 )
     {
@@ -176,7 +185,7 @@ class ezcDbSchemaComparator
      *
      * @param ezcDbSchemaIndex $index1
      * @param ezcDbSchemaIndex $index2
-     * @return ezcDbSchemaIndex
+     * @return bool|ezcDbSchemaIndex
      */
     private static final function diffIndex( ezcDbSchemaIndex $index1, ezcDbSchemaIndex $index2 )
     {

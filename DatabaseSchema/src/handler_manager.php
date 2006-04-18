@@ -11,15 +11,20 @@
 /**
  * Deals with schema handlers for a ezcDbSchema object.
  *
- * Determines which handlers to use for the specified storage type or internal format.
- * Creates handlers on demand.
+ * Determines which handlers to use for the specified storage type.
  *
  * @package DatabaseSchema
+ * @version //autogentag//
  */
 class ezcDbSchemaHandlerManager
 {
     /**
      * Set of standard read handlers.
+     *
+     * The property is an array where the key is the name of the format and the
+     * value the classname that implements the read handler.
+     *
+     * @var array(string=>string)
      */
     static public $readHandlers = array(
         'array' => 'ezcDbSchemaPhpArrayReader',
@@ -32,6 +37,11 @@ class ezcDbSchemaHandlerManager
 
     /**
      * Set of standard write handlers.
+     *
+     * The property is an array where the key is the name of the format and the
+     * value the classname that implements the write handler.
+     *
+     * @var array(string=>string)
      */
     static public $writeHandlers = array(
         'array' => 'ezcDbSchemaPhpArrayWriter',
@@ -44,6 +54,11 @@ class ezcDbSchemaHandlerManager
 
     /**
      * Set of standard difference read handlers.
+     *
+     * The property is an array where the key is the name of the format and the
+     * value the classname that implements the read handler.
+     *
+     * @var array(string=>string)
      */
     static public $diffReadHandlers = array(
         'array' => 'ezcDbSchemaPhpArrayReader',
@@ -52,6 +67,11 @@ class ezcDbSchemaHandlerManager
 
     /**
      * Set of standard difference write handlers.
+     *
+     * The property is an array where the key is the name of the format and the
+     * value the classname that implements the write handler.
+     *
+     * @var array(string=>string)
      */
     static public $diffWriteHandlers = array(
         'array' => 'ezcDbSchemaPhpArrayWriter',
@@ -63,8 +83,10 @@ class ezcDbSchemaHandlerManager
     );
 
     /**
-     * Returns the name of the appropriate handler for the specified format.
+     * Returns the class name of the read handler for format $format.
      *
+     * @param string $format
+     * @return string
      */
     static public function getReaderByFormat( $format )
     {
@@ -76,8 +98,10 @@ class ezcDbSchemaHandlerManager
     }
 
     /**
-     * Returns the name of the appropriate handler for the specified format.
+     * Returns the class name of the write handler for format $format.
      *
+     * @param string $format
+     * @return string
      */
     static public function getWriterByFormat( $format )
     {
@@ -89,8 +113,10 @@ class ezcDbSchemaHandlerManager
     }
 
     /**
-     * Returns the name of the appropriate handler for the specified format.
+     * Returns the class name of the differences read handler for format $format.
      *
+     * @param string $format
+     * @return string
      */
     static public function getDiffReaderByFormat( $format )
     {
@@ -102,8 +128,10 @@ class ezcDbSchemaHandlerManager
     }
 
     /**
-     * Returns the name of the appropriate handler for the specified format.
+     * Returns the class name of the differences write handler for format $format.
      *
+     * @param string $format
+     * @return string
      */
     static public function getDiffWriterByFormat( $format )
     {
@@ -117,8 +145,10 @@ class ezcDbSchemaHandlerManager
     /**
      * Returns list of schema types supported by all known handlers.
      *
-     * Goes through the list of known handlers and gathers information
-     * of which schema types do they support.
+     * Goes through the list of known handlers and gathers information of which
+     * schema types do they support.
+     *
+     * @return array
      */
     static public function getSupportedFormats()
     {
@@ -128,8 +158,10 @@ class ezcDbSchemaHandlerManager
     /**
      * Returns list of schema types supported by all known difference handlers.
      *
-     * Goes through the list of known difference handlers and gathers information
-     * of which schema types do they support.
+     * Goes through the list of known difference handlers and gathers
+     * information of which schema types do they support.
+     *
+     * @return array
      */
     static public function getSupportedDiffFormats()
     {
