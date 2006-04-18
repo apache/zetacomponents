@@ -287,7 +287,7 @@ class ezcImageTransformation
             // Cleanup
             $this->lastHandler->close( $ref );
             unlink( $fileTmp );
-            unset( $this->lastHandler );
+            $this->lastHandler = null;
             // Rethrow
             throw new ezcImageTransformationException( $e );
         }
@@ -296,7 +296,7 @@ class ezcImageTransformation
         rename( $fileTmp, $fileOut );
 
         // Cleanup
-        unset( $this->lastHandler );
+        $this->lastHandler = null;
     }
 
     /**
