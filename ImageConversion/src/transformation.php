@@ -287,12 +287,16 @@ class ezcImageTransformation
             // Cleanup
             $this->lastHandler->close( $ref );
             unlink( $fileTmp );
+            unset( $this->lastHandler );
             // Rethrow
             throw new ezcImageTransformationException( $e );
         }
 
         // Finalize atomic file operation
         rename( $fileTmp, $fileOut );
+
+        // Cleanup
+        unset( $this->lastHandler );
     }
 
     /**

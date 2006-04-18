@@ -553,6 +553,35 @@ class ezcImageConversionTransformationTest extends ezcTestCase
         );
     }
 
+    /**
+     * Test for bug #8137
+     * Test for bug #8137: ImageConversion - ezcImageTransformation fails on 
+     * processing multiple images in 1 request.
+     * 
+     * @return void
+     */
+    public function testMultiTransform()
+    {
+        $inFiles = array( 
+            $this->basePath . $this->testFiles['jpeg'],
+            $this->basePath . $this->testFiles['png'],
+        );
+        $tmp = $this->createTempDir( str_replace( '::', '_', __METHOD__ ) . '_' );
+        $outFiles = array(
+             $tmp . '/result1',
+             $tmp . '/result2',
+        );
+
+        $mimeOut = array( 'image/jpeg' );
+        $trans = new ezcImageTransformation( $this->converter, 'test', $this->testFiltersSuccess[0], $mimeOut );
+
+        $trans->transform( $inFiles[0], $outFiles[0] );
+        $trans->transform( $inFiles[1], $outFiles[1] );
+
+        $this->assertEquals( 'd80369dc2442357ac4dbd58af83ac398', md5_file( $outFiles[0] ) );
+        $this->assertEquals( '56ede4f5cef9e4ec3938832894a43254', md5_file( $outFiles[1] ) );
+    }
+
     protected function commonTransformTestSuccess( $inFileRef, $filtersRef, $md5sum, $name )
     {
         $inFile = $this->basePath . $this->testFiles[$inFileRef];
