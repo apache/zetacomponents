@@ -523,7 +523,7 @@ class ezcQuerySelect extends ezcQuery
      * <code>
      * // the following code will produce the SQL
      * // SELECT id FROM t1 RIGHT JOIN t2 ON t1.id = t2.id
-     * $q->select( 'id' )->from( 't1' )->leftJoin( 't2', 't1.id', 't2.id' );
+     * $q->select( 'id' )->from( 't1' )->rightJoin( 't2', 't1.id', 't2.id' );
      * </code>
      *
      */

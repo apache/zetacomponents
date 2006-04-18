@@ -154,12 +154,6 @@ class ezcQueryUpdateTest extends ezcTestCase
 
     public function testOnDatabaseWithWhere()
     {
-        $db = ezcDbInstance::get();
-        if ( $db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
-        {
-            self::markTestSkipped( "Complex right joins not supported by sqlite yet" );
-        }
-
         $q = new ezcQueryInsert( ezcDbInstance::get() );
         // insert some data we can update
         $q->insertInto( 'query_test' )
@@ -170,6 +164,13 @@ class ezcQueryUpdateTest extends ezcTestCase
         $stmt = $q->prepare();
         $stmt->execute();
 
+        $db = ezcDbInstance::get();
+        if ( $db->getName() == 'sqlite' )   //this is workaround for sqlite PDO bug which
+        {                                   //not allow to make several inserts with the same ezcQueryInsert
+             unset($q);
+             $q = new ezcQueryInsert( ezcDbInstance::get() );
+        }
+        
         $q->insertInto( 'query_test' );
         $q->set( 'id', 2 );
         $q->set( 'company', $q->bindValue( 'trolltech' ) );

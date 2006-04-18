@@ -273,11 +273,6 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
 
     public function testRightJoinAfterFrom()
     {
-        if ( $this->db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
-        {
-            self::markTestSkipped( "Complex right joins not supported by sqlite yet" );
-        }
-
         $this->q->select( 'employees.name', 'orders.product' )
                  ->from( 'employees' )->rightJoin( 'orders', $this->e->eq('employees.id', 'orders.employee_id') );
         $stmt = $this->db->query( $this->q->getQuery() );
@@ -291,11 +286,6 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
 
     public function testRightJoinAfterFromSimplified()
     {
-        if ( $this->db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
-        {
-            self::markTestSkipped( "Complex right joins not supported by sqlite yet" );
-        }
-
         $this->q->select( 'employees.name', 'orders.product' )
                  ->from( 'employees' )->rightJoin( 'orders', 'employees.id', 'orders.employee_id' );
         $stmt = $this->db->query( $this->q->getQuery() );
@@ -309,44 +299,104 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
 
     public function testRightMultiJoin()
     {
-        if ( $this->db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
-        {
-            self::markTestSkipped( "Complex right joins not supported by sqlite yet" );
-        }
-
         $this->q->select( 'employees.name', 'orders.product', 'in_use.amount' )
                  ->from( 'employees' )
                    ->rightJoin( 'orders', 'employees.id', 'orders.employee_id' )
                    ->rightJoin( 'in_use', 'in_use.product_id', 'orders.id' );
 
         $stmt = $this->db->query( $this->q->getQuery() );
+
+        if ( $this->db->getName() == 'sqlite' ) //right joins for SQLite are emulated by left joins for the tables in reverse order
+        {
+           $reference = 'SELECT employees.name, orders.product, in_use.amount '.
+                            'FROM in_use LEFT JOIN orders ON in_use.product_id = orders.id '.
+                                        'LEFT JOIN employees ON employees.id = orders.employee_id';
+        }
+        else
+        {
+            $reference = 'SELECT employees.name, orders.product, in_use.amount '.
+                             'FROM employees RIGHT JOIN orders ON employees.id = orders.employee_id '.
+                                            'RIGHT JOIN in_use ON in_use.product_id = orders.id';
+                
+        }
+        $this->assertEquals( $reference, $this->q->getQuery() );
+
+
         $rows = 0;
         foreach ( $stmt as $row )
         {
             $rows++;
         }
+
         $this->assertEquals( 6, $rows );
     }
 
     public function testRightMultiJoinWithWhere()
     {
-        if ( $this->db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
-        {
-            self::markTestSkipped( "Complex right joins not supported by sqlite yet" );
-        }
-                                        
         $this->q->select( 'employees.name', 'orders.product', 'in_use.amount' )
                  ->from( 'employees' )
                    ->rightJoin( 'orders', 'employees.id', 'orders.employee_id' )
                    ->rightJoin( 'in_use', 'in_use.product_id', 'orders.id' )
                  ->where( $this->q->expr->gt( 'in_use.amount', '2' ) );
         $stmt = $this->db->query( $this->q->getQuery() );
+
+        if ( $this->db->getName() == 'sqlite' ) //right joins for SQLite are emulated by left joins for the tables in reverse order
+        {
+           $reference = 'SELECT employees.name, orders.product, in_use.amount '.
+                            'FROM in_use LEFT JOIN orders ON in_use.product_id = orders.id '.
+                                        'LEFT JOIN employees ON employees.id = orders.employee_id '.
+                                        'WHERE in_use.amount > 2';
+        }
+        else
+        {
+            $reference = 'SELECT employees.name, orders.product, in_use.amount '.
+                             'FROM employees RIGHT JOIN orders ON employees.id = orders.employee_id '.
+                                            'RIGHT JOIN in_use ON in_use.product_id = orders.id '.
+                                            'WHERE in_use.amount > 2';
+        }
+        $this->assertEquals( $reference, $this->q->getQuery() );
+
+
         $rows = 0;
         foreach ( $stmt as $row )
         {
             $rows++;
         }
         $this->assertEquals( 2, $rows );
+    }
+
+    public function testRightMultiJoinSeveralTimesWithWhere()
+    {
+        // not touch database just checking query syntax
+
+        $this->q->select( 'employees.name', 'orders.product', 'in_use.amount' )
+                 ->from( 'employees' )
+                   ->rightJoin( 'orders', 'employees.id', 'orders.employee_id' )
+                   ->rightJoin( 'in_use', 'in_use.product_id', 'orders.id' )
+                 ->from( 'orders' )
+                    ->rightJoin( 'in_use', 'in_use.product_id', 'orders.id' )
+                    ->rightJoin( 'employees', 'employees.id', 'orders.employee_id' )
+                 ->where( $this->q->expr->gt( 'in_use.amount', '2' ) );
+
+        if ( $this->db->getName() == 'sqlite' ) //right joins for SQLite are emulated by left joins for the tables in reverse order
+        {
+           $reference = 'SELECT employees.name, orders.product, in_use.amount '.
+                            'FROM in_use LEFT JOIN orders ON in_use.product_id = orders.id '.
+                                        'LEFT JOIN employees ON employees.id = orders.employee_id, '.
+                                 'employees LEFT JOIN in_use ON employees.id = orders.employee_id '. 
+                                        'LEFT JOIN orders ON in_use.product_id = orders.id '.
+                             'WHERE in_use.amount > 2';
+        }
+        else
+        {
+            $reference = 'SELECT employees.name, orders.product, in_use.amount '.
+                             'FROM employees RIGHT JOIN orders ON employees.id = orders.employee_id '.
+                                            'RIGHT JOIN in_use ON in_use.product_id = orders.id, '.
+                                  'orders RIGHT JOIN in_use ON in_use.product_id = orders.id '.
+                                            'RIGHT JOIN employees ON employees.id = orders.employee_id '.
+                                            'WHERE in_use.amount > 2';
+        }
+        $this->assertEquals( $reference, $this->q->getQuery() );
     }
 
     public function testRightJoinNotAfterFrom()

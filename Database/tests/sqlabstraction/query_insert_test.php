@@ -114,9 +114,9 @@ class ezcQueryInsertTest extends ezcTestCase
     public function testSeveralInsertsOnDatabase()
     {
         $db = ezcDbInstance::get();
-        if ( $db->getName() == 'sqlite' ) //complex right joins not supported by sqlite yet
+        if ( $db->getName() == 'sqlite' )
         {
-            self::markTestSkipped( "Complex right joins not supported by sqlite yet" );
+            self::markTestSkipped( "Several inserts with the same ezcQueryInsert not supported by sqlite PDO" );
         }
 
         $q = $this->q;
