@@ -1,3 +1,15 @@
+1.1.0 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Added checks for file names that could cause potential security issues.
+  File names containing one of ', " or $ will be rejected to load/save with an
+  ezcImageFileNameInvalidException. (See 
+  http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=345238).
+- Refactored internal filter handling to make ezcImageHandler classes
+  publically available.
+- Fixed bug #8137: ImageConversion - ezcImageTransformation fails on
+  processing Multiple images in 1 request.
+
 1.0.1 - Thursday 23 February 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
