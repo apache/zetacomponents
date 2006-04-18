@@ -54,6 +54,12 @@ ezcConsoleStatusbar
   progress of a process where yoi don't know the number of actions to be 
   performed before you do it.
 
+ezcConsoleStatusindicator
+  Sometimes you need to display the progress of several actions and don't want
+  to use a progress-bar to do so. In this case you need the status-indicator.
+  It allows you to display a status entry for each action and generates the
+  percentage value of the current step.
+
 ezcConsoleTable
   This class lets you easily create tables to be displayed on the
   console. It has a very convenient interface to create a table and manage the
@@ -263,8 +269,33 @@ Here the result of the example:
 
 .. image:: img/consoletools_tutorial_example_08.png
 
+Finally the ezcConsoleStatusindicator can indicate progress, but does not use a
+bar-like interface. It simply prints status information about each action you
+perform and shows the current progress as a percentage value in relation to the
+number of actions you plan to perform overall.
+
+.. include:: tutorial_example_11.php
+   :literal:
+
+Line 7 creates a new status-indicator, which will iterate over 7 actions.
+Inside the while-loop the happening of some actions is simulated as usual. The
+call to $status->addEntry() adds a status entry and causes the indicator to
+print the entry. Every entry consists of a tag (first parameter) and a message.
+
+The result of the example looks as follows:
+
+::
+
+    14.3% ACTION Performed action #1.
+    28.6% ACTION Performed action #2.
+    42.9% ACTION Performed action #3.
+    57.1% ACTION Performed action #4.
+    71.4% ACTION Performed action #5.
+    85.7% ACTION Performed action #6.
+   100.0% ACTION Performed action #7.
+
 More information on these classes can be taken from the API documentation of 
-ezcConsoleProgressbar and ezcConsoleStatusbar.
+ezcConsoleProgressbar, ezcConsoleStatusbar and ezcConsoleStatusindicator.
 
 Large data served in a table
 ----------------------------
