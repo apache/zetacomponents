@@ -137,44 +137,16 @@ class ezcConsoleStatusindicator
     }
 
     /**
-     * Property write access.
+     * Returns the currently set options.
+     * Returns the currently set option array.
      * 
-     * @param string $key Name of the property.
-     * @param mixed $val  The value for the property.
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If a desired property could not be found.
-     * @throws ezcBaseValueException
-     *         If a desired property value is out of range.
-     * @return void
+     * @return array(string=>string) The options.
      */
-    public function __set( $key, $val )
+    public function getOptions()
     {
-        switch ( $key )
-        {
-            case 'options':
-                if ( !is_array( $val ) )
-                {
-                    throw new ezcBaseValueException( $key, $val, 'array' );
-                }
-                $this->setOptions( $val );
-                break;
-            default:
-                throw new ezcBasePropertyNotFoundException( $key );
-        }
+        return $this->options;
     }
  
-    /**
-     * Property isset access.
-     * 
-     * @param string $key Name of the property.
-     * @return bool True is the property is set, otherwise false.
-     */
-    public function __isset( $key )
-    {
-        return $key == 'options';
-    }
-
     /**
      * Print a status entry.
      * Prints a new status entry to the console and updates the internal counter.
