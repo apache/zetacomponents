@@ -673,6 +673,8 @@ class ezcImageConversionFiltersShellTest extends ezcTestCase
             md5_file( $dstPath ),
             'Filter <'.__METHOD__.'> did not produce correct output.'
         );
+        $this->handler->close( $this->getActiveReference() );
+        $this->removeTempDir();
     }
 }
 ?>
