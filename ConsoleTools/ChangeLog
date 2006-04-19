@@ -1,4 +1,4 @@
-1.1.0 - [RELEASEDATE]
+1.1beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Added getHelpTable() and getHelpText() methods to ezcConsoleInput for more
@@ -10,6 +10,7 @@
   that was defined to be a help option was submitted.
 - Added new class ezcConsoleStatusindicator that is capable of printing status
   information and percentage progress to the console.
+
 
 1.0.1 - Monday 06 March 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
