@@ -238,7 +238,7 @@ class ezcDbFactory
 
         // Get (if found): username and password
         // $dsn => username:password@protocol+hostspec/database
-        if ( ( $at = strrpos( $dsn, '@' ) ) !== false )
+        if ( ( $at = strrpos( (string) $dsn, '@' ) ) !== false )
         {
             $str = substr( $dsn, 0, $at );
             $dsn = substr( $dsn, $at + 1 );
