@@ -113,12 +113,6 @@ class ezcQueryInsertTest extends ezcTestCase
     // test several inserts on a real database.
     public function testSeveralInsertsOnDatabase()
     {
-        $db = ezcDbInstance::get();
-        if ( $db->getName() == 'sqlite' )
-        {
-            self::markTestSkipped( "Several inserts with the same ezcQueryInsert not supported by sqlite PDO" );
-        }
-
         $q = $this->q;
         $q->insertInto( 'query_test' )
             ->set( 'id', 1 )
