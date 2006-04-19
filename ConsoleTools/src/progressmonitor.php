@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcConsoleStatusindicator class.
+ * File containing the ezcConsoleProgressMonitor class.
  *
  * @package ConsoleTools
  * @version //autogentag//
@@ -14,7 +14,7 @@
  *
  * <code>
  * // Construction
- * $status = new ezcConsoleStatusindicator( new ezcConsoleOutput(), 42 );
+ * $status = new ezcConsoleProgressMonitor( new ezcConsoleOutput(), 42 );
  *
  * // Run statusbar
  * foreach ( $files as $file )
@@ -30,7 +30,7 @@
  * @package ConsoleTools
  * @version //autogen//
  */
-class ezcConsoleStatusindicator
+class ezcConsoleProgressMonitor
 {
     /**
      * Options
@@ -69,13 +69,13 @@ class ezcConsoleStatusindicator
     protected $max;
 
     /**
-     * Creates a new status indicator.
+     * Creates a new progress monitor.
      *
      * @param ezcConsoleOutput $outHandler Handler to utilize for output
      * @param int $max                     Number of items to expect
      * @param array(string=>string)        Options.
      *
-     * @see ezcConsoleStatusindicator::$options
+     * @see ezcConsoleProgressMonitor::$options
      */
     public function __construct( ezcConsoleOutput $outHandler, $max, array $options = array() )
     {
@@ -108,7 +108,7 @@ class ezcConsoleStatusindicator
      * Set options.
      * Set the options of the status-bar.
      * 
-     * @see ezcConsoleStatusindicator::$options
+     * @see ezcConsoleProgressMonitor::$options
      * 
      * @param array(string=>string) $options The optiosn to set.
      * @return void

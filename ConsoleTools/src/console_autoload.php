@@ -23,8 +23,8 @@ return array (
     'ezcConsoleTableOptions'                        => 'ConsoleTools/structs/table_options.php',
     'ezcConsoleProgressbar'                         => 'ConsoleTools/progressbar.php',
     'ezcConsoleProgressbarOptions'                  => 'ConsoleTools/structs/progressbar_options.php',
+    'ezcConsoleProgressMonitor'                     => 'ConsoleTools/progressmonitor.php',
     'ezcConsoleStatusbar'                           => 'ConsoleTools/statusbar.php',
-    'ezcConsoleStatusindicator'                     => 'ConsoleTools/statusindicator.php',
 
     'ezcConsoleException'                           => 'ConsoleTools/exceptions/exception.php',
     'ezcConsoleNoPositionStoredException'           => 'ConsoleTools/exceptions/no_position_stored.php',

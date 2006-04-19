@@ -50,9 +50,9 @@ require_once 'progressbar_test.php';
  */
 require_once 'statusbar_test.php';
 /**
- * Require test suite for ezcConsoleStatusindicator class.
+ * Require test suite for ezcConsoleProgressMonitor class.
  */
-require_once 'statusindicator_test.php';
+require_once 'progressmonitor_test.php';
     
 /**
  * Test suite for ConsoleTools package.
@@ -77,7 +77,7 @@ class ezcConsoleToolsSuite extends ezcTestSuite
 		$this->addTest( ezcConsoleToolsTableTest::suite() );
 		$this->addTest( ezcConsoleToolsProgressbarTest::suite() );
 		$this->addTest( ezcConsoleToolsStatusbarTest::suite() );
-		$this->addTest( ezcConsoleToolsStatusindicatorTest::suite() );
+		$this->addTest( ezcConsoleToolsProgressMonitorTest::suite() );
 	}
 
     public static function suite()

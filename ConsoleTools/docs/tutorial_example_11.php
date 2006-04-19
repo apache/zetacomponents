@@ -4,7 +4,7 @@ require_once 'tutorial_autoload.php';
 
 $output = new ezcConsoleOutput();
 
-$status = new ezcConsoleStatusindicator( $out, 7 );
+$status = new ezcConsoleProgressMonitor( $out, 7 );
 
 $i = 0;
 while( $i++ < 7 ) 

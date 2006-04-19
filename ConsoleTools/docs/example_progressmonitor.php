@@ -1,6 +1,6 @@
 <?php
 /**
- * Example for the usage of ezcConsoleStatusindicator class.
+ * Example for the usage of ezcConsoleProgressMonitor class.
  *
  * @package ConsoleTools
  * @version //autogen//
@@ -22,8 +22,8 @@ function __autoload( $className )
 
 $out = new ezcConsoleOutput();
 
-// Create a status indicator
-$status = new ezcConsoleStatusindicator( $out, 7 );
+// Create a progress monitor
+$status = new ezcConsoleProgressMonitor( $out, 7 );
 
 // Perform actions
 $i = 0;

@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcConsoleToolsStatusindicatorTest 
+ * ezcConsoleToolsProgressMonitorTest 
  * 
  * @package ConsoleTools
  * @subpackage Tests
@@ -10,12 +10,12 @@
  */
 
 /**
- * Test suite for ezcConsoleStatusindicator class.
+ * Test suite for ezcConsoleProgressMonitor class.
  * 
  * @package ConsoleTools
  * @subpackage Tests
  */
-class ezcConsoleToolsStatusindicatorTest extends ezcTestCase
+class ezcConsoleToolsProgressMonitorTest extends ezcTestCase
 {
 
     private $stati = array(
@@ -33,7 +33,7 @@ class ezcConsoleToolsStatusindicatorTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcConsoleToolsStatusindicatorTest" );
+		return new ezcTestSuite( "ezcConsoleToolsProgressMonitorTest" );
 	}
 
     /**
@@ -54,10 +54,10 @@ class ezcConsoleToolsStatusindicatorTest extends ezcTestCase
     {
     }
 
-    public function testStatusindicator1()
+    public function testProgressMonitor1()
     {
         $out = new ezcConsoleOutput();
-        $status = new ezcConsoleStatusindicator( $out, 10 );
+        $status = new ezcConsoleProgressMonitor( $out, 10 );
         ob_start();
         for ( $i = 0; $i < 10; $i++ )
         {
@@ -66,18 +66,18 @@ class ezcConsoleToolsStatusindicatorTest extends ezcTestCase
         $res = ob_get_contents();
         ob_end_clean();
         $this->assertEquals(
-            file_get_contents( dirname( __FILE__ ) . '/data/testStatusindicator1.dat' ),
+            file_get_contents( dirname( __FILE__ ) . '/data/testProgressMonitor1.dat' ),
             $res,
             "Formated statusbar not generated correctly."
         );
         // To prepare test files use this:
-        //file_put_contents( dirname( __FILE__ ) . '/data/testStatusindicator1.dat', $res );
+        //file_put_contents( dirname( __FILE__ ) . '/data/testProgressMonitor1.dat', $res );
     }
     
-    public function testStatusindicator2()
+    public function testProgressMonitor2()
     {
         $out = new ezcConsoleOutput();
-        $status = new ezcConsoleStatusindicator( $out, 7 );
+        $status = new ezcConsoleProgressMonitor( $out, 7 );
         ob_start();
         for ( $i = 0; $i < 7; $i++ )
         {
@@ -86,18 +86,18 @@ class ezcConsoleToolsStatusindicatorTest extends ezcTestCase
         $res = ob_get_contents();
         ob_end_clean();
         $this->assertEquals(
-            file_get_contents( dirname( __FILE__ ) . '/data/testStatusindicator2.dat' ),
+            file_get_contents( dirname( __FILE__ ) . '/data/testProgressMonitor2.dat' ),
             $res,
             "Formated statusbar not generated correctly."
         );
         // To prepare test files use this:
-        // file_put_contents( dirname( __FILE__ ) . '/data/testStatusindicator2.dat', $res );
+        // file_put_contents( dirname( __FILE__ ) . '/data/testProgressMonitor2.dat', $res );
     }
     
-    public function testStatusindicator3()
+    public function testProgressMonitor3()
     {
         $out = new ezcConsoleOutput();
-        $status = new ezcConsoleStatusindicator( $out, 7, array( 'formatString' => '%2$10s %1$6.2f%% %3$s' ) );
+        $status = new ezcConsoleProgressMonitor( $out, 7, array( 'formatString' => '%2$10s %1$6.2f%% %3$s' ) );
         ob_start();
         for ( $i = 0; $i < 7; $i++ )
         {
@@ -106,15 +106,15 @@ class ezcConsoleToolsStatusindicatorTest extends ezcTestCase
         $res = ob_get_contents();
         ob_end_clean();
         $this->assertEquals(
-            file_get_contents( dirname( __FILE__ ) . '/data/testStatusindicator3.dat' ),
+            file_get_contents( dirname( __FILE__ ) . '/data/testProgressMonitor3.dat' ),
             $res,
             "Formated statusbar not generated correctly."
         );
         // To prepare test files use this:
-        // file_put_contents( dirname( __FILE__ ) . '/data/testStatusindicator3.dat', $res );
+        // file_put_contents( dirname( __FILE__ ) . '/data/testProgressMonitor3.dat', $res );
     }
     
-    public function testStatusindicator4()
+    public function testProgressMonitor4()
     {
         $out = new ezcConsoleOutput();
         $out->formats->tag->color = 'red';
@@ -122,7 +122,7 @@ class ezcConsoleToolsStatusindicatorTest extends ezcTestCase
         $out->formats->percent->style = array( 'bold' );
         $out->formats->data->color = 'green';
 
-        $status = new ezcConsoleStatusindicator( $out, 7, 
+        $status = new ezcConsoleProgressMonitor( $out, 7, 
             array( 'formatString' => 
                 $out->formatText( '%2$10s', 'tag' ) . ' ' . $out->formatText( '%1$6.2f%%', 'percent' ) . ' ' . $out->formatText( '%3$s', 'data' ) ) );
         ob_start();
@@ -133,12 +133,12 @@ class ezcConsoleToolsStatusindicatorTest extends ezcTestCase
         $res = ob_get_contents();
         ob_end_clean();
         $this->assertEquals(
-            file_get_contents( dirname( __FILE__ ) . '/data/testStatusindicator4.dat' ),
+            file_get_contents( dirname( __FILE__ ) . '/data/testProgressMonitor4.dat' ),
             $res,
             "Formated statusbar not generated correctly."
         );
         // To prepare test files use this:
-        // file_put_contents( dirname( __FILE__ ) . '/data/testStatusindicator4.dat', $res );
+        // file_put_contents( dirname( __FILE__ ) . '/data/testProgressMonitor4.dat', $res );
     }
 }
 ?>

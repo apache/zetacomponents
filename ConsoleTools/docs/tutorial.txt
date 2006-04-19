@@ -54,7 +54,7 @@ ezcConsoleStatusbar
   progress of a process where yoi don't know the number of actions to be 
   performed before you do it.
 
-ezcConsoleStatusindicator
+ezcConsoleProgressMonitor
   Sometimes you need to display the progress of several actions and don't want
   to use a progress-bar to do so. In this case you need the status-indicator.
   It allows you to display a status entry for each action and generates the
@@ -269,7 +269,7 @@ Here the result of the example:
 
 .. image:: img/consoletools_tutorial_example_08.png
 
-Finally the ezcConsoleStatusindicator can indicate progress, but does not use a
+Finally the ezcConsoleProgressMonitor can indicate progress, but does not use a
 bar-like interface. It simply prints status information about each action you
 perform and shows the current progress as a percentage value in relation to the
 number of actions you plan to perform overall.
@@ -295,7 +295,7 @@ The result of the example looks as follows:
    100.0% ACTION Performed action #7.
 
 More information on these classes can be taken from the API documentation of 
-ezcConsoleProgressbar, ezcConsoleStatusbar and ezcConsoleStatusindicator.
+ezcConsoleProgressbar, ezcConsoleStatusbar and ezcConsoleProgressMonitor.
 
 Large data served in a table
 ----------------------------
