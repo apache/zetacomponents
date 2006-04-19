@@ -1,3 +1,14 @@
-1.0beta1 - [RELEASEDATE]
+1.0beta2 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Refactored code:
+
+  * Changed code to use structs instead of associative arrays everywhere.
+  * Reworked the general APIs of the classes.
+  * Changed code to use new exception standards.
+
+
+1.0beta1 - Friday 25 November 2005
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Initial release of this package.
