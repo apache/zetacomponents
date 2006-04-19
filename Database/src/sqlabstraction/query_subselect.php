@@ -65,8 +65,6 @@ class ezcQuerySubSelect extends ezcQuerySelect
      * placeholder for you. An automatic placeholder will be of the name
      * 'ezcValue1', 'ezcValue2' etc.
      *
-     * @see ezcQuery::bindParam()
-     * 
      * Example:
      * <code>
      * $value = 2;
@@ -83,6 +81,8 @@ class ezcQuerySubSelect extends ezcQuerySelect
      * $value = 4;
      * $stmt->execute(); // subselect executed with 'id = 4'
      * </code>
+     * 
+     * @see ezcQuery::bindParam()
      * 
      * @param &mixed $param
      * @param string $placeHolder the name to bind with. The string must start with a colon ':'.
@@ -104,8 +104,6 @@ class ezcQuerySubSelect extends ezcQuerySelect
      * placeholder for you. An automatic placeholder will be of the name
      * 'ezcValue1', 'ezcValue2' etc.
      *
-     * @see ezcQuery::bindValue()
-     *
      * Example:
      * <code>
      * 
@@ -124,6 +122,7 @@ class ezcQuerySubSelect extends ezcQuerySelect
      * $stmt->execute(); // subselect executed with 'id = 2'
      * </code>
      * 
+     * @see ezcQuery::bindValue()
      *
      * @param mixed $value
      * @param string $placeHolder the name to bind with. The string must start with a colon ':'.
@@ -180,7 +179,7 @@ class ezcQuerySubSelect extends ezcQuerySelect
         return '( '.parent::getQuery().' )';
     }
 
-    /* 
+    /**
     * Returns ezcQuerySubSelect of deeper level.
     *
     * Used for making subselects inside subselects.

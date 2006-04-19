@@ -812,11 +812,9 @@ class ezcQuerySelect extends ezcQuery
      * Returns the ezcQuerySubSelect query object.
      *
      * This method creates new ezcQuerySubSelect object
-     * and pass $this for using database stuff inside.
-     * various parts of the select query.
+     * that could be used for building correct 
+     * subselect inside query.
      *
-     * @todo add newlines? easier for debugging
-     * @throws ezcQueryInvalidException if it was not possible to build a valid query.
      * @return ezcQuerySubSelect
      */
     public function subSelect()
