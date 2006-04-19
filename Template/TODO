@@ -11,7 +11,6 @@ Source to TST (+ TST nodes)
 - Clean up expressionBlock->rootExpression.
 - break, continue, etc. implemented?
 - The "Available block types are: ..." are incorrect.
-- Implement cycles. Incl. increment, decrement, reset.
 - ArrayAppend {$a[] = 5}, needs to be fixed.
 - Check function names while parsing.
 - Implement the required version number.: 1.0

@@ -236,8 +236,9 @@ class ezcTemplateCodeElementsTest extends ezcTestCase
             try
             {
                 $operator = new $className();
+
                 $operator->appendParameter( new ezcTemplateVariableAstNode( "a" ) );
-                $operator->appendParameter( new ezcTemplateVariableAstNode( "b" ) );
+                $operator->appendParameter( new ezcTemplateLiteralAstNode( 3 ) );
                 $operator->validate();
             }
             catch ( Exception $e )
@@ -293,17 +294,6 @@ class ezcTemplateCodeElementsTest extends ezcTestCase
     {
         // Create with valid parameter count.
         $className = 'ezcTemplateArrayFetchOperatorAstNode';
-        try
-        {
-            $operator = new $className();
-            $operator->appendParameter( new ezcTemplateVariableAstNode( "a" ) );
-            $operator->appendParameter( new ezcTemplateVariableAstNode( "b" ) );
-            $operator->validate();
-        }
-        catch ( Exception $e )
-        {
-            self::fail( "Binary operator <{$className}> with two parameter should not throw an exception." );
-        }
 
         // Create with invalid parameter count.
         $operator = new $className();
