@@ -1,3 +1,11 @@
+1.1beta1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Changed the way how files are included when the SVN checkout of the eZ
+  components was used. This does not affect normal use of the components.
+- Fixed class descriptions for the exceptions in the documentation.
+
+
 1.0 - Monday 30 January 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
