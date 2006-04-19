@@ -16,9 +16,6 @@
  * // Construction
  * $status = new ezcConsoleStatusindicator( new ezcConsoleOutput(), 42 );
  *
- * // Set option
- * $status->options->formatString = '*';
- *
  * // Run statusbar
  * foreach ( $files as $file )
  * {
