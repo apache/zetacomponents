@@ -108,6 +108,8 @@ class ezcTemplateFunctions
                     }
                     elseif( !self::isOptional( $pIn ) )
                     {
+                        //throw new Exception( "Parameter not set");
+                        var_dump ( $struct );
                         exit("Parameter $pIn is not set.");
                     }
                 }
@@ -123,20 +125,16 @@ class ezcTemplateFunctions
 
     protected function createAstNodes( $functionDefinition, $processedParameters )
     {
-        /*
-        if ( sizeof( $astStructure[0] ) != $templateParams )
-        {
-            // Throw exception, wrong amount of parameters?
-            // Check the stuff between : "[ .. ] ".
-        }
-        */
+        $index = sizeof( $functionDefinition ) == 3  ? 1 : 0;
+
         $realParameters = sizeof( $processedParameters );
-        $definedParameters = self::countParameters( $functionDefinition[0] );
+        $definedParameters = self::countParameters( $functionDefinition[ $index ] );
+
 
         // Map the parameters from the function definition to the given (real) parameters.
         $parameterMap = array();
         $i = 0;
-        foreach( $functionDefinition[0] as $p )
+        foreach( $functionDefinition[ $index ] as $p )
         {
             if( self::isOptional( $p ) && $realParameters < $definedParameters)
             {
@@ -156,8 +154,18 @@ class ezcTemplateFunctions
             $parameterMap[ "__rest__" ][] = $processedParameters[$i++];
         }
 
-        $ast = $this->processAst( $functionDefinition[1], $parameterMap );
+        $ast = $this->processAst( $functionDefinition[ $index + 1 ], $parameterMap );
 
+
+        if( sizeof( $functionDefinition ) == 3 )
+        {
+            $ast->typeHint = $functionDefinition[0];
+        }
+        else
+        {
+            $ast->typeHint = ezcTemplateAstNode::TYPE_ARRAY | ezcTemplateAstNode::TYPE_VALUE; 
+        }
+ 
         return new ezcTemplateParenthesisAstNode( $ast );
     }
 

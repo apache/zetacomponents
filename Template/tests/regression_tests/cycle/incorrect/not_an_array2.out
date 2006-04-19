@@ -1,0 +1,4 @@
+mock:2:7: Expecting an array.
+
+{$a = 5}
+      ^

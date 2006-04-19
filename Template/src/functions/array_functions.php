@@ -22,50 +22,50 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
         {
             // array_count( $a ) ( QList::count )::
             // count( $a )
-            case "array_count": return array( array("%array" ), 
+            case "array_count": return array( ezcTemplateAstNode::TYPE_VALUE, array( "%array" ), 
                     self::functionCall( "count", array( "%array" ) ) );
 
             // array_contains( $a, $v ) ( QList::contains )::
             // in_array( $v, $a )
-            case "array_contains": return array( array("%array", "%value" ), 
+            case "array_contains": return array( ezcTemplateAstNode::TYPE_VALUE, array("%array", "%value" ), 
                     self::functionCall( "in_array", array( "%value", "%array" ) ) );
 
             // array_is_empty( $a ) ( QList::isEmpty() )::
             // count( $a ) === 0
-            case "array_is_empty": return array( array("%array"), 
+            case "array_is_empty": return array( ezcTemplateAstNode::TYPE_VALUE, array("%array"), 
                 array( "ezcTemplateIdenticalOperatorAstNode", array( 
                     self::functionCall( "count", array(  "%array" ) ), 
                     self::value( 0 ) ) ) );
 
             // array_index_of( $a, $v ) ( QList::indexOf() )::
             // array_search( $v, $a )
-            case "array_index_of": return array( array("%array", "%value" ), 
+            case "array_index_of": return array( ezcTemplateAstNode::TYPE_VALUE, array("%array", "%value" ), 
                     self::functionCall( "array_search", array( "%value", "%array" ) ) );
 
             // array_index_exists( $a, $index ) ( QMap::find )::
             // array_key_exists( $index, $a )
-            case "array_index_exists": return array( array("%array", "%index" ), 
+            case "array_index_exists": return array( ezcTemplateAstNode::TYPE_VALUE, array("%array", "%index" ), 
                     self::functionCall( "array_key_exists", array( "%index", "%array" ) ) );
 
             // array_left( $a, $len )::
             // array_slice( $a, 0, $len )
-            case "array_left": return array( array("%array", "%length" ), 
+            case "array_left": return array( ezcTemplateAstNode::TYPE_ARRAY, array("%array", "%length" ), 
                     self::functionCall( "array_slice", array( "%array", self::value( 0 ), "%length" ) ) );
 
             // array_right( $a, $len )::
             // array_slice( $a, 0, -$len )
-            case "array_right": return array( array("%array", "%length" ), 
+            case "array_right": return array( ezcTemplateAstNode::TYPE_ARRAY, array("%array", "%length" ), 
                     self::functionCall( "array_slice", array( "%array", self::value( 0 ), 
                         array("ezcTemplateArithmeticNegationOperatorAstNode", array( "%length" ) ) ) ) );
 
             // array_mid( $a, $index, $len ) ( QValueList::mid )::
             // array_slice( $a, $index, $len )
-            case "array_mid": return array( array("%array", "%index", "%length" ), 
+            case "array_mid": return array( ezcTemplateAstNode::TYPE_ARRAY, array("%array", "%index", "%length" ), 
                     self::functionCall( "array_slice", array( "%array", "%index", "%length" ) ) );
 
             // array_insert( $a, $index, $v1 [, $v2 ...] ) ( QList::insert() )::
             // array_slice( $a, 0, $index ) + array( $v1 [, $v2 ...] ) + array_slice( $a, $index + value count )
-            case "array_insert": return array( array( "%array", "%index", "%..." ), 
+            case "array_insert": return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array", "%index", "%..." ), 
                 self::functionCall( "array_merge", array( 
                     self::functionCall( "array_slice", array( "%array", self::value(0), "%index" ) ),
                     self::functionCall( "array", array( "%..." ) ),
@@ -74,24 +74,24 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
 
             // array_append( $a, $v1 [, $v2 ...] ) ( QList::append() )::
             // Call user code.
-            case "array_append": return array( array( "%array", "%..." ), 
+            case "array_append": return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array", "%..." ), 
                 self::functionCall( "ezcTemplateArray::array_append", array( "%array", "%..." ) ) );
 
             // array_prepend( $a, $v1 [, $v2 ...] ) ( QList::prepend )::
             // array_unshift( $a, $v1 [, $v2 ...] )
-            case "array_prepend": return array( array( "%array", "%..." ), 
+            case "array_prepend": return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array", "%..." ), 
                 self::functionCall( "ezcTemplateArray::array_prepend", array( "%array", "%..." ) ) );
 
             // array_merge( $a1, $a2 [, $a3 ..] ) ( QList::+ )::
             // array_merge( $a1, $a2 [, $a3 ...] )
-            case "array_merge": return array( array("%first", "%..."  ), 
+            case "array_merge": return array(ezcTemplateAstNode::TYPE_ARRAY, array("%first", "%..."  ), 
                     self::functionCall( "array_merge", array( "%first", "%..." ) ) );
 
             // array_remove( $a, $index, $len = 1 ) ( QList::remove )::
             // array_slice( $a, 0, $index ) + array_slice( $a, $index + $len )
             case "array_remove": 
                 $length = ( self::countParameters( $parameters ) == 2 ? self::value(1) : "[%length]" );
-                return array( array("%array", "%index", "[%length]" ), 
+                return array( ezcTemplateAstNode::TYPE_ARRAY, array("%array", "%index", "[%length]" ), 
                     self::functionCall( "array_merge", array(  
                         self::functionCall( "array_slice", array( "%array", self::value(0), "%index"  ) ),
                         self::functionCall( "array_slice", array( "%array", 
@@ -102,12 +102,12 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
             // array_slice( $a, 1 )
             case "array_remove_first": 
                 $length = ( self::countParameters( $parameters ) == 1 ? self::value(1) : "[%length]" );
-                return array( array( "%array", "[%length]" ), 
+                return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array", "[%length]" ), 
                     self::functionCall( "array_slice", array( "%array", $length ) ) );
 
             // array_remove_last( $a ) ( QList::removeLast() )::
             // array_slice( $a, 0, -1 )
-            case "array_remove_last": return array( array( "%array" ), 
+            case "array_remove_last": return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array" ), 
                     self::functionCall( "array_slice", array( "%array", self::value(0), self::value(-1) ) ) );
 
             // array_first( $a ) ( QList::first )::
@@ -120,7 +120,7 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
 
             // array_replace( $a, $index, $len = 1, $v1 [, $v2 ...] ) ( QList::replace )::
             // array_slice( $a, 0, $index ) + array( $v1 [, $v2 ...] ) + array_slice( $a, $index + $len )
-            case "array_replace": return array( array( "%array", "%index", "%length", "%..." ), 
+            case "array_replace": return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array", "%index", "%length", "%..." ), 
                     self::functionCall( "array_merge", array( 
                         self::functionCall("array_slice", array( "%array", self::value(0), "%index" ) ),
                         self::functionCall("array", array( "%..." ) ),
@@ -128,7 +128,7 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
                     ) ) );
 
             // array_swap( $a, $index1, $index2 ) ( QList::swap ) ?::
-            case "array_swap": return array( array( "%array", "%index1", "%index2"), 
+            case "array_swap": return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array", "%index1", "%index2"), 
                     self::functionCall( "ezcTemplateArray::array_swap", array( "%array", "%index1", "%index2") ) );
  
             // array_at( $a, $index ) ( QList::at )::
@@ -137,17 +137,17 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
 
             // array_reverse( $a )::
             // array_reverse( $a )
-            case "array_reverse": return array( array( "%array" ), 
+            case "array_reverse": return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array" ), 
                 self::functionCall( "array_reverse", array("%array") ) );
 
             //array_diff( $a1, $a2 [, $a3 ...] )::
             //array_diff( $a1, $a2 [, $a3 ...] )
-            case "array_diff": return array( array( "%array1", "%array2", "[%...]" ), 
+            case "array_diff": return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array1", "%array2", "[%...]" ), 
                 self::functionCall( "array_diff", array( "%array1", "%array2", "[%...]") ) );
 
             // array_intersect( $a1, $a2 [, $a3 ...] )::
             // array_intersect( $a1, $a2 [, $a3 ...] )
-            case "array_intersect": return array( array( "%array1", "%array2", "[%...]" ), 
+            case "array_intersect": return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array1", "%array2", "[%...]" ), 
                 self::functionCall( "array_intersect", array( "%array1", "%array2", "[%...]") ) );
 
             // array_pad( [$a = array(),] $len, $fill )::
@@ -156,18 +156,18 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
 
                if( self::countParameters( $parameters ) == 2 )
                {
-                    return array( array( "[%array]", "%length", "%pad" ), 
+                    return array( ezcTemplateAstNode::TYPE_ARRAY, array( "[%array]", "%length", "%pad" ), 
                         self::functionCall( "array_pad", array( self::functionCall( "array", array() ), "%length", "%pad" ) ) );
                }
                else
                {
-                    return array( array( "[%array]", "%length", "%pad" ), 
+                    return array( ezcTemplateAstNode::TYPE_ARRAY, array( "[%array]", "%length", "%pad" ), 
                         self::functionCall( "array_pad", array( "[%array]", "%length", "%pad" ) ) );
                }
 
             // array_unique( $a )::
             // array_unique( $a )
-            case "array_unique": return array( array( "%array" ), 
+            case "array_unique": return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array" ), 
                 self::functionCall( "array_unique", array( "%array" ) ) );
 
             // array_find( $a, $v )::
@@ -182,12 +182,12 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
 
             // array_range( $low, $high [, $step] )::
             // array_range( $low, $high [, $step] )
-            case "array_fill_range": return array( array( "%low", "%high", "[%step]" ), 
+            case "array_fill_range": return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%low", "%high", "[%step]" ), 
                 self::functionCall( "range", array( "%low", "%high", "[%step]" ) ) );
 
             // array_sum( $a )::
             // array_sum( $a )
-            case "array_sum": return array( array( "%array" ), 
+            case "array_sum": return array( ezcTemplateAstNode::TYPE_VALUE, array( "%array" ), 
                 self::functionCall( "array_sum", array( "%array" ) ) );
 
             //     array_extract_by_properties( $a, $pList )::

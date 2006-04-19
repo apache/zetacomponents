@@ -43,6 +43,8 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_EXPECT_ARRAY                      = "Expecting an array.";
     const MSG_EXPECT_VALUE_NOT_ARRAY            = "Expecting a value and not an array.";
 
+    const MSG_INVALID_OPERATOR_ON_CYCLE         = "This operator cannot be used on a cycle.";
+
     const MSG_DEFAULT_DUPLICATE                 = "Expecting {/switch}. ('default' can be available only once in the switch)";
     const MSG_DEFAULT_LAST                      = "Expecting {/switch}. ('default' is expected to be the last case of the switch.)";
 

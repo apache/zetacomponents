@@ -13,7 +13,6 @@ Source to TST (+ TST nodes)
 - The "Available block types are: ..." are incorrect.
 - Implement cycles. Incl. increment, decrement, reset.
 - ArrayAppend {$a[] = 5}, needs to be fixed.
-- Check operand types in an expression: {var $a = 1 + array(1,2)}
 - Check function names while parsing.
 - Implement the required version number.: 1.0
 - check delimiters: {rdelim, ldelim}
@@ -26,6 +25,7 @@ Source to TST (+ TST nodes)
 - Manger should have 'send', 'receive' names.
 - Fix error message exceptions.
 - References, are not implemented but used. 
+- Implement typehints for the functions.
 
 
 TST to AST (+ AST nodes)

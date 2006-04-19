@@ -1,0 +1,4 @@
+mock:1:13: Expecting an array.
+
+{cycle $a = 5}
+            ^

@@ -1,0 +1,4 @@
+mock:2:8: This operator cannot be used on a cycle.
+
+{$a += 3}
+   ^
