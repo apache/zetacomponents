@@ -185,7 +185,7 @@ class ezcConfiguration
      */
     public function hasSetting( $group, $setting )
     {
-        if ( gettype( $setting ) != 'string' )
+        if ( !is_string( $setting ) )
         {
             throw new ezcConfigurationSettingnameNotStringException( $setting );
         }
@@ -346,7 +346,7 @@ class ezcConfiguration
     {
         $value = $this->getSetting( $group, $setting );
         $type = gettype( $value );
-        if ( $type != 'string' )
+        if ( !is_string( $value ) )
         {
             throw new ezcConfigurationSettingWrongTypeException( $group, $setting, 'string', $type );
         }
