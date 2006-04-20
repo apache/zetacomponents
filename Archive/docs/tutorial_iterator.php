@@ -1,6 +1,6 @@
 <?php
 
-include( "tutorial_autoload.php" );
+require_once 'tutorial_autoload.php';
 date_default_timezone_set( "UTC" );
 
 $archive = ezcArchive::open( "compress.zlib:///tmp/my_archive.tar.gz" );

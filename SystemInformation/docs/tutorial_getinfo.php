@@ -1,5 +1,5 @@
 <?php
-require_once "tutorial_autoload.php";
+require_once 'tutorial_autoload.php';
 
 $info = ezcSystemInfo::getInstance();
 echo $info->cpuType, "\n";

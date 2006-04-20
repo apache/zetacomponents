@@ -1,5 +1,5 @@
 <?php
-require_once 'trunk/Base/src/base.php';
+require_once 'Base/src/base.php';
 
 /**
  * Autoload ezc classes 

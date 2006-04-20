@@ -1,5 +1,5 @@
 <?php
-include( "tutorial_autoload.php" );
+require_once 'tutorial_autoload.php';
 date_default_timezone_set( "UTC" );
 
 // Same set up as the previous examples.
