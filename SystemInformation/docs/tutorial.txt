@@ -1,5 +1,5 @@
 eZ components - System Information
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
 
@@ -14,18 +14,18 @@ Class overview
 ==============
 
 ezcSystemInfo
-  This class provides the main API for accessing to common system variables.
-  Variables that not available from PHP directly are fetched using readers
-  specific for each supported system. Corresponding reader automatically
-  detected, attached and forced to scan system info.
+  This class provides the main API for accessing common system variables.
+  Variables that ara not available from PHP directly are fetched using readers
+  specific for each supported system. The corresponding reader is automatically
+  detected, attached and forced to scan the systems information.
   
 ezcSystemInfoReader
-  The ezcSystemInfoReader represents common abstract interface of OS info 
-  reader. Particular reader implements ezcSystemInfoReader interface and 
-  scan system info in specific for each supported OS way.
+  The ezcSystemInfoReader represents a common abstract interface for OS info 
+  readers. A particular reader implements the ezcSystemInfoReader interface and 
+  scana system infoformation specifically for each supported OS.
  
 More information about these classes can be found in the documentation of the
-class itself. 
+classes itself. 
 
 
 Usage
@@ -33,7 +33,7 @@ Usage
 
 The following example demonstrate how to use the System Information component.
 
-Getting CPU type and CPU speed for the current system.
+Getting CPU type and CPU speed for the current system
 -----------------------------------------------------
 
 .. include:: tutorial_getinfo.php
