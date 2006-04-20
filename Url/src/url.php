@@ -256,7 +256,7 @@ class ezcUrl
      *
      * @return string
      */
-    public function toString() // build it
+    public function toString()
     {
         $url = '';
 
@@ -315,9 +315,9 @@ class ezcUrl
      * @see toString()
      * @return string
      */
-    public function __toString() // call toString()
+    public function __toString()
     {
-        $this->toString();
+        return $this->toString();
     }
 
     /**
