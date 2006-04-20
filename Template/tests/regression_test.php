@@ -108,11 +108,15 @@ class ezcTemplateRegressionTest extends ezcTestCase
         foreach( $directories as $directory )
         {
             $manager = new ezcTemplateManager();
-            $manager->configuration = new ezcTemplateConfiguration( $regressionDir, $this->getTempDir() );
+
+            $dir = dirname( $directory );
+            $base = basename( $directory );
+
+            $manager->configuration = new ezcTemplateConfiguration( $dir, $this->getTempDir() );
 
             try
             {
-                $result = $manager->process( $directory );
+                $result = $manager->process( $base );
                 $out = $result->output;
             } 
             catch (Exception $e )

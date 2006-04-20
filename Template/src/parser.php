@@ -277,6 +277,19 @@ class ezcTemplateParser
         return new ezcTemplateDeclarationTstNode( $this->source, $start, $end );
     }
 
+    /**
+     * Creates a new include element object with the cursor positions and returns it.
+     *
+     * @param ezcTemplateCursor $start The starting point of the element.
+     * @param ezcTemplateCursor $end The ending point of the element.
+     * @return ezcTemplateDeclarationTstNode
+     */
+    public function createInclude( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    {
+        return new ezcTemplateIncludeTstNode( $this->source, $start, $end );
+    }
+
+
 
     /**
      * Creates a new property fetch operator object with the cursor positions and returns it.

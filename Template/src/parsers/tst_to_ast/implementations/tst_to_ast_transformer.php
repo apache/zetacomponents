@@ -108,7 +108,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     private function checkSameBinaryTypeHint( $astNode, $type )
     {
-        var_dump ($astNode );
         if( !( $astNode->parameters[0]->typeHint & $astNode->parameters[1]->typeHint ) )
         {
             throw new ezcTemplateParserException( $type->source, $type->endCursor, $type->endCursor, "Expect the same operand types. (Both values or both arrays)" );
@@ -928,7 +927,16 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
         */
     }
 
+    public function visitIncludeTstNode( ezcTemplateIncludeTstNode $type )
+    {
+       $out = "";
+       $out .= "\$clonedManager = clone \$this->manager;\n"; 
+       $out .= "\$res = \$clonedManager->process( 'aaab.in' );\n";
+       $out .= "unset (\$clonedManager);\n";
+       $out .= "\$_ezcTemplate_output .= \$res->output;\n";
 
+       return new ezcTemplatePhpCodeAstNode( $out );
+    }
 
     public function visitArrayRangeOperatorTstNode( ezcTemplateArrayRangeOperatorTstNode $type ) 
     {

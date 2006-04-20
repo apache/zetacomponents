@@ -213,7 +213,14 @@ class ezcTemplateManager
         if ( preg_match( "#^([a-zA-Z0-9_]+):(.*)$#", $location, $matches ) )
             list( $locator, $stream ) = array_splice( $matches, 1 );
         else
+        {
             $stream = $location;
+        }
+
+        if( $stream[0] != "/" ) // Is it a relative path?
+        {
+            $stream = $this->configuration->templatePath ."/". $stream;
+        }
 
         // If we have a locator defined we use that for finding the real location
         if ( $locator )

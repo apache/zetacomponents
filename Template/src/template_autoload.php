@@ -108,6 +108,7 @@ return array(
              "ezcTemplateConditionBodyTstNode" => "Template/syntax_trees/tst/nodes/condition_body.php",
              "ezcTemplateDelimiterTstNode" => "Template/syntax_trees/tst/nodes/delimiter.php",
              "ezcTemplateCycleControlTstNode" => "Template/syntax_trees/tst/nodes/cycle_control.php",
+             "ezcTemplateIncludeTstNode" => "Template/syntax_trees/tst/nodes/include.php",
 
 // Syntax trees / AST
              "ezcTemplateAstBuilder" => "Template/syntax_trees/ast/ast_builder.php",
@@ -212,6 +213,7 @@ return array(
              "ezcTemplateNotEqualOperatorAstNode" => "Template/syntax_trees/ast/nodes/operators/not_equal_operator.php",
              "ezcTemplateNotIdenticalOperatorAstNode" => "Template/syntax_trees/ast/nodes/operators/not_identical_operator.php",
              "ezcTemplateAdditionOperatorAstNode" => "Template/syntax_trees/ast/nodes/operators/addition_operator.php",
+             "ezcTemplatePhpCodeAstNode" => "Template/syntax_trees/ast/nodes/php_code.php",
 
 ///////////////////////////////////////////////////////// PARSERS ///////////////////////////////////////////////////////////////////////
 
@@ -247,6 +249,7 @@ return array(
              "ezcTemplateEolCommentSourceToTstParser" => "Template/parsers/source_to_tst/implementations/eol_comment.php",
              "ezcTemplateDelimiterSourceToTstParser" => "Template/parsers/source_to_tst/implementations/delimiter.php",
              "ezcTemplateCycleSourceToTstParser" => "Template/parsers/source_to_tst/implementations/cycle.php",
+             "ezcTemplateIncludeSourceToTstParser" => "Template/parsers/source_to_tst/implementations/include.php",
 
              "ezcTemplateSourceToTstErrorMessages" => "Template/parsers/source_to_tst/implementations/error_messages.php",
 
