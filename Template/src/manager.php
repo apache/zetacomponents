@@ -68,6 +68,12 @@ class ezcTemplateManager
      */
     public $compiledDebugEnabled = false;
 
+    public $tstTree;
+
+    public $astTree;
+
+    public $compiledTemplatePath;
+
     /**
      * The configuration object which handles autoloaders and resource locators.
      *
@@ -198,6 +204,10 @@ class ezcTemplateManager
      */
     public function process( $location, /*ezcTemplateContext*/ $context = null )
     {
+        $this->tstTree = false;
+        $this->astTree = false;
+        $this->compiledTemplatePath = false;
+
         $locator = false;
         $stream = false;
         if ( preg_match( "#^([a-zA-Z0-9_]+):(.*)$#", $location, $matches ) )
@@ -217,22 +227,50 @@ class ezcTemplateManager
             $source = new ezcTemplateSourceCode( $stream, $stream );
         }
 
-
         // lookup compiled code here
+        $compiled = ezcTemplateCompiledCode::findCompiled( $source->stream, $this->defaultContext, $this );
+        $this->createDirectory( dirname( $compiled->path ) );
+        $this->compiledTemplatePath = $compiled->path;
 
-        // lookup structured code here
+        // if exists then skip the next lines...
 
+
+        // get the compiled path.
         // use parser here
-
         $source->load();
+        $parser = new ezcTemplateParser( $source, $this );
+        $this->tstTree = $parser->parseIntoNodeTree();
 
-        $result = new ezcTemplateExecutionResult( false, clone $this->variables );
+        $tstToAst = new ezcTemplateTstToAstTransformer( $parser );
+        $this->tstTree->accept( $tstToAst );
+
+        // Extra optimization.
+        //$astToAst = new ezcTemplateAstToAstAssignmentOptimizer();
+        //$tstToAst->programNode->accept( $astToAst );
+
+//        $astToAst = new ezcTemplateAstToAstContextAppender();
+        //$tstToAst->programNode->accept( $astToAst );
+
+        $this->astTree = $tstToAst->programNode;
+
+        $g = new ezcTemplateAstToPhpGenerator( $compiled->path ); // Write to the file.
+        $tstToAst->programNode->accept($g);
 
         // execute compiled code here
-        $compiled = ezcTemplateCompiledCode::findCompiled( $source->stream, $this->defaultContext, $this );
+        $result = new ezcTemplateExecutionResult( false, clone $this->variables );
         $compiled->execute( $result );
 
         return $result;
+    }
+
+    private function createDirectory( $path )
+    {
+        if( !is_dir( $path ) )
+        {
+            return mkdir( $path, 0700, true );
+        }
+
+        return true;
     }
 
     /**

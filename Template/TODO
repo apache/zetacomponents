@@ -25,6 +25,7 @@ Source to TST (+ TST nodes)
 - Fix error message exceptions.
 - References, are not implemented but used. 
 - Implement typehints for the functions.
+- Cycle in the foreach.
 
 
 TST to AST (+ AST nodes)

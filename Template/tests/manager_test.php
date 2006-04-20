@@ -255,14 +255,22 @@ class ezcTemplateManagerTest extends ezcTestCase
 //         throw new PHPUnit2_Framework_IncompleteTestError;
 //     }
 
-//     public function testProcess()
-//     {
-//         $manager = new ezcTemplateManager();
-//         $manager->configuration = new ezcTemplateConfiguration( $this->templatePath, $this->templateCompiledPath );
-//         $result = $manager->process( $this->templatePath . "zhadum.tpl" );
-//         self::assertSame( 'ezcTemplateExecutionResult', get_class( $result ),
-//                           'ezcTemplateManager::process did not return valid object' );
-//     }
+     public function testProcess()
+     {
+ //        $manager = new ezcTemplateManager();
+ //        $manager->configuration = new ezcTemplateConfiguration( $this->templatePath, $this->templateCompiledPath );
+
+ //        $inputVariables = new ezcTemplateVariableCollection();
+ //        //$manager->setVariable( "a", 42 );
+ //        $result = $manager->process( $this->templatePath . "ordinary_text.tpl" );
+
+ //        self::assertEquals ( $result->output, "Hello world\n");
+
+         /*
+         self::assertSame( 'ezcTemplateExecutionResult', get_class( $result ),
+                           'ezcTemplateManager::process did not return valid object' );
+                           */
+     }
 }
 
 ?>

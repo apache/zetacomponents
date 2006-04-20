@@ -16,6 +16,8 @@ class ezcTemplateRegressionTest extends ezcTestCase
 {
     public $requestRegeneration = true;
 
+    public $showTreesOnFailure = false;
+
     private $stdin = null;
 
     public function __construct()
@@ -95,6 +97,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
     public function testRunRegression()
     {
         $regressionDir = dirname(__FILE__) . "/regression_tests";
+        $this->createTempDir( "regression_compiled_" );
 
         $directories = array();
         $this->readDirRecursively( $regressionDir, $directories, "in" );
@@ -104,27 +107,27 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
         foreach( $directories as $directory )
         {
-            list( $status, $message, $tstRoot, $astRoot ) = $this->compileTemplate( $directory, $regressionDir . "/current.tmp" ); 
+            $manager = new ezcTemplateManager();
+            $manager->configuration = new ezcTemplateConfiguration( $regressionDir, $this->getTempDir() );
+
+            try
+            {
+                $result = $manager->process( $directory );
+                $out = $result->output;
+            } 
+            catch (Exception $e )
+            {
+                $out = $e->getMessage();
+
+                // Begin of the error message contains the full path. We replace this with 'mock' so that the 
+                // tests work on other systems as well.
+                if( strncmp( $out, $directory, strlen( $directory ) ) == 0 )
+                {
+                    $out = "mock" . substr( $out, strlen( $directory ) );
+                }
+            }
+
             $expected = substr( $directory, 0, -3 ) . ".out";
-
-            $out = "";
-            $cont = "";
-            if( $status ) // Template compiled successfully
-            {
-                $cont = file_get_contents( $regressionDir . "/current.tmp" );
-                $cont = str_replace( "<"."?php", "", $cont );
-                $cont = str_replace( "?" . ">", "", $cont ); 
-
-                ob_start();
-                eval( $cont );
-                $out = ob_get_contents();
-                ob_end_clean();
-            }
-            else
-            {
-                $out = $message;
-            }
-
             if( !file_exists( $expected ) ) 
             {
                 $help = "The file: <$expected> could not be found.";
@@ -156,6 +159,10 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 $help .= "----------\n".file_get_contents( $directory ) . "----------\n";
                 $help .= "\n";
 
+                $cont = file_get_contents( $manager->compiledTemplatePath );
+                $cont = str_replace( "<"."?php", "", $cont );
+                $cont = str_replace( "?" . ">", "", $cont ); 
+
                 $help .= "The compiled template:\n";
                 $help .= "----------\n".$cont."----------\n";
                 $help .= "\n";
@@ -168,20 +175,19 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 $help .= "----------\n" . file_get_contents( $expected ) . "----------\n";
                 $help .= "\n";
 
-                if( $tstRoot !== null )
+                if( $this->showTreesOnFailure && $manager->tstTree !== false )
                 {
                     $help .= "The TST tree:\n";
-                    $help .= "----------\n" . ezcTemplateTstTreeOutput::output( $tstRoot )  . "----------\n";
+                    $help .= "----------\n" . ezcTemplateTstTreeOutput::output( $manager->tstTree )  . "----------\n";
                     $help .= "\n";
                 }
 
-                if( $astRoot !== null )
+                if( $this->showTreesOnFailure && $manager->astTree !== false )
                 {
                     $help .= "The AST tree:\n";
-                    $help .= "----------\n" . ezcTemplateAstTreeOutput::output( $astRoot )  . "----------\n";
+                    $help .= "----------\n" . ezcTemplateAstTreeOutput::output( $manager->astTree )  . "----------\n";
                     $help .= "\n";
                 }
-
 
                 if( $this->requestRegeneration )
                 {
@@ -194,7 +200,6 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     {
                         file_put_contents( $expected, $out );
                     }
-
                 }
                 else
                 {
@@ -205,46 +210,11 @@ class ezcTemplateRegressionTest extends ezcTestCase
             }
             else
             {
-                echo "!";
+                echo "*";
             }
         }
 
-        unlink ( $regressionDir . "/current.tmp" );
-
-    }
-
-    public function compileTemplate($input, $output)
-    {
-        $text = file_get_contents( $input );
-
-        try
-        {
-            $source = new ezcTemplateSourceCode( 'mock', 'mock', $text );
-            $parser = new ezcTemplateParser( $source, $this->manager );
-
-            $program = $parser->parseIntoNodeTree();
-    //        echo ezcTemplateTstTreeOutput::output( $program );
-            //exit();
-
-            $tstToAst = new ezcTemplateTstToAstTransformer( $parser );
-            $program->accept( $tstToAst );
-
-            $astToAst = new ezcTemplateAstToAstAssignmentOptimizer();
-            $tstToAst->programNode->accept( $astToAst );
-
-    //        $astToAst = new ezcTemplateAstToAstContextAppender();
-            //$tstToAst->programNode->accept( $astToAst );
-
-
-            $g = new ezcTemplateAstToPhpGenerator( "$output" );
-            $tstToAst->programNode->accept($g);
-        } 
-        catch( Exception $e )
-        {
-            return array( false, $e->getMessage(), null, null );
-        }
-
-        return array( true, "", $program, $tstToAst->programNode );
+        $this->removeTempDir();
     }
 }
 

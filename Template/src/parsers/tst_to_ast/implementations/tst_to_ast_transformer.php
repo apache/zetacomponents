@@ -196,7 +196,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
             $cb = new ezcTemplateAstBuilder;
             $cb->assign( "_ezcTemplate_output", "" ); 
-            $cb->call ("echo", $cb->variable( "_ezcTemplate_output" ) );
+            $cb->call ("return", $cb->variable( "_ezcTemplate_output" ) );
             $body = $cb->getAstNode();
 
             $this->programNode->appendStatement( $body->statements[0] );
@@ -716,8 +716,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
         return $astNode;
     }
-
-    public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentOperatorTstNode $type )
+public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentOperatorTstNode $type )
     {
         $this->isCycle = false;
         $astNode = $this->createBinaryOperatorAstNode( $type, new ezcTemplateSubtractionAssignmentOperatorAstNode(), false );

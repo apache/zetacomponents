@@ -161,7 +161,13 @@ class ezcTemplateCompiledCode
         if ( !$this->isValid() )
             throw new ezcTemplateInvalidCompiledFileException( $this->identifier, $this->path );
 
+        $execution->output = include( $this->path );
+
+        //var_dump ($status);
+
+
         // disabled for now
+        /*
         if ( false )
         {
             // the included file will use the following local variables:
@@ -178,6 +184,7 @@ class ezcTemplateCompiledCode
                 // failed
             }
         }
+        */
     }
 
     /**
