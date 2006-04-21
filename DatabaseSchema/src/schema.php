@@ -12,14 +12,16 @@
  * ezcDbSchema is the main class for schema operations.
  *
  * ezcDbSchema represents the schema itself and provide proxy methods to the
- * handlers that ability to load/save schema from/to files, databases or other
+ * handlers that are able to load/save schemas from/to files, databases or other
  * sources/destinations, depending on available schema handlers.
  *
  * A database schema is a definition of all the tables inside a database,
  * including field definitions and indexes.
- * @see ezcDbSchemaTable, ezcDbSchemaField, ezcDbSchemaIndex and ezcDbSchemaIndexField.
+ * @see ezcDbSchemaTable ezcDbSchemaField ezcDbSchemaIndex 
+ * @see ezcDbSchemaIndexField.
  *
- * The available builtin handlers are currently for MySQL, XML files and PHP Arrays.
+ * The available builtin handlers are currently for MySQL, XML files and PHP 
+ * arrays.
  *
  * The following example shows you how you can load a database schema
  * from the PHP format and store it into the XML format.
@@ -28,8 +30,8 @@
  *     $schema->writeToFile( 'xml', 'file.xml' );
  * </code>
  *
- * The following example shows you how you can load a database schema
- * from the XML format and store it into the database.
+ * The following example shows how you can load a database schema
+ * from the XML format and store it into a database.
  * <code>
  *     $db = ezcDbFactory::create( 'mysql://user:password@host/database' );
  *     $schema = ezcDbSchema::createFromFile( 'xml', 'file.php' );
