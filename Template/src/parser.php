@@ -289,6 +289,11 @@ class ezcTemplateParser
         return new ezcTemplateIncludeTstNode( $this->source, $start, $end );
     }
 
+    public function createReturn( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    {
+        return new ezcTemplateReturnTstNode( $this->source, $start, $end );
+    }
+
 
 
     /**

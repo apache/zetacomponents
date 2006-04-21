@@ -160,7 +160,9 @@ class ezcTemplateCompiledCode
 
         if ( !$this->isValid() )
             throw new ezcTemplateInvalidCompiledFileException( $this->identifier, $this->path );
-
+        
+        $send = clone $this->manager->send;
+        $receive = $this->manager->receive;
         $execution->output = include( $this->path );
 
         //var_dump ($status);

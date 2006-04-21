@@ -48,13 +48,14 @@ class ezcTemplateRegressionTest extends ezcTestCase
         //// required because of Reflection autoload bug
         class_exists( 'ezcTemplateSourceCode' );
         //class_exists( 'ezcTemplateManager' );
-        $this->manager = new ezcTemplateManager();
+//        $this->manager = new ezcTemplateManager();
         //ezcMock::generate( 'ezcTemplateParser', array( "reportElementCursor" ), 'MockElement_ezcTemplateParser' );
-
+/*
         $this->basePath = realpath( dirname( __FILE__ ) ) . '/';
         $this->templatePath = $this->basePath . 'templates/';
         $this->templateCompiledPath = $this->basePath . 'compiled/';
         $this->templateStorePath = $this->basePath . 'stored_templates/';
+        */
     }
 
     public function tearDown()
@@ -113,6 +114,12 @@ class ezcTemplateRegressionTest extends ezcTestCase
             $base = basename( $directory );
 
             $manager->configuration = new ezcTemplateConfiguration( $dir, $this->getTempDir() );
+
+            $send = substr( $directory, 0, -3 ) . ".send";
+            if( file_exists( $send ) )
+            {
+                $manager->send = include ($send);
+            }
 
             try
             {
@@ -214,6 +221,18 @@ class ezcTemplateRegressionTest extends ezcTestCase
             }
             else
             {
+                // check the receive variables.
+                $receive = substr( $directory, 0, -3 ) . ".receive";
+                if( file_exists( $receive ) )
+                {
+                    $expectedVar = serialize( include( $receive ) );
+                    $foundVar = serialize( $manager->receive );
+                    if( $expectedVar != $foundVar )
+                    {
+                        echo ("Expected:\n". $expectedVar . "\n\n Found:\n $foundVar\n" );
+                    }
+                }
+
                 echo "*";
             }
         }

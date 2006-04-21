@@ -1,0 +1,3 @@
+{use $myObj}
+
+{$myObj->a}

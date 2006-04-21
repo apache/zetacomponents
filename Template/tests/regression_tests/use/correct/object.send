@@ -1,0 +1,16 @@
+<?php
+
+class MyClass
+{
+	public $a = 5;
+	public function __toString()
+	{
+		return "Hello world!";
+	}
+}
+
+$v = new ezcTemplateVariableCollection();
+$v->myObj = new MyClass();
+
+return $v;
+?>

@@ -55,6 +55,8 @@ class ezcTemplateManager
      *
      * @note Use setVariable(), removeVariable(), resetVariables() to modify the
      * variables and getVariable(), hasVariable() to query them.
+     * 
+     * var ezcTemplateVariableCollection
      */
     private $variables;
 
@@ -97,7 +99,9 @@ class ezcTemplateManager
      * defaultContext - The default output context used when parsing and executing templates.
      */
     private $properties = array( 'configuration' => null,
-                                 'defaultContext' => null );
+                                 'defaultContext' => null,
+                                 'send' => null,
+                                 'receive' => null, );
 
     /**
      * Property get
@@ -106,6 +110,10 @@ class ezcTemplateManager
     {
         switch( $name )
         {
+            case 'send': 
+            case 'receive':
+                return $this->properties[$name];
+
             case 'defaultContext':
                 if ( $this->properties[$name] === null )
                     $this->properties[$name] = new ezcTemplateXhtmlContext();
@@ -157,6 +165,15 @@ class ezcTemplateManager
     {
         switch( $name )
         {
+            case 'send': 
+            case 'receive':
+                if( !$value instanceof ezcTemplateVariableCollection )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'ezcTemplateVariableCollection' );
+                } 
+                $this->properties[$name] = $value; 
+                break;
+
             case 'configuration':
                 if ( $value !== null and
                      !( $value instanceof ezcTemplateConfiguration ) )
@@ -182,7 +199,10 @@ class ezcTemplateManager
      */
     public function __construct( /*ezcTemplateContext*/ $defaultContext = null )
     {
-        $this->variables = new ezcTemplateVariableCollection();
+        //$this->variables = new ezcTemplateVariableCollection();
+        $this->properties["send"] = new ezcTemplateVariableCollection();
+        $this->properties["receive"] = new ezcTemplateVariableCollection();
+
         $this->defaultContext = $defaultContext;
     }
 
@@ -241,7 +261,6 @@ class ezcTemplateManager
 
         // if exists then skip the next lines...
 
-
         // get the compiled path.
         // use parser here
         $source->load();
@@ -264,7 +283,7 @@ class ezcTemplateManager
         $tstToAst->programNode->accept($g);
 
         // execute compiled code here
-        $result = new ezcTemplateExecutionResult( false, clone $this->variables );
+        $result = new ezcTemplateExecutionResult( false, new ezcTemplateVariableCollection());//clone $this->variables );
         $compiled->execute( $result );
 
         return $result;
@@ -302,78 +321,78 @@ class ezcTemplateManager
      * @param string $name Name of the variable to set.
      * @param mixed $value The value the variable should get.
      */
-    public function defineInput( $name, $value )
-    {
-        $this->variables->defineInput( $name, $value );
-    }
-
-    /**
-     * Defines an output template variable named $name.
-     * If the variable exists it is overwritten.
-     *
-     * This variable can be accessed later on in the executed template.
-     *
-     * @note The variable is not set using a reference.
-     *
-     * @param string $name Name of the variable to set.
-     * @param mixed $value The value the variable should get.
-     */
-    public function defineOutput( $name )
-    {
-        $this->variables->defineOutput( $name );
-    }
-
-    /**
-     * Removes the registered variable $name from the global list.
-     *
-     * @throw ezcTemplateVariableUndefinedException if the variable does not exist.
-     * @see hasVariable
-     *
-     * @param string $name Name of the variable to remove.
-     */
-    public function removeVariable( $name )
-    {
-        $this->variables->removeVariable( $name );
-    }
-
-    /**
-     * Removes all registered variables from the global list.
-     *
-     * @see hasVariable
-     *
-     */
-    public function resetVariables()
-    {
-        $this->variables->resetVariables();
-    }
-
-    /**
-     * Returns the value of the registered output variable $name from the global
-     * list.
-     *
-     * @throw ezcTemplateVariableUndefinedException if the variable does not
-     * exist.
-     * @see hasVariable
-     *
-     * @param string $name Name of the variable to return.
-     * @return mixed
-     */
-    public function getOutputValue( $name )
-    {
-        $this->variables->getOutputValue( $name );
-    }
-
-    /**
-     * Checks if the variable named $name exists and returns the result.
-     *
-     * @param string $name Name of the variable to check for.
-     * @return bool
-     */
-    public function hasVariable( $name )
-    {
-        return $this->variables->hasVariable( $name );
-    }
-
+//    public function defineInput( $name, $value )
+//    {
+//        $this->variables->defineInput( $name, $value );
+//    }
+//
+//    /**
+//     * Defines an output template variable named $name.
+//     * If the variable exists it is overwritten.
+//     *
+//     * This variable can be accessed later on in the executed template.
+//     *
+//     * @note The variable is not set using a reference.
+//     *
+//     * @param string $name Name of the variable to set.
+//     * @param mixed $value The value the variable should get.
+//     */
+//    public function defineOutput( $name )
+//    {
+//        $this->variables->defineOutput( $name );
+//    }
+//
+//    /**
+//     * Removes the registered variable $name from the global list.
+//     *
+//     * @throw ezcTemplateVariableUndefinedException if the variable does not exist.
+//     * @see hasVariable
+//     *
+//     * @param string $name Name of the variable to remove.
+//     */
+//    public function removeVariable( $name )
+//    {
+//        $this->variables->removeVariable( $name );
+//    }
+//
+//    /**
+//     * Removes all registered variables from the global list.
+//     *
+//     * @see hasVariable
+//     *
+//     */
+//    public function resetVariables()
+//    {
+//        $this->variables->resetVariables();
+//    }
+//
+//    /**
+//     * Returns the value of the registered output variable $name from the global
+//     * list.
+//     *
+//     * @throw ezcTemplateVariableUndefinedException if the variable does not
+//     * exist.
+//     * @see hasVariable
+//     *
+//     * @param string $name Name of the variable to return.
+//     * @return mixed
+//     */
+//    public function getOutputValue( $name )
+//    {
+//        $this->variables->getOutputValue( $name );
+//    }
+//
+//    /**
+//     * Checks if the variable named $name exists and returns the result.
+//     *
+//     * @param string $name Name of the variable to check for.
+//     * @return bool
+//     */
+//    public function hasVariable( $name )
+//    {
+//        return $this->variables->hasVariable( $name );
+//    }
+//
     /**
      * Locates the source template file named $source and returns an
      * ezcTemplateSource object which can be queried.

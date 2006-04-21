@@ -1,0 +1,8 @@
+<?php
+
+$v = new ezcTemplateVariableCollection();
+$v->a = 5;
+$v->b = 6;
+
+return $v;
+?>

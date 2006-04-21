@@ -56,6 +56,7 @@ class ezcTemplateManagerTest extends ezcTestCase
         self::assertSame( false, $manager->compiledDebugEnabled, 'Property <compiledDebugEnabled>' );
     }
 
+    /*
     public function testDefineInputVariable()
     {
         $manager = new ezcTemplateManager();
@@ -77,6 +78,7 @@ class ezcTemplateManagerTest extends ezcTestCase
                           "Defined input variable does not have correct <direction> property." );
     }
 
+    
 
     public function testHasVariable()
     {
@@ -186,7 +188,7 @@ class ezcTemplateManagerTest extends ezcTestCase
         self::assertSame( false, $variables->hasVariable( 'Alexander Lyta' ),
                           "Removed input variable <Alexander Lyta> does not exist in variable collection for the manager." );
     }
-
+*/
     /**
      * Check that the generateOptionHash() creates unique hashes. This is done
      * by going trough all possible combinations and creating the hashes, then

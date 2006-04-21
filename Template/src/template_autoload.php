@@ -109,6 +109,7 @@ return array(
              "ezcTemplateDelimiterTstNode" => "Template/syntax_trees/tst/nodes/delimiter.php",
              "ezcTemplateCycleControlTstNode" => "Template/syntax_trees/tst/nodes/cycle_control.php",
              "ezcTemplateIncludeTstNode" => "Template/syntax_trees/tst/nodes/include.php",
+             "ezcTemplateReturnTstNode" => "Template/syntax_trees/tst/nodes/return.php",
 
 // Syntax trees / AST
              "ezcTemplateAstBuilder" => "Template/syntax_trees/ast/ast_builder.php",

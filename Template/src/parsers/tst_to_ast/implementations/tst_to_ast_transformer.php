@@ -293,6 +293,12 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitVariableTstNode( ezcTemplateVariableTstNode $type )
     {
+        if( $this->parser->symbolTable->retrieve( $type->name ) == ezcTemplateSymbolTable::IMPORT) 
+        {
+            return new ezcTemplateVariableAstNode( "send->". $type->name );
+        }
+
+        
         if( !$this->noProperty && $this->parser->symbolTable->retrieve( $type->name ) == ezcTemplateSymbolTable::CYCLE ) 
         {
             $this->isCycle = true;
@@ -833,7 +839,6 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
 
     public function visitDeclarationTstNode( ezcTemplateBlockTstNode $type ) 
     {
-        
         if( $this->parser->symbolTable->retrieve( $type->variable->name ) == ezcTemplateSymbolTable::CYCLE ) 
         {
             $this->noProperty = true;
@@ -852,6 +857,19 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
             $b =  new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $type->variable->accept($this), $expression ) );
 
             return array($a, $b);
+        }
+        elseif( $this->parser->symbolTable->retrieve( $type->variable->name ) == ezcTemplateSymbolTable::IMPORT ) 
+        {
+            $call = new ezcTemplateFunctionCallAstNode("isset", array( $type->variable->accept( $this ) ) );
+
+            $if = new ezcTemplateIfAstNode();
+            $cb = new ezcTemplateConditionBodyAstNode();
+            $cb->condition = new ezcTemplateLogicalNegationOperatorAstNode( $call);
+            $expression = $type->expression === null ? new ezcTemplateConstantAstNode( "NULL") : $type->expression->accept($this);
+            $cb->body = new ezcTemplateGenericStatementAstNode(new ezcTemplateAssignmentOperatorAstNode( $type->variable->accept($this), $expression ) );
+
+            $if->conditions[] = $cb;
+            return $if;
         }
 
         $expression = $type->expression === null ? new ezcTemplateConstantAstNode( "NULL") : $type->expression->accept($this);
@@ -936,6 +954,24 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
        $out .= "\$_ezcTemplate_output .= \$res->output;\n";
 
        return new ezcTemplatePhpCodeAstNode( $out );
+    }
+
+    public function visitReturnTstNode( ezcTemplateReturnTstNode $type )
+    {
+        $astNodes = array();
+        foreach( $type->variables as $oldVar => $var )
+        {
+            $assign = new ezcTemplateAssignmentOperatorAstNode();
+            $assign->appendParameter( new ezcTemplateVariableAstNode( "receive->" . $var ) );
+
+            if( is_numeric( $oldVar ) ) $oldVar = $var;
+            $assign->appendParameter( new ezcTemplateVariableAstNode( $oldVar ) );
+
+            $astNodes[] = new ezcTemplateGenericStatementAstNode( $assign );
+        }
+
+        $astNodes[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateReturnAstNode( new ezcTemplateVariableAstNode( "_ezcTemplate_output" ) ) );
+        return $astNodes;
     }
 
     public function visitArrayRangeOperatorTstNode( ezcTemplateArrayRangeOperatorTstNode $type ) 

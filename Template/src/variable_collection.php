@@ -104,6 +104,20 @@ class ezcTemplateVariableCollection
         $this->variables = $variables;
     }
 
+    public function __get( $name )
+    {
+        return $this->variables[$name];
+    }
+
+    public function __set( $name, $value )
+    {
+        $this->variables[$name] = $value;
+    }
+
+    public function __isset( $name )
+    {
+        return array_key_exists( $name, $this->variables); 
+    }
     /**
      * Checks if the variable named $name exists and returns the result.
      *
@@ -123,12 +137,14 @@ class ezcTemplateVariableCollection
      * @param string $name The name of the variable to return.
      * @return ezcTemplateVariable
      */
+     /*
     public function getVariable( $name )
     {
         if ( !isset( $this->variables[$name] ) )
             throw new ezcTemplateVariableUndefinedException( $name );
         return $this->variables[$name];
     }
+    */
 
     /**
      * Returns all variables as an array, each entry contains a ezcTemplateVariable
@@ -250,8 +266,10 @@ class ezcTemplateVariableCollection
      */
     public function defineInput( $name, $value )
     {
-        $this->variables[$name] = new ezcTemplateVariable( $name, $value,
-                                                           null, ezcTemplateVariable::DIR_IN );
+        $this->variables[$name] = $value; //new ezcTemplateVariable( $name, $value,
+                                         //                  null, ezcTemplateVariable::DIR_IN );
+
+        var_dump ($this->variables);
     }
 
     /**
@@ -283,6 +301,8 @@ class ezcTemplateVariableCollection
      */
     public function defineVariable( $name, $value )
     {
+        exit( "DEFINE VARIABLE");
+        
         $this->variables[$name] = new ezcTemplateVariable( $name, $value,
                                                            null, ezcTemplateVariable::DIR_NONE );
     }
