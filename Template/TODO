@@ -15,7 +15,6 @@ Source to TST (+ TST nodes)
 - Check function names while parsing.
 - Implement the required version number.: 1.0
 - check delimiters: {rdelim, ldelim}
-- Implement include + return.
 - Implement / check custom blocks.
 
 - Remove the condition property from the ezcTemplateIfConditionTstNode.
@@ -29,7 +28,6 @@ Source to TST (+ TST nodes)
 - Renaming variable names so that they don't interfere with the template code runner.
 - Implement the '->' ? 
 
-- include, return should parse: {include <expr> as <var>} but parse: {include <var> as <var>}
 - ezcTemplateNewAstNode has no parameter handling.
 - SymbolTable checking of the send, receive variables.
 

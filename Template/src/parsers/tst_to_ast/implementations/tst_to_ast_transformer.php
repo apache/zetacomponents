@@ -962,20 +962,31 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
                     new ezcTemplateNewAstNode( "ezcTemplateVariableCollection" ) ) );
 
         // Send parameters
-        foreach ( $type->send as $oldName => $name )
+        foreach ( $type->send as $name => $expr )
         {
-            if( is_numeric( $oldName ) ) $oldName = $name;
-            if( $this->parser->symbolTable->retrieve( $oldName ) == ezcTemplateSymbolTable::IMPORT) 
+            //if( is_numeric( $oldName ) ) $oldName = $name;
+
+            if( $expr !== null )
             {
-                $oldName = "send->".$oldName;
+                $rhs = $expr->accept($this); 
+            }
+            else
+            {
+                if( $this->parser->symbolTable->retrieve( $name ) == ezcTemplateSymbolTable::IMPORT) 
+                {
+                    $rhs = new ezcTemplateVariableAstNode( "send->".$name );
+                }
+                else
+                {
+                    $rhs = new ezcTemplateVariableAstNode( $name );
+                }
             }
 
             $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
                         new ezcTemplateReferenceOperatorAstNode( $s, new ezcTemplateIdentifierAstNode( $name ) ), 
-                        new ezcTemplateVariableAstNode( $oldName ) ) );
+                        $rhs ) );
         }
          
-        // $res = $cm->process( <file> );
         $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
             new ezcTemplateVariableAstNode( "res" ), new ezcTemplateReferenceOperatorAstNode( $cm , new ezcTemplateFunctionCallAstNode( "process", array( $type->file->accept($this) ) ) ) ) );
 
@@ -1004,18 +1015,24 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
     public function visitReturnTstNode( ezcTemplateReturnTstNode $type )
     {
         $astNodes = array();
-        foreach( $type->variables as $oldVar => $var )
+        foreach( $type->variables as $var => $expr )
         {
             $assign = new ezcTemplateAssignmentOperatorAstNode();
             $assign->appendParameter( new ezcTemplateVariableAstNode( "receive->" . $var ) );
 
-            if( is_numeric( $oldVar ) ) $oldVar = $var;
-            $assign->appendParameter( new ezcTemplateVariableAstNode( $oldVar ) );
+            if( $expr === null )
+            {
+                $assign->appendParameter( new ezcTemplateVariableAstNode( $var ) );
+            }
+            else
+            {
+                $assign->appendParameter( $expr->accept($this) );
+            }
 
             $astNodes[] = new ezcTemplateGenericStatementAstNode( $assign );
         }
 
-        $astNodes[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateReturnAstNode( new ezcTemplateVariableAstNode( "_ezcTemplate_output" ) ) );
+        $astNodes[] = new ezcTemplateReturnAstNode( new ezcTemplateVariableAstNode( "_ezcTemplate_output" ) );
         return $astNodes;
     }
 
