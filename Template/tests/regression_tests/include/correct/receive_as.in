@@ -1,0 +1,2 @@
+{include "receive.inc" receive $iq as $a}
+Your IQ: {$a}

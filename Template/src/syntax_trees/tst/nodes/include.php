@@ -17,6 +17,9 @@ class ezcTemplateIncludeTstNode extends ezcTemplateBlockTstNode
 {
     public $file;
 
+    public $send;
+    public $receive;
+
     /**
      *
      * @param ezcTemplateSource $source
@@ -27,6 +30,8 @@ class ezcTemplateIncludeTstNode extends ezcTemplateBlockTstNode
     {
         parent::__construct( $source, $start, $end );
         $this->file = null;
+        $this->send = array();
+        $this->receive = array();
         $this->isNestingBlock = false;
     }
 

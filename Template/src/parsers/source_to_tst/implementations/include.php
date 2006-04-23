@@ -68,6 +68,18 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
         $include->file = $this->lastParser->rootOperator;
 
         $this->findNextElement();
+
+        if( $this->currentCursor->match('send') )
+        {
+            $include->send = $this->parseVarAsVarArray( true );
+        }
+
+        if( $this->currentCursor->match('receive') )
+        {
+            $include->receive = $this->parseVarAsVarArray( false);
+        }
+
+
         if( !$this->currentCursor->match('}') )
         {
            throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
@@ -81,6 +93,21 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
     {
         $return = $this->parser->createReturn( $this->startCursor, $this->currentCursor );
 
+        $return->variables = $this->parseVarAsVarArray( true );
+
+        if( !$this->currentCursor->match('}') )
+        {
+           throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
+        }
+
+        $this->appendElement( $return );
+        return true;
+    }
+
+    protected function parseVarAsVarArray( $symbolCheck )
+    {
+        $variables = array();
+
         do
         {
             $this->findNextElement();
@@ -88,6 +115,21 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
             if( !$this->parseOptionalType( "Variable", null, false ) )
             {
                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
+            }
+
+            if( $symbolCheck )
+            {
+                if( !$this->parser->symbolTable->retrieve( $this->lastParser->element->name ) )
+                {
+                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, $this->parser->symbolTable->getErrormessage() );
+                }
+            }
+            else
+            {
+                if( !$this->parser->symbolTable->enter( $this->lastParser->element->name, ezcTemplateSymbolTable::VARIABLE ) )
+                {
+                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, $this->parser->symbolTable->getErrormessage() );
+                }
             }
 
             $this->findNextElement();
@@ -101,27 +143,25 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
                 {
                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
                 }
-                
-                $return->variables[ $oldName ] = $this->lastParser->element->name;
+
+                if( !$this->parser->symbolTable->enter( $this->lastParser->element->name, ezcTemplateSymbolTable::VARIABLE ) )
+                {
+                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, $this->parser->symbolTable->getErrormessage() );
+                }
+  
+                $variables[ $oldName ] = $this->lastParser->element->name;
             }
             else
             {
-                $return->variables[] = $this->lastParser->element->name;
+                $variables[] = $this->lastParser->element->name;
             }
 
         }
         while( $this->currentCursor->match(',') );
 
-        if( !$this->currentCursor->match('}') )
-        {
-           throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
-        }
+        return $variables;
+   }
 
-        $this->appendElement( $return );
-        return true;
-    }
-
- 
 
 
 /*

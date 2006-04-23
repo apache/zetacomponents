@@ -947,13 +947,58 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
 
     public function visitIncludeTstNode( ezcTemplateIncludeTstNode $type )
     {
-       $out = "";
-       $out .= "\$clonedManager = clone \$this->manager;\n"; 
-       $out .= "\$res = \$clonedManager->process( 'aaab.in' );\n";
-       $out .= "unset (\$clonedManager);\n";
-       $out .= "\$_ezcTemplate_output .= \$res->output;\n";
+        $ast = array();
 
-       return new ezcTemplatePhpCodeAstNode( $out );
+        // $cm = clone \$this->manager; 
+        $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
+                $cm = new ezcTemplateVariableAstNode( "cm" ), 
+                new ezcTemplateCloneAstNode( new ezcTemplateVariableAstNode( "this->manager" ) ) ) 
+            );
+
+
+        // $cm->send = new ezcTemplateVariableCollection();
+        $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
+                    $s = new ezcTemplateReferenceOperatorAstNode( $cm, new ezcTemplateIdentifierAstNode( "send" ) ),
+                    new ezcTemplateNewAstNode( "ezcTemplateVariableCollection" ) ) );
+
+        // Send parameters
+        foreach ( $type->send as $oldName => $name )
+        {
+            if( is_numeric( $oldName ) ) $oldName = $name;
+            if( $this->parser->symbolTable->retrieve( $oldName ) == ezcTemplateSymbolTable::IMPORT) 
+            {
+                $oldName = "send->".$oldName;
+            }
+
+            $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
+                        new ezcTemplateReferenceOperatorAstNode( $s, new ezcTemplateIdentifierAstNode( $name ) ), 
+                        new ezcTemplateVariableAstNode( $oldName ) ) );
+        }
+         
+        // $res = $cm->process( <file> );
+        $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
+            new ezcTemplateVariableAstNode( "res" ), new ezcTemplateReferenceOperatorAstNode( $cm , new ezcTemplateFunctionCallAstNode( "process", array( $type->file->accept($this) ) ) ) ) );
+
+        $r = new ezcTemplateReferenceOperatorAstNode( $cm, new ezcTemplateIdentifierAstNode( "receive" ) );
+        foreach ( $type->receive as $oldName => $name )
+        {
+            if( is_numeric( $oldName ) ) $oldName = $name;
+            $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
+                        new ezcTemplateVariableAstNode( $name ),
+                        new ezcTemplateReferenceOperatorAstNode( $r, new ezcTemplateIdentifierAstNode( $oldName ) ) ) );
+        }
+
+        //unset ($cm);
+        $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "unset", array( $cm ) ) );
+
+
+        // $_ezcTemplate_output .= $res->output;
+        $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateConcatAssignmentOperatorAstNode( 
+            new ezcTemplateVariableAstNode( "_ezcTemplate_output" ),
+            new ezcTemplateReferenceOperatorAstNode( new ezcTemplateVariableAstNode("res"), new ezcTemplateIdentifierAstNode( "output") ) ) );
+            //new ezcTemplateVariableAstNode( "res->output" ) ) );
+
+        return $ast;
     }
 
     public function visitReturnTstNode( ezcTemplateReturnTstNode $type )

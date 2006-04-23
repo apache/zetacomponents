@@ -29,6 +29,10 @@ Source to TST (+ TST nodes)
 - Renaming variable names so that they don't interfere with the template code runner.
 - Implement the '->' ? 
 
+- include, return should parse: {include <expr> as <var>} but parse: {include <var> as <var>}
+- ezcTemplateNewAstNode has no parameter handling.
+- SymbolTable checking of the send, receive variables.
+
 
 TST to AST (+ AST nodes)
 ------------------------

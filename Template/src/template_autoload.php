@@ -140,6 +140,7 @@ return array(
              "ezcTemplateConditionBodyAstNode" => "Template/syntax_trees/ast/nodes/condition_body.php",
              "ezcTemplateParenthesisAstNode" => "Template/syntax_trees/ast/nodes/parenthesis.php",
              "ezcTemplateCurlyBracesAstNode" => "Template/syntax_trees/ast/nodes/curly_braces.php",
+             "ezcTemplatePhpCodeAstNode" => "Template/syntax_trees/ast/nodes/php_code.php",
 
              // Control
              "ezcTemplateIfAstNode" => "Template/syntax_trees/ast/nodes/control/if.php",
@@ -167,6 +168,7 @@ return array(
              "ezcTemplateUnsetAstNode" => "Template/syntax_trees/ast/nodes/constructs/unset.php",
              "ezcTemplateEmptyAstNode" => "Template/syntax_trees/ast/nodes/constructs/empty.php",
              "ezcTemplateNewAstNode"   => "Template/syntax_trees/ast/nodes/constructs/new.php",
+             "ezcTemplateCloneAstNode"   => "Template/syntax_trees/ast/nodes/constructs/clone.php",
 
              // Operators
              "ezcTemplateArrayFetchOperatorAstNode" => "Template/syntax_trees/ast/nodes/operators/array_fetch_operator.php",
@@ -214,7 +216,7 @@ return array(
              "ezcTemplateNotEqualOperatorAstNode" => "Template/syntax_trees/ast/nodes/operators/not_equal_operator.php",
              "ezcTemplateNotIdenticalOperatorAstNode" => "Template/syntax_trees/ast/nodes/operators/not_identical_operator.php",
              "ezcTemplateAdditionOperatorAstNode" => "Template/syntax_trees/ast/nodes/operators/addition_operator.php",
-             "ezcTemplatePhpCodeAstNode" => "Template/syntax_trees/ast/nodes/php_code.php",
+             "ezcTemplateReferenceOperatorAstNode" => "Template/syntax_trees/ast/nodes/operators/reference_operator.php",
 
 ///////////////////////////////////////////////////////// PARSERS ///////////////////////////////////////////////////////////////////////
 

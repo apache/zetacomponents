@@ -924,11 +924,27 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $this->write( $new->class );
     }
 
+    public function visitCloneAstNode( ezcTemplateCloneAstNode $clone )
+    {
+        $this->write( "clone " );
+        $this->write( $clone->object->accept($this) );
+    }
+
+
     public function visitPhpCodeAstNode( ezcTemplatePhpCodeAstNode $code )
     {
         $this->write( $code->code );
     }
 
+    public function visitReferenceOperatorAstNode( ezcTemplateReferenceOperatorAstNode $code )
+    {
+        die ("WHOOOOOT");
+    }
+
+    public function visitIdentifierAstNode( $node )
+    {
+        $this->write( $node->name );
+    }
 
 
     /**

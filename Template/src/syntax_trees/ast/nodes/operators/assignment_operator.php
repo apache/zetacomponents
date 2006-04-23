@@ -32,8 +32,10 @@ class ezcTemplateAssignmentOperatorAstNode extends ezcTemplateBinaryOperatorAstN
 
         $this->typeHint = $this->parameters[1]->typeHint;
 
-        $symbolTable->setTypeHint( $this->parameters[0]->name, $this->typeHint );
-        
+        if( $this->parameters[0] instanceof ezcTemplateVariableAstNode )
+        {
+            $symbolTable->setTypeHint( $this->parameters[0]->name, $this->typeHint );
+        }
 
         /*
 
