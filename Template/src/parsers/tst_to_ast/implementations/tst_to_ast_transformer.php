@@ -37,6 +37,8 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     private $noProperty = false;
 
+    private $isFunctionFromObject = false;
+
     public function __construct( $parser )
     {
         $this->functions = new ezcTemplateFunctions();
@@ -286,6 +288,13 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return $newNode; 
     }
 
+    public function visitIdentifierTstNode( ezcTemplateIdentifierTstNode $type )
+    {
+        $newNode = new ezcTemplateIdentifierAstNode( $type->value );
+        return $newNode; 
+    }
+
+
     public function visitIntegerTstNode( ezcTemplateIntegerTstNode $type )
     {
         die("visitIntegerTstNode");
@@ -319,6 +328,22 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitFunctionCallTstNode( ezcTemplateFunctionCallTstNode $type )
     {
+        if( $this->isFunctionFromObject )
+        {
+            $p = array();
+            foreach( $type->parameters as $parameter )
+            {
+                $p[] = $parameter->accept($this);
+            }
+            
+            $tf = new ezcTemplateFunctionCallAstNode( $type->name, $p );
+
+
+            $tf->typeHint = ezcTemplateAstNode::TYPE_ARRAY | ezcTemplateAstNode::TYPE_VALUE;
+
+            return $tf;
+        }
+
         $paramAst = array();
         foreach( $type->parameters as $parameter )
         {
@@ -597,13 +622,26 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitPropertyFetchOperatorTstNode( ezcTemplatePropertyFetchOperatorTstNode $type )
     {
+
+        $astNode = new ezcTemplateReferenceOperatorAstNode();
+        $astNode->appendParameter( $type->parameters[0]->accept( $this ));
+
+        $this->isFunctionFromObject = true;
+        $astNode->appendParameter( $type->parameters[1]->accept( $this ));
+
+        return $astNode;
+
+
+        /*
         $astNode = new ezcTemplateObjectAccessOperatorAstNode();
         $astNode->appendParameter( $type->parameters[0]->accept( $this ));
         $astNode->appendParameter( new ezcTemplateCurlyBracesAstNode( $type->parameters[1]->accept( $this ) ) );
 
         return $astNode;
+        */
 
     }
+
 
     public function visitArrayFetchOperatorTstNode( ezcTemplateArrayFetchOperatorTstNode $type )
     {
@@ -964,8 +1002,6 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
         // Send parameters
         foreach ( $type->send as $name => $expr )
         {
-            //if( is_numeric( $oldName ) ) $oldName = $name;
-
             if( $expr !== null )
             {
                 $rhs = $expr->accept($this); 
@@ -987,6 +1023,7 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
                         $rhs ) );
         }
          
+        // $res = $cm->process( <file> );
         $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
             new ezcTemplateVariableAstNode( "res" ), new ezcTemplateReferenceOperatorAstNode( $cm , new ezcTemplateFunctionCallAstNode( "process", array( $type->file->accept($this) ) ) ) ) );
 

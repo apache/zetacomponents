@@ -254,6 +254,19 @@ class ezcTemplateParser
     }
 
     /**
+     * Creates a new identifier element object with the cursor positions and returns it.
+     *
+     * @param ezcTemplateCursor $start The starting point of the element.
+     * @param ezcTemplateCursor $end The ending point of the element.
+     * @return ezcTemplateLiteralTstNode
+     */
+    public function createIdentifier( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    {
+        return new ezcTemplateIdentifierTstNode( $this->source, $start, $end );
+    }
+
+
+    /**
      * Creates a new variable element object with the cursor positions and returns it.
      *
      * @param ezcTemplateCursor $start The starting point of the element.
