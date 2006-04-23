@@ -633,7 +633,7 @@ class ezcConsoleInput
      *                                   for, default is all.
      * @return ezcConsoleTable           The filled table.
      */
-    public function getHelpTable( ezcConsoleTable $table, $long = false, array $params = array() )
+    public function getHelpTable( ezcConsoleTable $table, $long = false, array $params = null )
     {
         $help = $this->getHelp( $long, $params );
         $i = 0;
@@ -662,9 +662,9 @@ class ezcConsoleInput
      *                                   for, default is all.
      * @return string The generated help text.
      */
-    public function getHelpText( $prograDesc, $width = 80, $long = false, array $params = array() )
+    public function getHelpText( $prograDesc, $width = 80, $long = false, array $params = null )
     {
-        $help = $this->getHelp( $long, $params );
+        $help = $this->getHelp( $long, $params == null ? array() : $params );
         // Determine max length of first column text.
         $maxLength = 0;
         foreach ( $help as $row )

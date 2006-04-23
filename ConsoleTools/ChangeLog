@@ -1,3 +1,9 @@
+1.1beta2 - [RELEASEDATE] 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed bug #8173: ezcConsoleInput::getHelpText() does return empty synopsis.
+
+
 1.1beta1 - Wednesday 19 April 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
