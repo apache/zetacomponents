@@ -210,28 +210,32 @@ class ezcTemplate
         // lookup compiled code here
         $compiled = ezcTemplateCompiledCode::findCompiled( $source->stream, ($context == null ? $this->configuration->context : $context ), $this );
         $this->properties["compiledTemplatePath"] = $compiled->path;
-        $this->createDirectory( dirname( $compiled->path ) );
 
-        // get the compiled path.
-        // use parser here
-        $source->load();
-        $parser = new ezcTemplateParser( $source, $this );
-        $this->properties["tstTree"] = $parser->parseIntoNodeTree();
+        if( !file_exists( $compiled->path ) )
+        {
+            $this->createDirectory( dirname( $compiled->path ) );
 
-        $tstToAst = new ezcTemplateTstToAstTransformer( $parser );
-        $this->properties["tstTree"]->accept( $tstToAst );
+            // get the compiled path.
+            // use parser here
+            $source->load();
+            $parser = new ezcTemplateParser( $source, $this );
+            $this->properties["tstTree"] = $parser->parseIntoNodeTree();
 
-        $this->properties["astTree"] = $tstToAst->programNode;
+            $tstToAst = new ezcTemplateTstToAstTransformer( $parser );
+            $this->properties["tstTree"]->accept( $tstToAst );
 
-        // Extra optimization.
-        //$astToAst = new ezcTemplateAstToAstAssignmentOptimizer();
-        //$tstToAst->programNode->accept( $astToAst );
+            $this->properties["astTree"] = $tstToAst->programNode;
 
-        //$astToAst = new ezcTemplateAstToAstContextAppender();
-        //$tstToAst->programNode->accept( $astToAst );
+            // Extra optimization.
+            //$astToAst = new ezcTemplateAstToAstAssignmentOptimizer();
+            //$tstToAst->programNode->accept( $astToAst );
 
-        $g = new ezcTemplateAstToPhpGenerator( $compiled->path ); // Write to the file.
-        $tstToAst->programNode->accept($g);
+            $astToAst = new ezcTemplateAstToAstContextAppender();
+            $tstToAst->programNode->accept( $astToAst );
+
+            $g = new ezcTemplateAstToPhpGenerator( $compiled->path ); // Write to the file.
+            $tstToAst->programNode->accept($g);
+        }
 
         // execute compiled code here
         $this->properties["output"] = $compiled->execute();
@@ -260,90 +264,7 @@ class ezcTemplate
                              10, 36 );
     }
 
-    /**
-     * Defines an input template variable named $name with value $value.
-     * If the variable exists it is overwritten.
-     *
-     * This variable can be accessed later on in the executed template.
-     *
-     * @note The variable is not set using a reference.
-     *
-     * @param string $name Name of the variable to set.
-     * @param mixed $value The value the variable should get.
-     */
-//    public function defineInput( $name, $value )
-//    {
-//        $this->variables->defineInput( $name, $value );
-//    }
-//
-//    /**
-//     * Defines an output template variable named $name.
-//     * If the variable exists it is overwritten.
-//     *
-//     * This variable can be accessed later on in the executed template.
-//     *
-//     * @note The variable is not set using a reference.
-//     *
-//     * @param string $name Name of the variable to set.
-//     * @param mixed $value The value the variable should get.
-//     */
-//    public function defineOutput( $name )
-//    {
-//        $this->variables->defineOutput( $name );
-//    }
-//
-//    /**
-//     * Removes the registered variable $name from the global list.
-//     *
-//     * @throw ezcTemplateVariableUndefinedException if the variable does not exist.
-//     * @see hasVariable
-//     *
-//     * @param string $name Name of the variable to remove.
-//     */
-//    public function removeVariable( $name )
-//    {
-//        $this->variables->removeVariable( $name );
-//    }
-//
-//    /**
-//     * Removes all registered variables from the global list.
-//     *
-//     * @see hasVariable
-//     *
-//     */
-//    public function resetVariables()
-//    {
-//        $this->variables->resetVariables();
-//    }
-//
-//    /**
-//     * Returns the value of the registered output variable $name from the global
-//     * list.
-//     *
-//     * @throw ezcTemplateVariableUndefinedException if the variable does not
-//     * exist.
-//     * @see hasVariable
-//     *
-//     * @param string $name Name of the variable to return.
-//     * @return mixed
-//     */
-//    public function getOutputValue( $name )
-//    {
-//        $this->variables->getOutputValue( $name );
-//    }
-//
-//    /**
-//     * Checks if the variable named $name exists and returns the result.
-//     *
-//     * @param string $name Name of the variable to check for.
-//     * @return bool
-//     */
-//    public function hasVariable( $name )
-//    {
-//        return $this->variables->hasVariable( $name );
-//    }
-//
-    /**
+   /**
      * Locates the source template file named $source and returns an
      * ezcTemplateSource object which can be queried.
      *
@@ -369,16 +290,5 @@ class ezcTemplate
 //
 //        return $locator->findSource( $location->stream );
 //    }
-
-    /**
-     * Locates the compiled template file named $source and returns an
-     * ezcTemplateCompiledCode object which can be queried.
-     *
-     * @param string $source The source name of the template source to find.
-     * @return ezcTemplateCompiledCode
-     */
- //   public function findCompiled( $source )
- //   {
- //   }
 }
 ?>

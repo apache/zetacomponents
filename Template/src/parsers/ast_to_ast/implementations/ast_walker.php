@@ -180,7 +180,8 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
 
     public function visitIfAstNode( ezcTemplateIfAstNode $if )
     {
-        array_unshift( $this->nodePath, $statement );
+        array_unshift( $this->nodePath, $if );
+
         foreach ( $if->conditions as $i => $conditionBody )
         {
             $condition = $conditionBody->condition;
@@ -380,6 +381,19 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
         $this->acceptAndUpdate( $parenthesis->expression );
         array_shift( $this->nodePath );
     }
+
+    public function visitIdentifierAstNode( ezcTemplateIdentifierAstNode $node )
+    {
+    }
+
+    public function visitNewAstNode( ezcTemplateNewAstNode $node )
+    {
+    }
+
+    public function visitCloneAstNode( ezcTemplateCloneAstNode $node )
+    {
+    }
+
 
     public function visitNopAstNode( ezcTemplateNopAstNode $node )
     {
