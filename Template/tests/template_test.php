@@ -26,10 +26,22 @@ class ezcTemplateTest extends ezcTestCase
      */
     public function setUp()
     {
+        /*
         $this->basePath = realpath( dirname( __FILE__ ) ) . '/';
         $this->templatePath = $this->basePath . 'templates/';
         $this->templateCompiledPath = $this->basePath . 'compiled/';
         $this->templateStorePath = $this->basePath . 'stored_templates/';
+*/
+        $this->basePath = $this->createTempDir( "ezcTemplate_" );
+        $this->templatePath = $this->basePath . "/templates";
+        $this->compilePath = $this->basePath . "/compiled";
+
+        mkdir ( $this->templatePath );
+        mkdir ( $this->compilePath );
+
+        $config = ezcTemplateConfiguration::getInstance();
+        $config->templatePath = $this->templatePath;
+        $config->compilePath = $this->compilePath;
     }
 
     /**
@@ -43,20 +55,59 @@ class ezcTemplateTest extends ezcTestCase
                           'Property <configuration> is missing' );
         self::assertSame( 'ezcTemplateConfiguration', get_class( $template->configuration ),
                           'Property <configuration>' );
-
-                          /*
-        self::assertTrue( isset( $template->context ),
-                          'Property <defaultContext> is missing' );
-        self::assertSame( true, $template->defaultContext instanceof ezcTemplateOutputContext,
-                          'Property <defaultContext>' );
-
-        self::assertTrue( isset( $template->outputDebugEnabled ), 'Property <outputDebugEnabled> is missing' );
-        self::assertSame( false, $template->outputDebugEnabled, 'Property <outputDebugEnabled>' );
-
-        self::assertTrue( isset( $template->compiledDebugEnabled ), 'Property <compiledDebugEnabled> is missing' );
-        self::assertSame( false, $template->compiledDebugEnabled, 'Property <compiledDebugEnabled>' );
-        */
     }
+
+    public function testReExecuteTemplate()
+    {
+        file_put_contents( $this->templatePath . "/reexecute_template.ezt", "Hello world" );
+
+        $template = new ezcTemplate();
+        $res = $template->process( "reexecute_template.ezt" );
+
+        // Change the template, and set the time back. 
+        file_put_contents( $this->templatePath . "/reexecute_template.ezt", "Goodbye cruel world" );
+        $new_date = 1114300800; // +- 24 April 2005.
+        touch( $this->templatePath . "/reexecute_template.ezt", $new_date );
+
+        $res2 = $template->process( "reexecute_template.ezt" );
+
+        self::assertEquals( $res, $res2, "Expected the same output" );
+    }
+
+    public function testReCompileTemplate()
+    {
+        file_put_contents( $this->templatePath . "/reexecute_template.ezt", "Hello world" );
+
+        $template = new ezcTemplate();
+        $res = $template->process( "reexecute_template.ezt" );
+
+        // Change the template
+        file_put_contents( $this->templatePath . "/reexecute_template.ezt", "Goodbye cruel world" );
+
+        $res2 = $template->process( "reexecute_template.ezt" );
+
+        self::assertEquals( "Goodbye cruel world", $res2 );
+    }
+
+    public function testSkipReCompileTemplate()
+    {
+        file_put_contents( $this->templatePath . "/reexecute_template.ezt", "Hello world" );
+
+        $template = new ezcTemplate();
+        $res = $template->process( "reexecute_template.ezt" );
+
+        // Change the template
+        file_put_contents( $this->templatePath . "/reexecute_template.ezt", "Goodbye cruel world" );
+
+        $noCheckConfig = clone ezcTemplateConfiguration::getInstance();
+        $noCheckConfig->checkModifiedTemplates = false;
+        $res2 = $template->process( "reexecute_template.ezt", $noCheckConfig );
+
+        self::assertEquals( "Hello world", $res2 );
+    }
+
+
+
 
     /*
     public function testDefineInputVariable()

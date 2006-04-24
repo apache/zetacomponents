@@ -126,7 +126,8 @@ class ezcTemplateConfiguration
      private $properties = array( 'context' => false,
                                   'templatePath' => ".",
                                   'compilePath' => ".",
-                                  'compiledTemplatePath' => "");
+                                  'checkModifiedTemplates' => true,
+                              );
 
 
     /**
@@ -139,7 +140,7 @@ class ezcTemplateConfiguration
             case 'context': 
             case 'templatePath': 
             case 'compilePath': 
-            case 'compiledTemplatePath': 
+            case 'checkModifiedTemplates':
                 return $this->properties[$name];
 
             default:
@@ -164,7 +165,7 @@ class ezcTemplateConfiguration
 
             case 'templatePath': 
             case 'compilePath': 
-            case 'compiledTemplatePath': 
+            case 'checkModifiedTemplates': 
                 $this->properties[$name] = $value;
                 break;
 
@@ -185,6 +186,7 @@ class ezcTemplateConfiguration
 
             case 'templatePath': 
             case 'compilePath':
+            case 'checkModifiedTemplates':
                 return isset( $this->properties[$name] );
 
             default:

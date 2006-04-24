@@ -39,7 +39,7 @@ require_once 'direct_resource_locator_test.php';
 
 require_once 'configuration_test.php';
 
-require_once 'manager_test.php';
+require_once 'template_test.php';
 
 require_once 'parser_test.php';
 

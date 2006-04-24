@@ -192,8 +192,13 @@ class ezcTemplate
      * @throw ezcTemplateLocatorNotFound when the requested locator identifier
      *        is not registered in the system.
      */
-    public function process( $location, ezcTemplateContext $context = null )
+    public function process( $location, ezcTemplateConfiguration $config = null )
     {
+        if( $config == null )
+        {
+            $config = $this->configuration;
+        }
+
         $this->properties["tstTree"] = false;
         $this->properties["astTree"] = false;
 
@@ -208,10 +213,10 @@ class ezcTemplate
         $source = new ezcTemplateSourceCode( $stream, $stream );
 
         // lookup compiled code here
-        $compiled = ezcTemplateCompiledCode::findCompiled( $source->stream, ($context == null ? $this->configuration->context : $context ), $this );
+        $compiled = ezcTemplateCompiledCode::findCompiled( $source->stream, $config->context, $this );
         $this->properties["compiledTemplatePath"] = $compiled->path;
 
-        if( !file_exists( $compiled->path ) )
+        if( !file_exists( $compiled->path ) || ( $config->checkModifiedTemplates && filemtime($source->stream) >= filemtime($compiled->path) ) )
         {
             $this->createDirectory( dirname( $compiled->path ) );
 
