@@ -123,8 +123,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
             try
             {
-                $result = $manager->process( $base );
-                $out = $result->output;
+                $out = $manager->process( $base );
             } 
             catch (Exception $e )
             {

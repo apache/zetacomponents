@@ -294,7 +294,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return $newNode; 
     }
 
-
     public function visitIntegerTstNode( ezcTemplateIntegerTstNode $type )
     {
         die("visitIntegerTstNode");
@@ -1023,9 +1022,9 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
                         $rhs ) );
         }
          
-        // $res = $cm->process( <file> );
-        $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
-            new ezcTemplateVariableAstNode( "res" ), new ezcTemplateReferenceOperatorAstNode( $cm , new ezcTemplateFunctionCallAstNode( "process", array( $type->file->accept($this) ) ) ) ) );
+        // $ezcTemplate_output .= $cm->process( <file> );
+        $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateConcatAssignmentOperatorAstNode( 
+            new ezcTemplateVariableAstNode( "_ezcTemplate_output" ), new ezcTemplateReferenceOperatorAstNode( $cm , new ezcTemplateFunctionCallAstNode( "process", array( $type->file->accept($this) ) ) ) ) );
 
         $r = new ezcTemplateReferenceOperatorAstNode( $cm, new ezcTemplateIdentifierAstNode( "receive" ) );
         foreach ( $type->receive as $oldName => $name )
@@ -1038,13 +1037,6 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
 
         //unset ($cm);
         $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "unset", array( $cm ) ) );
-
-
-        // $_ezcTemplate_output .= $res->output;
-        $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateConcatAssignmentOperatorAstNode( 
-            new ezcTemplateVariableAstNode( "_ezcTemplate_output" ),
-            new ezcTemplateReferenceOperatorAstNode( new ezcTemplateVariableAstNode("res"), new ezcTemplateIdentifierAstNode( "output") ) ) );
-            //new ezcTemplateVariableAstNode( "res->output" ) ) );
 
         return $ast;
     }

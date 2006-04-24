@@ -151,7 +151,7 @@ class ezcTemplateCompiledCode
      * @throw ezcTemplateNoOutputContextException if there is no output context set.
      * @throw ezcTemplateInvalidCompiledFileException if the compiled cannot be executed.
      */
-    public function execute( /*ezcTemplateExecutionResult*/ $execution )
+    public function execute()
     {
         if ( $this->manager === null )
             throw new ezcTemplateNoManagerException( __CLASS__, 'manager' );
@@ -163,7 +163,7 @@ class ezcTemplateCompiledCode
         
         $send = clone $this->manager->send;
         $receive = $this->manager->receive;
-        $execution->output = include( $this->path );
+        return include( $this->path );
 
         //var_dump ($status);
 
@@ -234,11 +234,11 @@ class ezcTemplateCompiledCode
     public static function findCompiled( $location, ezcTemplateOutputContext $context, ezcTemplateManager $manager )
     {
         $options = 'ezcTemplate::options(' .
-                   (bool)$manager->outputDebugEnabled . '-' .
-                   (bool)$manager->compiledDebugEnabled . ')';
+                   false /*(bool)$manager->outputDebugEnabled*/ . '-' .
+                   false /*(bool)$manager->compiledDebugEnabled*/ . ')';
         $identifier = md5( 'ezcTemplateCompiledCode(' . $location . ')' );
         $name = basename( $location, '.tpl' );
-        $path = $manager->configuration->compiledPath . '/' .
+        $path = $manager->configuration->compilePath . '/' .
                 $context->identifier() . '-' .
                 $manager->generateOptionHash() . '/' .
                 $name . '-' . $identifier . ".php";
