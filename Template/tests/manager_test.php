@@ -12,11 +12,11 @@
  * @package Template
  * @subpackage Tests
  */
-class ezcTemplateManagerTest extends ezcTestCase
+class ezcTemplateTest extends ezcTestCase
 {
     public static function suite()
     {
-         return new ezcTestSuite( "ezcTemplateManagerTest" );
+         return new ezcTestSuite( __CLASS__ );
     }
 
     /**
@@ -61,7 +61,7 @@ class ezcTemplateManagerTest extends ezcTestCase
     /*
     public function testDefineInputVariable()
     {
-        $template = new ezcTemplateManager();
+        $template = new ezcTemplate();
 
         $template->defineInput( 'Garibaldi Michael', 'Jerry Doyle' );
 
@@ -84,7 +84,7 @@ class ezcTemplateManagerTest extends ezcTestCase
 
     public function testHasVariable()
     {
-        $manager = new ezcTemplateManager();
+        $manager = new ezcTemplate();
 
         $managerArray = (array)$manager;
         $variables = $managerArray["\0ezcTemplateManager\0variables"];

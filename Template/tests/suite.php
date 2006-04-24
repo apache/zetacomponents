@@ -91,7 +91,7 @@ class ezcTemplateSuite extends ezcTestSuite
 
         $this->addTest( ezcTemplateConfigurationTest::suite() );
 
-        $this->addTest( ezcTemplateManagerTest::suite() );
+        $this->addTest( ezcTemplateTest::suite() );
 
     }
 
