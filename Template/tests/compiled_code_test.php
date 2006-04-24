@@ -116,10 +116,9 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
     {
         $conf = new ezcTemplateCompiledCode( '8efb', $this->templateCompiledPath . '8efb.php' );
 
-        $result = new ezcTemplateExecutionResult();
         try
         {
-            $conf->execute( $result );
+            $conf->execute();
             self::fail( "No exception thrown when manager is missing" );
         }
         catch( ezcTemplateNoManagerException $e )
@@ -132,10 +131,9 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
         $conf = new ezcTemplateCompiledCode( '8efb', $this->templateCompiledPath . '8efb.php' );
         $conf->manager = new ezcTemplateManager();
 
-        $result = new ezcTemplateExecutionResult();
         try
         {
-            $conf->execute( $result );
+            $conf->execute( );
             self::fail( "No exception thrown when context is missing" );
         }
         catch( ezcTemplateNoOutputContextException $e )
@@ -149,10 +147,9 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
         $conf->manager = new ezcTemplateManager();
         $conf->context = new ezcTemplateXhtmlContext();
 
-        $result = new ezcTemplateExecutionResult();
         try
         {
-            $conf->execute( $result );
+            $conf->execute( );
             self::fail( "No exception thrown when context is missing" );
         }
         catch( ezcTemplateInvalidCompiledFileException $e )
@@ -167,8 +164,7 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
         $conf->manager = new ezcTemplateManager();
         $conf->context = new ezcTemplateXhtmlContext();
 
-        $result = new ezcTemplateExecutionResult();
-        $conf->execute( $result );
+        $conf->execute();
     }
 }
 

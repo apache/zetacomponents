@@ -18,8 +18,6 @@ require_once 'location_test.php';
 require_once 'template_exception_test.php';
 
 require_once 'validation_item_test.php';
-require_once 'execution_result_test.php';
-
 require_once 'output_context_test.php';
 require_once 'xhtml_context_test.php';
 
@@ -71,7 +69,6 @@ class ezcTemplateSuite extends ezcTestSuite
         $this->addTest( ezcTemplateExceptionTest::suite() );
 
         $this->addTest( ezcTemplateValidationItemTest::suite() );
-        $this->addTest( ezcTemplateExecutionResultTest::suite() );
 
         $this->addTest( ezcTemplateOutputContextTest::suite() );
         $this->addTest( ezcTemplateXhtmlContextTest::suite() );

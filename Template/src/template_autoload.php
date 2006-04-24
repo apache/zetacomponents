@@ -27,7 +27,6 @@ return array(
              "ezcTemplateSourceCode" => "Template/source_code.php",
              "ezcTemplateCompiledCode" => "Template/compiled_code.php",
              "ezcTemplateValidationItem" => "Template/validation_item.php",
-             "ezcTemplateExecutionResult" => "Template/execution_result.php",
              "ezcTemplateXhtmlContext" => "Template/contexts/xhtml_context.php",
              "ezcTemplateDirectResourceLocator" => "Template/locators/direct_resource_locator.php",
 
