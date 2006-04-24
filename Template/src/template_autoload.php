@@ -12,7 +12,7 @@ return array(
 
 ///////////////////////////////////////////////////////// GLOBAL ////////////////////////////////////////////////////////////////////////
 
-             "ezcTemplateManager" => "Template/manager.php",
+             "ezcTemplate" => "Template/manager.php",
              "ezcTemplateConfiguration" => "Template/configuration.php",
              "ezcTemplateAutoloaderDefinition" => "Template/structs/autoloader_definition.php",
              "ezcTemplateVariable" => "Template/variable.php",

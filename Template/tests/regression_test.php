@@ -47,15 +47,6 @@ class ezcTemplateRegressionTest extends ezcTestCase
     {
         //// required because of Reflection autoload bug
         class_exists( 'ezcTemplateSourceCode' );
-        //class_exists( 'ezcTemplateManager' );
-//        $this->manager = new ezcTemplateManager();
-        //ezcMock::generate( 'ezcTemplateParser', array( "reportElementCursor" ), 'MockElement_ezcTemplateParser' );
-/*
-        $this->basePath = realpath( dirname( __FILE__ ) ) . '/';
-        $this->templatePath = $this->basePath . 'templates/';
-        $this->templateCompiledPath = $this->basePath . 'compiled/';
-        $this->templateStorePath = $this->basePath . 'stored_templates/';
-        */
     }
 
     public function tearDown()
@@ -108,7 +99,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
         foreach( $directories as $directory )
         {
-            $manager = new ezcTemplateManager();
+            $manager = new ezcTemplate();
 
             $dir = dirname( $directory );
             $base = basename( $directory );

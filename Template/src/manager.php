@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateManager class
+ * File containing the ezcTemplate class
  *
  * @package Template
  * @version //autogen//
@@ -29,7 +29,7 @@
  * Using the manager is as simple as setting some variables with setVariable()
  * and then call process() with the name of the wanted source template.
  * <code>
- * $tpl = new ezcTemplateManager();
+ * $tpl = new ezcTemplate();
  * $tpl->setVariable( "survivor", "Kazan" );
  * echo $tpl->process( "cube.tpl" );
  * </code>
@@ -46,9 +46,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateManager
+class ezcTemplate
 {
-
     /**
      * Controls whether debugging should be part of the processed output.
      */

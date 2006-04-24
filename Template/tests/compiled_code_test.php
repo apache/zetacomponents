@@ -49,7 +49,7 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
         self::assertPropertySame( $conf, 'identifier', "8efb" );
         self::assertPropertySame( $conf, 'path',       $this->templateCompiledPath . '8efb.php' );
         self::assertPropertySame( $conf, 'context',    null );
-        self::assertPropertySame( $conf, 'manager',    null );
+        self::assertPropertySame( $conf, 'template',    null );
     }
 
     /**
@@ -73,11 +73,11 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
             $path = $templateData[1];
 
             $context = new ezcTemplateXhtmlContext();
-            $manager = new ezcTemplateManager();
-            $manager->configuration = new ezcTemplateConfiguration( $this->templatePath, $this->templateCompiledPath );
+            $t = new ezcTemplate();
+            $t->configuration = new ezcTemplateConfiguration( $this->templatePath, $this->templateCompiledPath );
             $code = ezcTemplateCompiledCode::findCompiled( $template,
                                                            $context,
-                                                           $manager );
+                                                           $t );
             self::assertSame( $path,
                               $code->path,
                               "Total path element does not match expected value." );
@@ -119,7 +119,7 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
         try
         {
             $conf->execute();
-            self::fail( "No exception thrown when manager is missing" );
+            self::fail( "No exception thrown when template is missing" );
         }
         catch( ezcTemplateNoManagerException $e )
         {
@@ -129,7 +129,7 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
     public function testExecuteNoContext()
     {
         $conf = new ezcTemplateCompiledCode( '8efb', $this->templateCompiledPath . '8efb.php' );
-        $conf->manager = new ezcTemplateManager();
+        $conf->template = new ezcTemplate();
 
         try
         {
@@ -144,7 +144,7 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
     public function testExecuteInvalidCompiled()
     {
         $conf = new ezcTemplateCompiledCode( '8efb', $this->templateCompiledPath . '8efb.php' );
-        $conf->manager = new ezcTemplateManager();
+        $conf->template = new ezcTemplate();
         $conf->context = new ezcTemplateXhtmlContext();
 
         try
@@ -161,7 +161,7 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
     {
         $conf = new ezcTemplateCompiledCode( '14862b79ceaf01443626bd5d564c53e2',
                                              $this->templateCompiledPath . 'full-14862b79ceaf01443626bd5d564c53e2.php' );
-        $conf->manager = new ezcTemplateManager();
+        $conf->template = new ezcTemplate();
         $conf->context = new ezcTemplateXhtmlContext();
 
         $conf->execute();

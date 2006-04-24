@@ -19,9 +19,9 @@ class ezcTemplateParser
 {
 
     /**
-     * @var ezcTemplateManager
+     * @var ezcTemplate
      */
-    public $manager;
+    public $template;
 
     /**
      * @var ezcTemplateSourceCode
@@ -62,10 +62,10 @@ class ezcTemplateParser
      *
      * @note The source code in $code must be loaded/created before passing it to this parser.
     */
-    function __construct( ezcTemplateSourceCode $source, ezcTemplateManager $manager )
+    function __construct( ezcTemplateSourceCode $source, ezcTemplate $template )
     {
         $this->source = $source;
-        $this->manager = $manager;
+        $this->template = $template;
         $this->textElements = array();
         $this->trimWhitespace = true;
         $this->debug = false;

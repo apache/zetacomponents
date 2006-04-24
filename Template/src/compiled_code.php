@@ -48,12 +48,12 @@ class ezcTemplateCompiledCode
     // private $context;
 
     /**
-     * The template manager which is used when executing the template code.
+     * The template template which is used when executing the template code.
      *
      * @var ezcTemplateManager
      * @note __get/__set property
      */
-    // private $manager;
+    // private $template;
 
     /**
      * An array containing the properties of this object.
@@ -61,7 +61,7 @@ class ezcTemplateCompiledCode
      * path       - The complete (but relative) path to the compiled file. Will
      *              be set even if it does not exist.
      * context    - The context used for the currently compiled file.
-     * manager    - The template manager which is used when executing the template
+     * template    - The template which is used when executing the template
      *              code.
      */
     private $properties = array();
@@ -76,7 +76,7 @@ class ezcTemplateCompiledCode
             case 'identifier':
             case 'path':
             case 'context':
-            case 'manager':
+            case 'template':
                 return $this->properties[$name];
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
@@ -96,10 +96,10 @@ class ezcTemplateCompiledCode
                      throw new ezcBaseValueException( $name, $value, 'ezcTemplateOutputContext' );
                 $this->properties[$name] = $value;
                 break;
-            case 'manager':
+            case 'template':
                 if ( $value !== null and
-                     !( $value instanceof ezcTemplateManager ) )
-                     throw new ezcBaseValueException( $name, $value, 'ezcTemplateManager' );
+                     !( $value instanceof ezcTemplate ) )
+                     throw new ezcBaseValueException( $name, $value, 'ezcTemplate' );
                 $this->properties[$name] = $value;
                 break;
             case 'identifier':
@@ -120,7 +120,7 @@ class ezcTemplateCompiledCode
             case 'identifier':
             case 'path':
             case 'context':
-            case 'manager':
+            case 'template':
                 return true;
             default:
                 return false;
@@ -134,35 +134,35 @@ class ezcTemplateCompiledCode
      * @param string $path
      */
     public function __construct( $identifier, $path,
-                                 /*ezcTemplateOutputContext*/ $context = null, /*ezcTemplateManager*/ $manager = null )
+                                 /*ezcTemplateOutputContext*/ $context = null, ezcTemplate $template = null )
     {
         $this->properties['identifier'] = $identifier;
         $this->properties['path'] = $path;
         $this->context = $context;
-        $this->manager = $manager;
+        $this->template = $template;
     }
 
     /**
      * Executes the current compiled file using the source object.
      *
-     * The input template variables is taken from the manager.
+     * The input template variables is taken from the template.
      *
-     * @throw ezcTemplateNoManagerException if there is no manager set.
+     * @throw ezcTemplateNoManagerException if there is no template set.
      * @throw ezcTemplateNoOutputContextException if there is no output context set.
      * @throw ezcTemplateInvalidCompiledFileException if the compiled cannot be executed.
      */
     public function execute()
     {
-        if ( $this->manager === null )
-            throw new ezcTemplateNoManagerException( __CLASS__, 'manager' );
+        if ( $this->template === null )
+            throw new ezcTemplateNoManagerException( __CLASS__, 'template' );
         if ( $this->context === null )
             throw new ezcTemplateNoOutputContextException( __CLASS__, 'context' );
 
         if ( !$this->isValid() )
             throw new ezcTemplateInvalidCompiledFileException( $this->identifier, $this->path );
         
-        $send = clone $this->manager->send;
-        $receive = $this->manager->receive;
+        $send = clone $this->template->send;
+        $receive = $this->template->receive;
         return include( $this->path );
 
         //var_dump ($status);
@@ -174,12 +174,12 @@ class ezcTemplateCompiledCode
         {
             // the included file will use the following local variables:
             // $execution - Holds the output data
-            // $manager - The manager
+            // $template - The template
             // $context - The current output context
             // $this - The compiled file, can be queried for info on path etc.
-            $manager = $this->manager;
+            $template = $this->template;
             $context = $this->context;
-            $execution->variables = clone $manager->variables;
+            $execution->variables = clone $template->variables;
             $status = include( $this->path );
             if ( $status != 0 )
             {
@@ -198,7 +198,7 @@ class ezcTemplateCompiledCode
      */
     public static function reservedVariableNames()
     {
-        return array( 'manager', 'context', 'execution', 'this' );
+        return array( 'template', 'context', 'execution', 'this' );
     }
 
     /**
@@ -228,21 +228,21 @@ class ezcTemplateCompiledCode
      *
      * @param string $location The stream path of the requested template file.
      * @param ezcTemplateOutputContext $context The current output context handler.
-     * @param ezcTemplateManager $manager The manager which contains the current settings.
+     * @param ezcTemplateManager $template The template which contains the current settings.
      * @return ezcTemplateCompiledCode
      */
-    public static function findCompiled( $location, ezcTemplateOutputContext $context, ezcTemplateManager $manager )
+    public static function findCompiled( $location, ezcTemplateOutputContext $context, ezcTemplate $template )
     {
         $options = 'ezcTemplate::options(' .
-                   false /*(bool)$manager->outputDebugEnabled*/ . '-' .
-                   false /*(bool)$manager->compiledDebugEnabled*/ . ')';
+                   false /*(bool)$template->outputDebugEnabled*/ . '-' .
+                   false /*(bool)$template->compiledDebugEnabled*/ . ')';
         $identifier = md5( 'ezcTemplateCompiledCode(' . $location . ')' );
         $name = basename( $location, '.tpl' );
-        $path = $manager->configuration->compilePath . '/' .
+        $path = $template->configuration->compilePath . '/' .
                 $context->identifier() . '-' .
-                $manager->generateOptionHash() . '/' .
+                $template->generateOptionHash() . '/' .
                 $name . '-' . $identifier . ".php";
-        return new ezcTemplateCompiledCode( $identifier, $path, $context, $manager );
+        return new ezcTemplateCompiledCode( $identifier, $path, $context, $template );
     }
 }
 ?>

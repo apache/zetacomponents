@@ -962,9 +962,7 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
         $cb->body = $this->createBody( $type->children );
         $cb->body->statements[] = new ezcTemplateBreakAstNode();
 
-
         return $res;
-
         
       /* 
         $cb = new ezcTemplateConditionBodyAstNode();
@@ -986,16 +984,16 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
     {
         $ast = array();
 
-        // $cm = clone \$this->manager; 
+        // $t = clone \$this->manager; 
         $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
-                $cm = new ezcTemplateVariableAstNode( "cm" ), 
-                new ezcTemplateCloneAstNode( new ezcTemplateVariableAstNode( "this->manager" ) ) ) 
+                $t = new ezcTemplateVariableAstNode( "t" ), 
+                new ezcTemplateCloneAstNode( new ezcTemplateVariableAstNode( "this->template" ) ) ) 
             );
 
 
-        // $cm->send = new ezcTemplateVariableCollection();
+        // $t->send = new ezcTemplateVariableCollection();
         $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
-                    $s = new ezcTemplateReferenceOperatorAstNode( $cm, new ezcTemplateIdentifierAstNode( "send" ) ),
+                    $s = new ezcTemplateReferenceOperatorAstNode( $t, new ezcTemplateIdentifierAstNode( "send" ) ),
                     new ezcTemplateNewAstNode( "ezcTemplateVariableCollection" ) ) );
 
         // Send parameters
@@ -1022,11 +1020,11 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
                         $rhs ) );
         }
          
-        // $ezcTemplate_output .= $cm->process( <file> );
+        // $ezcTemplate_output .= $t->process( <file> );
         $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateConcatAssignmentOperatorAstNode( 
-            new ezcTemplateVariableAstNode( "_ezcTemplate_output" ), new ezcTemplateReferenceOperatorAstNode( $cm , new ezcTemplateFunctionCallAstNode( "process", array( $type->file->accept($this) ) ) ) ) );
+            new ezcTemplateVariableAstNode( "_ezcTemplate_output" ), new ezcTemplateReferenceOperatorAstNode( $t , new ezcTemplateFunctionCallAstNode( "process", array( $type->file->accept($this) ) ) ) ) );
 
-        $r = new ezcTemplateReferenceOperatorAstNode( $cm, new ezcTemplateIdentifierAstNode( "receive" ) );
+        $r = new ezcTemplateReferenceOperatorAstNode( $t, new ezcTemplateIdentifierAstNode( "receive" ) );
         foreach ( $type->receive as $oldName => $name )
         {
             if( is_numeric( $oldName ) ) $oldName = $name;
@@ -1035,8 +1033,8 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
                         new ezcTemplateReferenceOperatorAstNode( $r, new ezcTemplateIdentifierAstNode( $oldName ) ) ) );
         }
 
-        //unset ($cm);
-        $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "unset", array( $cm ) ) );
+        //unset ($t);
+        $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "unset", array( $t ) ) );
 
         return $ast;
     }

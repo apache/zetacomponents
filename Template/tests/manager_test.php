@@ -37,33 +37,33 @@ class ezcTemplateManagerTest extends ezcTestCase
      */
     public function testInit()
     {
-        $manager = new ezcTemplateManager();
+        $template = new ezcTemplate();
 
-        self::assertTrue( isset( $manager->configuration ),
+        self::assertTrue( isset( $template->configuration ),
                           'Property <configuration> is missing' );
-        self::assertSame( 'ezcTemplateConfiguration', get_class( $manager->configuration ),
+        self::assertSame( 'ezcTemplateConfiguration', get_class( $template->configuration ),
                           'Property <configuration>' );
 
                           /*
-        self::assertTrue( isset( $manager->context ),
+        self::assertTrue( isset( $template->context ),
                           'Property <defaultContext> is missing' );
-        self::assertSame( true, $manager->defaultContext instanceof ezcTemplateOutputContext,
+        self::assertSame( true, $template->defaultContext instanceof ezcTemplateOutputContext,
                           'Property <defaultContext>' );
 
-        self::assertTrue( isset( $manager->outputDebugEnabled ), 'Property <outputDebugEnabled> is missing' );
-        self::assertSame( false, $manager->outputDebugEnabled, 'Property <outputDebugEnabled>' );
+        self::assertTrue( isset( $template->outputDebugEnabled ), 'Property <outputDebugEnabled> is missing' );
+        self::assertSame( false, $template->outputDebugEnabled, 'Property <outputDebugEnabled>' );
 
-        self::assertTrue( isset( $manager->compiledDebugEnabled ), 'Property <compiledDebugEnabled> is missing' );
-        self::assertSame( false, $manager->compiledDebugEnabled, 'Property <compiledDebugEnabled>' );
+        self::assertTrue( isset( $template->compiledDebugEnabled ), 'Property <compiledDebugEnabled> is missing' );
+        self::assertSame( false, $template->compiledDebugEnabled, 'Property <compiledDebugEnabled>' );
         */
     }
 
     /*
     public function testDefineInputVariable()
     {
-        $manager = new ezcTemplateManager();
+        $template = new ezcTemplateManager();
 
-        $manager->defineInput( 'Garibaldi Michael', 'Jerry Doyle' );
+        $template->defineInput( 'Garibaldi Michael', 'Jerry Doyle' );
 
         $managerArray = (array)$manager;
         $variables = $managerArray["\0ezcTemplateManager\0variables"];
