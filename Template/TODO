@@ -28,10 +28,6 @@ Source to TST (+ TST nodes)
 - ezcTemplateNewAstNode has no parameter handling.
 - SymbolTable checking of the send, receive variables.
 
-- Add XHTML tags the XhtmlContex.
-- Check compiler flags.
-- Check for newer template files than the compiled thingy.
-
 
 TST to AST (+ AST nodes)
 ------------------------

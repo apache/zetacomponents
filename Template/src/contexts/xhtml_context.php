@@ -47,7 +47,9 @@ class ezcTemplateXhtmlContext implements ezcTemplateOutputContext
      */
     public function transformOutput( ezcTemplateAstNode $node )
     {
-        return new ezcTemplateFunctionCallAstNode( "ezcTemplateXhtmlContext::addTags", array( $node ) ); 
+
+        return new ezcTemplateFunctionCallAstNode( "htmlspecialchars", array( $node ) );
+        //return new ezcTemplateFunctionCallAstNode( "ezcTemplateXhtmlContext::addTags", array( $node ) ); 
     }
 
     /**
@@ -56,11 +58,6 @@ class ezcTemplateXhtmlContext implements ezcTemplateOutputContext
     public function identifier()
     {
         return 'xhtml';
-    }
-
-    public function addTags( $text )
-    {
-        return $text;
     }
 
 }

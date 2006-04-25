@@ -231,11 +231,11 @@ class ezcTemplate
 
             $this->properties["astTree"] = $tstToAst->programNode;
 
-            // Extra optimization.
-            //$astToAst = new ezcTemplateAstToAstAssignmentOptimizer();
-            //$tstToAst->programNode->accept( $astToAst );
+            $astToAst = new ezcTemplateAstToAstContextAppender( $config->context );
+            $tstToAst->programNode->accept( $astToAst );
 
-            $astToAst = new ezcTemplateAstToAstContextAppender();
+            // Extra optimization.
+            $astToAst = new ezcTemplateAstToAstAssignmentOptimizer();
             $tstToAst->programNode->accept( $astToAst );
 
             $g = new ezcTemplateAstToPhpGenerator( $compiled->path ); // Write to the file.

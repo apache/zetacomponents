@@ -15,8 +15,11 @@
  */
 class ezcTemplateAstToAstContextAppender extends ezcTemplateAstWalker
 {
-    public function __construct( )
+    private $context;
+
+    public function __construct( ezcTemplateOutputContext $context )
     {
+        $this->context = $context;
     }
 
     public function __destruct()
@@ -26,7 +29,8 @@ class ezcTemplateAstToAstContextAppender extends ezcTemplateAstWalker
     public function visitOutputAstNode( ezcTemplateOutputAstNode $type )
     {
         parent::visitOutputAstNode( $type );
-        return ezcTemplateXhtmlContext::transformOutput( $type->expression );
+        //return ezcTemplateXhtmlContext::transformOutput( $type->expression );
+        return $this->context->transformOutput( $type->expression );
     }
 
 

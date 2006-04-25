@@ -330,4 +330,5 @@ class ezcTemplateTest extends ezcTestCase
      }
 }
 
+
 ?>

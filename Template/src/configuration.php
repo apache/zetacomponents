@@ -156,7 +156,7 @@ class ezcTemplateConfiguration
         switch( $name )
         {
             case 'context': 
-                if( !$value instanceof ezcTemplateContext )
+                if( !$value instanceof ezcTemplateOutputContext )
                 {
                     throw new ezcBaseValueException( $name, $value, 'ezcTemplateContext' );
                 }

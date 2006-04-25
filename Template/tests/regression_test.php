@@ -43,16 +43,6 @@ class ezcTemplateRegressionTest extends ezcTestCase
          return new ezcTestSuite( __CLASS__ );
     }
 
-    public function setUp()
-    {
-        //// required because of Reflection autoload bug
-        class_exists( 'ezcTemplateSourceCode' );
-    }
-
-    public function tearDown()
-    {
-    }
-
     private function removeTags( $str )
     {
         $str=str_replace('<'.'?php','<'.'?',$str);
@@ -99,22 +89,33 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
         foreach( $directories as $directory )
         {
-            $manager = new ezcTemplate();
+            $template = new ezcTemplate();
 
             $dir = dirname( $directory );
             $base = basename( $directory );
 
-            $manager->configuration = new ezcTemplateConfiguration( $dir, $this->getTempDir() );
+            $template->configuration = new ezcTemplateConfiguration( $dir, $this->getTempDir() );
+
+            if( preg_match("#^(\w+)@(\w+)\..*$#", $base, $match ) )
+            {
+                $contextClass = "ezcTemplate". ucfirst( strtolower( $match[2] ) ) . "Context";
+                $template->configuration->context = new $contextClass();
+            }
+            else
+            {
+                $template->configuration->context = new ezcTemplateNoContext();
+            }
+
 
             $send = substr( $directory, 0, -3 ) . ".send";
             if( file_exists( $send ) )
             {
-                $manager->send = include ($send);
+                $template->send = include ($send);
             }
 
             try
             {
-                $out = $manager->process( $base );
+                $out = $template->process( $base );
             } 
             catch (Exception $e )
             {
@@ -160,7 +161,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 $help .= "----------\n".file_get_contents( $directory ) . "----------\n";
                 $help .= "\n";
 
-                $cont = file_get_contents( $manager->compiledTemplatePath );
+                $cont = file_get_contents( $template->compiledTemplatePath );
                 $cont = str_replace( "<"."?php", "", $cont );
                 $cont = str_replace( "?" . ">", "", $cont ); 
 
@@ -176,17 +177,17 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 $help .= "----------\n" . file_get_contents( $expected ) . "----------\n";
                 $help .= "\n";
 
-                if( $this->showTreesOnFailure && $manager->tstTree !== false )
+                if( $this->showTreesOnFailure && $template->tstTree !== false )
                 {
                     $help .= "The TST tree:\n";
-                    $help .= "----------\n" . ezcTemplateTstTreeOutput::output( $manager->tstTree )  . "----------\n";
+                    $help .= "----------\n" . ezcTemplateTstTreeOutput::output( $template->tstTree )  . "----------\n";
                     $help .= "\n";
                 }
 
-                if( $this->showTreesOnFailure && $manager->astTree !== false )
+                if( $this->showTreesOnFailure && $template->astTree !== false )
                 {
                     $help .= "The AST tree:\n";
-                    $help .= "----------\n" . ezcTemplateAstTreeOutput::output( $manager->astTree )  . "----------\n";
+                    $help .= "----------\n" . ezcTemplateAstTreeOutput::output( $template->astTree )  . "----------\n";
                     $help .= "\n";
                 }
 
@@ -216,7 +217,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 if( file_exists( $receive ) )
                 {
                     $expectedVar = serialize( include( $receive ) );
-                    $foundVar = serialize( $manager->receive );
+                    $foundVar = serialize( $template->receive );
                     if( $expectedVar != $foundVar )
                     {
                         echo ("Expected:\n". $expectedVar . "\n\n Found:\n $foundVar\n" );

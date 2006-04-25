@@ -23,6 +23,12 @@ class ezcTemplateAstToAstAssignmentOptimizer extends ezcTemplateAstWalker
             {
                 if( $element->expression->parameters[0] instanceof ezcTemplateVariableAstNode ) 
                 {
+                    if( $element->expression->parameters[1] instanceof ezcTemplateLiteralAstNode )
+                    {
+                        return true;
+                    }
+
+                    /*
                     if( $element->expression->parameters[1] instanceof ezcTemplateOutputAstNode )
                     {
                         if( $element->expression->parameters[1]->expression instanceof ezcTemplateLiteralAstNode )
@@ -30,6 +36,7 @@ class ezcTemplateAstToAstAssignmentOptimizer extends ezcTemplateAstWalker
                             return true;
                         }
                     }
+                    */
                 }
             }
         }
@@ -53,7 +60,7 @@ class ezcTemplateAstToAstAssignmentOptimizer extends ezcTemplateAstWalker
                 while ( $i + $j < $statements && $this->isOptimizableConcat( $body->statements[$i + $j] ) && 
                     ( $body->statements[$i]->expression->parameters[0]->name === $body->statements[$i + $j]->expression->parameters[0]->name ) )
                 {
-                    $body->statements[$i]->expression->parameters[1]->expression->value .= $body->statements[$i + $j]->expression->parameters[1]->expression->value;
+                    $body->statements[$i]->expression->parameters[1]->value .= $body->statements[$i + $j]->expression->parameters[1]->value;
                     $j++;
                 }
             }

@@ -28,6 +28,7 @@ return array(
              "ezcTemplateCompiledCode" => "Template/compiled_code.php",
              "ezcTemplateValidationItem" => "Template/validation_item.php",
              "ezcTemplateXhtmlContext" => "Template/contexts/xhtml_context.php",
+             "ezcTemplateNoContext" => "Template/contexts/no_context.php",
              "ezcTemplateDirectResourceLocator" => "Template/locators/direct_resource_locator.php",
 
 // Global Interfaces:
