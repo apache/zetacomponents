@@ -2,9 +2,7 @@ mock:1:1: Unknown block <trueIsNotFalse>.
 
 {trueIsNotF
  ^
-Available blocks types are: section, include, let, set, tool_bar, ldelim, rdelim
 
 failed in:
 ezcTemplateProgramSourceToTstParser
  -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateCustomBlockSourceToTstParser

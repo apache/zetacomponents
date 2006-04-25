@@ -49,6 +49,7 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_DEFAULT_DUPLICATE                 = "Expecting {/switch}. ('default' can be available only once in the switch)";
     const MSG_DEFAULT_LAST                      = "Expecting {/switch}. ('default' is expected to be the last case of the switch.)";
 
+    const MSG_UNKNOWN_BLOCK                     = "Unknown block <%s>.";
     const MSG_UNKNOWN_FUNCTION                  = "Unknown function call: '%s'";
     const MSG_EXPECT_PARAMETER                  = "Function call: '%s' has not enough parameters. Need an additional '%s' parameter.";
     const MSG_TOO_MANY_PARAMETERS               = "Function call: '%s' has too many parameters.";
