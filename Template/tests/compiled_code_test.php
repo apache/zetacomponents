@@ -58,12 +58,12 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
      */
     public function testFindCompiled()
     {
-        $templates = array( array( 'zhadum.tpl',
-                                   $this->templateCompiledPath . '/xhtml-updqr0/zhadum-7174546a39a618c4ab516f73491bcfb6.php' ),
+        $templates = array( array( 'zhadum.ezt',
+                                   $this->templateCompiledPath . '/xhtml-updqr0/zhadum-bded3e66ba4ae58913dfd74aa6f2fb5c.php' ),
 //                            7174546a39a618c4ab516f73491bcfb6
 //                            1624u8nd60pw0g8
-                            array( 'pagelayout.tpl',
-                                   $this->templateCompiledPath . '/xhtml-updqr0/pagelayout-0cbe34d0b50c894ad9a892728c1b43f7.php' ) );
+                            array( 'pagelayout.ezt',
+                                   $this->templateCompiledPath . '/xhtml-updqr0/pagelayout-251d3c0bd4de0eb2c713f974077f0618.php' ) );
 //        0cbe34d0b50c894ad9a892728c1b43f7
 //        pvbvhkpzrnkw
 

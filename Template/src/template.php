@@ -29,9 +29,9 @@
  * Using the manager is as simple as setting some variables with setVariable()
  * and then call process() with the name of the wanted source template.
  * <code>
- * $tpl = new ezcTemplate();
- * $tpl->setVariable( "survivor", "Kazan" );
- * echo $tpl->process( "cube.tpl" );
+ * $ezt = new ezcTemplate();
+ * $ezt->setVariable( "survivor", "Kazan" );
+ * echo $ezt->process( "cube.ezt" );
  * </code>
  *
  * More advanced variable management is possible with the functions:

@@ -66,6 +66,10 @@ class ezcTemplateCompiledCode
      */
     private $properties = array();
 
+    private $send;
+    private $receive;
+
+
     /**
      * Property get
      */
@@ -161,32 +165,9 @@ class ezcTemplateCompiledCode
         if ( !$this->isValid() )
             throw new ezcTemplateInvalidCompiledFileException( $this->identifier, $this->path );
         
-        $send = clone $this->template->send;
-        $receive = $this->template->receive;
+            $this->send = clone $this->template->send;
+            $this->receive = $this->template->receive;
         return include( $this->path );
-
-        //var_dump ($status);
-
-
-        // disabled for now
-        /*
-        if ( false )
-        {
-            // the included file will use the following local variables:
-            // $execution - Holds the output data
-            // $template - The template
-            // $context - The current output context
-            // $this - The compiled file, can be queried for info on path etc.
-            $template = $this->template;
-            $context = $this->context;
-            $execution->variables = clone $template->variables;
-            $status = include( $this->path );
-            if ( $status != 0 )
-            {
-                // failed
-            }
-        }
-        */
     }
 
     /**
@@ -237,7 +218,7 @@ class ezcTemplateCompiledCode
                    false /*(bool)$template->outputDebugEnabled*/ . '-' .
                    false /*(bool)$template->compiledDebugEnabled*/ . ')';
         $identifier = md5( 'ezcTemplateCompiledCode(' . $location . ')' );
-        $name = basename( $location, '.tpl' );
+        $name = basename( $location, '.ezt' );
         $path = $template->configuration->compilePath . '/' .
                 $context->identifier() . '-' .
                 $template->generateOptionHash() . '/' .
