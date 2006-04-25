@@ -48,7 +48,7 @@ class ezcTemplateWhileLoopTstNode extends ezcTemplateBlockTstNode
     {
         if( $this->canHandleElement( $element ) )
         {
-            $this->elements[] = $element;
+            $this->children[] = $element;
             $element->parentBlock = $this;
         }
         else

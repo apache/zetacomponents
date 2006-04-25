@@ -1,0 +1,7 @@
+{var $i = 0}
+{while $i < 5}
+{$i}
+{$i++}
+{continue}
+Don't show this line.
+{/while}

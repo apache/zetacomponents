@@ -239,6 +239,11 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
             throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_DELIMITER_INSIDE_FOREACH );
         }
 
+        if( $element instanceof ezcTemplateLoopTstNode )
+        {
+            throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_BREAK_OR_CONTINUE );
+        }
+
         $this->children[] = $element;
 
         // temporary compatability

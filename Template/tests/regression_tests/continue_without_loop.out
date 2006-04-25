@@ -1,0 +1,4 @@
+mock:1:9: Cannot break or continue outside a loop.
+
+{continue}
+         ^

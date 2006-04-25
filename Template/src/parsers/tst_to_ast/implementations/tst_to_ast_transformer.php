@@ -621,8 +621,12 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         { 
             return new ezcTemplateContinueAstNode();
         }
+        elseif( $type->name == "break")
+        {
+            return new ezcTemplateBreakAstNode();
+        }
 
-        // STRANGE name, break, continue
+        // STRANGE name
         throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->startCursor, "Unhandled loop control name: " . $type->name );
     }
 

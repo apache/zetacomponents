@@ -20,6 +20,7 @@ class ezcTemplateSourceToTstErrorMessages
 
     // Unexpected types
     const MSG_UNEXPECTED_TOKEN                  = "Unexpected token: %s";
+    const MSG_UNEXPECTED_BREAK_OR_CONTINUE      = "Cannot break or continue outside a loop.";
 
 
     //  expected brackets
