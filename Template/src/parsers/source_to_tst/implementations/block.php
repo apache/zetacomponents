@@ -122,6 +122,25 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
             return true;
         }
 
+
+        // Parse the {ldelim} and {rdelim}
+        $ldelim = $this->currentCursor->match( "ldelim") ? true : false;
+        $rdelim = $this->currentCursor->match( "rdelim") ? true : false;
+        if( $ldelim || $rdelim )
+        {
+            $this->findNextElement();
+            if( !$this->currentCursor->match( "}" ) )
+            {
+                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
+            }
+
+            $text = $this->parser->createText($this->startCursor, $this->endCursor);
+            $text->text = $ldelim ? "{" : "}";
+            $this->appendElement( $text );
+            return true;
+            
+        }
+
         // Try to parse custom blocks, these are pluggable and follows a generic syntax.
         $customBlockParser = new ezcTemplateCustomBlockSourceToTstParser( $this->parser, $this, null );
         $customBlockParser->block = $this->block;
