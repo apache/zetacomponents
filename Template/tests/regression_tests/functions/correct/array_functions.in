@@ -41,9 +41,11 @@ array_remove:
 
 array_remove_first:
 {$a = array_remove_first( array( 'a', 'b' ) )}{$a[0]}
+{$a = array_remove_first( array( 'a', 'b', 'c' ), 2 )}{$a[0]}
 
 array_remove_last:
-{$a = array_remove_last( array( 'a', 'b' ) )}{$a[0]}
+{$a = array_remove_last( array( 'a', 'b', 'c' ) )}{$a[0]}{$a[1]}
+{$a = array_remove_last( array( 'a', 'b', 'c' ), 2 )}{$a[0]} size: {array_count($a)}
 
 array_replace:
 {$a = array_replace( array('a','b','c','d'), 1, 2, 'x', 'y' )}{$a[0]}{$a[1]}{$a[2]}{$a[3]}

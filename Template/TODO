@@ -11,8 +11,6 @@ Source to TST (+ TST nodes)
 - ArrayAppend {$a[] = 5}, needs to be fixed.
 - Implement the version number.: 1.0
 
-- Test the function array_remove_last(), array_remove_first()
-
 - Fix error message exceptions.
 - Implement typehints for the functions.
 - Renaming variable names so that they don't interfere with the template code runner.

@@ -105,10 +105,12 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
                 return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array", "[%length]" ), 
                     self::functionCall( "array_slice", array( "%array", $length ) ) );
 
-            // array_remove_last( $a ) ( QList::removeLast() )::
+            // array_remove_last( $a, $len = 1 ) ( QList::removeLast() )::
             // array_slice( $a, 0, -1 )
-            case "array_remove_last": return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array" ), 
-                    self::functionCall( "array_slice", array( "%array", self::value(0), self::value(-1) ) ) );
+            case "array_remove_last": 
+                $length = ( self::countParameters( $parameters ) == 1 ? self::value(1) : "[%length]" );
+                return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array", "[%length]" ), 
+                    self::functionCall( "array_slice", array( "%array", self::value(0),  array("ezcTemplateArithmeticNegationOperatorAstNode", array( $length ) ) ) ) );
 
             // array_first( $a ) ( QList::first )::
             // count( $a ) > 0 ? $a[0] : false

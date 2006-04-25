@@ -40,9 +40,11 @@ acde
 
 array_remove_first:
 b
+c
 
 array_remove_last:
-a
+ab
+a size: 1
 
 array_replace:
 axyd

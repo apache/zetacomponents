@@ -409,13 +409,13 @@ Array manipulation
 
     array_merge( array_slice( $a, 0, $index ), array_slice( $a, $index + $len) )
 
-- *array* array_remove_first( $a ) ( QList::removeFirst() )::
+- *array* array_remove_first( $a, $len = 1 ) ( QList::removeFirst() )::
 
-    array_slice( $a, 1 )
+    array_slice( $a, $len )
 
-- *array* array_remove_last( $a ) ( QList::removeLast() )::
+- *array* array_remove_last( $a, $len = 1 ) ( QList::removeLast() )::
 
-    array_slice( $a, 0, -1 )
+    array_slice( $a, 0, -$len)
 
 - *array* array_first( $a ) ( QList::first )::
 
