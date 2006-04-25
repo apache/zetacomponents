@@ -15,7 +15,6 @@ Source to TST (+ TST nodes)
 - Implement typehints for the functions.
 - Renaming variable names so that they don't interfere with the template code runner.
 
-- ezcTemplateNewAstNode has no parameter handling.
 - SymbolTable checking of the send, receive variables.
 
 

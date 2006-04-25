@@ -921,7 +921,15 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     public function visitNewAstNode( ezcTemplateNewAstNode $new )
     {
         $this->write( "new " );
-        $this->write( $new->class );
+        $this->write( $new->class . "(" );
+
+        foreach ( $new->getParameters() as $i => $parameter )
+        {
+            if ( $i > 0 )
+                $this->write( "," );
+            $parameter->accept( $this );
+        }
+        $this->write( ")" );
     }
 
     public function visitCloneAstNode( ezcTemplateCloneAstNode $clone )

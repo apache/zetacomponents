@@ -8,14 +8,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Represents an echo construct.
+ * Represents a new construct.
  *
  * @package Template
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
-class ezcTemplateNewAstNode extends ezcTemplateStatementAstNode
+class ezcTemplateNewAstNode extends ezcTemplateParameterizedAstNode
 {
     /**
      */
@@ -23,10 +23,18 @@ class ezcTemplateNewAstNode extends ezcTemplateStatementAstNode
 
     /**
      */
-    public function __construct( $class = null )
+    public function __construct( $class = null, array $functionArguments = null )
     {
         parent::__construct();
         $this->class = $class;
+
+        if ( $functionArguments !== null )
+        {
+            foreach ( $functionArguments as $argument )
+            {
+                $this->appendParameter( $argument );
+            }
+        }
     }
 
     /**

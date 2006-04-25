@@ -904,7 +904,7 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
         {
             $this->noProperty = true;
             $var = $type->variable->accept( $this );
-            $a = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $var, new ezcTemplateNewAstNode( "ezcTemplateCycle()" ) ) );
+            $a = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $var, new ezcTemplateNewAstNode( "ezcTemplateCycle" ) ) );
             $this->noProperty = false;
 
             $expression = $type->expression === null ? new ezcTemplateConstantAstNode( "NULL") : $type->expression->accept($this);
