@@ -1,0 +1,9 @@
+{use $iteration = 5}
+
+Current iteration: {$iteration}
+{$iteration--}
+{var $send = 0}
+{var $receive = 0}
+{if $iteration > 0}
+	{include "recursion.in" send $iteration}
+{/if}
