@@ -17,6 +17,7 @@
 class ezcTemplateFunctions
 {
     protected $functionToClass;
+    protected $errorMessage = "";
 
     public function __construct()
     {
@@ -80,14 +81,14 @@ class ezcTemplateFunctions
             array( new ReflectionClass( $className ), 'newInstance' ), $functionParameters );
     }
  
-    protected function processAst( $struct, $parameterMap )
+    protected function processAst( $functionName, $struct, $parameterMap, &$usedRest )
     {
         $pOut = array();
         foreach( $struct[1] as $pIn )
         {
             if( is_array( $pIn ) )
             {
-                $pOut[] = $this->processAst( $pIn, $parameterMap );
+                $pOut[] =  $this->processAst( $functionName, $pIn, $parameterMap, $usedRest );
             }
             else
             {
@@ -100,6 +101,7 @@ class ezcTemplateFunctions
 
                         if( self::isMany( $pIn ) && isset( $parameterMap[ "__rest__" ]  ) )
                         {
+                            $usedRest = true;
                             foreach( $parameterMap[ "__rest__" ] as $restParameter )
                             {
                                 $pOut[] = $restParameter;
@@ -108,9 +110,7 @@ class ezcTemplateFunctions
                     }
                     elseif( !self::isOptional( $pIn ) )
                     {
-                        //throw new Exception( "Parameter not set");
-                        var_dump ( $struct );
-                        exit("Parameter $pIn is not set.");
+                        throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_PARAMETER, $functionName, $pIn ) );
                     }
                 }
                 else 
@@ -123,7 +123,7 @@ class ezcTemplateFunctions
         return $this->createObject( $struct[0], $pOut );
     }
 
-    protected function createAstNodes( $functionDefinition, $processedParameters )
+    protected function createAstNodes( $functionName, $functionDefinition, $processedParameters )
     {
         $index = sizeof( $functionDefinition ) == 3  ? 1 : 0;
 
@@ -149,12 +149,20 @@ class ezcTemplateFunctions
         }
 
         // Remaining parameters are stored in the "__rest__".
+        $hasRest = false;
         while( isset( $processedParameters[$i] ) )
         {
             $parameterMap[ "__rest__" ][] = $processedParameters[$i++];
+            $hasRest = true;
         }
 
-        $ast = $this->processAst( $functionDefinition[ $index + 1 ], $parameterMap );
+        $usedRest = false;
+        $ast = $this->processAst( $functionName, $functionDefinition[ $index + 1 ], $parameterMap, $usedRest );
+
+        if( $hasRest && !$usedRest )
+        {
+            throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_TOO_MANY_PARAMETERS, $functionName ) );
+        }
 
 
         if( sizeof( $functionDefinition ) == 3 )
@@ -179,16 +187,21 @@ class ezcTemplateFunctions
             }
         }
 
-        die ("Function not found: $functionName");
+        return null;
     }
 
     public function getAstTree( $functionName, $parameters )
     {
+        $this->errorMessage = "";
         $class = $this->getClass( $functionName );
 
-        //$f = $class::getFunctionSubstitution( $functionName );
-        $f = call_user_func( array( $class, "getFunctionSubstitution"), $functionName, $parameters );
-        if( $f !== null ) return $this->createAstNodes( $f, $parameters );
+        if( $class !== null )
+        {
+            $f = call_user_func( array( $class, "getFunctionSubstitution"), $functionName, $parameters );
+            if( $f !== null ) return $this->createAstNodes( $functionName, $f, $parameters );
+        }
+
+        throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_FUNCTION, $functionName ) );
 
             // Try to find a manual function.
 
@@ -199,10 +212,12 @@ class ezcTemplateFunctions
             // Reorder parameters if needed.
             $params = $this->fixParameters( $parameters, $f[1], isset( $f[2] ) ? $f[2] : null );
 */
-
-        die ("Function not found");
     }
 
+    public function getErrorMessage()
+    {
+        return $this->errorMessage;
+    }
 
     public static function getFunctionSubstitution( $functionName, $parameters )
     {

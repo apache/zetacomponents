@@ -1,0 +1,4 @@
+mock:1:9: Unknown function call: 'blarp'
+
+{blarp(3)}
+ ^

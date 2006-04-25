@@ -1,0 +1,4 @@
+mock:1:12: Function call: 'str_len' has not enough parameters. Need an additional '%string' parameter.
+
+{str_len(  )}
+ ^

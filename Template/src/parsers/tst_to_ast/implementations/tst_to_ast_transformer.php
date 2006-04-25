@@ -349,7 +349,14 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $paramAst[] = $parameter->accept( $this );
         }
 
-        return $this->functions->getAstTree( $type->name, $paramAst );
+        try
+        {
+            return $this->functions->getAstTree( $type->name, $paramAst );
+        }
+        catch( Exception $e )
+        {
+            throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->endCursor, $e->getMessage() ); 
+        }
     }
 
     public function visitDocCommentTstNode( ezcTemplateDocCommentTstNode $type )

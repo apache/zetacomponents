@@ -1,0 +1,4 @@
+mock:1:24: Function call: 'str_len' has too many parameters.
+
+{str_len( "abc", "def" )
+ ^

@@ -113,7 +113,7 @@ hash_intersect_key:
 {$a = hash_intersect_key( array( 'x' => 'b', 'y' => 'c' ), array( 'x' => 'c' ) )}
 
 hash_keys:
-{$a = hash_keys( array( 'x' => 'b', 'y' => 'c' ), array( 'x' => 'c' ) )}
+{$a = hash_keys( array( 'x' => 'b', 'y' => 'c' ) )}
 
 hash_values:
-{$a = hash_values( array( 'x' => 'b', 'y' => 'c' ), array( 'x' => 'c' ) )}
+{$a = hash_values( array( 'x' => 'b', 'y' => 'c' ) )}

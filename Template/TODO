@@ -12,8 +12,7 @@ Source to TST (+ TST nodes)
 - break, continue, etc. implemented?
 - The "Available block types are: ..." are incorrect.
 - ArrayAppend {$a[] = 5}, needs to be fixed.
-- Check function names while parsing.
-- Implement the required version number.: 1.0
+- Implement the version number.: 1.0
 - check delimiters: {rdelim, ldelim}
 - Implement / check custom blocks.
 
