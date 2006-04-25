@@ -15,7 +15,6 @@ Source to TST (+ TST nodes)
 
 - Fix error message exceptions.
 - Implement typehints for the functions.
-- Cycle in the foreach.
 - Renaming variable names so that they don't interfere with the template code runner.
 
 - ezcTemplateNewAstNode has no parameter handling.

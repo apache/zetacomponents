@@ -1,0 +1,6 @@
+{cycle $c = array( "red", "green", "blue" )}
+{cycle $n = array( "a", "b", "c")}
+{cycle $o = array( "q", "r", "s")}
+{foreach 1..10 as $number increment $c, $n decrement $o} 
+{$number} : {$c} : {$n} : {$o}
+{/foreach}

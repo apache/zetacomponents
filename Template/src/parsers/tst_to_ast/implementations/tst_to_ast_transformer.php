@@ -192,7 +192,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         if ( $this->programNode === null )
         {
-            //$this->programNode = $this->createBody( $type->elements );
             $this->programNode = new ezcTemplateBodyAstNode();
 
             $cb = new ezcTemplateAstBuilder;
@@ -230,14 +229,16 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         if( $cycle->name == "increment" || $cycle->name == "decrement" || $cycle->name == "reset" )
         {
+            $ast = array();
             foreach( $cycle->variables as $var )
             {
                 $this->noProperty = true;
                 $b = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$".$var->name . "->".$cycle->name, array() ) ); 
                 $this->noProperty = false;
 
-                return $b;
+                $ast[] = $b;
             }
+            return $ast;
         }
 
     }
@@ -484,6 +485,18 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $if->conditions[] = $cb;
 
             $astNode[$i]->body->statements[] = $if;
+        }
+
+        // Increment cycle.
+        foreach( $type->increment as $var )
+        {
+            $astNode[$i]->body->statements[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$".$var->name . "->increment", array() ) ); 
+        }
+
+        // Decrement cycle.
+        foreach( $type->decrement as $var )
+        {
+            $astNode[$i]->body->statements[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$".$var->name . "->decrement", array() ) ); 
         }
 
         if ( $this->foundDelimiter )

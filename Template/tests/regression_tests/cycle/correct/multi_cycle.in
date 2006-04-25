@@ -1,0 +1,12 @@
+{cycle $a = array("a", "b", "c")}
+{cycle $b = 1..3}
+
+{$a}{$b}
+{increment $a, $b}
+{$a}{$b}
+{increment $a, $b}
+{$a}{$b}
+{decrement $a, $b}
+{$a}{$b}
+{reset $a, $b}
+{$a}{$b}

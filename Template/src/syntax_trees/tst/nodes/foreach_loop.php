@@ -22,6 +22,8 @@ class ezcTemplateForeachLoopTstNode extends ezcTemplateBlockTstNode
     public $itemVariableName;
     public $value;
 
+    public $increment;
+    public $decrement;
     public $offset;
     public $limit;
 
@@ -37,6 +39,9 @@ class ezcTemplateForeachLoopTstNode extends ezcTemplateBlockTstNode
         $this->value = $this->keyVariableName = $this->itemVariableName = null;
         $this->name = 'foreach';
 
+        $this->increment = array();
+        $this->decrement = array();
+
         $this->offset = $this->limit = null;
     }
 
@@ -48,6 +53,8 @@ class ezcTemplateForeachLoopTstNode extends ezcTemplateBlockTstNode
                       'array'            => $this->array,
                       'keyVariableName'  => $this->keyVariableName,
                       'itemVariableName' => $this->itemVariableName,
+                      'increment'        => $this->increment,
+                      'decrement'        => $this->decrement,
                       'value'            => $this->value,
                       'children'         => $this->children );
     }

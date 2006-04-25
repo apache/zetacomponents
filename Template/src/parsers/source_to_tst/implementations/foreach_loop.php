@@ -116,7 +116,29 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
             throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, $this->parser->symbolTable->getErrorMessage() );
         }
 
-        // TODO Check the offset.
+        // Check the cycle.
+        while ( ($matchIncrement = $cursor->match ('increment' )) || $cursor->match ('decrement' ) )
+        {
+            $canBeArrow = false;
+
+            do
+            {
+                $this->findNextElement();
+                if ( !$this->parseOptionalType( 'Variable', null, false ) )
+                {
+                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
+                }
+
+                if( $matchIncrement ) $el->increment[] = $this->lastParser->element;
+                else $el->decrement[] = $this->lastParser->element;
+
+
+                $this->findNextElement();
+            }
+            while( $cursor->match( "," ) );
+        }
+ 
+        // Check the offset.
         if ( $cursor->match ('offset' ) )
         {
             $canBeArrow = false;
