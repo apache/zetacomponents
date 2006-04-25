@@ -24,9 +24,9 @@ ezcGraphManager
 
 ezcGraphDataset
 	Receives the user data, and stores the configuration for the dataset, like
-	color, label, etc. Contains a finite count of ezcGraphDatasetData objects.
-	Can be extended to perform algorithms like polynomial interpolation, 
-	averaging and bezier interpolation on the data.
+	color, label, etc. How the data is stored depends on the kind of the
+	dataset. The dataset will be extended for algorithms like averaging and 
+	polynomial interpolation in the dataset.
 
 ezcGraphChart
 	Abstract class, which handles the global charts options like background
@@ -89,13 +89,38 @@ primitives accoringly to the selected renderer.
 
 The datasets can be configured individually by the user of the package.
 
-Data Structures
-===============
+API example
+-----------
 
-ezcGraphDatasetData
-	Stores the data and offers options to set color and label for single
-	potions of data. Data can be highlighted, the presentation depends on the
-	charttype (Label value in line charts, move pie outwards in pie charts).
+The following example shows how to use the class: ::
+
+	<?php
+
+	$pie = ezcGraph::create( 'Pie' );
+	$pie->options->backgroundImage = 'background.png';
+	$pie->options->border->color = '#ff0000';
+	$pie->title = 'Apple Pie';
+
+	$pie->humanoids = array( 'monkey' => 54, 'ape' => 37, 'human' => 9 ); // adds a new data set
+	$pie->humanoids->color['monkey'] = 'blueish'; // setting datapoint color
+	$pie->humanoids->highlight( 'monkey' );       // chart type dependent
+
+
+	$line = ezcGraph::create( 'Line' );
+	$line->options->backgroundColor = 'pink';
+
+	$line->income = array( 1990 => 5, 5.1, 5.4, 5.3, 6.9 );
+	$line->income->color = 'blue';
+	$line->income->symbol = ezcGraph::diamond;
+
+	$line->incomeWithTax = array( 1990 => 4.9, 5.0, 5.2, 5.1, 6.4 );
+	$line->incomeWithTax->color = 'red';
+	$line->incomeWithTax->symbol = ezcGraph::squareWithChupi;
+
+	// Create a new averaging line
+	$line->averageIncome = ezcDataSetAverage::createFrom($line->income[, options]);
+
+	?>
 
 
 
