@@ -8,15 +8,9 @@ Documentation
 
 Source to TST (+ TST nodes)
 ---------------------------
-- Clean up expressionBlock->rootExpression.
-- break, continue, etc. implemented?
-- The "Available block types are: ..." are incorrect.
 - ArrayAppend {$a[] = 5}, needs to be fixed.
 - Implement the version number.: 1.0
-- check delimiters: {rdelim, ldelim}
-- Implement / check custom blocks.
 
-- Remove the condition property from the ezcTemplateIfConditionTstNode.
 - Test the function array_remove_last(), array_remove_first()
 
 - Fix error message exceptions.

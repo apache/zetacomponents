@@ -18,7 +18,6 @@
 class ezcTemplateIfConditionTstNode extends ezcTemplateBlockTstNode
 {
     public $name;
-    public $condition;
 
     /**
      *
@@ -29,13 +28,11 @@ class ezcTemplateIfConditionTstNode extends ezcTemplateBlockTstNode
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
         parent::__construct( $source, $start, $end );
-        $this->condition = null;
     }
 
     public function getTreeProperties()
     {
         return array( 'name'      => $this->name,
-                      'condition' => $this->condition,
                       'children'  => $this->children );
     }
 

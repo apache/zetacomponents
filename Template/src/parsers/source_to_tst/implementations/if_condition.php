@@ -86,7 +86,6 @@ class ezcTemplateIfConditionSourceToTstParser extends ezcTemplateSourceToTstPars
         {
             $el = $this->parser->createIfCondition( $this->startCursor, $cursor );
             $el->children[] = $cb;
-            $el->condition = null;
             $el->name = 'if';
             $this->appendElement( $el );
         }
