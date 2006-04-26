@@ -1,75 +1,72 @@
 <?php
-$schema = array (
-  'schema' => 
-  array (
-    '_info' => 
-    array (
-      'dbms_type' => 'mysql',
-      'dbms_ver' => false,
-      'app' => false,
-      'features' => 
-      array (
-        'auto_increment' => true,
-        'field_precision' => true,
-      ),
-    ),
-    'tables' => 
-    array (
-      'PO_test' => 
-      array (
-        'name' => 'PO_test',
-        'fields' => 
-        array (
-          'id' => 
-          array (
-            'length' => 10,
-            'type' => 'int',
-            'not_null' => '1',
-            'default' => 0,
-            'options' => 
-            array (
-              'auto_increment' => true,
-            ),
-          ),
-          'type_varchar' => 
-          array (
-            'length' => 20,
-            'type' => 'varchar',
-            'default' => NULL,
-          ),
-          'type_integer' => 
-          array (
-            'length' => 11,
-            'type' => 'int',
-            'default' => NULL,
-          ),
-          'type_decimal' => 
-          array (
-            'length' => 10,
-            'precision' => '2',
-            'type' => 'float',
-            'default' => NULL,
-          ),
-          'type_text' => 
-          array (
-            'type' => 'text',
-            'default' => false,
-          ),
-        ),
-        'indexes' => 
-        array (
-          'PRIMARY' => 
-          array (
-            'fields' => 
-            array (
-              0 => 'id',
-            ),
-            'type' => 'primary',
-          ),
-        ),
-      ),
-    ),
-  ),
+return array (
+	0 => array(
+		'PO_test' => 
+		ezcDbSchemaTable::__set_state(array(
+			'fields' => 
+			array (
+				'id' => 
+				ezcDbSchemaField::__set_state(array(
+					'type' => 'integer',
+					'length' => 10,
+					'notNull' => true,
+					'default' => 0,
+					'autoIncrement' => true,
+					'unsigned' => false,
+				)),
+				'type_varchar' => 
+				ezcDbSchemaField::__set_state(array(
+					'type' => 'text',
+					'length' => 20,
+					'notNull' => false,
+					'default' => NULL,
+					'autoIncrement' => false,
+					'unsigned' => false,
+				)),
+				'type_integer' => 
+				ezcDbSchemaField::__set_state(array(
+					'type' => 'integer',
+					'length' => 11,
+					'notNull' => false,
+					'default' => NULL,
+					'autoIncrement' => false,
+					'unsigned' => false,
+				)),
+				'type_decimal' => 
+				ezcDbSchemaField::__set_state(array(
+					'type' => 'float',
+					'length' => 10,
+					'notNull' => false,
+					'default' => NULL,
+					'autoIncrement' => false,
+					'unsigned' => false,
+				)),
+				'type_text' => 
+				ezcDbSchemaField::__set_state(array(
+					'type' => 'text',
+					'length' => 0,
+					'notNull' => false,
+					'default' => NULL,
+					'autoIncrement' => false,
+					'unsigned' => false,
+				)),
+			),
+			'indexes' => array (
+				0 => 
+				ezcDbSchemaIndex::__set_state(array (
+					'indexFields' => array (
+						'id' => ezcDbSchemaIndexField::__set_state(array(
+							'sorting' => NULL,
+						)),
+					),
+					'primary' => true,
+					'unique'  => false,
+					)
+				)
+			),
+		)),
+	),
+	1 => array(),
 );
 
 ?>

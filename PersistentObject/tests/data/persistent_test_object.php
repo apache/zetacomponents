@@ -54,9 +54,8 @@ class PersistentTestObject
     public function saveSchema()
     {
         $db = ezcDbInstance::get();
-        $schema = new ezcDbSchema;
-        $schema->load( $db, 'mysql-db', 'schema' );
-        $schema->save( dirname( __FILE__ ) . '/persistent_test_object.dba', 'php-file', 'schema' );
+        $schema = ezcDbSchema::createFromDb( $db );
+        $schema->writeToFile( 'array', dirname( __FILE__ ) . '/persistent_test_object.dba' );
     }
 
     /**
@@ -66,9 +65,8 @@ class PersistentTestObject
     {
         $db = ezcDbInstance::get();
         // Load schema
-        $schema = new ezcDbSchema;
-        $schema->load( dirname( __FILE__ ) . '/persistent_test_object.dba', 'php-file', 'schema' );
-        $schema->save( $db, ( $db->getName() . '-db' ) );
+        $schema = ezcDbSchema::createFromFile( 'array', dirname( __FILE__ ) . '/persistent_test_object.dba' );
+        $schema->writeToDb( $db );
 
         // create sequence if it is a postgres database
         if ( $db->getName() == 'pgsql' )
@@ -88,13 +86,14 @@ class PersistentTestObject
         }
     }
 
+    /*
     public function saveSqlSchemas()
     {
         $db = ezcDbInstance::get();
-        $schema = new ezcDbSchema;
-        $schema->load( dirname( __FILE__ ) . '/persistent_test_object.dba', 'php-file', 'schema' );
-        $schema->save( dirname( __FILE__ ) . '/persistent_test_object-pgsql.sql', 'pgsql-file', 'schema' );
+        $schema = ezcDbSchema::createFromFile( 'php', dirname( __FILE__ ) . '/persistent_test_object.dba' );
+        $schema->writeToFile( dirname( __FILE__ ) . '/persistent_test_object-pgsql.sql', 'pgsql-file', 'schema' );
     }
+    */
 
     public function setState( array $state )
     {
