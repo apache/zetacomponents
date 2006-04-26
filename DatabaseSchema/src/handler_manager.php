@@ -33,6 +33,7 @@ class ezcDbSchemaHandlerManager
 //        'pgsql' => 'ezcDbSchemaPgsqlReader',
 //        'sqlite' => 'ezcDbSchemaSqliteReader',
         'xml' => 'ezcDbSchemaXmlReader',
+        'pos' => 'ezcDbSchemaPosReader',
     );
 
     /**
@@ -50,6 +51,7 @@ class ezcDbSchemaHandlerManager
 //        'pgsql' => 'ezcDbSchemaPgsqlWriter',
 //        'sqlite' => 'ezcDbSchemaSqliteWriter',
         'xml' => 'ezcDbSchemaXmlWriter',
+        'pos' => 'ezcDbSchemaPosWriter',
     );
 
     /**

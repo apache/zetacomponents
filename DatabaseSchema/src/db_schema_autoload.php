@@ -39,6 +39,8 @@ return array(
     'ezcDbSchemaXmlReader'              => 'DatabaseSchema/handlers/xml/reader.php',
     'ezcDbSchemaXmlWriter'              => 'DatabaseSchema/handlers/xml/writer.php',
     'XMLWriter'                         => 'DatabaseSchema/handlers/xml/xmlwritersubstitute.php',
+    'ezcDbSchemaPosWriter'              => 'DatabaseSchema/handlers/pos/writer.php',
+    'ezcDbSchemaPosReader'              => 'DatabaseSchema/handlers/pos/reader.php',
     'ezcDbSchemaMysqlReader'            => 'DatabaseSchema/handlers/mysql/reader.php',
     'ezcDbSchemaMysqlWriter'            => 'DatabaseSchema/handlers/mysql/writer.php',
 
