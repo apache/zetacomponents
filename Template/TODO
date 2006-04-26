@@ -15,6 +15,7 @@ solution is that a variable can be used in a literal string:
 translated accordingly.
 
 
+
 Version number
 --------------
 
@@ -24,8 +25,10 @@ To differentiate between other template engines, we rely on the path and templat
 Newer versions of this template engine should be compatible with the older templates. 
 
 
+
 Reducing the amount of private variables in tst_to_ast_transformer.php
 ----------------------------------------------------------------------
+
 TstToAstTransformer is a visitor pattern. In some cases information needs to be 
 shared among several nodes (functions in the visitor pattern). Private variables
 are used in that case. 
@@ -35,7 +38,24 @@ nodes will help.
 
 
 
+Fix error messages
+------------------
 
+The type of exception thrown for an error message is not consistant. 
+Usually it's ezcTemplateSourceToTstParserException, sometimes ezcTemplateParserException,
+and rarely Exception.
+
+The error message strings are defined in the class ezcTemplateSourceToTstErrorMessages. This class
+should have a more general name, like: ezcTemplateErrorMessages.
+
+
+
+Function typehints
+------------------
+
+A few functions (like: array_count() ) have specified what type the method will return. 
+The type is TYPE_VALUE, TYPE_ARRAY, or both. If not specified it assumes that the return type is both,
+which of course is true, but allows less type checking.
 
 
 
@@ -44,8 +64,6 @@ Other
 -----
 
 - Set the private classes to '@access private'.
-- Fix error message exceptions.
-- Implement typehints for the functions.
 
 
 

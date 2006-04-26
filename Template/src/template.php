@@ -1,42 +1,61 @@
 <?php
 /**
- * File containing the ezcTemplate class
+ * File containing the ezcTemplate class.
  *
  * @package Template
  * @version //autogen//
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
- * The main manager for templates which dispatches work to the specific classes.
+ * The ezcTemplate class provides the main interface for processing templates.
  *
- * The manager is the main access point for processing source template into text
- * output. The manager keeps track of the current settings and uses other classes
- * to get the work done.
+ * The ezcTemplate class compiles a source template (*.ezt) to PHP code,
+ * executes the PHP code, and returns the output. The generated PHP code 
+ * will be stored on disk as a compiled template.
+ * 
+ * If a compiled template already exists of the to process template, the 
+ * ezcTemplate class executes directly the compiled template; thus omitting
+ * the compile step.
  *
- * The manager uses the ezcTemplateConfiguration class to keep track of
- * autoloaders and resource locators. Usually there is only one configuration
- * object which can be shared among multiple manager, this makes sense since you
- * want the same configuration among your code. If you wish to change this you
- * can assign a new configuration object using the $configuration member variable.
+ * The location for the source templates and compiled templates among other things 
+ * are specified in the ezcTemplateConfiguration configuration object. A default
+ * configuration is always present and can be accessed via the $configuration
+ * property.
+ * 
+ * Usually one configuration object will be enough, since most of the templates
+ * will use the same configuration settings. If for some reason, other configuration
+ * settings are needed:
+ * 
+ * - Another ezcTemplateConfiguration object can be assigned to the $configuration property.
+ * - Another ezcTemplateConfiguration object can be given to the process method. This
+ *   method will use the given configuration instead.
  *
- * The initial value of the configuration is null which means it will create a
- * new object for it, it will search for a function named
- * ezcTemplateInitConfiguration() if found it will call it and expects it to
- * return a configuration object. If this not found it creates a new plain
- * ezcTemplateConfiguration object.
+ * The properties $send and $receive are available to set the variables that are
+ * set in and retrieved from the template. 
  *
- * Using the manager is as simple as setting some variables with setVariable()
- * and then call process() with the name of the wanted source template.
+ * The next example demonstrates how a template variable is set and retrieved:
+ * 
  * <code>
- * $ezt = new ezcTemplate();
- * $ezt->setVariable( "survivor", "Kazan" );
- * echo $ezt->process( "cube.ezt" );
- * </code>
+ * <?php
+ * $t = new ezcTemplate();
  *
- * Accessing the source template or compiled file is also possible with the use
- * of the findSource() and findCompiled() functions. They will return objects
- * which can be further accessed.
+ * $t->send->mySentence = "Hello world";
+ * echo $t->process( "calc_sentence_length.ezt" );
+ *
+ * $number = $t->receive->length;
+ * ?>
+ * </code>
+ * 
+ * The template code:
+ * <code>
+ * {use $mySentence = ""}
+ * 
+ * {var $length = str_len( $mySentence )}
+ * {return $length}
+ * </code>
+ * 
  * @package Template
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
@@ -96,6 +115,11 @@ class ezcTemplate
         {
             case 'configuration':
             case 'compiledTemplatePath':
+            case 'send':
+            case 'receive':
+            case 'tstTree':
+            case 'astTree':
+            case 'output':
                 return true;
             default:
                 return false;
@@ -138,7 +162,7 @@ class ezcTemplate
     }
 
     /**
-     * Intializes the manager with the default settings.
+     * Intializes the ezcTemplate with the default settings.
      */
     public function __construct()
     {
@@ -147,20 +171,15 @@ class ezcTemplate
     }
 
     /**
-     * Processes the specified template source and returns the result as a string.
-     *
-     * The type of output can be adjusted by passing the output context object
-     * $context.
+     * Processes the specified template source and returns a string.
      *
      * @note The first time a template is accessed it needs to be compiled so the
      * execution time will be higher than subsequent calls.
      *
-     * @param string $location The resource location defining which template to process.
-     * @param ezcTemplateContext $context The current context for the processing.
-     * @return ezcTemplateExecution
+     * @return string
      *
-     * @throw ezcTemplateLocatorNotFound when the requested locator identifier
-     *        is not registered in the system.
+     * @throw Exception, ezcTemplateSourceToTstParserException, ezcTemplateParserException if the
+     * template couldn't be compiled.
      */
     public function process( $location, ezcTemplateConfiguration $config = null )
     {
@@ -239,13 +258,13 @@ class ezcTemplate
                              10, 36 );
     }
 
-   /**
-     * Locates the source template file named $source and returns an
-     * ezcTemplateSource object which can be queried.
-     *
-     * @param string $source The source name of the template source to find.
-     * @return ezcTemplateSource
-     */
+//   /**
+//     * Locates the source template file named $source and returns an
+//     * ezcTemplateSource object which can be queried.
+//     *
+//     * @param string $source The source name of the template source to find.
+//     * @return ezcTemplateSource
+//     */
 //    public function findSource( $source )
 //    {
 //        $location = ezcTemplateResourceLocator::parseLocationString( $source );
