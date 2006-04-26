@@ -111,12 +111,12 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     public function applyDiffToDb( ezcDbHandler $db, ezcDbSchemaDiff $dbSchemaDiff )
     {
-        $db->query( "BEGIN" );
+        $db->beginTransaction();
         foreach ( $this->convertDiffToDDL( $dbSchemaDiff ) as $query )
         {
             $db->query( $query );
         }
-        $db->query( "COMMIT" );
+        $db->commit();
     }
 
     /**
