@@ -1,6 +1,7 @@
 <?php
 
-/*
+/**
+ * @access private
 */
 class ezcTemplateRegExp
 {

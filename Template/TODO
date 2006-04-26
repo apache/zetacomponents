@@ -59,15 +59,6 @@ which of course is true, but allows less type checking.
 
 
 
-
-Other
------
-
-- Set the private classes to '@access private'.
-
-
-
-
 Old (outdated) list
 -------------------
 

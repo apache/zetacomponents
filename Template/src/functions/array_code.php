@@ -1,7 +1,8 @@
 <?php
+/**
+ * @access private
+ */
 
-/*
-*/
 class ezcTemplateArray
 {
 
