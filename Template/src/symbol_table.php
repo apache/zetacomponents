@@ -28,7 +28,7 @@ class ezcTemplateSymbolTable
         $this->reset();
     }
 
-    public function getInstance()
+    static public function getInstance()
     {
         if( self::$instance === null)
         {
