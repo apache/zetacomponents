@@ -53,10 +53,12 @@ class ezcTemplateArrayFetchSourceToTstParser extends ezcTemplateSourceToTstParse
 
         $failedParser = null;
 
+        /*
         if( !$cursor->match("[") )
         {
             return false;
         }
+        */
         
         // $cursor will be update as the parser continues
         $this->fetch = $this->parser->createArrayFetch( clone $this->startCursor, $cursor );

@@ -70,7 +70,7 @@ class ezcTemplateArrayFetchOperatorAstNode extends ezcTemplateOperatorAstNode
             }
         }
 
-        throw new Exception ("Typehint failure");
+        throw new ezcTemplateTypeHintException();
     }
  
 

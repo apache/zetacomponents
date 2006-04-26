@@ -334,6 +334,19 @@ class ezcTemplateParser
     }
 
     /**
+     * Creates an array append.
+     *
+     * @param ezcTemplateCursor $start The starting point of the element.
+     * @param ezcTemplateCursor $end The ending point of the element.
+     * @return ezcTemplateVariableTstNode
+     */
+    public function createArrayAppend( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    {
+        return new ezcTemplateArrayAppendOperatorTstNode( $this->source, $start, $end );
+    }
+
+
+    /**
      * Creats a new array range operator.
      */
     public function createArrayRangeOperator( ezcTemplateCursor $start, ezcTemplateCursor $end )

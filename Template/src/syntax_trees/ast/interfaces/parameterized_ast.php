@@ -107,7 +107,7 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
 
                 if( !( $this->typeHint & self::TYPE_VALUE  ) )
                 {
-                    throw new Exception ("Typehint failure");
+                    throw new ezcTemplateTypeHintException();
                 }
             }
         }

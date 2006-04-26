@@ -133,7 +133,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_OPERAND );
             }
         }
-        elseif( $type = $this->parseOperand( $cursor ) ) // Only an operand?
+        elseif( $type = $this->parseOperand( $cursor, array(), true, true) ) // Only an operand?
         {
             if( $type == "Variable" )
             {
@@ -209,7 +209,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         return $this->parseOptionalType( $name ) && ( sizeof( $allowedTypes ) == 0  || in_array( $name, $allowedTypes )  );
     }
 
-    protected function parseOperand( $cursor, $allowedTypes = array(), $allowPostModification = true )
+    protected function parseOperand( $cursor, $allowedTypes = array(), $allowPostModification = true, $allowArrayAppend = false )
     {
         $parsedType = false;
         if ( $this->canParseType( 'Literal', $allowedTypes ) )
@@ -227,7 +227,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
             $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );
 
-            if( $this->parseArrayFetch( $cursor ) )
+            if( $this->parseArrayFetch( $cursor, $allowArrayAppend ) )
             {
                 $this->findNextElement();
             }
@@ -410,25 +410,34 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         }
 
 
-        protected function parseArrayFetch( $cursor )
+        protected function parseArrayFetch( $cursor, $allowArrayAppend = false )
         {
             // Try the special array fetch operator
             $operator = null;
-            if ( $cursor->current() == '[' )
+            if ( $cursor->match('[') )
             {
-                $operatorStartCursor = clone $cursor;
-                if ( !$this->parseRequiredType( 'ArrayFetch' ) )
-                {
-                    return false;
-                }
-
                 $this->findNextElement();
-                if( !$cursor->match("]") )
-                {
-                    throw new ezcTemplateSourceToTstParserException( $this, $cursor, "Expect closing ']' in expression");
-                }
                 
-                $operator = $this->lastParser->fetch;
+                if( $allowArrayAppend && $cursor->match("]") )
+                {
+                    $operator = $this->parser->createArrayAppend( $this->startCursor, $cursor );
+                }
+                else
+                {
+                    $operatorStartCursor = clone $cursor;
+                    if ( !$this->parseRequiredType( 'ArrayFetch' ) )
+                    {
+                        return false;
+                    }
+
+                    $this->findNextElement();
+                    if( !$cursor->match("]") )
+                    {
+                        throw new ezcTemplateSourceToTstParserException( $this, $cursor, "Expect closing ']' in expression");
+                    }
+                    
+                    $operator = $this->lastParser->fetch;
+                }
 
                 // If the min precedence has been reached we immediately stop parsing
                 // and return a successful parse result
@@ -442,7 +451,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
                 $this->lastCursor = clone $cursor;
                 return true;
-                //continue;
             }
 
             return false;

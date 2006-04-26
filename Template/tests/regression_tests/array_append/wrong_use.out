@@ -1,0 +1,4 @@
+mock:4:3: Unexpected array append '[]'. Did you forget an expresssion between the brackets?
+
+{$a[] . $b = 
+   ^

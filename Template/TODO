@@ -24,12 +24,26 @@ To differentiate between other template engines, we rely on the path and templat
 Newer versions of this template engine should be compatible with the older templates. 
 
 
+Reducing the amount of private variables in tst_to_ast_transformer.php
+----------------------------------------------------------------------
+TstToAstTransformer is a visitor pattern. In some cases information needs to be 
+shared among several nodes (functions in the visitor pattern). Private variables
+are used in that case. 
+
+Maybe it is possible to reduce this amount of parameters. Having some kind of history of the previous
+nodes will help.
+
+
+
+
+
+
+
 
 Other
 -----
 
 - Set the private classes to '@access private'.
-- ArrayAppend {$a[] = 5}, needs to be fixed.
 - Fix error message exceptions.
 - Implement typehints for the functions.
 

@@ -73,6 +73,7 @@ return array(
              "ezcTemplateLoopTstNode" => "Template/syntax_trees/tst/nodes/loop.php",
              "ezcTemplatePropertyFetchOperatorTstNode" => "Template/syntax_trees/tst/nodes/property_fetch_operator.php",
              "ezcTemplateArrayFetchOperatorTstNode" => "Template/syntax_trees/tst/nodes/array_fetch_operator.php",
+             "ezcTemplateArrayAppendOperatorTstNode" => "Template/syntax_trees/tst/nodes/array_append_operator.php",
              "ezcTemplatePlusOperatorTstNode" => "Template/syntax_trees/tst/nodes/plus_operator.php",
              "ezcTemplateMinusOperatorTstNode" => "Template/syntax_trees/tst/nodes/minus_operator.php",
              "ezcTemplateConcatOperatorTstNode" => "Template/syntax_trees/tst/nodes/concat_operator.php",
@@ -173,7 +174,7 @@ return array(
 
              // Operators
              "ezcTemplateArrayFetchOperatorAstNode" => "Template/syntax_trees/ast/nodes/operators/array_fetch_operator.php",
-             "ezcTemplateArrayAppendOperatorAstNode" => "Template/syntax_trees/ast/nodes/operators/array_append_operator.php",
+             "ezcTemplateArrayAppendOperatorAstNode" => "Template/syntax_trees/ast/nodes/operators/array_append_assignment_operator.php",
              "ezcTemplateAssignmentOperatorAstNode" => "Template/syntax_trees/ast/nodes/operators/assignment_operator.php",
              "ezcTemplateObjectAccessOperatorAstNode" => "Template/syntax_trees/ast/nodes/operators/object_access_operator.php",
              "ezcTemplateConcatAssignmentOperatorAstNode" => "Template/syntax_trees/ast/nodes/operators/concat_assignment_operator.php",
@@ -294,6 +295,7 @@ return array(
              "ezcTemplateFileFailedRenameException" => "Template/exceptions/file_failed_rename_exception.php",
              "ezcTemplateParseException" => "Template/exceptions/parse_exception.php",
              "ezcTemplateSourceToTstParserException" => "Template/exceptions/element_parser_exception.php",
+             "ezcTemplateTypeHintException" => "Template/exceptions/typehint_exception.php",
 
              "ezcTemplateTstNodeException" => "Template/exceptions/element_exception.php",
              "ezcTemplateParserException" => "Template/exceptions/parser_exception.php",

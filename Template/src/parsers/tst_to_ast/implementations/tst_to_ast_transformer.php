@@ -43,6 +43,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     private $noProperty = false;
 
     private $isFunctionFromObject = false;
+    private $allowArrayAppend = false;
 
     public function __construct( $parser )
     {
@@ -70,6 +71,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     private function appendOperatorRecursively( ezcTemplateOperatorTstNode $type, ezcTemplateOperatorAstNode $astNode, $currentParameterNumber = 0)
     {
+        $this->allowArrayAppend = false;
         $node = clone( $astNode );
         
         try
@@ -94,7 +96,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             }
 
         }
-        catch( Exception $e )
+        catch( ezcTemplateTypeHintException $e )
         {
             throw new ezcTemplateParserException( $type->source, $type->endCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VALUE );
         }
@@ -123,6 +125,8 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     private function createBinaryOperatorAstNode( $type, ezcTemplateOperatorAstNode $astNode, $addParenthesis = true )
     {
+        $this->allowArrayAppend =false;
+
         $astNode->appendParameter( $type->parameters[0]->accept( $this ) );
         $astNode->appendParameter( $type->parameters[1]->accept( $this ) );
         return ( $addParenthesis ?  new ezcTemplateParenthesisAstNode( $astNode ) : $astNode );
@@ -654,6 +658,16 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return $this->createBinaryOperatorAstNode( $type, new ezcTemplateArrayFetchOperatorAstNode() );
     }
 
+    public function visitArrayAppendOperatorTstNode( ezcTemplateArrayAppendOperatorTstNode $type )
+    {
+        if( !$this->allowArrayAppend )
+        {
+            throw new ezcTemplateParserException( $type->source, $type->parameters[0]->endCursor, $type->parameters[0]->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_ARRAY_APPEND);
+        }
+
+        return new ezcTemplateArrayAppendOperatorAstNode( $type->parameters[0]->accept($this) );
+    }
+
     // return ezcTemplateTstNode;
     public function visitPlusOperatorTstNode( ezcTemplatePlusOperatorTstNode $type )
     {
@@ -741,7 +755,11 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         $this->isCycle = false;
         $astNode = new ezcTemplateAssignmentOperatorAstNode(); 
-        $astNode->appendParameter( $type->parameters[0]->accept( $this ) ); // Set cycle.
+        $this->previousType = $astNode;
+
+        $this->allowArrayAppend = true;
+        $astNode->appendParameter( $type->parameters[0]->accept( $this ) ); // Set cycle, if it's a cycle.
+        $this->allowArrayAppend = false;
         $assignment = $type->parameters[1]->accept( $this );
 
         if( $this->isCycle && !($assignment->typeHint & ezcTemplateAstNode::TYPE_ARRAY) )

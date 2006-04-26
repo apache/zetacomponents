@@ -1,12 +1,4 @@
-mock:2:12: Expression expected
+mock:2:12: Unexpected array append '[]'. Did you forget an expresssion between the brackets?
 
 {var $b = $a[] + 2}
-             ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateDeclarationBlockSourceToTstParser
-   -> ezcTemplateExpressionSourceToTstParser
-    -> ezcTemplateArrayFetchSourceToTstParser
-     -> ezcTemplateExpressionSourceToTstParser
+            ^

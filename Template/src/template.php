@@ -34,10 +34,6 @@
  * echo $ezt->process( "cube.ezt" );
  * </code>
  *
- * More advanced variable management is possible with the functions:
- * setVariable(), getVariable(), removeVariable(), hasVariable() and
- * resetVariables().
- *
  * Accessing the source template or compiled file is also possible with the use
  * of the findSource() and findCompiled() functions. They will return objects
  * which can be further accessed.
@@ -49,41 +45,15 @@
 class ezcTemplate
 {
     /**
-     * Controls whether debugging should be part of the processed output.
-     */
-    //public $outputDebugEnabled = false;
-
-    /**
-     * Controls whether debugging info the compiled code should be added.
-     */
-    //public $compiledDebugEnabled = false;
-
-    /**
-     * The configuration object which handles autoloaders and resource locators.
-     *
-     * @var ezcTemplateConfiguration
-     * @note __get/__set property
-     */
-    // public $configuration;
-
-    /**
-     * The default output context used when parsing and executing templates.
-     *
-     * @var ezcTemplateContext
-     * @note __get/__set property
-     */
-    // public $defaultContext;
-
-    /**
      * An array containing the properties of this object:
-     * configuration - The configuration object which handles autoloaders and resource locators.
-     *
-     * defaultContext - The default output context used when parsing and executing templates.
      */
     private $properties = array( 'configuration' => null,
                                  'send' => null,
                                  'receive' => null, 
                                  'compiledTemplatePath' => null,
+                                 'tstTree' => false,
+                                 'astTree' =>  false,
+                                 'output' => "",
                                );
 
     /**
