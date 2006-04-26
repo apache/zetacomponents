@@ -8,10 +8,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- *
- * @todo This class only works as a stub for now, the actual interface
- *       and implementation will be refined when the transformation and
- *       parser code is added.
+ * The ezcTemplateXhtmlContext class escapes special HTML characters in the 
+ * output. 
  *
  * @package Template
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
@@ -22,34 +20,32 @@ class ezcTemplateXhtmlContext implements ezcTemplateOutputContext
 {
 
     /**
-     *
+     * Does nothing.
      */
     public function cleanupWhitespace()
     {
     }
 
     /**
-     *
+     * Does nothing.
      */
     public function cleanupEol()
     {
     }
 
     /**
-     *
+     * Does nothing.
      */
     public function indent()
     {
     }
 
     /**
-     *
+     * Escapes special HTML characters in the output. 
      */
     public function transformOutput( ezcTemplateAstNode $node )
     {
-
         return new ezcTemplateFunctionCallAstNode( "htmlspecialchars", array( $node ) );
-        //return new ezcTemplateFunctionCallAstNode( "ezcTemplateXhtmlContext::addTags", array( $node ) ); 
     }
 
     /**
@@ -59,6 +55,5 @@ class ezcTemplateXhtmlContext implements ezcTemplateOutputContext
     {
         return 'xhtml';
     }
-
 }
 ?>

@@ -65,6 +65,8 @@ class ezcTemplate
 {
     /**
      * An array containing the properties of this object:
+     *
+     * @var array(string=>mixed)
      */
     private $properties = array( 'configuration' => null,
                                  'send' => null,
@@ -76,7 +78,21 @@ class ezcTemplate
                                );
 
     /**
-     * Property get
+     * Returns the value of the property $name.
+     *
+     * The properties that can be retrieved are:
+     * 
+     * - ezcTemplateVariableCollection send     : Contains the variables that are send to the template.
+     * - ezcTemplateVariableCollection receive  : Contains the variables that are returned by the template.
+     * - ezcTemplateConfiguration configuration : Contains the template configuration.
+     * - string output                          : The output of the processed template.
+     * - string compiledTemplatePath            : The path of the comiled template.
+     * - tstTree                                : The generated tstTree (debug).
+     * - astTree                                : The generated astTree (debug).
+     * 
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @param string $name
+     * @return mixed
      */
     public function __get( $name )
     {
@@ -107,7 +123,7 @@ class ezcTemplate
     }
 
     /**
-     * Property isset
+     * Returns true if the property $name is set, otherwise false.
      */
     public function __isset( $name )
     {
@@ -127,14 +143,23 @@ class ezcTemplate
     }
 
     /**
-     * Property set
+     * Sets the property $name to $value.
+     *
+     * The properties that can be set are:
+     * 
+     * - ezcTemplateVariableCollection send     : Contains the variables that are send to the template.
+     * - ezcTemplateConfiguration configuration : Contains the template configuration.
+     * 
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @param string $name
+     * @param mixed $value
+     * @return void
      */
     public function __set( $name, $value )
     {
         switch( $name )
         {
             case 'send': 
-            case 'receive':
                 if( !$value instanceof ezcTemplateVariableCollection )
                 {
                     throw new ezcBaseValueException( $name, $value, 'ezcTemplateVariableCollection' );
@@ -154,6 +179,7 @@ class ezcTemplate
             case 'astTree':
             case 'compiledTemplatePath':
             case 'output':
+            case 'receive':
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
 
             default:
@@ -171,7 +197,7 @@ class ezcTemplate
     }
 
     /**
-     * Processes the specified template source and returns a string.
+     * Processes the specified template source and returns the output string.
      *
      * @note The first time a template is accessed it needs to be compiled so the
      * execution time will be higher than subsequent calls.
@@ -248,7 +274,7 @@ class ezcTemplate
     }
 
     /**
-     * Generates a unique hash from the current options which
+     * Generates a unique hash from the current options.
      */
     public function generateOptionHash()
     {

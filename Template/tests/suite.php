@@ -63,7 +63,7 @@ class ezcTemplateSuite extends ezcTestSuite
         $this->addTest( ezcTemplateFileExceptionTest::suite() );
 
         $this->addTest( ezcTemplateVariableTest::suite() );
-        //$this->addTest( ezcTemplateVariableCollectionTest::suite() );
+        $this->addTest( ezcTemplateVariableCollectionTest::suite() );
 
         $this->addTest( ezcTemplateLocationTest::suite() );
         $this->addTest( ezcTemplateExceptionTest::suite() );

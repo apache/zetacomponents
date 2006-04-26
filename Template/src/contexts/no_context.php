@@ -1,13 +1,43 @@
 <?php
+/**
+ * File containing the ezcTemplateNoContext class
+ *
+ * @package Template
+ * @version //autogen//
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * The ezcTemplateNoContext class doesn't change the output. This makes
+ * testing more easy.
+ *
+ * @package Template
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogen//
+ */
 
 class ezcTemplateNoContext implements ezcTemplateOutputContext
 {
+    /**
+     * Does nothing.
+     */
     public function cleanupWhitespace() { }
 
+    /**
+     * Does nothing.
+     */
     public function cleanupEol() { }
 
+    /**
+     * Does nothing.
+     */
     public function indent() { }
 
+    /**
+     *  Doesn't change the output, and returns exactly the same node.
+     */
     public function transformOutput( ezcTemplateAstNode $node )
     {
         return  $node; 
