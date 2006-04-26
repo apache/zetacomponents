@@ -58,12 +58,12 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     public function saveToDb( ezcDbHandler $db, ezcDbSchema $dbSchema )
     {
-        $db->query( "BEGIN" );
+        $db->beginTransaction();
         foreach ( $this->convertToDDL( $dbSchema ) as $query )
         {
             $db->query( $query );
         }
-        $db->query( "COMMIT" );
+        $db->commit();
     }
 
     /**
