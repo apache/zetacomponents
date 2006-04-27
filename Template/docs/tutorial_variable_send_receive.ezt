@@ -1,0 +1,5 @@
+{use $quote}
+{$quote}
+
+{var $number = 6}
+{return $number}
