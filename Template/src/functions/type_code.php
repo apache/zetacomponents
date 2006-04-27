@@ -3,6 +3,10 @@
 /**
  * @access private
 */
+
+/**
+ * @access private
+*/
 class ezcTemplateType
 {
     /**

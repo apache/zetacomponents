@@ -10,6 +10,7 @@
  */
 /**
  *
+ * @access private
  */
 abstract class ezcTemplateBinaryOperatorAstNode extends ezcTemplateOperatorAstNode
 {

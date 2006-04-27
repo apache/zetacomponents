@@ -3,6 +3,9 @@
  * @access private
  */
 
+/**
+ * @access private
+ */
 class ezcTemplateArray
 {
 

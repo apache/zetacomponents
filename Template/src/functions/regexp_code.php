@@ -3,6 +3,10 @@
 /**
  * @access private
 */
+
+/**
+ * @access private
+*/
 class ezcTemplateRegExp
 {
     //preg_match( $reg, $s, $matches, $flags [, $offset] )

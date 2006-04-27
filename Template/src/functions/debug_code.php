@@ -3,6 +3,10 @@
 /**
  * @access private
 */
+
+/**
+ * @access private
+*/
 class ezcTemplateDebug
 {
     public static function debug_dump( $var )

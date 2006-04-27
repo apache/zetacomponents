@@ -3,6 +3,10 @@
 /**
  * @access private
 */
+
+/**
+ * @access private
+*/
 class ezcTemplateString
 {
     public static function str_paragraph_count( $string )
