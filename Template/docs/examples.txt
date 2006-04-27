@@ -1,5 +1,7 @@
-Examples
-========
+eZ components - Template Examples
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
 
 Text
 ----

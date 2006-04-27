@@ -1,5 +1,7 @@
-EBNF
-====
+eZ components - Template EBNF
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
 
 Program
 -------
