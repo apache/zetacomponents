@@ -209,7 +209,7 @@ class ezcTemplate
      */
     public function process( $location, ezcTemplateConfiguration $config = null )
     {
-        if( $config == null )
+        if( $config === null )
         {
             $config = $this->configuration;
         }
@@ -222,7 +222,7 @@ class ezcTemplate
         $stream = $location;
         if( $stream[0] != "/" ) // Is it a relative path?
         {
-            $stream = $this->configuration->templatePath ."/". $stream;
+            $stream = $config->templatePath ."/". $stream;
         }
 
         $source = new ezcTemplateSourceCode( $stream, $stream );
