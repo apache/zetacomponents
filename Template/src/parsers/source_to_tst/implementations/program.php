@@ -55,14 +55,14 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
         while ( !$cursor->atEnd() )
         {
             // Find the first block
-            $bracePosition = $cursor->findPosition( "{" );
+            $bracePosition = $cursor->findPosition( "{", true );
             if ( $bracePosition === false )
             {
                 $cursor->gotoEnd();
                 // This will cause handleSuccessfulResult() to be called
                 return true;
             }
-
+/*
             $tagCursor = clone $cursor;
             $tagCursor->gotoPosition( $bracePosition - 1 );
             if ( $tagCursor->current() == "\\" )
@@ -71,8 +71,12 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
                 $cursor->copy( $tagCursor );
                 $cursor->advance( 2 );
                 unset( $tagCursor );
+                echo ("WWWHOOOT");
+                echo ($cursor->current(2));
                 continue;
             }
+            */
+            
 
             // Reached a block {...}
             $cursor->gotoPosition( $bracePosition );

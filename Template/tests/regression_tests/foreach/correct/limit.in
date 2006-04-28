@@ -8,6 +8,6 @@
 
 {foreach 1..10 as $i limit 2}
 	{foreach 1..10 as $k limit 5}
-		$i : $k
+		{"$i : $k"}
 	{/foreach}
 {/foreach}

@@ -328,11 +328,18 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitTextBlockTstNode( ezcTemplateTextBlockTstNode $type )
     {
-        //$echo = new ezcTemplateOutputAstNode( $type->text );
-        return $this->assignToOutput( new ezcTemplateLiteralAstNode( $type->text ) );
+        /*
+        $text = "asn";
 
-        //$echo = new ezcTemplateEchoAstNode( array( new ezcTemplateLiteralAstNode( $type->text ) ) );
-        //return $echo;
+        var_dump (preg_replace( "#((?:ss)*)sn#", "\1sn", $text ) );
+
+        */
+
+        $in = array( "\\0", "\\t", "\\\\n","\\n", "\\r", '$' );
+        $out = array( "\\\\0", "\\\\t", "\\n", "\\\\n", "\\\\r", "\\".'$' );
+
+        $text = str_replace($in, $out, $type->text );
+        return $this->assignToOutput( new ezcTemplateLiteralAstNode( $text ) );
     }
 
     public function visitFunctionCallTstNode( ezcTemplateFunctionCallTstNode $type )

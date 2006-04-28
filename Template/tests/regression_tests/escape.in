@@ -1,0 +1,15 @@
+{var $a, $b, $c, $d, $e}
+Hello $world$ 
+\{var $a = 2}
+\{var $a = 2\}
+
+\\{$b = "set!"}
+
+\\\{$c = "Not set"}
+
+\\\\{$d = "SET!"}
+
+\\\\\{$e = "NOT SET!"}
+
+$a, $c
+{"$a, $b, $c, $d, $e "}

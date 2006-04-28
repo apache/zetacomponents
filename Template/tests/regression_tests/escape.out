@@ -1,0 +1,12 @@
+Hello $world$ 
+{var $a = 2}
+{var $a = 2}
+
+\
+\{$c = "Not set"}
+
+\\
+\\{$e = "NOT SET!"}
+
+$a, $c
+, set!, , SET!,  

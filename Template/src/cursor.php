@@ -284,8 +284,24 @@ class ezcTemplateCursor
         $position = $this->position;
         while ( ( $position = strpos( $this->text, $searchString, $position ) ) !== false )
         {
+            
+            $escapedPos = 1; 
+            while( $position - $escapedPos >= 0 && $this->text[$position - $escapedPos] == "\\" )
+            {
+                $escapedPos++;
+            }
+
+            if( $escapedPos % 2 == 1 )
+            {
+                break;
+            }
+
+          /* 
+            
             if ( $this->text[$position-1] != "\\" )
                 break;
+                */
+
             ++$position;
         }
         return $position;
