@@ -241,6 +241,56 @@ class ezcBaseTest extends ezcTestCase
         }
     }
 
+    public function testExrtaDirNotFoundException()
+    {
+        try
+        {
+            ezcBase::addAutoloadDirectory( 'wrongDir/' );
+        }
+        catch ( ezcBaseFileNotFoundException $e )
+        {
+            $this->assertEquals( "The file <wrongDir/> could not be found.", $e->getMessage() );
+        }
+    }
+
+    public function testExrtaDirBaseNotFoundException()
+    {
+        try
+        {
+            ezcBase::addAutoloadDirectory( '../../Archive/src/', 'wrongBase/' );
+        }
+        catch ( ezcBaseFileNotFoundException $e )
+        {
+            $this->assertEquals( "The file <../../Archive/src/wrongBase/> could not be found.", $e->getMessage() );
+        }
+    }
+    
+    public function testBaseAddAndGetAutoloadDirs()
+    {
+        ezcBase::addAutoloadDirectory( '../../Archive/src/' );
+        ezcBase::addAutoloadDirectory( '../../SystemInformation/src/' );
+        ezcBase::addAutoloadDirectory( '../../Archive/src/' );
+        ezcBase::addAutoloadDirectory( '../../SystemInformation/src/' );
+        ezcBase::addAutoloadDirectory( '../../SystemInformation/src/' );
+        $resultArray = ezcBase::getAutoloadDirectories();
+
+        if ( count($resultArray) != 3 ) 
+        {
+            $this->fail( "Duplicating or missing extra autoload dirs while adding." );
+        }
+
+        if ( !isset( $resultArray['packageDir'] ) ) 
+        {
+           $this->fail( "No packageDir found in result of getAutoloadDirectories()" );
+        }
+
+        if ( !isset( $resultArray['../../Archive/src/'] ) || 
+             !isset( $resultArray['../../SystemInformation/src/'] ) ) 
+        {
+            $this->fail( "Extra autoload dirs are added incorrectly" );
+        }
+    }
+
     public static function suite()
     {
         return new ezcTestSuite("ezcBaseTest");
