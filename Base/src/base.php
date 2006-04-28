@@ -35,10 +35,10 @@ class ezcBase
     protected static $packageDir;
 
     /**
-     * @var array of two strings arrays
-     * The paths to directories where additional
-     * autoload files could be found. 
-     * Stores set of arrays that looks like 
+     * @var array of two-strings arrays.
+     * Stores info with additional paths where autoload files
+     * and classes for autoloading could be found.
+     * Each item of $autoloadExtraDirs looks like 
      * array( autoloadFileDir, baseDir ).
      */
     protected static $autoloadExtraDirs = array();
@@ -312,11 +312,23 @@ class ezcBase
      * Naming of autoload file should follow the rules for naming autoload 
      * files for ezComponents packages.
      * 
-     * Paths in parameters should have path delimiter at the end.
+     * Directory paths in parameters must have path delimiter at the end.
+     * 
+     * addAutoloadDirectory() should be called somewhere in code before external classes 
+     * will be used.
+     * Examlpe:
+     * Suppose there is code for class MyClass in myclass.php
+     * and there is myclass_autoload.php with content:<?php return array ( 'MyClass' => 'myclass.php' ); ?>
+     * Both these files located in Classes directory.
+     * Than using MyClass will look like:
+     * <code>
+     * ezcBase::addAutoloadDirectory( 'Classes/', './' );
+     * $myVar = new MyClass();
+     * </code>
      * 
      * @throw ezcBaseFileNotFoundException if $autoloadDirPath or $basePath not exist.
      * @param string $autoloadDirPath path to the extra autoload directory related to $basePath
-     * @param string $basePath base path 
+     * @param string $basePath prefix that will be appended to each path in *_autoload.php 
      * @return boolean true if directory appended successfully, false otherwise.
      */
     public static function addAutoloadDirectory( $autoloadDirPath, $basePath = '' )
