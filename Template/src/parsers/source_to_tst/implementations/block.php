@@ -90,7 +90,7 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
         // $cursor object in $block will be updated as the parser continues
         $this->block = $this->parser->createBlock( $this->startCursor, $cursor );
 
-        if ( $cursor->current() == '}' )
+        if ( $cursor->match( '}' ) )
         {
             // Empty block found, this is allowed but the returned block
             // will be ignored when compiling

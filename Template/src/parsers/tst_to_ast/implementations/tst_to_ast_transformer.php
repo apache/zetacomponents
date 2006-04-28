@@ -271,6 +271,11 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitOutputBlockTstNode( ezcTemplateOutputBlockTstNode $type )
     {
+        if( $type->expressionRoot === null ) // The output block may be empty.
+        {
+            return new ezcTemplateNopAstNode();  
+        }
+
         $expression = $type->expressionRoot->accept( $this ); 
         $output = new ezcTemplateOutputAstNode( $expression );
 

@@ -18,7 +18,7 @@
  * @version //autogen//
  * @access private
  */
-class ezcTemplateNopAstNode extends ezcTemplateAstNode
+class ezcTemplateNopAstNode extends ezcTemplateStatementAstNode
 {
     /**
      */
