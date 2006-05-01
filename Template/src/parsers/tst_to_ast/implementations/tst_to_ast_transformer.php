@@ -253,7 +253,11 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitLiteralBlockTstNode( ezcTemplateLiteralBlockTstNode $type )
     {
-        return $this->assignToOutput( new ezcTemplateLiteralAstNode( $type->text ) );
+        $in = array( "\\", "\$" );
+        $out = array( "\\\\", "\\\$" );
+        $text = str_replace( $in, $out, $type->text);
+
+        return $this->assignToOutput( new ezcTemplateLiteralAstNode( $text ) );
     }
 
     public function visitEmptyBlockTstNode( ezcTemplateEmptyBlockTstNode $type )
