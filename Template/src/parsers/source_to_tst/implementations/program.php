@@ -62,21 +62,6 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
                 // This will cause handleSuccessfulResult() to be called
                 return true;
             }
-/*
-            $tagCursor = clone $cursor;
-            $tagCursor->gotoPosition( $bracePosition - 1 );
-            if ( $tagCursor->current() == "\\" )
-            {
-                // This means the tag is escaped and should be treated as text.
-                $cursor->copy( $tagCursor );
-                $cursor->advance( 2 );
-                unset( $tagCursor );
-                echo ("WWWHOOOT");
-                echo ($cursor->current(2));
-                continue;
-            }
-            */
-            
 
             // Reached a block {...}
             $cursor->gotoPosition( $bracePosition );

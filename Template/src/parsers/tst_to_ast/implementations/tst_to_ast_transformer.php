@@ -328,18 +328,38 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitTextBlockTstNode( ezcTemplateTextBlockTstNode $type )
     {
-        /*
-        $text = "asn";
+        // Add an extra slash if an odd amount of slashes is found.
+        $text = $type->text;
+        $newText = "";
 
-        var_dump (preg_replace( "#((?:ss)*)sn#", "\1sn", $text ) );
+        $pos = 0;
+        $oldPos = $pos;
 
-        */
+        while( ($pos = strpos( $text, "\\", $pos ) ) !== false )
+        {
+                $odd = 0;
+                while( $pos < strlen( $text ) && $text[$pos] == "\\" )
+                {
+                    $odd = 1 - $odd; 
+                    $pos++;
+                }
 
-        $in = array( "\\0", "\\t", "\\\\n","\\n", "\\r", '$' );
-        $out = array( "\\\\0", "\\\\t", "\\n", "\\\\n", "\\\\r", "\\".'$' );
+                $newText .= substr( $text, $oldPos, ( $pos - $oldPos ) );
 
-        $text = str_replace($in, $out, $type->text );
-        return $this->assignToOutput( new ezcTemplateLiteralAstNode( $text ) );
+                if ($odd )
+                {
+                    $newText .= "\\";
+                }
+
+                $oldPos = $pos;
+        }
+
+        $newText .= substr( $text, $oldPos );
+
+        // Also replace the $ for the \$
+        $newText = str_replace( "\$", "\\\$", $newText );
+
+        return $this->assignToOutput( new ezcTemplateLiteralAstNode( $newText ) );
     }
 
     public function visitFunctionCallTstNode( ezcTemplateFunctionCallTstNode $type )
