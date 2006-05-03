@@ -109,14 +109,14 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
     {
         ezcDbSchemaHandlerManager::addReader( 'test1', 'TestSchemaReaderImplementation' );
         $formats = ezcDbSchemaHandlerManager::getSupportedFormats();
-        self::assertEquals( array( 'array', 'mysql', 'xml', 'persistent', 'test1' ), $formats );
+        self::assertEquals( array( 'array', 'mysql', 'xml', 'test1', 'persistent' ), $formats );
     }
 
     public function testSupportedFormats3()
     {
         ezcDbSchemaHandlerManager::addWriter( 'test1', 'TestSchemaWriterImplementation' );
         $formats = ezcDbSchemaHandlerManager::getSupportedFormats();
-        self::assertEquals( array( 'array', 'mysql', 'xml', 'persistent', 'test1' ), $formats );
+        self::assertEquals( array( 'array', 'mysql', 'xml', 'test1', 'persistent' ), $formats );
     }
 
     public function testSupportedFormats4()
@@ -124,7 +124,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         ezcDbSchemaHandlerManager::addReader( 'test1', 'TestSchemaReaderImplementation' );
         ezcDbSchemaHandlerManager::addWriter( 'test1', 'TestSchemaWriterImplementation' );
         $formats = ezcDbSchemaHandlerManager::getSupportedFormats();
-        self::assertEquals( array( 'array', 'mysql', 'xml', 'persistent', 'test1' ), $formats );
+        self::assertEquals( array( 'array', 'mysql', 'xml', 'test1', 'persistent' ), $formats );
     }
 
     public function testSupportedDiffFormats1()

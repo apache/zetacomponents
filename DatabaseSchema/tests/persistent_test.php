@@ -83,14 +83,6 @@ class ezcDatabaseSchemaPersistentTest extends ezcTestCase
         $this->fail( "Expected ezcBaseFileException not thrown on saving PersistentObject definitions to a non-directory." );
     }
 
-    public function testPersistentReading()
-    {
-        $schema = ezcDbSchema::createFromFile( 'persistent', $this->testFilesDir . '/persistent' );
-        $fakeSchema = include( $this->testFilesDir . '/persistent_schema.php' );
-
-        $this->assertEquals( $fakeSchema, $schema->getSchema(), "Schema not correctly generated from PersistentObject definition." );
-    }
-
     public static function suite()
     {
         return new ezcTestSuite( 'ezcDatabaseSchemaPersistentTest' );

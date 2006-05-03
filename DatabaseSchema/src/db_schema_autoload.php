@@ -40,7 +40,6 @@ return array(
     'ezcDbSchemaXmlWriter'              => 'DatabaseSchema/handlers/xml/writer.php',
     'XMLWriter'                         => 'DatabaseSchema/handlers/xml/xmlwritersubstitute.php',
     'ezcDbSchemaPersistentWriter'       => 'DatabaseSchema/handlers/persistent/writer.php',
-    'ezcDbSchemaPersistentReader'       => 'DatabaseSchema/handlers/persistent/reader.php',
     'ezcDbSchemaMysqlReader'            => 'DatabaseSchema/handlers/mysql/reader.php',
     'ezcDbSchemaMysqlWriter'            => 'DatabaseSchema/handlers/mysql/writer.php',
 

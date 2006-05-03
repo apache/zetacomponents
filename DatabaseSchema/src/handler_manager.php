@@ -33,7 +33,6 @@ class ezcDbSchemaHandlerManager
 //        'pgsql' => 'ezcDbSchemaPgsqlReader',
 //        'sqlite' => 'ezcDbSchemaSqliteReader',
         'xml' => 'ezcDbSchemaXmlReader',
-        'persistent' => 'ezcDbSchemaPersistentReader',
     );
 
     /**
@@ -154,7 +153,7 @@ class ezcDbSchemaHandlerManager
      */
     static public function getSupportedFormats()
     {
-        return array_keys( self::$readHandlers ) + array_keys( self::$writeHandlers );
+        return array_keys( array_merge ( self::$readHandlers, self::$writeHandlers ) );
     }
 
     /**
