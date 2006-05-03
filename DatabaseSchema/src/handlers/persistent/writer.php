@@ -15,7 +15,7 @@
  * @package DatabaseSchema
  * @version //autogentag//
  */
-class ezcDbschemaPosWriter implements ezcDbSchemaFileWriter
+class ezcDbschemaPersistentWriter implements ezcDbSchemaFileWriter
 {
     
     /**
@@ -131,7 +131,7 @@ class ezcDbschemaPosWriter implements ezcDbSchemaFileWriter
      * This method writes the PersistentObject definition for a single database
      * table. It creates a new file in the given directory, named in the format
      * <table_name>.php, writes the start of the definition to it and calls the
-     * @link ezcDbschemaPosWriter::writeField() method for each of the database
+     * @link ezcDbschemaPersistentWriter::writeField() method for each of the database
      * fields.
      *
      * The defition files always contain an object instance $def, which is 

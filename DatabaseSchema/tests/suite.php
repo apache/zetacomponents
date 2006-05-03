@@ -18,7 +18,7 @@ require_once 'mysql_test.php';
 require_once 'mysql_diff_test.php';
 require_once 'validator_test.php';
 require_once 'comparator_test.php';
-require_once 'pos_test.php';
+require_once 'persistent_test.php';
 
 /**
  * @package DatabaseSchema
@@ -41,7 +41,7 @@ class ezcDatabaseSchemaSuite extends ezcTestSuite
         $this->addTest( ezcDatabaseSchemaXmlDiffTest::suite() );
         $this->addTest( ezcDatabaseSchemaMysqlTest::suite() );
         $this->addTest( ezcDatabaseSchemaMysqlDiffTest::suite() );
-        $this->addTest( ezcDatabaseSchemaPosTest::suite() );
+        $this->addTest( ezcDatabaseSchemaPersistentTest::suite() );
 	}
 
     public static function suite()

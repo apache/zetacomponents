@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDbSchemaPosReader class.
+ * File containing the ezcDbSchemaPersistentReader class.
  *
  * @package DatabaseSchema
  * @version //autogentag//
@@ -14,7 +14,7 @@
  * @package DatabaseSchema
  * @version //autogentag//
  */
-class ezcDbSchemaPosReader implements ezcDbSchemaFileReader
+class ezcDbSchemaPersistentReader implements ezcDbSchemaFileReader
 {
 
     private $schema;

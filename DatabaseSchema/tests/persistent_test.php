@@ -12,12 +12,12 @@
  * @package DatabaseSchema
  * @subpackage Tests
  */
-class ezcDatabaseSchemaPosTest extends ezcTestCase
+class ezcDatabaseSchemaPersistentTest extends ezcTestCase
 {
     public function setUp()
     {
         $this->testFilesDir = dirname( __FILE__ ) . '/testfiles';
-        $this->tempDir = $this->createTempDir( 'ezcDatabasePosTest' );
+        $this->tempDir = $this->createTempDir( 'ezcDatabasePersistentTest' );
     }
 
     public function tearDown()
@@ -31,12 +31,12 @@ class ezcDatabaseSchemaPosTest extends ezcTestCase
         return $schema;
     }
 
-    public function testPosGenerationSuccess()
+    public function testPersistentGenerationSuccess()
     {
         $schema = $this->getSchema();
-        $schema->writeToFile( 'pos', $this->tempDir );
+        $schema->writeToFile( 'persistent', $this->tempDir );
 
-        $d = dir( $this->testFilesDir . '/pos' );
+        $d = dir( $this->testFilesDir . '/persistent' );
         while ( ( $entry = $d->read() ) !== false )
         {
             if ( $entry == '.'|| $entry == '..' )
@@ -48,19 +48,19 @@ class ezcDatabaseSchemaPosTest extends ezcTestCase
                 $this->fail( "PersistentObject definition <{$entry}> not created!" );
             }
             $this->assertEquals( 
-                md5_file( $this->testFilesDir . '/pos/' . $entry ),
+                md5_file( $this->testFilesDir . '/persistent/' . $entry ),
                 md5_file( $this->tempDir . '/' . $entry ),
                 "PersistentObject definition for file <$entry> differs"
             );
         }
     }
 
-    public function testPosGenerationFailureMissingDir()
+    public function testPersistentGenerationFailureMissingDir()
     {
         $schema = $this->getSchema();
         try
         {
-            $schema->writeToFile( 'pos', $this->tempDir . '/unavailable' );
+            $schema->writeToFile( 'persistent', $this->tempDir . '/unavailable' );
         }
         catch ( ezcBaseFileException $e )
         {
@@ -69,12 +69,12 @@ class ezcDatabaseSchemaPosTest extends ezcTestCase
         $this->fail( "Expected ezcBaseFileException not thrown on saving PersistentObject definitions to non-existent directory." );
     }
 
-    public function testPosGenerationFailureNonDir()
+    public function testPersistentGenerationFailureNonDir()
     {
         $schema = $this->getSchema();
         try
         {
-            $schema->writeToFile( 'pos', __FILE__ );
+            $schema->writeToFile( 'persistent', __FILE__ );
         }
         catch ( ezcBaseFileException $e )
         {
@@ -83,17 +83,17 @@ class ezcDatabaseSchemaPosTest extends ezcTestCase
         $this->fail( "Expected ezcBaseFileException not thrown on saving PersistentObject definitions to a non-directory." );
     }
 
-    public function testPosReading()
+    public function testPersistentReading()
     {
-        $schema = ezcDbSchema::createFromFile( 'pos', $this->testFilesDir . '/pos' );
-        $fakeSchema = include( $this->testFilesDir . '/pos_schema.php' );
+        $schema = ezcDbSchema::createFromFile( 'persistent', $this->testFilesDir . '/persistent' );
+        $fakeSchema = include( $this->testFilesDir . '/persistent_schema.php' );
 
         $this->assertEquals( $fakeSchema, $schema->getSchema(), "Schema not correctly generated from PersistentObject definition." );
     }
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcDatabaseSchemaPosTest' );
+        return new ezcTestSuite( 'ezcDatabaseSchemaPersistentTest' );
     }
 }
 ?>
