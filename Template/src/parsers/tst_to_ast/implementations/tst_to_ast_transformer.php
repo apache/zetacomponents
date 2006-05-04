@@ -292,14 +292,74 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return  new ezcTemplateGenericStatementAstNode( $expression );
     }
 
+    /*
+    private function stripslashes( $text, $char )
+    {
+        $newText = "";
+
+        $prevPos = $pos = 0;
+
+        while( ( $pos = strpos( $text, $char, $prevPos ) ) !== false )
+        {
+            // count slashes.
+            $p = $pos - 1;
+            while( $p > 0 && $text[$p] == "\\" ) $p--;
+
+            $slashes = $pos - $p - 1;
+
+            $skipSlash = ($slashes % 2) ? 0 : 1;
+
+                $newText .= substr( $text, $prevPos, $p + $slashes - $skipSlash - $prevPos);
+                $newText .= $text[$pos];
+
+            $pos++;
+            $prevPos = $pos;
+        }
+
+        $newText .= substr( $text, $prevPos );
+        
+        return $newText;
+    }
+    */
+
+    private function addSlashes( $text, $char )
+    {
+        $newText = "";
+        $prevPos = $pos = 0;
+
+        while( ( $pos = strpos( $text, $char, $prevPos ) ) !== false )
+        {
+            $newText .= addslashes( substr( $text, $prevPos, $pos - $prevPos ) );
+            $newText .= $text[$pos];
+
+            $pos++;
+            $prevPos = $pos;
+        }
+
+        $newText .= addslashes( substr( $text, $prevPos ) );
+        return $newText;
+    }
+ 
     public function visitLiteralTstNode( ezcTemplateLiteralTstNode $type )
     {
-        // TODO REMOVE next line
+        if( $type->quoteType == ezcTemplateLiteralTstNode::SINGLE_QUOTE )
+        {
+            $text = str_replace( "\\\\", "\\", $type->value );
+            $text = str_replace( "\\'", "'", $text );
 
-        $newNode = new ezcTemplateLiteralAstNode( $type->value );
-        $newNode->typeHint = is_array( $type->value ) ? ezcTemplateAstNode::TYPE_ARRAY : ezcTemplateAstNode::TYPE_VALUE;
+            $text = $this->addSlashes( $text, "'" ); // add slashes except for things with a quote: '.
+        }
+        elseif( $type->quoteType == ezcTemplateLiteralTstNode::DOUBLE_QUOTE )
+        {
+            $text = str_replace( '\\"', '"', $type->value );
+        }
+        else
+        {
+            // Numbers
+            $text = $type->value;
+        }
 
-        return $newNode; 
+        return new ezcTemplateLiteralAstNode($text );
     }
 
     public function visitIdentifierTstNode( ezcTemplateIdentifierTstNode $type )

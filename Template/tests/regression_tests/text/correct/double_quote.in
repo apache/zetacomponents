@@ -1,0 +1,9 @@
+{"abcdefghijklmnopqrstuvwxyz"}
+{"\nnewline"}
+{"\ttab"}
+{"\\ \\\x \\\\x"}
+{"\" "}
+{"\\"}
+{"\\\" "}
+{"{}"}
+{"\\n"}

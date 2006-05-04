@@ -42,13 +42,15 @@ class ezcTemplateStringSourceToTstParser extends ezcTemplateLiteralSourceToTstPa
             if ( $char == '"' ||
                  $char == "'" )
             {
+                $string = $this->parser->createLiteral( $this->startCursor, $cursor );
+                $string->quoteType = ( $char == "'" ? ezcTemplateLiteralTstNode::SINGLE_QUOTE : ezcTemplateLiteralTstNode::DOUBLE_QUOTE );
+
                 $cursor->advance();
                 $this->status = self::PARSE_PARTIAL_SUCCESS;
 
                 $nextChar = $cursor->current();
                 if ( $nextChar === $char )
                 {
-                    $string = $this->parser->createLiteral( $this->startCursor, $cursor );
                     // We know it is an empty string, no need to extract
                     $str = "";
                     $string->value = $str;
@@ -60,17 +62,19 @@ class ezcTemplateStringSourceToTstParser extends ezcTemplateLiteralSourceToTstPa
                 }
                 else
                 {
-                    $matches = $cursor->pregMatchComplete( "#((?!\\\\)[^{$char}])+{$char}#" );
+                    // Match: 
+                    // ([^{$char}\\\\]|\A)   : Matches non quote ('"', "'"), non backslash (\), or does match the begin of the statement. 
+                    // (\\\\(\\\\|{$char}))* : Eat double slashes \\ and slash quotes: \' or \". 
+
+                    $matches = $cursor->pregMatchComplete( "#(?:([^{$char}\\\\]|\A)(\\\\(\\\\|{$char}))*){$char}#");
+
                     if ( $matches === false )
                         return false;
 
                     $cursor->advance( $matches[0][1] + strlen( $matches[0][0] ) );
-                    $string = $this->parser->createLiteral( $this->startCursor, $cursor );
                     $str = (string)$this->startCursor->subString( $cursor->position );
                     $str = substr( $str, 1, -1 );
-                    $str = str_replace( array( "\\\"", "\\\'", "\\\\" ),
-                                        array( '"',    "'",    "\\" ),
-                                        $str );
+
                     $string->value = $str;
                     $this->value = $string->value;
                     $this->element = $string;

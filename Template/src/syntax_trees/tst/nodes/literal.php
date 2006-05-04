@@ -29,6 +29,11 @@ class ezcTemplateLiteralTstNode extends ezcTemplateExpressionTstNode
      */
     public $value;
 
+    const SINGLE_QUOTE = 1;
+    const DOUBLE_QUOTE = 2;
+
+    public $quoteType;
+
     /**
      *
      * @param ezcTemplateSource $source
@@ -39,11 +44,12 @@ class ezcTemplateLiteralTstNode extends ezcTemplateExpressionTstNode
     {
         parent::__construct( $source, $start, $end );
         $this->value = null;
+        $this->quoteType = null;
     }
 
     public function getTreeProperties()
     {
-        return array( 'value' => $this->value );
+        return array( 'value' => $this->value, 'quoteType' => $this->quoteType );
     }
 }
 ?>
