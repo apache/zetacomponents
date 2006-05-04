@@ -15,7 +15,6 @@
  * parsed using type parsers and operator parsers. The end of the expression
  * is determined by calling atEnd() on the parent element parser.
  *
- * @todo The ?: operator does not work the same way as in PHP, must be fixed.
  * @todo The ! operator does not work the same way as in PHP, must be fixed.
  *
  * @package Template
@@ -292,7 +291,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 $operatorName = false;
 
                 $operatorSymbols = array( array( 1,
-                                                 array( '-', '!' ) ) );
+                                                 array( '-', '!', '+' ) ) );
                 foreach ( $operatorSymbols as $symbolEntry )
                 {
                     $chars = $cursor->current( $symbolEntry[0] );
@@ -305,6 +304,13 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
                 if ( $operatorName !== false )
                 {
+                    // Ignore the unary + operator.
+                    if( $operatorName == "+" ) 
+                    {
+                        $cursor->advance();
+                        return true;
+                    }
+
                     $operatorStartCursor = clone $cursor;
                     $cursor->advance( strlen( $operatorName ) );
                     if ( $this->parser->debug )

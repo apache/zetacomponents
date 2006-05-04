@@ -1,7 +1,7 @@
 mock:1:1: Expecting an operand without a pre- or post operator.
 
 {false++}
-       ^
+        ^
 
 failed in:
 ezcTemplateProgramSourceToTstParser

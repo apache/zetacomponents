@@ -1,7 +1,7 @@
 mock:3:1: Expecting an operand without a pre- or post operator.
 
 {!$a++}
-     ^
+      ^
 
 failed in:
 ezcTemplateProgramSourceToTstParser
