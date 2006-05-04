@@ -241,54 +241,76 @@ class ezcBaseTest extends ezcTestCase
         }
     }
 
-    public function testExrtaDirNotFoundException()
+    public function testExtraDirNotFoundException()
     {
         try
         {
-            ezcBase::addAutoloadDirectory( 'wrongDir/' );
+            ezcBase::addClassRepository( 'wrongDir' );
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            $this->assertEquals( "The file <wrongDir/> could not be found.", $e->getMessage() );
+            $this->assertEquals( "The base directory file <wrongDir> could not be found.", $e->getMessage() );
         }
     }
 
-    public function testExrtaDirBaseNotFoundException()
+    public function testExtraDirBaseNotFoundException()
     {
         try
         {
-            ezcBase::addAutoloadDirectory( '../../Archive/src/', 'wrongBase/' );
+            ezcBase::addClassRepository( '.', 'wrongAutoloadDir' );
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            $this->assertEquals( "The file <../../Archive/src/wrongBase/> could not be found.", $e->getMessage() );
+            $this->assertEquals( "The autoload directory file <./wrongAutoloadDir> could not be found.", $e->getMessage() );
         }
     }
     
-    public function testBaseAddAndGetAutoloadDirs()
+    public function testBaseAddAndGetAutoloadDirs1()
     {
-        ezcBase::addAutoloadDirectory( '../../Archive/src/' );
-        ezcBase::addAutoloadDirectory( '../../SystemInformation/src/' );
-        ezcBase::addAutoloadDirectory( '../../Archive/src/' );
-        ezcBase::addAutoloadDirectory( '../../SystemInformation/src/' );
-        ezcBase::addAutoloadDirectory( '../../SystemInformation/src/' );
-        $resultArray = ezcBase::getAutoloadDirectories();
+        ezcBase::addClassRepository( '.', 'autoload' );
+        $resultArray = ezcBase::getRepositoryDirectories();
 
-        if ( count($resultArray) != 3 ) 
+        if ( count( $resultArray ) != 2 ) 
         {
             $this->fail( "Duplicating or missing extra autoload dirs while adding." );
         }
 
-        if ( !isset( $resultArray['packageDir'] ) ) 
+        $packageDir = realpath( dirname( __FILE__ ) . '/../..' );
+        if ( !isset( $resultArray[$packageDir] ) ) 
         {
-           $this->fail( "No packageDir found in result of getAutoloadDirectories()" );
+           $this->fail( "No packageDir found in result of getRepositoryDirectories()" );
         }
 
-        if ( !isset( $resultArray['../../Archive/src/'] ) || 
-             !isset( $resultArray['../../SystemInformation/src/'] ) ) 
+        if ( !isset( $resultArray['.'] ) || $resultArray['.'][1] != './autoload' )
         {
-            $this->fail( "Extra autoload dirs are added incorrectly" );
+            $this->fail( "Extra autoload dir <{$resultArray['.'][1]}> is added incorrectly" );
         }
+    }
+
+    public function testBaseAddAndGetAutoloadDirs2()
+    {
+        ezcBase::addClassRepository( '.', 'autoload' );
+        ezcBase::addClassRepository( './Base/tests/test_repository', 'autoload_files' );
+        ezcBase::addClassRepository( './Base/tests/test_repository', 'autoload_files' );
+        $resultArray = ezcBase::getRepositoryDirectories();
+
+        if ( count( $resultArray ) != 3 ) 
+        {
+            $this->fail( "Duplicating or missing extra autoload dirs while adding." );
+        }
+
+        $packageDir = realpath( dirname( __FILE__ ) . '/../..' );
+        if ( !isset( $resultArray[$packageDir] ) ) 
+        {
+           $this->fail( "No packageDir found in result of getRepositoryDirectories()" );
+        }
+
+        if ( !isset( $resultArray['./Base/tests/test_repository'] ) || $resultArray['./Base/tests/test_repository'][1] != './Base/tests/test_repository/autoload_files' )
+        {
+            $this->fail( "Extra autoload dir <{$resultArray['./Base/tests/test_repository'][1]}> is added incorrectly" );
+        }
+
+        self::assertEquals( true, class_exists( 'trBasetestClass', true ) );
     }
 
     public static function suite()
