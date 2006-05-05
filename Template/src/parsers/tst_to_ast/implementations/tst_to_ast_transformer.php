@@ -430,6 +430,11 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         if( $this->isFunctionFromObject )
         {
+            // The function call method is not allowed. Throw an exception.
+            throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_OBJECT_FUNCTION_CALL_NOT_ALLOWED );
+
+            // The code below is never reached. However if you remove the exception above,
+            // you can call object methods.
             $p = array();
             foreach( $type->parameters as $parameter )
             {

@@ -55,6 +55,8 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_EXPECT_PARAMETER                  = "Function call: '%s' has not enough parameters. Need an additional '%s' parameter.";
     const MSG_TOO_MANY_PARAMETERS               = "Function call: '%s' has too many parameters.";
 
+    const MSG_OBJECT_FUNCTION_CALL_NOT_ALLOWED  = "Calling a method from an imported object is not allowed.";
+
     // Inconsistencies with eZ publish 3.
     const LNG_INVALID_NAMESPACE_MARKER          = "The namespace marker (:) was used in template engine in eZ publish 3.x but is no longer allowed.";
 }

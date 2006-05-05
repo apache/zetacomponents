@@ -1,0 +1,21 @@
+<?php
+
+class MyClassObjectTestAadsfaasdf
+{
+	public $a = 5;
+	public function __toString()
+	{
+		return "Hello world!";
+	}
+
+	public function getHelloWorld( $number )
+	{
+		return $this->__toString() . " $number";
+	}
+}
+
+$v = new ezcTemplateVariableCollection();
+$v->myObj = new MyClassObjectTestAadsfaasdf();
+
+return $v;
+?>
