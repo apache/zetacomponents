@@ -654,7 +654,7 @@ class ezcConsoleInput
      * as also provided by {@link ezcConsoleInput::getHelp()}. The returned
      * string can directly be printed to the console.
      * 
-     * @param string $prograDesc         The description of your program.
+     * @param string $programDesc        The description of your program.
      * @param int $width                 The width to adjust the output text to.
      * @param bool $long                 Set this to true for getting the long 
      *                                   help version.
@@ -662,7 +662,7 @@ class ezcConsoleInput
      *                                   for, default is all.
      * @return string The generated help text.
      */
-    public function getHelpText( $prograDesc, $width = 80, $long = false, array $params = null )
+    public function getHelpText( $programDesc, $width = 80, $long = false, array $params = null )
     {
         $help = $this->getHelp( $long, $params == null ? array() : $params );
         // Determine max length of first column text.
@@ -677,7 +677,7 @@ class ezcConsoleInput
         $rightColWidth = $width - $leftColWidth;
 
         $res = 'Usage: ' . $this->getSynopsis( $params ) . "\n";
-        $res .= wordwrap( $prograDesc, $width );
+        $res .= wordwrap( $programDesc, $width );
         $res .= "\n\n";
         foreach ( $help as $row )
         {
