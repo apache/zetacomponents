@@ -20,5 +20,6 @@ abstract class ezcBaseFileException extends ezcBaseException
     const WRITE   = 2;
     const EXECUTE = 4;
     const CHANGE  = 8;
+    const REMOVE  = 16;
 }
 ?>

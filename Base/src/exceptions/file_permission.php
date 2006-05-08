@@ -22,8 +22,9 @@ class ezcBaseFilePermissionException extends ezcBaseFileException
      * @param string $name The name of the file.
      * @param int    $mode The mode of the property that is allowed
      *               (ezcBaseFileException::READ, ezcBaseFileException::WRITE,
-     *               ezcBaseFileException::EXECUTE or
-     *               ezcBaseFileException::CHANGE).
+     *               ezcBaseFileException::EXECUTE,
+     *               ezcBaseFileException::CHANGE or
+     *               ezcBaseFileException::REMOVE).
      * @param string $message A string with extra information.
      */
     function __construct( $path, $mode, $message = null )
@@ -41,6 +42,9 @@ class ezcBaseFilePermissionException extends ezcBaseFileException
                 break;
             case ezcBaseFileException::CHANGE:
                 $operation = "The permissions for <{$path}> can not be changed";
+                break;
+            case ezcBaseFileException::REMOVE:
+                $operation = "The file <{$path}> can not be removed";
                 break;
             case (ezcBaseFileException::READ || ezcBaseFileException::WRITE):
                 $operation = "The file <{$path}> can not be opened for reading and writing";
