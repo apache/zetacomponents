@@ -17,7 +17,7 @@ type.
 Classes
 -------
 
-ezcGraphManager
+ezcGraph
 	Controller for the generated graphs. Offers factory methods for the other
 	classes, handles and dispatches the configuration and actions to the other
 	classes.
@@ -119,6 +119,11 @@ The following example shows how to use the class: ::
 
 	// Create a new averaging line
 	$line->averageIncome = ezcDataSetAverage::createFrom($line->income[, options]);
+
+	$line->renderer = new ezcGraphRenderer2D();
+	$line->driver = new ezcGraphGDDriver();
+
+	$line->render('file.png');
 
 	?>
 
