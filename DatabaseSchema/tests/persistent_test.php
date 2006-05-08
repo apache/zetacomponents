@@ -39,7 +39,7 @@ class ezcDatabaseSchemaPersistentTest extends ezcTestCase
         $d = dir( $this->testFilesDir . '/persistent' );
         while ( ( $entry = $d->read() ) !== false )
         {
-            if ( $entry == '.'|| $entry == '..' )
+            if ( $entry[0] == '.' )
             {
                 continue;
             }
