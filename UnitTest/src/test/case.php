@@ -105,7 +105,7 @@ abstract class ezcTestCase extends PHPUnit2_Framework_TestCase
             {
                 while ( ( $file = readdir( $dh ) ) !== false )
                 {
-                    if ( $file[0] != "." )
+                    if ( $file != "." && $file != '..' )
                     {
                         $this->removeRecursively( $entry . "/" . $file );
                     }
