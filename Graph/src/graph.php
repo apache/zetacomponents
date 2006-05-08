@@ -25,9 +25,7 @@ class ezcGraph
      * 
      * @param string $type Type of chart to create
      * @param array $options Options to create the chart with
-     * @static
-     * @throw ezcGraphUnknownChartTypeException
-     * @access public
+     * @throws ezcGraphUnknownChartTypeException
      * @return ezcGraphChart
      */
     static public function create( $type, $options = array() ) 
@@ -37,7 +35,9 @@ class ezcGraph
         {
             $className = self::$chartTypes[$type];
             return new $className( $options );
-        } else {
+        }
+        else 
+        {
             throw new ezcGraphUnknownChartTypeException($type);
         }
     }
