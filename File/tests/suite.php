@@ -12,6 +12,7 @@
  * Require the test cases
  */
 require_once 'file_find_recursive_test.php';
+require_once 'file_remove_recursive_test.php';
 
 /**
  * @package File
@@ -25,6 +26,7 @@ class ezcFileSuite extends ezcTestSuite
         $this->setName("File");
 
         $this->addTest( ezcFileFindRecursiveTest::suite() );
+        $this->addTest( ezcFileRemoveRecursiveTest::suite() );
     }
 
     public static function suite()
