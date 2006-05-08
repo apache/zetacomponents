@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-abstract class ezcGraphChart implements ezcBaseOptions
+abstract class ezcGraphChart extends ezcBaseOptions
 {
 
     /**

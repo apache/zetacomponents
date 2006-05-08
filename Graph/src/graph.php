@@ -12,20 +12,34 @@
  *
  * @package Graph
  */
-class ezcGraph extends ezcBaseOptions
+class ezcGraph
 {
 
+    static protected $chartTypes = array(
+        'pie'   => 'ezcGraphPieChart',
+        'line'  => 'ezcGraphLineChart',
+    );
+
     /**
-     * Creates a graph chart instance
+     * create 
      * 
-     * @param mixed $type 
+     * @param string $type Type of chart to create
+     * @param array $options Options to create the chart with
      * @static
+     * @throw ezcGraphUnknownChartTypeException
      * @access public
-     * @return void
+     * @return ezcGraphChart
      */
     static public function create( $type, $options = array() ) 
     {
-        
+        $type = strtolower( $type );
+        if ( isset( self::$chartTypes[$type] ) )
+        {
+            $className = self::$chartTypes[$type];
+            return new $className( $options );
+        } else {
+            throw new ezcGraphUnknownChartTypeException($type);
+        }
     }
 }
 
