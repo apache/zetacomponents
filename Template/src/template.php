@@ -204,8 +204,10 @@ class ezcTemplate
      *
      * @return string
      *
-     * @throw Exception, ezcTemplateSourceToTstParserException, ezcTemplateParserException if the
-     * template couldn't be compiled.
+     * @throws Exception, ezcTemplateSourceToTstParserException, ezcTemplateParserException
+     *         If the template could not be compiled.
+     * @throws ezcTemplateFileNotWriteableException
+     *         If the directory could not be created.
      */
     public function process( $location, ezcTemplateConfiguration $config = null )
     {
@@ -263,11 +265,26 @@ class ezcTemplate
         return $this->properties["output"];
     }
 
+    /**
+     * Creates the directory $path if it does not exist 
+     *
+     * If the directory $path could be created the function returns true,
+     * otherwise the ezcTemplateFileNotWriteableException exception is thrown.
+     *
+     * @throws ezcTemplateFileNotWriteableException
+     *         If the directory could not be created
+     * @param string $path
+     * @return bool
+     */
     private function createDirectory( $path )
     {
-        if( !is_dir( $path ) )
+        if ( !is_dir( $path ) )
         {
-            return mkdir( $path, 0700, true );
+            $created = @mkdir( $path, 0700, true );
+            if ( !$created )
+            {
+                throw new ezcTemplateFileNotWriteableException( $path );
+            }
         }
 
         return true;
