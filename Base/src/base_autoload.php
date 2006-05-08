@@ -19,5 +19,7 @@ return array(
     'ezcBaseSettingNotFoundException'      => 'Base/exceptions/setting_not_found.php',
     'ezcBaseSettingValueException'         => 'Base/exceptions/setting_value.php',
     'ezcBaseValueException'                => 'Base/exceptions/value.php',
+
+    'ezcBaseOptions'                       => 'Base/options.php',
 );
 ?>
