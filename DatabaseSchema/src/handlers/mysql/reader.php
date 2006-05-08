@@ -33,6 +33,7 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
         'float' => 'float',
         'double' => 'float',
         'dec' => 'decimal',
+        'decimal' => 'decimal',
         'numeric' => 'decimal',
         'fixed' => 'decimal',
         
