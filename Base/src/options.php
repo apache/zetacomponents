@@ -12,7 +12,7 @@
  *
  * @package Base
  */
-abstract class ezcBase implements ArrayAccess
+abstract class ezcBaseOptions implements ArrayAccess
 {
     abstract public function __set( $propertyName, $propertyValue );
 
