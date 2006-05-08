@@ -80,7 +80,7 @@ class ezcDbschemaPersistentWriter implements ezcDbSchemaFileWriter
             fwrite( $file, "\$def->idProperty               = new ezcPersistentObjectIdProperty();\n" );
             fwrite( $file, "\$def->idProperty->columnName   = '$fieldName';\n" );
             fwrite( $file, "\$def->idProperty->propertyName = '$fieldName';\n" );
-            fwrite( $file, "\$def->idProperty->generator    = new ezcPersistentGeneratorDefinition( 'ezcPersistentSequenceGeneraor' );\n" );
+            fwrite( $file, "\$def->idProperty->generator    = new ezcPersistentGeneratorDefinition( 'ezcPersistentSequenceGenerator' );\n" );
         }
         else
         {

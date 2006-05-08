@@ -48,8 +48,8 @@ class ezcDatabaseSchemaPersistentTest extends ezcTestCase
                 $this->fail( "PersistentObject definition <{$entry}> not created!" );
             }
             $this->assertEquals( 
-                md5_file( $this->testFilesDir . '/persistent/' . $entry ),
-                md5_file( $this->tempDir . '/' . $entry ),
+                file_get_contents( $this->testFilesDir . '/persistent/' . $entry ),
+                file_get_contents( $this->tempDir . '/' . $entry ),
                 "PersistentObject definition for file <$entry> differs"
             );
         }

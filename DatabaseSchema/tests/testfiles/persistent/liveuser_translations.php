@@ -38,7 +38,7 @@ $def->properties['section_type']->propertyType = ezcPersistentObjectProperty::PH
 $def->idProperty               = new ezcPersistentObjectIdProperty();
 $def->idProperty->columnName   = 'translation_id';
 $def->idProperty->propertyName = 'translation_id';
-$def->idProperty->generator    = new ezcPersistentGeneratorDefinition( 'ezcPersistentSequenceGeneraor' );
+$def->idProperty->generator    = new ezcPersistentGeneratorDefinition( 'ezcPersistentSequenceGenerator' );
 
 return $def;
 
