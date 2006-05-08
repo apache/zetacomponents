@@ -38,9 +38,9 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
      * Read-only after initialization. If property set to true than it contains valid 
      * value. Otherwise property is not set.
      * 
-     * Propertyes could be
+     * Properties could be
+     * 'cpu_count'
      * 'cpu_type'
-     * 'cpu_unit'
      * 'cpu_speed'
      * 'memory_size'
      * 
@@ -49,32 +49,30 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
     private $validProperties = array();
 
     /**
-     * Contains the type of CPU, the type is taken directly from the OS
-     * and can vary a lot.
-     * @var string
+     * Contains the amount of CPUs in system.
+     * @var int
      */
-    protected $cpuType = false;
-    
-    /**
-     * Contains the speed of CPU, the type is taken directly from the OS
-     * and can vary a lot. The speed is just a number so use cpuUnit()
-     * to get the proper unit (e.g MHz).
-     * @var string
-     */
-    protected $cpuSpeed = false;
+    protected $cpuCount = null;
 
     /**
-     * Contains the proper unit in witch CPU speed is measured.
-     * @var string
+     * Contains the type of CPU for each CPU in system, the type is taken directly from the OS
+     * and can vary a lot.
+     * @var array of strings
      */
-    protected $cpuUnit = false;
+    protected $cpuType = null;
+    
+    /**
+     * Contains the speed of CPU in MHz for each CPU in system.
+     * @var array of floats
+     */
+    protected $cpuSpeed = null;
 
     /**
      * Contains the amount of system memory the OS has, the value is
      * in bytes.
      * @var int
      */
-    protected $memorySize = false;
+    protected $memorySize = null;
 
 
     /**
@@ -132,13 +130,13 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
             return false;
         }
         $fileLines = file( $dmesgPath );
+        $haveMultiprocessors = false;
         foreach ( $fileLines as $line )
         {
             if ( substr( $line, 0, 3 ) == 'CPU' )
             {
                 $system = trim( substr( $line, 4, strlen( $line ) - 4 ) );
-                $cpu = false;
-                $cpuunit = false;
+                $cpu = null;
                 //we should have line like "CPU: AMD Duron(tm)  (1800.07-MHz 686-class CPU)" parse it.
                 if ( preg_match( "#^(.+)\\((.+)-(MHz) +([^)]+)\\)#", $system, $matches ) )
                 {
@@ -146,13 +144,25 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
                     $cpu = $matches[2];
                     $cpuunit = $matches[3];
                 }
-                $this->cpuSpeed = $cpu;
-                $this->cpuType = $system;
-                $this->cpuUnit = $cpuunit;
+                $this->cpuSpeed[] = (float)$cpu;
+                $this->cpuType[] = $system;
                 $this->validProperties['cpu_speed'] = $this->cpuSpeed;
                 $this->validProperties['cpu_type'] = $this->cpuType;
-                $this->validProperties['cpu_unit'] = $this->cpuUnit;
+                $this->cpuCount = 1;
+
             }
+            if ( substr( $line, 0, 44 ) == 'FreeBSD/SMP: Multiprocessor System Detected:' )
+            {
+                $multiCpu = trim( substr( $line, 44, strlen( $line ) - 44 ) );
+                unset( $matches );
+                //we should have line like "FreeBSD/SMP: Multiprocessor System Detected: 4 CPUs" parse it.
+                if ( preg_match( "#^([0-9]+).+#", $multiCpu, $matches ) )
+                {
+                   $this->cpuCount = (int)$matches[1];
+                }
+                $haveMultiprocessors = true;
+            }
+
             if ( substr( $line, 0, 11 ) == 'real memory' )
             {
                 $mem = trim( substr( $line, 12, strlen( $line ) - 12 ) );
@@ -165,10 +175,12 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
                 $this->memorySize = $memBytes;
                 $this->validProperties['memory_size'] = $this->memorySize;
             }
-            if ( $this->cpuSpeed !== false and
-                 $this->cpuType !== false and
-                 $this->cpuUnit !== false and
-                 $this->memorySize !== false )
+
+            //read dmesg until get all necessary info.
+            if ( $this->cpuSpeed !== null and
+                 $this->cpuType !== null and
+                 $this->memorySize !== null and 
+                 $haveMultiprocessors !== false )
             {
                 break;
             }
@@ -177,43 +189,43 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
     }
 
     /**
-     * Returns string with CPU speed
+     * Returns count of CPUs in system.
      * 
      * If the CPU speed could not be read false is returned.
-     * @return string
+     * @return int with count of CPUs in system or null.
      */
-    public function cpuSpeed()
+    public function getCpuCount()
     {
-        return $this->cpuSpeed;
-    }
-    
-    /**
-     * Returns string with unit in wich CPU speed measured.
-     * 
-     * If the CPU unit could not be read false is returned.
-     * @return string
-     */
-    public function cpuUnit()
-    {
-        return $this->cpuUnit;
+        return $this->cpuCount;
     }
 
     /**
+     * Returns string with CPU speed
+     * 
+     * If the CPU speed could not be read null is returned.
+     * @return float or null
+     */
+    public function cpuSpeed()
+    {
+        return $this->cpuSpeed[0];
+    }
+    
+    /**
      * Returns string with CPU type.
      *
-     * If the CPU type could not be read false is returned.
-     * @return string
+     * If the CPU type could not be read null is returned.
+     * @return string or null
      */
     public function cpuType()
     {
-        return $this->cpuType;
+        return $this->cpuType[0];
     }
     
     /**
      * Returns memory size in bytes.
      * 
-     * If the memory size could not be read false is returned.
-     * @return int
+     * If the memory size could not be read null is returned.
+     * @return int or null
      */
     public function memorySize()
     {

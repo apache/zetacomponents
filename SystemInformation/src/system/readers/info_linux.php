@@ -38,9 +38,9 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
      * Read-only after initialization. If property set to true than it contains valid 
      * value. Otherwise property is not set.
      * 
-     * Propertyes could be
+     * Properties could be
+     * 'cpu_count'
      * 'cpu_type'
-     * 'cpu_unit'
      * 'cpu_speed'
      * 'memory_size'
      * 
@@ -49,32 +49,33 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
     private $validProperties = array();
 
     /**
-     * Contains the type of CPU, the type is taken directly from the OS
-     * and can vary a lot.
-     * @var string
+     * Contains the amount of CPUs in system.
+     * @var int
      */
-    protected $cpuType = false;
-    
-    /**
-     * Contains the speed of CPU, the type is taken directly from the OS
-     * and can vary a lot. The speed is just a number so use cpuUnit()
-     * to get the proper unit (e.g MHz).
-     * @var string
-     */
-    protected $cpuSpeed = false;
+    protected $cpuCount = null;
 
     /**
-     * Contains the proper unit in witch CPU speed is measured.
-     * @var string
+     * Contains the strings that represent type of CPU,
+     * for each CPU in sysytem. Type is taken directly
+     * from the OS and can vary a lot.
+     * 
+     * @var array of strings
      */
-    protected $cpuUnit = false;
+    protected $cpuType = null;
+    
+    /**
+     * Contains the speed of each CPU in MHz.
+     * @var array of float
+     */
+    protected $cpuSpeed = null;
+
 
     /**
      * Contains the amount of system memory the OS has, the value is
      * in bytes.
      * @var int
      */
-    protected $memorySize = false;
+    protected $memorySize = null;
 
 
     /**
@@ -144,6 +145,7 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
             return false;
         }
 
+        $cpuCount = 0;
         $fileLines = file( $cpuinfoPath );
         foreach ( $fileLines as $line )
         {
@@ -152,10 +154,12 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
                 $cpu = trim( substr( $line, 11, strlen( $line ) - 11 ) );
                 if ( $cpu != '' ) 
                 {
-                    $this->cpuSpeed = $cpu;
-                    $this->cpuUnit = 'MHz';
+                    $this->cpuSpeed[] = (float)$cpu;
+
+                    $cpuCount++;
+                    $this->cpuCount = $cpuCount;
+                    $this->validProperties['cpu_count'] = $this->cpuCount;
                     $this->validProperties['cpu_speed'] = $this->cpuSpeed;
-                    $this->validProperties['cpu_unit'] = $this->cpuUnit;
                 }
             }
             if ( substr( $line, 0, 10 ) == 'model name' )
@@ -163,15 +167,9 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
                 $system = trim( substr( $line, 13, strlen( $line ) - 13 ) );
                 if ( $system != '' ) 
                 {
-                    $this->cpuType = $system;
+                    $this->cpuType[] = $system;
                     $this->validProperties['cpu_type'] = $this->cpuType;
                 }
-            }
-            if ( $this->cpuSpeed !== false and
-                 $this->cpuType !== false and
-                 $this->cpuUnit !== false )
-            {
-                break;
             }
         }
 
@@ -206,7 +204,7 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
                 $this->memorySize = $memBytes;
                 $this->validProperties['memory_size'] = $this->memorySize;
             }
-            if ( $this->memorySize !== false )
+            if ( $this->memorySize !== null )
             {
                 break;
             }
@@ -216,44 +214,50 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
     }
 
     /**
-     * Returns string with CPU speed
+     * Returns count of CPUs in system.
      * 
      * If the CPU speed could not be read false is returned.
-     * @return string
+     * @return int with count of CPUs in system or null.
+     */
+    public function getCpuCount()
+    {
+        return $this->cpuCount;
+    }
+
+    /**
+     * Returns string with CPU speed
+     * 
+     * Average CPU speed returned if there is several CPUs is system
+     * If the CPU speed could not be read null is returned.
+     * * @return float with speed of CPU or null
      */
     public function cpuSpeed()
     {
-        return $this->cpuSpeed;
-    }
-    
-    /**
-     * Returns string with unit in wich CPU speed measured.
-     * 
-     * If the CPU unit could not be read false is returned.
-     * @return string
-     */
-    public function cpuUnit()
-    {
-        return $this->cpuUnit;
+        $totalSpeed = 0;
+        foreach( $this->cpuSpeed as $speed )
+        {
+            $totalSpeed += $speed;
+        }
+        return $totalSpeed/$this->cpuCount;
     }
 
     /**
      * Returns string with CPU type.
      *
-     * If the CPU type could not be read false is returned.
-     * @return string
+     * If the CPU type could not be read null is returned.
+     * @return string the CPU type or null
      */
     public function cpuType()
     {
-        return $this->cpuType;
+        return $this->cpuType[0];
     }
 
     
     /**
      * Returns memory size in bytes.
      * 
-     * If the memory size could not be read false is returned.
-     * @return int
+     * If the memory size could not be read null is returned.
+     * @return int the memory size or null 
      */
     public function memorySize()
     {

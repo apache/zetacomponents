@@ -39,14 +39,16 @@
  * - Bool <b>isShellExecution</b>, flag indicates if the script executed over the web or the shell/command line.
  * <br><br>
  * Reader dependent, these properties are not availiable if reader was not intnialized and didn't scan OS:
- * - <b>cpuType</b> CPU type string (e.g 'AMD Sempron(tm) Processor 3000+') or null.
- * - <b>cpuSpeed</b> CPU speed string (e.g '1808.743') or null.
- * - <b>cpuUnit</b> CPU speed unit string (e.g. 'MHz') or null.
- * - <b>memorySize</b> Memory Size in bytes int (e.g. 528424960) or null.
+ * - Integer <b>cpuCount</b> amount of CPUs in system or null .
+ * - String <b>cpuType</b> CPU type string (e.g 'AMD Sempron(tm) Processor 3000+') or null.
+ * - Float <b>cpuSpeed</b> CPU speed as float (e.g 1808.743) or null.
+ * - Integer <b>memorySize</b> Memory Size in bytes int (e.g. 528424960) or null.
  * Example:<br>
  *  <code>
  *  $info = ezcSystemInfo::getInstance();
- *  print( $info->cpuType . "\n" );
+ *  echo 'Processors: ', $info->cpuCount, "\n";
+ *  echo 'CPU Type: ', $info->cpuType, "\n";
+ *  echo 'CPU Speed: ', $info->cpuSpeed, "\n";
  *  </code>
  *
  * @package SystemInformation
@@ -319,8 +321,8 @@ class ezcSystemInfo
     {
         if ( $this->systemInfoReader == null &&
              ( $property == 'cpuType'  || 
+               $property == 'cpuCount' || 
                $property == 'cpuSpeed' || 
-               $property == 'cpuUnit'  || 
                $property == 'memorySize'
              )
            )
@@ -336,12 +338,12 @@ class ezcSystemInfo
                 return $this->osName;
             case 'fileSystemType':
                 return $this->fileSystemType;
+            case 'cpuCount':
+                return $this->systemInfoReader->getCpuCount();
             case 'cpuType':
                 return $this->systemInfoReader->cpuType();
             case 'cpuSpeed':
                 return $this->systemInfoReader->cpuSpeed();
-            case 'cpuUnit':
-                return $this->systemInfoReader->cpuUnit();
             case 'memorySize':
                 return $this->systemInfoReader->memorySize();
             case 'lineSeparator':

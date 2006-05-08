@@ -27,34 +27,33 @@ abstract class ezcSystemInfoReader
     abstract public function isValid( $propertyName );
 
     /**
-     * Returns string with CPU type.
+     * Returns number of CPUs in system.
      *
-     * If the CPU type could not be read false is returned.
-     * @return string
+     * @return int the number of CPUs in system or null if number of CPUs is unknown.
+     */
+    abstract public function getCpuCount();
+    
+    /**
+     * Returns string with CPU type.
+     * 
+     * @return string the CPU type or null if the CPU type is unknown.
      */
     abstract public function cpuType();
 
     /**
      * Returns CPU speed
      * 
-     * If the CPU speed could not be read false is returned.
-     * @return string
+     * If the CPU speed could not be read null is returned.
+     * Average processor speed returned for multiprocessor systems.
+     * @return float the CPU speed or null if the CPU speed is unknown.
      */
     abstract public function cpuSpeed();
     
     /**
-     * Returns string with unit in wich CPU speed measured.
-     * 
-     * If the CPU unit could not be read false is returned.
-     * @return string
-     */
-    abstract public function cpuUnit();
-    
-    /**
      * Returns memory size in bytes.
      * 
-     * If the memory size could not be read false is returned.
-     * @return int
+     * If the memory size could not be read null is returned.
+     * @return int the memory size in bytes or null
      */
     abstract public function memorySize();
 
