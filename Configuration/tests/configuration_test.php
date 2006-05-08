@@ -121,7 +121,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationSettingnameNotStringException $e )
         {
-            $this->assertEquals( 'The setting name <a:1:{i:0;s:8:"Setting1";}> is not a string.', $e->getMessage() );
+            $this->assertEquals( 'The setting name that was passed is not a string, but an <array>.', $e->getMessage() );
         }
     }
 

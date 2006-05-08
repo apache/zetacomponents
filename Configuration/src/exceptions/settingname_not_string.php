@@ -17,8 +17,8 @@ class ezcConfigurationSettingnameNotStringException extends ezcConfigurationExce
 {
     function __construct( $settingName )
     {
-        $settingNameText = (string) $settingName;
-        parent::__construct( "The setting name <{$settingNameText}> is not a string." );
+        $settingNameType = gettype( $settingName );
+        parent::__construct( "The setting name that was passed is not a string, but an <{$settingNameType}>." );
     }
 }
 ?>
