@@ -1,4 +1,4 @@
-1.0.2 - [RELEASEDATE]
+1.1beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
 - Fixed #7884: ezcPersistentSession sometimes triggers PDO "General error:
