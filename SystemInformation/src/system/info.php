@@ -360,7 +360,7 @@ class ezcSystemInfo
             default: 
                 break;
         }
-        throw new ezcBasePropertyNotFoundException( $name );
+        throw new ezcBasePropertyNotFoundException( $property );
     }
 }
 
