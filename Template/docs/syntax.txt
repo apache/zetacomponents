@@ -1,0 +1,1273 @@
+eZ components - Template language
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+
+Basic syntax
+------------
+The template engine considers blocks, statements embedded in an open and a
+close curly brace '{ .. }', as code. Everything outside a block is parsed as
+text. The next example shows a template that does a simple calculation::
+
+  5 times 3 equals: { 5*3 }
+
+The sum between the braces will be calculated and printed. 
+
+The curly braces '{..}' are used in the creation of a template block. 
+Therefore these tags cannot be used directly in plain text anymore. 
+To get around this, there are four options:
+
+- Place the braces in a text string.
+- Escape the curly braces.
+- Use the {ldelim} and {rdelim} template block.
+- Use the {literal} tag.
+
+Text string
+```````````
+Place the curly braces in a text string. The text string will output the curly
+brace normally::
+
+  Draw line: {"{"} (4, 10), (3, 5) {"}"}
+
+
+Escape characters
+`````````````````
+With a backslash '\' a character can be escaped. Currently, there are only
+three characters that can be escaped: 
+
+- Opening and closing curly bracket: '{' and '}'.
+- The escape character itself: '\'.
+
+The next example shows how to escape characters::
+
+  Draw line: \{ (4, 10), (3, 5) \}
+  Game path: C:\\Program files\\games\\
+
+
+{ldelim} and {rdelim} blocks
+````````````````````````````
+The specialized {ldelim} and {rdelim} blocks can be used to output,
+respectively, the '{' and '}' characters::
+
+  Draw line: {ldelim} (4, 10), (3, 5) {rdelim}
+
+
+Literal tags
+````````````
+If you want to enter lots of code or text which should not be processed by the
+template language you can place the code inside *literal* blocks. Any text
+within this block is read as it is (even back slashes) until a {/literal} is
+reached::
+
+  {literal}
+  Draw line: { (4, 10), (3, 5) }
+  Game path: C:\Program files\games\
+  {/literal}
+
+
+Comments
+--------
+Comments are text blocks which will be stripped away from the output when the
+template is executed. Comments can be standalone, spanning an entire tag, or
+placed inline in template code.
+
+Comments can be used for explaining what or why something is done or to comment
+out code which should no longer be used.
+
+The template engine supports three types of comments:
+
+- Code comments start and end with, respectively, '{\*' and  '\*}' tags.
+- Multiline inline comment, starts with '/\*' and ends with '\*/'.
+- Singleline inline comment that starts with '//' and reads until the end of
+  the line or until a closing curly brace '}'.
+
+
+Code comments
+`````````````
+Code comments start and end with, respectively, '{\*' and  '\*}' tags.
+Everything inside is considered as comments::
+
+  {* Variable $i alternates the value 0 and 1*}
+  {$i = 1 - $i}
+
+  {* {if $i == 0}
+        {$i = 1}
+     {else}
+        {$i = 0}
+     {/if}
+  *}
+
+
+Multi line inline comment
+`````````````````````````
+Multi line inline comments are created using \/\* and \*\/. Use this comment to
+comment a part of a line or comment multiple lines::
+
+  {var $a = 1, /*$b = 2, */ $c = 3 }
+
+  {$a = 2, /*
+   $b = 3,
+   $c = 4
+   */}
+
+
+If the result after removing the inline comments is an empty block then the
+block will be ignored::
+
+  { /* var $a = 1 */ }
+ 
+Which is exactly the same as writing::
+
+  {  }
+
+And will not be part of the template output.
+
+
+Single line inline comment
+``````````````````````````
+Single line inline comments are created using two slashes: \/\/ . Use this 
+to start a comment which continues to the end of the line or until the closing
+curly brace '}'::
+
+  {var $a = 1, // $b = 2,
+   $c = 3}
+
+  {$a = 1 //, $b = 2, $c = 3}
+
+
+Types
+-----
+
+The template language supports several primitive types:
+
+- Boolean: Expresses the truth value, which is either 'true' or 'false'.
+- Integer: Is a number of the set: { .., -1, 0, 1, .. }
+- Float: Is a real (floating point) number.
+- String: A series of characters which are enclosed between single or double
+  quotes.
+- Array: Contains a set of primitive types.
+- Object: A PHP object (imported via the user application). 
+
+These types are explained in more detail below. 
+
+Boolean
+```````
+The boolean type can only contain either the value: 'true' or the value
+'false'. The next example assigns the value 'true' to the variable $isValid::
+
+  {var $isValid = true}
+
+Some operators return a boolean value::
+
+  {if $number == 6 }
+    {// ... }
+
+This example checks whether the variable $number is equal to the value 6. The
+result is either the boolean value 'true' or 'false'. 
+
+
+Integer
+```````
+Integers are specified in a decimal notation only. To use octals or hexadimals
+the number needs to be converted with the appropriate function. Examples are::
+
+    {2}
+    {4}
+    {math_hex_to_dec("1F")}
+
+See the methods: math_bin_to_dec, math_hex_to_dec, math_oct_to_dec, math_dec_to_bin,
+ath_dec_to_hex, and math_dec_to_oct.
+
+.. Integers can be specified in a decimal, hexadecimal, or octal notation. The
+.. number itself can be preceded with either a minus or a plus operator. Octal
+.. numbers start with a zero, and hexadecimal numbers start with '0x' Some
+.. examples are::
+.. 
+..   {2}     {// Decimal number}
+..   {-42}   {// Decimal number}
+..   {+100}  {// Decimal number}
+.. 
+..   {01000}  {// Octal number}
+.. 
+..   {0x1AB}  {// Hexadecimal number}
+
+
+Float
+`````
+Floating point numbers are values that contain a real value. Some examples::
+
+  {1.0}
+  {-100.234214}
+  {3.14}
+
+It is also possible to express an exponent in the float. The exponent is marked
+with the character 'e' or 'E' followed by one or more digits::
+
+  {1.0e3 // 1000  }
+  {2e4   // 20000 }
+  {1e-2  // 0.01  }
+  {0.1e-2  // 0.001}
+  {-3.1e2  // -310 }
+
+
+String
+``````
+The string consist of a series of characters enclosed between single or double
+quotes::
+
+    {"hello world" // Using double quotes }
+    {'a string'    // Using single quotes }
+
+In the string we use the backslash (\) as escape character. For the single
+quoted string the escape characters are:
+
++-------------+-------------+
+| **String**  | **Output**  |
++-------------+-------------+
+| \'          | '           |
++-------------+-------------+
+| \\ \\       | \\          |
++-------------+-------------+
+| \\          | \\          |
++-------------+-------------+
+
+Examples are::
+
+  {'This string contains a \'quotes\' and backslashes (\\).'}
+  {'A single \ works also.'}
+  {'Characters like \n, \t, ", {, }, $, etc can be used without problems'}
+
+
+The double quoted string allows more special characters than the single quoted
+string. Most useful are the variables and newlines that can be included in the
+string.  For example::
+
+  {var $w = "world"}
+  {"Hello $w\nHello earth"}
+
+  {* Outputs: 
+
+  Hello world
+  Hello earth
+
+  *}
+
+The escape characters for the double quoted strings are:
+
++-------------+-------------------+
+| **String**  | **Output**        |
++-------------+-------------------+
+| \"          | "                 |
++-------------+-------------------+
+| \\ \\       | \\                |
++-------------+-------------------+
+| \\          | \\                |
++-------------+-------------------+
+| \\n         | <newline>         |
++-------------+-------------------+
+| \\t         | <tab>             |
++-------------+-------------------+
+| \\$         | $                 |
++-------------+-------------------+
+| \\r         | <carriage return> |
++-------------+-------------------+
+
+Examples::
+
+    {" a \"quoted\" string "} 
+    {'Newlines are added with the \\n command.'}
+    {'\tThis string starts with a tab (\\t).'}
+
+
+Array
+`````
+The array is just like in PHP an ordered map. It can be used as an array or as
+a table that maps values to keys. There are two ways to create an array. The
+first method is just like PHP::
+    
+  array( [ key => ] value, [ key2 => ] value2, ... )
+
+Without a *key* this method will create an array. First value will have index
+0, the next value has index 1, and so on. The next example creates an array
+with 3 elements::
+  
+  {var $names = array( "Bernard", "Manny", "Fran" )}
+
+The names can be accessed::
+
+  {$names[0] // Outputs "Bernard"}
+  {$names[2] // Outputs "Fran"}
+  {$names[3] // Is not allowed }
+
+
+The array with *keys* maps the key to a value::
+
+  {var $personInfo = array( "first_name" => "Bernard", "last_name" => "Black" ) }
+
+To access the information::
+
+  {$personInfo["first_name"] // Outputs "Bernard"}
+  {$personInfo["last_name"] // Outputs "Black"} 
+
+
+The method described above is the same as how it works in PHP. Another method
+to create an array (not available in PHP) is::
+
+  <number1>..<number2>
+
+This method creates an array that contains the numbers from <number1> to
+<number2>. An example::
+ 
+  {var $nrs = 3..7 // Equal to: var $nrs = array( 3, 4, 5, 6, 7 ) }
+  {$nrs[0] // Outputs 3} 
+
+This method is especially useful to use in the foreach loop::
+
+   {foreach 1..10 as $i}
+       Number: {$i}
+   {/foreach}
+
+
+Object
+``````
+Objects are only available when they are sent from the user application. It is
+not possible to create an object yourself in the Template language. In the
+template language the only values you can access from the object is via the
+properties. The next example is the user application that sends an object to
+a template::
+
+  <?php
+
+  class MyClass
+  {
+     public function  __get( $name )
+     {
+        return "Hello $name";
+     }
+
+     public function __set( $name, $value )
+     {
+        throw new Exception ("Setting $name is not allowed");
+     }
+  }
+
+  $t = new ezcTemplate();
+  $t->send->obj = new MyClass; // Create an object and assign it to "obj"
+  $t->process("my_template.ezt");
+  
+  ?>
+ 
+The class in the example above has two 'magic' PHP functions. Fetching any
+property is allowed, whereas setting a property will throw an Exception. The
+template code::
+  
+  {use $obj // Import the "obj" }
+
+  {$obj->Bernard // Calls the  __get method on the object and returns "Hello Bernard"} 
+  {$obj->Bernard = "Fran" // Calls the __set method on the object and throws an exception}
+
+
+More information about importing objects is described in the `External variable
+declaration`_ section.
+
+
+
+Variables
+---------
+Before a variable can be used for the first time it needs to be declared. A
+declaration defines a unique name that will be available from now on
+until the end of the template. The next example declares a local variable with the
+name the\_answer\_to\_life\_the\_universe\_and\_everything and assigns a value to it::
+
+  {* Declare the variable *}
+  {var $the_answer_to_life_the_universe_and_everything}
+
+  {* Assign the value 42 to it *}
+  {$the_answer_to_life_the_universe_and_everything = 42}
+
+
+Switching the assignment with the declaration results in a compiler error.
+
+Variables in the syntax languages are represented by a dollar sign followed by
+the name of the variable. The variable name is case-sensitive. A valid variable
+name starts with a letter or underscore, followed by any number of letters,
+numbers, or underscores::
+
+  {* valid declarations *}
+  {var $abcdEFG}
+  {var $_hello_}
+  {var $hello12}
+  
+  {* invalid declarations *}
+  {var $12monkeys}
+  {var $dumb&dumber *}
+
+
+The template language has three types of variable declaration:
+
+- {var .. }: Declares a local variable. (We used this in the previous examples).
+- {use .. }: Imports an external variable. 
+- {cycle .. }: Declares a cycle variable. 
+
+
+Local variable declaration
+``````````````````````````
+The declaration of a local variable creates a variable that has no value from
+the outside. Outside can be the application that compiles and executes the 
+template. 
+
+The syntax to declare a local variable is::
+    
+  {var $<unique_name> [ = <value> ] [ , $<unique_name2> [ = <value> ] ] }
+
+
+One or multiple variables can be declared with one {var} statement. A value can
+be assigned to the variable name, directly. If no value is given to the
+variable, then it will get the default value: null. 
+
+The declaration of four variables::
+
+  {var $a = 2, $b = "Hello World", $c = true, $d}
+
+
+External variable declaration
+`````````````````````````````
+The declaration of an external variable creates a variable that usually has a
+value from the outside (user application). The syntax for this type of variable
+is as follows::
+
+  {use $<name> [ = <value> ] [ , $<name2> [ = <value> ] ] }
+
+As you can see, the only difference with the local variable declaration is the
+tag 'use'. 
+
+The variable will be imported from the application and can be used in the
+template. If the imported variable name is not assigned to a value then it will
+get the default value from the assignment. One of the reasons that a variable
+has no value is that the variable is not made available by the user
+application.
+
+The next example shows a part of the user application, using the template
+engine::
+
+    $a = 1;
+    $b = 2;
+    $c = 3;
+
+    $t = new ezcTemplate();
+
+    // Send some information to the Template
+    $t->send->username = "jdoo"
+    $t->send->nickname = "dodo";
+    $t->send->age = 29;
+
+    // Process the template and echo it.
+    echo $t->process();
+
+
+The variables: $username, $nickname, and $age can be 'used' by the template::
+
+  {use $username = "unknown", $nickname = "unknown"}
+  {use $age = 0, $length = 0}
+
+  My age is: {$age}
+
+
+The variable $length will get the value 0, because the user application doesn't
+assign a value to it.
+
+More information about importing variables is described in the Include_ section.
+
+Cycles
+``````
+A cycle is a special type of variable that contains a set of values. Assigning
+new values to a cycle, should always be an array. Retrieving a value from the
+cycle goes only one at the time. Specific syntax tags are available to cycle
+through the set. The syntax for the cycle is::
+
+  {cycle $<unique_name> [ = <array_value> ] [ , $<unique_name2> [ = <array_value> ] ] }
+
+An array must be assigned to the cycle variable. Otherwise the template
+compiler *may* give a compiler error. (Sometimes it is not possible to know at
+compile time whether the assignment is an array or not)
+
+The next example declares a cycle, assigns a value, and shows the first and
+second value::
+ 
+  {cycle $rgb = array( "red", "green", "blue" ) }
+
+  {$rgb // Print "red"} 
+  {$rgb // Print "red" again} 
+  {increment $rgb // Go to the next element in the set}
+
+  {$rgb // Print "green"}
+ 
+
+See the Increment_, Decrement_ and Reset_ section for more information.
+
+Scopes
+``````
+Variable declarations must be done at the highest scope of the template.
+Declaring a variable in a lower scope will result in a compiler error.
+
+Scopes are usually opened and closed with a start and end template block.
+Template blocks that open a new scope are: {if .. }{/if}, {while ..} {/while},
+{foreach ..} {/foreach}, {switch .. } {/switch}, etc. The next example
+demonstrates the scoping::
+    
+    {var $a = 2  // Correct }
+
+    {if 2 == 3}
+        {* This opens a new scope *}
+
+        {var $b // ERROR! }  
+    {/if}
+
+ 
+Returning variables
+```````````````````
+Templates itself can also return variables to the user application or other
+templates. The return statement defines the variables that need to be
+returned::
+
+  {return ( <expression> as <variable> | <variable> ) [, ( <expression> as <variable> | <variable> ), ... ] }
+  
+The return statement returns one or multiple variables. The caller of the
+template can retrieve the return values. Consider the following template::
+
+  {* Return 6! and "Hello world" *} 
+
+  {var $fac6 = 6 * 5 * 4 * 3 * 2 }
+  {return $fac6, "Hello world" as $helloWorld}
+
+
+The user application can retrieve these values::
+
+    $t = new ezcTemplate();
+
+    // Process the template.
+    $t->process();
+
+    // Retrieve the values from the return.
+    $fac6 = $t->receive->fac6;
+    $hw   = $t->receive->helloWorld;
+    
+    // Output Hello world:
+    echo $hw;
+
+More information about returning variables is described in the Include_ section.
+
+
+Expressions
+-----------
+An expression is anything you write in a template block that doesn't start with
+a special tag. But expressions are also used in template blocks with a tag and
+gives merely a value. PHP quotes the expression as "Anything that gives a
+value", that is also true for the template syntax.
+
+
+Expressions can be a single *operands* that returns a value. It is also possible
+to combine multiple operands with *operators*. The value returned depends
+on the used operands and operators.
+
+The operands are:
+
+- Boolean_
+- Integer_
+- Float_
+- String_
+- Array_
+- Variables_
+- Functions_
+
+The operands Boolean, Integer, Float, String, and Array are described in the
+Types_ section. Variables are described in the Variables_ section. Functions
+will be described in the Functions_ section.
+
+Variables and functions are considered as operands since they return one
+value. The type of this return value is also a: Boolean, Integer, Float, 
+String, or Array.
+
+A operands returns a single value. Some examples are::
+  
+  {5}
+  {"Hello"}
+  {str_len("Hello")}
+
+The values returned are, respectively: 5, Hello, and 5. 
+
+Operators are things that you feed with one or multiple values and will result
+another value.  Examples of operators are adding two numbers together with the
+plus (+) operator. This operator expects two integers or floats (in any
+combination) and returns either a integer of float. Another example is the
+equal operator (==). It expects two types operands of the same type, and
+returns a Boolean.  
+
+
+Arithmetic operators
+````````````````````
+The arithmetic operators can be used on all expression which returns a
+numerical value, and the operator returns a value itself:
+
+==============  ===========
+Negation        -$o
+Ignored         +$o
+Addition        $ol + $or
+Subtraction     $ol - $or
+Multiplication  $ol * $or
+Division        $ol / $or
+Modulus         $ol % $or
+==============  ===========
+
+Note: The negation in this table is the arithmetic negation. Don't confuse this
+with the logic negation. 
+
+The unary plus operator can also be used, but it doesn't affect the value. Its
+usually used to clarify that it's not a negative value.
+
+Examples::
+
+  { 2 + 5     // Returns value 7}
+  { 2 - 5 }
+  { 4 + 3 * 2  // Due to the operator precedence, first the * 
+               // will be evaluated and thereafter the +. }
+
+  {var $a = 2}
+  {var $b = -$a}
+
+
+
+Comparison operators
+````````````````````
+All comparison operators return a boolean value. The left-hand side and
+right-hand side should be of the same type. The available comparison operators
+are:
+
+=====================  ============
+Equal                  $ol == $or
+Identical              $ol === $or
+Not equal              $ol != $or
+Not identical          $ol !== $or
+Less than              $ol < $or
+Greater than           $ol > $or
+Less than or equal     $ol <= $or
+Greater than or equal  $ol >= $or
+=====================  ============
+
+Examples::
+
+  { 4 == 5 }
+  { 2 <= 5 }
+  { true != false }
+  { 4 == 5 == 6 }
+
+
+The last example compares 4 with 5. This returns the boolean false. Hereafter
+the comparation is::
+  
+  { false == 6 }
+
+The number 6 will be changed into a boolean. Every number except zero will be
+true; thus the comparation::
+
+   { false == true }
+
+Thus the return value is false.
+
+
+Logical operators
+`````````````````
+The logical operators are used on all expressions which returns a boolean
+value. The operator returns also a boolean:
+
+===  ==========
+Not  ! $o
+And  $ol && $or
+Or   $ol || $or
+===  ==========
+
+Examples::
+  
+  { true || false }
+  { $a == 5 && $a != 7 } 
+  { $a || $b }
+
+
+Assignments
+-----------
+Assignment is used to assign or modify a value from a variable. This variable
+must be declared first, which is explained in the Variables_ section. Notice that
+an assignment can be used in the declaration itself.
+
+The syntax language has two types of assignments. The former type assigns a new
+value to the variable. This is done via the equal sign operator::
+
+  { <variable> = <expression> }
+
+The expression is evaluated and assigned to the variable. An example::
+
+  {var $myVar}
+  { $myVar = 3 + 5 / 5 } 
+
+The latter assignment type updates the existing value with a modifier. There are multiple 
+operators for this: 
+
+==============  ===========
+Addition        $var += $or
+Subtraction     $var -= $or
+Multiplication  $var \*= $or
+Division        $var /= $or
+Modulus         $var %= $or
+Pre increment   ++$var
+Pre decrement   --$var
+Post increment  $var++
+Post decrement  $var--
+==============  ===========
+
+The Addition, Subtraction, Multiplication, Division, and Modulus assignment
+operators does the arithmetic calculation between the left (variable) and the 
+right operand (expression), and assigns the value in the left operand
+(variable) again. Notice that variable must already contain a value.
+
+The increment operators increments the number of the current variable by one.
+The decrement operators do the opposite and decrement the value of the current 
+variable by one. There is no difference between the pre and post operators,
+and both are present for convenience purposes.
+ 
+Examples::
+
+  {var $myVar = 5 }
+
+  {$myVar += 5   // $myVar has the value 10 }
+  {$myVar++      // is the same as $myVar += 1 }
+  
+  {$myVar *= 10  // Multiply with 10}
+  {--$myVar      // Same as: $myVar -= 1 }
+ 
+
+
+Functions
+---------
+The template language has lots of build-in functions that can be called. These
+functions are categorized in a few groups: String, Array, Regular expression,
+Type information, and Arithmetic (math) functions. The functions are explained
+in the appendix.
+
+A function call has the following syntax::
+ 
+  <function_name> ( [ Parameter1 [, Parameter2, ... ] ] )
+
+An example::
+
+  {var $res = str_compare( "Hello", "Blaat" ) }
+  {$res // Contains false}
+
+
+All template functions follow these rules:
+
+- Function output is always returned. No variables are changed via references.
+- If the function contains a "haystack" and a "needle" then the first
+  parameter will be the "haystack". The "needle parameter is a parameter that
+  operates on another parameter, the "haystack".
+
+
+Control structures
+------------------
+Control structures are elements which help you control the flow of the code,
+either by doing conditional statements or by repeating certain actions.
+
+Increment
+`````````
+The increment construct sets the cycle variable to the next value in the cycle
+array::
+
+  {cycle $rgb = array("red", "green", "blue" )}
+
+  {$rgb // Print "red" }
+  {increment $rgb}
+  {$rgb // Print "green" }
+
+If the end of the cycle array is reached, it will jump again to the first
+value of the array. 
+
+  
+Decrement
+`````````
+The decrement construct sets the cycle variable to the previous value in the cycle
+array::
+
+  {cycle $rgb = array("red", "green", "blue" )}
+
+  {$rgb // Print "red" }
+  {decrement $rgb}
+  {$rgb // Print "blue" }
+
+If the begin of the cycle array is reached, it will jump again to the last
+value of the array. 
+
+
+Reset
+`````
+The reset construct sets the cycle variable to the first value in the cycle
+array::
+
+  {cycle $rgb = array("red", "green", "blue" )}
+
+  {$rgb // Print "red" }
+  {increment $rgb}
+  {$rgb // Print "blue" }
+
+  {reset $rgb}
+  {$rgb // Print "red" }
+
+
+
+If, else, elseif
+````````````````
+The *if* construct allows conditional execution of code fragments. The
+structure is::
+
+  {if <expression> }
+      <code>
+  {/if}
+
+If the <expression> evaluates to true, the <code> fragment will be executed.
+For instance the following code will show "$a is smaller than $b" if $a is
+smaller than $b::
+
+  {if $a < $b }
+      $a is smaller than $b.
+  {/if}
+
+
+The *else* construct can be used in an *if* statement. It contains a code
+fragment that will be executed if the <expression> evaluates to false::
+  
+  {if <expression> }
+     <code1>
+  {else}
+     <code2>
+  {/if}
+
+The <code2> is executed when the expression is false. Otherwise <code1> is
+executed. The next example outputs "$a does not contain the value 5!" if the
+expression doesn't match::
+
+  {if $a == 5}
+      $a contains the value 5!
+  {else}
+      $a does not contain the value 5!
+  {/if}
+
+
+The *elseif* construct can also be used in an *if* statement::
+
+    {if $weekday == 0}
+        Monday
+    {elseif $weekday == 1}
+        Tuesday
+    {elseif $weekday == 2}
+        Wednesday
+    {else}
+        Thursday, Friday, Saturday, or Sunday.
+    {/if}
+
+
+Writing directly and *elseif* statement is the same as writing them
+separately::
+
+    {if $weekday == 0}
+         Monday
+    {else}
+      {if $weekday == 1}
+          Tuesday
+      {else}
+        {if $weekday == 2}
+            Wednesday
+        {else}
+            Thursday, Friday, Saturday, or Sunday.
+        {/if}
+      {/if}
+    {/if}
+
+
+But, as you can see, this makes the code harder to read.
+
+
+Switch, Case, Default
+`````````````````````
+The switch construct is quite similar to multiple *if* and *elseif* statements.
+The syntax is as follows::
+
+    {switch <expression>}
+
+        <case1> [ case2 [ case3, .. ] ]
+        [ default ]
+
+    {/switch}
+    
+
+The case blocks::
+
+    {case <literal> [, <literal>, ..]}
+        <code>
+    {/case}
+
+And the default::
+
+    {default}
+        <code>
+    {/default}
+
+The switch statement expects an expression. This expression will then be
+compared with the literal values from the *case* statements. The comparison
+starts and goes to the next literal as the values from the <expression> and
+<literal> are not equal. The <code> from the first match will be executed and
+the rest of the cases are skipped.
+
+If none of the cases match, then the default block will be executed. See the
+example switch statement below::
+
+    {switch $weekDay}
+
+        {case 0} Monday {/case}
+        {case 1} Tuesday {/case}
+        {case 2} Wednesday {/case}
+        {case 3, 4, 5, 6} 
+            Thursday, Friday, Saturday, or Sunday
+        {/case}
+        
+        {default}
+            The $weekDay should be a number between 0 and 6. 
+        {/default}
+
+     {/switch}
+
+This switch converts the weekday number to a name.
+
+
+Foreach
+```````
+A very important construct in the template language is the *foreach*. The
+foreach is a loop structure that iterates over an array. Since this loop
+is used so often in the templates, it has several convenience tags build in.
+First we'll show the basic syntax::  
+    
+  {foreach <array> as <value> }
+      <code>
+  {/foreach}
+
+  {foreach <array> as <key> => <value> }
+      <code>
+  {/foreach}
+
+Two foreach structures are shown. The first structure takes each element from
+the <array> and assigns it to the variable <value>. The second structure does
+the same, except that the key of the array is assigned to the variable <key>.
+
+An example for each structure::
+
+  {var $rgb = array( "red", "green", "blue" ) }
+  {foreach $rgb as $color}
+    The color is: {$color}
+  {/foreach}
+
+  {foreach $rgb as $key => $color}
+    Array key {$key} contains the color: {$color}
+  {/foreach}
+
+The output for this example will be::
+
+   The color is: red
+   The color is: green
+   The color is: blue
+
+   Array key 0 contains the color: red
+   Array key 1 contains the color: green
+   Array key 2 contains the color: blue
+
+
+With this syntax we can easily loop any number, and is more convenient than
+using the while_ structure. This is demonstrated next::
+
+   {foreach 1..10 as $i}
+   Iteration {$i}
+   {/foreach}
+  
+This works of course because the "1..10" statement creates an array with the
+values from 1 until 10. 
+
+Often an foreach is used to create some kind of table or list. Therefore
+several extensions to the foreach are available:
+
+- Cycles, increment or decrement a cycle variable. 
+- Offset, start at a given offset.
+- Limit, add a maximum to the number of iterations.
+
+Cycles are discussed in the Cycles_ section. The foreach loop has a tag that
+increments and/or decrements an cycle value:: 
+
+  [increment <variable1> [, variable2, ... ] ] [decrement <variable1> [, variable2, ... ] ]
+
+This tag is added at the end of the foreach construct. The next example
+increments the cycle value in every iteration of the loop::
+
+  {cycle $blackAndWhite = array( '#00000', '#FFFFFF' )}
+
+  {foreach 1..5 as $value increment $blackAndWhite}
+      <font color="{$blackAndWhite}">Number: {$value}</font>
+  {/foreach}
+
+
+This loop will output the following code::
+
+      <font color="#000000">Number: 1</font>
+      <font color="#FFFFFF">Number: 2</font>
+      <font color="#000000">Number: 3</font>
+      <font color="#FFFFFF">Number: 4</font>
+      <font color="#000000">Number: 5</font>
+
+The offset and limit code constructs are specified after the cycle increment or
+decrement tag. The offset and limit constructs are extremely useful for
+splitting a long table or list over multiple page views. The next example
+demonstrates this::
+
+   {use $hugeArray = array(), $offset = 0}
+   {foreach $hugeArray as $tableEntry offset $offset limit 100}  
+
+     {* Show the information from the $tableEntry *}
+
+   {foreach}
+
+If no offset is given to the template it will get the value 0, otherwise it
+has the given value. See the `External variable declaration`_ section for more 
+information. The loop will start at the $offset and won't show the previous
+elements. The maximum iterations of the loop is 100. Another example shows 
+the numbers from 50 until 100::
+
+   {var $hugeArray = 1..1000}
+
+   {foreach $hugeArray as $value offset 50 limit 50}
+     {$value}
+   {/foreach}
+
+
+While
+`````
+The while loop loops over a code fragment as long as the expression in the
+while evaluates to true. The syntax of the while loop is as follows::
+
+    {while <expression>}
+        <code>
+    {/while}
+
+Usually the expression evaluates whether a counter reaches a certain number. In
+the <code> the counter in increased or decreased::
+
+    {var $i = 0}
+    {while $i < 10}
+       The number is: {$i}.
+       {$i++}
+    {/while}
+
+This example prints the numbers from 0 until 9. If you write a while loop, make
+sure that the loop eventually ends. The next example demonstrates another while
+loop. This loop increments a value from a Cycle. Compare how the same example
+can be done with a Foreach_:: 
+
+  {cycle $blackAndWhite = array( '#00000', '#FFFFFF' )}
+  {var $i = 1}
+
+  {while $i <= 5 }
+      <font color="{$blackAndWhite}">Number: {$i}</font>
+      {$i++}
+      {increment $blackAndWhite}
+  {/while}
+
+
+Delimiter
+`````````
+The delimiter can be used (only) inside a loop to do every given iteration a specific
+action. The syntax is as follows::
+
+   {delimiter modulo <expression> [is <expression>]}
+       <code>
+   {/delimiter}
+
+The "is <expression>" part of the delimiter can be omitted and will be
+interpreted as "is 0". The next example demonstrates creates a matrix with 4
+rows and 4 columns. The delimiter closes the current row and opens a new one::
+
+   {var $columns = 4}
+   <table>
+   <tr>
+   {foreach 1..16 as $nr}
+     <td>{$nr}</td>
+   
+     {delimiter modulo $columns}
+       </tr><tr>
+     {/delimiter}
+   {/foreach}
+   </tr>
+
+
+The delimiter will always be executed at the end of the loop. In this example
+switching the "<td>{$nr}</td>" and the delimiter does not make a difference.
+
+Continue
+````````
+The continue statement is used within the looping structures to skip the rest of the current loop 
+iteration and continue execution at the condition evaluation and then the beginning of the next 
+iteration. If a delimiter is available in the looping structure then this
+delimiter will be added. Use the Skip_ statement to skip also the delimiter.
+The next example show the numbers 1 to 3, with the word "Beer" behind it. The
+word "Beer" will be displayed for iterations where the continue is called.
+
+  {foreach 1..5 as $i}
+
+  {delimiter module 1}
+  Beer
+  {/delimiter}
+
+  {if $i > 3} {continue} {/if}
+  {$i}
+  {/foreach}
+
+This template code will produce the results::
+
+  1 Beer
+  2 Beer
+  3 Beer
+  Beer
+  Beer
+
+
+Skip
+````
+The skip is the same as a continue, except that the delimiter in the loop will
+be skipped also.  The next example show the numbers 1 to 3, with the word
+"Beer" behind it::
+
+  {foreach 1..5 as $i}
+
+  {delimiter module 1}
+  Beer
+  {/delimiter}
+
+  {if $i > 3} {skip} {/if}
+  {$i}
+  {/foreach}
+
+And outputs::
+
+  1 Beer
+  2 Beer
+  3 Beer
+
+
+Break
+`````
+The break ends execution of the current foreach or while structure. The example
+below prints the numbers 1 and 2. Due to the break, the rest of the loop is
+skipped::
+
+  {foreach 1..10 as $i}
+  {$i}
+  {if $i == 2} {break} {/if}
+  {/foreach}
+
+
+Include
+```````
+The include calls other templates which will be executed within the current
+template. Variables can be passed on and retrieved from the included template.
+The generic template could then be used at multiple places and is configurable
+via the given variables. 
+
+The syntax of the include is as follows::
+
+  {include <template_name> 
+   [ send <send_variables> ]
+   [ receive <receive_variables> ]
+
+The <send\_variables> has this syntax::
+
+   <expression> as <variable> | <variable>
+
+And the <receive\_variables> has almost the same syntax as the
+<send\_variables>::
+
+   <variable> as <variable> | <variable>
+
+A next example will clarify the syntax a bit more::
+
+   {include "calc_a_plus_b.ezt" 
+   send     2 as $a, 
+            5 as $b
+   receive $c as $sum }
+
+The included template calculates the sum of the given variables $a and $b, and
+returns the answer in variable $c. The expressions "2" and "5" are assigned to 
+the variables $a and $b of the included template. The value of the (returned)
+variable $c is directly assigned to the variable $sum. The variable $sum does
+not need to be declared first. 
+   
+The template "calc\_a\_plus\_b.ezt" is::
+
+  {use $a = false, $b = false}
+
+  {if $a === false || $b === false}
+  Variable $a or $b has an incorrect value.
+  {/if}
+
+  {return $a + $b as $c}
+
+
+The next templates includes the "calc\_a\_plus\_b.ezt" but does not use the
+expression part of the include::
+
+   {var $a = 2, $b = 5}
+   {include "calc_a_plus_b.ezt" 
+   send     $a, $b 
+   receive $c }
+
+   {var $sum = $c}
+
+
+.. 
+.. Properties
+.. ----------
+.. 
+.. Use
+.. ^^^
+.. The nodes: $node and $optionalNode come from the application, and need therefore be known in the template code.
+.. If the $optionalNode is not set, it will get the default value "false"::
+.. 
+..   {use $node, $optionalNode = false}
+.. 
+.. 
+.. Accessing a property
+.. ^^^^^^^^^^^^^^^^^^^^
+.. ::
+.. 
+..   {use $node, $optionalNode = false}
+.. 
+..   Impressive title: {$node->impressiveTitle}
+.. 
+..   Norwegian title: {$node->titles["norwegian"]}
+.. 
+..   {if $optionalNode != false}
+..     Extra title: {$optionalNode->titles["norwegian"]}
+..   {/if}
+.. 
+
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
