@@ -1,4 +1,4 @@
-1.0beta3 - [RELEASEDATE]
+1.0beta3 - Tuesday 09 May 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Added the ezcDbSchemaPersistentWriter class that writes schema definitions
