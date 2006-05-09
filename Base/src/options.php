@@ -17,7 +17,7 @@ abstract class ezcBaseOptions implements ArrayAccess
     abstract public function __set( $propertyName, $propertyValue );
 
     /**
-     * Construct a new options class.
+     * Construct a new options object.
      * Options are constructed from an option array by default. The constructor
      * automatically passes the given options to the __set() method to set them 
      * in the class.
