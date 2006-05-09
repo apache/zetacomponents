@@ -16,7 +16,7 @@ require_once "data/manual_generator_test.php";
  * @package PersistentObject
  * @subpackage Tests
  */
-class ezcManualGeneratorTest extends ezcTestCase
+class ezcPersistentManualGeneratorTest extends ezcTestCase
 {
     private $session = null;
     private $hasTables = false;
@@ -38,7 +38,7 @@ class ezcManualGeneratorTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcManualGeneratorTest' );
+        return new ezcTestSuite( 'ezcPersistentManualGeneratorTest' );
     }
 
     // test no id error
