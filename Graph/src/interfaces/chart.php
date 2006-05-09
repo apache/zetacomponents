@@ -12,14 +12,13 @@
  *
  * @package Graph
  */
-abstract class ezcGraphChart extends ezcBaseOptions
+abstract class ezcGraphChart
 {
 
     /**
      * Contains all general chart options
      * 
      * @var ezcGraphChartConfig
-     * @access protected
      */
     protected $options;
 
@@ -27,7 +26,6 @@ abstract class ezcGraphChart extends ezcBaseOptions
      * Contains subelelemnts of the chart like legend and axes
      * 
      * @var array( ezcGraphChartElement )
-     * @access protected
      */
     protected $elements;
 
@@ -35,7 +33,6 @@ abstract class ezcGraphChart extends ezcBaseOptions
      * Contains the data of the chart
      * 
      * @var array( ezcGraphDataset )
-     * @access protected
      */
     protected $data;
 
@@ -43,7 +40,6 @@ abstract class ezcGraphChart extends ezcBaseOptions
      * Renderer for the chart
      * 
      * @var ezcGraphRenderer
-     * @access protected
      */
     protected $renderer;
 
@@ -51,9 +47,20 @@ abstract class ezcGraphChart extends ezcBaseOptions
      * Driver for the chart
      * 
      * @var ezcGraphDriver
-     * @access protected
      */
     protected $driver;
+
+    /**
+     * Title of the chart
+     * 
+     * @var string
+     */
+    protected $title;
+
+    public function __construct( array $options = array() )
+    {
+        $this->options = new ezcGraphChartOption();
+    }
 
     /**
      * Options write access
@@ -64,11 +71,57 @@ abstract class ezcGraphChart extends ezcBaseOptions
      *          If value is out of range
      * @param mixed $propertyName   Option name
      * @param mixed $propertyValue  Option value;
-     * @access public
      * @return void
      */
     public function __set( $propertyName, $propertyValue ) 
     {
+        switch ( $propertyName ) {
+            case 'title':
+                $this->title = (string) $propertyValue;
+                return $this;
+            break;
+            case 'renderer':
+                if ( $propertyValue instanceof ezcGraphRenderer )
+                {
+                    return $this->renderer = $propertyValue;
+                }
+                else 
+                {
+                    throw new ezcGraphInvalidRendererException( $propertyValue );
+                }
+            break;
+            case 'driver':
+                if ( $propertyValue instanceof ezcGraphDriver )
+                {
+                    return $this->driver = $propertyValue;
+                }
+                else 
+               {
+                    throw new ezcGraphInvalidDriverException( $propertyValue );
+               }
+            break;
+            default:
+                // Consider everything else as dataset
+                // @TODO: Implement
+            break;
+        }
+    }
+
+    public function __get( $propertyName )
+    {
+        if ( isset( $this->$propertyName ) )
+        {
+            return $this->$propertyName;
+        }
+
+        if ( isset( $this->data[$propertyName] ) )
+        {
+            return $this->data[$propertyName];
+        }
+        else
+        {
+            throw new ezcGraphNoSuchDatasetException( $propertyName );
+        }
     }
 
     /**
@@ -79,7 +132,6 @@ abstract class ezcGraphChart extends ezcBaseOptions
      * 
      * @param ezcGraphRenderer $renderer Renderer fr the chart
      * @abstract
-     * @access public
      * @return void
      */
     abstract public function render( ezcGraphRenderer $renderer );

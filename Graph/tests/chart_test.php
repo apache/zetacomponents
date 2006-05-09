@@ -75,6 +75,8 @@ class ezcGraphChartTest extends ezcTestCase
         {
             $this->fail( $e->getMessage() );
         }
+
+        $this->assertProtectedPropertySame( $pieChart->options, 'backgroundImage', $this->basePath . $this->testFiles['jpeg'] );
     }
 
     public function testSetOptionsInvalidBackgroundImage()
@@ -126,6 +128,8 @@ class ezcGraphChartTest extends ezcTestCase
         {
             $this->fail( $e->getMessage() );
         }
+
+        $this->assertProtectedPropertySame( $pieChart->options, 'background', ezcGraphColor::fromHex( 'FF0000' ) );
     }
 
     public function testSetOptionsBorder()
@@ -139,6 +143,42 @@ class ezcGraphChartTest extends ezcTestCase
         {
             $this->fail( $e->getMessage() );
         }
+
+        $this->assertProtectedPropertySame( $pieChart->options, 'border', ezcGraphColor::fromHex( 'FF0000' ) );
+    }
+
+    public function testSetOptionsBorderWidth()
+    {
+        try
+        {
+            $pieChart = ezcGraph::create( 'Pie' );
+            $pieChart->options->borderWidth = 3;
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $this->assertProtectedPropertySame( $pieChart->options, 'borderWidth', 3 );
+    }
+
+    public function testSetOptionsUnknown()
+    {
+        try
+        {
+            $pieChart = ezcGraph::create( 'Pie' );
+            $pieChart->options->unknown = 'unknown';
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return true;
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $this->fail( 'Expected ezcBasePropertyNotFoundException' );
     }
 
     public function testSetRenderer()
@@ -146,12 +186,14 @@ class ezcGraphChartTest extends ezcTestCase
         try
         {
             $pieChart = ezcGraph::create( 'Pie' );
-            $pieChart->renderer = new ezcGraphRenderer2D();
+            $renderer = $pieChart->renderer = new ezcGraphRenderer2D();
         }
         catch ( Exception $e ) 
         {
             $this->fail( $e->getMessage() );
         }
+
+        $this->assertProtectedPropertySame( $pieChart, 'renderer', $renderer );
     }
 
     public function testSetInvalidRenderer()
@@ -178,12 +220,14 @@ class ezcGraphChartTest extends ezcTestCase
         try
         {
             $pieChart = ezcGraph::create( 'Pie' );
-            $pieChart->driver = new ezcGraphGDDriver();
+            $driver = $pieChart->driver = new ezcGraphGDDriver();
         }
         catch ( Exception $e ) 
         {
             $this->fail( $e->getMessage() );
         }
+
+        $this->assertProtectedPropertySame( $pieChart, 'driver', $driver );
     }
 
     public function testSetInvalidDriver()

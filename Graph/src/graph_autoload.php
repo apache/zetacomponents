@@ -16,9 +16,20 @@ return array(
     'ezcGraphChart'                             => 'Graph/interfaces/chart.php',
     'ezcGraphPieChart'                          => 'Graph/charts/pie.php',
     'ezcGraphLineChart'                         => 'Graph/charts/line.php',
+    'ezcGraphChartOption'                       => 'Graph/charts/options.php',
 
     'ezcGraphColor'                             => 'Graph/structs/color.php',
-    'ezcGraphUnknownColorDefinitionException'   => 'Graph/exceptions/unknown_color_definition.php'
+    'ezcGraphUnknownColorDefinitionException'   => 'Graph/exceptions/unknown_color_definition.php',
+
+    'ezcGraphRenderer'                          => 'Graph/interfaces/renderer.php',
+    'ezcGraphRenderer2D'                        => 'Graph/renderer/2d.php',
+    'ezcGraphRenderer3D'                        => 'Graph/renderer/3d.php',
+    'ezcGraphInvalidRendererException'          => 'Graph/exceptions/invalid_renderer.php',
+
+    'ezcGraphDriver'                            => 'Graph/interfaces/driver.php',
+    'ezcGraphGDDriver'                          => 'Graph/driver/gd.php',
+    'ezcGraphSVGDriver'                         => 'Graph/driver/svg.php',
+    'ezcGraphInvalidDriverException'            => 'Graph/exceptions/invalid_driver.php',
 );
 
 ?>
