@@ -1,3 +1,11 @@
+1.0beta2 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Added the cpuCount property that shows the number of CPUs in a machine.
+- Changed the cpuSpeed property to always return a floating point in MHz.
+- Removed the cpuUnit property which would return 'MHz' or 'GHz'.
+
+
 1.0beta1 - Wednesday 19 April 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
