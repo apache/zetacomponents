@@ -108,7 +108,7 @@ class ezcGraphChartTest extends ezcTestCase
             $pieChart = ezcGraph::create( 'Pie' );
             $pieChart->options->backgroundImage = $this->basePath . $this->testFiles['nonexistant'];
         } 
-        catch ( ezcGraphFileNotFoundException $e ) 
+        catch ( ezcBaseFileNotFoundException $e ) 
         {
             return true;
         } 
@@ -117,7 +117,7 @@ class ezcGraphChartTest extends ezcTestCase
             $this->fail( $e->getMessage() );
         }
 
-        $this->fail( 'Expected ezcGraphFileNotFoundException' );
+        $this->fail( 'Expected ezcBaseFileNotFoundException' );
     }
 
     public function testSetOptionsBackground()
