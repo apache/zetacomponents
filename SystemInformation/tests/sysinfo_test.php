@@ -34,21 +34,10 @@ class ezcSystemInfoTest extends ezcTestCase
         $info = ezcSystemInfo::getInstance();
         $cpuSpeed = $info->cpuSpeed;
         $haveCpuSpeed = preg_match( '/([0-9]+)(\.)?([0-9]+)$/', $cpuSpeed ) ? true : false;
-        
-        if( !is_string($cpuSpeed) || $cpuSpeed=='' || !$haveCpuSpeed ) 
+
+        if( !is_float($cpuSpeed) || $cpuSpeed=='' || !$haveCpuSpeed ) 
         {
             self::fail('CPU speed was not determined correctly');
-        }
-    }
-
-    public function testSystemInfoCpuUnitTest()
-    {
-        $info = ezcSystemInfo::getInstance();
-        $cpuUnit = $info->cpuUnit;
-        
-        if( $cpuUnit != 'MHz' && $cpuUnit !='GHz' ) 
-        {
-            self::fail('CPU speed unit was not determined correctly');
         }
     }
 
