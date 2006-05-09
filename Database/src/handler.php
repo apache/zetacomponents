@@ -196,6 +196,7 @@ abstract class ezcDbHandler extends PDO
 
         if ( $this->transactionNestingLevel == 1 )
         {
+            parent::rollback();
             $this->transactionErrorFlag = false; // reset error flag
         }
         else
