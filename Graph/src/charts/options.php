@@ -80,7 +80,7 @@ class ezcGraphChartOption extends ezcBaseOptions
                 // Check for existance of file
                 if ( !is_file( $propertyValue ) || !is_readable( $propertyValue ) )
                 {
-                    throw new ezcGraphFileNotFoundException( $propertyValue );
+                    throw new ezcBaseFileNotFoundException( $propertyValue );
                 }
 
                 // Check for beeing an image file
