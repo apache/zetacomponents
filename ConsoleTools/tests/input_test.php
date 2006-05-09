@@ -29,6 +29,11 @@ class ezcConsoleToolsInputTest extends ezcTestCase
             'options'   => array(),
         ),
         array( 
+            'short'     => '',
+            'long'      => 'carry',
+            'options'   => array(),
+        ),
+        array( 
             'short'     => 'v',
             'long'      => 'visual',
             'options'   => array(
@@ -231,11 +236,14 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         {
             $param = $this->createFakeParam( $paramData );
             $tmpConsoleInput->registerOption( $param );
-            $this->assertEquals( 
-                $param,
-                $tmpConsoleInput->getOption( $paramData['short'] ),
-                'Parameter not registered correctly with short name <' . $paramData['short'] . '>.'
-            );
+            if ( $param->short !== '' )
+            {
+                $this->assertEquals( 
+                    $param,
+                    $tmpConsoleInput->getOption( $paramData['short'] ),
+                    'Parameter not registered correctly with short name <' . $paramData['short'] . '>.'
+                );
+            }
             $this->assertEquals( 
                 $param,
                 $tmpConsoleInput->getOption( $paramData['long'] ),
@@ -853,6 +861,10 @@ class ezcConsoleToolsInputTest extends ezcTestCase
                 'No help available.',
             ),
             array( 
+                '--carry',
+                'No help available.',
+            ),
+            array( 
                 '-v / --visual',
                 'No help available.',
             ),
@@ -901,6 +913,10 @@ class ezcConsoleToolsInputTest extends ezcTestCase
             ),
             array( 
                 '-s / --subway',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '--carry',
                 'Sorry, there is no help text available for this parameter.',
             ),
             array( 
@@ -1002,7 +1018,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
     public function testGetSynopsis()
     {
         $this->assertEquals( 
-            '$ '.$_SERVER['argv'][0].' [-t] [-s] [-v] [-o <string>] [-b 42] [-d "world"] [-y <string>] [-c] [-e] [-n]  [[--] <args>]',
+            '$ '.$_SERVER['argv'][0].' [-t] [-s] [--carry] [-v] [-o <string>] [-b 42] [-d "world"] [-y <string>] [-c] [-e] [-n]  [[--] <args>]',
             $this->consoleParameter->getSynopsis(),
             'Program synopsis not generated correctly.'
         );

@@ -208,7 +208,10 @@ class ezcConsoleInput
         }
         $this->options[] = $option;
         $this->optionLong[$option->long] = $option;
-        $this->optionShort[$option->short] = $option;
+        if ( $option->short !== "" )
+        {
+            $this->optionShort[$option->short] = $option;
+        }
         return $option;
     }
 
@@ -612,7 +615,7 @@ class ezcConsoleInput
             if ( count( $params ) === 0 || in_array( $param->short, $params ) || in_array( $param->long, $params ) )
             {
                 $help[] = array( 
-                    '-' . $param->short . ' / ' . '--' . $param->long,
+                    ( $param->short !== "" ? '-' . $param->short . ' / ' : "" ) . '--' . $param->long,
                     $long == false ? $param->shorthelp : $param->longhelp,
                 );
             }
@@ -757,7 +760,7 @@ class ezcConsoleInput
         
         $usedOptions[] = $option->short;
         
-        $synopsis .= "-{$option->short}";
+        $synopsis .= $option->short !== "" ? "-{$option->short}" : "--{$option->long}";
 
         if ( isset( $option->default ) )
         {
