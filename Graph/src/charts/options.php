@@ -77,7 +77,25 @@ class ezcGraphChartOption extends ezcBaseOptions
                 $this->height = max( 1, (int) $propertyValue );
             break;
             case 'backgroundImage':
-                // @TODO: Implement checks
+                // Check for existance of file
+                if ( !is_file( $propertyValue ) || !is_readable( $propertyValue ) )
+                {
+                    throw new ezcGraphFileNotFoundException( $propertyValue );
+                }
+
+                // Check for beeing an image file
+                $data = getImageSize( $propertyValue );
+                if ( $data === false )
+                {
+                    throw new ezcGraphInvalidImageFileException( $propertyValue );
+                }
+
+                // SWF files are useless..
+                if ( $data[2] === 4 ) 
+                {
+                    throw new ezcGraphInvalidImageFileException( 'We cant use SWF files like <' . $propertyValue . '>.' );
+                }
+
                 $this->backgroundImage = $propertyValue;
             break;
             case 'background':
