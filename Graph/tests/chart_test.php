@@ -61,7 +61,10 @@ class ezcGraphChartTest extends ezcTestCase
             $this->fail( $e->getMessage() );
         }
 
-        $this->assertProtectedPropertySame( $pieChart, 'title', 'Test title' );
+        $this->assertSame(
+            'Test title',
+            $this->getNonPublicProperty( $pieChart, 'title' )
+        );
     }
 
     public function testSetOptionsValidBackgroundImage()
@@ -129,7 +132,10 @@ class ezcGraphChartTest extends ezcTestCase
             $this->fail( $e->getMessage() );
         }
 
-        $this->assertProtectedPropertySame( $pieChart->options, 'background', ezcGraphColor::fromHex( 'FF0000' ) );
+        $this->assertEquals( 
+            ezcGraphColor::fromHex( 'FF0000' ),
+            $this->getNonPublicProperty( $pieChart->options, 'background' )
+        );
     }
 
     public function testSetOptionsBorder()
@@ -144,7 +150,10 @@ class ezcGraphChartTest extends ezcTestCase
             $this->fail( $e->getMessage() );
         }
 
-        $this->assertProtectedPropertySame( $pieChart->options, 'border', ezcGraphColor::fromHex( 'FF0000' ) );
+        $this->assertEquals( 
+            ezcGraphColor::fromHex( 'FF0000' ),
+            $this->getNonPublicProperty( $pieChart->options, 'border' )
+        );
     }
 
     public function testSetOptionsBorderWidth()
@@ -193,7 +202,10 @@ class ezcGraphChartTest extends ezcTestCase
             $this->fail( $e->getMessage() );
         }
 
-        $this->assertProtectedPropertySame( $pieChart, 'renderer', $renderer );
+        $this->assertSame(
+            $renderer,
+            $this->getNonPublicProperty( $pieChart, 'renderer' )
+        );
     }
 
     public function testSetInvalidRenderer()
@@ -227,7 +239,10 @@ class ezcGraphChartTest extends ezcTestCase
             $this->fail( $e->getMessage() );
         }
 
-        $this->assertProtectedPropertySame( $pieChart, 'driver', $driver );
+        $this->assertSame(
+            $driver,
+            $this->getNonPublicProperty( $pieChart, 'driver' )
+        );
     }
 
     public function testSetInvalidDriver()
