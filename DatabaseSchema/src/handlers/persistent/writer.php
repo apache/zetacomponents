@@ -193,7 +193,7 @@ class ezcDbschemaPersistentWriter implements ezcDbSchemaFileWriter
     {
         fwrite( $file, "return \$def;\n" );
         fwrite( $file, "\n" );
-        fwrite( $file, "?>" );
+        fwrite( $file, "?>\n" );
         fclose( $file );
     }
 
