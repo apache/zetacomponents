@@ -1,3 +1,12 @@
+
+- Fixed issues with escape characters in the single quoted string, double
+  quoted string, and in the Text.
+- Added functionality that a number can also be specified with an exponent.
+- Throw an exception when a directory in the compile path could not be
+  created (Because of the file permissions). 
+- Throw an exception when a method from an object is called.
+
+
 1.0beta1 - Monday 01 May 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
