@@ -30,7 +30,7 @@ class ezcPersistentObjectSuite extends ezcTestSuite
             $this->addTest( ezcPersistentCodeManagerTest::suite() );
             $this->addTest( ezcPersistentSessionTest::suite() );
             $this->addTest( ezcPersistentFindIteratorTest::suite() );
-            $this->addTest( ezcManualGeneratorTest::suite() );
+            $this->addTest( ezcPersistentManualGeneratorTest::suite() );
 	}
 
     public static function suite()
