@@ -458,12 +458,24 @@ class ezcPersistentSession
         $state = $pObject->getState();
         $idValue = $state[$def->idProperty->propertyName];
 
-        // check that this object is stored to db already
-        if ( $idValue !== null )
+        // fetch the id generator
+        $idGenerator = null;
+        if ( class_exists( $def->idProperty->generator->class ) )
+        {
+            $idGenerator = new $def->idProperty->generator->class;
+            if ( !( $idGenerator instanceof ezcPersistentIdentifierGenerator ) )
+            {
+                throw new ezcPersistentIdentifierGenerationException( get_class( $pObject ),
+                                                                      "Could not initialize identifier generator: ". "{$def->idProperty->generator->class} ." );
+            }
+        }
+
+        if( $idGenerator->checkPersistence( $def, $state ) )
         {
             $class = get_class( $pObject );
             throw new ezcPersistentObjectAlreadyPersistentException( $class );
         }
+
 
         // set up and execute the query
         $q = $this->db->createInsertQuery();
@@ -474,18 +486,6 @@ class ezcPersistentSession
             {
                 // set each of the properties
                 $q->set( $def->properties[$name]->columnName, $q->bindValue( $value ) );
-            }
-        }
-
-        // fetch the id generator
-        $idGenerator = null;
-        if ( class_exists( $def->idProperty->generator->class ) )
-        {
-            $idGenerator = new $def->idProperty->generator->class;
-            if ( !( $idGenerator instanceof ezcPersistentIdentifierGenerator ) )
-            {
-                throw new ezcPersistentIdentifierGenerationException( get_class( $pObject ),
-                                                                      "Could not initialize identifier generator: ". "{$def->idProperty->generator->class} ." );
             }
         }
 

@@ -35,7 +35,7 @@
  * @package PersistentObject
  * @access private
  */
-class ezcPersistentSequenceGenerator implements ezcPersistentIdentifierGenerator
+class ezcPersistentSequenceGenerator extends ezcPersistentIdentifierGenerator
 {
     /**
      * This method does not do anything.
