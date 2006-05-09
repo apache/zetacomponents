@@ -20,7 +20,7 @@ class ezcGraphColor
     /**
      * Throws a BasePropertyNotFound exception.
      */
-    public function __set( $name, $value )
+    public function __set( $name, $key )
     {
         throw new ezcBasePropertyNotFoundException( $name );
     }
@@ -41,6 +41,32 @@ class ezcGraphColor
      */
     static public function fromHex( $string ) 
     {
+        // Remove trailing #
+        if ( $string[0] === '#' )
+        {
+            $string = substr( $string, 1 );
+        }
+        
+        // Iterate over chunks and convert to integer
+        $color = new ezcGraphColor();
+        $keys = array( 'red', 'green', 'blue', 'alpha' );
+        foreach ( str_split( $string, 2) as $nr => $hexValue )
+        {
+            if ( isset( $keys[$nr] ) ) 
+            {
+                $key = $keys[$nr];
+                $color->$key = hexdec( $hexValue ) % 255;
+            }
+        }
+        
+        // Set missing values to zero
+        for ( ++$nr; $nr < count( $keys ); ++$nr )
+        {
+            $key = $keys[$nr];
+            $color->$key = 0;
+        }
+
+        return $color;
     }
 
     /**
@@ -51,6 +77,27 @@ class ezcGraphColor
      */
     static public function fromIntegerArray( array $array )
     {
+        // Iterate over array elements
+        $color = new ezcGraphColor();
+        $keys = array( 'red', 'green', 'blue', 'alpha' );
+        $nr = 0;
+        foreach ( $array as $colorValue )
+        {
+            if ( isset( $keys[$nr] ) ) 
+            {
+                $key = $keys[$nr++];
+                $color->$key = ( (int) $colorValue ) % 255;
+            }
+        }
+        
+        // Set missing values to zero
+        for ( ++$nr; $nr < count( $keys ); ++$nr )
+        {
+            $key = $keys[$nr];
+            $color->$key = 0;
+        }
+
+        return $color;
     }
 
     /**
@@ -61,6 +108,27 @@ class ezcGraphColor
      */
     static public function fromFloatArray( array $array )
     {
+        // Iterate over array elements
+        $color = new ezcGraphColor();
+        $keys = array( 'red', 'green', 'blue', 'alpha' );
+        $nr = 0;
+        foreach ( $array as $colorValue )
+        {
+            if ( isset( $keys[$nr] ) ) 
+            {
+                $key = $keys[$nr++];
+                $color->$key = ( (float) $colorValue * 255 ) % 255;
+            }
+        }
+        
+        // Set missing values to zero
+        for ( ++$nr; $nr < count( $keys ); ++$nr )
+        {
+            $key = $keys[$nr];
+            $color->$key = 0;
+        }
+
+        return $color;
     }
 
     /**
@@ -72,9 +140,27 @@ class ezcGraphColor
      */
     static public function create( $color )
     {
+        if ( is_string( $color ) )
+        {
+            return ezcGraphColor::fromHex( $color );
+        }
+        elseif ( is_array( $color ) )
+        {
+            $testElement = reset( $color );
+            if ( is_int( $testElement ) )
+            {
+                return ezcGraphColor::fromIntegerArray( $color );
+            } 
+            else 
+            {
+                return ezcGraphColor::fromFloatArray( $color );
+            }
+        }
+        else
+        {
+            throw new ezcGraphUnknownColorDefinitionException( $color );
+        }
     }
 }
-
-?
 
 ?>

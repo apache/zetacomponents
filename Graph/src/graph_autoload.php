@@ -10,12 +10,15 @@
  */
 
 return array(
-    'ezcGraph'                              => 'Graph/graph.php',
-    'ezcGraphUnknownChartTypeException'     => 'Graph/exceptions/unknown_chart_type.php',
+    'ezcGraph'                                  => 'Graph/graph.php',
+    'ezcGraphUnknownChartTypeException'         => 'Graph/exceptions/unknown_chart_type.php',
     
-    'ezcGraphChart'                         => 'Graph/interfaces/chart.php',
-    'ezcGraphPieChart'                      => 'Graph/charts/pie.php',
-    'ezcGraphLineChart'                     => 'Graph/charts/line.php',
+    'ezcGraphChart'                             => 'Graph/interfaces/chart.php',
+    'ezcGraphPieChart'                          => 'Graph/charts/pie.php',
+    'ezcGraphLineChart'                         => 'Graph/charts/line.php',
+
+    'ezcGraphColor'                             => 'Graph/structs/color.php',
+    'ezcGraphUnknownColorDefinitionException'   => 'Graph/exceptions/unknown_color_definition.php'
 );
 
 ?>
