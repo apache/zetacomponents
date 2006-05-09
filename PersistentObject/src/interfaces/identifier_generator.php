@@ -44,7 +44,7 @@ abstract class ezcPersistentIdentifierGenerator
      * @param array(key=>value)
      * @return void
      */
-    public function checkPersistence( ezcPersistentObjectDefinition $def, array $state )
+    public function checkPersistence( ezcPersistentObjectDefinition $def, ezcDbHandler $db, array $state )
     {
         $idValue = $state[$def->idProperty->propertyName];
 

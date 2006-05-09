@@ -470,7 +470,7 @@ class ezcPersistentSession
             }
         }
 
-        if( $idGenerator->checkPersistence( $def, $state ) )
+        if( $idGenerator->checkPersistence( $def, $this->db, $state ) )
         {
             $class = get_class( $pObject );
             throw new ezcPersistentObjectAlreadyPersistentException( $class );
@@ -501,6 +501,7 @@ class ezcPersistentSession
         }
         catch ( PDOException $e )
         {
+            $this->db->rollback();
             throw new ezcPersistentObjectException( "The insert query failed." );
         }
 

@@ -14,6 +14,7 @@
 require_once( 'managers/code_manager_test.php' );
 require_once( 'persistent_session_test.php' );
 require_once( 'find_iterator_test.php' );
+require_once( 'manual_generator_test.php' );
 
 /**
  * @package PersistentObject
@@ -29,6 +30,7 @@ class ezcPersistentObjectSuite extends ezcTestSuite
             $this->addTest( ezcPersistentCodeManagerTest::suite() );
             $this->addTest( ezcPersistentSessionTest::suite() );
             $this->addTest( ezcPersistentFindIteratorTest::suite() );
+            $this->addTest( ezcManualGeneratorTest::suite() );
 	}
 
     public static function suite()

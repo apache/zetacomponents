@@ -4,7 +4,10 @@
 - Fixed #7884: ezcPersistentSession sometimes triggers PDO "General error:
   2014" exceptions.
 - Fixed #8042: PersistentObject requires use of database id counter.
-	
+	Note: The change involves a slight BC incompatible change. ezcPersistentIdentifierGenerator
+	is no longer an interface but an abstract class. Implementors must change 'implements' to
+	'extends' to reflect this.
+- Added ezcPersistentManulGenerator which can be used to set the id's of new object manually.
 
 1.0.1 - Monday 20 February 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -23,5 +23,6 @@ return array(
     'ezcPersistentStateTransformer' => 'PersistentObject/internal/state_transformer.php',
     'ezcPersistentSequenceGenerator' => 'PersistentObject/generators/sequence_generator.php',
     'ezcPersistentIdentifierGenerator' => 'PersistentObject/interfaces/identifier_generator.php',
+    'ezcPersistentManualGenerator' => 'PersistentObject/generators/manual_generator.php',
     'ezcPersistentGeneratorDefinition' => 'PersistentObject/structs/generator_definition.php' );
 ?>
