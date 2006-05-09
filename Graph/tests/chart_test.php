@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcChartTest 
+ * ezcGraphChartTest 
  * 
  * @package Graph
  * @version //autogen//
@@ -15,7 +15,7 @@
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcChartTest extends ezcTestCase
+class ezcGraphChartTest extends ezcTestCase
 {
     protected $testFiles = array(
         'jpeg'          => 'jpeg.jpg',
@@ -27,7 +27,7 @@ class ezcChartTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcChartTest" );
+		return new ezcTestSuite( "ezcGraphChartTest" );
 	}
 
     /**
@@ -96,12 +96,12 @@ class ezcChartTest extends ezcTestCase
         $this->fail( 'Expected ezcGraphInvalidImageFileException' );
     }
 
-    public function testSetOptionsInvalidBackgroundImage()
+    public function testSetOptionsNonexistantBackgroundImage()
     {
         try 
         {
             $pieChart = ezcGraph::create( 'Pie' );
-            $pieChart->options->backgroundImage = $this->basePath . $this->testFiles['nonexisting'];
+            $pieChart->options->backgroundImage = $this->basePath . $this->testFiles['nonexistant'];
         } 
         catch ( ezcGraphFileNotFoundException $e ) 
         {
@@ -115,6 +115,99 @@ class ezcChartTest extends ezcTestCase
         $this->fail( 'Expected ezcGraphFileNotFoundException' );
     }
 
-    public function test
+    public function testSetOptionsBackground()
+    {
+        try
+        {
+            $pieChart = ezcGraph::create( 'Pie' );
+            $pieChart->options->background = '#FF0000';
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+    }
+
+    public function testSetOptionsBorder()
+    {
+        try
+        {
+            $pieChart = ezcGraph::create( 'Pie' );
+            $pieChart->options->border = '#FF0000';
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+    }
+
+    public function testSetRenderer()
+    {
+        try
+        {
+            $pieChart = ezcGraph::create( 'Pie' );
+            $pieChart->renderer = new ezcGraphRenderer2D();
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+    }
+
+    public function testSetInvalidRenderer()
+    {
+        try
+        {
+            $pieChart = ezcGraph::create( 'Pie' );
+            $pieChart->renderer = 'invalid';
+        }
+        catch ( ezcGraphInvalidRendererException $e )
+        {
+            return true;
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $this->fail( 'Expected ezcGraphInvalidRendererException' );
+    }
+
+    public function testSetDriver()
+    {
+        try
+        {
+            $pieChart = ezcGraph::create( 'Pie' );
+            $pieChart->driver = new ezcGraphGDDriver();
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+    }
+
+    public function testSetInvalidDriver()
+    {
+        try
+        {
+            $pieChart = ezcGraph::create( 'Pie' );
+            $pieChart->driver = 'invalid';
+        }
+        catch ( ezcGraphInvalidDriverException $e )
+        {
+            return true;
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $this->fail( 'Expected ezcGraphInvalidDriverException' );
+    }
+
+    public function testRender()
+    {
+        $this->fail( '@TODO: Implement renderer tests.' );
+    }
 }
 ?>
