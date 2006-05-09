@@ -174,7 +174,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
             return false;
         }
         // Cached data outdated, purge it.
-        if ( $this->calcLifetime( $filename ) > $this->options['ttl'] && $this->options['ttl'] !== 0 ) 
+        if ( $this->calcLifetime( $filename ) > $this->options['ttl'] && $this->options['ttl'] !== false ) 
         {
             $this->delete( $id, $attributes );
             return false;

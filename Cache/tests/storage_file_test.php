@@ -79,11 +79,11 @@ class ezcCacheStorageFileTest extends ezcTestCase
         $this->removeTempDir();
     }
 
-    public function testZeroLifetime()
+    public function testFalseLifetime()
     {
         $cache = new ezcCacheStorageFileArray(
             $this->createTempDir( 'ezcCacheStorageFileTest' ), 
-            array( 'extension' => '.c', 'ttl' => 0 )
+            array( 'extension' => '.c', 'ttl' => false )
         );
         $data = array( 
             'attributes' => array( 'lang' => 'en', 'section' => 'articles' ),
