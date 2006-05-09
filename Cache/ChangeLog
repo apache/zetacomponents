@@ -1,8 +1,9 @@
-1.1.0beta2 - [RELEASEDATE]
+1.1beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented feature request 7841: Added possibility to provide a TTL of 0 to
   make cache items last endlessly.
+
 
 1.0.1 - Monday 27 February 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
