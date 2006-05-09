@@ -1,3 +1,15 @@
+1.1beta2 - Tuesday 09 May 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Added support for external class repositories. You can now add a class
+  repository to the autoload mechanism by using the addClassRepository()
+  method.
+- Added a method to return all configured class repositories.
+- Added the REMOVE constant to the ezcBaseFileException.
+- Added the ezcBaseOptions class that serves as base class for all option
+  classes in the components.
+
+
 1.1beta1 - Wednesday 19 April 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
