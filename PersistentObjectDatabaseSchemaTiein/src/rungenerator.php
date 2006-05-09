@@ -8,11 +8,11 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once("Base/src/base.php");
+require "Base/src/base.php";
 
-function __autoload( $class_name )
+function __autoload( $className )
 {
-    ezcBase::autoload( $class_name );
+    ezcBase::autoload( $className );
 }
 
 $generator = new ezcPersistentObjectSchemaGenerator();
