@@ -1,3 +1,5 @@
+1.0beta2 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issues with escape characters in the single quoted string, double
   quoted string, and in the Text.
