@@ -1,13 +1,49 @@
 <?php
 
+/**
+ * ezcGraphColor 
+ *
+ * Struct for representing colors in ezcGraph. A color is defined using the
+ * common RGBA model with integer values between 0 and 255. An alpha value 
+ * of zero means full opacity, while 255 means full transparency.
+ */
 class ezcGraphColor
 {
+    /**
+     * Red color value.
+     *
+     * Contains a value between 0 and 255
+     * 
+     * @var integer
+     */
     public $red = 0;
 
+    /**
+     * Green color value.
+     *
+     * Contains a value between 0 and 255
+     * 
+     * @var integer
+     */
     public $green = 0;
 
+    /**
+     * Blue color value.
+     *
+     * Contains a value between 0 and 255
+     * 
+     * @var integer
+     */
     public $blue = 0;
 
+    /**
+     * Alpha color value.
+     *
+     * Contains a value between 0 and 255. 0 means full opacity and 255 full 
+     * transparency.
+     * 
+     * @var integer
+     */
     public $alpha = 0;
     
     /**
@@ -55,7 +91,7 @@ class ezcGraphColor
             if ( isset( $keys[$nr] ) ) 
             {
                 $key = $keys[$nr];
-                $color->$key = hexdec( $hexValue ) % 255;
+                $color->$key = hexdec( $hexValue ) % 256;
             }
         }
         
@@ -86,7 +122,7 @@ class ezcGraphColor
             if ( isset( $keys[$nr] ) ) 
             {
                 $key = $keys[$nr++];
-                $color->$key = ( (int) $colorValue ) % 255;
+                $color->$key = ( (int) $colorValue ) % 256;
             }
         }
         
@@ -117,7 +153,7 @@ class ezcGraphColor
             if ( isset( $keys[$nr] ) ) 
             {
                 $key = $keys[$nr++];
-                $color->$key = ( (float) $colorValue * 255 ) % 255;
+                $color->$key = ( (float) $colorValue * 255 ) % 256;
             }
         }
         
