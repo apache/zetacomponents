@@ -311,6 +311,8 @@ class ezcBaseTest extends ezcTestCase
         }
 
         self::assertEquals( true, class_exists( 'trBasetestClass', true ) );
+        self::assertEquals( true, class_exists( 'trBasetestClass2', true ) );
+        self::assertEquals( false, @class_exists( 'trBasetestClass3', true ) );
     }
 
     public static function suite()

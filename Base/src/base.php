@@ -35,13 +35,12 @@ class ezcBase
     protected static $packageDir;
 
     /**
-     * @var array of two-strings arrays.
-     * Stores info with additional paths where autoload files
-     * and classes for autoloading could be found.
-     * Each item of $repositoryDirs looks like 
-     * array( autoloadFileDir, baseDir ).
+     * @var array(string->array) Stores info with additional paths where
+     *                           autoload files and classes for autoloading
+     *                           could be found.  Each item of $repositoryDirs
+     *                           looks like array( autoloadFileDir, baseDir ).
      */
-    public static $repositoryDirs = array();
+    protected static $repositoryDirs = array();
 
     /**
      * @var array  This variable stores all the elements from the autoload
@@ -49,6 +48,13 @@ class ezcBase
      *             are added to this array.
      */
     protected static $autoloadArray = array();
+
+    /**
+     * @var array  This variable stores all the elements from the autoload
+     *             arrays for external repositories. When a new autoload file
+     *             is loaded, their files are added to this array.
+     */
+    protected static $externalAutoloadArray = array();
 
     /**
      * Tries to autoload the given className. If the className could be found
@@ -75,6 +81,20 @@ class ezcBase
                 return false;
             }
             ezcBase::loadFile( ezcBase::$autoloadArray[$className] );
+
+            return true;
+        }
+
+        // Check whether the classname is already in the cached autoloadArray
+        // for external repositories..
+        if ( array_key_exists( $className, ezcBase::$externalAutoloadArray ) )
+        {
+            // Is it registered as 'unloadable'?
+            if ( ezcBase::$externalAutoloadArray[$className] == false )
+            {
+                return false;
+            }
+            ezcBase::loadExternalFile( ezcBase::$externalAutoloadArray[$className] );
 
             return true;
         }
@@ -197,8 +217,8 @@ class ezcBase
                 if ( is_array( $array ) && array_key_exists( $className, $array ) )
                 {
                     // Add the array to the cache, and include the requested file.
-                    ezcBase::$autoloadArray = array_merge( ezcBase::$autoloadArray, $array );
-                    ezcBase::loadExternalFile( ezcBase::$autoloadArray[$className] );
+                    ezcBase::$externalAutoloadArray = array_merge( ezcBase::$externalAutoloadArray, $array );
+                    ezcBase::loadExternalFile( ezcBase::$externalAutoloadArray[$className] );
                     return true;
                 }
             }
