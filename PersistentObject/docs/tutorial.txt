@@ -6,7 +6,7 @@ eZ components - PersistentObject
 Introduction
 ============
 Persistent Object provides object persistence using a database for PHP
-5. Persistent Object relies uses the Database components to provide database
+5. Persistent Object uses the Database components to provide database
 abstraction. It does not rely on code generation and does not force a specific
 inheritance structure to work.
 Persistent Object is built to be fast and flexible allowing you to build your
