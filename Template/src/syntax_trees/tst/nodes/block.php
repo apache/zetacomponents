@@ -115,7 +115,7 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
      * Returns the first child element of the block.
      *
      * @return ezcTemplateTstNode
-     * @throw ezcTemplateTstNodeException::NO_FIRST_CHILD if there are no children.
+     * @throws ezcTemplateTstNodeException::NO_FIRST_CHILD if there are no children.
      */
     public function getFirstChild()
     {
@@ -128,7 +128,7 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
     /**
      * Removes the first child element of the block.
      *
-     * @throw ezcTemplateTstNodeException::NO_FIRST_CHILD if there are no children.
+     * @throws ezcTemplateTstNodeException::NO_FIRST_CHILD if there are no children.
      */
     public function removeFirstChild()
     {
@@ -142,7 +142,7 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
      * Returns the last child element of the block.
      *
      * @return ezcTemplateTstNode
-     * @throw ezcTemplateTstNodeException::NO_LAST_CHILD if there are no children.
+     * @throws ezcTemplateTstNodeException::NO_LAST_CHILD if there are no children.
      */
     public function getLastChild()
     {
@@ -155,7 +155,7 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
     /**
      * Removes the last child element of the block.
      *
-     * @throw ezcTemplateTstNodeException::NO_LAST_CHILD if there are no children.
+     * @throws ezcTemplateTstNodeException::NO_LAST_CHILD if there are no children.
      */
     public function removeLastChild()
     {

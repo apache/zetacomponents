@@ -193,8 +193,8 @@ class ezcTemplateSourceCode
     /**
      * Loads the data from the PHP stream into the $code member variable.
      *
-     * @throw ezcTemplateFileNotFoundException if the file does not exist on disk.
-     * @throw ezcTemplateFileNotReadableException if the file cannot be read.
+     * @throws ezcTemplateFileNotFoundException if the file does not exist on disk.
+     * @throws ezcTemplateFileNotReadableException if the file cannot be read.
      *
      * @see isAvailable(), isReadable()
      *
@@ -217,7 +217,7 @@ class ezcTemplateSourceCode
      * backup template appends a tilde (~). If a backup already exists,
      * this method overwrites the old backup.
      *
-     * @throw ezcTemplateFileNotWritableException if the file cannot be written to.
+     * @throws ezcTemplateFileNotWritableException if the file cannot be written to.
      *
      * @see isWriteable()
      * @note Storing the data will not record the template file in the system or
@@ -265,8 +265,8 @@ class ezcTemplateSourceCode
     /**
      * Deletes the file from the file system.
      *
-     * @throw ezcTemplateFileNotFoundException if the file does not exist on disk.
-     * @throw ezcTemplateFileFailedUnlinkException if the file could not be unlinked.
+     * @throws ezcTemplateFileNotFoundException if the file does not exist on disk.
+     * @throws ezcTemplateFileFailedUnlinkException if the file could not be unlinked.
      *
      *
      * @see isAvailable()

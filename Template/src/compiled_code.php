@@ -153,9 +153,9 @@ class ezcTemplateCompiledCode
      *
      * The input template variables is taken from the template.
      *
-     * @throw ezcTemplateNoManagerException if there is no template set.
-     * @throw ezcTemplateNoOutputContextException if there is no output context set.
-     * @throw ezcTemplateInvalidCompiledFileException if the compiled cannot be executed.
+     * @throws ezcTemplateNoManagerException if there is no template set.
+     * @throws ezcTemplateNoOutputContextException if there is no output context set.
+     * @throws ezcTemplateInvalidCompiledFileException if the compiled cannot be executed.
      */
     public function execute()
     {

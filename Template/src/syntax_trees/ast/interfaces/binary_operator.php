@@ -8,8 +8,9 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @access private
  */
+
 /**
- *
+ * @package Template
  * @access private
  */
 abstract class ezcTemplateBinaryOperatorAstNode extends ezcTemplateOperatorAstNode

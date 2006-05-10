@@ -68,7 +68,7 @@ class ezcTemplateUnsetAstNode extends ezcTemplateStatementAstNode
     /**
      * Validates the expressions against their constraints.
      *
-     * @throw Exception if the constraints are not met.
+     * @throws Exception if the constraints are not met.
      * @todo Fix exception class
      */
     public function validate()

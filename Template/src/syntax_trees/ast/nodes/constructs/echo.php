@@ -61,7 +61,7 @@ class ezcTemplateEchoAstNode extends ezcTemplateStatementAstNode
     /**
      * Validates the output parameters against their constraints.
      *
-     * @throw Exception if the constraints are not met.
+     * @throws Exception if the constraints are not met.
      * @todo Fix exception class
      */
     public function validate()

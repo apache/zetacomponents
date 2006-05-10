@@ -8,12 +8,11 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @access private
  */
+
 /**
  * Represents an clone construct.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -34,7 +33,7 @@ class ezcTemplateCloneAstNode extends ezcTemplateStatementAstNode
     /**
      * Validates the output parameters against their constraints.
      *
-     * @throw Exception if the constraints are not met.
+     * @throws Exception if the constraints are not met.
      * @todo Fix exception class
      */
     public function validate()
