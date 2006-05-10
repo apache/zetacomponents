@@ -292,36 +292,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return  new ezcTemplateGenericStatementAstNode( $expression );
     }
 
-    /*
-    private function stripslashes( $text, $char )
-    {
-        $newText = "";
-
-        $prevPos = $pos = 0;
-
-        while( ( $pos = strpos( $text, $char, $prevPos ) ) !== false )
-        {
-            // count slashes.
-            $p = $pos - 1;
-            while( $p > 0 && $text[$p] == "\\" ) $p--;
-
-            $slashes = $pos - $p - 1;
-
-            $skipSlash = ($slashes % 2) ? 0 : 1;
-
-                $newText .= substr( $text, $prevPos, $p + $slashes - $skipSlash - $prevPos);
-                $newText .= $text[$pos];
-
-            $pos++;
-            $prevPos = $pos;
-        }
-
-        $newText .= substr( $text, $prevPos );
-        
-        return $newText;
-    }
-    */
-
     private function addSlashes( $text, $char )
     {
         $newText = "";
@@ -733,14 +703,47 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->startCursor, "Unhandled loop control name: " . $type->name );
     }
 
+    private function appendReferenceOperatorRecursively( ezcTemplateOperatorTstNode $type, $currentParameterNumber = 0)
+    {
+        $this->allowArrayAppend = false;
+        $node = new ezcTemplateReferenceOperatorAstNode;
+        
+        $appendNode = $type->parameters[ $currentParameterNumber ]->accept( $this );
+        $node->appendParameter( $appendNode );
+
+        $this->isFunctionFromObject = true;
+        $currentParameterNumber++;
+
+        if( $currentParameterNumber == sizeof( $type->parameters ) - 1 ) 
+        {
+            // The last node.
+            $appendNode = $type->parameters[ $currentParameterNumber ]->accept( $this );
+            $node->appendParameter( $appendNode );
+        }
+        else
+        {
+            // More than two parameters, so repeat.
+            $appendNode = $this->appendReferenceOperatorRecursively( $type, $currentParameterNumber );
+            $node->appendParameter( $appendNode  );
+        }
+
+        return $node;
+    }
+ 
     public function visitPropertyFetchOperatorTstNode( ezcTemplatePropertyFetchOperatorTstNode $type )
     {
+      //  var_dump ( $type->property );
+       // var_dump ( $type->parameters );
 
+        $astNode = $this->appendReferenceOperatorRecursively( $type );
+
+/*
         $astNode = new ezcTemplateReferenceOperatorAstNode();
         $astNode->appendParameter( $type->parameters[0]->accept( $this ));
 
         $this->isFunctionFromObject = true;
         $astNode->appendParameter( $type->parameters[1]->accept( $this ));
+ */
 
         return $astNode;
 

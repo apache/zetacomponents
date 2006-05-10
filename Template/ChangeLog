@@ -1,3 +1,10 @@
+- Fixed a bug that arrays and properties could not be send as expression
+  part of the include construct. E.g. {include "abc.ezt" send $a[0] as $b}
+- Fixed a bug that property fetches were ignored after the first fetch. 
+  E.g. {$obj->prop1->prop2}
+- Fixed a bug that the variable is declared in the 'as' part of the include.  
+  E.g. {include "abc.ezt" send $a as $b}, $b was declared.
+
 1.0beta2 - Tuesday 09 May 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

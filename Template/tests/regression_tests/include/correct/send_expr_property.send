@@ -1,0 +1,23 @@
+<?php
+
+class MyFromClass1234
+{
+	public $firstName = "Bernard";
+	public $lastName = "Black";
+}
+
+class MyMailClass1234
+{
+	public $from;
+
+	public function __construct()
+	{
+		$this->from = new MyFromClass1234;
+	}
+}
+
+$v = new ezcTemplateVariableCollection();
+$v->mail = new MyMailClass1234;
+
+return $v;
+?>

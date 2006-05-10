@@ -1,0 +1,3 @@
+{use $mail}
+{$mail->from->firstName}
+{$mail->from->lastName}

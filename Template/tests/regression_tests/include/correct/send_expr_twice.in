@@ -1,0 +1,2 @@
+{include "send.inc" send 20 + 2 as $room_temperature}
+{include "send.inc" send 1000 as $room_temperature}

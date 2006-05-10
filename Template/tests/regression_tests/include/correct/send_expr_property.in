@@ -1,0 +1,4 @@
+{use $mail}
+{var $blarp = array("aap", "noot" )}
+
+{include "address.ezt" send $mail->from as $address}

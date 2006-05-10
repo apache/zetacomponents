@@ -114,6 +114,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
         {
             $this->findNextElement();
 
+            /*
             if( $this->parseOptionalType( "Variable", null, false ) )
             {
                 if( $symbolCheck )
@@ -136,9 +137,19 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
                 $asOptional = true;
                 $lastVal = $this->lastParser->element;
             } 
-            elseif ( $this->parseOptionalType( "Expression", null, false ) )
+*/
+            if ( $this->parseOptionalType( "Expression", null, false ) )
             {
-                $asOptional = false;
+                if( $this->lastParser->rootOperator instanceof ezcTemplateVariableTstNode )
+                {
+                    $asOptional = true;
+                } 
+                else
+                {
+                    $asOptional = false;
+                }
+
+                //$asOptional = false;
                 $lastVal = $this->lastParser->rootOperator;
                 $this->findNextElement();
             } 
@@ -157,10 +168,12 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
                 }
 
+                /*
                 if( !$this->parser->symbolTable->enter( $this->lastParser->element->name, ezcTemplateSymbolTable::VARIABLE ) )
                 {
                     throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, $this->parser->symbolTable->getErrormessage() );
                 }
+                 */
   
                 $variables[ $this->lastParser->element->name ] = $expr ;
             }
@@ -168,7 +181,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
             {
                 if( !$asOptional )
                 {
-                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_TOKEN_AS );
+                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_AS );
                 }
 
                 $variables[ $lastVal->name ] = null;
