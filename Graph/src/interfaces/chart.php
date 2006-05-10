@@ -71,14 +71,13 @@ abstract class ezcGraphChart
      *          If value is out of range
      * @param mixed $propertyName   Option name
      * @param mixed $propertyValue  Option value;
-     * @return void
+     * @return mixed
      */
     public function __set( $propertyName, $propertyValue ) 
     {
         switch ( $propertyName ) {
             case 'title':
-                $this->title = (string) $propertyValue;
-                return $this;
+                return $this->title = (string) $propertyValue;
             break;
             case 'renderer':
                 if ( $propertyValue instanceof ezcGraphRenderer )
@@ -101,9 +100,37 @@ abstract class ezcGraphChart
                }
             break;
             default:
-                // Consider everything else as dataset
-                // @TODO: Implement
+                return $this->addDataSet($propertyName, $propertyValue);
             break;
+        }
+    }
+
+    /**
+     * Adds a dataset to the charts data
+     * 
+     * @param string $name Name of dataset
+     * @param mixed $values Values to create dataset with
+     * @throws ezcGraphTooManyDatasetExceptions
+     *          If too many datasets are created
+     * @return ezcGraphDataset
+     */
+    protected function addDataSet( $name, $values )
+    {
+        $this->data[$name] = new ezcGraphDataset();
+        
+        if ( is_array($values) )
+        {
+            $this->data[$name]->createFromArray( $values );
+            $this->data[$name]->label = $name;
+        }
+        elseif ( $values instanceof PDOStatement )
+        {
+            $this->data[$name]->createFromStatement( $values );
+            $this->data[$name]->label = $name;
+        }
+        else
+        {
+            throw new ezcGraphUnknownDatasetSourceException( $values );
         }
     }
 

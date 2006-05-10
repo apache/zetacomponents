@@ -78,6 +78,30 @@ class ezcGraphDatasetTest extends ezcTestCase
         );
     }
 
+    public function testDatasetContent()
+    {
+        try 
+        {
+            $chart = ezcGraph::create( 'Pie' );
+            $chart->example = array( 'monkey' => 54, 2001 => 37 );
+        } 
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $data = $this->getNonPublicProperty( $chart->example, 'data' );
+
+        $this->assertSame( 
+            54.,
+            $data['monkey']
+        );
+        $this->assertSame( 
+            37.,
+            $data['2001']
+        );
+    }
+
     public function testCreateMultipleDatasetsFromArray()
     {
         try 
@@ -110,7 +134,7 @@ class ezcGraphDatasetTest extends ezcTestCase
             $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
             $chart->spending = array( 2000 => 2347.2, 2458.3, 2569.4 );
         }
-        catch ( ezcGraphTooManyDatasetExceptions $e )
+        catch ( ezcGraphTooManyDatasetsExceptions $e )
         {
             return true;
         }
@@ -119,7 +143,7 @@ class ezcGraphDatasetTest extends ezcTestCase
             $this->fail( $e->getMessage() );
         }
 
-        $this->fail( 'Expected ezcGraphTooManyDatasetExceptions.' );
+        $this->fail( 'Expected ezcGraphTooManyDatasetsExceptions.' );
     }
 
     public function testDatasetLabel()
@@ -136,7 +160,7 @@ class ezcGraphDatasetTest extends ezcTestCase
 
         $this->assertEquals(
             'income',
-            $this->getNonPublicProperty( $chart->income, 'color' )
+            $chart->income->label->default
         );
     }
 
@@ -155,7 +179,7 @@ class ezcGraphDatasetTest extends ezcTestCase
 
         $this->assertEquals(
             'Income Label',
-            $this->getNonPublicProperty( $chart->income, 'color' )
+            $chart->income->label->default
         );
     }
 
@@ -174,7 +198,7 @@ class ezcGraphDatasetTest extends ezcTestCase
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#FF0000' ),
-            $this->getNonPublicProperty( $chart->income, 'color' )
+            $chart->income->color->default
         );
     }
 
@@ -193,7 +217,7 @@ class ezcGraphDatasetTest extends ezcTestCase
 
         $this->assertEquals(
             ezcGraph::DIAMOND,
-            $this->getNonPublicProperty( $chart->income, 'symbol' )
+            $chart->income->symbol->default
         );
     }
 
@@ -210,10 +234,9 @@ class ezcGraphDatasetTest extends ezcTestCase
             $this->fail( $e->getMessage() );
         }
 
-        $dataFormat = $this->getNonPublicProperty( $chart->income, 'data_format' );
         $this->assertEquals(
             ezcGraphColor::fromHex( '#FF0000' ),
-            $dataFormat['color'][2001]
+            $chart->income->color[2001]
         );
     }
 
@@ -230,10 +253,28 @@ class ezcGraphDatasetTest extends ezcTestCase
             $this->fail( $e->getMessage() );
         }
 
-        $dataFormat = $this->getNonPublicProperty( $chart->income, 'data_format' );
         $this->assertEquals(
             ezcGraph::DIAMOND,
-            $dataFormat['symbol'][2001]
+            $chart->income->symbol[2001]
+        );
+    }
+
+    public function testDatasetPropertyValueFallback()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Pie' );
+            $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
+            $chart->income->symbol = ezcGraph::DIAMOND;
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $this->assertEquals(
+            ezcGraph::DIAMOND,
+            $chart->income->symbol[2001]
         );
     }
 
@@ -255,6 +296,43 @@ class ezcGraphDatasetTest extends ezcTestCase
         }
 
         $this->fail( 'Expected ezcGraphNoSuchDataException.' );
+    }
+
+    public function testDatasetGetSingleData()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Pie' );
+            $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $this->assertSame(
+            2345.2,
+            $chart->income[2000]
+        );
+    }
+
+    public function testDatasetSetSingleData()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Pie' );
+            $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
+            $chart->income[2005] = 234.21;
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $this->assertSame(
+            234.21,
+            $chart->income[2005]
+        );
     }
 
     public function testAutomaticColorization()

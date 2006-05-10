@@ -34,7 +34,14 @@ return array(
 
     'ezcGraphDataset'                           => 'Graph/datasets/base.php',
     'ezcGraphDatasetAverage'                    => 'Graph/datasets/average.php',
+    'ezcGraphDatasetProperty'                   => 'Graph/interfaces/dataset_property.php',
+    'ezcGraphDatasetColorProperty'              => 'Graph/datasets/property/color.php',
+    'ezcGraphDatasetStringProperty'             => 'Graph/datasets/property/string.php',
+    'ezcGraphDatasetIntProperty'                => 'Graph/datasets/property/integer.php',
+    'ezcGraphNoSuchDataException'               => 'Graph/exceptions/no_such_data.php',
     'ezcGraphNoSuchDatasetException'            => 'Graph/exceptions/no_such_dataset.php',
+    'ezcGraphTooManyDatasetsExceptions'         => 'Graph/exceptions/too_many_datasets.php',
+    'ezcGraphUnknownDatasetSourceException'     => 'Graph/exceptions/unknown_dataset_source.php',
 );
 
 ?>
