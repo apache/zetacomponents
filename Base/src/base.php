@@ -358,25 +358,60 @@ class ezcBase
      * $basePath + path to the class definition file as stored in the autoload
      * file.
      * 
-     * Directory paths in parameters must not have the path delimiter at the
-     * end.
-     * 
      * addClassRepository() should be called somewhere in code before external classes 
      * are used.
      *
      * Example:
-     * Suppose there is code for class MyClass in myclass.php
-     * and there is myclass_autoload.php with content:
+     * Take the following facts:
+     * <ul>
+     * <li>there is a class repository stored in the directory "./repos"</li>
+     * <li>autoload files for that repository are stored in "./repos/autoloads"</li>
+     * <li>there are two components in this repository: "Me" and "You"</li>
+     * <li>the "Me" component has the classes "erMyClass1" and "erMyClass2"</li>
+     * <li>the "You" component has the classes "erYourClass1" and "erYourClass2"</li>
+     * </ul>
+     *
+     * In this case you would need to create the following files in
+     * "./repos/autoloads". Please note that the part before _autoload.php in
+     * the filename is the first part of the <b>classname</b>, not considering
+     * the all lower-case letter prefix.
+     *
+     * "my_autoload.php":
+     * <code>
      * <?php
-     *     return array ( 'MyClass' => 'Classes/myclass.php' );
+     *     return array (
+     *       'erMyClass1' => 'Me/myclass1.php',
+     *       'erMyClass2' => 'Me/myclass2.php',
+     *     );
      * ?>
-     * The myclass_autoload.php file can be found in "./repos/autoloads" and
-     * the myclass.php file in "./repos/Classes". To use this repository with the
-     * autoload mechanism you have to use the following code:
+     * </code>
+     *
+     * "your_autoload.php":
+     * <code>
+     * <?php
+     *     return array (
+     *       'erYourClass1' => 'You/yourclass1.php',
+     *       'erYourClass2' => 'You/yourclass2.php',
+     *     );
+     * ?>
+     * </code>
+     *
+     * The directory structure for the external repository is then:
+     * <code>
+     * ./repos/autoloads/my_autoload.php
+     * ./repos/autoloads/you_autoload.php
+     * ./repos/Me/myclass1.php
+     * ./repos/Me/myclass2.php
+     * ./repos/You/yourclass1.php
+     * ./repos/You/yourclass2.php
+     * </code>
+
+     * To use this repository with the autoload mechanism you have to use the
+     * following code:
      * <code>
      * <?php
      * ezcBase::addClassRepository( './repos', 'autoloads' );
-     * $myVar = new MyClass();
+     * $myVar = new erMyClass2();
      * ?>
      * </code>
      * 
