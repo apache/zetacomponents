@@ -58,36 +58,38 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
         {
             $delimiter = $this->parser->createDelimiter( $this->startCursor, $cursor );
             $this->findNextElement();
-            if( !$this->currentCursor->match("modulo") )
+            if( $this->currentCursor->match("modulo") )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_MODULO );
-            }
+                //throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_MODULO );
+            //}
 
-            $this->findNextElement();
-
-            if ( !$this->parseOptionalType( 'Expression', null, false ) )
-            {
-                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
-            }
-
-            $delimiter->modulo = $this->lastParser->rootOperator;
-
-            if( $this->currentCursor->match("is") )
-            {
                 $this->findNextElement();
+
                 if ( !$this->parseOptionalType( 'Expression', null, false ) )
                 {
                     throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
                 }
-                    
-                $delimiter->rest = $this->lastParser->rootOperator;
-                $this->findNextElement();
+
+                $delimiter->modulo = $this->lastParser->rootOperator;
+
+                if( $this->currentCursor->match("is") )
+                {
+                    $this->findNextElement();
+                    if ( !$this->parseOptionalType( 'Expression', null, false ) )
+                    {
+                        throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
+                    }
+                        
+                    $delimiter->rest = $this->lastParser->rootOperator;
+                    $this->findNextElement();
+                }
+                else
+                {
+                    $delimiter->rest = new ezcTemplateLiteralTstNode( $this->parser->source, $this->startCursor, $this->endCursor);
+                    $delimiter->rest->value = 0;
+                }
             }
-            else
-            {
-                $delimiter->rest = new ezcTemplateLiteralTstNode( $this->parser->source, $this->startCursor, $this->endCursor);
-                $delimiter->rest->value = 0;
-            }
+
 
             $this->appendElement( $delimiter );
 

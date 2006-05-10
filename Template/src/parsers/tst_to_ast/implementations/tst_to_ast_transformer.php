@@ -559,11 +559,13 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $astNode[$i]->body->statements[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$".$var->name . "->decrement", array() ) ); 
         }
 
+        /*
         if ( $this->foundDelimiter )
         {
             $astNode[++$i] =  new ezcTemplateGenericStatementAstNode( new ezcTemplateConcatAssignmentOperatorAstNode( 
                 $this->outputVar, $this->delimiterOutput ) );
         }
+         */
                 
         return $astNode;
     }
@@ -572,6 +574,18 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         $this->foundDelimiter = true;
         $this->writeDelimiterOutput =  true;
+
+        if( $type->modulo === null )
+        {
+            $res = array();
+            foreach ($type->children as $child )
+            {
+                $res[] = $child->accept($this);
+            }
+
+            $this->writeDelimiterOutput = false;
+            return $res;
+        }
 
         // if( $counter % $modulo == $rest )
         $mod = new ezcTemplateModulusOperatorAstNode();
@@ -590,16 +604,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         // }
         $cb->body = $this->createBody( $type->children );
         $if->conditions[] = $cb;
-
-        // else
-/*
-        $else = new ezcTemplateConditionBodyAstNode();
-        $else->condition = null;
-        $else->body = new ezcTemplateBodyAstNode();
-        $else->body->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $this->delimiterOutput, new ezcTemplateLiteralAstNode( "" ) ) ) );
-
-        $if->conditions[] = $else;
-        */
 
 
         $this->writeDelimiterOutput = false;

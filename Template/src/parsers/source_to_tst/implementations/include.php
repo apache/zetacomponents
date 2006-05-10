@@ -196,10 +196,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
 
 
         return $variables;
-   }
-
-
-
+    }
 
     protected function parseVarAsVarArray( $symbolCheck )
     {

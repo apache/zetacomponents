@@ -1,0 +1,6 @@
+{foreach 1..10 as $i}
+{delimiter}
+,
+{/delimiter}
+{$i}
+{/foreach}

@@ -4,6 +4,8 @@
   E.g. {$obj->prop1->prop2}
 - Fixed a bug that the variable is declared in the 'as' part of the include.  
   E.g. {include "abc.ezt" send $a as $b}, $b was declared.
+- The modulo part of the delimiter is now optional.
+- The delimiter does not appear after the last iteration.
 
 1.0beta2 - Tuesday 09 May 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
