@@ -15,6 +15,8 @@
 class ezcGraph
 {
 
+    const DIAMOND = 1;
+
     static protected $chartTypes = array(
         'pie'   => 'ezcGraphPieChart',
         'line'  => 'ezcGraphLineChart',

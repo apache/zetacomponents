@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcDatasetAverage class
+ * File containing the abstract ezcGraphDatasetAverage class
  *
  * @package Graph
  * @version $id$
@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-class ezcDatasetAverage extends ezcDataset 
+class ezcGraphDatasetAverage extends ezcDataset 
 {
 
 }

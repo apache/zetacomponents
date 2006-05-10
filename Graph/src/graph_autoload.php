@@ -31,6 +31,10 @@ return array(
     'ezcGraphGDDriver'                          => 'Graph/driver/gd.php',
     'ezcGraphSVGDriver'                         => 'Graph/driver/svg.php',
     'ezcGraphInvalidDriverException'            => 'Graph/exceptions/invalid_driver.php',
+
+    'ezcGraphDataset'                           => 'Graph/datasets/base.php',
+    'ezcGraphDatasetAverage'                    => 'Graph/datasets/average.php',
+    'ezcGraphNoSuchDatasetException'            => 'Graph/exceptions/no_such_dataset.php',
 );
 
 ?>

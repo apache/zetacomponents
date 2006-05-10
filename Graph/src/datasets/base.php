@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-class eczGraphDataset extends ezcBaseConfig
+class eczGraphDataset
 {
 
     /**
