@@ -25,40 +25,53 @@ To get around this, there are four options:
 
 Text string
 ```````````
-Place the curly braces in a text string. The text string will output the curly
-brace normally::
+Place the curly braces in a single quoted or double quoted text string. The
+text string will then output the curly braces normally::
 
   Draw line: {"{"} (4, 10), (3, 5) {"}"}
 
+The output of the line above is: *Draw line: { (4,10), (3, 5) }*.
+  
 
 Escape characters
 `````````````````
-With a backslash '\' a character can be escaped. Currently, there are only
-three characters that can be escaped: 
+A character can be escaped with a backslash (\\). In the text are three
+characters available that can be escaped. Those are the: 
 
-- Opening and closing curly bracket: '{' and '}'.
-- The escape character itself: '\'.
+- Opening curly brace  '{' , 
+- Closing curly brace '}', and 
+- The escape character, backslash itself '\\'.  
 
-The next example shows how to escape characters::
+The next example shows how to escape those characters::
 
   Draw line: \{ (4, 10), (3, 5) \}
   Game path: C:\\Program files\\games\\
 
+The output of the template is without the backslash and the characters appear
+normally::
+
+  Draw line: { (4, 10), (3, 5) }
+  Game path: C:\Program files\games\
+
 
 {ldelim} and {rdelim} blocks
 ````````````````````````````
-The specialized {ldelim} and {rdelim} blocks can be used to output,
+The specialized *ldelim* and *rdelim* blocks can be used to output,
 respectively, the '{' and '}' characters::
 
   Draw line: {ldelim} (4, 10), (3, 5) {rdelim}
+
+The output of the line above is: *Draw line: { (4,10), (3, 5) }*. Using a
+backslash to escape the curly braces is shorter, but may be more confusing when
+the backslash is used frequently.
 
 
 Literal tags
 ````````````
 If you want to enter lots of code or text which should not be processed by the
 template language you can place the code inside *literal* blocks. Any text
-within this block is read as it is (even back slashes) until a {/literal} is
-reached::
+within this block is read as it is (including back slashes). Text is read until
+the *{/literal}* is reached::
 
   {literal}
   Draw line: { (4, 10), (3, 5) }
@@ -68,18 +81,18 @@ reached::
 
 Comments
 --------
-Comments are text blocks which will be stripped away from the output when the
+Comments are text blocks which are stripped away from the output when the
 template is executed. Comments can be standalone, spanning an entire tag, or
-placed inline in template code.
+placed in-line in template code.
 
-Comments can be used for explaining what or why something is done or to comment
+Comments are usually used to explain what or why something is done or to comment
 out code which should no longer be used.
 
 The template engine supports three types of comments:
 
 - Code comments start and end with, respectively, '{\*' and  '\*}' tags.
-- Multiline inline comment, starts with '/\*' and ends with '\*/'.
-- Singleline inline comment that starts with '//' and reads until the end of
+- Multi-line in-line comment, starts with '/\*' and ends with '\*/'.
+- Single-line in-line comment that starts with '//' and reads until the end of
   the line or until a closing curly brace '}'.
 
 
@@ -98,10 +111,12 @@ Everything inside is considered as comments::
      {/if}
   *}
 
+Writing only *{$i = 1 - $i}* would have the same output.
 
-Multi line inline comment
-`````````````````````````
-Multi line inline comments are created using \/\* and \*\/. Use this comment to
+
+Multi-line in-line comment
+``````````````````````````
+Multi-line in-line comments are created using \/\* and \*\/. Use this comment to
 comment a part of a line or comment multiple lines::
 
   {var $a = 1, /*$b = 2, */ $c = 3 }
@@ -112,59 +127,58 @@ comment a part of a line or comment multiple lines::
    */}
 
 
-If the result after removing the inline comments is an empty block then the
-block will be ignored::
+If the result after removing the in-line comments is an empty block then the
+block will be ignored. The next example has an empty block that won't be
+visible in the output::
 
   { /* var $a = 1 */ }
  
-Which is exactly the same as writing::
-
-  {  }
-
-And will not be part of the template output.
+And is of course the same as writing: *{ }*.
 
 
-Single line inline comment
-``````````````````````````
-Single line inline comments are created using two slashes: \/\/ . Use this 
+Single-line in-line comment
+```````````````````````````
+Single-line in-line comments are created using two slashes: \/\/ . Use this 
 to start a comment which continues to the end of the line or until the closing
 curly brace '}'::
 
   {var $a = 1, // $b = 2,
    $c = 3}
 
-  {$a = 1 //, $b = 2, $c = 3}
+  {$a = 4 //, $b = 5, $c = 6}
 
+This example declares the variables *$a* and *$c* and assigns in the second
+statement the value 4 to variable *$a*.
 
 Types
 -----
 
 The template language supports several primitive types:
 
-- Boolean: Expresses the truth value, which is either 'true' or 'false'.
-- Integer: Is a number of the set: { .., -1, 0, 1, .. }
-- Float: Is a real (floating point) number.
-- String: A series of characters which are enclosed between single or double
-  quotes.
-- Array: Contains a set of primitive types.
-- Object: A PHP object (imported via the user application). 
+:Boolean: Expresses the truth value, which is either 'true' or 'false'.
+:Integer: Is a number of the set: { .., -1, 0, 1, .. }
+:Float:   Is a real (floating point) number.
+:String:  A series of characters which are enclosed between single or double quotes.
+:Array:   Contains a set of primitive types.
+:Object:  A PHP object (imported via the user application). 
 
-These types are explained in more detail below. 
 
 Boolean
 ```````
-The boolean type can only contain either the value: 'true' or the value
+The boolean type contains either the value: 'true' or the value
 'false'. The next example assigns the value 'true' to the variable $isValid::
 
   {var $isValid = true}
 
-Some operators return a boolean value::
+Some of the operators return also boolean value. For example the '==' operator
+returns always a boolean value. The Expressions_ section discusses the operators 
+in more detail. The next example uses the '==' operator:: 
 
-  {if $number == 6 }
-    {// ... }
+  {var $isValid = ($number == 6) }
 
-This example checks whether the variable $number is equal to the value 6. The
-result is either the boolean value 'true' or 'false'. 
+It checks first whether the variable $number is equal to the value 6. The
+result is either the boolean value 'true' or 'false'.  The result is assigned
+to the variable *$isValid*.
 
 
 Integer
@@ -216,8 +230,8 @@ String
 The string consist of a series of characters enclosed between single or double
 quotes::
 
-    {"hello world" // Using double quotes }
     {'a string'    // Using single quotes }
+    {"hello world" // Using double quotes }
 
 In the string we use the backslash (\) as escape character. For the single
 quoted string the escape characters are:
@@ -232,7 +246,7 @@ quoted string the escape characters are:
 | \\          | \\          |
 +-------------+-------------+
 
-Examples are::
+Examples of the single quoted strings are::
 
   {'This string contains a \'quotes\' and backslashes (\\).'}
   {'A single \ works also.'}
@@ -240,20 +254,9 @@ Examples are::
 
 
 The double quoted string allows more special characters than the single quoted
-string. Most useful are the variables and newlines that can be included in the
-string.  For example::
-
-  {var $w = "world"}
-  {"Hello $w\nHello earth"}
-
-  {* Outputs: 
-
-  Hello world
-  Hello earth
-
-  *}
-
-The escape characters for the double quoted strings are:
+string. Most useful escape characters are probably the variables and newlines
+that can be included in the string.  The escape characters for the double quoted 
+strings are:
 
 +-------------+-------------------+
 | **String**  | **Output**        |
@@ -273,7 +276,18 @@ The escape characters for the double quoted strings are:
 | \\r         | <carriage return> |
 +-------------+-------------------+
 
-Examples::
+
+The next example inserts newlines and uses variables in the string::
+
+  {var $w = "world"}
+  {"Hello $w\nHello earth"}
+
+The output of the template above is::
+
+  Hello world
+  Hello earth
+
+Some other examples of using single and double quoted strings::
 
     {" a \"quoted\" string "} 
     {'Newlines are added with the \\n command.'}
@@ -284,22 +298,22 @@ Array
 `````
 The array is just like in PHP an ordered map. It can be used as an array or as
 a table that maps values to keys. There are two ways to create an array. The
-first method is just like PHP::
+first method has the following syntax::
     
   array( [ key => ] value, [ key2 => ] value2, ... )
 
-Without a *key* this method will create an array. First value will have index
+The parts between brackets are optional. So the *key* can be omitted. In that
+case, it would simply create an array.  First value has the index
 0, the next value has index 1, and so on. The next example creates an array
-with 3 elements::
+which consists of 3 elements::
   
   {var $names = array( "Bernard", "Manny", "Fran" )}
 
-The names can be accessed::
+The array values, and in this case the names, can be accessed::
 
   {$names[0] // Outputs "Bernard"}
   {$names[2] // Outputs "Fran"}
   {$names[3] // Is not allowed }
-
 
 The array with *keys* maps the key to a value::
 
@@ -311,31 +325,34 @@ To access the information::
   {$personInfo["last_name"] // Outputs "Black"} 
 
 
-The method described above is the same as how it works in PHP. Another method
-to create an array (not available in PHP) is::
+The second method to create an array is::
 
   <number1>..<number2>
 
-This method creates an array that contains the numbers from <number1> to
-<number2>. An example::
+This method creates an array that contains the numbers from *number1* to
+<number2>. The next example creates an array with the numbers: 3, 4, 5, 6, and
+7.
  
-  {var $nrs = 3..7 // Equal to: var $nrs = array( 3, 4, 5, 6, 7 ) }
+  {var $nrs = 3..7 }
   {$nrs[0] // Outputs 3} 
 
-This method is especially useful to use in the foreach loop::
+This method is especially useful to use in a foreach loop. The following
+example loops 10 times, and prints the number from 1 until 10::
 
    {foreach 1..10 as $i}
        Number: {$i}
    {/foreach}
 
+The Foreach_ section describes this loop in more detail.
+
 
 Object
 ``````
 Objects are only available when they are sent from the user application. It is
-not possible to create an object yourself in the Template language. In the
-template language the only values you can access from the object is via the
-properties. The next example is the user application that sends an object to
-a template::
+not possible to create an object in the template language only. The template
+language restricts the accessibilities from the object only to its properties;
+thus function calls are not permitted.  The next example is a part of an user
+application that sends an object to a template::
 
   <?php
 
@@ -359,8 +376,8 @@ a template::
   ?>
  
 The class in the example above has two 'magic' PHP functions. Fetching any
-property is allowed, whereas setting a property will throw an Exception. The
-template code::
+property is allowed, whereas setting a property value throws an Exception. The
+template code that belongs to the user application::
   
   {use $obj // Import the "obj" }
 
@@ -369,8 +386,7 @@ template code::
 
 
 More information about importing objects is described in the `External variable
-declaration`_ section.
-
+declaration (use)`_ section.
 
 
 Variables
@@ -406,13 +422,13 @@ numbers, or underscores::
 
 The template language has three types of variable declaration:
 
-- {var .. }: Declares a local variable. (We used this in the previous examples).
-- {use .. }: Imports an external variable. 
-- {cycle .. }: Declares a cycle variable. 
+:var: Declares a local variable. (We used this in the previous examples).
+:use: Imports an external variable. 
+:cycle: Declares a cycle variable. 
 
 
-Local variable declaration
-``````````````````````````
+Local variable declaration (var)
+````````````````````````````````
 The declaration of a local variable creates a variable that has no value from
 the outside. Outside can be the application that compiles and executes the 
 template. 
@@ -426,13 +442,13 @@ One or multiple variables can be declared with one {var} statement. A value can
 be assigned to the variable name, directly. If no value is given to the
 variable, then it will get the default value: null. 
 
-The declaration of four variables::
+The next example declares four variables at the same time::
 
   {var $a = 2, $b = "Hello World", $c = true, $d}
 
 
-External variable declaration
-`````````````````````````````
+External variable declaration (use)
+```````````````````````````````````
 The declaration of an external variable creates a variable that usually has a
 value from the outside (user application). The syntax for this type of variable
 is as follows::
@@ -458,9 +474,9 @@ engine::
     $t = new ezcTemplate();
 
     // Send some information to the Template
-    $t->send->username = "jdoo"
-    $t->send->nickname = "dodo";
-    $t->send->age = 29;
+    $t->send->firstname = "Bernard"
+    $t->send->lastname = "Black";
+    $t->send->age = 31;
 
     // Process the template and echo it.
     echo $t->process();
@@ -468,31 +484,31 @@ engine::
 
 The variables: $username, $nickname, and $age can be 'used' by the template::
 
-  {use $username = "unknown", $nickname = "unknown"}
+  {use $firstname = "unknown", $lastname = "unknown"}
   {use $age = 0, $length = 0}
 
-  My age is: {$age}
+  {$firstname} {$lastname} his/her age is: {$age}
 
 
-The variable $length will get the value 0, because the user application doesn't
-assign a value to it.
+The variable $length (if it was used) will get the value 0, because the user 
+application does not assign a value to it.
 
 More information about importing variables is described in the Include_ section.
 
 Cycles
 ``````
-A cycle is a special type of variable that contains a set of values. Assigning
-new values to a cycle, should always be an array. Retrieving a value from the
-cycle goes only one at the time. Specific syntax tags are available to cycle
-through the set. The syntax for the cycle is::
+A cycle is a special type of variable that contains a set of values. The cycle
+variable should always be assigned to an array. Retrieving a value from the
+cycle is one array element at the time. Specific control structures are available to cycle
+through the set of values. The syntax for the cycle is::
 
   {cycle $<unique_name> [ = <array_value> ] [ , $<unique_name2> [ = <array_value> ] ] }
 
 An array must be assigned to the cycle variable. Otherwise the template
 compiler *may* give a compiler error. (Sometimes it is not possible to know at
-compile time whether the assignment is an array or not)
+compile time whether the assignment is an array or not.)
 
-The next example declares a cycle, assigns a value, and shows the first and
+The next example declares a cycle, assigns a value, and retrieves the first and
 second value::
  
   {cycle $rgb = array( "red", "green", "blue" ) }
@@ -502,9 +518,9 @@ second value::
   {increment $rgb // Go to the next element in the set}
 
   {$rgb // Print "green"}
- 
 
 See the Increment_, Decrement_ and Reset_ section for more information.
+
 
 Scopes
 ``````
@@ -514,7 +530,7 @@ Declaring a variable in a lower scope will result in a compiler error.
 Scopes are usually opened and closed with a start and end template block.
 Template blocks that open a new scope are: {if .. }{/if}, {while ..} {/while},
 {foreach ..} {/foreach}, {switch .. } {/switch}, etc. The next example
-demonstrates the scoping::
+demonstrates this scoping::
     
     {var $a = 2  // Correct }
 
@@ -542,7 +558,8 @@ template can retrieve the return values. Consider the following template::
   {return $fac6, "Hello world" as $helloWorld}
 
 
-The user application can retrieve these values::
+The user application can retrieve these values via the receive property of the
+template. See the next example for a demonstration::
 
     $t = new ezcTemplate();
 
@@ -566,7 +583,6 @@ a special tag. But expressions are also used in template blocks with a tag and
 gives merely a value. PHP quotes the expression as "Anything that gives a
 value", that is also true for the template syntax.
 
-
 Expressions can be a single *operands* that returns a value. It is also possible
 to combine multiple operands with *operators*. The value returned depends
 on the used operands and operators.
@@ -589,13 +605,13 @@ Variables and functions are considered as operands since they return one
 value. The type of this return value is also a: Boolean, Integer, Float, 
 String, or Array.
 
-A operands returns a single value. Some examples are::
+An operand returns a single value. Some examples are::
   
   {5}
   {"Hello"}
   {str_len("Hello")}
 
-The values returned are, respectively: 5, Hello, and 5. 
+The values returned are, respectively: *5*, *Hello*, and *5*. 
 
 Operators are things that you feed with one or multiple values and will result
 another value.  Examples of operators are adding two numbers together with the
@@ -623,7 +639,7 @@ Modulus         $ol % $or
 Note: The negation in this table is the arithmetic negation. Don't confuse this
 with the logic negation. 
 
-The unary plus operator can also be used, but it doesn't affect the value. Its
+The unary plus operator can also be used, but it doesn't affect the value. It's
 usually used to clarify that it's not a negative value.
 
 Examples::
@@ -1041,7 +1057,7 @@ demonstrates this::
    {foreach}
 
 If no offset is given to the template it will get the value 0, otherwise it
-has the given value. See the `External variable declaration`_ section for more 
+has the given value. See the `External variable declaration (use)`_ section for more 
 information. The loop will start at the $offset and won't show the previous
 elements. The maximum iterations of the loop is 100. Another example shows 
 the numbers from 50 until 100::
