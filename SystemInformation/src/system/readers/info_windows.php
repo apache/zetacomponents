@@ -40,8 +40,8 @@ class ezcSystemInfoWindowsReader extends ezcSystemInfoReader
      * value. Otherwise property is not set.
      * 
      * Propertyes could be
+     * 'cpu_count'
      * 'cpu_type'
-     * 'cpu_unit'
      * 'cpu_speed'
      * 'memory_size'
      * 
@@ -50,32 +50,33 @@ class ezcSystemInfoWindowsReader extends ezcSystemInfoReader
     private $validProperties = array();
 
     /**
-     * Contains the type of CPU, the type is taken directly from the OS
-     * and can vary a lot.
-     * @var string
+     * Contains the amount of CPUs in system.
+     * @var int
      */
-    protected $cpuType = false;
-    
-    /**
-     * Contains the speed of CPU, the type is taken directly from the OS
-     * and can vary a lot. The speed is just a number so use cpuUnit()
-     * to get the proper unit (e.g MHz).
-     * @var string
-     */
-    protected $cpuSpeed = false;
+    protected $cpuCount = null;
+
 
     /**
-     * Contains the proper unit in witch CPU speed is measured.
-     * @var string
+     * Contains the strings that represent type of CPU,
+     * for each CPU in sysytem. Type is taken directly
+     * from the OS and can vary a lot.
+     * 
+     * @var array of strings
      */
-    protected $cpuUnit = false;
+    protected $cpuType = null;
+    
+    /**
+     * Contains the speed of each CPU in MHz.
+     * @var array of float
+     */
+    protected $cpuSpeed = null;
 
     /**
      * Contains the amount of system memory the OS has, the value is
      * in bytes.
      * @var int
      */
-    protected $memorySize = false;
+    protected $memorySize = null;
 
 
     /**
@@ -122,23 +123,37 @@ class ezcSystemInfoWindowsReader extends ezcSystemInfoReader
      */
     private function getOsInfo( )
     {
-        $output =shell_exec ("reg query HKLM\\HARDWARE\\DESCRIPTION\\SYSTEM\\CentralProcessor\\0 /v ProcessorNameString" );
-        preg_match( "/ProcessorNameString\s*\S*\s*(.*)/", $output, $matches );
-        if ( isset($matches[1]) )
+        //query contents of CentralProcessor section.
+        $output =shell_exec ("reg query HKLM\\HARDWARE\\DESCRIPTION\\SYSTEM\\CentralProcessor" );
+        $outputStrings = explode( "\n\n", $output );
+        // In first two items of output strings we have the signature of reg.exe utility 
+        // and path to CentralProcessor section than list of subsections paths follows.
+        // One subsection represent info for one CPU.
+        // Name of each subsection is index of CPU starting from 0.
+        if ( is_array( $outputStrings ) && count( $outputStrings ) > 2 )
         {
-            $this->cpuType = $matches[1];
-            $this->validProperties['cpuType'] = $this->cpuType;
-        }
-        unset ($matches);
+            $this->cpuCount = count( $outputStrings ) - 2; //cpuCount is amount of subsections, output header skipped.
+            for ( $i = 0; $i < $this->cpuCount; $i++ )
+            {
+                $output =shell_exec ("reg query HKLM\\HARDWARE\\DESCRIPTION\\SYSTEM\\CentralProcessor\\$i /v ProcessorNameString" );
+                preg_match( "/ProcessorNameString\s*\S*\s*(.*)/", $output, $matches );
+                if ( isset($matches[1]) )
+                {
+                    $this->cpuType[] = $matches[1];
+                    $this->validProperties['cpuType'] = $this->cpuType;
+                }
+                unset ($matches);
 
-        $output =shell_exec ("reg query HKLM\\HARDWARE\\DESCRIPTION\\SYSTEM\\CentralProcessor\\0 /v ~MHz" );
-        preg_match( "/~MHz\s*\S*\s*(\S*)/", $output, $matches );
-        if ( isset($matches[1]) )
-        {
-            $this->cpuSpeed = hexdec( $matches[1] ).'.0'; //force to be a string with speed float value
-            $this->cpuUnit = 'MHz';
-            $this->validProperties['cpu_speed'] = $this->cpuSpeed;
-            $this->validProperties['cpu_unit'] = $this->cpuUnit;
+                $output =shell_exec ("reg query HKLM\\HARDWARE\\DESCRIPTION\\SYSTEM\\CentralProcessor\\$i /v ~MHz" );
+                preg_match( "/~MHz\s*\S*\s*(\S*)/", $output, $matches );
+                if ( isset($matches[1]) )
+                {
+                    $this->cpuSpeed[] = (float)hexdec( $matches[1] ).'.0'; //force to be float value
+                    $this->validProperties['cpu_count'] = $this->cpuCount;
+                    $this->validProperties['cpu_speed'] = $this->cpuSpeed;
+                }
+                unset ($matches);
+            }
         }
 
         // if no php_win32ps.dll extension installed than scanning of 
@@ -158,43 +173,55 @@ class ezcSystemInfoWindowsReader extends ezcSystemInfoReader
     }
 
     /**
+     * Returns count of CPUs in system.
+     * 
+     * If the CPU speed could not be read null is returned.
+     * @return int with count of CPUs in system or null.
+     */
+    public function getCpuCount()
+    {
+        return $this->cpuCount;
+    }
+
+    /**
      * Returns string with CPU speed
      * 
-     * If the CPU speed could not be read false is returned.
+     * If the CPU speed could not be read null is returned.
      * @return string
      */
     public function cpuSpeed()
     {
-        return $this->cpuSpeed;
+        if ( !is_array( $this->cpuSpeed ) || count( $this->cpuSpeed ) == 0 )
+        {
+            return null;
+        }
+
+        $result = null;
+        foreach( $this->cpuSpeed as $speed )
+        {
+            $result += $speed;
+        }
+
+        $result = $result / count( $this->cpuSpeed );
+        return $result;
     }
     
     /**
-     * Returns string with unit in wich CPU speed measured.
-     * 
-     * If the CPU unit could not be read false is returned.
-     * @return string
-     */
-    public function cpuUnit()
-    {
-        return $this->cpuUnit;
-    }
-
-    /**
      * Returns string with CPU type.
      *
-     * If the CPU type could not be read false is returned.
+     * If the CPU type could not be read null is returned.
      * @return string
      */
     public function cpuType()
     {
-        return $this->cpuType;
+        return $this->cpuType[0];
     }
 
     
     /**
      * Returns memory size in bytes.
      * 
-     * If the memory size could not be read false is returned.
+     * If the memory size could not be read null is returned.
      * @return int
      */
     public function memorySize()

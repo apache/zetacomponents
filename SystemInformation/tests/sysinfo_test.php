@@ -17,6 +17,16 @@
  */
 class ezcSystemInfoTest extends ezcTestCase
 {
+    public function testSystemInfoCpuCountTest()
+    {
+        $info = ezcSystemInfo::getInstance();
+        $cpuCount = $info->cpuCount;
+        if( !is_int( $cpuCount ) || $cpuCount <= 0 )
+        {
+            self::fail('Amount of CPUs was not determined correctly');
+        }
+    }
+
     public function testSystemInfoCpuTypeTest()
     {
         $info = ezcSystemInfo::getInstance();
@@ -33,9 +43,8 @@ class ezcSystemInfoTest extends ezcTestCase
     {
         $info = ezcSystemInfo::getInstance();
         $cpuSpeed = $info->cpuSpeed;
-        $haveCpuSpeed = preg_match( '/([0-9]+)(\.)?([0-9]+)$/', $cpuSpeed ) ? true : false;
 
-        if( !is_float($cpuSpeed) || $cpuSpeed=='' || !$haveCpuSpeed ) 
+        if( !is_float($cpuSpeed) || $cpuSpeed <= 0 ) 
         {
             self::fail('CPU speed was not determined correctly');
         }
