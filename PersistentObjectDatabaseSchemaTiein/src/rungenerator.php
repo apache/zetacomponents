@@ -8,7 +8,10 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require "Base/src/base.php";
+/**
+ * Require the base class
+ */
+require 'Base/src/base.php';
 
 function __autoload( $className )
 {
