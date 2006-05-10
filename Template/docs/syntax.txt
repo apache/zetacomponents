@@ -611,20 +611,21 @@ An operand returns a single value. Some examples are::
   {"Hello"}
   {str_len("Hello")}
 
-The values returned are, respectively: *5*, *Hello*, and *5*. 
+The values returned are, respectively: 5, Hello, and 5.
 
 Operators are things that you feed with one or multiple values and will result
 another value.  Examples of operators are adding two numbers together with the
 plus (+) operator. This operator expects two integers or floats (in any
 combination) and returns either a integer of float. Another example is the
-equal operator (==). It expects two types operands of the same type, and
+equal operator (==). It expects two types operands of the same type and
 returns a Boolean.  
 
 
 Arithmetic operators
 ````````````````````
-The arithmetic operators can be used on all expression which returns a
-numerical value, and the operator returns a value itself:
+The arithmetic operators can be used on all expressions which return a
+numerical value. The operator itself returns also a numeric value. The table
+below describes the available arithmetic operators: 
 
 ==============  ===========
 Negation        -$o
@@ -679,22 +680,21 @@ Examples::
   { 4 == 5 == 6 }
 
 
-The last example compares 4 with 5. This returns the boolean false. Hereafter
-the comparation is::
+The last example compares 4 with 5. This returns the boolean *false*. After the
+first step the comparison is::
   
   { false == 6 }
 
-The number 6 will be changed into a boolean. Every number except zero will be
-true; thus the comparation::
+The number 6 will be changed into a boolean. Every number except zero will get
+the boolean value *true*. Basically the last step of the comparison is::
 
    { false == true }
 
-Thus the return value is false.
-
+And this return the boolean value *false*.
 
 Logical operators
 `````````````````
-The logical operators are used on all expressions which returns a boolean
+The logical operators are used on all expressions which return a boolean
 value. The operator returns also a boolean:
 
 ===  ==========
@@ -703,7 +703,7 @@ And  $ol && $or
 Or   $ol || $or
 ===  ==========
 
-Examples::
+Some usage examples::
   
   { true || false }
   { $a == 5 && $a != 7 } 
@@ -712,22 +712,23 @@ Examples::
 
 Assignments
 -----------
-Assignment is used to assign or modify a value from a variable. This variable
-must be declared first, which is explained in the Variables_ section. Notice that
-an assignment can be used in the declaration itself.
+Assignment is used to assign a new or modify an existing value from a variable.
+Of course this variable must be declared first. See the Variables_ section for
+more information. Notice that an assignment can be used in the declaration itself.
 
 The syntax language has two types of assignments. The former type assigns a new
-value to the variable. This is done via the equal sign operator::
+value to the variable::
 
   { <variable> = <expression> }
 
-The expression is evaluated and assigned to the variable. An example::
+The expression is evaluated and assigned to the variable. The next example
+assigns the value 4 to the variable *$myVar*::
 
   {var $myVar}
   { $myVar = 3 + 5 / 5 } 
 
 The latter assignment type updates the existing value with a modifier. There are multiple 
-operators for this: 
+operators available:
 
 ==============  ===========
 Addition        $var += $or
@@ -742,8 +743,8 @@ Post decrement  $var--
 ==============  ===========
 
 The Addition, Subtraction, Multiplication, Division, and Modulus assignment
-operators does the arithmetic calculation between the left (variable) and the 
-right operand (expression), and assigns the value in the left operand
+operators do an arithmetic calculation between the left (variable) and the 
+right operand (expression) and assigns the value in the left operand
 (variable) again. Notice that variable must already contain a value.
 
 The increment operators increments the number of the current variable by one.
