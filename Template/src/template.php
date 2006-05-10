@@ -233,7 +233,10 @@ class ezcTemplate
         $compiled = ezcTemplateCompiledCode::findCompiled( $source->stream, $config->context, $this );
         $this->properties["compiledTemplatePath"] = $compiled->path;
 
-        if( !file_exists( $compiled->path ) || ( $config->checkModifiedTemplates && filemtime($source->stream) >= filemtime($compiled->path) ) )
+        if ( !file_exists( $compiled->path ) || (
+            $config->checkModifiedTemplates &&
+            file_exists( $source->stream ) && filemtime( $source->stream ) >= filemtime( $compiled->path ) )
+        )
         {
             $this->createDirectory( dirname( $compiled->path ) );
 
