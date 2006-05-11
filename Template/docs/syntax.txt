@@ -1023,7 +1023,7 @@ several extensions to the foreach are available:
 - Limit, add a maximum to the number of iterations.
 
 Cycles are discussed in the Cycles_ section. The foreach loop has a tag that
-increments and/or decrements an cycle value:: 
+increments and/or decrements an cycle value: :: 
 
   [increment <variable1> [, variable2, ... ] ] [decrement <variable1> [, variable2, ... ] ]
 
@@ -1108,13 +1108,29 @@ Delimiter
 The delimiter can be used (only) inside a loop to do every given iteration a specific
 action. The syntax is as follows::
 
-   {delimiter modulo <expression> [is <expression>]}
+   {delimiter [modulo <expression> [is <expression>]]}
        <code>
    {/delimiter}
 
-The "is <expression>" part of the delimiter can be omitted and will be
-interpreted as "is 0". The next example demonstrates creates a matrix with 4
-rows and 4 columns. The delimiter closes the current row and opens a new one::
+The "module...<expression>" part can be omitted and by default the delimiter
+will be inserted between every iteration of the loop. If a modulo is used, the
+"is <expression>" part of the delimiter can be omitted and will be interpreted
+as "is 0". 
+
+The delimiter will always be executed between two iterations of the loop. In
+this example switching the "{$address}" and the delimiter does not make a
+difference: ::
+
+    {var $addresses = array( 'Derick', 'Raymond' )}
+    {foreach $addresses as $address}
+    {$address}
+    {delimiter}, {/delimiter}
+    {/foreach}
+
+The next example demonstrates creates a matrix with 4 rows and 4 columns. The
+delimiter closes the current row and opens a new one every forth column as the
+delimiter is only added when "internal counter modulo 4" equals 0. The
+"internal counter" simply counts the number of executed iterations: ::
 
    {var $columns = 4}
    <table>
@@ -1129,9 +1145,6 @@ rows and 4 columns. The delimiter closes the current row and opens a new one::
    </tr>
 
 
-The delimiter will always be executed at the end of the loop. In this example
-switching the "<td>{$nr}</td>" and the delimiter does not make a difference.
-
 Continue
 ````````
 The continue statement is used within the looping structures to skip the rest of the current loop 
@@ -1139,11 +1152,11 @@ iteration and continue execution at the condition evaluation and then the beginn
 iteration. If a delimiter is available in the looping structure then this
 delimiter will be added. Use the Skip_ statement to skip also the delimiter.
 The next example show the numbers 1 to 3, with the word "Beer" behind it. The
-word "Beer" will be displayed for iterations where the continue is called.
+word "Beer" will be displayed for iterations where the continue is called. ::
 
   {foreach 1..5 as $i}
 
-  {delimiter module 1}
+  {delimiter}
   Beer
   {/delimiter}
 
@@ -1164,11 +1177,11 @@ Skip
 ````
 The skip is the same as a continue, except that the delimiter in the loop will
 be skipped also.  The next example show the numbers 1 to 3, with the word
-"Beer" behind it::
+"Beer" behind it: ::
 
   {foreach 1..5 as $i}
 
-  {delimiter module 1}
+  {delimiter}
   Beer
   {/delimiter}
 
