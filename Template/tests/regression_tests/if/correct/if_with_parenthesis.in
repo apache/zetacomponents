@@ -1,0 +1,4 @@
+{if ( true ) }
+An old bug was that the "if" was recognized as a function call. 
+Obviously, the order of parsing an expression and a block item was wrong.
+{/if}

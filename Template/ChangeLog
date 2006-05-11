@@ -4,6 +4,8 @@
   E.g. {$obj->prop1->prop2}
 - Fixed a bug that the variable is declared in the 'as' part of the include.  
   E.g. {include "abc.ezt" send $a as $b}, $b was declared.
+- Fixed a bug that using parenthesis in an 'if' block gave an error message.
+  E.g. {if ( true ) }
 - The modulo part of the delimiter is now optional.
 - The delimiter does not appear after the last iteration.
 

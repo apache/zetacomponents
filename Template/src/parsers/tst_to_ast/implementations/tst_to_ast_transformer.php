@@ -610,7 +610,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             return array($if );
     }
 
-
     public function visitWhileLoopTstNode( ezcTemplateWhileLoopTstNode $type )
     {
         if( $type->name == "do" )

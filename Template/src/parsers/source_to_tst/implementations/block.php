@@ -48,6 +48,8 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
     {
         $failedParser = null;
 
+
+
         // Check for doc comments which look like {*...*}
         if ( !$cursor->atEnd() &&
              $cursor->current() == '*' )
@@ -55,6 +57,36 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
             // got a doc comment block
             return $this->parseRequiredType( 'DocComment', $this->startCursor );
         }
+
+
+        // $cursor object in $block will be updated as the parser continues
+        $this->block = $this->parser->createBlock( $this->startCursor, $cursor );
+        $this->findNextElement();
+
+        // Test for and ending control structure.
+        if ( !$cursor->atEnd() && $cursor->current() == '/' )
+        {
+            // got a closing block marker
+            $this->block->isClosingBlock = true;
+            $closingCursor = clone $cursor;
+            $cursor->advance( 1 );
+
+            $this->findNextElement();
+        }
+
+
+        // Try to parse a control structure
+        $controlStructureParser = new ezcTemplateControlStructureSourceToTstParser( $this->parser, $this, null );
+        //
+        $controlStructureParser->block = $this->block;
+        if ( $this->parseOptionalType( $controlStructureParser, null, false ) )
+        {
+            if ( $this->lastParser->status == self::PARSE_PARTIAL_SUCCESS )
+                return false;
+            $this->mergeElements( $this->lastParser );
+            return true;
+        }
+
 
         // Try to parse a literal block
         if ( $this->parseOptionalType( 'LiteralBlock', $this->startCursor ) )
@@ -83,13 +115,6 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
             return $this->lastParser->status == self::PARSE_SUCCESS;
         }
 
-        // skip whitespace and comments
-        if ( !$this->findNextElement() )
-            return false;
-
-        // $cursor object in $block will be updated as the parser continues
-        $this->block = $this->parser->createBlock( $this->startCursor, $cursor );
-
         if ( $cursor->match( '}' ) )
         {
             // Empty block found, this is allowed but the returned block
@@ -97,33 +122,6 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
             $this->elements[] = $this->lastParser->block;
             return true;
         }
-
-        // No expression found, continuing with normal block
-
-        if ( !$cursor->atEnd() &&
-             $cursor->current() == '/' )
-        {
-            // got a closing block marker
-            $this->block->isClosingBlock = true;
-            $closingCursor = clone $cursor;
-            $cursor->advance( 1 );
-        }
-
-        // skip whitespace and comments
-        if ( !$this->findNextElement() )
-            return false;
-
-        // Try to parse a control structure
-        $controlStructureParser = new ezcTemplateControlStructureSourceToTstParser( $this->parser, $this, null );
-        $controlStructureParser->block = $this->block;
-        if ( $this->parseOptionalType( $controlStructureParser, null, false ) )
-        {
-            if ( $this->lastParser->status == self::PARSE_PARTIAL_SUCCESS )
-                return false;
-            $this->mergeElements( $this->lastParser );
-            return true;
-        }
-
 
         // Parse the {ldelim} and {rdelim}
         $ldelim = $this->currentCursor->match( "ldelim") ? true : false;
