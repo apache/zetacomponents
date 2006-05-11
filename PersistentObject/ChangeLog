@@ -1,6 +1,12 @@
+1.1beta2 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Implemented feature request 8248: PersistentObject: ezcPersistentSession 
+  should throw more descriptive exceptions.
+
 1.1beta1 - Tuesday 09 May 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	
+
 - Fixed #7884: ezcPersistentSession sometimes triggers PDO "General error:
   2014" exceptions.
 - Fixed #8042: PersistentObject requires use of database ID counter.

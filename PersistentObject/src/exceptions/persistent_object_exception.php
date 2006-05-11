@@ -25,8 +25,9 @@ class ezcPersistentObjectException extends ezcBaseException
      * @param int $code
      * @return void
      */
-    public function __construct( $message )
+    public function __construct( $message, $reason = null )
     {
+        $message = $reason !== null ? "$message ($reason)" : $message;
         parent::__construct( $message );
     }
 }

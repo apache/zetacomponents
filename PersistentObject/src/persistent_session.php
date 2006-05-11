@@ -400,7 +400,7 @@ class ezcPersistentSession
             }
             catch ( Exception $e )
             {
-                throw new ezcPersistentObjectException( "The row data could not be correctly converted to set data. Most probably there is something wrong with a custom rowToStateArray implementation" );
+                throw new ezcPersistentObjectException( "The row data could not be correctly converted to set data.", "Most probably there is something wrong with a custom rowToStateArray implementation" );
             }
             $pObject->setState( $state );
         }
@@ -502,7 +502,7 @@ class ezcPersistentSession
         catch ( PDOException $e )
         {
             $this->db->rollback();
-            throw new ezcPersistentObjectException( "The insert query failed." );
+            throw new ezcPersistentObjectException( "The insert query failed.", $e->getMessage() );
         }
 
         // fetch the newly created id, and set it to the object
