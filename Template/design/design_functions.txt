@@ -883,6 +883,13 @@ All functions are prefixed with math\_.
 
     custom code
 
+Date
+````
+
+- date_format( $i, $format )::
+
+    date( $i, $format )
+
 Trigonometry
 ````````````
 

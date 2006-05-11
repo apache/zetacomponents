@@ -305,6 +305,7 @@ return array(
 // Functions
              "ezcTemplateFunctions" => "Template/functions/functions.php",
              "ezcTemplateStringFunctions" => "Template/functions/string_functions.php",
+             "ezcTemplateDateFunctions" => "Template/functions/date_functions.php",
              "ezcTemplateWebFunctions" => "Template/functions/web_functions.php",
              "ezcTemplateArrayFunctions" => "Template/functions/array_functions.php",
              "ezcTemplateRegExpFunctions" => "Template/functions/regexp_functions.php",
@@ -314,6 +315,7 @@ return array(
 
 // Functions code
              "ezcTemplateString" => "Template/functions/string_code.php",
+             "ezcTemplateDate" => "Template/functions/date_code.php",
              "ezcTemplateWeb" => "Template/functions/web_code.php",
              "ezcTemplateArray" => "Template/functions/array_code.php",
              "ezcTemplateRegExp" => "Template/functions/regexp_code.php",
