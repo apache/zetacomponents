@@ -19,7 +19,7 @@ abstract class ezcTemplateBinaryOperatorAstNode extends ezcTemplateOperatorAstNo
     {
         parent::__construct( self::OPERATOR_TYPE_BINARY );
 
-        if( $parameter1 != null && $parameter2 != null )
+        if( $parameter1 !== null && $parameter2 !== null )
         {
             $this->appendParameter( $parameter1 );
             $this->appendParameter( $parameter2 );

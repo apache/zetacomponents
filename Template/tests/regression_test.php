@@ -16,7 +16,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 {
     public $requestRegeneration = true;
 
-    public $showTreesOnFailure = true;
+    public $showTreesOnFailure = false;
 
     private $stdin = null;
 
