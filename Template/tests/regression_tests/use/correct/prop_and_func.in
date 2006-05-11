@@ -1,0 +1,3 @@
+{use $mail}
+{$mail->from->firstName}
+{str_len($mail->from->lastName )}

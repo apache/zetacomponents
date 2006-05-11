@@ -730,6 +730,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $node->appendParameter( $appendNode  );
         }
 
+        $this->isFunctionFromObject = false;
         return $node;
     }
  

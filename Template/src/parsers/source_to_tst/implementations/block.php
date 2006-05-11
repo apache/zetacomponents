@@ -48,8 +48,6 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
     {
         $failedParser = null;
 
-
-
         // Check for doc comments which look like {*...*}
         if ( !$cursor->atEnd() &&
              $cursor->current() == '*' )

@@ -6,6 +6,8 @@
   E.g. {include "abc.ezt" send $a as $b}, $b was declared.
 - Fixed a bug that using parenthesis in an 'if' block gave an error message.
   E.g. {if ( true ) }
+- Fixed a bug that a function call after a property fetch would give an error
+  message. E.g. {$mail->myProp} {str_len( $mail->myProp)}
 - The modulo part of the delimiter is now optional.
 - The delimiter does not appear after the last iteration.
 
