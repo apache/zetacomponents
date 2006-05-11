@@ -1,0 +1,8 @@
+1. SSBkb24ndCB3YW50IHRvIGJlIGVuY29kZWQh
+2. I don't want to be encoded!
+3. some+string+%2F+for+%26+an+%25+URL
+4. some string / for & an % URL
+5. foo=bar&baz=foo
+6. ez_0=foo&ez_1=bar&ez_2=baz
+7. http://user:pass@ez.no/test/index.php?index=1#target
+8. http ez.no user pass /test/index.php index=1 target

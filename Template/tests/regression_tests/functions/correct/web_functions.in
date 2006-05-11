@@ -1,0 +1,8 @@
+1. {base64_encode( "I don't want to be encoded!" )}
+2. {base64_decode( "SSBkb24ndCB3YW50IHRvIGJlIGVuY29kZWQh" )}
+3. {url_encode( "some string / for & an % URL" )}
+4. {url_decode( "some+string+%2F+for+%26+an+%25+URL" )}
+5. {url_parameters_build( array( "foo" => "bar", "baz" => "foo" ) )}
+6. {url_parameters_build( array( "foo", "bar", "baz" ), "ez_" )}
+7. {debug_dump(url_build(array ( "scheme" => "http", "host" => "ez.no", "user" => "user", "pass" => "pass", "path" => "/test/index.php", "query" => "index=1", "fragment" => "target" ) ) )}
+8. {var $a = url_parse( "http://user:pass@ez.no/test/index.php?index=1#target" )}{$a["scheme"]} {$a["host"]} {$a["user"]} {$a["pass"]} {$a["path"]} {$a["query"]} {$a["fragment"]}
