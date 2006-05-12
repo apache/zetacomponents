@@ -27,6 +27,7 @@ return array(
     'ezcConfigurationGroupExistsAlreadyException'   => 'Configuration/exceptions/group_exists_already.php',
     'ezcConfigurationInvalidReaderClassException'   => 'Configuration/exceptions/invalid_reader_class.php',
     'ezcConfigurationInvalidSuffixException'        => 'Configuration/exceptions/invalid_suffix.php',
+    'ezcConfigurationManagerNotInitializedException'=> 'Configuration/exceptions/manager_no_init.php',
     'ezcConfigurationNoConfigException'             => 'Configuration/exceptions/no_config.php',
     'ezcConfigurationNoConfigObjectException'       => 'Configuration/exceptions/no_config_object.php',
     'ezcConfigurationParseErrorException'           => 'Configuration/exceptions/parse_error.php',

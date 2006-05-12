@@ -152,8 +152,10 @@ class ezcConfigurationManager
      * new configuration reader based on the settings that were passed to this
      * class with the init() method.
      *
-     * @throws ezcConfigurationUnknownConfigException if the configuration
-     *         $name does not exist.
+     * @throws ezcConfigurationUnknownConfigException
+     *         if the configuration $name does not exist.
+     * @throws ezcConfigurationManagerNotInitializedException
+     *         if the manager has not been initialized with the init() method.
      *
      * @param string $name
      * @param bool $mayFail
@@ -163,6 +165,10 @@ class ezcConfigurationManager
     {
         if ( !isset( $this->nameMap[$name] ) )
         {
+            if ( $this->readerClass === null || $this->location === null )
+            {
+                throw new ezcConfigurationManagerNotInitializedException();
+            }
             $className = $this->readerClass;
             $class = new $className();
             $class->init( $this->location, $name, $this->options );
@@ -181,6 +187,8 @@ class ezcConfigurationManager
      *
      * @throws ezcConfigurationUnknownConfigException if the configuration does not
      *         exist.
+     * @throws ezcConfigurationManagerNotInitializedException
+     *         if the manager has not been initialized with the init() method.
      *
      * @param string $name
      * @param string $group
@@ -206,6 +214,8 @@ class ezcConfigurationManager
      *
      * @throws ezcConfigurationUnknownConfigException if the configuration
      *         $name does not exist.
+     * @throws ezcConfigurationManagerNotInitializedException
+     *         if the manager has not been initialized with the init() method.
      *
      * @param string $name
      * @return ezcConfiguration
@@ -449,6 +459,9 @@ class ezcConfigurationManager
 
     /**
      * Returns true if the configuration named $name exists.
+     *
+     * @throws ezcConfigurationManagerNotInitializedException
+     *         if the manager has not been initialized with the init() method.
      *
      * @param string $name
      * @return bool

@@ -14,6 +14,23 @@
  */
 class ezcConfigurationManagerTest extends ezcTestCase
 {
+    // This test needs to be at the start, as the other tests already init the
+    // configuration manager 
+    public function testForgottenInit()
+    {
+        $config = ezcConfigurationManager::getInstance();
+
+        try
+        {
+            $setting = $config->getSetting( 'types', 'Types', 'Bool' );
+            $this->fail( "Expected exception not thrown" );
+        }
+        catch ( ezcConfigurationManagerNotInitializedException $e )
+        {
+            $this->assertEquals( "The manager has not been initialized.", $e->getMessage() );
+        }
+    }
+
     public function testInit()
     {
         $config = ezcConfigurationManager::getInstance();

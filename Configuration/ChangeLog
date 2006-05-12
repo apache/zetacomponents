@@ -1,3 +1,11 @@
+1.0.2 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Added a check to insure that the init method is called before fetching a
+  reader in the manager. If the init method was not called then an
+  ezcConfigurationManagerNotInitializedException will be thrown.
+
+
 1.0.1 - Monday 20 February 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
