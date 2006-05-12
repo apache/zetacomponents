@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcConfigurationException class
+ * File containing the ezcConfigurationIntalidReaderClassException class
  *
  * @package Configuration
  * @version //autogen//
