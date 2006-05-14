@@ -5,11 +5,11 @@ require_once 'Base/trunk/src/base.php';
 /**
  * Autoload ezc classes 
  * 
- * @param string $class_name 
+ * @param string $className 
  */
-function __autoload( $class_name )
+function __autoload( $className )
 {
-    if ( ezcBase::autoload( $class_name ) )
+    if ( ezcBase::autoload( $className ) )
     {
         return;
     }

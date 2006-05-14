@@ -96,12 +96,6 @@
  * You can implement a singleton pattern for this, which might look similar to
  * the following example:
  * <code>
- * function __autoload( $class_name )
- * {
- *     require_once "Base/trunk/src/base.php";
- *     ezcBase::autoload( $class_name );
- * }
- * 
  * function getImageConverterInstance()
  * {
  *     if ( !isset( $GLOBALS['_ezcImageConverterInstance'] ) )

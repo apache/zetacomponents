@@ -4,17 +4,17 @@
 error_reporting( E_ALL | E_STRICT );
 require_once("Base/src/base.php");
 
-function __autoload( $class_name )
+function __autoload( $className )
 {
-    if ( strpos( $class_name, "_" ) !== false )
+    if ( strpos( $className, "_" ) !== false )
     {
-        $file = str_replace( "_", "/", $class_name ) . ".php";
+        $file = str_replace( "_", "/", $className ) . ".php";
         $val = require_once( $file );
         if ( $val == 0 )
             return true;
         return false;
     }
-    ezcBase::autoload( $class_name );
+    ezcBase::autoload( $className );
 }
 
 // Remove this file name from the assertion trace.
