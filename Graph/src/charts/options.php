@@ -72,10 +72,10 @@ class ezcGraphChartOption extends ezcBaseOptions
         {
             case 'width':
                 $this->width = max( 1, (int) $propertyValue );
-            break;
+                break;
             case 'height':
                 $this->height = max( 1, (int) $propertyValue );
-            break;
+                break;
             case 'backgroundImage':
                 // Check for existance of file
                 if ( !is_file( $propertyValue ) || !is_readable( $propertyValue ) )
@@ -97,19 +97,19 @@ class ezcGraphChartOption extends ezcBaseOptions
                 }
 
                 $this->backgroundImage = $propertyValue;
-            break;
+                break;
             case 'background':
                 $this->background = ezcGraphColor::create( $propertyValue );
-            break;
+                break;
             case 'border':
                 $this->border = ezcGraphColor::create( $propertyValue );
-            break;
+                break;
             case 'borderWidth':
                 $this->borderWidth = max( 1, (int) $propertyValue );
-            break;
+                break;
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
-            break;
+                break;
         }
     }
 }

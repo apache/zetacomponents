@@ -54,13 +54,13 @@ class ezcGraphDataset implements ArrayAccess
         {
             case 'label':
                 $this->label->default = $propertyValue;
-            break;
+                break;
             case 'color':
                 $this->color->default = $propertyValue;
-            break;
+                break;
             case 'symbol':
                 $this->symbol->default = $propertyValue;
-            break;
+                break;
         }
     }
 
@@ -68,7 +68,9 @@ class ezcGraphDataset implements ArrayAccess
     {
         if ( isset( $this->$propertyName ) ) {
             return $this->$propertyName;
-        } else {
+        }
+        else 
+        {
             throw new ezcBasePropertyNotFoundException( $propertyName );
         }
     }

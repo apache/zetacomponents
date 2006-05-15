@@ -78,7 +78,7 @@ abstract class ezcGraphChart
         switch ( $propertyName ) {
             case 'title':
                 return $this->title = (string) $propertyValue;
-            break;
+                break;
             case 'renderer':
                 if ( $propertyValue instanceof ezcGraphRenderer )
                 {
@@ -88,7 +88,7 @@ abstract class ezcGraphChart
                 {
                     throw new ezcGraphInvalidRendererException( $propertyValue );
                 }
-            break;
+                break;
             case 'driver':
                 if ( $propertyValue instanceof ezcGraphDriver )
                 {
@@ -98,10 +98,10 @@ abstract class ezcGraphChart
                {
                     throw new ezcGraphInvalidDriverException( $propertyValue );
                }
-            break;
+                break;
             default:
                 return $this->addDataSet($propertyName, $propertyValue);
-            break;
+                break;
         }
     }
 
