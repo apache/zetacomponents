@@ -46,7 +46,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $chart = ezcGraph::create( 'Line' );
 
         $this->assertTrue(
-            $chart->Y_Axis instanceof ezcGraphChartElementNumericAxis
+            $chart->Y_axis instanceof ezcGraphChartElementNumericAxis
             );
     }
 

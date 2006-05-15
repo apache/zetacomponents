@@ -34,6 +34,7 @@ return array(
 
     'ezcGraphChartElement'                      => 'Graph/interfaces/element.php',
     'ezcGraphChartElementLegend'                => 'Graph/element/legend.php',
+    'ezcGraphChartElementNumericAxis'           => 'Graph/element/numeric_axis.php',
 
     'ezcGraphDataset'                           => 'Graph/datasets/base.php',
     'ezcGraphDatasetAverage'                    => 'Graph/datasets/average.php',

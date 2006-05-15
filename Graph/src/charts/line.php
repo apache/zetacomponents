@@ -14,6 +14,14 @@
  */
 class ezcGraphLineChart extends ezcGraphChart
 {
+ 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->elements['Y_axis'] = new ezcGraphChartElementNumericAxis();
+    }
+
     /**
      * Render a line chart
      * 
