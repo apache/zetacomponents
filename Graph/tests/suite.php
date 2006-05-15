@@ -35,6 +35,11 @@ require_once 'dataset_test.php';
 require_once 'legend_test.php';
 
 /**
+* Require test suite for ezcGraphChart class.
+*/
+require_once 'numeric_axis_test.php';
+
+/**
 * Test suite for ImageAnalysis package.
 *
 * @package ImageAnalysis
@@ -52,6 +57,7 @@ class ezcGraphSuite extends ezcTestSuite
         $this->addTest( ezcGraphChartTest::suite() );
         $this->addTest( ezcGraphDatasetTest::suite() );
         $this->addTest( ezcGraphLegendTest::suite() );
+        $this->addTest( ezcGraphNumericAxisTest::suite() );
     }
 
     public static function suite()
