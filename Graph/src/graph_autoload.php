@@ -32,6 +32,9 @@ return array(
     'ezcGraphSVGDriver'                         => 'Graph/driver/svg.php',
     'ezcGraphInvalidDriverException'            => 'Graph/exceptions/invalid_driver.php',
 
+    'ezcGraphChartElement'                      => 'Graph/interfaces/element.php',
+    'ezcGraphChartElementLegend'                => 'Graph/element/legend.php',
+
     'ezcGraphDataset'                           => 'Graph/datasets/base.php',
     'ezcGraphDatasetAverage'                    => 'Graph/datasets/average.php',
     'ezcGraphDatasetProperty'                   => 'Graph/interfaces/dataset_property.php',

@@ -46,7 +46,7 @@ class ezcGraphLegendTest extends ezcTestCase
         $chart = ezcGraph::create( 'Pie' );
 
         $this->assertTrue(
-            $chart->legend instanceof ezcChartElementLegend
+            $chart->legend instanceof ezcGraphChartElementLegend
             );
     }
 
@@ -132,12 +132,12 @@ class ezcGraphLegendTest extends ezcTestCase
         }
 
         $this->assertEquals(
-            1,
+            3,
             $chart->legend->position
         );
 
         $this->assertEquals(
-            1,
+            3,
             $this->getNonPublicProperty( $chart->legend, 'position' )
         );
     }

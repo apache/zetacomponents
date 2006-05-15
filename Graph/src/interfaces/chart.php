@@ -60,6 +60,9 @@ abstract class ezcGraphChart
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphChartOption();
+
+        // Add standard element legend
+        $this->elements['legend'] = new ezcGraphChartElementLegend();
     }
 
     /**
@@ -134,11 +137,22 @@ abstract class ezcGraphChart
         }
     }
 
+    /**
+     * Returns the requested property 
+     * 
+     * @param mixed $propertyName 
+     * @return mixed
+     */
     public function __get( $propertyName )
     {
         if ( isset( $this->$propertyName ) )
         {
             return $this->$propertyName;
+        }
+
+        if ( isset( $this->elements[$propertyName] ) )
+        {
+            return $this->elements[$propertyName];
         }
 
         if ( isset( $this->data[$propertyName] ) )
