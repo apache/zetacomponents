@@ -30,6 +30,11 @@ require_once 'chart_test.php';
 require_once 'dataset_test.php';
 
 /**
+* Require test suite for ezcGraphChart class.
+*/
+require_once 'legend_test.php';
+
+/**
 * Test suite for ImageAnalysis package.
 *
 * @package ImageAnalysis
@@ -46,6 +51,7 @@ class ezcGraphSuite extends ezcTestSuite
         $this->addTest( ezcGraphColorTest::suite() );
         $this->addTest( ezcGraphChartTest::suite() );
         $this->addTest( ezcGraphDatasetTest::suite() );
+        $this->addTest( ezcGraphLegendTest::suite() );
     }
 
     public static function suite()
