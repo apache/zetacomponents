@@ -886,9 +886,13 @@ All functions are prefixed with math\_.
 Date
 ````
 
-- date_format( $i, $format )::
+- date_timestamp_format( $format [, $timestamp] )::
 
-    date( $i, $format )
+    date( $format, $timestamp )
+
+- date_current_time()::
+    
+    time()
 
 Trigonometry
 ````````````
