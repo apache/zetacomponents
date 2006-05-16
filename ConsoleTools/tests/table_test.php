@@ -276,16 +276,18 @@ class ezcConsoleToolsTableTest extends ezcTestCase
         try
         {
             $opt = new ezcConsoleTableOptions(
-                array( 1, 2, 3 ),
-                ezcConsoleTable::WRAP_CUT,
-                ezcConsoleTable::ALIGN_CENTER,
-                ':',
-                ezcConsoleTable::WIDTH_FIXED,
-                ':',
-                '-',
-                'o',
-                'test',
-                'test2'
+                array(
+                    "colWidth" => array( 1, 2, 3 ),
+                    "colWrap" => ezcConsoleTable::WRAP_CUT,
+                    "defaultAlign" => ezcConsoleTable::ALIGN_CENTER,
+                    "colPadding" => ':',
+                    "widthType" => ezcConsoleTable::WIDTH_FIXED,
+                    "lineVertical" => ':',
+                    "lineHorizontal" => '-',
+                    "corner" => 'o',
+                    "defaultFormat" => 'test',
+                    "defaultBorderFormat" => 'test2'
+                )
             );
         }
         catch ( Exception $e )

@@ -11,7 +11,7 @@
 
 return array (
     'ezcConsoleOutput'                              => 'ConsoleTools/output.php',
-    'ezcConsoleOutputOptions'                       => 'ConsoleTools/structs/output_options.php',
+    'ezcConsoleOutputOptions'                       => 'ConsoleTools/options/output.php',
     'ezcConsoleOutputFormats'                       => 'ConsoleTools/structs/output_formats.php',
     'ezcConsoleOutputFormat'                        => 'ConsoleTools/structs/output_format.php',
     'ezcConsoleInput'                               => 'ConsoleTools/input.php',
@@ -20,9 +20,9 @@ return array (
     'ezcConsoleTable'                               => 'ConsoleTools/table.php',
     'ezcConsoleTableRow'                            => 'ConsoleTools/table/row.php',
     'ezcConsoleTableCell'                           => 'ConsoleTools/table/cell.php',
-    'ezcConsoleTableOptions'                        => 'ConsoleTools/structs/table_options.php',
+    'ezcConsoleTableOptions'                        => 'ConsoleTools/options/table.php',
     'ezcConsoleProgressbar'                         => 'ConsoleTools/progressbar.php',
-    'ezcConsoleProgressbarOptions'                  => 'ConsoleTools/structs/progressbar_options.php',
+    'ezcConsoleProgressbarOptions'                  => 'ConsoleTools/options/progressbar.php',
     'ezcConsoleProgressMonitor'                     => 'ConsoleTools/progressmonitor.php',
     'ezcConsoleStatusbar'                           => 'ConsoleTools/statusbar.php',
 

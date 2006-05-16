@@ -17,7 +17,7 @@
  * @package ConsoleTools
  * @version //autogen//
  */
-class ezcConsoleOutputOptions
+class ezcConsoleOutputOptions extends ezcBaseOptions
 {
     /**
      * Determines the level of verbosity. 
@@ -41,40 +41,6 @@ class ezcConsoleOutputOptions
      * @var bool
      */
     protected $useFormats = true;
-
-    /**
-     * Create a new ezcConsoleOutputOptions struct. 
-     * Create a new ezcConsoleOutputOptions struct for use with {@link ezcConsoleOutput}. 
-     * 
-     * @param int $verbosityLevel Verbosity of the output to show.
-     * @param int $autobreak    Auto wrap lines after num chars (0 = unlimited)
-     * @param bool $useFormats  Whether to enable formated output
-     * @return void
-     */
-    public function __construct( $verbosityLevel = 1, $autobreak = 0, $useFormats = true )
-    {
-        $this->verbosityLevel = $verbosityLevel;
-        $this->autobreak = $autobreak;
-        $this->useFormats = $useFormats;
-    }
-
-    /**
-     * Property read access.
-     * 
-     * @throws ezcBasePropertyNotFoundException if the the desired property is
-     *         not found.
-     *
-     * @param string $propertyName Name of the property.
-     * @return mixed Value of the property or null.
-     */
-    public function __get( $propertyName )
-    {
-        if ( isset( $this->$propertyName ) )
-        {
-            return $this->$propertyName;
-        }
-        throw new ezcBasePropertyNotFoundException( $propertyName );
-    }
 
     /**
      * Property write access.
@@ -110,18 +76,6 @@ class ezcConsoleOutputOptions
         }
         $this->$propertyName = $val;
     }
- 
-    /**
-     * Property isset access.
-     * 
-     * @param string $propertyName Name of the property.
-     * @return bool True if the property is set, false otherwise.
-     */
-    public function __isset( $propertyName )
-    {
-        return isset( $this->$propertyName );
-    }
-
 }
 
 ?>

@@ -11,20 +11,19 @@
 
 /**
  * Struct class to store the options of the ezcConsoleTable class.
- *
  * This class stores the options for the {@link ezcConsoleTable} class.
  * 
  * @package ConsoleTools
  * @version //autogen//
  */
-class ezcConsoleTableOptions
+class ezcConsoleTableOptions extends ezcBaseOptions
 {
     /**
      * Column width, either a fixed int value (number of chars)  or 'auto'.
      * 
      * @var mixed
      */
-    protected $colWidth = 'auto';
+    protected $colWidth = "auto";
 
     /**
      * Wrap style of text contained in strings.
@@ -54,7 +53,7 @@ class ezcConsoleTableOptions
      * 
      * @var string
      */
-    protected $colPadding = ' ';
+    protected $colPadding = " ";
 
     /**
      * Type of the given table width (fixed or maximal value).
@@ -68,29 +67,29 @@ class ezcConsoleTableOptions
      * 
      * @var string
      */
-    protected $lineVertical = '-';
+    protected $lineVertical = "-";
 
     /**
      * Character to use for drawing horizontal lines. 
      * 
      * @var string
      */
-    protected $lineHorizontal = '|';
+    protected $lineHorizontal = "|";
 
     /**
      * Character to use for drawing line corners.
      * 
      * @var string
      */
-    protected $corner = '+';
+    protected $corner = "+";
     
     /**
-     * Standard column content format, applied to cells that have 'default' as
+     * Standard column content format, applied to cells that have "default" as
      * the content format.
      * 
      * @var string
      */
-    protected $defaultFormat = 'default';
+    protected $defaultFormat = "default";
 
     /**
      * Standard border format, applied to rows that have 'default' as the
@@ -98,58 +97,7 @@ class ezcConsoleTableOptions
      * 
      * @var string
      */
-    protected $defaultBorderFormat = 'default';
-
-    /**
-     * Create a new ezcConsoleProgressbarOptions struct. 
-     *
-     * Create a new ezcConsoleProgressbarOptions struct for use with {@link
-     * ezcConsoleOutput}. 
-     * 
-     * @todo documentation missing!
-     */
-    public function __construct( 
-        $colWidth = 'auto',
-        $colWrap = ezcConsoleTable::WRAP_AUTO,
-        $defaultAlign = ezcConsoleTable::ALIGN_LEFT,
-        $colPadding = ' ',
-        $widthType = ezcConsoleTable::WIDTH_MAX,
-        $lineVertical = '-',
-        $lineHorizontal = '|',
-        $corner = '+',
-        $defaultFormat = 'default',
-        $defaultBorderFormat = 'default'
-    )
-    {
-        $this->__set( 'colWidth', $colWidth );
-        $this->__set( 'colWrap', $colWrap );
-        $this->__set( 'defaultAlign', $defaultAlign );
-        $this->__set( 'colPadding', $colPadding );
-        $this->__set( 'widthType', $widthType );
-        $this->__set( 'lineVertical', $lineVertical );
-        $this->__set( 'lineHorizontal', $lineHorizontal );
-        $this->__set( 'corner', $corner );
-        $this->__set( 'defaultFormat', $defaultFormat );
-        $this->__set( 'defaultBorderFormat', $defaultBorderFormat );
-    }
-    
-    /**
-     * Property read access.
-     * 
-     * @throws ezcBasePropertyNotFoundException if the the desired property is
-     *         not found.
-     *
-     * @param string $propertyName Name of the property.
-     * @return mixed Value of the property or null.
-     */
-    public function __get( $propertyName )
-    {
-        if ( isset( $this->$propertyName ) )
-        {
-            return $this->$propertyName;
-        }
-        throw new ezcBasePropertyNotFoundException( $propertyName );
-    }
+    protected $defaultBorderFormat = "default";
 
     /**
      * Property write access.
@@ -222,19 +170,6 @@ class ezcConsoleTableOptions
         }
         $this->$propertyName = $val;
     }
- 
-    /**
-     * Property isset access.
-     * 
-     * @param string $propertyName Name of the property.
-     * @return bool True if the property is set, false otherwise.
-     */
-    public function __isset( $propertyName )
-    {
-        return isset( $this->$propertyName );
-    }
-
-
 }
 
 ?>

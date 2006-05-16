@@ -30,7 +30,13 @@ class ezcConsoleToolsOutputOptionsTest extends ezcTestCase
      */
     public function testConstructor()
     {
-        $fake = new ezcConsoleOutputOptions(1, 0, true);
+        $fake = new ezcConsoleOutputOptions(
+            array( 
+                "verbosityLevel" => 1,
+                "autobreak" => 0,
+                "useFormats" => true,
+            )
+        );
         $this->assertEquals( 
             $fake,
             new ezcConsoleOutputOptions(),

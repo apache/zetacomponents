@@ -22,11 +22,13 @@ function __autoload( $className )
 
 $out = new ezcConsoleOutput();
 
+$out->formats->red->color = "red";
+
 // Create progress bar itself
 $progress = new ezcConsoleProgressbar( $out, 100, array( 'step' => 5 ) );
 
 $progress->options->emptyChar = '-';
-$progress->options->progressChar = '#';
+$progress->options->progressChar = $out->formatText('>', "red");
 $progress->options->formatString = "Uploading file </tmp/foobar.tar.bz2>: %act%/%max% kb [%bar%]";
 
 // Perform actions
