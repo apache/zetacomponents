@@ -103,22 +103,26 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             10.,
-            $chart->Y_axis->min
+            $chart->Y_axis->min,
+            'As value for: min; '
         );
 
         $this->assertEquals(
             50.,
-            $chart->Y_axis->max
+            $chart->Y_axis->max,
+            'As value for: max; '
         );
 
         $this->assertEquals(
             10.,
-            $chart->Y_axis->majorStep
+            $chart->Y_axis->majorStep,
+            'As value for: majorStep; '
         );
 
         $this->assertEquals(
             1.,
-            $chart->Y_axis->minorStep
+            $chart->Y_axis->minorStep,
+            'As value for: minorStep; '
         );
     }
 
@@ -128,6 +132,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         {
             $chart = ezcGraph::create( 'Line' );
             $chart->sample = array( 2000 => 20, 70, 12, 130 );
+            $chart->render();
         }
         catch ( Exception $e ) 
         {
@@ -136,22 +141,26 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             0.,
-            $chart->Y_axis->min
+            $chart->Y_axis->min,
+            'As value for: min; '
         );
 
         $this->assertEquals(
             150.,
-            $chart->Y_axis->max
+            $chart->Y_axis->max,
+            'As value for: max; '
         );
 
         $this->assertEquals(
-            50.,
-            $chart->Y_axis->majorStep
+            25.,
+            $chart->Y_axis->majorStep,
+            'As value for: majorStep; '
         );
 
         $this->assertEquals(
-            10.,
-            $chart->Y_axis->minorStep
+            5.,
+            $chart->Y_axis->minorStep,
+            'As value for: minorStep; '
         );
     }
 
@@ -161,6 +170,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         {
             $chart = ezcGraph::create( 'Line' );
             $chart->sample = array( 2000 => 1, 4.3, .2, 3.82 );
+            $chart->render();
         }
         catch ( Exception $e ) 
         {
@@ -169,22 +179,26 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             0.,
-            $chart->Y_axis->min
+            $chart->Y_axis->min,
+            'As value for: min; '
         );
 
         $this->assertEquals(
             5.,
-            $chart->Y_axis->max
+            $chart->Y_axis->max,
+            'As value for: max; '
         );
 
         $this->assertEquals(
             1.,
-            $chart->Y_axis->majorStep
+            $chart->Y_axis->majorStep,
+            'As value for: majorStep; '
         );
 
         $this->assertEquals(
-            .5,
-            $chart->Y_axis->minorStep
+            .25,
+            $chart->Y_axis->minorStep,
+            'As value for: minorStep; '
         );
     }
 
@@ -194,6 +208,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         {
             $chart = ezcGraph::create( 'Line' );
             $chart->sample = array( 2000 => -1.8, 4.3, .2, 3.82 );
+            $chart->render();
         }
         catch ( Exception $e ) 
         {
@@ -201,23 +216,27 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         }
 
         $this->assertEquals(
-            -2,
-            $chart->Y_axis->min
+            -2.5,
+            $chart->Y_axis->min,
+            'As value for: min; '
         );
 
         $this->assertEquals(
-            6.,
-            $chart->Y_axis->max
+            5.,
+            $chart->Y_axis->max,
+            'As value for: max; '
         );
 
         $this->assertEquals(
-            2.,
-            $chart->Y_axis->majorStep
+            2.5,
+            $chart->Y_axis->majorStep,
+            'As value for: majorStep; '
         );
 
         $this->assertEquals(
-            1.,
-            $chart->Y_axis->minorStep
+            .5,
+            $chart->Y_axis->minorStep,
+            'As value for: minorStep; '
         );
     }
 
@@ -227,6 +246,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         {
             $chart = ezcGraph::create( 'Line' );
             $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+            $chart->render();
         }
         catch ( Exception $e ) 
         {
@@ -235,22 +255,26 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             1000.,
-            $chart->Y_axis->min
+            $chart->Y_axis->min,
+            'As value for: min; '
         );
 
         $this->assertEquals(
             1500.,
-            $chart->Y_axis->max
+            $chart->Y_axis->max,
+            'As value for: max; '
         );
 
         $this->assertEquals(
             100.,
-            $chart->Y_axis->majorStep
+            $chart->Y_axis->majorStep,
+            'As value for: majorStep; '
         );
 
         $this->assertEquals(
-            20.,
-            $chart->Y_axis->minorStep
+            25.,
+            $chart->Y_axis->minorStep,
+            'As value for: minorStep; '
         );
     }
 
@@ -261,6 +285,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
             $chart = ezcGraph::create( 'Line' );
             $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
             $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
+            $chart->render();
         }
         catch ( Exception $e ) 
         {
@@ -269,22 +294,26 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             1000.,
-            $chart->Y_axis->min
+            $chart->Y_axis->min,
+            'As value for: min; '
         );
 
         $this->assertEquals(
-            1800.,
-            $chart->Y_axis->max
+            1750.,
+            $chart->Y_axis->max,
+            'As value for: max; '
         );
 
         $this->assertEquals(
-            200.,
-            $chart->Y_axis->majorStep
+            250.,
+            $chart->Y_axis->majorStep,
+            'As value for: majorStep; '
         );
 
         $this->assertEquals(
             50.,
-            $chart->Y_axis->minorStep
+            $chart->Y_axis->minorStep,
+            'As value for: minorStep; '
         );
     }
 
@@ -295,6 +324,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
             $chart = ezcGraph::create( 'Line' );
             $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
             $chart->Y_axis->majorStep = 50;
+            $chart->render();
         }
         catch ( Exception $e ) 
         {
@@ -303,28 +333,34 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             1000.,
-            $chart->Y_axis->min
+            $chart->Y_axis->min,
+            'As value for: min; '
         );
 
         $this->assertEquals(
-            1500.,
-            $chart->Y_axis->max
+            1450.,
+            $chart->Y_axis->max,
+            'As value for: max; '
         );
 
         $this->assertEquals(
             50.,
-            $chart->Y_axis->majorStep
+            $chart->Y_axis->majorStep,
+            'As value for: majorStep; '
         );
 
         $this->assertEquals(
             10.,
-            $chart->Y_axis->minorStep
+            $chart->Y_axis->minorStep,
+            'As value for: minorStep; '
         );
     }
 
     public function testRender()
     {
-        $this->fail( '@TODO: Implement renderer tests.' );
+        throw new PHPUnit2_Framework_IncompleteTestError(
+            '@TODO: Implement renderer tests.'
+        );
     }
 }
 ?>

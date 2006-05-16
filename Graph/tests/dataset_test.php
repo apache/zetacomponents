@@ -337,7 +337,9 @@ class ezcGraphDatasetTest extends ezcTestCase
 
     public function testAutomaticColorization()
     {
-        $this->fail( '@TODO: Add test to check automatic dataset colorization.' );
+        throw new PHPUnit2_Framework_IncompleteTestError(
+            '@TODO: Add test to check automatic dataset colorization.'
+        );
     }
 }
 ?>

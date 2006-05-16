@@ -266,7 +266,9 @@ class ezcGraphChartTest extends ezcTestCase
 
     public function testRender()
     {
-        $this->fail( '@TODO: Implement renderer tests.' );
+        throw new PHPUnit2_Framework_IncompleteTestError(
+            '@TODO: Implement renderer tests.'
+        );
     }
 }
 ?>
