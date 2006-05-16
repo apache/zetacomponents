@@ -34,6 +34,11 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     {
     }
 
+    public function visitLiteralArrayAstNode( ezcTemplateLiteralArrayAstNode $type )
+    {
+    }
+
+
     public function visitOutputAstNode( ezcTemplateOutputAstNode $type )
     {
         array_unshift( $this->nodePath, $type );

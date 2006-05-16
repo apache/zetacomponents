@@ -332,6 +332,44 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return new ezcTemplateLiteralAstNode($text );
     }
 
+    public function visitLiteralArrayTstNode( ezcTemplateLiteralArrayTstNode $type )
+    {
+        //return new ezcTemplateLiteralArrayAstNode();
+
+        $astVal = array();
+        foreach( $type->value as $key => $val )
+        {
+            $astVal[ $key ] = $val->accept( $this );
+        }
+
+        $astKeys = array();
+        foreach( $type->keys as $key => $val )
+        {
+            $astKeys[ $key ] = $val->accept( $this );
+        }
+
+
+        $ast = new ezcTemplateLiteralArrayAstNode();
+        $ast->value = $astVal;
+        $ast->keys = $astKeys;
+
+
+        return $ast;
+    }
+/*
+        if( is_array( $type->value ) )
+        {
+            $out = array();
+            foreach( $type->value as $val )
+            {
+                $out[] = $val->accept( $this );
+            }
+
+            return new ezcTemplateLiteralAstNode( $out );
+        }
+ */
+
+
     public function visitIdentifierTstNode( ezcTemplateIdentifierTstNode $type )
     {
         $newNode = new ezcTemplateIdentifierAstNode( $type->value );

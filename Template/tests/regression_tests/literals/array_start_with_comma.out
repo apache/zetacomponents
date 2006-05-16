@@ -10,4 +10,4 @@ ezcTemplateProgramSourceToTstParser
    -> ezcTemplateExpressionSourceToTstParser
     -> ezcTemplateLiteralSourceToTstParser
      -> ezcTemplateArraySourceToTstParser
-      -> ezcTemplateLiteralSourceToTstParser
+      -> ezcTemplateExpressionSourceToTstParser

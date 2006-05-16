@@ -482,7 +482,8 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             '<=', '>=',
             '&&', '||',
             '+=', '-=', '*=', '/=', '.=', '%=',
-            '..') ),
+            '..',
+            '=>' /* Make sure that the expression ends when this token is found */,) ),
             array( 1,
             array( '+', '-', '.',
             '*', '/', '%',
@@ -496,6 +497,11 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     $operatorName = $chars;
                     break;
                 }
+            }
+
+            if( $operatorName !== false && $operatorName == "=>" )
+            {
+                return false;
             }
 
             if ( $operatorName !== false )

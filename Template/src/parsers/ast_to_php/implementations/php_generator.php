@@ -286,11 +286,75 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         {
             $this->write( '"'. addcslashes( preg_replace( "/\n/", "\\n", $type->value), '"' ) . '"');
         }
+        elseif( is_array( $type->value ) )
+        {
+            $this->write("array(" );
+            foreach( $type->value as $val )
+            {
+                $val->accept($this);
+
+                $this->write(",");
+            }
+            $this->write(")");
+            //$this->write( var_export( $type->value, true ) );
+        }
         else
         {
+
             $this->write( var_export( $type->value, true ) );
         }
     }
+
+    public function visitLiteralArrayAstNode( ezcTemplateLiteralArrayAstNode $type )
+    {
+        $first = true;
+
+        $this->write("array(" );
+        foreach( $type->value as $key => $val )
+        {
+            if( !$first )
+            {
+                $this->write(",");
+            }
+
+            if( isset( $type->keys[$key] ) )
+            {
+                $type->keys[$key]->accept($this);
+                $this->write (" => ");
+            }
+
+            $val->accept($this);
+            $first = false;
+
+        }
+        $this->write(")");
+     
+/*
+        // Output type using var_export
+        if( is_string( $type->value ) )
+        {
+            $this->write( '"'. addcslashes( preg_replace( "/\n/", "\\n", $type->value), '"' ) . '"');
+        }
+        elseif( is_array( $type->value ) )
+        {
+            $this->write("array(" );
+            foreach( $type->value as $val )
+            {
+                $val->accept($this);
+
+                $this->write(",");
+            }
+            $this->write(")");
+            //$this->write( var_export( $type->value, true ) );
+        }
+        else
+        {
+
+            $this->write( var_export( $type->value, true ) );
+        }
+ */
+    }
+
 
     public function visitOutputAstNode( ezcTemplateOutputAstNode $type )
     {

@@ -57,6 +57,7 @@ return array(
              "ezcTemplateParenthesisTstNode" => "Template/syntax_trees/tst/nodes/parenthesis.php",
              "ezcTemplateOutputBlockTstNode" => "Template/syntax_trees/tst/nodes/output_block.php",
              "ezcTemplateModifyingBlockTstNode" => "Template/syntax_trees/tst/nodes/modifying_block.php",
+             "ezcTemplateLiteralArrayTstNode" => "Template/syntax_trees/tst/nodes/literalarray.php",
              "ezcTemplateLiteralTstNode" => "Template/syntax_trees/tst/nodes/literal.php",
              "ezcTemplateIntegerTstNode" => "Template/syntax_trees/tst/nodes/integer.php",
              "ezcTemplateVariableTstNode" => "Template/syntax_trees/tst/nodes/variable.php",
@@ -127,6 +128,7 @@ return array(
 // Syntax trees / AST  nodes
              "ezcTemplateNopAstNode" => "Template/syntax_trees/ast/nodes/nop.php",
              "ezcTemplateLiteralAstNode" => "Template/syntax_trees/ast/nodes/literal.php",
+             "ezcTemplateLiteralArrayAstNode" => "Template/syntax_trees/ast/nodes/literalarray.php",
              "ezcTemplateOutputAstNode" => "Template/syntax_trees/ast/nodes/output.php",
              "ezcTemplateTypeCastAstNode" => "Template/syntax_trees/ast/nodes/type_cast.php",
              "ezcTemplateConstantAstNode" => "Template/syntax_trees/ast/nodes/constant.php",

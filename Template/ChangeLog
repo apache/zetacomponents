@@ -14,6 +14,7 @@
   E.g. {if ( true ) }
 - Fixed a bug that a function call after a property fetch would give an error
   message. E.g. {$mail->myProp} {str_len( $mail->myProp)}
+- Fixed bug #8280: Array assignment with non-constants not working.
 - The modulo part of the delimiter is now optional.
 - The delimiter does not appear after the last iteration.
 

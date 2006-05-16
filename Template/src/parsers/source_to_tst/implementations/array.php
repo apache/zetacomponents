@@ -45,7 +45,6 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
         if ( !$this->findNextElement() )
             return false;
 
-        // @todo Check for non-lowercase array entry, give partial success then.
         $name = $cursor->pregMatch( "#^array[^\w]#i", false );
         if ( $name === false )
         {
@@ -70,7 +69,10 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
         }
 
         $currentArray = array();
+        $currentKeys  = array();
         $expectItem = true;
+
+        $elementNumber = 0;
         while ( true )
         {
             // skip whitespace and comments
@@ -82,10 +84,12 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
             if ( $cursor->current() == ')' )
             {
                 $cursor->advance();
-                $array = $this->parser->createLiteral( $this->startCursor, $cursor );
+                $array = $this->parser->createLiteralArray( $this->startCursor, $cursor );
+                $array->keys = $currentKeys;
                 $array->value = $currentArray;
-                $this->value = $array->value;
+
                 $this->element = $array;
+
                 $this->appendElement( $array );
                 return true;
             }
@@ -96,7 +100,7 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
             }
 
             // Check for type
-            if ( !$expectItem || !$this->parseRequiredType( 'Literal' ) )
+            if ( !$expectItem || !$this->parseRequiredType( 'Expression' ) )
             {
                 throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_LITERAL ); 
             }
@@ -106,22 +110,24 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
             if ( $cursor->match( '=>' ) )
             {
                 // Found the array key. Store it, and continue with the search for the value.
-                $arrayKey = $this->lastParser->value;
+                $currentKeys[  $elementNumber ] =  $this->lastParser->rootOperator;
                 $this->findNextElement();
 
                 // We have the key => value syntax so we need to find the value
-                if ( !$this->parseRequiredType( 'Literal' ) )
+                if ( !$this->parseRequiredType( 'Expression' ) )
                 {
                     throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_LITERAL ); 
                 }
 
                 // Store the value.
-                $currentArray[$arrayKey] = $this->lastParser->value;
+                $currentArray[ $elementNumber ] = $this->lastParser->rootOperator;
+                $elementNumber++;
             }
             else
             {
                 // Store the value.
-                $currentArray[] = $this->lastParser->value;
+                $currentArray[ $elementNumber ] = $this->lastParser->rootOperator;
+                $elementNumber++;
             }
 
             $this->findNextElement();

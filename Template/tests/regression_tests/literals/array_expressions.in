@@ -1,0 +1,4 @@
+{var $val = "hi"}
+{var $a = array( 4 * 2 => "Hello"."world", 4*2, $val . " ray!")}
+
+{debug_dump ($a)}

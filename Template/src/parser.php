@@ -255,6 +255,15 @@ class ezcTemplateParser
         return new ezcTemplateLiteralTstNode( $this->source, $start, $end );
     }
 
+    /** 
+     *  
+     */
+    public function createLiteralArray( ezcTemplateCursor $start, ezcTemplateCursor $end )
+    {
+        return new ezcTemplateLiteralArrayTstNode( $this->source, $start, $end );
+    }
+
+
     /**
      * Creates a new identifier element object with the cursor positions and returns it.
      *
