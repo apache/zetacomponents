@@ -712,9 +712,10 @@ Some usage examples::
 
 Assignments
 -----------
-Assignment is used to assign a new or modify an existing value from a variable.
-Of course this variable must be declared first. See the Variables_ section for
-more information. Notice that an assignment can be used in the declaration itself.
+Assignments set a value to a variable. If the variable does already contain a
+value, it will be overwritten. As explained in the Variables_ section the
+variable must be declared first. Notice that an assignment can be used in the 
+declaration itself.
 
 The syntax language has two types of assignments. The former type assigns a new
 value to the variable::
@@ -727,8 +728,8 @@ assigns the value 4 to the variable *$myVar*::
   {var $myVar}
   { $myVar = 3 + 5 / 5 } 
 
-The latter assignment type updates the existing value with a modifier. There are multiple 
-operators available:
+The latter assignment type updates the existing value with a modifier. There are 
+multiple operators available:
 
 ==============  ===========
 Addition        $var += $or
@@ -745,9 +746,9 @@ Post decrement  $var--
 The Addition, Subtraction, Multiplication, Division, and Modulus assignment
 operators do an arithmetic calculation between the left (variable) and the 
 right operand (expression) and assigns the value in the left operand
-(variable) again. Notice that variable must already contain a value.
+(variable) again. Notice that the variable must already contain a value.
 
-The increment operators increments the number of the current variable by one.
+The increment operators increment the number of the current variable by one.
 The decrement operators do the opposite and decrement the value of the current 
 variable by one. There is no difference between the pre and post operators,
 and both are present for convenience purposes.
@@ -850,11 +851,11 @@ structure is::
   {/if}
 
 If the <expression> evaluates to true, the <code> fragment will be executed.
-For instance the following code will show "$a is smaller than $b" if $a is
-smaller than $b::
+For instance the following code will show "$a is less than $b" if $a is
+less than $b::
 
   {if $a < $b }
-      $a is smaller than $b.
+      $a is less than $b.
   {/if}
 
 
@@ -891,8 +892,8 @@ The *elseif* construct can also be used in an *if* statement::
     {/if}
 
 
-Writing directly and *elseif* statement is the same as writing them
-separately::
+Writing directly an *elseif* statement is the same as writing them with
+separate *if* and *else* statements::
 
     {if $weekday == 0}
          Monday
@@ -909,7 +910,7 @@ separately::
     {/if}
 
 
-But, as you can see, this makes the code harder to read.
+As you can see, this makes the code harder to read.
 
 
 Switch, Case, Default
@@ -1015,17 +1016,21 @@ using the while_ structure. This is demonstrated next::
 This works of course because the "1..10" statement creates an array with the
 values from 1 until 10. 
 
-Often an foreach is used to create some kind of table or list. Therefore
-several extensions to the foreach are available:
+Often a foreach is used to create some kind of table or list. Several extensions 
+are made available to ease the development:
 
-- Cycles, increment or decrement a cycle variable. 
-- Offset, start at a given offset.
-- Limit, add a maximum to the number of iterations.
+:Cycles: Increments or decrements a cycle variable. 
+:Offset: Start the loop at a given offset.
+:Limit:  Limits the number of iterations.
 
-Cycles are discussed in the Cycles_ section. The foreach loop has a tag that
-increments and/or decrements an cycle value: :: 
+The foreach loop can have an increment and decrement tag. These tags increment and/or decrement an 
+cycle value, and work exactly the same as the Increment_ and Decrement_ control
+structures. The syntax is almost the same in the foreach::
 
-  [increment <variable1> [, variable2, ... ] ] [decrement <variable1> [, variable2, ... ] ]
+  [increment <variable1> [, variable2, ... ] ] 
+  [decrement <variable1> [, variable2, ... ] ]
+
+These tags are the same as the Increment_ and Decrement_ control structures.
 
 This tag is added at the end of the foreach construct. The next example
 increments the cycle value in every iteration of the loop::
@@ -1037,7 +1042,7 @@ increments the cycle value in every iteration of the loop::
   {/foreach}
 
 
-This loop will output the following code::
+This loop outputs the following code::
 
       <font color="#000000">Number: 1</font>
       <font color="#FFFFFF">Number: 2</font>
@@ -1057,8 +1062,8 @@ demonstrates this::
 
    {foreach}
 
-If no offset is given to the template it will get the value 0, otherwise it
-has the given value. See the `External variable declaration (use)`_ section for more 
+
+See the `External variable declaration (use)`_ section for more 
 information. The loop will start at the $offset and won't show the previous
 elements. The maximum iterations of the loop is 100. Another example shows 
 the numbers from 50 until 100::
@@ -1118,19 +1123,18 @@ will be inserted between every iteration of the loop. If a modulo is used, the
 as "is 0". 
 
 The delimiter will always be executed between two iterations of the loop. In
-this example switching the "{$address}" and the delimiter does not make a
-difference: ::
+the next example between every name a comma is inserted::
 
-    {var $addresses = array( 'Derick', 'Raymond' )}
-    {foreach $addresses as $address}
-    {$address}
+    {var $names = array( 'Bernard', 'Fran', 'Manny' )}
+    {foreach $names as $name}
+    {$name}
     {delimiter}, {/delimiter}
     {/foreach}
 
 The next example demonstrates creates a matrix with 4 rows and 4 columns. The
 delimiter closes the current row and opens a new one every forth column as the
 delimiter is only added when "internal counter modulo 4" equals 0. The
-"internal counter" simply counts the number of executed iterations: ::
+"internal counter" simply counts the number of executed iterations::
 
    {var $columns = 4}
    <table>
@@ -1151,49 +1155,59 @@ The continue statement is used within the looping structures to skip the rest of
 iteration and continue execution at the condition evaluation and then the beginning of the next 
 iteration. If a delimiter is available in the looping structure then this
 delimiter will be added. Use the Skip_ statement to skip also the delimiter.
-The next example show the numbers 1 to 3, with the word "Beer" behind it. The
-word "Beer" will be displayed for iterations where the continue is called. ::
+
+The next example show the numbers 1 to 5 separated with a comma. After the
+numbers 1, 2, and 3 is the word "beer" appended. As the example shows, the
+numbers higher than 3 will not execute the rest of the foreach anymore. The
+delimiter is added anyway::
 
   {foreach 1..5 as $i}
 
   {delimiter}
-  Beer
+  ,
   {/delimiter}
 
-  {if $i > 3} {continue} {/if}
   {$i}
+  {if $i > 3} {continue} {/if}
+  beer
   {/foreach}
 
-This template code will produce the results::
+The output of the template is::
 
-  1 Beer
-  2 Beer
-  3 Beer
-  Beer
-  Beer
+  1 beer,
+  2 beer, 
+  3 beer,
+  4 ,
+  5
+
 
 
 Skip
 ````
 The skip is the same as a continue, except that the delimiter in the loop will
-be skipped also.  The next example show the numbers 1 to 3, with the word
-"Beer" behind it: ::
+be skipped also.  The next example show the numbers 1 to 5. The number 1, 2,
+and 3 have the word "beer" appended and are  separated with a comma. 
+As the example shows, the numbers higher than 3 will not execute the rest of the
+foreach anymore and the delimiter is not appended::
 
   {foreach 1..5 as $i}
 
   {delimiter}
-  Beer
+  ,
   {/delimiter}
 
-  {if $i > 3} {skip} {/if}
   {$i}
+  {if $i > 3} {skip} {/if}
+  beer
   {/foreach}
 
 And outputs::
 
-  1 Beer
-  2 Beer
-  3 Beer
+  1 beer,
+  2 beer,
+  3 beer
+  4
+  5
 
 
 Break
