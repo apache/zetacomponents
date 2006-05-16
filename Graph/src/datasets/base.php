@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-class ezcGraphDataset implements ArrayAccess
+class ezcGraphDataset implements ArrayAccess, Iterator
 {
 
     protected $label;
@@ -22,6 +22,8 @@ class ezcGraphDataset implements ArrayAccess
     protected $symbol;
 
     protected $data;
+
+    protected $current;
 
     public function __construct()
     {
@@ -135,6 +137,47 @@ class ezcGraphDataset implements ArrayAccess
     final public function offsetUnset( $key )
     {
         unset( $this->data[$key] );
+    }
+
+    final public function current()
+    {
+        $keys = array_keys( $this->data );
+        if ( !isset( $this->current ) )
+        {
+            $this->current = 0;
+        }
+
+        return $this->data[$keys[$this->current]];
+    }
+
+    final public function next()
+    {
+        $keys = array_keys( $this->data );
+        if ( ++$this->current >= count( $keys ) )
+        {
+            return false;
+        }
+        else 
+        {
+            return $this->data[$keys[$this->current]];
+        }
+    }
+
+    final public function key()
+    {
+        $keys = array_keys( $this->data );
+        return $keys[$this->current];
+    }
+
+    final public function valid()
+    {
+        $keys = array_keys( $this->data );
+        return isset( $keys[$this->current] );
+    }
+
+    final public function rewind()
+    {
+        $this->current = 0;
     }
 }
 

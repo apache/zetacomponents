@@ -19,6 +19,7 @@ class ezcGraphLineChart extends ezcGraphChart
     {
         parent::__construct();
 
+        $this->elements['X_axis'] = new ezcGraphChartElementLabeledAxis();
         $this->elements['Y_axis'] = new ezcGraphChartElementNumericAxis();
     }
 
@@ -29,9 +30,14 @@ class ezcGraphLineChart extends ezcGraphChart
      * @access public
      * @return void
      */
-    public function render(ezcGraphRenderer $renderer)
+    public function render()
     {
-        
+        // Calculate axis scaling and labeling
+        $this->elements['X_axis']->calculateFromDataset( $this->data );
+        $this->elements['Y_axis']->calculateFromDataset( $this->data );
+
+        // Generate legend
+        $this->elements['legend']->generateFromDatasets( $this->data );
     }
 }
 ?>

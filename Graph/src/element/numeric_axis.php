@@ -83,7 +83,7 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElement
      * @access public
      * @return void
      */
-    public function render( ezcGraphRenderer $renderer )
+    public function render()
     {
         
     }

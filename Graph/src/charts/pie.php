@@ -15,18 +15,6 @@
 class ezcGraphPieChart extends ezcGraphChart
 {
     /**
-     * Render a line chart
-     * 
-     * @param ezcGraphRenderer $renderer 
-     * @access public
-     * @return void
-     */
-    public function render(ezcGraphRenderer $renderer)
-    {
-        
-    }
-
-    /**
      * Adds a dataset to the charts data
      * 
      * @param string $name Name of dataset
@@ -48,5 +36,17 @@ class ezcGraphPieChart extends ezcGraphChart
         }
     }
 
+    /**
+     * Render a line chart
+     * 
+     * @param ezcGraphRenderer $renderer 
+     * @access public
+     * @return void
+     */
+    public function render()
+    {
+        
+    }
 }
+
 ?>

@@ -171,11 +171,10 @@ abstract class ezcGraphChart
      * Creates basic visual chart elements from the chart to be processed by 
      * the renderer.
      * 
-     * @param ezcGraphRenderer $renderer Renderer fr the chart
      * @abstract
      * @return void
      */
-    abstract public function render( ezcGraphRenderer $renderer );
+    abstract public function render();
 }
 
 ?>

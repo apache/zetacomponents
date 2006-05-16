@@ -110,7 +110,7 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
      * @access public
      * @return void
      */
-    abstract public function render( ezcGraphRenderer $renderer );
+    abstract public function render();
 }
 
 ?>

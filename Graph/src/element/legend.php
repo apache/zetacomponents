@@ -23,34 +23,25 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
     protected $dataset;
 
     /**
-     * __set 
+     * Generate legend from several datasets with on entry per dataset
      * 
-     * @param mixed $propertyName 
-     * @param mixed $propertyValue 
-     * @throws ezcBaseValueException
-     *          If a submitted parameter was out of range or type.
-     * @throws ezcBasePropertyNotFoundException
-     *          If a the value for the property options is not an instance of
+     * @param array $datasets 
      * @return void
      */
-    public function __set( $propertyName, $propertyValue )
+    public function generateFromDatasets(array $datasets)
     {
-        switch ( $propertyName )
-        {
-            case 'dataset':
-                if ( $propertyValue instanceof ezcGraphDataset )
-                {
-                    $this->dataset[] = $propertyValue;
-                }
-                else
-                {
-                    throw new ezcBaseValueException( 'dataset' , $propertyValue, ezcGraphDataset );
-                }
-                break;
-            default:
-                parent::__set( $propertyName, $propertyValue );
-                break;
-        }
+
+    }
+
+    /**
+     * Generate legend from single dataset with on entry per data element 
+     * 
+     * @param ezcGraphDataset $dataset 
+     * @return void
+     */
+    public function generateFromDataset(ezcGraphDataset $dataset)
+    {
+
     }
     
     /**
@@ -60,7 +51,7 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
      * @access public
      * @return void
      */
-    public function render( ezcGraphRenderer $renderer )
+    public function render()
     {
         
     }
