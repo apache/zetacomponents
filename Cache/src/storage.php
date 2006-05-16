@@ -47,18 +47,11 @@ abstract class ezcCacheStorage
      * Depends on the specific implementation of the ezcCacheStorage.
      * Options available for all implementations are:
      *
-     * <code>
-     * array(
-     *      'ttl'   => 60*60*24,    // 24hrs Time-To-Life
-     * );
-     * </code>
+     * 'ttl' [60*60*24, 24hrs Time-To-Life]
      *
-     * @var array
+     * @var ezcCacheStorageOptions
      */
-    protected $options = array(
-        'ttl'       => 86400,   // 60*60*24 == 24hrs
-        'extension' => '.cache',
-    );
+    protected $options;
 
     /**
      * Creates a new cache storage in the given location.
@@ -97,7 +90,7 @@ abstract class ezcCacheStorage
      *         options depend on th ezcCacheStorage implementation and my 
      *         vary.
      */
-    public function __construct( $location, $options = null ) 
+    public function __construct( $location, $options = array() ) 
     {
         $this->location = ( substr( $location, -1 ) === '/' ) ? $location : $location . '/';
         $this->validateLocation();
@@ -269,44 +262,31 @@ abstract class ezcCacheStorage
      *              file name extension, when you deal with file system based
      *              caches or e.g. a database ID extension.
      * 
-     * @param array(string=>string) $options The options to set.
+     * @param array(string=>string)|ezcCacheStorageOptions $options The options to set.
      *
      * @throws ezcBaseSettingNotFoundException
      *         If you tried to set a non-existent option value. The accpeted 
      *         options depend on th ezcCacheStorage implementation and my 
      *         vary.
+     * @throws ezcBaseSettingValueException
+     *         If the value is not valid for the desired option.
+     * @throws ezcBaseValueException
+     *         If you submit neither an array nor an instance of 
+     *         ezcCacheStorageOptions.
      */
-    public function setOptions( $options = null ) 
+    public function setOptions( $options = array() ) 
     {
-        if ( !is_array( $options ) ) 
+        if ( is_array( $options ) ) 
         {
-            return;
+            $this->options = new ezcCacheStorageOptions( $options );
+        } 
+        else if ( $options instanceof ezcCacheStorageOptions ) 
+        {
+            $this->options = $options;
         }
-        foreach ( $options as $name => $val ) 
+        else
         {
-            if ( isset( $this->options[$name] ) ) 
-            {
-                switch ( $name )
-                {
-                    case 'ttl':
-                        if ( !is_int( $val ) || $val < 0 )
-                        {
-                            throw new ezcBaseSettingValueException( $name, $val, 'int >= 0' );
-                        }
-                        break;
-                    case 'extension':
-                        if ( !is_string( $val ) )
-                        {
-                            throw new ezcBaseSettingValueException( $name, $val, 'string' );
-                        }
-                        break;
-                }
-                $this->options[$name] = $val;
-            } 
-            else 
-            {
-                throw new ezcBaseSettingNotFoundException( $name );
-            }
+            throw new ezcBaseValueException( "options", $options, "array or instance of ezcCacheStorageOptions" );
         }
     }
 }
