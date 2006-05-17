@@ -94,7 +94,7 @@ abstract class ezcCacheStorage
     {
         $this->location = ( substr( $location, -1 ) === '/' ) ? $location : $location . '/';
         $this->validateLocation();
-        $this->setOptions( $options );
+        $this->options = new ezcCacheStorageOptions( $options );
     }
 
     /**
@@ -274,11 +274,11 @@ abstract class ezcCacheStorage
      *         If you submit neither an array nor an instance of 
      *         ezcCacheStorageOptions.
      */
-    public function setOptions( $options = array() ) 
+    public function setOptions( $options ) 
     {
         if ( is_array( $options ) ) 
         {
-            $this->options = new ezcCacheStorageOptions( $options );
+            $this->options->merge( $options );
         } 
         else if ( $options instanceof ezcCacheStorageOptions ) 
         {
