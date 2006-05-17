@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-class ezcGraphChartOption extends ezcBaseOptions
+class ezcGraphChartOptions extends ezcBaseOptions
 {
     /**
      * Width of the chart

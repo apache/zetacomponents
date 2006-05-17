@@ -16,7 +16,7 @@ return array(
     'ezcGraphChart'                             => 'Graph/interfaces/chart.php',
     'ezcGraphPieChart'                          => 'Graph/charts/pie.php',
     'ezcGraphLineChart'                         => 'Graph/charts/line.php',
-    'ezcGraphChartOption'                       => 'Graph/charts/options.php',
+    'ezcGraphChartOptions'                      => 'Graph/options/chart.php',
     'ezcGraphInvalidImageFileException'         => 'Graph/exceptions/invalid_image_file.php',
 
     'ezcGraphColor'                             => 'Graph/structs/color.php',

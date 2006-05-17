@@ -59,7 +59,7 @@ abstract class ezcGraphChart
 
     public function __construct( array $options = array() )
     {
-        $this->options = new ezcGraphChartOption();
+        $this->options = new ezcGraphChartOptions( $options );
 
         // Add standard element legend
         $this->elements['legend'] = new ezcGraphChartElementLegend();
@@ -102,6 +102,15 @@ abstract class ezcGraphChart
                     throw new ezcGraphInvalidDriverException( $propertyValue );
                }
                 break;
+            case 'options':
+                if ( $propertyValue instanceof ezcGraphOptions )
+                {
+                    $this->options = $propertyValue;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( "options", $propertyValue, "instanceof ezcGraphOptions" );
+                }
             default:
                 return $this->addDataSet($propertyName, $propertyValue);
                 break;
@@ -159,9 +168,30 @@ abstract class ezcGraphChart
         {
             return $this->data[$propertyName];
         }
+
+        if ( $propertyName === "options" )
+        {
+            return $this->options;
+        }
         else
         {
             throw new ezcGraphNoSuchDatasetException( $propertyName );
+        }
+    }
+
+    public function setOptions( $options )
+    {
+        if ( is_array( $options ) )
+        {
+            $this->options->merge( $options );
+        } 
+        else if ( $options instanceof ezcGraphOptions )
+        {
+            $this->options = $options;
+        }
+        else
+        {
+            throw new ezcBaseValueException( "options", $options, "array or instance of ezcGraphOptions" );
         }
     }
 
