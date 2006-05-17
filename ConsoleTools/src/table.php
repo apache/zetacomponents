@@ -143,7 +143,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      *
      * @param ezcConsoleOutput $outHandler    Output handler to utilize
      * @param int $width                      Overall width of the table (chars).
-     * @param ezcConsoleTableOptions $options Options
+     * @param array $options Options
      *
      * @see ezcConsoleTable::$settings
      * @see ezcConsoleTable::$options
@@ -154,15 +154,38 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
     {
         $this->outputHandler = $outHandler;
         $this->__set( 'width', $width );
-        $this->options = new ezcConsoleTableOptions();
-        $this->setOptions( $options );
+        $this->options = new ezcConsoleTableOptions( $options );
     }
 
-    public function setOptions( array $options )
+    /**
+     * Set new options.
+     * This method allows you to change the options of the table.
+     *
+     * @param array(string=>string)|ezcConsoleTableOptions $options The options to set.
+     *
+     * @throws ezcBaseSettingNotFoundException
+     *         If you tried to set a non-existent option value. The accpeted 
+     *         options depend on th ezcCacheStorage implementation and my 
+     *         vary.
+     * @throws ezcBaseSettingValueException
+     *         If the value is not valid for the desired option.
+     * @throws ezcBaseValueException
+     *         If you submit neither an array nor an instance of 
+     *         ezcCacheStorageOptions.
+     */
+    public function setOptions( $options = array() ) 
     {
-        foreach ( $options as $name => $value )
+        if ( is_array( $options ) ) 
         {
-            $this->options->$name = $value;
+            $thig->options->merge( $options );
+        } 
+        else if ( $options instanceof ezcCacheStorageOptions ) 
+        {
+            $this->options = $options;
+        }
+        else
+        {
+            throw new ezcBaseValueException( "options", $options, "array or instance of ezcCacheStorageOptions" );
         }
     }
 

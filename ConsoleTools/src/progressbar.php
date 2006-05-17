@@ -139,25 +139,50 @@ class ezcConsoleProgressbar
     {
         $this->output = $outHandler;
         $this->__set( 'max', $max );
-        $this->options = new ezcConsoleProgressbarOptions();
-        $this->setOptions( $options );
+        $this->options = new ezcConsoleProgressbarOptions( $options );
+    }
+    
+    /**
+     * Set new options.
+     * This method allows you to change the options of progressbar.
+     *  
+     * @param array(string=>string)|ezcConsoleOutputOptions $options The options to set.
+     *
+     * @throws ezcBaseSettingNotFoundException
+     *         If you tried to set a non-existent option value. The accpeted 
+     *         options depend on th ezcCacheStorage implementation and my 
+     *         vary.
+     * @throws ezcBaseSettingValueException
+     *         If the value is not valid for the desired option.
+     * @throws ezcBaseValueException
+     *         If you submit neither an array nor an instance of 
+     *         ezcCacheStorageOptions.
+     */
+    public function setOptions( $options ) 
+    {
+        if ( is_array( $options ) ) 
+        {
+            $this->options->merge( $options );
+        } 
+        else if ( $options instanceof ezcConsoleTableOptions ) 
+        {
+            $this->options = $options;
+        }
+        else
+        {
+            throw new ezcBaseValueException( "options", $options, "array or instance of ezcConsoleProgressbarOptions" );
+        }
     }
 
     /**
-     * Set options.
-     * Set the options of the progress-bar.
-     *
-     * @see ezcConsoleProgressbarOptions
+     * Returns the current options.
+     * Returns the options currently set for this progressbar.
      * 
-     * @param array(string=>string) $options The options to set.
-     * @return void
+     * @return ezcConsoleProgressbarOptions The current options.
      */
-    public function setOptions( array $options )
+    public function getOptions()
     {
-        foreach ( $options as $name => $value )
-        {
-            $this->options->$name = $value;
-        }
+        return $this->options;
     }
 
     /**
@@ -205,7 +230,7 @@ class ezcConsoleProgressbar
             case 'options':
                 if ( !( $val instanceof ezcConsoleProgressbarOptions ) )
                 {
-                    throw new ezcBaseValueException( 'options',  $val, 'ezcConsoleProgressbarOptions' );
+                    throw new ezcBaseValueException( 'options',  $val, 'instance of ezcConsoleProgressbarOptions' );
                 };
                 break;
             case 'max':

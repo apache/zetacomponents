@@ -41,19 +41,9 @@ class ezcConsoleStatusbar
     /**
      * Options
      *
-     * <code>
-     * array(
-     *   'successChar' => '+',     // Char to indicate success
-     *   'failureChar' => '-',     // Char to indicate failure
-     * );
-     * </code>
-     *
-     * @var array(string=>string)
+     * @var ezcConsoleStatusbarOptions
      */
-    protected $options = array(
-        'successChar' => '+',     // Char to indicate success
-        'failureChar' => '-',     // Char to indicate failure
-    );
+    protected $options;
 
     /**
      * The ezcConsoleOutput object to use.
@@ -83,7 +73,7 @@ class ezcConsoleStatusbar
     public function __construct( ezcConsoleOutput $outHandler, array $options = array() )
     {
         $this->outputHandler = $outHandler;
-        $this->setOptions( $options );
+        $this->options = new ezcConsoleStatusbarOptions( $options );
     }
 
     /**
@@ -107,32 +97,34 @@ class ezcConsoleStatusbar
     }
 
     /**
-     * Set options.
-     * Set the options of the status-bar.
-     * 
-     * @see ezcConsoleStatusbar::$options
-     * 
-     * @param array(string=>string) $options The optiosn to set.
-     * @return void
+     * Set new options.
+     * This method allows you to change the options of a statusbar.
+     *  
+     * @param array(string=>string)|ezcConsoleOutputOptions $options The options to set.
+     *
+     * @throws ezcBaseSettingNotFoundException
+     *         If you tried to set a non-existent option value. The accpeted 
+     *         options depend on th ezcCacheStorage implementation and my 
+     *         vary.
+     * @throws ezcBaseSettingValueException
+     *         If the value is not valid for the desired option.
+     * @throws ezcBaseValueException
+     *         If you submit neither an array nor an instance of 
+     *         ezcCacheStorageOptions.
      */
-    public function setOptions( array $options )
+    public function setOptions( $options ) 
     {
-        foreach ( $options as $name => $value )
+        if ( is_array( $options ) ) 
         {
-            switch ( $name )
-            {
-                case 'successChar':
-                case 'failureChar':
-                    if ( !is_string( $value ) || strlen( $value ) < 1 )
-                    {
-                        throw new ezcBaseSettingValueException( $name, $value, 'string, not empty' );
-                    }
-                    break;
-                default:
-                    throw new ezcBaseSettingNotFoundException( $name );
-                    break;
-            }
-            $this->options[$name] = $value;
+            $this->options->merge( $options );
+        } 
+        else if ( $options instanceof ezcConsoleStatusbarOptions ) 
+        {
+            $this->options = $options;
+        }
+        else
+        {
+            throw new ezcBaseValueException( "options", $options, "array or instance of ezcConsoleStatusbarOptions" );
         }
     }
 

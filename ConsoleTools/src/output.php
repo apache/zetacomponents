@@ -175,26 +175,51 @@ class ezcConsoleOutput
     {
         $options = isset( $options ) ? $options : new ezcConsoleOutputOptions();
         $formats = isset( $formats ) ? $formats : new ezcConsoleOutputFormats();
-        $this->options = new ezcConsoleOutputOptions();
-        $this->setOptions( $options );
+        $this->options = new ezcConsoleOutputOptions( $options );
         $this->formats = $formats;
+    }
+    
+    /**
+     * Set new options.
+     * This method allows you to change the options of an output handler.
+     *  
+     * @param array(string=>string)|ezcConsoleOutputOptions $options The options to set.
+     *
+     * @throws ezcBaseSettingNotFoundException
+     *         If you tried to set a non-existent option value. The accpeted 
+     *         options depend on th ezcCacheStorage implementation and my 
+     *         vary.
+     * @throws ezcBaseSettingValueException
+     *         If the value is not valid for the desired option.
+     * @throws ezcBaseValueException
+     *         If you submit neither an array nor an instance of 
+     *         ezcCacheStorageOptions.
+     */
+    public function setOptions( $options ) 
+    {
+        if ( is_array( $options ) ) 
+        {
+            $this->options->merge( $options );
+        } 
+        else if ( $options instanceof ezcConsoleOutputOptions ) 
+        {
+            $this->options = $options;
+        }
+        else
+        {
+            throw new ezcBaseValueException( "options", $options, "array or instance of ezcConsoleOutputOptions" );
+        }
     }
 
     /**
-     * Set options for this object.
-     * Set the options.
-     *
-     * @see ezcConsoleOutputOptions
+     * Returns the current options.
+     * Returns the options currently set for this output handler.
      * 
-     * @param array $options 
-     * @return void
+     * @return ezcConsoleOutputOptions The current options.
      */
-    public function setOptions( array $options )
+    public function getOptions()
     {
-        foreach ( $options as $name => $value )
-        {
-            $this->options->$name = $value;
-        }
+        return $this->options;
     }
 
     /**
