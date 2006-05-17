@@ -37,7 +37,7 @@ class ezcGraphPieChart extends ezcGraphChart
     }
 
     /**
-     * Render a line chart
+     * Render a pie chart
      * 
      * @param ezcGraphRenderer $renderer 
      * @access public
@@ -45,7 +45,8 @@ class ezcGraphPieChart extends ezcGraphChart
      */
     public function render()
     {
-        
+        // Generate legend
+        $this->elements['legend']->generateFromDataset( reset( $this->data ) );
     }
 }
 

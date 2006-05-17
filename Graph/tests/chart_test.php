@@ -263,12 +263,5 @@ class ezcGraphChartTest extends ezcTestCase
 
         $this->fail( 'Expected ezcGraphInvalidDriverException' );
     }
-
-    public function testRender()
-    {
-        throw new PHPUnit2_Framework_IncompleteTestError(
-            '@TODO: Implement renderer tests.'
-        );
-    }
 }
 ?>

@@ -27,6 +27,16 @@ require_once 'chart_test.php';
 /**
 * Require test suite for ezcGraphChart class.
 */
+require_once 'pie_test.php';
+
+/**
+* Require test suite for ezcGraphChart class.
+*/
+require_once 'line_test.php';
+
+/**
+* Require test suite for ezcGraphChart class.
+*/
 require_once 'dataset_test.php';
 
 /**
@@ -60,6 +70,8 @@ class ezcGraphSuite extends ezcTestSuite
         $this->addTest( ezcGraphTest::suite() );
         $this->addTest( ezcGraphColorTest::suite() );
         $this->addTest( ezcGraphChartTest::suite() );
+        $this->addTest( ezcGraphPieChartTest::suite() );
+        $this->addTest( ezcGraphLineChartTest::suite() );
         $this->addTest( ezcGraphDatasetTest::suite() );
         $this->addTest( ezcGraphLegendTest::suite() );
         $this->addTest( ezcGraphNumericAxisTest::suite() );

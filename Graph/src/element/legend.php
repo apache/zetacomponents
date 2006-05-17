@@ -16,11 +16,18 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
 {
 
     /**
-     * Contains datasets which should be shown in legend
+     * Contains data which should be shown in the legend
+     *  array(
+     *      array(
+     *          'label' => (string) 'Label of data element',
+     *          'color' => (ezcGraphColor) $color,
+     *      ),
+     *      ...
+     *  )
      * 
      * @var array
      */
-    protected $dataset;
+    protected $labels;
 
     /**
      * Generate legend from several datasets with on entry per dataset
@@ -30,7 +37,14 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
      */
     public function generateFromDatasets(array $datasets)
     {
-
+        $this->labels = array();
+        foreach ($datasets as $dataset)
+        {
+            $this->labels[] = array(
+                'label' => $dataset->label->default,
+                'color' => $dataset->color->default,
+            );
+        }
     }
 
     /**
@@ -41,7 +55,14 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
      */
     public function generateFromDataset(ezcGraphDataset $dataset)
     {
-
+        $this->labels = array();
+        foreach ($dataset as $label => $data)
+        {
+            $this->labels[] = array(
+                'label' => $label,
+                'color' => $dataset->color[$label],
+            );
+        }
     }
     
     /**
