@@ -36,6 +36,26 @@ abstract class ezcBaseOptions implements ArrayAccess
             $this->__set( $option, $value );
         }
     }
+
+    /**
+     * Merge an array into the actual options object.
+     * This method merges an array of new options into the actual options object.
+     * 
+     * @param array $newOptions The new options.
+     * @return void
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If a the value for the property options is not an instance of
+     * @throws ezcBaseValueException
+     *         If a the value for a property is out of range.
+     */
+    final public function merge( array $newOptions )
+    {
+        foreach( $newOptions as $key => $value )
+        {
+            $this->__set( $key, $value );
+        }
+    }
     
     /**
      * Property get access.
