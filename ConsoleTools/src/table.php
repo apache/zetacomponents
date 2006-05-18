@@ -161,7 +161,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      * Set new options.
      * This method allows you to change the options of the table.
      *
-     * @param array(string=>string)|ezcConsoleTableOptions $options The options to set.
+     * @param ezcConsoleTableOptions $options The options to set.
      *
      * @throws ezcBaseSettingNotFoundException
      *         If you tried to set a non-existent option value. The accpeted 
@@ -179,14 +179,25 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
         {
             $thig->options->merge( $options );
         } 
-        else if ( $options instanceof ezcCacheStorageOptions ) 
+        else if ( $options instanceof ezcConsoleTableOptions ) 
         {
             $this->options = $options;
         }
         else
         {
-            throw new ezcBaseValueException( "options", $options, "array or instance of ezcCacheStorageOptions" );
+            throw new ezcBaseValueException( "options", $options, "array or instance of ezcConsoleTableOptions" );
         }
+    }
+
+    /**
+     * Returns the current options.
+     * Returns the options currently set for this output handler.
+     * 
+     * @return ezcConsoleTableOptions The current options.
+     */
+    public function getOptions()
+    {
+        return $this->options;
     }
 
     /**

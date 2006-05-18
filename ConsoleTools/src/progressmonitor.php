@@ -100,7 +100,7 @@ class ezcConsoleProgressMonitor
      * Set new options.
      * This method allows you to change the options of an progress monitor.
      *  
-     * @param array(string=>string)|ezcConsoleProgressMonitorOptions $options The options to set.
+     * @param ezcConsoleProgressMonitorOptions $options The options to set.
      *
      * @throws ezcBaseSettingNotFoundException
      *         If you tried to set a non-existent option value. The accpeted 
@@ -132,7 +132,7 @@ class ezcConsoleProgressMonitor
      * Returns the currently set options.
      * Returns the currently set option array.
      * 
-     * @return array(string=>string) The options.
+     * @return ezcConsoleProgressMonitorOptions The options.
      */
     public function getOptions()
     {

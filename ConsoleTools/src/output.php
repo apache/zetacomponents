@@ -183,7 +183,7 @@ class ezcConsoleOutput
      * Set new options.
      * This method allows you to change the options of an output handler.
      *  
-     * @param array(string=>string)|ezcConsoleOutputOptions $options The options to set.
+     * @param ezcConsoleOutputOptions $options The options to set.
      *
      * @throws ezcBaseSettingNotFoundException
      *         If you tried to set a non-existent option value. The accpeted 

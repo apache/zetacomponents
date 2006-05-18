@@ -146,7 +146,7 @@ class ezcConsoleProgressbar
      * Set new options.
      * This method allows you to change the options of progressbar.
      *  
-     * @param array(string=>string)|ezcConsoleOutputOptions $options The options to set.
+     * @param ezcConsoleProgresbarOptions $options The options to set.
      *
      * @throws ezcBaseSettingNotFoundException
      *         If you tried to set a non-existent option value. The accpeted 
@@ -164,7 +164,7 @@ class ezcConsoleProgressbar
         {
             $this->options->merge( $options );
         } 
-        else if ( $options instanceof ezcConsoleTableOptions ) 
+        else if ( $options instanceof ezcConsoleProgressbarOptions ) 
         {
             $this->options = $options;
         }
