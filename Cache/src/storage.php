@@ -237,10 +237,9 @@ abstract class ezcCacheStorage
      * Return the currently set options. The options are returned on an array 
      * that has the same format as the one passed to 
      * {@link ezcCacheStorage::setOptions()}. The possible options for a storage
-     * depend on it's implementation. For an overview of common options, see
-     * {@link ezcCacheStorage::setOptions()}.
+     * depend on it's implementation. 
      * 
-     * @return array The options 
+     * @return ezcCacheStorageOptions The options 
      */
     public function getOptions()
     {
@@ -262,7 +261,7 @@ abstract class ezcCacheStorage
      *              file name extension, when you deal with file system based
      *              caches or e.g. a database ID extension.
      * 
-     * @param array(string=>string)|ezcCacheStorageOptions $options The options to set.
+     * @param ezcCacheStorageOptions $options The options to set.
      *
      * @throws ezcBaseSettingNotFoundException
      *         If you tried to set a non-existent option value. The accpeted 
