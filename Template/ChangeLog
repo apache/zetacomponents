@@ -3,7 +3,7 @@
 
 - Added "web" functions.
 - Added "date" functions.
-
+- Added the raw tag that outputs raw, without context, values.
 - Fixed a bug that arrays and properties could not be send as expression
   part of the include construct. E.g. {include "abc.ezt" send $a[0] as $b}
 - Fixed a bug that property fetches were ignored after the first fetch. 
