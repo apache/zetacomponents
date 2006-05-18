@@ -1,4 +1,4 @@
-1.0.rc1
+1.0.rc1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Added "web" functions.
@@ -14,9 +14,12 @@
   E.g. {if ( true ) }
 - Fixed a bug that a function call after a property fetch would give an error
   message. E.g. {$mail->myProp} {str_len( $mail->myProp)}
+- Fixed a bug in the get_class function. Due to a spelling error it would
+  throw a PHP Fatal Error.
 - Fixed bug #8280: Array assignment with non-constants not working.
 - The modulo part of the delimiter is now optional.
 - The delimiter does not appear after the last iteration.
+
 
 1.0beta2 - Tuesday 09 May 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

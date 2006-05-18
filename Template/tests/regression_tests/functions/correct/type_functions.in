@@ -1,3 +1,4 @@
+{use $myTstStdObject}
 is_empty:
 {is_empty( "" )}
 
@@ -35,6 +36,7 @@ get_constant:
 {get_constant( "SEEK_CUR") }
 
 get_class:
+{get_class( $myTstStdObject )}
 
 cast_string:
 {cast_string(5.7)}

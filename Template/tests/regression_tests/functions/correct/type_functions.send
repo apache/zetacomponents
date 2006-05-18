@@ -1,0 +1,6 @@
+<?php
+$v = new ezcTemplateVariableCollection();
+$v->myTstStdObject = new StdClass();
+
+return $v;
+?>

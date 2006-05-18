@@ -35,6 +35,7 @@ get_constant:
 1
 
 get_class:
+stdClass
 
 cast_string:
 5.7

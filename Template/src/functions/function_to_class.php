@@ -20,6 +20,7 @@ return array
 "/^preg_.*/" => "ezcTemplateRegExpFunctions",
 "/^is_.*/"   => "ezcTemplateTypeFunctions",
 "/^get_constant$/"   => "ezcTemplateTypeFunctions",
+"/^get_class/"   => "ezcTemplateTypeFunctions",
 "/^cast_.*/" => "ezcTemplateTypeFunctions",
 "/^math_.*/" => "ezcTemplateMathFunctions",
 "/^debug_.*/" => "ezcTemplateDebugFunctions",

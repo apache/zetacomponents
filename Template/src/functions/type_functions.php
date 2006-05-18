@@ -90,9 +90,9 @@ class ezcTemplateTypeFunctions extends ezcTemplateFunctions
                     self::functionCall( "constant", array( "%var" ) ) );
 
             // get_class( $var )::
-            // getclass( $var );
+            // get_class( $var );
             case "get_class": return array( array( "%var" ), 
-                    self::functionCall( "getclass", array( "%var" ) ) );
+                    self::functionCall( "get_class", array( "%var" ) ) );
 
             // cast_string( $v )::
             // (string)$v
