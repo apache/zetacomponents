@@ -64,12 +64,14 @@ works.
    :literal:
 
 If you run your application, it should write "Hello world". If it doesn't then
-either:
+check that:
 
-- The base class couldn't be found. Check your 'include_path' in the PHP.ini
+- The base class can be found. Check your 'include_path' in the PHP.ini
   settings, and see if the components are included.
-- Check that the template "hello_world.ezt" can be found. Write the absolute
+- The template "hello_world.ezt" can be found. Write the absolute
   path to your hello_world template in the 'process' method.
+- The template engine can write to the current directory. The next 
+  section explains how another output directory can be specified.  
 
 From now on, we assume that the Template engine can be loaded and find the
 template files. 
@@ -119,7 +121,7 @@ Setting and getting template variables
 --------------------------------------
 
 The following template code uses the variable: $quote and returns the number
-6. Copy/paste this example and save it as 'send_receive.ezt' .
+6. Copy/paste this example and save it as 'send_receive.ezt'.
 
 .. include:: tutorial_variable_send_receive.ezt
    :literal:
