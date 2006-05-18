@@ -19,6 +19,12 @@
  */
 class ezcTemplateOutputBlockTstNode extends ezcTemplateBlockTstNode
 {
+    /** 
+     *  Should this node processed raw? 
+     *  The ContextAppender will not append a context for this node.
+     */
+    public $isRaw;
+
     /**
      * The bracket start character.
      * @var string

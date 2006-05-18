@@ -79,6 +79,14 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
         if ( $this->parser->debug )
             echo "Starting expression using brackets ", $this->startBracket, '...', $this->endBracket, "\n";
 
+        $rawBlock = false;
+
+        if( $cursor->match("raw") )
+        {
+            $rawBlock = true;
+            $this->findNextElement();
+        }
+
         // $cursor will be update as the parser continues
         if ( $this->startBracket == '(' )
         {
@@ -90,6 +98,7 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
         else
         {
             $this->block = $this->parser->createOutputBlock( clone $this->startCursor, $cursor );
+            $this->block->isRaw = $rawBlock;
             $this->block->startBracket = $this->startBracket;
             $this->block->endBracket = $this->endBracket;
         }
@@ -138,6 +147,12 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
         // Change the block type if the top-most operator is a modifiying operator.
         if ( $rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
         {
+            if( $rawBlock)
+            {
+                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_ASSIGNMENT_NOT_ALLOWED );
+ 
+            }
+
             // @todo if the parser block is a parenthesis it is not allowed to have modifying nodes
             $oldBlock = $this->block;
             $this->block = $this->parser->createModifyingBlock( clone $this->startCursor, $cursor );

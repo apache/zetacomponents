@@ -1,0 +1,9 @@
+mock:2:1: A 'raw' block cannot modify a variable.
+
+{raw $a = 2}
+           ^
+
+failed in:
+ezcTemplateProgramSourceToTstParser
+ -> ezcTemplateBlockSourceToTstParser
+  -> ezcTemplateExpressionBlockSourceToTstParser

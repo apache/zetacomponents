@@ -48,7 +48,8 @@ class ezcTemplateSourceToTstErrorMessages
     // Unexpected brackets
     const MSG_UNEXPECTED_SQUARE_BRACKET_OPEN    = "Unexpected opening square bracket '['. Array fetch needs a variable. ( \$variable [ 0 ] )";
     const MSG_UNEXPECTED_ARRAY_APPEND           = "Unexpected array append '[]'. Did you forget an expresssion between the brackets?";
- 
+
+    const MSG_ASSIGNMENT_NOT_ALLOWED            = "A 'raw' block cannot modify a variable.";
 
     // Uppercase problems
     const MSG_ARRAY_NOT_LOWERCASE               = "The array identifier must consist of lowercase characters only.";

@@ -20,6 +20,8 @@ class ezcTemplateOutputAstNode extends ezcTemplateAstNode
 {
     public $expression;
 
+    public $isRaw;
+
     public function __construct( ezcTemplateAstNode $expression = null )
     {
         parent::__construct();

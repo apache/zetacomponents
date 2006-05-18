@@ -31,7 +31,11 @@ class ezcTemplateAstToAstContextAppender extends ezcTemplateAstWalker
     public function visitOutputAstNode( ezcTemplateOutputAstNode $type )
     {
         parent::visitOutputAstNode( $type );
-        //return ezcTemplateXhtmlContext::transformOutput( $type->expression );
+
+        if( $type->isRaw )
+        {
+            return $type;
+        }
         return $this->context->transformOutput( $type->expression );
     }
 

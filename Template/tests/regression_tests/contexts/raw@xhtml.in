@@ -1,0 +1,6 @@
+{var $a = "<html>bla</html>"}
+
+{$a}
+
+
+{raw $a}

@@ -283,6 +283,8 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $expression = $type->expressionRoot->accept( $this ); 
         $output = new ezcTemplateOutputAstNode( $expression );
 
+        $output->isRaw = $type->isRaw;
+
         return $this->assignToOutput( $output );
     }
 

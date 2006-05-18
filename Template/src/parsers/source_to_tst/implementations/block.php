@@ -75,7 +75,6 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
 
         // Try to parse a control structure
         $controlStructureParser = new ezcTemplateControlStructureSourceToTstParser( $this->parser, $this, null );
-        //
         $controlStructureParser->block = $this->block;
         if ( $this->parseOptionalType( $controlStructureParser, null, false ) )
         {
@@ -84,6 +83,16 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
             $this->mergeElements( $this->lastParser );
             return true;
         }
+
+         /*
+        // Try to pare a raw block.
+        if ( $this->parseOptionalType( 'RawBlock', null, false ) )
+        {
+            $this->mergeElements( $this->lastParser);
+            return true;
+        }
+          */
+
 
 
         // Try to parse a literal block
@@ -136,7 +145,6 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
             $text->text = $ldelim ? "{" : "}";
             $this->appendElement( $text );
             return true;
-            
         }
 
 
