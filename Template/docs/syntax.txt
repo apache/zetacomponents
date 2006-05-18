@@ -790,6 +790,77 @@ All template functions follow these rules:
   operates on another parameter, the "haystack".
 
 
+Contexts
+--------
+The purpose of the context is simplify the development of the templates and
+make the templates more secure. The Context defines the purpose of the template
+output. For example the XHTML Context should be set for the templates that
+generate (X)HTML output. 
+
+When a template is processed and executed, it runs with a specific context. By
+default the context is set to XHTML, but it can also be specified manually. The
+next example shows a part of a user application that specifies the XHTML
+context::
+
+    $config = ezcTemplateConfiguration::getInstance();
+    $config->context = new ezcTemplateXhtmlContext(); 
+
+    $t = new ezcTemplate();
+    $t->process( "hello_world.ezt" );
+
+
+Configuring the Template engine is discussed in the tutorial in more detail. 
+
+The available context are described in the next subsections.
+
+XHTML Context
+`````````````
+The XHTML Context escapes the HTML characters from the output from the
+expression blocks. Output outside the blocks are not escaped. See the next
+example::
+
+    {var $lt = "3 < 5"}
+    <b>{$lt}</b>
+
+This template contains the HTML character '<' in an expression block. This
+character will be escaped. The output of the template is::
+
+    <b>3 &lt 5</b>
+
+The escape characters of the XHTML context are:
+
+=========  ===========
+Character  Translation
+=========  ===========
+&          &amp;
+"          &quot;
+<          &lt;
+>          &gt;
+=========  ===========
+
+If the HTML characters in the expression block should not be escaped then the
+"raw" block should be used. The next example demonstrates a "raw" block::
+
+    {var $myBoldText = "<b>Hello world</b>}
+
+    {raw $myBoldText} 
+
+This template outputs::
+    
+    <b>Hello world</b>
+
+
+See the Raw_ section for more information. 
+
+
+No Context
+``````````
+The No Context does not escape any characters. This context is available merely
+for testing purposes. 
+
+
+
+
 Control structures
 ------------------
 Control structures are elements which help you control the flow of the code,
@@ -1277,6 +1348,22 @@ expression part of the include::
    receive $c }
 
    {var $sum = $c}
+
+
+Raw
+```
+The raw construct outputs raw information and is not affected by the Contexts_.
+
+If for example the XHTML context is set and an expression contains HTML
+characters that should be outputted then the "raw" block should be used:: 
+
+    {var $myBoldText = "<b>Hello world</b>}
+    {raw $myBoldText} 
+
+This template outputs::
+    
+    <b>Hello world</b>
+
 
 
 .. 

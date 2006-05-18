@@ -1,3 +1,5 @@
 <html><body>
 {"<html><b>Hello world</b></html>"}
 </body></html>
+
+{"< > ' \" &"}
