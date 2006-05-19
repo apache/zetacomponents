@@ -307,12 +307,15 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     // Ignore the unary + operator.
                     if( $operatorName == "+" ) 
                     {
+                        $this->findNextElement();
                         $cursor->advance();
                         return true;
                     }
 
                     $operatorStartCursor = clone $cursor;
                     $cursor->advance( strlen( $operatorName ) );
+                    $this->findNextElement();
+
                     if ( $this->parser->debug )
                     {
                         echo "pre-operator {$operatorName} <", $this->lastCursor->subString( $cursor->position ), ">\n";
