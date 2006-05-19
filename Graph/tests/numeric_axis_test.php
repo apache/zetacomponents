@@ -132,7 +132,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         {
             $chart = ezcGraph::create( 'Line' );
             $chart->sample = array( 2000 => 20, 70, 12, 130 );
-            $chart->render();
+            $chart->render( 500, 200 );
         }
         catch ( Exception $e ) 
         {
@@ -170,7 +170,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         {
             $chart = ezcGraph::create( 'Line' );
             $chart->sample = array( 2000 => 1, 4.3, .2, 3.82 );
-            $chart->render();
+            $chart->render( 500, 200 );
         }
         catch ( Exception $e ) 
         {
@@ -208,7 +208,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         {
             $chart = ezcGraph::create( 'Line' );
             $chart->sample = array( 2000 => -1.8, 4.3, .2, 3.82 );
-            $chart->render();
+            $chart->render( 500, 200 );
         }
         catch ( Exception $e ) 
         {
@@ -246,7 +246,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         {
             $chart = ezcGraph::create( 'Line' );
             $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-            $chart->render();
+            $chart->render( 500, 200 );
         }
         catch ( Exception $e ) 
         {
@@ -285,7 +285,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
             $chart = ezcGraph::create( 'Line' );
             $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
             $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
-            $chart->render();
+            $chart->render( 500, 200 );
         }
         catch ( Exception $e ) 
         {
@@ -324,7 +324,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
             $chart = ezcGraph::create( 'Line' );
             $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
             $chart->Y_axis->majorStep = 50;
-            $chart->render();
+            $chart->render( 500, 200 );
         }
         catch ( Exception $e ) 
         {

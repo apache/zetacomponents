@@ -50,19 +50,17 @@ abstract class ezcGraphChart
      */
     protected $driver;
 
-    /**
-     * Title of the chart
-     * 
-     * @var string
-     */
-    protected $title;
-
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphChartOptions( $options );
 
-        // Add standard element legend
+        // Add standard elements
+        $this->elements['title'] = new ezcGraphChartElementText();
         $this->elements['legend'] = new ezcGraphChartElementLegend();
+
+        // Define standard renderer and driver
+        $this->renderer = new ezcGraphRenderer2D();
+        $this->driver = new ezcGraphSVGDriver();
     }
 
     /**
@@ -80,7 +78,7 @@ abstract class ezcGraphChart
     {
         switch ( $propertyName ) {
             case 'title':
-                return $this->title = (string) $propertyValue;
+                $this->elements['title']->title = $propertyValue;
                 break;
             case 'renderer':
                 if ( $propertyValue instanceof ezcGraphRenderer )
@@ -201,10 +199,9 @@ abstract class ezcGraphChart
      * Creates basic visual chart elements from the chart to be processed by 
      * the renderer.
      * 
-     * @abstract
      * @return void
      */
-    abstract public function render();
+    abstract public function render( $widht, $height, $file = null );
 }
 
 ?>

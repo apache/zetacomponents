@@ -30,7 +30,7 @@ class ezcGraphLineChart extends ezcGraphChart
      * @access public
      * @return void
      */
-    public function render()
+    public function render( $width, $height, $file = null )
     {
         // Calculate axis scaling and labeling
         $this->elements['X_axis']->calculateFromDataset( $this->data );
@@ -38,6 +38,22 @@ class ezcGraphLineChart extends ezcGraphChart
 
         // Generate legend
         $this->elements['legend']->generateFromDatasets( $this->data );
+
+        // Get boundings from parameters
+        $this->options->width = $width;
+        $this->options->height = $height;
+
+        // Render subelements
+        $boundings = new ezcGraphBoundings();
+        $boundings->x1 = $this->options->width;
+        $boundings->y1 = $this->options->height;
+
+        foreach ( $this->elements as $element )
+        {
+            $boundings = $element->render( $boundings );
+        }
+
+        // Render graph
     }
 }
 ?>

@@ -63,7 +63,11 @@ class ezcGraphChartTest extends ezcTestCase
 
         $this->assertSame(
             'Test title',
-            $this->getNonPublicProperty( $pieChart, 'title' )
+            $pieChart->title->title
+        );
+
+        $this->assertTrue(
+            $pieChart->title instanceof ezcGraphChartElementText
         );
     }
 

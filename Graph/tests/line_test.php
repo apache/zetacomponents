@@ -53,7 +53,7 @@ class ezcGraphLineChartTest extends ezcTestCase
             $chart->evenMoreData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
             $chart->evenMoreData->color = '#FF0000';
             $chart->evenMoreData->label = 'Even more data';
-            $chart->render();
+            $chart->render( 500, 200 );
         }
         catch ( Exception $e )
         {
@@ -91,6 +91,28 @@ class ezcGraphLineChartTest extends ezcTestCase
             $legend[1]['color'],
             'Color for second label is wrong.'
         );
+    }
+
+    public function testRenderLegend()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+            $chart->sampleData->color = '#0000FF';
+            $chart->moreData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+            $chart->moreData->color = '#FF0000';
+            $chart->evenMoreData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+            $chart->evenMoreData->color = '#FF0000';
+            $chart->evenMoreData->label = 'Even more data';
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e )
+        {
+            $this->fail( $e->getMessage() );
+        }
+        
+
     }
 
     public function testRender()

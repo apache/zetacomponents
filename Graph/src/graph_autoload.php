@@ -33,6 +33,7 @@ return array(
     'ezcGraphInvalidDriverException'            => 'Graph/exceptions/invalid_driver.php',
 
     'ezcGraphChartElement'                      => 'Graph/interfaces/element.php',
+    'ezcGraphChartElementText'                  => 'Graph/element/text.php',
     'ezcGraphChartElementLegend'                => 'Graph/element/legend.php',
     'ezcGraphChartElementNumericAxis'           => 'Graph/element/numeric_axis.php',
     'ezcGraphChartElementLabeledAxis'           => 'Graph/element/labeled_axis.php',
@@ -47,6 +48,9 @@ return array(
     'ezcGraphNoSuchDatasetException'            => 'Graph/exceptions/no_such_dataset.php',
     'ezcGraphTooManyDatasetsExceptions'         => 'Graph/exceptions/too_many_datasets.php',
     'ezcGraphUnknownDatasetSourceException'     => 'Graph/exceptions/unknown_dataset_source.php',
+
+    'ezcGraphBoundings'                         => 'Graph/structs/boundings.php',
+    'ezcGraphCoordiinate'                       => 'Graph/structs/coordinate.php',
 );
 
 ?>

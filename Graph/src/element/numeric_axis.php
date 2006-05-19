@@ -252,9 +252,9 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElement
      * @access public
      * @return void
      */
-    public function render()
+    public function render( ezcGraphBoundings $boundings )
     {
-        
+        return $boundings;
     }
 
 }

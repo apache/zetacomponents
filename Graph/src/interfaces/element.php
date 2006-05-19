@@ -20,7 +20,7 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
      * 
      * @var string
      */
-    protected $title = 'Legend';
+    protected $title;
 
     /**
      * Background color of chart element 
@@ -103,14 +103,13 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
     /**
      * Renders this chart element
      *
-     * Creates basic visual chart elements from this chart element to be 
-     * processed by the renderer.
+     * This method receives and returns a part of the canvas where it can be 
+     * rendered on.
      * 
-     * @param ezcGraphRenderer $renderer 
-     * @access public
-     * @return void
+     * @param ezcGraphBoundings $boundings Part of canvase to render element on
+     * @return ezcGraphBoundings Part of canvas, which is still free to draw on
      */
-    abstract public function render();
+    abstract public function render( ezcGraphBoundings $boundings );
 }
 
 ?>

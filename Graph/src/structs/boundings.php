@@ -1,10 +1,14 @@
 <?php
 
-class ezcGraphCoordinate
+class ezcGraphBoundings
 {
-    public $x = 0;
+    public $x0 = 0;
 
-    public $y = 0;
+    public $y0 = 0;
+    
+    public $x1 = false;
+
+    public $y1 = false;
     
     /**
      * Empty constructor

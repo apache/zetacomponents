@@ -49,7 +49,7 @@ class ezcGraphPieChartTest extends ezcTestCase
             $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
             $chart->sampleData->color = '#0000FF';
             $chart->sampleData->color['sample 3'] = '#FF0000';
-            $chart->render();
+            $chart->render( 500, 200 );
         }
         catch ( Exception $e )
         {

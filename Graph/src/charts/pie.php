@@ -43,7 +43,7 @@ class ezcGraphPieChart extends ezcGraphChart
      * @access public
      * @return void
      */
-    public function render()
+    public function render( $width, $height, $file = null )
     {
         // Generate legend
         $this->elements['legend']->generateFromDataset( reset( $this->data ) );

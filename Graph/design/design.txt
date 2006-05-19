@@ -123,7 +123,7 @@ The following example shows how to use the class: ::
 	$line->renderer = new ezcGraphRenderer2D();
 	$line->driver = new ezcGraphGDDriver();
 
-	$line->render('file.png');
+	$line->render( 500, 200, 'file.png' );
 
 	?>
 
