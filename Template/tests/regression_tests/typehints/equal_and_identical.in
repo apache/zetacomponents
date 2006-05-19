@@ -1,0 +1,25 @@
+{if array(1) == array(1)}
+They are equal
+{else}
+They are not equal
+{/if}
+
+{if array(1) === array(1)}
+They are equal
+{else}
+They are not equal
+{/if}
+
+{if array(1) != array(1)}
+They are not equal
+{else}
+They are equal
+{/if}
+
+{if array(1) !== array(1)}
+They are not equal
+{else}
+They are equal
+{/if}
+
+

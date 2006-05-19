@@ -102,36 +102,22 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         {
             throw new ezcTemplateParserException( $type->source, $type->endCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VALUE );
         }
-        /*
-        $typeHint2 = $appendNode->typeHint;
-        if( $typeHint1 != null && $typeHint2 != null )
-        {
-            $node->typeHint = $typeHint1 & $typeHint2;
-            if( !$node->typeHint)
-            {
-                throw new ezcTemplateParserException( $type->source, $type->endCursor, $type->endCursor, "Expect the same operand types. (Both values or both arrays)" );
-            }
-        }
-        */
-
         return $node;
-    }
-
-    private function checkSameBinaryTypeHint( $astNode, $type )
-    {
-        if( !( $astNode->parameters[0]->typeHint & $astNode->parameters[1]->typeHint ) )
-        {
-            throw new ezcTemplateParserException( $type->source, $type->endCursor, $type->endCursor, "Expect the same operand types. (Both values or both arrays)" );
-        }
     }
 
     private function createBinaryOperatorAstNode( $type, ezcTemplateOperatorAstNode $astNode, $addParenthesis = true )
     {
         $this->allowArrayAppend =false;
-
-        $astNode->appendParameter( $type->parameters[0]->accept( $this ) );
-        $astNode->appendParameter( $type->parameters[1]->accept( $this ) );
-        return ( $addParenthesis ?  new ezcTemplateParenthesisAstNode( $astNode ) : $astNode );
+        try
+        {
+            $astNode->appendParameter( $type->parameters[0]->accept( $this ) );
+            $astNode->appendParameter( $type->parameters[1]->accept( $this ) );
+            return ( $addParenthesis ?  new ezcTemplateParenthesisAstNode( $astNode ) : $astNode );
+        } 
+        catch( Exception $e )
+        {
+            throw new ezcTemplateParserException( $type->source, $type->endCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_TYPEHINT_FAILURE);
+        }
     }
 
     private function createUnaryOperatorAstNode( $type, ezcTemplateOperatorAstNode $astNode, $addParenthesis = true )
@@ -358,19 +344,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
         return $ast;
     }
-/*
-        if( is_array( $type->value ) )
-        {
-            $out = array();
-            foreach( $type->value as $val )
-            {
-                $out[] = $val->accept( $this );
-            }
-
-            return new ezcTemplateLiteralAstNode( $out );
-        }
- */
-
 
     public function visitIdentifierTstNode( ezcTemplateIdentifierTstNode $type )
     {

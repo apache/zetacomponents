@@ -20,6 +20,16 @@
 class ezcTemplateNotEqualOperatorAstNode extends ezcTemplateBinaryOperatorAstNode
 {
     /**
+     *  Check the typehints.
+     *  
+     *  It doesn't matter which types are used. And we return always a boolean; thus a value.
+     */
+    public function checkAndSetTypeHint()
+    {
+        $this->typeHint = self::TYPE_VALUE; 
+    }
+
+    /**
      * Returns a text string representing the PHP operator.
      * @return string
      */

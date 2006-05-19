@@ -54,6 +54,7 @@ class ezcTemplateSourceToTstErrorMessages
     // Uppercase problems
     const MSG_ARRAY_NOT_LOWERCASE               = "The array identifier must consist of lowercase characters only.";
 
+    const MSG_TYPEHINT_FAILURE                  = "The types (array or value) are not correctly used with this operator.";
 
 
     const MSG_EXPECT_ARRAY                      = "Expecting an array.";
