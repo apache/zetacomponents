@@ -18,6 +18,8 @@
   compare arrays with arrays and arrays with 'values'.
 - Fixed a bug in the get_class function. Due to a spelling error it would
   throw a PHP Fatal Error.
+- Fixed a bug that blanks between the pre-operator and operand were not
+  allowed. E.g. {5 + -   3} 
 - Fixed bug #8280: Array assignment with non-constants not working.
 - The modulo part of the delimiter is now optional.
 - The delimiter does not appear after the last iteration.
