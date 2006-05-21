@@ -169,38 +169,6 @@ class ezcConsoleStatusbar
     }
     
     /**
-     * Set new options.
-     * This method allows you to change the options of statusbar.
-     *  
-     * @param ezcConsoleStatusOptions $options The options to set.
-     *
-     * @throws ezcBaseSettingNotFoundException
-     *         If you tried to set a non-existent option value. The accpeted 
-     *         options depend on th ezcCacheStorage implementation and my 
-     *         vary.
-     * @throws ezcBaseSettingValueException
-     *         If the value is not valid for the desired option.
-     * @throws ezcBaseValueException
-     *         If you submit neither an array nor an instance of 
-     *         ezcCacheStorageOptions.
-     */
-    public function setOptions( $options ) 
-    {
-        if ( is_array( $options ) ) 
-        {
-            $this->options->merge( $options );
-        } 
-        else if ( $options instanceof ezcConsoleStatusbarOptions ) 
-        {
-            $this->options = $options;
-        }
-        else
-        {
-            throw new ezcBaseValueException( "options", $options, "array or instance of ezcConsoleStatusbarOptions" );
-        }
-    }
-
-    /**
      * Returns the current options.
      * Returns the options currently set for this progressbar.
      * 

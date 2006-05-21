@@ -30,6 +30,21 @@ class ezcConsoleToolsOutputOptionsTest extends ezcTestCase
      */
     public function testConstructor()
     {
+        $fake = new ezcConsoleOutputOptions( 1, 0, true );
+        $this->assertEquals( 
+            $fake,
+            new ezcConsoleOutputOptions(),
+            'Default values incorrect for ezcConsoleOutputOptions.'
+        );
+    }
+    
+    /**
+     * testConstructorNew
+     * 
+     * @access public
+     */
+    public function testConstructorNew()
+    {
         $fake = new ezcConsoleOutputOptions(
             array( 
                 "verbosityLevel" => 1,

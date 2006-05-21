@@ -98,6 +98,69 @@ class ezcConsoleTableOptions extends ezcBaseOptions
      * @var string
      */
     protected $defaultBorderFormat = "default";
+    
+    /**
+     * Construct a new options object.
+     * Construct a new options object.
+     *
+     * NOTE: For BC reasons the old method of instanciating this class is kept,
+     * but the usage of the new versoion is highly incouraged.
+     * 
+     * @param array(string=>mixed) $options The initial options to set.
+     * @return void
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If a the value for the property options is not an instance of
+     * @throws ezcBaseValueException
+     *         If a the value for a property is out of range.
+     */
+    public function __construct()
+    {
+        $args = func_get_args();
+        if ( func_num_args() === 1 && is_array( $args[0] ) )
+        {
+            parent::__construct( $args[0] );
+        }
+        else
+        {
+            foreach( $args as $id => $val )
+            {
+                switch ( $id )
+                {
+                    case 0:
+                        $this->__set( 'colWidth', $val );
+                        break;
+                    case 1:
+                        $this->__set( 'colWrap', $val );
+                        break;
+                    case 2:
+                        $this->__set( 'defaultAlign', $val );
+                        break;
+                    case 3:
+                        $this->__set( 'colPadding', $val );
+                        break;
+                    case 4:
+                        $this->__set( 'widthType', $val );
+                        break;
+                    case 5:
+                        $this->__set( 'lineVertical', $val );
+                        break;
+                    case 6:
+                        $this->__set( 'lineHorizontal', $val );
+                        break;
+                    case 7:
+                        $this->__set( 'corner', $val );
+                        break;
+                    case 8:
+                        $this->__set( 'defaultFormat', $val );
+                        break;
+                    case 9:
+                        $this->__set( 'defaultBorderFormat', $val );
+                        break;
+                }
+            }
+        }
+    }
 
     /**
      * Property write access.

@@ -43,6 +43,48 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
     protected $useFormats = true;
 
     /**
+     * Construct a new options object.
+     * Construct a new options object.
+     *
+     * NOTE: For BC reasons the old method of instanciating this class is kept,
+     * but the usage of the new versoion is highly incouraged.
+     * 
+     * @param array(string=>mixed) $options The initial options to set.
+     * @return void
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If a the value for the property options is not an instance of
+     * @throws ezcBaseValueException
+     *         If a the value for a property is out of range.
+     */
+    public function __construct()
+    {
+        $args = func_get_args();
+        if ( func_num_args() === 1 && is_array( $args[0] ) )
+        {
+            parent::__construct( $args[0] );
+        }
+        else
+        {
+            foreach( $args as $id => $val )
+            {
+                switch ( $id )
+                {
+                    case 0:
+                        $this->__set( "verbosityLevel", $val );
+                        break;
+                    case 1:
+                        $this->__set( "autobreak", $val );
+                        break;
+                    case 2:
+                        $this->__set( "useFormats", $val );
+                        break;
+                }
+            }
+        }
+    }
+
+    /**
      * Property write access.
      * 
      * @throws ezcBasePropertyNotFoundException
