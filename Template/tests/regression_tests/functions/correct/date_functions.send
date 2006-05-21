@@ -1,0 +1,6 @@
+<?php
+$v = new ezcTemplateVariableCollection();
+$v->timestamp = time();
+
+return $v;
+?>

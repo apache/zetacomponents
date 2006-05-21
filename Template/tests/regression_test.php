@@ -38,6 +38,11 @@ class ezcTemplateRegressionTest extends ezcTestCase
         }
     }
 
+    public function setUp()
+    {
+        date_default_timezone_set( "UTC" );
+    }
+
     public static function suite()
     {
          return new ezcTestSuite( __CLASS__ );

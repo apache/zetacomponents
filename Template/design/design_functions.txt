@@ -890,7 +890,7 @@ Date
 
     date( $format, $timestamp )
 
-- date_current_time()::
+- date_current_timestamp()::
     
     time()
 
