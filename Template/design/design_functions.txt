@@ -886,7 +886,7 @@ All functions are prefixed with math\_.
 Date
 ````
 
-- date_timestamp_format( $format [, $timestamp] )::
+- date_format_timestamp( $format [, $timestamp] )::
 
     date( $format, $timestamp )
 
