@@ -29,7 +29,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      * @throws ezcBaseValueException
      *         If a the value for a property is out of range.
      */
-    final public function __construct( array $options = array() )
+    public function __construct( array $options = array() )
     {
         foreach ( $options as $option => $value )
         {
@@ -49,7 +49,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      * @throws ezcBaseValueException
      *         If a the value for a property is out of range.
      */
-    final public function merge( array $newOptions )
+    public function merge( array $newOptions )
     {
         foreach( $newOptions as $key => $value )
         {
@@ -67,7 +67,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of
      */
-    final public function __get( $propertyName )
+    public function __get( $propertyName )
     {
         if ( isset( $this->$propertyName ) )
         {
@@ -83,7 +83,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      * @param string $propertyName The name of the option to get.
      * @return bool Wether the option exists.
      */
-    final public function offsetExists( $propertyName )
+    public function offsetExists( $propertyName )
     {
         return isset( $this->$propertyName );
     }
@@ -98,7 +98,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of
      */
-    final public function offsetGet( $propertyName )
+    public function offsetGet( $propertyName )
     {
         return $this->__get( $propertyName );
     }
@@ -116,7 +116,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      * @throws ezcBaseValueException
      *         If a the value for a property is out of range.
      */
-    final public function offsetSet( $propertyName, $propertyValue )
+    public function offsetSet( $propertyName, $propertyValue )
     {
         $this->__set( $propertyName, $propertyValue );
     }
@@ -133,7 +133,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      * @throws ezcBaseValueException
      *         If a the value for a property is out of range.
      */
-    final public function offsetUnset( $propertyName )
+    public function offsetUnset( $propertyName )
     {
         $this->__set( $propertyName, null );
     }
