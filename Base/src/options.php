@@ -22,6 +22,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      * automatically passes the given options to the __set() method to set them 
      * in the class.
      * 
+     * @param array(string=>mixed) $options The initial options to set.
      * @return void
      *
      * @throws ezcBasePropertyNotFoundException
