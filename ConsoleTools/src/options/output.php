@@ -44,7 +44,6 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
 
     /**
      * Construct a new options object.
-     * Construct a new options object.
      *
      * NOTE: For BC reasons the old method of instanciating this class is kept,
      * but the usage of the new versoion is highly incouraged.
