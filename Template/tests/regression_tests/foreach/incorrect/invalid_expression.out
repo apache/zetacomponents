@@ -1,11 +1,4 @@
-mock:1:9: Expecting an operand without a pre- or post operator.
+mock:1:14: Expecting an operand without a pre- or post operator.
 
-{foreach 3 + as $i}{/fo
+{foreach 3 + as $i}{/foreach}
              ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateControlStructureSourceToTstParser
-   -> ezcTemplateForeachLoopSourceToTstParser
-    -> ezcTemplateExpressionSourceToTstParser

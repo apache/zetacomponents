@@ -20,6 +20,9 @@
   throw a PHP Fatal Error.
 - Fixed a bug that blanks between the pre-operator and operand were not
   allowed. E.g. {5 + -   3} 
+- Fixed a bug that the break and continue tags could contain garbage.
+  E.g. {break abcd}
+- Fixed a bug that the column number in error messages were incorrect.
 - Fixed bug #8280: Array assignment with non-constants not working.
 - The modulo part of the delimiter is now optional.
 - The delimiter does not appear after the last iteration.

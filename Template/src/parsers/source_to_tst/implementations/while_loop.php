@@ -43,7 +43,7 @@ class ezcTemplateWhileLoopSourceToTstParser extends ezcTemplateSourceToTstParser
         {
             if ( !$this->parseRequiredType( 'Expression', null, false ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
             }
 
             $condition = $this->lastParser->rootOperator;
@@ -51,7 +51,7 @@ class ezcTemplateWhileLoopSourceToTstParser extends ezcTemplateSourceToTstParser
 
         if ( !$this->parentParser->atEnd( $cursor, null, false ) )
         {
-            throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
         }
 
         // Everything went well. Let's create the element.

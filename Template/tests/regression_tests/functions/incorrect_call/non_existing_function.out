@@ -1,4 +1,4 @@
-mock:1:9: Unknown function call: 'blarp'
+mock:1:2: Unknown function call: 'blarp'
 
 {blarp(3)}
  ^

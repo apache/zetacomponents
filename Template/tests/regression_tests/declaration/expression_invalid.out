@@ -1,10 +1,4 @@
-mock:1:10: Expecting an operand without a pre- or post operator.
+mock:1:15: Expecting an operand without a pre- or post operator.
 
 {var $a = 5 + }
               ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateDeclarationBlockSourceToTstParser
-   -> ezcTemplateExpressionSourceToTstParser

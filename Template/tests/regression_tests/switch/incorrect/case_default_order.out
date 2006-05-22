@@ -1,4 +1,4 @@
-mock:3:5: Expecting {/switch}. ('default' is expected to be the last case of the switch.)
+mock:3:6: Expecting {/switch}. ('default' is expected to be the last case of the switch.)
 
-{case 1} hoi{/c
+{case 1} hoi{/case}
      ^

@@ -122,7 +122,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         {
             if( !$this->parseOperand( $cursor, array( "Variable" ), false ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
+                throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
             }
             
             return true;
@@ -131,7 +131,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         {
             if( !$this->parseOperand( $cursor, array(), false ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_OPERAND );
+                throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_OPERAND );
             }
         }
         elseif( $type = $this->parseOperand( $cursor, array(), true, true) ) // Only an operand?
@@ -168,23 +168,8 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
             if( !$this->parseOperand( $cursor, array(), false ) ) 
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_NON_MODIFYING_OPERAND );
+                throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_NON_MODIFYING_OPERAND );
             }
-
-/*
-            if( $this->parsePreOperator( $cursor, $match ) )
-            {
-                // Parse operand but disallow: !$a++; ($a++ has no output)
-                if( !$this->parseOperand( $cursor, array(), false ) )
-                {
-                    throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_OPERAND );
-                }
-            }
-            elseif( !$this->parseOperand( $cursor, array(), false ) ) 
-            {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_OPERAND );
-            }
-            */
         }
     }
 
@@ -444,7 +429,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     $this->findNextElement();
                     if( !$cursor->match("]") )
                     {
-                        throw new ezcTemplateSourceToTstParserException( $this, $cursor, "Expect closing ']' in expression");
+                        throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_SQUARE_BRACKET_CLOSE );
                     }
                     
                     $operator = $this->lastParser->fetch;

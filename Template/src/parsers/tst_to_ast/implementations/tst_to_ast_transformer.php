@@ -414,7 +414,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         if( $this->isFunctionFromObject )
         {
             // The function call method is not allowed. Throw an exception.
-            throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_OBJECT_FUNCTION_CALL_NOT_ALLOWED );
+            throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_OBJECT_FUNCTION_CALL_NOT_ALLOWED );
 
             // The code below is never reached. However if you remove the exception above,
             // you can call object methods.
@@ -444,7 +444,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         }
         catch( Exception $e )
         {
-            throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->endCursor, $e->getMessage() ); 
+            throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->startCursor, $e->getMessage() ); 
         }
     }
 
@@ -512,7 +512,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $params[] = $type->array->accept( $this );
             if( !( $params[ sizeof( $params ) - 1 ]->typeHint & ezcTemplateAstNode::TYPE_ARRAY) )
             {
-                throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
+                throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
             }
 
             $params[] = $type->offset->accept( $this );
@@ -525,7 +525,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
             if( !( $astNode[$i]->arrayExpression->typeHint & ezcTemplateAstNode::TYPE_ARRAY) )
             {
-                throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
+                throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
             }
         }
 
@@ -785,7 +785,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         if( !$this->allowArrayAppend )
         {
-            throw new ezcTemplateParserException( $type->source, $type->parameters[0]->endCursor, $type->parameters[0]->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_ARRAY_APPEND);
+            throw new ezcTemplateParserException( $type->source, $type->parameters[0]->startCursor, $type->parameters[0]->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_ARRAY_APPEND);
         }
 
         return new ezcTemplateArrayAppendOperatorAstNode( $type->parameters[0]->accept($this) );
@@ -888,7 +888,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         if( $this->isCycle && !($assignment->typeHint & ezcTemplateAstNode::TYPE_ARRAY) )
         {
             throw new ezcTemplateParserException( $type->source, $type->parameters[1]->startCursor, 
-                $type->parameters[1]->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
+                $type->parameters[1]->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
         }
 
         $astNode->appendParameter( $assignment );
@@ -901,18 +901,19 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $astNode = $this->createBinaryOperatorAstNode( $type, new ezcTemplateAdditionAssignmentOperatorAstNode(), false );
         if( $this->isCycle )
         {
-            throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_INVALID_OPERATOR_ON_CYCLE);
+            throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_INVALID_OPERATOR_ON_CYCLE);
         }
 
         return $astNode;
     }
-public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentOperatorTstNode $type )
+
+    public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentOperatorTstNode $type )
     {
         $this->isCycle = false;
         $astNode = $this->createBinaryOperatorAstNode( $type, new ezcTemplateSubtractionAssignmentOperatorAstNode(), false );
         if( $this->isCycle )
         {
-            throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_INVALID_OPERATOR_ON_CYCLE);
+            throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_INVALID_OPERATOR_ON_CYCLE);
         }
 
         return $astNode;
@@ -924,7 +925,7 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
         $astNode = $this->createBinaryOperatorAstNode( $type, new ezcTemplateMultiplicationAssignmentOperatorAstNode(), false );
         if( $this->isCycle )
         {
-            throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_INVALID_OPERATOR_ON_CYCLE);
+            throw new ezcTemplateParserException( $type->source, $type->startCursor, $type->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_INVALID_OPERATOR_ON_CYCLE);
         }
 
         return $astNode;
@@ -1035,8 +1036,7 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
 
             if( $type->expression !== null && !($expression->typeHint & ezcTemplateAstNode::TYPE_ARRAY ) )
             {
-                throw new ezcTemplateParserException( $type->source, $type->expression->startCursor, 
-                    $type->expression->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
+                throw new ezcTemplateParserException( $type->source, $type->expression->startCursor, $type->expression->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
             }
 
             $b =  new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $type->variable->accept($this), $expression ) );
@@ -1209,7 +1209,7 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
         if( $checkNonArray && !( $paramAst[0]->typeHint & ezcTemplateAstNode::TYPE_VALUE ) )
         {
             throw new ezcTemplateParserException( $type->source, $type->parameters[$currentParameterNumber]->startCursor, 
-                $type->parameters[$currentParameterNumber]->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VALUE_NOT_ARRAY );
+                $type->parameters[$currentParameterNumber]->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VALUE_NOT_ARRAY );
         }
 
         $currentParameterNumber++;
@@ -1229,7 +1229,7 @@ public function visitMinusAssignmentOperatorTstNode( ezcTemplateMinusAssignmentO
         if( $checkNonArray && !( $paramAst[1]->typeHint & ezcTemplateAstNode::TYPE_VALUE ) )
         {
             throw new ezcTemplateParserException( $type->source, $type->parameters[$currentParameterNumber]->startCursor, 
-                $type->parameters[$currentParameterNumber]->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VALUE_NOT_ARRAY );
+                $type->parameters[$currentParameterNumber]->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VALUE_NOT_ARRAY );
         }
 
 

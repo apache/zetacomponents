@@ -1,10 +1,4 @@
-mock:1:1: Expecting an operand without a pre- or post operator.
+mock:1:5: Expecting an operand without a pre- or post operator.
 
 {5 +* 7}
     ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateExpressionBlockSourceToTstParser
-   -> ezcTemplateExpressionSourceToTstParser

@@ -1,4 +1,4 @@
-mock:1:20: Expected two operands that are not an array.
+mock:1:21: Expected two operands that are not an array.
 
 {array(1) + array(2)}
                     ^

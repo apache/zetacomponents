@@ -42,6 +42,8 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_EXPECT_ROUND_BRACKET_OPEN         = "Expecting an opening parentheses: '('";
     const MSG_EXPECT_ROUND_BRACKET_CLOSE        = "Expecting a closing parentheses: ')'";
 
+    const MSG_EXPECT_SQUARE_BRACKET_CLOSE        = "Expecting a closing square bracket: ']'";
+
     const MSG_EXPECT_ROUND_BRACKET_CLOSE_OR_COMMA  = "Expecting a closing parentheses: ')' or a comma ','";
 
 

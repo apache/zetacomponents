@@ -9,10 +9,7 @@
  * @access private
  */
 /**
- * Parser for {if} control structure.
- *
- * Parses inside the blocks {...} and looks for an expression by using the
- * ezcTemplateExpressionSourceToTstParser class.
+ * Parser for {break}, {continue}, etc
  *
  * @package Template
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
@@ -36,10 +33,17 @@ class ezcTemplateLoopSourceToTstParser extends ezcTemplateSourceToTstParser
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
-        $cursor->advance();
         $element = $this->parser->createLoop( $this->startCursor, $cursor, $this->block->name );
         if ( $this->block->isClosingBlock )
             $element->isClosingBlock = true;
+
+        $this->findNextElement();
+
+        if( !$cursor->match( "}") )
+        {
+            throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
+        }
+
         $this->appendElement( $element );
 
         return true;

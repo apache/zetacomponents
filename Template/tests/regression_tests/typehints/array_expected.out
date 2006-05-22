@@ -1,4 +1,4 @@
-mock:2:18: Expecting an array.
+mock:2:9: Expecting an array.
 
 {foreach $a as $i}
         ^

@@ -1,10 +1,5 @@
-mock:3:7: Expecting a closing curly bracket: '}'
+mock:4:1: Expecting a closing curly bracket: '}'
 
+{/while
 
 ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateControlStructureSourceToTstParser
-   -> ezcTemplateWhileLoopSourceToTstParser

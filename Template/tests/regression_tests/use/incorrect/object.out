@@ -1,4 +1,4 @@
-mock:5:34: Calling a method from an imported object is not allowed.
+mock:5:15: Calling a method from an imported object is not allowed.
 
-Say: {$myObj->getHelloWorld(2 + 2)
+Say: {$myObj->getHelloWorld(2 + 2)}
               ^

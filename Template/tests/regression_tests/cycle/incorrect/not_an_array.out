@@ -1,4 +1,4 @@
-mock:1:13: Expecting an array.
+mock:1:16: Expecting an array.
 
-{cycle $a = 5}
-            ^
+{cycle $a = 555}
+               ^

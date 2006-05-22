@@ -88,16 +88,13 @@ class ezcTemplateParserException extends Exception
      */
     public function getErrorMessage()
     {
-        // Extract code parts which failed
-        $code = '';
-        
         // Show failed code for element
-        $code .= $this->getAstNodeFailure( $this->startCursor, $this->errorCursor, $this->startCursor );
+        $code = $this->getAstNodeFailure( $this->startCursor, $this->errorCursor, $this->errorCursor );
         $details = $this->errorDetails;
 
         if ( strlen( $details ) > 0 ) $details = "\n" . $details;
 
-        $locationMessage = "{$this->source->stream}:{$this->errorCursor->line}:{$this->errorCursor->column}:";
+        $locationMessage = "{$this->source->stream}:{$this->errorCursor->line}:" . ($this->errorCursor->column + 1). ":";
         $message = $locationMessage . " " . $this->errorMessage . "\n\n" . $code . $details . "\n"; 
 
         return $message;
@@ -120,10 +117,10 @@ class ezcTemplateParserException extends Exception
                         $startCursor->position - $startCursor->column,
                         $endCursor->position - $startCursor->position + $startCursor->column );
 
-        // Include some code which appears after the failure points, max 10 characters
+        // Include some code which appears after the failure points, max 30 characters
         $extraAstNode = substr( $startCursor->text,
                              $endCursor->position,
-                             $errorCursor->position - $endCursor->position + 10 );
+                             $errorCursor->position - $endCursor->position + 30 );
 
 
         $eolPos = strpos( $extraAstNode, "\n" );

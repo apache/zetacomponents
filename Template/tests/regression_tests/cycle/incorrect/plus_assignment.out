@@ -1,4 +1,4 @@
-mock:2:8: This operator cannot be used on a cycle.
+mock:2:4: This operator cannot be used on a cycle.
 
 {$a += 3}
    ^

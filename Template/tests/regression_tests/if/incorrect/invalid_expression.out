@@ -1,11 +1,4 @@
-mock:1:4: Expecting an operand without a pre- or post operator.
+mock:1:9: Expecting an operand without a pre- or post operator.
 
 {if 5 + == 6}
         ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateControlStructureSourceToTstParser
-   -> ezcTemplateIfConditionSourceToTstParser
-    -> ezcTemplateExpressionSourceToTstParser

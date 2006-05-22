@@ -1,10 +1,4 @@
-mock:3:1: Expecting an operand without a pre- or post operator.
+mock:3:7: Expecting an operand without a pre- or post operator.
 
 {!$a++}
       ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateExpressionBlockSourceToTstParser
-   -> ezcTemplateExpressionSourceToTstParser
