@@ -42,7 +42,7 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
             $this->findNextElement();
             if ( !$this->parentParser->atEnd( $cursor, null, false ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor,  ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
             }
 
             $cursor->advance();
@@ -60,9 +60,6 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
             $this->findNextElement();
             if( $this->currentCursor->match("modulo") )
             {
-                //throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_MODULO );
-            //}
-
                 $this->findNextElement();
 
                 if ( !$this->parseOptionalType( 'Expression', null, false ) )
@@ -77,7 +74,7 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
                     $this->findNextElement();
                     if ( !$this->parseOptionalType( 'Expression', null, false ) )
                     {
-                        throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
+                        throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
                     }
                         
                     $delimiter->rest = $this->lastParser->rootOperator;
@@ -96,7 +93,7 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
 
             if ( !$this->parentParser->atEnd( $cursor, null, false ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, 
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
                     $canBeArrow ?  ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARROW_OR_CLOSE_CURLY_BRACKET :
                                    ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE  );
             }
@@ -112,7 +109,7 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
 
             if ( !$this->parentParser->atEnd( $cursor, null, false ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE  );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
             }
 
             $cursor->advance();

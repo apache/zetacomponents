@@ -1,12 +1,4 @@
-mock:1:10: Expecting an opening parentheses: '('
+mock:1:16: Expecting an opening parentheses: '('
 
 {var $a = array)}
                ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateDeclarationBlockSourceToTstParser
-   -> ezcTemplateExpressionSourceToTstParser
-    -> ezcTemplateLiteralSourceToTstParser
-     -> ezcTemplateArraySourceToTstParser

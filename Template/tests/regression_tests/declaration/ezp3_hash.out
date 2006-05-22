@@ -1,11 +1,5 @@
-mock:1:5: The variable name is invalid.
+mock:1:7: The variable name is invalid.
 
 {var $#a}
       ^
 The namespace-root marker (#) was used in the template engine of eZ publish 3.x but it's no longer allowed.
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateDeclarationBlockSourceToTstParser
-   -> ezcTemplateVariableSourceToTstParser

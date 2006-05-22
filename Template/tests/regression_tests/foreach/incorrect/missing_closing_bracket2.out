@@ -1,10 +1,5 @@
-mock:1:8: Expecting a closing curly bracket: '}'
+mock:2:1: Expecting a closing curly bracket: '}'
 
- 1..2 as $key => $value 
+{foreach 1..2 as $key => $value 
+{$key}
 ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateControlStructureSourceToTstParser
-   -> ezcTemplateForeachLoopSourceToTstParser

@@ -1,9 +1,4 @@
-mock:1:1: Expecting an expression, not an identifier. (Braces missing?)
+mock:1:18: Expecting an expression, not an identifier. (Braces missing?)
 
 {var $a = str_len "aaab")}
                  ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateDeclarationBlockSourceToTstParser

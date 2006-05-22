@@ -1,8 +1,4 @@
-mock:2:1: Expecting a closing curly bracket: '}'
+mock:2:6: Expecting a closing curly bracket: '}'
 
 {++$a++}
      ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser

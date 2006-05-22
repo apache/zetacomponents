@@ -1066,9 +1066,6 @@ class ezcTemplateParser
         if ( !$parser->parse() )
         {
             $currentParser = $parser->getFailingParser();
-
-            // TODO, This exception may disappear in the future, as the Parser elements should throw their own errors.
-            throw new ezcTemplateSourceToTstParserException( $currentParser, $currentParser->startCursor, $currentParser->getErrorMessage(), $currentParser->getErrorDetails() );
         }
 
         // Trim starting/trailing whitespace
@@ -1081,10 +1078,6 @@ class ezcTemplateParser
         $parser->program->elements = $parser->program->children;
 
         return $parser->program;
-
-//        $this->textElements = $parser->elements;
-
-//        return $this->textElements;
     }
 
     /**

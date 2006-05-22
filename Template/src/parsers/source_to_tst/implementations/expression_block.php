@@ -149,8 +149,7 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
         {
             if( $rawBlock)
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_ASSIGNMENT_NOT_ALLOWED );
- 
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_ASSIGNMENT_NOT_ALLOWED );
             }
 
             // @todo if the parser block is a parenthesis it is not allowed to have modifying nodes

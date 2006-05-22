@@ -24,6 +24,8 @@
   E.g. {break abcd}
 - Fixed a bug that the column number in error messages were incorrect.
 - Fixed bug #8280: Array assignment with non-constants not working.
+- All compile errors throw the ezcTemplateParserException.  Removed the 
+  ezcTemplateSourceToTstParserException.
 - The modulo part of the delimiter is now optional.
 - The delimiter does not appear after the last iteration.
 

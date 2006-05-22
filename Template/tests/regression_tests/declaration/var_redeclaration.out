@@ -1,9 +1,4 @@
-mock:3:1: The symbol <$a> is already declared.
+mock:3:8: The symbol <$a> is already declared.
 
 {var $a}
-^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateDeclarationBlockSourceToTstParser
+       ^

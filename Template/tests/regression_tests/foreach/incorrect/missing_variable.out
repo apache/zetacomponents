@@ -1,11 +1,4 @@
-mock:1:8: Expecting a variable
+mock:1:18: Expecting a variable
 
-{foreach 1..2 as }{/foreach
+{foreach 1..2 as }{/foreach}
                  ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateControlStructureSourceToTstParser
-   -> ezcTemplateForeachLoopSourceToTstParser
-    -> ezcTemplateVariableSourceToTstParser

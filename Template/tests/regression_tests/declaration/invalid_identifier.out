@@ -1,12 +1,5 @@
-mock:1:5: The variable name is invalid.
+mock:1:7: The variable name is invalid.
 
 {var $5aa}
       ^
 Invalid identifier
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateDeclarationBlockSourceToTstParser
-   -> ezcTemplateVariableSourceToTstParser
-    -> ezcTemplateIdentifierSourceToTstParser

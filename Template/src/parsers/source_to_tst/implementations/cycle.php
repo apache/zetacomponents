@@ -42,7 +42,7 @@ class ezcTemplateCycleSourceToTstParser extends ezcTemplateSourceToTstParser
                 
                 if( !$this->parseOptionalType( "Variable", null, false) )
                 {
-                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE);
                 }
 
                 $cycle->variables[] = $this->lastParser->elements[0];
@@ -58,7 +58,7 @@ class ezcTemplateCycleSourceToTstParser extends ezcTemplateSourceToTstParser
 
             if ( !$this->parentParser->atEnd( $cursor, null, false ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE  );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE);
             }
             $cursor->advance();
 

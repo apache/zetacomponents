@@ -1,10 +1,4 @@
-mock:3:9: Expecting a closing curly bracket: '}'
+mock:3:11: Expecting a closing curly bracket: '}'
 
 {/foreach oasjfd }
           ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateControlStructureSourceToTstParser
-   -> ezcTemplateForeachLoopSourceToTstParser

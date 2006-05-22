@@ -1,12 +1,4 @@
-mock:1:10: Expecting a closing parentheses: ')' or a comma ','
+mock:1:20: Expecting a closing parentheses: ')' or a comma ','
 
 {var $a = array( 1 2 )}
                    ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateDeclarationBlockSourceToTstParser
-   -> ezcTemplateExpressionSourceToTstParser
-    -> ezcTemplateLiteralSourceToTstParser
-     -> ezcTemplateArraySourceToTstParser

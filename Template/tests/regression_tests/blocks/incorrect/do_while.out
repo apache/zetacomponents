@@ -1,8 +1,4 @@
-mock:1:1: Unknown block <do>.
+mock:1:2: Unknown block <do>.
 
 {do}
  ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser

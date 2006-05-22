@@ -44,7 +44,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
             $this->findNextElement();
             if ( !$this->parentParser->atEnd( $cursor, null, false ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
             }
 
             $cursor->advance();
@@ -67,19 +67,19 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
         $this->findNextElement();
         if ( !$this->parseOptionalType( 'Expression', null, false ) )
         {
-            throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
         }
         $el->array = $this->lastParser->rootOperator;
 
         $this->findNextElement();
         if( !$this->currentCursor->match('as') )
         {
-            throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_AS );
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_AS );
         }
         $this->findNextElement();
         if ( !$this->parseRequiredType( 'Variable', null, false ) )
         {
-            throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
         }
         $el->itemVariableName = $this->lastParser->element->name;
 
@@ -96,7 +96,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
             // parse item variable
             if ( !$this->parseRequiredType( 'Variable', null, false ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
             }
 
             // skip whitespace and comments before the closing brace
@@ -106,7 +106,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
             // Key Look up in the symbol table.
             if( !$this->parser->symbolTable->enter( $el->keyVariableName, ezcTemplateSymbolTable::VARIABLE, true ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, $this->parser->symbolTable->getErrorMessage() );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, $this->parser->symbolTable->getErrorMessage() );
             }
 
             $el->itemVariableName = $this->lastParser->variableName;
@@ -115,7 +115,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
         // Value lookup in the symbol table.
         if( !$this->parser->symbolTable->enter( $el->itemVariableName, ezcTemplateSymbolTable::VARIABLE, true ) )
         {
-            throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, $this->parser->symbolTable->getErrorMessage() );
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, $this->parser->symbolTable->getErrorMessage() );
         }
 
         // Check the cycle.
@@ -128,8 +128,8 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
                 $this->findNextElement();
                 if ( !$this->parseOptionalType( 'Variable', null, false ) )
                 {
-                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
-                }
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
+                } 
 
                 if( $matchIncrement ) $el->increment[] = $this->lastParser->element;
                 else $el->decrement[] = $this->lastParser->element;
@@ -147,7 +147,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
             $this->findNextElement();
             if ( !$this->parseOptionalType( 'Expression', null, false ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
             }
 
             $el->offset = $this->lastParser->rootOperator;
@@ -161,7 +161,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
             $this->findNextElement();
             if ( !$this->parseOptionalType( 'Expression', null, false ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
             }
 
             $el->limit = $this->lastParser->rootOperator;
@@ -171,7 +171,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
 
         if ( !$this->parentParser->atEnd( $cursor, null, false ) )
         {
-            throw new ezcTemplateSourceToTstParserException( $this, $cursor, 
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
                 $canBeArrow ?  ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARROW_OR_CLOSE_CURLY_BRACKET :
                                ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE  );
         }

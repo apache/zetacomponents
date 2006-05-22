@@ -1,12 +1,4 @@
-mock:2:4: Expression expected
+mock:2:5: Expecting an expression.
 
 {$a[}
     ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateExpressionBlockSourceToTstParser
-   -> ezcTemplateExpressionSourceToTstParser
-    -> ezcTemplateArrayFetchSourceToTstParser
-     -> ezcTemplateExpressionSourceToTstParser

@@ -1,8 +1,4 @@
-mock:1:1: Unknown block <for>.
+mock:1:2: Unknown block <for>.
 
-{for $i = 0
+{for $i = 0; $i < 2; $i++ }
  ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser

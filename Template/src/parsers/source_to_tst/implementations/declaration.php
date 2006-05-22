@@ -74,18 +74,18 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
                 }
                 elseif( $this->currentCursor->match( ":", false ) )
                 {
-                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, 
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
                         sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_TOKEN, $this->currentCursor->current(1) ), ezcTemplateSourceToTstErrorMessages::LNG_INVALID_NAMESPACE_MARKER); 
                 }
                 else
                 {
-                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, 
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
                         sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_TOKEN, $this->currentCursor->current(1) ) );
                 }
             }
             else
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
             }
         }
 
@@ -114,7 +114,7 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
             {
                 if( $isFirst ) return false;
 
-                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
             }
 
             $isFirst = false;
@@ -123,7 +123,7 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
             // Variable name.
             if ( !$this->parser->symbolTable->enter( $declaration->variable->name, $symbolType ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $this->startCursor, $this->parser->symbolTable->getErrorMessage() );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, $this->parser->symbolTable->getErrorMessage() );
             }
 
             $this->findNextElement();
@@ -136,11 +136,11 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
                 {
                     if( $this->parseOptionalType( "Identifier", null, false ) )
                     {
-                        throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION_NOT_IDENTIFIER );
+                        throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION_NOT_IDENTIFIER );
                     }
                     else
                     {
-                        throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
+                        throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION);
                     }
                 }
 

@@ -51,7 +51,7 @@ class ezcTemplateIfConditionSourceToTstParser extends ezcTemplateSourceToTstPars
             
             if( !$cursor->match( '}' ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
             }
 
             $el = $this->parser->createIfCondition( $this->startCursor, $cursor );
@@ -69,7 +69,7 @@ class ezcTemplateIfConditionSourceToTstParser extends ezcTemplateSourceToTstPars
         {
             if ( !$this->parseRequiredType( 'Expression', null, false ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
             }
 
             $condition = $this->lastParser->rootOperator;
@@ -78,7 +78,7 @@ class ezcTemplateIfConditionSourceToTstParser extends ezcTemplateSourceToTstPars
 
         if( !$cursor->match( '}' ) )
         {
-            throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
         }
 
         $cb = $this->parser->createConditionBody( $this->startCursor, $cursor );

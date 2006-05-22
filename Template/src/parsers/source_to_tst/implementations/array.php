@@ -55,7 +55,7 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
         if ( $name !== $lower )
         {
             $this->findNonLowercase();
-            throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_ARRAY_NOT_LOWERCASE); 
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_ARRAY_NOT_LOWERCASE);
         }
 
         $cursor->advance( 5 );
@@ -65,7 +65,7 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
 
         if ( !$cursor->match('(') )
         {
-            throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ROUND_BRACKET_OPEN ); 
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ROUND_BRACKET_OPEN );
         }
 
         $currentArray = array();
@@ -78,7 +78,7 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
             // skip whitespace and comments
             if ( !$this->findNextElement() )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ROUND_BRACKET_CLOSE ); 
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ROUND_BRACKET_CLOSE );
             }
 
             if ( $cursor->current() == ')' )
@@ -96,13 +96,13 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
 
             if( !$expectItem )
             {
-                throw new ezcTemplateSourceToTstParserException ( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ROUND_BRACKET_CLOSE_OR_COMMA);
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ROUND_BRACKET_CLOSE_OR_COMMA );
             }
 
             // Check for type
             if ( !$expectItem || !$this->parseRequiredType( 'Expression' ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_LITERAL ); 
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_LITERAL );
             }
 
             $this->findNextElement();
@@ -116,7 +116,7 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
                 // We have the key => value syntax so we need to find the value
                 if ( !$this->parseRequiredType( 'Expression' ) )
                 {
-                    throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_LITERAL ); 
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_LITERAL );
                 }
 
                 // Store the value.

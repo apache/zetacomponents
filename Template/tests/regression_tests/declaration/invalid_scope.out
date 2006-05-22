@@ -1,9 +1,4 @@
-mock:2:1: The variable <$b> is cannot be declared in a subblock: while, foreach, if, etc
+mock:2:8: The variable <$b> is cannot be declared in a subblock: while, foreach, if, etc
 
 {var $b}
-^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateDeclarationBlockSourceToTstParser
+       ^

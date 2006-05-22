@@ -1,10 +1,5 @@
-mock:1:8: Expecting the keyword '=>' or closing curly bracket '}'
+mock:2:1: Expecting the keyword '=>' or closing curly bracket '}'
 
-{$i} 1..2 as $i
+{foreach 1..2 as $i
+{$i}
 ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateControlStructureSourceToTstParser
-   -> ezcTemplateForeachLoopSourceToTstParser

@@ -1,9 +1,4 @@
-mock:2:1: 'Use' should be declared before other declarations
+mock:2:8: 'Use' should be declared before other declarations
 
 {use $b}
-^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateDeclarationBlockSourceToTstParser
+       ^

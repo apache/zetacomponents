@@ -1,12 +1,4 @@
-mock:1:1: Missing ending brace for the function call.
+mock:1:10: Expecting a closing parentheses: ')'
 
 {str_len(}
          ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateExpressionBlockSourceToTstParser
-   -> ezcTemplateExpressionSourceToTstParser
-    -> ezcTemplateFunctionCallSourceToTstParser
-     -> ezcTemplateExpressionSourceToTstParser

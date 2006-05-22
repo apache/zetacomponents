@@ -1,11 +1,4 @@
-mock:1:7: Expecting an expression.
+mock:1:9: Expecting an expression.
 
 {switch }
         ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateControlStructureSourceToTstParser
-   -> ezcTemplateSwitchConditionSourceToTstParser
-    -> ezcTemplateExpressionSourceToTstParser

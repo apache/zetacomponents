@@ -113,10 +113,10 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
             {
                 if( $this->currentCursor->match('[', false) )
                 {
-                    throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_SQUARE_BRACKET_OPEN );
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_SQUARE_BRACKET_OPEN);
                 }
 
-                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE);
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE);
             }
 
             return $this->lastParser->status == self::PARSE_SUCCESS;
@@ -138,7 +138,7 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
             $this->findNextElement();
             if( !$this->currentCursor->match( "}" ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE);
             }
 
             $text = $this->parser->createText($this->startCursor, $this->endCursor);
@@ -161,9 +161,8 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
         }
         */
 
-        //$this->operationState = self::STATE_UNKNOWN_BLOCK;
         $matches = $cursor->pregMatchComplete( "#^([a-zA-Z_][a-zA-Z0-9_-]*)(?:[^a-zA-Z])#i" );
-        throw new ezcTemplateSourceToTstParserException ($this, $this->currentCursor, sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_BLOCK, $matches[1][0] ) );
+        throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_BLOCK, $matches[1][0] ) );
     }
 
     protected function generateErrorMessage()

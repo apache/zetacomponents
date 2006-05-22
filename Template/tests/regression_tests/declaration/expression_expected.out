@@ -1,9 +1,4 @@
-mock:1:1: Expecting an expression.
+mock:1:11: Expecting an expression.
 
 {var $a = }
           ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateDeclarationBlockSourceToTstParser

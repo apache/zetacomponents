@@ -1,11 +1,4 @@
-mock:1:1: Missing ending brace or comma for the function call.
+mock:1:16: Expecting a closing parentheses: ')' or a comma ','
 
 {math_add( a() b() )}
                ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateExpressionBlockSourceToTstParser
-   -> ezcTemplateExpressionSourceToTstParser
-    -> ezcTemplateFunctionCallSourceToTstParser

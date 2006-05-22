@@ -1,10 +1,4 @@
-mock:1:1: The symbol <$a> is not declared
+mock:1:2: The symbol <$a> is not declared
 
 {$a[] = 2}
  ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateExpressionBlockSourceToTstParser
-   -> ezcTemplateExpressionSourceToTstParser

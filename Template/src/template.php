@@ -204,7 +204,7 @@ class ezcTemplate
      *
      * @return string
      *
-     * @throws Exception, ezcTemplateSourceToTstParserException, ezcTemplateParserException
+     * @throws ezcTemplateParserException
      *         If the template could not be compiled.
      * @throws ezcTemplateFileNotWriteableException
      *         If the directory could not be created.

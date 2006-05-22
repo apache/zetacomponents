@@ -145,7 +145,7 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
             $this->findNextElement();
             if( !$cursor->match( ')' ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_FUNCTION_EXPECTS_END_BRACE );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ROUND_BRACKET_CLOSE );
             }
 
             $this->functionCall->endCursor = clone $cursor;
@@ -166,7 +166,7 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
 
             if ( !$cursor->match(',') )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, self::MSG_FUNCTION_EXPECTS_END_BRACE_OR_COMMA );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ROUND_BRACKET_CLOSE_OR_COMMA );
             }
 
             $this->findNextElement();
@@ -177,7 +177,7 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
 
             if( !$this->parseParameter( $cursor ) )
             {
-                throw new ezcTemplateSourceToTstParserException( $this, $cursor, sprintf( self::MSG_PARAMETER_EXPECTS_EXPRESSION, $this->parameterCount ) );
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor,  sprintf( ezcTEmplateSourceToTstErrorMessages::MSG_PARAMETER_EXPECTS_EXPRESSION, $this->parameterCount ) );
             }
 
         }

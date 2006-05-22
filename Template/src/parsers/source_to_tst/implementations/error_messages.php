@@ -35,6 +35,11 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_UNEXPECTED_TOKEN                  = "Unexpected token: %s";
     const MSG_UNEXPECTED_BREAK_OR_CONTINUE      = "Cannot break or continue outside a loop.";
 
+    // Invalid
+    const MSG_INVALID_VARIABLE_NAME             = "The variable name is invalid.";
+    const MSG_INVALID_OPERATOR_ON_CYCLE         = "This operator cannot be used on a cycle.";
+    const MSG_INVALID_IDENTIFIER                = "Invalid identifier";
+
 
     //  expected brackets
     const MSG_EXPECT_CURLY_BRACKET_OPEN         = "Expecting an opening curly bracket: '{'";
@@ -55,14 +60,16 @@ class ezcTemplateSourceToTstErrorMessages
 
     // Uppercase problems
     const MSG_ARRAY_NOT_LOWERCASE               = "The array identifier must consist of lowercase characters only.";
+    const MSG_BOOLEAN_NOT_LOWERCASE             = "Boolean type must use lowercase characters only.";
 
+    // Other
     const MSG_TYPEHINT_FAILURE                  = "The types (array or value) are not correctly used with this operator.";
 
 
     const MSG_EXPECT_ARRAY                      = "Expecting an array.";
     const MSG_EXPECT_VALUE_NOT_ARRAY            = "Expecting a value and not an array.";
+    const MSG_PARAMETER_EXPECTS_EXPRESSION      = "Parameter %s expects a value.";
 
-    const MSG_INVALID_OPERATOR_ON_CYCLE         = "This operator cannot be used on a cycle.";
 
     const MSG_DEFAULT_DUPLICATE                 = "Expecting {/switch}. ('default' can be available only once in the switch)";
     const MSG_DEFAULT_LAST                      = "Expecting {/switch}. ('default' is expected to be the last case of the switch.)";
@@ -76,6 +83,9 @@ class ezcTemplateSourceToTstErrorMessages
 
     // Inconsistencies with eZ publish 3.
     const LNG_INVALID_NAMESPACE_MARKER          = "The namespace marker (:) was used in template engine in eZ publish 3.x but is no longer allowed.";
+    const LNG_INVALID_NAMESPACE_ROOT_MARKER = "The namespace-root marker (#) was used in the template engine of eZ publish 3.x but it's no longer allowed.";
+
+
 }
 
 

@@ -1,13 +1,4 @@
-mock:1:10: Expecting a literal
+mock:1:27: Expecting a literal
 
 {var $a = array( "aap" => }
                           ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateDeclarationBlockSourceToTstParser
-   -> ezcTemplateExpressionSourceToTstParser
-    -> ezcTemplateLiteralSourceToTstParser
-     -> ezcTemplateArraySourceToTstParser
-      -> ezcTemplateExpressionSourceToTstParser

@@ -1,8 +1,4 @@
-mock:1:1: Unknown block <str_len>.
+mock:1:2: Unknown block <str_len>.
 
-{str_len "a
+{str_len "abc" )}
  ^
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser

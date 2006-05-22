@@ -1,10 +1,5 @@
-mock:1:1: Unexpected token: :
+mock:1:9: Unexpected token: :
 
 {var $aa:bb}
         ^
 The namespace marker (:) was used in template engine in eZ publish 3.x but is no longer allowed.
-
-failed in:
-ezcTemplateProgramSourceToTstParser
- -> ezcTemplateBlockSourceToTstParser
-  -> ezcTemplateDeclarationBlockSourceToTstParser
