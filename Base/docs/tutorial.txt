@@ -8,7 +8,9 @@ Introduction
 
 The Base component provides the basic functionality that the components need to
 function properly. As every other component depends on the Base package for
-e.g. autoloading, the Base component needs to be loaded specifically. 
+e.g. autoloading, the Base component needs to be loaded specifically.
+Also Base provides way for autoloading external class repositories from
+outside the eZ components.
 
 Besides the autoload functionality the Base component also contains a number of
 generic Exception classes that all inherit from the ezcBaseException class.
@@ -23,6 +25,74 @@ for instructions on installation and configuration of the eZ components library
 and the Base component.
 
 .. _Components Introduction: http://ez.no/community/articles/an_introduction_to_ez_components
+
+
+Usage
+=====
+
+Adding class repositories located outside eZ components to autoload system
+--------------------------------------------------------------------------
+
+There could be comfortable to add repositories of user defined 
+classes to eZ components autoload system. 
+addClassRepository() method should be used to perform this task.
+At first arrange desired external classes in class repository, 
+i.e. make sure that classes and correspondent *_autoload.php files
+are named and placed accordingly to explanations above ).
+Than call addClassRepository() with according parameters somewhere 
+in code before external classes are used. 
+External classes will be loaded by autoload system.
+
+addClassRepository() takes two arguments: 
+- $basePath is the base path for the whole class repository.
+- $autoloadDirPath the path where autoload files for this repository are found. 
+
+The paths in the autoload files are relative to the package directory
+as specified by the $basePath argument. I.e. class definition file will
+be searched at location $basePath + path to the class definition 
+file as stored in the autoload file.
+
+Example:
+Take the following facts:
+
+- there is a class repository stored in the directory "./repos"
+- autoload files for that repository are stored in "./repos/autoloads"
+- there are two components in this repository: "Me" and "You"
+- the "Me" component has the classes "erMyClass1" and "erMyClass2"
+- the "You" component has the classes "erYourClass1" and "erYourClass2"
+
+In this case you need to create the following files in
+"./repos/autoloads". Please note that the part before _autoload.php in
+the filename is the first part of the classname, not considering
+the all lower-case letter prefix.
+
+Content of my_autoload.php:
+
+.. include:: repos/autoloads/my_autoload.php
+   :literal:
+
+Content of your_autoload.php:
+
+.. include:: repos/autoloads/your_autoload.php
+   :literal:
+ 
+The directory structure for the external repository is then:
+./repos/autoloads/my_autoload.php
+./repos/autoloads/your_autoload.php
+./repos/Me/myclass1.php
+./repos/Me/myclass2.php
+./repos/You/yourclass1.php
+./repos/You/yourclass2.php
+
+To use this repository with the autoload mechanism you have to use the
+following code:
+
+.. include:: tutorial_example_01.php
+   :literal:
+
+ The above code will result output:
+Class 'erMyClass2'
+Class 'erYourClass1'
 
 
 ..
