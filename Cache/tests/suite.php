@@ -19,6 +19,10 @@ require_once 'manager_test.php';
  */
 require_once 'storage_file_test.php';
 /**
+ * Require file storage test suite. 
+ */
+require_once 'storage_options_test.php';
+/**
  * Require array storage test suite. 
  */
 require_once 'storage_array_test.php';
@@ -48,6 +52,7 @@ class ezcCacheSuite extends ezcTestSuite
         $this->addTest( ezcCacheStorageFileEvalArrayTest::suite() );
         $this->addTest( ezcCacheStorageFilePlainTest::suite() );
         $this->addTest( ezcCacheStorageFileTest::suite() );
+        $this->addTest( ezcCacheStorageOptionsTest::suite() );
         $this->addTest( ezcCacheManagerTest::suite() );
     }
 

@@ -288,5 +288,74 @@ abstract class ezcCacheStorage
             throw new ezcBaseValueException( "options", $options, "array or instance of ezcCacheStorageOptions" );
         }
     }
+
+    
+    /**
+     * Property read access.
+     *
+     * @throws ezcBasePropertyNotFoundException 
+     *         If the the desired property is not found.
+     * 
+     * @param string $propertyName Name of the property.
+     * @return mixed Value of the property or null.
+     */
+    public function __get( $propertyName )
+    {
+        switch ( $propertyName ) 
+        {
+            case 'options':
+                return $this->options;
+            default:
+                break;
+        }
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+
+    /**
+     * Property write access.
+     * 
+     * @param string $propertyName Name of the property.
+     * @param mixed $val  The value for the property.
+     *
+     * @throws ezcBaseValueException 
+     *         If a the value for the property options is not an instance of 
+     *         ezcCacheStorageOptions. 
+     * @return void
+     */
+    public function __set( $propertyName, $val )
+    {
+        switch ( $propertyName ) 
+        {
+            case 'options':
+                if ( !( $val instanceof ezcCacheStorageOptions ) )
+                {
+                    throw new ezcBaseValueException( $key, $val, 'ezcCacheStorageOptions' );
+                }
+                $this->options = $val;
+                return;
+            default:
+                break;
+        }
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+    
+    /**
+     * Property isset access.
+     * 
+     * @param string $propertyName Name of the property.
+     * @return bool True is the property is set, otherwise false.
+     */
+    public function __isset( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'options':
+            default:
+                break;
+        }
+        return false;
+    }
+
+
 }
 ?>
