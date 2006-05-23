@@ -149,14 +149,26 @@ The query will fetch the ten first quotes by Robert Foster sorted by the quote i
 Note that string parameters must be either bound using 
 ezcQuery::bindParam()/ezcQueryBindValue() or escaped and quoted manually.
 
-The final example shows that you in a similar way to the SELECT query can
+The next example shows that you in a similar way to the SELECT query can
 insert, update and delete rows from a table using the query abstraction layer.
 
-The final example shows how to create and use basic INSERT, UPDATE and DELETE
+The example shows how to create and use basic INSERT, UPDATE and DELETE
 query objects.
 
 .. include:: tutorial_example_06.php
    :literal:
+
+The next examples shows how to use multi-join syntax to build 
+queries with several joined tables using inner, right or left join.
+
+.. include:: tutorial_example_07.php
+   :literal:
+   
+The final example shows how to build subselect queries inside SELECT
+
+.. include:: tutorial_example_08.php
+   :literal:
+
 
 Avoiding SQL injection
 ======================
