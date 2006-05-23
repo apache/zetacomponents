@@ -93,6 +93,10 @@ class ezcConsoleStatusbar
                 return $this->options;
                 break;
         }
+        if ( isset( $this->options->$key ) )
+        {
+            return $this->options->$key;
+        }
         throw new ezcBasePropertyNotFoundException( $key );
     }
 
@@ -110,7 +114,7 @@ class ezcConsoleStatusbar
      *         If the value is not valid for the desired option.
      * @throws ezcBaseValueException
      *         If you submit neither an array nor an instance of 
-     *         ezcCacheStorageOptions.
+     *         ezcConsoleOutputOptions.
      */
     public function setOptions( $options ) 
     {

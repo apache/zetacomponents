@@ -186,14 +186,12 @@ class ezcConsoleOutput
      * @param ezcConsoleOutputOptions $options The options to set.
      *
      * @throws ezcBaseSettingNotFoundException
-     *         If you tried to set a non-existent option value. The accpeted 
-     *         options depend on th ezcCacheStorage implementation and my 
-     *         vary.
+     *         If you tried to set a non-existent option value. 
      * @throws ezcBaseSettingValueException
      *         If the value is not valid for the desired option.
      * @throws ezcBaseValueException
      *         If you submit neither an array nor an instance of 
-     *         ezcCacheStorageOptions.
+     *         ezcConsoleOutputOptions.
      */
     public function setOptions( $options ) 
     {

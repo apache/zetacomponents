@@ -34,6 +34,10 @@ require_once 'input_test.php';
  */
 require_once 'table_test.php';
 /**
+ * Require test suite for ezcConsoleTableOptions class.
+ */
+require_once 'table_options_test.php';
+/**
  * Require test suite for ezcConsoleTable class.
  */
 require_once 'table_row_test.php';
@@ -46,13 +50,25 @@ require_once 'table_cell_test.php';
  */
 require_once 'progressbar_test.php';
 /**
+ * Require test suite for ezcConsoleProgressbar class.
+ */
+require_once 'progressbar_options_test.php';
+/**
  * Require test suite for ezcConsoleStatusbar class.
  */
 require_once 'statusbar_test.php';
 /**
+ * Require test suite for ezcConsoleStatusbarOptions class.
+ */
+require_once 'statusbar_options_test.php';
+/**
  * Require test suite for ezcConsoleProgressMonitor class.
  */
 require_once 'progressmonitor_test.php';
+/**
+ * Require test suite for ezcConsoleProgressMonitor class.
+ */
+require_once 'progressmonitor_options_test.php';
     
 /**
  * Test suite for ConsoleTools package.
@@ -75,9 +91,13 @@ class ezcConsoleToolsSuite extends ezcTestSuite
 		$this->addTest( ezcConsoleToolsTableCellTest::suite() );
 		$this->addTest( ezcConsoleToolsTableRowTest::suite() );
 		$this->addTest( ezcConsoleToolsTableTest::suite() );
+		$this->addTest( ezcConsoleToolsTableOptionsTest::suite() );
 		$this->addTest( ezcConsoleToolsProgressbarTest::suite() );
+		$this->addTest( ezcConsoleToolsProgressbarOptionsTest::suite() );
 		$this->addTest( ezcConsoleToolsStatusbarTest::suite() );
+		$this->addTest( ezcConsoleToolsStatusbarOptionsTest::suite() );
 		$this->addTest( ezcConsoleToolsProgressMonitorTest::suite() );
+		$this->addTest( ezcConsoleToolsProgressMonitorOptionsTest::suite() );
 	}
 
     public static function suite()

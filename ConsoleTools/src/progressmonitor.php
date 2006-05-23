@@ -95,6 +95,52 @@ class ezcConsoleProgressMonitor
         }
         throw new ezcBasePropertyNotFoundException( $key );
     }
+    
+    /**
+     * Property write access.
+     * 
+     * @param string $propertyName Name of the property.
+     * @param mixed $val  The value for the property.
+     *
+     * @throws ezcBaseValueException 
+     *         If a the value for the property options is not an instance of 
+     *         ezcConsoleProgressMonitorOptions. 
+     * @return void
+     */
+    public function __set( $propertyName, $val )
+    {
+        switch ( $propertyName ) 
+        {
+            case 'options':
+                if ( !( $val instanceof ezcConsoleProgressMonitorOptions ) )
+                {
+                    throw new ezcBaseValueException( $key, $val, 'ezcConsoleProgressMonitorOptions' );
+                }
+                $this->options = $val;
+                return;
+            default:
+                break;
+        }
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+    
+    
+    /**
+     * Property isset access.
+     * 
+     * @param string $propertyName Name of the property.
+     * @return bool True is the property is set, otherwise false.
+     */
+    public function __isset( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'options':
+            default:
+                break;
+        }
+        return false;
+    }
 
     /**
      * Set new options.
@@ -110,7 +156,7 @@ class ezcConsoleProgressMonitor
      *         If the value is not valid for the desired option.
      * @throws ezcBaseValueException
      *         If you submit neither an array nor an instance of 
-     *         ezcCacheStorageOptions.
+     *         ezcConsoleProgressMonitorOptions.
      */
     public function setOptions( $options ) 
     {

@@ -171,7 +171,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      *         If the value is not valid for the desired option.
      * @throws ezcBaseValueException
      *         If you submit neither an array nor an instance of 
-     *         ezcCacheStorageOptions.
+     *         ezcConsoleTableOptions.
      */
     public function setOptions( $options = array() ) 
     {

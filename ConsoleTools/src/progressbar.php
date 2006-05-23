@@ -156,7 +156,7 @@ class ezcConsoleProgressbar
      *         If the value is not valid for the desired option.
      * @throws ezcBaseValueException
      *         If you submit neither an array nor an instance of 
-     *         ezcCacheStorageOptions.
+     *         ezcConsoleProgresbarOptions.
      */
     public function setOptions( $options ) 
     {
