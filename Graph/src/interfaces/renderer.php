@@ -15,6 +15,14 @@
  */
 abstract class ezcGraphRenderer
 {
+
+    protected $driver;
+
+    public function setDriver( ezcGraphDriver $driver )
+    {
+        $this->driver = $driver;
+    }
+
     /**
      * Draw a pie segment
      * 
@@ -25,7 +33,7 @@ abstract class ezcGraphRenderer
      * @param float $moveOut 
      * @return void
      */
-    abstract public function drawPieSegment( ezcGraphCoordinate $position, $radius, $startAngle = .0, $endAngle = 360., $moveOut = .0 );
+    abstract public function drawPieSegment( ezcGraphColor $color, ezcGraphCoordinate $position, $radius, $startAngle = .0, $endAngle = 360., $moveOut = .0 );
     
     /**
      * Draw a line
@@ -38,7 +46,7 @@ abstract class ezcGraphRenderer
      * @param mixed $filled 
      * @return void
      */
-    abstract public function drawLine( ezcGraphCoordinate $position, ezcGraphCoordinate $end, $filled = true );
+    abstract public function drawLine( ezcGraphColor $color, ezcGraphCoordinate $position, ezcGraphCoordinate $end, $filled = true );
     
     /**
      * Draws a text box
@@ -49,7 +57,7 @@ abstract class ezcGraphRenderer
      * @param mixed $height 
      * @return void
      */
-    abstract public function drawTextBox( ezcGraphCoordinate $position, $text, $width = null, $height = null );
+    abstract public function drawTextBox( ezcGraphCoordinate $position, $text, $width = null, $height = null, $align = ezcGraph::LEFT );
     
     /**
      * Draws a rectangle
@@ -96,5 +104,5 @@ abstract class ezcGraphRenderer
      * @param int $symbol 
      * @return void
      */
-    abstract public function drawSymbol( ezcGraphCoordinate $position, $width, $height, $symbol = ezcGraph::NO_SYMBOL);
+    abstract public function drawSymbol( ezcGraphColor $color, ezcGraphCoordinate $position, $width, $height, $symbol = ezcGraph::NO_SYMBOL);
 }

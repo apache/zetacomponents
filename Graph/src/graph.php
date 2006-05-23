@@ -15,12 +15,14 @@
 class ezcGraph
 {
 
+    const NO_SYMBOL = 0;
     const DIAMOND = 1;
 
     const TOP = 1;
     const BOTTOM = 2;
     const LEFT = 3;
     const RIGHT = 4;
+    const CENTER = 5;
 
     static protected $chartTypes = array(
         'pie'   => 'ezcGraphPieChart',

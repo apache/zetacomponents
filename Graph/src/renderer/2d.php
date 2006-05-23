@@ -12,8 +12,9 @@
  *
  * @package Graph
  */
-class ezcGraphRenderer2D extends ezcGraphRenderer {
-    
+class ezcGraphRenderer2D extends ezcGraphRenderer
+{
+
     /**
      * Draw a pie segment
      * 
@@ -22,10 +23,9 @@ class ezcGraphRenderer2D extends ezcGraphRenderer {
      * @param float $startAngle 
      * @param float $endAngle 
      * @param float $moveOut 
-     * @access public
      * @return void
      */
-    public function drawPieSegment( ezcGraphCoordinate $position, $radius, $startAngle = .0, $endAngle = 360., $moveOut = .0 )
+    public function drawPieSegment( ezcGraphColor $color, ezcGraphCoordinate $position, $radius, $startAngle = .0, $endAngle = 360., $moveOut = .0 )
     {
         
     }
@@ -39,10 +39,9 @@ class ezcGraphRenderer2D extends ezcGraphRenderer {
      * @param ezcGraphCoordinate $position 
      * @param ezcGraphCoordinate $end 
      * @param mixed $filled 
-     * @access public
      * @return void
      */
-    public function drawLine( ezcGraphCoordinate $position, ezcGraphCoordinate $end, $filled = true )
+    public function drawLine( ezcGraphColor $color, ezcGraphCoordinate $position, ezcGraphCoordinate $end, $filled = true )
     {
         
     }
@@ -54,10 +53,9 @@ class ezcGraphRenderer2D extends ezcGraphRenderer {
      * @param mixed $text 
      * @param mixed $width 
      * @param mixed $height 
-     * @access public
      * @return void
      */
-    public function drawTextBox( ezcGraphCoordinate $position, $text, $width = null, $height = null )
+    public function drawTextBox( ezcGraphCoordinate $position, $text, $width = null, $height = null, $align = ezcGraph::LEFT )
     {
         
     }
@@ -70,7 +68,6 @@ class ezcGraphRenderer2D extends ezcGraphRenderer {
      * @param mixed $width 
      * @param mixed $height 
      * @param float $borderWidth 
-     * @access public
      * @return void
      */
     public function drawRect( ezcGraphColor $color, ezcGraphCoordinate $position = null, $width = null, $height = null, $borderWidth = 1 )
@@ -87,7 +84,6 @@ class ezcGraphRenderer2D extends ezcGraphRenderer {
      * @param ezcGraphCoordinate $position 
      * @param mixed $width 
      * @param mixed $height 
-     * @access public
      * @return void
      */
     public function drawBackground( ezcGraphColor $color, ezcGraphCoordinate $position = null, $width = null, $height = null )
@@ -102,7 +98,6 @@ class ezcGraphRenderer2D extends ezcGraphRenderer {
      * @param ezcGraphCoordinate $position 
      * @param mixed $width 
      * @param mixed $height 
-     * @access public
      * @return void
      */
     public function drawBackgroundImage( $file, ezcGraphCoordinate $position = null, $width = null, $height = null )
@@ -117,10 +112,9 @@ class ezcGraphRenderer2D extends ezcGraphRenderer {
      * @param float $width 
      * @param float $height 
      * @param int $symbol 
-     * @access public
      * @return void
      */
-    public function drawSymbol( ezcGraphCoordinate $position, $width, $height, $symbol = ezcGraph::NO_SYMBOL)
+    public function drawSymbol( ezcGraphColor $color, ezcGraphCoordinate $position, $width, $height, $symbol = ezcGraph::NO_SYMBOL)
     {
         
     }

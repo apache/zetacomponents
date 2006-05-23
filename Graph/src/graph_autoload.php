@@ -50,7 +50,7 @@ return array(
     'ezcGraphUnknownDatasetSourceException'     => 'Graph/exceptions/unknown_dataset_source.php',
 
     'ezcGraphBoundings'                         => 'Graph/structs/boundings.php',
-    'ezcGraphCoordiinate'                       => 'Graph/structs/coordinate.php',
+    'ezcGraphCoordinate'                        => 'Graph/structs/coordinate.php',
 );
 
 ?>

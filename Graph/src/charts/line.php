@@ -50,7 +50,7 @@ class ezcGraphLineChart extends ezcGraphChart
 
         foreach ( $this->elements as $element )
         {
-            $boundings = $element->render( $boundings );
+            $boundings = $element->render( $this->renderer, $boundings );
         }
 
         // Render graph

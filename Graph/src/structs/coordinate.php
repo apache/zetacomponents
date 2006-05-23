@@ -9,8 +9,10 @@ class ezcGraphCoordinate
     /**
      * Empty constructor
      */
-    public function __construct()
+    public function __construct( $x, $y )
     {
+        $this->x = $x;
+        $this->y = $y;
     }
 
     /**

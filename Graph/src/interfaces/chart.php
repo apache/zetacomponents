@@ -83,7 +83,9 @@ abstract class ezcGraphChart
             case 'renderer':
                 if ( $propertyValue instanceof ezcGraphRenderer )
                 {
-                    return $this->renderer = $propertyValue;
+                    $this->renderer = $propertyValue;
+                    $this->renderer->setDriver( $this->driver );
+                    return $this->renderer;
                 }
                 else 
                 {
@@ -93,7 +95,9 @@ abstract class ezcGraphChart
             case 'driver':
                 if ( $propertyValue instanceof ezcGraphDriver )
                 {
-                    return $this->driver = $propertyValue;
+                    $this->driver = $propertyValue;
+                    $this->renderer->setDriver( $this->driver );
+                    return $this->driver;
                 }
                 else 
                {

@@ -56,6 +56,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
         {
             $chart = ezcGraph::create( 'Line' );
             $chart->sample = array( 2000 => 20, 70, 12, 130 );
+            $chart->sample->color = '#FF0000';
             $chart->render( 500, 200 );
         }
         catch ( Exception $e ) 
@@ -80,7 +81,9 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
         {
             $chart = ezcGraph::create( 'Line' );
             $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+            $chart->sample->color = '#FF0000';
             $chart->sample2 = array( 2002 => 1270, 1170, 1610, 1370 );
+            $chart->sample2->color = '#00FF00';
             $chart->render( 500, 200 );
         }
         catch ( Exception $e ) 
@@ -107,7 +110,9 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
         {
             $chart = ezcGraph::create( 'Line' );
             $chart->sample = array( 2000 => 1045, 2001 => 1300, 2004 => 1012, 2006 => 1450 );
+            $chart->sample->color = '#FF0000';
             $chart->sample2 = array( 2001 => 1270, 1170, 1610, 1370, 1559 );
+            $chart->sample2->color = '#00FF00';
             $chart->render( 500, 200 );
         }
         catch ( Exception $e ) 

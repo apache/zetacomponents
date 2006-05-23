@@ -21,6 +21,7 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
      *      array(
      *          'label' => (string) 'Label of data element',
      *          'color' => (ezcGraphColor) $color,
+     *          'symbol' => (integer) ezcGraph::DIAMOND,
      *      ),
      *      ...
      *  )
@@ -28,6 +29,44 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
      * @var array
      */
     protected $labels;
+
+    /**
+     * Size of a portrait style legend in percent of the size of the complete 
+     * chart
+     * 
+     * @var float
+     */
+    protected $portraitSize = .2;
+
+    /**
+     * Size of a landscape style legend in percent of the size of the complete 
+     * chart
+     * 
+     * @var float
+     */
+    protected $landscapeSize = .1;
+
+    /**
+     * Standard size of symbols and text in legends 
+     * 
+     * @var integer
+     */
+    protected $symbolSize = 14;
+
+    /**
+     * Padding for label elements 
+     * 
+     * @var integer
+     */
+    protected $padding = 1;
+
+    /**
+     * Scale symbol size up to to percent of complete legends size for very
+     * big legends
+     * 
+     * @var float
+     */
+    protected $minimumSymbolSize = .05;
 
     /**
      * Generate legend from several datasets with on entry per dataset
@@ -43,6 +82,9 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
             $this->labels[] = array(
                 'label' => $dataset->label->default,
                 'color' => $dataset->color->default,
+                'symbol' => ( $dataset->symbol->default === null ?
+                              ezcGraph::NO_SYMBOL :
+                              $dataset->symbol->default ),
             );
         }
     }
@@ -61,10 +103,117 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
             $this->labels[] = array(
                 'label' => $label,
                 'color' => $dataset->color[$label],
+                'symbol' => ( $dataset->symbol[$label] === null ?
+                              ezcGraph::NO_SYMBOL :
+                              $dataset->symbol[$label] ),
             );
         }
     }
     
+    protected function calculateBoundings( ezcGraphBoundings $boundings )
+    {
+        switch ( $this->position )
+        {
+            case ezcGraph::TOP:
+                $this->boundings = clone $boundings;
+
+                $this->boundings->y1 = $boundings->y0 + ($boundings->y1 - $boundings->y0) * $this->landscapeSize;
+                $boundings->y0 = $boundings->y0 + ($boundings->y1 - $boundings->y0) * $this->landscapeSize;
+                break;
+            case ezcGraph::LEFT:
+                $this->boundings = clone $boundings;
+
+                $this->boundings->x1 = $boundings->x0 + ($boundings->x1 - $boundings->x0) * $this->portraitSize;
+                $boundings->x0 = $boundings->x0 + ($boundings->x1 - $boundings->x0) * $this->portraitSize;
+                break;
+            case ezcGraph::RIGHT:
+                $this->boundings = clone $boundings;
+
+                $this->boundings->x0 = $boundings->x1 - ($boundings->x1 - $boundings->x0) * $this->portraitSize;
+                $boundings->x1 = $boundings->x1 - ($boundings->x1 - $boundings->x0) * $this->portraitSize;
+                break;
+            case ezcGraph::BOTTOM:
+                $this->boundings = clone $boundings;
+
+                $this->boundings->y0 = $boundings->y1 - ($boundings->y1 - $boundings->y0) * $this->landscapeSize;
+                $boundings->y1 = $boundings->y1 - ($boundings->y1 - $boundings->y0) * $this->landscapeSize;
+                break;
+        }
+
+        return $boundings;
+    }
+
+    protected function renderLegend( ezcGraphRenderer $renderer )
+    {
+        switch ( $this->position )
+        {
+            case ezcGraph::LEFT:
+            case ezcGraph::RIGHT:
+                $symbolSize = min(
+                    max(
+                        $this->symbolSize,
+                        ( $this->boundings->y1 - $this->boundings->y0 ) * $this->minimumSymbolSize
+                    ),
+                    ( $this->boundings->y1 - $this->boundings->y0 ) / count( $this->labels )
+                );
+
+                foreach ( $this->labels as $labelNr => $label )
+                {
+                    $renderer->drawSymbol(
+                        $label['color'],
+                        new ezcGraphCoordinate( 
+                            $this->boundings->x0 + $this->padding,
+                            $this->boundings->y0 + $labelNr * $symbolSize + $this->padding
+                        ),
+                        $symbolSize - 2 * $this->padding,
+                        $symbolSize - 2 * $this->padding,
+                        $label['symbol']
+                    );
+                    $renderer->drawTextBox(
+                        new ezcGraphCoordinate(
+                            $this->boundings->x0 + $symbolSize,
+                            $this->boundings->y0 + $labelNr * $symbolSize + $this->padding
+                        ),
+                        $label['label'],
+                        $this->boundings->x1 - $this->boundings->x0 - $symbolSize - $this->padding,
+                        $symbolSize - 2 * $this->padding
+                    );
+                }
+                break;
+            case ezcGraph::TOP:
+            case ezcGraph::BOTTOM:
+                $symbolSize = min(
+                    $this->symbolSize,
+                    ( $this->boundings->y1 - $this->boundings->y0 )
+                );
+                $width = ( $this->boundings->x1 - $this->boundings->x0 ) / count( $this->labels );
+
+                foreach ( $this->labels as $labelNr => $label )
+                {
+                    $renderer->drawSymbol(
+                        $label['color'],
+                        new ezcGraphCoordinate( 
+                            $this->boundings->x0 + $labelNr * $width + $this->padding,
+                            $this->boundings->y0 + $this->padding
+                        ),
+                        $symbolSize - 2 * $this->padding,
+                        $symbolSize - 2 * $this->padding,
+                        $label['symbol']
+                    );
+                    $renderer->drawTextBox(
+                        new ezcGraphCoordinate(
+                            $this->boundings->x0 + $labelNr * $width + $this->padding + $symbolSize,
+                            $this->boundings->y0 + $this->padding
+                        ),
+                        $label['label'],
+                        $width - $this->padding - $symbolSize,
+                        $symbolSize - 2 * $this->padding
+                    );
+                }
+                break;
+        }
+    }
+
     /**
      * Render a legend
      * 
@@ -72,8 +221,18 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
      * @access public
      * @return void
      */
-    public function render( ezcGraphBoundings $boundings )
+    public function render( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings )
     {
+        $boundings = $this->calculateBoundings( $boundings );
+        
+        // Render standard elements
+        $this->renderBorder( $renderer );
+        $this->renderBackground( $renderer );
+        $this->renderTitle( $renderer );
+
+        // Render legend
+        $this->renderLegend( $renderer );
+
         return $boundings;  
     }
 }

@@ -21,7 +21,7 @@ class ezcGraphChartElementText extends ezcGraphChartElement
      * @access public
      * @return void
      */
-    public function render( ezcGraphBoundings $boundings )
+    public function render( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings )
     {
         return $boundings;
     }
