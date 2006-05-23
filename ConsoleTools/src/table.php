@@ -191,7 +191,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
 
     /**
      * Returns the current options.
-     * Returns the options currently set for this output handler.
+     * Returns the options currently set for this table.
      * 
      * @return ezcConsoleTableOptions The current options.
      */
