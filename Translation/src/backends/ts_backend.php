@@ -33,7 +33,7 @@
  * <code>
  * <?php
  * $backend = new ezcTranslationTsBackend( "files/translations" );
- * $backend->setOptions( array ( 'format' => '[LOCALE].xml' ) );
+ * $backend->options->format = '[LOCALE].xml';
  * $backend->initReader( 'nb-no' );
  * $backend->next();
  * 
@@ -52,7 +52,7 @@
  * <code>
  * <?php
  * $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
- * $backend->setOptions( array ( 'format' => '[LOCALE].xml' ) );
+ * $backend->options->format = '[LOCALE].xml';
  * $backend->initReader( 'nb-no' );
  * 
  * $contexts = array();
@@ -69,26 +69,6 @@
  */
 class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationContextRead
 {
-    /**
-     * Path to the directory that contains all TS .xml files.
-     *
-     * @var string
-     */
-    private $tsLocationPath;
-
-    /**
-     * Format for the translation file's name
-     *
-     * In this format string the special place holder [LOCALE] will be replaced
-     * with the requested locale's name. For example a format of
-     * "translations/[LOCALE].xml" will result in the filename for the
-     * translation file to be "translations/nl_NL.xml" if the nl_NL locale is
-     * requested.
-     *
-     * @var string
-     */
-    private $tsFilenameFormat = '[LOCALE].xml';
-
     /**
      * The last read context, as read by next() method.
      *
@@ -118,6 +98,13 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
     private $xmlParser = null;
 
     /**
+     * Options
+     * 
+     * @var ezcTranslationTsBackendOptions
+     */
+    protected $options;
+
+    /**
      * Constructs a new ezcTranslationTsBackend that will use the file specified by $location.
      *
      * You can specify additional options through the $options parameter. See
@@ -134,61 +121,55 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
         {
             throw new ezcTranslationNotConfiguredException( $location );
         }
-        $this->setOptions( array( 'location' => $location ) );
-        $this->setOptions( $options );
+        $this->options = new ezcTranslationTsBackendOptions( $options );
+        $this->options->location = $location;
     }
 
     /**
-     * Sets the configuration options $configurationData.
+     * Set new options.
+     * This method allows you to change the options of the translation backend.
+     *  
+     * @param ezcTranslationTsBackendOptions $options The options to set.
      *
-     * This backend accepts two settings which can be set through this
-     * function. The two options are 'location' that specifies the directory to
-     * the translation files and 'format' that specifies the of the
-     * translation's filename. See {@link ezcTsBackend::$tsFilenameFormat} on
-     * how this format works.  The options will be stored in the private
-     * properties $tsLocationPath and $tsFilenameFormat.
-     *
-     * Example:
-     * <code>
-     * <?php
-     *     $be = new ezcTranslationTsBackend();
-     *     $be->setOptions(
-     *         array( 'location' => 'usr/share/translations',
-     *                'format'   => 'translation-[LOCALE].xml' )
-     *     );
-     * ?>
-     * </code>
-     *
-     * @param array $configurationData
-     * @throws ezcBaseSettingNotFoundException if an unknown setting is passed.
-     * @return void
+     * @throws ezcBaseSettingNotFoundException
+     *         If you tried to set a non-existent option value.
+     * @throws ezcBaseSettingValueException
+     *         If the value is not valid for the desired option.
+     * @throws ezcBaseValueException
+     *         If you submit neither an array nor an instance of 
+     *         ezcTranslationTsBackendOptions.
      */
-    public function setOptions( array $configurationData )
+    public function setOptions( $options ) 
     {
-        foreach ( $configurationData as $name => $value )
+        if ( is_array( $options ) ) 
         {
-            switch ( $name )
-            {
-                case 'location':
-                    if ( $value[strlen( $value ) - 1] != '/' )
-                    {
-                        $value .= '/';
-                    }
-                    $this->tsLocationPath = $value;
-                    break;
-                case 'format':
-                    $this->tsFilenameFormat = $value;
-                    break;
-                default:
-                    throw new ezcBaseSettingNotFoundException( $name );
-            }
+            $this->options->merge( $options );
+        } 
+        else if ( $options instanceof ezcTranslationTsBackendOptions ) 
+        {
+            $this->options = $options;
         }
+        else
+        {
+            throw new ezcBaseValueException( "options", $options, "instance of ezcTranslationTsBackendOptions" );
+        }
+    }
+
+    /**
+     * Returns the current options.
+     * Returns the options currently set for this backend.
+     * 
+     * @return ezcTranslationTsBackendOptions The current options.
+     */
+    public function getOptions()
+    {
+        return $this->options;
     }
 
     /**
      * Returns the filename for the translation file using the locale $locale.
      *
-     * This function uses the <i>location</i> and <i>format</i> properties,
+     * This function uses the <i>location</i> and <i>format</i> options,
      * combined with the $locale parameter to form a filename that contains the
      * translation belonging to the specified locale.
      *
@@ -197,7 +178,7 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
      */
     public function buildTranslationFileName( $locale )
     {
-        $filename = $this->tsLocationPath . $this->tsFilenameFormat;
+        $filename = $this->options->location . $this->options->format;
         $filename = str_replace( '[LOCALE]', $locale, $filename );
         return $filename;
     }
@@ -268,8 +249,8 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
      * and the context $context.
      *
      * This method returns an array containing the translation map for the
-     * specified $locale and $context. It uses the $tsLocationPath and
-     * $tsFilenameFormat properties to locate the file, unless caching is
+     * specified $locale and $context. It uses the location and
+     * format options to locate the file, unless caching is
      * enabled.
      *
      * @throws ezcTranslationContextNotAvailableException if a context is not
@@ -479,5 +460,71 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
     {
         $this->next();
     }
+    
+    /**
+     * Property read access.
+     *
+     * @throws ezcBasePropertyNotFoundException 
+     *         If the the desired property is not found.
+     * 
+     * @param string $propertyName Name of the property.
+     * @return mixed Value of the property or null.
+     */
+    public function __get( $propertyName )
+    {
+        switch ( $propertyName ) 
+        {
+            case 'options':
+                return $this->options;
+            default:
+                break;
+        }
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+
+    /**
+     * Property write access.
+     * 
+     * @param string $propertyName Name of the property.
+     * @param mixed $val  The value for the property.
+     *
+     * @throws ezcBaseValueException 
+     *         If a the value for the property options is not an instance of 
+     *         ezcConsoleOutputOptions. 
+     * @return void
+     */
+    public function __set( $propertyName, $val )
+    {
+        switch ( $propertyName ) 
+        {
+            case 'options':
+                if ( !( $val instanceof ezcTranslationTsBackendOptions ) )
+                {
+                    throw new ezcBaseValueException( $key, $val, 'ezcTranslationTsBackendOptions' );
+                }
+                $this->options = $val;
+                return;
+            default:
+                break;
+        }
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+    
+    /**
+     * Property isset access.
+     * 
+     * @param string $propertyName Name of the property.
+     * @return bool True is the property is set, otherwise false.
+     */
+    public function __isset( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'options':
+                return true;
+        }
+        return false;
+    }
+
 }
 ?>

@@ -22,8 +22,9 @@ interface ezcTranslationBackend
     /**
      * Sets the backend specific $configurationData.
      *
-     * $configurationData should be a simple associative array in the
-     * form: array('option_name'=>'option_value').
+     * $configurationData should be an implementation of ezcBaseOptions (or, for
+     * sake of backwards compatibility an associative array). See 
+     * {@see ezcTranslationTsBackend} for an example implementation.
      *
      * Each implementor must document the options that it accepts and throw an
      * {@link ezcBaseConfigException} with the
@@ -33,7 +34,7 @@ interface ezcTranslationBackend
      * @param mixed $configurationData
      * @return void
      */
-    public function setOptions( array $configurationData );
+    public function setOptions( $configurationData );
 
     /**
      * Returns an array with translation data for the context $context and the locale

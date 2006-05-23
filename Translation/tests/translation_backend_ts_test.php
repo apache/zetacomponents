@@ -17,14 +17,14 @@ class ezcTranslationTsBackendTest extends ezcTestCase
     public function testConfigSetting()
     {
         $backend = new ezcTranslationTsBackend( 'tests/translations', array ( 'format' => 'test-[LOCALE].xml' ) );
-        self::assertPrivatePropertySame( $backend, 'tsFilenameFormat', 'test-[LOCALE].xml' );
+        self::assertSame( $backend->options->format, 'test-[LOCALE].xml' );
     }
 
     public function testConfigSettingAlternative()
     {
         $backend = new ezcTranslationTsBackend( 'tests/translations' );
         $backend->setOptions( array ( 'format' => 'test-[LOCALE].xml' ) );
-        self::assertPrivatePropertySame( $backend, 'tsFilenameFormat', 'test-[LOCALE].xml' );
+        self::assertSame( $backend->options->format, 'test-[LOCALE].xml' );
     }
 
     public function testConfigSettingBroken()

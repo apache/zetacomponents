@@ -20,6 +20,7 @@ return array(
     'ezcTranslationBorkFilter'            => 'Translation/filters/bork_filter.php',
     'ezcTranslationLeetFilter'            => 'Translation/filters/leet_filter.php',
     'ezcTranslationTsBackend'             => 'Translation/backends/ts_backend.php',
+    'ezcTranslationTsBackendOptions'      => 'Translation/options/ts_backend.php',
     'ezcTranslationData'                  => 'Translation/structs/translation_data.php',
 
     'ezcTranslationException'                       => 'Translation/exceptions/exception.php',
