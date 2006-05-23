@@ -270,7 +270,6 @@ class ezcConsoleProgressbar
             case 'max':
             case 'step':
                 return true;
-            default:
         }
         return false;
     }

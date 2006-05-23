@@ -488,8 +488,6 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
             case 'width':
             case 'cols':
                 return true;
-            default:
-                break;
         }
         return false;
     }

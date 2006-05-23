@@ -136,8 +136,7 @@ class ezcConsoleProgressMonitor
         switch ( $propertyName )
         {
             case 'options':
-            default:
-                break;
+                return true;
         }
         return false;
     }

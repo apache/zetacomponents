@@ -294,8 +294,6 @@ class ezcConsoleOutput
             case 'options':
             case 'formats':
                 return true;
-            default:
-                break;
         }
         return false;
     }
