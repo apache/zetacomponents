@@ -114,12 +114,10 @@ class ezcConsoleProgressMonitor
             case 'options':
                 if ( !( $val instanceof ezcConsoleProgressMonitorOptions ) )
                 {
-                    throw new ezcBaseValueException( $key, $val, 'ezcConsoleProgressMonitorOptions' );
+                    throw new ezcBaseValueException( $key, $val, 'instance of ezcConsoleProgressMonitorOptions' );
                 }
                 $this->options = $val;
                 return;
-            default:
-                break;
         }
         throw new ezcBasePropertyNotFoundException( $propertyName );
     }
@@ -148,9 +146,7 @@ class ezcConsoleProgressMonitor
      * @param ezcConsoleProgressMonitorOptions $options The options to set.
      *
      * @throws ezcBaseSettingNotFoundException
-     *         If you tried to set a non-existent option value. The accpeted 
-     *         options depend on th ezcCacheStorage implementation and my 
-     *         vary.
+     *         If you tried to set a non-existent option value. 
      * @throws ezcBaseSettingValueException
      *         If the value is not valid for the desired option.
      * @throws ezcBaseValueException
