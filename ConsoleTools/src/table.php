@@ -141,20 +141,31 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
     /**
      * Creates a new table.
      *
-     * @param ezcConsoleOutput $outHandler    Output handler to utilize
-     * @param int $width                      Overall width of the table (chars).
-     * @param array $options Options
+     * @param ezcConsoleOutput $outHandler Output handler to utilize
+     * @param int $width                   Overall width of the table (chars).
+     * @param array $options               Options
      *
      * @see ezcConsoleTable::$settings
      * @see ezcConsoleTable::$options
      *
      * @throws ezcBaseValueException On an invalid setting.
      */
-    public function __construct( ezcConsoleOutput $outHandler, $width, array $options = array() ) 
+    public function __construct( ezcConsoleOutput $outHandler, $width, $options = array() ) 
     {
         $this->outputHandler = $outHandler;
         $this->__set( 'width', $width );
-        $this->options = new ezcConsoleTableOptions( $options );
+        if ( $options instanceof ezcConsoleTableOptions )
+        {
+            $this->options = $options;
+        }
+        else if ( is_array( $options ) )
+        {
+            $this->options = new ezcConsoleTableOptions( $options );
+        }
+        else
+        {
+            throw new ezcBaseValueException( "options", $options, "array" );
+        }
     }
 
     /**

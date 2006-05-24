@@ -116,7 +116,7 @@ class ezcConsoleTableOptions extends ezcBaseOptions
     public function __construct()
     {
         $args = func_get_args();
-        if ( func_num_args() === 1 && is_array( $args[0] ) )
+        if ( func_num_args() === 1 && is_array( $args[0] ) && !is_int( key( $args[0] ) ) )
         {
             parent::__construct( $args[0] );
         }

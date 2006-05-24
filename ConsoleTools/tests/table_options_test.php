@@ -135,6 +135,41 @@ class ezcConsoleToolsTableOptionsTest extends ezcTestCase
         $this->assertEquals( $opt["defaultBorderFormat"], "default" );
     }
 
+    public function testConstructorFirstParameter()
+    {
+        $colWidthArray = new ezcConsoleTableOptions(
+            array( 1, 2, 3 )
+        );
+
+        $optionsArray = new ezcConsoleTableOptions(
+            array(
+                "colWidth" => array( 1, 2, 3 ),
+            )
+        );
+
+        $this->assertEquals( $colWidthArray, $optionsArray, "Did not detect options array correctly." );
+    }
+
+    public function testTableConstructorCompatibility()
+    {
+        $out = new ezcConsoleOutput();
+        $old = new ezcConsoleTable(
+            $out,
+            100,
+            new ezcConsoleTableOptions(
+                array( 1, 2, 3 )
+            )
+        );
+        $new = new ezcConsoleTable(
+            $out,
+            100,
+            array(
+                "colWidth" => array( 1, 2, 3 ),
+            )
+        );
+        $this->assertEquals( $old, $new, "Constructor calls did not produce same table objects." );
+    }
+
 }
 
 ?>
