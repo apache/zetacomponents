@@ -285,7 +285,7 @@ abstract class ezcCacheStorage
         }
         else
         {
-            throw new ezcBaseValueException( "options", $options, "array or instance of ezcCacheStorageOptions" );
+            throw new ezcBaseValueException( "options", $options, "instance of ezcCacheStorageOptions" );
         }
     }
 

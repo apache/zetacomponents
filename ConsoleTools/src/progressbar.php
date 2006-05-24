@@ -170,7 +170,7 @@ class ezcConsoleProgressbar
         }
         else
         {
-            throw new ezcBaseValueException( "options", $options, "array or instance of ezcConsoleProgressbarOptions" );
+            throw new ezcBaseValueException( "options", $options, "instance of ezcConsoleProgressbarOptions" );
         }
     }
 

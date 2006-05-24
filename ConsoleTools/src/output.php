@@ -205,7 +205,7 @@ class ezcConsoleOutput
         }
         else
         {
-            throw new ezcBaseValueException( "options", $options, "array or instance of ezcConsoleOutputOptions" );
+            throw new ezcBaseValueException( "options", $options, "instance of ezcConsoleOutputOptions" );
         }
     }
 

@@ -128,7 +128,7 @@ class ezcConsoleStatusbar
         }
         else
         {
-            throw new ezcBaseValueException( "options", $options, "array or instance of ezcConsoleStatusbarOptions" );
+            throw new ezcBaseValueException( "options", $options, "instance of ezcConsoleStatusbarOptions" );
         }
     }
 

@@ -185,7 +185,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
         }
         else
         {
-            throw new ezcBaseValueException( "options", $options, "array or instance of ezcConsoleTableOptions" );
+            throw new ezcBaseValueException( "options", $options, "instance of ezcConsoleTableOptions" );
         }
     }
 

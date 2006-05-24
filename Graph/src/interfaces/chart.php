@@ -193,7 +193,7 @@ abstract class ezcGraphChart
         }
         else
         {
-            throw new ezcBaseValueException( "options", $options, "array or instance of ezcGraphOptions" );
+            throw new ezcBaseValueException( "options", $options, "instance of ezcGraphOptions" );
         }
     }
 
