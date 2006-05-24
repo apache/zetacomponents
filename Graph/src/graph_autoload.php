@@ -36,8 +36,8 @@ return array(
     'ezcGraphChartElementText'                  => 'Graph/element/text.php',
     'ezcGraphChartElementLegend'                => 'Graph/element/legend.php',
     'ezcGraphChartElementAxis'                  => 'Graph/element/axis.php',
-    'ezcGraphChartElementNumericAxis'           => 'Graph/axis/numeric_axis.php',
-    'ezcGraphChartElementLabeledAxis'           => 'Graph/axis/labeled_axis.php',
+    'ezcGraphChartElementNumericAxis'           => 'Graph/axis/numeric.php',
+    'ezcGraphChartElementLabeledAxis'           => 'Graph/axis/labeled.php',
 
     'ezcGraphDataset'                           => 'Graph/datasets/base.php',
     'ezcGraphDatasetAverage'                    => 'Graph/datasets/average.php',
