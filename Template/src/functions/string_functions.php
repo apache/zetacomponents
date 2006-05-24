@@ -287,7 +287,7 @@ class ezcTemplateStringFunctions extends ezcTemplateFunctions
             
             // str_wrap( $s, $width, $break, $cut )
             // wordwrap( $s, $width, $break, $cut )
-            case "str_wrap": return array( array( "%string", "%width", "%break", "[%cut]" ), 
+            case "str_wrap": return array( ezcTemplateAstNode::TYPE_VALUE, array( "%string", "%width", "%break", "[%cut]" ), 
                     self::functionCall( "wordwrap", array( "%string", "%width", "%break", "[%cut]" ) ) );
 
             // 

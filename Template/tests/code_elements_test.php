@@ -225,69 +225,6 @@ class ezcTemplateCodeElementsTest extends ezcTestCase
     }
 
     /**
-     * Test all binary operators except logical and assignment.
-     */
-    public function testBinaryOperators()
-    {
-        // Create with valid parameter count.
-        foreach ( $this->binaryOperators as $operator )
-        {
-            $className = 'ezcTemplate' . $operator . 'OperatorAstNode';
-            try
-            {
-                $operator = new $className();
-
-                $operator->appendParameter( new ezcTemplateVariableAstNode( "a" ) );
-                $operator->appendParameter( new ezcTemplateLiteralAstNode( 3 ) );
-                $operator->validate();
-            }
-            catch ( Exception $e )
-            {
-                self::fail( "Binary operator <{$className}> with two parameter should not throw an exception." );
-            }
-        }
-
-        // Create with invalid parameter count.
-        foreach ( $this->binaryOperators as $operator )
-        {
-            $className = 'ezcTemplate' . $operator . 'OperatorAstNode';
-
-            $operator = new $className();
-            $failed = false;
-            try
-            {
-                $operator->appendParameter( new ezcTemplateVariableAstNode( "a" ) );
-                $operator->appendParameter( new ezcTemplateVariableAstNode( "b" ) );
-                $operator->appendParameter( new ezcTemplateVariableAstNode( "c" ) );
-                $operator->validate();
-                $failed = true;
-            }
-            catch ( Exception $e )
-            {
-            }
-            if ( $failed )
-            {
-                self::fail( "Using three parameters only for binary operator <{$className}> does not throw an exception." );
-            }
-
-            $operator = new $className();
-            $failed = false;
-            try
-            {
-                $operator->validate();
-                $failed = true;
-            }
-            catch ( Exception $e )
-            {
-            }
-            if ( $failed )
-            {
-                self::fail( "Using no parameters for binary operator <{$className}> does not throw an exception." );
-            }
-        }
-    }
-
-    /**
      * Test the array fetch binary operator which needs special testing.
      */
     public function testArrayFetchOperator()
