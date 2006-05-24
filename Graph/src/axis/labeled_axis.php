@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-class ezcGraphChartElementLabeledAxis extends ezcGraphChartElement
+class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
 {
     
     /**
@@ -78,7 +78,19 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElement
             ksort( $this->labels );
         }
     }
-    
+
+    /**
+     * Get coordinate for a dedicated value on the chart
+     * 
+     * @param ezcGraphBounding $boundings 
+     * @param string $value Value to determine position for
+     * @return float Position on chart
+     */
+    public function getCoordinate( ezcGraphBoundings $boundings, $value )
+    {
+
+    }
+
     /**
      * Render an axe
      * 

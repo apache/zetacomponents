@@ -363,6 +363,41 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         );
     }
 
+    public function testRenderNumeric()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+            $chart->sample->color = '#FF0000';
+            $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
+            $chart->sample2->color = '#00FF00';
+            $chart->legend->background = '#0000FF';
+
+            $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+                'drawBackground',
+                'drawTextBox',
+                'drawSymbol',
+            ) );
+            $mockedRenderer
+                ->expects( $this->once() )
+                ->method( 'drawBackground' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#0000FF' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 0, 0 ) ),
+                    $this->equalTo( 100 ),
+                    $this->equalTo( 200 )
+                );
+            $chart->renderer = $mockedRenderer;
+
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e )
+        {
+            $this->fail( $e->getMessage() );
+        }
+    }
+
     public function testRender()
     {
         throw new PHPUnit2_Framework_IncompleteTestError(

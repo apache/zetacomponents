@@ -69,6 +69,39 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
     protected $minimumSymbolSize = .05;
 
     /**
+     * __set 
+     * 
+     * @param mixed $propertyName 
+     * @param mixed $propertyValue 
+     * @throws ezcBaseValueException
+     *          If a submitted parameter was out of range or type.
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return void
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'padding':
+                $this->padding = max( 0, (int) $propertyValue );
+                break;
+            case 'symbolSize':
+                $this->symbolSize = max( 1, (int) $propertyValue );
+                break;
+            case 'landscapeSize':
+                $this->landscapeSize = max( 0, min( 1, (float) $propertyValue ) );
+                break;
+            case 'portraitSize':
+                $this->portraitSize = max( 0, min( 1, (float) $propertyValue ) );
+                break;
+            default:
+                parent::__set( $propertyName, $propertyValue );
+                break;
+        }
+    }
+
+    /**
      * Generate legend from several datasets with on entry per dataset
      * 
      * @param array $datasets 

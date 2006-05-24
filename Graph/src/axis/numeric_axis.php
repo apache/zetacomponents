@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-class ezcGraphChartElementNumericAxis extends ezcGraphChartElement
+class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
 {
     
     /**
@@ -243,6 +243,18 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElement
         {
             $this->calculateMaximum( $min, $max );
         }
+    }
+
+    /**
+     * Get coordinate for a dedicated value on the chart
+     * 
+     * @param ezcGraphBounding $boundings 
+     * @param float $value Value to determine position for
+     * @return float Position on chart
+     */
+    public function getCoordinate( ezcGraphBoundings $boundings, $value )
+    {
+
     }
     
     /**
