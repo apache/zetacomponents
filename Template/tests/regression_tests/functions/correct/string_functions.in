@@ -42,3 +42,4 @@ bla     " )}#
 contains 
 
 two paragraphs")}
+36. {str_wrap("abcdefghijklmnop", 4, "\n", true)}{str_wrap("qrst asdf asdf", 5, "\n")} 

@@ -545,7 +545,27 @@ Outputs::
 
     2
 
-    
+string _`str_wrap` ( string *$str*, int *$width*, string *$break* [, bool *$cut_word*] )
+````````````````````````````````````````````````````````````````````````````````````````
+Returns a wrapped string of the source string *$str*. The *$width* specifies after how
+the *$break* character should be inserted. If *$cut_word* is given and 
+set to true, it will directly insert the *$break* in the word. Otherwise the word will be
+finished and the *$break* will be inserted after the word::
+
+    {str_wrap("Don't you dare use the word 'party' as a verb in this shop!", 20, "<br/>\n") }  
+
+    {str_wrap("Don't you dare use the word 'party' as a verb in this shop!", 20, "\n", true) }  
+
+Outputs::
+
+   Don't you dare use the <br/>
+   word 'party' as a verb <br/>
+   in this shop! 
+
+   Don't you dare use t
+   he word 'party' as a
+   verb in this shop!
+
 
 
 ..
