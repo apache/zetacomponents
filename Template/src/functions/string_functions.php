@@ -161,24 +161,24 @@ class ezcTemplateStringFunctions extends ezcTemplateFunctions
             case "str_number": return array( array("%number", "%decimals", "%point", "%separator"), 
                     self::functionCall( "number_format", array( "%number", "%decimals", "%point", "%separator") ) );
              
-            // str_trimmed( $s [, $chars ] )
+            // str_trim( $s [, $chars ] )
             // trim( $s [, $chars] )
-            case "str_trimmed": return array( array("%string", "[%chars]"), 
+            case "str_trim": return array( array("%string", "[%chars]"), 
                     self::functionCall( "trim", array( "%string", "[%chars]") ) );
              
-            // str_trimmed_left( $s [, $chars] )
+            // str_trim_left( $s [, $chars] )
             // ltrim( $s [, $chars] )
-            case "str_trimmed_left": return array( array("%string", "[%chars]"), 
+            case "str_trim_left": return array( array("%string", "[%chars]"), 
                     self::functionCall( "ltrim", array( "%string", "[%chars]") ) );
              
-            // str_trimmed_right( $s [, $chars] )
+            // str_trim_right( $s [, $chars] )
             // rtrim( $s, [$chars] )
-            case "str_trimmed_right": return array( array("%string", "[%chars]"), 
+            case "str_trim_right": return array( array("%string", "[%chars]"), 
                     self::functionCall( "rtrim", array( "%string", "[%chars]") ) );
              
             // str_simplified( $s )
             // trim( preg_replace( "/(\n|\t|\r\n|\s)+/", " ", $s ) )
-            case "str_simplified": return array( array("%string"), 
+            case "str_simplify": return array( array("%string"), 
                     self::functionCall( "trim", array(
                         self::functionCall( "preg_replace", array( self::constant('"/(\n|\t|\r\n|\s)+/"'), self::value(" "), "%string") )
                     ) ) );

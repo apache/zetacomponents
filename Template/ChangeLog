@@ -26,6 +26,9 @@
 - Fixed bug #8280: Array assignment with non-constants not working.
 - All compile errors throw the ezcTemplateParserException.  Removed the 
   ezcTemplateSourceToTstParserException.
+- Renamed the functions: str_trimmed, str_trimmed_left, str_trimmed_right,
+  and str_simplified to respectively str_trim, str_trim_left, str_trim_right, 
+  and str_simplify. 
 - The modulo part of the delimiter is now optional.
 - The delimiter does not appear after the last iteration.
 

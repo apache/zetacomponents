@@ -22,10 +22,10 @@
 
 21. {str_pad_right( "abc", 5, ".." )}
 22. {str_number( 3.14159, 2, ",", "")}
-23. #{str_trimmed( "  blabla    ")}# #{str_trimmed( ". bla", ".")}#
-24. #{str_trimmed_left( "  blabla  ")}#
-25. #{str_trimmed_right( "  blabla  ")}#
-26. #{str_simplified( "    hello    world
+23. #{str_trim( "  blabla    ")}# #{str_trim( ". bla", ".")}#
+24. #{str_trim_left( "  blabla  ")}#
+25. #{str_trim_right( "  blabla  ")}#
+26. #{str_simplify( "    hello    world
 
 bla     " )}#
 27. {var $a = str_split("hello/world", "/")}{$a[1]} {$a[0]}
