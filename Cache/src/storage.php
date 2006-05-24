@@ -305,8 +305,6 @@ abstract class ezcCacheStorage
         {
             case 'options':
                 return $this->options;
-            default:
-                break;
         }
         throw new ezcBasePropertyNotFoundException( $propertyName );
     }
@@ -329,12 +327,10 @@ abstract class ezcCacheStorage
             case 'options':
                 if ( !( $val instanceof ezcCacheStorageOptions ) )
                 {
-                    throw new ezcBaseValueException( $key, $val, 'ezcCacheStorageOptions' );
+                    throw new ezcBaseValueException( $key, $val, 'instance of ezcCacheStorageOptions' );
                 }
                 $this->options = $val;
                 return;
-            default:
-                break;
         }
         throw new ezcBasePropertyNotFoundException( $propertyName );
     }
@@ -350,7 +346,7 @@ abstract class ezcCacheStorage
         switch ( $propertyName )
         {
             case 'options':
-            default:
+                return true;
                 break;
         }
         return false;
