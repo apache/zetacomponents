@@ -24,10 +24,10 @@ String manipulation
 * string str_pad_left_ ( string *$str*, int *$length*, string *$fill* )
 * string str_pad_right_ ( string *$str*, int *$length*, string *$fill* )
 * string str_number_ ( float *$number*, int *$decimals*, string *$decimal_sep*, string *$thousands_sep* )
-* string str_trimmed_ ( string *$str*, string *$charlist* = false )
-* string str_trimmed_left_ ( string $str, string *$charlist* = false )
-* string str_trimmed_right_ ( string $str, string *$charlist* = false )
-* string str_simplified_ ( string *$str* )
+* string str_trim_ ( string *$str*, string *$charlist* = false )
+* string str_trim_left_ ( string $str, string *$charlist* = false )
+* string str_trim_right_ ( string $str, string *$charlist* = false )
+* string str_simplify_ ( string *$str* )
 * array str_split_ ( string *$str*, string *$separator* [, int *$max*] )
 * string str_join_ ( array *$array*, string *$separator* )
 * string str_ord_ ( int *$char* )
@@ -40,11 +40,11 @@ String manipulation
 * int str_word_count_ ( string *$str* [, *$word_sep* ] )
 * int str_paragraph_count_ ( string *$str* )
 * string str_replace_ ( string *$before*, int *$index*, int *$length*, string *$replace*)
+* string str_wrap_ ( string *$str*, int *$width*, string *$break* [, bool *$cut_word*] )
 
 
 string _`str_replace` ( string *$before*, int *$index*, int *$length*, string *$replace*)
 `````````````````````````````````````````````````````````````````````````````````````````
-
 Replaces the part between *$index* and *$index* + *$length* from the string
 *$before* with *$replace*::
 
@@ -327,7 +327,7 @@ Outputs::
     3,000.14 
 
 
-string _`str_trimmed` ( string *$str*, string *$charlist* = false )
+string _`str_trim` ( string *$str*, string *$charlist* = false )
 ```````````````````````````````````````````````````````````````````
 Removes whitespace characters or other characters from the beginning and end of the string.
 If no *$charlist* is given, the following characters will be removed:
@@ -341,9 +341,9 @@ If no *$charlist* is given, the following characters will be removed:
 If a *$charlist* is given, then the characters in that string will be stripped instead::
 
     
-    { str_trimmed( "  ...Whoohooo..  " )}
-    { str_trimmed( "  ...Whoohooo..  ", "." )}
-    { str_trimmed( "  ...Whoohooo..  ", " ." )}
+    { str_trim( "  ...Whoohooo..  " )}
+    { str_trim( "  ...Whoohooo..  ", "." )}
+    { str_trim( "  ...Whoohooo..  ", " ." )}
 
 Outputs::
     
@@ -351,17 +351,17 @@ Outputs::
       ...Whoohooo..  
     Whoohooo
 
-See also str_trimmed_left (), str_trimmed_right ().
+See also str_trim_left (), str_trim_right ().
 
 
-string _`str_trimmed_left` ( string $str, string *$charlist* = false )
+string _`str_trim_left` ( string $str, string *$charlist* = false )
 ``````````````````````````````````````````````````````````````````````
 Removes whitespace characters or other characters from the beginning of the string.
-This function works the same as str_trimmed_ (), except that the characters on the right side are not trimmed::
+This function works the same as str_trim_ (), except that the characters on the right side are not trimmed::
 
-    { str_trimmed_left( "  ...Whoohooo..  " )}
-    { str_trimmed_left( "  ...Whoohooo..  ", "." )}
-    { str_trimmed_left( "  ...Whoohooo..  ", " ." )}
+    { str_trim_left( "  ...Whoohooo..  " )}
+    { str_trim_left( "  ...Whoohooo..  ", "." )}
+    { str_trim_left( "  ...Whoohooo..  ", " ." )}
 
 Outputs::
     
@@ -370,16 +370,16 @@ Outputs::
     Whoohooo..
 
 
-See also str_trimmed_ (), str_trimmed_right ().
+See also str_trim_ (), str_trim_right ().
 
-string _`str_trimmed_right` ( string $str, string *$charlist* = false )
+string _`str_trim_right` ( string $str, string *$charlist* = false )
 ```````````````````````````````````````````````````````````````````````
 Removes whitespace characters or other characters from the end of the string.
-This function works the same as str_trimmed_ (), except that the characters on the left side are not trimmed::
+This function works the same as str_trim_ (), except that the characters on the left side are not trimmed::
 
-    { str_trimmed_left( "  ...Whoohooo..  " )}
-    { str_trimmed_left( "  ...Whoohooo..  ", "." )}
-    { str_trimmed_left( "  ...Whoohooo..  ", " ." )}
+    { str_trim_left( "  ...Whoohooo..  " )}
+    { str_trim_left( "  ...Whoohooo..  ", "." )}
+    { str_trim_left( "  ...Whoohooo..  ", " ." )}
 
 Outputs::
     
@@ -387,15 +387,15 @@ Outputs::
       ...Whoohooo..   
       ...Whoohooo
 
-See also str_trimmed_ (), str_trimmed_left ().
+See also str_trim_ (), str_trim_left ().
 
 
-string _`str_simplified` ( string *$str* )
+string _`str_simplify` ( string *$str* )
 ``````````````````````````````````````````
 Substitutes newlines, tabs, and multiple spaces from the string *$str* and replaces it with a single blank.
 Whitespace in the beginning and at the end of the *$str* are removed::
 
-    { str_simplified( "   my\t   \n string \n ") }
+    { str_simplify( "   my\t   \n string \n ") }
 
 Outputs::
     
