@@ -312,7 +312,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawBackground' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#0000FF' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 400., 0 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 400, 0 ) ),
                     $this->equalTo( 100 ),
                     $this->equalTo( 200 )
                 );
@@ -346,7 +346,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#0000FF' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 401., 1 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 401, 1 ) ),
                     $this->equalTo( 12 ),
                     $this->equalTo( 12 ),
                     ezcGraph::DIAMOND
@@ -356,7 +356,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 401., 15 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 401, 15 ) ),
                     $this->equalTo( 12 ),
                     $this->equalTo( 12 ),
                     ezcGraph::NO_SYMBOL
@@ -366,7 +366,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 401., 29 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 401, 29 ) ),
                     $this->equalTo( 12 ),
                     $this->equalTo( 12 ),
                     ezcGraph::NO_SYMBOL
@@ -401,7 +401,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawBackground' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#0000FF' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 0, 180. ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 0, 180 ) ),
                     $this->equalTo( 500 ),
                     $this->equalTo( 20 )
                 );
@@ -435,7 +435,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#0000FF' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 1, 181. ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 1, 181 ) ),
                     $this->equalTo( 12 ),
                     $this->equalTo( 12 ),
                     ezcGraph::DIAMOND
@@ -445,7 +445,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 101, 181. ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 101, 181 ) ),
                     $this->equalTo( 12 ),
                     $this->equalTo( 12 ),
                     ezcGraph::NO_SYMBOL
@@ -455,7 +455,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 201, 181. ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 201, 181 ) ),
                     $this->equalTo( 12 ),
                     $this->equalTo( 12 ),
                     ezcGraph::NO_SYMBOL
