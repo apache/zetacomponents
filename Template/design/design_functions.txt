@@ -549,38 +549,38 @@ Creating arrays can be done with:
 Sorting of arrays is also possible, this will return the sorted array instead
 of manipulating the input expression.
 
-- *array* array_sort( $a [, $flag ] )::
+- *array* array_sort( $a )::
 
     $tmpa = $a;
     sort( $a );
     return $tmpa;
 
-- *array* array_sort_reverse( $a [, $flag ] )::
+- *array* array_sort_reverse( $a )::
 
     $tmpa = $a;
     rsort( $a );
     return $tmpa;
 
-- *array* hash_sort( $a [, $flag ] )::
+- *array* hash_sort( $a )::
 
     $tmpa = $a;
     asort( $a );
     return $tmpa;
 
-- *array* hash_sort_reverse( $a [, $flag ] )::
+- *array* hash_sort_reverse( $a )::
 
     $tmpa = $a;
     arsort( $a );
     return $tmpa;
 
 
-- *array* hash_sort_keys( $a [, $flag ] )::
+- *array* hash_sort_keys( $a )::
 
     $tmpa = $a;
     ksort( $a );
     return $tmpa;
 
-- *array* hash_sort_keys_reverse( $a [, $flag ] )::
+- *array* hash_sort_keys_reverse( $a )::
 
     $tmpa = $a;
     krsort( $a );
