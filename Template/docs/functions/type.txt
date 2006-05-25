@@ -1,0 +1,141 @@
+Type
+====
+
+* bool is_empty_ ( mixed *$val* )
+* bool is_array_ ( mixed *$val* )
+* bool is_float_ ( mixed *$val* )
+* bool is_int_ ( mixed *$val* )
+* bool is_numberic_ ( mixed *$val* )
+* bool is_object_ ( mixed *$val* )
+* bool is_class_ ( mixed *$val*, string *$class* )
+* bool is_scalar_ ( mixed *$val* )
+* bool is_string_ ( mixed *$val* )
+* bool is_set_ ( mixed *$val* )
+* string get_class_ ( mixed *$val* )
+
+
+bool _`is_empty` ( mixed *$val* )
+`````````````````````````````````
+Returns true if the given *$val* is empty, otherwise false. The following
+examples would return true::
+    
+    {is_empty( "" )}
+    {is_empty( 0 )}
+    {is_empty( "0" )}
+    {is_empty( false )}
+
+And the rest returns false::
+
+    {is_empty( "false" )}
+    {is_empty( "I am empty" )}
+
+Trying to out smart the template engine by saying that string is empty ("I am
+empty"), does not work :-).  
+
+
+bool _`is_array` ( mixed *$val* )
+`````````````````````````````````
+Returns true if the given *$val* is an array, otherwise false::
+
+    {is_array( array(1) )}
+
+Returns obviously true.
+
+
+bool _`is_float` ( mixed *$val* )
+`````````````````````````````````
+Returns true if the given *$val* is a float, otherwise false::
+
+    {is_float( 2.1 )}
+
+Returns true.
+
+
+bool _`is_int` ( mixed *$val* )
+```````````````````````````````
+Returns true if the given *$val* is an integer, otherwise false::
+
+    {is_int( 2 )}
+
+Returns true.
+
+
+bool _`is_numberic` ( mixed *$val* )
+````````````````````````````````````
+Returns true if the given *$val* is an numberic value, otherwise false::
+
+    {is_int( 2 )}
+    {is_numberic( 2.2 )}
+
+Return all true.
+
+
+bool _`is_object` ( mixed *$val* )
+``````````````````````````````````
+Returns true if the given *$val* is an object, otherwise false::
+
+    {use $myObject}
+    {is_object( $myObject )}
+
+
+bool _`is_class` ( mixed *$val*, string *$class* )
+``````````````````````````````````````````````````
+Returns true if the given *$val* is the class *$class*, otherwise false::
+
+    {use $myObject}
+    {is_class( $myObject, "MyClass" )}
+
+
+bool _`is_scalar` ( mixed *$val* )
+``````````````````````````````````
+Returns true if the given *$val* is a scalar; thus containing an integer,
+float, string, or object. Non scalars, array and object return false::
+
+    {is_scalar( "Hello" )}
+
+Return true.
+
+
+bool _`is_string` ( mixed *$val* )
+``````````````````````````````````
+Returns true if the given *$val* is a string, otherwise false::
+
+    {is_string( "Hello" )}
+
+Return true.
+
+
+bool _`is_set` ( mixed *$val* )
+```````````````````````````````
+Returns true if the given *$val* is set, otherwise false::
+
+    {var $a} 
+    {is_set( $a )}
+
+Return false, but::
+
+    {var $a = 5}
+    {is_set( $a )}
+
+Return true.
+
+
+string _`get_class` ( mixed *$val* )
+````````````````````````````````````
+Returns the class name of the given object::
+
+    {use $obj}
+    {get_class( $obj ) }
+
+Outputs the class name.
+    
+
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
