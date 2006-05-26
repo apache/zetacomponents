@@ -363,6 +363,237 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         );
     }
 
+    public function testPositionLeft()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+            $chart->sample->color = '#FF0000';
+            $chart->Y_axis->position = ezcGraph::LEFT;
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $testBoundings = new ezcGraphBoundings();
+        $testBoundings->x0 = 50;
+        $testBoundings->x1 = 400;
+        $testBoundings->y0 = 75;
+        $testBoundings->y1 = 330;
+
+        $this->assertEquals(
+            67.5,
+            $chart->Y_axis->getCoordinate( $testBoundings, false ),
+            'Wrong initial axis position. '
+        );
+
+        $this->assertEquals(
+            67.5,
+            $chart->Y_axis->getCoordinate( $testBoundings, 1000 ),
+            'Wrong minimal value. '
+        );
+
+        $this->assertEquals(
+            193.5,
+            $chart->Y_axis->getCoordinate( $testBoundings, 1200 ),
+            'Wrong mid value. '
+        );
+
+        $this->assertEquals(
+            382.5,
+            $chart->Y_axis->getCoordinate( $testBoundings, 1500 ),
+            'Wrong maximum value. '
+        );
+    }
+
+    public function testPositionRight()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+            $chart->sample->color = '#FF0000';
+            $chart->Y_axis->position = ezcGraph::RIGHT;
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $testBoundings = new ezcGraphBoundings();
+        $testBoundings->x0 = 50;
+        $testBoundings->x1 = 400;
+        $testBoundings->y0 = 75;
+        $testBoundings->y1 = 330;
+
+        $this->assertEquals(
+            382.5,
+            $chart->Y_axis->getCoordinate( $testBoundings, false ),
+            'Wrong initial axis position. '
+        );
+
+        $this->assertEquals(
+            382.5,
+            $chart->Y_axis->getCoordinate( $testBoundings, 1000 ),
+            'Wrong minimal value. '
+        );
+
+        $this->assertEquals(
+            256.5,
+            $chart->Y_axis->getCoordinate( $testBoundings, 1200 ),
+            'Wrong mid value. '
+        );
+
+        $this->assertEquals(
+            67.5,
+            $chart->Y_axis->getCoordinate( $testBoundings, 1500 ),
+            'Wrong maximum value. '
+        );
+    }
+
+    public function testPositionTop()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+            $chart->sample->color = '#FF0000';
+            $chart->Y_axis->position = ezcGraph::TOP;
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $testBoundings = new ezcGraphBoundings();
+        $testBoundings->x0 = 50;
+        $testBoundings->x1 = 400;
+        $testBoundings->y0 = 75;
+        $testBoundings->y1 = 330;
+
+        $this->assertEquals(
+            87.75,
+            $chart->Y_axis->getCoordinate( $testBoundings, false ),
+            'Wrong initial axis position. '
+        );
+
+        $this->assertEquals(
+            87.75,
+            $chart->Y_axis->getCoordinate( $testBoundings, 1000 ),
+            'Wrong minimal value. '
+        );
+
+        $this->assertEquals(
+            179.55,
+            $chart->Y_axis->getCoordinate( $testBoundings, 1200 ),
+            'Wrong mid value. '
+        );
+
+        $this->assertEquals(
+            317.25,
+            $chart->Y_axis->getCoordinate( $testBoundings, 1500 ),
+            'Wrong maximum value. '
+        );
+    }
+
+    public function testPositionBottom()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+            $chart->sample->color = '#FF0000';
+            $chart->Y_axis->position = ezcGraph::BOTTOM;
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $testBoundings = new ezcGraphBoundings();
+        $testBoundings->x0 = 50;
+        $testBoundings->x1 = 400;
+        $testBoundings->y0 = 75;
+        $testBoundings->y1 = 330;
+
+        $this->assertEquals(
+            317.25,
+            $chart->Y_axis->getCoordinate( $testBoundings, false ),
+            'Wrong initial axis position. '
+        );
+
+        $this->assertEquals(
+            317.25,
+            $chart->Y_axis->getCoordinate( $testBoundings, 1000 ),
+            'Wrong minimal value. '
+        );
+
+        $this->assertEquals(
+            225.45,
+            $chart->Y_axis->getCoordinate( $testBoundings, 1200 ),
+            'Wrong mid value. '
+        );
+
+        $this->assertEquals(
+            87.75,
+            $chart->Y_axis->getCoordinate( $testBoundings, 1500 ),
+            'Wrong maximum value. '
+        );
+    }
+
+    public function testPositionLeftNegativMinimum()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sample = array( 2000 => -300, 1300, 1012, 1450 );
+            $chart->sample->color = '#FF0000';
+            $chart->Y_axis->majorStep = 500;
+            $chart->Y_axis->position = ezcGraph::LEFT;
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $testBoundings = new ezcGraphBoundings();
+        $testBoundings->x0 = 50;
+        $testBoundings->x1 = 400;
+        $testBoundings->y0 = 75;
+        $testBoundings->y1 = 330;
+
+        $this->assertEquals(
+            67.5,
+            $chart->Y_axis->getCoordinate( $testBoundings, false ),
+            'Wrong initial axis position. '
+        );
+
+        $this->assertEquals(
+            67.5,
+            $chart->Y_axis->getCoordinate( $testBoundings, -500 ),
+            'Wrong minimal value. '
+        );
+
+        $this->assertEquals(
+            335.25,
+            $chart->Y_axis->getCoordinate( $testBoundings, 1200 ),
+            'Wrong mid value. '
+        );
+
+        $this->assertEquals(
+            382.5,
+            $chart->Y_axis->getCoordinate( $testBoundings, 1500 ),
+            'Wrong maximum value. '
+        );
+    }
+
     public function testRenderNumeric()
     {
         try

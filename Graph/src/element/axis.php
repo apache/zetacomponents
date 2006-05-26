@@ -96,6 +96,18 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
      * @return float Position on chart
      */
     abstract public function getCoordinate( ezcGraphBoundings $boundings, $value );
+
+    /**
+     * Render an axe
+     * 
+     * @param ezcGraphRenderer $renderer 
+     * @access public
+     * @return void
+     */
+    public function render( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings )
+    {
+        return $boundings;   
+    }
 }
 
 ?>

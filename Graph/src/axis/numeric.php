@@ -254,19 +254,47 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
      */
     public function getCoordinate( ezcGraphBoundings $boundings, $value )
     {
-
+        if ( ( $value === false ) || ( $value === null ) )
+        {
+            switch ( $this->position )
+            {
+                case ezcGraph::TOP:
+                    return $boundings->y0 +
+                            ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 );
+                case ezcGraph::BOTTOM:
+                    return $boundings->y1 -
+                            ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 );
+                case ezcGraph::LEFT:
+                    return $boundings->x0 +
+                            ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 );
+                case ezcGraph::RIGHT:
+                    return $boundings->x1 -
+                            ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 );
+            }
+        }
+        else
+        {
+            switch ( $this->position )
+            {
+                case ezcGraph::TOP:
+                    return $boundings->y0 +
+                            ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 ) +
+                            ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->y1 - $boundings-> y0 ) * ( 1 - $this->padding );
+                case ezcGraph::BOTTOM:
+                    return $boundings->y1 -
+                            ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 ) -
+                            ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->y1 - $boundings-> y0 ) * ( 1 - $this->padding );
+                case ezcGraph::LEFT:
+                    return $boundings->x0 +
+                            ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 ) +
+                            ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->x1 - $boundings-> x0 ) * ( 1 - $this->padding );
+                case ezcGraph::RIGHT:
+                    return $boundings->x1 -
+                            ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 ) -
+                            ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->x1 - $boundings-> x0 ) * ( 1 - $this->padding );
+            }
+        }
     }
-    
-    /**
-     * Render an axe
-     * 
-     * @param ezcGraphRenderer $renderer 
-     * @access public
-     * @return void
-     */
-    public function render( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings )
-    {
-        return $boundings;
-    }
-
 }
+
+?>

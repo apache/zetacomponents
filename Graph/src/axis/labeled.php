@@ -88,19 +88,49 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
      */
     public function getCoordinate( ezcGraphBoundings $boundings, $value )
     {
-
+        if ( $value === false || 
+             $value === null  ||
+             ( $key = array_search( $value, $this->labels ) ) === false )
+        {
+            switch ( $this->position )
+            {
+                case ezcGraph::TOP:
+                    return $boundings->y0 +
+                            ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 );
+                case ezcGraph::BOTTOM:
+                    return $boundings->y1 -
+                            ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 );
+                case ezcGraph::LEFT:
+                    return $boundings->x0 +
+                            ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 );
+                case ezcGraph::RIGHT:
+                    return $boundings->x1 -
+                            ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 );
+            }
+        }
+        else
+        {
+            switch ( $this->position )
+            {
+                case ezcGraph::TOP:
+                    return $boundings->y0 +
+                            ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 ) +
+                            ( $boundings->y1 - $boundings->y0 ) * ( 1 - $this->padding ) / ( count ( $this->labels ) - 1 ) * $key;
+                case ezcGraph::BOTTOM:
+                    return $boundings->y1 -
+                            ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 ) -
+                            ( $boundings->y1 - $boundings->y0 ) * ( 1 - $this->padding ) / ( count ( $this->labels ) - 1 ) * $key;
+                case ezcGraph::LEFT:
+                    return $boundings->x0 +
+                            ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 ) +
+                            ( $boundings->x1 - $boundings->x0 ) * ( 1 - $this->padding ) / ( count ( $this->labels ) - 1 ) * $key;
+                case ezcGraph::RIGHT:
+                    return $boundings->x1 -
+                            ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 ) -
+                            ( $boundings->x1 - $boundings->x0 ) * ( 1 - $this->padding ) / ( count ( $this->labels ) - 1 ) * $key;
+            }
+        }
     }
-
-    /**
-     * Render an axe
-     * 
-     * @param ezcGraphRenderer $renderer 
-     * @access public
-     * @return void
-     */
-    public function render( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings )
-    {
-        return $boundings;   
-    }
-
 }
+
+?>

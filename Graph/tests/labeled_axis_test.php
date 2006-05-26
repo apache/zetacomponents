@@ -134,6 +134,214 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
         );
     }
 
+    public function testPositionLeft()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+            $chart->sample->color = '#FF0000';
+            $chart->X_axis->position = ezcGraph::LEFT;
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $testBoundings = new ezcGraphBoundings();
+        $testBoundings->x0 = 50;
+        $testBoundings->x1 = 400;
+        $testBoundings->y0 = 75;
+        $testBoundings->y1 = 330;
+
+        $this->assertEquals(
+            67.5,
+            $chart->X_axis->getCoordinate( $testBoundings, false ),
+            'Wrong initial axis position. '
+        );
+
+        $this->assertEquals(
+            67.5,
+            $chart->X_axis->getCoordinate( $testBoundings, '2000' ),
+            'Wrong minimal value. '
+        );
+
+        $this->assertEquals(
+            172.5,
+            $chart->X_axis->getCoordinate( $testBoundings, 2001 ),
+            'Wrong mid value. '
+        );
+
+        $this->assertEquals(
+            382.5,
+            $chart->X_axis->getCoordinate( $testBoundings, '2003' ),
+            'Wrong maximum value. '
+        );
+
+        $this->assertEquals(
+            67.5,
+            $chart->X_axis->getCoordinate( $testBoundings, '1991' ),
+            'Wrong return for unknown value. '
+        );
+    }
+
+    public function testPositionRight()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+            $chart->sample->color = '#FF0000';
+            $chart->X_axis->position = ezcGraph::RIGHT;
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $testBoundings = new ezcGraphBoundings();
+        $testBoundings->x0 = 50;
+        $testBoundings->x1 = 400;
+        $testBoundings->y0 = 75;
+        $testBoundings->y1 = 330;
+
+        $this->assertEquals(
+            382.5,
+            $chart->X_axis->getCoordinate( $testBoundings, false ),
+            'Wrong initial axis position. '
+        );
+
+        $this->assertEquals(
+            382.5,
+            $chart->X_axis->getCoordinate( $testBoundings, '2000' ),
+            'Wrong minimal value. '
+        );
+
+        $this->assertEquals(
+            277.5,
+            $chart->X_axis->getCoordinate( $testBoundings, 2001 ),
+            'Wrong mid value. '
+        );
+
+        $this->assertEquals(
+            67.5,
+            $chart->X_axis->getCoordinate( $testBoundings, '2003' ),
+            'Wrong maximum value. '
+        );
+
+        $this->assertEquals(
+            382.5,
+            $chart->X_axis->getCoordinate( $testBoundings, '1991' ),
+            'Wrong return for unknown value. '
+        );
+    }
+
+    public function testPositionTop()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+            $chart->sample->color = '#FF0000';
+            $chart->X_axis->position = ezcGraph::TOP;
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $testBoundings = new ezcGraphBoundings();
+        $testBoundings->x0 = 50;
+        $testBoundings->x1 = 400;
+        $testBoundings->y0 = 75;
+        $testBoundings->y1 = 330;
+
+        $this->assertEquals(
+            87.75,
+            $chart->X_axis->getCoordinate( $testBoundings, false ),
+            'Wrong initial axis position. '
+        );
+
+        $this->assertEquals(
+            87.75,
+            $chart->X_axis->getCoordinate( $testBoundings, '2000' ),
+            'Wrong minimal value. '
+        );
+
+        $this->assertEquals(
+            164.25,
+            $chart->X_axis->getCoordinate( $testBoundings, 2001 ),
+            'Wrong mid value. '
+        );
+
+        $this->assertEquals(
+            317.25,
+            $chart->X_axis->getCoordinate( $testBoundings, '2003' ),
+            'Wrong maximum value. '
+        );
+
+        $this->assertEquals(
+            87.75,
+            $chart->X_axis->getCoordinate( $testBoundings, '1991' ),
+            'Wrong return for unknown value. '
+        );
+    }
+
+    public function testPositionBottom()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+            $chart->sample->color = '#FF0000';
+            $chart->X_axis->position = ezcGraph::BOTTOM;
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $testBoundings = new ezcGraphBoundings();
+        $testBoundings->x0 = 50;
+        $testBoundings->x1 = 400;
+        $testBoundings->y0 = 75;
+        $testBoundings->y1 = 330;
+
+        $this->assertEquals(
+            317.25,
+            $chart->X_axis->getCoordinate( $testBoundings, false ),
+            'Wrong initial axis position. '
+        );
+
+        $this->assertEquals(
+            317.25,
+            $chart->X_axis->getCoordinate( $testBoundings, '2000' ),
+            'Wrong minimal value. '
+        );
+
+        $this->assertEquals(
+            240.75,
+            $chart->X_axis->getCoordinate( $testBoundings, 2001 ),
+            'Wrong mid value. '
+        );
+
+        $this->assertEquals(
+            87.75,
+            $chart->X_axis->getCoordinate( $testBoundings, '2003' ),
+            'Wrong maximum value. '
+        );
+
+        $this->assertEquals(
+            317.25,
+            $chart->X_axis->getCoordinate( $testBoundings, '1991' ),
+            'Wrong return for unknown value. '
+        );
+    }
+
     public function testRender()
     {
         throw new PHPUnit2_Framework_IncompleteTestError(
