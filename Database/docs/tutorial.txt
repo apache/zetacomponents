@@ -158,23 +158,29 @@ query objects.
 .. include:: tutorial_example_06.php
    :literal:
 
-The next examples shows how to use multi-join syntax to build 
+The next examples show how to use multi-join syntax to build 
 queries with several joined tables using inner, right or left join.
 
-innerJoin(), rightJoin() and leftJoin() could be used in three forms:
+The innerJoin(), rightJoin() and leftJoin() method can be used in three forms:
 
-1. Can be used to build joins of two or more tables.
-   *Join() methods could be invoked several times during building query.
-   This form takes two string arguments ( table name and join condition ) 
-   and return ezcQuery object. Each invocation joins one table. 
+1. The first form takes two string arguments (table name and join condition) 
+   and returns an ezcQuery object. Each invocation joins one table. You can
+   invoke the *Join() methods multiple times.
    
+.. include:: tutorial_example_07a.php
+   :literal:
+
 2. Simplified version of 1. where join condition is always set to "equal".
 
-.. include:: tutorial_example_07.php
+   rightJoin( 'table1', 'table1.id', 'table2.id' ) is a shorter equivalent
+   of rightJoin( 'table1', $this->expr->eq('table1.id', 'table2.id' ) );
+
+.. include:: tutorial_example_07b.php
    :literal:
 
 3. Simple form, could be used to join only two tables.
-   Takes 4 string arguments and return SQL string.
+   Takes 4 string arguments and return SQL string. This way does mainly exist
+   for BC reasons.
 
 .. include:: tutorial_example_08.php
    :literal:
