@@ -108,8 +108,9 @@ class ezcTranslationCacheBackend implements ezcTranslationBackend, ezcTranslatio
      * @param array $configurationData
      * @throws ezcBaseSettingNotFoundException if an unknown setting is passed.
      * @return void
+     * @todo Implement ezcBaseOptions class, if options are added.
      */
-    public function setOptions( array $configurationData )
+    public function setOptions( $configurationData )
     {
         foreach ( $configurationData as $name => $value )
         {
