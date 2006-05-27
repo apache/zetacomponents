@@ -5,7 +5,8 @@
 - Fixed bug #8301: New bug: ezcCacheStorageFile::search and delete do not work
   with identifiers containing slashes.
 - Fixed bug #8359: New bug: Cache: Similar IDs lead to invalid data item
-  count.
+  count. ATTENTION: This invalidates all cache items, which consists only of
+  an ID. Please purge these caches manually.
 
 
 1.1beta1 - Tuesday 09 May 2006
