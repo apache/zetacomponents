@@ -451,5 +451,58 @@ abstract class ezcCacheStorageTest extends ezcTestCase
         }
         $this->assertTrue( $this->storage->countDataItems( null, $attributes ) == count( $this->data ), 'HasData found wrong count of data for attributes: <' . $this->storage->countDataItems() . '>.' );
     }
+
+    public function testCountDataItemsNoIdSubdirs()
+    {
+        $id = 'id/with/slashes/';
+        $attributes = array( 'class' => 23 );
+        foreach ( $this->data as $idSuffix => $data)
+        {
+            $this->storage->store( $id . $idSuffix, $data, $attributes );
+        }
+
+        $this->assertEquals(
+            sizeof( $this->data ),
+            $this->storage->countDataItems( null, $attributes ),
+            "Data count for ID with slashes incorrect."
+        );
+
+    }
+    
+    public function testCountDataItemsIdSubdirs()
+    {
+        $id = 'id/with/slashes/';
+        $attributes = array( 'class' => 23 );
+        foreach ( $this->data as $idSuffix => $data)
+        {
+            $this->storage->store( $id . $idSuffix, $data, $attributes );
+        }
+
+        foreach ( $this->data as $idSuffix => $data) {
+            $this->assertEquals(
+                1,
+                $this->storage->countDataItems( $id . $idSuffix, $attributes ),
+                "Data count for ID with slashes incorrect."
+            );
+        }
+    }
+    
+    public function testCountDataItemsIdNoAttributesSubdirs()
+    {
+        $id = 'id/with/slashes/';
+        $attributes = array( 'class' => 23 );
+        foreach ( $this->data as $idSuffix => $data)
+        {
+            $this->storage->store( $id . $idSuffix, $data, $attributes );
+        }
+
+        foreach ( $this->data as $idSuffix => $data) {
+            $this->assertEquals(
+                1,
+                $this->storage->countDataItems( $id . $idSuffix ),
+                "Data count for ID with slashes incorrect."
+            );
+        }
+    }
 }
 ?>

@@ -269,13 +269,39 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
      * @param array(string=>string) $attributes  Attributes describing the 
      *                                           data to restore.
      * @return void
+     * @TODO fix return doc!
      */
     private function search( $id = null, $attributes = array() )
     {
-        $glob = strtr( $this->generateIdentifier( $id, $attributes ), array( '-' => '*', '.' => '*' ) );
-        $glob = ( isset( $id ) ? '*' : '' ) . $glob;
-        $glob = $this->location . $glob;
-        return glob( $glob );
+        $globArr = explode( "-", $this->generateIdentifier( $id, $attributes ), 2 );
+        if ( sizeof( $globArr ) > 1 )
+        {
+            $glob = $globArr[0]  . "-" . strtr( $globArr[1], array( '-' => '*', '.' => '*' ) );
+        }
+        else
+        {
+            $glob = strtr( $globArr[0], array( '-' => '*', '.' => '*' ) );
+        }
+        $glob = ( $id === null ? '*' : '' ) . $glob;
+        return $this->searchRecursive( $glob, $this->location );
+    }
+
+    /**
+     * Search the storage for data recursively. 
+     * 
+     * @param string $pattern  Pattern used with {@see glob()}.
+     * @param mixed $directory Directory to search in.
+     * @return array(int=>string) Found cache items.
+     */
+    private function searchRecursive( $pattern, $directory )
+    {
+        $itemArr = glob( $directory . $pattern );
+        $dirArr = glob( $directory . "*", GLOB_ONLYDIR );
+        foreach ( $dirArr as $dirEntry )
+        {
+            $itemArr += $this->searchRecursive( $pattern, "$dirEntry/" );
+        }
+        return $itemArr;
     }
 
     /**
