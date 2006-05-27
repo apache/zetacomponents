@@ -2,8 +2,10 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 - Refactored to use the new ezcBaseOptions class.
 
-- Fixed bug #8301: New bug: ezcCacheStorageFile::search and delete do not work with
-  identifiers containing slashes
+- Fixed bug #8301: New bug: ezcCacheStorageFile::search and delete do not work
+  with identifiers containing slashes.
+- Fixed bug #8359: New bug: Cache: Similar IDs lead to invalid data item
+  count.
 
 
 1.1beta1 - Tuesday 09 May 2006

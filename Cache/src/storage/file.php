@@ -391,6 +391,10 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
                 $filename .= $attrStr;
             }   
         }
+        else
+        {
+            $filename .= "-";
+        }
         return $filename . $this->options['extension'];
     }
 

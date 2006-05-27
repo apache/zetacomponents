@@ -21,21 +21,35 @@ class ezcCacheStorageFileTest extends ezcTestCase
     {
         $obj = new ezcCacheStorageFileArray( '/tmp' );
         $id = $obj->generateIdentifier( 'contentstructuremenu/show_content_structure-2 file:foobar' );
-        $this->assertEquals( 'contentstructuremenu/show_content_structure-2_file:foobar.cache', $id );
+        $this->assertEquals( 'contentstructuremenu/show_content_structure-2_file:foobar-.cache', $id );
     }
 
     public function testGenerateIdentifier2()
     {
         $obj = new ezcCacheStorageFileArray( '/tmp' );
         $id = $obj->generateIdentifier( 'contentstructuremenu\show_content_structure-2 file:foobar' );
-        $this->assertEquals( 'contentstructuremenu/show_content_structure-2_file:foobar.cache', $id );
+        $this->assertEquals( 'contentstructuremenu/show_content_structure-2_file:foobar-.cache', $id );
     }
 
     public function testGenerateIdentifier3()
     {
         $obj = new ezcCacheStorageFileArray( '/tmp', array( 'extension' => '.c' ) );
         $id = $obj->generateIdentifier( 'contentstructuremenu\show_content_structure-2 file:foobar' );
-        $this->assertEquals( 'contentstructuremenu/show_content_structure-2_file:foobar.c', $id );
+        $this->assertEquals( 'contentstructuremenu/show_content_structure-2_file:foobar-.c', $id );
+    }
+
+    public function testGenerateIdentifier4()
+    {
+        $obj = new ezcCacheStorageFileArray( '/tmp', array( 'extension' => '.c' ) );
+        $id = $obj->generateIdentifier( 1 );
+        $this->assertEquals( '1-.c', $id );
+    }
+
+    public function testGenerateIdentifier5()
+    {
+        $obj = new ezcCacheStorageFileArray( '/tmp', array( 'extension' => '.c' ) );
+        $id = $obj->generateIdentifier( 1, array( "foo" => "bar", "baz" => "bam" ) );
+        $this->assertEquals( '1-baz=bam-foo=bar.c', $id );
     }
 
     public function testInvalidConfigurationOption()
