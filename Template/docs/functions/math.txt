@@ -1,29 +1,6 @@
 Math
 ====
 
-* int math_max_ ( *$val1* , *$val2* [, ...] )
-* int math_min_ ( float *$val1* , float *$val2* [, ...] )
-* float math_abs_ ( float *$val* )
-* int math_ceil_ ( float *$val* )
-* int math_floor_ ( float *$val* )
-* int math_round_ ( float *$val* )
-* float math_sqrt_ ( float *$val* )
-* float math_exp_ ( float *$val* )
-* int math_pow_ ( int *$base*, int *$exp*  )
-* float math_log_ ( int *$arg*, int *$base*  )
-* float math_log10_ ( int *$arg* )
-* float math_float_mod_ ( float *$x*, float *$y* )
-* int math_rand_ ( int *$min*, int *$max* )
-* bool math_is_finite_ ( *$val* )
-* bool math_is_infinite_ ( *$val* )
-* int math_bin_to_dec_ ( string *$str* )
-* string math_dec_to_bin_ ( int *$val* )
-* int math_hex_to_dec_ ( string *$str* )
-* string math_dec_to_hex_ ( int *$val* )
-* int math_oct_to_dec_ ( string *$str* )
-* string math_dec_to_oct_ ( int *$val* )
-
-
 
 int _`math_max` ( float *$val1* , float *$val2* [, ...] )
 `````````````````````````````````````````````````````````

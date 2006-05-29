@@ -1,12 +1,15 @@
 Table of Contents
 =================
 
+- `Math functions`_
 - `String functions`_
 - `Type functions`_
 
+.. include:: functions/math_toc.txt
 .. include:: functions/string_toc.txt
 .. include:: functions/type_toc.txt
 
+.. include:: functions/math.txt
 .. include:: functions/string.txt
 .. include:: functions/type.txt
 
