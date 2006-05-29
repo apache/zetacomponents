@@ -29,7 +29,8 @@ return array(
 
     'ezcGraphDriver'                            => 'Graph/interfaces/driver.php',
     'ezcGraphDriverOptions'                     => 'Graph/options/driver.php',
-    'ezcGraphGDDriver'                          => 'Graph/driver/gd.php',
+    'ezcGraphGdDriver'                          => 'Graph/driver/gd.php',
+    'ezcGraphGdDriverOptions'                   => 'Graph/options/gd_driver.php',
     'ezcGraphSVGDriver'                         => 'Graph/driver/svg.php',
     'ezcGraphInvalidDriverException'            => 'Graph/exceptions/invalid_driver.php',
 

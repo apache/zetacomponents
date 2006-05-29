@@ -12,8 +12,13 @@
  *
  * @package Graph
  */
-class ezcGraphGDDriver extends ezcGraphDriver
+class ezcGraphGdDriver extends ezcGraphDriver
 {
+    public function __construct( array $options = array() )
+    {
+        $this->options = new ezcGraphGdDriverOptions( $options );
+    }
+
     /**
      * Draws a single polygon 
      * 

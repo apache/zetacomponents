@@ -91,7 +91,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $this->driver->drawLine(
+        $this->driver->drawPolygon(
             array( 
                 new ezcGraphCoordinate( 12, 45 ),
                 new ezcGraphCoordinate( 34, 112 ),
@@ -119,7 +119,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $this->driver->drawLine(
+        $this->driver->drawPolygon(
             array( 
                 new ezcGraphCoordinate( 12, 45 ),
                 new ezcGraphCoordinate( 34, 112 ),
@@ -147,7 +147,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $this->driver->drawLine(
+        $this->driver->drawPolygon(
             array( 
                 new ezcGraphCoordinate( 12, 45 ),
                 new ezcGraphCoordinate( 34, 112 ),
