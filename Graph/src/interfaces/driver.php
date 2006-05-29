@@ -35,10 +35,6 @@ abstract class ezcGraphDriver
      */
     protected $height;
     
-    const PNG = 1;
-    const JPEG = 2;
-    const JPG = 2;
-
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphDriverOptions( $options );

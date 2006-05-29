@@ -18,8 +18,8 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
      * Type of generated image.
      *
      * Should be one of those:
-     *  - ezcGraphGdDriver::PNG
-     *  - ezcGraphGdDriver::JPEG
+     *  - IMG_PNG
+     *  - IMG_JPEG
      * 
      * @var int
      */
@@ -39,15 +39,13 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
         switch ( $propertyName )
         {
             case 'imageFormat':
-                if ( in_array(  $propertyValue,
-                                array(  ezcGraphGdDriver::PNG,
-                                        ezcGraphGdDriver::JPEG ) ) ) 
+                if ( imagetypes() & $propertyValue )
                 {
                     $this->imageFormat = (int) $propertyValue;
                 }
                 else
                 {
-                    throw new ezcBaseValueException( $propertyValue, 'integer' );
+                    throw new ezcBaseValueException( $propertyValue, 'Unsupported image type.' );
                 }
                 break;
             default:
