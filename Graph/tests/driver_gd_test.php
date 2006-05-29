@@ -41,9 +41,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
      */
     public function setUp()
     {
-        static $i = 1;
-        $this->tempDir = $this->createTempDir( 'ezcGraphGdDriverTest_' . sprintf( '%03d', $i++ ) . '_' ) . '/';
-
+        $this->tempDir = $this->createTempDir( 'ezcGraphGdDriverTest' ) . '/';
         $this->basePath = dirname( __FILE__ ) . '/data/';
 
         $this->driver = new ezcGraphGdDriver();
@@ -69,7 +67,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
 
         $this->driver->drawLine(
             new ezcGraphCoordinate( 12, 45 ),
-            new ezcGraphCoordinate( 34, 112 ),
+            new ezcGraphCoordinate( 134, 12 ),
             ezcGraphColor::fromHex( '#3465A4' )
         );
 
@@ -81,7 +79,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            'b73c8ddc0cd24c6ce3b7ccf210739280',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -93,9 +91,9 @@ class ezcGraphGdDriverTest extends ezcTestCase
 
         $this->driver->drawPolygon(
             array( 
-                new ezcGraphCoordinate( 12, 45 ),
-                new ezcGraphCoordinate( 34, 112 ),
-                new ezcGraphCoordinate( 71, 12 ),
+                new ezcGraphCoordinate( 45, 12 ),
+                new ezcGraphCoordinate( 122, 34 ),
+                new ezcGraphCoordinate( 12, 71 ),
             ),
             ezcGraphColor::fromHex( '#3465A4' ),
             true
@@ -109,7 +107,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            '5a977088ed4d3edaeaf9c43da9b8cbf6',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -121,9 +119,9 @@ class ezcGraphGdDriverTest extends ezcTestCase
 
         $this->driver->drawPolygon(
             array( 
-                new ezcGraphCoordinate( 12, 45 ),
-                new ezcGraphCoordinate( 34, 112 ),
-                new ezcGraphCoordinate( 71, 12 ),
+                new ezcGraphCoordinate( 45, 12 ),
+                new ezcGraphCoordinate( 122, 34 ),
+                new ezcGraphCoordinate( 12, 71 ),
             ),
             ezcGraphColor::fromHex( '#3465A4' ),
             false
@@ -137,7 +135,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            '72edf3993c6ed69af568275f02c07535',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -149,11 +147,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
 
         $this->driver->drawPolygon(
             array( 
-                new ezcGraphCoordinate( 12, 45 ),
-                new ezcGraphCoordinate( 34, 112 ),
-                new ezcGraphCoordinate( 71, 12 ),
-                new ezcGraphCoordinate( 45, 3 ),
-                new ezcGraphCoordinate( 22, 80 ),
+                new ezcGraphCoordinate( 45, 12 ),
+                new ezcGraphCoordinate( 122, 34 ),
+                new ezcGraphCoordinate( 12, 71 ),
+                new ezcGraphCoordinate( 3, 45 ),
+                new ezcGraphCoordinate( 60, 32 ),
             ),
             ezcGraphColor::fromHex( '#3465A4' ),
             true
@@ -167,7 +165,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            '43369624bdea5e9be97d87e646127b2c',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -354,7 +352,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            'caacb56b7f8a1c06401d20d52197d44c',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -380,7 +378,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            '395d83fd47de97b428a85d17352526cb',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -405,7 +403,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            'c63d5d6d65944d8a59ced91fb085167b',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -430,7 +428,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            '31b83094ebc2b68b8cecec5305d7cdcc',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
