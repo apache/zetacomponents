@@ -1,0 +1,16 @@
+Functions
+~~~~~~~~~
+This document describes the functions available in the template language. 
+
+Strings__
+
+.. __: functions/string.html
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
