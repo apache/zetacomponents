@@ -52,12 +52,12 @@ class ezcTranslationLeetFilter implements ezcTranslationFilter
         {
             if ( strlen( $text ) && $text[0] == '%' )
             {
-                $newTextBlocks[] = $text;
+                $newTextBlocks[] = (string) $text;
                 continue;
             }
             $text = preg_replace( $searchMap, $replaceMap, $text );
 
-            $newTextBlocks[] = $text;
+            $newTextBlocks[] = (string) $text;
         }
         $text = implode( '', $newTextBlocks );
         return $text;

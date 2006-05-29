@@ -50,7 +50,7 @@ class ezcTranslationBorkFilter implements ezcTranslationFilter
         {
             if ( strlen( $text ) && $text[0] == '%' )
             {
-                $newTextBlocks[] = $text;
+                $newTextBlocks[] = (string) $text;
                 continue;
             }
 
@@ -72,7 +72,7 @@ class ezcTranslationBorkFilter implements ezcTranslationFilter
             {
                 $text .= '-a';
             }
-            $newTextBlocks[] = $text;
+            $newTextBlocks[] = (string) $text;
         }
         $text = implode( '', $newTextBlocks );
         $text = preg_replace( '/([:.?!])(.*)/', '\\2\\1', $text );
