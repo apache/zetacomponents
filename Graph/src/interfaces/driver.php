@@ -22,7 +22,7 @@ abstract class ezcGraphDriver
      * @param mixed $filled 
      * @return void
      */
-    abstract abstract public function drawPolygon( $points, ezcGraphColor $color, $filled = true );
+    abstract abstract public function drawPolygon( array $points, ezcGraphColor $color, $filled = true );
     
     /**
      * Draws a single line
@@ -44,32 +44,46 @@ abstract class ezcGraphDriver
      * @param ezcGraphColor $color 
      * @return void
      */
-    abstract abstract public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, ezcGraphColor $color );
+    abstract abstract public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align );
     
     /**
      * Draws a sector of cirlce
      * 
      * @param ezcGraphCoordinate $center 
-     * @param mixed $radius 
+     * @param mixed $width
+     * @param mixed $height
      * @param mixed $startAngle 
      * @param mixed $endAngle 
      * @param ezcGraphColor $color 
      * @return void
      */
-    abstract abstract public function drawCircleSector( ezcGraphCoordinate $center, $radius, $startAngle, $endAngle, ezcGraphColor $color );
+    abstract abstract public function drawCircleSector( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color );
     
     /**
      * Draws a circular arc
      * 
      * @param ezcGraphCoordinate $center 
-     * @param mixed $radius 
+     * @param mixed $width 
      * @param mixed $height 
      * @param mixed $startAngle 
      * @param mixed $endAngle 
      * @param ezcGraphColor $color 
      * @return void
      */
-    abstract abstract public function drawCircularArc( ezcGraphCoordinate $center, $radius, $height, $startAngle, $endAngle, ezcGraphColor $color );
+    abstract abstract public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color );
+    
+    /**
+     * Draws a circle
+     * 
+     * @param ezcGraphCoordinate $center 
+     * @param mixed $width
+     * @param mixed $height
+     * @param ezcGraphColor $color
+     * @param bool $filled
+     *
+     * @return void
+     */
+    abstract abstract public function drawCircle( ezcGraphCoordinate $center, $width, $height, ezcGraphColor $color, $filled = true );
     
     /**
      * Draws a imagemap of desired size
@@ -82,3 +96,5 @@ abstract class ezcGraphDriver
      */
     abstract abstract public function drawImage( $file, ezcGraphCoordinate $position, $width, $height );
 }
+
+?>

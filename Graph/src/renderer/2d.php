@@ -43,7 +43,11 @@ class ezcGraphRenderer2D extends ezcGraphRenderer
      */
     public function drawLine( ezcGraphColor $color, ezcGraphCoordinate $position, ezcGraphCoordinate $end, $filled = true )
     {
-        
+        $this->driver->drawLine(
+            $position,
+            $end,
+            $color
+        );
     }
     
     /**
@@ -57,7 +61,13 @@ class ezcGraphRenderer2D extends ezcGraphRenderer
      */
     public function drawTextBox( ezcGraphCoordinate $position, $text, $width = null, $height = null, $align = ezcGraph::LEFT )
     {
-        
+        $this->driver->drawTextBox(
+            $text,
+            $position,
+            $width,
+            $height,
+            $align
+        );
     }
     
     /**
@@ -88,6 +98,16 @@ class ezcGraphRenderer2D extends ezcGraphRenderer
      */
     public function drawBackground( ezcGraphColor $color, ezcGraphCoordinate $position = null, $width = null, $height = null )
     {
+        $this->driver->drawPolygon(
+            array(
+                $position,
+                new ezcGraphCoordinate( $position->x + $width, $position->y ),
+                new ezcGraphCoordinate( $position->x + $width, $position->y + $height ),
+                new ezcGraphCoordinate( $position->x, $position->y + $height )
+            ),
+            $color,
+            true
+        );
         
     }
     
@@ -116,7 +136,51 @@ class ezcGraphRenderer2D extends ezcGraphRenderer
      */
     public function drawSymbol( ezcGraphColor $color, ezcGraphCoordinate $position, $width, $height, $symbol = ezcGraph::NO_SYMBOL)
     {
-        
+        switch ( $symbol )
+        {
+            case ezcGraph::NO_SYMBOL:
+                $this->driver->drawPolygon(
+                    array(
+                        $position,
+                        new ezcGraphCoordinate( $position->x + $width, $position->y ),
+                        new ezcGraphCoordinate( $position->x + $width, $position->y + $height ),
+                        new ezcGraphCoordinate( $position->x, $position->y + $height )
+                    ),
+                    $color,
+                    true
+                );
+                break;
+            case ezcGraph::DIAMOND:
+                $this->driver->drawPolygon(
+                    array(
+                        new ezcGraphCoordinate( $position->x + $width / 2, $position->y ),
+                        new ezcGraphCoordinate( $position->x + $width, $position->y + $height / 2 ),
+                        new ezcGraphCoordinate( $position->x + $width / 2 , $position->y + $height ),
+                        new ezcGraphCoordinate( $position->x, $position->y + $height / 2 )
+                    ),
+                    $color,
+                    true
+                );
+                break;
+            case ezcGraph::BULLET:
+                $this->driver->drawCircle(
+                    new ezcGraphCoordinate( $position->x + $width / 2, $position->y + $height / 2 ),
+                    $width,
+                    $height,
+                    $color,
+                    true
+                );
+                break;
+            case ezcGraph::CIRCLE:
+                $this->driver->drawCircle(
+                    new ezcGraphCoordinate( $position->x + $width / 2, $position->y + $height / 2 ),
+                    $width,
+                    $height,
+                    $color,
+                    false
+                );
+                break;
+        }
     }
 }
 

@@ -17,6 +17,8 @@ class ezcGraph
 
     const NO_SYMBOL = 0;
     const DIAMOND = 1;
+    const BULLET = 2;
+    const CIRCLE = 3;
 
     const TOP = 1;
     const BOTTOM = 2;

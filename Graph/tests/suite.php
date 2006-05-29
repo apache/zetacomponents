@@ -55,6 +55,11 @@ require_once 'numeric_axis_test.php';
 require_once 'labeled_axis_test.php';
 
 /**
+* Require test suite for ezcGraphChart class.
+*/
+require_once 'renderer_2d_test.php';
+
+/**
 * Test suite for ImageAnalysis package.
 *
 * @package ImageAnalysis
@@ -76,6 +81,7 @@ class ezcGraphSuite extends ezcTestSuite
         $this->addTest( ezcGraphLegendTest::suite() );
         $this->addTest( ezcGraphNumericAxisTest::suite() );
         $this->addTest( ezcGraphLabeledAxisTest::suite() );
+        $this->addTest( ezcGraphRenderer2dTest::suite() );
     }
 
     public static function suite()

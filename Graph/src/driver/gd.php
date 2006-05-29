@@ -14,18 +14,15 @@
  */
 class ezcGraphGDDriver extends ezcGraphDriver
 {
-    
     /**
      * Draws a single polygon 
      * 
      * @param mixed $points 
      * @param ezcGraphColor $color 
      * @param mixed $filled 
-     * @abstract
-     * @access public
      * @return void
      */
-    public function drawPolygon( $points, ezcGraphColor $color, $filled = true )
+    public function drawPolygon( array $points, ezcGraphColor $color, $filled = true )
     {
         
     }
@@ -36,8 +33,6 @@ class ezcGraphGDDriver extends ezcGraphDriver
      * @param ezcGraphCoordinate $start 
      * @param ezcGraphCoordinate $end 
      * @param ezcGraphColor $color 
-     * @abstract
-     * @access public
      * @return void
      */
     public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color )
@@ -53,11 +48,9 @@ class ezcGraphGDDriver extends ezcGraphDriver
      * @param mixed $width 
      * @param mixed $height 
      * @param ezcGraphColor $color 
-     * @abstract
-     * @access public
      * @return void
      */
-    public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, ezcGraphColor $color )
+    public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align )
     {
         
     }
@@ -66,15 +59,14 @@ class ezcGraphGDDriver extends ezcGraphDriver
      * Draws a sector of cirlce
      * 
      * @param ezcGraphCoordinate $center 
-     * @param mixed $radius 
+     * @param mixed $width
+     * @param mixed $height
      * @param mixed $startAngle 
      * @param mixed $endAngle 
      * @param ezcGraphColor $color 
-     * @abstract
-     * @access public
      * @return void
      */
-    public function drawCircleSector( ezcGraphCoordinate $center, $radius, $startAngle, $endAngle, ezcGraphColor $color )
+    public function drawCircleSector( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color )
     {
         
     }
@@ -83,16 +75,30 @@ class ezcGraphGDDriver extends ezcGraphDriver
      * Draws a circular arc
      * 
      * @param ezcGraphCoordinate $center 
-     * @param mixed $radius 
+     * @param mixed $width 
      * @param mixed $height 
      * @param mixed $startAngle 
      * @param mixed $endAngle 
      * @param ezcGraphColor $color 
-     * @abstract
-     * @access public
      * @return void
      */
-    public function drawCircularArc( ezcGraphCoordinate $center, $radius, $height, $startAngle, $endAngle, ezcGraphColor $color )
+    public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color )
+    {
+        
+    }
+    
+    /**
+     * Draws a circle
+     * 
+     * @param ezcGraphCoordinate $center 
+     * @param mixed $width
+     * @param mixed $height
+     * @param ezcGraphColor $color
+     * @param bool $filled
+     *
+     * @return void
+     */
+    public function drawCircle( ezcGraphCoordinate $center, $width, $height, ezcGraphColor $color, $filled = true )
     {
         
     }
@@ -104,8 +110,6 @@ class ezcGraphGDDriver extends ezcGraphDriver
      * @param ezcGraphCoordinate $position 
      * @param mixed $width 
      * @param mixed $height 
-     * @abstract
-     * @access public
      * @return void
      */
     public function drawImage( $file, ezcGraphCoordinate $position, $width, $height )

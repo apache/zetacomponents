@@ -59,8 +59,9 @@ abstract class ezcGraphChart
         $this->elements['legend'] = new ezcGraphChartElementLegend();
 
         // Define standard renderer and driver
-        $this->renderer = new ezcGraphRenderer2D();
         $this->driver = new ezcGraphSVGDriver();
+        $this->renderer = new ezcGraphRenderer2D();
+        $this->renderer->setDriver( $this->driver );
     }
 
     /**
