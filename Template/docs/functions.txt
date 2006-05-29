@@ -1,10 +1,25 @@
+=========
 Functions
-~~~~~~~~~
+=========
+
 This document describes the functions available in the template language. 
 
-Strings__
+Table of Contents
+=================
 
-.. __: functions/string.html
+- `String functions`_
+- `Type functions`_
+
+.. include:: functions/string_toc.txt
+.. include:: functions/type_toc.txt
+
+Full Descriptions
+=================
+
+Bla
+
+.. include:: functions/string.txt
+.. include:: functions/type.txt
 
 
 

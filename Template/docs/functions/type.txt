@@ -1,19 +1,6 @@
 Type
 ====
 
-* bool is_empty_ ( mixed *$val* )
-* bool is_array_ ( mixed *$val* )
-* bool is_float_ ( mixed *$val* )
-* bool is_int_ ( mixed *$val* )
-* bool is_numberic_ ( mixed *$val* )
-* bool is_object_ ( mixed *$val* )
-* bool is_class_ ( mixed *$val*, string *$class* )
-* bool is_scalar_ ( mixed *$val* )
-* bool is_string_ ( mixed *$val* )
-* bool is_set_ ( mixed *$val* )
-* string get_class_ ( mixed *$val* )
-
-
 bool _`is_empty` ( mixed *$val* )
 `````````````````````````````````
 Returns true if the given *$val* is empty, otherwise false. The following
