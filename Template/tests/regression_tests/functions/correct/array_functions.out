@@ -102,8 +102,18 @@ hash_diff:
 hash_diff_key:
 
 hash_intersect:
+Array
+(
+    [y] => c
+)
+
 
 hash_intersect_key:
+Array
+(
+    [x] => b
+)
+
 
 hash_keys:
 

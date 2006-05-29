@@ -258,7 +258,7 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
             // hash_intersect_key( $a1, $a2 [, $a3 ...] )::
             // array_intersect( $a1, $a2 [, $a3 ...] )
             case "hash_intersect_key": return array( array( "%array1", "%array2", "[%...]" ), 
-                self::functionCall( "array_intersect", array( "%array1", "%array2", "[%...]") ) );
+                self::functionCall( "array_intersect_key", array( "%array1", "%array2", "[%...]") ) );
 
             // hash_keys( $a ) ( QMap::keys )::
             // array_keys( $a )

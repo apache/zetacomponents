@@ -109,10 +109,12 @@ hash_diff_key:
 {$a = hash_diff_key( array( 'x' => 'b', 'y' => 'c' ), array( 'x' => 'c' ) )}
 
 hash_intersect:
-{$a = hash_intersect( array( 'x' => 'b', 'y' => 'c' ), array( 'x' => 'c' ) )}
+{$a = hash_intersect( array( 'x' => 'b', 'y' => 'c' ), array( 'y' => 'c' ) )}
+{debug_dump($a)}
 
 hash_intersect_key:
 {$a = hash_intersect_key( array( 'x' => 'b', 'y' => 'c' ), array( 'x' => 'c' ) )}
+{debug_dump($a)}
 
 hash_keys:
 {$a = hash_keys( array( 'x' => 'b', 'y' => 'c' ) )}
