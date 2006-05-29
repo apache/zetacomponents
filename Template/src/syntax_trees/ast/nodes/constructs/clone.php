@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * File containing the ezcTemplateCloneAstNode class
  *
  * @package Template
