@@ -1,0 +1,9 @@
+Regular expression functions
+============================
+
+* array preg_grep_ ( array *$subject*, string *$pattern* )
+* bool preg_has_match_ ( string *$subject*, string *$pattern* )
+* array preg_match_ ( string *$subject*, string *$pattern* )
+* string preg_quote_ ( *$str*, [, string *$delim*] )
+* string preg_replace_ ( string *$subject*, string *$pattern*, string *$replace* [, int *$limit*] )
+* array preg_split_ ( string *$subject*, string *$pattern* )

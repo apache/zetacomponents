@@ -1,5 +1,5 @@
-Array manipulation
-==================
+Array
+=====
 
 int _`array_count` ( array *$a* )
 ```````````````````````````````````
@@ -288,7 +288,7 @@ returns the following array::
 
     array( 1, "a", 3 )
 
-array _`array_fill_range` ( int *$low*, int *$high* [, int *$step]* )
+array _`array_fill_range` ( int *$low*, int *$high* [, int *$step*] )
 `````````````````````````````````````````````````````````````````````
 
 Returns an array of elements *$from* low to *$high*, inclusive. If *$low* >

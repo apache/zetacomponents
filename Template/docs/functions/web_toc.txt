@@ -1,0 +1,8 @@
+Web functions
+=============
+
+* string url_build_ ( array *$data* )
+* string url_decode_ ( string *$str* )
+* string url_encode_ ( string *$url* )
+* string url_parameters_build_ ( array *$params*, string *$prefix* )
+* array url_parse_ ( string *$url* )

@@ -1,0 +1,29 @@
+Debugging
+=========
+
+string _`debug_dump` ( mixed *$val* )
+`````````````````````````````````````
+Returns a string that shows human readable debug information about the given value *$val*.
+This function should only be used for debugging purposes during development
+of your templates. The next example shows the contents of a variable::
+
+    {var $a = array( "Bernard" => "Black", "Manny", 42 )}
+    {debug_dump( $a )}
+
+Outputs::
+
+    Array
+    (
+        [Bernard] => Black
+        [0] => Manny
+        [1] => 42
+    )
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79

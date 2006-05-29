@@ -1,0 +1,4 @@
+Debugging functions
+===================
+
+* string debug_dump_ ( mixed *$val* )

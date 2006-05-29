@@ -1,17 +1,34 @@
 Table of Contents
 =================
 
+- `Array functions`_
+- `Date functions`_
+- `Debugging functions`_
 - `Math functions`_
+- `Regular expression functions`_
 - `String functions`_
 - `Type functions`_
+- `Web functions`_
 
+
+.. include:: functions/array_toc.txt
+.. include:: functions/date_toc.txt
+.. include:: functions/debug_toc.txt
 .. include:: functions/math_toc.txt
+.. include:: functions/regexp_toc.txt
 .. include:: functions/string_toc.txt
 .. include:: functions/type_toc.txt
+.. include:: functions/web_toc.txt
 
+
+.. include:: functions/array.txt
+.. include:: functions/date.txt
+.. include:: functions/debug.txt
 .. include:: functions/math.txt
+.. include:: functions/regexp.txt
 .. include:: functions/string.txt
 .. include:: functions/type.txt
+.. include:: functions/web.txt
 
 
 

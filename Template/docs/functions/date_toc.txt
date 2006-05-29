@@ -1,0 +1,5 @@
+Date functions
+==============
+
+* int date_current_timestamp_ ()
+* string date_format_timestamp_ ( string *$format* [, int *$timestamp*] )
