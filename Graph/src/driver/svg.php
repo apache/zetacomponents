@@ -117,6 +117,17 @@ class ezcGraphSVGDriver extends ezcGraphDriver
     {
         
     }
+
+    /**
+     * Finally save image
+     * 
+     * @param mixed $file 
+     * @return void
+     */
+    public function render ( $file )
+    {
+        
+    }
 }
 
 ?>
