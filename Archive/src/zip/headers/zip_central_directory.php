@@ -227,7 +227,7 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
             case ezcArchiveEntry::IS_FILE:              $ext = ezcArchiveStatMode::S_IFREG;  break; 
             case ezcArchiveEntry::IS_SYMBOLIC_LINK:     $ext = ezcArchiveStatMode::S_IFLNK;  break; 
 
-            default: throw new ezcArchiveException( "Unknown type", ezcArchiveException::INTERNAL_ERROR );
+            default: throw new ezcArchiveException( "Unknown type" );
         }
 
         if ( !isset( $this->properties["externalFileAttributes"] ) ) $this->properties["externalFileAttributes"] = 0;

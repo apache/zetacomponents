@@ -40,13 +40,15 @@ class ezcArchiveBlockFileTest extends ezcTestCase
     {
         $original =  dirname(__FILE__) . "/../data/tar_ustar_2_textfiles.tar" ;
 
-        $tmpDir = $this->createTempDir("ezcArchive_");
+        $this->createTempDir("ezcArchive_");
+        $tmpDir = $this->getTempDir();
         $readOnly = $tmpDir . "/read_only.tar";
         copy( $original, $readOnly );
 
         $blockFile = new ezcArchiveBlockFile( $readOnly );
         $data = $blockFile->current();
         $this->assertEquals( "file1.txt", substr($data, 0, 9), "Cannot read the copied file" );
+        unset( $blockFile );
 
         chmod( $readOnly, 0400 );
 
@@ -55,12 +57,14 @@ class ezcArchiveBlockFileTest extends ezcTestCase
             $blockFile = new ezcArchiveBlockFile( $readOnly );
             $data = $blockFile->current();
             $this->assertEquals( "file1.txt", substr($data, 0, 9), "Cannot read the copied READ-ONLY file" );
+            unset( $blockFile );
         }
         catch (ezcArchiveException $e)
         {
             $this->fail("Exception: Cannot read the copied READ-ONLY file.");
         }
 
+        chmod( $readOnly, 0777 );
         $this->removeTempDir();
     }
 
@@ -79,6 +83,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
         $data = $blockFile->current();
         $this->assertEquals( "Appended", substr($data, 0, 8), "Failed to append to file.");
 
+        unset( $blockFile );
         $this->removeTempDir();
     }
 
@@ -136,6 +141,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
         $this->assertFalse( $blockFile->valid(), "Current element should not be valid." );
         $this->assertFalse( $blockFile->key(), "No key available" );
 
+        unset( $blockFile );
         $this->removeTempDir();
     }
 
@@ -159,7 +165,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
         $blockFile->next(); // Should be false.
         $this->assertFalse( $blockFile->valid() );
 
-
+        unset( $blockFile );
         $this->removeTempDir();
     }
 
@@ -208,6 +214,8 @@ class ezcArchiveBlockFileTest extends ezcTestCase
         {
         }
 
+        chmod( $tmpFile, 0777 );
+        unset( $blockFile );
         $this->removeTempDir();
     }
 
@@ -234,6 +242,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
         $this->assertFalse( $blockFile->current(), "No value expected" );
         $this->assertFalse( $blockFile->key(), "No key should be available" );
 
+        unset( $blockFile );
         $this->removeTempDir();
     }
 
@@ -276,6 +285,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
 
         $this->assertEquals( 1, $total, "Expected block numbers 0 and 1");
 
+        unset( $blockFile );
         $this->removeTempDir();
     }
 
@@ -304,6 +314,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
 
         $this->assertEquals( 210, $total, "Expected block numbers 0 .. 20");
 
+        unset( $blockFile );
         $this->removeTempDir();
     }
 
@@ -328,6 +339,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
 
         $this->assertEquals( 3, $total, "Expected block numbers 0 .. 2");
 
+        unset( $blockFile );
         $this->removeTempDir();
     }
 
@@ -366,6 +378,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
         $this->assertTrue( $blockFile->valid(), "Should be a null block here." );
         $this->assertTrue( $blockFile->isNullBlock(), "Should be a null block here." );
 
+        unset( $blockFile );
         $this->removeTempDir();
     }
 
@@ -390,6 +403,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
         $blockFile->append("blaap");
         $this->assertFalse( $blockFile->isEmpty() );
 
+        unset( $blockFile );
         $this->removeTempDir();
     }
     
@@ -400,6 +414,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
         $blockFile = new ezcArchiveBlockFile( $tmpFile );
 
         $this->assertEquals( 2, $blockFile->getBlocksFromBytes( 666 ) );
+        unset( $blockFile );
         $this->removeTempDir();
     }
 
@@ -444,6 +459,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
         $this->assertFalse( $blockFile->next() );
         $this->assertFalse( $blockFile->next() );
 
+        unset( $blockFile );
         $this->removeTempDir();
     }
 
@@ -494,6 +510,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
         $this->assertFalse( $blockFile->current() );
         $this->assertFalse( $blockFile->valid() );
 
+        unset( $blockFile );
         $this->removeTempDir();
     }
 
@@ -520,6 +537,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
         $data = $blockFile->current();
         $this->assertEquals( "file1.txt", substr( $data, 0, 9 ) ); 
 
+        unset( $blockFile );
         $this->removeTempDir();
     }
 

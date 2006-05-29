@@ -1,3 +1,11 @@
+1.1rc1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed bug #7987: ezcArchive test in Windows call to undefined function 
+  symlink() in archive.php on line 465.
+- Fixed tests to run in Windows environment.
+
+
 1.0.1 - Monday 20 February 2006 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

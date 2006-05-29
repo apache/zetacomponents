@@ -433,10 +433,11 @@ abstract class ezcArchive implements Iterator
     {
         if ( !$this->valid() ) return false;
 
+        $isWindows = ( substr( php_uname('s'), 0, 7 ) == 'Windows' )?true:false;
         $entry = $this->current();
         $type = $entry->getType();
         $fileName = $target ."/". $entry->getPath(); 
-
+        
         if ( $type == ezcArchiveEntry::IS_LINK )
         {
             $linkName = $target ."/".$entry->getLink();
@@ -459,11 +460,58 @@ abstract class ezcArchive implements Iterator
             {
                 switch ( $type )
                 {
-                    case ezcArchiveEntry::IS_CHARACTER_DEVICE:  posix_mknod( $fileName, POSIX_S_IFCHR, $entry->getMajor(), $entry->getMinor() ); break;
-                    case ezcArchiveEntry::IS_BLOCK_DEVICE:      posix_mknod( $fileName, POSIX_S_IFBLK, $entry->getMajor(), $entry->getMinor() ); break;
-                    case ezcArchiveEntry::IS_FIFO:              posix_mknod( $fileName, POSIX_S_IFIFO );                                         break;
-                    case ezcArchiveEntry::IS_SYMBOLIC_LINK:     symlink( $entry->getLink(), $fileName );                                         break;
-                    case ezcArchiveEntry::IS_LINK:              link( $target ."/". $entry->getLink(), $fileName );                              break;
+                    case ezcArchiveEntry::IS_CHARACTER_DEVICE:  
+                        if ( function_exists('posix_mknod')) 
+                        {
+                            posix_mknod( $fileName, POSIX_S_IFCHR, $entry->getMajor(), $entry->getMinor() );
+                        }
+                        else
+                        {
+                            throw new ezcArchiveValueException( $type );
+                        }
+                        break;
+                    case ezcArchiveEntry::IS_BLOCK_DEVICE:
+                        if ( function_exists('posix_mknod') )
+                        {
+                            posix_mknod( $fileName, POSIX_S_IFBLK, $entry->getMajor(), $entry->getMinor() ); 
+                        }
+                        else
+                        {
+                            throw new ezcArchiveValueException( $type );
+                        }
+                        break;
+                    case ezcArchiveEntry::IS_FIFO:              
+                        if ( function_exists('posix_mknod') ) 
+                        {
+                            posix_mknod( $fileName, POSIX_S_IFIFO );
+                        }
+                        else
+                        {
+                            throw new ezcArchiveValueException( $type );
+                        }
+                        break;
+                    case ezcArchiveEntry::IS_SYMBOLIC_LINK:
+                        if ( $isWindows )
+                        {
+                            $pathParts = pathinfo($fileName);
+                            $linkDir = $pathParts['dirname'];
+                            copy( $linkDir.'/'.$entry->getLink(), $fileName );
+                        }
+                        else
+                        {
+                            symlink( $entry->getLink(), $fileName );
+                        }
+                        break;
+                    case ezcArchiveEntry::IS_LINK:  
+                        if ( $isWindows )
+                        {
+                            copy( $target ."/".$entry->getLink(), $fileName );
+                        }
+                        else
+                        {
+                            link( $target ."/". $entry->getLink(), $fileName );
+                        }
+                        break;
                     case ezcArchiveEntry::IS_DIRECTORY:         mkdir( $fileName, octdec( $entry->getPermissions() ), true );                    break;
                     case ezcArchiveEntry::IS_FILE:              $this->writeCurrentDataToFile( $fileName );                                      break;
                     default: throw new ezcArchiveValueException( $type );
@@ -558,6 +606,10 @@ abstract class ezcArchive implements Iterator
         if ( !file_exists( $dirName ) )
         {
             // Try to create the directory.
+            if (substr( php_uname('s'), 0, 7 ) == 'Windows')  
+            {
+                $dirName = str_replace( '/', '\\', $dirName ); //make all slashes to be '/'
+            }
             mkdir( $dirName, 0777, true );
         }
     }

@@ -36,14 +36,18 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         $this->file = $this->createTempFile("tar_v7_2_textfiles.tar");
         $blockFile = new ezcArchiveBlockFile( $this->file );
         $this->archive = new ezcArchiveV7Tar( $blockFile );
+        unset( $blockFile );
 
         $this->complexFile = $this->createTempFile("tar_v7_file_dir_symlink_link.tar");
         $blockFile = new ezcArchiveBlockFile( $this->complexFile );
         $this->complexArchive = new ezcArchiveV7Tar( $blockFile );
+        unset( $blockFile );
     }
 
     public function tearDown()
     {
+        unset( $this->archive );
+        unset( $this->complexArchive );
         $this->removeTempDir();
     }
    
@@ -114,6 +118,9 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         $this->assertFalse( $archive->valid(), "Archive should be empty, so no  file info available" );
         $this->assertFalse( $archive->next(), "Archive should be empty, so no file info available" );
         $this->assertFalse( $archive->next(), "Archive should be empty, so no file info available" );
+
+        unset($blockFile);
+        unset($archive);
     }
 
     public function testIteratorOperations()
@@ -255,7 +262,13 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         }
 
         exec("tar -xf ".$this->complexFile." -C $dir/gnu");
-
+        // make corrections to that emulate symlink in windows
+        if ( substr( php_uname('s'), 0, 7 ) == 'Windows')
+        {
+            exec( 'attrib -r '.$dir.'\gnu\files\file3.txt.lnk' );
+            exec( 'del "'.$dir.'\gnu\files\file3.txt.lnk"');
+            exec( 'copy "'.$dir.'\gnu\files\bla\file3.txt" "'.$dir.'\gnu\files\file3.txt"');
+        }
         $this->compareDirectories( "$dir/gnu", "$dir/php" );
     }
 
@@ -275,6 +288,9 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         catch ( ezcArchiveChecksumException $e )
         {
         }
+
+        unset( $tar );
+        unset( $ustarFile );
     }
 
     public function testSeekPositions()
@@ -374,21 +390,21 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
     {
         // The subdirectory should be created automatically.
         $this->complexArchive->seek( 1 ); 
-        $targetDir = $this->getTempDir() ."/";
+        $targetDir = $this->getTempDir() ;
         $this->complexArchive->extractCurrent( $targetDir );
 
-        $this->assertTrue( file_exists( $targetDir . "files/bla/"), "Cannot find the extracted directory." ); 
+        $this->assertTrue( file_exists( $targetDir . "/files/bla/"), "Cannot find the extracted directory." );
     }
 
     public function testExtractOneFile()
     {
         // The directory should be created automatically.
         $this->complexArchive->seek( 4 ); // 5th file.
-        $targetDir = $this->getTempDir() ."/";
+        $targetDir = $this->getTempDir();
         $this->complexArchive->extractCurrent( $targetDir );
 
-        $this->assertTrue( file_exists( $targetDir . "files/bla/file3.txt"), "Cannot find the extracted file." ); 
-        $this->assertEquals("Hello world.\nThe third file.\n", file_get_contents( $targetDir ."files/bla/file3.txt") );
+        $this->assertTrue( file_exists( $targetDir . "/files/bla/file3.txt"), "Cannot find the extracted file." ); 
+        $this->assertEquals("Hello world.\nThe third file.\n", file_get_contents( $targetDir ."/files/bla/file3.txt") );
     }
 
     public function testExtractOneSymbolicLink()
@@ -396,16 +412,18 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         // The directory should be created automatically.
         // The link points to an non existing file.
         $this->complexArchive->seek( 7 ); 
-        $targetDir = $this->getTempDir() ."/";
+
+        $targetDir = $this->getTempDir();
+        
         $this->complexArchive->extractCurrent( $targetDir );
-        $this->assertTrue( is_array (lstat( $targetDir."files/file3.txt" ) ) );
+        $this->assertTrue( is_array (lstat( $targetDir."/files/file3.txt" ) ) );
     }
 
     public function testExtractOneHardLinkException()
     {
         // Should throw an exception.
         $this->complexArchive->seek( 8 ); 
-        $targetDir = $this->getTempDir() ."/";
+        $targetDir = $this->getTempDir();
 
         try
         {
@@ -421,9 +439,10 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
     {
         $this->complexArchive->seek( 4 ); 
 
-        $targetDir = $this->getTempDir() ."/";
+        $targetDir = $this->getTempDir();
+
         $this->complexArchive->extractCurrent( $targetDir );
-        
+
         $this->complexArchive->seek( 8 ); 
         $this->complexArchive->extractCurrent( $targetDir );
 
@@ -453,7 +472,16 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
 
         // Change link.
         unlink( $dir."/php/files/file3.txt" );
-        symlink( "file4.txt", $dir."/php/files/file3.txt");
+
+        $isWindows = ( substr( php_uname('s'), 0, 7 ) == 'Windows')?true:false;
+        if ( $isWindows )
+        {
+            copy( "file4.txt", $dir."/php/files/file3.txt" );
+        }
+        else
+        {        
+            symlink( "file4.txt", $dir."/php/files/file3.txt");
+        }
         
         // Truncate file4.txt (and also files/bla/file3.txt.
         $fp = fopen( $dir ."/php/files/file4.txt", "r+w" );
@@ -473,7 +501,6 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         $dir =  $this->getTempDir();
         mkdir($dir . "/php" );
         mkdir($dir . "/gnu" );
-
         // Extract once
         foreach ($this->complexArchive as $entry)
         {
@@ -490,8 +517,16 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
 
         // Change link.
         unlink( $dir."/php/files/file3.txt" );
-        symlink( "file4.txt", $dir."/php/files/file3.txt");
-        
+
+        $isWindows = ( substr( php_uname('s'), 0, 7 ) == 'Windows')?true:false;
+        if ( $isWindows )
+        {
+            copy( "file4.txt", $dir."/php/files/file3.txt" );
+        }
+        else
+        {        
+            symlink( "file4.txt", $dir."/php/files/file3.txt");
+        }        
         // Truncate file4.txt (and also files/bla/file3.txt.
         $fp = fopen( $dir ."/php/files/file4.txt", "r+w" );
         ftruncate( $fp, 0 );
@@ -577,6 +612,8 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         while ( $blockFile->next() ) $i++ ;
 
         $this->assertEquals( 4, $i );
+
+        unset( $blockFile );
     }
 
     public function testTruncateAmountOfBlocks()
@@ -625,6 +662,8 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         $archive->truncate(); // Remove all.
         $blockFile->rewind();
         $this->assertFalse( $blockFile->valid(), "No blocks expected" );
+
+        unset( $blockFile );
     }
 
     public function testAppendToCurrentNonExistingFile()
@@ -680,6 +719,9 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir file1.txt");
 
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents("$dir/empty_archive.tar" ) );
+
+        unset( $archive );
+        unset( $bf );
     }
 
     public function testAppendToCurrentAtEndOfArchive()
@@ -701,6 +743,9 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         exec("tar -rf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir file1.txt");
 
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents($this->file ) );
+
+        unset( $archive );
+        unset( $bf );
     }
 
     public function testAppendToCurrentInArchive()
@@ -723,6 +768,8 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         exec("tar -rf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir file1.txt");
 
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents($this->file ) );
+
+        unset( $bf );
     }
 
     public function testAppendToCurrentMultipleTimes()
@@ -773,6 +820,7 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         // Do the same with gnu tar.
         exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir files");
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents($emptyTar ) );
+        unset( $bf );
     }
 
     public function testAppendToCurrentSymbolicLink()
@@ -791,6 +839,7 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         // Do the same with gnu tar.
         exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir files/file3.txt");
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents($emptyTar ) );
+        unset( $bf );
     }
 
     public function testAppendToCurrentHardLink()
@@ -822,6 +871,7 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
 
         // Appended as two separated files.
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents($emptyTar ) );
+        unset( $bf );
     }
 
     public function testAppendToCurrentHardLinkedFiles()
@@ -843,6 +893,7 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat );
         $archive->appendToCurrent( array ("$dir/files/bla/file3.txt", "$dir/files/file4.txt"), $dir ); 
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents($emptyTar ) );
+        unset( $bf );
     }
 
     public function testAppendArchiveAtOnce()
@@ -863,14 +914,14 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         }
 
         $dir = $this->getTempDir();
-        $src = $dir . "/src/";
+        $src = $dir . "/src";
         mkdir ( $src );
 
         $files = array();
         do
         {
             $this->complexArchive->extractCurrent( $src );
-            $files[] =  $src . $this->complexArchive->current()->getPath();
+            $files[] =  $src . '/'. $this->complexArchive->current()->getPath();
         }
         while ( $this->complexArchive->next() );
 
@@ -878,10 +929,11 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         $bf = new ezcArchiveBlockFile( $mytar, true );
         $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat );
         $archive->appendToCurrent( $files, $src ); 
-
         exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $src files");
 
-        $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents($mytar ) );
+        $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents( $mytar ) );
+        unset( $archive );
+        unset( $bf );
     }
 
     public static function suite()

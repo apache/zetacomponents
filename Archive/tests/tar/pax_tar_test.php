@@ -76,7 +76,14 @@ class ezcArchivePaxTarTest extends ezcArchiveUstarTarTest
         $filename = "ccccccccccddddddddddccccccccccddddddddddccccccccccdddddddddd"; // 60 char.
         touch ( "$dir/$dirname/$dirname/$dirname/$filename" );
 
-        symlink( "$dirname/$dirname/$dirname/$filename", "$dir/mylink" );
+        if ( substr( php_uname('s'), 0, 7 ) == 'Windows' )
+        {
+            copy( "$dirname/$dirname/$dirname/$filename", "$dir/mylink" );
+        }
+        else
+        {
+            symlink( "$dirname/$dirname/$dirname/$filename", "$dir/mylink" );
+        }
 
         exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir mylink");
 

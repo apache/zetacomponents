@@ -51,6 +51,8 @@ class ezcArchiveCharacterFileTest extends ezcTestCase
             $this->fail("Exception: Cannot read the copied READ-ONLY file.");
         }
 
+        chmod( $readOnly, 0777 );
+        unset( $cf );
         $this->removeTempDir();
     }
 
@@ -78,6 +80,7 @@ class ezcArchiveCharacterFileTest extends ezcTestCase
         $this->assertEquals( "d", $cf->next() );
         $this->assertFalse( $cf->next() );
 
+        unset( $cf );
         $this->removeTempDir();
     }
 
@@ -124,6 +127,7 @@ class ezcArchiveCharacterFileTest extends ezcTestCase
         $this->assertFalse( $charFile->valid(), "Current element should not be valid." );
         $this->assertFalse( $charFile->key(), "No key available" );
 
+        unset( $charFile );
         $this->removeTempDir();
     }
 
@@ -147,6 +151,7 @@ class ezcArchiveCharacterFileTest extends ezcTestCase
         $charFile->next(); // Should be false.
         $this->assertFalse( $charFile->valid() );
 
+        unset( $charFile );
         $this->removeTempDir();
     }
 
@@ -195,6 +200,8 @@ class ezcArchiveCharacterFileTest extends ezcTestCase
         {
         }
 
+        chmod( $tmpFile, 0777 );
+        unset( $charFile );
         $this->removeTempDir();
     }
 
@@ -220,6 +227,7 @@ class ezcArchiveCharacterFileTest extends ezcTestCase
         $this->assertFalse( $charFile->current(), "No value expected" );
         $this->assertFalse( $charFile->key(), "No key should be available" );
 
+        unset( $charFile );
         $this->removeTempDir();
     }
 
@@ -248,6 +256,7 @@ class ezcArchiveCharacterFileTest extends ezcTestCase
 
         $this->assertEquals( 2, $total, "Expected 2 characters in the file.");
 
+        unset( $charFile );
         $this->removeTempDir();
     }
 
@@ -266,6 +275,7 @@ class ezcArchiveCharacterFileTest extends ezcTestCase
         $this->assertEquals( "r", $charFile->next(), "Appended character is wrong.");
         $this->assertEquals( "a", $charFile->next(), "Appended character is wrong.");
 
+        unset( $charFile );
         $this->removeTempDir();
     }
 
@@ -290,38 +300,40 @@ class ezcArchiveCharacterFileTest extends ezcTestCase
         $charFile->append("blaap");
         $this->assertFalse( $charFile->isEmpty() );
 
+        unset( $charFile );
         $this->removeTempDir();
     }
    
     public function testSeekPositions()
     {
         $tmpFile = $this->createTempFile("tar_ustar_2_textfiles.tar");
-        $blockFile = new ezcArchiveCharacterFile( $tmpFile );
+        $charFile = new ezcArchiveCharacterFile( $tmpFile );
 
-        $blockFile->seek(2); // Search the third char
-        $data = $blockFile->current();
-        $this->assertEquals( "l", $blockFile->current() );
-        $this->assertEquals( 2, $blockFile->key() );
+        $charFile->seek(2); // Search the third char
+        $data = $charFile->current();
+        $this->assertEquals( "l", $charFile->current() );
+        $this->assertEquals( 2, $charFile->key() );
 
-        $blockFile->seek(0); // Search the first character
-        $data = $blockFile->current();
+        $charFile->seek(0); // Search the first character
+        $data = $charFile->current();
         $this->assertEquals( "f", $data );
-        $this->assertEquals( 0, $blockFile->key() );
+        $this->assertEquals( 0, $charFile->key() );
 
-        $blockFile->seek(-1); // Invalid block search.
-        $this->assertFalse( $blockFile->valid() );
-        $this->assertFalse( $blockFile->current() );
-        $this->assertFalse( $blockFile->key() );
-        $this->assertFalse( $blockFile->next(), "Should all be false" );
-        $this->assertFalse( $blockFile->next(), "Should all be false" );
-        $this->assertFalse( $blockFile->next(), "Should all be false" );
+        $charFile->seek(-1); // Invalid block search.
+        $this->assertFalse( $charFile->valid() );
+        $this->assertFalse( $charFile->current() );
+        $this->assertFalse( $charFile->key() );
+        $this->assertFalse( $charFile->next(), "Should all be false" );
+        $this->assertFalse( $charFile->next(), "Should all be false" );
+        $this->assertFalse( $charFile->next(), "Should all be false" );
 
         // Should be valid again.
-        $blockFile->seek(2); // Search the third char
-        $data = $blockFile->current();
-        $this->assertEquals( "l", $blockFile->current() );
-        $this->assertEquals( 2, $blockFile->key() );
+        $charFile->seek(2); // Search the third char
+        $data = $charFile->current();
+        $this->assertEquals( "l", $charFile->current() );
+        $this->assertEquals( 2, $charFile->key() );
 
+        unset( $charFile );
         $this->removeTempDir();
     }
 
@@ -333,6 +345,7 @@ class ezcArchiveCharacterFileTest extends ezcTestCase
         $data = $charFile->read(9);
         $this->assertEquals("file1.txt", $data );
 
+        unset( $charFile );
         $this->removeTempDir();
     }
 
@@ -363,8 +376,7 @@ class ezcArchiveCharacterFileTest extends ezcTestCase
         $char->write("Cde");
         $this->assertEquals( "abCde", file_get_contents( $file ) );
 
-
-
+        unset( $char );
         $this->removeTempDir();
     }
 
