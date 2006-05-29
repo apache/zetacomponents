@@ -231,7 +231,7 @@ returns the following array::
 
     array( 1, 3 )
 
-array _`array_insersect` ( array *$a1*, array *$a2* [, array *$a3* ...] )
+array _`array_intersect` ( array *$a1*, array *$a2* [, array *$a3* ...] )
 `````````````````````````````````````````````````````````````````````````
 
 Returns an array containing all the values of *$a1*  that are present in all
