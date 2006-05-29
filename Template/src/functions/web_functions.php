@@ -20,14 +20,6 @@ class ezcTemplateWebFunctions extends ezcTemplateFunctions
     {
         switch( $functionName )
         {
-            // base64_encode( $s )
-            case "base64_encode":
-                return array( array( "%string" ), self::functionCall( "base64_encode", array( "%string" ) ) );
-            
-            // base64_decode( $s )
-            case "base64_decode":
-                return array( array( "%string" ), self::functionCall( "base64_decode", array( "%string" ) ) );
-            
             // url_encode( $s )
             case "url_encode":
                 return array( array( "%string" ), self::functionCall( "urlencode", array( "%string" ) ) );

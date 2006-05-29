@@ -41,6 +41,8 @@ String manipulation
 * int str_paragraph_count_ ( string *$str* )
 * string str_replace_ ( string *$before*, int *$index*, int *$length*, string *$replace*)
 * string str_wrap_ ( string *$str*, int *$width*, string *$break* [, bool *$cut_word*] )
+* string str_base64_encode_ ( string *$str* )
+* string str_base64_decode_ ( string *$str* )
 
 
 string _`str_replace` ( string *$before*, int *$index*, int *$length*, string *$replace*)
@@ -565,6 +567,29 @@ Outputs::
    Don't you dare use t
    he word 'party' as a
    verb in this shop!
+
+string _`str_base64_encode` ( string *$str* )
+`````````````````````````````````````````````
+Returns a MIME base64 encoded string from the *$str*::
+
+    {str_base64_encode( "I don't want to be encoded!" )}
+    
+Outputs::
+
+    SSBkb24ndCB3YW50IHRvIGJlIGVuY29kZWQh
+
+
+string _`str_base64_decode` ( string *$str* )
+``````````````````````````````````````````````
+Decodes the given MIME base64 *$str* and returns the original data::
+
+    {str_base64_decode( "SSBkb24ndCB3YW50IHRvIGJlIGVuY29kZWQh" )}
+    
+Outputs::
+
+    I don't want to be encoded!
+
+
 
 
 

@@ -1,5 +1,3 @@
-1. {base64_encode( "I don't want to be encoded!" )}
-2. {base64_decode( "SSBkb24ndCB3YW50IHRvIGJlIGVuY29kZWQh" )}
 3. {url_encode( "some string / for & an % URL" )}
 4. {url_decode( "some+string+%2F+for+%26+an+%25+URL" )}
 5. {url_parameters_build( array( "foo" => "bar", "baz" => "foo" ) )}

@@ -23,6 +23,7 @@
 - Fixed a bug that the break and continue tags could contain garbage.
   E.g. {break abcd}
 - Fixed a bug that the column number in error messages were incorrect.
+- Fixed a bug that the hash_intersect_key function was mapped wrong.
 - Fixed bug #8280: Array assignment with non-constants not working.
 - All compile errors throw the ezcTemplateParserException.  Removed the 
   ezcTemplateSourceToTstParserException.

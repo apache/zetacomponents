@@ -290,6 +290,14 @@ class ezcTemplateStringFunctions extends ezcTemplateFunctions
             case "str_wrap": return array( ezcTemplateAstNode::TYPE_VALUE, array( "%string", "%width", "%break", "[%cut]" ), 
                     self::functionCall( "wordwrap", array( "%string", "%width", "%break", "[%cut]" ) ) );
 
+            // base64_encode( $s )
+            case "str_base64_encode":
+                return array( ezcTemplateAstNode::TYPE_VALUE, array( "%string" ), self::functionCall( "base64_encode", array( "%string" ) ) );
+            
+            // base64_decode( $s )
+            case "str_base64_decode":
+                return array( ezcTemplateAstNode::TYPE_VALUE, array( "%string" ), self::functionCall( "base64_decode", array( "%string" ) ) );
+ 
             // 
             // - *string* str_wrap_indent::
             // 

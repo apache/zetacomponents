@@ -12,7 +12,7 @@ return array
 ( 
 
 "/^str_.*/" => "ezcTemplateStringFunctions",
-"/^(base64_|url_).*/" => "ezcTemplateWebFunctions",
+"/^url_.*/" => "ezcTemplateWebFunctions",
 "/^date_.*/" => "ezcTemplateDateFunctions",
 "/^array_.*/" => "ezcTemplateArrayFunctions",
 "/^hash_.*/" => "ezcTemplateArrayFunctions",
