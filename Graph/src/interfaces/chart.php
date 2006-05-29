@@ -106,7 +106,7 @@ abstract class ezcGraphChart
                }
                 break;
             case 'options':
-                if ( $propertyValue instanceof ezcGraphOptions )
+                if ( $propertyValue instanceof ezcGraphChartOptions )
                 {
                     $this->options = $propertyValue;
                 }
