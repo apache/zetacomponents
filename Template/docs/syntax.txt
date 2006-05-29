@@ -1357,7 +1357,7 @@ The raw construct outputs raw information and is not affected by the Contexts_.
 If for example the XHTML context is set and an expression contains HTML
 characters that should be outputted then the "raw" block should be used:: 
 
-    {var $myBoldText = "<b>Hello world</b>}
+    {var $myBoldText = "<b>Hello world</b>"}
     {raw $myBoldText} 
 
 This template outputs::
