@@ -355,6 +355,17 @@ Some of the functions are also available as case insensitive versions, they are:
 
    Skipped
 
+- *string* str_base64_encode( $s ) ?::
+
+    base64_encode( $s )
+
+- *string* str_base64_decode( $s ) ?::
+
+    base64_decode( $s )
+
+
+
+
 
 Array manipulation
 ``````````````````
@@ -622,16 +633,6 @@ Regular expression
 
 Web manipulation
 ````````````````
-
-Skipped the web manipulation functions.
-
-- base64_encode( $s ) ?::
-
-    base64_encode( $s )
-
-- base64_decode( $s ) ?::
-
-    base64_decode( $s )
 
 - url_encode( $url )::
 
