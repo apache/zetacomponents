@@ -1,0 +1,107 @@
+Regular expressions
+===================
+
+bool preg_has_match( string *$subject*, string *$pattern* )
+```````````````````````````````````````````````````````````
+Returns true if the given regular expression $pattern* matches with the *$subject*, otherwise false.
+The syntax of the pattern is described here_.
+
+.. _here: http://www.php.net/manual/en/reference.pcre.pattern.syntax.php
+
+The next example returns true because the pattenr matches the subject::
+
+    {preg_has_match( "Bernard Black", "/^B.*/" )}
+
+
+array preg_match( string *$subject*, string *$pattern* )
+````````````````````````````````````````````````````````
+Returns an array with the matching values of the performed match between the regular expression *$pattern* and the *$subject*.
+The syntax of the pattern is described here_.
+
+.. _here: http://www.php.net/manual/en/reference.pcre.pattern.syntax.php
+
+The next example returns true because the pattenr matches the subject::
+
+    {var $matches = preg_match( "Bernard Black", "/^B.*/" )}
+    {debug_dump( $matches )}
+
+Outputs::
+
+    Array
+    (
+        [0] => Bernard Black
+    )
+
+
+string preg_replace( string *$subject*, string *$pattern*, string *$replace* [, int *$limit*] )
+```````````````````````````````````````````````````````````````````````````````````````````````
+Replaces the matching regular expression *$pattern* in the source *$subject* with the value *$replace*.
+The amount of replacements is limited to the optional given *$limit*. The replaced string is returned::
+
+
+    {preg_replace( "Bernard Black", "/^B.*\s/", "Manny " )}
+
+Outputs::
+
+    Manny Black
+
+Because the pattern matches 'Bernard ', and replaces it with 'Manny '.
+
+
+string preg_quote( *$str*, [, string *$delim*] )
+````````````````````````````````````````````````
+Returns the quoted string of the *$str*. Every character that is a part of the regular expression syntax
+will be prepended with an addition slash. If the *$delim* string is given then those characters will
+also be escaped in the *$str*::
+
+    {preg_quote( "^Bernard/Black")}
+    {preg_quote( "^Bernard/Black", "/")}
+
+
+Outputs::
+
+    \^Bernard/Black
+    \^Bernard\/Black
+
+
+array preg_split( string *$subject*, string *$pattern* )
+````````````````````````````````````````````````````````
+Returns an array that contains the substrings of the split elements. The elements are split by
+the regular expression *$pattern* in the source *$subject*::
+
+    {var $a = preg_split( "These|are|my|elements", "/\|/" )}
+    {debug_dump ($a)}
+
+Outputs::
+
+    Array
+    (
+        [0] => These
+        [1] => are
+        [2] => my
+        [3] => elements
+    )
+        
+
+array preg_grep( array *$subject*, string *$pattern* )
+``````````````````````````````````````````````````````
+Returns the array alements from the *subject* that matches the *$pattern*::
+
+    {var $a = preg_grep( array( "Manny", "Bernard", "Fram"), "/^B/")}
+    {debug_dump ($a)}
+
+Outputs::
+
+    Array
+    (
+        [1] => Bernard
+    )
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
