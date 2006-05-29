@@ -444,7 +444,8 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'Short',
             new ezcGraphCoordinate( 10, 10 ),
             50,
-            30
+            30,
+            ezcGraph::LEFT
         );
 
         $this->driver->render( $filename );
@@ -469,7 +470,8 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'ThisIsAPrettyLongString',
             new ezcGraphCoordinate( 10, 10 ),
             50,
-            30
+            30,
+            ezcGraph::LEFT
         );
 
         $this->driver->render( $filename );
@@ -494,7 +496,8 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'This Is A Pretty Long String',
             new ezcGraphCoordinate( 10, 10 ),
             50,
-            30
+            30,
+            ezcGraph::LEFT
         );
 
         $this->driver->render( $filename );
@@ -519,7 +522,112 @@ class ezcGraphGdDriverTest extends ezcTestCase
             "New\nLine",
             new ezcGraphCoordinate( 10, 10 ),
             50,
-            30
+            30,
+            ezcGraph::LEFT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            '$hash',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testDrawTextBoxStringRight()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->drawTextBox(
+            'ThisIsAPrettyLongString',
+            new ezcGraphCoordinate( 10, 10 ),
+            50,
+            30,
+            ezcGraph::RIGHT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            '$hash',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testDrawTextBoxLongSpacedStringRight()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->drawTextBox(
+            'This Is A Pretty Long String',
+            new ezcGraphCoordinate( 10, 10 ),
+            50,
+            30,
+            ezcGraph::RIGHT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            '$hash',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testDrawTextBoxStringCenter()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->drawTextBox(
+            'ThisIsAPrettyLongString',
+            new ezcGraphCoordinate( 10, 10 ),
+            50,
+            30,
+            ezcGraph::RIGHT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            '$hash',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testDrawTextBoxLongSpacedStringCenter()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->drawTextBox(
+            'This Is A Pretty Long String',
+            new ezcGraphCoordinate( 10, 10 ),
+            50,
+            30,
+            ezcGraph::RIGHT
         );
 
         $this->driver->render( $filename );
