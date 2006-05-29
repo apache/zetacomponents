@@ -1,9 +1,3 @@
-=========
-Functions
-=========
-
-This document describes the functions available in the template language. 
-
 Table of Contents
 =================
 
@@ -12,11 +6,6 @@ Table of Contents
 
 .. include:: functions/string_toc.txt
 .. include:: functions/type_toc.txt
-
-Full Descriptions
-=================
-
-Bla
 
 .. include:: functions/string.txt
 .. include:: functions/type.txt
