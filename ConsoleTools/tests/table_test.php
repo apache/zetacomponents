@@ -276,6 +276,29 @@ class ezcConsoleToolsTableTest extends ezcTestCase
         try
         {
             $opt = new ezcConsoleTableOptions(
+                array( 1, 2, 3 ),
+                ezcConsoleTable::WRAP_CUT,
+                ezcConsoleTable::ALIGN_CENTER,
+                ':',
+                ezcConsoleTable::WIDTH_FIXED,
+                ':',
+                '-',
+                'o',
+                'test',
+                'test2'
+            );
+        }
+        catch ( Exception $e )
+        {
+            $this->fail( "Exception while setting valid option: {$e->getMessage()}." );
+        }
+    }
+
+    public function testSetOptions_Success3()
+    {
+        try
+        {
+            $opt = new ezcConsoleTableOptions(
                 array(
                     "colWidth" => array( 1, 2, 3 ),
                     "colWrap" => ezcConsoleTable::WRAP_CUT,
@@ -295,7 +318,7 @@ class ezcConsoleToolsTableTest extends ezcTestCase
             $this->fail( "Exception while setting valid option: {$e->getMessage()}." );
         }
     }
-    
+
     public function testSetOptions_Failure()
     {
         $out = new ezcConsoleOutput();
