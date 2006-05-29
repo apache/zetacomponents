@@ -87,7 +87,7 @@ abstract class ezcDbHandler extends PDO
      *
      * @return string
      */
-    abstract static public function getName();
+    //abstract static public function getName();
 
     /**
      * Returns true if the given $feature is supported by the handler.
