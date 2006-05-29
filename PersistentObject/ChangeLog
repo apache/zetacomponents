@@ -1,8 +1,9 @@
 1.1rc1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Implemented feature request 8248: PersistentObject: ezcPersistentSession 
-  should throw more descriptive exceptions.
+- Implemented feature request 8248: ezcPersistentSession should throw more
+  descriptive exceptions.
+
 
 1.1beta1 - Tuesday 09 May 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

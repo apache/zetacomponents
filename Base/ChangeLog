@@ -1,8 +1,6 @@
 1.1rc1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Added an explanation and examples about autoloading of external class
-  repositories to the tutorial.
 - Fixed bug #8252: Autoloading for external repositories only works for the
   first such class.
 
