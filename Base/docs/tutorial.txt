@@ -33,12 +33,11 @@ Usage
 Adding class repositories located outside eZ components to autoload system
 --------------------------------------------------------------------------
 
-It can be useful to add repositories of user defined 
-classes to the eZ components autoload system. 
-The ezcBase::addClassRepository() method can be used to perform this task.
-At you need to arrange the desired external classes in a class repository, 
-i.e. make sure that classes and correspondent *_autoload.php files
-are named and placed accordingly to explanations below.
+It can be useful to add repositories of user defined classes to the eZ
+components autoload system.  The ezcBase::addClassRepository() method can be
+used to perform this task.  At you need to arrange the desired external classes
+in a class repository, i.e. make sure that classes and correspondent
+\*_autoload.php files are named and placed accordingly to explanations below.
 After they are in the proper structure you can call addClassRepository() with
 the proper parameters somewhere in code before you use the external classes.
 External classes will then be loaded by autoload system.
@@ -90,9 +89,9 @@ To use this repository with the autoload mechanism you have to use the
 following code:
 
 .. include:: tutorial_example_01.php
-   :literal:
+    :literal:
 
- The above code will result output: ::
+The above code will result output: ::
 
     Class 'erMyClass2'
     Class 'erYourClass1'
