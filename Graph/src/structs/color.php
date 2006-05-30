@@ -197,6 +197,24 @@ class ezcGraphColor
             throw new ezcGraphUnknownColorDefinitionException( $color );
         }
     }
+
+    /**
+     * Darkens the color
+     * 
+     * @param float $value Percent to darken the color
+     * @return void
+     */
+    public function darken( $value )
+    {
+        $color = clone $this;
+
+        $value = 1 - $value;
+        $color->red *= $value;
+        $color->green *= $value;
+        $color->blue *= $value;
+
+        return $color;
+    }
 }
 
 ?>

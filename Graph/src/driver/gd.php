@@ -170,23 +170,130 @@ class ezcGraphGdDriver extends ezcGraphDriver
      */
     public function drawCircleSector( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color )
     {
-        
+        $image = $this->getImage();
+        $drawColor = $this->allocate( $color );
+
+        // Normalize angles
+        if ( $startAngle > $endAngle )
+        {
+            $tmp = $startAngle;
+            $startAngle = $endAngle;
+            $endAngle = $tmp;
+        }
+
+        imagefilledarc( $image, $center->x, $center->y, $width, $height, $startAngle, $endAngle, $drawColor, IMG_ARC_PIE );
     }
     
     /**
      * Draws a circular arc
      * 
-     * @param ezcGraphCoordinate $center 
-     * @param mixed $width 
-     * @param mixed $height 
-     * @param mixed $startAngle 
-     * @param mixed $endAngle 
-     * @param ezcGraphColor $color 
+     * @param ezcGraphCoordinate $center Center of ellipse
+     * @param integer $width Width of ellipse
+     * @param integer $height Height of ellipse
+     * @param integer $size Height of border
+     * @param float $startAngle Starting angle of circle sector
+     * @param float $endAngle Ending angle of circle sector
+     * @param ezcGraphColor $color Color of Border
      * @return void
      */
-    public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color )
+    public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color )
     {
+        $image = $this->getImage();
+        $drawColor = $this->allocate( $color );
+
+        // Normalize angles
+        if ( $startAngle > $endAngle )
+        {
+            $tmp = $startAngle;
+            $startAngle = $endAngle;
+            $endAngle = $tmp;
+        }
         
+        $startIteration = ceil( $startAngle / $this->options->detail ) * $this->options->detail;
+        $endIteration = floor( $endAngle / $this->options->detail ) * $this->options->detail;
+
+
+        if ( $startAngle < $startIteration )
+        {
+            // Draw initial step
+            $this->drawPolygon(
+                array(
+                    new ezcGraphCoordinate(
+                        $center->x + ( ( cos( deg2rad( $startAngle ) ) * $width ) / 2 ),
+                        $center->y + ( ( sin( deg2rad( $startAngle ) ) * $height ) / 2 )
+                    ),
+                    new ezcGraphCoordinate(
+                        $center->x + ( ( cos( deg2rad( $startAngle ) ) * $width ) / 2 ),
+                        $center->y + ( ( sin( deg2rad( $startAngle ) ) * $height + $size ) / 2 )
+                    ),
+                    new ezcGraphCoordinate(
+                        $center->x + ( ( cos( deg2rad( $startIteration ) ) * $width ) / 2 ),
+                        $center->y + ( ( sin( deg2rad( $startIteration ) ) * $height + $size ) / 2 )
+                    ),
+                    new ezcGraphCoordinate(
+                        $center->x + ( ( cos( deg2rad( $startIteration ) ) * $width ) / 2 ),
+                        $center->y + ( ( sin( deg2rad( $startIteration ) ) * $height ) / 2 )
+                    ),
+                ),
+                $color->darken( $this->options->shadeCircularArc * abs ( cos ( deg2rad( $startIteration ) ) ) ),
+                true
+            );
+        }
+
+        // Draw all steps
+        for ( ; $startIteration < $endIteration; $startIteration += $this->options->detail )
+        {
+            $end = $startIteration + $this->options->detail;
+            $this->drawPolygon(
+                array(
+                    new ezcGraphCoordinate(
+                        $center->x + ( ( cos( deg2rad( $startIteration ) ) * $width ) / 2 ),
+                        $center->y + ( ( sin( deg2rad( $startIteration ) ) * $height ) / 2 )
+                    ),
+                    new ezcGraphCoordinate(
+                        $center->x + ( ( cos( deg2rad( $startIteration ) ) * $width ) / 2 ),
+                        $center->y + ( ( sin( deg2rad( $startIteration ) ) * $height + $size ) / 2 )
+                    ),
+                    new ezcGraphCoordinate(
+                        $center->x + ( ( cos( deg2rad( $end ) ) * $width ) / 2 ),
+                        $center->y + ( ( sin( deg2rad( $end ) ) * $height + $size ) / 2 )
+                    ),
+                    new ezcGraphCoordinate(
+                        $center->x + ( ( cos( deg2rad( $end ) ) * $width ) / 2 ),
+                        $center->y + ( ( sin( deg2rad( $end ) ) * $height ) / 2 )
+                    ),
+                ),
+                $color->darken( $this->options->shadeCircularArc * abs ( cos ( deg2rad( $startIteration ) ) ) ),
+                true
+            );
+        }
+
+        if ( $endIteration < $endAngle )
+        {
+            // Draw closing step
+            $this->drawPolygon(
+                array(
+                    new ezcGraphCoordinate(
+                        $center->x + ( ( cos( deg2rad( $endIteration ) ) * $width ) / 2 ),
+                        $center->y + ( ( sin( deg2rad( $endIteration ) ) * $height ) / 2 )
+                    ),
+                    new ezcGraphCoordinate(
+                        $center->x + ( ( cos( deg2rad( $endIteration ) ) * $width ) / 2 ),
+                        $center->y + ( ( sin( deg2rad( $endIteration ) ) * $height + $size ) / 2 )
+                    ),
+                    new ezcGraphCoordinate(
+                        $center->x + ( ( cos( deg2rad( $endAngle ) ) * $width ) / 2 ),
+                        $center->y + ( ( sin( deg2rad( $endAngle ) ) * $height + $size ) / 2 )
+                    ),
+                    new ezcGraphCoordinate(
+                        $center->x + ( ( cos( deg2rad( $endAngle ) ) * $width ) / 2 ),
+                        $center->y + ( ( sin( deg2rad( $endAngle ) ) * $height ) / 2 )
+                    ),
+                ),
+                $color->darken( $this->options->shadeCircularArc * abs ( cos ( deg2rad( $endIteration ) ) ) ),
+                true
+            );
+        }
     }
     
     /**

@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-class ezcGraphDriverOptions extends ezcBaseOptions
+abstract class ezcGraphDriverOptions extends ezcBaseOptions
 {
     /**
      * Width of the chart
@@ -28,6 +28,34 @@ class ezcGraphDriverOptions extends ezcBaseOptions
      * @access protected
      */
     protected $height;
+
+    /**
+     * Font face 
+     * 
+     * @var mixed
+     */
+    protected $font;
+
+    /**
+     * Minimum font size for displayed texts
+     * 
+     * @var float
+     */
+    protected $minFontSize = 6;
+
+    /**
+     * Maximum font size for displayed texts
+     * 
+     * @var float
+     */
+    protected $maxFontSize = 24;
+
+    /**
+     * Color of text
+     * 
+     * @var ezcGraphColor
+     */
+    protected $fontColor;
 
     /**
      * Set an option value
@@ -48,11 +76,24 @@ class ezcGraphDriverOptions extends ezcBaseOptions
             case 'height':
                 $this->height = max( 1, (int) $propertyValue );
                 break;
+            case 'minFontSize':
+                $this->minFontSize = max(1, (float) $propertyValue);
+                break;
+            case 'maxFontSize':
+                $this->maxFontSize = max(1, (float) $propertyValue);
+                break;
+            case 'font':
+                // Heavily depends on driver - check should be implemented in 
+                // derived classes
+                $this->checkFont( $propertyValue );
+                break;
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
                 break;
         }
     }
+
+    abstract protected function checkFont( $font );
 }
 
 ?>

@@ -25,6 +25,10 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
      */
     protected $imageFormat;
 
+    protected $detail = 1;
+
+    protected $shadeCircularArc = .5;
+
     /**
      * Set an option value
      * 
@@ -52,6 +56,18 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
                 parent::__set( $propertyName, $propertyValue );
                 break;
         }
+    }
+
+    protected function checkFont( $font )
+    {
+        // We expect a valid font file here.
+        if ( !is_file( $font ) || !is_readable( $font ) )
+        {
+            throw new ezcBaseFileNotFoundException( $font );
+        }
+
+        // @TODO: Check if font file is a valid TTF file.
+        $this->font = realpath( $font );
     }
 }
 

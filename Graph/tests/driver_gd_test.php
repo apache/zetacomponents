@@ -48,6 +48,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         $this->driver->options->width = 200;
         $this->driver->options->height = 100;
         $this->driver->options->imageFormat = IMG_PNG;
+        $this->driver->options->font = $this->basePath . 'font.ttf';
     }
 
     /**
@@ -192,7 +193,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            '1dac226effaec9d8da712769cc7b8b9d',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -219,7 +220,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            '1dac226effaec9d8da712769cc7b8b9d',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -246,7 +247,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            'ea1219631829e61485ee8dfefeca7ddd',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -258,10 +259,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
 
         $this->driver->drawCircularArc(
             new ezcGraphCoordinate( 100, 50 ),
+            150,
             80,
-            40,
+            10,
             12.5,
-            25,
+            55,
             ezcGraphColor::fromHex( '#3465A4' )
         );
 
@@ -273,7 +275,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            '24b25c19ca1d03fbd9dcbd6b19b1dd13',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -285,9 +287,10 @@ class ezcGraphGdDriverTest extends ezcTestCase
 
         $this->driver->drawCircularArc(
             new ezcGraphCoordinate( 100, 50 ),
+            150,
             80,
-            40,
-            25,
+            10,
+            55,
             12.5,
             ezcGraphColor::fromHex( '#3465A4' )
         );
@@ -300,7 +303,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            '24b25c19ca1d03fbd9dcbd6b19b1dd13',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -312,10 +315,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
 
         $this->driver->drawCircularArc(
             new ezcGraphCoordinate( 100, 50 ),
+            150,
             80,
-            40,
+            10,
             25,
-            273,
+            300,
             ezcGraphColor::fromHex( '#3465A4' )
         );
 
@@ -327,7 +331,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            '87218c59d376f08156acb844e9ebb6e4',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );

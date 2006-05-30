@@ -15,6 +15,12 @@
 
 class ezcGraphSVGDriver extends ezcGraphDriver
 {
+
+    public function __construct( array $options = array() )
+    {
+
+    }
+
     /**
      * Draws a single polygon 
      * 
@@ -75,15 +81,16 @@ class ezcGraphSVGDriver extends ezcGraphDriver
     /**
      * Draws a circular arc
      * 
-     * @param ezcGraphCoordinate $center 
-     * @param mixed $width 
-     * @param mixed $height 
-     * @param mixed $startAngle 
-     * @param mixed $endAngle 
-     * @param ezcGraphColor $color 
+     * @param ezcGraphCoordinate $center Center of ellipse
+     * @param integer $width Width of ellipse
+     * @param integer $height Height of ellipse
+     * @param integer $size Height of border
+     * @param float $startAngle Starting angle of circle sector
+     * @param float $endAngle Ending angle of circle sector
+     * @param ezcGraphColor $color Color of Border
      * @return void
      */
-    public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color )
+    public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color )
     {
         
     }
