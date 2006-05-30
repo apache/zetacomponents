@@ -183,7 +183,45 @@ class ezcGraphGdDriver extends ezcGraphDriver
 
         imagefilledarc( $image, $center->x, $center->y, $width, $height, $startAngle, $endAngle, $drawColor, IMG_ARC_PIE );
     }
-    
+
+    /**
+     * Draws a single element of a circular arc
+     * 
+     * @param ezcGraphCoordinate $center Center of ellipse
+     * @param integer $width Width of ellipse
+     * @param integer $height Height of ellipse
+     * @param integer $size Height of border
+     * @param float $startAngle Starting angle of circle sector
+     * @param float $endAngle Ending angle of circle sector
+     * @param ezcGraphColor $color Color of Border
+     * @return void
+     */
+    protected function drawCircularArcStep( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color )
+    {
+        $this->drawPolygon(
+            array(
+                new ezcGraphCoordinate(
+                    $center->x + ( ( cos( deg2rad( $startAngle ) ) * $width ) / 2 ),
+                    $center->y + ( ( sin( deg2rad( $startAngle ) ) * $height ) / 2 )
+                ),
+                new ezcGraphCoordinate(
+                    $center->x + ( ( cos( deg2rad( $startAngle ) ) * $width ) / 2 ),
+                    $center->y + ( ( sin( deg2rad( $startAngle ) ) * $height + $size ) / 2 )
+                ),
+                new ezcGraphCoordinate(
+                    $center->x + ( ( cos( deg2rad( $endAngle ) ) * $width ) / 2 ),
+                    $center->y + ( ( sin( deg2rad( $endAngle ) ) * $height + $size ) / 2 )
+                ),
+                new ezcGraphCoordinate(
+                    $center->x + ( ( cos( deg2rad( $endAngle ) ) * $width ) / 2 ),
+                    $center->y + ( ( sin( deg2rad( $endAngle ) ) * $height ) / 2 )
+                ),
+            ),
+            $color->darken( $this->options->shadeCircularArc * abs ( cos ( deg2rad( $startAngle ) ) ) ),
+            true
+        );
+    }
+ 
     /**
      * Draws a circular arc
      * 
@@ -216,83 +254,19 @@ class ezcGraphGdDriver extends ezcGraphDriver
         if ( $startAngle < $startIteration )
         {
             // Draw initial step
-            $this->drawPolygon(
-                array(
-                    new ezcGraphCoordinate(
-                        $center->x + ( ( cos( deg2rad( $startAngle ) ) * $width ) / 2 ),
-                        $center->y + ( ( sin( deg2rad( $startAngle ) ) * $height ) / 2 )
-                    ),
-                    new ezcGraphCoordinate(
-                        $center->x + ( ( cos( deg2rad( $startAngle ) ) * $width ) / 2 ),
-                        $center->y + ( ( sin( deg2rad( $startAngle ) ) * $height + $size ) / 2 )
-                    ),
-                    new ezcGraphCoordinate(
-                        $center->x + ( ( cos( deg2rad( $startIteration ) ) * $width ) / 2 ),
-                        $center->y + ( ( sin( deg2rad( $startIteration ) ) * $height + $size ) / 2 )
-                    ),
-                    new ezcGraphCoordinate(
-                        $center->x + ( ( cos( deg2rad( $startIteration ) ) * $width ) / 2 ),
-                        $center->y + ( ( sin( deg2rad( $startIteration ) ) * $height ) / 2 )
-                    ),
-                ),
-                $color->darken( $this->options->shadeCircularArc * abs ( cos ( deg2rad( $startIteration ) ) ) ),
-                true
-            );
+            $this->drawCircularArcStep( $center, $width, $height, $size, $startAngle, $startIteration, $color );
         }
 
         // Draw all steps
         for ( ; $startIteration < $endIteration; $startIteration += $this->options->detail )
         {
-            $end = $startIteration + $this->options->detail;
-            $this->drawPolygon(
-                array(
-                    new ezcGraphCoordinate(
-                        $center->x + ( ( cos( deg2rad( $startIteration ) ) * $width ) / 2 ),
-                        $center->y + ( ( sin( deg2rad( $startIteration ) ) * $height ) / 2 )
-                    ),
-                    new ezcGraphCoordinate(
-                        $center->x + ( ( cos( deg2rad( $startIteration ) ) * $width ) / 2 ),
-                        $center->y + ( ( sin( deg2rad( $startIteration ) ) * $height + $size ) / 2 )
-                    ),
-                    new ezcGraphCoordinate(
-                        $center->x + ( ( cos( deg2rad( $end ) ) * $width ) / 2 ),
-                        $center->y + ( ( sin( deg2rad( $end ) ) * $height + $size ) / 2 )
-                    ),
-                    new ezcGraphCoordinate(
-                        $center->x + ( ( cos( deg2rad( $end ) ) * $width ) / 2 ),
-                        $center->y + ( ( sin( deg2rad( $end ) ) * $height ) / 2 )
-                    ),
-                ),
-                $color->darken( $this->options->shadeCircularArc * abs ( cos ( deg2rad( $startIteration ) ) ) ),
-                true
-            );
+            $this->drawCircularArcStep( $center, $width, $height, $size, $startIteration, $startIteration + $this->options->detail, $color );
         }
 
         if ( $endIteration < $endAngle )
         {
             // Draw closing step
-            $this->drawPolygon(
-                array(
-                    new ezcGraphCoordinate(
-                        $center->x + ( ( cos( deg2rad( $endIteration ) ) * $width ) / 2 ),
-                        $center->y + ( ( sin( deg2rad( $endIteration ) ) * $height ) / 2 )
-                    ),
-                    new ezcGraphCoordinate(
-                        $center->x + ( ( cos( deg2rad( $endIteration ) ) * $width ) / 2 ),
-                        $center->y + ( ( sin( deg2rad( $endIteration ) ) * $height + $size ) / 2 )
-                    ),
-                    new ezcGraphCoordinate(
-                        $center->x + ( ( cos( deg2rad( $endAngle ) ) * $width ) / 2 ),
-                        $center->y + ( ( sin( deg2rad( $endAngle ) ) * $height + $size ) / 2 )
-                    ),
-                    new ezcGraphCoordinate(
-                        $center->x + ( ( cos( deg2rad( $endAngle ) ) * $width ) / 2 ),
-                        $center->y + ( ( sin( deg2rad( $endAngle ) ) * $height ) / 2 )
-                    ),
-                ),
-                $color->darken( $this->options->shadeCircularArc * abs ( cos ( deg2rad( $endIteration ) ) ) ),
-                true
-            );
+            $this->drawCircularArcStep( $center, $width, $height, $size, $endIteration, $endAngle, $color );
         }
     }
     
