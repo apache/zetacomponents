@@ -140,7 +140,15 @@ The output for this template is::
 More Information
 ================
 
-For more information, see the ezcTemplate API documentation.
+For more information, see the:
+
+*  `Syntax documentation`_
+*  `EBNF`_
+*  `API documentation`_
+
+.. _`Syntax documentation`: Template_syntax.html
+.. _`EBNF`: Template_syntax.html
+.. _`API documentation`: classtrees_Template.html
 
 
 ..
