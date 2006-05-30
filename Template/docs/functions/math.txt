@@ -116,7 +116,7 @@ float _`math_log` ( int *$arg*, int *$base*  )
 ``````````````````````````````````````````````
 Returns the logarith of Log *$base* *$arg*::
 
-    {math_log( 16, 2 )
+    {math_log( 16, 2 )}
 
 Outputs::
 
@@ -127,7 +127,7 @@ float _`math_log10` ( int *$arg* )
 ``````````````````````````````````
 Returns the 10-base logarithm of the argument::
 
-    {math_log10( 10000 )
+    {math_log10( 10000 )}
 
 Outputs::
 
@@ -139,7 +139,7 @@ Returns the floating point remainder of a devision of the arguments. It
 checks how many times the value *$y* 'fits in' the value *$x*. A The remainder
 is returned:: 
 
-    {math_float_mod( 3.7, 1.1 )
+    {math_float_mod( 3.7, 1.1 )}
 
 Outputs::
 
