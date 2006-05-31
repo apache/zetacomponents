@@ -606,7 +606,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawLine',
-            ) );
+            ), array(), 'mocked_ezcGraphRenderer2D_' . __FUNCTION__ );
 
             // Y-Axis
                 // Base line
@@ -642,7 +642,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawLine',
-            ) );
+            ), array(), 'mocked_ezcGraphRenderer2D_' . __FUNCTION__ );
 
             // Y-Axis
                 // Major step lines
@@ -706,7 +706,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawLine',
-            ) );
+            ), array(), 'mocked_ezcGraphRenderer2D_' . __FUNCTION__ );
 
             // Y-Axis
                 // Minor step lines
@@ -771,7 +771,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawTextBox',
-            ) );
+            ), array(), 'mocked_ezcGraphRenderer2D_' . __FUNCTION__ );
 
             // Y-Axis
             $mockedRenderer

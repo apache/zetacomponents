@@ -354,7 +354,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawLine',
-            ) );
+            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
 
             // X-Axis
             $mockedRenderer
@@ -389,7 +389,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawLine',
-            ) );
+            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
 
             // X-Axis
             $mockedRenderer
@@ -460,7 +460,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawTextBox',
-            ) );
+            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
 
             // Y-Axis
             $mockedRenderer
