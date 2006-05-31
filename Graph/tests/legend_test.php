@@ -164,10 +164,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawBackground',
-                'drawTextBox',
-                'drawSymbol',
-                'drawLine',
-            ) );
+            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
             
             $mockedRenderer
                 ->expects( $this->once() )
@@ -197,14 +194,11 @@ class ezcGraphLegendTest extends ezcTestCase
             $chart->legend->background = '#0000FF';
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-                'drawBackground',
-                'drawTextBox',
                 'drawSymbol',
-                'drawLine',
-            ) );
+            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
 
             $mockedRenderer
-                ->expects( $this->at( 1 ) )
+                ->expects( $this->at( 0 ) )
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#0000FF' ) ),
@@ -214,7 +208,7 @@ class ezcGraphLegendTest extends ezcTestCase
                     ezcGraph::DIAMOND
                 );
             $mockedRenderer
-                ->expects( $this->at( 3 ) )
+                ->expects( $this->at( 1 ) )
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
@@ -224,7 +218,7 @@ class ezcGraphLegendTest extends ezcTestCase
                     ezcGraph::NO_SYMBOL
                 );
             $mockedRenderer
-                ->expects( $this->at( 5 ) )
+                ->expects( $this->at( 2 ) )
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
@@ -253,14 +247,11 @@ class ezcGraphLegendTest extends ezcTestCase
             $chart->legend->background = '#0000FF';
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-                'drawBackground',
                 'drawTextBox',
-                'drawSymbol',
-                'drawLine',
-            ) );
+            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
 
             $mockedRenderer
-                ->expects( $this->at( 2 ) )
+                ->expects( $this->at( 0 ) )
                 ->method( 'drawTextBox' )
                 ->with(
                     $this->equalTo( new ezcGraphCoordinate( 14, 1 ) ),
@@ -269,7 +260,7 @@ class ezcGraphLegendTest extends ezcTestCase
                     $this->equalTo( 12 )
                 );
             $mockedRenderer
-                ->expects( $this->at( 4 ) )
+                ->expects( $this->at( 1 ) )
                 ->method( 'drawTextBox' )
                 ->with(
                     $this->equalTo( new ezcGraphCoordinate( 14, 15 ) ),
@@ -278,7 +269,7 @@ class ezcGraphLegendTest extends ezcTestCase
                     $this->equalTo( 12 )
                 );
             $mockedRenderer
-                ->expects( $this->at( 6 ) )
+                ->expects( $this->at( 2 ) )
                 ->method( 'drawTextBox' )
                 ->with(
                     $this->equalTo( new ezcGraphCoordinate( 14, 29 ) ),
@@ -311,7 +302,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 'drawTextBox',
                 'drawSymbol',
                 'drawLine',
-            ) );
+            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
             $mockedRenderer
                 ->expects( $this->once() )
                 ->method( 'drawBackground' )
@@ -341,14 +332,11 @@ class ezcGraphLegendTest extends ezcTestCase
             $chart->legend->position = ezcGraph::RIGHT;
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-                'drawBackground',
-                'drawTextBox',
                 'drawSymbol',
-                'drawLine',
-            ) );
+            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
 
             $mockedRenderer
-                ->expects( $this->at( 1 ) )
+                ->expects( $this->at( 0 ) )
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#0000FF' ) ),
@@ -358,7 +346,7 @@ class ezcGraphLegendTest extends ezcTestCase
                     ezcGraph::DIAMOND
                 );
             $mockedRenderer
-                ->expects( $this->at( 3 ) )
+                ->expects( $this->at( 1 ) )
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
@@ -368,7 +356,7 @@ class ezcGraphLegendTest extends ezcTestCase
                     ezcGraph::NO_SYMBOL
                 );
             $mockedRenderer
-                ->expects( $this->at( 5 ) )
+                ->expects( $this->at( 2 ) )
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
@@ -399,10 +387,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawBackground',
-                'drawTextBox',
-                'drawSymbol',
-                'drawLine',
-            ) );
+            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
             $mockedRenderer
                 ->expects( $this->once() )
                 ->method( 'drawBackground' )
@@ -432,14 +417,11 @@ class ezcGraphLegendTest extends ezcTestCase
             $chart->legend->position = ezcGraph::BOTTOM;
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-                'drawBackground',
-                'drawTextBox',
                 'drawSymbol',
-                'drawLine',
-            ) );
+            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
 
             $mockedRenderer
-                ->expects( $this->at( 1 ) )
+                ->expects( $this->at( 0 ) )
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#0000FF' ) ),
@@ -449,7 +431,7 @@ class ezcGraphLegendTest extends ezcTestCase
                     ezcGraph::DIAMOND
                 );
             $mockedRenderer
-                ->expects( $this->at( 3 ) )
+                ->expects( $this->at( 1 ) )
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
@@ -459,7 +441,7 @@ class ezcGraphLegendTest extends ezcTestCase
                     ezcGraph::NO_SYMBOL
                 );
             $mockedRenderer
-                ->expects( $this->at( 5 ) )
+                ->expects( $this->at( 2 ) )
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
@@ -489,14 +471,11 @@ class ezcGraphLegendTest extends ezcTestCase
             $chart->legend->position = ezcGraph::TOP;
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-                'drawBackground',
                 'drawTextBox',
-                'drawSymbol',
-                'drawLine',
-            ) );
+            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
 
             $mockedRenderer
-                ->expects( $this->at( 2 ) )
+                ->expects( $this->at( 0 ) )
                 ->method( 'drawTextBox' )
                 ->with(
                     $this->equalTo( new ezcGraphCoordinate( 15, 1 ) ),
@@ -505,7 +484,7 @@ class ezcGraphLegendTest extends ezcTestCase
                     $this->equalTo( 12 )
                 );
             $mockedRenderer
-                ->expects( $this->at( 4 ) )
+                ->expects( $this->at( 1 ) )
                 ->method( 'drawTextBox' )
                 ->with(
                     $this->equalTo( new ezcGraphCoordinate( 215, 1 ) ),
@@ -514,7 +493,7 @@ class ezcGraphLegendTest extends ezcTestCase
                     $this->equalTo( 12 )
                 );
             $mockedRenderer
-                ->expects( $this->at( 6 ) )
+                ->expects( $this->at( 2 ) )
                 ->method( 'drawTextBox' )
                 ->with(
                     $this->equalTo( new ezcGraphCoordinate( 415, 1 ) ),
@@ -544,14 +523,11 @@ class ezcGraphLegendTest extends ezcTestCase
             $chart->legend->symbolSize = 20;
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-                'drawBackground',
-                'drawTextBox',
                 'drawSymbol',
-                'drawLine',
-            ) );
+            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
 
             $mockedRenderer
-                ->expects( $this->at( 1 ) )
+                ->expects( $this->at( 0 ) )
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#0000FF' ) ),
@@ -561,7 +537,7 @@ class ezcGraphLegendTest extends ezcTestCase
                     ezcGraph::DIAMOND
                 );
             $mockedRenderer
-                ->expects( $this->at( 3 ) )
+                ->expects( $this->at( 1 ) )
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
@@ -571,7 +547,7 @@ class ezcGraphLegendTest extends ezcTestCase
                     ezcGraph::NO_SYMBOL
                 );
             $mockedRenderer
-                ->expects( $this->at( 5 ) )
+                ->expects( $this->at( 2 ) )
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
