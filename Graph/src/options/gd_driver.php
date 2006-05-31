@@ -23,7 +23,7 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
      * 
      * @var int
      */
-    protected $imageFormat;
+    protected $imageFormat = IMG_PNG;
 
     protected $detail = 1;
 

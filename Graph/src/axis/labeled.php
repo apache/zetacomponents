@@ -151,6 +151,18 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
     {
         return count( $this->labels );
     }
+
+    protected function getLabel( $step )
+    {
+        if ( isset( $this->labels[$step] ) )
+        {
+            return $this->labels[$step];
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 ?>

@@ -286,6 +286,11 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
     {
         return (int) ( ( $this->max - $this->min ) / $this->majorStep );
     }
+
+    protected function getLabel( $step )
+    {
+        return $this->min + ( $step * $this->majorStep );
+    }
 }
 
 ?>

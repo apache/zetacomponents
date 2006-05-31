@@ -32,7 +32,9 @@ class ezcGraphGdDriver extends ezcGraphDriver
         if ( !isset( $this->image ) )
         {
             $this->image = imagecreatetruecolor( $this->options->width, $this->options->height );
-            imagecolorallocate( $this->image, 255, 255, 255 );
+            $bgColor = imagecolorallocate( $this->image, 255, 255, 255 );
+            // Default to a white background
+            imagefill( $this->image, 1, 1, $bgColor );
         }
 
         return $this->image;
@@ -142,6 +144,53 @@ class ezcGraphGdDriver extends ezcGraphDriver
         imageline( $image, $start->x, $start->y, $end->x, $end->y, $drawColor );
     }
     
+    protected function testFitStringInTextBox( $string, ezcGraphCoordinate $position, $width, $height, $size )
+    {
+        // Tokenize String
+        $tokens = preg_split( '/\s+/', $string );
+        
+        $lines = array( array() );
+        $line = 0;
+        foreach ( $tokens as $token )
+        {
+            // Add token to tested line
+            $selectedLine = $lines[$line];
+            $selectedLine[] = $token;
+
+            $boundings = imagettfbbox( $size, 0, $this->options->font, implode( ' ', $selectedLine ) );
+
+            // Check if line is too long
+            if ( $boundings[2] > $width )
+            {
+                if ( count( $selectedLine ) == 1 )
+                {
+                    // Return false if one single word does not fit into one line
+                    return false;
+                }
+                else
+                {
+                    // Put word in next line instead and reduce available height by used space
+                    $lines[++$line][] = $token;
+                    $height -= $size * ( 1 + $this->options->lineSpacing );
+                }
+            }
+            else
+            {
+                // Everything is ok - put token in this line
+                $lines[$line][] = $token;
+            }
+            
+            // Return false if text exceeds vertical limit
+            if ( $size > $height )
+            {
+                return false;
+            }
+        }
+
+        // It seems to fit - return line array
+        return $lines;
+    }
+
     /**
      * Wrties text in a box of desired size
      * 
@@ -154,7 +203,49 @@ class ezcGraphGdDriver extends ezcGraphDriver
      */
     public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align )
     {
-        
+        $image = $this->getImage();
+        $drawColor = $this->allocate( $this->options->fontColor );
+
+        // Try to get a font size for the text to fit into the box
+        $maxSize = min( $height, $this->options->maxFontSize );
+        for ( $size = $maxSize; $size >= $this->options->minFontSize; --$size )
+        {
+            $result = $this->testFitStringInTextBox( $string, $position, $width, $height, $size );
+            if ( $result !== false )
+            {
+                break;
+            }
+        }
+
+        if ( is_array( $result ) )
+        {
+            // Render text with evaluated font size
+            foreach ( $result as $line )
+            {
+                $string = implode( ' ', $line );
+                $boundings = imagettfbbox( $size, 0, $this->options->font, $string );
+                $position->y += $size;
+
+                switch ( $align )
+                {
+                    case ezcGraph::LEFT:
+                        imagettftext( $image, $size, 0, $position->x, $position->y, $drawColor, $this->options->font, $string );
+                        break;
+                    case ezcGraph::RIGHT:
+                        imagettftext( $image, $size, 0, $position->x + ( $width - $boundings[2] ), $position->y, $drawColor, $this->options->font, $string );
+                        break;
+                    case ezcGraph::CENTER:
+                        imagettftext( $image, $size, 0, $position->x + ( ( $width - $boundings[2] ) / 2 ), $position->y, $drawColor, $this->options->font, $string );
+                        break;
+                }
+
+                $position->y += $size * $this->options->lineSpacing;
+            }
+        }
+        else
+        {
+            // @TODO: Try to fit text in box with minimum font size
+        }
     }
     
     /**

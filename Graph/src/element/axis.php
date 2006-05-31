@@ -161,6 +161,8 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
      */
     abstract protected function getMajorStepCount();
 
+    abstract protected function getLabel( $step );
+
     /**
      * Draw a axis from a start point to an end point. They do not need to be 
      * placed in-plane.
@@ -219,7 +221,7 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 false
             );
 
-            // @TODO: Draw label
+            // @TODO: Draw labels
         }
 
         // Draw minor steps if wanted

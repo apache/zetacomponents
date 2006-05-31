@@ -105,4 +105,15 @@ abstract class ezcGraphRenderer
      * @return void
      */
     abstract public function drawSymbol( ezcGraphColor $color, ezcGraphCoordinate $position, $width, $height, $symbol = ezcGraph::NO_SYMBOL);
+
+    /**
+     * Finally renders the image 
+     * 
+     * @param string $file Filename of destination file
+     * @return void
+     */
+    public function render( $file )
+    {
+        $this->driver->render( $file );
+    }
 }

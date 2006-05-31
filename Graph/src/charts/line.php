@@ -34,6 +34,10 @@ class ezcGraphLineChart extends ezcGraphChart
      */
     public function render( $width, $height, $file = null )
     {
+        // Set image properties in driver
+        $this->driver->options->width = $width;
+        $this->driver->options->height = $height;
+
         // Calculate axis scaling and labeling
         $this->elements['X_axis']->calculateFromDataset( $this->data );
         $this->elements['Y_axis']->calculateFromDataset( $this->data );
@@ -68,6 +72,12 @@ class ezcGraphLineChart extends ezcGraphChart
         }
 
         // Render graph
+        //$this->renderData( $this->renderer, $boundings );
+
+        if ( !empty( $file ) )
+        {
+            $this->renderer->render( $file );
+        }
     }
 }
 ?>

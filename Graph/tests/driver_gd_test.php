@@ -41,13 +41,13 @@ class ezcGraphGdDriverTest extends ezcTestCase
      */
     public function setUp()
     {
-        $this->tempDir = $this->createTempDir( 'ezcGraphGdDriverTest' ) . '/';
+        static $i = 0;
+        $this->tempDir = $this->createTempDir( 'ezcGraphGdDriverTest' . sprintf( '_%03d_', ++$i ) ) . '/';
         $this->basePath = dirname( __FILE__ ) . '/data/';
 
         $this->driver = new ezcGraphGdDriver();
         $this->driver->options->width = 200;
         $this->driver->options->height = 100;
-        $this->driver->options->imageFormat = IMG_PNG;
         $this->driver->options->font = $this->basePath . 'font.ttf';
     }
 
@@ -80,7 +80,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            'b73c8ddc0cd24c6ce3b7ccf210739280',
+            '8c277a49a87dcbe25ca2056799bb6636',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -108,7 +108,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '5a977088ed4d3edaeaf9c43da9b8cbf6',
+            '6612a57ddf198cc55bfd6aab7f6ee82e',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -136,7 +136,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '72edf3993c6ed69af568275f02c07535',
+            '8b224c3e70464f502f99cf2971c92cf5',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -166,7 +166,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '43369624bdea5e9be97d87e646127b2c',
+            '9cef14b91d3ba50af77b00dff44f1531',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -193,7 +193,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '1dac226effaec9d8da712769cc7b8b9d',
+            'c9686bb5fdf0729e08d4c2fd77405f0e',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -220,7 +220,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '1dac226effaec9d8da712769cc7b8b9d',
+            'c9686bb5fdf0729e08d4c2fd77405f0e',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -247,7 +247,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            'ea1219631829e61485ee8dfefeca7ddd',
+            '1763e459a3b74ab4775f6648e7c920ce',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -275,7 +275,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '24b25c19ca1d03fbd9dcbd6b19b1dd13',
+            'b553423de4a14f54bc86b34656585169',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -303,7 +303,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '24b25c19ca1d03fbd9dcbd6b19b1dd13',
+            'b553423de4a14f54bc86b34656585169',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -331,7 +331,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '87218c59d376f08156acb844e9ebb6e4',
+            'dc388c561ab72cb7113ed650455550a9',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -356,7 +356,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            'caacb56b7f8a1c06401d20d52197d44c',
+            '1b4d05fa4c71cba0a87a5aa4cdc52cee',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -382,7 +382,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '395d83fd47de97b428a85d17352526cb',
+            '605357d6fa0ebfcf74097432f4c19d0c',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -407,7 +407,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            'c63d5d6d65944d8a59ced91fb085167b',
+            '2c727bfabf917c5afa5144e63a6bf3c2',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -432,7 +432,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '31b83094ebc2b68b8cecec5305d7cdcc',
+            'a384e438b0853ccaaacac94fb7977f2a',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -445,8 +445,8 @@ class ezcGraphGdDriverTest extends ezcTestCase
         $this->driver->drawTextBox(
             'Short',
             new ezcGraphCoordinate( 10, 10 ),
-            50,
-            30,
+            150,
+            70,
             ezcGraph::LEFT
         );
 
@@ -458,7 +458,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            '264e41d9b90c8f85223b32784ff27d05',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -471,8 +471,8 @@ class ezcGraphGdDriverTest extends ezcTestCase
         $this->driver->drawTextBox(
             'ThisIsAPrettyLongString',
             new ezcGraphCoordinate( 10, 10 ),
-            50,
-            30,
+            150,
+            70,
             ezcGraph::LEFT
         );
 
@@ -484,7 +484,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            'b18d0c9c41a45602732d16a8f5aa0f33',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -497,8 +497,8 @@ class ezcGraphGdDriverTest extends ezcTestCase
         $this->driver->drawTextBox(
             'This Is A Pretty Long String',
             new ezcGraphCoordinate( 10, 10 ),
-            50,
-            30,
+            150,
+            70,
             ezcGraph::LEFT
         );
 
@@ -510,7 +510,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            'a416ee17bff5d36735e7b49562c9c432',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -523,8 +523,8 @@ class ezcGraphGdDriverTest extends ezcTestCase
         $this->driver->drawTextBox(
             "New\nLine",
             new ezcGraphCoordinate( 10, 10 ),
-            50,
-            30,
+            150,
+            70,
             ezcGraph::LEFT
         );
 
@@ -536,7 +536,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            '448a4f38c1c28816ff8fb5057e291a61',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -549,8 +549,8 @@ class ezcGraphGdDriverTest extends ezcTestCase
         $this->driver->drawTextBox(
             'ThisIsAPrettyLongString',
             new ezcGraphCoordinate( 10, 10 ),
-            50,
-            30,
+            150,
+            70,
             ezcGraph::RIGHT
         );
 
@@ -562,7 +562,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            'fbdd9b4c6c87684021dc0d1434ddbca2',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -575,8 +575,8 @@ class ezcGraphGdDriverTest extends ezcTestCase
         $this->driver->drawTextBox(
             'This Is A Pretty Long String',
             new ezcGraphCoordinate( 10, 10 ),
-            50,
-            30,
+            150,
+            70,
             ezcGraph::RIGHT
         );
 
@@ -588,7 +588,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            'dbd1c8c2e16a21ab25e2f8a908b8eeb2',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -601,9 +601,9 @@ class ezcGraphGdDriverTest extends ezcTestCase
         $this->driver->drawTextBox(
             'ThisIsAPrettyLongString',
             new ezcGraphCoordinate( 10, 10 ),
-            50,
-            30,
-            ezcGraph::RIGHT
+            150,
+            70,
+            ezcGraph::CENTER
         );
 
         $this->driver->render( $filename );
@@ -614,7 +614,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            'b18d0c9c41a45602732d16a8f5aa0f33',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -627,9 +627,9 @@ class ezcGraphGdDriverTest extends ezcTestCase
         $this->driver->drawTextBox(
             'This Is A Pretty Long String',
             new ezcGraphCoordinate( 10, 10 ),
-            50,
-            30,
-            ezcGraph::RIGHT
+            150,
+            70,
+            ezcGraph::CENTER
         );
 
         $this->driver->render( $filename );
@@ -640,7 +640,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '$hash',
+            '8acd5742c6ae9fcd3a15574465f100dc',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );

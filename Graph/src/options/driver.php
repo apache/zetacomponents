@@ -48,7 +48,7 @@ abstract class ezcGraphDriverOptions extends ezcBaseOptions
      * 
      * @var float
      */
-    protected $maxFontSize = 24;
+    protected $maxFontSize = 96;
 
     /**
      * Color of text
@@ -56,6 +56,20 @@ abstract class ezcGraphDriverOptions extends ezcBaseOptions
      * @var ezcGraphColor
      */
     protected $fontColor;
+
+    /**
+     * Percent of font size used for line spacing 
+     * 
+     * @var float
+     */
+    protected $lineSpacing = .1;
+
+    public function __construct( array $options = array() )
+    {
+        $this->fontColor = ezcGraphColor::fromHex( '#000000' );
+
+        parent::__construct( $options );
+    }
 
     /**
      * Set an option value
