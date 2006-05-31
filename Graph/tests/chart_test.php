@@ -236,7 +236,7 @@ class ezcGraphChartTest extends ezcTestCase
         try
         {
             $pieChart = ezcGraph::create( 'Pie' );
-            $driver = $pieChart->driver = new ezcGraphGDDriver();
+            $driver = $pieChart->driver = new ezcGraphGdDriver();
         }
         catch ( Exception $e ) 
         {

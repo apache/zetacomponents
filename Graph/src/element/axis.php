@@ -197,6 +197,31 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         $end->x -= ( $end->x - $start->x ) * ( $this->padding / 2 );
         $end->y -= ( $end->y - $start->y ) * ( $this->padding / 2 );
 
+        // Draw major steps
+        $steps = $this->getMajorStepCount();
+
+        for ( $i = 0; $i <= $steps; ++$i )
+        {
+            $renderer->drawLine(
+                $this->border,
+                new ezcGraphCoordinate(
+                    (int) round($start->x + $i * ( $end->x - $start->x ) / $steps 
+                        + $direction->y * $this->majorScalingLineLength),
+                    (int) round($start->y + $i * ( $end->y - $start->y ) / $steps 
+                        + $direction->x * -$this->majorScalingLineLength)
+                ),
+                new ezcGraphCoordinate(
+                    (int) round($start->x + $i * ( $end->x - $start->x ) / $steps 
+                        + $direction->y * -$this->majorScalingLineLength),
+                    (int) round($start->y + $i * ( $end->y - $start->y ) / $steps 
+                        + $direction->x * $this->majorScalingLineLength)
+                ),
+                false
+            );
+
+            // @TODO: Draw label
+        }
+
         // Draw minor steps if wanted
         if ( $this->minorStep )
         {
@@ -207,45 +232,20 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 $renderer->drawLine(
                     $this->border,
                     new ezcGraphCoordinate(
-                        $start->x + $i * ( $end->x - $start->x ) / $steps 
-                            + $direction->y * $this->minorScalingLineLength,
-                        $start->y + $i * ( $end->y - $start->y ) / $steps 
-                            + $direction->x * -$this->minorScalingLineLength
+                        (int) round($start->x + $i * ( $end->x - $start->x ) / $steps 
+                            + $direction->y * $this->minorScalingLineLength),
+                        (int) round($start->y + $i * ( $end->y - $start->y ) / $steps 
+                            + $direction->x * -$this->minorScalingLineLength)
                     ),
                     new ezcGraphCoordinate(
-                        $start->x + $i * ( $end->x - $start->x ) / $steps 
-                            + $direction->y * -$this->minorScalingLineLength,
-                        $start->y + $i * ( $end->y - $start->y ) / $steps 
-                            + $direction->x * $this->minorScalingLineLength
+                        (int) round($start->x + $i * ( $end->x - $start->x ) / $steps 
+                            + $direction->y * -$this->minorScalingLineLength),
+                        (int) round($start->y + $i * ( $end->y - $start->y ) / $steps 
+                            + $direction->x * $this->minorScalingLineLength)
                     ),
                     false
                 );
             }
-        }
-
-        // Draw major steps if wanted
-        $steps = $this->getMajorStepCount();
-
-        for ( $i = 0; $i < $steps; ++$i )
-        {
-            $renderer->drawLine(
-                $this->border,
-                new ezcGraphCoordinate(
-                    $start->x + $i * ( $end->x - $start->x ) / $steps 
-                        + $direction->y * $this->majorScalingLineLength,
-                    $start->y + $i * ( $end->y - $start->y ) / $steps 
-                        + $direction->x * -$this->majorScalingLineLength
-                ),
-                new ezcGraphCoordinate(
-                    $start->x + $i * ( $end->x - $start->x ) / $steps 
-                        + $direction->y * -$this->majorScalingLineLength,
-                    $start->y + $i * ( $end->y - $start->y ) / $steps 
-                        + $direction->x * $this->majorScalingLineLength
-                ),
-                false
-            );
-
-            // @TODO: Draw label
         }
     }
 

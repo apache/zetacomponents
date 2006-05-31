@@ -594,7 +594,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         );
     }
 
-    public function testRenderNumeric()
+    public function testRenderNumericAxisBase()
     {
         try
         {
@@ -603,22 +603,183 @@ class ezcGraphNumericAxisTest extends ezcTestCase
             $chart->sample->color = '#FF0000';
             $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
             $chart->sample2->color = '#00FF00';
-            $chart->legend->background = '#0000FF';
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-                'drawBackground',
-                'drawTextBox',
-                'drawSymbol',
+                'drawLine',
             ) );
+
+            // Y-Axis
+                // Base line
             $mockedRenderer
-                ->expects( $this->once() )
-                ->method( 'drawBackground' )
+                ->expects( $this->at( 6 ) )
+                ->method( 'drawLine' )
                 ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#0000FF' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 0, 0 ) ),
-                    $this->equalTo( 100 ),
-                    $this->equalTo( 200 )
+                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 120, 200 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 120, 0 ) ),
+                    $this->equalTo( false )
                 );
+
+            $chart->renderer = $mockedRenderer;
+
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e )
+        {
+            $this->fail( $e->getMessage() );
+        }
+    }
+
+    public function testRenderNumericAxisMajor()
+    {
+    try
+    {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+            $chart->sample->color = '#FF0000';
+            $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
+            $chart->sample2->color = '#00FF00';
+
+            $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+                'drawLine',
+            ) );
+
+            // Y-Axis
+                // Major step lines
+            $mockedRenderer
+                ->expects( $this->at( 7 ) )
+                ->method( 'drawLine' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 124, 190 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 116, 190 ) ),
+                    $this->equalTo( false )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 8 ) )
+                ->method( 'drawLine' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 124, 130 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 116, 130 ) ),
+                    $this->equalTo( false )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 9 ) )
+                ->method( 'drawLine' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 124, 70 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 116, 70 ) ),
+                    $this->equalTo( false )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 10 ) )
+                ->method( 'drawLine' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 124, 10 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 116, 10 ) ),
+                    $this->equalTo( false )
+                );
+
+
+            $chart->renderer = $mockedRenderer;
+
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e )
+        {
+            $this->fail( $e->getMessage() );
+        }
+    }
+
+    public function testRenderNumericAxisMinor()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+            $chart->sample->color = '#FF0000';
+            $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
+            $chart->sample2->color = '#00FF00';
+
+            $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+                'drawLine',
+            ) );
+
+            // Y-Axis
+                // Minor step lines
+            $mockedRenderer
+                ->expects( $this->at( 11 ) )
+                ->method( 'drawLine' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 122, 190 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 118, 190 ) ),
+                    $this->equalTo( false )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 12 ) )
+                ->method( 'drawLine' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 122, 178 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 118, 178 ) ),
+                    $this->equalTo( false )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 13 ) )
+                ->method( 'drawLine' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 122, 166 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 118, 166 ) ),
+                    $this->equalTo( false )
+                );
+
+                // Last minor step
+            $mockedRenderer
+                ->expects( $this->at( 25 ) )
+                ->method( 'drawLine' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 122, 22 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 118, 22 ) ),
+                    $this->equalTo( false )
+                );
+
+            $chart->renderer = $mockedRenderer;
+
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e )
+        {
+            $this->fail( $e->getMessage() );
+        }
+    }
+
+    public function testRenderNumericAxisLabels()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+            $chart->sample->color = '#FF0000';
+            $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
+            $chart->sample2->color = '#00FF00';
+
+            $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+                'drawTextBox',
+            ) );
+
+            // Y-Axis
+            $mockedRenderer
+                ->expects( $this->at( 2 ) )
+                ->method( 'drawTextBox' )
+                ->with(
+                );
+
             $chart->renderer = $mockedRenderer;
 
             $chart->render( 500, 200 );

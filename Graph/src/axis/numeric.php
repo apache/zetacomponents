@@ -30,21 +30,6 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
     protected $max = false;
 
     /**
-     * Labeled major steps displayed on the axis 
-     * 
-     * @var float
-     */
-    protected $majorStep = false;
-
-    /**
-     * Non labeled minor steps on the axis
-     * 
-     * @var mixed
-     * @access protected
-     */
-    protected $minorStep = false;
-
-    /**
      * Constant used for calculation of automatic definition of major scaling 
      * steps
      */
@@ -76,20 +61,6 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
                 break;
             case 'max':
                 $this->max = (float) $propertyValue;
-                break;
-            case 'majorStep':
-                if ( $propertyValue <= 0 )
-                {
-                    throw new ezcBaseValueException( 'majorStep', $propertyValue, 'float > 0' );
-                }
-                $this->majorStep = (float) $propertyValue;
-                break;
-            case 'minorStep':
-                if ( $propertyValue <= 0 )
-                {
-                    throw new ezcBaseValueException( 'minorStep', $propertyValue, 'float > 0' );
-                }
-                $this->minorStep = (float) $propertyValue;
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );
@@ -294,6 +265,26 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
                             ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->x1 - $boundings-> x0 ) * ( 1 - $this->padding );
             }
         }
+    }
+
+    /**
+     * Return count of minor steps
+     * 
+     * @return integer Count of minor steps
+     */
+    protected function getMinorStepCount()
+    {
+        return (int) ( ( $this->max - $this->min ) / $this->minorStep );
+    }
+
+    /**
+     * Return count of major steps
+     * 
+     * @return integer Count of major steps
+     */
+    protected function getMajorStepCount()
+    {
+        return (int) ( ( $this->max - $this->min ) / $this->majorStep );
     }
 }
 

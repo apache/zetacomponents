@@ -131,6 +131,26 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
             }
         }
     }
+
+    /**
+     * Return count of minor steps
+     * 
+     * @return integer Count of minor steps
+     */
+    protected function getMinorStepCount()
+    {
+        return 0;
+    }
+
+    /**
+     * Return count of major steps
+     * 
+     * @return integer Count of major steps
+     */
+    protected function getMajorStepCount()
+    {
+        return count( $this->labels );
+    }
 }
 
 ?>

@@ -144,12 +144,12 @@ class ezcGraphLegendTest extends ezcTestCase
         }
 
         $this->assertEquals(
-            3,
+            ezcGraph::LEFT,
             $chart->legend->position
         );
 
         $this->assertEquals(
-            3,
+            ezcGraph::LEFT,
             $this->getNonPublicProperty( $chart->legend, 'position' )
         );
     }
@@ -166,7 +166,9 @@ class ezcGraphLegendTest extends ezcTestCase
                 'drawBackground',
                 'drawTextBox',
                 'drawSymbol',
+                'drawLine',
             ) );
+            
             $mockedRenderer
                 ->expects( $this->once() )
                 ->method( 'drawBackground' )
@@ -198,6 +200,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 'drawBackground',
                 'drawTextBox',
                 'drawSymbol',
+                'drawLine',
             ) );
 
             $mockedRenderer
@@ -253,6 +256,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 'drawBackground',
                 'drawTextBox',
                 'drawSymbol',
+                'drawLine',
             ) );
 
             $mockedRenderer
@@ -306,6 +310,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 'drawBackground',
                 'drawTextBox',
                 'drawSymbol',
+                'drawLine',
             ) );
             $mockedRenderer
                 ->expects( $this->once() )
@@ -339,6 +344,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 'drawBackground',
                 'drawTextBox',
                 'drawSymbol',
+                'drawLine',
             ) );
 
             $mockedRenderer
@@ -395,6 +401,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 'drawBackground',
                 'drawTextBox',
                 'drawSymbol',
+                'drawLine',
             ) );
             $mockedRenderer
                 ->expects( $this->once() )
@@ -428,6 +435,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 'drawBackground',
                 'drawTextBox',
                 'drawSymbol',
+                'drawLine',
             ) );
 
             $mockedRenderer
@@ -484,6 +492,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 'drawBackground',
                 'drawTextBox',
                 'drawSymbol',
+                'drawLine',
             ) );
 
             $mockedRenderer
@@ -538,6 +547,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 'drawBackground',
                 'drawTextBox',
                 'drawSymbol',
+                'drawLine',
             ) );
 
             $mockedRenderer

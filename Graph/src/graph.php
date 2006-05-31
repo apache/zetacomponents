@@ -22,9 +22,9 @@ class ezcGraph
 
     const TOP = 1;
     const BOTTOM = 2;
-    const LEFT = 3;
-    const RIGHT = 4;
-    const CENTER = 5;
+    const LEFT = 4;
+    const RIGHT = 8;
+    const CENTER = 16;
 
     static protected $chartTypes = array(
         'pie'   => 'ezcGraphPieChart',

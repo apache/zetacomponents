@@ -20,9 +20,9 @@ class ezcGraphLineChart extends ezcGraphChart
         parent::__construct();
 
         $this->elements['X_axis'] = new ezcGraphChartElementLabeledAxis();
-        $this->elements['X_axis']->position = ezcGraph::BOTTOM;
+        $this->elements['X_axis']->position = ezcGraph::LEFT;
         $this->elements['Y_axis'] = new ezcGraphChartElementNumericAxis();
-        $this->elements['Y_axis']->position = ezcGraph::LEFT;
+        $this->elements['Y_axis']->position = ezcGraph::BOTTOM;
     }
 
     /**
@@ -57,11 +57,11 @@ class ezcGraphLineChart extends ezcGraphChart
             {
                 case 'X_axis':
                     // get Position of 0 on the Y-axis for orientation of the x-axis
-                    $element->nullPosition = $this->elements['Y_axis']->getCoordinate( $boundings, 0 );
+                    $element->nullPosition = $this->elements['Y_axis']->getCoordinate( $boundings, false );
                     break;
                 case 'Y_axis':
                     // get Position of 0 on the X-axis for orientation of the y-axis
-                    $element->nullPosition = $this->elements['X_axis']->getCoordinate( $boundings, 0 );
+                    $element->nullPosition = $this->elements['X_axis']->getCoordinate( $boundings, false );
                     break;
             }
             $boundings = $element->render( $this->renderer, $boundings );
