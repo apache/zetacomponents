@@ -1,0 +1,4 @@
+mock:5:31: Expecting an array.
+
+{cycle $c = str_join( $a, "-")}
+                              ^

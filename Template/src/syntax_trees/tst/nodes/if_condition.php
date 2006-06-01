@@ -66,5 +66,31 @@ class ezcTemplateIfConditionTstNode extends ezcTemplateBlockTstNode
             $this->children[] = $element;
         }
     }
+
+
+    public function trimLine( ezcTemplateWhitespaceRemoval $removal )
+    {
+        if ( count( $this->children ) == 0 )
+            return;
+
+        foreach ($this->children as $child)
+        {
+            if( $child instanceof ezcTemplateConditionBodyTstNode )
+            {
+                // Tell the removal object to trim our first text child
+                if( $child->children[0] instanceof ezcTemplateTextTstNode )
+                {
+                    $removal->trimBlockLine( $this, $child->children[0] );
+                }
+            }
+
+        }
+        
+        // Tell the removal object to trim text blocks after the current block
+        // and after all sub-blocks.
+        $removal->trimBlockLines( $this, $this->children );
+    }
+
+
 }
 ?>

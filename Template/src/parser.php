@@ -1099,7 +1099,7 @@ class ezcTemplateParser
             return;
         }
 
-        // Tell the block to trim its indentation by passign the object
+        // Tell the block to trim its indentation by assign the object
         // which has defined the rules for trimming whitespace
         $block->trimIndentation( $this->whitespaceRemoval );
     }

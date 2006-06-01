@@ -1,0 +1,35 @@
+{foreach 1..1 as $i}
+    x
+    x
+{/foreach}
+x
+
+{foreach 1..1 as $i}
+    {if true}
+        x
+        x
+    {/if}
+{/foreach}
+x
+
+{if true}
+    {if true}
+        {if true}
+            x
+            x
+        {/if}
+        x
+        x
+    {/if}
+{/if}
+x
+
+{if true}x
+x
+{/if}x
+
+{var $a = 2}
+{if true}
+	{$a}
+	{$a}
+{/if}

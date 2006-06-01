@@ -11,14 +11,29 @@
 /**
  * Trims away whitespace from parser elements.
  *
- * This class can perform several types of whitespace removal on the parsed result to ensure that the output given to the end user does not contain unneccesary whitespaces which can be important in some output contexts. It is important to note that this will only remove whitespace from the parsed result and is not applied at run-time, this means that whitespace in outputted strings are kept.
+ * This class can perform several types of whitespace removal on the parsed 
+ * result to ensure that the output given to the end user does not contain 
+ * unneccesary whitespaces which can be important in some output contexts.  It 
+ * is important to note that this will only remove whitespace from the parsed 
+ * result and is not applied at run-time, this means that whitespace in 
+ * outputted strings are kept.
  *
- * The various removal types are configurable in the constructor which allows it to be tailored to what is set as the current output context, e.g. whitespace removal for plain text might be different than XHTML output.
- * Controlling the removal types are done with boolean switches in member variables, they are:
- * - $trimTrailing - If enabled it will remove the trailing whitespace from text blocks after the last block in the code, it checks each line to see if it contains whitespace only and if it does the line is removed.
- * - $trimLeading - Same as $trimTrailing but the trimming is done for the leading lines of the text block found before the first block in the code.
- * - $trimBlockEol - Trims away the whitespace and newline after all command blocks, this essentially makes the block line disappear from the output.
- * - $trimIndent - Trims away whitespace for each line in each block level by using the minimum column as the last trimming point. All lines in the same block level will get the same amount of whitespace removed.
+ * The various removal types are configurable in the constructor which allows 
+ * it to be tailored to what is set as the current output context, e.g.  
+ * whitespace removal for plain text might be different than XHTML output.
+ * Controlling the removal types are done with boolean switches in member 
+ * variables, they are:
+ *
+ * - $trimTrailing - If enabled it will remove the trailing whitespace from 
+ * text blocks after the last block in the code, it checks each line to see if 
+ * it contains whitespace only and if it does the line is removed.
+ * - $trimLeading - Same as $trimTrailing but the trimming is done for the 
+ * leading lines of the text block found before the first block in the code.
+ * - $trimBlockEol - Trims away the whitespace and newline after all command 
+ * blocks, this essentially makes the block line disappear from the output.
+ * - $trimIndent - Trims away whitespace for each line in each block level by 
+ * using the minimum column as the last trimming point. All lines in the same 
+ * block level will get the same amount of whitespace removed.
  *
  * Example of leading whitespace removal:
  * <code>
@@ -55,7 +70,10 @@
  * "    {$item}\n" .
  * "{/if}"
  * </code>
- * here the whitespace with EOL marker is removed only at the end of the the block line, this ensures that critical newlines are kept for the {$item} code and that the {if} block do not add extra newlines
+ *
+ * here the whitespace with EOL marker is removed only at the end of the the 
+ * block line, this ensures that critical newlines are kept for the {$item} 
+ * code and that the {if} block do not add extra newlines
  *
  * Example of indent removal:
  * <code>
@@ -67,7 +85,10 @@
  * "    {$item}\n" .
  * "{/if}"
  * </code>
- * here the whitespace with EOL marker is removed only at the end of the the block line, this ensures that critical newlines are kept for the {$item} code and that the {if} block do not add extra newlines
+ *
+ * here the whitespace with EOL marker is removed only at the end of the the 
+ * block line, this ensures that critical newlines are kept for the {$item} 
+ * code and that the {if} block do not add extra newlines
  *
  * @todo Implement block-eol and indent whitespace removal.
  *
@@ -157,16 +178,13 @@ class ezcTemplateWhitespaceRemoval
     public function trimBlockLevelIndentation( ezcTemplateTstNode $parentBlock, Array $elements )
     {
         // First figure out the smallest amount of indentation that can be removed
-        $prevSibling = null;
         $indentation = $parentBlock->minimumWhitespaceColumn();
 
-        // We have an indentation value so we need to through elements again
-        // and remove the correct amount from text blocks.
-        if ( $indentation > 0 )
-        {
-            $prevSibling = null;
-            foreach ( $elements as $element )
+            $nrOfElements = sizeof( $elements );
+            for ($el = 0; $el < $nrOfElements ; $el++ )
             {
+                $element = $elements[$el];
+
                 if ( $element instanceof ezcTemplateTextBlockTstNode )
                 {
                     $lines = $element->lines;
@@ -176,17 +194,50 @@ class ezcTemplateWhitespaceRemoval
                     {
                         // Skip the first line if it is placed after another element (column > 0 ).
                         // We can only modify lines with leading point at column 0.
-                        if ( $i == 0 &&
-                             $element->firstLineColumn() > 0 )
-                            continue;
+                        if ( $i == 0 && $element->firstLineColumn() > 0 )
+                        {
+                            // It prevents some text nodes from removal.
+                           continue;
+                        }
 
                         // Trim the line and leave EOL alone
                         $lines[$i][0] = $this->trimIndentationLine( $lines[$i][0], $indentation );
+
+                        if( $i ==  $count - 1 )
+                        {
+                            if( $el < $nrOfElements - 1 )
+                            {
+                                if( $elements[ $el + 1 ] instanceof ezcTemplateBlockTstNode && !($elements[ $el + 1 ] instanceof ezcTemplateOutputBlockTstNode) )
+                                {
+                                    $trimmed = trim( $lines[$i][0], " \t");
+                                    if( strlen( $trimmed  ) == 0 ) 
+                                    {
+                                        $lines[$i][0] = "";
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if( $parentBlock instanceof ezcTemplateBlockTstNode  && !($parentBlock instanceof ezcTemplateOutputBlockTstNode) )
+                                {
+                                    $last = sizeof( $lines ) -1;
+
+                                    $trimmed = trim( $lines[$last][0], " \t" );
+                                    if( strlen ( trim( $lines[$last][0], " \t") ) == 0  ) 
+                                    {
+                                        $lines[ $last ][0] = "";
+                                    }
+                                }
+                            }
+                        } 
                     }
+
                     $element->setTextLines( $lines );
                 }
-                $prevSibling = $element;
-            }
+                elseif ( $element instanceof ezcTemplateConditionBodyTstNode )
+                {
+                    $this->trimBlockLevelIndentation( $element, $element->children );
+                }
         }
     }
 

@@ -1,0 +1,61 @@
+Each 'x' should be at the first column.
+
+{foreach 1..1 as $i}
+            x
+            x
+{/foreach}
+
+{foreach 1..1 as $i}
+	x
+	       y
+{/foreach}
+
+{foreach 1..1 as $i}
+           y
+    x	
+{/foreach}
+
+{foreach 1..1 as $i}
+	x
+	         y
+	x
+{/foreach}
+
+{foreach 1..1 as $i}
+	       y
+	x
+	       y
+{/foreach}
+
+x
+{foreach 'x'..'x' as $i}
+            {$i}
+{/foreach}
+x
+
+x
+{if true}
+       x 
+{else}
+       x
+{/if}
+x
+
+x
+{if false}
+       x 
+{else}
+       x
+{/if}
+x
+
+{switch 1}
+	{case 1}
+		x
+	{/case}
+{/switch}
+x
+x
+
+{*delimiter*}
+{*include*}

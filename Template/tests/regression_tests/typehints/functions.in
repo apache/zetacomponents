@@ -1,0 +1,5 @@
+{var $a = array("red", "green", "blue")}
+
+{cycle $b = $a}
+
+{cycle $c = str_join( $a, "-")}

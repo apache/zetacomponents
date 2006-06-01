@@ -1,3 +1,6 @@
+- Fixed a bug that some indentations were not removed.
+- Fixed a bug that the newlines after a non output block were not removed. 
+
 1.0rc1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
