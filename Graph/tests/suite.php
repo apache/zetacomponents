@@ -15,54 +15,19 @@
 require_once 'graph_test.php';
 
 /**
-* Require test suite for ezcGraphColor class.
+* Require test suites.
 */
 require_once 'color_test.php';
-
-/**
-* Require test suite for ezcGraphChart class.
-*/
 require_once 'chart_test.php';
-
-/**
-* Require test suite for ezcGraphChart class.
-*/
 require_once 'pie_test.php';
-
-/**
-* Require test suite for ezcGraphChart class.
-*/
 require_once 'line_test.php';
-
-/**
-* Require test suite for ezcGraphChart class.
-*/
 require_once 'dataset_test.php';
-
-/**
-* Require test suite for ezcGraphChart class.
-*/
 require_once 'legend_test.php';
-
-/**
-* Require test suite for ezcGraphChart class.
-*/
 require_once 'numeric_axis_test.php';
-
-/**
-* Require test suite for ezcGraphChart class.
-*/
 require_once 'labeled_axis_test.php';
-
-/**
-* Require test suite for ezcGraphChart class.
-*/
 require_once 'renderer_2d_test.php';
-
-/**
-* Require test suite for ezcGraphChart class.
-*/
 require_once 'driver_gd_test.php';
+require_once 'font_test.php';
 
 /**
 * Test suite for ImageAnalysis package.
@@ -88,6 +53,7 @@ class ezcGraphSuite extends ezcTestSuite
         $this->addTest( ezcGraphLabeledAxisTest::suite() );
         $this->addTest( ezcGraphRenderer2dTest::suite() );
         $this->addTest( ezcGraphGdDriverTest::suite() );
+        $this->addTest( ezcGraphFontTest::suite() );
     }
 
     public static function suite()

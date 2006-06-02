@@ -87,6 +87,14 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
      */
     protected $font;
 
+    /**
+     * Indicates if font configuration was already cloned for this specific
+     * element.
+     * 
+     * @var boolean
+     */
+    protected $fontCloned = false;
+
     public function __construct( array $options = array() )
     {
         $this->boundings = new ezcGraphBoundings();
@@ -156,6 +164,21 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
         }
     }
     
+    public function __get( $propertyName )
+    {
+        if ( $propertyName === 'font' )
+        {
+            // Clone font configuration when requested for this element
+            if ( !$this->fontCloned )
+            {
+                $this->font = clone $this->font;
+                $this->fontCloned = true;
+            }
+        }
+
+        return parent::__get( $propertyName );
+    }
+
     /**
      * Renders this chart element
      *
