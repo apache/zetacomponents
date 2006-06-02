@@ -257,7 +257,8 @@ class ezcGraphLegendTest extends ezcTestCase
                     $this->equalTo( new ezcGraphCoordinate( 14, 1 ) ),
                     'sampleData',
                     $this->equalTo( 85 ),
-                    $this->equalTo( 12 )
+                    $this->equalTo( 12 ),
+                    $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
                 );
             $mockedRenderer
                 ->expects( $this->at( 1 ) )
@@ -266,7 +267,9 @@ class ezcGraphLegendTest extends ezcTestCase
                     $this->equalTo( new ezcGraphCoordinate( 14, 15 ) ),
                     'moreData',
                     $this->equalTo( 85 ),
-                    $this->equalTo( 12 )
+                    $this->equalTo( 12 ),
+                    $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
+ 
                 );
             $mockedRenderer
                 ->expects( $this->at( 2 ) )
@@ -275,7 +278,9 @@ class ezcGraphLegendTest extends ezcTestCase
                     $this->equalTo( new ezcGraphCoordinate( 14, 29 ) ),
                     'Even more data',
                     $this->equalTo( 85 ),
-                    $this->equalTo( 12 )
+                    $this->equalTo( 12 ),
+                    $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
+ 
                 );
 
             $chart->renderer = $mockedRenderer;

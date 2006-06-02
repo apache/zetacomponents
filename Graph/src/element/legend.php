@@ -209,7 +209,8 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
                         ),
                         $label['label'],
                         $this->boundings->x1 - $this->boundings->x0 - $symbolSize - $this->padding,
-                        $symbolSize - 2 * $this->padding
+                        $symbolSize - 2 * $this->padding,
+                        ezcGraph::LEFT | ezcGraph::MIDDLE
                     );
                 }
                 break;
@@ -240,7 +241,8 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
                         ),
                         $label['label'],
                         $width - $this->padding - $symbolSize,
-                        $symbolSize - 2 * $this->padding
+                        $symbolSize - 2 * $this->padding,
+                        ezcGraph::LEFT | ezcGraph::MIDDLE
                     );
                 }
                 break;
