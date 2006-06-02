@@ -103,6 +103,140 @@ class ezcGraphLineChartTest extends ezcTestCase
         );
     }
 
+    public function testRenderChartLines()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+            $chart->sampleData->color = '#CC0000';
+            $chart->sampleData->symbol = ezcGraph::DIAMOND;
+
+            $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+                'drawLine',
+            ) );
+
+            $mockedRenderer
+                ->expects( $this->at( 28 ) )
+                ->method( 'drawLine' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 120, 85 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 210, 181 ) ),
+                    $this->equalTo( true )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 29 ) )
+                ->method( 'drawLine' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 210, 181 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 300, 44 ) ),
+                    $this->equalTo( true )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 30 ) )
+                ->method( 'drawLine' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 300, 44 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 390, 136 ) ),
+                    $this->equalTo( true )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 31 ) )
+                ->method( 'drawLine' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 390, 136 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 480, 190 ) ),
+                    $this->equalTo( true )
+                );
+
+            $chart->renderer = $mockedRenderer;
+
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e )
+        {
+            $this->fail( $e->getMessage() );
+        }
+    }
+
+    public function testRenderChartSymbols()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+            $chart->sampleData->color = '#CC0000';
+            $chart->sampleData->symbol = ezcGraph::DIAMOND;
+
+            $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+                'drawSymbol',
+            ) );
+
+            $mockedRenderer
+                ->expects( $this->at( 1 ) )
+                ->method( 'drawSymbol' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 116, 81 ) ),
+                    $this->equalTo( 8 ),
+                    $this->equalTo( 8 ),
+                    $this->equalTo( ezcGraph::DIAMOND )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 2 ) )
+                ->method( 'drawSymbol' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 206, 177 ) ),
+                    $this->equalTo( 8 ),
+                    $this->equalTo( 8 ),
+                    $this->equalTo( ezcGraph::DIAMOND )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 3 ) )
+                ->method( 'drawSymbol' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 296, 40 ) ),
+                    $this->equalTo( 8 ),
+                    $this->equalTo( 8 ),
+                    $this->equalTo( ezcGraph::DIAMOND )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 4 ) )
+                ->method( 'drawSymbol' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 386, 132 ) ),
+                    $this->equalTo( 8 ),
+                    $this->equalTo( 8 ),
+                    $this->equalTo( ezcGraph::DIAMOND )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 5 ) )
+                ->method( 'drawSymbol' )
+                ->with(
+                    $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 476, 186 ) ),
+                    $this->equalTo( 8 ),
+                    $this->equalTo( 8 ),
+                    $this->equalTo( ezcGraph::DIAMOND )
+                );
+
+            $chart->renderer = $mockedRenderer;
+
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e )
+        {
+            $this->fail( $e->getMessage() );
+        }
+    }
+
     public function testCompleteRendering()
     {
         try
@@ -120,16 +254,7 @@ class ezcGraphLineChartTest extends ezcTestCase
             $this->fail( $e->getMessage() );
         }
     }
-
-    public function testRender()
-    {
-        throw new PHPUnit2_Framework_IncompleteTestError(
-            '@TODO: Implement renderer tests for custom padding size.'
-        );
-        throw new PHPUnit2_Framework_IncompleteTestError(
-            '@TODO: Implement renderer tests checking minum symbol size'
-        );
-    }
 }
+
 ?>
 

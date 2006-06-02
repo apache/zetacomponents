@@ -632,8 +632,8 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
     public function testRenderNumericAxisMajor()
     {
-    try
-    {
+        try
+        {
             $chart = ezcGraph::create( 'Line' );
             $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
             $chart->sample->color = '#FF0000';

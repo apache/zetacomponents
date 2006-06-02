@@ -33,8 +33,8 @@ class ezcGraphLineChart extends ezcGraphChart
             foreach ( $data as $key => $value )
             {
                 $point = new ezcGraphCoordinate( 
-                    $this->elements['X_axis']->getCoordinate( $boundings, $key ),
-                    $this->elements['Y_axis']->getCoordinate( $boundings, $value )
+                    (int) round( $this->elements['X_axis']->getCoordinate( $boundings, $key ) ),
+                    (int) round( $this->elements['Y_axis']->getCoordinate( $boundings, $value ) )
                 );
 
                 // Draw line
