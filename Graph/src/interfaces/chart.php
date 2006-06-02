@@ -57,8 +57,11 @@ abstract class ezcGraphChart
         // Add standard elements
         $this->elements['title'] = new ezcGraphChartElementText();
         $this->elements['title']->font = $this->options->font;
+        $this->elements['title']->position = ezcGraph::TOP;
+
         $this->elements['legend'] = new ezcGraphChartElementLegend();
         $this->elements['legend']->font = $this->options->font;
+        $this->elements['legend']->position = ezcGraph::LEFT;
 
         // Define standard renderer and driver
         $this->driver = new ezcGraphSVGDriver();

@@ -236,6 +236,48 @@ class ezcGraphLineChartTest extends ezcTestCase
             $this->fail( $e->getMessage() );
         }
     }
+
+    public function testCompleteRendering()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->title = 'Test graph';
+            $this->addSampleData( $chart );
+            $chart->driver = new ezcGraphGdDriver();
+            $chart->options->font = $this->basePath . 'font.ttf';
+            $chart->legend->font = $this->basePath . 'font2.ttf';
+            $chart->render( 500, 200, 'test.png' );
+        }
+        catch ( Exception $e )
+        {
+            echo $e;
+            $this->fail( $e->getMessage() );
+        }
+
+        $this->assertEquals(
+            $this->basePath . 'font.ttf',
+            $chart->options->font->font,
+            'General font face should be the old one.'
+        );
+        
+        $this->assertEquals(
+            $this->basePath . 'font.ttf',
+            $chart->title->font->font,
+            'Font face for X axis should be the old one.'
+        );
+        
+        $this->assertTrue(
+            $chart->legend->font instanceof ezcGraphFontOptions,
+            'No fontOptions object was created.'
+        );
+
+        $this->assertEquals(
+            $this->basePath . 'font2.ttf',
+            $chart->legend->font->font,
+            'Font face for legend has not changed.'
+        );
+    }
 }
 
 ?>
