@@ -25,6 +25,54 @@ class ezcGraphLineChart extends ezcGraphChart
         $this->elements['Y_axis']->position = ezcGraph::BOTTOM;
     }
 
+    protected function renderData( $renderer, $boundings )
+    {
+        foreach ( $this->data as $data )
+        {
+            $lastPoint = false;
+            foreach ( $data as $key => $value )
+            {
+                $point = new ezcGraphCoordinate( 
+                    $this->elements['X_axis']->getCoordinate( $boundings, $key ),
+                    $this->elements['Y_axis']->getCoordinate( $boundings, $value )
+                );
+
+                // Draw line
+                if ( $lastPoint !== false )
+                {
+                    $renderer->drawLine(
+                        $data->color->default,
+                        $lastPoint,
+                        $point,
+                        true
+                    );
+                }
+
+                // Draw Symbol
+                $symbol = $data->symbol[$key];
+                // @TODO: Make config option
+                $symbolSize = 8;
+                $symbolPosition = new ezcGraphCoordinate( 
+                    $point->x - $symbolSize / 2,
+                    $point->y - $symbolSize / 2
+                );
+
+                if ( $symbol != ezcGraph::NO_SYMBOL )
+                {
+                    $renderer->drawSymbol(
+                        $data->color[$key],
+                        $symbolPosition,
+                        $symbolSize,
+                        $symbolSize,
+                        $symbol
+                    );
+                }
+
+                $lastPoint = $point;
+            }
+        }
+    }
+
     /**
      * Render a line chart
      * 
@@ -72,7 +120,7 @@ class ezcGraphLineChart extends ezcGraphChart
         }
 
         // Render graph
-        //$this->renderData( $this->renderer, $boundings );
+        $this->renderData( $this->renderer, $boundings );
 
         if ( !empty( $file ) )
         {

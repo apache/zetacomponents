@@ -164,7 +164,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawBackground',
-            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
+            ) );
             
             $mockedRenderer
                 ->expects( $this->once() )
@@ -195,7 +195,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawSymbol',
-            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
+            ) );
 
             $mockedRenderer
                 ->expects( $this->at( 0 ) )
@@ -248,7 +248,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawTextBox',
-            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
+            ) );
 
             $mockedRenderer
                 ->expects( $this->at( 0 ) )
@@ -302,7 +302,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 'drawTextBox',
                 'drawSymbol',
                 'drawLine',
-            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
+            ) );
             $mockedRenderer
                 ->expects( $this->once() )
                 ->method( 'drawBackground' )
@@ -333,7 +333,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawSymbol',
-            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
+            ) );
 
             $mockedRenderer
                 ->expects( $this->at( 0 ) )
@@ -387,7 +387,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawBackground',
-            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
+            ) );
             $mockedRenderer
                 ->expects( $this->once() )
                 ->method( 'drawBackground' )
@@ -418,7 +418,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawSymbol',
-            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
+            ) );
 
             $mockedRenderer
                 ->expects( $this->at( 0 ) )
@@ -472,7 +472,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawTextBox',
-            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
+            ) );
 
             $mockedRenderer
                 ->expects( $this->at( 0 ) )
@@ -524,7 +524,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawSymbol',
-            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
+            ) );
 
             $mockedRenderer
                 ->expects( $this->at( 0 ) )

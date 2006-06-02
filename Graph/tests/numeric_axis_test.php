@@ -606,12 +606,12 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawLine',
-            ), array(), 'mocked_ezcGraphRenderer2D_' . __FUNCTION__ );
+            ) );
 
             // Y-Axis
                 // Base line
             $mockedRenderer
-                ->expects( $this->at( 6 ) )
+                ->expects( $this->at( 5 ) )
                 ->method( 'drawLine' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
@@ -642,12 +642,12 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawLine',
-            ), array(), 'mocked_ezcGraphRenderer2D_' . __FUNCTION__ );
+            ) );
 
             // Y-Axis
                 // Major step lines
             $mockedRenderer
-                ->expects( $this->at( 7 ) )
+                ->expects( $this->at( 6 ) )
                 ->method( 'drawLine' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
@@ -656,7 +656,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                     $this->equalTo( false )
                 );
             $mockedRenderer
-                ->expects( $this->at( 8 ) )
+                ->expects( $this->at( 7 ) )
                 ->method( 'drawLine' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
@@ -665,7 +665,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                     $this->equalTo( false )
                 );
             $mockedRenderer
-                ->expects( $this->at( 9 ) )
+                ->expects( $this->at( 8 ) )
                 ->method( 'drawLine' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
@@ -674,7 +674,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                     $this->equalTo( false )
                 );
             $mockedRenderer
-                ->expects( $this->at( 10 ) )
+                ->expects( $this->at( 9 ) )
                 ->method( 'drawLine' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
@@ -706,12 +706,12 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawLine',
-            ), array(), 'mocked_ezcGraphRenderer2D_' . __FUNCTION__ );
+            ) );
 
             // Y-Axis
                 // Minor step lines
             $mockedRenderer
-                ->expects( $this->at( 11 ) )
+                ->expects( $this->at( 10 ) )
                 ->method( 'drawLine' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
@@ -720,7 +720,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                     $this->equalTo( false )
                 );
             $mockedRenderer
-                ->expects( $this->at( 12 ) )
+                ->expects( $this->at( 11 ) )
                 ->method( 'drawLine' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
@@ -729,7 +729,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                     $this->equalTo( false )
                 );
             $mockedRenderer
-                ->expects( $this->at( 13 ) )
+                ->expects( $this->at( 12 ) )
                 ->method( 'drawLine' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
@@ -740,7 +740,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
                 // Last minor step
             $mockedRenderer
-                ->expects( $this->at( 25 ) )
+                ->expects( $this->at( 24 ) )
                 ->method( 'drawLine' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
@@ -771,13 +771,38 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawTextBox',
-            ), array(), 'mocked_ezcGraphRenderer2D_' . __FUNCTION__ );
+            ) );
 
             // Y-Axis
             $mockedRenderer
-                ->expects( $this->at( 2 ) )
+                ->expects( $this->at( 5 ) )
                 ->method( 'drawTextBox' )
                 ->with(
+                    $this->equalTo( new ezcGraphCoordinate( 100, 130 ) ),
+                    $this->equalTo( '1000' ),
+                    $this->equalTo( 20 ),
+                    $this->equalTo( 60 ),
+                    $this->equalTo( ezcGraph::RIGHT | ezcGraph::BOTTOM )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 6 ) )
+                ->method( 'drawTextBox' )
+                ->with(
+                    $this->equalTo( new ezcGraphCoordinate( 100, 70 ) ),
+                    $this->equalTo( '1250' ),
+                    $this->equalTo( 20 ),
+                    $this->equalTo( 60 ),
+                    $this->equalTo( ezcGraph::RIGHT | ezcGraph::BOTTOM )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 7 ) )
+                ->method( 'drawTextBox' )
+                ->with(
+                    $this->equalTo( new ezcGraphCoordinate( 100, 10 ) ),
+                    $this->equalTo( '1500' ),
+                    $this->equalTo( 20 ),
+                    $this->equalTo( 60 ),
+                    $this->equalTo( ezcGraph::RIGHT | ezcGraph::BOTTOM )
                 );
 
             $chart->renderer = $mockedRenderer;
@@ -788,13 +813,6 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         {
             $this->fail( $e->getMessage() );
         }
-    }
-
-    public function testRender()
-    {
-        throw new PHPUnit2_Framework_IncompleteTestError(
-            '@TODO: Implement renderer tests.'
-        );
     }
 }
 ?>

@@ -149,7 +149,7 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
      */
     protected function getMajorStepCount()
     {
-        return count( $this->labels );
+        return count( $this->labels ) - 1;
     }
 
     protected function getLabel( $step )

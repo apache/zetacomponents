@@ -354,7 +354,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawLine',
-            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
+            ) );
 
             // X-Axis
             $mockedRenderer
@@ -389,7 +389,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawLine',
-            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
+            ) );
 
             // X-Axis
             $mockedRenderer
@@ -406,8 +406,8 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                 ->method( 'drawLine' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 210, 194 ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 210, 186 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 240, 194 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 240, 186 ) ),
                     $this->equalTo( false )
                 );
             $mockedRenderer
@@ -415,21 +415,12 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                 ->method( 'drawLine' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 301, 194 ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 301, 186 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 361, 194 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 361, 186 ) ),
                     $this->equalTo( false )
                 );
             $mockedRenderer
                 ->expects( $this->at( 4 ) )
-                ->method( 'drawLine' )
-                ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 391, 194 ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 391, 186 ) ),
-                    $this->equalTo( false )
-                );
-            $mockedRenderer
-                ->expects( $this->at( 5 ) )
                 ->method( 'drawLine' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
@@ -460,13 +451,38 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
             $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
                 'drawTextBox',
-            ), array(), 'mocked_ezcGraphRenderer2D' . __FUNCTION__ );
+            ) );
 
-            // Y-Axis
+            // X-Axis
             $mockedRenderer
                 ->expects( $this->at( 2 ) )
                 ->method( 'drawTextBox' )
                 ->with(
+                    $this->equalTo( new ezcGraphCoordinate( 120, 190 ) ),
+                    $this->equalTo( '2000' ),
+                    $this->equalTo( 120 ),
+                    $this->equalTo( 10 ),
+                    $this->equalTo( ezcGraph::LEFT | ezcGraph::TOP )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 3 ) )
+                ->method( 'drawTextBox' )
+                ->with(
+                    $this->equalTo( new ezcGraphCoordinate( 240, 190 ) ),
+                    $this->equalTo( '2001' ),
+                    $this->equalTo( 120 ),
+                    $this->equalTo( 10 ),
+                    $this->equalTo( ezcGraph::LEFT | ezcGraph::TOP )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 4 ) )
+                ->method( 'drawTextBox' )
+                ->with(
+                    $this->equalTo( new ezcGraphCoordinate( 361, 190 ) ),
+                    $this->equalTo( '2002' ),
+                    $this->equalTo( 120 ),
+                    $this->equalTo( 10 ),
+                    $this->equalTo( ezcGraph::LEFT | ezcGraph::TOP )
                 );
 
             $chart->renderer = $mockedRenderer;
@@ -478,12 +494,6 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
             $this->fail( $e->getMessage() );
         }
     }
-
-    public function testRender()
-    {
-        throw new PHPUnit2_Framework_IncompleteTestError(
-            '@TODO: Implement renderer tests.'
-        );
-    }
 }
+
 ?>

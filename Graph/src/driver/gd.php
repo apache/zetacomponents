@@ -226,15 +226,15 @@ class ezcGraphGdDriver extends ezcGraphDriver
                 $boundings = imagettfbbox( $size, 0, $this->options->font, $string );
                 $position->y += $size;
 
-                switch ( $align )
+                switch ( true )
                 {
-                    case ezcGraph::LEFT:
+                    case ( $align & ezcGraph::LEFT ):
                         imagettftext( $image, $size, 0, $position->x, $position->y, $drawColor, $this->options->font, $string );
                         break;
-                    case ezcGraph::RIGHT:
+                    case ( $align & ezcGraph::RIGHT ):
                         imagettftext( $image, $size, 0, $position->x + ( $width - $boundings[2] ), $position->y, $drawColor, $this->options->font, $string );
                         break;
-                    case ezcGraph::CENTER:
+                    case ( $align & ezcGraph::CENTER ):
                         imagettftext( $image, $size, 0, $position->x + ( ( $width - $boundings[2] ) / 2 ), $position->y, $drawColor, $this->options->font, $string );
                         break;
                 }

@@ -174,7 +174,7 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
      * @param float $minor 
      * @return void
      */
-    protected function drawAxis( ezcGraphRenderer $renderer, ezcGraphCoordinate $start, ezcGraphCoordinate $end ) 
+    protected function drawAxis( ezcGraphRenderer $renderer, ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphBoundings $boundings ) 
     {
         // Determine normalized direction
         $direction = new ezcGraphCoordinate(
@@ -202,26 +202,90 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         // Draw major steps
         $steps = $this->getMajorStepCount();
 
+        // Calculate stepsize
+        $xStepsize = ( $end->x - $start->x ) / $steps;
+        $yStepsize = ( $end->y - $start->y ) / $steps;
+
+        // Caluclate datafree chart border
+        $xBorder = abs ( ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 ) );
+        $yBorder = abs ( ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 ) );
+
         for ( $i = 0; $i <= $steps; ++$i )
         {
             $renderer->drawLine(
                 $this->border,
                 new ezcGraphCoordinate(
-                    (int) round($start->x + $i * ( $end->x - $start->x ) / $steps 
-                        + $direction->y * $this->majorScalingLineLength),
-                    (int) round($start->y + $i * ( $end->y - $start->y ) / $steps 
-                        + $direction->x * -$this->majorScalingLineLength)
+                    (int) round( $start->x + $i * $xStepsize
+                        + $direction->y * $this->majorScalingLineLength ),
+                    (int) round( $start->y + $i * $yStepsize
+                        + $direction->x * -$this->majorScalingLineLength )
                 ),
                 new ezcGraphCoordinate(
-                    (int) round($start->x + $i * ( $end->x - $start->x ) / $steps 
-                        + $direction->y * -$this->majorScalingLineLength),
-                    (int) round($start->y + $i * ( $end->y - $start->y ) / $steps 
-                        + $direction->x * $this->majorScalingLineLength)
+                    (int) round( $start->x + $i * $xStepsize
+                        + $direction->y * -$this->majorScalingLineLength ),
+                    (int) round( $start->y + $i * $yStepsize
+                        + $direction->x * $this->majorScalingLineLength )
                 ),
                 false
             );
 
-            // @TODO: Draw labels
+            // Draw label
+            if ( $i < $steps )
+            {
+                $label = $this->getLabel( $i );
+
+                switch ( $this->position )
+                {
+                    case ezcGraph::LEFT:
+                        $renderer->drawTextBox(
+                            new ezcGraphCoordinate(
+                                (int) round( $start->x + $i * $xStepsize ),
+                                (int) round( $start->y + $i * $yStepsize )
+                            ),
+                            $label,
+                            (int) round( $xStepsize ),
+                            $yBorder,
+                            ezcGraph::LEFT | ezcGraph::TOP
+                        );
+                        break;
+                    case ezcGraph::RIGHT:
+                        $renderer->drawTextBox(
+                            new ezcGraphCoordinate(
+                                (int) round( $start->x + $i * $xStepsize + $xStepsize ),
+                                (int) round( $start->y + $i * $yStepsize )
+                            ),
+                            $label,
+                            (int) round( -$xStepsize ),
+                            $yBorder,
+                            ezcGraph::RIGHT | ezcGraph::TOP
+                        );
+                        break;
+                    case ezcGraph::BOTTOM:
+                        $renderer->drawTextBox(
+                            new ezcGraphCoordinate(
+                                (int) round( $start->x + $i * $xStepsize - $xBorder ),
+                                (int) round( $start->y + $i * $yStepsize + $yStepsize )
+                            ),
+                            $label,
+                            $xBorder,
+                            (int) round( -$yStepsize ),
+                            ezcGraph::RIGHT | ezcGraph::BOTTOM
+                        );
+                        break;
+                    case ezcGraph::TOP:
+                        $renderer->drawTextBox(
+                            new ezcGraphCoordinate(
+                                (int) round( $start->x + $i * $xStepsize - $xBorder ),
+                                (int) round( $start->y + $i * $yStepsize )
+                            ),
+                            $label,
+                            $xBorder,
+                            (int) round( $yStepsize ),
+                            ezcGraph::RIGHT | ezcGraph::TOP
+                        );
+                        break;
+                }
+            }
         }
 
         // Draw minor steps if wanted
@@ -272,7 +336,8 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                     new ezcGraphCoordinate(
                         $this->nullPosition,
                         $boundings->y1
-                    )
+                    ),
+                    $boundings
                 );
                 break;
             case ezcGraph::BOTTOM:
@@ -285,7 +350,8 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                     new ezcGraphCoordinate(
                         $this->nullPosition,
                         $boundings->y0
-                    )
+                    ),
+                    $boundings
                 );
                 break;
             case ezcGraph::LEFT:
@@ -298,7 +364,8 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                     new ezcGraphCoordinate(
                         $boundings->x1,
                         $this->nullPosition
-                    )
+                    ),
+                    $boundings
                 );
                 break;
             case ezcGraph::RIGHT:
@@ -311,7 +378,8 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                     new ezcGraphCoordinate(
                         $boundings->x0,
                         $this->nullPosition
-                    )
+                    ),
+                    $boundings
                 );
                 break;
         }
