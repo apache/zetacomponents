@@ -88,7 +88,9 @@ class ezcGraphLineChart extends ezcGraphChart
 
         // Calculate axis scaling and labeling
         $this->elements['X_axis']->calculateFromDataset( $this->data );
+        $this->elements['X_axis']->font = $this->options->font;
         $this->elements['Y_axis']->calculateFromDataset( $this->data );
+        $this->elements['Y_axis']->font = $this->options->font;
 
         // Generate legend
         $this->elements['legend']->generateFromDatasets( $this->data );
@@ -116,6 +118,7 @@ class ezcGraphLineChart extends ezcGraphChart
                     $element->nullPosition = $this->elements['X_axis']->getCoordinate( $boundings, false );
                     break;
             }
+            $this->driver->options->font = $element->font;
             $boundings = $element->render( $this->renderer, $boundings );
         }
 

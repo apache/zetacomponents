@@ -30,32 +30,11 @@ abstract class ezcGraphDriverOptions extends ezcBaseOptions
     protected $height;
 
     /**
-     * Font face 
+     * Font configuration
      * 
-     * @var mixed
+     * @var ezcGraphFontOptions
      */
     protected $font;
-
-    /**
-     * Minimum font size for displayed texts
-     * 
-     * @var float
-     */
-    protected $minFontSize = 6;
-
-    /**
-     * Maximum font size for displayed texts
-     * 
-     * @var float
-     */
-    protected $maxFontSize = 96;
-
-    /**
-     * Color of text
-     * 
-     * @var ezcGraphColor
-     */
-    protected $fontColor;
 
     /**
      * Percent of font size used for line spacing 
@@ -66,7 +45,8 @@ abstract class ezcGraphDriverOptions extends ezcBaseOptions
 
     public function __construct( array $options = array() )
     {
-        $this->fontColor = ezcGraphColor::fromHex( '#000000' );
+        $this->font = new ezcGraphFontOptions();
+        $this->font->color = ezcGraphColor::fromHex( '#000000' );
 
         parent::__construct( $options );
     }
@@ -90,24 +70,21 @@ abstract class ezcGraphDriverOptions extends ezcBaseOptions
             case 'height':
                 $this->height = max( 1, (int) $propertyValue );
                 break;
-            case 'minFontSize':
-                $this->minFontSize = max(1, (float) $propertyValue);
-                break;
-            case 'maxFontSize':
-                $this->maxFontSize = max(1, (float) $propertyValue);
-                break;
             case 'font':
-                // Heavily depends on driver - check should be implemented in 
-                // derived classes
-                $this->checkFont( $propertyValue );
+                if ( $propertyValue instanceof ezcGraphFontOptions )
+                {
+                    $this->font = $propertyValue;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyValue, 'ezcGraphFontOptions' );
+                }
                 break;
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
                 break;
         }
     }
-
-    abstract protected function checkFont( $font );
 }
 
 ?>

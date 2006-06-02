@@ -80,10 +80,18 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
      */
     protected $landscapeTitleSize = .2;
 
+    /**
+     * Font used for this element 
+     * 
+     * @var ezcGraphFontOptions
+     */
+    protected $font;
+
     public function __construct( array $options = array() )
     {
         $this->boundings = new ezcGraphBoundings();
         $this->position = ezcGraph::LEFT;
+        $this->font = new ezcGraphFontOptions();
 
         parent::__construct( $options );
     }
@@ -114,6 +122,16 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
                 break;
             case 'borderWidth':
                 $this->borderWidth = max( 0, (int) $propertyValue);
+                break;
+            case 'font':
+                if ( $propertyValue instanceof ezcGraphFontOptions )
+                {
+                    $this->font = $propertyValue;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyValue, 'ezcGraphFontOptions' );
+                }
                 break;
             case 'position':
                 $positions = array(

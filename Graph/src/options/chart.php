@@ -56,7 +56,21 @@ class ezcGraphChartOptions extends ezcBaseOptions
      * @var int
      */
     protected $borderWidth;
+
+    /**
+     * Font used in the graph 
+     * 
+     * @var int
+     */
+    protected $font;
     
+    public function __construct( array $options=array() )
+    {
+        $this->font = new ezcGraphFontOptions();
+
+        parent::__construct( $options );
+    }
+
     /**
      * Set an option value
      * 
@@ -106,6 +120,9 @@ class ezcGraphChartOptions extends ezcBaseOptions
                 break;
             case 'borderWidth':
                 $this->borderWidth = max( 1, (int) $propertyValue );
+                break;
+            case 'font':
+                $this->font->font = $propertyValue;
                 break;
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );

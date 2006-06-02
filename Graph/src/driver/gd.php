@@ -157,7 +157,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
             $selectedLine = $lines[$line];
             $selectedLine[] = $token;
 
-            $boundings = imagettfbbox( $size, 0, $this->options->font, implode( ' ', $selectedLine ) );
+            $boundings = imagettfbbox( $size, 0, $this->options->font->font, implode( ' ', $selectedLine ) );
 
             // Check if line is too long
             if ( $boundings[2] > $width )
@@ -204,11 +204,17 @@ class ezcGraphGdDriver extends ezcGraphDriver
     public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align )
     {
         $image = $this->getImage();
-        $drawColor = $this->allocate( $this->options->fontColor );
+        $drawColor = $this->allocate( $this->options->font->color );
+
+        // Test font
+        if ( !is_file( $this->options->font->font ) || !is_readable( $this->options->font->font ) )
+        {
+            throw new ezcGraphGdDriverInvalidFontException( $this->options->font->font );
+        }
 
         // Try to get a font size for the text to fit into the box
-        $maxSize = min( $height, $this->options->maxFontSize );
-        for ( $size = $maxSize; $size >= $this->options->minFontSize; --$size )
+        $maxSize = min( $height, $this->options->font->maxFontSize );
+        for ( $size = $maxSize; $size >= $this->options->font->minFontSize; --$size )
         {
             $result = $this->testFitStringInTextBox( $string, $position, $width, $height, $size );
             if ( $result !== false )
@@ -240,19 +246,19 @@ class ezcGraphGdDriver extends ezcGraphDriver
             foreach ( $result as $line )
             {
                 $string = implode( ' ', $line );
-                $boundings = imagettfbbox( $size, 0, $this->options->font, $string );
+                $boundings = imagettfbbox( $size, 0, $this->options->font->font, $string );
                 $position->y += $size;
 
                 switch ( true )
                 {
                     case ( $align & ezcGraph::LEFT ):
-                        imagettftext( $image, $size, 0, $position->x, $position->y + $yOffset, $drawColor, $this->options->font, $string );
+                        imagettftext( $image, $size, 0, $position->x, $position->y + $yOffset, $drawColor, $this->options->font->font, $string );
                         break;
                     case ( $align & ezcGraph::RIGHT ):
-                        imagettftext( $image, $size, 0, $position->x + ( $width - $boundings[2] ), $position->y + $yOffset, $drawColor, $this->options->font, $string );
+                        imagettftext( $image, $size, 0, $position->x + ( $width - $boundings[2] ), $position->y + $yOffset, $drawColor, $this->options->font->font, $string );
                         break;
                     case ( $align & ezcGraph::CENTER ):
-                        imagettftext( $image, $size, 0, $position->x + ( ( $width - $boundings[2] ) / 2 ), $position->y + $yOffset, $drawColor, $this->options->font, $string );
+                        imagettftext( $image, $size, 0, $position->x + ( ( $width - $boundings[2] ) / 2 ), $position->y + $yOffset, $drawColor, $this->options->font->font, $string );
                         break;
                 }
 
