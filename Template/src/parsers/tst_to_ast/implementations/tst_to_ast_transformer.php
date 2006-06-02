@@ -359,9 +359,12 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     public function visitVariableTstNode( ezcTemplateVariableTstNode $type )
     {
 
-        if( $this->parser->symbolTable->retrieve( $type->name ) == ezcTemplateSymbolTable::IMPORT) 
+        $symbolType = $this->parser->symbolTable->retrieve( $type->name );
+        if(  $symbolType == ezcTemplateSymbolTable::IMPORT) 
         {
-            return new ezcTemplateVariableAstNode( "this->send->". $type->name );
+            $newName = "this->send->". $type->name;
+            $this->parser->symbolTable->enter( $newName, $symbolType, true );
+            return new ezcTemplateVariableAstNode( $newName );
         }
 
         if( !$this->noProperty && $this->parser->symbolTable->retrieve( $type->name ) == ezcTemplateSymbolTable::CYCLE ) 

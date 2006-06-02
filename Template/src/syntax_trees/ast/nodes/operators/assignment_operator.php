@@ -36,7 +36,15 @@ class ezcTemplateAssignmentOperatorAstNode extends ezcTemplateBinaryOperatorAstN
 
         if( $this->parameters[0] instanceof ezcTemplateVariableAstNode )
         {
-            $symbolTable->setTypeHint( $this->parameters[0]->name, $this->typeHint );
+             if( $symbolTable->retrieve( $this->parameters[0]->name ) == ezcTemplateSymbolTable::IMPORT )
+             {
+                 // It can be anything.
+                 $symbolTable->setTypeHint( $this->parameters[0]->name, self::TYPE_ARRAY | self::TYPE_VALUE );
+             }
+             else
+             {
+                $symbolTable->setTypeHint( $this->parameters[0]->name, $this->typeHint );
+             }
         }
     }
 
