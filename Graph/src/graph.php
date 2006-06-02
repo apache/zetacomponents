@@ -25,6 +25,7 @@ class ezcGraph
     const LEFT = 4;
     const RIGHT = 8;
     const CENTER = 16;
+    const MIDDLE = 32;
 
     static protected $chartTypes = array(
         'pie'   => 'ezcGraphPieChart',

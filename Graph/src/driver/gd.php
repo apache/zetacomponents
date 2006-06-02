@@ -219,6 +219,23 @@ class ezcGraphGdDriver extends ezcGraphDriver
 
         if ( is_array( $result ) )
         {
+            $completeHeight = count( $result ) * $size + ( count( $result ) - 1 ) * $this->options->lineSpacing;
+
+            // Calculate y offset for vertical alignement
+            switch ( true )
+            {
+                case ( $align & ezcGraph::BOTTOM ):
+                    $yOffset = $height - $completeHeight;
+                    break;
+                case ( $align & ezcGraph::MIDDLE ):
+                    $yOffset = ( $height - $completeHeight ) / 2;
+                    break;
+                case ( $align & ezcGraph::TOP ):
+                default:
+                    $yOffset = 0;
+                    break;
+            }
+            
             // Render text with evaluated font size
             foreach ( $result as $line )
             {
@@ -229,13 +246,13 @@ class ezcGraphGdDriver extends ezcGraphDriver
                 switch ( true )
                 {
                     case ( $align & ezcGraph::LEFT ):
-                        imagettftext( $image, $size, 0, $position->x, $position->y, $drawColor, $this->options->font, $string );
+                        imagettftext( $image, $size, 0, $position->x, $position->y + $yOffset, $drawColor, $this->options->font, $string );
                         break;
                     case ( $align & ezcGraph::RIGHT ):
-                        imagettftext( $image, $size, 0, $position->x + ( $width - $boundings[2] ), $position->y, $drawColor, $this->options->font, $string );
+                        imagettftext( $image, $size, 0, $position->x + ( $width - $boundings[2] ), $position->y + $yOffset, $drawColor, $this->options->font, $string );
                         break;
                     case ( $align & ezcGraph::CENTER ):
-                        imagettftext( $image, $size, 0, $position->x + ( ( $width - $boundings[2] ) / 2 ), $position->y, $drawColor, $this->options->font, $string );
+                        imagettftext( $image, $size, 0, $position->x + ( ( $width - $boundings[2] ) / 2 ), $position->y + $yOffset, $drawColor, $this->options->font, $string );
                         break;
                 }
 
