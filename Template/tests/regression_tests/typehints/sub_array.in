@@ -1,0 +1,6 @@
+This test code is added because of a bug that didn't compile the following code:
+
+{var $array = array( array("a", "b" ) )}
+{foreach $array[0] as $i }
+{$i}
+{/foreach}

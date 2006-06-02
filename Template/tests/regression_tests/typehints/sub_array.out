@@ -1,0 +1,4 @@
+This test code is added because of a bug that didn't compile the following code:
+
+a
+b

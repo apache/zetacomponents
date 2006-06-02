@@ -56,7 +56,7 @@ class ezcTemplateArrayFetchOperatorAstNode extends ezcTemplateOperatorAstNode
     {
         if( $this->parameters[0]->typeHint & self::TYPE_ARRAY && $this->parameters[1]->typeHint & self::TYPE_VALUE )
         {
-            $this->typeHint = self::TYPE_VALUE;
+            $this->typeHint = self::TYPE_VALUE | self::TYPE_ARRAY;
             return;
         }
         else
@@ -67,7 +67,7 @@ class ezcTemplateArrayFetchOperatorAstNode extends ezcTemplateOperatorAstNode
                 if( $this->parameters[1]->typeHint == null ) echo "FOUND: ". get_class( $this->parameters[1] );
 
                 echo ("ONE OF THE PARAMETERS was null. array_fetch_operator.php ");
-                $this->typeHint = self::TYPE_VALUE;
+                $this->typeHint = self::TYPE_VALUE | self::TYPE_ARRAY;
                 return;
             }
         }

@@ -1,5 +1,9 @@
 - Fixed a bug that some indentations were not removed.
 - Fixed a bug that the newlines after a non output block were not removed. 
+- Fixed a bug that fetching an array element was never considered as a
+  possible sub array. E.g. {var $a = array( array("a") )} {foreach $a[0] as $i}
+  gave an error.
+
 
 1.0rc1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
