@@ -30,6 +30,13 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
     protected $padding = .1;
 
     /**
+     * Padding between labels and axis in pixel
+     * 
+     * @var integer
+     */
+    protected $labelPadding = 2;
+
+    /**
      * Color of the rastering 
      * 
      * @var ezcGraphColor
@@ -99,6 +106,9 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 break;
             case 'padding':
                 $this->padding = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'labelPadding':
+                $this->labelPadding = min( 0, max( 0, (float) $propertyValue ) );
                 break;
             case 'raster':
                 if ( $propertyValue instanceof ezcGraphColor )
@@ -239,12 +249,12 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                     case ezcGraph::LEFT:
                         $renderer->drawTextBox(
                             new ezcGraphCoordinate(
-                                (int) round( $start->x + $i * $xStepsize ),
-                                (int) round( $start->y + $i * $yStepsize )
+                                (int) round( $start->x + $i * $xStepsize + $this->labelPadding ),
+                                (int) round( $start->y + $i * $yStepsize + $this->labelPadding )
                             ),
                             $label,
-                            (int) round( $xStepsize ),
-                            $yBorder,
+                            (int) round( $xStepsize ) - $this->labelPadding,
+                            $yBorder - $this->labelPadding,
                             ezcGraph::LEFT | ezcGraph::TOP
                         );
                         break;
@@ -252,11 +262,11 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                         $renderer->drawTextBox(
                             new ezcGraphCoordinate(
                                 (int) round( $start->x + $i * $xStepsize + $xStepsize ),
-                                (int) round( $start->y + $i * $yStepsize )
+                                (int) round( $start->y + $i * $yStepsize + $this->labelPadding )
                             ),
                             $label,
-                            (int) round( -$xStepsize ),
-                            $yBorder,
+                            (int) round( -$xStepsize ) - $this->labelPadding,
+                            $yBorder - $this->labelPadding,
                             ezcGraph::RIGHT | ezcGraph::TOP
                         );
                         break;
@@ -267,8 +277,8 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                                 (int) round( $start->y + $i * $yStepsize + $yStepsize )
                             ),
                             $label,
-                            $xBorder,
-                            (int) round( -$yStepsize ),
+                            $xBorder - $this->labelPadding,
+                            (int) round( -$yStepsize ) - $this->labelPadding,
                             ezcGraph::RIGHT | ezcGraph::BOTTOM
                         );
                         break;
@@ -276,11 +286,11 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                         $renderer->drawTextBox(
                             new ezcGraphCoordinate(
                                 (int) round( $start->x + $i * $xStepsize - $xBorder ),
-                                (int) round( $start->y + $i * $yStepsize )
+                                (int) round( $start->y + $i * $yStepsize + $this->labelPadding )
                             ),
                             $label,
-                            $xBorder,
-                            (int) round( $yStepsize ),
+                            $xBorder - $this->labelPadding,
+                            (int) round( $yStepsize ) - $this->labelPadding,
                             ezcGraph::RIGHT | ezcGraph::TOP
                         );
                         break;

@@ -458,30 +458,30 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                 ->expects( $this->at( 2 ) )
                 ->method( 'drawTextBox' )
                 ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 120, 190 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 122, 192 ) ),
                     $this->equalTo( '2000' ),
-                    $this->equalTo( 120 ),
-                    $this->equalTo( 10 ),
+                    $this->equalTo( 118 ),
+                    $this->equalTo( 8 ),
                     $this->equalTo( ezcGraph::LEFT | ezcGraph::TOP )
                 );
             $mockedRenderer
                 ->expects( $this->at( 3 ) )
                 ->method( 'drawTextBox' )
                 ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 240, 190 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 242, 192 ) ),
                     $this->equalTo( '2001' ),
-                    $this->equalTo( 120 ),
-                    $this->equalTo( 10 ),
+                    $this->equalTo( 118 ),
+                    $this->equalTo( 8 ),
                     $this->equalTo( ezcGraph::LEFT | ezcGraph::TOP )
                 );
             $mockedRenderer
                 ->expects( $this->at( 4 ) )
                 ->method( 'drawTextBox' )
                 ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 361, 190 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 363, 192 ) ),
                     $this->equalTo( '2002' ),
-                    $this->equalTo( 120 ),
-                    $this->equalTo( 10 ),
+                    $this->equalTo( 118 ),
+                    $this->equalTo( 8 ),
                     $this->equalTo( ezcGraph::LEFT | ezcGraph::TOP )
                 );
 

@@ -811,8 +811,8 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                 ->with(
                     $this->equalTo( new ezcGraphCoordinate( 100, 130 ) ),
                     $this->equalTo( '1000' ),
-                    $this->equalTo( 20 ),
-                    $this->equalTo( 60 ),
+                    $this->equalTo( 18 ),
+                    $this->equalTo( 58 ),
                     $this->equalTo( ezcGraph::RIGHT | ezcGraph::BOTTOM )
                 );
             $mockedRenderer
@@ -821,8 +821,8 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                 ->with(
                     $this->equalTo( new ezcGraphCoordinate( 100, 70 ) ),
                     $this->equalTo( '1250' ),
-                    $this->equalTo( 20 ),
-                    $this->equalTo( 60 ),
+                    $this->equalTo( 18 ),
+                    $this->equalTo( 58 ),
                     $this->equalTo( ezcGraph::RIGHT | ezcGraph::BOTTOM )
                 );
             $mockedRenderer
@@ -831,8 +831,8 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                 ->with(
                     $this->equalTo( new ezcGraphCoordinate( 100, 10 ) ),
                     $this->equalTo( '1500' ),
-                    $this->equalTo( 20 ),
-                    $this->equalTo( 60 ),
+                    $this->equalTo( 18 ),
+                    $this->equalTo( 58 ),
                     $this->equalTo( ezcGraph::RIGHT | ezcGraph::BOTTOM )
                 );
 

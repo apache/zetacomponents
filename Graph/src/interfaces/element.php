@@ -136,6 +136,10 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
                 {
                     $this->font = $propertyValue;
                 }
+                elseif ( is_string( $propertyValue ) )
+                {
+                    $this->font->font = $propertyValue;
+                }
                 else
                 {
                     throw new ezcBaseValueException( $propertyValue, 'ezcGraphFontOptions' );

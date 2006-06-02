@@ -246,7 +246,7 @@ class ezcGraphLineChartTest extends ezcTestCase
             $this->addSampleData( $chart );
             $chart->driver = new ezcGraphGdDriver();
             $chart->options->font = $this->basePath . 'font.ttf';
-            $chart->render( 500, 200, '/home/kore/test.png' );
+            $chart->render( 500, 200, 'test.png' );
         }
         catch ( Exception $e )
         {
