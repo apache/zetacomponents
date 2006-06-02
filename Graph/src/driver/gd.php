@@ -22,6 +22,17 @@ class ezcGraphGdDriver extends ezcGraphDriver
      */
     protected $image;
 
+    /**
+     * List of strings to draw
+     * array ( array(
+     *          'text' => array( 'strings' ),
+     *          'options' => ezcGraphFontOptions,
+     *      )
+     * 
+     * @var array
+     */
+    protected $strings = array();
+
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphGdDriverOptions( $options );
@@ -203,8 +214,6 @@ class ezcGraphGdDriver extends ezcGraphDriver
      */
     public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align )
     {
-        $image = $this->getImage();
-        $drawColor = $this->allocate( $this->options->font->color );
 
         // Test font
         if ( !is_file( $this->options->font->font ) || !is_readable( $this->options->font->font ) )
@@ -225,45 +234,16 @@ class ezcGraphGdDriver extends ezcGraphDriver
 
         if ( is_array( $result ) )
         {
-            $completeHeight = count( $result ) * $size + ( count( $result ) - 1 ) * $this->options->lineSpacing;
+            $this->options->font->minimalUsedFont = $size;
 
-            // Calculate y offset for vertical alignement
-            switch ( true )
-            {
-                case ( $align & ezcGraph::BOTTOM ):
-                    $yOffset = $height - $completeHeight;
-                    break;
-                case ( $align & ezcGraph::MIDDLE ):
-                    $yOffset = ( $height - $completeHeight ) / 2;
-                    break;
-                case ( $align & ezcGraph::TOP ):
-                default:
-                    $yOffset = 0;
-                    break;
-            }
-            
-            // Render text with evaluated font size
-            foreach ( $result as $line )
-            {
-                $string = implode( ' ', $line );
-                $boundings = imagettfbbox( $size, 0, $this->options->font->font, $string );
-                $position->y += $size;
-
-                switch ( true )
-                {
-                    case ( $align & ezcGraph::LEFT ):
-                        imagettftext( $image, $size, 0, $position->x, $position->y + $yOffset, $drawColor, $this->options->font->font, $string );
-                        break;
-                    case ( $align & ezcGraph::RIGHT ):
-                        imagettftext( $image, $size, 0, $position->x + ( $width - $boundings[2] ), $position->y + $yOffset, $drawColor, $this->options->font->font, $string );
-                        break;
-                    case ( $align & ezcGraph::CENTER ):
-                        imagettftext( $image, $size, 0, $position->x + ( ( $width - $boundings[2] ) / 2 ), $position->y + $yOffset, $drawColor, $this->options->font->font, $string );
-                        break;
-                }
-
-                $position->y += $size * $this->options->lineSpacing;
-            }
+            $this->strings[] = array(
+                'text' => $result,
+                'position' => $position,
+                'width' => $width,
+                'height' => $height,
+                'align' => $align,
+                'options' => $this->options->font,
+            );
         }
         else
         {
@@ -271,6 +251,57 @@ class ezcGraphGdDriver extends ezcGraphDriver
         }
     }
     
+    protected function drawAllTexts()
+    {
+        $image = $this->getImage();
+
+        foreach ( $this->strings as $text )
+        {
+            $size = $text['options']->minimalUsedFont;
+            $drawColor = $this->allocate( $text['options']->color );
+
+            $completeHeight = count( $text['text'] ) * $size + ( count( $text['text'] ) - 1 ) * $this->options->lineSpacing;
+
+            // Calculate y offset for vertical alignement
+            switch ( true )
+            {
+                case ( $text['align'] & ezcGraph::BOTTOM ):
+                    $yOffset = $text['height'] - $completeHeight;
+                    break;
+                case ( $text['align'] & ezcGraph::MIDDLE ):
+                    $yOffset = ( $text['height'] - $completeHeight ) / 2;
+                    break;
+                case ( $text['align'] & ezcGraph::TOP ):
+                default:
+                    $yOffset = 0;
+                    break;
+            }
+            
+            // Render text with evaluated font size
+            foreach ( $text['text'] as $line )
+            {
+                $string = implode( ' ', $line );
+                $boundings = imagettfbbox( $size, 0, $this->options->font->font, $string );
+                $text['position']->y += $size;
+
+                switch ( true )
+                {
+                    case ( $text['align'] & ezcGraph::LEFT ):
+                        imagettftext( $image, $size, 0, $text['position']->x, $text['position']->y + $yOffset, $drawColor, $this->options->font->font, $string );
+                        break;
+                    case ( $text['align'] & ezcGraph::RIGHT ):
+                        imagettftext( $image, $size, 0, $text['position']->x + ( $text['width'] - $boundings[2] ), $text['position']->y + $yOffset, $drawColor, $this->options->font->font, $string );
+                        break;
+                    case ( $text['align'] & ezcGraph::CENTER ):
+                        imagettftext( $image, $size, 0, $text['position']->x + ( ( $text['width'] - $boundings[2] ) / 2 ), $text['position']->y + $yOffset, $drawColor, $this->options->font->font, $string );
+                        break;
+                }
+
+                $text['position']->y += $size * $this->options->lineSpacing;
+            }
+        }
+    }
+
     /**
      * Draws a sector of cirlce
      * 
@@ -443,6 +474,9 @@ class ezcGraphGdDriver extends ezcGraphDriver
      */
     public function render ( $file )
     {
+        // Draw all texts
+        $this->drawAllTexts();
+
         $image = $this->getImage();
 
         switch ( $this->options->imageFormat )
