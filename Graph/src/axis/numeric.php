@@ -225,7 +225,10 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
      */
     public function getCoordinate( ezcGraphBoundings $boundings, $value )
     {
-        if ( ( $value === false ) || ( $value === null ) )
+        // Force typecast, because ( false < -100 ) results in (bool) true
+        $floatValue = (float) $value;
+        if ( ( $value === false ) &&
+             ( ( $floatValue < $this->min ) || ( $floatValue > $this->max ) ) )
         {
             switch ( $this->position )
             {

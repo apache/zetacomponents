@@ -570,7 +570,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $testBoundings->y1 = 330;
 
         $this->assertEquals(
-            67.5,
+            146.25,
             $chart->Y_axis->getCoordinate( $testBoundings, false ),
             'Wrong initial axis position. '
         );
@@ -591,6 +591,37 @@ class ezcGraphNumericAxisTest extends ezcTestCase
             382.5,
             $chart->Y_axis->getCoordinate( $testBoundings, 1500 ),
             'Wrong maximum value. '
+        );
+    }
+
+    public function testNullPositionMultipleDatasets()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+            $chart->sampleData->color = '#CC0000';
+            $chart->moreData = array( 'sample 1' => 112, 'sample 2' => 54, 'sample 3' => 12, 'sample 4' => -167, 'sample 5' => 329);
+            $chart->moreData->color = '#3465A4';
+            $chart->evenMoreData = array( 'sample 1' => 300, 'sample 2' => -30, 'sample 3' => 220, 'sample 4' => 67, 'sample 5' => 450);
+            $chart->evenMoreData->color = '#73D216';
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $testBoundings = new ezcGraphBoundings();
+        $testBoundings->x0 = 100;
+        $testBoundings->x1 = 500;
+        $testBoundings->y0 = 0;
+        $testBoundings->y1 = 200;
+
+        $this->assertEquals(
+            130,
+            $chart->Y_axis->getCoordinate( $testBoundings, false ),
+            'Wrong initial axis position. '
         );
     }
 
