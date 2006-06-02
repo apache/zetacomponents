@@ -258,6 +258,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
         foreach ( $this->strings as $text )
         {
             $size = $text['options']->minimalUsedFont;
+            $font = $text['options']->font;
             $drawColor = $this->allocate( $text['options']->color );
 
             $completeHeight = count( $text['text'] ) * $size + ( count( $text['text'] ) - 1 ) * $this->options->lineSpacing;
@@ -276,24 +277,24 @@ class ezcGraphGdDriver extends ezcGraphDriver
                     $yOffset = 0;
                     break;
             }
-            
+
             // Render text with evaluated font size
             foreach ( $text['text'] as $line )
             {
                 $string = implode( ' ', $line );
-                $boundings = imagettfbbox( $size, 0, $this->options->font->font, $string );
+                $boundings = imagettfbbox( $size, 0, $font, $string );
                 $text['position']->y += $size;
 
                 switch ( true )
                 {
                     case ( $text['align'] & ezcGraph::LEFT ):
-                        imagettftext( $image, $size, 0, $text['position']->x, $text['position']->y + $yOffset, $drawColor, $this->options->font->font, $string );
+                        imagettftext( $image, $size, 0, $text['position']->x, $text['position']->y + $yOffset, $drawColor, $font, $string );
                         break;
                     case ( $text['align'] & ezcGraph::RIGHT ):
-                        imagettftext( $image, $size, 0, $text['position']->x + ( $text['width'] - $boundings[2] ), $text['position']->y + $yOffset, $drawColor, $this->options->font->font, $string );
+                        imagettftext( $image, $size, 0, $text['position']->x + ( $text['width'] - $boundings[2] ), $text['position']->y + $yOffset, $drawColor, $font, $string );
                         break;
                     case ( $text['align'] & ezcGraph::CENTER ):
-                        imagettftext( $image, $size, 0, $text['position']->x + ( ( $text['width'] - $boundings[2] ) / 2 ), $text['position']->y + $yOffset, $drawColor, $this->options->font->font, $string );
+                        imagettftext( $image, $size, 0, $text['position']->x + ( ( $text['width'] - $boundings[2] ) / 2 ), $text['position']->y + $yOffset, $drawColor, $font, $string );
                         break;
                 }
 

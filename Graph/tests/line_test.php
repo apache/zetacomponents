@@ -236,24 +236,6 @@ class ezcGraphLineChartTest extends ezcTestCase
             $this->fail( $e->getMessage() );
         }
     }
-
-    public function testCompleteRendering()
-    {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->title = 'Test graph';
-            $this->addSampleData( $chart );
-            $chart->driver = new ezcGraphGdDriver();
-            $chart->options->font = $this->basePath . 'font.ttf';
-            $chart->render( 500, 200, 'test.png' );
-        }
-        catch ( Exception $e )
-        {
-            echo $e;
-            $this->fail( $e->getMessage() );
-        }
-    }
 }
 
 ?>

@@ -138,6 +138,12 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
                 }
                 elseif ( is_string( $propertyValue ) )
                 {
+                    if ( !$this->fontCloned )
+                    {
+                        $this->font = clone $this->font;
+                        $this->fontCloned = true;
+                    }
+
                     $this->font->font = $propertyValue;
                 }
                 else
