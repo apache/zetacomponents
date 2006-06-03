@@ -25,9 +25,26 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
      */
     protected $imageFormat = IMG_PNG;
 
+    /**
+     * Count of degrees to render one polygon for in circular arcs
+     * 
+     * @var integer
+     */
     protected $detail = 1;
 
+    /**
+     * Percent to darken circular arcs at the sides
+     * 
+     * @var float
+     */
     protected $shadeCircularArc = .5;
+
+    /**
+     * Factor of supersampling used to simulate antialiasing 
+     * 
+     * @var integer
+     */
+    protected $supersampling = 2;
 
     /**
      * Set an option value
@@ -51,6 +68,15 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
                 {
                     throw new ezcBaseValueException( $propertyValue, 'Unsupported image type.' );
                 }
+                break;
+            case 'detail':
+                $this->detail = max( 1, (int) $propertyValue );
+                break;
+            case 'shadeCircularArc':
+                $this->shadeCircularArc = max( 0, min( 1, (float) $propertyValue ) );
+                break;
+            case 'supersampling':
+                $this->supersampling = (int) max( 1, $propertyValue );
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );

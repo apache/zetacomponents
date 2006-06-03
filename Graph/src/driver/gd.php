@@ -42,10 +42,21 @@ class ezcGraphGdDriver extends ezcGraphDriver
     {
         if ( !isset( $this->image ) )
         {
-            $this->image = imagecreatetruecolor( $this->options->width, $this->options->height );
+            $this->image = imagecreatetruecolor( 
+                $this->options->width * $this->options->supersampling, 
+                $this->options->height * $this->options->supersampling
+            );
             $bgColor = imagecolorallocate( $this->image, 255, 255, 255 );
             // Default to a white background
             imagefill( $this->image, 1, 1, $bgColor );
+
+            if ( $this->options->supersampling > 1 )
+            {
+                imagesetthickness( 
+                    $this->image, 
+                    $this->options->supersampling + 1
+                );
+            }
         }
 
         return $this->image;
@@ -123,8 +134,8 @@ class ezcGraphGdDriver extends ezcGraphDriver
         $pointArray = array();
         for ( $i = 0; $i < $pointCount; ++$i )
         {
-            $pointArray[] = $points[$i]->x;
-            $pointArray[] = $points[$i]->y;
+            $pointArray[] = $points[$i]->x * $this->options->supersampling;
+            $pointArray[] = $points[$i]->y * $this->options->supersampling;
         }
 
         // Draw polygon
@@ -152,7 +163,14 @@ class ezcGraphGdDriver extends ezcGraphDriver
 
         $drawColor = $this->allocate( $color );
 
-        imageline( $image, $start->x, $start->y, $end->x, $end->y, $drawColor );
+        imageline( 
+            $image, 
+            $start->x * $this->options->supersampling, 
+            $start->y * $this->options->supersampling, 
+            $end->x * $this->options->supersampling, 
+            $end->y * $this->options->supersampling, 
+            $drawColor
+        );
     }
     
     protected function testFitStringInTextBox( $string, ezcGraphCoordinate $position, $width, $height, $size )
@@ -288,13 +306,40 @@ class ezcGraphGdDriver extends ezcGraphDriver
                 switch ( true )
                 {
                     case ( $text['align'] & ezcGraph::LEFT ):
-                        imagettftext( $image, $size, 0, $text['position']->x, $text['position']->y + $yOffset, $drawColor, $font, $string );
+                        imagettftext( 
+                            $image, 
+                            $size, 
+                            0, 
+                            $text['position']->x, 
+                            $text['position']->y + $yOffset, 
+                            $drawColor, 
+                            $font, 
+                            $string
+                        );
                         break;
                     case ( $text['align'] & ezcGraph::RIGHT ):
-                        imagettftext( $image, $size, 0, $text['position']->x + ( $text['width'] - $boundings[2] ), $text['position']->y + $yOffset, $drawColor, $font, $string );
+                        imagettftext( 
+                            $image, 
+                            $size, 
+                            0, 
+                            $text['position']->x + ( $text['width'] - $boundings[2] ), 
+                            $text['position']->y + $yOffset, 
+                            $drawColor, 
+                            $font, 
+                            $string 
+                        );
                         break;
                     case ( $text['align'] & ezcGraph::CENTER ):
-                        imagettftext( $image, $size, 0, $text['position']->x + ( ( $text['width'] - $boundings[2] ) / 2 ), $text['position']->y + $yOffset, $drawColor, $font, $string );
+                        imagettftext( 
+                            $image, 
+                            $size, 
+                            0, 
+                            $text['position']->x + ( ( $text['width'] - $boundings[2] ) / 2 ), 
+                            $text['position']->y + $yOffset, 
+                            $drawColor, 
+                            $font, 
+                            $string
+                        );
                         break;
                 }
 
@@ -327,7 +372,17 @@ class ezcGraphGdDriver extends ezcGraphDriver
             $endAngle = $tmp;
         }
 
-        imagefilledarc( $image, $center->x, $center->y, $width, $height, $startAngle, $endAngle, $drawColor, IMG_ARC_PIE );
+        imagefilledarc( 
+            $image, 
+            $center->x * $this->options->supersampling, 
+            $center->y * $this->options->supersampling, 
+            $width * $this->options->supersampling, 
+            $height * $this->options->supersampling, 
+            $startAngle, 
+            $endAngle, 
+            $drawColor, 
+            IMG_ARC_PIE 
+        );
     }
 
     /**
@@ -347,20 +402,28 @@ class ezcGraphGdDriver extends ezcGraphDriver
         $this->drawPolygon(
             array(
                 new ezcGraphCoordinate(
-                    $center->x + ( ( cos( deg2rad( $startAngle ) ) * $width ) / 2 ),
-                    $center->y + ( ( sin( deg2rad( $startAngle ) ) * $height ) / 2 )
+                    $center->x + 
+                        ( ( cos( deg2rad( $startAngle ) ) * $width ) / 2 ),
+                    $center->y + 
+                        ( ( sin( deg2rad( $startAngle ) ) * $height ) / 2 )
                 ),
                 new ezcGraphCoordinate(
-                    $center->x + ( ( cos( deg2rad( $startAngle ) ) * $width ) / 2 ),
-                    $center->y + ( ( sin( deg2rad( $startAngle ) ) * $height + $size ) / 2 )
+                    $center->x + 
+                        ( ( cos( deg2rad( $startAngle ) ) * $width ) / 2 ),
+                    $center->y + 
+                        ( ( sin( deg2rad( $startAngle ) ) * $height + $size ) / 2 )
                 ),
                 new ezcGraphCoordinate(
-                    $center->x + ( ( cos( deg2rad( $endAngle ) ) * $width ) / 2 ),
-                    $center->y + ( ( sin( deg2rad( $endAngle ) ) * $height + $size ) / 2 )
+                    $center->x + 
+                        ( ( cos( deg2rad( $endAngle ) ) * $width ) / 2 ),
+                    $center->y + 
+                        ( ( sin( deg2rad( $endAngle ) ) * $height + $size ) / 2 )
                 ),
                 new ezcGraphCoordinate(
-                    $center->x + ( ( cos( deg2rad( $endAngle ) ) * $width ) / 2 ),
-                    $center->y + ( ( sin( deg2rad( $endAngle ) ) * $height ) / 2 )
+                    $center->x + 
+                        ( ( cos( deg2rad( $endAngle ) ) * $width ) / 2 ),
+                    $center->y + 
+                        ( ( sin( deg2rad( $endAngle ) ) * $height ) / 2 )
                 ),
             ),
             $color->darken( $this->options->shadeCircularArc * abs ( cos ( deg2rad( $startAngle ) ) ) ),
@@ -396,23 +459,46 @@ class ezcGraphGdDriver extends ezcGraphDriver
         $startIteration = ceil( $startAngle / $this->options->detail ) * $this->options->detail;
         $endIteration = floor( $endAngle / $this->options->detail ) * $this->options->detail;
 
-
         if ( $startAngle < $startIteration )
         {
             // Draw initial step
-            $this->drawCircularArcStep( $center, $width, $height, $size, $startAngle, $startIteration, $color );
+            $this->drawCircularArcStep( 
+                $center, 
+                $width, 
+                $height, 
+                $size, 
+                $startAngle, 
+                $startIteration, 
+                $color
+            );
         }
 
         // Draw all steps
         for ( ; $startIteration < $endIteration; $startIteration += $this->options->detail )
         {
-            $this->drawCircularArcStep( $center, $width, $height, $size, $startIteration, $startIteration + $this->options->detail, $color );
+            $this->drawCircularArcStep( 
+                $center, 
+                $width, 
+                $height, 
+                $size, 
+                $startIteration, 
+                $startIteration + $this->options->detail, 
+                $color 
+            );
         }
 
         if ( $endIteration < $endAngle )
         {
             // Draw closing step
-            $this->drawCircularArcStep( $center, $width, $height, $size, $endIteration, $endAngle, $color );
+            $this->drawCircularArcStep( 
+                $center, 
+                $width, 
+                $height, 
+                $size, 
+                $endIteration, 
+                $endAngle, 
+                $color 
+            );
         }
     }
     
@@ -435,11 +521,25 @@ class ezcGraphGdDriver extends ezcGraphDriver
 
         if ( $filled )
         {
-            imagefilledellipse( $image, $center->x, $center->y, $width, $height, $drawColor );
+            imagefilledellipse( 
+                $image, 
+                $center->x * $this->options->supersampling, 
+                $center->y * $this->options->supersampling, 
+                $width * $this->options->supersampling, 
+                $height * $this->options->supersampling, 
+                $drawColor 
+            );
         }
         else
         {
-            imageellipse( $image, $center->x, $center->y, $width, $height, $drawColor );
+            imageellipse( 
+                $image, 
+                $center->x * $this->options->supersampling, 
+                $center->y * $this->options->supersampling, 
+                $width * $this->options->supersampling, 
+                $height * $this->options->supersampling, 
+                $drawColor 
+            );
         }
     }
     
@@ -460,9 +560,12 @@ class ezcGraphGdDriver extends ezcGraphDriver
         imagecopyresampled( 
             $image, 
             $imageFile['image'], 
-            $position->x, $position->y,
-            0, 0,
-            $position->x + $width, $position->y + $height,
+            $position->x * $this->options->supersampling, 
+            $position->y * $this->options->supersampling,
+            0, 
+            0,
+            ( $position->x + $width ) * $this->options->supersampling, 
+            ( $position->y + $height ) * $this->options->supersampling,
             $imageFile['width'], $imageFile['height']
         );
     }
@@ -475,11 +578,30 @@ class ezcGraphGdDriver extends ezcGraphDriver
      */
     public function render ( $file )
     {
+        if ( ( $supersampling = $this->options->supersampling ) > 1 )
+        {
+            // Supersampling active, resample image
+            $image = $this->getImage();
+            $sampled = imagecreatetruecolor( $this->options->width, $this->options->height );
+            imagecopyresampled(
+                $sampled,
+                $image,
+                0, 0,
+                0, 0,
+                $this->options->width,
+                $this->options->height,
+                $this->options->width * $supersampling,
+                $this->options->height * $supersampling
+            );
+
+            $this->image = $sampled;
+            imagedestroy( $image );
+        }
+
         // Draw all texts
         $this->drawAllTexts();
 
         $image = $this->getImage();
-
         switch ( $this->options->imageFormat )
         {
             case IMG_PNG:

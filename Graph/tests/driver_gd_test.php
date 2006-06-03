@@ -49,6 +49,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         $this->driver->options->width = 200;
         $this->driver->options->height = 100;
         $this->driver->options->font->font = $this->basePath . 'font.ttf';
+        $this->driver->options->supersampling = 1;
     }
 
     /**
@@ -745,6 +746,277 @@ class ezcGraphGdDriverTest extends ezcTestCase
 
         $this->assertEquals(
             'd7e02054f05b72e6a051d9cbd35638c8',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testSupersamplingDrawLine()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->supersampling = 2;
+
+        $this->driver->drawLine(
+            new ezcGraphCoordinate( 12, 45 ),
+            new ezcGraphCoordinate( 134, 12 ),
+            ezcGraphColor::fromHex( '#3465A4' )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            'a5d812a682839171b1407d3da328c707',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testHighSupersamplingDrawLine()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->supersampling = 3;
+
+        $this->driver->drawLine(
+            new ezcGraphCoordinate( 12, 45 ),
+            new ezcGraphCoordinate( 134, 12 ),
+            ezcGraphColor::fromHex( '#3465A4' )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            '22685b554623d230631ebcf594915356',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testSupersamplingDrawPolygonThreePointsFilled()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->supersampling = 2;
+
+        $this->driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 45, 12 ),
+                new ezcGraphCoordinate( 122, 34 ),
+                new ezcGraphCoordinate( 12, 71 ),
+            ),
+            ezcGraphColor::fromHex( '#3465A4' ),
+            true
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            '2d52971aa23cb3e0c23fed203147148f',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testSupersamplingDrawPolygonThreePointsNotFilled()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->supersampling = 2;
+
+        $this->driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 45, 12 ),
+                new ezcGraphCoordinate( 122, 34 ),
+                new ezcGraphCoordinate( 12, 71 ),
+            ),
+            ezcGraphColor::fromHex( '#3465A4' ),
+            false
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            '837b2ccfaf3bbb5da9c1b0a8ded6db06',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testSupersamplingDrawCircleSectorAcute()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->supersampling = 2;
+
+        $this->driver->drawCircleSector(
+            new ezcGraphCoordinate( 100, 50 ),
+            80,
+            40,
+            12.5,
+            25,
+            ezcGraphColor::fromHex( '#3465A4' )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            '3acd04d16c6c28e39875e1013ccf0941',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testSupersamplingDrawCircularArcAcute()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->supersampling = 2;
+
+        $this->driver->drawCircularArc(
+            new ezcGraphCoordinate( 100, 50 ),
+            150,
+            80,
+            10,
+            12.5,
+            55,
+            ezcGraphColor::fromHex( '#3465A4' )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            '955b37d38dfae25cc66005a5559bfcea',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testSupersamplingDrawCircleFilled()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->supersampling = 2;
+
+        $this->driver->drawCircle(
+            new ezcGraphCoordinate( 100, 50 ),
+            80,
+            40,
+            ezcGraphColor::fromHex( '#3465A4' )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            'a13160352170810ab1f1c60c6f6f6a51',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testSupersamplingDrawCircleNonFilled()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->supersampling = 2;
+
+        $this->driver->drawCircle(
+            new ezcGraphCoordinate( 100, 50 ),
+            80,
+            40,
+            ezcGraphColor::fromHex( '#3465A4' ),
+            false
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            '4326226c5c27dd0664cecfd4ee642ad7',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testSupersamplingDrawImagePng()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->supersampling = 2;
+
+        $this->driver->drawImage(
+            $this->basePath . $this->testFiles['png'],
+            new ezcGraphCoordinate( 10, 10 ),
+            100,
+            50
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            'dccac19ba22b0097a694c01245cb388a',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testSupersamplingDrawTextBoxShortString()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->supersampling = 2;
+
+        $this->driver->drawTextBox(
+            'Short',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            '264e41d9b90c8f85223b32784ff27d05',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
