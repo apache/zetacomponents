@@ -241,6 +241,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
 
         // Try to get a font size for the text to fit into the box
         $maxSize = min( $height, $this->options->font->maxFontSize );
+        $result = false;
         for ( $size = $maxSize; $size >= $this->options->font->minFontSize; --$size )
         {
             $result = $this->testFitStringInTextBox( $string, $position, $width, $height, $size );
