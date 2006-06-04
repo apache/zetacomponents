@@ -315,6 +315,16 @@ class ezcBaseTest extends ezcTestCase
         self::assertEquals( false, @class_exists( 'trBasetestClass3', true ) );
     }
 
+    public function testNoPrefixAutoload()
+    {
+        ezcBase::addClassRepository( './Base/tests/test_repository', 'autoload_files' );
+        __autoload( 'Object' );
+        if( !class_exists( 'Object' ) )
+        {
+            $this->fail( "Autoload does not handle classes with no prefix" );
+        }
+    }
+
     public static function suite()
     {
         return new ezcTestSuite("ezcBaseTest");
