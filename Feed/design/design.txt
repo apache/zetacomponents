@@ -1,0 +1,48 @@
+eZ publish Enterprise Component: Feed, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Derick Rethans
+:Revision: $Revision: 814 $
+:Date: $Date: 2005-10-28 15:05:18 +0200 (Fri, 28 Oct 2005) $
+
+Design description
+==================
+
+The component consists of two major parts. The first part is for generating
+Feeds and the second part for parsing feeds. The part that parses feeds
+automatically detect which type of feed is being used and will use the
+appropriate classes to parse the feed and in case modules are used the feed
+elements are passed through a handler that analyses the contents belonging to a
+module.
+
+The feed generation part accepts a feed type and a list of modules that should
+be included into the generated feed. When adding the data elements to the feed
+the component checks whether all required fields are filled in and will try to
+use defaults in case different modules can use the same content.
+
+Every feed type does have a default set of properties which always exist
+independent of the feed type.
+
+Main classes
+------------
+
+ezcFeed
+^^^^^^^
+This class has methods for both parsing a feed and creating a feed. The class
+also implements an iterator so that it is possible to loop over all the items
+in a feed. If extra modules are to be used with a feed they can be defined when
+creating a feed object.
+
+ezcFeedItem
+^^^^^^^^^^^
+Contains the information about each Item in the feed. All the normal properties
+are accesible here. If a feed contains modules then the properties of those can
+be accessed through special properties.
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79

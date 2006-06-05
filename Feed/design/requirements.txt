@@ -1,0 +1,43 @@
+eZ publish Enterprise Component: Feed, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Derick Rethans
+:Revision: $Revision: 985 $
+:Date: $Date: 2005-11-17 09:54:42 +0100 (Thu, 17 Nov 2005) $
+
+Introduction
+============
+
+Description
+-----------
+
+The Feed package provides access to syndication feeds, but also contains
+functionality to generate feeds. The Feed component supports multiple feed
+types and also offers ways to use additional modules in the feed types that
+support that.
+
+Requirements
+============
+
+- Support for many different feed types.
+
+- Support for both parsing and generating feeds.
+
+- Support for additional modules on top of the standard feed types (in the case
+  the feed type supports that).
+
+Design goals
+============
+
+Syndication and aggregation are important aspects of modern web applications.
+Handling feeds can be cumbersome as you need to take care of encodings,
+different feed types and modules. This component is designed to be as flexible
+as possible with the support of different types (with plugins) but also allows
+a solid base to generate and parse feeds.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79

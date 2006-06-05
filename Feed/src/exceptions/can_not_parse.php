@@ -1,0 +1,22 @@
+<?php
+/**
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogentag//
+ * @filesource
+ * @package Feed
+ */
+/**
+ * Thrown when a feed can not be parsed at all.
+ *
+ * @package Feed
+ * @version //autogentag//
+ */
+class ezcFeedCanNotParseException extends ezcFeedException
+{
+    function __construct( $uri, $extraData )
+    {
+        parent::__construct( "The feed <$uri> could not be parsed: $extraData." );
+    }
+}
+?>

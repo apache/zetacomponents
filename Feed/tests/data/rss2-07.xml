@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>ez.no Community News</title><link>http://ez.no</link>
+    <description></description>
+    <language>en-GB</language>
+    <item>
+      <pubDate>Mon, 29 May 2006 13:45:57 GMT</pubDate>
+      <title>eZ components 1.1rc1</title><link>http://ez.no/community/news/ez_components_1_1rc1</link>
+      <description>
+&lt;p&gt;
+We just released the first release for eZ components 1.1. In this release you will find updated packages for many of the packages. The main changes are they way how options are handled for components. The Mail and Template package are the ones with the other major changes.
+&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <pubDate>Fri, 26 May 2006 13:10:26 GMT</pubDate>
+      <title>Community newsletter 26/05/2006</title><link>http://ez.no/community/news/community_newsletter_26_05_2006</link>
+      <description>
+&lt;p&gt;
+The big news this week is the release of the eZ publish 3.9 feature request list. Also, read about eZ publish 4.0 development progress, an interview with eZ crew member Tobias Schlitt and an update on the specification for a new Project section on ez.no. The newsletter also includes an update on the current bug status.
+&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <pubDate>Wed, 24 May 2006 13:30:56 GMT</pubDate>
+      <title>Feature request list for eZ publish 3.9</title><link>http://ez.no/community/news/feature_request_list_for_ez_publish_3_9</link>
+      <description>
+&lt;p&gt;
+We have posted a &lt;a href=&quot;/community/developer/specs/feature_request_list_for_ez_publish_3_9&quot; target=&quot;_self&quot;&gt;feature request list for eZ publish 3.9&lt;/a&gt; in the &lt;br /&gt;&lt;a href=&quot;/community/developer/specs&quot; target=&quot;_self&quot;&gt;specification section&lt;/a&gt;.&lt;br /&gt;
+&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <pubDate>Fri, 19 May 2006 13:50:29 GMT</pubDate>
+      <title>Community newsletter 19/05/2006</title><link>http://ez.no/community/news/community_newsletter_19_05_2006</link>
+      <description>
+&lt;p&gt;
+This week we bring you an update on the eZ publish 4.0 development process, news about the new article &amp;quot;Building a custom template for a news portal&amp;quot; and an update on the current bug status.
+&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <pubDate>Fri, 12 May 2006 12:29:43 GMT</pubDate>
+      <title>Community newsletter 12/05/2006</title><link>http://ez.no/community/news/community_newsletter_12_05_2006</link>
+      <description>
+&lt;p&gt;
+In this week&apos;s newsletter, we bring you news about the beta 2 version of eZ components and an update on eZ publish 4.0 development. We also have news about eZ publish sub-releases and an announcement of the first release candidate of the Online Editor version 4.1. The newsletter also includes an update on the current bug status.
+&lt;/p&gt;
+</description>
+    </item>
+  </channel>
+</rss>
