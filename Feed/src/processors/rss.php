@@ -15,6 +15,7 @@
 abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
 {
     protected $root;
+    protected $channel;
     protected $items = array();
     private $metaData = array();
 
@@ -25,6 +26,8 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
         $rssVersionContent = $this->xml->createTextNode( $version );
         $rssVersionTag->appendChild( $rssVersionContent );
         $rss->appendChild( $rssVersionTag );
+        $this->channel = $channelTag = $this->xml->createElement( 'channel' );
+        $rss->appendChild( $channelTag );
         $this->root = $this->xml->appendChild( $rss );
     }
 
@@ -37,7 +40,7 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
         foreach ( $value as $valueElement )
         {
             $meta = $this->xml->createElement( $element, $valueElement );
-            $this->root->appendChild( $meta );
+            $this->channel->appendChild( $meta );
         }
     }
 

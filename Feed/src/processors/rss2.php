@@ -119,7 +119,7 @@ class ezcFeedRss2 extends ezcFeedRss
     private function generateItem( $item )
     {
         $itemTag = $this->xml->createElement( 'item' );
-        $this->root->appendChild( $itemTag );
+        $this->channel->appendChild( $itemTag );
 
         foreach ( self::$requiredFeedItemAttributes as $attribute )
         {
@@ -192,7 +192,7 @@ class ezcFeedRss2 extends ezcFeedRss
                 switch ( $attribute )
                 {
                     case 'image':
-                        $this->generateImage( $this->root, $this->getMetaData( 'title' ), $this->getMetaData( 'link' ), $data );
+                        $this->generateImage( $this->channel, $this->getMetaData( 'title' ), $this->getMetaData( 'link' ), $data );
                         break;
                     case 'published':
                     case 'updated':
@@ -288,7 +288,7 @@ class ezcFeedRss2 extends ezcFeedRss
         }
         if ( $channel === null ) // add test
         {
-            throw new ezcFeedParseErrorException( "No channel tag." );
+            throw new ezcFeedParseErrorException( "No channel tag" );
         }
 
         foreach ( $channel->childNodes as $channelChild )
