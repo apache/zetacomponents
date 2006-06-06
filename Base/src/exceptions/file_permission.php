@@ -46,7 +46,7 @@ class ezcBaseFilePermissionException extends ezcBaseFileException
             case ezcBaseFileException::REMOVE:
                 $operation = "The file <{$path}> can not be removed";
                 break;
-            case (ezcBaseFileException::READ || ezcBaseFileException::WRITE):
+            case ( ezcBaseFileException::READ || ezcBaseFileException::WRITE ):
                 $operation = "The file <{$path}> can not be opened for reading and writing";
                 break;
         }

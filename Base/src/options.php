@@ -52,7 +52,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      */
     public function merge( array $newOptions )
     {
-        foreach( $newOptions as $key => $value )
+        foreach ( $newOptions as $key => $value )
         {
             $this->__set( $key, $value );
         }
