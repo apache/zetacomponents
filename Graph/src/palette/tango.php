@@ -16,13 +16,6 @@
 class ezcGraphPaletteTango extends ezcGraphPalette
 {
     /**
-     * Backgroundcolor 
-     * 
-     * @var ezcGraphColor
-     */
-    protected $background = '#EEEEEC';
-
-    /**
      * Axiscolor 
      * 
      * @var ezcGraphColor
@@ -67,6 +60,13 @@ class ezcGraphPaletteTango extends ezcGraphPalette
      * @var ezcGraphColor
      */
     protected $fontColor = '#555753';
+
+    /**
+     * Backgroundcolor for chart
+     * 
+     * @var ezcGraphColor
+     */
+    protected $chartBackground = '#EEEEEC';
 
     /**
      * Bordercolor the chart

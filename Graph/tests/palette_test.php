@@ -105,7 +105,7 @@ class ezcGraphPaletteTest extends ezcTestCase
         $this->fail( 'Expected ezcGraphUnknownPaletteException.' );
     }
 
-    public function testBackgroundColor()
+    public function testChartBackgroundColor()
     {
         try
         {
@@ -118,7 +118,25 @@ class ezcGraphPaletteTest extends ezcTestCase
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#EEEEEC' ),
-            $chart->palette->background,
+            $chart->palette->chartBackground,
+            'Background color not properly set.'
+        );
+    }
+
+    public function testElementBackgroundColor()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+        }
+        catch ( Exception $e )
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $this->assertEquals(
+            ezcGraphColor::fromHex( '#000000FF' ),
+            $chart->palette->elementBackground,
             'Background color not properly set.'
         );
     }

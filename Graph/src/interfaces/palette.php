@@ -29,18 +29,18 @@ abstract class ezcGraphPalette
     protected $symbolIndex = -1;
 
     /**
-     * Backgroundcolor 
-     * 
-     * @var ezcGraphColor
-     */
-    protected $background;
-
-    /**
      * Axiscolor 
      * 
      * @var ezcGraphColor
      */
     protected $axisColor;
+
+    /**
+     * Color of grid 
+     * 
+     * @var ezcGraphColor
+     */
+    protected $gridColor;
 
     /**
      * Array with colors for datasets
@@ -71,6 +71,13 @@ abstract class ezcGraphPalette
     protected $fontColor;
 
     /**
+     * Backgroundcolor 
+     * 
+     * @var ezcGraphColor
+     */
+    protected $chartBackground;
+
+    /**
      * Bordercolor the chart
      * 
      * @var ezcGraphColor
@@ -84,6 +91,13 @@ abstract class ezcGraphPalette
      * @access protected
      */
     protected $chartBorderWidth = 1;
+
+    /**
+     * Backgroundcolor for elements
+     * 
+     * @var ezcGraphColor
+     */
+    protected $elementBackground;
 
     /**
      * Bordercolor for elements
@@ -122,7 +136,11 @@ abstract class ezcGraphPalette
      */
     protected function checkColor( &$color )
     {
-        if ( !( $color instanceof ezcGraphColor ) )
+        if ( $color == NULL )
+        {
+            return ezcGraphColor::fromHex( '#000000FF' );
+        }
+        elseif ( !( $color instanceof ezcGraphColor ) )
         {
             $color = ezcGraphColor::create( $color );
         }
@@ -140,9 +158,6 @@ abstract class ezcGraphPalette
     {
         switch ( $propertyName )
         {
-            case 'background':
-                return $this->checkColor( $this->background );
-
             case 'axisColor':
                 return $this->checkColor( $this->axisColor );
 
@@ -158,11 +173,15 @@ abstract class ezcGraphPalette
             case 'fontFace':
                 return $this->fontFace;
 
+            case 'chartBackground':
+                return $this->checkColor( $this->chartBackground );
             case 'chartBorderColor':
                 return $this->checkColor( $this->chartBorderColor );
             case 'chartBorderWidth':
                 return $this->chartBorderWidth;
 
+            case 'elementBackground':
+                return $this->checkColor( $this->elementBackground );
             case 'elementBorderColor':
                 return $this->checkColor( $this->elementBorderColor );
             case 'elementBorderWidth':

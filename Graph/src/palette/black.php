@@ -16,13 +16,6 @@
 class ezcGraphPaletteBlack extends ezcGraphPalette
 {
     /**
-     * Backgroundcolor 
-     * 
-     * @var ezcGraphColor
-     */
-    protected $background = '#000000';
-
-    /**
      * Axiscolor 
      * 
      * @var ezcGraphColor
@@ -66,6 +59,13 @@ class ezcGraphPaletteBlack extends ezcGraphPalette
      * @var ezcGraphColor
      */
     protected $fontColor = '#D3D7CF';
+
+    /**
+     * Backgroundcolor 
+     * 
+     * @var ezcGraphColor
+     */
+    protected $chartBackground = '#2E3436';
 
     /**
      * Bordercolor the chart

@@ -162,7 +162,7 @@ abstract class ezcGraphChart
     {
         $this->options->font->font = $palette->fontFace;
         $this->options->font->color = $palette->fontColor;
-        $this->options->background = $palette->background;
+        $this->options->background = $palette->chartBackground;
         $this->options->border = $palette->chartBorderColor;
         $this->options->borderWidth = $palette->chartBorderWidth;
 

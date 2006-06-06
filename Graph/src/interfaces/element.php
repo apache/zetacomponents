@@ -128,6 +128,7 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
     {
         $this->border = $palette->elementBorderColor;
         $this->borderWidth = $palette->elementBorderWidth;
+        $this->background = $palette->elementBackground;
         $this->padding = $palette->padding;
         $this->margin = $palette->margin;
     }
