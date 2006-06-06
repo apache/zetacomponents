@@ -144,20 +144,20 @@ class ezcTestRunner extends PHPUnit2_TextUI_TestRunner
         self::registerConsoleArguments( $consoleInput );
         self::processConsoleArguments( $consoleInput );
 
-        if( $consoleInput->getOption( "help" )->value )
+        if ( $consoleInput->getOption( "help" )->value )
         {
             self::displayHelp( $consoleInput );
             exit();
         }
 
-        if( $consoleInput->getOption("dsn")->value || $consoleInput->getOption("host")->value )
+        if ( $consoleInput->getOption( 'dsn' )->value || $consoleInput->getOption( 'host' )->value )
         {
-            $dsn = $consoleInput->getOption("dsn")->value;
-            $type = $consoleInput->getOption("type")->value;
-            $user = $consoleInput->getOption("user")->value;
-            $password = $consoleInput->getOption("password")->value;
-            $host = $consoleInput->getOption("host")->value;
-            $database = $consoleInput->getOption("database")->value;
+            $dsn = $consoleInput->getOption( 'dsn' )->value;
+            $type = $consoleInput->getOption( 'type' )->value;
+            $user = $consoleInput->getOption( 'user' )->value;
+            $password = $consoleInput->getOption( 'password' )->value;
+            $host = $consoleInput->getOption( 'host' )->value;
+            $database = $consoleInput->getOption( 'database' )->value;
 
             try 
             {
@@ -171,10 +171,10 @@ class ezcTestRunner extends PHPUnit2_TextUI_TestRunner
         }
         $this->printCredits();
 
-        print( "[Preparing tests]:");
+        print( '[Preparing tests]:' );
 
         // Set the release. Default is trunk. 
-        $release = $consoleInput->getOption("release")->value;
+        $release = $consoleInput->getOption( 'release ')->value;
         $release = ( $release == false || $release == "trunk" ? "trunk" : "releases/$release" );
 
         $allSuites = $this->prepareTests( $consoleInput->getArguments(),  $release );
@@ -202,7 +202,7 @@ class ezcTestRunner extends PHPUnit2_TextUI_TestRunner
             $packages = $this->getPackages( $directory );
         }
 
-        foreach( $packages as $package )
+        foreach ( $packages as $package )
         {
             if ( strpos( $package, "/" ) !== false )
             {
@@ -375,7 +375,7 @@ class ezcTestRunner extends PHPUnit2_TextUI_TestRunner
     {
         $ts = ezcTestSettings::getInstance();
 
-        if( $dsn )
+        if ( $dsn )
         {
             $settings = ezcDbFactory::parseDSN( $dsn );
 
@@ -397,9 +397,9 @@ class ezcTestRunner extends PHPUnit2_TextUI_TestRunner
             $db = ezcDbFactory::create( $settings );
             ezcDbInstance::set( $db );
         }
-        catch ( ezcDbException $e)
+        catch ( ezcDbException $e )
         {
-            die ($e->getMessage());
+            die( $e->getMessage() );
         }
 
         // TODO Check if the database exists, and whether it is empty.
