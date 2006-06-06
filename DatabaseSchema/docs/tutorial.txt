@@ -1,0 +1,71 @@
+eZ components - DatabaseSchema
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+The File components currently contains one class that provides a few often used
+filesystem operations that are missing from PHP.
+
+Class overview
+==============
+
+This section gives you an overview on all classes, that are intended to be
+used directly.
+
+ezcDbSchema
+  Contains the structure of a database. A ezcDbSchema object can be created out
+  of files containing a description, or directly from the database. A
+  ezcDbSchema can also be written to a file in different formats and converted
+  to SQL DDL. It is also possible to create a database structure directly from
+  an ezcDbSchema object.
+
+ezcDbSchemaComparator
+  This class provide an interface for comparing two database schema definitions
+  that are stored in the ezcDbSchema class.
+
+ezcDbSchemaDiff
+  The ezcDbSchemaHandlerManager::compareSchemas() method returns an object of
+  this class. The object can be converted to SQL DDL, stored in a file or can
+  be directly applied to a database.
+
+ezcDbSchemaHandlerManager
+  This class can be used to register different handlers for reading and writing
+  ezcDbSchema and ezcDbSchemaDiff objects. Its functions to create a reader or
+  writer are used by the ezcDbSchema and ezcDbSchemaDiff classes to do the real
+  work.
+
+ezcDbSchemaValidator
+  Provides one method that allows you to validate a ezcDbSchema class. It
+  checks whether indexes are on existing columns and if the types are used are
+  correct. It provides an easy API so that other validation checks can be
+  easily added.
+
+Usage
+=====
+
+Creating a Database Schema Definition
+-------------------------------------
+
+Saving a Database Schema Definition
+-----------------------------------
+
+Comparing Database Schemas
+--------------------------
+
+Validating Schemas
+------------------
+
+Implementing New Handlers
+-------------------------
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
