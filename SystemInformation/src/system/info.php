@@ -248,7 +248,7 @@ class ezcSystemInfo
                     "http://sourceforge.net/projects/eaccelerator/",    // url
                     true,                                               // isEnabled
                     false,                                              // version int
-                    phpversion('eAccelerator')                          // version string
+                    phpversion( 'eAccelerator' )                        // version string
                 );
         }
         if ( extension_loaded( "apc" ) )
@@ -256,7 +256,7 @@ class ezcSystemInfo
             $phpAcceleratorInfo = new ezcSystemInfoAccelerator(
                     "APC",                                  // name
                     "http://pecl.php.net/package/APC",      // url
-                    (ini_get( 'apc.enabled' ) != 0),        // isEnabled
+                    ( ini_get( 'apc.enabled' ) != 0 ),      // isEnabled
                     false,                                  // version int
                     phpversion( 'apc' )                     // version string
                 );

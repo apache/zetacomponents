@@ -137,7 +137,7 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
             {
                 $system = trim( substr( $line, 4, strlen( $line ) - 4 ) );
                 $cpu = null;
-                //we should have line like "CPU: AMD Duron(tm)  (1800.07-MHz 686-class CPU)" parse it.
+                // we should have line like "CPU: AMD Duron(tm)  (1800.07-MHz 686-class CPU)" parse it.
                 if ( preg_match( "#^(.+)\\((.+)-(MHz) +([^)]+)\\)#", $system, $matches ) )
                 {
                     $system = trim( $matches[1] ) . ' (' . trim( $matches[4] ) . ')';
@@ -155,7 +155,7 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
             {
                 $multiCpu = trim( substr( $line, 44, strlen( $line ) - 44 ) );
                 unset( $matches );
-                //we should have line like "FreeBSD/SMP: Multiprocessor System Detected: 4 CPUs" parse it.
+                // we should have line like "FreeBSD/SMP: Multiprocessor System Detected: 4 CPUs" parse it.
                 if ( preg_match( "#^([0-9]+).+#", $multiCpu, $matches ) )
                 {
                    $this->cpuCount = (int)$matches[1];
@@ -176,7 +176,7 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
                 $this->validProperties['memory_size'] = $this->memorySize;
             }
 
-            //read dmesg until get all necessary info.
+            // read dmesg until get all necessary info.
             if ( $this->cpuSpeed !== null and
                  $this->cpuType !== null and
                  $this->memorySize !== null and 

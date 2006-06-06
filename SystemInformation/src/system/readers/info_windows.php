@@ -123,8 +123,8 @@ class ezcSystemInfoWindowsReader extends ezcSystemInfoReader
      */
     private function getOsInfo( )
     {
-        //query contents of CentralProcessor section.
-        $output =shell_exec ("reg query HKLM\\HARDWARE\\DESCRIPTION\\SYSTEM\\CentralProcessor" );
+        // query contents of CentralProcessor section.
+        $output = shell_exec( "reg query HKLM\\HARDWARE\\DESCRIPTION\\SYSTEM\\CentralProcessor" );
         $outputStrings = explode( "\n\n", $output );
         // In first two items of output strings we have the signature of reg.exe utility 
         // and path to CentralProcessor section than list of subsections paths follows.
@@ -132,27 +132,27 @@ class ezcSystemInfoWindowsReader extends ezcSystemInfoReader
         // Name of each subsection is index of CPU starting from 0.
         if ( is_array( $outputStrings ) && count( $outputStrings ) > 2 )
         {
-            $this->cpuCount = count( $outputStrings ) - 2; //cpuCount is amount of subsections, output header skipped.
+            $this->cpuCount = count( $outputStrings ) - 2; // cpuCount is amount of subsections, output header skipped.
             for ( $i = 0; $i < $this->cpuCount; $i++ )
             {
-                $output =shell_exec ("reg query HKLM\\HARDWARE\\DESCRIPTION\\SYSTEM\\CentralProcessor\\$i /v ProcessorNameString" );
+                $output = shell_exec( "reg query HKLM\\HARDWARE\\DESCRIPTION\\SYSTEM\\CentralProcessor\\$i /v ProcessorNameString" );
                 preg_match( "/ProcessorNameString\s*\S*\s*(.*)/", $output, $matches );
-                if ( isset($matches[1]) )
+                if ( isset( $matches[1] ) )
                 {
                     $this->cpuType[] = $matches[1];
                     $this->validProperties['cpuType'] = $this->cpuType;
                 }
-                unset ($matches);
+                unset( $matches );
 
-                $output =shell_exec ("reg query HKLM\\HARDWARE\\DESCRIPTION\\SYSTEM\\CentralProcessor\\$i /v ~MHz" );
+                $output = shell_exec( "reg query HKLM\\HARDWARE\\DESCRIPTION\\SYSTEM\\CentralProcessor\\$i /v ~MHz" );
                 preg_match( "/~MHz\s*\S*\s*(\S*)/", $output, $matches );
-                if ( isset($matches[1]) )
+                if ( isset( $matches[1] ) )
                 {
-                    $this->cpuSpeed[] = (float)hexdec( $matches[1] ).'.0'; //force to be float value
+                    $this->cpuSpeed[] = (float)hexdec( $matches[1] ).'.0'; // force to be float value
                     $this->validProperties['cpu_count'] = $this->cpuCount;
                     $this->validProperties['cpu_speed'] = $this->cpuSpeed;
                 }
-                unset ($matches);
+                unset( $matches );
             }
         }
 
@@ -163,10 +163,10 @@ class ezcSystemInfoWindowsReader extends ezcSystemInfoReader
         // (should be researched in details) or with help of some free third party 
         // utility like psinfo.exe from SysInternals ( www.sysinternals.com ).
 
-        if ( extension_loaded("win32ps") )
+        if ( extension_loaded( 'win32ps' ) )
         {
             $memInfo = win32_ps_stat_mem();
-            $this->memorySize= $memInfo['total_phys']*$memInfo['unit'];
+            $this->memorySize = $memInfo['total_phys'] * $memInfo['unit'];
             $this->validProperties['memory_size'] = $this->memorySize;
         }
         return true;
@@ -197,7 +197,7 @@ class ezcSystemInfoWindowsReader extends ezcSystemInfoReader
         }
 
         $result = null;
-        foreach( $this->cpuSpeed as $speed )
+        foreach ( $this->cpuSpeed as $speed )
         {
             $result += $speed;
         }

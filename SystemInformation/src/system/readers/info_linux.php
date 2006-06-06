@@ -234,7 +234,7 @@ class ezcSystemInfoLinuxReader extends ezcSystemInfoReader
     public function cpuSpeed()
     {
         $totalSpeed = 0;
-        foreach( $this->cpuSpeed as $speed )
+        foreach ( $this->cpuSpeed as $speed )
         {
             $totalSpeed += $speed;
         }
