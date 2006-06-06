@@ -1,0 +1,69 @@
+eZ components - File
+~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+The File components currently contains one class that provides a few often used
+filesystem operations that are missing from PHP.
+
+Class overview
+==============
+
+This section gives you an overview on all classes, that are intended to be
+used directly.
+
+ezcFile
+  The only class in this component. It only provides two static methods:
+  ezcFile::findRecursive() and ezcFile::removeRecursive().
+
+
+Usage
+=====
+
+Finding Files Recursively
+-------------------------
+
+This example shows how to use the ezcFile::findRecursive() method:
+
+.. include:: tutorial_example_01.php
+   :literal:
+
+The code in this example searched for files in the ``/dat/dev/ezcomponents``
+directory. It will only include files that match *all* patterns in the array
+that you passed as the $includeFilters parameter. Files that match *any* of the
+patterns in the array that you pass to $excludeFilters will not be returned
+either.
+
+In other words the code above searches for files in the ``dat/dev/ezcomponents``
+directory, that are in the ``src/`` directory and end with ``_autoload.php``.
+Except files that are in the ``/autoload/`` directory.
+
+Removing Directories Recursively
+--------------------------------
+
+This example shows how to use the ezcFile::removeRecursive() method:
+
+.. include:: tutorial_example_02.php
+   :literal:
+
+This code simply removes the directory ``/dat/dev/ezcomponents/trash`` and all
+the files and directories in that directory.
+
+**Warning: Use this function with care, as it has the potential to erase
+everything that the current user has access to.**
+
+More Information
+================
+
+For more information, see the ezcFile API documentation.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
