@@ -645,7 +645,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                 ->expects( $this->at( 5 ) )
                 ->method( 'drawLine' )
                 ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                     $this->equalTo( new ezcGraphCoordinate( 120, 200 ) ),
                     $this->equalTo( new ezcGraphCoordinate( 120, 0 ) ),
                     $this->equalTo( false )
@@ -685,7 +685,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                         new ezcGraphCoordinate( 123, 5 ),
                         new ezcGraphCoordinate( 118, 5 ),
                     ) ),
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                     $this->equalTo( true )
                 );
 
@@ -719,7 +719,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                 ->expects( $this->at( 6 ) )
                 ->method( 'drawLine' )
                 ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                     $this->equalTo( new ezcGraphCoordinate( 124, 190 ) ),
                     $this->equalTo( new ezcGraphCoordinate( 116, 190 ) ),
                     $this->equalTo( false )
@@ -728,7 +728,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                 ->expects( $this->at( 7 ) )
                 ->method( 'drawLine' )
                 ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                     $this->equalTo( new ezcGraphCoordinate( 124, 130 ) ),
                     $this->equalTo( new ezcGraphCoordinate( 116, 130 ) ),
                     $this->equalTo( false )
@@ -737,7 +737,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                 ->expects( $this->at( 8 ) )
                 ->method( 'drawLine' )
                 ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                     $this->equalTo( new ezcGraphCoordinate( 124, 70 ) ),
                     $this->equalTo( new ezcGraphCoordinate( 116, 70 ) ),
                     $this->equalTo( false )
@@ -746,7 +746,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                 ->expects( $this->at( 9 ) )
                 ->method( 'drawLine' )
                 ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                     $this->equalTo( new ezcGraphCoordinate( 124, 10 ) ),
                     $this->equalTo( new ezcGraphCoordinate( 116, 10 ) ),
                     $this->equalTo( false )
@@ -783,7 +783,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                 ->expects( $this->at( 10 ) )
                 ->method( 'drawLine' )
                 ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                     $this->equalTo( new ezcGraphCoordinate( 122, 190 ) ),
                     $this->equalTo( new ezcGraphCoordinate( 118, 190 ) ),
                     $this->equalTo( false )
@@ -792,7 +792,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                 ->expects( $this->at( 11 ) )
                 ->method( 'drawLine' )
                 ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                     $this->equalTo( new ezcGraphCoordinate( 122, 178 ) ),
                     $this->equalTo( new ezcGraphCoordinate( 118, 178 ) ),
                     $this->equalTo( false )
@@ -801,7 +801,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                 ->expects( $this->at( 12 ) )
                 ->method( 'drawLine' )
                 ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                     $this->equalTo( new ezcGraphCoordinate( 122, 166 ) ),
                     $this->equalTo( new ezcGraphCoordinate( 118, 166 ) ),
                     $this->equalTo( false )
@@ -812,7 +812,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                 ->expects( $this->at( 24 ) )
                 ->method( 'drawLine' )
                 ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                     $this->equalTo( new ezcGraphCoordinate( 122, 22 ) ),
                     $this->equalTo( new ezcGraphCoordinate( 118, 22 ) ),
                     $this->equalTo( false )

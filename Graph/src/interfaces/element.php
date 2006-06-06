@@ -44,6 +44,20 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
     protected $border;
 
     /**
+     * Distance between border and content of element
+     * 
+     * @var integer
+     */
+    protected $padding;
+
+    /**
+     * Distance between outer boundings and border of an element 
+     * 
+     * @var integer
+     */
+    protected $margin;
+
+    /**
      * Border width 
      * 
      * @var integer
@@ -105,6 +119,20 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
     }
 
     /**
+     * Set colors and border fro this element
+     * 
+     * @param ezcGraphPalette $palette Palette
+     * @return void
+     */
+    public function setFromPalette( ezcGraphPalette $palette )
+    {
+        $this->border = $palette->elementBorderColor;
+        $this->borderWidth = $palette->elementBorderWidth;
+        $this->padding = $palette->padding;
+        $this->margin = $palette->margin;
+    }
+
+    /**
      * __set 
      * 
      * @param mixed $propertyName 
@@ -127,6 +155,12 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
                 break;
             case 'border':
                 $this->border = ezcGraphColor::create( $propertyValue );
+                break;
+            case 'padding':
+                $this->padding = max( 0, (int) $propertyValue );
+                break;
+            case 'margin':
+                $this->margin = max( 0, (int) $propertyValue );
                 break;
             case 'borderWidth':
                 $this->borderWidth = max( 0, (int) $propertyValue);
@@ -202,7 +236,14 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
 
     protected function renderBorder( ezcGraphRenderer $renderer )
     {
-        if ( $this->border instanceof ezcGraphColor )
+        // Apply margin
+        $this->boundings->x0 += $this->margin;
+        $this->boundings->y0 += $this->margin;
+        $this->boundings->x1 -= $this->margin;
+        $this->boundings->y1 -= $this->margin;
+
+        if ( ( $this->border instanceof ezcGraphColor ) &&
+             ( $this->borderWidth > 0 ) )
         {
             // Default bordervalue to 1
             $this->borderWidth = max( 1, $this->borderWidth );
@@ -222,6 +263,12 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
             $this->boundings->x1 -= $this->borderWidth;
             $this->boundings->y1 -= $this->borderWidth;
         }
+
+        // Apply padding
+        $this->boundings->x0 += $this->padding;
+        $this->boundings->y0 += $this->padding;
+        $this->boundings->x1 -= $this->padding;
+        $this->boundings->y1 -= $this->padding;
     }
 
     protected function renderBackground( ezcGraphRenderer $renderer )

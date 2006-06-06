@@ -19,9 +19,10 @@ class ezcGraphLineChart extends ezcGraphChart
     {
         parent::__construct();
 
-        $this->elements['X_axis'] = new ezcGraphChartElementLabeledAxis();
+        $this->addElement( 'X_axis', new ezcGraphChartElementLabeledAxis() );
         $this->elements['X_axis']->position = ezcGraph::LEFT;
-        $this->elements['Y_axis'] = new ezcGraphChartElementNumericAxis();
+
+        $this->addElement( 'Y_axis', new ezcGraphChartElementNumericAxis() );
         $this->elements['Y_axis']->position = ezcGraph::BOTTOM;
     }
 

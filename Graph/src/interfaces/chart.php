@@ -27,14 +27,14 @@ abstract class ezcGraphChart
      * 
      * @var array( ezcGraphChartElement )
      */
-    protected $elements;
+    protected $elements = array();
 
     /**
      * Contains the data of the chart
      * 
      * @var array( ezcGraphDataset )
      */
-    protected $data;
+    protected $data = array();
 
     /**
      * Renderer for the chart
@@ -61,21 +61,26 @@ abstract class ezcGraphChart
     {
         $this->options = new ezcGraphChartOptions( $options );
 
-        $this->palette = ezcGraph::createPalette( 'Tango' );
+        $this->__set( 'palette', 'Tango' );
 
         // Add standard elements
-        $this->elements['title'] = new ezcGraphChartElementText();
-        $this->elements['title']->font = $this->options->font;
+        $this->addElement( 'title', new ezcGraphChartElementText() );
         $this->elements['title']->position = ezcGraph::TOP;
 
-        $this->elements['legend'] = new ezcGraphChartElementLegend();
-        $this->elements['legend']->font = $this->options->font;
+        $this->addElement( 'legend', new ezcGraphChartElementLegend() );
         $this->elements['legend']->position = ezcGraph::LEFT;
 
         // Define standard renderer and driver
         $this->driver = new ezcGraphSVGDriver();
         $this->renderer = new ezcGraphRenderer2D();
         $this->renderer->setDriver( $this->driver );
+    }
+
+    protected function addElement( $name, ezcGraphChartElement $element )
+    {
+        $this->elements[$name] = $element;
+        $this->elements[$name]->font = $this->options->font;
+        $this->elements[$name]->setFromPalette( $this->palette );
     }
 
     /**
@@ -128,6 +133,9 @@ abstract class ezcGraphChart
                 {
                     $this->palette = ezcGraph::createPalette( $propertyValue );
                 }
+
+                $this->setFromPalette( $this->palette );
+
                 break;
             case 'options':
                 if ( $propertyValue instanceof ezcGraphChartOptions )
@@ -141,6 +149,26 @@ abstract class ezcGraphChart
             default:
                 return $this->addDataSet($propertyName, $propertyValue);
                 break;
+        }
+    }
+
+    /**
+     * Set colors and border fro this element
+     * 
+     * @param ezcGraphPalette $palette Palette
+     * @return void
+     */
+    public function setFromPalette( ezcGraphPalette $palette )
+    {
+        $this->options->font->font = $palette->fontFace;
+        $this->options->font->color = $palette->fontColor;
+        $this->options->background = $palette->background;
+        $this->options->border = $palette->chartBorderColor;
+        $this->options->borderWidth = $palette->chartBorderWidth;
+
+        foreach ( $this->elements as $element )
+        {
+            $element->setFromPalette( $palette );
         }
     }
 
@@ -161,11 +189,13 @@ abstract class ezcGraphChart
         {
             $this->data[$name]->createFromArray( $values );
             $this->data[$name]->label = $name;
+            $this->data[$name]->palette = $this->palette;
         }
         elseif ( $values instanceof PDOStatement )
         {
             $this->data[$name]->createFromStatement( $values );
             $this->data[$name]->label = $name;
+            $this->data[$name]->palette = $this->palette;
         }
         else
         {

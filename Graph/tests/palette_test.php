@@ -219,13 +219,13 @@ class ezcGraphPaletteTest extends ezcTestCase
         }
 
         $this->assertEquals(
-            ezcGraph::BULLET,
+            ezcGraph::NO_SYMBOL,
             $chart->palette->dataSetSymbol,
             'Symbol for datasets not properly set.'
         );
 
         $this->assertEquals(
-            ezcGraph::BULLET,
+            ezcGraph::NO_SYMBOL,
             $chart->palette->dataSetSymbol,
             'Symbol for datasets not properly set.'
         );
@@ -261,13 +261,13 @@ class ezcGraphPaletteTest extends ezcTestCase
         }
 
         $this->assertEquals(
-            ezcGraphColor::fromHex( '#888A85' ),
+            ezcGraphColor::fromHex( '#555753' ),
             $chart->palette->fontColor,
             'Font color not properly set.'
         );
     }
 
-    public function testBorderColor()
+    public function testChartBorderColor()
     {
         try
         {
@@ -280,12 +280,48 @@ class ezcGraphPaletteTest extends ezcTestCase
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#BABDB6' ),
-            $chart->palette->borderColor,
+            $chart->palette->chartBorderColor,
             'Border color not properly set.'
         );
     }
 
-    public function testBorderWidth()
+    public function testChartBorderWidth()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+        }
+        catch ( Exception $e )
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $this->assertEquals(
+            1,
+            $chart->palette->chartBorderWidth,
+            'Border width not properly set.'
+        );
+    }
+
+    public function testElementBorderColor()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+        }
+        catch ( Exception $e )
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $this->assertEquals(
+            ezcGraphColor::fromHex( '#BABDB6' ),
+            $chart->palette->elementBorderColor,
+            'Border color not properly set.'
+        );
+    }
+
+    public function testElementBorderWidth()
     {
         try
         {
@@ -298,7 +334,7 @@ class ezcGraphPaletteTest extends ezcTestCase
 
         $this->assertEquals(
             0,
-            $chart->palette->borderWidth,
+            $chart->palette->elementBorderWidth,
             'Border width not properly set.'
         );
     }
@@ -333,9 +369,115 @@ class ezcGraphPaletteTest extends ezcTestCase
         }
 
         $this->assertEquals(
-            1,
+            0,
             $chart->palette->margin,
             'Margin not properly set.'
+        );
+    }
+
+    public function testDatasetAutomaticColorization()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
+            $chart->spending = array( 2000 => 2347.2, 2458.3, 2569.4 );
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $this->assertEquals(
+            ezcGraphColor::fromHex( '#3465A4' ),
+            $chart->income->color->default,
+            'Wrong automatic color set.'
+        );
+
+        $this->assertEquals(
+            ezcGraphColor::fromHex( '#4E9A06' ),
+            $chart->spending->color->default,
+            'Wrong automatic color set.'
+        );
+    }
+
+    public function testChartBackground()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
+            $chart->spending = array( 2000 => 2347.2, 2458.3, 2569.4 );
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $this->assertEquals(
+            ezcGraphColor::fromHex( '#EEEEEC' ),
+            $chart->options->background,
+            'Chart background not set from pallet.'
+        );
+    }
+
+    public function testChartElementBorder()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
+            $chart->spending = array( 2000 => 2347.2, 2458.3, 2569.4 );
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $this->assertEquals(
+            ezcGraphColor::fromHex( '#BABDB6' ),
+            $chart->legend->border,
+            'Chart background not set from pallet.'
+        );
+    }
+
+    public function testChartElementBorderWidth()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
+            $chart->spending = array( 2000 => 2347.2, 2458.3, 2569.4 );
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $this->assertEquals(
+            0,
+            $chart->legend->borderWidth,
+            'Chart background not set from pallet.'
+        );
+    }
+
+    public function testChartElementAxisColor()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
+            $chart->spending = array( 2000 => 2347.2, 2458.3, 2569.4 );
+        }
+        catch ( Exception $e ) 
+        {
+            $this->fail( $e->getMessage() );
+        }
+
+        $this->assertEquals(
+            ezcGraphColor::fromHex( '#2E3436' ),
+            $chart->X_axis->border,
+            'Chart background not set from pallet.'
         );
     }
 }

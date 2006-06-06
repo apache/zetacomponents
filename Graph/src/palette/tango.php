@@ -51,7 +51,7 @@ class ezcGraphPaletteTango extends ezcGraphPalette
      * @var array
      */
     protected $dataSetSymbol = array(
-        ezcGraph::BULLET,
+        ezcGraph::NO_SYMBOL,
     );
 
     /**
@@ -66,22 +66,37 @@ class ezcGraphPaletteTango extends ezcGraphPalette
      * 
      * @var ezcGraphColor
      */
-    protected $fontColor = '#888A85';
+    protected $fontColor = '#555753';
 
     /**
-     * Bordercolor 
+     * Bordercolor the chart
      * 
      * @var ezcGraphColor
      */
-    protected $borderColor = '#BABDB6';
+    protected $chartBorderColor = '#BABDB6';
 
     /**
-     * Borderwidth
+     * Borderwidth for the chart
      * 
      * @var integer
      * @access protected
      */
-    protected $borderWidth = 0;
+    protected $chartBorderWidth = 1;
+
+    /**
+     * Bordercolor for elements
+     * 
+     * @var ezcGraphColor
+     */
+    protected $elementBorderColor = '#BABDB6';
+
+    /**
+     * Borderwidth for elements
+     * 
+     * @var integer
+     * @access protected
+     */
+    protected $elementBorderWidth = 0;
 
     /**
      * Padding in elements
@@ -95,7 +110,7 @@ class ezcGraphPaletteTango extends ezcGraphPalette
      * 
      * @var integer
      */
-    protected $margin = 1;
+    protected $margin = 0;
 }
 
 ?>

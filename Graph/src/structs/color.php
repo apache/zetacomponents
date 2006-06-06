@@ -176,7 +176,11 @@ class ezcGraphColor
      */
     static public function create( $color )
     {
-        if ( is_string( $color ) )
+        if ( $color instanceof ezcGraphColor )
+        {
+            return $color;
+        }
+        elseif ( is_string( $color ) )
         {
             return ezcGraphColor::fromHex( $color );
         }

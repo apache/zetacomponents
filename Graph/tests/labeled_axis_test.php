@@ -361,7 +361,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                 ->expects( $this->at( 0 ) )
                 ->method( 'drawLine' )
                 ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                     $this->equalTo( new ezcGraphCoordinate( 100, 190 ) ),
                     $this->equalTo( new ezcGraphCoordinate( 500, 190 ) ),
                     $this->equalTo( false )
@@ -401,7 +401,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                         new ezcGraphCoordinate( 490, 185 ),
                         new ezcGraphCoordinate( 490, 195 ),
                     ) ),
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                     $this->equalTo( true )
                 );
 
@@ -434,7 +434,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                 ->expects( $this->at( 1 ) )
                 ->method( 'drawLine' )
                 ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                     $this->equalTo( new ezcGraphCoordinate( 120, 194 ) ),
                     $this->equalTo( new ezcGraphCoordinate( 120, 186 ) ),
                     $this->equalTo( false )
@@ -443,7 +443,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                 ->expects( $this->at( 2 ) )
                 ->method( 'drawLine' )
                 ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                     $this->equalTo( new ezcGraphCoordinate( 240, 194 ) ),
                     $this->equalTo( new ezcGraphCoordinate( 240, 186 ) ),
                     $this->equalTo( false )
@@ -452,7 +452,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                 ->expects( $this->at( 3 ) )
                 ->method( 'drawLine' )
                 ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                     $this->equalTo( new ezcGraphCoordinate( 361, 194 ) ),
                     $this->equalTo( new ezcGraphCoordinate( 361, 186 ) ),
                     $this->equalTo( false )
@@ -461,7 +461,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                 ->expects( $this->at( 4 ) )
                 ->method( 'drawLine' )
                 ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                     $this->equalTo( new ezcGraphCoordinate( 481, 194 ) ),
                     $this->equalTo( new ezcGraphCoordinate( 481, 186 ) ),
                     $this->equalTo( false )

@@ -60,10 +60,10 @@ class ezcGraphTextTest extends ezcTestCase
                 ->expects( $this->at( 0 ) )
                 ->method( 'drawTextBox' )
                 ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 2, 2 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 1, 1 ) ),
                     $this->equalTo( 'Title of a chart' ),
-                    $this->equalTo( 496 ),
-                    $this->equalTo( 16 ),
+                    $this->equalTo( 498 ),
+                    $this->equalTo( 18 ),
                     $this->equalTo( ezcGraph::CENTER | ezcGraph::MIDDLE )
                 );
 
@@ -97,10 +97,10 @@ class ezcGraphTextTest extends ezcTestCase
                 ->expects( $this->at( 0 ) )
                 ->method( 'drawTextBox' )
                 ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 2, 182 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 1, 181 ) ),
                     $this->equalTo( 'Title of a chart' ),
-                    $this->equalTo( 496 ),
-                    $this->equalTo( 16 ),
+                    $this->equalTo( 498 ),
+                    $this->equalTo( 18 ),
                     $this->equalTo( ezcGraph::CENTER | ezcGraph::MIDDLE )
                 );
 

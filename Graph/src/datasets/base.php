@@ -25,6 +25,8 @@ class ezcGraphDataset implements ArrayAccess, Iterator
 
     protected $current;
 
+    protected $pallet;
+
     public function __construct()
     {
         $this->label = new ezcGraphDatasetStringProperty( $this );
@@ -62,6 +64,11 @@ class ezcGraphDataset implements ArrayAccess, Iterator
                 break;
             case 'symbol':
                 $this->symbol->default = $propertyValue;
+                break;
+            case 'palette':
+                $this->palette = $propertyValue;
+                $this->color->default = $this->palette->dataSetColor;
+                $this->symbol->default = $this->palette->dataSetSymbol;
                 break;
         }
     }

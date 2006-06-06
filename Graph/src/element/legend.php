@@ -150,26 +150,30 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
             case ezcGraph::TOP:
                 $this->boundings = clone $boundings;
 
-                $this->boundings->y1 = $boundings->y0 + ($boundings->y1 - $boundings->y0) * $this->landscapeSize;
-                $boundings->y0 = $boundings->y0 + ($boundings->y1 - $boundings->y0) * $this->landscapeSize;
+                $size = (int) round( $boundings->y0 + ( $boundings->y1 - $boundings->y0) * $this->landscapeSize );
+                $this->boundings->y1 = $size;
+                $boundings->y0 = $size;
                 break;
             case ezcGraph::LEFT:
                 $this->boundings = clone $boundings;
 
-                $this->boundings->x1 = $boundings->x0 + ($boundings->x1 - $boundings->x0) * $this->portraitSize;
-                $boundings->x0 = $boundings->x0 + ($boundings->x1 - $boundings->x0) * $this->portraitSize;
+                $size = (int) round( $boundings->x0 + ( $boundings->x1 - $boundings->x0) * $this->portraitSize );
+                $this->boundings->x1 = $size;
+                $boundings->x0 = $size;
                 break;
             case ezcGraph::RIGHT:
                 $this->boundings = clone $boundings;
 
-                $this->boundings->x0 = $boundings->x1 - ($boundings->x1 - $boundings->x0) * $this->portraitSize;
-                $boundings->x1 = $boundings->x1 - ($boundings->x1 - $boundings->x0) * $this->portraitSize;
+                $size = (int) round( $boundings->x1 - ( $boundings->x1 - $boundings->x0) * $this->portraitSize );
+                $this->boundings->x0 = $size;
+                $boundings->x1 = $size;
                 break;
             case ezcGraph::BOTTOM:
                 $this->boundings = clone $boundings;
 
-                $this->boundings->y0 = $boundings->y1 - ($boundings->y1 - $boundings->y0) * $this->landscapeSize;
-                $boundings->y1 = $boundings->y1 - ($boundings->y1 - $boundings->y0) * $this->landscapeSize;
+                $size = (int) round( $boundings->y1 - ( $boundings->y1 - $boundings->y0) * $this->landscapeSize );
+                $this->boundings->y0 = $size;
+                $boundings->y1 = $size;
                 break;
         }
 
@@ -182,13 +186,13 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
         {
             case ezcGraph::LEFT:
             case ezcGraph::RIGHT:
-                $symbolSize = min(
+                $symbolSize = (int) round( min(
                     max(
                         $this->symbolSize,
                         ( $this->boundings->y1 - $this->boundings->y0 ) * $this->minimumSymbolSize
                     ),
                     ( $this->boundings->y1 - $this->boundings->y0 ) / count( $this->labels )
-                );
+                ) );
 
                 foreach ( $this->labels as $labelNr => $label )
                 {
@@ -216,11 +220,11 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
                 break;
             case ezcGraph::TOP:
             case ezcGraph::BOTTOM:
-                $symbolSize = min(
+                $symbolSize = (int) round( min(
                     $this->symbolSize,
                     ( $this->boundings->y1 - $this->boundings->y0 )
-                );
-                $width = ( $this->boundings->x1 - $this->boundings->x0 ) / count( $this->labels );
+                ) );
+                $width = (int) round( ( $this->boundings->x1 - $this->boundings->x0 ) / count( $this->labels ) );
 
                 foreach ( $this->labels as $labelNr => $label )
                 {

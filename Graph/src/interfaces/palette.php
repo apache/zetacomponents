@@ -71,19 +71,34 @@ abstract class ezcGraphPalette
     protected $fontColor;
 
     /**
-     * Bordercolor 
+     * Bordercolor the chart
      * 
      * @var ezcGraphColor
      */
-    protected $borderColor;
+    protected $chartBorderColor;
 
     /**
-     * Borderwidth
+     * Borderwidth for the chart
      * 
      * @var integer
      * @access protected
      */
-    protected $borderWidth = 0;
+    protected $chartBorderWidth = 1;
+
+    /**
+     * Bordercolor for elements
+     * 
+     * @var ezcGraphColor
+     */
+    protected $elementBorderColor;
+
+    /**
+     * Borderwidth for elements
+     * 
+     * @var integer
+     * @access protected
+     */
+    protected $elementBorderWidth = 0;
 
     /**
      * Padding in elements
@@ -143,10 +158,15 @@ abstract class ezcGraphPalette
             case 'fontFace':
                 return $this->fontFace;
 
-            case 'borderColor':
-                return $this->checkColor( $this->borderColor );
-            case 'borderWidth':
-                return $this->borderWidth;
+            case 'chartBorderColor':
+                return $this->checkColor( $this->chartBorderColor );
+            case 'chartBorderWidth':
+                return $this->chartBorderWidth;
+
+            case 'elementBorderColor':
+                return $this->checkColor( $this->elementBorderColor );
+            case 'elementBorderWidth':
+                return $this->elementBorderWidth;
 
             case 'padding':
                 return $this->padding;

@@ -234,16 +234,16 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
             {
                 case ezcGraph::TOP:
                     return $boundings->y0 +
-                            ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 );
+                            ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 );
                 case ezcGraph::BOTTOM:
                     return $boundings->y1 -
-                            ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 );
+                            ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 );
                 case ezcGraph::LEFT:
                     return $boundings->x0 +
-                            ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 );
+                            ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 );
                 case ezcGraph::RIGHT:
                     return $boundings->x1 -
-                            ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 );
+                            ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 );
             }
         }
         else
@@ -252,20 +252,20 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
             {
                 case ezcGraph::TOP:
                     return $boundings->y0 +
-                            ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 ) +
-                            ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->y1 - $boundings-> y0 ) * ( 1 - $this->padding );
+                            ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 ) +
+                            ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->y1 - $boundings-> y0 ) * ( 1 - $this->axisSpace );
                 case ezcGraph::BOTTOM:
                     return $boundings->y1 -
-                            ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 ) -
-                            ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->y1 - $boundings-> y0 ) * ( 1 - $this->padding );
+                            ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 ) -
+                            ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->y1 - $boundings-> y0 ) * ( 1 - $this->axisSpace );
                 case ezcGraph::LEFT:
                     return $boundings->x0 +
-                            ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 ) +
-                            ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->x1 - $boundings-> x0 ) * ( 1 - $this->padding );
+                            ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 ) +
+                            ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->x1 - $boundings-> x0 ) * ( 1 - $this->axisSpace );
                 case ezcGraph::RIGHT:
                     return $boundings->x1 -
-                            ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 ) -
-                            ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->x1 - $boundings-> x0 ) * ( 1 - $this->padding );
+                            ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 ) -
+                            ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->x1 - $boundings-> x0 ) * ( 1 - $this->axisSpace );
             }
         }
     }
@@ -309,8 +309,8 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
         $yStepsize = ( $end->y - $start->y ) / $steps;
 
         // Caluclate datafree chart border
-        $xBorder = abs ( ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 ) );
-        $yBorder = abs ( ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 ) );
+        $xBorder = abs ( ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 ) );
+        $yBorder = abs ( ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 ) );
 
         for ( $i = 0; $i <= $steps; ++$i )
         {

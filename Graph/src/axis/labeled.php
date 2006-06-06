@@ -96,16 +96,16 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
             {
                 case ezcGraph::TOP:
                     return $boundings->y0 +
-                            ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 );
+                            ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 );
                 case ezcGraph::BOTTOM:
                     return $boundings->y1 -
-                            ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 );
+                            ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 );
                 case ezcGraph::LEFT:
                     return $boundings->x0 +
-                            ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 );
+                            ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 );
                 case ezcGraph::RIGHT:
                     return $boundings->x1 -
-                            ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 );
+                            ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 );
             }
         }
         else
@@ -114,20 +114,20 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
             {
                 case ezcGraph::TOP:
                     return $boundings->y0 +
-                            ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 ) +
-                            ( $boundings->y1 - $boundings->y0 ) * ( 1 - $this->padding ) / ( count ( $this->labels ) - 1 ) * $key;
+                            ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 ) +
+                            ( $boundings->y1 - $boundings->y0 ) * ( 1 - $this->axisSpace ) / ( count ( $this->labels ) - 1 ) * $key;
                 case ezcGraph::BOTTOM:
                     return $boundings->y1 -
-                            ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 ) -
-                            ( $boundings->y1 - $boundings->y0 ) * ( 1 - $this->padding ) / ( count ( $this->labels ) - 1 ) * $key;
+                            ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 ) -
+                            ( $boundings->y1 - $boundings->y0 ) * ( 1 - $this->axisSpace ) / ( count ( $this->labels ) - 1 ) * $key;
                 case ezcGraph::LEFT:
                     return $boundings->x0 +
-                            ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 ) +
-                            ( $boundings->x1 - $boundings->x0 ) * ( 1 - $this->padding ) / ( count ( $this->labels ) - 1 ) * $key;
+                            ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 ) +
+                            ( $boundings->x1 - $boundings->x0 ) * ( 1 - $this->axisSpace ) / ( count ( $this->labels ) - 1 ) * $key;
                 case ezcGraph::RIGHT:
                     return $boundings->x1 -
-                            ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 ) -
-                            ( $boundings->x1 - $boundings->x0 ) * ( 1 - $this->padding ) / ( count ( $this->labels ) - 1 ) * $key;
+                            ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 ) -
+                            ( $boundings->x1 - $boundings->x0 ) * ( 1 - $this->axisSpace ) / ( count ( $this->labels ) - 1 ) * $key;
             }
         }
     }
@@ -171,8 +171,8 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
         $yStepsize = ( $end->y - $start->y ) / $steps;
 
         // Caluclate datafree chart border
-        $xBorder = abs ( ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 ) );
-        $yBorder = abs ( ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 ) );
+        $xBorder = abs ( ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 ) );
+        $yBorder = abs ( ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 ) );
 
         for ( $i = 0; $i <= $steps; ++$i )
         {

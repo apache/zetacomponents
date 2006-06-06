@@ -54,6 +54,12 @@ class ezcGraph
         }
     }
 
+    /**
+     * Creates a palette from given name
+     * 
+     * @param string $name Name of the palette
+     * @return ezcGraphPalette Created palette
+     */
     static public function createPalette( $name )
     {
         $className = 'ezcGraphPalette' . $name;

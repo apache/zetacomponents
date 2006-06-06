@@ -23,13 +23,6 @@ class ezcGraphChartElementText extends ezcGraphChartElement
     protected $maxHeight = .1;
 
     /**
-     * Padding between border an text in pixel 
-     * 
-     * @var integer
-     */
-    protected $padding = 2;
-
-    /**
      * Render a legend
      * 
      * @param ezcGraphRenderer $renderer 

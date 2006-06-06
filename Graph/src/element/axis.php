@@ -23,11 +23,12 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
     protected $nullPosition;
 
     /**
-     * Percent of the chart space not used to display values
+     * Percent of the chart space used to display axis labels and arrowheads
+     * instead of data values
      * 
      * @var float
      */
-    protected $padding = .1;
+    protected $axisSpace = .1;
 
     /**
      * Padding between labels and axis in pixel
@@ -81,9 +82,20 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
 
     public function __construct( array $options = array() )
     {
-        $this->border = ezcGraphColor::fromHex( '#000000' );
-
         parent::__construct( $options );
+    }
+
+    /**
+     * Set colors and border fro this element
+     * 
+     * @param ezcGraphPalette $palette Palette
+     * @return void
+     */
+    public function setFromPalette( ezcGraphPalette $palette )
+    {
+        $this->border = $palette->axisColor;
+        $this->padding = $palette->padding;
+        $this->margin = $palette->margin;
     }
 
     /**
@@ -104,8 +116,8 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
             case 'nullPosition':
                 $this->nullPosition = (float) $propertyValue;
                 break;
-            case 'padding':
-                $this->padding = min( 1, max( 0, (float) $propertyValue ) );
+            case 'axisSpace':
+                $this->axisSpace = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             case 'labelPadding':
                 $this->labelPadding = min( 0, max( 0, (float) $propertyValue ) );
@@ -198,8 +210,8 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         $yStepsize = ( $end->y - $start->y ) / $steps;
 
         // Caluclate datafree chart border
-        $xBorder = abs ( ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 ) );
-        $yBorder = abs ( ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 ) );
+        $xBorder = abs ( ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 ) );
+        $yBorder = abs ( ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 ) );
 
         for ( $i = 0; $i <= $steps; ++$i )
         {
@@ -294,7 +306,7 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         );
 
         // Draw small arrowhead
-        $size = abs( ceil( ( ( $end->x - $start->x ) + ( $end->y - $start->y ) ) * $this->padding / 4 ) );
+        $size = abs( ceil( ( ( $end->x - $start->x ) + ( $end->y - $start->y ) ) * $this->axisSpace / 4 ) );
 
         $renderer->drawPolygon(
             array(
@@ -323,11 +335,11 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
             true
         );
 
-        // Apply padding to start and end
-        $start->x += ( $end->x - $start->x ) * ( $this->padding / 2 );
-        $start->y += ( $end->y - $start->y ) * ( $this->padding / 2 );
-        $end->x -= ( $end->x - $start->x ) * ( $this->padding / 2 );
-        $end->y -= ( $end->y - $start->y ) * ( $this->padding / 2 );
+        // Apply axisSpace to start and end
+        $start->x += ( $end->x - $start->x ) * ( $this->axisSpace / 2 );
+        $start->y += ( $end->y - $start->y ) * ( $this->axisSpace / 2 );
+        $end->x -= ( $end->x - $start->x ) * ( $this->axisSpace / 2 );
+        $end->y -= ( $end->y - $start->y ) * ( $this->axisSpace / 2 );
 
         // Draw major steps
         $steps = $this->getMajorStepCount();
