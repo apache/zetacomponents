@@ -32,12 +32,12 @@ abstract class ezcDbSchemaHandler
     /**
      * @return array list of supported storage types.
      */
-    abstract static public function getSupportedStorageTypes();
+    //abstract static public function getSupportedStorageTypes();
 
     /**
      * @return array List of schema features supported by the handler.
      */
-    abstract static public function getSupportedFeatures();
+    //abstract static public function getSupportedFeatures();
 
     /**
      * Check if schema transformation is required before saving it
