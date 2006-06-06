@@ -26,7 +26,7 @@ class ezcTemplateArray
 
         for( $i = 1; $i < $arguments; $i++)
         {
-            $a[] = func_get_arg($i);
+            $a[] = func_get_arg( $i );
         }
         return $a;
     }
@@ -38,7 +38,7 @@ class ezcTemplateArray
 
         for( $i = 1; $i < $arguments; $i++)
         {
-            $a[] = func_get_arg($i);
+            $a[] = func_get_arg( $i );
         }
 
         return array_merge( $a, $array );

@@ -282,18 +282,18 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         // Output type using var_export
         if ( is_string( $type->value ) )
         {
-            $this->write( '"'. addcslashes( preg_replace( "/\n/", "\\n", $type->value), '"' ) . '"');
+            $this->write( '"'. addcslashes( preg_replace( "/\n/", "\\n", $type->value), '"' ) . '"' );
         }
         elseif( is_array( $type->value ) )
         {
-            $this->write("array(" );
+            $this->write( "array(" );
             foreach ( $type->value as $val )
             {
-                $val->accept($this);
+                $val->accept( $this );
 
-                $this->write(",");
+                $this->write( "," );
             }
-            $this->write(")");
+            $this->write( ")" );
             // $this->write( var_export( $type->value, true ) );
         }
         else
@@ -307,50 +307,25 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     {
         $first = true;
 
-        $this->write("array(" );
+        $this->write( "array(" );
         foreach ( $type->value as $key => $val )
         {
             if ( !$first )
             {
-                $this->write(",");
+                $this->write( "," );
             }
 
             if ( isset( $type->keys[$key] ) )
             {
-                $type->keys[$key]->accept($this);
-                $this->write (" => ");
+                $type->keys[$key]->accept( $this );
+                $this->write ( " => " );
             }
 
-            $val->accept($this);
+            $val->accept( $this );
             $first = false;
 
         }
-        $this->write(")");
-     
-/*
-        // Output type using var_export
-        if ( is_string( $type->value ) )
-        {
-            $this->write( '"'. addcslashes( preg_replace( "/\n/", "\\n", $type->value), '"' ) . '"');
-        }
-        elseif( is_array( $type->value ) )
-        {
-            $this->write("array(" );
-            foreach ( $type->value as $val )
-            {
-                $val->accept($this);
-
-                $this->write(",");
-            }
-            $this->write(")");
-            // $this->write( var_export( $type->value, true ) );
-        }
-        else
-        {
-
-            $this->write( var_export( $type->value, true ) );
-        }
- */
+        $this->write( ")" );
     }
 
 
@@ -676,46 +651,6 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     }
 
     /**
-     * Visits a code element containing do/while control structures.
-     *
-     * @param ezcTemplateWhileAstNode $while The code element containing the do/while control structure.
-     */
-    public function visitDoWhileAstNode( ezcTemplateDoWhileAstNode $while )
-    {
-        $conditionBody = $while->conditionBody;
-        $this->write( "do\n{\n" );
-        $this->increaseIndentation( $this->indentation );
-        $conditionBody->body->accept( $this );
-        $this->restoreIndentation();
-        $this->write( "} while (" );
-        $conditionBody->condition->accept( $this );
-        $this->write( ");\n" );
-
-    }
-
-    /**
-     * Visits a code element containing for control structures.
-     *
-     * @param ezcTemplateForAstNode $for The code element containing the for control structure.
-     */
-    public function visitForAstNode( ezcTemplateForAstNode $for )
-    {
-        $this->write( "for (" );
-        $for->initial->accept( $this );
-        $this->write( ";" );
-        $for->condition->accept( $this );
-        $this->write( ";" );
-        $for->iteration->accept( $this );
-        $this->write( ")\n{\n" );
-
-        $this->increaseIndentation( $this->indentation );
-        $for->body->accept( $this );
-        $this->restoreIndentation();
-
-        $this->write( "}\n" );
-    }
-
-    /**
      * Visits a code element containing foreach control structures.
      *
      * @param ezcTemplateForeachAstNode $foreach The code element containing the foreach control structure.
@@ -1008,10 +943,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $this->write( $code->code );
     }
 
-    public function visitReferenceOperatorAstNode( ezcTemplateReferenceOperatorAstNode $code )
-    {
-        die ("WHOOOOOT");
-    }
+//    public function visitReferenceOperatorAstNode( ezcTemplateReferenceOperatorAstNode $code )
+//    {
+//    }
 
     public function visitIdentifierAstNode( $node )
     {

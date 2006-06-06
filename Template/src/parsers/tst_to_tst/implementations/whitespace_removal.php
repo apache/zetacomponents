@@ -179,7 +179,7 @@ class ezcTemplateWhitespaceRemoval
         $indentation = $parentBlock->minimumWhitespaceColumn();
 
             $nrOfElements = sizeof( $elements );
-            for ($el = 0; $el < $nrOfElements ; $el++ )
+            for ( $el = 0; $el < $nrOfElements ; $el++ )
             {
                 $element = $elements[$el];
 
@@ -205,9 +205,9 @@ class ezcTemplateWhitespaceRemoval
                         {
                             if ( $el < $nrOfElements - 1 )
                             {
-                                if ( $elements[ $el + 1 ] instanceof ezcTemplateBlockTstNode && !($elements[ $el + 1 ] instanceof ezcTemplateOutputBlockTstNode) )
+                                if ( $elements[ $el + 1 ] instanceof ezcTemplateBlockTstNode && !($elements[ $el + 1 ] instanceof ezcTemplateOutputBlockTstNode ) )
                                 {
-                                    $trimmed = trim( $lines[$i][0], " \t");
+                                    $trimmed = trim( $lines[$i][0], " \t" );
                                     if ( strlen( $trimmed  ) == 0 ) 
                                     {
                                         $lines[$i][0] = "";
@@ -216,7 +216,7 @@ class ezcTemplateWhitespaceRemoval
                             }
                             else
                             {
-                                if ( $parentBlock instanceof ezcTemplateBlockTstNode  && !($parentBlock instanceof ezcTemplateOutputBlockTstNode) )
+                                if ( $parentBlock instanceof ezcTemplateBlockTstNode  && !( $parentBlock instanceof ezcTemplateOutputBlockTstNode ) )
                                 {
                                     $last = sizeof( $lines ) -1;
 

@@ -45,20 +45,20 @@ class ezcTemplateVariableSourceToTstParser extends ezcTemplateSourceToTstParser
     {
         if ( !$cursor->atEnd() )
         {
-            if ( $cursor->match('$') )
+            if ( $cursor->match( '$' ) )
             {
                 $this->status = self::PARSE_PARTIAL_SUCCESS;
 
                 if ( $cursor->current() == '#' )
                 {
                     throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
-                            ezcTemplateSourceToTstErrorMessages::MSG_INVALID_VARIABLE_NAME, ezcTemplateSourceToTstErrorMessages::LNG_INVALID_NAMESPACE_ROOT_MARKER);
+                            ezcTemplateSourceToTstErrorMessages::MSG_INVALID_VARIABLE_NAME, ezcTemplateSourceToTstErrorMessages::LNG_INVALID_NAMESPACE_ROOT_MARKER );
                 }
 
                 if ( $cursor->current() == ':' )
                 {
                     throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
-                            ezcTemplateSourceToTstErrorMessages::MSG_INVALID_VARIABLE_NAME, ezcTemplateSourceToTstErrorMessages::LNG_INVALID_NAMESPACE_MARKER);
+                            ezcTemplateSourceToTstErrorMessages::MSG_INVALID_VARIABLE_NAME, ezcTemplateSourceToTstErrorMessages::LNG_INVALID_NAMESPACE_MARKER );
                 }
 
                 if ( !$this->parseRequiredType( 'Identifier', null, false ) )

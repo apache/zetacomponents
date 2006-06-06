@@ -45,9 +45,6 @@ interface ezcTemplateTstNodeVisitor
     public function visitLiteralTstNode( ezcTemplateLiteralTstNode $node );
 
 
-    public function visitIntegerTstNode( ezcTemplateIntegerTstNode $node );
-
-
     public function visitVariableTstNode( ezcTemplateVariableTstNode $node );
 
 

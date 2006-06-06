@@ -259,7 +259,7 @@ abstract class ezcTemplateSourceToTstParser
         if ( $this->currentCursor->atEnd() )
             return false;
 
-        if ( $this->currentCursor->pregMatch( "#^(\r\n|[\r\n\t ])+#") === false )
+        if ( $this->currentCursor->pregMatch( "#^(\r\n|[\r\n\t ])+#" ) === false )
             return true;
 
         return !$this->currentCursor->atEnd();

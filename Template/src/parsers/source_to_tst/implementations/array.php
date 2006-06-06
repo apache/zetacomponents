@@ -53,7 +53,7 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
         if ( $name !== $lower )
         {
             $this->findNonLowercase();
-            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_ARRAY_NOT_LOWERCASE);
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_ARRAY_NOT_LOWERCASE );
         }
 
         $cursor->advance( 5 );
@@ -61,7 +61,7 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
         // skip whitespace and comments
         $this->findNextElement();
 
-        if ( !$cursor->match('(') )
+        if ( !$cursor->match( '(' ) )
         {
             throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ROUND_BRACKET_OPEN );
         }
@@ -132,7 +132,7 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
 
             // We allow a comma after the key/value even if there are no more
             // entries. This is compatible with PHP syntax.
-            if ( $cursor->match(',') )
+            if ( $cursor->match( ',' ) )
             {
                 $this->findNextElement();
                 $expectItem = true;

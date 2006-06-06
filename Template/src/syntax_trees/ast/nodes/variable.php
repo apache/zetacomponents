@@ -53,7 +53,7 @@ class ezcTemplateVariableAstNode extends ezcTemplateAstNode
         }
         else
         {
-            $this->typeHint = $symbolTable->getTypeHint($name); 
+            $this->typeHint = $symbolTable->getTypeHint( $name ); 
         }
     }
 }

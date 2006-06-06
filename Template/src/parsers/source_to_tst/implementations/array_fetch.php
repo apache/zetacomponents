@@ -61,7 +61,7 @@ class ezcTemplateArrayFetchSourceToTstParser extends ezcTemplateSourceToTstParse
 
         if ( !$this->parseRequiredType( $expressionParser ) )
         {
-            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION);
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
         }
 
         $this->fetch->endCursor = clone $this->lastParser->currentOperator->endCursor;

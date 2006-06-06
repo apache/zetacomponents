@@ -46,7 +46,7 @@ class ezcTemplateFunctions
     
     protected static function isSubstitution( $parameter )
     {
-        return (strpos( $parameter, "%" ) !== false );
+        return ( strpos( $parameter, "%" ) !== false );
     }
 
     protected static function isOptional( $parameter )
@@ -130,7 +130,6 @@ class ezcTemplateFunctions
         $realParameters = sizeof( $processedParameters );
         $definedParameters = self::countParameters( $functionDefinition[ $index ] );
 
-
         // Map the parameters from the function definition to the given (real) parameters.
         $parameterMap = array();
         $i = 0;
@@ -179,7 +178,7 @@ class ezcTemplateFunctions
 
     public function getClass( $functionName )
     {
-        foreach ($this->functionToClass as $func => $class )
+        foreach ( $this->functionToClass as $func => $class )
         {
             if ( preg_match( $func, $functionName ) )
             {

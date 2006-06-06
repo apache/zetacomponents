@@ -52,7 +52,7 @@ class ezcTemplateBoolSourceToTstParser extends ezcTemplateLiteralSourceToTstPars
             if ( $name !== $lower )
             {
                 $this->findNonLowercase();
-                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_BOOLEAN_NOT_LOWERCASE);
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_BOOLEAN_NOT_LOWERCASE );
             }
 
             $cursor->advance( strlen( $name ) );

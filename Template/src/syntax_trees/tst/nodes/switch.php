@@ -40,11 +40,6 @@ class ezcTemplateSwitchTstNode extends ezcTemplateBlockTstNode
                       'children'  => $this->children );
     }
 
-    public function canHandleElement( ezcTemplateTstNode $element )
-    {
-        die ("can handle element, who uses that? ");
-    }
-
     public function handleElement( ezcTemplateTstNode $element )
     {
         if ( $element instanceof ezcTemplateCaseTstNode  )
@@ -53,14 +48,14 @@ class ezcTemplateSwitchTstNode extends ezcTemplateBlockTstNode
             {
                 if ( $this->defaultCaseFound )
                 {
-                    throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_DEFAULT_DUPLICATE);
+                    throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_DEFAULT_DUPLICATE );
                 }
 
                 $this->defaultCaseFound = true;
             }
             elseif( $this->defaultCaseFound ) // Found a default case already..
             {
-                throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_DEFAULT_LAST);
+                throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_DEFAULT_LAST );
             }
 
             parent::handleElement( $element );

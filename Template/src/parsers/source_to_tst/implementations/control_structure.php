@@ -124,7 +124,9 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
 
         // @todo Fix exception class
         if ( !class_exists( $parser ) )
+        {
             throw new Exception( "Requested parser class <{$parser}> does not exist" );
+        }
 
 
         $controlStructureParser = new $parser( $this->parser, $this, null );

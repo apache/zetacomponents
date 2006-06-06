@@ -134,13 +134,15 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
      */
     public function validate()
     {
-        if ( $this->maxParameterCount !== false &&
-             count( $this->parameters ) > $this->maxParameterCount )
+        if ( $this->maxParameterCount !== false && count( $this->parameters ) > $this->maxParameterCount )
+        {
             throw new Exception( "Too many parameters for class <" . get_class( $this ) . ">, needs at most {$this->maxParameterCount} but got <" . count( $this->parameters ) . ">." );
+        }
 
-        if ( $this->minParameterCount !== false &&
-             count( $this->parameters ) < $this->minParameterCount )
+        if ( $this->minParameterCount !== false && count( $this->parameters ) < $this->minParameterCount )
+        {
             throw new Exception( "Too few parameters for class <" . get_class( $this ) . ">, needs at least {$this->minParameterCount} but got <" . count( $this->parameters ) . ">." );
+        }
     }
 }
 ?>

@@ -71,7 +71,7 @@ class ezcTemplateIfConditionTstNode extends ezcTemplateBlockTstNode
         if ( count( $this->children ) == 0 )
             return;
 
-        foreach ($this->children as $child)
+        foreach ( $this->children as $child )
         {
             if ( $child instanceof ezcTemplateConditionBodyTstNode )
             {

@@ -79,7 +79,7 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
 
         $rawBlock = false;
 
-        if ( $cursor->match("raw") )
+        if ( $cursor->match( "raw" ) )
         {
             $rawBlock = true;
             $this->findNextElement();

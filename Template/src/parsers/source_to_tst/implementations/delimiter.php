@@ -56,7 +56,7 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
         {
             $delimiter = $this->parser->createDelimiter( $this->startCursor, $cursor );
             $this->findNextElement();
-            if ( $this->currentCursor->match("modulo") )
+            if ( $this->currentCursor->match( "modulo" ) )
             {
                 $this->findNextElement();
 
@@ -67,7 +67,7 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
 
                 $delimiter->modulo = $this->lastParser->rootOperator;
 
-                if ( $this->currentCursor->match("is") )
+                if ( $this->currentCursor->match( "is" ) )
                 {
                     $this->findNextElement();
                     if ( !$this->parseOptionalType( 'Expression', null, false ) )
@@ -80,7 +80,7 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
                 }
                 else
                 {
-                    $delimiter->rest = new ezcTemplateLiteralTstNode( $this->parser->source, $this->startCursor, $this->endCursor);
+                    $delimiter->rest = new ezcTemplateLiteralTstNode( $this->parser->source, $this->startCursor, $this->endCursor );
                     $delimiter->rest->value = 0;
                 }
             }

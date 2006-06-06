@@ -46,7 +46,7 @@ class ezcTemplateCaseTstNode extends ezcTemplateBlockTstNode
 
     public function handleElement( ezcTemplateTstNode $element )
     {
-        parent::handleElement( $element);
+        parent::handleElement( $element );
     }
 }
 ?>

@@ -82,17 +82,6 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
             return true;
         }
 
-         /*
-        // Try to pare a raw block.
-        if ( $this->parseOptionalType( 'RawBlock', null, false ) )
-        {
-            $this->mergeElements( $this->lastParser);
-            return true;
-        }
-          */
-
-
-
         // Try to parse a literal block
         if ( $this->parseOptionalType( 'LiteralBlock', $this->startCursor ) )
             return $this->lastParser->status == self::PARSE_SUCCESS;
@@ -107,14 +96,14 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
         // is tried.
         if ( $this->parseOptionalType( 'ExpressionBlock', $this->startCursor ) )
         {
-            if ( !$this->currentCursor->match('}') )
+            if ( !$this->currentCursor->match( '}' ) )
             {
-                if ( $this->currentCursor->match('[', false) )
+                if ( $this->currentCursor->match('[', false ) )
                 {
-                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_SQUARE_BRACKET_OPEN);
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_SQUARE_BRACKET_OPEN );
                 }
 
-                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE);
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
             }
 
             return $this->lastParser->status == self::PARSE_SUCCESS;
@@ -136,10 +125,10 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
             $this->findNextElement();
             if ( !$this->currentCursor->match( "}" ) )
             {
-                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE);
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
             }
 
-            $text = $this->parser->createText($this->startCursor, $this->endCursor);
+            $text = $this->parser->createText( $this->startCursor, $this->endCursor );
             $text->text = $ldelim ? "{" : "}";
             $this->appendElement( $text );
             return true;

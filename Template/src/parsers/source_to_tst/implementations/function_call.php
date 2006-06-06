@@ -162,7 +162,7 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
                 return true;
             }
 
-            if ( !$cursor->match(',') )
+            if ( !$cursor->match( ',' ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ROUND_BRACKET_CLOSE_OR_COMMA );
             }
@@ -221,37 +221,6 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
         $this->readingParameter = false;
         return true;
     }
-
-//    protected function generateErrorMessage()
-//    {
-//        switch ( $this->operationState )
-//        {
-//            case self::STATE_NO_STARTING_BRACE:
-//                return "Missing starting brace for function call.";
-//            case self::STATE_NO_ENDING_BRACE:
-//                return "Missing ending brace for function call.";
-//            case self::STATE_MISSING_COMMA:
-//                return "A comma is required between parameters, it is missing.";
-//            case self::STATE_NO_EXPRESSION:
-//                return "Missing type or expresssion for parameter {$this->parameterCount} of function call {$this->functionCall->name}().";
-//        }
-//        // Default error message handler.
-//        return parent::generateErrorMessage();
-//    }
-//
-//    protected function generateErrorDetails()
-//    {
-//        switch ( $this->operationState )
-//        {
-//            case self::STATE_NO_STARTING_BRACE:
-//            case self::STATE_NO_ENDING_BRACE:
-//            case self::STATE_MISSING_COMMA:
-//            case self::STATE_NO_EXPRESSION:
-//                return "Accepted syntax is: functionName( PARAMETER [, PARAMETER ...] )";
-//        }
-//        // Default error details handler.
-//        return parent::generateErrorDetails();
-//    }
 }
 
 ?>

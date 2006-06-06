@@ -78,7 +78,7 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
 
     public function visitDynamicStringAstNode( ezcTemplateDynamicStringAstNode $dynamic )
     {
-        die("TODO: dynamicstring Ast node , tree walker");
+        throw new Exception( "TODO: dynamicstring Ast node , tree walker" );
 
         array_unshift( $this->nodePath, $dynamic );
         foreach ( $parameters as $parameter )
@@ -213,30 +213,6 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
         $this->acceptAndUpdate( $conditionBody->condition );
         $this->acceptAndUpdate( $conditionBody->body );
 
-        array_shift( $this->nodePath );
-    }
-
-    public function visitDoWhileAstNode( ezcTemplateDoWhileAstNode $while )
-    {
-        die(" Remove Do while ");
-
-        array_unshift( $this->nodePath, $while );
-        $conditionBody = $while->conditionBody;
-        $conditionBody->body->accept( $this );
-        $conditionBody->condition->accept( $this );
-        array_shift( $this->nodePath );
-    }
-
-    public function visitForAstNode( ezcTemplateForAstNode $for )
-    {
-        die(" Remove FOR ");
-
-        array_unshift( $this->nodePath, $for );
-        $for->initial->accept( $this );
-        $for->condition->accept( $this );
-        $for->iteration->accept( $this );
-
-        $for->body->accept( $this );
         array_shift( $this->nodePath );
     }
 

@@ -255,7 +255,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
             if ( !$cursor->match( ')' ) )
             {
-                exit( "Expected an closing ')' ");
+                exit( "Expected an closing ')' " );
             }
 
             $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->block );
@@ -304,7 +304,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                         echo "pre-operator {$operatorName} <", $this->lastCursor->subString( $cursor->position ), ">\n";
                     }
                     $operatorMap = array( '-' => 'NegateOperator',
-                                          '!' => 'LogicalNegateOperator');
+                                          '!' => 'LogicalNegateOperator' );
                     $operatorName = $operatorMap[$operatorName];
                     $operatorClass = 'ezcTemplate' . $operatorName;
                     $function = 'create' . $operatorName;
@@ -315,7 +315,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     if ( $this->minPrecedence !== false &&
                          $operator->precedence < $this->minPrecedence )
                     {
-                        die ("FOUND MIN PRECEDENCE");
                         $cursor->copy( $operatorStartCursor );
                         return true;
                     }
@@ -408,11 +407,11 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         {
             // Try the special array fetch operator
             $operator = null;
-            if ( $cursor->match('[') )
+            if ( $cursor->match( '[' ) )
             {
                 $this->findNextElement();
                 
-                if ( $allowArrayAppend && $cursor->match("]") )
+                if ( $allowArrayAppend && $cursor->match( "]" ) )
                 {
                     $operator = $this->parser->createArrayAppend( $this->startCursor, $cursor );
                 }
@@ -425,7 +424,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     }
 
                     $this->findNextElement();
-                    if ( !$cursor->match("]") )
+                    if ( !$cursor->match( "]" ) )
                     {
                         throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_SQUARE_BRACKET_CLOSE );
                     }
@@ -533,7 +532,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
         //        '++' => 'PostIncrementOperator',
         //        '--' => 'PostDecrementOperator',
-                'instanceof' => 'InstanceOfOperator',);
+                'instanceof' => 'InstanceOfOperator', );
 
                 $requestedName = $operatorName;
                 $operatorName = $operatorMap[$operatorName];
@@ -546,7 +545,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 if ( $this->minPrecedence !== false &&
                 $operator->precedence < $this->minPrecedence )
                 {
-                    die ("MIN PRECEDENCE !!");
                     $cursor->copy( $operatorStartCursor );
                     return true;
                 }

@@ -37,7 +37,7 @@ class ezcTemplateIncludeTstNode extends ezcTemplateBlockTstNode
 
     public function getTreeProperties()
     {
-        return array( 'include file'      => $this->file);
+        return array( 'include file'      => $this->file );
     }
 }
 ?>

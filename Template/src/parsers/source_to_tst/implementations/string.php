@@ -64,7 +64,7 @@ class ezcTemplateStringSourceToTstParser extends ezcTemplateLiteralSourceToTstPa
                     // ([^{$char}\\\\]|\A)   : Matches non quote ('"', "'"), non backslash (\), or does match the begin of the statement. 
                     // (\\\\(\\\\|{$char}))* : Eat double slashes \\ and slash quotes: \' or \". 
 
-                    $matches = $cursor->pregMatchComplete( "#(?:([^{$char}\\\\]|\A)(\\\\(\\\\|{$char}))*){$char}#");
+                    $matches = $cursor->pregMatchComplete( "#(?:([^{$char}\\\\]|\A)(\\\\(\\\\|{$char}))*){$char}#" );
 
                     if ( $matches === false )
                         return false;

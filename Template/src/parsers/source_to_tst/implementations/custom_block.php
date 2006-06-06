@@ -84,7 +84,7 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
             echo "Starting custom block\n";
 
         // Check for the name of the custom block
-        // Note: The code inside the (?:) brace ensures that the next character
+        // Note: The code inside the ( ?: ) brace ensures that the next character
         // is not an alphabetical character ie. a word boundary
         $matches = $cursor->pregMatchComplete( "#^([a-zA-Z_][a-zA-Z0-9_-]*)(?:[^a-zA-Z])#i" );
 

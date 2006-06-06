@@ -65,7 +65,7 @@ class ezcTemplateLiteralSourceToTstParser extends ezcTemplateSourceToTstParser
             // Try parsing the various type types until one is found
             $failedCursor = clone $cursor;
 
-            $types = array( 'Float', 'Integer', 'String', 'Bool', 'Array');
+            $types = array( 'Float', 'Integer', 'String', 'Bool', 'Array' );
             foreach ( $types as $type )
             {
                 if ( $this->parseOptionalType( $type ) )
@@ -76,32 +76,8 @@ class ezcTemplateLiteralSourceToTstParser extends ezcTemplateSourceToTstParser
                     return true;
                 }
             }
-
-            // TODO REMOVE THIS.
-            $this->operationState = self::STATE_NO_KNOWN_TYPE;
         }
         return false;
-    }
-
-    protected function generateErrorMessage()
-    {
-        die ("Parent parser should know what to do if no literal matches. Remove this.");
-        switch ( $this->operationState )
-        {
-            case self::STATE_NO_KNOWN_TYPE:
-                return "No known type found.";
-        }
-        // Default error message handler.
-        return parent::generateErrorMessage();
-    }
-
-    protected function generateErrorDetails()
-    {
-        die ("Parent parser should know what to do if no literal matches. Remove this.");
-        if ( $this->operationState == self::STATE_NON_LOWERCASE )
-            return "Supports types: floats, integers, strings, booleans and arrays.";
-        // Default error details handler.
-        return parent::generateErrorDetails();
     }
 }
 

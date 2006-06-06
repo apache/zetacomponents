@@ -82,7 +82,7 @@ class ezcTemplateIfConditionSourceToTstParser extends ezcTemplateSourceToTstPars
         $cb = $this->parser->createConditionBody( $this->startCursor, $cursor );
         $cb->condition = $condition;
 
-        if ($name == 'if' )
+        if ( $name == 'if' )
         {
             $el = $this->parser->createIfCondition( $this->startCursor, $cursor );
             $el->children[] = $cb;

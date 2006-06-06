@@ -73,7 +73,7 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
                 elseif( $this->currentCursor->match( ":", false ) )
                 {
                     throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
-                        sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_TOKEN, $this->currentCursor->current(1) ), ezcTemplateSourceToTstErrorMessages::LNG_INVALID_NAMESPACE_MARKER); 
+                        sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_TOKEN, $this->currentCursor->current( 1 ) ), ezcTemplateSourceToTstErrorMessages::LNG_INVALID_NAMESPACE_MARKER ); 
                 }
                 else
                 {
@@ -93,7 +93,7 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
     // TODO, remove atEnd, nodes can determine their own 'end'.
     public function atEnd( ezcTemplateCursor $cursor, /*ezcTemplateTstNode*/ $operator, $finalize = true )
     {
-        return ( $cursor->current(1) == "}"  || $cursor->current(1) == ",");
+        return ( $cursor->current( 1 ) == "}"  || $cursor->current( 1 ) == "," );
     }
 
     protected function parseSubDefineBlock( $symbolType )
@@ -138,7 +138,7 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
                     }
                     else
                     {
-                        throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION);
+                        throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
                     }
                 }
 
@@ -148,7 +148,7 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
             $this->appendElement( $declaration );
             $this->findNextElement();
 
-        } while ( $this->currentCursor->match(",") );
+        } while ( $this->currentCursor->match( "," ) );
 
         return true;
    }

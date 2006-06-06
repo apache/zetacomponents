@@ -32,7 +32,7 @@
  *
  * foreach ( $send as $name => $value )
  * {
- *     echo ("$name  -> $value\n");
+ *     echo ( "$name  -> $value\n" );
  * }
  * ?>
  * </code>
@@ -88,7 +88,7 @@ class ezcTemplateVariableCollection implements Iterator
      */
     public function __isset( $name )
     {
-        return array_key_exists( $name, $this->variables); 
+        return array_key_exists( $name, $this->variables ); 
     }
 
     /**
@@ -138,7 +138,7 @@ class ezcTemplateVariableCollection implements Iterator
      */
     public function valid() 
     {
-        return ($this->current() !== false );
+        return ( $this->current() !== false );
     }
 
     /**

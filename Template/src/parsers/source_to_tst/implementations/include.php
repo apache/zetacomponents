@@ -69,18 +69,18 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
 
         $this->findNextElement();
 
-        if ( $this->currentCursor->match('send') )
+        if ( $this->currentCursor->match( 'send' ) )
         {
             $include->send = $this->parseExprAsVarArray( true );
         }
 
-        if ( $this->currentCursor->match('receive') )
+        if ( $this->currentCursor->match( 'receive' ) )
         {
-            $include->receive = $this->parseVarAsVarArray( false);
+            $include->receive = $this->parseVarAsVarArray( false );
         }
 
 
-        if ( !$this->currentCursor->match('}') )
+        if ( !$this->currentCursor->match( '}' ) )
         {
            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
         }
@@ -95,7 +95,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
 
         $return->variables = $this->parseExprAsVarArray( true );
 
-        if ( !$this->currentCursor->match('}') )
+        if ( !$this->currentCursor->match( '}' ) )
         {
            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
         }
@@ -158,7 +158,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
 
             $this->findNextElement();
         }
-        while ( $this->currentCursor->match(',') );
+        while ( $this->currentCursor->match( ',' ) );
 
 
         return $variables;
@@ -217,7 +217,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
             }
 
         }
-        while ( $this->currentCursor->match(',') );
+        while ( $this->currentCursor->match( ',' ) );
 
         return $variables;
    }
@@ -226,7 +226,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
     // TODO, remove atEnd, nodes can determine their own 'end'.
     public function atEnd( ezcTemplateCursor $cursor, /*ezcTemplateTstNode*/ $operator, $finalize = true )
     {
-        return ( $cursor->current(1) == "}"  || $cursor->current(1) == ",");
+        return ( $cursor->current( 1 ) == "}"  || $cursor->current( 1 ) == "," );
     }
 
     protected function parseSubDefineBlock( $symbolType )
@@ -281,7 +281,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
             $this->appendElement( $declaration );
             $this->findNextElement();
 
-        } while ( $this->currentCursor->match(",") );
+        } while ( $this->currentCursor->match( "," ) );
 
         return true;
    }

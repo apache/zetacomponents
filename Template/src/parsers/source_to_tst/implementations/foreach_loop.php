@@ -70,7 +70,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
         $el->array = $this->lastParser->rootOperator;
 
         $this->findNextElement();
-        if ( !$this->currentCursor->match('as') )
+        if ( !$this->currentCursor->match( 'as' ) )
         {
             throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_AS );
         }
@@ -86,7 +86,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
         $canBeArrow = true;
 
         // parse "=> $itemVar" clause if we're not at the end yet
-        if ( $cursor->match ('=>' ) )
+        if ( $cursor->match ( '=>' ) )
         {
             $canBeArrow = false;
             $this->findNextElement();
@@ -117,7 +117,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
         }
 
         // Check the cycle.
-        while ( ($matchIncrement = $cursor->match ('increment' )) || $cursor->match ('decrement' ) )
+        while ( ( $matchIncrement = $cursor->match ('increment' ) ) || $cursor->match ( 'decrement' ) )
         {
             $canBeArrow = false;
 
@@ -139,7 +139,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
         }
  
         // Check the offset.
-        if ( $cursor->match ('offset' ) )
+        if ( $cursor->match ( 'offset' ) )
         {
             $canBeArrow = false;
             $this->findNextElement();
@@ -153,7 +153,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
         }
  
         // check for 'limit'.
-        if ( $cursor->match ('limit' ) )
+        if ( $cursor->match ( 'limit' ) )
         {
             $canBeArrow = false;
             $this->findNextElement();

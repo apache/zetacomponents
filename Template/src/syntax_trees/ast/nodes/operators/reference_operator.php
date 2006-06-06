@@ -20,7 +20,7 @@ class ezcTemplateReferenceOperatorAstNode extends ezcTemplateBinaryOperatorAstNo
 
     public function __construct( $parameter1 = null, $parameter2 = null)
     {
-        parent::__construct( $parameter1, $parameter2);
+        parent::__construct( $parameter1, $parameter2 );
 
         // Everything is possible. Member variables can be a property (changing the type).
         // Functions can return anything.

@@ -32,23 +32,23 @@ class ezcTemplateRegExpFunctions extends ezcTemplateFunctions
 
             // preg_replace( $s, $reg, $replace, [, $limit] )::
             // preg_replace( $reg, $replace, $s [, $limit] )
-            case "preg_replace": return array( array("%s", "%reg", "%replace", "[%limit]" ), 
+            case "preg_replace": return array( array( "%s", "%reg", "%replace", "[%limit]" ), 
                     self::functionCall( "preg_replace", array( "%reg", "%replace", "%s", "[%limit]" ) ) );
 
             // preg_quote( $s [, $delim] )::
             // preg_quote( $s [, $delim] )
-            case "preg_quote": return array( array("%s", "[%delim]" ), 
+            case "preg_quote": return array( array( "%s", "[%delim]" ), 
                     self::functionCall( "preg_quote", array( "%s", "[%delim]" ) ) );
 
             // preg_split( $s, $reg [, $limit [, $flags] ] )::
             // preg_split( $reg, $s [, $limit [, $flags] ] )
             // TODO the last two parameters.
-            case "preg_split": return array( array("%s", "%reg" ), 
+            case "preg_split": return array( array( "%s", "%reg" ), 
                     self::functionCall( "preg_split", array( "%reg", "%s" ) ) );
 
             // preg_grep( $reg, $a [, $flags] )::
             // preg_grep( $reg, $a [, $flags] )
-            case "preg_grep": return array( array("%array", "%reg" ), 
+            case "preg_grep": return array( array( "%array", "%reg" ), 
                     self::functionCall( "preg_grep", array( "%reg", "%array" ) ) );
 
 

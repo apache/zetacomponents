@@ -61,7 +61,7 @@ class ezcTemplateSymbolTable
         $this->firstDeclaredType = false;
     }
 
-    public function enter($symbol, $type, $isAutoDeclared = false)
+    public function enter( $symbol, $type, $isAutoDeclared = false )
     {
         // Check for redeclaration.
         if ( isset( $this->symbols[ $symbol ] ) )
@@ -97,7 +97,7 @@ class ezcTemplateSymbolTable
         }
         else
         {
-            if ($type === self::IMPORT && $this->firstDeclaredType !== self::IMPORT )
+            if ( $type === self::IMPORT && $this->firstDeclaredType !== self::IMPORT )
             {
                 $this->errorMessage = sprintf( self::SYMBOL_IMPORT_FIRST );
                 return false;

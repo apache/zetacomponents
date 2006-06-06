@@ -97,17 +97,17 @@ class ezcTemplateTypeFunctions extends ezcTemplateFunctions
             // cast_string( $v )::
             // (string)$v
             case "cast_string": return array( array( "%var" ), 
-                    array( "ezcTemplateTypeCastAstNode", array("string", "%var") )  );
+                    array( "ezcTemplateTypeCastAstNode", array( "string", "%var" ) )  );
 
             // cast_int( $v )::
             // (int)$v
             case "cast_int": return array( array( "%var" ), 
-                    array( "ezcTemplateTypeCastAstNode", array("int", "%var") )  );
+                    array( "ezcTemplateTypeCastAstNode", array( "int", "%var" ) )  );
 
             // cast_float( $v )::
             // (float)$v
             case "cast_float": return array( array( "%var" ), 
-                    array( "ezcTemplateTypeCastAstNode", array("float", "%var") )  );
+                    array( "ezcTemplateTypeCastAstNode", array( "float", "%var" ) )  );
 
         }
 

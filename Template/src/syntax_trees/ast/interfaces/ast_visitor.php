@@ -127,25 +127,11 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
     public function visitWhileAstNode( ezcTemplateWhileAstNode $node );
 
     /**
-     * Visits a node containing do/while control structures.
-     *
-     * @param ezcTemplateDoWhileAstNode $node The node containing the do/while control structure.
-     */
-    public function visitDoWhileAstNode( ezcTemplateDoWhileAstNode $node );
-
-    /**
      * Visits a node containing conditions for if control structures.
      *
      * @param ezcTemplateConditionBodyAstNode $node The node containing the if condition.
      */
     public function visitConditionBodyAstNode( ezcTemplateConditionBodyAstNode $node );
-
-    /**
-     * Visits a node containing for control structures.
-     *
-     * @param ezcTemplateForAstNode $node The node containing the for control structure.
-     */
-    public function visitForAstNode( ezcTemplateForAstNode $node );
 
     /**
      * Visits a node containing foreach control structures.

@@ -43,11 +43,5 @@ class ezcTemplateConditionBodyTstNode extends ezcTemplateBlockTstNode
         return array( 'condition' => $this->condition,
                       'children'  => $this->children );
     }
-
-    public function handleElement( ezcTemplateTstNode $element )
-    {
-        die ("HAndle condition body");
-        parent::handleElement( $element );
-    }
 }
 ?>

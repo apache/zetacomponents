@@ -257,7 +257,7 @@ class ezcTemplate
             $tstToAst->programNode->accept( $astToAst );
 
             $g = new ezcTemplateAstToPhpGenerator( $compiled->path ); // Write to the file.
-            $tstToAst->programNode->accept($g);
+            $tstToAst->programNode->accept( $g );
         }
 
         // execute compiled code here
