@@ -98,7 +98,7 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
         {
             if ( !$this->currentCursor->match( '}' ) )
             {
-                if ( $this->currentCursor->match('[', false ) )
+                if ( $this->currentCursor->match( '[', false ) )
                 {
                     throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_SQUARE_BRACKET_OPEN );
                 }

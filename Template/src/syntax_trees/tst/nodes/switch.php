@@ -78,35 +78,6 @@ class ezcTemplateSwitchTstNode extends ezcTemplateBlockTstNode
 
             throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CASE_STATEMENT );
         }
-/*
-// Comment blocks are allowed.
-//        elseif( $element instanceof ezcTemplateTextBlockTstNode )
-//        {
-//        }
-        elseif ( $element instanceof ezcTemplateCaseTstNode )
-        {
-        }
-        */
-
-//            parent::handleElement( $element );
-
-
-        
-
-       /* $last = sizeof( $this->children ) - 1;
-        */
-/*
-        if ( !$element instanceof ezcTemplateConditionBodyTstNode )
-        {
-            $this->children[$last]->children[] = $element;
-            // var_dump ($this->children[$last]->children );
-        }
-        else
-        {
-            $this->children[] = $element;
-        }
-        */
-
     }
 }
 ?>

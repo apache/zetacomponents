@@ -55,7 +55,7 @@ class ezcTemplateStringFunctions extends ezcTemplateFunctions
                        self::functionCall( "substr", array( 
                            "%string", 
                            self::value( 0 ), 
-                           array("ezcTemplateSubtractionOperatorAstNode", array( self::functionCall( "strlen", array( "%string" ) ), "%length" ) )
+                           array( "ezcTemplateSubtractionOperatorAstNode", array( self::functionCall( "strlen", array( "%string" ) ), "%length" ) )
                        )
                    ) );
                        
@@ -87,7 +87,7 @@ class ezcTemplateStringFunctions extends ezcTemplateFunctions
 
             // str_left( $s, $len )
             // substr( $s, 0, $len )
-            case "str_left": return array( ezcTemplateAstNode::TYPE_VALUE, array( "%string", "%length"), self::functionCall( "substr", array( "%string", self::value(0), "%length" ) ) );
+            case "str_left": return array( ezcTemplateAstNode::TYPE_VALUE, array( "%string", "%length"), self::functionCall( "substr", array( "%string", self::value( 0 ), "%length" ) ) );
 
             // str_starts_with( $sl, $sr )
             // strpos( $sl, $sr ) === 0
@@ -102,7 +102,7 @@ class ezcTemplateStringFunctions extends ezcTemplateFunctions
             // str_right( $s, $len )
             // substr( $s, -$len )
             case "str_right": return array( ezcTemplateAstNode::TYPE_VALUE,  array( "%string", "%length" ),
-                self::functionCall( "substr", array( "%string", array( "ezcTemplateArithmeticNegationOperatorAstNode",  array("%length") ) ) ) );
+                self::functionCall( "substr", array( "%string", array( "ezcTemplateArithmeticNegationOperatorAstNode",  array( "%length" ) ) ) ) );
 
             // str_ends_with( $sl, $sr )
             // strrpos( $sl, $sr ) === ( strlen( $sl ) - strlen( $sr) )
@@ -182,7 +182,7 @@ class ezcTemplateStringFunctions extends ezcTemplateFunctions
             // trim( preg_replace( "/(\n|\t|\r\n|\s)+/", " ", $s ) )
             case "str_simplify": return array( ezcTemplateAstNode::TYPE_VALUE, array( "%string" ), 
                     self::functionCall( "trim", array(
-                        self::functionCall( "preg_replace", array( self::constant( '"/(\n|\t|\r\n|\s)+/"'), self::value( " " ), "%string" ) )
+                        self::functionCall( "preg_replace", array( self::constant( '"/(\n|\t|\r\n|\s)+/"' ), self::value( " " ), "%string" ) )
                     ) ) );
              
             // str_split( $s, $sep[, $max] )
@@ -249,7 +249,7 @@ class ezcTemplateStringFunctions extends ezcTemplateFunctions
             // str_word_count( $s [, $wordsep] )
             // str_word_count( $s, 0 [, $wordsep] )
             case "str_word_count": return array( ezcTemplateAstNode::TYPE_VALUE, array( "%string", "[%wordsep]" ), 
-                    self::functionCall( "str_word_count", array( "%string", self::value(0), "[%wordsep]" ) ) );
+                    self::functionCall( "str_word_count", array( "%string", self::value( 0 ), "[%wordsep]" ) ) );
  
             // - *string* str_paragraph_count( $s )::
             // Code.

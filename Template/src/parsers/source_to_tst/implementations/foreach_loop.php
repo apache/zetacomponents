@@ -117,7 +117,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
         }
 
         // Check the cycle.
-        while ( ( $matchIncrement = $cursor->match ('increment' ) ) || $cursor->match ( 'decrement' ) )
+        while ( ( $matchIncrement = $cursor->match ( 'increment' ) ) || $cursor->match ( 'decrement' ) )
         {
             $canBeArrow = false;
 

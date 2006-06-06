@@ -78,7 +78,7 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
                 else
                 {
                     throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
-                        sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_TOKEN, $this->currentCursor->current(1) ) );
+                        sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_TOKEN, $this->currentCursor->current( 1 ) ) );
                 }
             }
             else

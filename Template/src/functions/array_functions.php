@@ -67,7 +67,7 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
             // array_slice( $a, 0, $index ) + array( $v1 [, $v2 ...] ) + array_slice( $a, $index + value count )
             case "array_insert": return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array", "%index", "%..." ), 
                 self::functionCall( "array_merge", array( 
-                    self::functionCall( "array_slice", array( "%array", self::value(0), "%index" ) ),
+                    self::functionCall( "array_slice", array( "%array", self::value( 0 ), "%index" ) ),
                     self::functionCall( "array", array( "%..." ) ),
                     self::functionCall( "array_slice", array( "%array", "%index" ) )
                     ) ) );
@@ -90,10 +90,10 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
             // array_remove( $a, $index, $len = 1 ) ( QList::remove )::
             // array_slice( $a, 0, $index ) + array_slice( $a, $index + $len )
             case "array_remove": 
-                $length = ( self::countParameters( $parameters ) == 2 ? self::value(1) : "[%length]" );
+                $length = ( self::countParameters( $parameters ) == 2 ? self::value( 1 ) : "[%length]" );
                 return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array", "%index", "[%length]" ), 
                     self::functionCall( "array_merge", array(  
-                        self::functionCall( "array_slice", array( "%array", self::value(0), "%index"  ) ),
+                        self::functionCall( "array_slice", array( "%array", self::value( 0 ), "%index"  ) ),
                         self::functionCall( "array_slice", array( "%array", 
                             array( "ezcTemplateAdditionOperatorAstNode", array( "%index", $length ) )
                         ) ) ) ) );
@@ -108,7 +108,7 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
             // array_remove_last( $a, $len = 1 ) ( QList::removeLast() )::
             // array_slice( $a, 0, -1 )
             case "array_remove_last": 
-                $length = ( self::countParameters( $parameters ) == 1 ? self::value(1) : "[%length]" );
+                $length = ( self::countParameters( $parameters ) == 1 ? self::value( 1 ) : "[%length]" );
                 return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array", "[%length]" ), 
                     self::functionCall( "array_slice", array( "%array", self::value( 0 ),  array( "ezcTemplateArithmeticNegationOperatorAstNode", array( $length ) ) ) ) );
 

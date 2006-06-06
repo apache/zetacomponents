@@ -1002,7 +1002,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
             $expression = $type->expression === null ? new ezcTemplateConstantAstNode( "NULL" ) : $type->expression->accept( $this );
 
-            if ( $type->expression !== null && !($expression->typeHint & ezcTemplateAstNode::TYPE_ARRAY ) )
+            if ( $type->expression !== null && !( $expression->typeHint & ezcTemplateAstNode::TYPE_ARRAY ) )
             {
                 throw new ezcTemplateParserException( $type->source, $type->expression->startCursor, $type->expression->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
             }
@@ -1013,13 +1013,13 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         }
         elseif( $this->parser->symbolTable->retrieve( $type->variable->name ) == ezcTemplateSymbolTable::IMPORT ) 
         {
-            $call = new ezcTemplateFunctionCallAstNode("isset", array( $type->variable->accept( $this ) ) );
+            $call = new ezcTemplateFunctionCallAstNode( "isset", array( $type->variable->accept( $this ) ) );
 
             $if = new ezcTemplateIfAstNode();
             $cb = new ezcTemplateConditionBodyAstNode();
             $cb->condition = new ezcTemplateLogicalNegationOperatorAstNode( $call );
             $expression = $type->expression === null ? new ezcTemplateConstantAstNode( "NULL" ) : $type->expression->accept( $this );
-            $cb->body = new ezcTemplateGenericStatementAstNode(new ezcTemplateAssignmentOperatorAstNode( $type->variable->accept( $this ), $expression ) );
+            $cb->body = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $type->variable->accept( $this ), $expression ) );
 
             $if->conditions[] = $cb;
             return $if;
