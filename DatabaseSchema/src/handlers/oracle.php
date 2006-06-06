@@ -380,7 +380,7 @@ class ezcDbSchemaHandlerOracle extends ezcDbSchemaHandlerSql implements ezcDbSch
     }
 
 
-    //------------- Delta handling methods ---------------
+    // ------------- Delta handling methods ---------------
 
     /**
      * Generate SQL queries for table creation.

@@ -456,7 +456,7 @@ class ezcDbSchemaHandlerPgsql extends ezcDbSchemaHandlerSql implements ezcDbSche
 
             $fields[$row['attname']] = $field;
         }
-        //ksort( $fields );
+        // ksort( $fields );
 
         return $fields;
 
@@ -1243,7 +1243,7 @@ class ezcDbSchemaHandlerPgsql extends ezcDbSchemaHandlerSql implements ezcDbSche
         }
         else if ( is_string( $value ) )
         {
-            return "'" . str_replace ("'", "''", $value ) . "'";
+            return "'" . str_replace( "'", "''", $value ) . "'";
         }
         else
         {
@@ -1410,7 +1410,7 @@ class ezcDbSchemaHandlerPgsql extends ezcDbSchemaHandlerSql implements ezcDbSche
     }
 
 
-    //------------- Delta handling methods ---------------
+    // ------------- Delta handling methods ---------------
 
     /**
      * Generate SQL queries for table creation.

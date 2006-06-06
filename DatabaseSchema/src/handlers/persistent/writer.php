@@ -212,7 +212,7 @@ class ezcDbschemaPersistentWriter implements ezcDbSchemaFileWriter
         {
             if ( $index->primary )
             {
-                foreach( $index->indexFields as $field => $definiton )
+                foreach ( $index->indexFields as $field => $definiton )
                 {
                     $primaries[$field] = true;
                 }
