@@ -257,7 +257,7 @@ class ezcBaseTest extends ezcTestCase
     {
         try
         {
-            ezcBase::addClassRepository( '.', 'wrongAutoloadDir' );
+            ezcBase::addClassRepository( '.', './wrongAutoloadDir' );
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
@@ -267,7 +267,7 @@ class ezcBaseTest extends ezcTestCase
     
     public function testBaseAddAndGetAutoloadDirs1()
     {
-        ezcBase::addClassRepository( '.', 'autoload' );
+        ezcBase::addClassRepository( '.' );
         $resultArray = ezcBase::getRepositoryDirectories();
 
         if ( count( $resultArray ) != 2 ) 
@@ -289,9 +289,9 @@ class ezcBaseTest extends ezcTestCase
 
     public function testBaseAddAndGetAutoloadDirs2()
     {
-        ezcBase::addClassRepository( '.', 'autoload' );
-        ezcBase::addClassRepository( './Base/tests/test_repository', 'autoload_files' );
-        ezcBase::addClassRepository( './Base/tests/test_repository', 'autoload_files' );
+        ezcBase::addClassRepository( '.', './autoload' );
+        ezcBase::addClassRepository( './Base/tests/test_repository', './Base/tests/test_repository/autoload_files' );
+        ezcBase::addClassRepository( './Base/tests/test_repository', './Base/tests/test_repository/autoload_files' );
         $resultArray = ezcBase::getRepositoryDirectories();
 
         if ( count( $resultArray ) != 3 ) 
@@ -317,7 +317,7 @@ class ezcBaseTest extends ezcTestCase
 
     public function testNoPrefixAutoload()
     {
-        ezcBase::addClassRepository( './Base/tests/test_repository', 'autoload_files' );
+        ezcBase::addClassRepository( './Base/tests/test_repository', './Base/tests/test_repository/autoload_files' );
         __autoload( 'Object' );
         if( !class_exists( 'Object' ) )
         {

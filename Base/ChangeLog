@@ -1,6 +1,11 @@
 1.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- Fixed #8434: ezcBase autoload system does not handle classes without a prefix
+
+- Fixed bug #8434: ezcBase autoload system does not handle classes without a
+  prefix.
+- Fixed bug #8435: ezcBase::addClassRepository assumes the ezc way of
+  structuring files. From now on the path specifying the autoload directory is
+  *not* relative to the repository directory anymore.
 	
 	
 1.1rc1 - Monday 29 May 2006

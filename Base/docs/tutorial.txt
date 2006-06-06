@@ -47,10 +47,9 @@ ezcBase::addClassRepository() takes two arguments:
 - $basePath is the base path for the whole class repository.
 - $autoloadDirPath the path where autoload files for this repository are found. 
 
-The paths in the autoload files are relative to the package directory
-as specified by the $basePath argument. I.e. class definition file will
-be searched at location $basePath + path to the class definition 
-file as stored in the autoload file.
+The paths in the autoload files are *not* relative to the package directory
+as specified by the $basePath argument. I.e. class definition files will
+be searched for in the location $autoloadDirPath only.
 
 Example:
 Take the following facts:
@@ -61,10 +60,9 @@ Take the following facts:
 - The "Me" component has the classes "erMyClass1" and "erMyClass2".
 - The "You" component has the classes "erYourClass1" and "erYourClass2".
 
-In this case you need to create the following files in
-"./repos/autoloads". Please note that the part before _autoload.php in
-the filename is the first part of the classname, not considering
-the all lower-case letter prefix.
+In this case you need to create the following files in "./repos/autoloads".
+Please note that the part before _autoload.php in the filename is the first
+part of the classname, not considering the all lower-case letter prefix.
 
 Content of my_autoload.php:
 

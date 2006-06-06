@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Base class implements the methods needed to use the ezComponents.
+ * Base class implements the methods needed to use the eZ components.
  *
  * @package Base
  */
@@ -411,7 +411,7 @@ class ezcBase
      * following code:
      * <code>
      * <?php
-     * ezcBase::addClassRepository( './repos', 'autoloads' );
+     * ezcBase::addClassRepository( './repos', './repos/autoloads' );
      * $myVar = new erMyClass2();
      * ?>
      * </code>
@@ -420,7 +420,7 @@ class ezcBase
      * @param string $autoloadDirPath
      * @param string $basePath
      */
-    public static function addClassRepository( $basePath, $autoloadDirPath = 'autoload' )
+    public static function addClassRepository( $basePath, $autoloadDirPath = null )
     {
         // check if base path exists
         if ( !is_dir( $basePath ) ) 
@@ -428,17 +428,23 @@ class ezcBase
             throw new ezcBaseFileNotFoundException( $basePath, 'base directory' );
         }
 
-        // check if autoload dir exists
-        if ( !is_dir( $basePath . '/' . $autoloadDirPath ) ) 
+        // calculate autoload path if it wasn't given
+        if ( is_null( $autoloadDirPath ) )
         {
-            throw new ezcBaseFileNotFoundException( $basePath. '/'. $autoloadDirPath, 'autoload directory' );
+            $autoloadDirPath = $basePath . '/autoload';
         }
 
-        //add info to $repositoryDirs
-        //$autoloadDirPath will be used as a key in $repositoryDirs
-        $array = array( $basePath => array( 'basePath' => $basePath, 'autoloadDirPath' => $basePath . '/' . $autoloadDirPath ) );
+        // check if autoload dir exists
+        if ( !is_dir( $autoloadDirPath ) ) 
+        {
+            throw new ezcBaseFileNotFoundException( $autoloadDirPath, 'autoload directory' );
+        }
 
-        // Add info to the list of extra dirs if it exists there it will not be doubled.
+        // add info to $repositoryDirs
+        // $autoloadDirPath will be used as a key in $repositoryDirs
+        $array = array( $basePath => array( 'basePath' => $basePath, 'autoloadDirPath' => $autoloadDirPath ) );
+
+        // add info to the list of extra dirs if it exists there it will not be doubled.
         ezcBase::$repositoryDirs = array_merge( ezcBase::$repositoryDirs, $array );
     }
 }
