@@ -185,7 +185,7 @@ class ezcDebugHtmlFormatter implements ezcDebugOutputFormatter
                 $groups[$time->group]->stopTime = 0;
             }
 
-            //$groups[$time->group]->elements[] = $time;
+            // $groups[$time->group]->elements[] = $time;
             $this->addElement( $groups[$time->group]->elements, $time );
 
             $groups[$time->group]->count++;

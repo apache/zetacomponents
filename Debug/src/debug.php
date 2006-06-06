@@ -44,7 +44,7 @@
  * $debug = ezcDebug::getInstance();
  * $debug->startTimer( "Simple calculation" );
  * 
- * //Simple calculation
+ * // Simple calculation
  * $result = 4 + 6;
  *
  * $debug->stopTimer( "Simple calculation" ); // Parameter can be omitted.
