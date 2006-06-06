@@ -36,6 +36,11 @@ return array(
     'ezcGraphSvgDriverOptions'                  => 'Graph/options/svg_driver.php',
     'ezcGraphInvalidDriverException'            => 'Graph/exceptions/invalid_driver.php',
 
+    'ezcGraphPalette'                           => 'Graph/interfaces/palette.php',
+    'ezcGraphPaletteTango'                      => 'Graph/palette/tango.php',
+    'ezcGraphPaletteBlack'                      => 'Graph/palette/black.php',
+    'ezcGraphUnknownPaletteException'           => 'Graph/exceptions/unknown_palette.php',
+
     'ezcGraphChartElement'                      => 'Graph/interfaces/element.php',
     'ezcGraphFontOptions'                       => 'Graph/options/font.php',
     'ezcGraphChartElementText'                  => 'Graph/element/text.php',

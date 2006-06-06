@@ -53,6 +53,19 @@ class ezcGraph
             throw new ezcGraphUnknownChartTypeException($type);
         }
     }
+
+    static public function createPalette( $name )
+    {
+        $className = 'ezcGraphPalette' . $name;
+        if ( class_exists( $className ) )
+        {
+            return new $className();
+        }
+        else
+        {
+            throw new ezcGraphUnknownPaletteException( $name );
+        }
+    }
 }
 
 ?>

@@ -334,12 +334,5 @@ class ezcGraphDatasetTest extends ezcTestCase
             $chart->income[2005]
         );
     }
-
-    public function testAutomaticColorization()
-    {
-        throw new PHPUnit2_Framework_IncompleteTestError(
-            '@TODO: Add test to check automatic dataset colorization.'
-        );
-    }
 }
 ?>

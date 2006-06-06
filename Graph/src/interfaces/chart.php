@@ -50,9 +50,18 @@ abstract class ezcGraphChart
      */
     protected $driver;
 
+    /**
+     * Palette for default colorization
+     * 
+     * @var ezcGraphPalette
+     */
+    protected $palette;
+
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphChartOptions( $options );
+
+        $this->palette = ezcGraph::createPalette( 'Tango' );
 
         // Add standard elements
         $this->elements['title'] = new ezcGraphChartElementText();
@@ -106,9 +115,19 @@ abstract class ezcGraphChart
                     return $this->driver;
                 }
                 else 
-               {
+                {
                     throw new ezcGraphInvalidDriverException( $propertyValue );
-               }
+                }
+                break;
+            case 'palette':
+                if ( $propertyValue instanceof ezcGraphPalette )
+                {
+                    $this->palette = $propertyValue;
+                }
+                else
+                {
+                    $this->palette = ezcGraph::createPalette( $propertyValue );
+                }
                 break;
             case 'options':
                 if ( $propertyValue instanceof ezcGraphChartOptions )

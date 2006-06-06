@@ -29,6 +29,7 @@ require_once 'labeled_axis_test.php';
 require_once 'renderer_2d_test.php';
 require_once 'driver_gd_test.php';
 require_once 'font_test.php';
+require_once 'palette_test.php';
 
 /**
 * Test suite for ImageAnalysis package.
@@ -56,6 +57,7 @@ class ezcGraphSuite extends ezcTestSuite
         $this->addTest( ezcGraphGdDriverTest::suite() );
         $this->addTest( ezcGraphFontTest::suite() );
         $this->addTest( ezcGraphTextTest::suite() );
+        $this->addTest( ezcGraphPaletteTest::suite() );
     }
 
     public static function suite()
