@@ -227,7 +227,7 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
             throw new ezcQueryInvalidException( 'SELECT', 'Wrong count of arguments passed to rightJoin():'.$passedArgsCount );
         }
 
-        // process old simple sintax.
+        // process old simple syntax.
         if ( $passedArgsCount == 4 ) 
         {
             if ( is_string( $args[0] ) && is_string( $args[1] ) &&
