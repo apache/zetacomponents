@@ -347,7 +347,10 @@ class ezcPersistentSession
         {
             $result = $this->load( $class, $id );
         }
-        catch ( Exception $e ) {} // eat, we return null on error
+        catch ( Exception $e )
+        {
+            // eat, we return null on error
+        }
         return $result;
     }
 
@@ -470,7 +473,7 @@ class ezcPersistentSession
             }
         }
 
-        if( $idGenerator->checkPersistence( $def, $this->db, $state ) )
+        if ( $idGenerator->checkPersistence( $def, $this->db, $state ) )
         {
             $class = get_class( $pObject );
             throw new ezcPersistentObjectAlreadyPersistentException( $class );
@@ -640,7 +643,7 @@ class ezcPersistentSession
     {
         $columns = array();
         $columns[] = $def->idProperty->columnName;
-        foreach( $def->properties as $property )
+        foreach ( $def->properties as $property )
         {
             $columns[] = $property->columnName;
         }
