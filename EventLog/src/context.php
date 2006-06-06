@@ -160,7 +160,7 @@ class ezcLogContext
         $a = isset( $this->severityMap[$eventType] ) ? $this->severityMap[$eventType] : array();
         $b = isset( $this->sourceMap[$eventSource] ) ? $this->sourceMap[$eventSource] : array();
         return array_merge( $a, $b );
-        //return array_merge( (array) $this->severityMap[$eventType], (array) $this->sourceMap[$eventSource] );
+        // return array_merge( (array) $this->severityMap[$eventType], (array) $this->sourceMap[$eventSource] );
     }
 
 }
