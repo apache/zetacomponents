@@ -90,7 +90,7 @@ abstract class ezcGraphPalette
      * @var integer
      * @access protected
      */
-    protected $chartBorderWidth = 1;
+    protected $chartBorderWidth = 0;
 
     /**
      * Backgroundcolor for elements

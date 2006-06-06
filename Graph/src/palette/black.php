@@ -68,36 +68,6 @@ class ezcGraphPaletteBlack extends ezcGraphPalette
     protected $chartBackground = '#2E3436';
 
     /**
-     * Bordercolor the chart
-     * 
-     * @var ezcGraphColor
-     */
-    protected $chartBorderColor = '#555753';
-
-    /**
-     * Borderwidth for the chart
-     * 
-     * @var integer
-     * @access protected
-     */
-    protected $chartBorderWidth = 1;
-
-    /**
-     * Bordercolor for elements
-     * 
-     * @var ezcGraphColor
-     */
-    protected $elementBorderColor = '#555753';
-
-    /**
-     * Borderwidth for elements
-     * 
-     * @var integer
-     * @access protected
-     */
-    protected $elementBorderWidth = 0;
-
-    /**
      * Padding in elements
      * 
      * @var integer

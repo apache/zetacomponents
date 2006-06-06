@@ -297,7 +297,7 @@ class ezcGraphPaletteTest extends ezcTestCase
         }
 
         $this->assertEquals(
-            ezcGraphColor::fromHex( '#BABDB6' ),
+            ezcGraphColor::fromHex( '#000000FF' ),
             $chart->palette->chartBorderColor,
             'Border color not properly set.'
         );
@@ -315,7 +315,7 @@ class ezcGraphPaletteTest extends ezcTestCase
         }
 
         $this->assertEquals(
-            1,
+            0,
             $chart->palette->chartBorderWidth,
             'Border width not properly set.'
         );
@@ -333,7 +333,7 @@ class ezcGraphPaletteTest extends ezcTestCase
         }
 
         $this->assertEquals(
-            ezcGraphColor::fromHex( '#BABDB6' ),
+            ezcGraphColor::fromHex( '#000000FF' ),
             $chart->palette->elementBorderColor,
             'Border color not properly set.'
         );
@@ -453,7 +453,7 @@ class ezcGraphPaletteTest extends ezcTestCase
         }
 
         $this->assertEquals(
-            ezcGraphColor::fromHex( '#BABDB6' ),
+            ezcGraphColor::fromHex( '#000000FF' ),
             $chart->legend->border,
             'Chart background not set from pallet.'
         );

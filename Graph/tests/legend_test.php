@@ -167,7 +167,7 @@ class ezcGraphLegendTest extends ezcTestCase
             ) );
             
             $mockedRenderer
-                ->expects( $this->once() )
+                ->expects( $this->at( 1 ) )
                 ->method( 'drawBackground' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#0000FF' ) ),
@@ -309,7 +309,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 'drawLine',
             ) );
             $mockedRenderer
-                ->expects( $this->once() )
+                ->expects( $this->at( 1 ) )
                 ->method( 'drawBackground' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#0000FF' ) ),
@@ -394,7 +394,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 'drawBackground',
             ) );
             $mockedRenderer
-                ->expects( $this->once() )
+                ->expects( $this->at( 1 ) )
                 ->method( 'drawBackground' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#0000FF' ) ),

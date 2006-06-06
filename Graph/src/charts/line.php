@@ -105,6 +105,10 @@ class ezcGraphLineChart extends ezcGraphChart
         $boundings->x1 = $this->options->width;
         $boundings->y1 = $this->options->height;
 
+        // Render border and background
+        $boundings = $this->renderBorder( $boundings );
+        $boundings = $this->renderBackground( $boundings );
+
         foreach ( $this->elements as $name => $element )
         {
             // Special settings for special elements

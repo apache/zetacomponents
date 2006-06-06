@@ -55,7 +55,14 @@ class ezcGraphChartOptions extends ezcBaseOptions
      * 
      * @var int
      */
-    protected $borderWidth;
+    protected $borderWidth = 0;
+
+    /**
+     * Space between border and content
+     * 
+     * @var integer
+     */
+    protected $padding = 0;
 
     /**
      * Font used in the graph 
@@ -90,6 +97,9 @@ class ezcGraphChartOptions extends ezcBaseOptions
             case 'height':
                 $this->height = max( 1, (int) $propertyValue );
                 break;
+            case 'padding':
+                $this->padding = max( 0, (int) $propertyValue );
+                break;
             case 'backgroundImage':
                 // Check for existance of file
                 if ( !is_file( $propertyValue ) || !is_readable( $propertyValue ) )
@@ -119,7 +129,7 @@ class ezcGraphChartOptions extends ezcBaseOptions
                 $this->border = ezcGraphColor::create( $propertyValue );
                 break;
             case 'borderWidth':
-                $this->borderWidth = max( 1, (int) $propertyValue );
+                $this->borderWidth = max( 0, (int) $propertyValue );
                 break;
             case 'font':
                 $this->font->font = $propertyValue;

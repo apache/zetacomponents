@@ -253,6 +253,66 @@ abstract class ezcGraphChart
     }
 
     /**
+     * Render chart border
+     * 
+     * @param ezcGraphBoundings $boundings Boundings
+     * @return ezcGraphBoundings
+     */
+    protected function renderBorder( ezcGraphBoundings $boundings )
+    {
+        if ( ( $this->options->border instanceof ezcGraphColor ) &&
+             ( $this->options->borderWidth > 0 ) )
+        {
+            // Default bordervalue to 1
+            $this->options->borderWidth = max( 1, $this->options->borderWidth );
+         
+            // Draw border
+            $this->renderer->drawRect(
+                $this->options->border,
+                new ezcGraphCoordinate( $boundings->x0, $boundings->y0 ),
+                $boundings->x1 - $boundings->x0,
+                $boundings->y1 - $boundings->y0,
+                $this->options->borderWidth
+            );
+
+            // Reduce local boundings by borderWidth
+            $boundings->x0 += $this->options->borderWidth;
+            $boundings->y0 += $this->options->borderWidth;
+            $boundings->x1 -= $this->options->borderWidth;
+            $boundings->y1 -= $this->options->borderWidth;
+        }
+
+        return $boundings;
+    }
+
+    /**
+     * Render chart background
+     * 
+     * @param ezcGraphBoundings $boundings Boundings
+     * @return ezcGraphBoundings
+     */
+    protected function renderBackground( ezcGraphBoundings $boundings )
+    {
+        if ( $this->options->background instanceof ezcGraphColor )
+        {
+            $this->renderer->drawBackground(
+                $this->options->background,
+                new ezcGraphCoordinate( $boundings->x0, $boundings->y0 ),
+                $boundings->x1 - $boundings->x0,
+                $boundings->y1 - $boundings->y0
+            );
+        }
+
+        // Apply padding
+        $boundings->x0 += $this->options->padding;
+        $boundings->y0 += $this->options->padding;
+        $boundings->x1 -= $this->options->padding;
+        $boundings->y1 -= $this->options->padding;
+
+        return $boundings;
+    }
+
+    /**
      * Renders this chart
      * 
      * Creates basic visual chart elements from the chart to be processed by 

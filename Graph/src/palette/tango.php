@@ -69,36 +69,6 @@ class ezcGraphPaletteTango extends ezcGraphPalette
     protected $chartBackground = '#EEEEEC';
 
     /**
-     * Bordercolor the chart
-     * 
-     * @var ezcGraphColor
-     */
-    protected $chartBorderColor = '#BABDB6';
-
-    /**
-     * Borderwidth for the chart
-     * 
-     * @var integer
-     * @access protected
-     */
-    protected $chartBorderWidth = 1;
-
-    /**
-     * Bordercolor for elements
-     * 
-     * @var ezcGraphColor
-     */
-    protected $elementBorderColor = '#BABDB6';
-
-    /**
-     * Borderwidth for elements
-     * 
-     * @var integer
-     * @access protected
-     */
-    protected $elementBorderWidth = 0;
-
-    /**
      * Padding in elements
      * 
      * @var integer
