@@ -806,7 +806,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
             // Y-Axis
             $mockedRenderer
-                ->expects( $this->at( 5 ) )
+                ->expects( $this->at( 7 ) )
                 ->method( 'drawTextBox' )
                 ->with(
                     $this->equalTo( new ezcGraphCoordinate( 100, 130 ) ),
@@ -816,7 +816,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                     $this->equalTo( ezcGraph::RIGHT | ezcGraph::BOTTOM )
                 );
             $mockedRenderer
-                ->expects( $this->at( 6 ) )
+                ->expects( $this->at( 8 ) )
                 ->method( 'drawTextBox' )
                 ->with(
                     $this->equalTo( new ezcGraphCoordinate( 100, 70 ) ),
@@ -826,7 +826,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
                     $this->equalTo( ezcGraph::RIGHT | ezcGraph::BOTTOM )
                 );
             $mockedRenderer
-                ->expects( $this->at( 7 ) )
+                ->expects( $this->at( 9 ) )
                 ->method( 'drawTextBox' )
                 ->with(
                     $this->equalTo( new ezcGraphCoordinate( 100, 10 ) ),

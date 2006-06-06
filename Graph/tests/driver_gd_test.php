@@ -543,6 +543,42 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
     }
 
+    public function testDrawTextBoxStringSampleRight()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 20, 20 ),
+                new ezcGraphCoordinate( 110, 20 ),
+                new ezcGraphCoordinate( 110, 30 ),
+                new ezcGraphCoordinate( 20, 30 ),
+            ),
+            ezcGraphColor::fromHex( '#eeeeec' ),
+            true
+        );
+        $this->driver->drawTextBox(
+            'sample 4',
+            new ezcGraphCoordinate( 21, 21 ),
+            88,
+            8,
+            ezcGraph::RIGHT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            '7ab16c395465f6cea7b993288165ab6f',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
     public function testDrawTextBoxStringRight()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';

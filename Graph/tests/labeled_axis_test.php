@@ -460,7 +460,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                 ->with(
                     $this->equalTo( new ezcGraphCoordinate( 122, 192 ) ),
                     $this->equalTo( '2000' ),
-                    $this->equalTo( 118 ),
+                    $this->equalTo( 88 ),
                     $this->equalTo( 8 ),
                     $this->equalTo( ezcGraph::LEFT | ezcGraph::TOP )
                 );
@@ -468,21 +468,31 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                 ->expects( $this->at( 3 ) )
                 ->method( 'drawTextBox' )
                 ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 242, 192 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 212, 192 ) ),
                     $this->equalTo( '2001' ),
-                    $this->equalTo( 118 ),
+                    $this->equalTo( 88 ),
                     $this->equalTo( 8 ),
-                    $this->equalTo( ezcGraph::LEFT | ezcGraph::TOP )
+                    $this->equalTo( ezcGraph::CENTER | ezcGraph::TOP )
                 );
             $mockedRenderer
                 ->expects( $this->at( 4 ) )
                 ->method( 'drawTextBox' )
                 ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 363, 192 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 303, 192 ) ),
                     $this->equalTo( '2002' ),
-                    $this->equalTo( 118 ),
+                    $this->equalTo( 88 ),
                     $this->equalTo( 8 ),
-                    $this->equalTo( ezcGraph::LEFT | ezcGraph::TOP )
+                    $this->equalTo( ezcGraph::CENTER | ezcGraph::TOP )
+                );
+            $mockedRenderer
+                ->expects( $this->at( 5 ) )
+                ->method( 'drawTextBox' )
+                ->with(
+                    $this->equalTo( new ezcGraphCoordinate( 393, 192 ) ),
+                    $this->equalTo( '2003' ),
+                    $this->equalTo( 88 ),
+                    $this->equalTo( 8 ),
+                    $this->equalTo( ezcGraph::RIGHT | ezcGraph::TOP )
                 );
 
             $chart->renderer = $mockedRenderer;

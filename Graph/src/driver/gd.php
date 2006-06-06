@@ -232,7 +232,6 @@ class ezcGraphGdDriver extends ezcGraphDriver
      */
     public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align )
     {
-
         // Test font
         if ( !is_file( $this->options->font->font ) || !is_readable( $this->options->font->font ) )
         {

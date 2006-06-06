@@ -290,6 +290,153 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
         return (int) ( ( $this->max - $this->min ) / $this->majorStep );
     }
 
+    /**
+     * Draw labels for an axis
+     * 
+     * @param ezcGraphRenderer $renderer 
+     * @param ezcGraphCoordinate $start 
+     * @param ezcGraphCoordinate $end 
+     * @param ezcGraphBoundings $boundings 
+     * @return void
+     */
+    protected function drawLabels( ezcGraphRenderer $renderer, ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphBoundings $boundings )
+    {
+        // Draw major steps
+        $steps = $this->getMajorStepCount();
+
+        // Calculate stepsize
+        $xStepsize = ( $end->x - $start->x ) / $steps;
+        $yStepsize = ( $end->y - $start->y ) / $steps;
+
+        // Caluclate datafree chart border
+        $xBorder = abs ( ( $boundings->x1 - $boundings->x0 ) * ( $this->padding / 2 ) );
+        $yBorder = abs ( ( $boundings->y1 - $boundings->y0 ) * ( $this->padding / 2 ) );
+
+        for ( $i = 0; $i <= $steps; ++$i )
+        {
+            // Draw label
+            if ( $i < $steps )
+            {
+                $label = $this->getLabel( $i );
+
+                switch ( $this->position )
+                {
+                    case ezcGraph::LEFT:
+                        $renderer->drawTextBox(
+                            new ezcGraphCoordinate(
+                                (int) round( $start->x + $i * $xStepsize + $this->labelPadding ),
+                                (int) round( $start->y + $i * $yStepsize + $this->labelPadding )
+                            ),
+                            $label,
+                            (int) round( $xStepsize ) - $this->labelPadding,
+                            $yBorder - $this->labelPadding,
+                            ezcGraph::LEFT | ezcGraph::TOP
+                        );
+                        break;
+                    case ezcGraph::RIGHT:
+                        $renderer->drawTextBox(
+                            new ezcGraphCoordinate(
+                                (int) round( $start->x + $i * $xStepsize + $xStepsize ),
+                                (int) round( $start->y + $i * $yStepsize + $this->labelPadding )
+                            ),
+                            $label,
+                            (int) round( -$xStepsize ) - $this->labelPadding,
+                            $yBorder - $this->labelPadding,
+                            ezcGraph::RIGHT | ezcGraph::TOP
+                        );
+                        break;
+                    case ezcGraph::BOTTOM:
+                        $renderer->drawTextBox(
+                            new ezcGraphCoordinate(
+                                (int) round( $start->x + $i * $xStepsize - $xBorder ),
+                                (int) round( $start->y + $i * $yStepsize + $yStepsize )
+                            ),
+                            $label,
+                            $xBorder - $this->labelPadding,
+                            (int) round( -$yStepsize ) - $this->labelPadding,
+                            ezcGraph::RIGHT | ezcGraph::BOTTOM
+                        );
+                        break;
+                    case ezcGraph::TOP:
+                        $renderer->drawTextBox(
+                            new ezcGraphCoordinate(
+                                (int) round( $start->x + $i * $xStepsize - $xBorder ),
+                                (int) round( $start->y + $i * $yStepsize + $this->labelPadding )
+                            ),
+                            $label,
+                            $xBorder - $this->labelPadding,
+                            (int) round( $yStepsize ) - $this->labelPadding,
+                            ezcGraph::RIGHT | ezcGraph::TOP
+                        );
+                        break;
+                }
+            }
+            else
+            {
+                $label = $this->getLabel( $i-- );
+
+                switch ( $this->position )
+                {
+                    case ezcGraph::LEFT:
+                        $renderer->drawTextBox(
+                            new ezcGraphCoordinate(
+                                (int) round( $start->x + $i * $xStepsize + $this->labelPadding ),
+                                (int) round( $start->y + $i * $yStepsize + $this->labelPadding )
+                            ),
+                            $label,
+                            (int) round( $xStepsize ) - $this->labelPadding,
+                            $yBorder - $this->labelPadding,
+                            ezcGraph::RIGHT | ezcGraph::TOP
+                        );
+                        break;
+                    case ezcGraph::RIGHT:
+                        $renderer->drawTextBox(
+                            new ezcGraphCoordinate(
+                                (int) round( $start->x + $i * $xStepsize + $xStepsize ),
+                                (int) round( $start->y + $i * $yStepsize + $this->labelPadding )
+                            ),
+                            $label,
+                            (int) round( -$xStepsize ) - $this->labelPadding,
+                            $yBorder - $this->labelPadding,
+                            ezcGraph::LEFT | ezcGraph::TOP
+                        );
+                        break;
+                    case ezcGraph::BOTTOM:
+                        $renderer->drawTextBox(
+                            new ezcGraphCoordinate(
+                                (int) round( $start->x + $i * $xStepsize - $xBorder ),
+                                (int) round( $start->y + $i * $yStepsize + $yStepsize + $this->labelPadding )
+                            ),
+                            $label,
+                            $xBorder - $this->labelPadding,
+                            (int) round( -$yStepsize ) - $this->labelPadding,
+                            ezcGraph::RIGHT | ezcGraph::TOP
+                        );
+                        break;
+                    case ezcGraph::TOP:
+                        $renderer->drawTextBox(
+                            new ezcGraphCoordinate(
+                                (int) round( $start->x + $i * $xStepsize - $xBorder ),
+                                (int) round( $start->y + $i * $yStepsize + $this->labelPadding )
+                            ),
+                            $label,
+                            $xBorder - $this->labelPadding,
+                            (int) round( $yStepsize ) - $this->labelPadding,
+                            ezcGraph::RIGHT | ezcGraph::BOTTOM
+                        );
+                        break;
+                }
+                ++$i;
+            }
+        }
+    }
+
+    /**
+     * Get label for a dedicated step on the axis
+     * 
+     * @param integer $step Number of step
+     * @return string label
+     */
     protected function getLabel( $step )
     {
         return $this->min + ( $step * $this->majorStep );

@@ -171,44 +171,25 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
      */
     abstract protected function getMajorStepCount();
 
+    /**
+     * Get label for a dedicated step on the axis
+     * 
+     * @param integer $step Number of step
+     * @return string label
+     */
     abstract protected function getLabel( $step );
 
     /**
-     * Draw a axis from a start point to an end point. They do not need to be 
-     * placed in-plane.
+     * Draw labels for an axis
      * 
      * @param ezcGraphRenderer $renderer 
      * @param ezcGraphCoordinate $start 
      * @param ezcGraphCoordinate $end 
-     * @param float $major 
-     * @param float $minor 
+     * @param ezcGraphBoundings $boundings 
      * @return void
      */
-    protected function drawAxis( ezcGraphRenderer $renderer, ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphBoundings $boundings ) 
+    protected function drawLabels( ezcGraphRenderer $renderer, ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphBoundings $boundings )
     {
-        // Determine normalized direction
-        $direction = new ezcGraphCoordinate(
-            $start->x - $end->x,
-            $start->y - $end->y
-        );
-        $length = sqrt( pow( $direction->x, 2) + pow( $direction->y, 2 ) );
-        $direction->x /= $length;
-        $direction->y /= $length;
-
-        // Draw axis
-        $renderer->drawLine(
-            $this->border,
-            $start,
-            $end,
-            false
-        );
-
-        // Apply padding to start and end
-        $start->x += ( $end->x - $start->x ) * ( $this->padding / 2 );
-        $start->y += ( $end->y - $start->y ) * ( $this->padding / 2 );
-        $end->x -= ( $end->x - $start->x ) * ( $this->padding / 2 );
-        $end->y -= ( $end->y - $start->y ) * ( $this->padding / 2 );
-
         // Draw major steps
         $steps = $this->getMajorStepCount();
 
@@ -222,23 +203,6 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
 
         for ( $i = 0; $i <= $steps; ++$i )
         {
-            $renderer->drawLine(
-                $this->border,
-                new ezcGraphCoordinate(
-                    (int) round( $start->x + $i * $xStepsize
-                        + $direction->y * $this->majorScalingLineLength ),
-                    (int) round( $start->y + $i * $yStepsize
-                        + $direction->x * -$this->majorScalingLineLength )
-                ),
-                new ezcGraphCoordinate(
-                    (int) round( $start->x + $i * $xStepsize
-                        + $direction->y * -$this->majorScalingLineLength ),
-                    (int) round( $start->y + $i * $yStepsize
-                        + $direction->x * $this->majorScalingLineLength )
-                ),
-                false
-            );
-
             // Draw label
             if ( $i < $steps )
             {
@@ -297,6 +261,70 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 }
             }
         }
+    }
+
+    /**
+     * Draw a axis from a start point to an end point. They do not need to be 
+     * placed in-plane.
+     * 
+     * @param ezcGraphRenderer $renderer 
+     * @param ezcGraphCoordinate $start 
+     * @param ezcGraphCoordinate $end 
+     * @param float $major 
+     * @param float $minor 
+     * @return void
+     */
+    protected function drawAxis( ezcGraphRenderer $renderer, ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphBoundings $boundings ) 
+    {
+        // Determine normalized direction
+        $direction = new ezcGraphCoordinate(
+            $start->x - $end->x,
+            $start->y - $end->y
+        );
+        $length = sqrt( pow( $direction->x, 2) + pow( $direction->y, 2 ) );
+        $direction->x /= $length;
+        $direction->y /= $length;
+
+        // Draw axis
+        $renderer->drawLine(
+            $this->border,
+            $start,
+            $end,
+            false
+        );
+
+        // Apply padding to start and end
+        $start->x += ( $end->x - $start->x ) * ( $this->padding / 2 );
+        $start->y += ( $end->y - $start->y ) * ( $this->padding / 2 );
+        $end->x -= ( $end->x - $start->x ) * ( $this->padding / 2 );
+        $end->y -= ( $end->y - $start->y ) * ( $this->padding / 2 );
+
+        // Draw major steps
+        $steps = $this->getMajorStepCount();
+
+        // Calculate stepsize
+        $xStepsize = ( $end->x - $start->x ) / $steps;
+        $yStepsize = ( $end->y - $start->y ) / $steps;
+
+        for ( $i = 0; $i <= $steps; ++$i )
+        {
+            $renderer->drawLine(
+                $this->border,
+                new ezcGraphCoordinate(
+                    (int) round( $start->x + $i * $xStepsize
+                        + $direction->y * $this->majorScalingLineLength ),
+                    (int) round( $start->y + $i * $yStepsize
+                        + $direction->x * -$this->majorScalingLineLength )
+                ),
+                new ezcGraphCoordinate(
+                    (int) round( $start->x + $i * $xStepsize
+                        + $direction->y * -$this->majorScalingLineLength ),
+                    (int) round( $start->y + $i * $yStepsize
+                        + $direction->x * $this->majorScalingLineLength )
+                ),
+                false
+            );
+        }
 
         // Draw minor steps if wanted
         if ( $this->minorStep )
@@ -323,6 +351,8 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 );
             }
         }
+
+        $this->drawLabels( $renderer, $start, $end, $boundings );
     }
 
     /**
