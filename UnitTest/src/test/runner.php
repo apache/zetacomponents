@@ -174,7 +174,7 @@ class ezcTestRunner extends PHPUnit2_TextUI_TestRunner
         print( '[Preparing tests]:' );
 
         // Set the release. Default is trunk. 
-        $release = $consoleInput->getOption( 'release ')->value;
+        $release = $consoleInput->getOption( 'release' )->value;
         $release = ( $release == false || $release == "trunk" ? "trunk" : "releases/$release" );
 
         $allSuites = $this->prepareTests( $consoleInput->getArguments(),  $release );
