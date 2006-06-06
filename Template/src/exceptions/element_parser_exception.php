@@ -13,8 +13,6 @@
  * with some extra description of what went wrong.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
 class ezcTemplateSourceToTstParserException extends Exception
@@ -92,7 +90,7 @@ class ezcTemplateSourceToTstParserException extends Exception
             $currentParser = $parser->programParser;
             $parsers = get_class( $currentParser );
             $level = 0;
-            while( $currentParser->subParser !== null )
+            while ( $currentParser->subParser !== null )
             {
                 ++$level;
                 $currentParser = $currentParser->subParser;

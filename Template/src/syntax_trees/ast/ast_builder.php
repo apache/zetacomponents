@@ -48,8 +48,6 @@
  * for what is allowed as parameter values.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -212,7 +210,7 @@ class ezcTemplateAstBuilder
     /**
      * Appends an elseif control structure to the current body and returns $this.
      *
-     * Note: This can only called directly after a call to {@link self::_if() if()}.
+     * Note: This can only called directly after a call to {@link self::_if() if ()}.
      *
      * The $expression parameter can either be a code element or a PHP type
      * which is turned into an ezcTemplateLiteralAstNode object.
@@ -272,7 +270,7 @@ class ezcTemplateAstBuilder
     /**
      * Appends an else control structure to the current body and returns $this.
      *
-     * Note: This can only called directly after a call to {@link self::_if() if()} or {@link self::_elseif() _elseif()}.
+     * Note: This can only called directly after a call to {@link self::_if() if ()} or {@link self::_elseif() _elseif()}.
      *
      * The $body parameter can either be an ezcTemplateBodyAstNode element or
      * an ezcTemplateAstBuilder object in which case the body is taken from

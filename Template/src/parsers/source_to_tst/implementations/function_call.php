@@ -19,8 +19,6 @@
  * </code>
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -137,13 +135,13 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
 
         $this->findNextElement();
 
-        //$i = 0;
+        // $i = 0;
         $this->parameterCount = 1;
 
-        if( !$this->parseParameter( $cursor ) )
+        if ( !$this->parseParameter( $cursor ) )
         {
             $this->findNextElement();
-            if( !$cursor->match( ')' ) )
+            if ( !$cursor->match( ')' ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ROUND_BRACKET_CLOSE );
             }
@@ -173,9 +171,9 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
 
             ++$this->parameterCount;
 
-            //$this->operationState = false;
+            // $this->operationState = false;
 
-            if( !$this->parseParameter( $cursor ) )
+            if ( !$this->parseParameter( $cursor ) )
             {
                     throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor,  sprintf( ezcTEmplateSourceToTstErrorMessages::MSG_PARAMETER_EXPECTS_EXPRESSION, $this->parameterCount ) );
             }
@@ -186,7 +184,7 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
     protected function parseParameter( $cursor )
     {
         // Without this, the expression parser keeps on reading.
-        if( $cursor->match( ')', false ) )
+        if ( $cursor->match( ')', false ) )
         {
             return false;
         }

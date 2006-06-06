@@ -16,8 +16,6 @@
  * </code>
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
 class ezcTemplateTstNodeException extends Exception
@@ -40,7 +38,7 @@ class ezcTemplateTstNodeException extends Exception
      */
     public function __construct( $type, $comment = false )
     {
-        switch( $type )
+        switch ( $type )
         {
             case self::NO_FIRST_CHILD:
                 $message = "Element has no children, cannot get first child.";

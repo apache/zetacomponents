@@ -15,8 +15,6 @@
  * ezcTemplateExpressionSourceToTstParser class.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -81,7 +79,7 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
 
         $rawBlock = false;
 
-        if( $cursor->match("raw") )
+        if ( $cursor->match("raw") )
         {
             $rawBlock = true;
             $this->findNextElement();
@@ -147,7 +145,7 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
         // Change the block type if the top-most operator is a modifiying operator.
         if ( $rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
         {
-            if( $rawBlock)
+            if ( $rawBlock)
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_ASSIGNMENT_NOT_ALLOWED );
             }

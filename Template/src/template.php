@@ -57,8 +57,6 @@
  * </code>
  * 
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
 class ezcTemplate
@@ -96,7 +94,7 @@ class ezcTemplate
      */
     public function __get( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'send': 
             case 'receive':
@@ -113,7 +111,7 @@ class ezcTemplate
                         if ( get_class( $this->properties[$name] ) != 'ezcTemplateConfiguration' )
                         {
                             throw new Exception( "Static method ezcTemplateConfiguration::getInstance() did not return an object of class ezcTemplateConfiguration" );
-                            //$this->properties[$name] = new ezcTemplateConfiguration();
+                            // $this->properties[$name] = new ezcTemplateConfiguration();
                         }
                 }
                 return $this->properties[$name];
@@ -127,7 +125,7 @@ class ezcTemplate
      */
     public function __isset( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'configuration':
             case 'compiledTemplatePath':
@@ -157,10 +155,10 @@ class ezcTemplate
      */
     public function __set( $name, $value )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'send': 
-                if( !$value instanceof ezcTemplateVariableCollection )
+                if ( !$value instanceof ezcTemplateVariableCollection )
                 {
                     throw new ezcBaseValueException( $name, $value, 'ezcTemplateVariableCollection' );
                 } 
@@ -211,7 +209,7 @@ class ezcTemplate
      */
     public function process( $location, ezcTemplateConfiguration $config = null )
     {
-        if( $config === null )
+        if ( $config === null )
         {
             $config = $this->configuration;
         }
@@ -222,7 +220,7 @@ class ezcTemplate
         $stream = false;
 
         $stream = $location;
-        if( $stream[0] != "/" ) // Is it a relative path?
+        if ( $stream[0] != "/" ) // Is it a relative path?
         {
             $stream = $config->templatePath ."/". $stream;
         }

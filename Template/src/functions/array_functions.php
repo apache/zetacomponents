@@ -18,7 +18,7 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
 {
     public static function getFunctionSubstitution( $functionName, $parameters )
     {
-        switch( $functionName )
+        switch ( $functionName )
         {
             // array_count( $a ) ( QList::count )::
             // count( $a )
@@ -142,8 +142,8 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
             case "array_reverse": return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array" ), 
                 self::functionCall( "array_reverse", array("%array") ) );
 
-            //array_diff( $a1, $a2 [, $a3 ...] )::
-            //array_diff( $a1, $a2 [, $a3 ...] )
+            // array_diff( $a1, $a2 [, $a3 ...] )::
+            // array_diff( $a1, $a2 [, $a3 ...] )
             case "array_diff": return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%array1", "%array2", "[%...]" ), 
                 self::functionCall( "array_diff", array( "%array1", "%array2", "[%...]") ) );
 
@@ -156,7 +156,7 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
             // array_pad( $a, $len, $fill )
             case "array_pad": 
 
-               if( self::countParameters( $parameters ) == 2 )
+               if ( self::countParameters( $parameters ) == 2 )
                {
                     return array( ezcTemplateAstNode::TYPE_ARRAY, array( "[%array]", "%length", "%pad" ), 
                         self::functionCall( "array_pad", array( self::functionCall( "array", array() ), "%length", "%pad" ) ) );
@@ -198,18 +198,18 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
                 self::functionCall( "ezcTemplateArray::array_extract_by_properties", array( "%array", "%properties" ) ) );
 
             //    array_extract_by_keys( $a, $kList )::
-            //
+            // 
             //    array_sum( array_extract_by_keys( $order.items, array( 'price' ) ) )
-            //
+            // 
             //    becomes
-            //
+            // 
             //    foreach ( $order->items as $item )
             //    {
             //        $list[] = $item['price'];
             //    }
             //    array_sum( $list )
             //    unset( $list 
-            //TODO
+            // TODO
 
 
             // array_fill( $v, $len ) ( QVector::fill )::

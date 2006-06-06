@@ -35,8 +35,6 @@
  * The $context property is by default assigned to an ezcTemplateXhtmlContext object.
  * 
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  */
 class ezcTemplateConfiguration
@@ -74,7 +72,7 @@ class ezcTemplateConfiguration
      */
     public function __get( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'context': 
             case 'templatePath': 
@@ -102,10 +100,10 @@ class ezcTemplateConfiguration
      */
     public function __set( $name, $value )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'context': 
-                if( !$value instanceof ezcTemplateOutputContext )
+                if ( !$value instanceof ezcTemplateOutputContext )
                 {
                     throw new ezcBaseValueException( $name, $value, 'ezcTemplateContext' );
                 }
@@ -130,7 +128,7 @@ class ezcTemplateConfiguration
      */
     public function __isset( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'context': 
                 return true;

@@ -18,7 +18,7 @@ class ezcTemplateWebFunctions extends ezcTemplateFunctions
 {
     public static function getFunctionSubstitution( $functionName, $parameters )
     {
-        switch( $functionName )
+        switch ( $functionName )
         {
             // url_encode( $s )
             case "url_encode":

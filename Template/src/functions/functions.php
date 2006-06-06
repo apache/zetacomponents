@@ -62,7 +62,7 @@ class ezcTemplateFunctions
     protected static function countParameters( $parameters )
     {
         $total = sizeof( $parameters );
-        if( isset( $parameterMap[ "__rest__" ] ) )
+        if ( isset( $parameterMap[ "__rest__" ] ) )
         {
             $total += sizeof( $parametersMap["__rest__"] ) - 1;
         }
@@ -72,7 +72,7 @@ class ezcTemplateFunctions
 
     protected function createObject( $className, $functionParameters )
     {
-        if( $className == "_array" )
+        if ( $className == "_array" )
         {
             return $functionParameters;
         }
@@ -84,25 +84,25 @@ class ezcTemplateFunctions
     protected function processAst( $functionName, $struct, $parameterMap, &$usedRest )
     {
         $pOut = array();
-        foreach( $struct[1] as $pIn )
+        foreach ( $struct[1] as $pIn )
         {
-            if( is_array( $pIn ) )
+            if ( is_array( $pIn ) )
             {
                 $pOut[] =  $this->processAst( $functionName, $pIn, $parameterMap, $usedRest );
             }
             else
             {
-                if( self::isSubstitution( $pIn ) )
+                if ( self::isSubstitution( $pIn ) )
                 {
                     // Skip the optional parameter is the value is NULL.
-                    if( $parameterMap[$pIn] !== null )
+                    if ( $parameterMap[$pIn] !== null )
                     {
                         $pOut[] = $parameterMap[ $pIn ];
 
-                        if( self::isMany( $pIn ) && isset( $parameterMap[ "__rest__" ]  ) )
+                        if ( self::isMany( $pIn ) && isset( $parameterMap[ "__rest__" ]  ) )
                         {
                             $usedRest = true;
-                            foreach( $parameterMap[ "__rest__" ] as $restParameter )
+                            foreach ( $parameterMap[ "__rest__" ] as $restParameter )
                             {
                                 $pOut[] = $restParameter;
                             }
@@ -134,9 +134,9 @@ class ezcTemplateFunctions
         // Map the parameters from the function definition to the given (real) parameters.
         $parameterMap = array();
         $i = 0;
-        foreach( $functionDefinition[ $index ] as $p )
+        foreach ( $functionDefinition[ $index ] as $p )
         {
-            if( self::isOptional( $p ) && $realParameters < $definedParameters)
+            if ( self::isOptional( $p ) && $realParameters < $definedParameters)
             {
                 // We should skip this parameter.
                 $parameterMap[$p] = null;
@@ -150,7 +150,7 @@ class ezcTemplateFunctions
 
         // Remaining parameters are stored in the "__rest__".
         $hasRest = false;
-        while( isset( $processedParameters[$i] ) )
+        while ( isset( $processedParameters[$i] ) )
         {
             $parameterMap[ "__rest__" ][] = $processedParameters[$i++];
             $hasRest = true;
@@ -159,13 +159,13 @@ class ezcTemplateFunctions
         $usedRest = false;
         $ast = $this->processAst( $functionName, $functionDefinition[ $index + 1 ], $parameterMap, $usedRest );
 
-        if( $hasRest && !$usedRest )
+        if ( $hasRest && !$usedRest )
         {
             throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_TOO_MANY_PARAMETERS, $functionName ) );
         }
 
 
-        if( sizeof( $functionDefinition ) == 3 )
+        if ( sizeof( $functionDefinition ) == 3 )
         {
             $ast->typeHint = $functionDefinition[0];
         }
@@ -181,7 +181,7 @@ class ezcTemplateFunctions
     {
         foreach ($this->functionToClass as $func => $class )
         {
-            if( preg_match( $func, $functionName ) )
+            if ( preg_match( $func, $functionName ) )
             {
                 return $class;
             }
@@ -195,10 +195,10 @@ class ezcTemplateFunctions
         $this->errorMessage = "";
         $class = $this->getClass( $functionName );
 
-        if( $class !== null )
+        if ( $class !== null )
         {
             $f = call_user_func( array( $class, "getFunctionSubstitution"), $functionName, $parameters );
-            if( $f !== null ) return $this->createAstNodes( $functionName, $f, $parameters );
+            if ( $f !== null ) return $this->createAstNodes( $functionName, $f, $parameters );
         }
 
         throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_FUNCTION, $functionName ) );
@@ -206,7 +206,7 @@ class ezcTemplateFunctions
             // Try to find a manual function.
 
             // Return the AST nodes.
-            //return $this->createAstNodes( $f, $parameters );
+            // return $this->createAstNodes( $f, $parameters );
 
 /*        
             // Reorder parameters if needed.

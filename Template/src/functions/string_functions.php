@@ -18,7 +18,7 @@ class ezcTemplateStringFunctions extends ezcTemplateFunctions
 {
     public static function getFunctionSubstitution( $functionName, $parameters )
     {
-        switch( $functionName )
+        switch ( $functionName )
         {
             // str_replace( $sl, $index, $len, $sr )
             // substr( $sl, 0, $index ) . $sr . substr( $sl, $index + $len );
@@ -75,7 +75,7 @@ class ezcTemplateStringFunctions extends ezcTemplateFunctions
             // strnatcmp( $sl, $sr );
             case "str_nat_compare": return array( ezcTemplateAstNode::TYPE_VALUE, array( "%left", "%right"), self::functionCall( "strnatcmp", array( "%left", "%right" ) ) );
 
-            //str_contains( $sl, $sr ) ( QString::compare )::
+            // str_contains( $sl, $sr ) ( QString::compare )::
             // strpos( $sl, $sr ) !== false 
             case "str_contains": return array( ezcTemplateAstNode::TYPE_VALUE, array( "%left", "%right"), 
                 array( "ezcTemplateNotIdenticalOperatorAstNode", 
@@ -271,7 +271,7 @@ class ezcTemplateStringFunctions extends ezcTemplateFunctions
             // - *string* str_break( $s, $eol = contextaware, $lbreak = contextaware )::
             // 
             //     str_replace( context_eol_char( $eol ), context_linebreak_char( $eol ), $s )
-            //
+            // 
             // TODO
             // 
             // - *string* str_break_chars( $s, $cbreak )::
@@ -282,7 +282,7 @@ class ezcTemplateStringFunctions extends ezcTemplateFunctions
             //         $sNew .= $s[$i] . $cbreak;
             //     }
             //     $sNew .= $s[strlen( $s ) - 1];
-            //
+            // 
             // TODO
             
             // str_wrap( $s, $width, $break, $cut )

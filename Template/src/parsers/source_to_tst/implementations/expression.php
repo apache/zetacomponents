@@ -18,8 +18,6 @@
  * @todo The ! operator does not work the same way as in PHP, must be fixed.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -118,9 +116,9 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
         // If it has a preOperator, it must have an operand.
         $match = "";
-        if( $this->parsePreModifyingOperator( $cursor, $match ) )
+        if ( $this->parsePreModifyingOperator( $cursor, $match ) )
         {
-            if( !$this->parseOperand( $cursor, array( "Variable" ), false ) )
+            if ( !$this->parseOperand( $cursor, array( "Variable" ), false ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
             }
@@ -129,17 +127,17 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         }
         elseif( $this->parsePreOperator( $cursor, $match ) )
         {
-            if( !$this->parseOperand( $cursor, array(), false ) )
+            if ( !$this->parseOperand( $cursor, array(), false ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_OPERAND );
             }
         }
         elseif( $type = $this->parseOperand( $cursor, array(), true, true) ) // Only an operand?
         {
-            if( $type == "Variable" )
+            if ( $type == "Variable" )
             {
                 // The expression stops after a post operator.
-                if( $this->parsePostOperator( $cursor ) ) return true;
+                if ( $this->parsePostOperator( $cursor ) ) return true;
             }
         }
         else
@@ -153,7 +151,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             //  Operator check.
             $this->findNextElement();
 
-            if( !$this->parseOperator( $cursor ) )
+            if ( !$this->parseOperator( $cursor ) )
             {
                 return true;
             }
@@ -166,7 +164,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
             $this->parsePreOperator( $cursor, $match );
 
-            if( !$this->parseOperand( $cursor, array(), false ) ) 
+            if ( !$this->parseOperand( $cursor, array(), false ) ) 
             {
                 throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_NON_MODIFYING_OPERAND );
             }
@@ -213,7 +211,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
             $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );
 
-            if( $this->parseArrayFetch( $cursor, $allowArrayAppend ) )
+            if ( $this->parseArrayFetch( $cursor, $allowArrayAppend ) )
             {
                 $this->findNextElement();
             }
@@ -255,7 +253,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 return false;
             }
 
-            if( !$cursor->match( ')' ) )
+            if ( !$cursor->match( ')' ) )
             {
                 exit( "Expected an closing ')' ");
             }
@@ -290,7 +288,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 if ( $operatorName !== false )
                 {
                     // Ignore the unary + operator.
-                    if( $operatorName == "+" ) 
+                    if ( $operatorName == "+" ) 
                     {
                         $this->findNextElement();
                         $cursor->advance();
@@ -345,7 +343,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
         protected function parsePostOperator( $cursor )
         {
-            if( $cursor->match( '++' ) )
+            if ( $cursor->match( '++' ) )
             {
                 $operatorStartCursor = clone $cursor;
                 $operator = $this->parser->createPostIncrementOperator( clone $this->lastCursor, $cursor );
@@ -371,7 +369,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
         protected function parsePreModifyingOperator( $cursor )
         {
-            if( $cursor->match( '++' ) )
+            if ( $cursor->match( '++' ) )
             {
                 $operatorStartCursor = clone $cursor;
                 $operator = $this->parser->createPreIncrementOperator( clone $this->lastCursor, $cursor );
@@ -414,7 +412,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             {
                 $this->findNextElement();
                 
-                if( $allowArrayAppend && $cursor->match("]") )
+                if ( $allowArrayAppend && $cursor->match("]") )
                 {
                     $operator = $this->parser->createArrayAppend( $this->startCursor, $cursor );
                 }
@@ -427,7 +425,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     }
 
                     $this->findNextElement();
-                    if( !$cursor->match("]") )
+                    if ( !$cursor->match("]") )
                     {
                         throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_SQUARE_BRACKET_CLOSE );
                     }
@@ -487,7 +485,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 }
             }
 
-            if( $operatorName !== false && $operatorName == "=>" )
+            if ( $operatorName !== false && $operatorName == "=>" )
             {
                 return false;
             }

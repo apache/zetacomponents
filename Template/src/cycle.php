@@ -13,8 +13,6 @@
  * Cycle class.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -31,12 +29,12 @@ class ezcTemplateCycle
 
     public function __set( $name, $value )
     {
-        if( is_array( $value ) )
+        if ( is_array( $value ) )
         {
             $this->value = $value;
             $this->size = sizeof( $value );
 
-            if( $this->size > 0 ) return;
+            if ( $this->size > 0 ) return;
         }
 
         $this->value = false;
@@ -44,7 +42,7 @@ class ezcTemplateCycle
 
     public function __get( $name )
     {
-        if( $this->value !== false )
+        if ( $this->value !== false )
         {
             $res = $this->value[ $this->counter ];
 

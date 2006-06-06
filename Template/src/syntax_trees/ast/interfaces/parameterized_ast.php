@@ -16,8 +16,6 @@
  * number of parameters a class should have.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -81,7 +79,7 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
 
         $this->parameters[] = $code;
 
-        if( $this->minParameterCount !== false && $this->minParameterCount == sizeof( $this->parameters ) )
+        if ( $this->minParameterCount !== false && $this->minParameterCount == sizeof( $this->parameters ) )
         {
             $this->checkAndSetTypeHint();
         }
@@ -91,14 +89,14 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
     public function checkAndSetTypeHint()
     {
         $first = true;
-        foreach( $this->parameters as $parameter )
+        foreach ( $this->parameters as $parameter )
         {
-            if( $parameter->typeHint == null )
+            if ( $parameter->typeHint == null )
             {
                 exit( "The typehint of the class ". get_class( $parameter ) . " is null" ); 
             }
 
-            if( $first )
+            if ( $first )
             {
                 $this->typeHint = $parameter->typeHint;
                 $first = false;
@@ -107,7 +105,7 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
             {
                 $this->typeHint &= $parameter->typeHint;
 
-                if( !( $this->typeHint & self::TYPE_VALUE  ) )
+                if ( !( $this->typeHint & self::TYPE_VALUE  ) )
                 {
                     throw new ezcTemplateTypeHintException();
                 }

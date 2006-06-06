@@ -12,8 +12,6 @@
  * Super class for all element parsers.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -518,7 +516,7 @@ abstract class ezcTemplateSourceToTstParser
     public function getFailingParser()
     {
         $parser = $this;
-        while( $parser->subParser !== null )
+        while ( $parser->subParser !== null )
         {
             $parser = $parser->subParser;
         }

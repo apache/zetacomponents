@@ -18,7 +18,7 @@ class ezcTemplateMathFunctions extends ezcTemplateFunctions
 {
     public static function getFunctionSubstitution( $functionName, $parameters )
     {
-        switch( $functionName )
+        switch ( $functionName )
         {
             // max( $v1 , $v2 [, ...] )::
             // max( $v1 , $v2 [, ...] )

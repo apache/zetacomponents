@@ -12,8 +12,6 @@
  * Parser for {delimiter}.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -54,11 +52,11 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
         }
 
         // handle opening block
-        if( $this->block->name == "delimiter" )
+        if ( $this->block->name == "delimiter" )
         {
             $delimiter = $this->parser->createDelimiter( $this->startCursor, $cursor );
             $this->findNextElement();
-            if( $this->currentCursor->match("modulo") )
+            if ( $this->currentCursor->match("modulo") )
             {
                 $this->findNextElement();
 
@@ -69,7 +67,7 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
 
                 $delimiter->modulo = $this->lastParser->rootOperator;
 
-                if( $this->currentCursor->match("is") )
+                if ( $this->currentCursor->match("is") )
                 {
                     $this->findNextElement();
                     if ( !$this->parseOptionalType( 'Expression', null, false ) )

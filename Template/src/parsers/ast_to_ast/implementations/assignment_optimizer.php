@@ -10,8 +10,6 @@
  */
 /**
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -19,21 +17,21 @@ class ezcTemplateAstToAstAssignmentOptimizer extends ezcTemplateAstWalker
 {
     protected function isOptimizableConcat( $element )
     {
-        if( $element instanceof ezcTemplateGenericStatementAstNode )
+        if ( $element instanceof ezcTemplateGenericStatementAstNode )
         {
-            if( $element->expression instanceof ezcTemplateConcatAssignmentOperatorAstNode )
+            if ( $element->expression instanceof ezcTemplateConcatAssignmentOperatorAstNode )
             {
-                if( $element->expression->parameters[0] instanceof ezcTemplateVariableAstNode ) 
+                if ( $element->expression->parameters[0] instanceof ezcTemplateVariableAstNode ) 
                 {
-                    if( $element->expression->parameters[1] instanceof ezcTemplateLiteralAstNode )
+                    if ( $element->expression->parameters[1] instanceof ezcTemplateLiteralAstNode )
                     {
                         return true;
                     }
 
                     /*
-                    if( $element->expression->parameters[1] instanceof ezcTemplateOutputAstNode )
+                    if ( $element->expression->parameters[1] instanceof ezcTemplateOutputAstNode )
                     {
-                        if( $element->expression->parameters[1]->expression instanceof ezcTemplateLiteralAstNode )
+                        if ( $element->expression->parameters[1]->expression instanceof ezcTemplateLiteralAstNode )
                         {
                             return true;
                         }
@@ -55,7 +53,7 @@ class ezcTemplateAstToAstAssignmentOptimizer extends ezcTemplateAstWalker
         $k = 0;
         $i = 0;
         $j = 1;
-        while( $i < $statements )
+        while ( $i < $statements )
         {
             if ( $this->isOptimizableConcat( $body->statements[$i] ) ) 
             {
@@ -67,7 +65,7 @@ class ezcTemplateAstToAstAssignmentOptimizer extends ezcTemplateAstWalker
                 }
             }
  
-            if( $k != $i )
+            if ( $k != $i )
             {
                 $body->statements[$k] = $body->statements[$i];
             }

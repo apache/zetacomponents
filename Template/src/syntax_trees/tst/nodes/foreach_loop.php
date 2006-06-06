@@ -12,8 +12,6 @@
  * Control structure: foreach.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -63,7 +61,7 @@ class ezcTemplateForeachLoopTstNode extends ezcTemplateBlockTstNode
 
     public function canHandleElement( ezcTemplateTstNode $element )
     {
-        //return ( $element instanceof ezcTemplateLoopTstNode && $element->name != 'delimiter' );
+        // return ( $element instanceof ezcTemplateLoopTstNode && $element->name != 'delimiter' );
         return false;
     }
 

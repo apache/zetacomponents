@@ -13,8 +13,6 @@
  * Symbol table
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -47,7 +45,7 @@ class ezcTemplateSymbolTable
 
     static public function getInstance()
     {
-        if( self::$instance === null)
+        if ( self::$instance === null)
         {
             self::$instance = new ezcTemplateSymbolTable();
         }
@@ -66,14 +64,14 @@ class ezcTemplateSymbolTable
     public function enter($symbol, $type, $isAutoDeclared = false)
     {
         // Check for redeclaration.
-        if( isset( $this->symbols[ $symbol ] ) )
+        if ( isset( $this->symbols[ $symbol ] ) )
         {
-            if( $isAutoDeclared )
+            if ( $isAutoDeclared )
             {
                 $storedType = $this->symbols[ $symbol ];
 
                 // Check whether the types are equal, when redeclaration is allowed.
-                if( $type != $storedType )
+                if ( $type != $storedType )
                 {
                     $this->errorMessage = sprintf( self::SYMBOL_TYPES_NOT_EQUAL, self::symbolToString( $type ), $symbol, self::symbolToString( $storedType ) );
                     return false;
@@ -87,13 +85,13 @@ class ezcTemplateSymbolTable
         }
 
         // Check whether the declaration is at the top scope.  Scope level 1.
-        if( !$isAutoDeclared && $this->scope != 1 )
+        if ( !$isAutoDeclared && $this->scope != 1 )
         {
             $this->errorMessage = sprintf( self::SYMBOL_INVALID_SCOPE, self::symbolToString( $type ), $symbol );
             return false;
         }
 
-        if( $this->firstDeclaredType === false )
+        if ( $this->firstDeclaredType === false )
         {
             $this->firstDeclaredType = $type;
         }
@@ -112,7 +110,7 @@ class ezcTemplateSymbolTable
 
     public function retrieve( $symbol )
     {
-        if( !isset( $this->symbols[ $symbol ] ) )
+        if ( !isset( $this->symbols[ $symbol ] ) )
         {
             $this->errorMessage = sprintf ( self::SYMBOL_NOT_DECLARED, $symbol );
             return false;

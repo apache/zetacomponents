@@ -18,7 +18,7 @@ class ezcTemplateTypeFunctions extends ezcTemplateFunctions
 {
     public static function getFunctionSubstitution( $functionName, $parameters )
     {
-        switch( $functionName )
+        switch ( $functionName )
         {
             // is_empty( $v )::
             // empty( $v )

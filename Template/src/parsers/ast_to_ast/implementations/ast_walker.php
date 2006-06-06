@@ -12,8 +12,6 @@
  * The entire AST tree, doing nothing.
  * 
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -409,7 +407,7 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     protected function acceptAndUpdate( ezcTemplateAstNode &$node )
     {
         $ret = $node->accept( $this );
-        if( $ret !== null ) $node = $ret;
+        if ( $ret !== null ) $node = $ret;
     }
 }
 ?>

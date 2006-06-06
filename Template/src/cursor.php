@@ -12,8 +12,6 @@
  * Cursor for template parser encapsulating text and position.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -224,7 +222,7 @@ class ezcTemplateCursor
                     $endColumn = 0;
                     for ( $i = $endPosition - 1; $i > 0; --$i )
                     {
-                        switch( $this->text[$i] )
+                        switch ( $this->text[$i] )
                         {
                             case "\n":
                             case "\r":
@@ -286,12 +284,12 @@ class ezcTemplateCursor
         {
             
             $escapedPos = 1; 
-            while( $position - $escapedPos >= 0 && $this->text[$position - $escapedPos] == "\\" )
+            while ( $position - $escapedPos >= 0 && $this->text[$position - $escapedPos] == "\\" )
             {
                 $escapedPos++;
             }
 
-            if( $escapedPos % 2 == 1 )
+            if ( $escapedPos % 2 == 1 )
             {
                 break;
             }
@@ -376,12 +374,12 @@ class ezcTemplateCursor
     {
         $matches = $this->pregMatchComplete( $pattern );
 
-        if( $matches === false )
+        if ( $matches === false )
         {
             return false;
         }
 
-        if( $advance )
+        if ( $advance )
         {
             $this->advance( strlen( $matches[0][0] ) );
         }
@@ -396,9 +394,9 @@ class ezcTemplateCursor
     public function match( $word, $advance = true)
     {
         $len = strlen( $word );
-        if( $this->current( $len ) == $word )
+        if ( $this->current( $len ) == $word )
         {
-            if( $advance ) $this->advance( $len );
+            if ( $advance ) $this->advance( $len );
 
             return true;
         }

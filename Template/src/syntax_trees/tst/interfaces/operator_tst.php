@@ -30,8 +30,6 @@
  *  1  right            = += -= *= /= .= %=
  * === ===============  ====================
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -147,7 +145,7 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
      */
     public function __get( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'symbol':
                 return $this->symbol;
@@ -161,7 +159,7 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
      */
     public function __set( $name, $value )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'symbol':
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
@@ -175,7 +173,7 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
      */
     public function __isset( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'symbol':
                 return true;

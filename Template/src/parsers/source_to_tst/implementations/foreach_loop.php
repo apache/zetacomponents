@@ -12,8 +12,6 @@
  * Parser for {foreach} loop.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -72,7 +70,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
         $el->array = $this->lastParser->rootOperator;
 
         $this->findNextElement();
-        if( !$this->currentCursor->match('as') )
+        if ( !$this->currentCursor->match('as') )
         {
             throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_AS );
         }
@@ -104,7 +102,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
             $el->keyVariableName  = $el->itemVariableName;
 
             // Key Look up in the symbol table.
-            if( !$this->parser->symbolTable->enter( $el->keyVariableName, ezcTemplateSymbolTable::VARIABLE, true ) )
+            if ( !$this->parser->symbolTable->enter( $el->keyVariableName, ezcTemplateSymbolTable::VARIABLE, true ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, $this->parser->symbolTable->getErrorMessage() );
             }
@@ -113,7 +111,7 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
         }
         
         // Value lookup in the symbol table.
-        if( !$this->parser->symbolTable->enter( $el->itemVariableName, ezcTemplateSymbolTable::VARIABLE, true ) )
+        if ( !$this->parser->symbolTable->enter( $el->itemVariableName, ezcTemplateSymbolTable::VARIABLE, true ) )
         {
             throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, $this->parser->symbolTable->getErrorMessage() );
         }
@@ -131,13 +129,13 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
                     throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
                 } 
 
-                if( $matchIncrement ) $el->increment[] = $this->lastParser->element;
+                if ( $matchIncrement ) $el->increment[] = $this->lastParser->element;
                 else $el->decrement[] = $this->lastParser->element;
 
 
                 $this->findNextElement();
             }
-            while( $cursor->match( "," ) );
+            while ( $cursor->match( "," ) );
         }
  
         // Check the offset.

@@ -12,8 +12,6 @@
  * Node element for parser trees.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -64,7 +62,7 @@ abstract class ezcTemplateTstNode
      */
     public function __get( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'originalText':
                 if ( $this->properties[$name] === false )
@@ -82,7 +80,7 @@ abstract class ezcTemplateTstNode
      */
     public function __set( $name, $value )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'originalText':
             case 'treeProperties':
@@ -97,7 +95,7 @@ abstract class ezcTemplateTstNode
      */
     public function __isset( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'originalText':
             case 'treeProperties':

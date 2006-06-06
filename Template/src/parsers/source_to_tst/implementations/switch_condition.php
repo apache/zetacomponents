@@ -11,8 +11,6 @@
 /**
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -43,12 +41,12 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
             // skip whitespace and comments
             $this->findNextElement();
             
-            if( !$cursor->match( '}' ) )
+            if ( !$cursor->match( '}' ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE);
             }
 
-            if( $name == 'switch' )
+            if ( $name == 'switch' )
             {
                 $sw = $this->parser->createSwitch( $this->startCursor, $cursor );
             }
@@ -59,14 +57,14 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
 
                 $sw = $this->parser->createCase( $this->startCursor, $cursor );
             }
-            //$el->name = 'switch';
+            // $el->name = 'switch';
             $sw->isClosingBlock = true;
             $this->appendElement( $sw );
             return true;
         }
 
 
-        if( $name == 'switch' )
+        if ( $name == 'switch' )
         {
             $this->findNextElement();
             if ( !$this->parseRequiredType( 'Expression', null, false ) )
@@ -75,7 +73,7 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
             }
 
             $this->findNextElement();
-            if( !$cursor->match( '}' ) )
+            if ( !$cursor->match( '}' ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE);
             }
@@ -108,9 +106,9 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
                 $this->findNextElement();
 
             } 
-            while( $cursor->match( ',' ) );
+            while ( $cursor->match( ',' ) );
 
-            if( !$cursor->match( '}' ) )
+            if ( !$cursor->match( '}' ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE);
             }
@@ -129,7 +127,7 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
             $case->conditions = null;
             $this->findNextElement();
 
-            if( !$cursor->match( '}' ) )
+            if ( !$cursor->match( '}' ) )
             {
                 throw new ezcTemplateSourceToTstParserException( $this, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
             }

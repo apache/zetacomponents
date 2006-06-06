@@ -12,8 +12,6 @@
  * Control structure: if.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -40,9 +38,9 @@ class ezcTemplateIfConditionTstNode extends ezcTemplateBlockTstNode
 
     public function canHandleElement( ezcTemplateTstNode $element )
     {
-        if( $element instanceof ezcTemplateIfConditionTstNode )
+        if ( $element instanceof ezcTemplateIfConditionTstNode )
         {
-            if( $element->name == "if" ) 
+            if ( $element->name == "if" ) 
             {
                 return false;
             }
@@ -57,7 +55,7 @@ class ezcTemplateIfConditionTstNode extends ezcTemplateBlockTstNode
     {
         $last = sizeof( $this->children ) - 1;
 
-        if( !$element instanceof ezcTemplateConditionBodyTstNode )
+        if ( !$element instanceof ezcTemplateConditionBodyTstNode )
         {
             $this->children[$last]->children[] = $element;
         }
@@ -75,10 +73,10 @@ class ezcTemplateIfConditionTstNode extends ezcTemplateBlockTstNode
 
         foreach ($this->children as $child)
         {
-            if( $child instanceof ezcTemplateConditionBodyTstNode )
+            if ( $child instanceof ezcTemplateConditionBodyTstNode )
             {
                 // Tell the removal object to trim our first text child
-                if( $child->children[0] instanceof ezcTemplateTextTstNode )
+                if ( $child->children[0] instanceof ezcTemplateTextTstNode )
                 {
                     $removal->trimBlockLine( $this, $child->children[0] );
                 }

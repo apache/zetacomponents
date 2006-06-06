@@ -12,8 +12,6 @@
  * Parser for {break}, {continue}, etc
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -39,7 +37,7 @@ class ezcTemplateLoopSourceToTstParser extends ezcTemplateSourceToTstParser
 
         $this->findNextElement();
 
-        if( !$cursor->match( "}") )
+        if ( !$cursor->match( "}") )
         {
             throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
         }

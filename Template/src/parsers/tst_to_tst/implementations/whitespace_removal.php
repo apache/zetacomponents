@@ -93,8 +93,6 @@
  * @todo Implement block-eol and indent whitespace removal.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -122,13 +120,13 @@ class ezcTemplateWhitespaceRemoval
     {
         if ( !$tree->hasChildren() )
         {
-            //echo "has no children\n";
+            // echo "has no children\n";
             return;
         }
 
         if ( $this->trimLeading )
         {
-            //echo "trim leading\n";
+            // echo "trim leading\n";
             $child = $tree->getFirstChild();
             // We only touch text block elements, not literal text
             if ( $child instanceof ezcTemplateTextBlockTstNode )
@@ -143,13 +141,13 @@ class ezcTemplateWhitespaceRemoval
             }
             else
             {
-                //echo "first child is not text\n";
+                // echo "first child is not text\n";
             }
         }
 
         if ( $this->trimTrailing )
         {
-            //echo "trim trailing\n";
+            // echo "trim trailing\n";
             $child = $tree->getLastChild();
             // We only touch text block elements, not literal text
             if ( $child instanceof ezcTemplateTextBlockTstNode )
@@ -164,7 +162,7 @@ class ezcTemplateWhitespaceRemoval
             }
             else
             {
-                //echo "last child is not text\n";
+                // echo "last child is not text\n";
             }
         }
     }
@@ -203,14 +201,14 @@ class ezcTemplateWhitespaceRemoval
                         // Trim the line and leave EOL alone
                         $lines[$i][0] = $this->trimIndentationLine( $lines[$i][0], $indentation );
 
-                        if( $i ==  $count - 1 )
+                        if ( $i ==  $count - 1 )
                         {
-                            if( $el < $nrOfElements - 1 )
+                            if ( $el < $nrOfElements - 1 )
                             {
-                                if( $elements[ $el + 1 ] instanceof ezcTemplateBlockTstNode && !($elements[ $el + 1 ] instanceof ezcTemplateOutputBlockTstNode) )
+                                if ( $elements[ $el + 1 ] instanceof ezcTemplateBlockTstNode && !($elements[ $el + 1 ] instanceof ezcTemplateOutputBlockTstNode) )
                                 {
                                     $trimmed = trim( $lines[$i][0], " \t");
-                                    if( strlen( $trimmed  ) == 0 ) 
+                                    if ( strlen( $trimmed  ) == 0 ) 
                                     {
                                         $lines[$i][0] = "";
                                     }
@@ -218,12 +216,12 @@ class ezcTemplateWhitespaceRemoval
                             }
                             else
                             {
-                                if( $parentBlock instanceof ezcTemplateBlockTstNode  && !($parentBlock instanceof ezcTemplateOutputBlockTstNode) )
+                                if ( $parentBlock instanceof ezcTemplateBlockTstNode  && !($parentBlock instanceof ezcTemplateOutputBlockTstNode) )
                                 {
                                     $last = sizeof( $lines ) -1;
 
                                     $trimmed = trim( $lines[$last][0], " \t" );
-                                    if( strlen ( trim( $lines[$last][0], " \t") ) == 0  ) 
+                                    if ( strlen ( trim( $lines[$last][0], " \t") ) == 0  ) 
                                     {
                                         $lines[ $last ][0] = "";
                                     }

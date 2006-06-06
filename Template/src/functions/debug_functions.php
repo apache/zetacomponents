@@ -18,7 +18,7 @@ class ezcTemplateDebugFunctions extends ezcTemplateFunctions
 {
     public static function getFunctionSubstitution( $functionName, $parameters )
     {
-        switch( $functionName )
+        switch ( $functionName )
         {
             // TODO improve the output for objects.
             case "debug_dump": return array( array( "%val" ), 

@@ -60,7 +60,7 @@ class ezcTemplateArray
     {
         $keys = array_keys( $array, $find ); 
 
-        foreach( $keys as $key )
+        foreach ( $keys as $key )
         {
             $array[$key] = $replace;
         }
@@ -84,9 +84,9 @@ class ezcTemplateArray
     {
         $list = array();
 
-        foreach( $array as $item )
+        foreach ( $array as $item )
         {
-            foreach( $properties as $property )
+            foreach ( $properties as $property )
             {
                 $list[] = $item->$property;
             }

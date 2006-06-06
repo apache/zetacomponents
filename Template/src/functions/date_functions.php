@@ -18,7 +18,7 @@ class ezcTemplateDateFunctions extends ezcTemplateFunctions
 {
     public static function getFunctionSubstitution( $functionName, $parameters )
     {
-        switch( $functionName )
+        switch ( $functionName )
         {
             // date( $format, $timestamp )
             case "date_format_timestamp":

@@ -11,8 +11,6 @@
 /**
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -60,14 +58,14 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
         elseif ( $this->currentCursor->match( "cycle" ) ) $symbolType = ezcTemplateSymbolTable::CYCLE;
         elseif ( $this->currentCursor->match( "use" ) )   $symbolType = ezcTemplateSymbolTable::IMPORT;
 
-        if( $symbolType !== null )
+        if ( $symbolType !== null )
         {
             $this->findNextElement();
 
             // $var
-            if( $this->parseSubDefineBlock( $symbolType ) )
+            if ( $this->parseSubDefineBlock( $symbolType ) )
             {
-                if( $this->currentCursor->match( "}" ) )
+                if ( $this->currentCursor->match( "}" ) )
                 {
                     $this->status = self::PARSE_SUCCESS;
                     return true;
@@ -110,9 +108,9 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
             $declaration->isClosingBlock = false;
             $declaration->isNestingBlock = false;
 
-            if( ! $this->parseOptionalType( "Variable", $this->currentCursor, false ) )
+            if ( ! $this->parseOptionalType( "Variable", $this->currentCursor, false ) )
             {
-                if( $isFirst ) return false;
+                if ( $isFirst ) return false;
 
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
             }
@@ -128,13 +126,13 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
 
             $this->findNextElement();
 
-            if( $this->currentCursor->match( "=" ) )
+            if ( $this->currentCursor->match( "=" ) )
             {
                 $this->findNextElement();
 
-                if( !$this->parseOptionalType( "Expression", null, false ) )
+                if ( !$this->parseOptionalType( "Expression", null, false ) )
                 {
-                    if( $this->parseOptionalType( "Identifier", null, false ) )
+                    if ( $this->parseOptionalType( "Identifier", null, false ) )
                     {
                         throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION_NOT_IDENTIFIER );
                     }

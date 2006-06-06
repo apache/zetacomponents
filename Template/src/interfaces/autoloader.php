@@ -25,8 +25,6 @@
  * template system.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -50,7 +48,7 @@ class ezcTemplateAutoloader
      */
     public function __get( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'definition':
                 return $this->properties[$name];
@@ -64,7 +62,7 @@ class ezcTemplateAutoloader
      */
     public function __isset( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'definition':
                 return true;

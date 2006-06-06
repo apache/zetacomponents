@@ -18,7 +18,7 @@ class ezcTemplateRegExpFunctions extends ezcTemplateFunctions
 {
     public static function getFunctionSubstitution( $functionName, $parameters )
     {
-        switch( $functionName )
+        switch ( $functionName )
         {
             // preg_has_match( $s, $reg )::
             // preg_match( $reg, $s )

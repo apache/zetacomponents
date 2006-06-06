@@ -15,8 +15,6 @@
  * and generating code for them.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -282,21 +280,21 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     public function visitLiteralAstNode( ezcTemplateLiteralAstNode $type )
     {
         // Output type using var_export
-        if( is_string( $type->value ) )
+        if ( is_string( $type->value ) )
         {
             $this->write( '"'. addcslashes( preg_replace( "/\n/", "\\n", $type->value), '"' ) . '"');
         }
         elseif( is_array( $type->value ) )
         {
             $this->write("array(" );
-            foreach( $type->value as $val )
+            foreach ( $type->value as $val )
             {
                 $val->accept($this);
 
                 $this->write(",");
             }
             $this->write(")");
-            //$this->write( var_export( $type->value, true ) );
+            // $this->write( var_export( $type->value, true ) );
         }
         else
         {
@@ -310,14 +308,14 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $first = true;
 
         $this->write("array(" );
-        foreach( $type->value as $key => $val )
+        foreach ( $type->value as $key => $val )
         {
-            if( !$first )
+            if ( !$first )
             {
                 $this->write(",");
             }
 
-            if( isset( $type->keys[$key] ) )
+            if ( isset( $type->keys[$key] ) )
             {
                 $type->keys[$key]->accept($this);
                 $this->write (" => ");
@@ -331,21 +329,21 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      
 /*
         // Output type using var_export
-        if( is_string( $type->value ) )
+        if ( is_string( $type->value ) )
         {
             $this->write( '"'. addcslashes( preg_replace( "/\n/", "\\n", $type->value), '"' ) . '"');
         }
         elseif( is_array( $type->value ) )
         {
             $this->write("array(" );
-            foreach( $type->value as $val )
+            foreach ( $type->value as $val )
             {
                 $val->accept($this);
 
                 $this->write(",");
             }
             $this->write(")");
-            //$this->write( var_export( $type->value, true ) );
+            // $this->write( var_export( $type->value, true ) );
         }
         else
         {

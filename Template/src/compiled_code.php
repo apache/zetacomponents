@@ -19,8 +19,6 @@
  * methods findCurrent() and findAll() to get those identifiers.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -77,7 +75,7 @@ class ezcTemplateCompiledCode
      */
     public function __get( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'identifier':
             case 'path':
@@ -94,7 +92,7 @@ class ezcTemplateCompiledCode
      */
     public function __set( $name, $value )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'context':
                 if ( $value !== null and
@@ -121,7 +119,7 @@ class ezcTemplateCompiledCode
      */
     public function __isset( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'identifier':
             case 'path':

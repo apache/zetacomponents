@@ -12,8 +12,6 @@
  * Represents the PHP assignment operator =
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -34,9 +32,9 @@ class ezcTemplateAssignmentOperatorAstNode extends ezcTemplateBinaryOperatorAstN
 
         $this->typeHint = $this->parameters[1]->typeHint;
 
-        if( $this->parameters[0] instanceof ezcTemplateVariableAstNode )
+        if ( $this->parameters[0] instanceof ezcTemplateVariableAstNode )
         {
-             if( $symbolTable->retrieve( $this->parameters[0]->name ) == ezcTemplateSymbolTable::IMPORT )
+             if ( $symbolTable->retrieve( $this->parameters[0]->name ) == ezcTemplateSymbolTable::IMPORT )
              {
                  // It can be anything.
                  $symbolTable->setTypeHint( $this->parameters[0]->name, self::TYPE_ARRAY | self::TYPE_VALUE );

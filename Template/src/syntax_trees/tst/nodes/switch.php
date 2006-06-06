@@ -12,8 +12,6 @@
  * Control structure: switch.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -49,11 +47,11 @@ class ezcTemplateSwitchTstNode extends ezcTemplateBlockTstNode
 
     public function handleElement( ezcTemplateTstNode $element )
     {
-        if( $element instanceof ezcTemplateCaseTstNode  )
+        if ( $element instanceof ezcTemplateCaseTstNode  )
         {
-            if( $element->conditions === null )
+            if ( $element->conditions === null )
             {
-                if( $this->defaultCaseFound )
+                if ( $this->defaultCaseFound )
                 {
                     throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_DEFAULT_DUPLICATE);
                 }
@@ -73,10 +71,10 @@ class ezcTemplateSwitchTstNode extends ezcTemplateBlockTstNode
         }
         else
         {
-            if( $element instanceof ezcTemplateTextBlockTstNode )
+            if ( $element instanceof ezcTemplateTextBlockTstNode )
             {
                 // Only spaces, newlines and tabs?
-                if( preg_match( "#^\s*$#", $element->text) != 0 )
+                if ( preg_match( "#^\s*$#", $element->text) != 0 )
                 {
                     // It's okay, but ignore it.
                     return;
@@ -103,10 +101,10 @@ class ezcTemplateSwitchTstNode extends ezcTemplateBlockTstNode
        /* $last = sizeof( $this->children ) - 1;
         */
 /*
-        if( !$element instanceof ezcTemplateConditionBodyTstNode )
+        if ( !$element instanceof ezcTemplateConditionBodyTstNode )
         {
             $this->children[$last]->children[] = $element;
-            //var_dump ($this->children[$last]->children );
+            // var_dump ($this->children[$last]->children );
         }
         else
         {

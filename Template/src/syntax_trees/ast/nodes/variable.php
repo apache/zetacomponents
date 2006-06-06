@@ -24,8 +24,6 @@
  * </code>
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -49,7 +47,7 @@ class ezcTemplateVariableAstNode extends ezcTemplateAstNode
         $this->name = $name;
 
         $symbolTable = ezcTemplateSymbolTable::getInstance();
-        if( $symbolTable->getTypeHint( $name ) == false)
+        if ( $symbolTable->getTypeHint( $name ) == false)
         {
             $this->typeHint = self::TYPE_ARRAY | self::TYPE_VALUE; 
         }

@@ -12,8 +12,6 @@
  * Block elements in parser trees.
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -236,12 +234,12 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
             throw new Exception( "Detected invalid recursion creation in parser element " . get_class( $this ) );
         }
 
-        if( $element instanceof ezcTemplateDelimiterTstNode )
+        if ( $element instanceof ezcTemplateDelimiterTstNode )
         {
             throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_DELIMITER_INSIDE_FOREACH );
         }
 
-        if( $element instanceof ezcTemplateLoopTstNode )
+        if ( $element instanceof ezcTemplateLoopTstNode )
         {
             throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_BREAK_OR_CONTINUE );
         }

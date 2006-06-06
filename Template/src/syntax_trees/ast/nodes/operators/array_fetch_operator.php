@@ -12,8 +12,6 @@
  * Represents the PHP array access operator [..]
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  * @todo ezcTemplateArrayAccessOperatorAstNode is probably a more correct name.
@@ -54,7 +52,7 @@ class ezcTemplateArrayFetchOperatorAstNode extends ezcTemplateOperatorAstNode
 
     public function checkAndSetTypeHint()
     {
-        if( $this->parameters[0]->typeHint & self::TYPE_ARRAY && $this->parameters[1]->typeHint & self::TYPE_VALUE )
+        if ( $this->parameters[0]->typeHint & self::TYPE_ARRAY && $this->parameters[1]->typeHint & self::TYPE_VALUE )
         {
             $this->typeHint = self::TYPE_VALUE | self::TYPE_ARRAY;
             return;
@@ -63,8 +61,8 @@ class ezcTemplateArrayFetchOperatorAstNode extends ezcTemplateOperatorAstNode
         {
             if ( $this->parameters[0]->typeHint == null || $this->parameters[1]->typeHint == null  )
             {
-                if( $this->parameters[0]->typeHint == null ) echo "FOUND: ".get_class( $this->parameters[0] );
-                if( $this->parameters[1]->typeHint == null ) echo "FOUND: ". get_class( $this->parameters[1] );
+                if ( $this->parameters[0]->typeHint == null ) echo "FOUND: ".get_class( $this->parameters[0] );
+                if ( $this->parameters[1]->typeHint == null ) echo "FOUND: ". get_class( $this->parameters[1] );
 
                 echo ("ONE OF THE PARAMETERS was null. array_fetch_operator.php ");
                 $this->typeHint = self::TYPE_VALUE | self::TYPE_ARRAY;

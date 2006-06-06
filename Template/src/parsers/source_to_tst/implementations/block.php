@@ -16,8 +16,6 @@
  * ezcTemplateDocCommentSourceToTstParser and ezcTemplateExpressionBlockSourceToTstParser
  *
  * @package Template
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogen//
  * @access private
  */
@@ -109,9 +107,9 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
         // is tried.
         if ( $this->parseOptionalType( 'ExpressionBlock', $this->startCursor ) )
         {
-            if( !$this->currentCursor->match('}') )
+            if ( !$this->currentCursor->match('}') )
             {
-                if( $this->currentCursor->match('[', false) )
+                if ( $this->currentCursor->match('[', false) )
                 {
                     throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_SQUARE_BRACKET_OPEN);
                 }
@@ -133,10 +131,10 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
         // Parse the {ldelim} and {rdelim}
         $ldelim = $this->currentCursor->match( "ldelim") ? true : false;
         $rdelim = $this->currentCursor->match( "rdelim") ? true : false;
-        if( $ldelim || $rdelim )
+        if ( $ldelim || $rdelim )
         {
             $this->findNextElement();
-            if( !$this->currentCursor->match( "}" ) )
+            if ( !$this->currentCursor->match( "}" ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE);
             }
