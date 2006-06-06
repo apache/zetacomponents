@@ -431,9 +431,12 @@ abstract class ezcArchive implements Iterator
      */
     public function extractCurrent( $target, $keepExisting = false )
     {
-        if ( !$this->valid() ) return false;
+        if ( !$this->valid() )
+        {
+            return false;
+        }
 
-        $isWindows = ( substr( php_uname('s'), 0, 7 ) == 'Windows' )?true:false;
+        $isWindows = ( substr( php_uname( 's' ), 0, 7 ) == 'Windows' ) ? true : false;
         $entry = $this->current();
         $type = $entry->getType();
         $fileName = $target ."/". $entry->getPath(); 
@@ -461,7 +464,7 @@ abstract class ezcArchive implements Iterator
                 switch ( $type )
                 {
                     case ezcArchiveEntry::IS_CHARACTER_DEVICE:  
-                        if ( function_exists('posix_mknod')) 
+                        if ( function_exists( 'posix_mknod' ) ) 
                         {
                             posix_mknod( $fileName, POSIX_S_IFCHR, $entry->getMajor(), $entry->getMinor() );
                         }
@@ -471,7 +474,7 @@ abstract class ezcArchive implements Iterator
                         }
                         break;
                     case ezcArchiveEntry::IS_BLOCK_DEVICE:
-                        if ( function_exists('posix_mknod') )
+                        if ( function_exists( 'posix_mknod' ) )
                         {
                             posix_mknod( $fileName, POSIX_S_IFBLK, $entry->getMajor(), $entry->getMinor() ); 
                         }
@@ -481,7 +484,7 @@ abstract class ezcArchive implements Iterator
                         }
                         break;
                     case ezcArchiveEntry::IS_FIFO:              
-                        if ( function_exists('posix_mknod') ) 
+                        if ( function_exists( 'posix_mknod' ) ) 
                         {
                             posix_mknod( $fileName, POSIX_S_IFIFO );
                         }
@@ -493,7 +496,7 @@ abstract class ezcArchive implements Iterator
                     case ezcArchiveEntry::IS_SYMBOLIC_LINK:
                         if ( $isWindows )
                         {
-                            $pathParts = pathinfo($fileName);
+                            $pathParts = pathinfo( $fileName );
                             $linkDir = $pathParts['dirname'];
                             copy( $linkDir.'/'.$entry->getLink(), $fileName );
                         }
@@ -512,9 +515,14 @@ abstract class ezcArchive implements Iterator
                             link( $target ."/". $entry->getLink(), $fileName );
                         }
                         break;
-                    case ezcArchiveEntry::IS_DIRECTORY:         mkdir( $fileName, octdec( $entry->getPermissions() ), true );                    break;
-                    case ezcArchiveEntry::IS_FILE:              $this->writeCurrentDataToFile( $fileName );                                      break;
-                    default: throw new ezcArchiveValueException( $type );
+                    case ezcArchiveEntry::IS_DIRECTORY:
+                        mkdir( $fileName, octdec( $entry->getPermissions() ), true );
+                        break;
+                    case ezcArchiveEntry::IS_FILE:
+                        $this->writeCurrentDataToFile( $fileName );
+                        break;
+                    default:
+                        throw new ezcArchiveValueException( $type );
                 }
 
                 // Change the file, iff the filename exists and iff the intension is to keep it as a file.
@@ -606,9 +614,10 @@ abstract class ezcArchive implements Iterator
         if ( !file_exists( $dirName ) )
         {
             // Try to create the directory.
-            if (substr( php_uname('s'), 0, 7 ) == 'Windows')  
+            if ( substr( php_uname( 's' ), 0, 7 ) == 'Windows' ) 
             {
-                $dirName = str_replace( '/', '\\', $dirName ); //make all slashes to be '/'
+                // make all slashes to be '/'
+                $dirName = str_replace( '/', '\\', $dirName );
             }
             mkdir( $dirName, 0777, true );
         }
