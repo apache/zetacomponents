@@ -99,19 +99,19 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
 
         $this->fromString ='FROM '.join( ', ', $this->fromTables );
 
-        //adding right join part of query to the end of fromString.
+        // adding right join part of query to the end of fromString.
         $rightJoinPart = $this->buildRightJoins();
         if ( $rightJoinPart != '' ) 
         {
             $this->fromString .= ', '.$rightJoinPart;
         }
 
-        //adding new empty entry to $rightJoins if last entry was already filled
+        // adding new empty entry to $rightJoins if last entry was already filled
         $lastRightJoin = end( $this->rightJoins );
         if ( $lastRightJoin != null ) 
         {
-            $this->rightJoins[] = null; //adding empty stub to the rightJoins
-                                        //it could be filled by next rightJoin()
+            $this->rightJoins[] = null; // adding empty stub to the rightJoins
+                                        // it could be filled by next rightJoin()
         }
         return $this;
     }
@@ -143,15 +143,15 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
             $oneItemResult = '';
             if ( $rJoinPart === null ) 
             {
-                break; //this is last empty entry so cancel adding.
+                break; // this is last empty entry so cancel adding.
             }
 
-            //reverse lists of tables and conditions to make LEFT JOIN 
-            //that will produce result equal to original right join.
-            $reversedTables = array_reverse($rJoinPart['tables']);
-            $reversedConditions = array_reverse($rJoinPart['conditions']);
+            // reverse lists of tables and conditions to make LEFT JOIN 
+            // that will produce result equal to original right join.
+            $reversedTables = array_reverse( $rJoinPart['tables'] );
+            $reversedConditions = array_reverse( $rJoinPart['conditions'] );
 
-            //adding first table.
+            // adding first table.
             list( $key, $val ) = each( $reversedTables ); 
             $oneItemResult .= $val;
 
@@ -227,7 +227,7 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
             throw new ezcQueryInvalidException( 'SELECT', 'Wrong count of arguments passed to rightJoin():'.$passedArgsCount );
         }
 
-        //process old simple sintax.
+        // process old simple sintax.
         if ( $passedArgsCount == 4 ) 
         {
             if ( is_string( $args[0] ) && is_string( $args[1] ) &&
@@ -247,7 +247,7 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
             }
         }
 
-        //using from()->rightJoin() syntax assumed, so check if last call was to from()
+        // using from()->rightJoin() syntax assumed, so check if last call was to from()
         if ( $this->lastInvokedMethod != 'from' )
         {
             throw new ezcQueryInvalidException( 'SELECT', 'Invoking rightJoin() not immediately after from().' );
@@ -280,19 +280,20 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
         // subsequent calls to rightJoin() without from() will just add
         // one table and one condition to the correspondent arrays.
 
-        if ( end( $this->rightJoins ) === null ) //fill last rightJoin info entry with table name.
+        if ( end( $this->rightJoins ) === null ) // fill last rightJoin info entry with table name.
         {
           $lastTable = array_pop ( $this->fromTables );
           array_pop( $this->rightJoins );
           $this->rightJoins[count( $this->rightJoins )]['tables'][] = $lastTable;
         }
         
-        if ( $table != '' && $condition != '') {
+        if ( $table != '' && $condition != '' )
+        {
             $this->rightJoins[count( $this->rightJoins ) - 1]['tables'][] = $table;
             $this->rightJoins[count( $this->rightJoins ) - 1]['conditions'][] = $condition;
         }
          
-        //build fromString using fromTables and add right joins stuff to te end.
+        // build fromString using fromTables and add right joins stuff to te end.
         $this->fromString ='FROM '.join( ', ', $this->fromTables );
         $this->fromString .= $this->buildRightJoins();
 

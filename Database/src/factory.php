@@ -58,7 +58,9 @@ class ezcDbFactory
      *
      * Example:
      * <code>
-     * class DB2Handler { }
+     * class DB2Handler
+     * {
+     * }
      * ezcDbFactory::addImplementation( 'db2', 'DB2Handler' );
      * // ...
      * $dbparams = array( 'handler' => 'db2', ... );

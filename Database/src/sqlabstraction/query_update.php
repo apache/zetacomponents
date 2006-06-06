@@ -139,7 +139,7 @@ class ezcQueryUpdate extends ezcQuery
             throw new ezcQueryVariableParameterException( 'where', count( $args ), 1 );
         }
 
-        //glue string should be inserted each time but not before first entry
+        // glue string should be inserted each time but not before first entry
         if ( $this->whereString != 'WHERE ' ) 
         {
             $this->whereString .= ' AND ';

@@ -145,7 +145,7 @@ class ezcDbHandlerOracle extends ezcDbHandler
     {
         // looks like PDO::quote() does not work properly with oci8 driver.
 
-        $str = str_replace ("'", "''", $str );
+        $str = str_replace( "'", "''", $str );
         return "'$str'";
     }
 }

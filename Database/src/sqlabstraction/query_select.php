@@ -158,7 +158,7 @@ class ezcQuerySelect extends ezcQuery
      * </code>
      * or using several calls
      * <code>
-     * $q->select( 'column1' )->select('column2');
+     * $q->select( 'column1' )->select( 'column2' );
      * </code>
      * 
      * Each of above code produce SQL clause 'SELECT column1, column2' for the query.
@@ -314,12 +314,12 @@ class ezcQuerySelect extends ezcQuery
     public function innerJoin()
     {
         $args = func_get_args();
-        $passedArgsCount = count($args);
+        $passedArgsCount = count( $args );
         if ( $passedArgsCount != 4 && $passedArgsCount != 2 && $passedArgsCount != 3 ) 
         {
             throw new ezcQueryInvalidException( 'SELECT', 'Wrong count of arguments passed to innerJoin():'.$passedArgsCount );
         }
-        //process old simple sintax.
+        // process old simple sintax.
         if ( $passedArgsCount == 4 ) 
         {
             if ( is_string( $args[0] ) && is_string( $args[1] ) &&
@@ -339,7 +339,7 @@ class ezcQuerySelect extends ezcQuery
             }
         }
 
-        //using from()->innerJoin() syntax assumed, so check if last call was to from()
+        // using from()->innerJoin() syntax assumed, so check if last call was to from()
         if ( $this->lastInvokedMethod != 'from' )
         {
             throw new ezcQueryInvalidException( 'SELECT', 'Invoking innerJoin() not immediately after from().' );
@@ -422,12 +422,12 @@ class ezcQuerySelect extends ezcQuery
     public function leftJoin()
     {
         $args = func_get_args();
-        $passedArgsCount = count($args);
+        $passedArgsCount = count( $args );
         if ( $passedArgsCount != 4 && $passedArgsCount != 2 && $passedArgsCount != 3 ) 
         {
             throw new ezcQueryInvalidException( 'SELECT', 'Wrong count of arguments passed to leftJoin():'.$passedArgsCount );
         }
-        //process old simple sintax.
+        // process old simple sintax.
         if ( $passedArgsCount == 4 ) 
         {
             if ( is_string( $args[0] ) && is_string( $args[1] ) &&
@@ -447,7 +447,7 @@ class ezcQuerySelect extends ezcQuery
             }
         }
 
-        //using from()->leftJoin() syntax assumed, so check if last call was to from()
+        // using from()->leftJoin() syntax assumed, so check if last call was to from()
         if ( $this->lastInvokedMethod != 'from' )
         {
             throw new ezcQueryInvalidException( 'SELECT', 'Invoking leftJoin() not immediately after from().' );
@@ -530,12 +530,12 @@ class ezcQuerySelect extends ezcQuery
     public function rightJoin()
     {
         $args = func_get_args();
-        $passedArgsCount = count($args);
+        $passedArgsCount = count( $args );
         if ( $passedArgsCount != 4 && $passedArgsCount != 2 && $passedArgsCount != 3 ) 
         {
             throw new ezcQueryInvalidException( 'SELECT', 'Wrong count of arguments passed to rightJoin():'.$passedArgsCount );
         }
-        //process old simple sintax.
+        // process old simple sintax.
         if ( $passedArgsCount == 4 ) 
         {
             if ( is_string( $args[0] ) && is_string( $args[1] ) &&
@@ -555,7 +555,7 @@ class ezcQuerySelect extends ezcQuery
             }
         }
 
-        //using from()->rightJoin() syntax assumed, so check if last call was to from()
+        // using from()->rightJoin() syntax assumed, so check if last call was to from()
         if ( $this->lastInvokedMethod != 'from' )
         {
             throw new ezcQueryInvalidException( 'SELECT', 'Invoking rightJoin() not immediately after from().' );
@@ -621,7 +621,7 @@ class ezcQuerySelect extends ezcQuery
 
         $this->lastInvokedMethod = 'where';
 
-        //glue string should be inserted each time but not before first entry
+        // glue string should be inserted each time but not before first entry
         if ( $this->whereString != 'WHERE ' ) 
         {
             $this->whereString .= ' AND ';
