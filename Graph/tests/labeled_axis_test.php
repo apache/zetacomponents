@@ -377,6 +377,44 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
         }
     }
 
+    public function testRenderLabeledAxisArrowHead()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+            $chart->sample->color = '#FF0000';
+            $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
+            $chart->sample2->color = '#00FF00';
+
+            $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+                'drawPolygon',
+            ) );
+
+            // X-Axis
+            $mockedRenderer
+                ->expects( $this->at( 0 ) )
+                ->method( 'drawPolygon' )
+                ->with(
+                    $this->equalTo( array(
+                        new ezcGraphCoordinate( 500, 190 ),
+                        new ezcGraphCoordinate( 490, 185 ),
+                        new ezcGraphCoordinate( 490, 195 ),
+                    ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( true )
+                );
+
+            $chart->renderer = $mockedRenderer;
+
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e )
+        {
+            $this->fail( $e->getMessage() );
+        }
+    }
+
     public function testRenderLabeledAxisMajor()
     {
         try

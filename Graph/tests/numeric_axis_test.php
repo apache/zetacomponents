@@ -661,6 +661,44 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         }
     }
 
+    public function testRenderNumericAxisArrowHead()
+    {
+        try
+        {
+            $chart = ezcGraph::create( 'Line' );
+            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+            $chart->sample->color = '#FF0000';
+            $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
+            $chart->sample2->color = '#00FF00';
+
+            $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+                'drawPolygon',
+            ) );
+
+            // X-Axis
+            $mockedRenderer
+                ->expects( $this->at( 1 ) )
+                ->method( 'drawPolygon' )
+                ->with(
+                    $this->equalTo( array(
+                        new ezcGraphCoordinate( 120, 0 ),
+                        new ezcGraphCoordinate( 123, 5 ),
+                        new ezcGraphCoordinate( 118, 5 ),
+                    ) ),
+                    $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
+                    $this->equalTo( true )
+                );
+
+            $chart->renderer = $mockedRenderer;
+
+            $chart->render( 500, 200 );
+        }
+        catch ( Exception $e )
+        {
+            $this->fail( $e->getMessage() );
+        }
+    }
+
     public function testRenderNumericAxisMajor()
     {
         try

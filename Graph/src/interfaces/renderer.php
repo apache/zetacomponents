@@ -107,6 +107,19 @@ abstract class ezcGraphRenderer
     abstract public function drawSymbol( ezcGraphColor $color, ezcGraphCoordinate $position, $width, $height, $symbol = ezcGraph::NO_SYMBOL);
 
     /**
+     * Draws a single polygon 
+     * 
+     * @param mixed $points 
+     * @param ezcGraphColor $color 
+     * @param mixed $filled 
+     * @return void
+     */
+    public function drawPolygon( array $points, ezcGraphColor $color, $filled = true )
+    {
+        $this->driver->drawPolygon( $points, $color, $filled );
+    }
+
+    /**
      * Finally renders the image 
      * 
      * @param string $file Filename of destination file

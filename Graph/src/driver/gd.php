@@ -90,7 +90,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
     {
         $data = getimagesize( $file );
 
-        switch( $data[2] )
+        switch ( $data[2] )
         {
             case 1:
                 return array(

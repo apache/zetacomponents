@@ -293,6 +293,36 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
             false
         );
 
+        // Draw small arrowhead
+        $size = abs( ceil( ( ( $end->x - $start->x ) + ( $end->y - $start->y ) ) * $this->padding / 4 ) );
+
+        $renderer->drawPolygon(
+            array(
+                new ezcGraphCoordinate(
+                    (int) round( $end->x ),
+                    (int) round( $end->y )
+                ),
+                new ezcGraphCoordinate(
+                    (int) round( $end->x
+                        + $direction->y * $size / 2
+                        + $direction->x * $size ),
+                    (int) round( $end->y
+                        + $direction->x * $size / 2
+                        + $direction->y * $size )
+                ),
+                new ezcGraphCoordinate(
+                    (int) round( $end->x
+                        - $direction->y * $size / 2
+                        + $direction->x * $size ),
+                    (int) round( $end->y
+                        - $direction->x * $size / 2
+                        + $direction->y * $size )
+                ),
+            ),
+            $this->border,
+            true
+        );
+
         // Apply padding to start and end
         $start->x += ( $end->x - $start->x ) * ( $this->padding / 2 );
         $start->y += ( $end->y - $start->y ) * ( $this->padding / 2 );
