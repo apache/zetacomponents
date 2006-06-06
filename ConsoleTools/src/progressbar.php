@@ -24,7 +24,7 @@
  * 
  * // Perform actions
  * $i = 0;
- * while( $i++ < 20 ) 
+ * while ( $i++ < 20 ) 
  * {
  *     // Do whatever you want to indicate progress for
  *     usleep( mt_rand( 20000, 2000000 ) );

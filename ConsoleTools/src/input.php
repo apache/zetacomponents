@@ -672,7 +672,7 @@ class ezcConsoleInput
         $maxLength = 0;
         foreach ( $help as $row )
         {
-            $maxLength = max( $maxLength, strlen($row[0]) );
+            $maxLength = max( $maxLength, strlen( $row[0] ) );
         }
         // Width of left column
         $leftColWidth = $maxLength + 2;

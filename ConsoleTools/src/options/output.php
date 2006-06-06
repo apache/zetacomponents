@@ -65,7 +65,7 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
         }
         else
         {
-            foreach( $args as $id => $val )
+            foreach ( $args as $id => $val )
             {
                 switch ( $id )
                 {
