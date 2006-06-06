@@ -212,7 +212,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 2, 16 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 2, 18 ) ),
                     $this->equalTo( 12 ),
                     $this->equalTo( 12 ),
                     ezcGraph::NO_SYMBOL
@@ -222,7 +222,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 2, 30 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 2, 34 ) ),
                     $this->equalTo( 12 ),
                     $this->equalTo( 12 ),
                     ezcGraph::NO_SYMBOL
@@ -254,9 +254,9 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->expects( $this->at( 0 ) )
                 ->method( 'drawTextBox' )
                 ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 15, 2 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 17, 2 ) ),
                     'sampleData',
-                    $this->equalTo( 83 ),
+                    $this->equalTo( 81 ),
                     $this->equalTo( 12 ),
                     $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
                 );
@@ -264,9 +264,9 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->expects( $this->at( 1 ) )
                 ->method( 'drawTextBox' )
                 ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 15, 16 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 17, 18 ) ),
                     'moreData',
-                    $this->equalTo( 83 ),
+                    $this->equalTo( 81 ),
                     $this->equalTo( 12 ),
                     $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
  
@@ -275,9 +275,9 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->expects( $this->at( 2 ) )
                 ->method( 'drawTextBox' )
                 ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 15, 30 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 17, 34 ) ),
                     'Even more data',
-                    $this->equalTo( 83 ),
+                    $this->equalTo( 81 ),
                     $this->equalTo( 12 ),
                     $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
  
@@ -355,7 +355,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 402, 16 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 402, 18 ) ),
                     $this->equalTo( 12 ),
                     $this->equalTo( 12 ),
                     ezcGraph::NO_SYMBOL
@@ -365,7 +365,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 402, 30 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 402, 34 ) ),
                     $this->equalTo( 12 ),
                     $this->equalTo( 12 ),
                     ezcGraph::NO_SYMBOL
@@ -483,27 +483,27 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->expects( $this->at( 0 ) )
                 ->method( 'drawTextBox' )
                 ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 16, 2 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 18, 2 ) ),
                     'sampleData',
-                    $this->equalTo( 184 ),
+                    $this->equalTo( 182 ),
                     $this->equalTo( 12 )
                 );
             $mockedRenderer
                 ->expects( $this->at( 1 ) )
                 ->method( 'drawTextBox' )
                 ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 215, 2 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 217, 2 ) ),
                     'moreData',
-                    $this->equalTo( 184 ),
+                    $this->equalTo( 182 ),
                     $this->equalTo( 12 )
                 );
             $mockedRenderer
                 ->expects( $this->at( 2 ) )
                 ->method( 'drawTextBox' )
                 ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 414, 2 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 416, 2 ) ),
                     'Even more data',
-                    $this->equalTo( 184 ),
+                    $this->equalTo( 182 ),
                     $this->equalTo( 12 )
                 );
 
@@ -546,7 +546,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 6, 26 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 6, 28 ) ),
                     $this->equalTo( 14 ),
                     $this->equalTo( 14 ),
                     ezcGraph::NO_SYMBOL
@@ -556,7 +556,7 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawSymbol' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 6, 46 ) ),
+                    $this->equalTo( new ezcGraphCoordinate( 6, 50 ) ),
                     $this->equalTo( 14 ),
                     $this->equalTo( 14 ),
                     ezcGraph::NO_SYMBOL

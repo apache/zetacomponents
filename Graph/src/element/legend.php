@@ -69,6 +69,13 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
     protected $minimumSymbolSize = .05;
 
     /**
+     * Space between lael elements in pixel 
+     * 
+     * @var integer
+     */
+    protected $spacing = 2;
+
+    /**
      * __set 
      * 
      * @param mixed $propertyName 
@@ -94,6 +101,9 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
                 break;
             case 'portraitSize':
                 $this->portraitSize = max( 0, min( 1, (float) $propertyValue ) );
+                break;
+            case 'spacing':
+                $this->portraitSize = max( 0, (int) $propertyValue );
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );
@@ -200,7 +210,7 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
                         $label['color'],
                         new ezcGraphCoordinate( 
                             $this->boundings->x0 + $this->padding,
-                            $this->boundings->y0 + $labelNr * $symbolSize + $this->padding
+                            $this->boundings->y0 + $labelNr * ( $symbolSize + $this->spacing ) + $this->padding
                         ),
                         $symbolSize - 2 * $this->padding,
                         $symbolSize - 2 * $this->padding,
@@ -208,11 +218,11 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
                     );
                     $renderer->drawTextBox(
                         new ezcGraphCoordinate(
-                            $this->boundings->x0 + $symbolSize,
-                            $this->boundings->y0 + $labelNr * $symbolSize + $this->padding
+                            $this->boundings->x0 + $symbolSize + $this->spacing,
+                            $this->boundings->y0 + $labelNr * ( $symbolSize + $this->spacing ) + $this->padding
                         ),
                         $label['label'],
-                        $this->boundings->x1 - $this->boundings->x0 - $symbolSize - $this->padding,
+                        $this->boundings->x1 - $this->boundings->x0 - $symbolSize - $this->padding - $this->spacing,
                         $symbolSize - 2 * $this->padding,
                         ezcGraph::LEFT | ezcGraph::MIDDLE
                     );
@@ -240,11 +250,11 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
                     );
                     $renderer->drawTextBox(
                         new ezcGraphCoordinate(
-                            $this->boundings->x0 + $labelNr * $width + $this->padding + $symbolSize,
+                            $this->boundings->x0 + $labelNr * $width + $this->padding + $symbolSize + $this->spacing,
                             $this->boundings->y0 + $this->padding
                         ),
                         $label['label'],
-                        $width - $this->padding - $symbolSize,
+                        $width - $this->padding - $symbolSize - $this->spacing,
                         $symbolSize - 2 * $this->padding,
                         ezcGraph::LEFT | ezcGraph::MIDDLE
                     );

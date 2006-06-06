@@ -238,6 +238,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         {
             $chart = ezcGraph::create( 'Line' );
             $chart->title = 'Test graph';
+            $chart->palette = 'Black';
 
             $this->addSampleData( $chart );
             $chart->driver = new ezcGraphGdDriver();
