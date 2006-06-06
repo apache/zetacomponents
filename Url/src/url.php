@@ -138,7 +138,7 @@ class ezcUrl
         }
 
         // add the prefix if applicable
-        if( $prefix !== null )
+        if ( $prefix !== null )
         {
             $this->prefix( $prefix );
         }
@@ -229,7 +229,7 @@ class ezcUrl
      */
     public function namePathElement( $index, $name )
     {
-        if( array_key_exists( $index, $this->path ) )
+        if ( array_key_exists( $index, $this->path ) )
         {
             $this->path[$name] =& $this->path[$index];
         }
@@ -244,7 +244,7 @@ class ezcUrl
      */
     public function isRelative()
     {
-        if( $this->host === null || $this->host == '' )
+        if ( $this->host === null || $this->host == '' )
         {
             return true;
         }
@@ -269,11 +269,11 @@ class ezcUrl
         if ( $this->host )
         {
             // user
-            if( $this->user )
+            if ( $this->user )
             {
                 $url .= $this->user;
                 // password
-                if( $this->pass )
+                if ( $this->pass )
                 {
                     $url .= ':' . $this->pass;
                 }
@@ -341,7 +341,7 @@ class ezcUrl
      */
     public static function prefixPathString( $name, $path )
     {
-        if( !array_key_exists( $name, self::$prefixes ) )
+        if ( !array_key_exists( $name, self::$prefixes ) )
         {
             throw new ezcUrlPrefixNotFoundException( $name );
         }
@@ -357,7 +357,7 @@ class ezcUrl
      */
     public function prefix( $name )
     {
-        if( !array_key_exists( $name, self::$prefixes ) )
+        if ( !array_key_exists( $name, self::$prefixes ) )
         {
             throw new ezcUrlPrefixNotFoundException( $name );
         }
