@@ -171,9 +171,9 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawBackground' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#0000FF' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 1, 1 ) ),
-                    $this->equalTo( 98 ),
-                    $this->equalTo( 198 )
+                    $this->equalTo( new ezcGraphCoordinate( 0, 0 ) ),
+                    $this->equalTo( 100 ),
+                    $this->equalTo( 200 )
                 );
             $chart->renderer = $mockedRenderer;
 
@@ -313,9 +313,9 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawBackground' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#0000FF' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 401, 1 ) ),
-                    $this->equalTo( 98 ),
-                    $this->equalTo( 198 )
+                    $this->equalTo( new ezcGraphCoordinate( 400, 0 ) ),
+                    $this->equalTo( 100 ),
+                    $this->equalTo( 200 )
                 );
             $chart->renderer = $mockedRenderer;
 
@@ -398,9 +398,9 @@ class ezcGraphLegendTest extends ezcTestCase
                 ->method( 'drawBackground' )
                 ->with(
                     $this->equalTo( ezcGraphColor::fromHex( '#0000FF' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 1, 181 ) ),
-                    $this->equalTo( 498 ),
-                    $this->equalTo( 18 )
+                    $this->equalTo( new ezcGraphCoordinate( 0, 180 ) ),
+                    $this->equalTo( 500 ),
+                    $this->equalTo( 20 )
                 );
             $chart->renderer = $mockedRenderer;
 

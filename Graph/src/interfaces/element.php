@@ -264,12 +264,6 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
             $this->boundings->x1 -= $this->borderWidth;
             $this->boundings->y1 -= $this->borderWidth;
         }
-
-        // Apply padding
-        $this->boundings->x0 += $this->padding;
-        $this->boundings->y0 += $this->padding;
-        $this->boundings->x1 -= $this->padding;
-        $this->boundings->y1 -= $this->padding;
     }
 
     protected function renderBackground( ezcGraphRenderer $renderer )
@@ -283,6 +277,12 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
                 $this->boundings->y1 - $this->boundings->y0
             );
         }
+
+        // Apply padding
+        $this->boundings->x0 += $this->padding;
+        $this->boundings->y0 += $this->padding;
+        $this->boundings->x1 -= $this->padding;
+        $this->boundings->y1 -= $this->padding;
     }
 
     protected function renderTitle( ezcGraphRenderer $renderer )
