@@ -34,25 +34,18 @@ class ezcGraphRenderer2dTest extends ezcTestCase
      */
     public function setUp()
     {
-        try
-        {
-            $this->renderer = new ezcGraphRenderer2D();
+        $this->renderer = new ezcGraphRenderer2D();
 
-            $this->driver = $this->getMock( 'ezcGraphGdDriver', array(
-                'drawPolygon',
-                'drawLine',
-                'drawTextBox',
-                'drawCircleSector',
-                'drawCircularArc',
-                'drawCircle',
-                'drawImage',
-            ) );
-            $this->renderer->setDriver( $this->driver );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $this->driver = $this->getMock( 'ezcGraphGdDriver', array(
+            'drawPolygon',
+            'drawLine',
+            'drawTextBox',
+            'drawCircleSector',
+            'drawCircularArc',
+            'drawCircle',
+            'drawImage',
+        ) );
+        $this->renderer->setDriver( $this->driver );
     }
 
     /**

@@ -131,10 +131,6 @@ class ezcGraphColorTest extends ezcTestCase
         {
             return true;
         }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
 
         $this->fail( 'Expected ezcGraphUnknownColorDefinitionException' );
     }

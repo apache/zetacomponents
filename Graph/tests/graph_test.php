@@ -43,14 +43,7 @@ class ezcGraphTest extends ezcTestCase
 
     public function testFactoryPieChart()
     {
-        try 
-        {
-            $pieChart = ezcGraph::create( 'Pie' );
-        } 
-        catch ( Exception $e ) 
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $pieChart = ezcGraph::create( 'Pie' );
 
         $this->assertTrue(
             $pieChart instanceof ezcGraphPieChart,
@@ -60,14 +53,7 @@ class ezcGraphTest extends ezcTestCase
 
     public function testFactoryLineChart()
     {
-        try 
-        {
-            $lineChart = ezcGraph::create( 'Line' );
-        } 
-        catch ( Exception $e ) 
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $lineChart = ezcGraph::create( 'Line' );
 
         $this->assertTrue(
             $lineChart instanceof ezcGraphLineChart,
@@ -84,10 +70,6 @@ class ezcGraphTest extends ezcTestCase
         catch ( ezcGraphUnknownChartTypeException $e )
         {
             return true;
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
         }
 
         $this->fail( 'Expected ezcGraphUnknownChartTypeException' );

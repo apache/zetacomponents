@@ -52,17 +52,9 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
     public function testAutomaticLabelingSingle()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->sample = array( 2000 => 20, 70, 12, 130 );
-            $chart->sample->color = '#FF0000';
-            $chart->render( 500, 200 );
-        }
-        catch ( Exception $e ) 
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 20, 70, 12, 130 );
+        $chart->render( 500, 200 );
 
         $this->assertSame(
             array(
@@ -77,19 +69,10 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
     public function testAutomaticLabelingMultiple()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-            $chart->sample->color = '#FF0000';
-            $chart->sample2 = array( 2002 => 1270, 1170, 1610, 1370 );
-            $chart->sample2->color = '#00FF00';
-            $chart->render( 500, 200 );
-        }
-        catch ( Exception $e ) 
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart->sample2 = array( 2002 => 1270, 1170, 1610, 1370 );
+        $chart->render( 500, 200 );
 
         $this->assertSame(
             array(
@@ -106,19 +89,10 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
     public function testAutomaticLabelingMultipleMixed()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->sample = array( 2000 => 1045, 2001 => 1300, 2004 => 1012, 2006 => 1450 );
-            $chart->sample->color = '#FF0000';
-            $chart->sample2 = array( 2001 => 1270, 1170, 1610, 1370, 1559 );
-            $chart->sample2->color = '#00FF00';
-            $chart->render( 500, 200 );
-        }
-        catch ( Exception $e ) 
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 1045, 2001 => 1300, 2004 => 1012, 2006 => 1450 );
+        $chart->sample2 = array( 2001 => 1270, 1170, 1610, 1370, 1559 );
+        $chart->render( 500, 200 );
 
         $this->assertSame(
             array(
@@ -136,18 +110,10 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
     public function testPositionLeft()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-            $chart->sample->color = '#FF0000';
-            $chart->X_axis->position = ezcGraph::LEFT;
-            $chart->render( 500, 200 );
-        }
-        catch ( Exception $e ) 
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart->X_axis->position = ezcGraph::LEFT;
+        $chart->render( 500, 200 );
 
         $testBoundings = new ezcGraphBoundings();
         $testBoundings->x0 = 50;
@@ -188,18 +154,10 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
     public function testPositionRight()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-            $chart->sample->color = '#FF0000';
-            $chart->X_axis->position = ezcGraph::RIGHT;
-            $chart->render( 500, 200 );
-        }
-        catch ( Exception $e ) 
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart->X_axis->position = ezcGraph::RIGHT;
+        $chart->render( 500, 200 );
 
         $testBoundings = new ezcGraphBoundings();
         $testBoundings->x0 = 50;
@@ -240,18 +198,10 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
     public function testPositionTop()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-            $chart->sample->color = '#FF0000';
-            $chart->X_axis->position = ezcGraph::TOP;
-            $chart->render( 500, 200 );
-        }
-        catch ( Exception $e ) 
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart->X_axis->position = ezcGraph::TOP;
+        $chart->render( 500, 200 );
 
         $testBoundings = new ezcGraphBoundings();
         $testBoundings->x0 = 50;
@@ -292,18 +242,10 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
     public function testPositionBottom()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-            $chart->sample->color = '#FF0000';
-            $chart->X_axis->position = ezcGraph::BOTTOM;
-            $chart->render( 500, 200 );
-        }
-        catch ( Exception $e ) 
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart->X_axis->position = ezcGraph::BOTTOM;
+        $chart->render( 500, 200 );
 
         $testBoundings = new ezcGraphBoundings();
         $testBoundings->x0 = 50;
@@ -344,203 +286,167 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
     public function testRenderLabeledAxisBase()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-            $chart->sample->color = '#FF0000';
-            $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
-            $chart->sample2->color = '#00FF00';
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
 
-            $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-                'drawLine',
-            ) );
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+            'drawLine',
+        ) );
 
-            // X-Axis
-            $mockedRenderer
-                ->expects( $this->at( 0 ) )
-                ->method( 'drawLine' )
-                ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 100, 190 ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 500, 190 ) ),
-                    $this->equalTo( false )
-                );
+        // X-Axis
+        $mockedRenderer
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawLine' )
+            ->with(
+                $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
+                $this->equalTo( new ezcGraphCoordinate( 100, 190 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 500, 190 ) ),
+                $this->equalTo( false )
+            );
 
-            $chart->renderer = $mockedRenderer;
+        $chart->renderer = $mockedRenderer;
 
-            $chart->render( 500, 200 );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart->render( 500, 200 );
     }
 
     public function testRenderLabeledAxisArrowHead()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-            $chart->sample->color = '#FF0000';
-            $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
-            $chart->sample2->color = '#00FF00';
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
 
-            $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-                'drawPolygon',
-            ) );
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+            'drawPolygon',
+        ) );
 
-            // X-Axis
-            $mockedRenderer
-                ->expects( $this->at( 0 ) )
-                ->method( 'drawPolygon' )
-                ->with(
-                    $this->equalTo( array(
-                        new ezcGraphCoordinate( 500, 190 ),
-                        new ezcGraphCoordinate( 490, 185 ),
-                        new ezcGraphCoordinate( 490, 195 ),
-                    ) ),
-                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
-                    $this->equalTo( true )
-                );
+        // X-Axis
+        $mockedRenderer
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array(
+                    new ezcGraphCoordinate( 500, 190 ),
+                    new ezcGraphCoordinate( 490, 185 ),
+                    new ezcGraphCoordinate( 490, 195 ),
+                ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
+                $this->equalTo( true )
+            );
 
-            $chart->renderer = $mockedRenderer;
+        $chart->renderer = $mockedRenderer;
 
-            $chart->render( 500, 200 );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart->render( 500, 200 );
     }
 
     public function testRenderLabeledAxisMajor()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-            $chart->sample->color = '#FF0000';
-            $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
-            $chart->sample2->color = '#00FF00';
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
 
-            $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-                'drawLine',
-            ) );
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+            'drawLine',
+        ) );
 
-            // X-Axis
-            $mockedRenderer
-                ->expects( $this->at( 1 ) )
-                ->method( 'drawLine' )
-                ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 120, 194 ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 120, 186 ) ),
-                    $this->equalTo( false )
-                );
-            $mockedRenderer
-                ->expects( $this->at( 2 ) )
-                ->method( 'drawLine' )
-                ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 240, 194 ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 240, 186 ) ),
-                    $this->equalTo( false )
-                );
-            $mockedRenderer
-                ->expects( $this->at( 3 ) )
-                ->method( 'drawLine' )
-                ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 361, 194 ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 361, 186 ) ),
-                    $this->equalTo( false )
-                );
-            $mockedRenderer
-                ->expects( $this->at( 4 ) )
-                ->method( 'drawLine' )
-                ->with(
-                    $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 481, 194 ) ),
-                    $this->equalTo( new ezcGraphCoordinate( 481, 186 ) ),
-                    $this->equalTo( false )
-                );
+        // X-Axis
+        $mockedRenderer
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawLine' )
+            ->with(
+                $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
+                $this->equalTo( new ezcGraphCoordinate( 120, 194 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 120, 186 ) ),
+                $this->equalTo( false )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 2 ) )
+            ->method( 'drawLine' )
+            ->with(
+                $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
+                $this->equalTo( new ezcGraphCoordinate( 240, 194 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 240, 186 ) ),
+                $this->equalTo( false )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 3 ) )
+            ->method( 'drawLine' )
+            ->with(
+                $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
+                $this->equalTo( new ezcGraphCoordinate( 361, 194 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 361, 186 ) ),
+                $this->equalTo( false )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 4 ) )
+            ->method( 'drawLine' )
+            ->with(
+                $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
+                $this->equalTo( new ezcGraphCoordinate( 481, 194 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 481, 186 ) ),
+                $this->equalTo( false )
+            );
 
-            $chart->renderer = $mockedRenderer;
+        $chart->renderer = $mockedRenderer;
 
-            $chart->render( 500, 200 );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart->render( 500, 200 );
     }
 
     public function testRenderLabeledAxisLabels()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-            $chart->sample->color = '#FF0000';
-            $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
-            $chart->sample2->color = '#00FF00';
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
 
-            $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-                'drawTextBox',
-            ) );
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+            'drawTextBox',
+        ) );
 
-            // X-Axis
-            $mockedRenderer
-                ->expects( $this->at( 2 ) )
-                ->method( 'drawTextBox' )
-                ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 122, 192 ) ),
-                    $this->equalTo( '2000' ),
-                    $this->equalTo( 88 ),
-                    $this->equalTo( 8 ),
-                    $this->equalTo( ezcGraph::LEFT | ezcGraph::TOP )
-                );
-            $mockedRenderer
-                ->expects( $this->at( 3 ) )
-                ->method( 'drawTextBox' )
-                ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 212, 192 ) ),
-                    $this->equalTo( '2001' ),
-                    $this->equalTo( 88 ),
-                    $this->equalTo( 8 ),
-                    $this->equalTo( ezcGraph::CENTER | ezcGraph::TOP )
-                );
-            $mockedRenderer
-                ->expects( $this->at( 4 ) )
-                ->method( 'drawTextBox' )
-                ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 303, 192 ) ),
-                    $this->equalTo( '2002' ),
-                    $this->equalTo( 88 ),
-                    $this->equalTo( 8 ),
-                    $this->equalTo( ezcGraph::CENTER | ezcGraph::TOP )
-                );
-            $mockedRenderer
-                ->expects( $this->at( 5 ) )
-                ->method( 'drawTextBox' )
-                ->with(
-                    $this->equalTo( new ezcGraphCoordinate( 393, 192 ) ),
-                    $this->equalTo( '2003' ),
-                    $this->equalTo( 88 ),
-                    $this->equalTo( 8 ),
-                    $this->equalTo( ezcGraph::RIGHT | ezcGraph::TOP )
-                );
+        // X-Axis
+        $mockedRenderer
+            ->expects( $this->at( 2 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 122, 192 ) ),
+                $this->equalTo( '2000' ),
+                $this->equalTo( 88 ),
+                $this->equalTo( 8 ),
+                $this->equalTo( ezcGraph::LEFT | ezcGraph::TOP )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 3 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 212, 192 ) ),
+                $this->equalTo( '2001' ),
+                $this->equalTo( 88 ),
+                $this->equalTo( 8 ),
+                $this->equalTo( ezcGraph::CENTER | ezcGraph::TOP )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 4 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 303, 192 ) ),
+                $this->equalTo( '2002' ),
+                $this->equalTo( 88 ),
+                $this->equalTo( 8 ),
+                $this->equalTo( ezcGraph::CENTER | ezcGraph::TOP )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 5 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 393, 192 ) ),
+                $this->equalTo( '2003' ),
+                $this->equalTo( 88 ),
+                $this->equalTo( 8 ),
+                $this->equalTo( ezcGraph::RIGHT | ezcGraph::TOP )
+            );
 
-            $chart->renderer = $mockedRenderer;
+        $chart->renderer = $mockedRenderer;
 
-            $chart->render( 500, 200 );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart->render( 500, 200 );
     }
 }
 

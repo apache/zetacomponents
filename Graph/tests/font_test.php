@@ -46,15 +46,8 @@ class ezcGraphFontTest extends ezcTestCase
 
     public function testSetGeneralFont()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Pie' );
-            $chart->options->font = $this->basePath . 'font.ttf';
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Pie' );
+        $chart->options->font = $this->basePath . 'font.ttf';
         
         $this->assertTrue(
             $chart->options->font instanceof ezcGraphFontOptions,
@@ -76,15 +69,8 @@ class ezcGraphFontTest extends ezcTestCase
 
     public function testGetGeneralFontForElement()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Pie' );
-            $chart->options->font = $this->basePath . 'font.ttf';
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Pie' );
+        $chart->options->font = $this->basePath . 'font.ttf';
         
         $this->assertTrue(
             $chart->legend->font instanceof ezcGraphFontOptions,
@@ -100,16 +86,9 @@ class ezcGraphFontTest extends ezcTestCase
 
     public function testSetFontForElement()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->options->font = $this->basePath . 'font.ttf';
-            $chart->legend->font = $this->basePath . 'font2.ttf';
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->legend->font = $this->basePath . 'font2.ttf';
 
         $this->assertEquals(
             $this->basePath . 'font.ttf',
@@ -137,19 +116,11 @@ class ezcGraphFontTest extends ezcTestCase
 
     public function testSetFontForElementWithRendering()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
-            $chart->sampleData->color = '#CC0000';
-            $chart->options->font = $this->basePath . 'font.ttf';
-            $chart->legend->font = $this->basePath . 'font2.ttf';
-            $chart->render( 500, 200 );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->legend->font = $this->basePath . 'font2.ttf';
+        $chart->render( 500, 200 );
 
         $this->assertEquals(
             $this->basePath . 'font.ttf',
@@ -175,5 +146,5 @@ class ezcGraphFontTest extends ezcTestCase
         );
     }
 }
-?>
 
+?>

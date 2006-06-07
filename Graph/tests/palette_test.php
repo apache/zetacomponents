@@ -43,14 +43,7 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testDefaultPalette()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
 
         $this->assertTrue(
             $chart->palette instanceof ezcGraphPalette,
@@ -65,15 +58,8 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testChangePalette()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->palette = 'Black';
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
+        $chart->palette = 'Black';
 
         $this->assertTrue(
             $chart->palette instanceof ezcGraphPalette,
@@ -97,24 +83,13 @@ class ezcGraphPaletteTest extends ezcTestCase
         {
             return true;
         }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
 
         $this->fail( 'Expected ezcGraphUnknownPaletteException.' );
     }
 
     public function testChartBackgroundColor()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#EEEEEC' ),
@@ -125,14 +100,7 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testElementBackgroundColor()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#000000FF' ),
@@ -143,14 +111,7 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testAxisColor()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#2E3436' ),
@@ -161,14 +122,7 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testDataSetColor()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#3465A4' ),
@@ -227,14 +181,7 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testDataSetSymbol()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
 
         $this->assertEquals(
             ezcGraph::NO_SYMBOL,
@@ -251,14 +198,7 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testFontFace()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
 
         $this->assertEquals(
             'Vera.ttf',
@@ -269,14 +209,7 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testFontColor()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#555753' ),
@@ -287,14 +220,7 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testChartBorderColor()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#000000FF' ),
@@ -305,14 +231,7 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testChartBorderWidth()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
 
         $this->assertEquals(
             0,
@@ -323,14 +242,7 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testElementBorderColor()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#000000FF' ),
@@ -341,14 +253,7 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testElementBorderWidth()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
 
         $this->assertEquals(
             0,
@@ -359,14 +264,7 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testPadding()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
 
         $this->assertEquals(
             1,
@@ -377,14 +275,7 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testMargin()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
 
         $this->assertEquals(
             0,
@@ -395,16 +286,9 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testDatasetAutomaticColorization()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
-            $chart->spending = array( 2000 => 2347.2, 2458.3, 2569.4 );
-        }
-        catch ( Exception $e ) 
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
+        $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
+        $chart->spending = array( 2000 => 2347.2, 2458.3, 2569.4 );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#3465A4' ),
@@ -421,16 +305,9 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testChartBackground()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
-            $chart->spending = array( 2000 => 2347.2, 2458.3, 2569.4 );
-        }
-        catch ( Exception $e ) 
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
+        $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
+        $chart->spending = array( 2000 => 2347.2, 2458.3, 2569.4 );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#EEEEEC' ),
@@ -441,16 +318,9 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testChartElementBorder()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
-            $chart->spending = array( 2000 => 2347.2, 2458.3, 2569.4 );
-        }
-        catch ( Exception $e ) 
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
+        $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
+        $chart->spending = array( 2000 => 2347.2, 2458.3, 2569.4 );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#000000FF' ),
@@ -461,16 +331,9 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testChartElementBorderWidth()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
-            $chart->spending = array( 2000 => 2347.2, 2458.3, 2569.4 );
-        }
-        catch ( Exception $e ) 
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
+        $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
+        $chart->spending = array( 2000 => 2347.2, 2458.3, 2569.4 );
 
         $this->assertEquals(
             0,
@@ -481,16 +344,9 @@ class ezcGraphPaletteTest extends ezcTestCase
 
     public function testChartElementAxisColor()
     {
-        try
-        {
-            $chart = ezcGraph::create( 'Line' );
-            $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
-            $chart->spending = array( 2000 => 2347.2, 2458.3, 2569.4 );
-        }
-        catch ( Exception $e ) 
-        {
-            $this->fail( $e->getMessage() );
-        }
+        $chart = ezcGraph::create( 'Line' );
+        $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
+        $chart->spending = array( 2000 => 2347.2, 2458.3, 2569.4 );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#2E3436' ),
