@@ -206,7 +206,7 @@ class ezcQuerySelectTest extends ezcTestCase
 
     public function testLimitWithOffset()
     {
-        $reference = 'LIMIT 1, 2';
+        $reference = 'LIMIT 1 OFFSET 2';
         $this->q->limit( 1, 2 );
         $this->assertEquals( $reference, $this->q->buildLimit() );
     }

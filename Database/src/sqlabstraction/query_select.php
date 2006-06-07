@@ -663,7 +663,7 @@ class ezcQuerySelect extends ezcQuery
         }
         else
         {
-            $this->limitString = "LIMIT {$limit}, {$offset}";
+            $this->limitString = "LIMIT {$limit} OFFSET {$offset}";
         }
         $this->lastInvokedMethod = 'limit';
 

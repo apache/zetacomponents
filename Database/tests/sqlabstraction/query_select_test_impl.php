@@ -174,6 +174,20 @@ class ezcQuerySelectTestImpl extends ezcTestCase
         $this->assertEquals( 1, $rows );
     }
 
+    public function testBuildFromWhereOrderLimitOffset()
+    {
+        $this->q->select( '*' )->from( 'query_test' )
+                ->where( $this->e->eq( 1, 1 ) )
+                ->orderBy( 'id', ezcQuerySelect::DESC )
+                ->limit( 1 );
+        $stmt = $this->db->query( $this->q->getQuery() );
+        $result = $stmt->fetchAll();
+        $this->assertEquals( 1, count( $result ) );
+        $this->assertEquals( 'IBM', $result[0]['company'] );
+        $this->assertEquals( 'Germany', $result[0]['section'] );
+    }
+
+
     public function testBuildFromLimit()
     {
         $this->q->select( '*' )->from( 'query_test' )
