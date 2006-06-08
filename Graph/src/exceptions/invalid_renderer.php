@@ -18,7 +18,7 @@ class ezcGraphInvalidRendererException extends ezcBaseException
 {
     public function __construct( $renderer )
     {
-        parent::__construct( 'Unknown renderer <' . $renderer . '>.' );
+        parent::__construct( "Unknown renderer <{$renderer}>." );
     }
 }
 

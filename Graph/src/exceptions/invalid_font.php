@@ -18,7 +18,7 @@ class ezcGraphGdDriverInvalidFontException extends ezcBaseException
 {
     public function __construct( $font )
     {
-        parent::__construct( 'Unknown font <' . $font . '>.' );
+        parent::__construct( "Unknown font <{$font}>." );
     }
 }
 

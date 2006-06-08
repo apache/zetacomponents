@@ -18,7 +18,7 @@ class ezcGraphTooManyDatasetsExceptions extends ezcBaseException
 {
     public function __construct()
     {
-        parent::__construct( 'You tried to insert to many datasets.' );
+        parent::__construct( "You tried to insert to many datasets." );
     }
 }
 

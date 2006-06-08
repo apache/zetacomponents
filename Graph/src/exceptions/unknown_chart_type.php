@@ -18,7 +18,7 @@ class ezcGraphUnknownChartTypeException extends ezcBaseException
 {
     public function __construct( $chartType )
     {
-        parent::__construct( 'Unknown chart type <' . $chartType . '>.' );
+        parent::__construct( "Unknown chart type <{$chartType}>." );
     }
 }
 
