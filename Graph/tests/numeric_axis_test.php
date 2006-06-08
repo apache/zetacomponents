@@ -725,5 +725,67 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $chart->render( 500, 200 );
     }
+
+    public function testRenderNumericXAndYAxisLabels()
+    {
+        $sin = array();
+        for ( $i = -200; $i < 500; $i += 2 )
+        {
+            $sin[$i] = 25 * sin( $i / 50 );
+        }
+
+        $chart = ezcGraph::create( 'Line' );
+        $chart->X_Axis = new ezcGraphChartElementNumericAxis();
+        $chart->sinus = $sin;
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+            'drawTextBox',
+        ) );
+
+        $mockedRenderer
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 122, 102 ) ),
+                $this->equalTo( '-250' ),
+                $this->equalTo( 118 ),
+                $this->equalTo( 8 ),
+                $this->equalTo( ezcGraph::LEFT | ezcGraph::TOP )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 2 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 242, 102 ) ),
+                $this->equalTo( '0' ),
+                $this->equalTo( 118 ),
+                $this->equalTo( 8 ),
+                $this->equalTo( ezcGraph::LEFT | ezcGraph::TOP )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 3 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 363, 102 ) ),
+                $this->equalTo( '250' ),
+                $this->equalTo( 118 ),
+                $this->equalTo( 8 ),
+                $this->equalTo( ezcGraph::LEFT | ezcGraph::TOP )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 4 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 363, 102 ) ),
+                $this->equalTo( '500' ),
+                $this->equalTo( 118 ),
+                $this->equalTo( 8 ),
+                $this->equalTo( ezcGraph::RIGHT | ezcGraph::TOP )
+            );
+
+        $chart->renderer = $mockedRenderer;
+        $chart->render( 500, 200 );
+    }
 }
+
 ?>

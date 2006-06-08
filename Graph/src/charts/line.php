@@ -26,6 +26,47 @@ class ezcGraphLineChart extends ezcGraphChart
         $this->elements['Y_axis']->position = ezcGraph::BOTTOM;
     }
 
+    /**
+     * Options write access
+     * 
+     * @throws ezcBasePropertyNotFoundException
+     *          If Option could not be found
+     * @throws ezcBaseValueException
+     *          If value is out of range
+     * @param mixed $propertyName   Option name
+     * @param mixed $propertyValue  Option value;
+     * @return mixed
+     */
+    public function __set( $propertyName, $propertyValue ) 
+    {
+        switch ( $propertyName ) {
+            case 'X_Axis':
+                if ( $propertyValue instanceof ezcGraphChartElementAxis )
+                {
+                    $this->addElement( 'X_axis', $propertyValue );
+                    $this->elements['X_axis']->position = ezcGraph::LEFT;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphChartElementAxis' );
+                }
+                break;
+            case 'Y_Axis':
+                if ( $propertyValue instanceof ezcGraphChartElementAxis )
+                {
+                    $this->addElement( 'Y_axis', $propertyValue );
+                    $this->elements['Y_axis']->position = ezcGraph::BOTTOM;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphChartElementAxis' );
+                }
+                break;
+            default:
+                parent::__set( $propertyName, $propertyValue );
+        }
+    }
+
     protected function renderData( $renderer, $boundings )
     {
         foreach ( $this->data as $data )
