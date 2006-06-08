@@ -38,18 +38,18 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
     protected $labelPadding = 2;
 
     /**
-     * Color of the rastering 
+     * Color of the griding 
      * 
      * @var ezcGraphColor
      */
-    protected $raster = false;
+    protected $grid = false;
 
     /**
      * Raster minor steps on axis
      * 
      * @var ezcGraphColor
      */
-    protected $rasterMinor = false;
+    protected $minorGrid = false;
 
     /**
      * Labeled major steps displayed on the axis 
@@ -96,6 +96,8 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         $this->border = $palette->axisColor;
         $this->padding = $palette->padding;
         $this->margin = $palette->margin;
+        $this->grid = $palette->gridColor;
+        $this->minorGrid = $palette->minorGridColor;
     }
 
     /**
@@ -122,24 +124,26 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
             case 'labelPadding':
                 $this->labelPadding = min( 0, max( 0, (float) $propertyValue ) );
                 break;
-            case 'raster':
+            case 'grid':
                 if ( $propertyValue instanceof ezcGraphColor )
                 {
-                    $this->raster = $propertyValue;
+                    $this->grid = $propertyValue;
                 }
                 else
                 {
-                    throw new ezcBaseValueException( $propertyValue, 'ezcGraphColor' );
+                    $this->grid = ezcGraphColor::create( $propertyValue );
                 }
-            case 'rasterMinor':
+                break;
+            case 'minorGrid':
                 if ( $propertyValue instanceof ezcGraphColor )
                 {
-                    $this->rasterMinor = $propertyValue;
+                    $this->minorGrid = $propertyValue;
                 }
                 else
                 {
-                    throw new ezcBaseValueException( $propertyValue, 'ezcGraphColor' );
+                    $this->minorGrid = ezcGraphColor::create( $propertyValue );
                 }
+                break;
             case 'majorStep':
                 if ( $propertyValue <= 0 )
                 {
@@ -348,8 +352,33 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         $xStepsize = ( $end->x - $start->x ) / $steps;
         $yStepsize = ( $end->y - $start->y ) / $steps;
 
+        // Calculate grid boundings
+        $negGrid = ( $boundings->x0 - $start->x ) * $direction->y + ( $boundings->y0 - $end->y ) * $direction->x;
+        $posGrid = ( $boundings->x1 - $end->x ) * $direction->y + ( $boundings->y1 - $start->y ) * $direction->x;
+
+        // Draw major steps
         for ( $i = 0; $i <= $steps; ++$i )
         {
+            if ( $this->grid && $this->grid->alpha < 255 )
+            {
+                $renderer->drawLine(
+                    $this->grid,
+                    new ezcGraphCoordinate(
+                        (int) round( $start->x + $i * $xStepsize
+                            + $direction->y * $negGrid ),
+                        (int) round( $start->y + $i * $yStepsize
+                            + $direction->x * $negGrid )
+                    ),
+                    new ezcGraphCoordinate(
+                        (int) round( $start->x + $i * $xStepsize
+                            + $direction->y * $posGrid ),
+                        (int) round( $start->y + $i * $yStepsize
+                            + $direction->x * $posGrid )
+                    ),
+                    false
+                );
+            }
+
             $renderer->drawLine(
                 $this->border,
                 new ezcGraphCoordinate(
@@ -372,9 +401,28 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         if ( $this->minorStep )
         {
             $steps = $this->getMinorStepCount();
-
             for ( $i = 0; $i < $steps; ++$i )
             {
+                if ( $this->minorGrid && $this->minorGrid->alpha < 255 )
+                {
+                    $renderer->drawLine(
+                        $this->minorGrid,
+                        new ezcGraphCoordinate(
+                            (int) round($start->x + $i * ( $end->x - $start->x ) / $steps 
+                                + $direction->y * $negGrid ),
+                            (int) round($start->y + $i * ( $end->y - $start->y ) / $steps 
+                                + -$direction->x * $negGrid )
+                        ),
+                        new ezcGraphCoordinate(
+                            (int) round($start->x + $i * ( $end->x - $start->x ) / $steps 
+                                + $direction->y * $posGrid ),
+                            (int) round($start->y + $i * ( $end->y - $start->y ) / $steps 
+                                + -$direction->x * $posGrid )
+                        ),
+                        false
+                    );
+                }
+
                 $renderer->drawLine(
                     $this->border,
                     new ezcGraphCoordinate(

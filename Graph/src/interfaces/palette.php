@@ -36,11 +36,18 @@ abstract class ezcGraphPalette
     protected $axisColor;
 
     /**
-     * Color of grid 
+     * Color of grid lines
      * 
      * @var ezcGraphColor
      */
     protected $gridColor;
+
+    /**
+     * Color of minor grid lines
+     * 
+     * @var ezcGraphColor
+     */
+    protected $minorGridColor;
 
     /**
      * Array with colors for datasets
@@ -160,7 +167,12 @@ abstract class ezcGraphPalette
         {
             case 'axisColor':
                 return $this->checkColor( $this->axisColor );
-
+            
+            case 'gridColor':
+                return $this->checkColor( $this->gridColor );
+            case 'minorGridColor':
+                return $this->checkColor( $this->minorGridColor );
+    
             case 'dataSetColor':
                 $this->colorIndex = ( ( $this->colorIndex + 1 ) % count( $this->dataSetColor ) );
                 return $this->checkColor( $this->dataSetColor[ $this->colorIndex ] );
@@ -191,6 +203,9 @@ abstract class ezcGraphPalette
                 return $this->padding;
             case 'margin':
                 return $this->margin;
+
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
         }
     }
 }

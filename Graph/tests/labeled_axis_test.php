@@ -392,6 +392,59 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
         $chart->render( 500, 200 );
     }
 
+    public function testRenderNumericAxisMajorGrid()
+    {
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart->X_axis->grid = '#BBBBBB';
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+            'drawLine',
+        ) );
+
+        // X-Axis
+        $mockedRenderer
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawLine' )
+            ->with(
+                $this->equalTo( ezcGraphColor::fromHex( '#BBBBBB' ) ),
+                $this->equalTo( new ezcGraphCoordinate( 120, 0 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 120, 200 ) ),
+                $this->equalTo( false )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 3 ) )
+            ->method( 'drawLine' )
+            ->with(
+                $this->equalTo( ezcGraphColor::fromHex( '#BBBBBB' ) ),
+                $this->equalTo( new ezcGraphCoordinate( 240, 0 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 240, 200 ) ),
+                $this->equalTo( false )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 5 ) )
+            ->method( 'drawLine' )
+            ->with(
+                $this->equalTo( ezcGraphColor::fromHex( '#BBBBBB' ) ),
+                $this->equalTo( new ezcGraphCoordinate( 361, 0 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 361, 200 ) ),
+                $this->equalTo( false )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 7 ) )
+            ->method( 'drawLine' )
+            ->with(
+                $this->equalTo( ezcGraphColor::fromHex( '#BBBBBB' ) ),
+                $this->equalTo( new ezcGraphCoordinate( 481, 0 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 481, 200 ) ),
+                $this->equalTo( false )
+            );
+
+        $chart->renderer = $mockedRenderer;
+
+        $chart->render( 500, 200 );
+    }
+
     public function testRenderLabeledAxisLabels()
     {
         $chart = ezcGraph::create( 'Line' );
