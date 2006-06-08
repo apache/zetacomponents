@@ -16,6 +16,10 @@
  */
 class ezcGraphUnknownColorDefinitionException extends ezcBaseException
 {
+    public function __construct( $defintion )
+    {
+        parent::__construct( 'Unknown color definition <' . $defintion . '>.' );
+    }
 }
 
 ?>

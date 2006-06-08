@@ -16,6 +16,10 @@
  */
 class ezcGraphInvalidDriverException extends ezcBaseException
 {
+    public function __construct( $driver )
+    {
+        parent::__construct( 'Unknown driver <' . $driver . '>.' );
+    }
 }
 
 ?>

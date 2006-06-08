@@ -16,6 +16,10 @@
  */
 class ezcGraphUnknownPaletteException extends ezcBaseException
 {
+    public function __construct( $name )
+    {
+        parent::__construct( 'No palette with name <' . $name . '> could be found.' );
+    }
 }
 
 ?>
