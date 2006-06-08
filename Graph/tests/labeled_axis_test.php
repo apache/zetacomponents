@@ -448,6 +448,57 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
         $chart->render( 500, 200 );
     }
+
+    public function testRenderLabeledAxisWithManyPoints()
+    {
+        $data = array();
+        for ( $i = -100; $i <= 500; ++$i )
+        {
+            $data[$i] = 25 * sin( $i / 50 );
+        }
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sinus = $data;
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+            'drawTextBox',
+        ) );
+
+        // X-Axis
+        $mockedRenderer
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 122, 102 ) ),
+                $this->equalTo( '-100' ),
+                $this->equalTo( 31 ),
+                $this->equalTo( 8 ),
+                $this->equalTo( ezcGraph::LEFT | ezcGraph::TOP )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 2 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 155, 102 ) ),
+                $this->equalTo( '-40' ),
+                $this->equalTo( 31 ),
+                $this->equalTo( 8 ),
+                $this->equalTo( ezcGraph::CENTER | ezcGraph::TOP )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 11 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 450, 102 ) ),
+                $this->equalTo( '500' ),
+                $this->equalTo( 31 ),
+                $this->equalTo( 8 ),
+                $this->equalTo( ezcGraph::RIGHT | ezcGraph::TOP )
+            );
+
+        $chart->renderer = $mockedRenderer;
+
+        $chart->render( 500, 200 );
+    }
 }
 
 ?>

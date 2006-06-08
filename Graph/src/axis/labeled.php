@@ -22,6 +22,19 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
      */
     protected $labels = array();
 
+    /**
+     * Reduced amount of labels which will be displayed in the chart
+     * 
+     * @var array
+     */
+    protected $displayedLabels = array();
+
+    /**
+     * Maximum count of labels which can be displayed on one axis
+     * @TODO: Perhaps base this on the chart size
+     */
+    const MAX_LABEL_COUNT = 10;
+
     protected function increaseKeys( $array, $startKey )
     {
         foreach ( $array as $key => $value )
@@ -85,7 +98,29 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
      */
     public function calculateAxisBoundings()
     {
-        return true;
+        $labelCount = count( $this->labels ) - 1;
+        if ( $labelCount <= self::MAX_LABEL_COUNT )
+        {
+            $this->displayedLabels = $this->labels;
+            return true;
+        }
+
+        for ( $div = self::MAX_LABEL_COUNT; $div > 0; --$div )
+        {
+            if ( ( $labelCount % $div ) === 0 )
+            {
+                $step = $labelCount / $div;
+                foreach ( $this->labels as $nr => $label )
+                {
+                    if ( ( $nr % $step ) === 0 )
+                    {
+                        $this->displayedLabels[] = $label;
+                    }
+                }
+
+                return true;
+            }
+        }
     }
 
     /**
@@ -158,7 +193,7 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
      */
     protected function getMajorStepCount()
     {
-        return count( $this->labels ) - 1;
+        return count( $this->displayedLabels ) - 1;
     }
 
     /**
@@ -301,9 +336,9 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
      */
     protected function getLabel( $step )
     {
-        if ( isset( $this->labels[$step] ) )
+        if ( isset( $this->displayedLabels[$step] ) )
         {
-            return $this->labels[$step];
+            return $this->displayedLabels[$step];
         }
         else
         {
