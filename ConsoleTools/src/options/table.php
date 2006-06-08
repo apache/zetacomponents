@@ -102,16 +102,16 @@ class ezcConsoleTableOptions extends ezcBaseOptions
     /**
      * Construct a new options object.
      *
-     * NOTE: For BC reasons the old method of instanciating this class is kept,
-     * but the usage of the new versoion is highly incouraged.
+     * NOTE: For backwards compatibility reasons the old method of instantiating this class is kept,
+     * but the usage of the new version (providing an option array) is highly encouraged.
      * 
      * @param array(string=>mixed) $options The initial options to set.
      * @return void
      *
      * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
+     *         If the value for the property options is not an instance of
      * @throws ezcBaseValueException
-     *         If a the value for a property is out of range.
+     *         If the value for a property is out of range.
      */
     public function __construct()
     {
