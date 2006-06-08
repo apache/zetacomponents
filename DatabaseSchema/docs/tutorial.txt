@@ -27,7 +27,7 @@ ezcDbSchemaComparator
   that are stored in the ezcDbSchema class.
 
 ezcDbSchemaDiff
-  The ezcDbSchemaHandlerManager::compareSchemas() method returns an object of
+  The ezcDbSchemaDiff::compareSchemas() method returns an object of
   this class. The object can be converted to SQL DDL, stored in a file or can
   be directly applied to a database.
 
