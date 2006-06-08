@@ -77,7 +77,7 @@ class ezcGraphPaletteTest extends ezcTestCase
         try
         {
             $chart = ezcGraph::create( 'Line' );
-            // Silented, because this throws an E_WARNING in devel mode,
+            // Silenced, because this throws an E_WARNING in devel mode,
             // caused by the non existing class ezcGraphPaletteUndefined
             @$chart->palette = 'Undefined';
         }
