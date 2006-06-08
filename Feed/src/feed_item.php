@@ -57,10 +57,6 @@ class ezcFeedItem
 
     public function __get( $property )
     {
-        if ( $property == 'metaData' )
-        {
-            $obj->bla();
-        }
         switch ( $property )
         {
             case 'title': // required in RSS2
