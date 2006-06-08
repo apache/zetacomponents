@@ -225,21 +225,20 @@ class ezcTemplate
             $stream = $config->templatePath ."/". $stream;
         }
 
-        $source = new ezcTemplateSourceCode( $stream, $stream );
-
         // lookup compiled code here
-        $compiled = ezcTemplateCompiledCode::findCompiled( $source->stream, $config->context, $this );
+        $compiled = ezcTemplateCompiledCode::findCompiled( $stream, $config->context, $this );
         $this->properties["compiledTemplatePath"] = $compiled->path;
 
         if ( !file_exists( $compiled->path ) || (
             $config->checkModifiedTemplates &&
-            file_exists( $source->stream ) && filemtime( $source->stream ) >= filemtime( $compiled->path ) )
+            file_exists( $stream ) && filemtime( $stream ) >= filemtime( $compiled->path ) )
         )
         {
             $this->createDirectory( dirname( $compiled->path ) );
 
             // get the compiled path.
             // use parser here
+            $source = new ezcTemplateSourceCode( $stream, $stream );
             $source->load();
             $parser = new ezcTemplateParser( $source, $this );
             $this->properties["tstTree"] = $parser->parseIntoNodeTree();
