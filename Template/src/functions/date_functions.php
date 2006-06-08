@@ -32,3 +32,4 @@ class ezcTemplateDateFunctions extends ezcTemplateFunctions
         return null;
     }
 }
+?>

@@ -139,3 +139,4 @@ class ezcTemplateMathFunctions extends ezcTemplateFunctions
         return null;
     }
 }
+?>

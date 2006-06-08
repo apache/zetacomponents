@@ -243,6 +243,4 @@ class ezcGraphLineChartTest extends ezcTestCase
         );
     }
 }
-
 ?>
-

@@ -4,4 +4,3 @@
         'erMyClass2' => 'Me/myclass2.php',
     );
 ?>
-                  

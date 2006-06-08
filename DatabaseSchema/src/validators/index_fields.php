@@ -53,3 +53,4 @@ class ezcDbSchemaIndexFieldsValidator
         return $errors;
     }
 }
+?>

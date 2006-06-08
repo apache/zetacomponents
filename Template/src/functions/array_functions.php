@@ -279,3 +279,4 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
         return null;
     }
 }
+?>

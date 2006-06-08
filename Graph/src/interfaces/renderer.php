@@ -130,3 +130,4 @@ abstract class ezcGraphRenderer
         $this->driver->render( $file );
     }
 }
+?>

@@ -70,3 +70,4 @@ array* preg_split( $reg, $s [, $limit [, $flags] ] )::
         return null;
     }
 }
+?>

@@ -376,3 +376,4 @@ class ezcTemplateStringFunctions extends ezcTemplateFunctions
         return null;
     }
 }
+?>

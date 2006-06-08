@@ -215,4 +215,3 @@ class ezcGraphRenderer2dTest extends ezcTestCase
     }
 }
 ?>
-

@@ -28,3 +28,4 @@ class ezcTemplateDebugFunctions extends ezcTemplateFunctions
         return null;
     }
 }
+?>

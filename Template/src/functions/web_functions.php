@@ -45,3 +45,4 @@ class ezcTemplateWebFunctions extends ezcTemplateFunctions
         return null;
     }
 }
+?>

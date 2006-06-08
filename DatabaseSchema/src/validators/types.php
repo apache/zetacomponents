@@ -46,3 +46,4 @@ class ezcDbSchemaTypesValidator
         return $errors;
     }
 }
+?>

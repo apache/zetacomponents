@@ -32,4 +32,3 @@ class ezcCacheInvalidDataException extends ezcCacheException
     }
 }
 ?>
-

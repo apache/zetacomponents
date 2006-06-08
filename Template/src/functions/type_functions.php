@@ -114,3 +114,4 @@ class ezcTemplateTypeFunctions extends ezcTemplateFunctions
         return null;
     }
 }
+?>

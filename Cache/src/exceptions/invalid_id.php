@@ -25,4 +25,3 @@ class ezcCacheInvalidIdException extends ezcCacheException
     }
 }
 ?>
-

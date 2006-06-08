@@ -84,4 +84,3 @@ class ezcGraphPieChartTest extends ezcTestCase
     }
 }
 ?>
-
