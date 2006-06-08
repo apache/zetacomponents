@@ -11,8 +11,14 @@
 /**
  * This class provides database comparison functionality.
  *
- * @see ezcDbSchema for a small example
- * @todo Add an example here
+ * Example that shows how to make a comparison between a file on disk and a
+ * database.
+ * <code>
+ *     $xmlSchema = ezcDbSchema::createFromFile( 'xml', 'wanted-schema.xml' );
+ *     $dbSchema = ezcDbSchema::createFromDb( $db );
+ *     $diff = ezcDbSchemaComparator::compareSchemas( $xmlSchema, $dbSchema );
+ * </code>
+ * @see ezcDbSchemaDiff
  *
  * @package DatabaseSchema
  * @version //autogentag//
@@ -21,6 +27,10 @@ class ezcDbSchemaComparator
 {
     /**
      * Returns a ezcDbSchemaDiff object containing the differences between the schemas $schema1 and $schema2.
+     *
+     * The returned diferences are returned in such a way that they contain the
+     * operations to change the schema stored in $schema1 to the schema that is
+     * stored in $schema2.
      *
      * @param ezcDbSchema $schema1
      * @param ezcDbSchema $schema2

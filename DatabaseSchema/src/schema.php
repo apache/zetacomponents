@@ -38,7 +38,7 @@
  *     $schema->writeToDb( $db );
  * </code>
  *
- * Examples that shows how to make a comparison between a file on disk and a
+ * Example that shows how to make a comparison between a file on disk and a
  * database, and how to apply the changes.
  * <code>
  *     $xmlSchema = ezcDbSchema::createFromFile( 'xml', 'wanted-schema.xml' );
