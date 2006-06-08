@@ -50,7 +50,7 @@ class ezcDbSchemaHandlerManager
 //        'pgsql' => 'ezcDbSchemaPgsqlWriter',
 //        'sqlite' => 'ezcDbSchemaSqliteWriter',
         'xml' => 'ezcDbSchemaXmlWriter',
-        'persistent' => 'ezcDbSchemaPersistentWriter',
+****        'persistent' => 'ezcDbSchemaPersistentWriter', ****
     );
 
     /**

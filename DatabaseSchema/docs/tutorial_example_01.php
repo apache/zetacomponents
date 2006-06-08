@@ -1,11 +1,11 @@
 <?php
 require 'tutorial_autoload.php';
 
-$data = ezcFile::findRecursive(
-	"/dat/dev/ezcomponents",
-	array( '@src/.*_autoload.php$@' ),
-	array( '@/autoload/@' )
-);
-var_dump( $data );
+// create a database schema from an XML file:
+$xmlSchema = ezcDbSchema::createFromFile( 'xml', 'wanted-schema.xml' );
+
+// create a database schema from a database connection:
+$db = ezcDbFactory::create( 'mysql://user:password@host/database' );
+$dbSchema = ezcDbSchema::createFromDb( $db );
 
 ?>

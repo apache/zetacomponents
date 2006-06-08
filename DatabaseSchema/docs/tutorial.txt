@@ -49,17 +49,84 @@ Usage
 Creating a Database Schema Definition
 -------------------------------------
 
+Databases can be generated from two different types of sources. The first
+source is the file, where there are multiple format handlers available. There
+is a format for reading/writing XML files, and one for reading/writing files
+that store the ezcDbSchema structure in a PHP array. 
+
+The second source are databases directly. With the ezcDbSchema::createFromDb()
+method you can create an ezcDbSchema object directly from an already existing
+database connection.
+
+.. include:: tutorial_example_01.php
+   :literal:
+
+This example shows how to create a database schema from the two different
+sources. With the first parameter to ezcDbSchema::createFromFile() you tell the
+method which type to use ('xml' or 'array'). The second parameter is the file
+that you are reading the schema definition from.
+
+The ezcDbSchema::createFromDb() method has only one parameter. This parameter
+is an ezcDbHandler object that was created with the ezcDbFactory.
+
+In both cases the methods will return an object of the class ezcDbSchema. The
+documentation for ezcDbSchemaHandlerManager documents the supported types of
+readers and writers. The ezcDbSchema->getSchema() method returns the schema as
+an array of ezcDbSchemaTable objects. The ezcDbSchemaTable object then contains
+in two member variables an array of ezcDbSchemaField objects to describe the
+fields and an array of ezcDbSchemaIndex objects to describe the indices.
+
 Saving a Database Schema Definition
 -----------------------------------
+
+Once a ezcDbSchema has been created it can be manipulated in whatever way you
+prefer. After manipulation there are different possibilities to save the
+database schema. The ezcDbSchema->writeToFile() method stores an ezcDbSchema
+object to a file on disk. Again you can use the xml and array formats. This you
+can see in the first part of this example:
+
+.. include:: tutorial_example_02.php
+   :literal:
+
+The second and third methods both deal with a database directly. The second
+method in the example uses the database connection $db for creating a schema.
+The method will not touch any other table besides the ones in the schema
+definition. The schemas that are defined will be overwritten. 
+
+The third method merely uses the database connection to determine which SQL DLL
+dialect to use while creating the SQL that can be used to create the schema in
+the database.
 
 Comparing Database Schemas
 --------------------------
 
+The ezcDbSchemaComparator class provides the
+ezcDbSchemaComparator::compareSchemas() method to compare two different
+ezcDbSchema objects. The result of this operation is an ezcDbSchemaDiff object.
+The next example illustrates this:
+
+.. include:: tutorial_example_03.php
+   :literal:
+
+First we create the two different schemas. One from the database, and one from
+a file. In line 10 we utilize the ezcDbSchemaComparator::compareSchemas()
+function to compare the two schemas. This process returns the differences as
+the $diffSchema variable.
+
+Again there are multiple ways of doing something "useful" with the generated
+differences. These three methods are explained with the inline comments in the
+above example.
+
 Validating Schemas
 ------------------
 
-Implementing New Handlers
--------------------------
+The last feature that the DatabaseSchema component offers is the validation of
+schemas. The ezcDbSchemaValidator::validate() method accepts an ezcDbSchema
+object and returns an array of strings describing eventual problems with the
+schema. The next example shows this:
+
+.. include:: tutorial_example_04.php
+   :literal:
 
 
 
