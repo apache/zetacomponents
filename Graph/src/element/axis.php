@@ -398,6 +398,23 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
     }
 
     /**
+     * Add data for this axis
+     * 
+     * @param mixed $value Value which will be displayed on this axis
+     * @return void
+     */
+    abstract public function addData( array $values );
+
+    /**
+     * Calculate axis bounding values on base of the assigned values 
+     * 
+     * @abstract
+     * @access public
+     * @return void
+     */
+    abstract public function calculateAxisBoundings();
+
+    /**
      * Render an axe
      * 
      * @param ezcGraphRenderer $renderer 
@@ -412,12 +429,12 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 $this->drawAxis(
                     $renderer,
                     new ezcGraphCoordinate(
-                        $this->nullPosition,
-                        $boundings->y0
+                        (int) $this->nullPosition,
+                        (int) $boundings->y0
                     ),
                     new ezcGraphCoordinate(
-                        $this->nullPosition,
-                        $boundings->y1
+                        (int) $this->nullPosition,
+                        (int) $boundings->y1
                     ),
                     $boundings
                 );
@@ -426,12 +443,12 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 $this->drawAxis(
                     $renderer,
                     new ezcGraphCoordinate(
-                        $this->nullPosition,
-                        $boundings->y1
+                        (int) $this->nullPosition,
+                        (int) $boundings->y1
                     ),
                     new ezcGraphCoordinate(
-                        $this->nullPosition,
-                        $boundings->y0
+                        (int) $this->nullPosition,
+                        (int) $boundings->y0
                     ),
                     $boundings
                 );
@@ -440,12 +457,12 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 $this->drawAxis(
                     $renderer,
                     new ezcGraphCoordinate(
-                        $boundings->x0,
-                        $this->nullPosition
+                        (int) $boundings->x0,
+                        (int) $this->nullPosition
                     ),
                     new ezcGraphCoordinate(
-                        $boundings->x1,
-                        $this->nullPosition
+                        (int) $boundings->x1,
+                        (int) $this->nullPosition
                     ),
                     $boundings
                 );
@@ -454,12 +471,12 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 $this->drawAxis(
                     $renderer,
                     new ezcGraphCoordinate(
-                        $boundings->x1,
-                        $this->nullPosition
+                        (int) $boundings->x1,
+                        (int) $this->nullPosition
                     ),
                     new ezcGraphCoordinate(
-                        $boundings->x0,
-                        $this->nullPosition
+                        (int) $boundings->x0,
+                        (int) $this->nullPosition
                     ),
                     $boundings
                 );

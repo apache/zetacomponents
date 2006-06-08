@@ -44,39 +44,48 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
     }
 
     /**
-     * Get labels from datasets in right order to be rendered later
-     *
-     * @param array $datasets 
+     * Add data for this axis
+     * 
+     * @param mixed $value Value which will be displayed on this axis
      * @return void
      */
-    public function calculateFromDataset(array $datasets)
+    public function addData( array $values )
     {
-        foreach ( $datasets as $dataset )
+        $position = 0;
+        foreach ( $values as $label )
         {
-            $position = 0;
-            foreach ( $dataset as $label => $value )
-            {
-                $label = (string) $label;
+            $label = (string) $label;
 
-                if ( !in_array( $label, $this->labels, true ) )
+            if ( !in_array( $label, $this->labels, true ) )
+            {
+                if ( isset( $this->labels[$position] ) )
                 {
-                    if ( isset( $this->labels[$position] ) )
-                    {
-                        $this->labels = $this->increaseKeys( $this->labels, $position );
-                        $this->labels[$position++] = $label;
-                    }
-                    else
-                    {
-                        $this->labels[$position++] = $label;
-                    }
+                    $this->labels = $this->increaseKeys( $this->labels, $position );
+                    $this->labels[$position++] = $label;
                 }
-                else 
+                else
                 {
-                    $position = array_search( $label, $this->labels, true ) + 1;
+                    $this->labels[$position++] = $label;
                 }
             }
-            ksort( $this->labels );
+            else 
+            {
+                $position = array_search( $label, $this->labels, true ) + 1;
+            }
         }
+        ksort( $this->labels );
+    }
+
+    /**
+     * Calculate axis bounding values on base of the assigned values 
+     * 
+     * @abstract
+     * @access public
+     * @return void
+     */
+    public function calculateAxisBoundings()
+    {
+        return true;
     }
 
     /**

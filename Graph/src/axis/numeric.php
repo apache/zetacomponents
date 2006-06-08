@@ -30,6 +30,20 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
     protected $max = false;
 
     /**
+     * Minimum Value to display on this axis
+     * 
+     * @var float
+     */
+    protected $minValue = false;
+
+    /**
+     * Maximum value to display on this axis
+     * 
+     * @var float
+     */
+    protected $maxValue = false;
+
+    /**
      * Constant used for calculation of automatic definition of major scaling 
      * steps
      */
@@ -164,55 +178,57 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
     }
 
     /**
-     * Calculate steps, min and max values from given datasets, if not set 
-     * manually before. receives an array of array( ezcGraphDataset )
+     * Add data for this axis
      * 
-     * @param array $datasets 
+     * @param mixed $value Value which will be displayed on this axis
      * @return void
      */
-    public function calculateFromDataset(array $datasets)
+    public function addData( array $values )
     {
-        $min = false;
-        $max = false;
-
-        // Determine minimum and maximum values
-        foreach ( $datasets as $dataset )
+        foreach ( $values as $value )
         {
-            foreach ( $dataset as $value )
+            if ( $this->minValue === false ||
+                 $value < $this->minValue )
             {
-                if ( $min === false ||
-                     $value < $min )
-                {
-                    $min = $value;
-                }
+                $this->minValue = $value;
+            }
 
-                if ( $max === false ||
-                     $value > $max )
-                {
-                    $max = $value;
-                }
+            if ( $this->maxValue === false ||
+                 $value > $this->maxValue )
+            {
+                $this->maxValue = $value;
             }
         }
+    }
 
+    /**
+     * Calculate axis bounding values on base of the assigned values 
+     * 
+     * @abstract
+     * @access public
+     * @return void
+     */
+    public function calculateAxisBoundings()
+    {
         // Calculate "nice" values for scaling parameters
         if ( $this->majorStep === false )
         {
-            $this->calculateMajorStep( $min, $max );
+            $this->calculateMajorStep( $this->minValue, $this->maxValue );
         }
 
         if ( $this->minorStep === false )
         {
-            $this->calculateMinorStep( $min, $max );
+            $this->calculateMinorStep( $this->minValue, $this->maxValue );
         }
 
         if ( $this->min === false )
         {
-            $this->calculateMinimum( $min, $max );
+            $this->calculateMinimum( $this->minValue, $this->maxValue );
         }
 
         if ( $this->max === false )
         {
-            $this->calculateMaximum( $min, $max );
+            $this->calculateMaximum( $this->minValue, $this->maxValue );
         }
     }
 

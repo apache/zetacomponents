@@ -88,10 +88,22 @@ class ezcGraphLineChart extends ezcGraphChart
         $this->driver->options->height = $height;
 
         // Calculate axis scaling and labeling
-        $this->elements['X_axis']->calculateFromDataset( $this->data );
-        $this->elements['X_axis']->font = $this->options->font;
-        $this->elements['Y_axis']->calculateFromDataset( $this->data );
-        $this->elements['Y_axis']->font = $this->options->font;
+        foreach ( $this->data as $dataset )
+        {
+            $labels = array();
+            $values = array();
+            foreach ( $dataset as $label => $value )
+            {
+                $labels[] = $label;
+                $values[] = $value;
+            }
+
+            $this->elements['X_axis']->addData( $labels );
+            $this->elements['Y_axis']->addData( $values );
+        }
+
+        $this->elements['X_axis']->calculateAxisBoundings();
+        $this->elements['Y_axis']->calculateAxisBoundings();
 
         // Generate legend
         $this->elements['legend']->generateFromDatasets( $this->data );
