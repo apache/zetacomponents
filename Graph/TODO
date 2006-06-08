@@ -1,0 +1,34 @@
+Alpha:
+ - Fix grid on axis
+ - Fix antialiasing and linewidth for axis
+ - Check for undocumented functions
+ - Implement element border
+ - Implement chart bachground
+
+Next steps:
+ - Pie charts
+ - 3D-Renderer
+ - SVG-Driver
+ - TextElement to add copyright info etc.
+ - GD-Driver
+   - Antialiasing of lines
+   - Adjust line thickness
+ - Datasets
+   - FromPDO
+   - Average (polynomial)
+ - Axis
+   - Logarithmical scaled axis
+   - DateAxis
+ - Chart types
+   - Bar charts
+   - Radar charts
+     http://www.aditus.nu/jpgraph/img/gallery/radarlogex1.png
+   - "Filled" line charts (combine with normal line charts)
+     http://www.aditus.nu/jpgraph/img/gallery/example17.png
+ - Driver
+   - Flash
+ - Elements
+   - Shadows for elements like legend, chart, textboxes, etc.
+ - Datasets
+   - Average (Bezier, Besplines)
+
