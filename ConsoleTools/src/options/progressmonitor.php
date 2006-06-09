@@ -13,12 +13,6 @@
  * Struct class to store the options of the ezcConsoleOutput class.
  * This class stores the options for the {@link ezcConsoleOutput} class.
  * 
- * The ezcConsoleProgressMonitorOptions class has the following properties:
- * - <b>formatString</b> <i>string</i>, determines the format of the progressmonitor with a {@link printf()} compatible format string. The parameters given are:
- *   1. a float value (the progress value in percent).
- *   2. a string value (the action name).
- *   3. a string value (the status message).
- *
  * @package ConsoleTools
  * @version //autogen//
  */
@@ -30,7 +24,7 @@ class ezcConsoleProgressMonitorOptions extends ezcBaseOptions
      * 
      * @var string
      */
-    private $formatString = "%8.1f%% %s %s";
+    protected $formatString = "%8.1f%% %s %s";
 
     /**
      * Option write access.
@@ -58,39 +52,6 @@ class ezcConsoleProgressMonitorOptions extends ezcBaseOptions
                 throw new ezcBaseSettingNotFoundException( $key );
         }
         $this->$key = $value;
-    }
-
-    /**
-     * Property read access.
-     * 
-     * @param string $key Name of the property.
-     * @return mixed Value of the property or null.
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If the the desired property is not found.
-     */
-    public function __get( $key )
-    {
-        if ( isset( $this->$key ) )
-        {
-            return $this->$key;
-        }
-        throw new ezcBasePropertyNotFoundException( $key );
-    }
-    
-    /**
-     * Property isset access.
-     * 
-     * @param string $key Name of the property.
-     * @return bool True is the property is set, otherwise false.
-     */
-    public function __isset( $key )
-    {
-        if ( isset( $this->$key ) )
-        {
-            return true;
-        }
-        return false;
     }
 }
 

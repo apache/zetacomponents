@@ -13,11 +13,6 @@
  * Struct class to store the options of the ezcConsoleOutput class.
  *
  * This class stores the options for the {@link ezcConsoleOutput} class.
- *
- * The ezcConsoleOutputOptions class has the following properties:
- * - <b>verbosityLevel</b> <i>int</i>, determines, which text is printed. All text with the same or a lower verbosity is outputed.
- * - <b>autobreak</b> <i>int</i>, enables auto wrapping of text after the given number of characters, if larger than 0.
- * - <b>useFormats</b> <i>bool</i>, determines, whether to use output formats or to simply print text without formats.
  * 
  * @package ConsoleTools
  * @version //autogen//
@@ -29,7 +24,7 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
      * 
      * @var int
      */
-    private $verbosityLevel = 1;
+    protected $verbosityLevel = 1;
 
     /**
      * Determines, whether text is automatically wrapped after a specific amount
@@ -38,14 +33,14 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
      * 
      * @var int
      */
-    private $autobreak = 0;
+    protected $autobreak = 0;
 
     /**
      * Wether to use formatting or not. 
      * 
      * @var bool
      */
-    private $useFormats = true;
+    protected $useFormats = true;
 
     /**
      * Construct a new options object.
@@ -120,40 +115,7 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
             default:
                 throw new ezcBaseSettingNotFoundException( $propertyName );
         }
-        $this->$propertyName = $val;
-    }
-
-    /**
-     * Property read access.
-     * 
-     * @param string $key Name of the property.
-     * @return mixed Value of the property or null.
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If the the desired property is not found.
-     */
-    public function __get( $key )
-    {
-        if ( isset( $this->$key ) )
-        {
-            return $this->$key;
-        }
-        throw new ezcBasePropertyNotFoundException( $key );
-    }
-    
-    /**
-     * Property isset access.
-     * 
-     * @param string $key Name of the property.
-     * @return bool True is the property is set, otherwise false.
-     */
-    public function __isset( $key )
-    {
-        if ( isset( $this->$key ) )
-        {
-            return true;
-        }
-        return false;
+        $this->properties[$propertyName] = $val;
     }
 }
 

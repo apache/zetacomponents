@@ -13,26 +13,6 @@
  * Struct class to store the options of the ezcConsoleTable class.
  * This class stores the options for the {@link ezcConsoleTable} class.
  * 
- * The ezcConsoleTableOptions class has the following properties:
- * - <b>colWidth</b> <i>mixed</i>, either an array of int values, representing the width in characters per column or the string "auto" for automatic column widths.
- * - <b>colWrap</b> <i>constant</i>, one of the following constants, to determine how to deal with content which is too long for a column:
- *   - {@link ezcConsoleTable::WRAP_AUTO} to get the content automatically wrapped.
- *   - {@link ezcConsoleTable::WRAP_NONE} to extend the column width to fit the content.
- *   - {@link ezcConsoleTable::WRAP_CUT} to cut the text, if it is too long to fit into the column.
- * - <b>defaultAlign</b> <i>constant</i>, the default allignement for all cells. One of:
- *   - {@link ezcConsoleTable::ALIGN_LEFT} for left alignement.
- *   - {@link ezcConsoleTable::ALIGN_RIGHT} for right alignement.
- *   - {@link ezcConsoleTable::ALIGN_CENTER} for center alignement.
- * - <b>colPadding</b> <i>string</i>, the character to use for padding column borders and content.
- * - <b>widthType</b> <i>constant</i>, the type of width that you specified:
- *   - {@link ezcConsoleTable::WIDTH_MAX} if your width is meant as a maximum value. The table may be smaller then, if the content allows it.
- *   - {@link ezcConsoleTable::WIDTH_FIXED} if your width is meant as an absolute value. The table will be exact that wide.
- * - <b>lineVertical</b> <i>string</i>, the character to use for vertical border lines.
- * - <b>lineHorizontal</b> <i>string</i>, the character to use for horizontal border lines.
- * - <b>corner</b> <i>string</i>, the character to use for cell corners.
- * - <b>defaultFormat</b> <i>string</i>, the default format for all content ({@link ezcConsoleOutput}).
- * - <b>defaultBorderFormat</b> <i>string</i>, the default format for all borders ({@link ezcConsoleOutput}).
- *
  * @package ConsoleTools
  * @version //autogen//
  */
@@ -53,7 +33,7 @@ class ezcConsoleTableOptions extends ezcBaseOptions
      * 
      * @var mixed
      */
-    private $colWidth = "auto";
+    protected $colWidth = "auto";
 
     /**
      * Wrap style of text contained in strings.
@@ -63,7 +43,7 @@ class ezcConsoleTableOptions extends ezcBaseOptions
      * 
      * @var int
      */
-    private $colWrap = ezcConsoleTable::WRAP_AUTO;
+    protected $colWrap = ezcConsoleTable::WRAP_AUTO;
 
     /**
      * Standard column alignment, applied to cells that have to explicit
@@ -76,42 +56,42 @@ class ezcConsoleTableOptions extends ezcBaseOptions
      * 
      * @var int
      */
-    private $defaultAlign = ezcConsoleTable::ALIGN_LEFT;
+    protected $defaultAlign = ezcConsoleTable::ALIGN_LEFT;
 
     /**
      * Padding characters for side padding between data and lines. 
      * 
      * @var string
      */
-    private $colPadding = " ";
+    protected $colPadding = " ";
 
     /**
      * Type of the given table width (fixed or maximal value).
      * 
      * @var int
      */
-    private $widthType = ezcConsoleTable::WIDTH_MAX;
+    protected $widthType = ezcConsoleTable::WIDTH_MAX;
         
     /**
      * Character to use for drawing vertical lines. 
      * 
      * @var string
      */
-    private $lineVertical = "-";
+    protected $lineVertical = "-";
 
     /**
      * Character to use for drawing horizontal lines. 
      * 
      * @var string
      */
-    private $lineHorizontal = "|";
+    protected $lineHorizontal = "|";
 
     /**
      * Character to use for drawing line corners.
      * 
      * @var string
      */
-    private $corner = "+";
+    protected $corner = "+";
     
     /**
      * Standard column content format, applied to cells that have "default" as
@@ -119,7 +99,7 @@ class ezcConsoleTableOptions extends ezcBaseOptions
      * 
      * @var string
      */
-    private $defaultFormat = "default";
+    protected $defaultFormat = "default";
 
     /**
      * Standard border format, applied to rows that have 'default' as the
@@ -127,7 +107,7 @@ class ezcConsoleTableOptions extends ezcBaseOptions
      * 
      * @var string
      */
-    private $defaultBorderFormat = "default";
+    protected $defaultBorderFormat = "default";
     
     /**
      * Construct a new options object.
@@ -261,39 +241,6 @@ class ezcConsoleTableOptions extends ezcBaseOptions
                 throw new ezcBaseSettingNotFoundException( $propertyName );
         }
         $this->$propertyName = $val;
-    }
-
-    /**
-     * Property read access.
-     * 
-     * @param string $key Name of the property.
-     * @return mixed Value of the property or null.
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If the the desired property is not found.
-     */
-    public function __get( $key )
-    {
-        if ( isset( $this->$key ) )
-        {
-            return $this->$key;
-        }
-        throw new ezcBasePropertyNotFoundException( $key );
-    }
-    
-    /**
-     * Property isset access.
-     * 
-     * @param string $key Name of the property.
-     * @return bool True is the property is set, otherwise false.
-     */
-    public function __isset( $key )
-    {
-        if ( isset( $this->$key ) )
-        {
-            return true;
-        }
-        return false;
     }
 }
 

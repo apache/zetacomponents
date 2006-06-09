@@ -12,10 +12,6 @@
 /**
  * Struct class to store the options of the ezcConsoleOutput class.
  * This class stores the options for the {@link ezcConsoleOutput} class.
- *
- * The ezcConsoleStatusbarOptions class has the following properties:
- * - <b>successChar</b> <i>string</i>, The character to display for a succeeded action.
- * - <b>failureChar</b> <i>string</i>, The character to display for a failed action.
  * 
  * @package ConsoleTools
  * @version //autogen//
@@ -28,14 +24,14 @@ class ezcConsoleStatusbarOptions extends ezcBaseOptions
      * 
      * @var string
      */
-    private $successChar = "+";
+    protected $successChar = "+";
 
     /**
      * The char shown for a failed status. 
      * 
      * @var string
      */
-    private $failureChar = "-";
+    protected $failureChar = "-";
 
     /**
      * Option write access.
@@ -64,39 +60,6 @@ class ezcConsoleStatusbarOptions extends ezcBaseOptions
                 throw new ezcBaseSettingNotFoundException( $key );
         }
         $this->$key = $value;
-    }
-
-    /**
-     * Property read access.
-     * 
-     * @param string $key Name of the property.
-     * @return mixed Value of the property or null.
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If the the desired property is not found.
-     */
-    public function __get( $key )
-    {
-        if ( isset( $this->$key ) )
-        {
-            return $this->$key;
-        }
-        throw new ezcBasePropertyNotFoundException( $key );
-    }
-    
-    /**
-     * Property isset access.
-     * 
-     * @param string $key Name of the property.
-     * @return bool True is the property is set, otherwise false.
-     */
-    public function __isset( $key )
-    {
-        if ( isset( $this->$key ) )
-        {
-            return true;
-        }
-        return false;
     }
 }
 
