@@ -16,6 +16,27 @@
  * implemets the generator class itself. To run the generator, please use the 
  * file "rungenerator.php", inside this package.
  *
+ * To generate PersistentObject definitions from a DatabaseSchema, use the
+ * following synopsis:
+ *
+ * <code>
+ * $ php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -s path/to/schema.file -f xml path/to/persistentobject/defs/
+ * </code>
+ *
+ * The -s / --source parameter points to the source schema file. The -f / --format
+ * option specifies the format the schema file has. The argument for the program 
+ * specifies the directory, where the PersistentObject definitions will be stored.
+ *
+ * For help information simply call
+ * <code>
+ * $ php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php
+ * </code>
+ * or
+ * <code>
+ * $ php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -h
+ * </code>
+ * for extended help information.
+ *
  * @package PersistentObjectDatabaseSchemaTiein
  */
 class ezcPersistentObjectSchemaGenerator
@@ -179,6 +200,15 @@ class ezcPersistentObjectSchemaGenerator
         $this->output->outputLine( "PersistentObject definition successfully written to {$destination}.", 'info' );
     }
 
+    /**
+     * Prints the message of an occured error and exits the program.
+     * This method is used to print an error message, as soon as an error
+     * occurs end quit the program with return code -1. Optionally, the
+     * method will trigger the help text to be printed after the error message.
+     * 
+     * @param string $message The error message to print
+     * @param bool $printHelp Whether to print the help after the error msg.
+     */
     private function raiseError( $message, $printHelp = false )
     {
         $this->output->outputLine( $message, 'error' );
