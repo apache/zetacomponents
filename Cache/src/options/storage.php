@@ -64,6 +64,39 @@ class ezcCacheStorageOptions extends ezcBaseOptions
         }
         $this->$key = $value;
     }
+
+    /**
+     * Property read access.
+     * 
+     * @param string $key Name of the property.
+     * @return mixed Value of the property or null.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If the the desired property is not found.
+     */
+    public function __get( $key )
+    {
+        if ( isset( $this->$key ) )
+        {
+            return $this->$key;
+        }
+        throw new ezcBasePropertyNotFoundException( $key );
+    }
+    
+    /**
+     * Property isset access.
+     * 
+     * @param string $key Name of the property.
+     * @return bool True is the property is set, otherwise false.
+     */
+    public function __isset( $key )
+    {
+        if ( isset( $this->$key ) )
+        {
+            return true;
+        }
+        return false;
+    }
 }
 
 
