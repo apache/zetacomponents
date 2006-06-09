@@ -12,6 +12,18 @@
 /**
  * Creating tables to be printed to the console. 
  *
+ * Every ezcConsoleTable object can be accessed as if it was a multidimensional,
+ * numerically indexed array. The first dimension represents the rows of the 
+ * table, so $table[0] gives you access to the first row of the table, which is 
+ * represented by a {@link ezcConsoleTableRow} object. You can access its 
+ * properties directly, using e.g. $table[0]->format. The second dimension gives 
+ * you direct access to the cells of your table, like $table[0][0] accesses the 
+ * first cell in the first row of your table. You can access its properties 
+ * diretly here, too. This works like e.g. $table[0][0]->format. Table row and
+ * cell objects are created on the fly, when you access them for the first time.
+ * You can also create them as if you simply create new array elements. E.g.
+ * $table[] creates a new row in the table.
+ *
  * <code>
  * // Initialize the console output handler
  * $out = new ezcConsoleOutput();
