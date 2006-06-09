@@ -1,0 +1,138 @@
+eZ components - PersistentObjectDatabaseSchemaTiein
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+The PersistentObjectDatabaseSchemaTienin component allows you to generate the
+basic PersistentObject definition files for a database structure from a
+DatabaseSchema schema file. Most likely you will have to adjust the
+PersistentObject definitions afterwards.
+
+Synopsis
+========
+
+::
+
+    $ php rungenerator.php -s <string> -f <string> [-h]  [[--] <args>]
+
+The component contains a runnable script, which can be called using the PHP
+command line interpreter (CLI). You have to provide 2 options for it:
+
+-s / --source <string>
+  This option determines the source DatabaseSchema file to generate the
+  PersistentObject definitions from.
+-f / --format <string>
+  This option determines the format of the provided source schema file. For a
+  list of valid formats, please refer to the `PersistentObject API`_
+  documentation.
+
+.. _`PersistentObject API`: http://ez.no/doc/components/view/latest/(file)/classtrees_DatabaseSchema.html
+
+Additionally a help option is available, which can be accessed using -h /
+--help. You can find on-the-fly usage information here.
+
+As an argument to the generator you have to provide a directory where the
+PersistentObject definitions will be stored. Make sure, that you have the
+permission to write to this directory, before you run the script.
+
+Usage
+=====
+
+The usage of the generator script is easy. You have to have a working eZ
+components installation in place to make it work. Run the script from the main
+eZ components source directory using the following command: ::
+
+    $ php PersistentObjectDatabaseSchemaTiein/rungenerator.php
+
+By default, you will see a short help information on how to use the tool. To
+automatically generate PersistentObject definitions, you need a valid
+DatabaseSchema file for your database structure. You can generate this from
+your database directly, using the DatabaseSchema component. For detailed
+information, please refer to the `PersistentObject API`_ documentation.
+
+Once you have a valid DatabaseSchema file, you have to create a directory,
+where your PersistentObject definitions shall be stored. Now you can use the
+rungenerator.php script to create the basic definition files. Use the following
+command to do this: ::
+
+    $ php PersistentObjectDatabaseSchemaTiein/rungenerator.php -s path/to/schema.file -f array path/to/persistentobject/definition/dir/
+
+You have to replace the paths according to the example. The -s parameter
+defines, where the DatabaseSchema definition can be found. The -f option
+indicates the format of the schema file. In this case, it is a PHP array
+definition, another common format is XML. The last part of the command line
+call specifies the directory to store the generated PersistentObject
+definitions to.
+
+Reworking
+=========
+
+The generator script assumes, that the names of your PersistentObject classes
+and their properties map exactly to the table / column names of your database
+structure. For example, if you have a table called ez_persistent_objects, which
+contains a column named persistent_object_id, you will have to use a class with
+the exactly same name as your table, that has a property called exactly like
+your column.
+
+If you don't want to have a mapping like this, you will have to edit the
+generated PersistentObject files manually. The mapping of class <-> table names
+is done through the properties of the main ezcPersistentObjectDefinition
+object. The "table" property should be correct, since this one is taken from the
+database definition. Adjust the "class" property according to your needs.
+*Attention*: If you change the class name of a PersistentObject definition, you
+have to rename the file it is contained in, accordingly. The file names for a
+PersistentObject definition must be the same as the class name, completely
+written in lower case!
+
+The same procedure applies to the property definition of your
+PersistentObjects. The mapping of column <-> object property is done using the
+class ezcPersistentObjectProperty. The "columnName" property of the definition
+objects should be correct, since this one is taken from your database schema
+file. You can adjust the "propertyName" properties, according to your needs.
+
+Last, the generator script will try to guess the PHP types of your
+PersistentObject properties. This should most likely work correctly, since the
+following mapping is used:
+
+integer
+  ezcPersistentObjectProperty::PHP_TYPE_INT
+timestamp
+  ezcPersistentObjectProperty::PHP_TYPE_INT
+
+float
+  ezcPersistentObjectProperty::PHP_TYPE_FLOAT
+decimal
+  ezcPersistentObjectProperty::PHP_TYPE_FLOAT
+
+text
+  ezcPersistentObjectProperty::PHP_TYPE_STRING
+time
+  ezcPersistentObjectProperty::PHP_TYPE_STRING
+date
+  ezcPersistentObjectProperty::PHP_TYPE_STRING
+blob
+  ezcPersistentObjectProperty::PHP_TYPE_STRING
+clob
+  ezcPersistentObjectProperty::PHP_TYPE_STRING
+
+If you have problems with these mappings, you will have to adjust the
+"propertyType" properties of your ezcPersistentObjectProperty definitions
+accordingly.
+
+More Information
+================
+
+For more information, see the API documentation of
+ezcPersistentObjectDefinition, ezcPersistentObjectProperty,
+ezcDbSchema and ezcDbschemaPersistentWriter.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
