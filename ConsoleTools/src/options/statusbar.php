@@ -12,6 +12,10 @@
 /**
  * Struct class to store the options of the ezcConsoleOutput class.
  * This class stores the options for the {@link ezcConsoleOutput} class.
+ *
+ * The ezcConsoleStatusbarOptions class has the following properties:
+ * - <b>successChar</b> <i>string</i>, The character to display for a succeeded action.
+ * - <b>failureChar</b> <i>string</i>, The character to display for a failed action.
  * 
  * @package ConsoleTools
  * @version //autogen//
@@ -24,14 +28,14 @@ class ezcConsoleStatusbarOptions extends ezcBaseOptions
      * 
      * @var string
      */
-    protected $successChar = "+";
+    private $successChar = "+";
 
     /**
      * The char shown for a failed status. 
      * 
      * @var string
      */
-    protected $failureChar = "-";
+    private $failureChar = "-";
 
     /**
      * Option write access.

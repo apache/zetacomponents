@@ -13,6 +13,11 @@
  * Struct class to store the options of the ezcConsoleOutput class.
  *
  * This class stores the options for the {@link ezcConsoleOutput} class.
+ *
+ * The ezcConsoleOutputOptions class has the following properties:
+ * - <b>verbosityLevel</b> <i>int</i>, determines, which text is printed. All text with the same or a lower verbosity is outputed.
+ * - <b>autobreak</b> <i>int</i>, enables auto wrapping of text after the given number of characters, if larger than 0.
+ * - <b>useFormats</b> <i>bool</i>, determines, whether to use output formats or to simply print text without formats.
  * 
  * @package ConsoleTools
  * @version //autogen//
@@ -24,7 +29,7 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
      * 
      * @var int
      */
-    protected $verbosityLevel = 1;
+    private $verbosityLevel = 1;
 
     /**
      * Determines, whether text is automatically wrapped after a specific amount
@@ -33,14 +38,14 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
      * 
      * @var int
      */
-    protected $autobreak = 0;
+    private $autobreak = 0;
 
     /**
      * Wether to use formatting or not. 
      * 
      * @var bool
      */
-    protected $useFormats = true;
+    private $useFormats = true;
 
     /**
      * Construct a new options object.

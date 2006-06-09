@@ -13,6 +13,23 @@
  * Struct class to store the options of the ezcConsoleOutput class.
  * This class stores the options for the {@link ezcConsoleOutput} class.
  * 
+ * The ezcConsoleProgressbarOptions class has the following properties:
+ * - <b>barChar</b> <i>string</i>, the character to fill the bar with, during progress indication.
+ * - <b>emptyChar</b> <i>string</i>, the character to pre-fill the bar, before indicating progress.
+ * - <b>formatString</b> <i>string</i>, fhe format string to describe the complete progressbar.
+ *   Supports the placeholders 
+ *   - "%bar%" for the actual progress bar
+ *   - "%max%" for the maximum value to reach when the bar finishes
+ *   - "%act%" for the actual value during progress
+ *   - "%fraction%" for the actual percentage value of the bar.
+ * - <b>fractionFormat</b> <i>string</i>, a {@link printf()} compatible format for the fraction value.
+ * - <b>progressChar</b> <i>string</i>, the head of the progressbar (probably an arrow).
+ * - <b>redrawFrequency</b> <i>int</i>, how often the bar will be redrawen (1 means on every call to advance()).
+ * - <b>step</b> <i>int</i>, how many steps to advance the progressbar on each call to advance().
+ * - <b>width</b> <i>int</i>, the width of the bar itself.
+ * - <b>actFormat</b> <i>string</i>, the format of the actual value {@link printf()}.
+ * - <b>maxFormat</b> <i>string</i>, the format of the maximal value {@link printf()}.
+ *
  * @package ConsoleTools
  * @version //autogen//
  */
@@ -23,70 +40,70 @@ class ezcConsoleProgressbarOptions extends ezcBaseOptions
      * 
      * @var string
      */
+    private $barChar = "+";
 
-    protected $barChar = "+";
     /**
      * The character to pre-fill the bar, before indicating progress. 
      * 
      * @var string
      */
-    protected $emptyChar = "-";
+    private $emptyChar = "-";
 
     /**
      * The format string to describe the complete progressbar. 
      * 
      * @var string
      */
-    protected $formatString = "%act% / %max% [%bar%] %fraction%%";
+    private $formatString = "%act% / %max% [%bar%] %fraction%%";
 
     /**
      * Format to display the fraction value. 
      * 
      * @var string
      */
-    protected $fractionFormat = "%01.2f";
+    private $fractionFormat = "%01.2f";
 
     /**
      * The character for the end of the progress area (the arrow!).
      * 
      * @var string
      */
-    protected $progressChar = ">";
+    private $progressChar = ">";
 
     /**
      * How often to redraw the progressbar (on every Xth call to advance()).
      * 
      * @var int
      */
-    protected $redrawFrequency = 1;
+    private $redrawFrequency = 1;
 
     /**
      * How many steps to advance the progressbar on each call to advance().
      * 
      * @var int
      */
-    protected $step = 1;
+    private $step = 1;
 
     /**
      * The width of the bar itself. 
      * 
      * @var int
      */
-    protected $width = 78;
+    private $width = 78;
 
     /**
      * The format to display the actual value with. 
      * 
      * @var string
      */
-    protected $actFormat = '%.0f';
+    private $actFormat = '%.0f';
 
     /**
      * The format to display the actual value with. 
      * 
      * @var string
      */
-    protected $maxFormat = '%.0f';
+    private $maxFormat = '%.0f';
 
     /**
      * Option write access.

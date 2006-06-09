@@ -13,6 +13,12 @@
  * Struct class to store the options of the ezcConsoleOutput class.
  * This class stores the options for the {@link ezcConsoleOutput} class.
  * 
+ * The ezcConsoleProgressMonitorOptions class has the following properties:
+ * - <b>formatString</b> <i>string</i>, determines the format of the progressmonitor with a {@link printf()} compatible format string. The parameters given are:
+ *   1. a float value (the progress value in percent).
+ *   2. a string value (the action name).
+ *   3. a string value (the status message).
+ *
  * @package ConsoleTools
  * @version //autogen//
  */
@@ -24,7 +30,7 @@ class ezcConsoleProgressMonitorOptions extends ezcBaseOptions
      * 
      * @var string
      */
-    protected $formatString = "%8.1f%% %s %s";
+    private $formatString = "%8.1f%% %s %s";
 
     /**
      * Option write access.
