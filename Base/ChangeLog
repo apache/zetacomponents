@@ -1,4 +1,4 @@
-1.1 - [RELEASEDATE]
+1.1 - Friday 09 June 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed bug #8434: ezcBase autoload system does not handle classes without a
