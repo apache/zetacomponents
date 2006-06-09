@@ -11,7 +11,21 @@
 /**
  * Require the base class
  */
-require 'Base/src/base.php';
+// Silenced warning here, will be handeled below, if second include fails.
+if ( ( @include 'Base/src/base.php' ) === false )
+{
+    // Silenced warning here, will be handeled below, if second include fails.
+    if ( ( @include 'Base/base.php' ) === false )
+    {
+        echo <<<EOT
+eZ components environment not setup correctly. Could neither include eZ Base
+component from <Base/src/base.php>, nor from <Base/base.php>. Please check your
+include path!
+
+EOT;
+        exit( -1 );
+    }
+}
 
 function __autoload( $className )
 {
