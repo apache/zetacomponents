@@ -50,13 +50,10 @@ class ezcGraphGdDriver extends ezcGraphDriver
             // Default to a white background
             imagefill( $this->image, 1, 1, $bgColor );
 
-            if ( $this->options->supersampling > 1 )
-            {
-                imagesetthickness( 
-                    $this->image, 
-                    $this->options->supersampling + 1
-                );
-            }
+            imagesetthickness( 
+                $this->image, 
+                $this->options->supersampling
+            );
         }
 
         return $this->image;
@@ -115,6 +112,12 @@ class ezcGraphGdDriver extends ezcGraphDriver
         }
     }
 
+    protected function supersample( $value )
+    {
+        $mod = (int) floor( $this->options->supersampling / 2 );
+        return $value * $this->options->supersampling - $mod;
+    }
+
     /**
      * Draws a single polygon 
      * 
@@ -134,8 +137,8 @@ class ezcGraphGdDriver extends ezcGraphDriver
         $pointArray = array();
         for ( $i = 0; $i < $pointCount; ++$i )
         {
-            $pointArray[] = $points[$i]->x * $this->options->supersampling;
-            $pointArray[] = $points[$i]->y * $this->options->supersampling;
+            $pointArray[] = $this->supersample( $points[$i]->x );
+            $pointArray[] = $this->supersample( $points[$i]->y );
         }
 
         // Draw polygon
@@ -157,19 +160,29 @@ class ezcGraphGdDriver extends ezcGraphDriver
      * @param ezcGraphColor $color 
      * @return void
      */
-    public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color )
+    public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color, $thickness = 1 )
     {
         $image = $this->getImage();
 
         $drawColor = $this->allocate( $color );
 
+        imagesetthickness( 
+            $this->image, 
+            $this->options->supersampling * $thickness
+        );
+
         imageline( 
             $image, 
-            $start->x * $this->options->supersampling, 
-            $start->y * $this->options->supersampling, 
-            $end->x * $this->options->supersampling, 
-            $end->y * $this->options->supersampling, 
+            $this->supersample( $start->x ), 
+            $this->supersample( $start->y ), 
+            $this->supersample( $end->x ), 
+            $this->supersample( $end->y ), 
             $drawColor
+        );
+
+        imagesetthickness( 
+            $this->image, 
+            $this->options->supersampling
         );
     }
     
@@ -375,10 +388,10 @@ class ezcGraphGdDriver extends ezcGraphDriver
 
         imagefilledarc( 
             $image, 
-            $center->x * $this->options->supersampling, 
-            $center->y * $this->options->supersampling, 
-            $width * $this->options->supersampling, 
-            $height * $this->options->supersampling, 
+            $this->supersample( $center->x ), 
+            $this->supersample( $center->y ), 
+            $this->supersample( $width ), 
+            $this->supersample( $height ), 
             $startAngle, 
             $endAngle, 
             $drawColor, 
@@ -524,10 +537,10 @@ class ezcGraphGdDriver extends ezcGraphDriver
         {
             imagefilledellipse( 
                 $image, 
-                $center->x * $this->options->supersampling, 
-                $center->y * $this->options->supersampling, 
-                $width * $this->options->supersampling, 
-                $height * $this->options->supersampling, 
+                $this->supersample( $center->x ), 
+                $this->supersample( $center->y ), 
+                $this->supersample( $width ), 
+                $this->supersample( $height ), 
                 $drawColor 
             );
         }
@@ -535,10 +548,10 @@ class ezcGraphGdDriver extends ezcGraphDriver
         {
             imageellipse( 
                 $image, 
-                $center->x * $this->options->supersampling, 
-                $center->y * $this->options->supersampling, 
-                $width * $this->options->supersampling, 
-                $height * $this->options->supersampling, 
+                $this->supersample( $center->x ), 
+                $this->supersample( $center->y ), 
+                $this->supersample( $width ), 
+                $this->supersample( $height ), 
                 $drawColor 
             );
         }
@@ -561,12 +574,12 @@ class ezcGraphGdDriver extends ezcGraphDriver
         imagecopyresampled( 
             $image, 
             $imageFile['image'], 
-            $position->x * $this->options->supersampling, 
-            $position->y * $this->options->supersampling,
+            $this->supersample( $position->x ), 
+            $this->supersample( $position->y ),
             0, 
             0,
-            ( $position->x + $width ) * $this->options->supersampling, 
-            ( $position->y + $height ) * $this->options->supersampling,
+            $this->supersample( $position->x + $width ), 
+            $this->supersample( $position->y + $height ),
             $imageFile['width'], $imageFile['height']
         );
     }
@@ -591,8 +604,8 @@ class ezcGraphGdDriver extends ezcGraphDriver
                 0, 0,
                 $this->options->width,
                 $this->options->height,
-                $this->options->width * $supersampling,
-                $this->options->height * $supersampling
+                $this->supersample( $this->options->width ),
+                $this->supersample( $this->options->height )
             );
 
             $this->image = $sampled;

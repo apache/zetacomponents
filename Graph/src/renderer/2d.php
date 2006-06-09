@@ -46,7 +46,8 @@ class ezcGraphRenderer2D extends ezcGraphRenderer
         $this->driver->drawLine(
             $position,
             $end,
-            $color
+            $color,
+            1 + $filled
         );
     }
     

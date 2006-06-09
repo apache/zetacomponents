@@ -237,7 +237,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '00ada6588d0974ecd7a73e96877d659e',
+            '8cc7463f5fe568a3116824137251222f',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
