@@ -13,6 +13,10 @@
  * Option class for the ezcCacheStorage class.
  * Instances of this class store the option of ezcCacheStorage implementations.
  *
+ * The ezcConsoleOutputOptions class has the following properties:
+ * - <b>ttl</b> <i>mixed</i>, the time to live for each data item stored with this storage in seconds or false for endless live time. Default is 24 hrs.
+ * - <b>extension</b> <i>string</i>, the (most probably file-) extension to append to the IDs of the data items of this storage. Default is ".cache".
+ *
  * @package Cache
  */
 class ezcCacheStorageOptions extends ezcBaseOptions
@@ -22,14 +26,14 @@ class ezcCacheStorageOptions extends ezcBaseOptions
      * 
      * @var int
      */
-    protected $ttl = 86400;   // 60 * 60 * 24 = 24 hrs
+    private $ttl = 86400;   // 60 * 60 * 24 = 24 hrs
 
     /**
      * The (file) extension to use for the storage items.
      * 
      * @var string
      */
-    protected $extension = ".cache";
+    private $extension = ".cache";
 
     /**
      * Sets an options.
