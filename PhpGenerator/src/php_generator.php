@@ -361,6 +361,7 @@ class ezcPhpGenerator
     {
         if ( file_exists( $this->tmpFilename ) )
         {
+            $this->fileResource = null;
             unlink( $this->tmpFilename );
             $this->tmpFilename = null;
         }

@@ -141,6 +141,7 @@ class ezcPhpGeneratorTest extends ezcTestCase
             return;
         }
         $this->fail( "Expected exception" );
+        unset($generator);
     }
 
     /**
@@ -157,6 +158,7 @@ class ezcPhpGeneratorTest extends ezcTestCase
         $generator->finish();
         $data = file_get_contents( dirname( __FILE__ ) . '/data/generator_test.php' );
         $this->assertEquals( true, eval( $data ) );
+        unset( $generator );
     }
 
     /**
