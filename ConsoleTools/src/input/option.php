@@ -42,7 +42,7 @@ class ezcConsoleOption {
      * 
      * @var int
      */
-    protected $type = ezcConsoleInput::TYPE_NONE;
+    private $type = ezcConsoleInput::TYPE_NONE;
 
     /**
      * Default value if the parameter is submitted without value.
@@ -52,28 +52,28 @@ class ezcConsoleOption {
      * 
      * @var mixed
      */
-    protected $default;
+    private $default;
 
     /**
      * Is the submition of multiple instances of this parameters allowed? 
      * 
      * @var bool
      */
-    protected $multiple = false;
+    private $multiple = false;
     
     /**
      * Short help text. Usually displayed when showing parameter help overview.
      * 
      * @var string
      */
-    protected $shorthelp = 'No help available.';
+    private $shorthelp = 'No help available.';
     
     /**
      * Long help text. Usually displayed when showing parameter detailed help.
      * 
      * @var string
      */
-    protected $longhelp = 'Sorry, there is no help text available for this parameter.';
+    private $longhelp = 'Sorry, there is no help text available for this parameter.';
 
     /**
      * Dependency rules of this parameter.
@@ -106,7 +106,7 @@ class ezcConsoleOption {
      * 
      * @var bool
      */
-    protected $arguments = true;
+    private $arguments = true;
 
     /**
      * Wether a parameter is mandatory to be set.
@@ -115,7 +115,7 @@ class ezcConsoleOption {
      * 
      * @var bool
      */
-    protected $mandatory = false;
+    private $mandatory = false;
 
     /**
      * Wether a parameter is a help option.
@@ -124,7 +124,7 @@ class ezcConsoleOption {
      *  
      * @var bool
      */
-    protected $isHelpOption = false;
+    private $isHelpOption = false;
 
     /**
      * The value the parameter was assigned to when being submitted.
