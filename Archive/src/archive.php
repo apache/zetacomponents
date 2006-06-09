@@ -496,9 +496,11 @@ abstract class ezcArchive implements Iterator
                     case ezcArchiveEntry::IS_SYMBOLIC_LINK:
                         if ( $isWindows )
                         {
-                            $pathParts = pathinfo( $fileName );
-                            $linkDir = $pathParts['dirname'];
-                            copy( $linkDir.'/'.$entry->getLink(), $fileName );
+                            //FIXME.. need to be sure that target file 
+                            //already extracted before copying it to link destination.
+                            $sourcePath = dirname( $fileName ).'/'.$entry->getLink();
+                            $fileName = str_replace( '/', '\\', $fileName );
+                            copy( $sourcePath, $fileName );
                         }
                         else
                         {

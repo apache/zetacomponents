@@ -25,6 +25,10 @@ class ezcArchiveGnuTarTest extends ezcArchivePaxTarTest
 
     public function tearDown()
     {
+        unset( $this->archive );
+        unset( $this->file );
+        unset( $this->complexArchive ) ;
+        unset( $this->complexFile );
         $this->removeTempDir();
     }
 

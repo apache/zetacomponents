@@ -22,10 +22,15 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
         $this->complexFile = $this->createTempFile("tar_ustar_file_dir_symlink_link.tar");
         $blockFile = new ezcArchiveBlockFile( $this->complexFile );
         $this->complexArchive = new ezcArchiveUstarTar( $blockFile );
+        unset( $blockFile );
     }
 
     public function tearDown()
     {
+        unset( $this->archive );
+        unset( $this->file );
+        unset( $this->complexArchive ) ;
+        unset( $this->complexFile );
         $this->removeTempDir();
     }
 
@@ -48,7 +53,16 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
 
         $filename = "";
 
-        for( $i = 0; $i < 70; $i++)
+        if ( $this->isWindows() )
+        {
+            $pathItemLen = 50;  //long but not looong path. Windows max path = 255.
+        }
+        else
+        {
+            $pathItemLen = 70;
+        }
+
+        for( $i = 0; $i < $pathItemLen; $i++)
         {
             $filename .= ($i % 10);
         }
@@ -65,6 +79,9 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
  
         exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir $filename/$filename/$filename");
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents( "$dir/myarchive.tar" ) );
+
+        unset($archive);
+        unset($bf);
     }
 
     public function testLongFilenameException()

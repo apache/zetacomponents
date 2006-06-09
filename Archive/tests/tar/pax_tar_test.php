@@ -25,6 +25,10 @@ class ezcArchivePaxTarTest extends ezcArchiveUstarTarTest
 
     public function tearDown()
     {
+        unset( $this->archive );
+        unset( $this->file );
+        unset( $this->complexArchive ) ;
+        unset( $this->complexFile );
         $this->removeTempDir();
     }
 
@@ -39,11 +43,20 @@ class ezcArchivePaxTarTest extends ezcArchiveUstarTarTest
     {
         $dir = $this->getTempDir();
 
-        $dirname = "aaaaaaaaaabbbbbbbbbbaaaaaaaaaabbbbbbbbbbaaaaaaaaaabbbbbbbbbb"; // 60 char.
-        mkdir( "$dir/$dirname/$dirname/$dirname", 0777, true );
-
-        $filename = "ccccccccccddddddddddccccccccccddddddddddccccccccccdddddddddd"; // 60 char.
-        touch ( "$dir/$dirname/$dirname/$dirname/$filename" );
+        if ( $this->isWindows() )
+        {
+            $dirname = "aaaaabbbbbaaaaabbbbbaaaaabbbbb"; // 30 char. max paths shorter in Windows
+            $filename = "cccccdddddcccccdddddcccccddddd"; // 30 char. max paths shorter in Windows
+            mkdir( "$dir\\$dirname\\$dirname\\$dirname", 0777, true );
+            touch ( "$dir\\$dirname\\$dirname\\$dirname\\$filename" );
+        }
+        else
+        {
+            $dirname = "aaaaaaaaaabbbbbbbbbbaaaaaaaaaabbbbbbbbbbaaaaaaaaaabbbbbbbbbb"; // 60 char.
+            $filename = "ccccccccccddddddddddccccccccccddddddddddccccccccccdddddddddd"; // 60 char.
+            mkdir( "$dir/$dirname/$dirname/$dirname", 0777, true );
+            touch ( "$dir/$dirname/$dirname/$dirname/$filename" );
+        }
 
         exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir $dirname");
 
@@ -64,24 +77,30 @@ class ezcArchivePaxTarTest extends ezcArchiveUstarTarTest
 
         $this->assertTrue( file_exists( "$dir/$dirname/$dirname/$dirname/$filename" ) );
 
+        unset($bf);
     }
 
     public function testExtractLongLinkName()
     {
         $dir = $this->getTempDir();
 
-        $dirname = "aaaaaaaaaabbbbbbbbbbaaaaaaaaaabbbbbbbbbbaaaaaaaaaabbbbbbbbbb"; // 60 char.
-        mkdir( "$dir/$dirname/$dirname/$dirname", 0777, true );
-
-        $filename = "ccccccccccddddddddddccccccccccddddddddddccccccccccdddddddddd"; // 60 char.
-        touch ( "$dir/$dirname/$dirname/$dirname/$filename" );
-
-        if ( substr( php_uname('s'), 0, 7 ) == 'Windows' )
+        if ( $this->isWindows() )
         {
-            copy( "$dirname/$dirname/$dirname/$filename", "$dir/mylink" );
+            $dirname = "aaaaabbbbbaaaaabbbbbaaaaabbbbb"; // 30 char. max paths shorter in Windows
+            $filename = "cccccdddddcccccdddddcccccddddd"; // 30 char. max paths shorter in Windows
+            mkdir( "$dir\\$dirname\\$dirname\\$dirname", 0777, true );
+            touch ( "$dir\\$dirname\\$dirname\\$dirname\\$filename" );
+
+            copy( "$dir\\$dirname\\$dirname\\$dirname\\$filename", "$dir/mylink" );
         }
         else
         {
+            $dirname = "aaaaaaaaaabbbbbbbbbbaaaaaaaaaabbbbbbbbbbaaaaaaaaaabbbbbbbbbb"; // 60 char.
+            mkdir( "$dir/$dirname/$dirname/$dirname", 0777, true );
+
+            $filename = "ccccccccccddddddddddccccccccccddddddddddccccccccccdddddddddd"; // 60 char.
+            touch ( "$dir/$dirname/$dirname/$dirname/$filename" );
+
             symlink( "$dirname/$dirname/$dirname/$filename", "$dir/mylink" );
         }
 
@@ -103,6 +122,7 @@ class ezcArchivePaxTarTest extends ezcArchiveUstarTarTest
 
         $this->assertTrue( is_link( "$dir/mylink" ) );
         $this->assertEquals( "$dirname/$dirname/$dirname/$filename", readlink("$dir/mylink")  );
+        unset( $bf );
     }
 
     public function testExtractHugeFile()

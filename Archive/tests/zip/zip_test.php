@@ -29,6 +29,11 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         $this->assertEquals("file1.txt", $entry->getPath() );
     }
 
+    protected function isWindows()
+    {
+        return ( substr( php_uname( 's' ), 0, 7 ) == 'Windows' ) ? true : false;
+    }
+
     public function testEmptyArchive()
     {
         $archive = $this->td->getNewArchive( "does_not_exist" );
@@ -37,6 +42,11 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         $this->assertFalse( $archive->valid(), "Archive should be empty, so no  file info available" );
         $this->assertFalse( $archive->next(), "Archive should be empty, so no file info available" );
         $this->assertFalse( $archive->next(), "Archive should be empty, so no file info available" );
+
+        if ( $this->isWindows() )
+        {
+            return; //avoid warning
+        }
 
         unlink( 'does_not_exist' );
     }
@@ -181,6 +191,11 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
 
     public function testSymlink()
     {
+        if ( $this->isWindows() ) 
+        {
+            return; //symlinks extracted as files in Windows, so there is no sence to call is_link()
+        }
+
         $dir = $this->getTempDir();
         $archive = $this->td->getArchive ("file_symlink"); 
 
@@ -295,10 +310,10 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         // The subdirectory should be created automatically.
         $archive = $this->td->getArchive( "file_dir_symlink_link" );
         $archive->seek( 1 ); 
-        $targetDir = $this->getTempDir() ."/";
+        $targetDir = $this->getTempDir();
         $archive->extractCurrent( $targetDir );
 
-        $this->assertTrue( file_exists( $targetDir . "files/bla/"), "Cannot find the extracted directory." ); 
+        $this->assertTrue( file_exists( $targetDir . "/files/bla/"), "Cannot find the extracted directory." ); 
     }
 
     public function testExtractOneFile()
@@ -306,11 +321,11 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         // The directory should be created automatically.
         $archive = $this->td->getArchive( "file_dir_symlink_link" );
         $archive->seek( 4 ); // 5th file.
-        $targetDir = $this->getTempDir() ."/";
+        $targetDir = $this->getTempDir();
         $archive->extractCurrent( $targetDir );
 
-        $this->assertTrue( file_exists( $targetDir . "files/bla/file3.txt"), "Cannot find the extracted file." ); 
-        $this->assertEquals("Hello world.\nThe third file.\n", file_get_contents( $targetDir ."files/bla/file3.txt") );
+        $this->assertTrue( file_exists( $targetDir . "/files/bla/file3.txt"), "Cannot find the extracted file." ); 
+        $this->assertEquals("Hello world.\nThe third file.\n", file_get_contents( $targetDir ."/files/bla/file3.txt") );
     }
 
     public function testExtractOneComprssedFile()
@@ -318,10 +333,10 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         // The directory should be created automatically.
         $archive = $this->td->getArchive( "file_dir_symlink_link" );
         $archive->seek( 3 ); // 5th file.
-        $targetDir = $this->getTempDir() ."/";
+        $targetDir = $this->getTempDir();
         $archive->extractCurrent( $targetDir );
 
-        $this->assertTrue( file_exists( $targetDir . "files/bla/bin/true"), "Cannot find the extracted file." ); 
+        $this->assertTrue( file_exists( $targetDir . "/files/bla/bin/true"), "Cannot find the extracted file." ); 
     }
 
 
@@ -331,10 +346,17 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         // The directory should be created automatically.
         // The link points to an non existing file.
         $archive = $this->td->getArchive( "file_dir_symlink_link" );
+        $targetDir = $this->getTempDir() ;
+
+        if ( $this->isWindows() ) // for windows we extract target file at first.
+        { 
+            $archive->seek( 4 );
+            $archive->extractCurrent( $targetDir );
+        }
+
         $archive->seek( 7 ); 
-        $targetDir = $this->getTempDir() ."/";
         $archive->extractCurrent( $targetDir );
-        $this->assertTrue( is_array (lstat( $targetDir."files/file3.txt" ) ) );
+        $this->assertTrue( is_array (lstat( $targetDir."/files/file3.txt" ) ) );
     }
 
     public function testAppendNonExistingFile()

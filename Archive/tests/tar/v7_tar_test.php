@@ -51,6 +51,10 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         $this->removeTempDir();
     }
    
+    protected function isWindows()
+    {
+        return ( substr( php_uname( 's' ), 0, 7 ) == 'Windows' ) ? true : false;
+    }
 
       // FIXME
     // Move method to the archiveTest.
@@ -262,8 +266,8 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         }
 
         exec("tar -xf ".$this->complexFile." -C $dir/gnu");
-        // make corrections to that emulate symlink in windows
-        if ( substr( php_uname('s'), 0, 7 ) == 'Windows')
+        // make corrections that emulate symlink in windows
+        if ( $this->isWindows() )
         {
             exec( 'attrib -r '.$dir.'\gnu\files\file3.txt.lnk' );
             exec( 'del "'.$dir.'\gnu\files\file3.txt.lnk"');
@@ -409,13 +413,34 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
 
     public function testExtractOneSymbolicLink()
     {
-        // The directory should be created automatically.
-        // The link points to an non existing file.
-        $this->complexArchive->seek( 7 ); 
+        //this test a bit different in Windows as symlinks
+        //simulated by copying
+        if ( $this->isWindows() ) 
+        {
+            // The directory should be created automatically.
+            // There is both link and link target extracted
+            // and there are both the same file.
+            $targetDir = $this->getTempDir();
+            
+            //extract target
+            $this->complexArchive->seek( 4 ); 
+            $this->complexArchive->extractCurrent( $targetDir );
 
-        $targetDir = $this->getTempDir();
-        
-        $this->complexArchive->extractCurrent( $targetDir );
+            //"extract" link i.e. copy target
+            $this->complexArchive->seek( 7 ); 
+            $this->complexArchive->extractCurrent( $targetDir );
+        }
+        else
+        {
+            // The directory should be created automatically.
+            // The link points to an non existing file.
+            $this->complexArchive->seek( 7 ); 
+
+            $targetDir = $this->getTempDir();
+            
+            $this->complexArchive->extractCurrent( $targetDir );
+        }
+
         $this->assertTrue( is_array (lstat( $targetDir."/files/file3.txt" ) ) );
     }
 
@@ -473,10 +498,15 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         // Change link.
         unlink( $dir."/php/files/file3.txt" );
 
-        $isWindows = ( substr( php_uname('s'), 0, 7 ) == 'Windows')?true:false;
-        if ( $isWindows )
+        if ( $this->isWindows() )
         {
-            copy( "file4.txt", $dir."/php/files/file3.txt" );
+            copy( $dir ."/php/files/file4.txt", $dir."/php/files/file3.txt" );
+
+            // make corrections of gnu tar output
+            // replace .lnk file with copy of target file
+            exec( 'attrib -r '.$dir.'\gnu\files\file3.txt.lnk' );
+            exec( 'del "'.$dir.'\gnu\files\file3.txt.lnk"');
+            exec( 'copy "'.$dir.'\gnu\files\bla\file3.txt" "'.$dir.'\gnu\files\file3.txt"');
         }
         else
         {        
@@ -518,10 +548,15 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         // Change link.
         unlink( $dir."/php/files/file3.txt" );
 
-        $isWindows = ( substr( php_uname('s'), 0, 7 ) == 'Windows')?true:false;
-        if ( $isWindows )
+        if ( $this->isWindows() )
         {
-            copy( "file4.txt", $dir."/php/files/file3.txt" );
+            copy( $dir ."/php/files/file4.txt", $dir."/php/files/file3.txt" );
+
+            // make corrections of gnu tar output 
+            // replace .lnk file with copy of target file
+            exec( 'attrib -r '.$dir.'\gnu\files\file3.txt.lnk' );
+            exec( 'del "'.$dir.'\gnu\files\file3.txt.lnk"');
+            exec( 'copy "'.$dir.'\gnu\files\bla\file3.txt" "'.$dir.'\gnu\files\file3.txt"');
         }
         else
         {        
@@ -826,6 +861,7 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
     public function testAppendToCurrentSymbolicLink()
     {
         if ( !$this->canWrite ) return;
+        if ( $this->isWindows() ) return; //there is no sense to test it in Windows as its the same as appending file.
 
         $dir = $this->getTempDir();
         $this->complexArchive->seek(7);
