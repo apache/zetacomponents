@@ -13,10 +13,6 @@
  * Option class for the ezcCacheStorage class.
  * Instances of this class store the option of ezcCacheStorage implementations.
  *
- * The ezcConsoleOutputOptions class has the following properties:
- * - <b>ttl</b> <i>mixed</i>, the time to live for each data item stored with this storage in seconds or false for endless live time. Default is 24 hrs.
- * - <b>extension</b> <i>string</i>, the (most probably file-) extension to append to the IDs of the data items of this storage. Default is ".cache".
- *
  * @package Cache
  */
 class ezcCacheStorageOptions extends ezcBaseOptions
@@ -26,14 +22,14 @@ class ezcCacheStorageOptions extends ezcBaseOptions
      * 
      * @var int
      */
-    private $ttl = 86400;   // 60 * 60 * 24 = 24 hrs
+    protected $ttl = 86400;   // 60 * 60 * 24 = 24 hrs
 
     /**
      * The (file) extension to use for the storage items.
      * 
      * @var string
      */
-    private $extension = ".cache";
+    protected $extension = ".cache";
 
     /**
      * Sets an options.
@@ -63,39 +59,6 @@ class ezcCacheStorageOptions extends ezcBaseOptions
                 throw new ezcBaseSettingNotFoundException( $key );
         }
         $this->$key = $value;
-    }
-
-    /**
-     * Property read access.
-     * 
-     * @param string $key Name of the property.
-     * @return mixed Value of the property or null.
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If the the desired property is not found.
-     */
-    public function __get( $key )
-    {
-        if ( isset( $this->$key ) )
-        {
-            return $this->$key;
-        }
-        throw new ezcBasePropertyNotFoundException( $key );
-    }
-    
-    /**
-     * Property isset access.
-     * 
-     * @param string $key Name of the property.
-     * @return bool True is the property is set, otherwise false.
-     */
-    public function __isset( $key )
-    {
-        if ( isset( $this->$key ) )
-        {
-            return true;
-        }
-        return false;
     }
 }
 
