@@ -1,6 +1,12 @@
 <?php
-
-require_once 'Base/src/base.php';
+$dir = dirname( __FILE__ );
+$dirParts = split( '/', $dir );
+switch ( $dirParts[count( $dirParts ) - 3] )
+{
+	case 'doc': require_once 'ezc/Base/base.php'; break; // pear
+	case 'trunk': require_once "$dir/../../Base/src/base.php"; break; // svn
+	default: require_once "$dir/../../Base/src/base.php"; break; // bundle
+}
 
 /**
  * Autoload ezc classes 
@@ -9,15 +15,6 @@ require_once 'Base/src/base.php';
  */
 function __autoload( $className )
 {
-    if ( ezcBase::autoload( $className ) )
-    {
-        return;
-    }
-    if ( strpos( $className, '_' ) !== false )
-    {
-        $file = str_replace( '_', '/', $className ) . '.php';
-        require_once( $file );
-    }
+	ezcBase::autoload( $className );
 }
-
 ?>
