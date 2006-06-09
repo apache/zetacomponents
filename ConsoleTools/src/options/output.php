@@ -115,7 +115,7 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
             default:
                 throw new ezcBaseSettingNotFoundException( $propertyName );
         }
-        $this->properties[$propertyName] = $val;
+        $this->$propertyName = $val;
     }
 }
 
