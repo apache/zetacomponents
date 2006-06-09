@@ -19,7 +19,17 @@
 class ezcConsoleTableOptions extends ezcBaseOptions
 {
     /**
-     * Column width, either a fixed int value (number of chars)  or 'auto'.
+     * Column width: Either an array of column widths like:
+     * <code>
+     * array( 
+     *      0 => 10,
+     *      1 => 30,
+     *      2 => 10,
+     * )
+     * </code>
+     * To have the first column 10 characters wide, the second 30 and the 3rd 10.
+     * Alternatively the string "auto" to have the columns widths automatically
+     * calculated.
      * 
      * @var mixed
      */

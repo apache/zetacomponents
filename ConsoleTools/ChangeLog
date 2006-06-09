@@ -1,3 +1,10 @@
+1.1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed bug #8460: ConsoleOption is a class and should have properties instead
+  of public variables.
+- Fixed bug #8472: Update documentation for ezcConsoleTableOptions.
+
 1.1rc1 - Monday 29 May 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
