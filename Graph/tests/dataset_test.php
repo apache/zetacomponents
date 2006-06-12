@@ -149,15 +149,48 @@ class ezcGraphDatasetTest extends ezcTestCase
         );
     }
 
-    public function testDatasetSetSymbol()
+    public function testDatasetSetHighlight()
     {
         $chart = ezcGraph::create( 'Pie' );
         $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
-        $chart->income->symbol = ezcGraph::DIAMOND;
+        $chart->income->highlight = true;
 
         $this->assertEquals(
-            ezcGraph::DIAMOND,
-            $chart->income->symbol->default
+            true,
+            $chart->income->highlight->default
+        );
+    }
+
+    public function testDatasetGetHighlight()
+    {
+        $chart = ezcGraph::create( 'Pie' );
+        $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
+
+        $this->assertEquals(
+            false,
+            $chart->income->highlight[2001]
+        );
+
+        $this->assertEquals(
+            false,
+            $chart->income->highlight->default
+        );
+    }
+
+    public function testDatasetSetHighlightSingle()
+    {
+        $chart = ezcGraph::create( 'Pie' );
+        $chart->income = array( 2000 => 2345.2, 2456.3, 2567.4 );
+        $chart->income->highlight[2001] = true;
+
+        $this->assertEquals(
+            false,
+            $chart->income->highlight[2000]
+        );
+
+        $this->assertEquals(
+            true,
+            $chart->income->highlight[2001]
         );
     }
 

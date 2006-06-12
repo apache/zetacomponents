@@ -15,16 +15,55 @@
 class ezcGraphDataset implements ArrayAccess, Iterator
 {
 
+    /**
+     * labels for dataset and dataset elements
+     * 
+     * @var ezcGraphDatasetStringProperty
+     */
     protected $label;
 
+    /**
+     * Colors for dataset elements
+     * 
+     * @var ezcGraphDatasetColorProperty
+     */
     protected $color;
 
+    /**
+     * Symbols for dataset elements
+     * 
+     * @var ezcGraphDatasetIntProperty
+     */
     protected $symbol;
 
+    /**
+     * Status if dataset element is hilighted
+     * 
+     * @var ezcGraphDatasetBooleanProperty
+     * @access protected
+     */
+    protected $highlight;
+
+    /**
+     * Array which contains the data of the dataset
+     * 
+     * @var array
+     */
     protected $data;
 
+    /**
+     * Current dataset element
+     * needed for iteration over dataset with ArrayAccess
+     * 
+     * @var mixed
+     */
     protected $current;
 
+    /**
+     * Color palette used for dataset colorization
+     * 
+     * @var ezcGraphPalette
+     */
     protected $pallet;
 
     public function __construct()
@@ -32,6 +71,9 @@ class ezcGraphDataset implements ArrayAccess, Iterator
         $this->label = new ezcGraphDatasetStringProperty( $this );
         $this->color = new ezcGraphDatasetColorProperty( $this );
         $this->symbol = new ezcGraphDatasetIntProperty( $this );
+        $this->highlight = new ezcGraphDatasetBooleanProperty( $this );
+
+        $this->highlight->default = false;
     }
 
     /**
@@ -64,6 +106,10 @@ class ezcGraphDataset implements ArrayAccess, Iterator
                 break;
             case 'symbol':
                 $this->symbol->default = $propertyValue;
+                break;
+            case 'highlight':
+            case 'hilight':
+                $this->highlight->default = $propertyValue;
                 break;
             case 'palette':
                 $this->palette = $propertyValue;

@@ -57,6 +57,7 @@ return array(
     'ezcGraphDatasetColorProperty'              => 'Graph/datasets/property/color.php',
     'ezcGraphDatasetStringProperty'             => 'Graph/datasets/property/string.php',
     'ezcGraphDatasetIntProperty'                => 'Graph/datasets/property/integer.php',
+    'ezcGraphDatasetBooleanProperty'            => 'Graph/datasets/property/boolean.php',
     'ezcGraphNoSuchDataException'               => 'Graph/exceptions/no_such_data.php',
     'ezcGraphNoSuchDatasetException'            => 'Graph/exceptions/no_such_dataset.php',
     'ezcGraphTooManyDatasetsExceptions'         => 'Graph/exceptions/too_many_datasets.php',
