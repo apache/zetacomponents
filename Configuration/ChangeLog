@@ -1,4 +1,4 @@
-1.0.2 - [RELEASEDATE]
+1.0.2 - Monday 12 June 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Added a check to insure that the init method is called before fetching a
