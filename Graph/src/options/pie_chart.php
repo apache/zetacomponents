@@ -42,6 +42,14 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
     protected $symbolSize = 6;
 
     /**
+     * Percent to move pie chart elements out of the middle on highlight
+     * 
+     * @var float
+     * @access protected
+     */
+    protected $moveOut = .1;
+
+    /**
      * Set an option value
      * 
      * @param string $propertyName 
@@ -62,6 +70,9 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
                 break;
             case 'symbolSize':
                 $this->symbolSize = (int) $propertyValue;
+                break;
+            case 'moveOut':
+                $this->moveOut = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );

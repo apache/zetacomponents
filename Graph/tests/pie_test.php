@@ -269,7 +269,38 @@ class ezcGraphPieChartTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            'b1de7ecb51784885c11d86091489d12d',
+            'c12df5fe4632d7a4b6bd3406bf395514',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testCompleteRenderingWithHilight()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = ezcGraph::create( 'Pie' );
+
+        $chart->sample = array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        );
+        $chart->sample->highlight['Safari'] = true;
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 400, 200, $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            '016c82f3a51c8b35c36323360ab4f40b',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );

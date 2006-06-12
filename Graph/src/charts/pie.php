@@ -82,10 +82,10 @@ class ezcGraphPieChart extends ezcGraphChart
             $renderer->drawPieSegment(
                 $dataset->color[$label],
                 $center,
-                $radius,
+                $radius * ( 1 - $this->options->moveOut ),
                 $angle,
                 $endAngle = $angle + $value / $sum * 360,
-                0
+                ( $dataset->highlight[$label] ? $radius * $this->options->moveOut : 0 )
             );
 
             // Determine position of label
