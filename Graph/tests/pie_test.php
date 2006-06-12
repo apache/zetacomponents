@@ -103,21 +103,53 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->with(
                 $this->equalTo( ezcGraphColor::fromHex( '#4E9A06' ) ),
                 $this->equalTo( new ezcGraphCoordinate( 240, 100 ) ),
-                $this->equalTo( 100 ),
+                $this->equalTo( 90 ),
                 $this->equalTo( 0 ),
-                $this->equalTo( 220.52646317558 ),
+                $this->equalTo( 220.52646317558, .1 ),
                 $this->equalTo( 0 )
             );
-
         $mockedRenderer
             ->expects( $this->at( 1 ) )
             ->method( 'drawPieSegment' )
             ->with(
-                $this->equalTo( ezcGraphColor::fromHex( '#4E9A06' ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( new ezcGraphCoordinate( 240, 100 ) ),
-                $this->equalTo( 100 ),
-                $this->equalTo( 220.52646317558 ),
-                $this->equalTo( 0 ),
+                $this->equalTo( 90 ),
+                $this->equalTo( 220.52646317558, .1 ),
+                $this->equalTo( 237.916549986, .1 ),
+                $this->equalTo( 0 )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 2 ) )
+            ->method( 'drawPieSegment' )
+            ->with(
+                $this->equalTo( ezcGraphColor::fromHex( '#EDD400' ) ),
+                $this->equalTo( new ezcGraphCoordinate( 240, 100 ) ),
+                $this->equalTo( 90 ),
+                $this->equalTo( 237.916549986, .1 ),
+                $this->equalTo( 298.60543265192, .1 ),
+                $this->equalTo( 0 )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 3 ) )
+            ->method( 'drawPieSegment' )
+            ->with(
+                $this->equalTo( ezcGraphColor::fromHex( '#75505B' ) ),
+                $this->equalTo( new ezcGraphCoordinate( 240, 100 ) ),
+                $this->equalTo( 90 ),
+                $this->equalTo( 298.60543265192, .1 ),
+                $this->equalTo( 310.24922990759, .1 ),
+                $this->equalTo( 0 )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 4 ) )
+            ->method( 'drawPieSegment' )
+            ->with(
+                $this->equalTo( ezcGraphColor::fromHex( '#F57900' ) ),
+                $this->equalTo( new ezcGraphCoordinate( 240, 100 ) ),
+                $this->equalTo( 90 ),
+                $this->equalTo( 310.24922990759, .1 ),
+                $this->equalTo( 360., .1 ),
                 $this->equalTo( 0 )
             );
 
