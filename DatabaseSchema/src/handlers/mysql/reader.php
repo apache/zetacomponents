@@ -135,7 +135,7 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
             }
 
             $fieldNotNull = false;
-            if ( $row['null'][0] != 'Y' )
+            if ( strlen( $row['null'] ) == 0 || $row['null'][0] != 'Y' )
             {
                 $fieldNotNull = true;
             }
