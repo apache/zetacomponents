@@ -43,8 +43,8 @@ class ezcGraphGdDriver extends ezcGraphDriver
         if ( !isset( $this->image ) )
         {
             $this->image = imagecreatetruecolor( 
-                $this->options->width * $this->options->supersampling, 
-                $this->options->height * $this->options->supersampling
+                $this->supersample( $this->options->width ), 
+                $this->supersample( $this->options->height )
             );
             $bgColor = imagecolorallocate( $this->image, 255, 255, 255 );
             // Default to a white background
@@ -108,7 +108,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
                     'image' => imagecreatefrompng( $file )
                 );
             default:
-                throw new ezcGraphGdDriverUnsupportedImageTypeException( $data[2] );
+                throw new ezcGraphGdDriverUnsupportedImageFormatException( $data[2] );
         }
     }
 
@@ -126,7 +126,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
      * @param mixed $filled 
      * @return void
      */
-    public function drawPolygon( array $points, ezcGraphColor $color, $filled = true )
+    public function drawPolygon( array $points, ezcGraphColor $color, $filled = true, $thickness = 1 )
     {
         $image = $this->getImage();
 
@@ -227,6 +227,12 @@ class ezcGraphGdDriver extends ezcGraphDriver
             {
                 return false;
             }
+        }
+
+        // Check width of last line
+        $boundings = imagettfbbox( $size, 0, $this->options->font->font, implode( ' ', $lines[$line] ) );
+        if ( $boundings[2] > $width ) {
+            return false;
         }
 
         // It seems to fit - return line array
@@ -373,7 +379,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
      * @param ezcGraphColor $color 
      * @return void
      */
-    public function drawCircleSector( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color )
+    public function drawCircleSector( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color, $filled = true )
     {
         $image = $this->getImage();
         $drawColor = $this->allocate( $color );
@@ -386,17 +392,34 @@ class ezcGraphGdDriver extends ezcGraphDriver
             $endAngle = $tmp;
         }
 
-        imagefilledarc( 
-            $image, 
-            $this->supersample( $center->x ), 
-            $this->supersample( $center->y ), 
-            $this->supersample( $width ), 
-            $this->supersample( $height ), 
-            $startAngle, 
-            $endAngle, 
-            $drawColor, 
-            IMG_ARC_PIE 
-        );
+        if ( $filled )
+        {
+            imagefilledarc( 
+                $image, 
+                $this->supersample( $center->x ), 
+                $this->supersample( $center->y ), 
+                $this->supersample( $width ), 
+                $this->supersample( $height ), 
+                $startAngle, 
+                $endAngle, 
+                $drawColor, 
+                IMG_ARC_PIE 
+            );
+        }
+        else
+        {
+            imagefilledarc( 
+                $image, 
+                $this->supersample( $center->x ), 
+                $this->supersample( $center->y ), 
+                $this->supersample( $width ), 
+                $this->supersample( $height ), 
+                $startAngle, 
+                $endAngle, 
+                $drawColor, 
+                IMG_ARC_PIE | IMG_ARC_NOFILL | IMG_ARC_EDGED
+            );
+        }
     }
 
     /**

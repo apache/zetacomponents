@@ -59,8 +59,6 @@ abstract class ezcGraphChart
 
     public function __construct( array $options = array() )
     {
-        $this->options = new ezcGraphChartOptions( $options );
-
         $this->__set( 'palette', 'Tango' );
 
         // Add standard elements

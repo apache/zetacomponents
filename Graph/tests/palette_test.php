@@ -214,7 +214,7 @@ class ezcGraphPaletteTest extends ezcTestCase
         $chart = ezcGraph::create( 'Line' );
 
         $this->assertEquals(
-            ezcGraphColor::fromHex( '#555753' ),
+            ezcGraphColor::fromHex( '#2E3436' ),
             $chart->palette->fontColor,
             'Font color not properly set.'
         );

@@ -92,7 +92,7 @@ abstract class ezcGraphDriver
      * @param mixed $filled 
      * @return void
      */
-    abstract public function drawPolygon( array $points, ezcGraphColor $color, $filled = true );
+    abstract public function drawPolygon( array $points, ezcGraphColor $color, $filled = true, $thickness = 1 );
     
     /**
      * Draws a single line
@@ -102,7 +102,7 @@ abstract class ezcGraphDriver
      * @param ezcGraphColor $color 
      * @return void
      */
-    abstract public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color );
+    abstract public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color, $thickness = 1 );
     
     /**
      * Wrties text in a box of desired size
@@ -127,7 +127,7 @@ abstract class ezcGraphDriver
      * @param ezcGraphColor $color 
      * @return void
      */
-    abstract public function drawCircleSector( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color );
+    abstract public function drawCircleSector( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color, $filled = true );
     
     /**
      * Draws a circular arc

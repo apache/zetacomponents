@@ -244,7 +244,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
     public function testRenderPieSegment()
     {
         $this->driver
-            ->expects( $this->once() )
+            ->expects( $this->at( 0 ) )
             ->method( 'drawCircleSector' )
             ->with(
                 $this->equalTo( new ezcGraphCoordinate( 100, 100 ) ),
@@ -252,7 +252,20 @@ class ezcGraphRenderer2dTest extends ezcTestCase
                 $this->equalTo( 200 ),
                 $this->equalTo( 20 ),
                 $this->equalTo( 124 ),
-                $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) )
+                $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
+                $this->equalTo( true )
+            );
+        $this->driver
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawCircleSector' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 100, 100 ) ),
+                $this->equalTo( 200 ),
+                $this->equalTo( 200 ),
+                $this->equalTo( 20 ),
+                $this->equalTo( 124 ),
+                $this->equalTo( ezcGraphColor::fromHex( '#800000' ) ),
+                $this->equalTo( false )
             );
 
         $this->renderer->drawPieSegment(
@@ -267,7 +280,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
     public function testRenderPieSegmentMoveOut()
     {
         $this->driver
-            ->expects( $this->once() )
+            ->expects( $this->at( 0 ) )
             ->method( 'drawCircleSector' )
             ->with(
                 $this->equalTo( new ezcGraphCoordinate( 95, 100 ) ),
@@ -276,6 +289,18 @@ class ezcGraphRenderer2dTest extends ezcTestCase
                 $this->equalTo( 90 ),
                 $this->equalTo( 270 ),
                 $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) )
+            );
+        $this->driver
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawCircleSector' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 95, 100 ) ),
+                $this->equalTo( 200 ),
+                $this->equalTo( 200 ),
+                $this->equalTo( 90 ),
+                $this->equalTo( 270 ),
+                $this->equalTo( ezcGraphColor::fromHex( '#800000' ) ),
+                $this->equalTo( false )
             );
 
         $this->renderer->drawPieSegment(

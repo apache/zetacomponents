@@ -37,6 +37,8 @@ class ezcGraphRenderer2D extends ezcGraphRenderer
             );
 
         }
+        
+        $darkenedColor = $color->darken( .5 );
 
         $this->driver->drawCircleSector(
             $position,
@@ -44,7 +46,18 @@ class ezcGraphRenderer2D extends ezcGraphRenderer
             $radius * 2,
             $startAngle,
             $endAngle,
-            $color
+            $color,
+            true
+        );
+
+        $this->driver->drawCircleSector(
+            $position,
+            $radius * 2,
+            $radius * 2,
+            $startAngle,
+            $endAngle,
+            $darkenedColor,
+            false
         );
     }
     

@@ -46,7 +46,7 @@ class ezcGraphLineChartTest extends ezcTestCase
      */
     public function tearDown()
     {
-        //$this->removeTempDir();
+        $this->removeTempDir();
     }
 
     protected function addSampleData( ezcGraphChart $chart )
@@ -237,7 +237,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '8cc7463f5fe568a3116824137251222f',
+            'ef4deac70fa8c0ca3d4149fd65e31131',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );

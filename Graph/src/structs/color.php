@@ -213,9 +213,9 @@ class ezcGraphColor
         $color = clone $this;
 
         $value = 1 - $value;
-        $color->red *= $value;
-        $color->green *= $value;
-        $color->blue *= $value;
+        $color->red = (int) round( $this->red * $value );
+        $color->green = (int) round( $this->green * $value );
+        $color->blue = (int) round( $this->blue * $value );
 
         return $color;
     }

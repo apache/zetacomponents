@@ -27,7 +27,6 @@ class ezcGraphGdDriverTest extends ezcTestCase
     protected $testFiles = array(
         'jpeg'          => 'jpeg.jpg',
         'png'           => 'png.png',
-        'text'          => 'text.txt',
     );
 
 	public static function suite()
@@ -201,6 +200,34 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
     }
 
+    public function testDrawCircleSectorAcuteNonFilled()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->drawCircleSector(
+            new ezcGraphCoordinate( 100, 50 ),
+            80,
+            40,
+            12.5,
+            45,
+            ezcGraphColor::fromHex( '#3465A4' ),
+            false
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            '34d665371c527ea77ff0489121feb12b',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
     public function testDrawCircleSectorAcuteReverse()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
@@ -277,7 +304,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            'b553423de4a14f54bc86b34656585169',
+            '5cfb7d9db3b242734460a20f67ff48fd',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -305,7 +332,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            'b553423de4a14f54bc86b34656585169',
+            '5cfb7d9db3b242734460a20f67ff48fd',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -333,7 +360,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            'dc388c561ab72cb7113ed650455550a9',
+            '13bdd4f4fd40c65b0ff428ba3491a30c',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -413,26 +440,6 @@ class ezcGraphGdDriverTest extends ezcTestCase
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
-    }
-
-    public function testDrawImageInvalideFileType()
-    {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
-
-        try {
-            $this->driver->drawImage(
-                $this->basePath . $this->testFiles['text'],
-                new ezcGraphCoordinate( 10, 10 ),
-                100,
-                50
-            );
-        }
-        catch ( ezcGraphGdDriverUnsupportedImageTypeException $e )
-        {
-            return true;
-        }
-
-        $this->fail( 'Expected ezcGraphGdDriverUnsupportedImageTypeException.' );
     }
 
     public function testDrawImagePng()
@@ -967,7 +974,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '129f5f8516b3ba58489837930a0cc599',
+            '290939514fee7a5572ef786f54dae827',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -1074,6 +1081,43 @@ class ezcGraphGdDriverTest extends ezcTestCase
 
         $this->assertEquals(
             'ddd48399b636522322d7ce332e82a16d',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testDrawStringWithSpecialChars()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->supersampling = 2;
+
+        $this->driver->drawPolygon(
+            array(
+                new ezcGraphCoordinate( 47, 54 ),
+                new ezcGraphCoordinate( 47, 84 ),
+                new ezcGraphCoordinate( 99, 84 ),
+                new ezcGraphCoordinate( 99, 54 ),
+            ),
+            ezcGraphColor::fromHex( '#DDDDDD' ),
+            true
+        );
+        $this->driver->drawTextBox(
+            'Safari (13.8%)',
+            new ezcGraphCoordinate( 47, 54 ),
+            52,
+            30,
+            ezcGraph::LEFT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            'ef4deac70fa8c0ca3d4149fd65e31131',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );

@@ -15,8 +15,10 @@
 class ezcGraphLineChart extends ezcGraphChart
 {
  
-    public function __construct()
+    public function __construct( array $options = array() )
     {
+        $this->options = new ezcGraphChartOptions( $options );
+
         parent::__construct();
 
         $this->addElement( 'X_axis', new ezcGraphChartElementLabeledAxis() );

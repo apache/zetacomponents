@@ -29,7 +29,7 @@ class ezcGraphSVGDriver extends ezcGraphDriver
      * @param mixed $filled 
      * @return void
      */
-    public function drawPolygon( array $points, ezcGraphColor $color, $filled = true )
+    public function drawPolygon( array $points, ezcGraphColor $color, $filled = true, $thickness = 1 )
     {
         
     }
@@ -42,7 +42,7 @@ class ezcGraphSVGDriver extends ezcGraphDriver
      * @param ezcGraphColor $color 
      * @return void
      */
-    public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color )
+    public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color, $thickness = 1 )
     {
         
     }
@@ -73,7 +73,7 @@ class ezcGraphSVGDriver extends ezcGraphDriver
      * @param ezcGraphColor $color 
      * @return void
      */
-    public function drawCircleSector( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color )
+    public function drawCircleSector( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color, $filled = true )
     {
         
     }
