@@ -164,7 +164,12 @@ class ezcGraphRenderer2D extends ezcGraphRenderer
      */
     public function drawBackgroundImage( $file, ezcGraphCoordinate $position = null, $width = null, $height = null )
     {
-        
+        $this->driver->drawImage(
+            $file,
+            $position,
+            $width,
+            $height
+        );  
     }
     
     /**

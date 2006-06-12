@@ -336,5 +336,25 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             50
         );
     }
+
+    public function testRenderBackgroundImage()
+    {
+        $this->driver
+            ->expects( $this->once() )
+            ->method( 'drawImage' )
+            ->with(
+                $this->equalTo( 'filename' ),
+                $this->equalTo( new ezcGraphCoordinate( 100, 100 ) ),
+                $this->equalTo( 50 ),
+                $this->equalTo( 50 )
+            );
+
+        $this->renderer->drawBackgroundImage(
+            'filename',
+            new ezcGraphCoordinate( 100, 100 ),
+            50,
+            50
+        );
+    }
 }
 ?>
