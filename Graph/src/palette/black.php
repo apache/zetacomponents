@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Color pallet for ezcGraph based on Tango style guidelines at
+ * Dark color pallet for ezcGraph based on Tango style guidelines at
  * http://tango-project.org/Generic_Icon_Theme_Guidelines
  *
  * @package Graph
@@ -80,6 +80,20 @@ class ezcGraphPaletteBlack extends ezcGraphPalette
      * @var ezcGraphColor
      */
     protected $chartBackground = '#2E3436';
+
+    /**
+     * Border color for chart elements
+     * 
+     * @var string
+     */
+    protected $elementBorderColor = '#555753';
+
+    /**
+     * Border width for chart elements
+     * 
+     * @var integer
+     */
+    protected $elementBorderWidth = 1;
 
     /**
      * Padding in elements

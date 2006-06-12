@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Color pallet for ezcGraph based on Tango style guidelines at
+ * Light color pallet for ezcGraph based on Tango style guidelines at
  * http://tango-project.org/Generic_Icon_Theme_Guidelines
  *
  * @package Graph
@@ -59,7 +59,7 @@ class ezcGraphPaletteTango extends ezcGraphPalette
      * 
      * @var ezcGraphColor
      */
-    protected $fontColor = '#555753';
+    protected $fontColor = '#2E3436';
 
     /**
      * Backgroundcolor for chart
