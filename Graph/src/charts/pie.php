@@ -15,13 +15,9 @@
 class ezcGraphPieChart extends ezcGraphChart
 {
     
-    protected $maxLabelHeight = .15;
-
-    protected $label = '%1$s: %2$d (%3$.1f%%)';
-
     public function __construct( array $options = array() )
     {
-        $this->options = new ezcGraphChartOptions( $options );
+        $this->options = new ezcGraphPieChartOptions( $options );
 
         parent::__construct( $options );
     }
@@ -106,7 +102,7 @@ class ezcGraphPieChart extends ezcGraphChart
                     (int) round( cos( deg2rad( $middle ) ) * $radius * 2 / 3 + $center->x ),
                     (int) round( sin( deg2rad( $middle ) ) * $radius * 2 / 3 + $center->y )
                 ),
-                sprintf( $this->label, $label, $value, $value * 100 / $sum )
+                sprintf( $this->options->label, $label, $value, $value * 100 / $sum )
             );
             $angle = $endAngle;
         }
@@ -114,10 +110,10 @@ class ezcGraphPieChart extends ezcGraphChart
         $labelHeight = (int) round( min(
             ( $boundings->y1 - $boundings->y0 ) / count( $labels[0] ),
             ( $boundings->y1 - $boundings->y0 ) / count( $labels[1] ),
-            ( $boundings->y1 - $boundings->y0 ) * $this->maxLabelHeight
+            ( $boundings->y1 - $boundings->y0 ) * $this->options->maxLabelHeight
         ) );
         
-        $symbolSize = 6;
+        $symbolSize = $this->options->symbolSize;
 
         // Finally draw labels
         foreach ( $labels as $side => $labelPart )
