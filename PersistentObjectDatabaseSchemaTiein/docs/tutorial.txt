@@ -6,9 +6,9 @@ eZ components - PersistentObjectDatabaseSchemaTiein
 Introduction
 ============
 
-The PersistentObjectDatabaseSchemaTienin component allows you to generate the
+The PersistentObjectDatabaseSchemaTiein component allows you to generate the
 basic PersistentObject definition files for a database structure from a
-DatabaseSchema schema file. Most likely you will have to adjust the
+DatabaseSchema schema file. Most likely you have to adjust the
 PersistentObject definitions afterwards.
 
 Synopsis
@@ -43,7 +43,7 @@ Usage
 
 The usage of the generator script is easy. You have to have a working eZ
 components installation in place to make it work. Run the script from the main
-eZ components source directory using the following command: ::
+eZ components source directory using the following command::
 
     $ php PersistentObjectDatabaseSchemaTiein/rungenerator.php
 
@@ -56,7 +56,7 @@ information, please refer to the `PersistentObject API`_ documentation.
 Once you have a valid DatabaseSchema file, you have to create a directory,
 where your PersistentObject definitions shall be stored. Now you can use the
 rungenerator.php script to create the basic definition files. Use the following
-command to do this: ::
+command to do this::
 
     $ php PersistentObjectDatabaseSchemaTiein/rungenerator.php -s path/to/schema.file -f array path/to/persistentobject/definition/dir/
 
@@ -73,11 +73,11 @@ Reworking
 The generator script assumes, that the names of your PersistentObject classes
 and their properties map exactly to the table / column names of your database
 structure. For example, if you have a table called ez_persistent_objects, which
-contains a column named persistent_object_id, you will have to use a class with
+contains a column named persistent_object_id, you have to use a class with
 the exactly same name as your table, that has a property called exactly like
 your column.
 
-If you don't want to have a mapping like this, you will have to edit the
+If you don't want to have a mapping like this, you have to edit the
 generated PersistentObject files manually. The mapping of class <-> table names
 is done through the properties of the main ezcPersistentObjectDefinition
 object. The "table" property should be correct, since this one is taken from the
