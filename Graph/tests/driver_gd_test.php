@@ -27,6 +27,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
     protected $testFiles = array(
         'jpeg'          => 'jpeg.jpg',
         'png'           => 'png.png',
+        'text'          => 'text.txt',
     );
 
 	public static function suite()
@@ -412,6 +413,26 @@ class ezcGraphGdDriverTest extends ezcTestCase
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
+    }
+
+    public function testDrawImageInvalideFileType()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        try {
+            $this->driver->drawImage(
+                $this->basePath . $this->testFiles['text'],
+                new ezcGraphCoordinate( 10, 10 ),
+                100,
+                50
+            );
+        }
+        catch ( ezcGraphGdDriverUnsupportedImageTypeException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphGdDriverUnsupportedImageTypeException.' );
     }
 
     public function testDrawImagePng()

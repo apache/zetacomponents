@@ -108,7 +108,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
                     'image' => imagecreatefrompng( $file )
                 );
             default:
-                throw new ezcGraphGdDriverUnsupportedImageFormatException( $data[2] );
+                throw new ezcGraphGdDriverUnsupportedImageTypeException( $data[2] );
         }
     }
 
