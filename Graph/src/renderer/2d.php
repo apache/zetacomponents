@@ -27,7 +27,25 @@ class ezcGraphRenderer2D extends ezcGraphRenderer
      */
     public function drawPieSegment( ezcGraphColor $color, ezcGraphCoordinate $position, $radius, $startAngle = .0, $endAngle = 360., $moveOut = .0 )
     {
-        
+        $direction = $startAngle + ( $endAngle - $startAngle ) / 2;
+
+        if ( $moveOut > 0 )
+        {
+            $position = new ezcGraphCoordinate(
+                $position->x + $moveOut * cos( deg2rad( $direction ) ),
+                $position->y + $moveOut * sin( deg2rad( $direction ) )
+            );
+
+        }
+
+        $this->driver->drawCircleSector(
+            $position,
+            $radius * 2,
+            $radius * 2,
+            $startAngle,
+            $endAngle,
+            $color
+        );
     }
     
     /**
@@ -83,7 +101,17 @@ class ezcGraphRenderer2D extends ezcGraphRenderer
      */
     public function drawRect( ezcGraphColor $color, ezcGraphCoordinate $position = null, $width = null, $height = null, $borderWidth = 1 )
     {
-        
+        $this->driver->drawPolygon( 
+            array(
+                new ezcGraphCoordinate( $position->x, $position->y ),
+                new ezcGraphCoordinate( $position->x + $width, $position->y ),
+                new ezcGraphCoordinate( $position->x + $width, $position->y + $height ),
+                new ezcGraphCoordinate( $position->x, $position->y + $height ),
+            ),
+            $color,
+            false,
+            $borderWidth
+        ); 
     }
     
     /**
