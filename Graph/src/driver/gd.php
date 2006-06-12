@@ -108,7 +108,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
                     'image' => imagecreatefrompng( $file )
                 );
             default:
-                throw new ezcGraphGdDriverUnsupportedImageFormatException( $data[2] );
+                throw new ezcGraphGdDriverUnsupportedImageTypeException( $data[2] );
         }
     }
 
@@ -601,8 +601,8 @@ class ezcGraphGdDriver extends ezcGraphDriver
             $this->supersample( $position->y ),
             0, 
             0,
-            $this->supersample( $position->x + $width ), 
-            $this->supersample( $position->y + $height ),
+            $this->supersample( $width ), 
+            $this->supersample( $height ),
             $imageFile['width'], $imageFile['height']
         );
     }

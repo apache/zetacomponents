@@ -47,6 +47,7 @@ return array(
     'ezcGraphFontOptions'                       => 'Graph/options/font.php',
     'ezcGraphChartElementText'                  => 'Graph/element/text.php',
     'ezcGraphChartElementLegend'                => 'Graph/element/legend.php',
+    'ezcGraphChartElementBackgroundImage'       => 'Graph/element/background.php',
     'ezcGraphChartElementAxis'                  => 'Graph/element/axis.php',
     'ezcGraphChartElementNumericAxis'           => 'Graph/axis/numeric.php',
     'ezcGraphChartElementLabeledAxis'           => 'Graph/axis/labeled.php',

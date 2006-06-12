@@ -75,6 +75,9 @@ class ezcGraphChartOptions extends ezcBaseOptions
     {
         $this->font = new ezcGraphFontOptions();
 
+        $this->backgroundImage = new ezcGraphChartElementBackgroundImage();
+        $this->backgroundImage->position = ezcGraph::CENTER | ezcGraph::MIDDLE;
+
         parent::__construct( $options );
     }
 
@@ -101,26 +104,7 @@ class ezcGraphChartOptions extends ezcBaseOptions
                 $this->padding = max( 0, (int) $propertyValue );
                 break;
             case 'backgroundImage':
-                // Check for existance of file
-                if ( !is_file( $propertyValue ) || !is_readable( $propertyValue ) )
-                {
-                    throw new ezcBaseFileNotFoundException( $propertyValue );
-                }
-
-                // Check for beeing an image file
-                $data = getImageSize( $propertyValue );
-                if ( $data === false )
-                {
-                    throw new ezcGraphInvalidImageFileException( $propertyValue );
-                }
-
-                // SWF files are useless..
-                if ( $data[2] === 4 ) 
-                {
-                    throw new ezcGraphInvalidImageFileException( 'We cant use SWF files like <' . $propertyValue . '>.' );
-                }
-
-                $this->backgroundImage = $propertyValue;
+                $this->backgroundImage->source = $propertyValue;
                 break;
             case 'background':
                 $this->background = ezcGraphColor::create( $propertyValue );

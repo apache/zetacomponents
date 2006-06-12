@@ -30,6 +30,7 @@ require_once 'renderer_2d_test.php';
 require_once 'driver_gd_test.php';
 require_once 'font_test.php';
 require_once 'palette_test.php';
+require_once 'background_image_test.php';
 
 /**
 * Test suite for ImageAnalysis package.
@@ -58,6 +59,7 @@ class ezcGraphSuite extends ezcTestSuite
         $this->addTest( ezcGraphFontTest::suite() );
         $this->addTest( ezcGraphTextTest::suite() );
         $this->addTest( ezcGraphPaletteTest::suite() );
+        $this->addTest( ezcGraphBackgroundImageTest::suite() );
     }
 
     public static function suite()

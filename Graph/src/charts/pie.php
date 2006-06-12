@@ -200,15 +200,16 @@ class ezcGraphPieChart extends ezcGraphChart
         $this->options->width = $width;
         $this->options->height = $height;
 
-        // Render subelements
         $boundings = new ezcGraphBoundings();
         $boundings->x1 = $this->options->width;
         $boundings->y1 = $this->options->height;
 
         // Render border and background
         $boundings = $this->renderBorder( $boundings );
+        $boundings = $this->options->backgroundImage->render( $this->renderer, $boundings );
         $boundings = $this->renderBackground( $boundings );
 
+        // Render subelements
         foreach ( $this->elements as $name => $element )
         {
             $this->driver->options->font = $element->font;

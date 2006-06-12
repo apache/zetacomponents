@@ -436,7 +436,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '2c727bfabf917c5afa5144e63a6bf3c2',
+            '1f2603bbfd75fdc9cd325afd12398505',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -461,7 +461,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            'a384e438b0853ccaaacac94fb7977f2a',
+            'dc436ebc6ceccaaac09562c7287938ae',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -1053,7 +1053,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            'ca9fec349aab02d6518406fa02a656c9',
+            '7de0f967001b35b6726b4f8f9dd2e7ae',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
