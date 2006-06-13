@@ -906,6 +906,36 @@ class ezcGraphNumericAxisTest extends ezcTestCase
             'As value for: minorStep; '
         );
     }
+
+    public function testValueAllZero() {
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 0, 0 );
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            0.,
+            $chart->Y_axis->min,
+            'As value for: min; '
+        );
+
+        $this->assertEquals(
+            1.,
+            $chart->Y_axis->max,
+            'As value for: max; '
+        );
+
+        $this->assertEquals(
+            .25,
+            $chart->Y_axis->majorStep,
+            'As value for: majorStep; '
+        );
+
+        $this->assertEquals(
+            .05,
+            $chart->Y_axis->minorStep,
+            'As value for: minorStep; '
+        );
+    }
 }
 
 ?>

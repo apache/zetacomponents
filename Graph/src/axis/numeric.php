@@ -213,8 +213,15 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
         // Prevent division by zero, when min == max
         if ( $this->minValue == $this->maxValue )
         {
-            $this->minValue -= ( $this->minValue / 10 );
-            $this->maxValue += ( $this->maxValue / 10 );
+            if ( $this->minValue == 0 )
+            {
+                $this->maxValue = 1;
+            }
+            else
+            {
+                $this->minValue -= ( $this->minValue * .1 );
+                $this->maxValue += ( $this->maxValue * .1 );
+            }
         }
 
         // Calculate "nice" values for scaling parameters
