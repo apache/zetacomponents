@@ -210,6 +210,13 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
      */
     public function calculateAxisBoundings()
     {
+        // Prevent division by zero, when min == max
+        if ( $this->minValue == $this->maxValue )
+        {
+            $this->minValue -= ( $this->minValue / 10 );
+            $this->maxValue += ( $this->maxValue / 10 );
+        }
+
         // Calculate "nice" values for scaling parameters
         if ( $this->majorStep === false )
         {

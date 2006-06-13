@@ -876,6 +876,36 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $chart->renderer = $mockedRenderer;
         $chart->render( 500, 200 );
     }
+
+    public function testValueZeroAmplitude() {
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 70, 70, 70, 70 );
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            60.,
+            $chart->Y_axis->min,
+            'As value for: min; '
+        );
+
+        $this->assertEquals(
+            80.,
+            $chart->Y_axis->max,
+            'As value for: max; '
+        );
+
+        $this->assertEquals(
+            5.,
+            $chart->Y_axis->majorStep,
+            'As value for: majorStep; '
+        );
+
+        $this->assertEquals(
+            1.,
+            $chart->Y_axis->minorStep,
+            'As value for: minorStep; '
+        );
+    }
 }
 
 ?>
