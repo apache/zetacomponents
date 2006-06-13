@@ -19,17 +19,6 @@ class ezcTemplateOperatorTest extends ezcTestCase
          return new ezcTestSuite( "ezcTemplateOperatorTest" );
     }
 
-    /**
-     * Returns a constraint which checks for a given key in the input array.
-     * @param mixed $key The key to look for.
-     *
-     * @note Use arrayContainingKey() for expectations.
-     */
-    public function hasArrayKey( $key )
-    {
-        return new ezcMockArrayHasKeyConstraint( $key );
-    }
-
     public function setUp()
     {
         $source = new ezcTemplateSourceCode( '', '', '' );
@@ -134,7 +123,7 @@ class ezcTemplateOperatorTest extends ezcTestCase
             {
                 continue;
             }
-            self::assertThat( $levels, self::hasArrayKey( $i ) );
+            $this->assertArrayHasKey( $i, $levels );
         }
     }
 
