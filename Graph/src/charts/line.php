@@ -17,7 +17,7 @@ class ezcGraphLineChart extends ezcGraphChart
  
     public function __construct( array $options = array() )
     {
-        $this->options = new ezcGraphChartOptions( $options );
+        $this->options = new ezcGraphLineChartOptions( $options );
 
         parent::__construct();
 
@@ -88,7 +88,7 @@ class ezcGraphLineChart extends ezcGraphChart
                         $data->color->default,
                         $lastPoint,
                         $point,
-                        true
+                        $this->options->lineThickness
                     );
                 }
 

@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class containing the basic options for charts
+ * Class containing the basic options for pie charts
  *
  * @package Graph
  */

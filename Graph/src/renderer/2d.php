@@ -72,13 +72,13 @@ class ezcGraphRenderer2D extends ezcGraphRenderer
      * @param mixed $filled 
      * @return void
      */
-    public function drawLine( ezcGraphColor $color, ezcGraphCoordinate $position, ezcGraphCoordinate $end, $filled = true )
+    public function drawLine( ezcGraphColor $color, ezcGraphCoordinate $position, ezcGraphCoordinate $end, $thickness = 1 )
     {
         $this->driver->drawLine(
             $position,
             $end,
             $color,
-            1 + $filled
+            max( 1, $thickness )
         );
     }
     

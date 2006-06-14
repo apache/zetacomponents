@@ -46,7 +46,7 @@ abstract class ezcGraphRenderer
      * @param mixed $filled 
      * @return void
      */
-    abstract public function drawLine( ezcGraphColor $color, ezcGraphCoordinate $position, ezcGraphCoordinate $end, $filled = true );
+    abstract public function drawLine( ezcGraphColor $color, ezcGraphCoordinate $position, ezcGraphCoordinate $end, $thickness = 1 );
     
     /**
      * Draws a text box

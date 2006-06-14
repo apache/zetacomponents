@@ -18,6 +18,7 @@ return array(
     'ezcGraphLineChart'                         => 'Graph/charts/line.php',
     'ezcGraphChartOptions'                      => 'Graph/options/chart.php',
     'ezcGraphPieChartOptions'                   => 'Graph/options/pie_chart.php',
+    'ezcGraphLineChartOptions'                  => 'Graph/options/line_chart.php',
     'ezcGraphInvalidImageFileException'         => 'Graph/exceptions/invalid_image_file.php',
 
     'ezcGraphColor'                             => 'Graph/structs/color.php',
