@@ -21,11 +21,11 @@ class ezcGraphLineChart extends ezcGraphChart
 
         parent::__construct();
 
-        $this->addElement( 'X_axis', new ezcGraphChartElementLabeledAxis() );
-        $this->elements['X_axis']->position = ezcGraph::LEFT;
+        $this->addElement( 'xAxis', new ezcGraphChartElementLabeledAxis() );
+        $this->elements['xAxis']->position = ezcGraph::LEFT;
 
-        $this->addElement( 'Y_axis', new ezcGraphChartElementNumericAxis() );
-        $this->elements['Y_axis']->position = ezcGraph::BOTTOM;
+        $this->addElement( 'yAxis', new ezcGraphChartElementNumericAxis() );
+        $this->elements['yAxis']->position = ezcGraph::BOTTOM;
     }
 
     /**
@@ -45,8 +45,8 @@ class ezcGraphLineChart extends ezcGraphChart
             case 'X_Axis':
                 if ( $propertyValue instanceof ezcGraphChartElementAxis )
                 {
-                    $this->addElement( 'X_axis', $propertyValue );
-                    $this->elements['X_axis']->position = ezcGraph::LEFT;
+                    $this->addElement( 'xAxis', $propertyValue );
+                    $this->elements['xAxis']->position = ezcGraph::LEFT;
                 }
                 else
                 {
@@ -56,8 +56,8 @@ class ezcGraphLineChart extends ezcGraphChart
             case 'Y_Axis':
                 if ( $propertyValue instanceof ezcGraphChartElementAxis )
                 {
-                    $this->addElement( 'Y_axis', $propertyValue );
-                    $this->elements['Y_axis']->position = ezcGraph::BOTTOM;
+                    $this->addElement( 'yAxis', $propertyValue );
+                    $this->elements['yAxis']->position = ezcGraph::BOTTOM;
                 }
                 else
                 {
@@ -85,21 +85,21 @@ class ezcGraphLineChart extends ezcGraphChart
             foreach ( $data as $key => $value )
             {
                 $point = new ezcGraphCoordinate( 
-                    (int) round( $this->elements['X_axis']->getCoordinate( $boundings, $key ) ),
-                    (int) round( $this->elements['Y_axis']->getCoordinate( $boundings, $value ) )
+                    (int) round( $this->elements['xAxis']->getCoordinate( $boundings, $key ) ),
+                    (int) round( $this->elements['yAxis']->getCoordinate( $boundings, $value ) )
                 );
 
                 // Fill the line
                 if ( $lastPoint !== false && $this->options->fillLines !== false )
                 {
-                    $axisPosition = (int) round( $this->elements['Y_axis']->getCoordinate( $boundings, false ) );
+                    $axisPosition = (int) round( $this->elements['yAxis']->getCoordinate( $boundings, false ) );
 
                     $lastAxisPoint = new ezcGraphCoordinate(
-                        (int) round( $this->elements['X_axis']->getCoordinate( $boundings, $lastKey ) ),
+                        (int) round( $this->elements['xAxis']->getCoordinate( $boundings, $lastKey ) ),
                         $axisPosition
                     );
                     $axisPoint = new ezcGraphCoordinate(
-                        (int) round( $this->elements['X_axis']->getCoordinate( $boundings, $key ) ),
+                        (int) round( $this->elements['xAxis']->getCoordinate( $boundings, $key ) ),
                         $axisPosition
                     );
 
@@ -216,12 +216,12 @@ class ezcGraphLineChart extends ezcGraphChart
                 $values[] = $value;
             }
 
-            $this->elements['X_axis']->addData( $labels );
-            $this->elements['Y_axis']->addData( $values );
+            $this->elements['xAxis']->addData( $labels );
+            $this->elements['yAxis']->addData( $values );
         }
 
-        $this->elements['X_axis']->calculateAxisBoundings();
-        $this->elements['Y_axis']->calculateAxisBoundings();
+        $this->elements['xAxis']->calculateAxisBoundings();
+        $this->elements['yAxis']->calculateAxisBoundings();
 
         // Generate legend
         $this->elements['legend']->generateFromDatasets( $this->data );
@@ -252,13 +252,13 @@ class ezcGraphLineChart extends ezcGraphChart
             // Special settings for special elements
             switch ( $name )
             {
-                case 'X_axis':
+                case 'xAxis':
                     // get Position of 0 on the Y-axis for orientation of the x-axis
-                    $element->nullPosition = $this->elements['Y_axis']->getCoordinate( $boundings, false );
+                    $element->nullPosition = $this->elements['yAxis']->getCoordinate( $boundings, false );
                     break;
-                case 'Y_axis':
+                case 'yAxis':
                     // get Position of 0 on the X-axis for orientation of the y-axis
-                    $element->nullPosition = $this->elements['X_axis']->getCoordinate( $boundings, false );
+                    $element->nullPosition = $this->elements['xAxis']->getCoordinate( $boundings, false );
                     break;
             }
             $this->driver->options->font = $element->font;

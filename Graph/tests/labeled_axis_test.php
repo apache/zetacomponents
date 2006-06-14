@@ -46,7 +46,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
         $chart = ezcGraph::create( 'Line' );
 
         $this->assertTrue(
-            $chart->X_axis instanceof ezcGraphChartElementLabeledAxis
+            $chart->xAxis instanceof ezcGraphChartElementLabeledAxis
             );
     }
 
@@ -63,7 +63,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                 '2002',
                 '2003',
             ),
-            $this->getNonPublicProperty( $chart->X_axis, 'labels' )
+            $this->getNonPublicProperty( $chart->xAxis, 'labels' )
         );
     }
 
@@ -83,7 +83,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                 '2004',
                 '2005',
             ),
-            $this->getNonPublicProperty( $chart->X_axis, 'labels' )
+            $this->getNonPublicProperty( $chart->xAxis, 'labels' )
         );
     }
 
@@ -104,7 +104,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                 '2005',
                 '2006',
             ),
-            $this->getNonPublicProperty( $chart->X_axis, 'labels' )
+            $this->getNonPublicProperty( $chart->xAxis, 'labels' )
         );
     }
 
@@ -112,7 +112,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->X_axis->position = ezcGraph::LEFT;
+        $chart->xAxis->position = ezcGraph::LEFT;
         $chart->render( 500, 200 );
 
         $testBoundings = new ezcGraphBoundings();
@@ -123,31 +123,31 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
         $this->assertEquals(
             67.5,
-            $chart->X_axis->getCoordinate( $testBoundings, false ),
+            $chart->xAxis->getCoordinate( $testBoundings, false ),
             'Wrong initial axis position. '
         );
 
         $this->assertEquals(
             67.5,
-            $chart->X_axis->getCoordinate( $testBoundings, '2000' ),
+            $chart->xAxis->getCoordinate( $testBoundings, '2000' ),
             'Wrong minimal value. '
         );
 
         $this->assertEquals(
             172.5,
-            $chart->X_axis->getCoordinate( $testBoundings, 2001 ),
+            $chart->xAxis->getCoordinate( $testBoundings, 2001 ),
             'Wrong mid value. '
         );
 
         $this->assertEquals(
             382.5,
-            $chart->X_axis->getCoordinate( $testBoundings, '2003' ),
+            $chart->xAxis->getCoordinate( $testBoundings, '2003' ),
             'Wrong maximum value. '
         );
 
         $this->assertEquals(
             67.5,
-            $chart->X_axis->getCoordinate( $testBoundings, '1991' ),
+            $chart->xAxis->getCoordinate( $testBoundings, '1991' ),
             'Wrong return for unknown value. '
         );
     }
@@ -156,7 +156,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->X_axis->position = ezcGraph::RIGHT;
+        $chart->xAxis->position = ezcGraph::RIGHT;
         $chart->render( 500, 200 );
 
         $testBoundings = new ezcGraphBoundings();
@@ -167,31 +167,31 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
         $this->assertEquals(
             382.5,
-            $chart->X_axis->getCoordinate( $testBoundings, false ),
+            $chart->xAxis->getCoordinate( $testBoundings, false ),
             'Wrong initial axis position. '
         );
 
         $this->assertEquals(
             382.5,
-            $chart->X_axis->getCoordinate( $testBoundings, '2000' ),
+            $chart->xAxis->getCoordinate( $testBoundings, '2000' ),
             'Wrong minimal value. '
         );
 
         $this->assertEquals(
             277.5,
-            $chart->X_axis->getCoordinate( $testBoundings, 2001 ),
+            $chart->xAxis->getCoordinate( $testBoundings, 2001 ),
             'Wrong mid value. '
         );
 
         $this->assertEquals(
             67.5,
-            $chart->X_axis->getCoordinate( $testBoundings, '2003' ),
+            $chart->xAxis->getCoordinate( $testBoundings, '2003' ),
             'Wrong maximum value. '
         );
 
         $this->assertEquals(
             382.5,
-            $chart->X_axis->getCoordinate( $testBoundings, '1991' ),
+            $chart->xAxis->getCoordinate( $testBoundings, '1991' ),
             'Wrong return for unknown value. '
         );
     }
@@ -200,7 +200,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->X_axis->position = ezcGraph::TOP;
+        $chart->xAxis->position = ezcGraph::TOP;
         $chart->render( 500, 200 );
 
         $testBoundings = new ezcGraphBoundings();
@@ -211,31 +211,31 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
         $this->assertEquals(
             87.75,
-            $chart->X_axis->getCoordinate( $testBoundings, false ),
+            $chart->xAxis->getCoordinate( $testBoundings, false ),
             'Wrong initial axis position. '
         );
 
         $this->assertEquals(
             87.75,
-            $chart->X_axis->getCoordinate( $testBoundings, '2000' ),
+            $chart->xAxis->getCoordinate( $testBoundings, '2000' ),
             'Wrong minimal value. '
         );
 
         $this->assertEquals(
             164.25,
-            $chart->X_axis->getCoordinate( $testBoundings, 2001 ),
+            $chart->xAxis->getCoordinate( $testBoundings, 2001 ),
             'Wrong mid value. '
         );
 
         $this->assertEquals(
             317.25,
-            $chart->X_axis->getCoordinate( $testBoundings, '2003' ),
+            $chart->xAxis->getCoordinate( $testBoundings, '2003' ),
             'Wrong maximum value. '
         );
 
         $this->assertEquals(
             87.75,
-            $chart->X_axis->getCoordinate( $testBoundings, '1991' ),
+            $chart->xAxis->getCoordinate( $testBoundings, '1991' ),
             'Wrong return for unknown value. '
         );
     }
@@ -244,7 +244,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->X_axis->position = ezcGraph::BOTTOM;
+        $chart->xAxis->position = ezcGraph::BOTTOM;
         $chart->render( 500, 200 );
 
         $testBoundings = new ezcGraphBoundings();
@@ -255,31 +255,31 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
         $this->assertEquals(
             317.25,
-            $chart->X_axis->getCoordinate( $testBoundings, false ),
+            $chart->xAxis->getCoordinate( $testBoundings, false ),
             'Wrong initial axis position. '
         );
 
         $this->assertEquals(
             317.25,
-            $chart->X_axis->getCoordinate( $testBoundings, '2000' ),
+            $chart->xAxis->getCoordinate( $testBoundings, '2000' ),
             'Wrong minimal value. '
         );
 
         $this->assertEquals(
             240.75,
-            $chart->X_axis->getCoordinate( $testBoundings, 2001 ),
+            $chart->xAxis->getCoordinate( $testBoundings, 2001 ),
             'Wrong mid value. '
         );
 
         $this->assertEquals(
             87.75,
-            $chart->X_axis->getCoordinate( $testBoundings, '2003' ),
+            $chart->xAxis->getCoordinate( $testBoundings, '2003' ),
             'Wrong maximum value. '
         );
 
         $this->assertEquals(
             317.25,
-            $chart->X_axis->getCoordinate( $testBoundings, '1991' ),
+            $chart->xAxis->getCoordinate( $testBoundings, '1991' ),
             'Wrong return for unknown value. '
         );
     }
@@ -396,7 +396,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->X_axis->grid = '#BBBBBB';
+        $chart->xAxis->grid = '#BBBBBB';
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
             'drawLine',

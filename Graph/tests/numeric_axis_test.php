@@ -46,68 +46,68 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $chart = ezcGraph::create( 'Line' );
 
         $this->assertTrue(
-            $chart->Y_axis instanceof ezcGraphChartElementNumericAxis
+            $chart->yAxis instanceof ezcGraphChartElementNumericAxis
         );
     }
 
     public function testManualScaling()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->Y_axis->min = 10;
-        $chart->Y_axis->max = 50;
-        $chart->Y_axis->majorStep = 10;
-        $chart->Y_axis->minorStep = 1;
+        $chart->yAxis->min = 10;
+        $chart->yAxis->max = 50;
+        $chart->yAxis->majorStep = 10;
+        $chart->yAxis->minorStep = 1;
 
         $this->assertEquals(
             10.,
-            $this->getNonPublicProperty( $chart->Y_axis, 'min' )
+            $this->getNonPublicProperty( $chart->yAxis, 'min' )
         );
 
         $this->assertEquals(
             50.,
-            $this->getNonPublicProperty( $chart->Y_axis, 'max' )
+            $this->getNonPublicProperty( $chart->yAxis, 'max' )
         );
 
         $this->assertEquals(
             10.,
-            $this->getNonPublicProperty( $chart->Y_axis, 'majorStep' )
+            $this->getNonPublicProperty( $chart->yAxis, 'majorStep' )
         );
 
         $this->assertEquals(
             1.,
-            $this->getNonPublicProperty( $chart->Y_axis, 'minorStep' )
+            $this->getNonPublicProperty( $chart->yAxis, 'minorStep' )
         );
     }
 
     public function testManualScalingPublicProperties()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->Y_axis->min = 10;
-        $chart->Y_axis->max = 50;
-        $chart->Y_axis->majorStep = 10;
-        $chart->Y_axis->minorStep = 1;
+        $chart->yAxis->min = 10;
+        $chart->yAxis->max = 50;
+        $chart->yAxis->majorStep = 10;
+        $chart->yAxis->minorStep = 1;
 
         $this->assertEquals(
             10.,
-            $chart->Y_axis->min,
+            $chart->yAxis->min,
             'As value for: min; '
         );
 
         $this->assertEquals(
             50.,
-            $chart->Y_axis->max,
+            $chart->yAxis->max,
             'As value for: max; '
         );
 
         $this->assertEquals(
             10.,
-            $chart->Y_axis->majorStep,
+            $chart->yAxis->majorStep,
             'As value for: majorStep; '
         );
 
         $this->assertEquals(
             1.,
-            $chart->Y_axis->minorStep,
+            $chart->yAxis->minorStep,
             'As value for: minorStep; '
         );
     }
@@ -120,25 +120,25 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             0.,
-            $chart->Y_axis->min,
+            $chart->yAxis->min,
             'As value for: min; '
         );
 
         $this->assertEquals(
             150.,
-            $chart->Y_axis->max,
+            $chart->yAxis->max,
             'As value for: max; '
         );
 
         $this->assertEquals(
             25.,
-            $chart->Y_axis->majorStep,
+            $chart->yAxis->majorStep,
             'As value for: majorStep; '
         );
 
         $this->assertEquals(
             5.,
-            $chart->Y_axis->minorStep,
+            $chart->yAxis->minorStep,
             'As value for: minorStep; '
         );
     }
@@ -151,25 +151,25 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             0.,
-            $chart->Y_axis->min,
+            $chart->yAxis->min,
             'As value for: min; '
         );
 
         $this->assertEquals(
             5.,
-            $chart->Y_axis->max,
+            $chart->yAxis->max,
             'As value for: max; '
         );
 
         $this->assertEquals(
             1.,
-            $chart->Y_axis->majorStep,
+            $chart->yAxis->majorStep,
             'As value for: majorStep; '
         );
 
         $this->assertEquals(
             .25,
-            $chart->Y_axis->minorStep,
+            $chart->yAxis->minorStep,
             'As value for: minorStep; '
         );
     }
@@ -182,25 +182,25 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             -2.5,
-            $chart->Y_axis->min,
+            $chart->yAxis->min,
             'As value for: min; '
         );
 
         $this->assertEquals(
             5.,
-            $chart->Y_axis->max,
+            $chart->yAxis->max,
             'As value for: max; '
         );
 
         $this->assertEquals(
             2.5,
-            $chart->Y_axis->majorStep,
+            $chart->yAxis->majorStep,
             'As value for: majorStep; '
         );
 
         $this->assertEquals(
             .5,
-            $chart->Y_axis->minorStep,
+            $chart->yAxis->minorStep,
             'As value for: minorStep; '
         );
     }
@@ -213,25 +213,25 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             1000.,
-            $chart->Y_axis->min,
+            $chart->yAxis->min,
             'As value for: min; '
         );
 
         $this->assertEquals(
             1500.,
-            $chart->Y_axis->max,
+            $chart->yAxis->max,
             'As value for: max; '
         );
 
         $this->assertEquals(
             100.,
-            $chart->Y_axis->majorStep,
+            $chart->yAxis->majorStep,
             'As value for: majorStep; '
         );
 
         $this->assertEquals(
             25.,
-            $chart->Y_axis->minorStep,
+            $chart->yAxis->minorStep,
             'As value for: minorStep; '
         );
     }
@@ -245,25 +245,25 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             1000.,
-            $chart->Y_axis->min,
+            $chart->yAxis->min,
             'As value for: min; '
         );
 
         $this->assertEquals(
             1750.,
-            $chart->Y_axis->max,
+            $chart->yAxis->max,
             'As value for: max; '
         );
 
         $this->assertEquals(
             250.,
-            $chart->Y_axis->majorStep,
+            $chart->yAxis->majorStep,
             'As value for: majorStep; '
         );
 
         $this->assertEquals(
             50.,
-            $chart->Y_axis->minorStep,
+            $chart->yAxis->minorStep,
             'As value for: minorStep; '
         );
     }
@@ -272,30 +272,30 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->Y_axis->majorStep = 50;
+        $chart->yAxis->majorStep = 50;
         $chart->render( 500, 200 );
 
         $this->assertEquals(
             1000.,
-            $chart->Y_axis->min,
+            $chart->yAxis->min,
             'As value for: min; '
         );
 
         $this->assertEquals(
             1450.,
-            $chart->Y_axis->max,
+            $chart->yAxis->max,
             'As value for: max; '
         );
 
         $this->assertEquals(
             50.,
-            $chart->Y_axis->majorStep,
+            $chart->yAxis->majorStep,
             'As value for: majorStep; '
         );
 
         $this->assertEquals(
             10.,
-            $chart->Y_axis->minorStep,
+            $chart->yAxis->minorStep,
             'As value for: minorStep; '
         );
     }
@@ -304,7 +304,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->Y_axis->position = ezcGraph::LEFT;
+        $chart->yAxis->position = ezcGraph::LEFT;
         $chart->render( 500, 200 );
 
         $testBoundings = new ezcGraphBoundings();
@@ -315,25 +315,25 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             67.5,
-            $chart->Y_axis->getCoordinate( $testBoundings, false ),
+            $chart->yAxis->getCoordinate( $testBoundings, false ),
             'Wrong initial axis position. '
         );
 
         $this->assertEquals(
             67.5,
-            $chart->Y_axis->getCoordinate( $testBoundings, 1000 ),
+            $chart->yAxis->getCoordinate( $testBoundings, 1000 ),
             'Wrong minimal value. '
         );
 
         $this->assertEquals(
             193.5,
-            $chart->Y_axis->getCoordinate( $testBoundings, 1200 ),
+            $chart->yAxis->getCoordinate( $testBoundings, 1200 ),
             'Wrong mid value. '
         );
 
         $this->assertEquals(
             382.5,
-            $chart->Y_axis->getCoordinate( $testBoundings, 1500 ),
+            $chart->yAxis->getCoordinate( $testBoundings, 1500 ),
             'Wrong maximum value. '
         );
     }
@@ -342,7 +342,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->Y_axis->position = ezcGraph::RIGHT;
+        $chart->yAxis->position = ezcGraph::RIGHT;
         $chart->render( 500, 200 );
 
         $testBoundings = new ezcGraphBoundings();
@@ -353,25 +353,25 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             382.5,
-            $chart->Y_axis->getCoordinate( $testBoundings, false ),
+            $chart->yAxis->getCoordinate( $testBoundings, false ),
             'Wrong initial axis position. '
         );
 
         $this->assertEquals(
             382.5,
-            $chart->Y_axis->getCoordinate( $testBoundings, 1000 ),
+            $chart->yAxis->getCoordinate( $testBoundings, 1000 ),
             'Wrong minimal value. '
         );
 
         $this->assertEquals(
             256.5,
-            $chart->Y_axis->getCoordinate( $testBoundings, 1200 ),
+            $chart->yAxis->getCoordinate( $testBoundings, 1200 ),
             'Wrong mid value. '
         );
 
         $this->assertEquals(
             67.5,
-            $chart->Y_axis->getCoordinate( $testBoundings, 1500 ),
+            $chart->yAxis->getCoordinate( $testBoundings, 1500 ),
             'Wrong maximum value. '
         );
     }
@@ -380,7 +380,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->Y_axis->position = ezcGraph::TOP;
+        $chart->yAxis->position = ezcGraph::TOP;
         $chart->render( 500, 200 );
 
         $testBoundings = new ezcGraphBoundings();
@@ -391,25 +391,25 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             87.75,
-            $chart->Y_axis->getCoordinate( $testBoundings, false ),
+            $chart->yAxis->getCoordinate( $testBoundings, false ),
             'Wrong initial axis position. '
         );
 
         $this->assertEquals(
             87.75,
-            $chart->Y_axis->getCoordinate( $testBoundings, 1000 ),
+            $chart->yAxis->getCoordinate( $testBoundings, 1000 ),
             'Wrong minimal value. '
         );
 
         $this->assertEquals(
             179.55,
-            $chart->Y_axis->getCoordinate( $testBoundings, 1200 ),
+            $chart->yAxis->getCoordinate( $testBoundings, 1200 ),
             'Wrong mid value. '
         );
 
         $this->assertEquals(
             317.25,
-            $chart->Y_axis->getCoordinate( $testBoundings, 1500 ),
+            $chart->yAxis->getCoordinate( $testBoundings, 1500 ),
             'Wrong maximum value. '
         );
     }
@@ -418,7 +418,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->Y_axis->position = ezcGraph::BOTTOM;
+        $chart->yAxis->position = ezcGraph::BOTTOM;
         $chart->render( 500, 200 );
 
         $testBoundings = new ezcGraphBoundings();
@@ -429,25 +429,25 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             317.25,
-            $chart->Y_axis->getCoordinate( $testBoundings, false ),
+            $chart->yAxis->getCoordinate( $testBoundings, false ),
             'Wrong initial axis position. '
         );
 
         $this->assertEquals(
             317.25,
-            $chart->Y_axis->getCoordinate( $testBoundings, 1000 ),
+            $chart->yAxis->getCoordinate( $testBoundings, 1000 ),
             'Wrong minimal value. '
         );
 
         $this->assertEquals(
             225.45,
-            $chart->Y_axis->getCoordinate( $testBoundings, 1200 ),
+            $chart->yAxis->getCoordinate( $testBoundings, 1200 ),
             'Wrong mid value. '
         );
 
         $this->assertEquals(
             87.75,
-            $chart->Y_axis->getCoordinate( $testBoundings, 1500 ),
+            $chart->yAxis->getCoordinate( $testBoundings, 1500 ),
             'Wrong maximum value. '
         );
     }
@@ -456,8 +456,8 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->sample = array( 2000 => -300, 1300, 1012, 1450 );
-        $chart->Y_axis->majorStep = 500;
-        $chart->Y_axis->position = ezcGraph::LEFT;
+        $chart->yAxis->majorStep = 500;
+        $chart->yAxis->position = ezcGraph::LEFT;
         $chart->render( 500, 200 );
 
         $testBoundings = new ezcGraphBoundings();
@@ -468,25 +468,25 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             146.25,
-            $chart->Y_axis->getCoordinate( $testBoundings, false ),
+            $chart->yAxis->getCoordinate( $testBoundings, false ),
             'Wrong initial axis position. '
         );
 
         $this->assertEquals(
             67.5,
-            $chart->Y_axis->getCoordinate( $testBoundings, -500 ),
+            $chart->yAxis->getCoordinate( $testBoundings, -500 ),
             'Wrong minimal value. '
         );
 
         $this->assertEquals(
             335.25,
-            $chart->Y_axis->getCoordinate( $testBoundings, 1200 ),
+            $chart->yAxis->getCoordinate( $testBoundings, 1200 ),
             'Wrong mid value. '
         );
 
         $this->assertEquals(
             382.5,
-            $chart->Y_axis->getCoordinate( $testBoundings, 1500 ),
+            $chart->yAxis->getCoordinate( $testBoundings, 1500 ),
             'Wrong maximum value. '
         );
     }
@@ -507,7 +507,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             130,
-            $chart->Y_axis->getCoordinate( $testBoundings, false ),
+            $chart->yAxis->getCoordinate( $testBoundings, false ),
             'Wrong initial axis position. '
         );
     }
@@ -627,7 +627,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->Y_axis->grid = ezcGraphColor::fromHex( '#BBBBBB' );
+        $chart->yAxis->grid = ezcGraphColor::fromHex( '#BBBBBB' );
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
             'drawLine',
@@ -727,7 +727,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->Y_axis->minorGrid = '#BBBBBB';
+        $chart->yAxis->minorGrid = '#BBBBBB';
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
             'drawLine',
@@ -884,25 +884,25 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             60.,
-            $chart->Y_axis->min,
+            $chart->yAxis->min,
             'As value for: min; '
         );
 
         $this->assertEquals(
             80.,
-            $chart->Y_axis->max,
+            $chart->yAxis->max,
             'As value for: max; '
         );
 
         $this->assertEquals(
             5.,
-            $chart->Y_axis->majorStep,
+            $chart->yAxis->majorStep,
             'As value for: majorStep; '
         );
 
         $this->assertEquals(
             1.,
-            $chart->Y_axis->minorStep,
+            $chart->yAxis->minorStep,
             'As value for: minorStep; '
         );
     }
@@ -914,25 +914,25 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             0.,
-            $chart->Y_axis->min,
+            $chart->yAxis->min,
             'As value for: min; '
         );
 
         $this->assertEquals(
             1.,
-            $chart->Y_axis->max,
+            $chart->yAxis->max,
             'As value for: max; '
         );
 
         $this->assertEquals(
             .25,
-            $chart->Y_axis->majorStep,
+            $chart->yAxis->majorStep,
             'As value for: majorStep; '
         );
 
         $this->assertEquals(
             .05,
-            $chart->Y_axis->minorStep,
+            $chart->yAxis->minorStep,
             'As value for: minorStep; '
         );
     }
