@@ -99,7 +99,7 @@ class ezcGraphLineChartTest extends ezcTestCase
     public function testRenderChartLines()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 );
         $chart->sampleData->color = '#CC0000';
         $chart->sampleData->symbol = ezcGraph::DIAMOND;
 
@@ -142,6 +142,84 @@ class ezcGraphLineChartTest extends ezcTestCase
                 $this->equalTo( new ezcGraphCoordinate( 390, 136 ) ),
                 $this->equalTo( new ezcGraphCoordinate( 480, 190 ) ),
                 $this->equalTo( 2 )
+            );
+
+        $chart->renderer = $mockedRenderer;
+
+        $chart->render( 500, 200 );
+    }
+
+    public function testRenderChartFilledLines()
+    {
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => -46, 'sample 4' => 120 );
+        $chart->palette = 'Black';
+        $chart->options->fillLines = 100;
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+            'drawPolygon',
+        ) );
+
+        $mockedRenderer
+            ->expects( $this->at( 2 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array( 
+                    new ezcGraphCoordinate( 120, 40 ),
+                    new ezcGraphCoordinate( 240, 136 ),
+                    new ezcGraphCoordinate( 240, 145 ),
+                    new ezcGraphCoordinate( 120, 145 ),
+                ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#3465A464' ) ),
+                $this->equalTo( true )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 3 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array( 
+                    new ezcGraphCoordinate( 240, 136 ),
+                    new ezcGraphCoordinate( 276, 145 ),
+                    new ezcGraphCoordinate( 240, 145 ),
+                ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#3465A464' ) ),
+                $this->equalTo( true )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 4 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array( 
+                    new ezcGraphCoordinate( 360, 166 ),
+                    new ezcGraphCoordinate( 276, 145 ),
+                    new ezcGraphCoordinate( 360, 145 ),
+                ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#3465A464' ) ),
+                $this->equalTo( true )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 5 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array( 
+                    new ezcGraphCoordinate( 360, 166 ),
+                    new ezcGraphCoordinate( 394, 145 ),
+                    new ezcGraphCoordinate( 360, 145 ),
+                ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#3465A464' ) ),
+                $this->equalTo( true )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 6 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array( 
+                    new ezcGraphCoordinate( 480, 91 ),
+                    new ezcGraphCoordinate( 394, 145 ),
+                    new ezcGraphCoordinate( 480, 145 ),
+                ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#3465A464' ) ),
+                $this->equalTo( true )
             );
 
         $chart->renderer = $mockedRenderer;

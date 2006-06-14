@@ -73,13 +73,86 @@ class ezcGraphLineChart extends ezcGraphChart
     {
         foreach ( $this->data as $data )
         {
+            if ( $this->options->fillLines !== false )
+            {
+                $fillColor = clone $data->color->default;
+                $fillColor->alpha = (int) round( ( 255 - $fillColor->alpha ) * ( $this->options->fillLines / 255 ) );
+            }
+
             $lastPoint = false;
+            $lastKey = false;
+            $lastValue = false;
             foreach ( $data as $key => $value )
             {
                 $point = new ezcGraphCoordinate( 
                     (int) round( $this->elements['X_axis']->getCoordinate( $boundings, $key ) ),
                     (int) round( $this->elements['Y_axis']->getCoordinate( $boundings, $value ) )
                 );
+
+                // Fill the line
+                if ( $lastPoint !== false && $this->options->fillLines !== false )
+                {
+                    $axisPosition = (int) round( $this->elements['Y_axis']->getCoordinate( $boundings, false ) );
+
+                    $lastAxisPoint = new ezcGraphCoordinate(
+                        (int) round( $this->elements['X_axis']->getCoordinate( $boundings, $lastKey ) ),
+                        $axisPosition
+                    );
+                    $axisPoint = new ezcGraphCoordinate(
+                        (int) round( $this->elements['X_axis']->getCoordinate( $boundings, $key ) ),
+                        $axisPosition
+                    );
+
+                    if ( $value / abs( $value ) == $lastValue / abs( $lastValue ) )
+                    {
+                        // Values have the same sign, so that the line do not cross any axes
+                        $renderer->drawPolygon(
+                            array(
+                                $lastPoint,
+                                $point,
+                                $axisPoint,
+                                $lastAxisPoint,
+                            ),
+                            $fillColor,
+                            true
+                        );
+                    }
+                    else
+                    {
+                        // Draw two polygones to consider cutting point with axis
+                        $diffOne = abs( $axisPosition - $lastPoint->y );
+                        $diffTwo = abs( $axisPosition - $point->y );
+
+                        // Switch values, if first is greater then second
+                        $cuttingPosition = $diffOne / ( $diffTwo + $diffOne );
+                        
+                        // Calculate cutting point
+                        $cuttingPoint = new ezcGraphCoordinate(
+                            (int) round( $lastAxisPoint->x + ( $axisPoint->x - $lastAxisPoint->x ) * $cuttingPosition ),
+                            $axisPosition
+                        );
+
+                        // Finally draw polygons
+                        $renderer->drawPolygon(
+                            array(
+                                $lastPoint,
+                                $cuttingPoint,
+                                $lastAxisPoint,
+                            ),
+                            $fillColor,
+                            true
+                        );
+                        $renderer->drawPolygon(
+                            array(
+                                $point,
+                                $cuttingPoint,
+                                $axisPoint,
+                            ),
+                            $fillColor,
+                            true
+                        );
+                    }
+                }
 
                 // Draw line
                 if ( $lastPoint !== false )
@@ -113,6 +186,8 @@ class ezcGraphLineChart extends ezcGraphChart
                 }
 
                 $lastPoint = $point;
+                $lastValue = $value;
+                $lastKey = $key;
             }
         }
     }
