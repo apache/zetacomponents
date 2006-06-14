@@ -46,7 +46,7 @@ class ezcGraphLineChartTest extends ezcTestCase
      */
     public function tearDown()
     {
-    //    $this->removeTempDir();
+        $this->removeTempDir();
     }
 
     protected function addSampleData( ezcGraphChart $chart )
@@ -304,7 +304,6 @@ class ezcGraphLineChartTest extends ezcTestCase
         $chart = ezcGraph::create( 'Line' );
         $chart->title = 'Test graph';
         $chart->palette = 'Black';
-        $chart->options->lineThickness = 1;
 
         $this->addSampleData( $chart );
         $chart->legend = false;
