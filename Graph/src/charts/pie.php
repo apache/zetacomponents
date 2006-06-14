@@ -212,6 +212,12 @@ class ezcGraphPieChart extends ezcGraphChart
         // Render subelements
         foreach ( $this->elements as $name => $element )
         {
+            // Skip element, if it should not get rendered
+            if ( $this->renderElement[$name] === false )
+            {
+                continue;
+            }
+
             $this->driver->options->font = $element->font;
             $boundings = $element->render( $this->renderer, $boundings );
         }

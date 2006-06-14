@@ -242,5 +242,33 @@ class ezcGraphLineChartTest extends ezcTestCase
             'Incorrect image rendered.'
         );
     }
+
+    public function testCompleteRenderingWithoutLegend()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = ezcGraph::create( 'Line' );
+        $chart->title = 'Test graph';
+        $chart->palette = 'Black';
+
+        $this->addSampleData( $chart );
+        $chart->legend = false;
+        $chart->driver = new ezcGraphGdDriver();
+
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->legend->font = $this->basePath . 'font2.ttf';
+        $chart->render( 500, 200, $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            '8735eff094555c48d2121c50d7359266',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
 }
 ?>

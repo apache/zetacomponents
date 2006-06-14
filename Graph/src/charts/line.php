@@ -168,6 +168,12 @@ class ezcGraphLineChart extends ezcGraphChart
         // Render subelements
         foreach ( $this->elements as $name => $element )
         {
+            // Skip element, if it should not get rendered
+            if ( $this->renderElement[$name] === false )
+            {
+                continue;
+            }
+
             // Special settings for special elements
             switch ( $name )
             {

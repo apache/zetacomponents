@@ -57,6 +57,14 @@ abstract class ezcGraphChart
      */
     protected $palette;
 
+    
+    /**
+     * Contains the status wheather an element should be rendered
+     * 
+     * @var array
+     */
+    protected $renderElement;
+
     public function __construct( array $options = array() )
     {
         $this->__set( 'palette', 'Tango' );
@@ -64,6 +72,7 @@ abstract class ezcGraphChart
         // Add standard elements
         $this->addElement( 'title', new ezcGraphChartElementText() );
         $this->elements['title']->position = ezcGraph::TOP;
+        $this->renderElement['title'] = false;
 
         $this->addElement( 'legend', new ezcGraphChartElementLegend() );
         $this->elements['legend']->position = ezcGraph::LEFT;
@@ -79,6 +88,9 @@ abstract class ezcGraphChart
         $this->elements[$name] = $element;
         $this->elements[$name]->font = $this->options->font;
         $this->elements[$name]->setFromPalette( $this->palette );
+
+        // Render element by default
+        $this->renderElement[$name] = true;
     }
 
     /**
@@ -97,6 +109,10 @@ abstract class ezcGraphChart
         switch ( $propertyName ) {
             case 'title':
                 $this->elements['title']->title = $propertyValue;
+                $this->renderElement['title'] = true;
+                break;
+            case 'legend':
+                $this->renderElement['legend'] = (bool) $propertyValue;
                 break;
             case 'renderer':
                 if ( $propertyValue instanceof ezcGraphRenderer )

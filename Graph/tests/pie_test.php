@@ -307,6 +307,37 @@ class ezcGraphPieChartTest extends ezcTestCase
         );
     }
 
+    public function testCompleteRenderingWithoutLegend()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = ezcGraph::create( 'Pie' );
+
+        $chart->sample = array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        );
+
+        $chart->legend = false;
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 400, 200, $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            'd8186025828b208c2451333f22d9159c',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
     public function testCompleteRenderingWithHilight()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
