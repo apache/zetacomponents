@@ -1,18 +1,16 @@
 Alpha:
  - Fix grid on axis
- - Fix antialiasing and linewidth for axis
  - Check for undocumented functions
- - Implement element border
- - Implement chart bachground
+ - Fix scaling of background image
+ - Make hilight a function
+ - Tresh hold for pie charts
 
 Next steps:
- - Pie charts
  - 3D-Renderer
  - SVG-Driver
  - TextElement to add copyright info etc.
  - GD-Driver
    - Antialiasing of lines
-   - Adjust line thickness
  - Datasets
    - FromPDO
    - Average (polynomial)
