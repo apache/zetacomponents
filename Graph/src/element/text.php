@@ -57,7 +57,7 @@ class ezcGraphChartElementText extends ezcGraphChartElement
                     $height - $this->padding * 2,
                     ezcGraph::CENTER | ezcGraph::MIDDLE
                 );
-                $boundings->y0 += $height;
+                $boundings->y0 += $height + $this->margin;
                 break;
             case ezcGraph::BOTTOM:
                 $renderer->drawTextBox(
@@ -70,7 +70,7 @@ class ezcGraphChartElementText extends ezcGraphChartElement
                     $height - $this->padding * 2,
                     ezcGraph::CENTER | ezcGraph::MIDDLE
                 );
-                $boundings->y1 -= $height;
+                $boundings->y1 -= $height + $this->margin;
                 break;
         }
         return $boundings;

@@ -63,6 +63,17 @@ class ezcGraphTextTest extends ezcTestCase
                 $this->equalTo( 18 ),
                 $this->equalTo( ezcGraph::CENTER | ezcGraph::MIDDLE )
             );
+        // Test for margin
+        $mockedRenderer
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 17, 22 ) ),
+                $this->equalTo( 'sample' ),
+                $this->equalTo( 81 ),
+                $this->equalTo( 12 ),
+                $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
+            );
 
         $chart->renderer = $mockedRenderer;
 
@@ -92,6 +103,48 @@ class ezcGraphTextTest extends ezcTestCase
                 $this->equalTo( 18 ),
                 $this->equalTo( ezcGraph::CENTER | ezcGraph::MIDDLE )
             );
+
+        $chart->renderer = $mockedRenderer;
+
+        $chart->render( 500, 200 );
+    }
+
+    public function testRenderTextTopMargin()
+    {
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 'foo' => 1, 'bar' => 10 );
+
+        $chart->title = 'Title of a chart';
+        $chart->title->position = ezcGraph::TOP;
+        $chart->title->margin = 5;
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+            'drawTextBox',
+        ) );
+
+        // Y-Axis
+        $mockedRenderer
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 1, 1 ) ),
+                $this->equalTo( 'Title of a chart' ),
+                $this->equalTo( 498 ),
+                $this->equalTo( 18 ),
+                $this->equalTo( ezcGraph::CENTER | ezcGraph::MIDDLE )
+            );
+        // Test for margin
+        $mockedRenderer
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 17, 27 ) ),
+                $this->equalTo( 'sample' ),
+                $this->equalTo( 81 ),
+                $this->equalTo( 12 ),
+                $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
+            );
+        
 
         $chart->renderer = $mockedRenderer;
 
