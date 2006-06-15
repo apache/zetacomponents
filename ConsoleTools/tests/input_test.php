@@ -1050,6 +1050,31 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         );
     }
 
+    public function testGetHelpTableDefaultParameters()
+    {
+        $output = new ezcConsoleOutput();
+        
+        $res = new ezcConsoleTable( $output, 80 ); 
+        $res[0][0]->content = '-t / --testing';
+        $res[0][1]->content = 'Sorry, there is no help text available for this parameter.';
+                
+        $res[1][0]->content = '-s / --subway';
+        $res[1][1]->content = 'Sorry, there is no help text available for this parameter.';
+                
+        $res[2][0]->content = '-y / --yank';
+        $res[2][1]->content = 'Some even more stupid, but somewhat longer long describtion.';
+                
+        $res[3][0]->content = '-e / --edit';
+        $res[3][1]->content = 'Sorry, there is no help text available for this parameter.';
+                
+        $table = new ezcConsoleTable( $output, 80 );
+        $table = $this->consoleParameter->getHelpTable( $table );
+
+        $this->assertEquals( 11, sizeof( $table ), "Expected 11 elements in the generated HelpTable" );
+    }
+
+
+
     public function testGetHelpText()
     {
         $res = <<<EOF

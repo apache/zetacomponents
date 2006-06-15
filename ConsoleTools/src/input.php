@@ -164,7 +164,7 @@ class ezcConsoleInput
 
 
     /**
-     * Indecates if an option was submitted, that has the isHelpOption flag set.
+     * Indicates if an option was submitted, that has the isHelpOption flag set.
      * 
      * @var bool
      */
@@ -636,7 +636,7 @@ class ezcConsoleInput
      *                                   for, default is all.
      * @return ezcConsoleTable           The filled table.
      */
-    public function getHelpTable( ezcConsoleTable $table, $long = false, array $params = null )
+    public function getHelpTable( ezcConsoleTable $table, $long = false, array $params = array() )
     {
         $help = $this->getHelp( $long, $params );
         $i = 0;

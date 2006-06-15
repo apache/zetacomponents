@@ -1,3 +1,5 @@
+- Fixed bug #8525: ConsoleInput::getHelpTable() exits with a fatal error.
+
 1.1 - Monday 12 June 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
