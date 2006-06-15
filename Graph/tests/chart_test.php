@@ -75,7 +75,7 @@ class ezcGraphChartTest extends ezcTestCase
             'Background is not an ezcGraphChartElementBackgroundImage.'
         );
 
-        $this->assertProtectedPropertySame( $background, 'source', $this->basePath . $this->testFiles['jpeg'] );
+        $this->assertSame( $this->basePath . $this->testFiles['jpeg'], $this->getNonPublicProperty( $background, 'source' ) );
     }
 
     public function testSetOptionsInvalidBackgroundImage()
@@ -135,7 +135,7 @@ class ezcGraphChartTest extends ezcTestCase
         $pieChart = ezcGraph::create( 'Pie' );
         $pieChart->options->borderWidth = 3;
 
-        $this->assertProtectedPropertySame( $pieChart->options, 'borderWidth', 3 );
+        $this->assertSame( 3, $this->getNonPublicProperty( $pieChart->options, 'borderWidth' ) );
     }
 
     public function testSetOptionsUnknown()

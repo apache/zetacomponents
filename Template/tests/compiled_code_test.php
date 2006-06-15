@@ -46,10 +46,10 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
     {
         $conf = new ezcTemplateCompiledCode( '8efb', $this->templateCompiledPath . '8efb.php' );
 
-        self::assertPropertySame( $conf, 'identifier', "8efb" );
-        self::assertPropertySame( $conf, 'path',       $this->templateCompiledPath . '8efb.php' );
-        self::assertPropertySame( $conf, 'context',    null );
-        self::assertPropertySame( $conf, 'template',    null );
+        $this->assertSame( '8efb', $this->getNonPublicProperty( $conf, 'identifier' ) );
+        $this->assertSame( $this->templateCompiledPath . '8efb.php', $this->getNonPublicProperty( $conf, 'path' ) );
+        $this->assertSame( null, $this->getNonPublicProperty( $conf, 'context' ) );
+        $this->assertSame( null, $this->getNonPublicProperty( $conf, 'template' ) );
     }
 
     /**

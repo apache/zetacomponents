@@ -30,16 +30,16 @@ class ezcTemplateConfigurationTest extends ezcTestCase
     {
         $conf = new ezcTemplateConfiguration();
 
-        self::assertPropertySame( $conf, 'templatePath',        "." );
-        self::assertPropertySame( $conf, 'compilePath',        "." );
+        $this->assertSame( '.', $this->getNonPublicProperty( $conf, 'templatePath' ) );
+        $this->assertSame( '.', $this->getNonPublicProperty( $conf, 'compilePath' ) );
     }
 
     public function testInit()
     {
         $conf = new ezcTemplateConfiguration( 'templates', 'compiled' );
 
-        self::assertPropertySame( $conf, 'templatePath',        "templates" );
-        self::assertPropertySame( $conf, 'compilePath',        "compiled" );
+        $this->assertSame( 'templates', $this->getNonPublicProperty( $conf, 'templatePath' ) );
+        $this->assertSame( 'compiled', $this->getNonPublicProperty( $conf, 'compilePath' ) );
     }
 
     public function testInvalidProperties()

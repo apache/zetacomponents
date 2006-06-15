@@ -36,9 +36,9 @@ class ezcConfigurationManagerTest extends ezcTestCase
         $config = ezcConfigurationManager::getInstance();
         $config->init( 'ezcConfigurationIniReader', 'files', array() );
 
-        $this->assertPrivatePropertySame( $config, 'readerClass', 'ezcConfigurationIniReader' );
-        $this->assertPrivatePropertySame( $config, 'location', 'files' );
-        $this->assertPrivatePropertySame( $config, 'options', array() );
+        $this->assertSame( 'ezcConfigurationIniReader', $this->getNonPublicProperty( $config, 'readerClass' ) );
+        $this->assertSame( 'files', $this->getNonPublicProperty( $config, 'location' ) );
+        $this->assertSame( array(), $this->getNonPublicProperty( $config, 'options' ) );
     }
 
     public function testInitClassWrongInterface()

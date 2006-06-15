@@ -118,56 +118,6 @@ abstract class ezcTestCase extends PHPUnit2_Framework_TestCase
     }
 
     /**
-     * Checks if the value of a private property has the expected value
-     *
-     * Checks if the private property $propertyName in object $object is a
-     * private property and whether it matches the expected value.  Before
-     * fetching the value it checks that $object is an object and that the
-     * property exists.
-     *
-     * @param $object The object containing the property $propertyName.
-     * @param $propertyName The name of the property to access.
-     * @param $expectedValue The value the property is expected to have.
-     *
-     * @see assertSame(), assertPropertySame(), assertProtectedPropertySame()
-     */
-    public function assertPrivatePropertySame( $object, $propertyName, $expectedValue )
-    {
-        self::assertTrue( is_object( $object ),
-                          "Parameter <\$object> must be an object, got: <" . gettype( $object ) . ">" );
-        $data = (array) $object;
-        self::assertSame( true, isset( $data["\0" . get_class( $object ) . "\0" . $propertyName] ),
-                          "Property <$propertyName> is not a private property on object <" . get_class( $object ) . ">." );
-        self::assertSame( $expectedValue, $data["\0" . get_class( $object ) . "\0" . $propertyName],
-                          "Property <$propertyName> does not return correct value from object <" . get_class( $object ) . ">." );
-    }
-
-    /**
-     * Checks if the value of a protected property has the expected value
-     *
-     * Checks if the protected property $propertyName in object $object is a
-     * protected property and whether it matches the expected value.  Before
-     * fetching the value it checks that $object is an object and that the
-     * property exists.
-     *
-     * @param $object The object containing the property $propertyName.
-     * @param $propertyName The name of the property to access.
-     * @param $expectedValue The value the property is expected to have.
-     *
-     * @see assertSame(), assertPropertySame(), assertPrivatePropertySame()
-     */
-    public function assertProtectedPropertySame( $object, $propertyName, $expectedValue )
-    {
-        self::assertTrue( is_object( $object ),
-                          "Parameter <\$object> must be an object, got: <" . gettype( $object ) . ">" );
-        $data = (array) $object;
-        self::assertSame( true, isset( $data["\0*\0" . $propertyName] ),
-                          "Property <$propertyName> is not a protected property on object <" . get_class( $object ) . ">." );
-        self::assertSame( $expectedValue, $data["\0*\0" . $propertyName],
-                          "Property <$propertyName> does not return correct value from object <" . get_class( $object ) . ">." );
-    }
-
-    /**
      * Checks if the property $propertyName in object $object contains the correct value $expectedValue.
      * Before fetching the value it checks that $object is an object and that the property exists.
      *

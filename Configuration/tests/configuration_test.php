@@ -410,11 +410,11 @@ class ezcConfigurationTest extends ezcTestCase
         $comments = array(
         );
         $configuration = new ezcConfiguration( $settings, $comments );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', false );
+        $this->assertSame( false, $this->getNonPublicProperty( $configuration, 'isModified' ) );
 
         $configuration->setSetting( 'TheOnlyGroup', 'Existing1', 'yes' );
         $configuration->setSetting( 'TheOnlyGroup', 'Existing2', 'yes', 'With comment' );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', true );
+        $this->assertSame( true, $this->getNonPublicProperty( $configuration, 'isModified' ) );
         $this->assertEquals( 'yes', $configuration->getSetting( 'TheOnlyGroup', 'Existing1' ) );
         $this->assertEquals( 'yes', $configuration->getSetting( 'TheOnlyGroup', 'Existing2' ) );
         $this->assertEquals( false, $configuration->getComment( 'TheOnlyGroup', 'Existing1' ) );
@@ -431,11 +431,11 @@ class ezcConfigurationTest extends ezcTestCase
         $comments = array(
         );
         $configuration = new ezcConfiguration( $settings, $comments );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', false );
+        $this->assertSame( false, $this->getNonPublicProperty( $configuration, 'isModified' ) );
 
         $configuration->setSetting( 'TheOnlyGroup', 'New1', 42 );
         $configuration->setSetting( 'TheOnlyGroup', 'New2', 43, 'With comment' );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', true );
+        $this->assertSame( true, $this->getNonPublicProperty( $configuration, 'isModified' ) );
         $this->assertEquals( 42, $configuration->getSetting( 'TheOnlyGroup', 'New1' ) );
         $this->assertEquals( 43, $configuration->getSetting( 'TheOnlyGroup', 'New2' ) );
         $this->assertEquals( false, $configuration->getComment( 'TheOnlyGroup', 'New1' ) );
@@ -452,10 +452,10 @@ class ezcConfigurationTest extends ezcTestCase
         $comments = array(
         );
         $configuration = new ezcConfiguration( $settings, $comments );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', false );
+        $this->assertSame( false, $this->getNonPublicProperty( $configuration, 'isModified' ) );
 
         $configuration->removeSetting( 'TheOnlyGroup', 'Setting1' );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', true );
+        $this->assertSame( true, $this->getNonPublicProperty( $configuration, 'isModified' ) );
         $this->assertEquals( false, $configuration->hasSetting( 'TheOnlyGroup', 'Setting1' ) );
     }
 
@@ -707,7 +707,7 @@ class ezcConfigurationTest extends ezcTestCase
         $comments = array(
         );
         $configuration = new ezcConfiguration( $settings, $comments );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', false );
+        $this->assertSame( false, $this->getNonPublicProperty( $configuration, 'isModified' ) );
 
         $configuration->setSettings(
             'TheOnlyGroup',
@@ -715,7 +715,7 @@ class ezcConfigurationTest extends ezcTestCase
             array( false, 'false', 0 ),
             array( 'Comment', null )
         );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', true );
+        $this->assertSame( true, $this->getNonPublicProperty( $configuration, 'isModified' ) );
         $this->assertEquals(
             array( 'Existing1' => false, 'Existing2' => 'false', 'Existing3' => 0 ),
             $configuration->getSettings( 'TheOnlyGroup', array( 'Existing1', 'Existing2', 'Existing3' ) )
@@ -735,10 +735,10 @@ class ezcConfigurationTest extends ezcTestCase
         $comments = array(
         );
         $configuration = new ezcConfiguration( $settings, $comments );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', false );
+        $this->assertSame( false, $this->getNonPublicProperty( $configuration, 'isModified' ) );
 
         $configuration->setSettings( 'TheOnlyGroup', array( 'Existing1', 'Existing2', 'Existing3' ), array( false, 'false', 0 ) );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', true );
+        $this->assertSame( true, $this->getNonPublicProperty( $configuration, 'isModified' ) );
         $this->assertEquals(
             array( 'Existing1' => false, 'Existing2' => 'false', 'Existing3' => 0 ),
             $configuration->getSettings( 'TheOnlyGroup', array( 'Existing1', 'Existing2', 'Existing3' ) )
@@ -813,10 +813,10 @@ class ezcConfigurationTest extends ezcTestCase
             )
         );
         $configuration = new ezcConfiguration( $settings, $comments );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', false );
+        $this->assertSame( false, $this->getNonPublicProperty( $configuration, 'isModified' ) );
 
         $configuration->removeSettings( 'TheOnlyGroup', array( 'Existing1' ) );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', true );
+        $this->assertSame( true, $this->getNonPublicProperty( $configuration, 'isModified' ) );
         $this->assertEquals(
             array( 'Existing2' => 'true', 'Existing3' => 1 ),
             $configuration->getSettingsInGroup( 'TheOnlyGroup' )
@@ -831,11 +831,11 @@ class ezcConfigurationTest extends ezcTestCase
         $comments = array(
         );
         $configuration = new ezcConfiguration( $settings, $comments );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', false );
+        $this->assertSame( false, $this->getNonPublicProperty( $configuration, 'isModified' ) );
 
         $found = $configuration->addGroup( 'TheOnlyGroup', 'A comment' );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', true );
-        $this->assertPrivatePropertySame( $configuration, 'comments', array( 'TheOnlyGroup' => array( '#' => 'A comment' ) ) );
+        $this->assertSame( true, $this->getNonPublicProperty( $configuration, 'isModified' ) );
+        $this->assertSame( array( 'TheOnlyGroup' => array( '#' => 'A comment' ) ), $this->getNonPublicProperty( $configuration, 'comments' ) );
     }
 
     public function testAddGroup2()
@@ -909,7 +909,7 @@ class ezcConfigurationTest extends ezcTestCase
         $configuration = new ezcConfiguration( $settings, $comments );
         $configuration->removeGroup( 'TheOnlyGroup' );
         $this->assertEquals( false, $configuration->hasGroup( 'TheOnlyGroup' ) );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', true );
+        $this->assertSame( true, $this->getNonPublicProperty( $configuration, 'isModified' ) );
     }
 
     public function testRemoveGroup2()
@@ -946,7 +946,7 @@ class ezcConfigurationTest extends ezcTestCase
         $configuration->removeAllSettings();
         $this->assertEquals( false, $configuration->hasGroup( 'TheOnlyGroup' ) );
         $this->assertEquals( false, $configuration->hasGroup( 'TheSecondOnlyGroup' ) );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', true );
+        $this->assertSame( true, $this->getNonPublicProperty( $configuration, 'isModified' ) );
     }
 
     public function testIsModified()
@@ -956,11 +956,11 @@ class ezcConfigurationTest extends ezcTestCase
         $comments = array(
         );
         $configuration = new ezcConfiguration( $settings, $comments );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', false );
+        $this->assertSame( false, $this->getNonPublicProperty( $configuration, 'isModified' ) );
         $this->assertEquals( false, $configuration->isModified() );
 
         $found = $configuration->addGroup( 'TheOnlyGroup', 'A comment' );
-        $this->assertPrivatePropertySame( $configuration, 'isModified', true );
+        $this->assertSame( true, $this->getNonPublicProperty( $configuration, 'isModified' ) );
         $this->assertEquals( true, $configuration->isModified() );
     }
 
