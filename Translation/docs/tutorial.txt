@@ -88,7 +88,7 @@ backend where to find the translations, and what the format of the translation
 filename is. The string "[LOCALE]" will automatically be replaced with the
 locale name when opening the translation file. With the configured backend we
 then construct a manager in line 7. In line 8 and 9 we ask the manager to
-return the contexts "tutorial/headers" and "tutorial/desciptions" for the
+return the contexts "tutorial/headers" and "tutorial/descriptions" for the
 "nb_NO" locale. When you ask the manager to retrieve the content it first
 checks its internal cache if the ezcTranslation object for that context was
 already retrieved. If the object for the context is available in the cache it
@@ -98,12 +98,12 @@ cache and return the context.
 
 In many cases there are parameters to your translated strings, for example to
 fill in a name of an article. In this case a solution would be to separate the
-translatable string into two parts, and just concat them together with the
+translatable string into two parts, and just concatenate them together with the
 parameter on the correct place. However, it is also possible that the order of
 parameters changes when you translate a string. For example the
 English string "Search for 'appelmoes' returned 3 matches" can be translated in Dutch
 to: "Er zijn 3 items gevonden bij het zoeken naar 'appelmoes'". The simple
-concattenation mechanism then no longer works. Luckily the Translation
+concatenation mechanism then no longer works. Luckily the Translation
 component supports parameterized strings in two different ways: with
 numerical replacement identifiers (%1, %2, etc.) and with associative
 identifiers (%search_string, %matches). In the following example we show how to
@@ -149,7 +149,7 @@ Filters
 
 In some cases not all the translation files are up to date. For example the
 original translation file was updated with new strings, but your translator had
-no time to translate the strings yet. For your application to show atleast the
+no time to translate the strings yet. For your application to show at least the
 original strings (often English) the Translation component offers filters.
 Filters are applied after the backend retrieved the data, but before it is placed
 in the internal cache of the manager. 
