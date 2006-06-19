@@ -825,7 +825,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         }
 
         $chart = ezcGraph::create( 'Line' );
-        $chart->X_Axis = new ezcGraphChartElementNumericAxis();
+        $chart->xAxis = new ezcGraphChartElementNumericAxis();
         $chart->sinus = $sin;
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
@@ -877,7 +877,8 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $chart->render( 500, 200 );
     }
 
-    public function testValueZeroAmplitude() {
+    public function testValueZeroAmplitude()
+    {
         $chart = ezcGraph::create( 'Line' );
         $chart->sample = array( 2000 => 70, 70, 70, 70 );
         $chart->render( 500, 200 );
@@ -907,7 +908,8 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         );
     }
 
-    public function testValueAllZero() {
+    public function testValueAllZero()
+    {
         $chart = ezcGraph::create( 'Line' );
         $chart->sample = array( 2000 => 0, 0 );
         $chart->render( 500, 200 );
@@ -934,6 +936,23 @@ class ezcGraphNumericAxisTest extends ezcTestCase
             .05,
             $chart->yAxis->minorStep,
             'As value for: minorStep; '
+        );
+    }
+
+    public function testSetNumericAxis()
+    {
+        $chart = ezcGraph::create( 'line' );
+        $chart->xAxis = new ezcGraphChartElementNumericAxis();
+        $chart->yAxis = new ezcGraphChartElementNumericAxis();
+
+        $this->assertTrue(
+            $chart->xAxis instanceof ezcGraphChartElementNumericAxis,
+            'X axis should be numeric.'
+        );
+
+        $this->assertTrue(
+            $chart->yAxis instanceof ezcGraphChartElementNumericAxis,
+            'Y axis should be numeric.'
         );
     }
 }

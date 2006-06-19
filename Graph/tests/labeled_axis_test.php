@@ -552,6 +552,23 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
         $chart->render( 500, 200 );
     }
+
+    public function testSetNumericAxis()
+    {
+        $chart = ezcGraph::create( 'line' );
+        $chart->xAxis = new ezcGraphChartElementLabeledAxis();
+        $chart->yAxis = new ezcGraphChartElementLabeledAxis();
+
+        $this->assertTrue(
+            $chart->xAxis instanceof ezcGraphChartElementLabeledAxis,
+            'X axis should be labeled.'
+        );
+
+        $this->assertTrue(
+            $chart->yAxis instanceof ezcGraphChartElementLabeledAxis,
+            'Y axis should be labeled.'
+        );
+    }
 }
 
 ?>
