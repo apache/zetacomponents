@@ -300,6 +300,103 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         );
     }
 
+    public function testMixedAutomagicAndManualScaling2()
+    {
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart->yAxis->min = 0;
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            0.,
+            $chart->yAxis->min,
+            'As value for: min; '
+        );
+
+        $this->assertEquals(
+            1500.,
+            $chart->yAxis->max,
+            'As value for: max; '
+        );
+
+        $this->assertEquals(
+            500.,
+            $chart->yAxis->majorStep,
+            'As value for: majorStep; '
+        );
+
+        $this->assertEquals(
+            100.,
+            $chart->yAxis->minorStep,
+            'As value for: minorStep; '
+        );
+    }
+
+    public function testMixedAutomagicAndManualScaling3()
+    {
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart->yAxis->max = 2000;
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            1000.,
+            $chart->yAxis->min,
+            'As value for: min; '
+        );
+
+        $this->assertEquals(
+            2000.,
+            $chart->yAxis->max,
+            'As value for: max; '
+        );
+
+        $this->assertEquals(
+            250.,
+            $chart->yAxis->majorStep,
+            'As value for: majorStep; '
+        );
+
+        $this->assertEquals(
+            50.,
+            $chart->yAxis->minorStep,
+            'As value for: minorStep; '
+        );
+    }
+
+    public function testMixedAutomagicAndManualScaling4()
+    {
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart->yAxis->min = 0;
+        $chart->yAxis->max = 2000;
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            0.,
+            $chart->yAxis->min,
+            'As value for: min; '
+        );
+
+        $this->assertEquals(
+            2000.,
+            $chart->yAxis->max,
+            'As value for: max; '
+        );
+
+        $this->assertEquals(
+            1000.,
+            $chart->yAxis->majorStep,
+            'As value for: majorStep; '
+        );
+
+        $this->assertEquals(
+            250.,
+            $chart->yAxis->minorStep,
+            'As value for: minorStep; '
+        );
+    }
+
     public function testPositionLeft()
     {
         $chart = ezcGraph::create( 'Line' );

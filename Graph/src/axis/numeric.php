@@ -224,6 +224,17 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
             }
         }
 
+        // Use custom minimum and maximum if available
+        if ( $this->min !== false )
+        {
+            $this->minValue = $this->min;
+        }
+
+        if ( $this->max !== false )
+        {
+            $this->maxValue = $this->max;
+        }
+
         // Calculate "nice" values for scaling parameters
         if ( $this->majorStep === false )
         {
