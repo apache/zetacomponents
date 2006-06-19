@@ -139,6 +139,9 @@ query abstraction layer. The factory methods in the handler to fetch the query
 object ensures that you get a query of the correct type regardless of what
 database you use.
 
+Bind Parameters
+---------------
+
 The next example builds on the previous one, but builds a more complex query
 and introduces the usage of bind parameters in the query:
 
@@ -157,6 +160,9 @@ query objects.
 
 .. include:: tutorial_example_06.php
    :literal:
+
+Multi-join Syntax
+-----------------
 
 The next examples show how to use multi-join syntax to build 
 queries with several joined tables using inner, right or left join.
