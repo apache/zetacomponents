@@ -327,8 +327,8 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
             ->with(
                 $this->equalTo( array(
                     new ezcGraphCoordinate( 500, 190 ),
-                    new ezcGraphCoordinate( 490, 185 ),
-                    new ezcGraphCoordinate( 490, 195 ),
+                    new ezcGraphCoordinate( 492, 186 ),
+                    new ezcGraphCoordinate( 492, 194 ),
                 ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                 $this->equalTo( true )
@@ -492,6 +492,64 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
             ->with(
                 $this->equalTo( new ezcGraphCoordinate( 393, 192 ) ),
                 $this->equalTo( '2003' ),
+                $this->equalTo( 88 ),
+                $this->equalTo( 8 ),
+                $this->equalTo( ezcGraph::RIGHT | ezcGraph::TOP )
+            );
+
+        $chart->renderer = $mockedRenderer;
+
+        $chart->render( 500, 200 );
+    }
+
+    public function testRenderNumericAxisCustomLabels()
+    {
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
+        $chart->xAxis->formatString = 'test';
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+            'drawTextBox',
+        ) );
+
+        // X-Axis
+        $mockedRenderer
+            ->expects( $this->at( 2 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 122, 192 ) ),
+                $this->equalTo( 'test' ),
+                $this->equalTo( 88 ),
+                $this->equalTo( 8 ),
+                $this->equalTo( ezcGraph::LEFT | ezcGraph::TOP )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 3 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 212, 192 ) ),
+                $this->equalTo( 'test' ),
+                $this->equalTo( 88 ),
+                $this->equalTo( 8 ),
+                $this->equalTo( ezcGraph::CENTER | ezcGraph::TOP )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 4 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 303, 192 ) ),
+                $this->equalTo( 'test' ),
+                $this->equalTo( 88 ),
+                $this->equalTo( 8 ),
+                $this->equalTo( ezcGraph::CENTER | ezcGraph::TOP )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 5 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 393, 192 ) ),
+                $this->equalTo( 'test' ),
                 $this->equalTo( 88 ),
                 $this->equalTo( 8 ),
                 $this->equalTo( ezcGraph::RIGHT | ezcGraph::TOP )

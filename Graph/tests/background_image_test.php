@@ -176,7 +176,7 @@ class ezcGraphBackgroundImageTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '17c3aac43de88a0a8ce620d5e72db40d',
+            '1d586728bba88ddd9a6c18d42449a948',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );

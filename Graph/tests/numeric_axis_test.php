@@ -913,6 +913,54 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $chart->render( 500, 200 );
     }
 
+    public function testRenderNumericAxisCustomLabels()
+    {
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
+        $chart->yAxis->formatString = 'test';
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+            'drawTextBox',
+        ) );
+
+        // Y-Axis
+        $mockedRenderer
+            ->expects( $this->at( 7 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 100, 130 ) ),
+                $this->equalTo( 'test' ),
+                $this->equalTo( 18 ),
+                $this->equalTo( 58 ),
+                $this->equalTo( ezcGraph::RIGHT | ezcGraph::BOTTOM )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 8 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 100, 70 ) ),
+                $this->equalTo( 'test' ),
+                $this->equalTo( 18 ),
+                $this->equalTo( 58 ),
+                $this->equalTo( ezcGraph::RIGHT | ezcGraph::BOTTOM )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 9 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 100, 10 ) ),
+                $this->equalTo( 'test' ),
+                $this->equalTo( 18 ),
+                $this->equalTo( 58 ),
+                $this->equalTo( ezcGraph::RIGHT | ezcGraph::BOTTOM )
+            );
+
+        $chart->renderer = $mockedRenderer;
+
+        $chart->render( 500, 200 );
+    }
+
     public function testRenderNumericXAndYAxisLabels()
     {
         $sin = array();

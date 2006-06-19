@@ -220,7 +220,7 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
 
         for ( $i = 0; $i <= $steps; ++$i )
         {
-            $label = $this->getLabel( $i );
+            $label = sprintf( $this->formatString, $this->getLabel( $i ) );
 
             switch ( $this->position )
             {

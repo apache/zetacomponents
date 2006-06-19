@@ -358,7 +358,7 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
             // Draw label
             if ( $i < $steps )
             {
-                $label = $this->getLabel( $i );
+                $label = sprintf( $this->formatString, $this->getLabel( $i ) );
 
                 switch ( $this->position )
                 {

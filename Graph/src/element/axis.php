@@ -80,6 +80,20 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
      */
     protected $minorScalingLineLength = 2;
 
+    /**
+     * Formatstring to use for labeling og the axis
+     * 
+     * @var string
+     */
+    protected $formatString = '%s';
+
+    /**
+     * Maximum Size used to draw arrow heads
+     * 
+     * @var integer
+     */
+    protected $maxArrowHeadSize = 8;
+
     public function __construct( array $options = array() )
     {
         parent::__construct( $options );
@@ -158,6 +172,12 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 }
                 $this->minorStep = (float) $propertyValue;
                 break;
+            case 'formatString':
+                $this->formatString = (string) $propertyValue;
+                break;
+            case 'maxArrowHeadSize':
+                $this->maxArrowHeadSize = max( 0, (int) $propertyValue );
+                break;
             default:
                 parent::__set( $propertyName, $propertyValue );
                 break;
@@ -204,80 +224,7 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
      * @param ezcGraphBoundings $boundings 
      * @return void
      */
-    protected function drawLabels( ezcGraphRenderer $renderer, ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphBoundings $boundings )
-    {
-        // Draw major steps
-        $steps = $this->getMajorStepCount();
-
-        // Calculate stepsize
-        $xStepsize = ( $end->x - $start->x ) / $steps;
-        $yStepsize = ( $end->y - $start->y ) / $steps;
-
-        // Caluclate datafree chart border
-        $xBorder = abs ( ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 ) );
-        $yBorder = abs ( ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 ) );
-
-        for ( $i = 0; $i <= $steps; ++$i )
-        {
-            // Draw label
-            if ( $i < $steps )
-            {
-                $label = $this->getLabel( $i );
-
-                switch ( $this->position )
-                {
-                    case ezcGraph::LEFT:
-                        $renderer->drawTextBox(
-                            new ezcGraphCoordinate(
-                                (int) round( $start->x + $i * $xStepsize + $this->labelPadding ),
-                                (int) round( $start->y + $i * $yStepsize + $this->labelPadding )
-                            ),
-                            $label,
-                            (int) round( $xStepsize ) - $this->labelPadding,
-                            $yBorder - $this->labelPadding,
-                            ezcGraph::LEFT | ezcGraph::TOP
-                        );
-                        break;
-                    case ezcGraph::RIGHT:
-                        $renderer->drawTextBox(
-                            new ezcGraphCoordinate(
-                                (int) round( $start->x + $i * $xStepsize + $xStepsize ),
-                                (int) round( $start->y + $i * $yStepsize + $this->labelPadding )
-                            ),
-                            $label,
-                            (int) round( -$xStepsize ) - $this->labelPadding,
-                            $yBorder - $this->labelPadding,
-                            ezcGraph::RIGHT | ezcGraph::TOP
-                        );
-                        break;
-                    case ezcGraph::BOTTOM:
-                        $renderer->drawTextBox(
-                            new ezcGraphCoordinate(
-                                (int) round( $start->x + $i * $xStepsize - $xBorder ),
-                                (int) round( $start->y + $i * $yStepsize + $yStepsize )
-                            ),
-                            $label,
-                            $xBorder - $this->labelPadding,
-                            (int) round( -$yStepsize ) - $this->labelPadding,
-                            ezcGraph::RIGHT | ezcGraph::BOTTOM
-                        );
-                        break;
-                    case ezcGraph::TOP:
-                        $renderer->drawTextBox(
-                            new ezcGraphCoordinate(
-                                (int) round( $start->x + $i * $xStepsize - $xBorder ),
-                                (int) round( $start->y + $i * $yStepsize + $this->labelPadding )
-                            ),
-                            $label,
-                            $xBorder - $this->labelPadding,
-                            (int) round( $yStepsize ) - $this->labelPadding,
-                            ezcGraph::RIGHT | ezcGraph::TOP
-                        );
-                        break;
-                }
-            }
-        }
-    }
+    abstract protected function drawLabels( ezcGraphRenderer $renderer, ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphBoundings $boundings );
 
     /**
      * Draw a axis from a start point to an end point. They do not need to be 
@@ -310,7 +257,10 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         );
 
         // Draw small arrowhead
-        $size = abs( ceil( ( ( $end->x - $start->x ) + ( $end->y - $start->y ) ) * $this->axisSpace / 4 ) );
+        $size = min(
+            $this->maxArrowHeadSize,
+            abs( ceil( ( ( $end->x - $start->x ) + ( $end->y - $start->y ) ) * $this->axisSpace / 4 ) )
+        );
 
         $renderer->drawPolygon(
             array(
