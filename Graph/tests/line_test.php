@@ -227,6 +227,37 @@ class ezcGraphLineChartTest extends ezcTestCase
         $chart->render( 500, 200 );
     }
 
+
+    public function testRenderChartFilledLinesZero()
+    {
+        $chart = ezcGraph::create( 'Line' );
+        $chart->sampleData = array( 'sample 1' => 0, 'sample 2' => 0 );
+        $chart->palette = 'Black';
+        $chart->options->fillLines = 100;
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+            'drawPolygon',
+        ) );
+
+        $mockedRenderer
+            ->expects( $this->at( 2 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array( 
+                    new ezcGraphCoordinate( 120, 190 ),
+                    new ezcGraphCoordinate( 480, 190 ),
+                    new ezcGraphCoordinate( 480, 190 ),
+                    new ezcGraphCoordinate( 120, 190 ),
+                ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#3465A464' ) ),
+                $this->equalTo( true )
+            );
+        
+        $chart->renderer = $mockedRenderer;
+
+        $chart->render( 500, 200 );
+    }
+
     public function testRenderChartLinesModifiedThickness()
     {
         $chart = ezcGraph::create( 'Line' );

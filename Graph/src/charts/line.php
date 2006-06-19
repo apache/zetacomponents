@@ -42,7 +42,7 @@ class ezcGraphLineChart extends ezcGraphChart
     public function __set( $propertyName, $propertyValue ) 
     {
         switch ( $propertyName ) {
-            case 'X_Axis':
+            case 'xAxis':
                 if ( $propertyValue instanceof ezcGraphChartElementAxis )
                 {
                     $this->addElement( 'xAxis', $propertyValue );
@@ -53,7 +53,7 @@ class ezcGraphLineChart extends ezcGraphChart
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphChartElementAxis' );
                 }
                 break;
-            case 'Y_Axis':
+            case 'yAxis':
                 if ( $propertyValue instanceof ezcGraphChartElementAxis )
                 {
                     $this->addElement( 'yAxis', $propertyValue );
@@ -103,7 +103,9 @@ class ezcGraphLineChart extends ezcGraphChart
                         $axisPosition
                     );
 
-                    if ( $value / abs( $value ) == $lastValue / abs( $lastValue ) )
+                    if ( ( $value == 0 ) ||
+                         ( $lastValue == 0 ) ||
+                         ( $value / abs( $value ) == $lastValue / abs( $lastValue ) ) )
                     {
                         // Values have the same sign, so that the line do not cross any axes
                         $renderer->drawPolygon(
