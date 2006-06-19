@@ -1,4 +1,4 @@
-1.0.1 - [RELEASEDATE]
+1.0.1 - Monday 19 June 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed a bug that an empty 'is null value' string in the database caused a 
