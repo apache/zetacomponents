@@ -27,6 +27,7 @@ return array(
 
     'ezcFeedException'                   => 'Feed/exceptions/exception.php',
     'ezcFeedCanNotParseException'        => 'Feed/exceptions/can_not_parse.php',
+    'ezcFeedItemNrOutOfRangeException'   => 'Feed/exceptions/item_nr_out_of_range.php',
     'ezcFeedParseErrorException'         => 'Feed/exceptions/parse_error.php',
     'ezcFeedRequiredItemDataMissingException' => 'Feed/exceptions/item_data_missing.php',
     'ezcFeedRequiredMetaDataMissingException' => 'Feed/exceptions/meta_data_missing.php',

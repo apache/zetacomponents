@@ -46,13 +46,31 @@ abstract class ezcFeedProcessor
         return new ezcFeedItemModuleData( $moduleName, $moduleObj, $item );
     }
 
-    public function getModuleMetaData( $module )
+    public function getAllModuleMetaData( $module )
     {
         if ( isset( $this->moduleMetaData[$module] ) )
         {
             return $this->moduleMetaData[$module];
         }
         return array();
+    }
+
+    public function getModuleMetaData( $moduleName, $moduleObj, $element )
+    {
+        if ( isset( $this->moduleMetaData[$moduleName][$element] ) )
+        {
+            return $this->moduleMetaData[$moduleName][$element];
+        }
+        return NULL;
+    }
+
+    public function getModuleItemData( $moduleName, $moduleObj, $item, $element )
+    {
+        if ( isset( $item->moduleMetaData[$moduleName][$element] ) )
+        {
+            return $item->moduleMetaData[$moduleName][$element];
+        }
+        return NULL;
     }
 
     public function setModuleMetaData( $moduleName, $moduleObj, $element, $value )

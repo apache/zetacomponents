@@ -12,15 +12,12 @@
  * @version //autogentag//
  * @access private
  */
-abstract class ezcFeedModule
+interface ezcFeedModule
 {
-    abstract public function getNamespace();
-    abstract public function getNamespacePrefix();
-    abstract public function feedMetaHook( $element, $value );
-
-    public function isElementAllowed( $element )
-    {
-        return in_array( $element, $this->supportedElements );
-    }
+    public static function getModuleName();
+    public static function getNamespace();
+    public static function getNamespacePrefix();
+    public function feedMetaHook( $element, $value );
+    public function isElementAllowed( $element );
 }
 ?>

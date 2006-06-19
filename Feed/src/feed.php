@@ -90,6 +90,11 @@ class ezcFeed implements Iterator
         return array_keys( self::$supportedFeedTypes );
     }
 
+    static public function getSupportedModules()
+    {
+        return self::$supportedModules;
+    }
+
     static public function getModule( $moduleName, $feedType )
     {
         return new self::$supportedModules[$moduleName]( $feedType );
@@ -158,6 +163,16 @@ class ezcFeed implements Iterator
     public function generate()
     {
         return $this->feedProcessor->generate();
+    }
+
+    public function item( $nr )
+    {
+        $items = $this->feedProcessor->getItems();
+        if ( $nr < 0 || $nr > count( $items ) -1 )
+        {
+            throw new ezcFeedItemNrOutOfRangeException( $nr, count( $items ) );
+        }
+        return $items[$nr];
     }
 
     public function rewind()

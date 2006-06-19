@@ -70,7 +70,6 @@ class ezcFeedItem
             case 'published': // pubDate in RSS2
             case 'source': // original rss source
                 return $this->feedProcessor->getFeedItemElement( $this, $property );
-                break;
 
             default:
                 return false;

@@ -12,7 +12,7 @@
  * @version //autogentag//
  * @access private
  */
-class ezcFeedModuleDublinCore extends ezcFeedModule
+class ezcFeedModuleDublinCore implements ezcFeedModule
 {
     private $feedType;
     protected $supportedElements = array(
@@ -26,14 +26,24 @@ class ezcFeedModuleDublinCore extends ezcFeedModule
         $this->feedType = $feedType;
     }
 
-    public function getNamespace()
+    public static function getModuleName()
+    {
+        return 'DublinCore';
+    }
+
+    public static function getNamespace()
     {
         return 'http://purl.org/dc/elements/1.1/';
     }
 
-    public function getNamespacePrefix()
+    public static function getNamespacePrefix()
     {
         return 'dc';
+    }
+
+    public function isElementAllowed( $element )
+    {
+        return in_array( $element, $this->supportedElements );
     }
 
     public function prepareDate( $date )

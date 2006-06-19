@@ -289,6 +289,44 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ com
         self::assertEquals( $expected, $feed->generate() );
     }
 
+    public function testParseComplexWithModule1()
+    {
+        xdebug_break();
+        $feed = ezcFeed::parse( dirname( __FILE__ ) . "/data/rss2-09.xml" );
+        self::assertEquals( "<p>This is a richer <i>description</i> supported by dublin code.</p>", $feed->DublinCore->description );
+        self::assertEquals( "CreativeCommons", $feed->item(0)->DublinCore->rights );
+        self::assertEquals( "This is the second item", $feed->item(1)->description );
+        self::assertEquals( "Copyright only.", $feed->item(1)->DublinCore->rights );
+    }
+
+    public function testParseFeedItemIndexOutOfRange1()
+    {
+        $feed = ezcFeed::parse( dirname( __FILE__ ) . "/data/rss2-09.xml" );
+        try
+        {
+            $item = $feed->item(2);
+            self::fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcFeedItemNrOutOfRangeException $e )
+        {
+            self::assertEquals( 'The given item number <2> is out of range <0..1>.', $e->getMessage() );
+        }
+    }
+
+    public function testParseFeedItemIndexOutOfRange2()
+    {
+        $feed = ezcFeed::parse( dirname( __FILE__ ) . "/data/rss2-09.xml" );
+        try
+        {
+            $item = $feed->item(-1);
+            self::fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcFeedItemNrOutOfRangeException $e )
+        {
+            self::assertEquals( 'The given item number <-1> is out of range <0..1>.', $e->getMessage() );
+        }
+    }
+
     public static function suite()
     {
          return new ezcTestSuite( "ezcFeedRss2Test" );

@@ -55,6 +55,8 @@ class ezcFeedRss2 extends ezcFeedRss
         'published' => 'pubDate',
     );
 
+    private $usedPrefixes = array();
+
     public function __construct()
     {
         // set default values
@@ -211,7 +213,7 @@ class ezcFeedRss2 extends ezcFeedRss
             $namespace = $moduleDescription->moduleObj->getNamespace();
             $this->generateNamespace( $prefix, $namespace );
 
-            foreach ( $this->getModuleMetaData( $moduleName ) as $element => $value )
+            foreach ( $this->getAllModuleMetaData( $moduleName ) as $element => $value )
             {
                 $moduleDescription->moduleObj->generateMetaData( $this, $element, $value );
             }
@@ -269,6 +271,15 @@ class ezcFeedRss2 extends ezcFeedRss
                     case 'category':
                         $this->handleArrayValue( $feedItem, $tagName, $itemChild->textContent );
                         break;
+                    default:
+                        // check if it's part of a known module/namespace
+                        $parts = split( ':', $tagName );
+                        if ( count( $parts ) == 2 && in_array( $parts[0], array_keys( $this->usedPrefixes ) ) )
+                        {
+                            $moduleName = $this->usedPrefixes[$parts[0]];
+                            $element = $parts[1];
+                            $feedItem->$moduleName->$element = $itemChild->textContent;
+                        }
                 }
             }
         }
@@ -279,6 +290,26 @@ class ezcFeedRss2 extends ezcFeedRss
         $feed = ezcFeed::create( 'rss2' );
         $rssChildren = $xml->documentElement->childNodes;
         $channel = null;
+
+        // figure out modules
+        $supportedModules = ezcFeed::getSupportedModules();
+        $this->usedPrefixes = array();
+        $xp = new DOMXpath( $xml );
+        $set = $xp->query( './namespace::*', $xml->documentElement );
+        $this->usedNamespaces = array();
+        foreach ( $set as $node )
+        {
+            foreach ( $supportedModules as $moduleName => $moduleClass )
+            {
+                $moduleNamespace = call_user_func( array( $moduleClass, 'getNamespace' ) );
+                if ( $moduleNamespace == $node->nodeValue )
+                {
+                    $feed->addModule( $moduleName );
+                    $this->usedPrefixes[call_user_func( array( $moduleClass, 'getNamespacePrefix' ) )] = $moduleName;
+                }
+            }
+        }
+
         foreach ( $rssChildren as $rssChild )
         {
             if ( $rssChild->nodeType == XML_ELEMENT_NODE && $rssChild->tagName === 'channel' )
@@ -321,6 +352,15 @@ class ezcFeedRss2 extends ezcFeedRss
                     case 'item':
                         $this->parseItem( $feed, $channelChild );
                         break;
+                    default:
+                        // check if it's part of a known module/namespace
+                        $parts = split( ':', $tagName );
+                        if ( count( $parts ) == 2 && in_array( $parts[0], array_keys( $this->usedPrefixes ) ) )
+                        {
+                            $moduleName = $this->usedPrefixes[$parts[0]];
+                            $element = $parts[1];
+                            $feed->$moduleName->$element = $channelChild->textContent;
+                        }
                 }
             }
         }

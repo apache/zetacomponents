@@ -36,5 +36,10 @@ class ezcFeedItemModuleData
             $this->item->feedProcessor->setModuleItemData( $this->moduleName, $this->moduleObj, $this->item, $element, $value );
         }
     }
+
+    function __get( $element )
+    {
+        return $this->item->feedProcessor->getModuleItemData( $this->moduleName, $this->moduleObj, $this->item, $element );
+    }
 }
 ?>
