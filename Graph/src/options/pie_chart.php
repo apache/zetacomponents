@@ -34,6 +34,13 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
     protected $label = '%1$s: %2$d (%3$.1f%%)';
 
     /**
+     * Indicates wheather to show the line between pie elements and labels
+     * 
+     * @var bool
+     */
+    protected $showSymbol = true;
+
+    /**
      * Size of symbols used concat a label with a pie
      * 
      * @var float
@@ -73,6 +80,9 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
                 break;
             case 'moveOut':
                 $this->moveOut = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'showSymbol':
+                $this->showSymbol = (bool) $propertyValue;
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );

@@ -69,10 +69,12 @@ class ezcGraphPieChart extends ezcGraphChart
             (int) round( $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2 ),
             (int) round( $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2 )
         );
+
+        // Limit radius to fourth of width and half of height at maximum
         $radius = min(
-            $boundings->x1 - $boundings->x0,
-            $boundings->y1 - $boundings->y0
-        ) / 2;
+            ( $boundings->x1 - $boundings->x0 ) / 4,
+            ( $boundings->y1 - $boundings->y0 ) / 2
+        );
 
         // Draw all data
         $angle = 0.;
@@ -130,38 +132,47 @@ class ezcGraphPieChart extends ezcGraphChart
                 // Determine position of label
                 $minHeight += round( max( 0, $height - $minHeight ) / ( $boundings->y1 - $boundings->y0 ) * $toShare );
                 $labelPosition = new ezcGraphCoordinate(
-                    (int) round( $center->x - $sign * ( cos ( asin ( ( $center->y - $minHeight - $labelHeight / 2 ) / $radius ) ) * $radius + $symbolSize ) ),
+                    (int) round( 
+                        $center->x - 
+                        $sign * ( 
+                            cos ( asin ( ( $center->y - $minHeight - $labelHeight / 2 ) / $radius ) ) * $radius + 
+                            $symbolSize * (int) $this->options->showSymbol 
+                        ) 
+                    ),
                     (int) round( $minHeight + $labelHeight / 2 )
                 );
 
-                // Draw label
-                $renderer->drawLine(
-                    $this->options->font->color,
-                    $label[0],
-                    $labelPosition,
-                    false
-                );
+                if ( $this->options->showSymbol )
+                {
+                    // Draw label
+                    $renderer->drawLine(
+                        $this->options->font->color,
+                        $label[0],
+                        $labelPosition,
+                        false
+                    );
 
-                $renderer->drawSymbol(
-                    $this->options->font->color,
-                    new ezcGraphCoordinate(
-                        $label[0]->x - $symbolSize / 2,
-                        $label[0]->y - $symbolSize / 2
-                    ),
-                    $symbolSize,
-                    $symbolSize,
-                    ezcGraph::BULLET
-                );
-                $renderer->drawSymbol(
-                    $this->options->font->color,
-                    new ezcGraphCoordinate(
-                        $labelPosition->x - $symbolSize / 2,
-                        $labelPosition->y - $symbolSize / 2
-                    ),
-                    $symbolSize,
-                    $symbolSize,
-                    ezcGraph::BULLET
-                );
+                    $renderer->drawSymbol(
+                        $this->options->font->color,
+                        new ezcGraphCoordinate(
+                            $label[0]->x - $symbolSize / 2,
+                            $label[0]->y - $symbolSize / 2
+                        ),
+                        $symbolSize,
+                        $symbolSize,
+                        ezcGraph::BULLET
+                    );
+                    $renderer->drawSymbol(
+                        $this->options->font->color,
+                        new ezcGraphCoordinate(
+                            $labelPosition->x - $symbolSize / 2,
+                            $labelPosition->y - $symbolSize / 2
+                        ),
+                        $symbolSize,
+                        $symbolSize,
+                        ezcGraph::BULLET
+                    );
+                }
 
                 $renderer->drawTextBox(
                     new ezcGraphCoordinate(

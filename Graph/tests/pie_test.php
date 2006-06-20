@@ -103,7 +103,7 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->with(
                 $this->equalTo( ezcGraphColor::fromHex( '#4E9A06' ) ),
                 $this->equalTo( new ezcGraphCoordinate( 240, 100 ) ),
-                $this->equalTo( 90 ),
+                $this->equalTo( 72 ),
                 $this->equalTo( 0 ),
                 $this->equalTo( 220.52646317558, .1 ),
                 $this->equalTo( 0 )
@@ -114,7 +114,7 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->with(
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( new ezcGraphCoordinate( 240, 100 ) ),
-                $this->equalTo( 90 ),
+                $this->equalTo( 72 ),
                 $this->equalTo( 220.52646317558, .1 ),
                 $this->equalTo( 237.916549986, .1 ),
                 $this->equalTo( 0 )
@@ -125,7 +125,7 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->with(
                 $this->equalTo( ezcGraphColor::fromHex( '#EDD400' ) ),
                 $this->equalTo( new ezcGraphCoordinate( 240, 100 ) ),
-                $this->equalTo( 90 ),
+                $this->equalTo( 72 ),
                 $this->equalTo( 237.916549986, .1 ),
                 $this->equalTo( 298.60543265192, .1 ),
                 $this->equalTo( 0 )
@@ -136,7 +136,7 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->with(
                 $this->equalTo( ezcGraphColor::fromHex( '#75505B' ) ),
                 $this->equalTo( new ezcGraphCoordinate( 240, 100 ) ),
-                $this->equalTo( 90 ),
+                $this->equalTo( 72 ),
                 $this->equalTo( 298.60543265192, .1 ),
                 $this->equalTo( 310.24922990759, .1 ),
                 $this->equalTo( 0 )
@@ -147,7 +147,7 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->with(
                 $this->equalTo( ezcGraphColor::fromHex( '#F57900' ) ),
                 $this->equalTo( new ezcGraphCoordinate( 240, 100 ) ),
-                $this->equalTo( 90 ),
+                $this->equalTo( 72 ),
                 $this->equalTo( 310.24922990759, .1 ),
                 $this->equalTo( 360., .1 ),
                 $this->equalTo( 0 )
@@ -176,9 +176,9 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->expects( $this->at( 5 ) )
             ->method( 'drawTextBox' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 80, 0 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 80, 11 ) ),
                 $this->equalTo( 'Opera: 1204 (16.9%)' ),
-                $this->equalTo( 95 ),
+                $this->equalTo( 118 ),
                 $this->equalTo( 30 ),
                 $this->equalTo( ezcGraph::RIGHT | ezcGraph::MIDDLE )
             );
@@ -186,9 +186,9 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->expects( $this->at( 6 ) )
             ->method( 'drawTextBox' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 80, 30 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 80, 41 ) ),
                 $this->equalTo( 'IE: 345 (4.8%)' ),
-                $this->equalTo( 64 ),
+                $this->equalTo( 81 ),
                 $this->equalTo( 30 ),
                 $this->equalTo( ezcGraph::RIGHT | ezcGraph::MIDDLE )
             );
@@ -196,9 +196,9 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->expects( $this->at( 7 ) )
             ->method( 'drawTextBox' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 80, 134 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 80, 128 ) ),
                 $this->equalTo( 'Mozilla: 4375 (61.3%)' ),
-                $this->equalTo( 61 ),
+                $this->equalTo( 81 ),
                 $this->equalTo( 30 ),
                 $this->equalTo( ezcGraph::RIGHT | ezcGraph::MIDDLE )
             );
@@ -206,9 +206,9 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->expects( $this->at( 8 ) )
             ->method( 'drawTextBox' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 321, 13 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 304, 24 ) ),
                 $this->equalTo( 'wget: 231 (3.2%)' ),
-                $this->equalTo( 79 ),
+                $this->equalTo( 96 ),
                 $this->equalTo( 30 ),
                 $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
             );
@@ -216,9 +216,80 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->expects( $this->at( 9 ) )
             ->method( 'drawTextBox' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 347, 54 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 329, 62 ) ),
                 $this->equalTo( 'Safari: 987 (13.8%)' ),
-                $this->equalTo( 53 ),
+                $this->equalTo( 71 ),
+                $this->equalTo( 30 ),
+                $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
+            );
+
+        $chart->renderer = $mockedRenderer;
+        $chart->render( 400, 200 );
+    }
+
+    public function testPieRenderPieLablesWithoutSymbols()
+    {
+        $chart = ezcGraph::create( 'Pie' );
+        $chart->sample = array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        );
+        $chart->options->showSymbol = false;
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+            'drawTextBox',
+        ) );
+
+        $mockedRenderer
+            ->expects( $this->at( 5 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 80, 11 ) ),
+                $this->equalTo( 'Opera: 1204 (16.9%)' ),
+                $this->equalTo( 124 ),
+                $this->equalTo( 30 ),
+                $this->equalTo( ezcGraph::RIGHT | ezcGraph::MIDDLE )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 6 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 80, 41 ) ),
+                $this->equalTo( 'IE: 345 (4.8%)' ),
+                $this->equalTo( 87 ),
+                $this->equalTo( 30 ),
+                $this->equalTo( ezcGraph::RIGHT | ezcGraph::MIDDLE )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 7 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 80, 128 ) ),
+                $this->equalTo( 'Mozilla: 4375 (61.3%)' ),
+                $this->equalTo( 87 ),
+                $this->equalTo( 30 ),
+                $this->equalTo( ezcGraph::RIGHT | ezcGraph::MIDDLE )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 8 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 298, 24 ) ),
+                $this->equalTo( 'wget: 231 (3.2%)' ),
+                $this->equalTo( 102 ),
+                $this->equalTo( 30 ),
+                $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 9 ) )
+            ->method( 'drawTextBox' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 323, 62 ) ),
+                $this->equalTo( 'Safari: 987 (13.8%)' ),
+                $this->equalTo( 77 ),
                 $this->equalTo( 30 ),
                 $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
             );
@@ -248,8 +319,8 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->method( 'drawLine' )
             ->with(
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
-                $this->equalTo( new ezcGraphCoordinate( 238, 33 ) ),
-                $this->equalTo( new ezcGraphCoordinate( 181, 15 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 238, 47 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 204, 26 ) ),
                 $this->equalTo( false )
             );
         $mockedRenderer
@@ -257,7 +328,7 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->method( 'drawSymbol' )
             ->with(
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
-                $this->equalTo( new ezcGraphCoordinate( 235, 30 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 235, 44 ) ),
                 $this->equalTo( 6 ),
                 $this->equalTo( 6 ),
                 $this->equalTo( ezcGraph::BULLET )
@@ -267,7 +338,7 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->method( 'drawSymbol' )
             ->with(
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
-                $this->equalTo( new ezcGraphCoordinate( 178, 12 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 201, 23 ) ),
                 $this->equalTo( 6 ),
                 $this->equalTo( 6 ),
                 $this->equalTo( ezcGraph::BULLET )
@@ -301,7 +372,7 @@ class ezcGraphPieChartTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            'c12df5fe4632d7a4b6bd3406bf395514',
+            'dfc7af85be7a48e452c55ac1e1a84abe',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
@@ -363,7 +434,39 @@ class ezcGraphPieChartTest extends ezcTestCase
         );
 
         $this->assertEquals(
-            '016c82f3a51c8b35c36323360ab4f40b',
+            'ea963eb0fa1549ac2f62a478e2a6225d',
+            md5_file( $filename ),
+            'Incorrect image rendered.'
+        );
+    }
+
+    public function testCompleteRenderingWithHilightWithoutSymbols()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = ezcGraph::create( 'Pie' );
+        $chart->options->showSymbol = false;
+
+        $chart->sample = array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        );
+        $chart->sample->highlight['Safari'] = true;
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 400, 200, $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertEquals(
+            '6ced9d94eb716fb5dfe8c5b1b945d42c',
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
