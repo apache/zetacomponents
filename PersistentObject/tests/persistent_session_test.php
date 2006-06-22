@@ -493,6 +493,34 @@ class ezcPersistentSessionTest extends ezcTestCase
         $this->assertEquals( 603.70, (float)$objects[0]->decimal );
         $this->assertEquals( 'Ukraine has a long coastline to the black see.', $objects[0]->text );
     }
+
+    public function testDatabaseProperty()
+    {
+        $db = ezcDbInstance::get();
+        $session = new ezcPersistentSession( $db,
+                                             new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" ) );
+        $this->assertEquals( (string)$db, (string)$session->database );
+        try
+        {
+            $session->database = $db;
+            $this->fail( "Did not get exception when expected" );
+        }catch( ezcBasePropertyPermissionException $e ){
+        }
+    }
+
+    public function testDefinitionManagerProperty()
+    {
+        $db = ezcDbInstance::get();
+        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
+        $session = new ezcPersistentSession( $db, $manager );
+        $this->assertEquals( (string)$manager, (string)$session->definitionManager );
+        try
+        {
+            $session->definitionManager = $manager;
+            $this->fail( "Did not get exception when expected" );
+        }catch( ezcBasePropertyPermissionException $e ){
+        }
+    }
 }
 
 ?>

@@ -15,27 +15,20 @@
  * the object is already persistent you can store it using update() which results in
  * an UPDATE query. If you want to query persistent objects you can use the find methods.
  *
- * @todo if there is a high probability that an exception was caused by
- *       a bad definition or by a bad set/getState method we should run a checker or some sort.
- * @todo - remove required and default value fields in definition for now
+ * The ezcPersistentSession class has the following properties:
+ * - <b>database</b> <i>ezcDbHandler</i>, the database handler set in the constructor.
+ * - <b>definitionManager</b> <i>ezcPersistentDefinitionManager</i>, the persistent definition manager set in the constructor.
  *
  * @package PersistentObject
  */
 class ezcPersistentSession
 {
     /**
-     * The database instance this session works on.
+     * Holds the properties of this class.
      *
-     * @var PDO
+     * @var array(string=>mixed)
      */
-    private $db = null;
-
-    /**
-     * The persistent object definition manager.
-     *
-     * @var ezcPersistentDefinitionManager
-     */
-    private $manager = null;
+    private $properties = array();
 
     /**
      * Constructs a new persistent session that works on the database $db.
@@ -48,8 +41,53 @@ class ezcPersistentSession
      */
     public function __construct( PDO $db, ezcPersistentDefinitionManager $manager )
     {
-        $this->db = $db;
-        $this->manager = $manager;
+        $this->properties['database'] = $db;
+        $this->properties['definitionManager'] = $manager;
+    }
+
+    /**
+     * Sets the property $name to $value.
+     *
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @param string $name
+     * @param mixed $value
+     * @return void
+     */
+    public function __set( $name, $value )
+    {
+        switch ( $name )
+        {
+            case 'database':
+            case 'definitionManager':
+                throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
+                break;
+        }
+
+    }
+
+    /**
+     * Returns the property $name.
+     *
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @param string $name
+     * @return mixed
+     */
+    public function __get( $name )
+    {
+        switch ( $name )
+        {
+            case 'database':
+            case 'definitionManager':
+                return isset( $this->properties[$name] ) ? $this->properties[$name] : null;
+                break;
+
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
+                break;
+        }
     }
 
     /**
@@ -69,7 +107,7 @@ class ezcPersistentSession
      */
     public function delete( $pObject )
     {
-        $def = $this->manager->fetchDefinition( get_class( $pObject ) ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) ); // propagate exception
         $state = $pObject->getState();
         $idValue = $state[$def->idProperty->propertyName];
 
@@ -81,7 +119,7 @@ class ezcPersistentSession
         }
 
         // create and execute query
-        $q = $this->db->createDeleteQuery();
+        $q = $this->database->createDeleteQuery();
         $q->deleteFrom( $def->table )
             ->where( $q->expr->eq( $def->idProperty->columnName, $q->bindValue( $idValue ) ) );
 
@@ -119,10 +157,10 @@ class ezcPersistentSession
      */
     public function createDeleteQuery( $class )
     {
-        $def = $this->manager->fetchDefinition( $class ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
 
         // init query
-        $q = $this->db->createDeleteQuery();
+        $q = $this->database->createDeleteQuery();
         $q->setAliases( $this->generateAliasMap( $def ) );
         $q->deleteFrom( $def->table );
 
@@ -174,10 +212,10 @@ class ezcPersistentSession
      */
     public function createUpdateQuery( $class )
     {
-        $def = $this->manager->fetchDefinition( $class ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
 
         // init query
-        $q = $this->db->createUpdateQuery();
+        $q = $this->database->createUpdateQuery();
         $q->setAliases( $this->generateAliasMap( $def ) );
         $q->update( $def->table );
 
@@ -230,10 +268,10 @@ class ezcPersistentSession
      */
     public function createFindQuery( $class )
     {
-        $def = $this->manager->fetchDefinition( $class ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
 
         // init query
-        $q = $this->db->createSelectQuery();
+        $q = $this->database->createSelectQuery();
         $q->setAliases( $this->generateAliasMap( $def ) );
         $q->select( $this->getColumnsFromDefinition( $def ) )->from( $def->table );
 
@@ -260,7 +298,7 @@ class ezcPersistentSession
      */
     public function find( ezcQuerySelect $query, $class )
     {
-        $def = $this->manager->fetchDefinition( $class ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
 
         try
         {
@@ -299,7 +337,7 @@ class ezcPersistentSession
      */
     public function findIterator( ezcQuerySelect $query, $class )
     {
-        $def = $this->manager->fetchDefinition( $class ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
         try
         {
             $stmt = $query->prepare();
@@ -323,7 +361,7 @@ class ezcPersistentSession
      */
     public function load( $class, $id )
     {
-        $def = $this->manager->fetchDefinition( $class ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
         $object = new $def->class;
         $this->loadIntoObject( $object, $id );
         return $object;
@@ -374,8 +412,8 @@ class ezcPersistentSession
             throw new ezcPersistentQueryException( "The parameter 'id' was not a valid integer." );
         }
 
-        $def = $this->manager->fetchDefinition( get_class( $pObject ) ); // propagate exception
-        $q = $this->db->createSelectQuery();
+        $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) ); // propagate exception
+        $q = $this->database->createSelectQuery();
         $q->select( $this->getColumnsFromDefinition( $def ) )->from( $def->table )
             ->where( $q->expr->eq( $def->idProperty->columnName,
                                    $q->bindValue( $id ) ) );
@@ -429,7 +467,7 @@ class ezcPersistentSession
      */
     public function refresh( $pObject )
     {
-        $def = $this->manager->fetchDefinition( get_class( $pObject ) ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) ); // propagate exception
         $state = $pObject->getState();
         $idValue = $state[$def->idProperty->propertyName];
         if ( $idValue !== null )
@@ -457,7 +495,7 @@ class ezcPersistentSession
      */
     public function save( $pObject )
     {
-        $def = $this->manager->fetchDefinition( get_class( $pObject ) );// propagate exception
+        $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) );// propagate exception
         $state = $pObject->getState();
         $idValue = $state[$def->idProperty->propertyName];
 
@@ -473,7 +511,7 @@ class ezcPersistentSession
             }
         }
 
-        if ( $idGenerator->checkPersistence( $def, $this->db, $state ) )
+        if ( $idGenerator->checkPersistence( $def, $this->database, $state ) )
         {
             $class = get_class( $pObject );
             throw new ezcPersistentObjectAlreadyPersistentException( $class );
@@ -481,7 +519,7 @@ class ezcPersistentSession
 
 
         // set up and execute the query
-        $q = $this->db->createInsertQuery();
+        $q = $this->database->createInsertQuery();
         $q->insertInto( $def->table );
         foreach ( $state as $name => $value )
         {
@@ -492,9 +530,9 @@ class ezcPersistentSession
             }
         }
 
-        $this->db->beginTransaction();
+        $this->database->beginTransaction();
         // let presave id generator do its work
-        $idGenerator->preSave( $def, $this->db, $q );
+        $idGenerator->preSave( $def, $this->database, $q );
 
         // execute the insert query
         try
@@ -504,21 +542,21 @@ class ezcPersistentSession
         }
         catch ( PDOException $e )
         {
-            $this->db->rollback();
+            $this->database->rollback();
             throw new ezcPersistentObjectException( "The insert query failed.", $e->getMessage() );
         }
 
         // fetch the newly created id, and set it to the object
-        $id = $idGenerator->postSave( $def, $this->db );
+        $id = $idGenerator->postSave( $def, $this->database );
         if ( $id === null )
         {
-            $this->db->rollback();
+            $this->database->rollback();
             throw new ezcPersistentIdentifierGenerationException( $def->class );
         }
 
         // everything seems to be fine, lets commit the queries to the database
         // and update the object with its newly created id.
-        $this->db->commit();
+        $this->database->commit();
 
         $state[$def->idProperty->propertyName] = $id;
         $pObject->setState( $state );
@@ -538,7 +576,7 @@ class ezcPersistentSession
      */
     public function saveOrUpdate( $pObject )
     {
-        $def = $this->manager->fetchDefinition( get_class( $pObject ) );// propagate exception
+        $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) );// propagate exception
         $state = $pObject->getState();
         $idValue = $state[$def->idProperty->propertyName];
         if ( $idValue === null )
@@ -562,7 +600,7 @@ class ezcPersistentSession
      */
     public function update( $pObject )
     {
-        $def = $this->manager->fetchDefinition( get_class( $pObject ) ); // propagate exception
+        $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) ); // propagate exception
         $state = $pObject->getState();
         $idValue = $state[$def->idProperty->propertyName];
 
@@ -573,7 +611,7 @@ class ezcPersistentSession
         }
 
         // set up and execute the query
-        $q = $this->db->createUpdateQuery();
+        $q = $this->database->createUpdateQuery();
         $q->update( $def->table );
         foreach ( $state as $name => $value )
         {
