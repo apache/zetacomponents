@@ -15,9 +15,9 @@
 class ezcDbSchemaField
 {
     /**
-     * The type of this field, can be one of this class' TYPE_ constants.
+     * The type of this field
      *
-     * @var integer
+     * @var string
      */
     public $type;
 
