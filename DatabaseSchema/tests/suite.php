@@ -9,6 +9,7 @@
  */
 
 require_once 'schema_test.php';
+require_once 'schema_field_test.php';
 require_once 'handler_manager_test.php';
 require_once 'php_array_test.php';
 require_once 'php_array_diff_test.php';
@@ -32,6 +33,7 @@ class ezcDatabaseSchemaSuite extends ezcTestSuite
         $this->setName( 'DatabaseSchema' );
 
         $this->addTest( ezcDatabaseSchemaTest::suite() );
+        $this->addTest( ezcDatabaseSchemaFieldTest::suite() );
         $this->addTest( ezcDatabaseSchemaHandlerManagerTest::suite() );
         $this->addTest( ezcDatabaseSchemaValidatorTest::suite() );
         $this->addTest( ezcDatabaseSchemaComparatorTest::suite() );
