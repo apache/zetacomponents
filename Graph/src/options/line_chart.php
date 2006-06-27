@@ -32,6 +32,13 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
     protected $fillLines = false;
 
     /**
+     * Size of symbols in line chart
+     * 
+     * @var integer
+     */
+    protected $symbolSize = 8;
+
+    /**
      * Set an option value
      * 
      * @param string $propertyName 
@@ -56,6 +63,9 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
                 {
                     $this->fillLines = min( 255, max( 0, (int) $propertyValue ) );
                 }
+                break;
+            case 'symbolSize':
+                $this->symbolSize = max( 1, (int) $propertyValue );
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );

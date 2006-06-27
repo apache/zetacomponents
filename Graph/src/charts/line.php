@@ -71,6 +71,8 @@ class ezcGraphLineChart extends ezcGraphChart
 
     protected function renderData( $renderer, $boundings )
     {
+        $symbolSize = $this->options->symbolSize;
+
         foreach ( $this->data as $data )
         {
             if ( $this->options->fillLines !== false )
@@ -169,8 +171,7 @@ class ezcGraphLineChart extends ezcGraphChart
 
                 // Draw Symbol
                 $symbol = $data->symbol[$key];
-                // @TODO: Make config option
-                $symbolSize = 8;
+
                 $symbolPosition = new ezcGraphCoordinate( 
                     $point->x - $symbolSize / 2,
                     $point->y - $symbolSize / 2
