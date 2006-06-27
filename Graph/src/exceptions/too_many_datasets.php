@@ -14,7 +14,7 @@
  * @package Graph
  * @version //autogen//
  */
-class ezcGraphTooManyDatasetsExceptions extends ezcBaseException
+class ezcGraphTooManyDatasetsExceptions extends ezcGraphException
 {
     public function __construct()
     {

@@ -14,7 +14,7 @@
  * @package Graph
  * @version //autogen//
  */
-class ezcGraphInvalidRendererException extends ezcBaseException
+class ezcGraphInvalidRendererException extends ezcGraphException
 {
     public function __construct( $renderer )
     {

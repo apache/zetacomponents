@@ -14,7 +14,7 @@
  * @package Graph
  * @version //autogen//
  */
-class ezcGraphUnknownColorDefinitionException extends ezcBaseException
+class ezcGraphUnknownColorDefinitionException extends ezcGraphException
 {
     public function __construct( $definition )
     {

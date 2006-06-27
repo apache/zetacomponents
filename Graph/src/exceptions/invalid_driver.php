@@ -14,7 +14,7 @@
  * @package Graph
  * @version //autogen//
  */
-class ezcGraphInvalidDriverException extends ezcBaseException
+class ezcGraphInvalidDriverException extends ezcGraphException
 {
     public function __construct( $driver )
     {

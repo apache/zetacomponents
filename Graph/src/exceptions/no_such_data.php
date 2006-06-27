@@ -14,7 +14,7 @@
  * @package Graph
  * @version //autogen//
  */
-class ezcGraphNoSuchDataException extends ezcBaseException
+class ezcGraphNoSuchDataException extends ezcGraphException
 {
     public function __construct( $name )
     {

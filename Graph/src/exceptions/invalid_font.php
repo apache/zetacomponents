@@ -14,7 +14,7 @@
  * @package Graph
  * @version //autogen//
  */
-class ezcGraphGdDriverInvalidFontException extends ezcBaseException
+class ezcGraphGdDriverInvalidFontException extends ezcGraphException
 {
     public function __construct( $font )
     {

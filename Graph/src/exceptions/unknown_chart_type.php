@@ -14,7 +14,7 @@
  * @package Graph
  * @version //autogen//
  */
-class ezcGraphUnknownChartTypeException extends ezcBaseException
+class ezcGraphUnknownChartTypeException extends ezcGraphException
 {
     public function __construct( $chartType )
     {

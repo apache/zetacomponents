@@ -11,6 +11,7 @@
 
 return array(
     'ezcGraph'                                  => 'Graph/graph.php',
+    'ezcGraphException'                         => 'Graph/exceptions/exception.php',
     'ezcGraphUnknownChartTypeException'         => 'Graph/exceptions/unknown_chart_type.php',
     
     'ezcGraphChart'                             => 'Graph/interfaces/chart.php',

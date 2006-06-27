@@ -14,7 +14,7 @@
  * @package Graph
  * @version //autogen//
  */
-class ezcGraphGdDriverUnsupportedImageTypeException extends ezcBaseException
+class ezcGraphGdDriverUnsupportedImageTypeException extends ezcGraphException
 {
     public function __construct( $type )
     {

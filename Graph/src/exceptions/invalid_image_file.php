@@ -14,7 +14,7 @@
  * @package Graph
  * @version //autogen//
  */
-class ezcGraphInvalidImageFileException extends ezcBaseException
+class ezcGraphInvalidImageFileException extends ezcGraphException
 {
     public function __construct( $image )
     {

@@ -14,7 +14,7 @@
  * @package Graph
  * @version //autogen//
  */
-class ezcGraphUnknownPaletteException extends ezcBaseException
+class ezcGraphUnknownPaletteException extends ezcGraphException
 {
     public function __construct( $name )
     {

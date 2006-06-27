@@ -14,7 +14,7 @@
  * @package Graph
  * @version //autogen//
  */
-class ezcGraphUnknownDatasetSourceException extends ezcBaseException
+class ezcGraphUnknownDatasetSourceException extends ezcGraphException
 {
     public function __construct( $source )
     {

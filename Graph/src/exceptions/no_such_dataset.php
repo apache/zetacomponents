@@ -14,7 +14,7 @@
  * @package Graph
  * @version //autogen//
  */
-class ezcGraphNoSuchDatasetException extends ezcBaseException
+class ezcGraphNoSuchDatasetException extends ezcGraphException
 {
     public function __construct( $name )
     {
