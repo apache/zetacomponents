@@ -115,7 +115,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testAutomagicScalingSingle()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 20, 70, 12, 130 );
+        $chart['sample'] = array( 2000 => 20, 70, 12, 130 );
         $chart->render( 500, 200 );
 
         $this->assertEquals(
@@ -146,7 +146,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testAutomagicScalingSingle2()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1, 4.3, .2, 3.82 );
+        $chart['sample'] = array( 2000 => 1, 4.3, .2, 3.82 );
         $chart->render( 500, 200 );
 
         $this->assertEquals(
@@ -177,7 +177,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testAutomagicScalingSingle3()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => -1.8, 4.3, .2, 3.82 );
+        $chart['sample'] = array( 2000 => -1.8, 4.3, .2, 3.82 );
         $chart->render( 500, 200 );
 
         $this->assertEquals(
@@ -208,7 +208,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testAutomagicScalingSingle4()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
         $chart->render( 500, 200 );
 
         $this->assertEquals(
@@ -239,8 +239,8 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testAutomagicScalingMultiple()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample2'] = array( 2000 => 1270, 1170, 1610, 1370 );
         $chart->render( 500, 200 );
 
         $this->assertEquals(
@@ -271,7 +271,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testMixedAutomagicAndManualScaling()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
         $chart->yAxis->majorStep = 50;
         $chart->render( 500, 200 );
 
@@ -303,7 +303,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testMixedAutomagicAndManualScaling2()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
         $chart->yAxis->min = 0;
         $chart->render( 500, 200 );
 
@@ -335,7 +335,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testMixedAutomagicAndManualScaling3()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
         $chart->yAxis->max = 2000;
         $chart->render( 500, 200 );
 
@@ -367,7 +367,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testMixedAutomagicAndManualScaling4()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
         $chart->yAxis->min = 0;
         $chart->yAxis->max = 2000;
         $chart->render( 500, 200 );
@@ -400,7 +400,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testPositionLeft()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
         $chart->yAxis->position = ezcGraph::LEFT;
         $chart->render( 500, 200 );
 
@@ -438,7 +438,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testPositionRight()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
         $chart->yAxis->position = ezcGraph::RIGHT;
         $chart->render( 500, 200 );
 
@@ -476,7 +476,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testPositionTop()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
         $chart->yAxis->position = ezcGraph::TOP;
         $chart->render( 500, 200 );
 
@@ -514,7 +514,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testPositionBottom()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
         $chart->yAxis->position = ezcGraph::BOTTOM;
         $chart->render( 500, 200 );
 
@@ -552,7 +552,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testPositionLeftNegativMinimum()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => -300, 1300, 1012, 1450 );
+        $chart['sample'] = array( 2000 => -300, 1300, 1012, 1450 );
         $chart->yAxis->majorStep = 500;
         $chart->yAxis->position = ezcGraph::LEFT;
         $chart->render( 500, 200 );
@@ -591,9 +591,9 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testNullPositionMultipleDatasets()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
-        $chart->moreData = array( 'sample 1' => 112, 'sample 2' => 54, 'sample 3' => 12, 'sample 4' => -167, 'sample 5' => 329);
-        $chart->evenMoreData = array( 'sample 1' => 300, 'sample 2' => -30, 'sample 3' => 220, 'sample 4' => 67, 'sample 5' => 450);
+        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['moreData'] = array( 'sample 1' => 112, 'sample 2' => 54, 'sample 3' => 12, 'sample 4' => -167, 'sample 5' => 329);
+        $chart['evenMoreData'] = array( 'sample 1' => 300, 'sample 2' => -30, 'sample 3' => 220, 'sample 4' => 67, 'sample 5' => 450);
         $chart->render( 500, 200 );
 
         $testBoundings = new ezcGraphBoundings();
@@ -612,8 +612,8 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testRenderNumericAxisBase()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample2'] = array( 2000 => 1270, 1170, 1610, 1370 );
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
             'drawLine',
@@ -639,8 +639,8 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testRenderNumericAxisArrowHead()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample2'] = array( 2000 => 1270, 1170, 1610, 1370 );
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
             'drawPolygon',
@@ -668,8 +668,8 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testRenderNumericAxisMajor()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample2'] = array( 2000 => 1270, 1170, 1610, 1370 );
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
             'drawLine',
@@ -723,7 +723,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testRenderNumericAxisMajorGrid()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
         $chart->yAxis->grid = ezcGraphColor::fromHex( '#BBBBBB' );
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
@@ -767,8 +767,8 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testRenderNumericAxisMinor()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample2'] = array( 2000 => 1270, 1170, 1610, 1370 );
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
             'drawLine',
@@ -823,7 +823,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testRenderNumericAxisMinorGrid()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
         $chart->yAxis->minorGrid = '#BBBBBB';
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
@@ -869,8 +869,8 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testRenderNumericAxisLabels()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample2'] = array( 2000 => 1270, 1170, 1610, 1370 );
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
             'drawTextBox',
@@ -916,8 +916,8 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testRenderNumericAxisCustomLabels()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 1045, 1300, 1012, 1450 );
-        $chart->sample2 = array( 2000 => 1270, 1170, 1610, 1370 );
+        $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
+        $chart['sample2'] = array( 2000 => 1270, 1170, 1610, 1370 );
         $chart->yAxis->formatString = 'test';
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
@@ -971,7 +971,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $chart = ezcGraph::create( 'Line' );
         $chart->xAxis = new ezcGraphChartElementNumericAxis();
-        $chart->sinus = $sin;
+        $chart['sinus'] = $sin;
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
             'drawTextBox',
@@ -1025,7 +1025,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testValueZeroAmplitude()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 70, 70, 70, 70 );
+        $chart['sample'] = array( 2000 => 70, 70, 70, 70 );
         $chart->render( 500, 200 );
 
         $this->assertEquals(
@@ -1056,7 +1056,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
     public function testValueAllZero()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 2000 => 0, 0 );
+        $chart['sample'] = array( 2000 => 0, 0 );
         $chart->render( 500, 200 );
 
         $this->assertEquals(

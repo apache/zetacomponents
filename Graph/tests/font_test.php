@@ -117,7 +117,7 @@ class ezcGraphFontTest extends ezcTestCase
     public function testSetFontForElementWithRendering()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->legend->font = $this->basePath . 'font2.ttf';
         $chart->render( 500, 200 );

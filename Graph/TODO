@@ -10,6 +10,8 @@ Alpha:
 Next steps:
  - 3D-Renderer
  - SVG-Driver
+ - Return datapoinnt positions for imagemap and / or adding additional 
+   information with div overlays
  - TextElement to add copyright info etc.
  - GD-Driver
    - Antialiasing of lines

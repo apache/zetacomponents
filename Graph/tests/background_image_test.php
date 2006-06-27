@@ -56,7 +56,7 @@ class ezcGraphBackgroundImageTest extends ezcTestCase
     public function testRenderStandard()
     {
         $chart = ezcGraph::create( 'line' );
-        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         $chart->options->backgroundImage = $this->basePath . $this->testFiles['png'];
         $chart->options->background = '#000000FF';
 
@@ -81,7 +81,7 @@ class ezcGraphBackgroundImageTest extends ezcTestCase
     public function testRenderPieBottomRight()
     {
         $chart = ezcGraph::create( 'pie' );
-        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         $chart->options->backgroundImage = $this->basePath . $this->testFiles['png'];
         $chart->options->backgroundImage->position = ezcGraph::BOTTOM | ezcGraph::RIGHT;
         $chart->options->background = '#000000FF';
@@ -107,7 +107,7 @@ class ezcGraphBackgroundImageTest extends ezcTestCase
     public function testRenderTop()
     {
         $chart = ezcGraph::create( 'line' );
-        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         $chart->options->backgroundImage = $this->basePath . $this->testFiles['png'];
         $chart->options->backgroundImage->position = ezcGraph::TOP;
         $chart->options->background = '#000000FF';
@@ -133,7 +133,7 @@ class ezcGraphBackgroundImageTest extends ezcTestCase
     public function testRenderLeft()
     {
         $chart = ezcGraph::create( 'line' );
-        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         $chart->options->backgroundImage = $this->basePath . $this->testFiles['png'];
         $chart->options->backgroundImage->position = ezcGraph::LEFT;
         $chart->options->background = '#000000FF';
@@ -161,7 +161,7 @@ class ezcGraphBackgroundImageTest extends ezcTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = ezcGraph::create( 'line' );
-        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         $chart->palette = 'Black';
         $chart->options->backgroundImage = $this->basePath . $this->testFiles['png'];
         $chart->options->background = '#2E343655';

@@ -52,7 +52,7 @@ class ezcGraphPieChartTest extends ezcTestCase
     public function testElementGenerationLegend()
     {
         $chart = ezcGraph::create( 'Pie' );
-        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         $chart->render( 500, 200 );
         
         $legend = $this->getNonPublicProperty( $chart->legend, 'labels' );
@@ -85,7 +85,7 @@ class ezcGraphPieChartTest extends ezcTestCase
     public function testPieRenderPieSegments()
     {
         $chart = ezcGraph::create( 'Pie' );
-        $chart->sample = array(
+        $chart['sample'] = array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -160,7 +160,7 @@ class ezcGraphPieChartTest extends ezcTestCase
     public function testPieRenderPieLables()
     {
         $chart = ezcGraph::create( 'Pie' );
-        $chart->sample = array(
+        $chart['sample'] = array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -230,7 +230,7 @@ class ezcGraphPieChartTest extends ezcTestCase
     public function testPieRenderPieLablesWithoutSymbols()
     {
         $chart = ezcGraph::create( 'Pie' );
-        $chart->sample = array(
+        $chart['sample'] = array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -301,7 +301,7 @@ class ezcGraphPieChartTest extends ezcTestCase
     public function testPieRenderPieLableIdentifiers()
     {
         $chart = ezcGraph::create( 'Pie' );
-        $chart->sample = array(
+        $chart['sample'] = array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -354,7 +354,7 @@ class ezcGraphPieChartTest extends ezcTestCase
 
         $chart = ezcGraph::create( 'Pie' );
 
-        $chart->sample = array(
+        $chart['sample'] = array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -384,7 +384,7 @@ class ezcGraphPieChartTest extends ezcTestCase
 
         $chart = ezcGraph::create( 'Pie' );
 
-        $chart->sample = array(
+        $chart['sample'] = array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -415,14 +415,14 @@ class ezcGraphPieChartTest extends ezcTestCase
 
         $chart = ezcGraph::create( 'Pie' );
 
-        $chart->sample = array(
+        $chart['sample'] = array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
             'wget' => 231,
             'Safari' => 987,
         );
-        $chart->sample->highlight['Safari'] = true;
+        $chart['sample']->highlight['Safari'] = true;
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
@@ -447,14 +447,14 @@ class ezcGraphPieChartTest extends ezcTestCase
         $chart = ezcGraph::create( 'Pie' );
         $chart->options->showSymbol = false;
 
-        $chart->sample = array(
+        $chart['sample'] = array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
             'wget' => 231,
             'Safari' => 987,
         );
-        $chart->sample->highlight['Safari'] = true;
+        $chart['sample']->highlight['Safari'] = true;
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->options->font = $this->basePath . 'font.ttf';

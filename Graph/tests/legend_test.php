@@ -43,14 +43,14 @@ class ezcGraphLegendTest extends ezcTestCase
 
     protected function addSampleData( ezcGraphChart $chart )
     {
-        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
-        $chart->sampleData->color = '#0000FF';
-        $chart->sampleData->symbol = ezcGraph::DIAMOND;
-        $chart->moreData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
-        $chart->moreData->color = '#FF0000';
-        $chart->evenMoreData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
-        $chart->evenMoreData->color = '#FF0000';
-        $chart->evenMoreData->label = 'Even more data';
+        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['sampleData']->color = '#0000FF';
+        $chart['sampleData']->symbol = ezcGraph::DIAMOND;
+        $chart['moreData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['moreData']->color = '#FF0000';
+        $chart['evenMoreData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['evenMoreData']->color = '#FF0000';
+        $chart['evenMoreData']->label = 'Even more data';
     }
 
     public function testFactoryLegend()

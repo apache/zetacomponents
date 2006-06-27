@@ -51,10 +51,9 @@ class ezcGraphLineChartTest extends ezcTestCase
 
     protected function addSampleData( ezcGraphChart $chart )
     {
-        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
-        $chart->moreData = array( 'sample 1' => 112, 'sample 2' => 54, 'sample 3' => 12, 'sample 4' => -167, 'sample 5' => 329);
-        $chart->evenMoreData = array( 'sample 1' => 300, 'sample 2' => -30, 'sample 3' => 220, 'sample 4' => 67, 'sample 5' => 450);
-        $chart->evenMoreData->label = 'Even more data';
+        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['moreData'] = array( 'sample 1' => 112, 'sample 2' => 54, 'sample 3' => 12, 'sample 4' => -167, 'sample 5' => 329);
+        $chart['Even more data'] = array( 'sample 1' => 300, 'sample 2' => -30, 'sample 3' => 220, 'sample 4' => 67, 'sample 5' => 450);
     }
 
     public function testElementGenerationLegend()
@@ -99,9 +98,9 @@ class ezcGraphLineChartTest extends ezcTestCase
     public function testRenderChartLines()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 );
-        $chart->sampleData->color = '#CC0000';
-        $chart->sampleData->symbol = ezcGraph::DIAMOND;
+        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 );
+        $chart['sampleData']->color = '#CC0000';
+        $chart['sampleData']->symbol = ezcGraph::DIAMOND;
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
             'drawLine',
@@ -152,7 +151,7 @@ class ezcGraphLineChartTest extends ezcTestCase
     public function testRenderChartFilledLines()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => -46, 'sample 4' => 120 );
+        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => -46, 'sample 4' => 120 );
         $chart->palette = 'Black';
         $chart->options->fillLines = 100;
 
@@ -231,7 +230,7 @@ class ezcGraphLineChartTest extends ezcTestCase
     public function testRenderChartFilledLinesZero()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sampleData = array( 'sample 1' => 0, 'sample 2' => 0 );
+        $chart['sampleData'] = array( 'sample 1' => 0, 'sample 2' => 0 );
         $chart->palette = 'Black';
         $chart->options->fillLines = 100;
 
@@ -261,9 +260,9 @@ class ezcGraphLineChartTest extends ezcTestCase
     public function testRenderChartLinesModifiedThickness()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
-        $chart->sampleData->color = '#CC0000';
-        $chart->sampleData->symbol = ezcGraph::DIAMOND;
+        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['sampleData']->color = '#CC0000';
+        $chart['sampleData']->symbol = ezcGraph::DIAMOND;
         $chart->options->lineThickness = 1;
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
@@ -315,9 +314,9 @@ class ezcGraphLineChartTest extends ezcTestCase
     public function testRenderChartSymbols()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sampleData = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
-        $chart->sampleData->color = '#CC0000';
-        $chart->sampleData->symbol = ezcGraph::DIAMOND;
+        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['sampleData']->color = '#CC0000';
+        $chart['sampleData']->symbol = ezcGraph::DIAMOND;
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
             'drawSymbol',

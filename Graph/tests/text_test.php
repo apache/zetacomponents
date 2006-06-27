@@ -44,7 +44,7 @@ class ezcGraphTextTest extends ezcTestCase
     public function testRenderTextTop()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 'foo' => 1, 'bar' => 10 );
+        $chart['sample'] = array( 'foo' => 1, 'bar' => 10 );
 
         $chart->title = 'Title of a chart';
 
@@ -83,7 +83,7 @@ class ezcGraphTextTest extends ezcTestCase
     public function testRenderTextBottom()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 'foo' => 1, 'bar' => 10 );
+        $chart['sample'] = array( 'foo' => 1, 'bar' => 10 );
 
         $chart->title = 'Title of a chart';
         $chart->title->position = ezcGraph::BOTTOM;
@@ -112,7 +112,7 @@ class ezcGraphTextTest extends ezcTestCase
     public function testRenderTextTopMargin()
     {
         $chart = ezcGraph::create( 'Line' );
-        $chart->sample = array( 'foo' => 1, 'bar' => 10 );
+        $chart['sample'] = array( 'foo' => 1, 'bar' => 10 );
 
         $chart->title = 'Title of a chart';
         $chart->title->position = ezcGraph::TOP;
