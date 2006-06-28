@@ -91,7 +91,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $this->createDocument();
 
 		$lastPoint = end( $points );
-		$pointString = sprintf( ' M %.4f,%.4f', 
+        $pointString = sprintf( ' M %.4f,%.4f', 
             $lastPoint->x, 
             $lastPoint->y
         );
@@ -149,7 +149,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     {
         $this->createDocument();  
         
-		$pointString = sprintf( ' M %.4f,%.4f L %.4f,%.4f', 
+        $pointString = sprintf( ' M %.4f,%.4f L %.4f,%.4f', 
             $start->x, 
             $start->y,
             $end->x, 
@@ -169,9 +169,9 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             )
         );
 
-		$this->elements->appendChild( $path );
+        $this->elements->appendChild( $path );
     }
-    
+
     protected function testFitStringInTextBox( $string, ezcGraphCoordinate $position, $width, $height, $size )
     {
         // Tokenize String
@@ -225,7 +225,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         // It seems to fit - return line array
         return $lines;
     }
-    
+
     /**
      * Wrties text in a box of desired size
      * 
@@ -264,7 +264,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             );
         }
     }
-    
+
     protected function drawAllTexts()
     {
         foreach ( $this->strings as $text )
@@ -340,7 +340,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             }
         }
     }
-    
+
     /**
      * Draws a sector of cirlce
      * 
@@ -373,7 +373,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $Xend = $center->x + $width * cos( ( -( $endAngle ) / 180 ) * M_PI );
         $Yend = $center->y + $height * sin( ( ( $endAngle ) / 180 ) * M_PI );
         
-		$arc = $this->dom->createElement( 'path' );
+        $arc = $this->dom->createElement( 'path' );
         $arc->setAttribute('d', sprintf('M %.2f,%.2f L %.2f,%.2f A %.2f,%2f 0 %d,1 %.2f,%.2f z',
             // Middle
             $center->x, $center->y,
@@ -413,10 +413,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 )
             );
         }
-		
-		$this->elements->appendChild( $arc );
+        
+        $this->elements->appendChild( $arc );
     }
-    
+
     /**
      * Draws a circular arc
      * 
@@ -450,7 +450,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $Xend = $center->x + $width * cos( ( -( $endAngle ) / 180 ) * M_PI );
         $Yend = $center->y + $height * sin( ( ( $endAngle ) / 180 ) * M_PI );
         
-		$arc = $this->dom->createElement( 'path' );
+        $arc = $this->dom->createElement( 'path' );
         $arc->setAttribute('d', sprintf('   M %.2f,%.2f 
                                             A %.2f,%2f 0 %d,0 %.2f,%.2f 
                                             L %.2f,%.2f 
@@ -473,7 +473,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             $Xend, $Yend
             )
         );
-    
+
         $arc->setAttribute(
             'style', 
             sprintf( 'fill: #%02x%02x%02x; fill-opacity: %.2f; stroke: none;',
@@ -484,9 +484,9 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             )
         );
 
-		$this->elements->appendChild( $arc );
+        $this->elements->appendChild( $arc );
     }
-    
+
     /**
      * Draws a circle
      * 
@@ -502,7 +502,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     {
         $this->createDocument();  
         
-		$ellipse = $this->dom->createElement('ellipse');
+        $ellipse = $this->dom->createElement('ellipse');
         $ellipse->setAttribute( 'cx', $center->x );
         $ellipse->setAttribute( 'cy', $center->y );
         $ellipse->setAttribute( 'rx', $width / 2 );
@@ -534,9 +534,9 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             );
         }
         
-		$this->elements->appendChild( $ellipse );
+        $this->elements->appendChild( $ellipse );
     }
-    
+
     /**
      * Draws a imagemap of desired size
      * 
@@ -557,7 +557,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $image->setAttribute( 'height', $height . 'px' );
         $image->setAttribute( 'xlink:href', $file );
 
-		$this->elements->appendChild( $image );
+        $this->elements->appendChild( $image );
     }
 
     /**
