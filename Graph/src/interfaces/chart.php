@@ -78,7 +78,7 @@ abstract class ezcGraphChart implements ArrayAccess
         $this->elements['legend']->position = ezcGraph::LEFT;
 
         // Define standard renderer and driver
-        $this->driver = new ezcGraphSVGDriver();
+        $this->driver = new ezcGraphSvgDriver();
         $this->renderer = new ezcGraphRenderer2D();
         $this->renderer->setDriver( $this->driver );
     }

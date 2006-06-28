@@ -16,6 +16,13 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
 {
 
     /**
+     * Assumed percentual average width of chars with the used font
+     * 
+     * @var float
+     */
+    protected $assumedCharacterWidth = .55;
+
+    /**
      * Set an option value
      * 
      * @param string $propertyName 
@@ -28,6 +35,9 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
     {
         switch ( $propertyName )
         {
+            case 'assumedCharacterWidth':
+                $this->assumedCharacterWidth = min( 1, max( 0, (float) $propertyValue ) );
+                break;
             default:
                 parent::__set( $propertyName, $propertyValue );
                 break;

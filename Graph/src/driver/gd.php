@@ -448,13 +448,13 @@ class ezcGraphGdDriver extends ezcGraphDriver
                     $center->x + 
                         ( ( cos( deg2rad( $startAngle ) ) * $width ) / 2 ),
                     $center->y + 
-                        ( ( sin( deg2rad( $startAngle ) ) * $height + $size ) / 2 )
+                        ( ( sin( deg2rad( $startAngle ) ) * $height ) / 2 ) + $size
                 ),
                 new ezcGraphCoordinate(
                     $center->x + 
                         ( ( cos( deg2rad( $endAngle ) ) * $width ) / 2 ),
                     $center->y + 
-                        ( ( sin( deg2rad( $endAngle ) ) * $height + $size ) / 2 )
+                        ( ( sin( deg2rad( $endAngle ) ) * $height ) / 2 ) + $size
                 ),
                 new ezcGraphCoordinate(
                     $center->x + 
