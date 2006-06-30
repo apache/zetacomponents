@@ -30,7 +30,7 @@
  * $filter->severity = ezcLog::INFO | ezcLog::NOTICE | ezcLog::WARNING | ezcLog::ERROR | ezcLog::FATAL;
  * 
  * $log = ezcLog::getInstance();
- * $log->getMapper()->appendRule( new ezcFilterRule( $filter, new ezcLogUnixFileWriter( "/tmp/logs/", "error.log" ), true ) );
+ * $log->getMapper()->appendRule( new ezcLogFilterRule( $filter, new ezcLogUnixFileWriter( "/tmp/logs/", "error.log" ), true ) );
  * </code>
  *
  * The log messages with the severity: INFO, NOTICE, WARNING, ERROR, and FATAL will
@@ -43,7 +43,7 @@
  * $filter->severity = ezcLog::SUCCESS_AUDIT | ezcLog::FAILED_AUDIT;
  * 
  * $log = ezcLog::getInstance();
- * $log->getMapper()->appendRule( new ezcFilterRule( $filter, new ezcLogDatabaseWriter( "audits" ), true ) );
+ * $log->getMapper()->appendRule( new ezcLogFilterRule( $filter, new ezcLogDatabaseWriter( "audits" ), true ) );
  * </code>
  *
  * The audit trails will be stored in the table "audits". See {@link ezcLogDatabaseWriter}
