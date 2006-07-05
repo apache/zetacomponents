@@ -4,8 +4,8 @@
     <title>eZ components test</title>
     <link>http://components.ez.no</link>
     <description>This is a test for the eZ components Feed Generator</description>
-    <managingDirector>Derick Rethans</managingDirector>
-    <webMaster>Raymond Bosman</webMaster>
+    <managingEditor>xx@ez.no (Derick Rethans)</managingEditor>
+    <webMaster>xx@ez.no (Derick Rethans)</webMaster>
     <pubDate>Fri, 26 May 2006 10:46:31 +0200</pubDate>
     <lastBuildDate>Fri, 26 May 2006 10:46:31 +0200</lastBuildDate>
     <category>eZ components</category>

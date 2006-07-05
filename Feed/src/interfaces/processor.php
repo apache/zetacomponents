@@ -95,17 +95,54 @@ abstract class ezcFeedProcessor
         return $this->modules;
     }
 
-    public function processModuleFeedHook( $feed, $element, $value )
+    public function processModuleFeedSetHook( $feed, $element, $value )
     {
         foreach ( $this->modules as $moduleName => $moduleDescription )
         {
-            $moduleValue = $moduleDescription->moduleObj->feedMetaHook( $element, $value );
-            if ( !is_null( $moduleValue ) )
+            $hookResult = $moduleDescription->moduleObj->feedMetaSetHook( $element, $value );
+            if ( $hookResult === true )
             {
-                list( $feedElementName, $feedValue ) = $moduleValue;
-                $feed->setModuleMetaData( $moduleName, $feedElementName, $value );
+                $feed->setModuleMetaData( $moduleName, $element, $value );
             }
         }
+    }
+
+    public function processModuleFeedGenerateHook( $element, $value )
+    {
+        foreach ( $this->modules as $moduleName => $moduleDescription )
+        {
+            $hookResult = $moduleDescription->moduleObj->feedMetaGenerateHook( $this->getAllModuleMetaData( $moduleName ), $element, $value );
+            if ( $hookResult === false )
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function processModuleItemSetHook( $item, $element, $value )
+    {
+        foreach ( $this->modules as $moduleName => $moduleDescription )
+        {
+            $hookResult = $moduleDescription->moduleObj->feedItemSetHook( $element, $value );
+            if ( $hookResult === true )
+            {
+                $feed->setModuleItemData( $item, $moduleName, $element, $value );
+            }
+        }
+    }
+
+    public function processModuleItemGenerateHook( $item, $element, $value )
+    {
+        foreach ( $this->modules as $moduleName => $moduleDescription )
+        {
+            $hookResult = $moduleDescription->moduleObj->feedItemGenerateHook( $item->getAllModuleMetaData( $moduleName ), $element, $value );
+            if ( $hookResult === false )
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     abstract public function getFeedElement( $element );

@@ -134,6 +134,10 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
 
     public function setMetaData( $element, $value )
     {
+        if ( is_array( $value ) )
+        {
+            throw new ezcFeedOnlyOneValueAllowedException( $element );
+        }
         $this->metaData[$element] = $value;
     }
 
@@ -153,6 +157,11 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
         }
     }
 
+    public function unsetMetaData( $element )
+    {
+        unset( $this->metaData[$element] );
+    }
+
     public function getMetaData( $element )
     {
         if ( isset( $this->metaData[$element] ) )
@@ -160,6 +169,11 @@ abstract class ezcFeedRss extends ezcFeedProcessor implements ezcFeedParser
             return $this->metaData[$element];
         }
         return NULL;
+    }
+
+    protected function getAllMetaData()
+    {
+        return $this->metaData;
     }
 }
 ?>

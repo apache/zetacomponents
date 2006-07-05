@@ -43,7 +43,7 @@ class ezcFeedRss2 extends ezcFeedRss
      * @var array(string=>string)
      */
     static $feedAttributesMap = array(
-        'author' => 'managingDirector',
+        'author' => 'managingEditor',
         'published' => 'pubDate',
         'updated' => 'lastBuildDate',
     );
@@ -67,6 +67,7 @@ class ezcFeedRss2 extends ezcFeedRss
 
     public function setFeedElement( $element, $value )
     {
+        $this->processModuleFeedSetHook( $this, $element, $value );
         if ( in_array( $element, self::$requiredFeedAttributes ) || in_array( $element, self::$optionalFeedAttributes ) )
         {
             switch ( $element )
@@ -81,19 +82,16 @@ class ezcFeedRss2 extends ezcFeedRss
                 default:
                     $this->setMetaData( $element, $value );
             }
-            $this->processModuleFeedHook( $this, $element, $value );
         }
     }
 
     public function setFeedItemElement( $item, $element, $value )
     {
+        $this->processModuleItemSetHook( $item, $element, $value );
         if ( in_array( $element, self::$requiredFeedItemAttributes ) || in_array( $element, self::$optionalFeedItemAttributes ) )
         {
-//            $element = $this->normalizeName( $element, self::$feedItemAttributesMap );
-
             switch ( $element )
             {
-                case 'author':
                 case 'category':
                     $item->setMetaArrayData( $element, $value );
                     break;
@@ -130,7 +128,10 @@ class ezcFeedRss2 extends ezcFeedRss
             {
                 throw new ezcFeedRequiredItemDataMissingException( $attribute );
             }
-            $this->generateItemData( $itemTag, $attribute, $item->getMetaData( $attribute ) );
+            if ( $this->processModuleItemGenerateHook( $item, $attribute, $data ) !== false )
+            {
+                $this->generateItemData( $itemTag, $attribute, $item->getMetaData( $attribute ) );
+            }
         }
 
         foreach ( self::$optionalFeedItemAttributes as $attribute )
@@ -138,18 +139,21 @@ class ezcFeedRss2 extends ezcFeedRss
             $normalizedAttribute = $this->normalizeName( $attribute, self::$feedItemAttributesMap );
 
             $metaData = $item->getMetaData( $attribute );
-            if ( !is_null( $metaData ) )
+            if ( $this->processModuleItemGenerateHook( $item, $attribute, $data ) !== false )
             {
-                switch ( $attribute ) {
-                    case 'guid':
-                        $permalink = substr( $metaData, 0, 7 ) === 'http://' ? "true" : "false";
-                        $this->generateItemDataWithAttributes( $itemTag, $normalizedAttribute, $metaData, array( 'isPermalink' => $permalink ) );
-                        break;
-                    case 'published':
-                        $this->generateItemData( $itemTag, $normalizedAttribute, date( 'D, d M Y H:i:s O', $metaData ) );
-                        break;
-                    default:
-                        $this->generateItemData( $itemTag, $normalizedAttribute, $metaData );
+                if ( !is_null( $metaData ) )
+                {
+                    switch ( $attribute ) {
+                        case 'guid':
+                            $permalink = substr( $metaData, 0, 7 ) === 'http://' ? "true" : "false";
+                            $this->generateItemDataWithAttributes( $itemTag, $normalizedAttribute, $metaData, array( 'isPermaLink' => $permalink ) );
+                            break;
+                        case 'published':
+                            $this->generateItemData( $itemTag, $normalizedAttribute, date( 'D, d M Y H:i:s O', $metaData ) );
+                            break;
+                        default:
+                            $this->generateItemData( $itemTag, $normalizedAttribute, $metaData );
+                    }
                 }
             }
         }
@@ -181,7 +185,10 @@ class ezcFeedRss2 extends ezcFeedRss
             {
                 throw new ezcFeedRequiredMetaDataMissingException( $attribute );
             }
-            $this->generateMetaData( $attribute, $data );
+            if ( $this->processModuleFeedGenerateHook( $attribute, $data ) !== false )
+            {
+                $this->generateMetaData( $attribute, $data );
+            }
         }
 
         foreach ( self::$optionalFeedAttributes as $attribute )
@@ -191,17 +198,20 @@ class ezcFeedRss2 extends ezcFeedRss
 
             if ( !is_null( $data ) )
             {
-                switch ( $attribute )
+                if ( $this->processModuleFeedGenerateHook( $attribute, $data ) !== false )
                 {
-                    case 'image':
-                        $this->generateImage( $this->channel, $this->getMetaData( 'title' ), $this->getMetaData( 'link' ), $data );
-                        break;
-                    case 'published':
-                    case 'updated':
-                        $this->generateMetaData( $normalizedAttribute, date( 'D, d M Y H:i:s O', $data ) );
-                        break;
-                    default:
-                        $this->generateMetaData( $normalizedAttribute, $data );
+                    switch ( $attribute )
+                    {
+                        case 'image':
+                            $this->generateImage( $this->channel, $this->getMetaData( 'title' ), $this->getMetaData( 'link' ), $data );
+                            break;
+                        case 'published':
+                        case 'updated':
+                            $this->generateMetaData( $normalizedAttribute, date( 'D, d M Y H:i:s O', $data ) );
+                            break;
+                        default:
+                            $this->generateMetaData( $normalizedAttribute, $data );
+                    }
                 }
             }
         }

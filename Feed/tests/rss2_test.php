@@ -20,7 +20,7 @@ class ezcFeedRss2Test extends ezcTestCase
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ components Feed Generator";
-        $feed->author = "Derick Rethans";
+        $feed->author = "xx@ez.no (Derick Rethans)";
 
         $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-01.xml" );
         self::assertEquals( $expected, preg_replace( '@<pubDate>.*?</pubDate>@', '<pubDate>XXXX</pubDate>', $feed->generate() ) );
@@ -32,7 +32,7 @@ class ezcFeedRss2Test extends ezcTestCase
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ components Feed Generator";
-        $feed->author = "Raymond Bosman";
+        $feed->author = "xx@ez.no (Derick Rethans)";
         $feed->published = "1148633131"; // strtotime( "Fri May 26, 10:45:31 2006" );
         $feed->updated = "Fri May 26, 10:45:31 2006";
 
@@ -78,8 +78,8 @@ class ezcFeedRss2Test extends ezcTestCase
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ components Feed Generator";
-        $feed->author = "Derick Rethans";
-        $feed->author = "Raymond Bosman";
+        $feed->author = "xx@ez.no (Derick Rethans)";
+        $feed->author = "xx@ez.no (Derick Rethans)";
         $feed->published = 1148633191;
         $feed->updated = "Fri May 26, 10:46:31 2006 PDT";
 
@@ -103,8 +103,8 @@ class ezcFeedRss2Test extends ezcTestCase
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ components Feed Generator";
-        $feed->author = "Derick Rethans";
-        $feed->webMaster = "Raymond Bosman";
+        $feed->author = "xx@ez.no (Derick Rethans)";
+        $feed->webMaster = "xx@ez.no (Derick Rethans)";
         $feed->published = 1148633191;
         $feed->updated = "Fri May 26, 08:46:31 2006 UTC";
         $feed->category = "eZ components";
@@ -124,8 +124,8 @@ class ezcFeedRss2Test extends ezcTestCase
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ components Feed Generator";
-        $feed->author = "Derick Rethans";
-        $feed->webMaster = "Raymond Bosman";
+        $feed->author = "xx@ez.no (Derick Rethans)";
+        $feed->webMaster = "xx@ez.no (Derick Rethans)";
         $feed->published = 1148633191;
         $feed->updated = "Fri May 26, 08:46:31 2006 UTC";
         $feed->category = "test";
@@ -151,7 +151,7 @@ class ezcFeedRss2Test extends ezcTestCase
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ components Feed Generator";
-        $feed->author = "Derick Rethans";
+        $feed->author = "xx@ez.no (Derick Rethans)";
         $feed->published = 1148633191;
         $feed->updated = "Fri May 26, 10:46:31 2006 CEST";
 
@@ -159,7 +159,7 @@ class ezcFeedRss2Test extends ezcTestCase
         $item->title = "First Item";
         $item->link = "http://components.ez.no/1";
         $item->description = "This is the first item";
-        $item->author = array( 'Derick', 'Raymond' );
+        $item->author = 'xx1@ez.no (Derick)';
         $item->category = 'Tests';
         $item->category = 'eZ components';
         $item->comments = 'http://components.ez.no/1/comments';
@@ -247,7 +247,7 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ com
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ components Feed Generator";
-        $feed->author = "Derick Rethans";
+        $feed->author = "xx@ez.no (Derick Rethans)";
         $feed->published = 1148633191;
         $feed->updated = "Fri May 26, 10:46:31 2006 CEST";
         $feed->DublinCore->date = "Fri May 26, 10:46:31 2006 CEST";
@@ -265,7 +265,7 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ com
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ components Feed Generator";
-        $feed->author = "Derick Rethans";
+        $feed->author = "xx@ez.no (Derick Rethans)";
         $feed->published = 1148633191;
         $feed->DublinCore->description = "<p>This is a richer <i>description</i> supported by dublin code.</p>";
 
@@ -275,6 +275,7 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ com
         $item->description = "This is the first item";
         $item->guid = "http://components.ez.no/1";
         $item->published = "Fri May 26, 10:46:31 2006 CEST";
+        $item->DublinCore->date = "Sat May 27, 10:46:42 2006 CEST";
         $item->DublinCore->rights = "CreativeCommons";
 
         $item = $feed->newItem();
@@ -286,12 +287,12 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ com
         $item->DublinCore->rights = "Copyright only.";
 
         $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-09.xml" );
+        xdebug_break();
         self::assertEquals( $expected, $feed->generate() );
     }
 
     public function testParseComplexWithModule1()
     {
-        xdebug_break();
         $feed = ezcFeed::parse( dirname( __FILE__ ) . "/data/rss2-09.xml" );
         self::assertEquals( "<p>This is a richer <i>description</i> supported by dublin code.</p>", $feed->DublinCore->description );
         self::assertEquals( "CreativeCommons", $feed->item(0)->DublinCore->rights );

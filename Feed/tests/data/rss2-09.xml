@@ -4,7 +4,7 @@
     <title>eZ components test</title>
     <link>http://components.ez.no</link>
     <description>This is a test for the eZ components Feed Generator</description>
-    <managingDirector>Derick Rethans</managingDirector>
+    <managingEditor>xx@ez.no (Derick Rethans)</managingEditor>
     <pubDate>Fri, 26 May 2006 10:46:31 +0200</pubDate>
     <generator>eZ components</generator>
     <docs>http://www.rssboard.org/rss-specification</docs>
@@ -13,15 +13,15 @@
       <title>First Item</title>
       <link>http://components.ez.no/1</link>
       <description>This is the first item</description>
-      <guid isPermalink="true">http://components.ez.no/1</guid>
-      <pubDate>Fri, 26 May 2006 10:46:31 +0200</pubDate>
+      <guid isPermaLink="true">http://components.ez.no/1</guid>
+      <dc:date>2006-05-27T10:46:42+02:00</dc:date>
       <dc:rights>CreativeCommons</dc:rights>
     </item>
     <item>
       <title>Second Item</title>
       <link>http://components.ez.no/2</link>
       <description>This is the second item</description>
-      <guid isPermalink="true">http://components.ez.no/2</guid>
+      <guid isPermaLink="true">http://components.ez.no/2</guid>
       <pubDate>Fri, 26 May 2006 10:46:31 +0200</pubDate>
       <dc:rights>Copyright only.</dc:rights>
     </item>

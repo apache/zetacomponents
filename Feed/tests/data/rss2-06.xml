@@ -4,7 +4,7 @@
     <title>eZ components test</title>
     <link>http://components.ez.no</link>
     <description>This is a test for the eZ components Feed Generator</description>
-    <managingDirector>Derick Rethans</managingDirector>
+    <managingEditor>xx@ez.no (Derick Rethans)</managingEditor>
     <pubDate>Fri, 26 May 2006 10:46:31 +0200</pubDate>
     <lastBuildDate>Fri, 26 May 2006 10:46:31 +0200</lastBuildDate>
     <generator>eZ components</generator>
@@ -13,19 +13,18 @@
       <title>First Item</title>
       <link>http://components.ez.no/1</link>
       <description>This is the first item</description>
-      <author>Derick</author>
-      <author>Raymond</author>
+      <author>xx1@ez.no (Derick)</author>
       <category>Tests</category>
       <category>eZ components</category>
       <comments>http://components.ez.no/1/comments</comments>
-      <guid isPermalink="true">http://components.ez.no/1</guid>
+      <guid isPermaLink="true">http://components.ez.no/1</guid>
       <pubDate>Fri, 26 May 2006 10:46:31 +0200</pubDate>
     </item>
     <item>
       <title>Second Item</title>
       <link>http://components.ez.no/2</link>
       <description>This is the second item</description>
-      <guid isPermalink="false">components.ez.no/2</guid>
+      <guid isPermaLink="false">components.ez.no/2</guid>
     </item>
   </channel>
 </rss>

@@ -66,7 +66,7 @@ class ezcFeedModuleDublinCore implements ezcFeedModule
         switch ( $element )
         {
             case 'date':
-                $feedProcessor->generateMetaData( "$prefix:$element", date( DATE_ISO8601, $value ) );
+                $feedProcessor->generateMetaData( "$prefix:$element", date( DATE_W3C, $value ) );
                 break;
             default:
                 $feedProcessor->generateMetaData( "$prefix:$element", $value );
@@ -80,7 +80,7 @@ class ezcFeedModuleDublinCore implements ezcFeedModule
         switch ( $element )
         {
             case 'date':
-                $feedProcessor->generateItemData( $itemTag, "$prefix:$element", date( DATE_ISO8601, $value ) );
+                $feedProcessor->generateItemData( $itemTag, "$prefix:$element", date( DATE_W3C, $value ) );
                 break;
             default:
                 $feedProcessor->generateItemData( $itemTag, "$prefix:$element", $value );
@@ -99,13 +99,48 @@ class ezcFeedModuleDublinCore implements ezcFeedModule
         return $value;
     }
 
-    public function feedMetaHook( $element, $value )
+    public function feedMetaSetHook( &$element, &$value )
     {
         if ( in_array( $this->feedType, array( 'rss1' ) ) )
         {
-            return array( $element, $value );
+            return true;
         }
-        return NULL;
+        if ( $element === 'published' )
+        {
+            return false;
+        }
+        return null;
+    }
+
+    public function feedMetaGenerateHook( $moduleData, &$element, &$value )
+    {
+        if ( isset( $moduleData['date'] ) && $element === 'published' )
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public function feedItemSetHook( &$element, &$value )
+    {
+        if ( in_array( $this->feedType, array( 'rss1' ) ) )
+        {
+            return true;
+        }
+        if ( $element === 'published' )
+        {
+            return false;
+        }
+        return null;
+    }
+
+    public function feedItemGenerateHook( $moduleData, &$element, &$value )
+    {
+        if ( isset( $moduleData['date'] ) && $element === 'published' )
+        {
+            return false;
+        }
+        return true;
     }
 }
 ?>

@@ -90,7 +90,16 @@ class ezcFeedItem
 
     public function setMetaData( $element, $value )
     {
+        if ( is_array( $value ) )
+        {
+            throw new ezcFeedOnlyOneValueAllowedException( $element );
+        }
         $this->metaData[$element] = $value;
+    }
+
+    public function unsetMetaData( $element )
+    {
+        unset( $this->metaData[$element] );
     }
 
     public function setMetaArrayData( $element, $value )
@@ -131,6 +140,11 @@ class ezcFeedItem
             return $this->metaData[$element];
         }
         return NULL;
+    }
+
+    public function getAllModuleMetaData( $module )
+    {
+        return $this->moduleMetaData[$module];
     }
 }
 ?>
