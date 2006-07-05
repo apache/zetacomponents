@@ -122,7 +122,7 @@ class ezcQuerySelectOracle extends ezcQuerySelect
      */
     public function getQuery()
     {
-        $query = parent::build();
+        $query = parent::getQuery();
         if ( $this->hasLimit )
         {
             $min = $this->offset + 1;

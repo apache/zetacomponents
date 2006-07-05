@@ -38,7 +38,7 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
     public function concat()
     {
         $args = func_get_args();
-        $cols = self::arrayFlatten( $args );
+        $cols = ezcQuery::arrayFlatten( $args );
         if ( count( $cols ) < 1 )
         {
             throw new ezcQueryVariableParameterException( 'concat', count( $args ), 1 );
