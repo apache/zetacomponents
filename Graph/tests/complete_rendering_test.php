@@ -50,7 +50,7 @@ class ezcGraphCompleteRenderingTest extends ezcImageTestCase
      */
     public function tearDown()
     {
-    //    $this->removeTempDir();
+        $this->removeTempDir();
     }
 
     public function testRenderLineChart()
