@@ -547,6 +547,19 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         );
         $this->commonProcessTestFailure( $args, 'ezcConsoleOptionMissingValueException' );
     }
+    
+    // Bug #8645: Default values not set correctly in ezcConsoleInput
+    public function testProcessSuccessDefault()
+    {
+        $args = array(
+            'foo.php',
+        );
+        $res = array( 
+            'b' => 42,
+            'd' => 'world',
+        );
+        $this->commonProcessTestSuccess( $args, $res );
+    }
 
     public function testProcessSuccessMultipleLongSameNoValue()
     {

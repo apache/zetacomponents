@@ -933,6 +933,11 @@ class ezcConsoleInput
             // Not set and not mandatory? No checking.
             if ( $option->value === false || is_array( $option->value ) && count( $option->value ) === 0 )
             {
+                // Default value to set?
+                if ( $option->default !== null )
+                {
+                    $option->value = $option->default;
+                }
                 // Parameter was not set so ignore it's rules.
                 continue;
             }
