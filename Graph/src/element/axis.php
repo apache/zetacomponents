@@ -249,42 +249,50 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         {
             case ezcGraph::TOP:
                 $start = new ezcGraphCoordinate(
-                    $this->nullPosition,
-                    $boundings->y0
+                    ( $boundings->x1 - $boundings->x0 ) * $this->axisSpace +
+                        $this->nullPosition * ( $boundings->x1 - $boundings->x0 ) * ( 1 - 2 * $this->axisSpace ),
+                    0
                 );
                 $end = new ezcGraphCoordinate(
-                    $this->nullPosition,
-                    $boundings->y1
+                    ( $boundings->x1 - $boundings->x0 ) * $this->axisSpace +
+                        $this->nullPosition * ( $boundings->x1 - $boundings->x0 ) * ( 1 - 2 * $this->axisSpace ),
+                    $boundings->y1 - $boundings->y0
                 );
                 break;
             case ezcGraph::BOTTOM:
                 $start = new ezcGraphCoordinate(
-                    (int) $this->nullPosition,
-                    (int) $boundings->y1
+                    ( $boundings->x1 - $boundings->x0 ) * $this->axisSpace +
+                        $this->nullPosition * ( $boundings->x1 - $boundings->x0 ) * ( 1 - 2 * $this->axisSpace ),
+                    $boundings->y1 - $boundings->y0
                 );
                 $end = new ezcGraphCoordinate(
-                    (int) $this->nullPosition,
-                    (int) $boundings->y0
+                    ( $boundings->x1 - $boundings->x0 ) * $this->axisSpace +
+                        $this->nullPosition * ( $boundings->x1 - $boundings->x0 ) * ( 1 - 2 * $this->axisSpace ),
+                    0
                 );
                 break;
             case ezcGraph::LEFT:
                 $start = new ezcGraphCoordinate(
-                    (int) $boundings->x0,
-                    (int) $this->nullPosition
+                    0,
+                    ( $boundings->y1 - $boundings->y0 ) * $this->axisSpace +
+                        $this->nullPosition * ( $boundings->y1 - $boundings->y0 ) * ( 1 - 2 * $this->axisSpace )
                 );
                 $end = new ezcGraphCoordinate(
-                    (int) $boundings->x1,
-                    (int) $this->nullPosition
+                    $boundings->x1 - $boundings->x0,
+                    ( $boundings->y1 - $boundings->y0 ) * $this->axisSpace +
+                        $this->nullPosition * ( $boundings->y1 - $boundings->y0 ) * ( 1 - 2 * $this->axisSpace )
                 );
                 break;
             case ezcGraph::RIGHT:
                 $start = new ezcGraphCoordinate(
-                    (int) $boundings->x1,
-                    (int) $this->nullPosition
+                    $boundings->x1 - $boundings->x0,
+                    ( $boundings->y1 - $boundings->y0 ) * $this->axisSpace +
+                        $this->nullPosition * ( $boundings->y1 - $boundings->y0 ) * ( 1 - 2 * $this->axisSpace )
                 );
                 $end = new ezcGraphCoordinate(
-                    (int) $boundings->x0,
-                    (int) $this->nullPosition
+                    0,
+                    ( $boundings->y1 - $boundings->y0 ) * $this->axisSpace +
+                        $this->nullPosition * ( $boundings->y1 - $boundings->y0 ) * ( 1 - 2 * $this->axisSpace )
                 );
                 break;
         }

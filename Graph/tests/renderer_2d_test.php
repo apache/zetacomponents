@@ -1331,8 +1331,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawLine' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 20., 200. ), 1. ),
-                $this->equalTo( new ezcGraphCoordinate( 20., 0. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 120., 220. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 120., 20. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                 $this->equalTo( 1 )
             );
@@ -1341,16 +1341,16 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->method( 'drawPolygon' )
             ->with(
                 $this->equalTo( array(
-                    new ezcGraphCoordinate( 20., 0. ),
-                    new ezcGraphCoordinate( 22.5, 5. ),
-                    new ezcGraphCoordinate( 17.5, 5. ),
+                    new ezcGraphCoordinate( 120., 20. ),
+                    new ezcGraphCoordinate( 122.5, 25. ),
+                    new ezcGraphCoordinate( 117.5, 25. ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                 $this->equalTo( true )
             );
 
         $this->renderer->drawAxis(
-            new ezcGraphBoundings( 0, 0, 200, 400 ),
+            new ezcGraphBoundings( 100, 20, 500, 220 ),
             new ezcGraphCoordinate( 20, 200 ),
             new ezcGraphCoordinate( 20, 0 ),
             $chart->yAxis
@@ -1365,8 +1365,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawLine' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 20., 0. ), 1. ),
-                $this->equalTo( new ezcGraphCoordinate( 20., 200. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 120., 20. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 120., 220. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                 $this->equalTo( 1 )
             );
@@ -1375,16 +1375,16 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->method( 'drawPolygon' )
             ->with(
                 $this->equalTo( array(
-                    new ezcGraphCoordinate( 20., 200. ),
-                    new ezcGraphCoordinate( 17.5, 195. ),
-                    new ezcGraphCoordinate( 22.5, 195. ),
+                    new ezcGraphCoordinate( 120., 220. ),
+                    new ezcGraphCoordinate( 117.5, 215. ),
+                    new ezcGraphCoordinate( 122.5, 215. ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                 $this->equalTo( true )
             );
 
         $this->renderer->drawAxis(
-            new ezcGraphBoundings( 0, 0, 200, 400 ),
+            new ezcGraphBoundings( 100, 20, 500, 220 ),
             new ezcGraphCoordinate( 20, 0 ),
             new ezcGraphCoordinate( 20, 200 ),
             $chart->yAxis
@@ -1399,8 +1399,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawLine' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 50., 100. ), 1. ),
-                $this->equalTo( new ezcGraphCoordinate( 350., 100. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 150., 120. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 450., 120. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                 $this->equalTo( 1 )
             );
@@ -1409,16 +1409,16 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->method( 'drawPolygon' )
             ->with(
                 $this->equalTo( array(
-                    new ezcGraphCoordinate( 350., 100. ),
-                    new ezcGraphCoordinate( 342., 96. ),
-                    new ezcGraphCoordinate( 342., 104. ),
+                    new ezcGraphCoordinate( 450., 120. ),
+                    new ezcGraphCoordinate( 442., 116. ),
+                    new ezcGraphCoordinate( 442., 124. ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                 $this->equalTo( true )
             );
 
         $this->renderer->drawAxis(
-            new ezcGraphBoundings( 0, 0, 200, 400 ),
+            new ezcGraphBoundings( 100, 20, 500, 220 ),
             new ezcGraphCoordinate( 50, 100 ),
             new ezcGraphCoordinate( 350, 100 ),
             $chart->yAxis
@@ -1433,8 +1433,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawLine' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 350., 100. ), 1. ),
-                $this->equalTo( new ezcGraphCoordinate( 50., 100. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 450., 120. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 150., 120. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                 $this->equalTo( 1 )
             );
@@ -1443,16 +1443,16 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->method( 'drawPolygon' )
             ->with(
                 $this->equalTo( array(
-                    new ezcGraphCoordinate( 50., 100. ),
-                    new ezcGraphCoordinate( 57., 103.5 ),
-                    new ezcGraphCoordinate( 57., 96.5 ),
+                    new ezcGraphCoordinate( 150., 120. ),
+                    new ezcGraphCoordinate( 157., 123.5 ),
+                    new ezcGraphCoordinate( 157., 116.5 ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                 $this->equalTo( true )
             );
 
         $this->renderer->drawAxis(
-            new ezcGraphBoundings( 0, 0, 200, 400 ),
+            new ezcGraphBoundings( 100, 20, 500, 220 ),
             new ezcGraphCoordinate( 350, 100 ),
             new ezcGraphCoordinate( 50, 100 ),
             $chart->yAxis

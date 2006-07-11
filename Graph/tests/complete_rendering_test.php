@@ -15,7 +15,7 @@
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphCompleteRenderingTest extends ezcTestCase
+class ezcGraphCompleteRenderingTest extends ezcImageTestCase
 {
 
     protected $testFiles = array(
@@ -58,7 +58,7 @@ class ezcGraphCompleteRenderingTest extends ezcTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = ezcGraph::create( 'line' );
-        $chart->palette = 'black';
+        $chart->palette = 'Black';
 
         $chart['Line 1'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         $chart['Line 2'] = array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613);
@@ -72,6 +72,48 @@ class ezcGraphCompleteRenderingTest extends ezcTestCase
             md5_file( $filename ),
             'Incorrect image rendered.'
         );
+    }
+
+    public function testRenderLineChartAxis()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $renderer = $this->getMock( 'ezcGraphRenderer2D', array(
+            'drawAxis',
+        ) );
+
+        $chart = ezcGraph::create( 'line' );
+        $chart->palette = 'Black';
+        
+        $renderer
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawAxis' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 100, 0, 500, 200 ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 0, 180 ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 400, 180 ), 1. ),
+                $this->equalTo( $chart->xAxis ),
+                $this->equalTo( $chart->xAxis->axisLabelRenderer )
+            );
+        $renderer
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawAxis' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 100, 0, 500, 200 ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 40, 200 ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 40, 0 ), 1. ),
+                $this->equalTo( $chart->yAxis ),
+                $this->equalTo( $chart->yAxis->axisLabelRenderer )
+            );
+
+        $chart['Line 1'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['Line 2'] = array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613);
+
+        $chart->renderer = $renderer;
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 200, $filename );
     }
 
     public function testRenderWithTransparentBackground()

@@ -103,7 +103,7 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawPieSegment' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 81, 18, 399, 182 ) ),
+                $this->equalTo( new ezcGraphBoundings( 80, 0, 400, 200 ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#4E9A06' ) ),
                 $this->equalTo( 0., 1. ),
                 $this->equalTo( 220.5, .1 ),
@@ -114,8 +114,8 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->expects( $this->at( 1 ) )
             ->method( 'drawPieSegment' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 81, 18, 399, 182 ) ),
-                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                $this->equalTo( new ezcGraphBoundings( 80, 0, 400, 200 ) ),
+               $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( 220.5, .1 ),
                 $this->equalTo( 238., 1. ),
                 $this->equalTo( 'IE' ),
@@ -125,7 +125,7 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->expects( $this->at( 2 ) )
             ->method( 'drawPieSegment' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 81, 18, 399, 182 ) ),
+                $this->equalTo( new ezcGraphBoundings( 80, 0, 400, 200 ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#EDD400' ) ),
                 $this->equalTo( 238., 1. ),
                 $this->equalTo( 298.6, 1. ),
@@ -136,7 +136,7 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->expects( $this->at( 3 ) )
             ->method( 'drawPieSegment' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 81, 18, 399, 182 ) ),
+                $this->equalTo( new ezcGraphBoundings( 80, 0, 400, 200 ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#75505B' ) ),
                 $this->equalTo( 298.6, 1. ),
                 $this->equalTo( 310., 1. ),
@@ -147,7 +147,7 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->expects( $this->at( 4 ) )
             ->method( 'drawPieSegment' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 81, 18, 399, 182 ) ),
+                $this->equalTo( new ezcGraphBoundings( 80, 0, 400, 200 ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#F57900' ) ),
                 $this->equalTo( 310., 1. ),
                 $this->equalTo( 360., 1. ),

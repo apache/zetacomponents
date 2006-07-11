@@ -227,8 +227,6 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
             $type
         );
 
-        var_dump( $this->boundings, $boundings );
-
         return $boundings;  
     }
 }

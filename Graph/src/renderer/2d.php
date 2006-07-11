@@ -630,6 +630,11 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         ezcGraphChartElementAxis $axis,
         ezcGraphAxisLabelRenderer $labelClass = null )
     {
+        $start->x += $boundings->x0;
+        $start->y += $boundings->y0;
+        $end->x += $boundings->x0;
+        $end->y += $boundings->y0;
+
         // Determine normalized direction
         $direction = new ezcGraphCoordinate(
             $start->x - $end->x,

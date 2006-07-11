@@ -71,6 +71,13 @@ class ezcGraphLineChart extends ezcGraphChart
 
     protected function renderData( $renderer, $boundings )
     {
+        // Apply axis space
+        $boundings->x0 += ( $boundings->x1 - $boundings->x0 ) * $this->xAxis->axisSpace;
+        $boundings->x1 -= ( $boundings->x1 - $boundings->x0 ) * $this->xAxis->axisSpace;
+
+        $boundings->y0 += ( $boundings->y1 - $boundings->y0 ) * $this->yAxis->axisSpace;
+        $boundings->y1 -= ( $boundings->y1 - $boundings->y0 ) * $this->yAxis->axisSpace;
+
         foreach ( $this->data as $data )
         {
             // Determine fill color for dataset
