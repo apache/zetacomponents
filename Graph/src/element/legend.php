@@ -155,35 +155,33 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
     
     protected function calculateBoundings( ezcGraphBoundings $boundings )
     {
+        $this->boundings = clone $boundings;
+
         switch ( $this->position )
         {
             case ezcGraph::TOP:
-                $this->boundings = clone $boundings;
-
                 $size = (int) round( $boundings->y0 + ( $boundings->y1 - $boundings->y0) * $this->landscapeSize );
-                $this->boundings->y1 = $size;
-                $boundings->y0 = $size;
+
+                $boundings->y0 += $size;
+                $this->boundings->y1 = $boundings->y0;
                 break;
             case ezcGraph::LEFT:
-                $this->boundings = clone $boundings;
-
                 $size = (int) round( $boundings->x0 + ( $boundings->x1 - $boundings->x0) * $this->portraitSize );
-                $this->boundings->x1 = $size;
-                $boundings->x0 = $size;
+
+                $boundings->x0 += $size;
+                $this->boundings->x1 = $boundings->x0;
                 break;
             case ezcGraph::RIGHT:
-                $this->boundings = clone $boundings;
-
                 $size = (int) round( $boundings->x1 - ( $boundings->x1 - $boundings->x0) * $this->portraitSize );
-                $this->boundings->x0 = $size;
-                $boundings->x1 = $size;
+
+                $boundings->x1 -= $size;
+                $this->boundings->x0 = $boundings->x1;
                 break;
             case ezcGraph::BOTTOM:
-                $this->boundings = clone $boundings;
-
                 $size = (int) round( $boundings->y1 - ( $boundings->y1 - $boundings->y0) * $this->landscapeSize );
-                $this->boundings->y0 = $size;
-                $boundings->y1 = $size;
+
+                $boundings->y1 -= $size;
+                $this->boundings->y0 = $boundings->y1;
                 break;
         }
 
@@ -211,23 +209,25 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
         }
 
         // Render standard elements
-        $boundings = $renderer->drawBox(
-            $boundings,
+        $this->boundings = $renderer->drawBox(
+            $this->boundings,
             $this->background,
             $this->border,
             $this->borderWidth,
             $this->margin,
             $this->padding,
             $this->title,
-            $this->getTitleSize( $boundings, $type )
+            $this->getTitleSize( $this->boundings, $type )
         );
 
         // Render legend
         $renderer->drawLegend(
-            $boundings,
+            $this->boundings,
             $this,
             $type
         );
+
+        var_dump( $this->boundings, $boundings );
 
         return $boundings;  
     }
