@@ -40,7 +40,7 @@ abstract class ezcGraphPalette
      * 
      * @var ezcGraphColor
      */
-    protected $gridColor;
+    protected $majorGridColor;
 
     /**
      * Color of minor grid lines
@@ -168,8 +168,8 @@ abstract class ezcGraphPalette
             case 'axisColor':
                 return $this->checkColor( $this->axisColor );
             
-            case 'gridColor':
-                return $this->checkColor( $this->gridColor );
+            case 'majorGridColor':
+                return $this->checkColor( $this->majorGridColor );
             case 'minorGridColor':
                 return $this->checkColor( $this->minorGridColor );
     

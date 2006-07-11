@@ -190,79 +190,6 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
         return $boundings;
     }
 
-    protected function renderLegend( ezcGraphRenderer $renderer )
-    {
-        switch ( $this->position )
-        {
-            case ezcGraph::LEFT:
-            case ezcGraph::RIGHT:
-                $symbolSize = (int) round( min(
-                    max(
-                        $this->symbolSize,
-                        ( $this->boundings->y1 - $this->boundings->y0 ) * $this->minimumSymbolSize
-                    ),
-                    ( $this->boundings->y1 - $this->boundings->y0 ) / count( $this->labels )
-                ) );
-
-                foreach ( $this->labels as $labelNr => $label )
-                {
-                    $renderer->drawSymbol(
-                        $label['color'],
-                        new ezcGraphCoordinate( 
-                            $this->boundings->x0 + $this->padding,
-                            $this->boundings->y0 + $labelNr * ( $symbolSize + $this->spacing ) + $this->padding
-                        ),
-                        $symbolSize - 2 * $this->padding,
-                        $symbolSize - 2 * $this->padding,
-                        $label['symbol']
-                    );
-                    $renderer->drawTextBox(
-                        new ezcGraphCoordinate(
-                            $this->boundings->x0 + $symbolSize + $this->spacing,
-                            $this->boundings->y0 + $labelNr * ( $symbolSize + $this->spacing ) + $this->padding
-                        ),
-                        $label['label'],
-                        $this->boundings->x1 - $this->boundings->x0 - $symbolSize - $this->padding - $this->spacing,
-                        $symbolSize - 2 * $this->padding,
-                        ezcGraph::LEFT | ezcGraph::MIDDLE
-                    );
-                }
-                break;
-            case ezcGraph::TOP:
-            case ezcGraph::BOTTOM:
-                $symbolSize = (int) round( min(
-                    $this->symbolSize,
-                    ( $this->boundings->y1 - $this->boundings->y0 )
-                ) );
-                $width = (int) round( ( $this->boundings->x1 - $this->boundings->x0 ) / count( $this->labels ) );
-
-                foreach ( $this->labels as $labelNr => $label )
-                {
-                    $renderer->drawSymbol(
-                        $label['color'],
-                        new ezcGraphCoordinate( 
-                            $this->boundings->x0 + $labelNr * $width + $this->padding,
-                            $this->boundings->y0 + $this->padding
-                        ),
-                        $symbolSize - 2 * $this->padding,
-                        $symbolSize - 2 * $this->padding,
-                        $label['symbol']
-                    );
-                    $renderer->drawTextBox(
-                        new ezcGraphCoordinate(
-                            $this->boundings->x0 + $labelNr * $width + $this->padding + $symbolSize + $this->spacing,
-                            $this->boundings->y0 + $this->padding
-                        ),
-                        $label['label'],
-                        $width - $this->padding - $symbolSize - $this->spacing,
-                        $symbolSize - 2 * $this->padding,
-                        ezcGraph::LEFT | ezcGraph::MIDDLE
-                    );
-                }
-                break;
-        }
-    }
-
     /**
      * Render a legend
      * 
@@ -274,13 +201,33 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
     {
         $boundings = $this->calculateBoundings( $boundings );
         
+        if ( $this->position === ezcGraph::LEFT || $this->position === ezcGraph::RIGHT )
+        {
+            $type = ezcGraph::VERTICAL;
+        }
+        else
+        {
+            $type = ezcGraph::HORIZONTAL;
+        }
+
         // Render standard elements
-        $this->renderBorder( $renderer );
-        $this->renderBackground( $renderer );
-        $this->renderTitle( $renderer );
+        $boundings = $renderer->drawBox(
+            $boundings,
+            $this->background,
+            $this->border,
+            $this->borderWidth,
+            $this->margin,
+            $this->padding,
+            $this->title,
+            $this->getTitleSize( $boundings, $type )
+        );
 
         // Render legend
-        $this->renderLegend( $renderer );
+        $renderer->drawLegend(
+            $boundings,
+            $this,
+            $type
+        );
 
         return $boundings;  
     }

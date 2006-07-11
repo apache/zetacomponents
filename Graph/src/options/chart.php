@@ -65,6 +65,13 @@ class ezcGraphChartOptions extends ezcBaseOptions
     protected $padding = 0;
 
     /**
+     * Distance between outer boundings and border of an element 
+     * 
+     * @var integer
+     */
+    protected $margin = 0;
+
+    /**
      * Font used in the graph 
      * 
      * @var int
@@ -102,6 +109,9 @@ class ezcGraphChartOptions extends ezcBaseOptions
                 break;
             case 'padding':
                 $this->padding = max( 0, (int) $propertyValue );
+                break;
+            case 'margin':
+                $this->margin = max( 0, (int) $propertyValue );
                 break;
             case 'backgroundImage':
                 $this->backgroundImage->source = $propertyValue;

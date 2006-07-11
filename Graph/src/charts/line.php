@@ -71,126 +71,39 @@ class ezcGraphLineChart extends ezcGraphChart
 
     protected function renderData( $renderer, $boundings )
     {
-        $symbolSize = $this->options->symbolSize;
-
         foreach ( $this->data as $data )
         {
+            // Determine fill color for dataset
             if ( $this->options->fillLines !== false )
             {
                 $fillColor = clone $data->color->default;
                 $fillColor->alpha = (int) round( ( 255 - $fillColor->alpha ) * ( $this->options->fillLines / 255 ) );
             }
+            else
+            {
+                $fillColor = null;
+            }
 
+            // Draw lines for dataset
             $lastPoint = false;
-            $lastKey = false;
-            $lastValue = false;
             foreach ( $data as $key => $value )
             {
                 $point = new ezcGraphCoordinate( 
-                    (int) round( $this->elements['xAxis']->getCoordinate( $boundings, $key ) ),
-                    (int) round( $this->elements['yAxis']->getCoordinate( $boundings, $value ) )
+                    $this->elements['xAxis']->getCoordinate( $key ),
+                    $this->elements['yAxis']->getCoordinate( $value )
                 );
 
-                // Fill the line
-                if ( $lastPoint !== false && $this->options->fillLines !== false )
-                {
-                    $axisPosition = (int) round( $this->elements['yAxis']->getCoordinate( $boundings, false ) );
-
-                    $lastAxisPoint = new ezcGraphCoordinate(
-                        (int) round( $this->elements['xAxis']->getCoordinate( $boundings, $lastKey ) ),
-                        $axisPosition
-                    );
-                    $axisPoint = new ezcGraphCoordinate(
-                        (int) round( $this->elements['xAxis']->getCoordinate( $boundings, $key ) ),
-                        $axisPosition
-                    );
-
-                    if ( ( $value == 0 ) ||
-                         ( $lastValue == 0 ) ||
-                         ( $value / abs( $value ) == $lastValue / abs( $lastValue ) ) )
-                    {
-                        // Values have the same sign, so that the line do not cross any axes
-                        $renderer->drawPolygon(
-                            array(
-                                $lastPoint,
-                                $point,
-                                $axisPoint,
-                                $lastAxisPoint,
-                            ),
-                            $fillColor,
-                            true
-                        );
-                    }
-                    else
-                    {
-                        // Draw two polygones to consider cutting point with axis
-                        $diffOne = abs( $axisPosition - $lastPoint->y );
-                        $diffTwo = abs( $axisPosition - $point->y );
-
-                        // Switch values, if first is greater then second
-                        $cuttingPosition = $diffOne / ( $diffTwo + $diffOne );
-                        
-                        // Calculate cutting point
-                        $cuttingPoint = new ezcGraphCoordinate(
-                            (int) round( $lastAxisPoint->x + ( $axisPoint->x - $lastAxisPoint->x ) * $cuttingPosition ),
-                            $axisPosition
-                        );
-
-                        // Finally draw polygons
-                        $renderer->drawPolygon(
-                            array(
-                                $lastPoint,
-                                $cuttingPoint,
-                                $lastAxisPoint,
-                            ),
-                            $fillColor,
-                            true
-                        );
-                        $renderer->drawPolygon(
-                            array(
-                                $point,
-                                $cuttingPoint,
-                                $axisPoint,
-                            ),
-                            $fillColor,
-                            true
-                        );
-                    }
-                }
-
-                // Draw line
-                if ( $lastPoint !== false )
-                {
-                    $renderer->drawLine(
-                        $data->color->default,
-                        $lastPoint,
-                        $point,
-                        $this->options->lineThickness
-                    );
-                }
-
-                // Draw Symbol
-                $symbol = $data->symbol[$key];
-
-                $symbolPosition = new ezcGraphCoordinate( 
-                    $point->x - $symbolSize / 2,
-                    $point->y - $symbolSize / 2
+                $renderer->drawDataLine(
+                    $boundings,
+                    $data->color->default,
+                    ( $lastPoint === false ? $point : $lastPoint ),
+                    $point,
+                    $data->symbol[$key],
+                    $data->color[$key],
+                    $fillColor
                 );
-
-                if ( $symbol != ezcGraph::NO_SYMBOL )
-                {
-                    $renderer->drawSymbol(
-                        $data->color[$key],
-                        $symbolPosition,
-                        $symbolSize,
-                        $symbolSize,
-                        $symbol
-                    );
-                }
 
                 $lastPoint = $point;
-                $lastValue = $value;
-                $lastKey = $key;
             }
         }
     }
@@ -239,9 +152,14 @@ class ezcGraphLineChart extends ezcGraphChart
         $boundings->y1 = $this->options->height;
 
         // Render border and background
-        $boundings = $this->renderBorder( $boundings );
-        $boundings = $this->options->backgroundImage->render( $this->renderer, $boundings );
-        $boundings = $this->renderBackground( $boundings );
+        $boundings = $this->renderer->drawBox(
+            $boundings,
+            $this->options->background,
+            $this->options->border,
+            $this->options->borderWidth,
+            $this->options->margin,
+            $this->options->padding
+        );
 
         // Render subelements
         foreach ( $this->elements as $name => $element )
@@ -257,11 +175,11 @@ class ezcGraphLineChart extends ezcGraphChart
             {
                 case 'xAxis':
                     // get Position of 0 on the Y-axis for orientation of the x-axis
-                    $element->nullPosition = $this->elements['yAxis']->getCoordinate( $boundings, false );
+                    $element->nullPosition = $this->elements['yAxis']->getCoordinate( false );
                     break;
                 case 'yAxis':
                     // get Position of 0 on the X-axis for orientation of the y-axis
-                    $element->nullPosition = $this->elements['xAxis']->getCoordinate( $boundings, false );
+                    $element->nullPosition = $this->elements['xAxis']->getCoordinate( false );
                     break;
             }
             $this->driver->options->font = $element->font;

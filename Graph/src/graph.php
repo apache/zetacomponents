@@ -20,6 +20,10 @@ class ezcGraph
     const BULLET = 2;
     const CIRCLE = 3;
 
+    const NO_REPEAT = 0;
+    const HORIZONTAL = 1;
+    const VERTICAL = 2;
+
     const TOP = 1;
     const BOTTOM = 2;
     const LEFT = 4;

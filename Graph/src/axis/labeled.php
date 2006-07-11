@@ -130,7 +130,7 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
      * @param string $value Value to determine position for
      * @return float Position on chart
      */
-    public function getCoordinate( ezcGraphBoundings $boundings, $value )
+    public function getCoordinate( $value )
     {
         if ( $value === false || 
              $value === null  ||
@@ -138,40 +138,24 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
         {
             switch ( $this->position )
             {
-                case ezcGraph::TOP:
-                    return $boundings->y0 +
-                            ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 );
-                case ezcGraph::BOTTOM:
-                    return $boundings->y1 -
-                            ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 );
                 case ezcGraph::LEFT:
-                    return $boundings->x0 +
-                            ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 );
+                case ezcGraph::TOP:
+                    return 0.;
                 case ezcGraph::RIGHT:
-                    return $boundings->x1 -
-                            ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 );
+                case ezcGraph::BOTTOM:
+                    return 1.;
             }
         }
         else
         {
             switch ( $this->position )
             {
-                case ezcGraph::TOP:
-                    return $boundings->y0 +
-                            ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 ) +
-                            ( $boundings->y1 - $boundings->y0 ) * ( 1 - $this->axisSpace ) / ( count ( $this->labels ) - 1 ) * $key;
-                case ezcGraph::BOTTOM:
-                    return $boundings->y1 -
-                            ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 ) -
-                            ( $boundings->y1 - $boundings->y0 ) * ( 1 - $this->axisSpace ) / ( count ( $this->labels ) - 1 ) * $key;
                 case ezcGraph::LEFT:
-                    return $boundings->x0 +
-                            ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 ) +
-                            ( $boundings->x1 - $boundings->x0 ) * ( 1 - $this->axisSpace ) / ( count ( $this->labels ) - 1 ) * $key;
+                case ezcGraph::TOP:
+                    return (float) $key / ( count ( $this->labels ) - 1 );
+                case ezcGraph::BOTTOM:
                 case ezcGraph::RIGHT:
-                    return $boundings->x1 -
-                            ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 ) -
-                            ( $boundings->x1 - $boundings->x0 ) * ( 1 - $this->axisSpace ) / ( count ( $this->labels ) - 1 ) * $key;
+                    return (float) 1 - $key / ( count ( $this->labels ) - 1 );
             }
         }
     }

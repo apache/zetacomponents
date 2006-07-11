@@ -264,49 +264,34 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
      * @param float $value Value to determine position for
      * @return float Position on chart
      */
-    public function getCoordinate( ezcGraphBoundings $boundings, $value )
+    public function getCoordinate( $value )
     {
         // Force typecast, because ( false < -100 ) results in (bool) true
         $floatValue = (float) $value;
+
         if ( ( $value === false ) &&
              ( ( $floatValue < $this->min ) || ( $floatValue > $this->max ) ) )
         {
             switch ( $this->position )
             {
-                case ezcGraph::TOP:
-                    return $boundings->y0 +
-                            ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 );
-                case ezcGraph::BOTTOM:
-                    return $boundings->y1 -
-                            ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 );
                 case ezcGraph::LEFT:
-                    return $boundings->x0 +
-                            ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 );
+                case ezcGraph::TOP:
+                    return 0.;
                 case ezcGraph::RIGHT:
-                    return $boundings->x1 -
-                            ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 );
+                case ezcGraph::BOTTOM:
+                    return 1.;
             }
         }
         else
         {
             switch ( $this->position )
             {
-                case ezcGraph::TOP:
-                    return $boundings->y0 +
-                            ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 ) +
-                            ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->y1 - $boundings-> y0 ) * ( 1 - $this->axisSpace );
-                case ezcGraph::BOTTOM:
-                    return $boundings->y1 -
-                            ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 ) -
-                            ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->y1 - $boundings-> y0 ) * ( 1 - $this->axisSpace );
                 case ezcGraph::LEFT:
-                    return $boundings->x0 +
-                            ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 ) +
-                            ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->x1 - $boundings-> x0 ) * ( 1 - $this->axisSpace );
+                case ezcGraph::TOP:
+                    return ( $value - $this->min ) / ( $this->max - $this->min );
                 case ezcGraph::RIGHT:
-                    return $boundings->x1 -
-                            ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 ) -
-                            ( $value - $this->min ) / ( $this->max - $this->min ) * ( $boundings->x1 - $boundings-> x0 ) * ( 1 - $this->axisSpace );
+                case ezcGraph::BOTTOM:
+                    return 1 - ( $value - $this->min ) / ( $this->max - $this->min );
             }
         }
     }

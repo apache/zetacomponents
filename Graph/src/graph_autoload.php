@@ -27,8 +27,12 @@ return array(
 
     'ezcGraphRenderer'                          => 'Graph/interfaces/renderer.php',
     'ezcGraphRenderer2D'                        => 'Graph/renderer/2d.php',
+    'ezcGraphRenderer2dOptions'                 => 'Graph/options/renderer_2d.php',
     'ezcGraphRenderer3D'                        => 'Graph/renderer/3d.php',
     'ezcGraphInvalidRendererException'          => 'Graph/exceptions/invalid_renderer.php',
+
+    'ezcGraphAxisLabelRenderer'                 => 'Graph/interfaces/axis_label_renderer.php',
+    'ezcGraphAxisExactLabelRenderer'            => 'Graph/renderer/axis_label_exact.php',
 
     'ezcGraphDriver'                            => 'Graph/interfaces/driver.php',
     'ezcGraphDriverOptions'                     => 'Graph/options/driver.php',
@@ -39,6 +43,7 @@ return array(
     'ezcGraphSvgDriver'                         => 'Graph/driver/svg.php',
     'ezcGraphSvgDriverOptions'                  => 'Graph/options/svg_driver.php',
     'ezcGraphInvalidDriverException'            => 'Graph/exceptions/invalid_driver.php',
+    'ezcGraphVerboseDriver'                     => 'Graph/driver/verbose.php',
 
     'ezcGraphPalette'                           => 'Graph/interfaces/palette.php',
     'ezcGraphPaletteTango'                      => 'Graph/palette/tango.php',

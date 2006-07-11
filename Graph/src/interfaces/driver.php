@@ -111,7 +111,7 @@ abstract class ezcGraphDriver
      * @param ezcGraphCoordinate $position 
      * @param mixed $width 
      * @param mixed $height 
-     * @param ezcGraphColor $color 
+     * @param int $align Alignement of text
      * @return void
      */
     abstract public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align );

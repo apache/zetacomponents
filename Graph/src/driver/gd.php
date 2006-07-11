@@ -46,7 +46,12 @@ class ezcGraphGdDriver extends ezcGraphDriver
                 $this->supersample( $this->options->width ), 
                 $this->supersample( $this->options->height )
             );
-            $bgColor = imagecolorallocate( $this->image, 255, 255, 255 );
+            $bgColor = imagecolorallocatealpha( $this->image, 255, 255, 255, 127 );
+
+            // Prepare for alpha channels
+            imagealphablending( $this->image, true );
+            imagesavealpha( $this->image, true );
+
             // Default to a white background
             imagefill( $this->image, 1, 1, $bgColor );
 

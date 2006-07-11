@@ -36,8 +36,14 @@ class ezcGraphChartElementText extends ezcGraphChartElement
             return $boundings;
         }
 
-        $this->renderBorder( $renderer );
-        $this->renderBackground( $renderer );
+        $boundings = $renderer->drawBox(
+            $boundings,
+            $this->background,
+            $this->border,
+            $this->borderWidth,
+            $this->margin,
+            $this->padding
+        );
 
         $height = (int) min( 
             round( $this->maxHeight * ( $boundings->y1 - $boundings->y0 ) ),
@@ -47,27 +53,28 @@ class ezcGraphChartElementText extends ezcGraphChartElement
         switch ( $this->position )
         {
             case ezcGraph::TOP:
-                $renderer->drawTextBox(
-                    new ezcGraphCoordinate(
-                        $boundings->x0 + $this->padding,
-                        $boundings->y0 + $this->padding
+                $renderer->drawText(
+                    new ezcGraphBoundings(
+                        $boundings->x0,
+                        $boundings->y0,
+                        $boundings->x1,
+                        $boundings->y0 + $height
                     ),
                     $this->title,
-                    $boundings->x1 - $boundings->x0 - $this->padding * 2,
-                    $height - $this->padding * 2,
                     ezcGraph::CENTER | ezcGraph::MIDDLE
                 );
+
                 $boundings->y0 += $height + $this->margin;
                 break;
             case ezcGraph::BOTTOM:
-                $renderer->drawTextBox(
-                    new ezcGraphCoordinate(
-                        $boundings->x0 + $this->padding,
-                        $boundings->y1 - $height + $this->padding
+                $renderer->drawText(
+                    new ezcGraphBoundings(
+                        $boundings->x0,
+                        $boundings->y1 - $height,
+                        $boundings->x1,
+                        $boundings->y1
                     ),
                     $this->title,
-                    $boundings->x1 - $boundings->x0 - $this->padding * 2,
-                    $height - $this->padding * 2,
                     ezcGraph::CENTER | ezcGraph::MIDDLE
                 );
                 $boundings->y1 -= $height + $this->margin;

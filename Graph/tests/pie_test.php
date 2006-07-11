@@ -93,6 +93,8 @@ class ezcGraphPieChartTest extends ezcTestCase
             'Safari' => 987,
         );
 
+        $chart['sample']->highlight['wget'] = true;
+
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
             'drawPieSegment',
         ) );
@@ -101,375 +103,60 @@ class ezcGraphPieChartTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawPieSegment' )
             ->with(
+                $this->equalTo( new ezcGraphBoundings( 81, 18, 399, 182 ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#4E9A06' ) ),
-                $this->equalTo( new ezcGraphCoordinate( 240, 100 ) ),
-                $this->equalTo( 72 ),
-                $this->equalTo( 0 ),
-                $this->equalTo( 220.52646317558, .1 ),
-                $this->equalTo( 0 )
+                $this->equalTo( 0., 1. ),
+                $this->equalTo( 220.5, .1 ),
+                $this->equalTo( 'Mozilla' ),
+                $this->equalTo( false )
             );
         $mockedRenderer
             ->expects( $this->at( 1 ) )
             ->method( 'drawPieSegment' )
             ->with(
+                $this->equalTo( new ezcGraphBoundings( 81, 18, 399, 182 ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
-                $this->equalTo( new ezcGraphCoordinate( 240, 100 ) ),
-                $this->equalTo( 72 ),
-                $this->equalTo( 220.52646317558, .1 ),
-                $this->equalTo( 237.916549986, .1 ),
-                $this->equalTo( 0 )
+                $this->equalTo( 220.5, .1 ),
+                $this->equalTo( 238., 1. ),
+                $this->equalTo( 'IE' ),
+                $this->equalTo( false )
             );
         $mockedRenderer
             ->expects( $this->at( 2 ) )
             ->method( 'drawPieSegment' )
             ->with(
+                $this->equalTo( new ezcGraphBoundings( 81, 18, 399, 182 ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#EDD400' ) ),
-                $this->equalTo( new ezcGraphCoordinate( 240, 100 ) ),
-                $this->equalTo( 72 ),
-                $this->equalTo( 237.916549986, .1 ),
-                $this->equalTo( 298.60543265192, .1 ),
-                $this->equalTo( 0 )
+                $this->equalTo( 238., 1. ),
+                $this->equalTo( 298.6, 1. ),
+                $this->equalTo( 'Opera' ),
+                $this->equalTo( false )
             );
         $mockedRenderer
             ->expects( $this->at( 3 ) )
             ->method( 'drawPieSegment' )
             ->with(
+                $this->equalTo( new ezcGraphBoundings( 81, 18, 399, 182 ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#75505B' ) ),
-                $this->equalTo( new ezcGraphCoordinate( 240, 100 ) ),
-                $this->equalTo( 72 ),
-                $this->equalTo( 298.60543265192, .1 ),
-                $this->equalTo( 310.24922990759, .1 ),
-                $this->equalTo( 0 )
+                $this->equalTo( 298.6, 1. ),
+                $this->equalTo( 310., 1. ),
+                $this->equalTo( 'wget' ),
+                $this->equalTo( true )
             );
         $mockedRenderer
             ->expects( $this->at( 4 ) )
             ->method( 'drawPieSegment' )
             ->with(
+                $this->equalTo( new ezcGraphBoundings( 81, 18, 399, 182 ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#F57900' ) ),
-                $this->equalTo( new ezcGraphCoordinate( 240, 100 ) ),
-                $this->equalTo( 72 ),
-                $this->equalTo( 310.24922990759, .1 ),
-                $this->equalTo( 360., .1 ),
-                $this->equalTo( 0 )
-            );
-
-        $chart->renderer = $mockedRenderer;
-        $chart->render( 400, 200 );
-    }
-
-    public function testPieRenderPieLables()
-    {
-        $chart = ezcGraph::create( 'Pie' );
-        $chart['sample'] = array(
-            'Mozilla' => 4375,
-            'IE' => 345,
-            'Opera' => 1204,
-            'wget' => 231,
-            'Safari' => 987,
-        );
-
-        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-            'drawTextBox',
-        ) );
-
-        $mockedRenderer
-            ->expects( $this->at( 5 ) )
-            ->method( 'drawTextBox' )
-            ->with(
-                $this->equalTo( new ezcGraphCoordinate( 80, 11 ) ),
-                $this->equalTo( 'Opera: 1204 (16.9%)' ),
-                $this->equalTo( 118 ),
-                $this->equalTo( 30 ),
-                $this->equalTo( ezcGraph::RIGHT | ezcGraph::MIDDLE )
-            );
-        $mockedRenderer
-            ->expects( $this->at( 6 ) )
-            ->method( 'drawTextBox' )
-            ->with(
-                $this->equalTo( new ezcGraphCoordinate( 80, 41 ) ),
-                $this->equalTo( 'IE: 345 (4.8%)' ),
-                $this->equalTo( 81 ),
-                $this->equalTo( 30 ),
-                $this->equalTo( ezcGraph::RIGHT | ezcGraph::MIDDLE )
-            );
-        $mockedRenderer
-            ->expects( $this->at( 7 ) )
-            ->method( 'drawTextBox' )
-            ->with(
-                $this->equalTo( new ezcGraphCoordinate( 80, 128 ) ),
-                $this->equalTo( 'Mozilla: 4375 (61.3%)' ),
-                $this->equalTo( 81 ),
-                $this->equalTo( 30 ),
-                $this->equalTo( ezcGraph::RIGHT | ezcGraph::MIDDLE )
-            );
-        $mockedRenderer
-            ->expects( $this->at( 8 ) )
-            ->method( 'drawTextBox' )
-            ->with(
-                $this->equalTo( new ezcGraphCoordinate( 304, 24 ) ),
-                $this->equalTo( 'wget: 231 (3.2%)' ),
-                $this->equalTo( 96 ),
-                $this->equalTo( 30 ),
-                $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
-            );
-        $mockedRenderer
-            ->expects( $this->at( 9 ) )
-            ->method( 'drawTextBox' )
-            ->with(
-                $this->equalTo( new ezcGraphCoordinate( 329, 62 ) ),
-                $this->equalTo( 'Safari: 987 (13.8%)' ),
-                $this->equalTo( 71 ),
-                $this->equalTo( 30 ),
-                $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
-            );
-
-        $chart->renderer = $mockedRenderer;
-        $chart->render( 400, 200 );
-    }
-
-    public function testPieRenderPieLablesWithoutSymbols()
-    {
-        $chart = ezcGraph::create( 'Pie' );
-        $chart['sample'] = array(
-            'Mozilla' => 4375,
-            'IE' => 345,
-            'Opera' => 1204,
-            'wget' => 231,
-            'Safari' => 987,
-        );
-        $chart->options->showSymbol = false;
-
-        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-            'drawTextBox',
-        ) );
-
-        $mockedRenderer
-            ->expects( $this->at( 5 ) )
-            ->method( 'drawTextBox' )
-            ->with(
-                $this->equalTo( new ezcGraphCoordinate( 80, 11 ) ),
-                $this->equalTo( 'Opera: 1204 (16.9%)' ),
-                $this->equalTo( 124 ),
-                $this->equalTo( 30 ),
-                $this->equalTo( ezcGraph::RIGHT | ezcGraph::MIDDLE )
-            );
-        $mockedRenderer
-            ->expects( $this->at( 6 ) )
-            ->method( 'drawTextBox' )
-            ->with(
-                $this->equalTo( new ezcGraphCoordinate( 80, 41 ) ),
-                $this->equalTo( 'IE: 345 (4.8%)' ),
-                $this->equalTo( 87 ),
-                $this->equalTo( 30 ),
-                $this->equalTo( ezcGraph::RIGHT | ezcGraph::MIDDLE )
-            );
-        $mockedRenderer
-            ->expects( $this->at( 7 ) )
-            ->method( 'drawTextBox' )
-            ->with(
-                $this->equalTo( new ezcGraphCoordinate( 80, 128 ) ),
-                $this->equalTo( 'Mozilla: 4375 (61.3%)' ),
-                $this->equalTo( 87 ),
-                $this->equalTo( 30 ),
-                $this->equalTo( ezcGraph::RIGHT | ezcGraph::MIDDLE )
-            );
-        $mockedRenderer
-            ->expects( $this->at( 8 ) )
-            ->method( 'drawTextBox' )
-            ->with(
-                $this->equalTo( new ezcGraphCoordinate( 298, 24 ) ),
-                $this->equalTo( 'wget: 231 (3.2%)' ),
-                $this->equalTo( 102 ),
-                $this->equalTo( 30 ),
-                $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
-            );
-        $mockedRenderer
-            ->expects( $this->at( 9 ) )
-            ->method( 'drawTextBox' )
-            ->with(
-                $this->equalTo( new ezcGraphCoordinate( 323, 62 ) ),
-                $this->equalTo( 'Safari: 987 (13.8%)' ),
-                $this->equalTo( 77 ),
-                $this->equalTo( 30 ),
-                $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
-            );
-
-        $chart->renderer = $mockedRenderer;
-        $chart->render( 400, 200 );
-    }
-
-    public function testPieRenderPieLableIdentifiers()
-    {
-        $chart = ezcGraph::create( 'Pie' );
-        $chart['sample'] = array(
-            'Mozilla' => 4375,
-            'IE' => 345,
-            'Opera' => 1204,
-            'wget' => 231,
-            'Safari' => 987,
-        );
-
-        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-            'drawLine',
-            'drawSymbol',
-        ) );
-
-        $mockedRenderer
-            ->expects( $this->at( 5 ) )
-            ->method( 'drawLine' )
-            ->with(
-                $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
-                $this->equalTo( new ezcGraphCoordinate( 238, 47 ) ),
-                $this->equalTo( new ezcGraphCoordinate( 204, 26 ) ),
+                $this->equalTo( 310., 1. ),
+                $this->equalTo( 360., 1. ),
+                $this->equalTo( 'Safari' ),
                 $this->equalTo( false )
             );
-        $mockedRenderer
-            ->expects( $this->at( 6 ) )
-            ->method( 'drawSymbol' )
-            ->with(
-                $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
-                $this->equalTo( new ezcGraphCoordinate( 235, 44 ) ),
-                $this->equalTo( 6 ),
-                $this->equalTo( 6 ),
-                $this->equalTo( ezcGraph::BULLET )
-            );
-        $mockedRenderer
-            ->expects( $this->at( 7 ) )
-            ->method( 'drawSymbol' )
-            ->with(
-                $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
-                $this->equalTo( new ezcGraphCoordinate( 201, 23 ) ),
-                $this->equalTo( 6 ),
-                $this->equalTo( 6 ),
-                $this->equalTo( ezcGraph::BULLET )
-            );
 
         $chart->renderer = $mockedRenderer;
         $chart->render( 400, 200 );
-    }
-
-    public function testCompleteRendering()
-    {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
-
-        $chart = ezcGraph::create( 'Pie' );
-
-        $chart['sample'] = array(
-            'Mozilla' => 4375,
-            'IE' => 345,
-            'Opera' => 1204,
-            'wget' => 231,
-            'Safari' => 987,
-        );
-
-        $chart->driver = new ezcGraphGdDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
-        $chart->render( 400, 200, $filename );
-
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            'dfc7af85be7a48e452c55ac1e1a84abe',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
-        );
-    }
-
-    public function testCompleteRenderingWithoutLegend()
-    {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
-
-        $chart = ezcGraph::create( 'Pie' );
-
-        $chart['sample'] = array(
-            'Mozilla' => 4375,
-            'IE' => 345,
-            'Opera' => 1204,
-            'wget' => 231,
-            'Safari' => 987,
-        );
-
-        $chart->legend = false;
-        $chart->driver = new ezcGraphGdDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
-        $chart->render( 400, 200, $filename );
-
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            'd8186025828b208c2451333f22d9159c',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
-        );
-    }
-
-    public function testCompleteRenderingWithHilight()
-    {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
-
-        $chart = ezcGraph::create( 'Pie' );
-
-        $chart['sample'] = array(
-            'Mozilla' => 4375,
-            'IE' => 345,
-            'Opera' => 1204,
-            'wget' => 231,
-            'Safari' => 987,
-        );
-        $chart['sample']->highlight['Safari'] = true;
-
-        $chart->driver = new ezcGraphGdDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
-        $chart->render( 400, 200, $filename );
-
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            'ea963eb0fa1549ac2f62a478e2a6225d',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
-        );
-    }
-
-    public function testCompleteRenderingWithHilightWithoutSymbols()
-    {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
-
-        $chart = ezcGraph::create( 'Pie' );
-        $chart->options->showSymbol = false;
-
-        $chart['sample'] = array(
-            'Mozilla' => 4375,
-            'IE' => 345,
-            'Opera' => 1204,
-            'wget' => 231,
-            'Safari' => 987,
-        );
-        $chart['sample']->highlight['Safari'] = true;
-
-        $chart->driver = new ezcGraphGdDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
-        $chart->render( 400, 200, $filename );
-
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '6ced9d94eb716fb5dfe8c5b1b945d42c',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
-        );
     }
 }
 ?>

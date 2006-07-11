@@ -235,104 +235,21 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
      */
     abstract public function render( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings );
 
-    protected function renderBorder( ezcGraphRenderer $renderer )
+    protected function getTitleSize( ezcGraphBoundings $boundings, $direction = ezcGraph::HORIZONTAL )
     {
-        // Apply margin
-        $this->boundings->x0 += $this->margin;
-        $this->boundings->y0 += $this->margin;
-        $this->boundings->x1 -= $this->margin;
-        $this->boundings->y1 -= $this->margin;
-
-        if ( ( $this->border instanceof ezcGraphColor ) &&
-             ( $this->borderWidth > 0 ) )
+        if ( $direction === ezcGraph::HORIZONTAL )
         {
-            // Default bordervalue to 1
-            $this->borderWidth = max( 1, $this->borderWidth );
-         
-            // Draw border
-            $renderer->drawRect(
-                $this->border,
-                new ezcGraphCoordinate( $this->boundings->x0, $this->boundings->y0 ),
-                $this->boundings->x1 - $this->boundings->x0,
-                $this->boundings->y1 - $this->boundings->y0,
-                $this->borderWidth
-            );
-
-            // Reduce local boundings by borderWidth
-            $this->boundings->x0 += $this->borderWidth;
-            $this->boundings->y0 += $this->borderWidth;
-            $this->boundings->x1 -= $this->borderWidth;
-            $this->boundings->y1 -= $this->borderWidth;
-        }
-    }
-
-    protected function renderBackground( ezcGraphRenderer $renderer )
-    {
-        if ( $this->background instanceof ezcGraphColor )
-        {
-            $renderer->drawBackground(
-                $this->background,
-                new ezcGraphCoordinate( $this->boundings->x0, $this->boundings->y0 ),
-                $this->boundings->x1 - $this->boundings->x0,
-                $this->boundings->y1 - $this->boundings->y0
+            return min(
+                $this->maxTitleHeight,
+                ( $boundings->y1 - $boundings->y0 ) * $this->landscapeTitleSize
             );
         }
-
-        // Apply padding
-        $this->boundings->x0 += $this->padding;
-        $this->boundings->y0 += $this->padding;
-        $this->boundings->x1 -= $this->padding;
-        $this->boundings->y1 -= $this->padding;
-    }
-
-    protected function renderTitle( ezcGraphRenderer $renderer )
-    {
-        if ( !empty( $this->title ) )
+        else
         {
-            switch ( $this->position )
-            {
-                case ezcGraph::LEFT:
-                case ezcGraph::RIGHT:
-                case ezcGraph::CENTER:
-                    $height = min(
-                        $this->maxTitleHeight,
-                        ( $this->boundings->y1 - $this->boundings->y0 ) * $this->portraitTitleSize
-                    );
-                    $renderer->drawTextBox(
-                        new ezcGraphCoordinate( $this->boundings->x0, $this->boundings->y0 ),
-                        $this->title,
-                        $this->boundings->x1 - $this->boundings->x0,
-                        $height
-                    );
-                    $this->boundings->y0 += $height;
-                    break;
-                case ezcGraph::TOP:
-                    $height = min(
-                        $this->maxTitleHeight,
-                        ( $this->boundings->y1 - $this->boundings->y0 ) * $this->landscapeTitleSize
-                    );
-                    $renderer->drawTextBox(
-                        new ezcGraphCoordinate( $this->boundings->x0, $this->boundings->y0 ),
-                        $this->title,
-                        $this->boundings->x1 - $this->boundings->x0,
-                        $height
-                    );
-                    $this->boundings->y0 += $height;
-                    break;
-                case ezcGraph::BOTTOM:
-                    $height = min(
-                        $this->maxTitleHeight,
-                        ( $this->boundings->y1 - $this->boundings->y0 ) * $this->landscapeTitleSize
-                    );
-                    $renderer->drawTextBox(
-                        new ezcGraphCoordinate( $this->boundings->x0, $this->boundings->y1 - $height ),
-                        $this->title,
-                        $this->boundings->x1 - $this->boundings->x0,
-                        $height
-                    );
-                    $this->boundings->y1 -= $height;
-                    break;
-            }
+            return min(
+                $this->maxTitleHeight,
+                ( $boundings->y1 - $boundings->y0 ) * $this->portraitTitleSize
+            );
         }
     }
 }

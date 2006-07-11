@@ -49,30 +49,17 @@ class ezcGraphTextTest extends ezcTestCase
         $chart->title = 'Title of a chart';
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-            'drawTextBox',
+            'drawText',
         ) );
 
         // Y-Axis
         $mockedRenderer
             ->expects( $this->at( 0 ) )
-            ->method( 'drawTextBox' )
+            ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 1, 1 ) ),
+                $this->equalTo( new ezcGraphBoundings( 1, 1, 499, 21 ) ),
                 $this->equalTo( 'Title of a chart' ),
-                $this->equalTo( 498 ),
-                $this->equalTo( 18 ),
                 $this->equalTo( ezcGraph::CENTER | ezcGraph::MIDDLE )
-            );
-        // Test for margin
-        $mockedRenderer
-            ->expects( $this->at( 1 ) )
-            ->method( 'drawTextBox' )
-            ->with(
-                $this->equalTo( new ezcGraphCoordinate( 17, 22 ) ),
-                $this->equalTo( 'sample' ),
-                $this->equalTo( 81 ),
-                $this->equalTo( 12 ),
-                $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
             );
 
         $chart->renderer = $mockedRenderer;
@@ -89,18 +76,16 @@ class ezcGraphTextTest extends ezcTestCase
         $chart->title->position = ezcGraph::BOTTOM;
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-            'drawTextBox',
+            'drawText',
         ) );
 
         // Y-Axis
         $mockedRenderer
             ->expects( $this->at( 0 ) )
-            ->method( 'drawTextBox' )
+            ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 1, 181 ) ),
+                $this->equalTo( new ezcGraphBoundings( 1, 179, 499, 199 ) ),
                 $this->equalTo( 'Title of a chart' ),
-                $this->equalTo( 498 ),
-                $this->equalTo( 18 ),
                 $this->equalTo( ezcGraph::CENTER | ezcGraph::MIDDLE )
             );
 
@@ -119,32 +104,18 @@ class ezcGraphTextTest extends ezcTestCase
         $chart->title->margin = 5;
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
-            'drawTextBox',
+            'drawText',
         ) );
 
         // Y-Axis
         $mockedRenderer
             ->expects( $this->at( 0 ) )
-            ->method( 'drawTextBox' )
+            ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 1, 1 ) ),
+                $this->equalTo( new ezcGraphBoundings( 6, 6, 494, 25 ) ),
                 $this->equalTo( 'Title of a chart' ),
-                $this->equalTo( 498 ),
-                $this->equalTo( 18 ),
                 $this->equalTo( ezcGraph::CENTER | ezcGraph::MIDDLE )
             );
-        // Test for margin
-        $mockedRenderer
-            ->expects( $this->at( 1 ) )
-            ->method( 'drawTextBox' )
-            ->with(
-                $this->equalTo( new ezcGraphCoordinate( 17, 27 ) ),
-                $this->equalTo( 'sample' ),
-                $this->equalTo( 81 ),
-                $this->equalTo( 12 ),
-                $this->equalTo( ezcGraph::LEFT | ezcGraph::MIDDLE )
-            );
-        
 
         $chart->renderer = $mockedRenderer;
 

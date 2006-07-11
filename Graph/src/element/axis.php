@@ -38,18 +38,18 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
     protected $labelPadding = 2;
 
     /**
-     * Color of the griding 
+     * Color of major majorGrid 
      * 
      * @var ezcGraphColor
      */
-    protected $grid = false;
+    protected $majorGrid;
 
     /**
-     * Raster minor steps on axis
+     * Color of minor majorGrid 
      * 
      * @var ezcGraphColor
      */
-    protected $minorGrid = false;
+    protected $minorGrid;
 
     /**
      * Labeled major steps displayed on the axis 
@@ -67,20 +67,6 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
     protected $minorStep = false;
 
     /**
-     * Length of lines for the major steps on the axis
-     * 
-     * @var integer
-     */
-    protected $majorScalingLineLength = 4;
-    
-    /**
-     * Length of lines for the minor steps on the axis
-     * 
-     * @var integer
-     */
-    protected $minorScalingLineLength = 2;
-
-    /**
      * Formatstring to use for labeling og the axis
      * 
      * @var string
@@ -94,8 +80,17 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
      */
     protected $maxArrowHeadSize = 8;
 
+    /**
+     * Axis label renderer class
+     * 
+     * @var ezcGraphAxisLabelRenderer
+     */
+    protected $axisLabelRenderer;
+
     public function __construct( array $options = array() )
     {
+        $this->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+
         parent::__construct( $options );
     }
 
@@ -110,7 +105,7 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         $this->border = $palette->axisColor;
         $this->padding = $palette->padding;
         $this->margin = $palette->margin;
-        $this->grid = $palette->gridColor;
+        $this->majorGrid = $palette->majorGridColor;
         $this->minorGrid = $palette->minorGridColor;
     }
 
@@ -138,14 +133,14 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
             case 'labelPadding':
                 $this->labelPadding = min( 0, max( 0, (float) $propertyValue ) );
                 break;
-            case 'grid':
+            case 'majorGrid':
                 if ( $propertyValue instanceof ezcGraphColor )
                 {
-                    $this->grid = $propertyValue;
+                    $this->majorGrid = $propertyValue;
                 }
                 else
                 {
-                    $this->grid = ezcGraphColor::create( $propertyValue );
+                    $this->majorGrid = ezcGraphColor::create( $propertyValue );
                 }
                 break;
             case 'minorGrid':
@@ -178,6 +173,16 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
             case 'maxArrowHeadSize':
                 $this->maxArrowHeadSize = max( 0, (int) $propertyValue );
                 break;
+            case 'axisLabelRenderer':
+                if ( $propertyValue instanceof ezcGraphAxisLabelRenderer )
+                {
+                    $this->axisLabelRenderer = $propertyValue;
+                }
+                else
+                {
+                    throw new ezcBasePropertyNotFoundException( $propertyName );
+                }
+                break;
             default:
                 parent::__set( $propertyName, $propertyValue );
                 break;
@@ -187,11 +192,10 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
     /**
      * Get coordinate for a dedicated value on the chart
      * 
-     * @param ezcGraphBounding $boundings 
      * @param float $value Value to determine position for
      * @return float Position on chart
      */
-    abstract public function getCoordinate( ezcGraphBoundings $boundings, $value );
+    abstract public function getCoordinate( $value );
 
     /**
      * Return count of minor steps
@@ -214,186 +218,6 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
      * @return string label
      */
     abstract protected function getLabel( $step );
-
-    /**
-     * Draw labels for an axis
-     * 
-     * @param ezcGraphRenderer $renderer 
-     * @param ezcGraphCoordinate $start 
-     * @param ezcGraphCoordinate $end 
-     * @param ezcGraphBoundings $boundings 
-     * @return void
-     */
-    abstract protected function drawLabels( ezcGraphRenderer $renderer, ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphBoundings $boundings );
-
-    /**
-     * Draw a axis from a start point to an end point. They do not need to be 
-     * placed in-plane.
-     * 
-     * @param ezcGraphRenderer $renderer 
-     * @param ezcGraphCoordinate $start 
-     * @param ezcGraphCoordinate $end 
-     * @param float $major 
-     * @param float $minor 
-     * @return void
-     */
-    protected function drawAxis( ezcGraphRenderer $renderer, ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphBoundings $boundings ) 
-    {
-        // Determine normalized direction
-        $direction = new ezcGraphCoordinate(
-            $start->x - $end->x,
-            $start->y - $end->y
-        );
-        $length = sqrt( pow( $direction->x, 2) + pow( $direction->y, 2 ) );
-        $direction->x /= $length;
-        $direction->y /= $length;
-
-        // Draw axis
-        $renderer->drawLine(
-            $this->border,
-            $start,
-            $end,
-            false
-        );
-
-        // Draw small arrowhead
-        $size = min(
-            $this->maxArrowHeadSize,
-            abs( ceil( ( ( $end->x - $start->x ) + ( $end->y - $start->y ) ) * $this->axisSpace / 4 ) )
-        );
-
-        $renderer->drawPolygon(
-            array(
-                new ezcGraphCoordinate(
-                    (int) round( $end->x ),
-                    (int) round( $end->y )
-                ),
-                new ezcGraphCoordinate(
-                    (int) round( $end->x
-                        + $direction->y * $size / 2
-                        + $direction->x * $size ),
-                    (int) round( $end->y
-                        + $direction->x * $size / 2
-                        + $direction->y * $size )
-                ),
-                new ezcGraphCoordinate(
-                    (int) round( $end->x
-                        - $direction->y * $size / 2
-                        + $direction->x * $size ),
-                    (int) round( $end->y
-                        - $direction->x * $size / 2
-                        + $direction->y * $size )
-                ),
-            ),
-            $this->border,
-            true
-        );
-
-        // Apply axisSpace to start and end
-        $start->x += ( $end->x - $start->x ) * ( $this->axisSpace / 2 );
-        $start->y += ( $end->y - $start->y ) * ( $this->axisSpace / 2 );
-        $end->x -= ( $end->x - $start->x ) * ( $this->axisSpace / 2 );
-        $end->y -= ( $end->y - $start->y ) * ( $this->axisSpace / 2 );
-
-        // Draw major steps
-        $steps = $this->getMajorStepCount();
-
-        // Calculate stepsize
-        $xStepsize = ( $end->x - $start->x ) / $steps;
-        $yStepsize = ( $end->y - $start->y ) / $steps;
-
-        // Calculate grid boundings
-        $negGrid = ( $boundings->x0 - $start->x ) * $direction->y + ( $boundings->y0 - $end->y ) * $direction->x;
-        $posGrid = ( $boundings->x1 - $end->x ) * $direction->y + ( $boundings->y1 - $start->y ) * $direction->x;
-
-        // Draw major steps
-        for ( $i = 0; $i <= $steps; ++$i )
-        {
-            if ( $this->grid && $this->grid->alpha < 255 )
-            {
-                $renderer->drawLine(
-                    $this->grid,
-                    new ezcGraphCoordinate(
-                        (int) round( $start->x + $i * $xStepsize
-                            + $direction->y * $negGrid ),
-                        (int) round( $start->y + $i * $yStepsize
-                            + $direction->x * $negGrid )
-                    ),
-                    new ezcGraphCoordinate(
-                        (int) round( $start->x + $i * $xStepsize
-                            + $direction->y * $posGrid ),
-                        (int) round( $start->y + $i * $yStepsize
-                            + $direction->x * $posGrid )
-                    ),
-                    false
-                );
-            }
-
-            $renderer->drawLine(
-                $this->border,
-                new ezcGraphCoordinate(
-                    (int) round( $start->x + $i * $xStepsize
-                        + $direction->y * $this->majorScalingLineLength ),
-                    (int) round( $start->y + $i * $yStepsize
-                        + $direction->x * -$this->majorScalingLineLength )
-                ),
-                new ezcGraphCoordinate(
-                    (int) round( $start->x + $i * $xStepsize
-                        + $direction->y * -$this->majorScalingLineLength ),
-                    (int) round( $start->y + $i * $yStepsize
-                        + $direction->x * $this->majorScalingLineLength )
-                ),
-                false
-            );
-        }
-
-        // Draw minor steps if wanted
-        if ( $this->minorStep )
-        {
-            $steps = $this->getMinorStepCount();
-            for ( $i = 0; $i < $steps; ++$i )
-            {
-                if ( $this->minorGrid && $this->minorGrid->alpha < 255 )
-                {
-                    $renderer->drawLine(
-                        $this->minorGrid,
-                        new ezcGraphCoordinate(
-                            (int) round($start->x + $i * ( $end->x - $start->x ) / $steps 
-                                + $direction->y * $negGrid ),
-                            (int) round($start->y + $i * ( $end->y - $start->y ) / $steps 
-                                + -$direction->x * $negGrid )
-                        ),
-                        new ezcGraphCoordinate(
-                            (int) round($start->x + $i * ( $end->x - $start->x ) / $steps 
-                                + $direction->y * $posGrid ),
-                            (int) round($start->y + $i * ( $end->y - $start->y ) / $steps 
-                                + -$direction->x * $posGrid )
-                        ),
-                        false
-                    );
-                }
-
-                $renderer->drawLine(
-                    $this->border,
-                    new ezcGraphCoordinate(
-                        (int) round($start->x + $i * ( $end->x - $start->x ) / $steps 
-                            + $direction->y * $this->minorScalingLineLength),
-                        (int) round($start->y + $i * ( $end->y - $start->y ) / $steps 
-                            + $direction->x * -$this->minorScalingLineLength)
-                    ),
-                    new ezcGraphCoordinate(
-                        (int) round($start->x + $i * ( $end->x - $start->x ) / $steps 
-                            + $direction->y * -$this->minorScalingLineLength),
-                        (int) round($start->y + $i * ( $end->y - $start->y ) / $steps 
-                            + $direction->x * $this->minorScalingLineLength)
-                    ),
-                    false
-                );
-            }
-        }
-
-        $this->drawLabels( $renderer, $start, $end, $boundings );
-    }
 
     /**
      * Add data for this axis
@@ -424,62 +248,55 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         switch ( $this->position )
         {
             case ezcGraph::TOP:
-                $this->drawAxis(
-                    $renderer,
-                    new ezcGraphCoordinate(
-                        (int) $this->nullPosition,
-                        (int) $boundings->y0
-                    ),
-                    new ezcGraphCoordinate(
-                        (int) $this->nullPosition,
-                        (int) $boundings->y1
-                    ),
-                    $boundings
+                $start = new ezcGraphCoordinate(
+                    $this->nullPosition,
+                    $boundings->y0
+                );
+                $end = new ezcGraphCoordinate(
+                    $this->nullPosition,
+                    $boundings->y1
                 );
                 break;
             case ezcGraph::BOTTOM:
-                $this->drawAxis(
-                    $renderer,
-                    new ezcGraphCoordinate(
-                        (int) $this->nullPosition,
-                        (int) $boundings->y1
-                    ),
-                    new ezcGraphCoordinate(
-                        (int) $this->nullPosition,
-                        (int) $boundings->y0
-                    ),
-                    $boundings
+                $start = new ezcGraphCoordinate(
+                    (int) $this->nullPosition,
+                    (int) $boundings->y1
+                );
+                $end = new ezcGraphCoordinate(
+                    (int) $this->nullPosition,
+                    (int) $boundings->y0
                 );
                 break;
             case ezcGraph::LEFT:
-                $this->drawAxis(
-                    $renderer,
-                    new ezcGraphCoordinate(
-                        (int) $boundings->x0,
-                        (int) $this->nullPosition
-                    ),
-                    new ezcGraphCoordinate(
-                        (int) $boundings->x1,
-                        (int) $this->nullPosition
-                    ),
-                    $boundings
+                $start = new ezcGraphCoordinate(
+                    (int) $boundings->x0,
+                    (int) $this->nullPosition
+                );
+                $end = new ezcGraphCoordinate(
+                    (int) $boundings->x1,
+                    (int) $this->nullPosition
                 );
                 break;
             case ezcGraph::RIGHT:
-                $this->drawAxis(
-                    $renderer,
-                    new ezcGraphCoordinate(
-                        (int) $boundings->x1,
-                        (int) $this->nullPosition
-                    ),
-                    new ezcGraphCoordinate(
-                        (int) $boundings->x0,
-                        (int) $this->nullPosition
-                    ),
-                    $boundings
+                $start = new ezcGraphCoordinate(
+                    (int) $boundings->x1,
+                    (int) $this->nullPosition
+                );
+                $end = new ezcGraphCoordinate(
+                    (int) $boundings->x0,
+                    (int) $this->nullPosition
                 );
                 break;
         }
+
+        $renderer->drawAxis(
+            $boundings,
+            $start,
+            $end,
+            $this,
+            $this->axisLabelRenderer
+        );
+
         return $boundings;   
     }
 }
