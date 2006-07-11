@@ -15,7 +15,7 @@
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphGdDriverTest extends ezcTestCase
+class ezcGraphGdDriverTest extends ezcImageTestCase
 {
 
     protected $driver;
@@ -42,7 +42,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
     public function setUp()
     {
         static $i = 0;
-        $this->tempDir = $this->createTempDir( 'ezcGraphGdDriverTest' . sprintf( '_%03d_', ++$i ) ) . '/';
+        $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
         $this->basePath = dirname( __FILE__ ) . '/data/';
 
         $this->driver = new ezcGraphGdDriver();
@@ -60,7 +60,7 @@ class ezcGraphGdDriverTest extends ezcTestCase
     public function tearDown()
     {
         unset( $this->driver );
-        $this->removeTempDir();
+//        $this->removeTempDir();
     }
 
     public function testDrawLine()
@@ -80,10 +80,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '8c277a49a87dcbe25ca2056799bb6636',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -108,10 +109,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '6612a57ddf198cc55bfd6aab7f6ee82e',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -136,10 +138,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '8b224c3e70464f502f99cf2971c92cf5',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -166,10 +169,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '9cef14b91d3ba50af77b00dff44f1531',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -193,10 +197,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            'c9686bb5fdf0729e08d4c2fd77405f0e',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -221,10 +226,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '34d665371c527ea77ff0489121feb12b',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -248,10 +254,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            'c9686bb5fdf0729e08d4c2fd77405f0e',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -275,10 +282,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '1763e459a3b74ab4775f6648e7c920ce',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -303,10 +311,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '5cfb7d9db3b242734460a20f67ff48fd',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -331,10 +340,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '5cfb7d9db3b242734460a20f67ff48fd',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -359,10 +369,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '13bdd4f4fd40c65b0ff428ba3491a30c',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -384,10 +395,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '1b4d05fa4c71cba0a87a5aa4cdc52cee',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -410,10 +422,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '605357d6fa0ebfcf74097432f4c19d0c',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -435,10 +448,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '1f2603bbfd75fdc9cd325afd12398505',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -460,10 +474,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            'dc436ebc6ceccaaac09562c7287938ae',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -486,10 +501,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '264e41d9b90c8f85223b32784ff27d05',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -512,10 +528,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            'b18d0c9c41a45602732d16a8f5aa0f33',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -538,10 +555,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            'a416ee17bff5d36735e7b49562c9c432',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -564,10 +582,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '448a4f38c1c28816ff8fb5057e291a61',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -600,10 +619,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '7ab16c395465f6cea7b993288165ab6f',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -626,10 +646,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            'fbdd9b4c6c87684021dc0d1434ddbca2',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -652,10 +673,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            'dbd1c8c2e16a21ab25e2f8a908b8eeb2',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -678,10 +700,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            'b18d0c9c41a45602732d16a8f5aa0f33',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -704,10 +727,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '8acd5742c6ae9fcd3a15574465f100dc',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -730,10 +754,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            'f257787cc53cb20466bab58ec5bddc5d',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -756,10 +781,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '57b4feb5bd595f5719ad1cda3549c935',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -782,10 +808,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            'df03a60c93f3003b3c3c1b0b7989c41f',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -808,10 +835,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            'd7e02054f05b72e6a051d9cbd35638c8',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -833,10 +861,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '9e23d0e30395a875e2d7a6e7b31cd717',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -858,10 +887,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '017c875a87733d6104c5126d9c057a9b',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -887,10 +917,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            'b727b755f4da55870caf72828f74d0cb',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -916,10 +947,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '0d2248a26b202a99a456b3ee92b98265',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -944,10 +976,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '95360a2deb53eed3b6b7a5560a8e6eae',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -973,10 +1006,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '290939514fee7a5572ef786f54dae827',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -999,10 +1033,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '56345e8b4a3e8593cc81796887a04954',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -1026,10 +1061,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '94207d00be5eaf813a3bf4ba5dede2ff',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -1052,10 +1088,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '7de0f967001b35b6726b4f8f9dd2e7ae',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -1079,10 +1116,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            'ddd48399b636522322d7ce332e82a16d',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -1116,10 +1154,11 @@ class ezcGraphGdDriverTest extends ezcTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            'ef4deac70fa8c0ca3d4149fd65e31131',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 }

@@ -46,13 +46,11 @@ class ezcGraphGdDriver extends ezcGraphDriver
                 $this->supersample( $this->options->width ), 
                 $this->supersample( $this->options->height )
             );
-            $bgColor = imagecolorallocatealpha( $this->image, 255, 255, 255, 127 );
 
-            // Prepare for alpha channels
+            // Default to a transparent white background
+            $bgColor = imagecolorallocatealpha( $this->image, 255, 255, 255, 127 );
             imagealphablending( $this->image, true );
             imagesavealpha( $this->image, true );
-
-            // Default to a white background
             imagefill( $this->image, 1, 1, $bgColor );
 
             imagesetthickness( 
@@ -625,6 +623,13 @@ class ezcGraphGdDriver extends ezcGraphDriver
             // Supersampling active, resample image
             $image = $this->getImage();
             $sampled = imagecreatetruecolor( $this->options->width, $this->options->height );
+
+            // Default to a transparent white background
+            $bgColor = imagecolorallocatealpha( $sampled, 255, 255, 255, 127 );
+            imagealphablending( $sampled, true );
+            imagesavealpha( $sampled, true );
+            imagefill( $sampled, 1, 1, $bgColor );
+
             imagecopyresampled(
                 $sampled,
                 $image,
