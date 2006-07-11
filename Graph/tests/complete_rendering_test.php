@@ -39,7 +39,7 @@ class ezcGraphCompleteRenderingTest extends ezcImageTestCase
     public function setUp()
     {
         static $i = 0;
-        $this->tempDir = $this->createTempDir( 'ezcGraphGdDriverTest' . sprintf( '_%03d_', ++$i ) ) . '/';
+        $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
         $this->basePath = dirname( __FILE__ ) . '/data/';
     }
 
@@ -50,7 +50,7 @@ class ezcGraphCompleteRenderingTest extends ezcImageTestCase
      */
     public function tearDown()
     {
-        // $this->removeTempDir();
+        $this->removeTempDir();
     }
 
     public function testRenderLineChart()
@@ -67,10 +67,11 @@ class ezcGraphCompleteRenderingTest extends ezcImageTestCase
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertEquals(
-            '1d586728bba88ddd9a6c18d42449a948',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 
@@ -135,10 +136,11 @@ class ezcGraphCompleteRenderingTest extends ezcImageTestCase
             'No image was generated.'
         );
 
-        $this->assertEquals(
-            '1d586728bba88ddd9a6c18d42449a948',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 }
