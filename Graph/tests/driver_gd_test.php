@@ -60,7 +60,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
     public function tearDown()
     {
         unset( $this->driver );
-//        $this->removeTempDir();
+        $this->removeTempDir();
     }
 
     public function testDrawLine()
