@@ -50,7 +50,7 @@ class ezcGraphCompleteRenderingTest extends ezcImageTestCase
      */
     public function tearDown()
     {
-        $this->removeTempDir();
+    //    $this->removeTempDir();
     }
 
     public function testRenderLineChart()
@@ -117,24 +117,24 @@ class ezcGraphCompleteRenderingTest extends ezcImageTestCase
         $chart->render( 500, 200, $filename );
     }
 
-    public function testRenderWithTransparentBackground()
+    public function testRenderPieChart()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $chart = ezcGraph::create( 'line' );
-        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
-        $chart->palette = 'Black';
-        $chart->options->backgroundImage = $this->basePath . $this->testFiles['png'];
-        $chart->options->background = '#2E343655';
+        $chart = ezcGraph::create( 'Pie' );
+        $chart['sample'] = array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        );
+
+        $chart['sample']->highlight['Safari'] = true;
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
-
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
 
         $this->assertImageSimilar(
             $filename,

@@ -72,7 +72,7 @@ class ezcGraphPieChart extends ezcGraphChart
                 $dataset->color[$label],
                 $angle,
                 $angle += $value / $sum * 360,
-                $label,
+                sprintf( $this->options->label, $label, $value, $sum / $value * 100 ),
                 $dataset->highlight[$label]
             );
         }

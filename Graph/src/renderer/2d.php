@@ -202,20 +202,14 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                     );
 
                     $this->driver->drawCircle(
-                        new ezcGraphCoordinate(
-                            $label[0]->x - $symbolSize / 2,
-                            $label[0]->y - $symbolSize / 2
-                        ),
+                        $label[0],
                         $symbolSize,
                         $symbolSize,
                         $this->options->font->color,
                         true
                     );
                     $this->driver->drawCircle(
-                        new ezcGraphCoordinate(
-                            $labelPosition->x - $symbolSize / 2,
-                            $labelPosition->y - $symbolSize / 2
-                        ),
+                        $labelPosition,
                         $symbolSize,
                         $symbolSize,
                         $this->options->font->color,
