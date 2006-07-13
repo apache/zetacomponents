@@ -1,0 +1,7 @@
+{no_parameters()} 
+
+{req_parameter( "blaa" )}
+
+{opt_parameter( "blaa" )}
+
+{opt_parameter()}

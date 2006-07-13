@@ -1,7 +1,49 @@
 <?php
 
-class TestBlocks implements ezcTemplateCustomBlock
+class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
 {
+    public static function getCustomFunctionDefinition( $name )
+    {
+        switch( $name )
+        {
+            case "no_parameters": 
+                $def = new ezcTemplateCustomFunctionDefinition();
+                $def->class = __CLASS__;
+                $def->method = "noParameters";
+                $def->parameters = array();
+                return $def;
+
+            case "req_parameter": 
+                $def = new ezcTemplateCustomFunctionDefinition();
+                $def->class = __CLASS__;
+                $def->method = "requiredParameter";
+                $def->parameters = array( "required" );
+                return $def;
+
+            case "opt_parameter": 
+                $def = new ezcTemplateCustomFunctionDefinition();
+                $def->class = __CLASS__;
+                $def->method = "optionalParameter";
+                $def->parameters = array( "[optional]" );
+                return $def;
+        }
+    }
+
+    public static function noParameters()
+    {
+        return "NoParameter";
+    }
+
+    public static function requiredParameter( $req )
+    {
+		return print_r( $req, true );
+    }
+
+    public static function optionalParameter( $opt = "default" )
+    {
+		return print_r( $opt, true );
+    }
+  
     public static function getCustomBlockDefinition( $name )
     {
         switch( $name )

@@ -306,6 +306,12 @@ class ezcTemplate
         ezcTemplateCustomBlockManager::getInstance()->addClass( $customBlockClass );
     }
 
+    public function addCustomFunction( ezcTemplateCustomFunction $customFunctionClass )
+    {
+        ezcTemplateCustomFunctionManager::getInstance()->addClass( $customFunctionClass );
+    }
+
+
 
 //   /**
 //     * Locates the source template file named $source and returns an

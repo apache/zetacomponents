@@ -98,7 +98,9 @@ class ezcTemplateRegressionTest extends ezcTestCase
         {
             $template = new ezcTemplate();
             $template->addCustomBlock( new BrainFuck() );
+            $template->addCustomFunction( new BrainFuck() );
             $template->addCustomBlock( new TestBlocks() );
+            $template->addCustomFunction( new TestBlocks() );
 
             $dir = dirname( $directory );
             $base = basename( $directory );

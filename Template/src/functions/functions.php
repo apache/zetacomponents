@@ -191,6 +191,7 @@ class ezcTemplateFunctions
 
     public function getAstTree( $functionName, $parameters )
     {
+        // Try the built-in template functions.
         $this->errorMessage = "";
         $class = $this->getClass( $functionName );
 
@@ -198,6 +199,49 @@ class ezcTemplateFunctions
         {
             $f = call_user_func( array( $class, "getFunctionSubstitution"), $functionName, $parameters );
             if ( $f !== null ) return $this->createAstNodes( $functionName, $f, $parameters );
+        }
+
+        // Try the custom template functions.
+        $def = ezcTemplateCustomFunctionManager::getInstance()->getDefinition( $functionName );
+        if( $def !== false )
+        {
+            $givenParameters = sizeof( $parameters);
+            $requiredParameters = 0; 
+            $optionalParameters = 0; 
+            foreach( $def->parameters as $p )
+            {
+                if ( $p[0] == "[" )
+                {
+                    $optionalParameters++;
+                }
+                else
+                {
+                    $requiredParameters++;
+                }
+            }
+
+            if( $givenParameters < $requiredParameters )
+            {
+                // Works only when $requiredParameters are specified before the optionalParameters.
+                throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_PARAMETER, $functionName, $def->parameters[$givenParameters] ) );
+            }
+
+            if( $givenParameters > sizeof( $def->parameters ) )
+            {
+                throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_TOO_MANY_PARAMETERS, $functionName  ) );
+            }
+
+            $a = new ezcTemplateFunctionCallAstNode( $def->class . "::" . $def->method);
+
+            foreach( $parameters as $p )
+            {
+                $a->appendParameter( $p );
+            }
+
+            return $a;
+           // return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( $def->class . "::" . $def->method, array( $parameters ) ) );
+            //return array( "ezcTemplateFunctionCallAstNode", array( $name, array( "_array", $parameters ) ) );
+            
         }
 
         throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_FUNCTION, $functionName ) );

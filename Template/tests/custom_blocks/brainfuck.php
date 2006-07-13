@@ -14,7 +14,7 @@
  *   RB: The code is adapted, so that it works as CustomBlock.
 **/
 
-class BrainFuck implements ezcTemplateCustomBlock
+class BrainFuck implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
 {
     public static function getCustomBlockDefinition( $name )
     {
@@ -42,10 +42,27 @@ class BrainFuck implements ezcTemplateCustomBlock
                 $def->requiredParameters = array("code");
                 $def->optionalParameters = array("buffer_size");
                 return $def;
-
-
         }
     }
+
+    public static function getCustomFunctionDefinition( $name )
+    {
+        switch( $name )
+        {
+            case "brainfuck": 
+                $def = new ezcTemplateCustomFunctionDefinition();
+                $def->class = __CLASS__;
+                $def->method = "bfFunction";
+                $def->parameters = array( "code", "[buffer_size]" );
+                return $def;
+        }
+    }
+
+    public static function bfFunction( $code, $bufferSize = 1000 )
+    {
+        return eval( self::compile( $code, "",  $bufferSize ) );
+    }
+
 
     public static function emulate( $parameters, $code )
     {

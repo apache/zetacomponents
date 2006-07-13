@@ -1,0 +1,4 @@
+mock:1:2: Function call: 'no_parameters' has too many parameters.
+
+{no_parameters( "Hello" )}
+ ^

@@ -25,6 +25,7 @@ return array(
              "ezcTemplateCycle" => "Template/cycle.php",
 
              "ezcTemplateCustomBlockManager" => "Template/custom_block_manager.php",
+             "ezcTemplateCustomFunctionManager" => "Template/custom_function_manager.php",
 
              "ezcTemplateSourceCode" => "Template/source_code.php",
              "ezcTemplateCompiledCode" => "Template/compiled_code.php",
@@ -38,8 +39,10 @@ return array(
              "ezcTemplateOutputContext" => "Template/interfaces/output_context.php",
              "ezcTemplateResourceLocator" => "Template/interfaces/resource_locator.php",
              "ezcTemplateCustomBlock" => "Template/interfaces/custom_block.php",
+             "ezcTemplateCustomFunction" => "Template/interfaces/custom_function.php",
 
              "ezcTemplateCustomBlockDefinition" => "Template/structs/custom_block_definition.php",
+             "ezcTemplateCustomFunctionDefinition" => "Template/structs/custom_function_definition.php",
 
 ///////////////////////////////////////////////////////// SYNTAX TREES //////////////////////////////////////////////////////////////////
 
