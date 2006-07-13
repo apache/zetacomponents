@@ -1,0 +1,4 @@
+mock:1:24: Unexpected token: 1
+
+{nesting_opt_parameter 1}
+                       ^

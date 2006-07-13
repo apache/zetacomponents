@@ -84,7 +84,7 @@ class ezcTemplate
      * - ezcTemplateVariableCollection receive  : Contains the variables that are returned by the template.
      * - ezcTemplateConfiguration configuration : Contains the template configuration.
      * - string output                          : The output of the processed template.
-     * - string compiledTemplatePath            : The path of the comiled template.
+     * - string compiledTemplatePath            : The path of the compiled template.
      * - tstTree                                : The generated tstTree (debug).
      * - astTree                                : The generated astTree (debug).
      * 
@@ -300,6 +300,12 @@ class ezcTemplate
                                     false /*(bool)$this->compiledDebugEnabled*/ . ')' ),
                              10, 36 );
     }
+
+    public function addCustomBlock( ezcTemplateCustomBlock $customBlockClass )
+    {
+        ezcTemplateCustomBlockManager::getInstance()->addClass( $customBlockClass );
+    }
+
 
 //   /**
 //     * Locates the source template file named $source and returns an

@@ -20,7 +20,8 @@ class ezcTemplateLiteralArrayAstNode extends ezcTemplateAstNode
     /**
      * The constant value for the type.
      */
-    public $value;
+    public $value = array();
+    public $key = array();
 
     public function checkAndSetTypeHint()
     {

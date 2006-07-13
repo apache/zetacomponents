@@ -1,0 +1,7 @@
+{nesting_req_startexpression 1+2 }
+Ok
+{/nesting_req_startexpression}
+
+{nesting_req_startexpression }
+Wrong
+{/nesting_req_startexpression}

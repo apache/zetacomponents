@@ -1,0 +1,15 @@
+{inline_opt_parameter}
+
+{inline_opt_parameter optional="bla"}
+
+{inline_req_parameter required="haha"}
+
+{inline_req_opt_parameter required="haha"}
+
+{inline_req_opt_parameter required="haha" optional="bla"}
+
+{inline_req_startexpression "Bla"}
+
+{inline_opt_startexpression "Bla"}
+
+{inline_opt_startexpression}

@@ -1,0 +1,4 @@
+mock:4:43: The custom block parameter <optional> is already assigned.
+
+{nesting_opt_parameter optional=1 optional=2}
+                                          ^

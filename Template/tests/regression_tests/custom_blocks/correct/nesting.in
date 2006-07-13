@@ -1,0 +1,32 @@
+{nesting_opt_parameter}
+Hi
+{/nesting_opt_parameter}
+
+{nesting_opt_parameter optional="bla"}
+Hi
+{/nesting_opt_parameter}
+
+{nesting_req_parameter required="haha"}
+NOOOOOoooooo
+{/nesting_req_parameter}
+
+{nesting_req_opt_parameter required="haha"}
+NOOOOOoooooo
+{/nesting_req_parameter}
+
+{nesting_req_opt_parameter required="haha" optional="bla"}
+NOOOOOoooooo
+{/nesting_req_parameter}
+
+{nesting_req_startexpression "Bla"}
+NOOOOOoooooo
+{/nesting_req_parameter}
+
+{nesting_opt_startexpression "Bla"}
+NOOOOOoooooo
+{/nesting_req_parameter}
+
+{nesting_opt_startexpression}
+NOOOOOoooooo
+{/nesting_req_parameter}
+

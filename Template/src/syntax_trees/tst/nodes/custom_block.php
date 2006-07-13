@@ -25,6 +25,10 @@ class ezcTemplateCustomBlockTstNode extends ezcTemplateBlockTstNode
      */
     public $customParameters;
 
+    public $definition;
+
+    public $namedParameters = array();
+
     /**
      */
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )

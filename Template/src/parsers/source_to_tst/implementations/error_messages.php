@@ -51,7 +51,6 @@ class ezcTemplateSourceToTstErrorMessages
 
     const MSG_EXPECT_ROUND_BRACKET_CLOSE_OR_COMMA  = "Expecting a closing parentheses: ')' or a comma ','";
 
-
     // Unexpected brackets
     const MSG_UNEXPECTED_SQUARE_BRACKET_OPEN    = "Unexpected opening square bracket '['. Array fetch needs a variable. ( \$variable [ 0 ] )";
     const MSG_UNEXPECTED_ARRAY_APPEND           = "Unexpected array append '[]'. Did you forget an expresssion between the brackets?";
@@ -80,6 +79,13 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_TOO_MANY_PARAMETERS               = "Function call: '%s' has too many parameters.";
 
     const MSG_OBJECT_FUNCTION_CALL_NOT_ALLOWED  = "Calling a method from an imported object is not allowed.";
+
+    const MSG_MISSING_CUSTOM_BLOCK_PARAMETER     = "Missing the required custom block parameter <%s>."; 
+    const MSG_UNKNOWN_CUSTOM_BLOCK_PARAMETER     = "Unknown custom block parameter <%s>."; 
+    const MSG_REASSIGNMENT_CUSTOM_BLOCK_PARAMETER = "The custom block parameter <%s> is already assigned."; 
+
+    // Custom block specific error messages
+    const MSG_EXPECT_REQUIRED_OR_OPTIONAL_PARAMETER_DEFINITION_IN_CUSTOM_BLOCK = "The custom block definition specifies the startExpressionName <%s> but this name could not be found in either the optionalParameters or the requiredParameters array.";
 
     // Inconsistencies with eZ publish 3.
     const LNG_INVALID_NAMESPACE_MARKER          = "The namespace marker (:) was used in template engine in eZ publish 3.x but is no longer allowed.";

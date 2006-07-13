@@ -24,6 +24,8 @@ return array(
              "ezcTemplateSymbolTable" => "Template/symbol_table.php",
              "ezcTemplateCycle" => "Template/cycle.php",
 
+             "ezcTemplateCustomBlockManager" => "Template/custom_block_manager.php",
+
              "ezcTemplateSourceCode" => "Template/source_code.php",
              "ezcTemplateCompiledCode" => "Template/compiled_code.php",
              "ezcTemplateValidationItem" => "Template/validation_item.php",
@@ -35,7 +37,9 @@ return array(
              "ezcTemplateAutoloader" => "Template/interfaces/autoloader.php",
              "ezcTemplateOutputContext" => "Template/interfaces/output_context.php",
              "ezcTemplateResourceLocator" => "Template/interfaces/resource_locator.php",
+             "ezcTemplateCustomBlock" => "Template/interfaces/custom_block.php",
 
+             "ezcTemplateCustomBlockDefinition" => "Template/structs/custom_block_definition.php",
 
 ///////////////////////////////////////////////////////// SYNTAX TREES //////////////////////////////////////////////////////////////////
 
@@ -270,6 +274,7 @@ return array(
 
 // Parsers / tst_to_ast implementations
              "ezcTemplateTstToAstTransformer" => "Template/parsers/tst_to_ast/implementations/tst_to_ast_transformer.php",
+             "ezcTemplateOutputVariableManager" => "Template/parsers/tst_to_ast/implementations/output_variable_manager.php",
 
 // Parsers / ast_to_ast implementations
              "ezcTemplateAstWalker"               => "Template/parsers/ast_to_ast/implementations/ast_walker.php",

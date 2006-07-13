@@ -1,0 +1,5 @@
+{nesting_opt_parameter optional=1 + 2 * 3}
+{/nesting_opt_parameter}
+
+{nesting_opt_parameter optional=1 optional=2}
+{/nesting_opt_parameter}

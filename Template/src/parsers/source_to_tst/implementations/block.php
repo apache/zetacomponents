@@ -134,19 +134,17 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
             return true;
         }
 
-
-/*
         // Try to parse custom blocks, these are pluggable and follows a generic syntax.
         $customBlockParser = new ezcTemplateCustomBlockSourceToTstParser( $this->parser, $this, null );
         $customBlockParser->block = $this->block;
-        if ( $this->parseOptionalType( $customBlockParser, null, false ) )
+        if ( $this->parseOptionalType( $customBlockParser, null ) )
         {
-            if ( $this->lastParser->status == self::PARSE_PARTIAL_SUCCESS )
-                return false;
+            return true;
+            /*
             $this->elements[] = $this->lastParser->block;
             return true;
+             */
         }
-        */
 
         $matches = $cursor->pregMatchComplete( "#^([a-zA-Z_][a-zA-Z0-9_-]*)(?:[^a-zA-Z])#i" );
         throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_BLOCK, $matches[1][0] ) );

@@ -12,6 +12,8 @@
  * @package Template
  * @subpackage Tests
  */
+include_once ("custom_blocks/testblocks.php");
+include_once ("custom_blocks/brainfuck.php");
 class ezcTemplateRegressionTest extends ezcTestCase
 {
     public $requestRegeneration = true;
@@ -95,6 +97,8 @@ class ezcTemplateRegressionTest extends ezcTestCase
         foreach( $directories as $directory )
         {
             $template = new ezcTemplate();
+            $template->addCustomBlock( new BrainFuck() );
+            $template->addCustomBlock( new TestBlocks() );
 
             $dir = dirname( $directory );
             $base = basename( $directory );

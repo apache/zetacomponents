@@ -1,6 +1,21 @@
 TODO
 ====
 
+Custom functions
+----------------
+
+{ myCustomFunction( 2 + 3, "Hello" ) }
+
+Should be able to parse.
+
+
+Caching
+-------
+
+
+
+
+
 Rename variable names to prevent interference
 ---------------------------------------------
 
@@ -13,7 +28,6 @@ Renaming the (critical) variables used in the template can be a solution.
 solution is that a variable can be used in a literal string: 
 {"My name is $name"}. Therefore the literals should be scanned for variable names, and
 translated accordingly.
-
 
 
 Version number
@@ -35,18 +49,6 @@ are used in that case.
 
 Maybe it is possible to reduce this amount of parameters. Having some kind of history of the previous
 nodes will help.
-
-
-
-Fix error messages
-------------------
-
-The type of exception thrown for an error message is not consistant. 
-Usually it's ezcTemplateSourceToTstParserException, sometimes ezcTemplateParserException,
-and rarely Exception.
-
-The error message strings are defined in the class ezcTemplateSourceToTstErrorMessages. This class
-should have a more general name, like: ezcTemplateErrorMessages.
 
 
 

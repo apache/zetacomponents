@@ -1,0 +1,4 @@
+mock:1:24: Missing the required custom block parameter <required>.
+
+{nesting_req_parameter}
+                       ^

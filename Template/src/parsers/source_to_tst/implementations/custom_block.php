@@ -18,36 +18,6 @@
 class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstParser
 {
     /**
-     * Name of block does not use same case as registered name of block.
-     */
-    const STATE_WRONG_CASE = 1;
-
-    /**
-     * Block is not a registered block type.
-     */
-    const STATE_UNKNOWN_BLOCK_NAME = 2;
-
-    /**
-     * Invalid parameter for custom block.
-     */
-    const STATE_INVALID_PARAMETER = 3;
-
-    /**
-     * Wrong assignment marker used for parameter.
-     */
-    const STATE_WRONG_ASSIGNMENT = 4;
-
-    /**
-     * Wrong expression for parameter.
-     */
-    const STATE_WRONG_EXPRESSION = 5;
-
-    /**
-     * The parameter has already been set for the block.
-     */
-    const STATE_PARAMETER_ALREADY_PRESENT = 6;
-
-    /**
      * Passes control to parent.
     */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
@@ -57,46 +27,138 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
     }
 
     /**
-     * Returns true if the current character is a curly bracket (}) which means
-     * the end of the block.
-     */
-    public function atEnd( ezcTemplateCursor $cursor, /*ezcTemplateTstNode*/ $operator, $finalize = true )
-    {
-        // Check for end of block
-        if ( $cursor->current() == '}' )
-        {
-            return true;
-        }
-        // Check for parameter assignment
-        if ( $cursor->pregMatchComplete( "#^[$]?[a-zA-Z_][a-zA-Z0-9_]*[ \t\r\n]*=[^=]#" ) )
-        {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Parses the expression by using the ezcTemplateExpressionSourceToTstParser class.
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
-        if ( $this->parser->debug )
-            echo "Starting custom block\n";
+        if ( $this->block->isClosingBlock )
+        {
+            $this->findNextElement();
 
+            $matches = $cursor->pregMatchComplete( "#^([a-zA-Z_][a-zA-Z0-9_-]*)(?:[^a-zA-Z])#i" );
+            if ( $matches === false )
+                return false;
+
+            $name = $matches[1][0];
+            $cursor->advance( strlen( $name ) );
+            $this->findNextElement( $cursor );
+
+            if( !$cursor->match( "}" ) )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACE_CLOSE );
+            }
+
+            $cb = $this->parser->createCustomBlock( $this->startCursor, $cursor );
+            $cb->isClosingBlock = true;
+
+            $this->appendElement( $cb );
+
+            return true;
+        }
+ 
         // Check for the name of the custom block
         // Note: The code inside the ( ?: ) brace ensures that the next character
         // is not an alphabetical character ie. a word boundary
         $matches = $cursor->pregMatchComplete( "#^([a-zA-Z_][a-zA-Z0-9_-]*)(?:[^a-zA-Z])#i" );
-
         if ( $matches === false )
+        {
             return false;
-
-        $this->status = self::PARSE_PARTIAL_SUCCESS;
+        }
+       
         $name = $matches[1][0];
-        $lower = strtolower( $name );
+
+        $cursor->advance( strlen( $name ) );
+        $this->findNextElement( $cursor );
+
+        $def = ezcTemplateCustomBlockManager::getInstance()->getDefinition( $name );
+        if( $def === false )
+        {
+            return false;
+        }
+
+        $cb = $this->parser->createCustomBlock( $this->startCursor, $cursor );
+        $cb->definition = $def;
+        $this->block->isNestingBlock = $def->isNestingBlock;// $requireNesting;
+        $cb->isNestingBlock = $def->isNestingBlock;
+
+        if( isset( $def->startExpressionName ) && $def->startExpressionName != "" )
+        {
+            if( !in_array( $def->startExpressionName, $def->optionalParameters ) && !in_array( $def->startExpressionName, $def->requiredParameters ) )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
+                    sprintf( ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_REQUIRED_OR_OPTIONAL_PARAMETER_DEFINITION_IN_CUSTOM_BLOCK, $def->startExpressionName ) );
+            }
+
+            if ( !$this->parseOptionalType( 'Expression', null, false ) )
+            {
+                if( in_array( $def->startExpressionName, $def->requiredParameters ) )
+                {
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
+                }
+            }
+            else
+            {
+                $cb->namedParameters[ $def->startExpressionName ] = $this->lastParser->rootOperator;
+                $this->findNextElement( $cursor );
+            }
+        }
+
+        while( !$cursor->match( "}" ) )
+        {
+            $match = $cursor->pregMatch( "#^[a-zA-Z_][a-zA-Z0-9_-]*#");
+            if( !$match )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
+                   sprintf(  ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_TOKEN, $cursor->current( 1 ) ) );
+ 
+            }
+
+            if( !in_array( $match, $def->optionalParameters ) && !in_array( $match, $def->requiredParameters ) )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
+                    sprintf(  ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_CUSTOM_BLOCK_PARAMETER, $match) );
+            }
+
+            if ( array_key_exists( $match, $cb->namedParameters )  )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
+                    sprintf( ezcTemplateSourceToTstErrorMessages::MSG_REASSIGNMENT_CUSTOM_BLOCK_PARAMETER, $match ) );
+            }
+
+            $this->findNextElement( $cursor );
+            // The '=' is optional.
+            if( $cursor->match( "=" ) )
+            {
+                $this->findNextElement( $cursor );
+            }
+
+            // The parameter has an expression.
+            if ( !$this->parseOptionalType( 'Expression', null, false ) )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
+            }
+     
+            // Append the parameter to the "namedParameters" array.
+            $cb->namedParameters[ $match ] = $this->lastParser->rootOperator;
+        }
+
+        // Check if all requiredParameters are set.
+        foreach( $def->requiredParameters as  $val )
+        {
+            if( !array_key_exists( $val, $cb->namedParameters) )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
+                    sprintf(  ezcTemplateSourceToTstErrorMessages::MSG_MISSING_CUSTOM_BLOCK_PARAMETER, $val ) );
+            }
+        }
+
+        $this->appendElement( $cb );
+
+        return true;
+/// TODO: 
 
         // @todo Make sure registered blocks are fetched from main manager.
-        $blocks = $this->getRegisteredBlocks();
+        //$blocks = $this->getRegisteredBlocks();
 
         // Check if the block is registered
         if ( !isset( $blocks[$name] ) )
@@ -200,22 +262,22 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
         return false;
     }
 
-    /**
-     * @todo Make sure registered blocks are fetched from main manager.
-     */
-    protected function getRegisteredBlocks()
-    {
-        return array( 'section' => array( true ),
-//                      'section-else' => array( true ),
-                      'include' => array( false ),
-                      'let' => array( true ),
-                      'set' => array( false ),
-                      'tool_bar' => array( false ),
-                      'include' => array( false ),
-                      'ldelim' => array( false ),
-                      'rdelim' => array( false ) );
-    }
+    
+    /*
+    const STATE_WRONG_CASE = 1;
 
+    const STATE_UNKNOWN_BLOCK_NAME = 2;
+
+    const STATE_INVALID_PARAMETER = 3;
+
+    const STATE_WRONG_ASSIGNMENT = 4;
+
+    const STATE_WRONG_EXPRESSION = 5;
+
+    const STATE_PARAMETER_ALREADY_PRESENT = 6;
+     */
+
+    /*
     protected function generateErrorMessage()
     {
         switch ( $this->operationState )
@@ -254,6 +316,7 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
         // Default error details handler.
         return parent::generateErrorDetails();
     }
+     */
 }
 
 ?>
