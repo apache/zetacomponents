@@ -101,7 +101,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->expects( $this->at( 3 ) )
             ->method( 'drawCircle' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 202., 157. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 205., 160. ), 1. ),
                 $this->equalTo( 6 ),
                 $this->equalTo( 6 ),
                 $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
@@ -111,7 +111,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->expects( $this->at( 4 ) )
             ->method( 'drawCircle' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 289.5, 147. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 292.5, 150. ), 1. ),
                 $this->equalTo( 6 ),
                 $this->equalTo( 6 ),
                 $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
