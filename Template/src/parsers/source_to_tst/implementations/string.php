@@ -40,11 +40,10 @@ class ezcTemplateStringSourceToTstParser extends ezcTemplateLiteralSourceToTstPa
             if ( $char == '"' ||
                  $char == "'" )
             {
-                $string = $this->parser->createLiteral( $this->startCursor, $cursor );
+                $string = new ezcTemplateLiteralTstNode( $this->parser->source, $this->startCursor, $cursor );
                 $string->quoteType = ( $char == "'" ? ezcTemplateLiteralTstNode::SINGLE_QUOTE : ezcTemplateLiteralTstNode::DOUBLE_QUOTE );
 
                 $cursor->advance();
-                $this->status = self::PARSE_PARTIAL_SUCCESS;
 
                 $nextChar = $cursor->current();
                 if ( $nextChar === $char )

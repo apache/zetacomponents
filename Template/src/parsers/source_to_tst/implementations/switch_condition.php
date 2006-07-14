@@ -35,9 +35,6 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
         // handle closing block
         if ( $this->block->isClosingBlock )
         {
-            if ( $this->parser->debug )
-                echo "Starting end of \"switch or case\"\n";
-
             // skip whitespace and comments
             $this->findNextElement();
             
@@ -48,14 +45,14 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
 
             if ( $name == 'switch' )
             {
-                $sw = $this->parser->createSwitch( $this->startCursor, $cursor );
+                $sw = new ezcTemplateSwitchTstNode( $this->parser->source, $this->startCursor, $cursor );
             }
             else
             {
                 // Tricky: Skip the spaces and new lines. Next element should be an case, or default.
                 $this->findNextElement();
 
-                $sw = $this->parser->createCase( $this->startCursor, $cursor );
+                $sw = new ezcTemplateCaseTstNode( $this->parser->source, $this->startCursor, $cursor );
             }
             // $el->name = 'switch';
             $sw->isClosingBlock = true;
@@ -81,7 +78,7 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
             // Tricky: Skip the spaces and new lines. Next element should be an case, or default.
             $this->findNextElement();
 
-            $sw = $this->parser->createSwitch( $this->startCursor, $cursor );
+            $sw = new ezcTemplateSwitchTstNode( $this->parser->source, $this->startCursor, $cursor );
 
             $sw->condition = $this->lastParser->rootOperator;
             $this->appendElement( $sw );
@@ -90,7 +87,7 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
         }
         elseif( $name == 'case' )
         {
-            $case = $this->parser->createCase( $this->startCursor, $cursor );
+            $case = new ezcTemplateCaseTstNode( $this->parser->source, $this->startCursor, $cursor );
 
             do
             {
@@ -123,7 +120,7 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
         }
         elseif( $name == 'default' )
         {
-            $case = $this->parser->createCase( $this->startCursor, $cursor );
+            $case = new ezcTemplateCaseTstNode( $this->parser->source, $this->startCursor, $cursor );
             $case->conditions = null;
             $this->findNextElement();
 

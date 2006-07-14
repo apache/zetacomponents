@@ -24,10 +24,6 @@
 class ezcTemplateLiteralSourceToTstParser extends ezcTemplateSourceToTstParser
 {
     /**
-     * No known type found.
-     */
-    const STATE_NO_KNOWN_TYPE = 1;
-    /**
      * The value of the parsed type or null if nothing was parsed.
      * @var mixed
      */

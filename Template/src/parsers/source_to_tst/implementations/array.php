@@ -82,7 +82,7 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
             if ( $cursor->current() == ')' )
             {
                 $cursor->advance();
-                $array = $this->parser->createLiteralArray( $this->startCursor, $cursor );
+                $array = new ezcTemplateLiteralArrayTstNode( $this->parser->source, $this->startCursor, $cursor );
                 $array->keys = $currentKeys;
                 $array->value = $currentArray;
 

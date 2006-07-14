@@ -16,29 +16,12 @@
  */
 class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTstParser
 {
-    /**
-     * No known type found.
-     */
-    /**
-     * The value of the parsed type or null if nothing was parsed.
-     * @var mixed
-     */
-    public $value;
-
-    /**
-     * The parsed element object which defines the type or null if nothing
-     * was parsed.
-     */
-    public $element;
-
-    /**
+   /**
      * Passes control to parent.
      */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
         parent::__construct( $parser, $parentParser, $startCursor );
-        $this->value = null;
-        $this->element = null;
     }
 
     /**
@@ -67,7 +50,6 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
             {
                 if ( $this->currentCursor->match( "}" ) )
                 {
-                    $this->status = self::PARSE_SUCCESS;
                     return true;
                 }
                 elseif( $this->currentCursor->match( ":", false ) )
@@ -104,7 +86,7 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
         {
             $this->findNextElement();
 
-            $declaration = $this->parser->createDeclaration( $this->startCursor, $this->currentCursor );
+            $declaration = new ezcTemplateDeclarationTstNode( $this->parser->source, $this->startCursor, $this->currentCursor );
             $declaration->isClosingBlock = false;
             $declaration->isNestingBlock = false;
 

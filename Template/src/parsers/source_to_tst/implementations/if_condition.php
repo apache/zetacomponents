@@ -36,14 +36,9 @@ class ezcTemplateIfConditionSourceToTstParser extends ezcTemplateSourceToTstPars
     {
         $name = $this->block->name;
 
-        $this->status = self::PARSE_PARTIAL_SUCCESS;
-
         // handle closing block
         if ( $this->block->isClosingBlock )
         {
-            if ( $this->parser->debug )
-                echo "Starting end of \"if\"\n";
-
             // skip whitespace and comments
             $this->findNextElement();
             
@@ -52,7 +47,7 @@ class ezcTemplateIfConditionSourceToTstParser extends ezcTemplateSourceToTstPars
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
             }
 
-            $el = $this->parser->createIfCondition( $this->startCursor, $cursor );
+            $el = new ezcTemplateIfConditionTstNode( $this->parser->source, $this->startCursor, $cursor );
             $el->name = 'if';
             $el->isClosingBlock = true;
             $this->appendElement( $el );
@@ -79,12 +74,12 @@ class ezcTemplateIfConditionSourceToTstParser extends ezcTemplateSourceToTstPars
             throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
         }
 
-        $cb = $this->parser->createConditionBody( $this->startCursor, $cursor );
+        $cb = new ezcTemplateConditionBodyTstNode( $this->parser->source, $this->startCursor, $cursor );
         $cb->condition = $condition;
 
         if ( $name == 'if' )
         {
-            $el = $this->parser->createIfCondition( $this->startCursor, $cursor );
+            $el = new ezcTemplateIfConditionTstNode( $this->parser->source, $this->startCursor, $cursor );
             $el->children[] = $cb;
             $el->name = 'if';
             $this->appendElement( $el );

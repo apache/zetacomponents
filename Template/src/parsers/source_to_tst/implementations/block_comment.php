@@ -20,12 +20,7 @@
  */
 class ezcTemplateBlockCommentSourceToTstParser extends ezcTemplateSourceToTstParser
 {
-    /**
-     * No ending for block comment.
-     */
-    const STATE_NO_ENDING = 1;
-
-    /**
+   /**
      * Passes control to parent.
      */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
@@ -38,8 +33,6 @@ class ezcTemplateBlockCommentSourceToTstParser extends ezcTemplateSourceToTstPar
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
-        $this->status = self::PARSE_PARTIAL_SUCCESS;
-        $this->operationState = self::STATE_NO_ENDING;
         if ( !$cursor->atEnd() )
         {
             $cursor->advance( 2 );
@@ -49,36 +42,14 @@ class ezcTemplateBlockCommentSourceToTstParser extends ezcTemplateSourceToTstPar
             {
                 // reached end of comment
                 $cursor->gotoPosition( $tagPos + 2 );
-                $commentBlock = $this->parser->createBlockComment( $this->startCursor, clone $cursor );
+                $commentBlock = new ezcTemplateBlockCommentTstNode( $this->parser->source, $this->startCursor, clone $cursor );
+
                 $commentBlock->commentText = substr( $commentBlock->text(), 2, -2 );
                 $this->appendElement( $commentBlock );
                 return true;
             }
-
         }
         return false;
-    }
-
-    protected function generateErrorMessage()
-    {
-        switch ( $this->operationState )
-        {
-            case self::STATE_NO_ENDING:
-                return "Missing end of block comment, expected */ but none was found in code.";
-        }
-        // Default error message handler.
-        return parent::generateErrorMessage();
-    }
-
-    protected function generateErrorDetails()
-    {
-        switch ( $this->operationState )
-        {
-            case self::STATE_NO_ENDING:
-                return "Accepted syntax is: /*...*/";
-        }
-        // Default error details handler.
-        return parent::generateErrorDetails();
     }
 }
 

@@ -44,8 +44,6 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
-        $failedParser = null;
-
         // Check for doc comments which look like {*...*}
         if ( !$cursor->atEnd() &&
              $cursor->current() == '*' )
@@ -56,7 +54,7 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
 
 
         // $cursor object in $block will be updated as the parser continues
-        $this->block = $this->parser->createBlock( $this->startCursor, $cursor );
+        $this->block = new ezcTemplateBlockTstNode( $this->parser->source, $this->startCursor, $cursor );
         $this->findNextElement();
 
         // Test for and ending control structure.
@@ -77,19 +75,24 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
         if ( $this->parseOptionalType( $controlStructureParser, null, false ) )
         {
             if ( $this->lastParser->status == self::PARSE_PARTIAL_SUCCESS )
+            {
                 return false;
+            }
+
             $this->mergeElements( $this->lastParser );
             return true;
         }
 
         // Try to parse a literal block
         if ( $this->parseOptionalType( 'LiteralBlock', $this->startCursor ) )
-            return $this->lastParser->status == self::PARSE_SUCCESS;
+        {
+            return true;
+        }
 
         // Try to parse a declaration block
         if ( $this->parseOptionalType( 'DeclarationBlock', $this->startCursor ) )
         {
-            return $this->lastParser->status == self::PARSE_SUCCESS;
+            return true;
         }
 
         // Try to parse as an expression, if this fails the normal block parser
@@ -106,7 +109,7 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
             }
 
-            return $this->lastParser->status == self::PARSE_SUCCESS;
+            return true;
         }
 
         if ( $cursor->match( '}' ) )
@@ -128,7 +131,7 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
             }
 
-            $text = $this->parser->createText( $this->startCursor, $this->endCursor );
+            $text = new ezcTemplateTextBlockTstNode( $this->parser->source, $this->startCursor, $this->endCursor );
             $text->text = $ldelim ? "{" : "}";
             $this->appendElement( $text );
             return true;
@@ -140,22 +143,10 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
         if ( $this->parseOptionalType( $customBlockParser, null ) )
         {
             return true;
-            /*
-            $this->elements[] = $this->lastParser->block;
-            return true;
-             */
         }
 
         $matches = $cursor->pregMatchComplete( "#^([a-zA-Z_][a-zA-Z0-9_-]*)(?:[^a-zA-Z])#i" );
         throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_BLOCK, $matches[1][0] ) );
-    }
-
-    protected function generateErrorMessage()
-    {
-        if ( $this->operationState == self::STATE_UNKNOWN_BLOCK )
-            return "The parsed block code is not recognized as a valid block.";
-        // Default error message handler.
-        return parent::generateErrorMessage();
     }
 }
 

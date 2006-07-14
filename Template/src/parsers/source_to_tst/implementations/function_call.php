@@ -24,30 +24,6 @@
  */
 class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstParser
 {
-    /**
-     * No starting brace for function call.
-     */
-//    const STATE_NO_STARTING_BRACE = 1;
-//
-//    /**
-//     * No ending brace for function call.
-//     */
-//    const STATE_NO_ENDING_BRACE = 2;
-//
-//    /**
-//     * A comma is required between parameters, it is missing.
-//     */
-//    const STATE_MISSING_COMMA = 3;
-//
-//    /**
-//     * No expresssion was found for parameter.
-//     */
-//    const STATE_NO_EXPRESSION = 4;
-
-
-    const MSG_PARAMETER_EXPECTS_EXPRESSION = "Parameter %s expects a value.";
-    const MSG_FUNCTION_EXPECTS_END_BRACE = "Missing ending brace for the function call.";
-    const MSG_FUNCTION_EXPECTS_END_BRACE_OR_COMMA = "Missing ending brace or comma for the function call.";
 
     /**
      * The function call object if the parser was succesful.
@@ -91,8 +67,7 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
             return true;
             */
         }
-        else if ( $this->readingParameter &&
-                  $cursor->current() == ',' )
+        else if ( $this->readingParameter && $cursor->current() == ',' )
         {
             return true;
         }
@@ -114,15 +89,19 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
         $failedParser = null;
 
         // $cursor will be update as the parser continues
-        $this->functionCall = $this->parser->createFunctionCall( $this->startCursor, $cursor );
+        $this->functionCall = new ezcTemplateFunctionCallTstNode( $this->parser->source, $this->startCursor, $cursor );
 
         // skip whitespace and comments
         if ( !$this->findNextElement() )
+        {
             return false;
+        }
 
         $this->functionCall->name = $cursor->pregMatch( "#^[a-zA-Z_][a-zA-Z0-9_]*#" );
         if ( $this->functionCall->name === false )
+        {
             return false;
+        }
 
         $this->findNextElement();
 
@@ -131,11 +110,8 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
             return false;
         }
 
-        $this->status = self::PARSE_PARTIAL_SUCCESS;
-
         $this->findNextElement();
 
-        // $i = 0;
         $this->parameterCount = 1;
 
         if ( !$this->parseParameter( $cursor ) )
@@ -175,7 +151,7 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
 
             if ( !$this->parseParameter( $cursor ) )
             {
-                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor,  sprintf( ezcTEmplateSourceToTstErrorMessages::MSG_PARAMETER_EXPECTS_EXPRESSION, $this->parameterCount ) );
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor,  sprintf( ezcTemplateSourceToTstErrorMessages::MSG_PARAMETER_EXPECTS_EXPRESSION, $this->parameterCount ) );
             }
 
         }
@@ -204,16 +180,6 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
         if ( $rootOperator instanceof ezcTemplateOperatorTstNode )
         {
             $rootOperator = $rootOperator->getRoot();
-
-            if ( $this->parser->debug )
-            {
-                // *** DEBUG START ***
-                echo "\n\n\n parameter expression yielded:\n";
-                echo "<", $expressionStartCursor->subString( $cursor->position ), ">\n";
-                echo ezcTemplateTstTreeOutput::output( $rootOperator );
-                echo "\n\n\n";
-                // *** DEBUG END ***
-            }
         }
 
         $this->functionCall->appendParameter( $rootOperator );

@@ -45,15 +45,10 @@ class ezcTemplateArrayFetchSourceToTstParser extends ezcTemplateSourceToTstParse
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
-        // This parser is created when a square bracket has been found so we
-        // mark that we have already parsed something.
-        $this->status = self::PARSE_PARTIAL_SUCCESS;
-
-        $failedParser = null;
+        // This parser is created when a square bracket has been found.
 
         // $cursor will be update as the parser continues
-        $this->fetch = $this->parser->createArrayFetch( clone $this->startCursor, $cursor );
-
+        $this->fetch = new ezcTemplateArrayFetchOperatorTstNode( $this->parser->source, clone $this->startCursor, $cursor );
         $this->findNextElement();
 
         $expressionParser = new ezcTemplateExpressionSourceToTstParser( $this->parser, $this, null );

@@ -32,7 +32,7 @@ class ezcTemplateCycleSourceToTstParser extends ezcTemplateSourceToTstParser
     {
         if ( $this->block->name == "increment" || $this->block->name == "decrement" || $this->block->name == "reset" )
         {
-            $cycle = $this->parser->createCycleControl( $this->startCursor, $cursor, $this->block->name );
+            $cycle = new ezcTemplateCycleControlTstNode( $this->parser->source, $this->startCursor, $cursor, $this->block->name );
 
             do
             {

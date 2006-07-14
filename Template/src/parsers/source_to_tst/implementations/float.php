@@ -37,7 +37,7 @@ class ezcTemplateFloatSourceToTstParser extends ezcTemplateLiteralSourceToTstPar
             $matches = $cursor->pregMatch( "#^(?:[0-9]+(([eE][+-]?[0-9]+)|((\\.[0-9]+)([eE][+-]?[0-9]+)?)))#" );
             if ( $matches !== false )
             {
-                $float = $this->parser->createLiteral( $this->startCursor, $cursor );
+                $float = new ezcTemplateLiteralTstNode( $this->parser->source, $this->startCursor, $cursor );
                 $float->value = (float)$matches;
                 $this->value = $float->value;
                 $this->element = $float;

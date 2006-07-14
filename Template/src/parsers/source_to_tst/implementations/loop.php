@@ -31,9 +31,11 @@ class ezcTemplateLoopSourceToTstParser extends ezcTemplateSourceToTstParser
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
-        $element = $this->parser->createLoop( $this->startCursor, $cursor, $this->block->name );
+        $element = new ezcTemplateLoopTstNode( $this->parser->source, $this->startCursor, $cursor, $this->block->name );
         if ( $this->block->isClosingBlock )
+        {
             $element->isClosingBlock = true;
+        }
 
         $this->findNextElement();
 

@@ -21,11 +21,6 @@
 class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTstParser
 {
     /**
-     * Control structures must use lowercase characters only.
-     */
-    const STATE_NON_LOWERCASE = 1;
-
-    /**
      * Passes control to parent.
     */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
@@ -65,21 +60,14 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
         // Check if any control structure names are used.
         // Note: The code inside the (?:) brace ensures that the next character
         // is not an alphabetical character ie. a word boundary
-        $matches = $cursor->pregMatchComplete( "#^(foreach|while|if|elseif|else|switch|case|default|include|return|embed|break|continue|skip|delimiter|increment|decrement|reset|once|def|undef|set)(?:[^a-zA-Z])#i" );
+        $matches = $cursor->pregMatchComplete( "#^(foreach|while|if|elseif|else|switch|case|default|include|return|break|continue|skip|delimiter|increment|decrement|reset|once)(?:[^a-zA-Z])#" );
 
         if ( $matches === false )
-            return false;
-
-        $this->status = self::PARSE_PARTIAL_SUCCESS;
-        $name = $matches[1][0];
-        $lower = strtolower( $name );
-        if ( $name !== $lower )
         {
-            $this->findNonLowercase();
-            $this->operationState = self::STATE_NON_LOWERCASE;
             return false;
         }
 
+        $name = $matches[1][0];
         $cursor->advance( strlen( $matches[1][0] ) );
 
         // control structure map
@@ -109,7 +97,6 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
         // tmp
         if ( !isset( $csMap[$name] ) )
         {
-            $this->status = self::PARSE_FAILURE;
             return false;
         }
 
@@ -118,7 +105,6 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
         // tmp
         if ( !class_exists( $parser ) )
         {
-            $this->status = self::PARSE_FAILURE;
             return false;
         }
 
@@ -137,28 +123,6 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
             return false;
         }
         return true;
-    }
-
-    protected function generateErrorMessage()
-    {
-        switch ( $this->operationState )
-        {
-            case self::STATE_NON_LOWERCASE:
-                return "Control structures must use lowercase characters only.";
-        }
-        // Default error message handler.
-        return parent::generateErrorMessage();
-    }
-
-    protected function generateErrorDetails()
-    {
-        switch ( $this->operationState )
-        {
-            case self::STATE_NON_LOWERCASE:
-                return "Available control structures are: foreach, for, while, if, elseif, else, switch, case, include, embed, break, continue, skip, delimiter, once, def";
-        }
-        // Default error details handler.
-        return parent::generateErrorDetails();
     }
 }
 

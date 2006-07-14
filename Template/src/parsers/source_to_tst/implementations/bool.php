@@ -20,11 +20,6 @@
 class ezcTemplateBoolSourceToTstParser extends ezcTemplateLiteralSourceToTstParser
 {
     /**
-     * Boolean type must use lowercase characters only.
-     */
-    const STATE_NON_LOWERCASE = 1;
-
-    /**
      * Passes control to parent.
      */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
@@ -46,7 +41,6 @@ class ezcTemplateBoolSourceToTstParser extends ezcTemplateLiteralSourceToTstPars
                 return false;
 
             $name = $matches[1][0];
-            $this->status = self::PARSE_PARTIAL_SUCCESS;
 
             $lower = strtolower( $name );
             if ( $name !== $lower )
@@ -56,7 +50,7 @@ class ezcTemplateBoolSourceToTstParser extends ezcTemplateLiteralSourceToTstPars
             }
 
             $cursor->advance( strlen( $name ) );
-            $bool = $this->parser->createLiteral( $this->startCursor, $cursor );
+            $bool = new ezcTemplateLiteralTstNode( $this->parser->source, $this->startCursor, $cursor );
             $bool->value = $name == 'true';
             $this->value = $bool->value;
             $this->element = $bool;
@@ -64,22 +58,6 @@ class ezcTemplateBoolSourceToTstParser extends ezcTemplateLiteralSourceToTstPars
             return true;
         }
         return false;
-    }
-
-    protected function generateErrorMessage()
-    {
-        if ( $this->operationState == self::STATE_NON_LOWERCASE )
-            return "Boolean type must use lowercase characters only.";
-        // Default error message handler.
-        return parent::generateErrorMessage();
-    }
-
-    protected function generateErrorDetails()
-    {
-        if ( $this->operationState == self::STATE_NON_LOWERCASE )
-            return "Acceptable values are: true | false";
-        // Default error details handler.
-        return parent::generateErrorDetails();
     }
 
     public function getTypeName()

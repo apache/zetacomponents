@@ -58,7 +58,8 @@ class ezcTemplateEolCommentSourceToTstParser extends ezcTemplateSourceToTstParse
             {
                 $cursor->gotoEnd();
             }
-            $commentBlock = $this->parser->createEolComment( $this->startCursor, clone $cursor );
+            $commentBlock = new ezcTemplateEolCommentTstNode( $this->parser->source, $this->startCursor, clone $cursor );
+
             if ( $cutOff )
             {
                 $commentBlock->commentText = substr( $commentBlock->text(), 2, $cutOff );

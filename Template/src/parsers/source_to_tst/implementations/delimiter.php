@@ -34,9 +34,6 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
         // handle closing block
         if ( $this->block->isClosingBlock )
         {
-            if ( $this->parser->debug )
-                echo "Starting end of foreach loop\n";
-
             $this->findNextElement();
             if ( !$this->parentParser->atEnd( $cursor, null, false ) )
             {
@@ -45,7 +42,7 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
 
             $cursor->advance();
 
-            $el = $this->parser->createDelimiter( $this->startCursor, $cursor );
+            $el = new ezcTemplateDelimiterTstNode( $this->parser->source, $this->startCursor, $cursor );
             $el->isClosingBlock = true;
             $this->appendElement( $el );
             return true;
@@ -54,7 +51,7 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
         // handle opening block
         if ( $this->block->name == "delimiter" )
         {
-            $delimiter = $this->parser->createDelimiter( $this->startCursor, $cursor );
+            $delimiter = new ezcTemplateDelimiterTstNode( $this->parser->source, $this->startCursor, $cursor );
             $this->findNextElement();
             if ( $this->currentCursor->match( "modulo" ) )
             {
@@ -101,7 +98,7 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
         }
         elseif( $this->block->name == "skip" )
         {
-            $skip = $this->parser->createLoop( $this->startCursor, $cursor, "skip" );
+            $skip = new ezcTemplateLoopTstNode( $this->parser->source, $this->startCursor, $cursor, "skip" );
 
             $this->findNextElement();
 

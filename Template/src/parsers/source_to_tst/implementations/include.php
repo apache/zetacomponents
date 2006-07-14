@@ -17,15 +17,6 @@
 class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
 {
     /**
-     * No known type found.
-     */
-    /**
-     * The value of the parsed type or null if nothing was parsed.
-     * @var mixed
-     */
-    public $value;
-
-    /**
      * The parsed element object which defines the type or null if nothing
      * was parsed.
      */
@@ -64,7 +55,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
         }
  
-        $include = $this->parser->createInclude( $this->startCursor, $this->currentCursor );
+        $include = new ezcTemplateIncludeTstNode( $this->parser->source, $this->startCursor, $this->currentCursor );
         $include->file = $this->lastParser->rootOperator;
 
         $this->findNextElement();
@@ -91,7 +82,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
 
     protected function parseReturn( ezcTemplateCursor $cursor )
     {
-        $return = $this->parser->createReturn( $this->startCursor, $this->currentCursor );
+        $return = new ezcTemplateReturnTstNode( $this->parser->source, $this->startCursor, $this->currentCursor );
 
         $return->variables = $this->parseExprAsVarArray( true );
 
@@ -237,7 +228,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
         {
             $this->findNextElement();
 
-            $declaration = $this->parser->createDeclaration( $this->startCursor, $this->currentCursor );
+            $declaration = new ezcTemplateDeclarationTstNode( $this->parser->source, $this->startCursor, $this->currentCursor );
             $declaration->isClosingBlock = false;
             $declaration->isNestingBlock = false;
 

@@ -32,7 +32,6 @@ class ezcTemplateWhileLoopSourceToTstParser extends ezcTemplateSourceToTstParser
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
         $name = $this->block->name;
-        $this->status = self::PARSE_PARTIAL_SUCCESS;
 
         // skip whitespace and comments
         $this->findNextElement();
@@ -55,7 +54,7 @@ class ezcTemplateWhileLoopSourceToTstParser extends ezcTemplateSourceToTstParser
         // Everything went well. Let's create the element.
         $cursor->advance();
 
-        $el = $this->parser->createWhileLoop( $this->startCursor, $cursor );
+        $el = new ezcTemplateWhileLoopTstNode( $this->parser->source, $this->startCursor, $cursor );
         $el->name = $name;
         if ( isset( $condition ) )
             $el->condition = $condition;

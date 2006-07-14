@@ -34,6 +34,8 @@ return array(
              "ezcTemplateNoContext" => "Template/contexts/no_context.php",
              "ezcTemplateDirectResourceLocator" => "Template/locators/direct_resource_locator.php",
 
+             "ezcTemplateSourceToTstErrorMessages" => "Template/error_messages.php",
+
 // Global Interfaces:
              "ezcTemplateAutoloader" => "Template/interfaces/autoloader.php",
              "ezcTemplateOutputContext" => "Template/interfaces/output_context.php",
@@ -265,7 +267,6 @@ return array(
              "ezcTemplateCycleSourceToTstParser" => "Template/parsers/source_to_tst/implementations/cycle.php",
              "ezcTemplateIncludeSourceToTstParser" => "Template/parsers/source_to_tst/implementations/include.php",
 
-             "ezcTemplateSourceToTstErrorMessages" => "Template/parsers/source_to_tst/implementations/error_messages.php",
 
 
 // Generic parser interfaces

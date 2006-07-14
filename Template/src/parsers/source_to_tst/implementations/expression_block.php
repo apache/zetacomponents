@@ -62,8 +62,6 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
             // reached end of expression
             $cursor->advance( 1 );
             $this->block->endCursor = clone $this->block->endCursor;
-//            $this->block->element = $operator; // removed, not needed
-//            $this->appendElement( $this->block );
             return true;
         }
         return false;
@@ -74,9 +72,6 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
-        if ( $this->parser->debug )
-            echo "Starting expression using brackets ", $this->startBracket, '...', $this->endBracket, "\n";
-
         $rawBlock = false;
 
         if ( $cursor->match( "raw" ) )
@@ -89,13 +84,13 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
         if ( $this->startBracket == '(' )
         {
             // This is a parenthesis so we use a different node type
-            $this->block = $this->parser->createParenthesis( clone $this->startCursor, $cursor );
+            $this->block = new ezcTemplateParenthesisTstNode( $this->parser->source, $this->startCursor, $cursor );
             $this->block->startBracket = $this->startBracket;
             $this->block->endBracket = $this->endBracket;
         }
         else
         {
-            $this->block = $this->parser->createOutputBlock( clone $this->startCursor, $cursor );
+            $this->block = new ezcTemplateOutputBlockTstNode( $this->parser->source, $this->startCursor, $cursor );
             $this->block->isRaw = $rawBlock;
             $this->block->startBracket = $this->startBracket;
             $this->block->endBracket = $this->endBracket;
@@ -103,7 +98,9 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
 
         // skip whitespace and comments
         if ( !$this->findNextElement() )
+        {
             return false;
+        }
 
         $allowIdentifier = false;
 
@@ -114,7 +111,9 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
         $expressionParser->startCursor = clone $cursor;
         $expressionParser->allowEmptyExpressions = true;
         if ( !$this->parseRequiredType( $expressionParser /*'Expression'*/, $this->startCursor, false ) )
+        {
             return false;
+        }
 
         $this->findNextElement();
 
@@ -122,22 +121,12 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
         if ( $rootOperator instanceof ezcTemplateOperatorTstNode )
         {
             $rootOperator = $rootOperator->getRoot();
-
-            if ( $this->parser->debug )
-            {
-                // *** DEBUG START ***
-                echo "\n\n\n expression yielded:\n";
-                echo "<", $this->startCursor->subString( $cursor->position ), ">\n";
-                echo ezcTemplateTstTreeOutput::output( $rootOperator );
-                echo "\n\n\n";
-                // *** DEBUG END ***
-            }
         }
 
         // If there is no root operator the block is empty, change the block type.
         if ( $rootOperator === null )
         {
-            $this->block = $this->parser->createEmptyBlock( clone $this->startCursor, $cursor );
+            $this->block = new ezcTemplateEmptyBlockTstNode( $this->parser->source, clone $this->startCursor, $cursor );
             $this->appendElement( $this->block );
             return true;
         }
@@ -152,7 +141,7 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
 
             // @todo if the parser block is a parenthesis it is not allowed to have modifying nodes
             $oldBlock = $this->block;
-            $this->block = $this->parser->createModifyingBlock( clone $this->startCursor, $cursor );
+            $this->block = new ezcTemplateModifyingBlockTstNode( $this->parser->source, clone $this->startCursor, $cursor );
             $this->block->startBracket = $this->startBracket;
             $this->block->endBracket = $this->endBracket;
             $this->block->elements = $oldBlock->elements;

@@ -24,40 +24,6 @@
 class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParser
 {
     /**
-     * No operand found when one was expected.
-     */
-    const STATE_NO_OPERAND = 1;
-
-    /**
-     * No operator found when one was expected.
-     */
-    const STATE_NO_OPERATOR = 2;
-
-    /**
-     * An end brace was found without a starting one.
-     */
-    const STATE_END_BRACE_WITHOUT_START = 3;
-
-    /**
-     * The modified operator | is not supported in this engine.
-     */
-    const STATE_UNSUPPORTED_OPERATOR_MODIFIER = 4;
-
-    /**
-     * The modified operator | is not supported in this engine, it also invalid.
-     */
-    const STATE_UNSUPPORTED_OPERATOR_MODIFIER_INVALID = 5;
-
-    /**
-     * The comma operator , was used but it is not allowed.
-     */
-    const STATE_OPERATOR_COMMA_NOT_ALLOWED = 6;
-   
-    /**
-     * The variable was not declared.
-     */
-
-    /**
      * The current operator element if any.
      *
      * If you are interested in the result of the expression see $rootOperator
@@ -75,11 +41,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
      */
     public $rootOperator;
 
-    /**
-     * Controls whether empty expressions are allowed, the default is false.
-     * @var bool
-     */
-    public $allowEmptyExpressions;
 
     /**
      * Passes control to parent.
@@ -93,7 +54,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         $this->rootOperator = null;
         $this->allowIdentifier = false;
         $this->minPrecedence = false;
-        $this->allowEmptyExpressions = false;
     }
 
     /**
@@ -221,15 +181,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         elseif ( $this->canParseType( 'FunctionCall', $allowedTypes ) )
         {
             $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->functionCall );
-            if ( $this->parser->debug )
-            {
-                // *** DEBUG START ***
-                echo "\n\n\n function call parser yielded:\n";
-                echo ezcTemplateTstTreeOutput::output( $this->lastParser->functionCall );
-                echo "\n\n\n";
-                // *** DEBUG END ***
-            }
-
             $parsedType = "FunctionCall";
         }
         elseif ( $this->allowIdentifier && $this->parseOptionalType( 'Identifier' ) )
@@ -306,9 +257,9 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     $operatorMap = array( '-' => 'NegateOperator',
                                           '!' => 'LogicalNegateOperator' );
                     $operatorName = $operatorMap[$operatorName];
-                    $operatorClass = 'ezcTemplate' . $operatorName;
-                    $function = 'create' . $operatorName;
-                    $operator = $this->parser->$function( clone $this->lastCursor, $cursor );
+
+                    $function = "ezcTemplate". $operatorName . "TstNode";
+                    $operator = new $function( $this->parser->source, clone $this->lastCursor, $cursor );
 
                     // If the min precedence has been reached we immediately stop parsing
                     // and return a successful parse result
@@ -334,7 +285,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
                     $this->parser->reportElementCursor( $operator->startCursor, $operator->endCursor, $operator );
                     $this->lastCursor->copy( $cursor );
-                    $this->status = self::PARSE_PARTIAL_SUCCESS;
                     return true;
                 }
                 return false;
@@ -345,12 +295,12 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             if ( $cursor->match( '++' ) )
             {
                 $operatorStartCursor = clone $cursor;
-                $operator = $this->parser->createPostIncrementOperator( clone $this->lastCursor, $cursor );
+                $operator = new ezcTemplatePostIncrementOperatorTstNode( $this->parser->source, clone $this->lastCursor, $cursor );
             }
             elseif(  $cursor->match( '--' ) )
             {
                 $operatorStartCursor = clone $cursor;
-                $operator = $this->parser->createPostDecrementOperator( clone $this->lastCursor, $cursor );
+                $operator = new ezcTemplatePostDecrementOperatorTstNode( $this->parser->source, clone $this->lastCursor, $cursor );
             }
             else
             {
@@ -362,7 +312,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             $this->parser->reportElementCursor( $operator->startCursor, $operator->endCursor, $operator );
             $this->lastCursor->copy( $cursor );
 
-
             return true;
         }
 
@@ -371,12 +320,12 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             if ( $cursor->match( '++' ) )
             {
                 $operatorStartCursor = clone $cursor;
-                $operator = $this->parser->createPreIncrementOperator( clone $this->lastCursor, $cursor );
+                $operator = new ezcTemplatePreIncrementOperatorTstNode( $this->parser->source, clone $this->lastCursor, $cursor );
             }
             elseif(  $cursor->match( '--' ) )
             {
                 $operatorStartCursor = clone $cursor;
-                $operator = $this->parser->createPreDecrementOperator( clone $this->lastCursor, $cursor );
+                $operator = new ezcTemplatePreDecrementOperatorTstNode( $this->parser->source, clone $this->lastCursor, $cursor );
             }
             else
             {
@@ -413,7 +362,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 
                 if ( $allowArrayAppend && $cursor->match( "]" ) )
                 {
-                    $operator = $this->parser->createArrayAppend( $this->startCursor, $cursor );
+                    $operator = new ezcTemplateArrayAppendOperatorTstNode( $this->parser->source, $this->startCursor, $cursor );
                 }
                 else
                 {
@@ -468,7 +417,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             '&&', '||',
             '+=', '-=', '*=', '/=', '.=', '%=',
             '..',
-            '=>' /* Make sure that the expression ends when this token is found */,) ),
+            '=>' /* To make sure that the expression ends when this token is found */,) ),
             array( 1,
             array( '+', '-', '.',
             '*', '/', '%',
@@ -493,8 +442,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             {
                 $operatorStartCursor = clone $cursor;
                 $cursor->advance( strlen( $operatorName ) );
-                if ( $this->parser->debug )
-                echo "operator {$operatorName} <", $this->lastCursor->subString( $cursor->position ), ">\n";
                 $operatorMap = array( '+' => 'PlusOperator',
                 '-' => 'MinusOperator',
                 '.' => 'ConcatOperator',
@@ -503,7 +450,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 '/' => 'DivisionOperator',
                 '%' => 'ModuloOperator',
 
-                '->' => 'PropertyFetch',
+                '->' => 'PropertyFetchOperator',
 
                 '==' => 'EqualOperator',
                 '!=' => 'NotEqualOperator',
@@ -530,15 +477,13 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
                 '..' => 'ArrayRangeOperator',
 
-        //        '++' => 'PostIncrementOperator',
-        //        '--' => 'PostDecrementOperator',
                 'instanceof' => 'InstanceOfOperator', );
 
                 $requestedName = $operatorName;
                 $operatorName = $operatorMap[$operatorName];
-                $operatorClass = 'ezcTemplate' . $operatorName;
-                $function = 'create' . $operatorName;
-                $operator = $this->parser->$function( clone $this->lastCursor, $cursor );
+
+                $function = "ezcTemplate". $operatorName . "TstNode";
+                $operator = new $function( $this->parser->source, clone $this->lastCursor, $cursor );
 
                 // If the min precedence has been reached we immediately stop parsing
                 // and return a successful parse result
@@ -555,8 +500,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 $this->lastCursor->copy( $cursor );
 
                 // instanceof operator can have an identifier as the next operand
-                if ( $requestedName == 'instanceof' ||
-                $requestedName == '->' )
+                if ( $requestedName == 'instanceof' || $requestedName == '->' )
                 {
                     $this->allowIdentifier = true;
                 }
@@ -566,70 +510,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
             return false;
         }
-
-
-
-    protected function generateErrorMessage()
-    {
-        switch ( $this->operationState )
-        {
-            case self::STATE_NO_OPERAND:
-                return "Invalid expression, no operand is set.";
-            case self::STATE_NO_OPERATOR:
-                return "Invalid expression, no operator found.";
-            case self::STATE_END_BRACE_WITHOUT_START:
-                return "End brace found without a starting brace.";
-            case self::STATE_UNSUPPORTED_OPERATOR_MODIFIER:
-                return "The modifier operator | is not supported in the template engine.";
-            case self::STATE_UNSUPPORTED_OPERATOR_MODIFIER_INVALID:
-                return "The modifier operator | is not supported in the template engine, the syntax is also invalid.";
-            case self::STATE_OPERATOR_COMMA_NOT_ALLOWED:
-                return "The comma operator is not allowed at this context.";
-            case self::STATE_VARIABLE_NOT_DECLARED:
-                return "The variable is not declared";
-
-        }
-        // Default error message handler.
-        return parent::generateErrorMessage();
-    }
-
-    protected function generateErrorDetails()
-    {
-        switch ( $this->operationState )
-        {
-            case self::STATE_NO_OPERAND:
-                return "Acceptable operands are: types, variables, function calls or the operators ++, --, ! and -.";
-            case self::STATE_NO_OPERATOR:
-                return;
-            case self::STATE_END_BRACE_WITHOUT_START:
-                return "This is typically caused by a missing start brace or having misplaced the end brace.";
-//                return "Acceptable operators are: ";
-            case self::STATE_UNSUPPORTED_OPERATOR_MODIFIER:
-            case self::STATE_UNSUPPORTED_OPERATOR_MODIFIER_INVALID:
-                // @todo make sure the code example uses the correct functio name on the right
-                $text = "The modified syntax is from the template engine in eZ publish 3.x and is no longer supported.\nThe code can be fixed by wrapping the right hand side of the | character around the left hand side.";
-                if ( $this->operationState == self::STATE_UNSUPPORTED_OPERATOR_MODIFIER )
-                {
-                    $text .= "\ne.g.: ";
-                    $text .= $this->expressionStartCursor->subString( $this->currentCursor->position ) . ' -> ';
-                    $text .= $this->modifierName . '( ';
-                    $text .= $this->expressionStartCursor->subString( $this->modifierCursor->position ) . ' )';
-                }
-                else
-                {
-                    $text .= "\nNote: The code after the | operator is not valid, it should only contain alphabetical characters.";
-                }
-                return $text;
-//                $string|wash -> wash( $string )";
-
-
-            case self::STATE_VARIABLE_NOT_DECLARED:
-                return "The variable is not declared";
-
-        }
-        // Default error details handler.
-        return parent::generateErrorDetails();
-    }
 }
 
 ?>

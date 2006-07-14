@@ -47,8 +47,6 @@ class ezcTemplateVariableSourceToTstParser extends ezcTemplateSourceToTstParser
         {
             if ( $cursor->match( '$' ) )
             {
-                $this->status = self::PARSE_PARTIAL_SUCCESS;
-
                 if ( $cursor->current() == '#' )
                 {
                     throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
@@ -70,7 +68,7 @@ class ezcTemplateVariableSourceToTstParser extends ezcTemplateSourceToTstParser
 
                 $this->variableName = $this->lastParser->identifierName;
 
-                $variable = $this->parser->createVariable( $this->startCursor, $cursor );
+                $variable = new ezcTemplateVariableTstNode( $this->parser->source, $this->startCursor, $cursor );
                 $variable->name = $this->variableName;
                 $this->element = $variable;
                 $this->appendElement( $variable );

@@ -48,11 +48,11 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACE_CLOSE );
             }
 
-            $cb = $this->parser->createCustomBlock( $this->startCursor, $cursor );
+            $cb = new ezcTemplateCustomBlockTstNode( $this->parser->source, $this->startCursor, $cursor );
+
             $cb->isClosingBlock = true;
 
             $this->appendElement( $cb );
-
             return true;
         }
  
@@ -76,7 +76,7 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
             return false;
         }
 
-        $cb = $this->parser->createCustomBlock( $this->startCursor, $cursor );
+        $cb = new ezcTemplateCustomBlockTstNode( $this->parser->source, $this->startCursor, $cursor );
         $cb->definition = $def;
         $this->block->isNestingBlock = $def->isNestingBlock;// $requireNesting;
         $cb->isNestingBlock = $def->isNestingBlock;
@@ -155,168 +155,7 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
         $this->appendElement( $cb );
 
         return true;
-/// TODO: 
-
-        // @todo Make sure registered blocks are fetched from main manager.
-        //$blocks = $this->getRegisteredBlocks();
-
-        // Check if the block is registered
-        if ( !isset( $blocks[$name] ) )
-        {
-            $this->blockName = $name;
-            $names = array_keys( $blocks );
-
-            // Check if a name with different case exists, we still do not
-            // allow the parsing to continue but at least we can give a
-            // friendlier and more correct error.
-            foreach ( $names as $existingName )
-            {
-                $existingNameLower = strtolower( $existingName );
-                if ( $existingNameLower === $lower )
-                {
-                    $this->correctBlockName = $existingName;
-                    $this->operationState = self::STATE_WRONG_CASE;
-                    return false;
-                }
-            }
-            $this->operationState = self::STATE_UNKNOWN_BLOCK_NAME;
-            return false;
-        }
-
-        // @todo This is just temporary code, nesting details should be up to custom block itself
-        $requireNesting = $blocks[$name][0];
-
-        // $cursor object in $block will be updated as the parser continues
-        $isClosingBlock = $this->block->isClosingBlock;
-        $this->block = $this->parser->createCustomBlock( $this->startCursor, $cursor );
-        $this->block->isClosingBlock = $isClosingBlock;
-
-        $cursor->advance( strlen( $matches[1][0] ) );
-        $this->block->name = $name;
-        $this->block->isNestingBlock = $requireNesting;
-
-        // Now parse all parameters.
-        while ( !$cursor->atEnd() )
-        {
-            if ( !$this->findNextElement() )
-            {
-                return false;
-            }
-
-            if ( $cursor->current() == "}" )
-            {
-                $cursor->advance();
-                return true;
-            }
-
-            // Find a variable or identifier
-            $elements = $this->parseSequence( array( array( 'compound' => 'or',
-                                                            'compounds' => array( array( 'type' => 'Variable' ),
-                                                                                  array( 'type' => 'Identifier' ) ) ) ) );
-            if ( $elements === false )
-            {
-                $this->operationState = self::STATE_INVALID_PARAMETER;
-                return false;
-            }
-            $this->parameterName = $elements[0]->value;
-            $this->parameterNameElement = $elements[0];
-
-            if ( $this->block->hasParameter( $this->parameterName ) )
-            {
-                $this->startCursor->copy( $cursor );
-                $this->operationState = self::STATE_PARAMETER_ALREADY_PRESENT;
-                return false;
-            }
-
-            if ( !$this->findNextElement() )
-            {
-                return false;
-            }
-
-            $matches = $cursor->pregMatchComplete( "#^(=)(?:[^=])#" );
-            if ( $matches === false )
-            {
-                $this->operationState = self::STATE_WRONG_ASSIGNMENT;
-                return false;
-            }
-            $cursor->advance( strlen( $matches[1][0] ) );
-
-            $parser = new ezcTemplateExpressionSourceToTstParser( $this->parser, $this, null );
-            if ( !$this->parseRequiredType( $parser ) )
-            {
-                $this->lastParser = null;
-                $this->operationState = self::STATE_WRONG_EXPRESSION;
-                return false;
-            }
-
-            $this->block->appendParameter( $this->parameterName, $this->parameterNameElement, $this->lastParser->rootOperator );
-
-            if ( !$this->findNextElement() )
-            {
-                return false;
-            }
-
-            // Handle next parameter
-        }
-
-        return false;
     }
-
-    
-    /*
-    const STATE_WRONG_CASE = 1;
-
-    const STATE_UNKNOWN_BLOCK_NAME = 2;
-
-    const STATE_INVALID_PARAMETER = 3;
-
-    const STATE_WRONG_ASSIGNMENT = 4;
-
-    const STATE_WRONG_EXPRESSION = 5;
-
-    const STATE_PARAMETER_ALREADY_PRESENT = 6;
-     */
-
-    /*
-    protected function generateErrorMessage()
-    {
-        switch ( $this->operationState )
-        {
-            case self::STATE_WRONG_CASE:
-                return "Name of block must use use exact same case as the registered name.";
-            case self::STATE_UNKNOWN_BLOCK_NAME:
-                return "Unknown block <{$this->blockName}>.";
-            case self::STATE_INVALID_PARAMETER:
-                return "Invalid parameter for block.";
-            case self::STATE_WRONG_ASSIGNMENT:
-                return "Wrong assignment marker used, should be one equal sign =.";
-            case self::STATE_WRONG_EXPRESSION:
-                return "Wrong expression for parameter.";
-            case self::STATE_PARAMETER_ALREADY_PRESENT:
-                return "The parameter <{$this->parameterName}> has already been set for the block, cannot override value.";
-        }
-        // Default error message handler.
-        return parent::generateErrorMessage();
-    }
-
-    protected function generateErrorDetails()
-    {
-        switch ( $this->operationState )
-        {
-            case self::STATE_WRONG_CASE:
-                return "Correct name of block is <{$this->correctBlockName}> while <{$this->blockName}> was tried.";
-            case self::STATE_UNKNOWN_BLOCK_NAME:
-                $blocks = $this->getRegisteredBlocks();
-                return "Available blocks types are: " . join( ", ", array_keys( $blocks ) );
-            case self::STATE_WRONG_ASSIGNMENT:
-                return "";
-            case self::STATE_WRONG_EXPRESSION:
-                return "";
-        }
-        // Default error details handler.
-        return parent::generateErrorDetails();
-    }
-     */
 }
 
 ?>

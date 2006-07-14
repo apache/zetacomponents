@@ -47,7 +47,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
-        $this->program = $this->parser->createProgram( $this->startCursor, $cursor );
+        $this->program = new ezcTemplateProgramTstNode( $this->parser->source, $this->startCursor, $cursor );
         $this->lastBlock = $this->program;
 
         while ( !$cursor->atEnd() )
@@ -67,7 +67,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
             $cursor->advance( 1 );
             if ( $this->lastCursor->length( $blockCursor ) > 0 )
             {
-                $textElement = $this->parser->createText( clone $this->lastCursor, clone $blockCursor );
+                $textElement = new ezcTemplateTextBlockTstNode( $this->parser->source, clone $this->lastCursor, clone $blockCursor );
                 $this->parser->reportElementCursor( $textElement->startCursor, $textElement->endCursor, $textElement );
                 $this->handleElements( array( $textElement ) );
                 unset( $textElement );
@@ -121,7 +121,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
     {
         if ( $lastCursor->length( $cursor ) > 0 )
         {
-            $textElement = $this->parser->createText( clone $lastCursor, clone $cursor );
+            $textElement = new ezcTemplateTextBlockTstNode( $this->parser->source, clone $lastCursor, clone $cursor );
             $this->parser->reportElementCursor( $textElement->startCursor, $textElement->endCursor, $textElement );
             $this->handleElements( array( $textElement ) );
         }

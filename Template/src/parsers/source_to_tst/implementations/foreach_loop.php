@@ -31,14 +31,9 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
-        $this->status = self::PARSE_PARTIAL_SUCCESS;
-
         // handle closing block
         if ( $this->block->isClosingBlock )
         {
-            if ( $this->parser->debug )
-                echo "Starting end of foreach loop\n";
-
             $this->findNextElement();
             if ( !$this->parentParser->atEnd( $cursor, null, false ) )
             {
@@ -47,20 +42,14 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
 
             $cursor->advance();
 
-            $el = $this->parser->createForeachLoop( $this->startCursor, $cursor );
+            $el = new ezcTemplateForeachLoopTstNode( $this->parser->source, $this->startCursor, $cursor );
             $el->isClosingBlock = true;
             $this->appendElement( $el );
             return true;
         }
 
         // handle opening block
-
-        if ( $this->parser->debug )
-            echo "Starting foreach loop\n";
-
-        // parse required part: "<array> as <varName>"
-
-        $el = $this->parser->createForeachLoop( $this->startCursor, $cursor );
+        $el = new ezcTemplateForeachLoopTstNode( $this->parser->source, $this->startCursor, $cursor );
 
         $this->findNextElement();
         if ( !$this->parseOptionalType( 'Expression', null, false ) )
@@ -177,12 +166,6 @@ class ezcTemplateForeachLoopSourceToTstParser extends ezcTemplateSourceToTstPars
         $cursor->advance();
 
         $this->appendElement( $el );
-
-        if ( $this->parser->debug )
-        {
-            echo "parsed foreach header:\n";
-            var_dump( array(  'array' => $el->array, 'kv' => $el->keyVariableName, 'iv' => $el->itemVariableName  ) );
-        }
 
         return true;
     }
