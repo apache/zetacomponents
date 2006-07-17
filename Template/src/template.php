@@ -301,16 +301,33 @@ class ezcTemplate
                              10, 36 );
     }
 
+    /**
+     * Adds custom tags (custom behavior) to the template language.
+     *
+     * The parameter $customBlockClass expects a class that implements the 
+     * interface ezcTemplateCustomBlock. 
+     *
+     * @param ezcTemplateCustomBlock $customBlockClass
+     * @return void
+     */
     public function addCustomBlock( ezcTemplateCustomBlock $customBlockClass )
     {
         ezcTemplateCustomBlockManager::getInstance()->addClass( $customBlockClass );
     }
 
+    /**
+     * Adds custom functions to the template language.
+     *
+     * The parameter $customFunctionClass expects a class that implements the 
+     * interface ezcTemplateCustomFunction. 
+     *
+     * @param ezcTemplateCustomFunction $customFunctionClass
+     * @return void
+     */
     public function addCustomFunction( ezcTemplateCustomFunction $customFunctionClass )
     {
         ezcTemplateCustomFunctionManager::getInstance()->addClass( $customFunctionClass );
     }
-
 
 
 //   /**
