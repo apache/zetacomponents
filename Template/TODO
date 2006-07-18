@@ -1,19 +1,8 @@
 TODO
 ====
 
-Custom functions
-----------------
-
-{ myCustomFunction( 2 + 3, "Hello" ) }
-
-Should be able to parse.
-
-
 Caching
 -------
-
-
-
 
 
 Rename variable names to prevent interference

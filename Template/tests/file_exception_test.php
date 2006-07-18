@@ -49,7 +49,7 @@ class ezcTemplateFileExceptionTest extends ezcTestCase
     {
         $e = new ezcTemplateFileNotWriteableException( '/dev/cdrom' );
 
-        self::assertSame( "The requested template file </dev/cdrom> is not writeable.", $e->getMessage(),
+        self::assertSame( "The requested template file < /dev/cdrom > is not writeable.", $e->getMessage(),
                           'Exception message is not correct' );
     }
 

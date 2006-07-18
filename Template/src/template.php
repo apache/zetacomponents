@@ -302,31 +302,25 @@ class ezcTemplate
     }
 
     /**
-     * Adds custom tags (custom behavior) to the template language.
+     * Adds custom tags or function to the template language.
      *
-     * The parameter $customBlockClass expects a class that implements the 
-     * interface ezcTemplateCustomBlock. 
+     * The parameter $customBlockClass expects a class that implements either 
+     * the interface ezcTemplateCustomBlock, ezcTemplateCustomFunction, or both. 
      *
-     * @param ezcTemplateCustomBlock $customBlockClass
+     * @param ezcTemplateCustomBlock|ezcTemplateCustomFunctoin $customBlockClass
      * @return void
      */
-    public function addCustomBlock( ezcTemplateCustomBlock $customBlockClass )
+    public function addExtension( $customClass )
     {
-        ezcTemplateCustomBlockManager::getInstance()->addClass( $customBlockClass );
-    }
+        if ( $customClass instanceof ezcTemplateCustomBlock )
+        {
+            ezcTemplateCustomBlockManager::getInstance()->addClass( $customClass );
+        }
 
-    /**
-     * Adds custom functions to the template language.
-     *
-     * The parameter $customFunctionClass expects a class that implements the 
-     * interface ezcTemplateCustomFunction. 
-     *
-     * @param ezcTemplateCustomFunction $customFunctionClass
-     * @return void
-     */
-    public function addCustomFunction( ezcTemplateCustomFunction $customFunctionClass )
-    {
-        ezcTemplateCustomFunctionManager::getInstance()->addClass( $customFunctionClass );
+        if (  $customClass instanceof ezcTemplateCustomFunction )
+        {
+            ezcTemplateCustomFunctionManager::getInstance()->addClass( $customClass );
+        }
     }
 
 
