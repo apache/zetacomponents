@@ -74,16 +74,18 @@ an ezcBaseFilePermissionException!). To store the data, the storage class
 ezcConsoleStorageFilePlain will be used and as defined before, the stored data
 will expire after 30 seconds.
 
-Line 11 defines a unique ID for the data to cache. After that (line 13), the
+Line 11 defines a unique ID for the data to cache. The next line defines a
+second unique ID for a second cache item. After that (line 14), the
 cache storage object is retrieved from the ezcCacheManager (the object itself
-is created right now, since we access it for the first time). Line 15 shows how
-to check for cached data: The method ezcCacheStorage::restore() will return
-bool false, if no valid cache data is found.
+is created right now, since we access it for the first time). The lines 16 and
+22 show how to check for cached data: The method ezcCacheStorage::restore() will return
+bool false, if no valid cache data is found for a given ID.
 
 In case the cache storage did not find valid data, the data will be generated
-and stored in the cache afterwards (lines 17 and 18). The last line shows the
+and stored in the cache afterwards (lines 17-18 and 24-25). The last line shows the
 data, so you can follow how it's cached for 30 seconds, by simple running the
-example multiple times in a short time frame.
+example multiple times in a short time frame. After 30 seconds the cache data
+will become invalid and will be regenerated.
 
 Using multiple caches
 ---------------------
