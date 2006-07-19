@@ -12,15 +12,15 @@
  * Class to create subselects within queries.
  *
  * The ezcSubQuery used for creating correct subqueries inside ezcQuery object.
- * Class holds a refenence to inclusive ezcQuery and transfer 
+ * Class holds a refenence to inclusive ezcQuery and transfer
  * PDO related calls to it.
- * 
- * 
+ *
+ *
  * Example:
  * <code>
  * $q = ezcDbInstance::get()->createSelectQuery();
  * $q2 = $q->subSelect();
- * 
+ *
  * $q2->select( 'lastname' )->from( 'users' );
  *
  * // This will produce SQL:
@@ -28,7 +28,7 @@
  * $q->select( '*' )->from( 'Greetings' );
  *     ->where( $q->expr->gt( 'age', 10 ),
  *              $q->expr->in( 'user', $q2->getQuery() ) );
- * 
+ *
  * $stmt = $q->prepare(); // $stmt is a normal PDOStatement
  * $stmt->execute();
  * </code>
@@ -72,18 +72,18 @@ class ezcQuerySubSelect extends ezcQuerySelect
      * $subSelect->select('*')
      *              ->from( 'table2' )
      *                ->where( $subSelect->expr->in('id', $subSelect->bindParam( $value )) );
-     * 
+     *
      * $q->select('*')
      *     ->from( 'table' )
      *       ->where ( $q->expr->eq( 'id', $subSelect->getQuery() ) );
-     * 
+     *
      * $stmt = $q->prepare(); // the parameter $value is bound to the query.
      * $value = 4;
      * $stmt->execute(); // subselect executed with 'id = 4'
      * </code>
-     * 
+     *
      * @see ezcQuery::bindParam()
-     * 
+     *
      * @param &mixed $param
      * @param string $placeHolder the name to bind with. The string must start with a colon ':'.
      * @return string the placeholder name used.
@@ -106,22 +106,22 @@ class ezcQuerySubSelect extends ezcQuerySelect
      *
      * Example:
      * <code>
-     * 
+     *
      * $value = 2;
      * $subSelect = $q->subSelect();
      * $subSelect->select( name )
      *              ->from( 'table2' )
      *                ->where(  $subSelect->expr->in('id', $subSelect->bindValue( $value )) );
-     * 
+     *
      * $q->select('*')
      *     ->from( 'table1' )
      *       ->where ( $q->expr->eq( 'name', $subSelect->getQuery() ) );
-     * 
+     *
      * $stmt = $q->prepare(); // the $value is bound to the query.
      * $value = 4;
      * $stmt->execute(); // subselect executed with 'id = 2'
      * </code>
-     * 
+     *
      * @see ezcQuery::bindValue()
      *
      * @param mixed $value
@@ -136,10 +136,10 @@ class ezcQuerySubSelect extends ezcQuerySelect
 
     /**
      * Return SQL string for subselect.
-     * 
+     *
      * Typecasting shouild be done to make __toString() to be called.
      * This will work in PHP 5.2, 6.0
-     * 
+     *
      * Example:
      * <code>
      * $subSelect = $q->subSelect();
@@ -147,10 +147,10 @@ class ezcQuerySubSelect extends ezcQuerySelect
      * $q->select('*')
      *     ->from( 'table1' )
      *       ->where ( $q->expr->eq( 'name', (string)$subSelect ) );
-     * $stmt = $q->prepare(); 
+     * $stmt = $q->prepare();
      * $stmt->execute();
      * </code>
-     * 
+     *
      * @return string SQL string for subselect.
      */
     public function __toString()
@@ -160,7 +160,7 @@ class ezcQuerySubSelect extends ezcQuerySelect
 
     /**
      * Return string with SQL query for subselect.
-     * 
+     *
      * Example:
      * <code>
      * $subSelect = $q->subSelect();
@@ -168,10 +168,10 @@ class ezcQuerySubSelect extends ezcQuerySelect
      * $q->select('*')
      *     ->from( 'table1' )
      *       ->where ( $q->expr->eq( 'name', $subSelect->getQuery() ) );
-     * $stmt = $q->prepare(); 
+     * $stmt = $q->prepare();
      * $stmt->execute();
      * </code>
-     * 
+     *
      * @return string SQL string for subselect.
      */
     public function getQuery()
@@ -186,17 +186,17 @@ class ezcQuerySubSelect extends ezcQuerySelect
     *
     * Example:
     * <code>
-    * 
+    *
     * $value = 2;
     * $subSelect = $q->subSelect();
     * $subSelect->select( name )
     *              ->from( 'table2' )
     *                ->where( $subSelect->expr->in('id', $subSelect->bindValue( $value )) );
-    * 
+    *
     * $q->select(*)
     *     ->from( 'table1' )
     *       ->where ( $q->expr->eq( 'name', $subSelect->getQuery() ) );
-    * 
+    *
     * $stmt = $q->prepare(); // the $value is bound to the query.
     * $value = 4;
     * $stmt->execute(); // subselect executed with 'id = 2'
