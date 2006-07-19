@@ -96,7 +96,7 @@ class ezcPersistentObjectProperty
     {
         $this->columnName = $columnName;
         $this->propertyName = $propertyName;
-        $this->type = $type;
+        $this->propertyType = $type;
 //        $this->defaultValue = $defaultValue;
 //        $this->visibility = $visibility;
 //        $this->isRequired = $isRequired;
