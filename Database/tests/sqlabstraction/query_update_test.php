@@ -1,3 +1,4 @@
+
 <?php
 /**
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
@@ -155,20 +156,22 @@ class ezcQueryUpdateTest extends ezcTestCase
     public function testOnDatabaseWithWhere()
     {
         $q = new ezcQueryInsert( ezcDbInstance::get() );
+        $company = 'eZ systems';
+        $section = 'Norway';
         // insert some data we can update
         $q->insertInto( 'query_test' )
             ->set( 'id', 1 )
-            ->set( 'company', $q->bindValue( 'ez systems' ) )
-            ->set( 'section', $q->bindValue( 'Norway' ) )
+            ->set( 'company', $q->bindParam( $company ) )
+            ->set( 'section', $q->bindParam( $section ) )
             ->set( 'employees', 20 );
         $stmt = $q->prepare();
         $stmt->execute();
 
         $q->insertInto( 'query_test' );
         $q->set( 'id', 2 );
-        $q->set( 'company', $q->bindValue( 'trolltech' ) );
-        $q->set( 'section', $q->bindValue( 'Norway' ) );
         $q->set( 'employees', 70 );
+        $company = 'trolltech';
+        $section = 'Norway';
         $stmt = $q->prepare();
         $stmt->execute();
 

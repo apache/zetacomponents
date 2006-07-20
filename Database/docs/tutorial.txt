@@ -211,14 +211,54 @@ altogether. Simply always use bind to insert untrusted data into a query. This
 is usually also more efficient since you don't need to escape the data and the
 SQL server does not have to parse it as part of the query string.
 
-..
-  Notable differences between databases
-  =====================================
-..
-  Even though the query abstraction layer creates syntactic equal queries for the
-  supported databases, the results may still differ. This is due to a large
-  amount of differences between the databases. We will list the most important
-  ones here as a reference.
+
+ Notable differences between databases
+ =====================================
+
+Even though the query abstraction layer creates syntactic equal queries for the
+supported databases, the results may still differ. This is due to a large
+amount of differences between the databases. We will list the most important
+ones here as a reference.
+
+- SQLite does not support rebinding of values. E.g if you have an insert query
+  and you want to reuse it like this you will get an error: ::
+
+    $q->insertInto( 'query_test' )
+        ->set( 'id', 1 )
+        ->set( 'company', $q->bindValue( 'eZ systems' ) )
+        ->set( 'section', $q->bindValue( 'Norway' ) )
+        ->set( 'employees', 20 );
+    $stmt = $q->prepare();
+    $stmt->execute();
+
+    $q->insertInto( 'query_test' );
+    $q->set( 'id', 2 );
+    $q->set( 'company', $q->bindValue( 'Trolltech' ) );
+    $q->set( 'section', $q->bindValue( 'Norway' ) );
+    $q->set( 'employees', 70 );
+    $stmt = $q->prepare();
+    $stmt->execute();
+
+  Instead you should use bindParameter() to achieve the same effect: ::
+
+    $company = 'eZ systems';
+    $section = 'Norway';
+    $q->insertInto( 'query_test' )
+         ->set( 'id', 1 )
+         ->set( 'company', $q->bindParam( $company ) )
+         ->set( 'section', $q->bindParam( $section ) )
+         ->set( 'employees', 20 );
+    $stmt = $q->prepare();
+    $stmt->execute();
+
+    $q->insertInto( 'query_test' );
+    $q->set( 'id', 2 );
+    $q->set( 'employees', 70 );
+    $company = 'Trolltech';
+    $section = 'Norway';
+    $stmt = $q->prepare();
+    $stmt->execute();
+    
 ..
   - difference in case sensitivity
   - difference in allowed field length

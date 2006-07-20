@@ -101,17 +101,21 @@ class ezcQueryDeleteTest extends ezcTestCase
         // fill database with some dummy data
         $q = new ezcQueryInsert( ezcDbInstance::get() );
         // insert some data we can update
+        $company = 'eZ systems';
+        $section = 'Norway';
         $q->insertInto( 'query_test' )
             ->set( 'id', 1 )
-            ->set( 'company', $q->bindValue( 'eZ systems' ) )
-            ->set( 'section', $q->bindValue( 'Norway' ) )
+            ->set( 'company', $q->bindParam( $company ) )
+            ->set( 'section', $q->bindParam( $section ) )
             ->set( 'employees', 20 );
         $stmt = $q->prepare();
         $stmt->execute();
 
+        $q->insertInto( 'query_test' );
         $q->set( 'id', 2 );
-        $q->set( 'company', $q->bindValue( 'Trolltech' ) );
         $q->set( 'employees', 70 );
+        $company = 'trolltech';
+        $section = 'Norway';
         $stmt = $q->prepare();
         $stmt->execute();
 
@@ -134,18 +138,23 @@ class ezcQueryDeleteTest extends ezcTestCase
     {
         // fill database with some dummy data
         $q = new ezcQueryInsert( ezcDbInstance::get() );
+
         // insert some data we can update
+        $company = 'eZ systems';
+        $section = 'Norway';
         $q->insertInto( 'query_test' )
             ->set( 'id', 1 )
-            ->set( 'company', $q->bindValue( 'eZ systems' ) )
-            ->set( 'section', $q->bindValue( 'Norway' ) )
+            ->set( 'company', $q->bindParam( $company ) )
+            ->set( 'section', $q->bindParam( $section ) )
             ->set( 'employees', 20 );
         $stmt = $q->prepare();
         $stmt->execute();
 
+        $q->insertInto( 'query_test' );
         $q->set( 'id', 2 );
-        $q->set( 'company', $q->bindValue( 'Trolltech' ) );
         $q->set( 'employees', 70 );
+        $company = 'trolltech';
+        $section = 'Norway';
         $stmt = $q->prepare();
         $stmt->execute();
 

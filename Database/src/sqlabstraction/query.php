@@ -257,6 +257,20 @@ abstract class ezcQuery
     }
 
     /**
+     * Resets the bound values and parameters to empty.
+     *
+     * This is useful if your query can be reset and used multiple times.
+     *
+     * @return void
+     */
+    protected function resetBinds()
+    {
+        $this->boundCounter = 0;
+        $this->boundParameters = array();
+        $this->boundValues = array();
+    }
+
+    /**
      * Performs binding of variables bound with bindValue and bindParam on the statement $stmt.
      *
      * This method must be called if you have used the bind methods

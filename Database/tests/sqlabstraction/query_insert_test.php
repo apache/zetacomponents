@@ -114,19 +114,21 @@ class ezcQueryInsertTest extends ezcTestCase
     public function testSeveralInsertsOnDatabase()
     {
         $q = $this->q;
+        $company = 'eZ systems';
+        $section = 'Norway';
         $q->insertInto( 'query_test' )
             ->set( 'id', 1 )
-            ->set( 'company', $q->bindValue( 'eZ systems' ) )
-            ->set( 'section', $q->bindValue( 'Norway' ) )
+            ->set( 'company', $q->bindParam( $company ) )
+            ->set( 'section', $q->bindParam( $section ) )
             ->set( 'employees', 20 );
         $stmt = $q->prepare();
         $stmt->execute();
-    
+
         $q->insertInto( 'query_test' );
         $q->set( 'id', 2 );
-        $q->set( 'company', $q->bindValue( 'trolltech' ) );
-        $q->set( 'section', $q->bindValue( 'Norway' ) );
         $q->set( 'employees', 70 );
+        $company = 'trolltech';
+        $section = 'Norway';
         $stmt = $q->prepare();
         $stmt->execute();
 
@@ -153,7 +155,6 @@ class ezcQueryInsertTest extends ezcTestCase
         $this->assertEquals( 'trolltech', $result[0][1] );
 
     }
-
 
     public static function suite()
     {
