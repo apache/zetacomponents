@@ -16,9 +16,27 @@
  * is reused for each iteration. This saves memory and is faster
  * than fetching and instantiating the result set in one go.
  *
- * Note that if you are using MySQL you need to iterate through the
- * complete result set of the iterator. This is because of a limitation
- * in PHP.
+ * You must loop over the complete resultset of the iterator or
+ * flush it before executing new queries.
+ *
+ * Example:
+ * <code>
+ *  $q = $session->createFindQuery( 'Person' );
+ *  $q->where( $q->expr->gt( 'age', 15 ) )
+ *    ->orderBy( 'name' )
+ *    ->limit( 10 );
+ *  $objects = $session->findIterator( $q, 'Person' );
+ *
+ *  foreach( $objects as $object )
+ *  {
+ *     if( ... )
+ *     {
+ *        $objects->flush();
+ *        break;
+ *     }
+ *  }
+ * </code>
+ *
  *
  * @package PersistentObject
  */
@@ -145,6 +163,19 @@ class ezcPersistentFindIterator implements Iterator
     public function valid()
     {
         return $this->object !== null ? true : false;
+    }
+
+    /**
+     * Clears the results from the iterator.
+     *
+     * This method must be called if you decide not to iterate over the complete resultset.
+     * Failure to do so may result in errors on subsequent SQL queries.
+     *
+     * @return void
+     */
+    public function flush()
+    {
+        $this->stmt->closeCursor();
     }
 }
 ?>

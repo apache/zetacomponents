@@ -176,6 +176,7 @@ class ezcPersistentFindIteratorTest extends ezcTestCase
         {
             break;
         }
+        $it->flush();
         $it = $this->session->find( $q, 'PersistentTestObject' );
     }
 }

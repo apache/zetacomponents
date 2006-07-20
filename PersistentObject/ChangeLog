@@ -5,6 +5,8 @@
 - Fixed #8489: absolute path in the "cannot find definition file" exception message.
 - Fixed #8663: Undeclared property "type" used instead of "propertyType" in ezcPersistentObjectProperty.
 	       This property is not used until now. And causes no change in the usage of the system.
+- Added the method ezcPersistentFindIterator::flush method that flushes the rest of the resultset from
+  an iterator. This method must be called if you decide not to loop over the complete resultset of an iterator.
 	
 1.1 - Monday 12 June 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
