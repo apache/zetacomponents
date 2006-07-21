@@ -171,8 +171,17 @@ file. You should point it to the location where you saved the person.php file.
 
 While it is possible to create a new session each time you want to manipulate a
 persistent object you will probably want to use the same session each
-time. This functionality can be achieved by wrapping the session in a singleton
-class.
+time. This functionality can be achieved by using the
+ezcPersistentSessionInstance class: ::
+
+   <?php
+   $session = new ezcPersistentSession( ezcDbInstance::get(),
+                                        new ezcPersistentCodeManager( ... ) );
+   ezcPersistentSessionInstance::set( $session ); // set default session
+
+   // retrieve the session
+   $session = ezcPersistentSessionInstance::get();
+   ?>
 
 Creating and updating an object
 -------------------------------

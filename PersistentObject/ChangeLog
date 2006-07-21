@@ -1,6 +1,7 @@
 1.1.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	
+
+- Implemented suggestion #8595: Singleton for ezcPersistentSession.	
 - Implemented suggestion #8526: retreiving the dbHandler from the persistentObject for transaction support
 - Fixed #8489: absolute path in the "cannot find definition file" exception message.
 - Fixed #8663: Undeclared property "type" used instead of "propertyType" in ezcPersistentObjectProperty.

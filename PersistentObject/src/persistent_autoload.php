@@ -7,6 +7,7 @@
  * @package PersistentObject
  */
 return array(
+    'ezcPersistentSessionInstance' => 'PersistentObject/persistent_session_instance.php',
     'ezcPersistentObjectDefinition' => 'PersistentObject/structs/persistent_object_definition.php',
     'ezcPersistentObjectProperty' => 'PersistentObject/structs/persistent_object_property.php',
     'ezcPersistentObjectIdProperty' => 'PersistentObject/structs/persistent_object_id_property.php',
@@ -14,6 +15,7 @@ return array(
     'ezcPersistentCodeManager' => 'PersistentObject/managers/code_manager.php',
     'ezcPersistentSession' => 'PersistentObject/persistent_session.php',
     'ezcPersistentObjectException' => 'PersistentObject/exceptions/persistent_object_exception.php',
+    'ezcPersistentSessionNotFoundException' => 'PersistentObject/exceptions/session_not_found.php',
     'ezcPersistentDefinitionNotFoundException' => 'PersistentObject/exceptions/definition_not_found.php',
     'ezcPersistentObjectNotPersistentException' => 'PersistentObject/exceptions/not_persistent.php',
     'ezcPersistentObjectAlreadyPersistentException' => 'PersistentObject/exceptions/already_persistent.php',

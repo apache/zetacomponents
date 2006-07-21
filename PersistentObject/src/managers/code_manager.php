@@ -61,7 +61,6 @@ class ezcPersistentCodeManager extends ezcPersistentDefinitionManager
     /**
      * Returns the definition of the persistent object with the class $class.
      *
-     * @todo exceptions
      * @throws ezcPersistentDefinitionNotFoundException if no such definition can be found.
      * @param string $class
      * @return ezcPersistentDefinition
