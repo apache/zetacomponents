@@ -585,6 +585,46 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
             $align
         );
     }
+
+    /**
+     * Draw grid line
+     *
+     * Draw line for the grid in the chart background
+     * 
+     * @param ezcGraphCoordinate $start Start point
+     * @param ezcGraphCoordinate $end End point
+     * @param ezcGraphColor $color Color of the grid line
+     * @return void
+     */
+    public function drawGridLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color )
+    {
+        $this->driver->drawLine(
+            $start,
+            $end,
+            $color,
+            1
+        );
+    }
+
+    /**
+     * Draw step line
+     *
+     * Draw a step (marker for label position) on a axis.
+     * 
+     * @param ezcGraphCoordinate $start Start point
+     * @param ezcGraphCoordinate $end End point
+     * @param ezcGraphColor $color Color of the grid line
+     * @return void
+     */
+    public function drawStepLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color )
+    {
+        $this->driver->drawLine(
+            $start,
+            $end,
+            $color,
+            1
+        );
+    }
     
     /**
      * Draw axis
@@ -679,11 +719,25 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
             true
         );
 
+        $xAxisSpace = ( $end->x - $start->x ) * $axis->axisSpace;
+        $yAxisSpace = ( $end->y - $start->y ) * $axis->axisSpace;
+
         // Apply axisSpace to start and end
-        $start->x += ( $end->x - $start->x ) * ( $axis->axisSpace / 2 );
-        $start->y += ( $end->y - $start->y ) * ( $axis->axisSpace / 2 );
-        $end->x -= ( $end->x - $start->x ) * ( $axis->axisSpace / 2 );
-        $end->y -= ( $end->y - $start->y ) * ( $axis->axisSpace / 2 );
+        $start->x += $xAxisSpace;
+        $start->y += $yAxisSpace;
+        $end->x -= $xAxisSpace;
+        $end->y -= $yAxisSpace;
+
+        if ( $labelClass !== null )
+        {
+            $labelClass->renderLabels(
+                $this,
+                $boundings,
+                $start,
+                $end,
+                $axis
+            );
+        }
     }
 
     /**

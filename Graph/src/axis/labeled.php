@@ -165,7 +165,7 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
      * 
      * @return integer Count of minor steps
      */
-    protected function getMinorStepCount()
+    public function getMinorStepCount()
     {
         return 0;
     }
@@ -175,141 +175,9 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
      * 
      * @return integer Count of major steps
      */
-    protected function getMajorStepCount()
+    public function getMajorStepCount()
     {
         return count( $this->displayedLabels ) - 1;
-    }
-
-    /**
-     * Draw labels for an axis
-     * 
-     * @param ezcGraphRenderer $renderer 
-     * @param ezcGraphCoordinate $start 
-     * @param ezcGraphCoordinate $end 
-     * @param ezcGraphBoundings $boundings 
-     * @return void
-     */
-    protected function drawLabels( ezcGraphRenderer $renderer, ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphBoundings $boundings )
-    {
-        // Draw major steps
-        $steps = $this->getMajorStepCount() + 1;
-
-        // Calculate stepsize
-        $xStepsize = ( $end->x - $start->x ) / $steps;
-        $yStepsize = ( $end->y - $start->y ) / $steps;
-
-        // Caluclate datafree chart border
-        $xBorder = abs ( ( $boundings->x1 - $boundings->x0 ) * ( $this->axisSpace / 2 ) );
-        $yBorder = abs ( ( $boundings->y1 - $boundings->y0 ) * ( $this->axisSpace / 2 ) );
-
-        for ( $i = 0; $i <= $steps; ++$i )
-        {
-            $label = sprintf( $this->formatString, $this->getLabel( $i ) );
-
-            switch ( $this->position )
-            {
-                case ezcGraph::LEFT:
-                    if ( $i === 0 )
-                    {
-                        $align = ezcGraph::LEFT;
-                    }
-                    elseif ( $i >= ( $steps - 1 ) )
-                    {
-                        $align = ezcGraph::RIGHT;
-                    }
-                    else
-                    {
-                        $align = ezcGraph::CENTER;
-                    }
-
-                    $renderer->drawTextBox(
-                        new ezcGraphCoordinate(
-                            (int) round( $start->x + $i * $xStepsize + $this->labelPadding ),
-                            (int) round( $start->y + $i * $yStepsize + $this->labelPadding )
-                        ),
-                        $label,
-                        (int) round( $xStepsize ) - $this->labelPadding,
-                        $yBorder - $this->labelPadding,
-                        $align | ezcGraph::TOP
-                    );
-                    break;
-                case ezcGraph::RIGHT:
-                    if ( $i === 0 )
-                    {
-                        $align = ezcGraph::RIGHT;
-                    }
-                    elseif ( $i >= ( $steps - 1 ) )
-                    {
-                        $align = ezcGraph::LEFT;
-                    }
-                    else
-                    {
-                        $align = ezcGraph::CENTER;
-                    }
-
-                    $renderer->drawTextBox(
-                        new ezcGraphCoordinate(
-                            (int) round( $start->x + $i * $xStepsize + $xStepsize ),
-                            (int) round( $start->y + $i * $yStepsize + $this->labelPadding )
-                        ),
-                        $label,
-                        (int) round( -$xStepsize ) - $this->labelPadding,
-                        $yBorder - $this->labelPadding,
-                        $align | ezcGraph::TOP
-                    );
-                    break;
-                case ezcGraph::BOTTOM:
-                    if ( $i === 0 )
-                    {
-                        $align = ezcGraph::BOTTOM;
-                    }
-                    elseif ( $i >= ( $steps - 1 ) )
-                    {
-                        $align = ezcGraph::TOP;
-                    }
-                    else
-                    {
-                        $align = ezcGraph::MIDDLE;
-                    }
-
-                    $renderer->drawTextBox(
-                        new ezcGraphCoordinate(
-                            (int) round( $start->x + $i * $xStepsize - $xBorder ),
-                            (int) round( $start->y + $i * $yStepsize + $yStepsize )
-                        ),
-                        $label,
-                        $xBorder - $this->labelPadding,
-                        (int) round( -$yStepsize ) - $this->labelPadding,
-                        ezcGraph::RIGHT | $align
-                    );
-                    break;
-                case ezcGraph::TOP:
-                    if ( $i === 0 )
-                    {
-                        $align = ezcGraph::TOP;
-                    }
-                    elseif ( $i >= ( $steps - 1 ) )
-                    {
-                        $align = ezcGraph::BOTTOM;
-                    }
-                    else
-                    {
-                        $align = ezcGraph::MIDDLE;
-                    }
-
-                    $renderer->drawTextBox(
-                        new ezcGraphCoordinate(
-                            (int) round( $start->x + $i * $xStepsize - $xBorder ),
-                            (int) round( $start->y + $i * $yStepsize + $this->labelPadding )
-                        ),
-                        $label,
-                        $xBorder - $this->labelPadding,
-                        (int) round( $yStepsize ) - $this->labelPadding,
-                        ezcGraph::RIGHT | $align
-                    );
-                    break;
-            }
-        }
     }
 
     /**
@@ -318,7 +186,7 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
      * @param integer $step Number of step
      * @return string label
      */
-    protected function getLabel( $step )
+    public function getLabel( $step )
     {
         if ( isset( $this->displayedLabels[$step] ) )
         {

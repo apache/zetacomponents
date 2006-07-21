@@ -31,8 +31,6 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
 
     protected $outerStep = false;
 
-    protected $innerGrid = true;
-
     protected $outerGrid = false;
 
     public function __set( $propertyName, $propertyValue )
@@ -67,74 +65,11 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
             case 'outerStep':
                 $this->outerStep = (bool) $propertyValue;
                 break;
-            case 'innerGrid':
-                $this->innerGrid = (bool) $propertyValue;
-                break;
             case 'outerGrid':
                 $this->outerGrid = (bool) $propertyValue;
                 break;
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
-        }
-    }
-
-    /**
-     * Draw single step on a axis
-     *
-     * Draws a step on a axis at the current position
-     * 
-     * @param ezcGraphCoordinate $position Position of step
-     * @param ezcGraphCoordinate $direction Direction of axis
-     * @param int $axisPosition Position of axis
-     * @param int $size Step size
-     * @param ezcGraphColor $color Color of axis
-     * @return void
-     */
-    protected function drawStep( ezcGraphCoordinate $position, ezcGraphCoordinate $direction, $axisPosition, $size, ezcGraphColor $color )
-    {
-        $drawStep = false;
-
-        if ( ( ( $axisPosition === ezcGraph::CENTER ) && $this->innerStep ) ||
-             ( ( $axisPosition === ezcGraph::RIGHT ) && $this->innerStep ) ||
-             ( ( $axisPosition === ezcGraph::LEFT ) && $this->outerStep ) )
-        {
-            // Turn direction vector to left by 90 degrees and multiply 
-            // with major step size
-            $stepStart = new ezcGraphCoordinate(
-                - $direction->y * $size,
-                $direction->x * $size
-            );
-            $drawStep = true;
-        }
-        else
-        {
-            $stepStart = $start;
-        }
-
-        if ( ( ( $axisPosition === ezcGraph::CENTER ) && $this->innerStep ) ||
-             ( ( $axisPosition === ezcGraph::RIGHT ) && $this->outerStep ) ||
-             ( ( $axisPosition === ezcGraph::LEFT ) && $this->innerStep ) )
-        {
-            // Turn direction vector to right by 90 degrees and multiply 
-            // with major step size
-            $stepEnd = new ezcGraphCoordinate(
-                $direction->y * $size,
-                - $direction->x * $size
-            );
-            $drawStep = true;
-        }
-        else
-        {
-            $stepEnd = $end;
-        }
-
-        if ( $drawStep )
-        {
-            $this->driver->drawLine(
-                $stepStart,
-                $stepEnd,
-                $color
-            );
         }
     }
 
@@ -146,22 +81,104 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
         $aLength = sqrt( pow( $aDir->x, 2 ) + pow( $aDir->y, 2 ) );
         $bLength = sqrt( pow( $bDir->x, 2 ) + pow( $bDir->y, 2 ) );
 
-        if ( ( $aDir->x / $aLength == $bDir->x / $bLength ) &&
-             ( $aDir->x / $aLength == $bDir->x / $bLength ) )
+        if ( ( $aLength > 0 ) &&
+             ( $aDir->x / $aLength == $bDir->x / $bLength ) &&
+             ( $bLength > 0 ) &&
+             ( $aDir->y / $aLength == $bDir->y / $bLength ) )
         {
             return false;
         }
 
+        // Use ? : to prevent division by zero
+        $denominator = 
+            ( $aDir->y != 0 ? $bDir->y / $aDir->y : 0 ) - 
+            ( $aDir->x != 0 ? $bDir->x / $aDir->x : 0 );
+
         // Solve equatation
-        return - ( 
-                ( $bStart->y / $aDir->y ) -
-                ( $aStart->y / $aDir->y ) -
-                ( $bStart->x / $aDir->x ) +
-                ( $aStart->x / $aDir->x )
-            ) / (
-                ( $bDir->y / $aDir->y ) - 
-                ( $bDir->x / $aDir->x )
+        if ( $denominator == 0 )
+        {
+            return - ( 
+                ( $aDir->y != 0 ? $bStart->y / $aDir->y : 0 ) -
+                ( $aDir->y != 0 ? $aStart->y / $aDir->y : 0 ) -
+                ( $aDir->x != 0 ? $bStart->x / $aDir->x : 0 ) +
+                ( $aDir->x != 0 ? $aStart->x / $aDir->x : 0 )
+                );
+        }
+        else 
+        {
+            return - ( 
+                ( $aDir->y != 0 ? $bStart->y / $aDir->y : 0 ) -
+                ( $aDir->y != 0 ? $aStart->y / $aDir->y : 0 ) -
+                ( $aDir->x != 0 ? $bStart->x / $aDir->x : 0 ) +
+                ( $aDir->x != 0 ? $aStart->x / $aDir->x : 0 )
+            ) / $denominator;
+
+        }
+    }
+
+    /**
+     * Draw single step on a axis
+     *
+     * Draws a step on a axis at the current position
+     * 
+     * @param ezcGraphRenderer $renderer Renderer to draw the step with
+     * @param ezcGraphCoordinate $position Position of step
+     * @param ezcGraphCoordinate $direction Direction of axis
+     * @param int $axisPosition Position of axis
+     * @param int $size Step size
+     * @param ezcGraphColor $color Color of axis
+     * @return void
+     */
+    public function drawStep( ezcGraphRenderer $renderer, ezcGraphCoordinate $position, ezcGraphCoordinate $direction, $axisPosition, $size, ezcGraphColor $color )
+    {
+        $drawStep = false;
+
+        if ( ( ( $axisPosition === ezcGraph::CENTER ) && $this->innerStep ) ||
+             ( ( $axisPosition === ezcGraph::BOTTOM ) && $this->outerStep ) ||
+             ( ( $axisPosition === ezcGraph::TOP ) && $this->innerStep ) ||
+             ( ( $axisPosition === ezcGraph::RIGHT ) && $this->outerStep ) ||
+             ( ( $axisPosition === ezcGraph::LEFT ) && $this->innerStep ) )
+        {
+            // Turn direction vector to left by 90 degrees and multiply 
+            // with major step size
+            $stepStart = new ezcGraphCoordinate(
+                $position->x - $direction->y * $size,
+                $position->y + $direction->x * $size
             );
+            $drawStep = true;
+        }
+        else
+        {
+            $stepStart = $position;
+        }
+
+        if ( ( ( $axisPosition === ezcGraph::CENTER ) && $this->innerStep ) ||
+             ( ( $axisPosition === ezcGraph::BOTTOM ) && $this->innerStep ) ||
+             ( ( $axisPosition === ezcGraph::TOP ) && $this->outerStep ) ||
+             ( ( $axisPosition === ezcGraph::RIGHT ) && $this->innerStep ) ||
+             ( ( $axisPosition === ezcGraph::LEFT ) && $this->outerStep ) )
+        {
+            // Turn direction vector to right by 90 degrees and multiply 
+            // with major step size
+            $stepEnd = new ezcGraphCoordinate(
+                $position->x + $direction->y * $size,
+                $position->y - $direction->x * $size
+            );
+            $drawStep = true;
+        }
+        else
+        {
+            $stepEnd = $position;
+        }
+
+        if ( $drawStep )
+        {
+            $renderer->drawStepLine(
+                $stepStart,
+                $stepEnd,
+                $color
+            );
+        }
     }
     
     /**
@@ -169,13 +186,14 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
      *
      * Draws a grid line at the current position
      * 
+     * @param ezcGraphRenderer $renderer Renderer to draw the grid with
      * @param ezcGraphBoundings $boundings Boundings of axis
      * @param ezcGraphCoordinate $position Position of step
      * @param ezcGraphCoordinate $direction Direction of axis
      * @param ezcGraphColor $color Color of axis
      * @return void
      */
-    protected function drawGrid( ezcGraphBoundings $boundings, ezcGraphCoordinate $position, ezcGraphCoordinate $direction, ezcGraphColor $color )
+    protected function drawGrid( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings, ezcGraphCoordinate $position, ezcGraphCoordinate $direction, ezcGraphColor $color )
     {
         // Direction of grid line is direction of axis turned right by 90 
         // degrees
@@ -192,7 +210,7 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
                 ),
                 array(
                     'start' => new ezcGraphCoordinate( $boundings->x0, $boundings->y0 ),
-                    'dir' => new ezcGraphCoordinate( 0, $boundings->x1 - $boundings->x0 )
+                    'dir' => new ezcGraphCoordinate( $boundings->x1 - $boundings->x0, 0 )
                 ),
                 array(
                     'start' => new ezcGraphCoordinate( $boundings->x1, $boundings->y1 ),
@@ -200,7 +218,7 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
                 ),
                 array(
                     'start' => new ezcGraphCoordinate( $boundings->x1, $boundings->y1 ),
-                    'dir' => new ezcGraphCoordinate( 0, $boundings->x0 - $boundings->x1 )
+                    'dir' => new ezcGraphCoordinate( $boundings->x0 - $boundings->x1, 0 )
                 ),
             ) as $boundingLine )
         {
@@ -210,13 +228,21 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
             // ending point for the grid lines. There should *always* be two
             // points returned.
             $cuttingPosition = $this->determineLineCuttingPoint(
-                $start,
-                $gridDirection,
                 $boundingLine['start'],
-                $boundingLine['dir']
+                $boundingLine['dir'],
+                $position,
+                $gridDirection
             );
 
-            if ( $cuttingPosition > 0 && $cuttingPosition <= 1 )
+            if ( $cuttingPosition === false )
+            {
+                continue;
+            }
+            // Round to prevent minor float incorectnesses
+            $cuttingPosition = round( $cuttingPosition, 2 );
+
+            if ( ( $cuttingPosition >= 0 ) && 
+                 ( $cuttingPosition <= 1 ) )
             {
                 $cuttingPoints[] = new ezcGraphCoordinate(
                     $boundingLine['start']->x + $cuttingPosition * $boundingLine['dir']->x,
@@ -225,8 +251,13 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
             }
         }
 
+        if ( count( $cuttingPoints ) < 2 )
+        {
+            return false;
+        }
+
         // Finally draw grid line
-        $this->driver->drawLine(
+        $renderer->drawGridLine(
             $cuttingPoints[0],
             $cuttingPoints[1],
             $color
@@ -266,19 +297,19 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
      *
      * Render labels for an axis.
      *
+     * @param ezcGraphRenderer $renderer Renderer used to draw the chart
      * @param ezcGraphBoundings $boundings Boundings of the axis
      * @param ezcGraphCoordinate $start Axis starting point
      * @param ezcGraphCoordinate $end Axis ending point
      * @param ezcGraphChartElementAxis $axis Axis instance
-     * @param int $position Position of axis (left, right, or center)
      * @return void
      */
     abstract public function renderLabels(
+        ezcGraphRenderer $renderer,
         ezcGraphBoundings $boundings,
         ezcGraphCoordinate $start,
         ezcGraphCoordinate $end,
-        ezcGraphChartElementAxis $axis,
-        $axisPosition 
+        ezcGraphChartElementAxis $axis
     );
 }
 ?>

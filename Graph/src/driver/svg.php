@@ -51,7 +51,6 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphSvgDriverOptions( $options );
-
     }
 
     protected function createDocument()

@@ -301,7 +301,7 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
      * 
      * @return integer Count of minor steps
      */
-    protected function getMinorStepCount()
+    public function getMinorStepCount()
     {
         return (int) ( ( $this->max - $this->min ) / $this->minorStep );
     }
@@ -311,7 +311,7 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
      * 
      * @return integer Count of major steps
      */
-    protected function getMajorStepCount()
+    public function getMajorStepCount()
     {
         return (int) ( ( $this->max - $this->min ) / $this->majorStep );
     }
@@ -463,7 +463,7 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
      * @param integer $step Number of step
      * @return string label
      */
-    protected function getLabel( $step )
+    public function getLabel( $step )
     {
         return $this->min + ( $step * $this->majorStep );
     }

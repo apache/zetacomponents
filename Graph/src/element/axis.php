@@ -202,14 +202,14 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
      * 
      * @return integer Count of minor steps
      */
-    abstract protected function getMinorStepCount();
+    abstract public function getMinorStepCount();
 
     /**
      * Return count of major steps
      * 
      * @return integer Count of major steps
      */
-    abstract protected function getMajorStepCount();
+    abstract public function getMajorStepCount();
 
     /**
      * Get label for a dedicated step on the axis
@@ -217,7 +217,7 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
      * @param integer $step Number of step
      * @return string label
      */
-    abstract protected function getLabel( $step );
+    abstract public function getLabel( $step );
 
     /**
      * Add data for this axis

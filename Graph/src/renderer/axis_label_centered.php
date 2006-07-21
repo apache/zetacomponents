@@ -14,24 +14,28 @@
  *
  * @package Graph
  */
-abstract class ezcGraphAxisLabelRenderer
+class ezcGraphAxisLabelRenderer
 {
     /**
      * Render Axis labels
      *
      * Render labels for an axis.
      *
+     * @param ezcGraphRenderer $renderer Renderer used to draw the chart
      * @param ezcGraphBoundings $boundings Boundings of the axis
      * @param ezcGraphCoordinate $start Axis starting point
      * @param ezcGraphCoordinate $end Axis ending point
      * @param ezcGraphChartElementAxis $axis Axis instance
      * @return void
      */
-    abstract function renderLabels(
+    public function renderLabels(
+        ezcGraphRenderer $renderer,
         ezcGraphBoundings $boundings,
         ezcGraphCoordinate $start,
         ezcGraphCoordinate $end,
-        ezcGraphChartElementAxis $axis
-    );
+        ezcGraphChartElementAxis $axis )
+    {
+
+    }
 }
 ?>

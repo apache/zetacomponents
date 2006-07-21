@@ -29,20 +29,24 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
      *
      * Render labels for an axis.
      *
+     * @param ezcGraphRenderer $renderer Renderer used to draw the chart
      * @param ezcGraphBoundings $boundings Boundings of the axis
      * @param ezcGraphCoordinate $start Axis starting point
      * @param ezcGraphCoordinate $end Axis ending point
      * @param ezcGraphChartElementAxis $axis Axis instance
-     * @param int $position Position of axis (left, right, or center)
      * @return void
      */
     public function renderLabels(
+        ezcGraphRenderer $renderer,
         ezcGraphBoundings $boundings,
         ezcGraphCoordinate $start,
         ezcGraphCoordinate $end,
-        ezcGraphChartElementAxis $axis,
-        $axisPosition )
+        ezcGraphChartElementAxis $axis )
     {
+        // receive rendering parameters from axis
+        $this->majorStepCount = $axis->getMajorStepCount();
+        $this->minorStepCount = $axis->getMinorStepCount();
+
         // Determine normalized axis direction
         $direction = new ezcGraphCoordinate(
             $start->x - $end->x,
@@ -58,7 +62,7 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
             ( $end->y - $start->y ) / $this->majorStepCount
         );
 
-        if ( $this->minorStepCount !== false )
+        if ( $this->minorStepCount )
         {
             $minorStep = new ezcGraphCoordinate(
                 ( $end->x - $start->x ) / $this->minorStepCount,
@@ -81,19 +85,20 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
         }
 
         // Draw steps and grid
-        while ( $start->x <= $end->x )
+        while ( ( $start->x <= $end->x ) &&
+                ( $start->y <= $end->y ) )
         {
-            // major step
-            $this->drawStep( $start, $direction, $axisPosition, $this->majorStepSize, $axis->border );
-
             // major grid
-            if ( $this->majorGrid )
+            if ( $axis->majorGrid )
             {
-                $this->drawGrid( $gridBoundings, $start, $majorStep, $axis->majorGrid );
+                $this->drawGrid( $renderer, $gridBoundings, $start, $majorStep, $axis->majorGrid );
             }
 
+            // major step
+            $this->drawStep( $renderer, $start, $direction, $axis->position, $this->majorStepSize, $axis->border );
+
             // second iteration for minor steps, if wanted
-            if ( $this->minorStepCount !== false )
+            if ( $this->minorStepCount )
             {
                 $minorGridPosition = new ezcGraphCoordinate(
                     $start->x + $minorStep->x,
@@ -102,17 +107,17 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
 
                 while ( $minorGridPosition->x < ( $start->x + $majorStep->x ) )
                 {
-                    // minor step
-                    $this->drawStep( $minorGridPosition, $direction, $axisPosition, $this->minorStepSize, $axis->border );
-
                     // minor grid
-                    if ( $this->minorGrid )
+                    if ( $axis->minorGrid )
                     {
-                        $this->drawGrid( $gridBoundings, $minorGridPosition, $majorStep, $axis->minorGrid );
+                        $this->drawGrid( $renderer, $gridBoundings, $minorGridPosition, $majorStep, $axis->minorGrid );
                     }
 
                     $minorGridPosition->x += $minorStep->x;
                     $minorGridPosition->y += $minorStep->y;
+
+                    // minor step
+                    $this->drawStep( $renderer, $minorGridPosition, $direction, $axis->position, $this->minorStepSize, $axis->border );
                 }
             }
 

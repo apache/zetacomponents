@@ -17,8 +17,9 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
 {
     protected $call = 0;
 
-    public function __construct()
+    public function __construct( array $options = array() )
     {
+        $this->options = new ezcGraphSvgDriverOptions( $options );
         echo "\n";
     }
 
@@ -38,7 +39,7 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
             $pointString .= sprintf( "\t( %.2f, %.2f )\n", $point->x, $point->y );
         }
 
-        printf( "%03d: Draw %spolygon:\n%s", 
+        printf( "% 4d: Draw %spolygon:\n%s", 
             $this->call++,
             ( $filled ? 'filled ' : '' ),
             $pointString
@@ -55,7 +56,7 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
      */
     public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color, $thickness = 1 )
     {
-        printf( "%03d: Draw line from ( %.2f, %.2f ) to ( %.2f, %.2f ) with thickness %d.\n",
+        printf( "% 4d: Draw line from ( %.2f, %.2f ) to ( %.2f, %.2f ) with thickness %d.\n",
             $this->call++,
             $start->x,
             $start->y,
@@ -77,7 +78,7 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
      */
     public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align )
     {
-        printf( "%03d: Draw text '%s' at ( %.2f, %.2f ) with dimensions ( %d, %d ) and alignement %d.\n",
+        printf( "% 4d: Draw text '%s' at ( %.2f, %.2f ) with dimensions ( %d, %d ) and alignement %d.\n",
             $this->call++,
             $string,
             $position->x,
@@ -100,7 +101,7 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
      */
     public function drawCircleSector( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color, $filled = true )
     {
-        printf( "%03d: Draw %scicle sector at ( %.2f, %.2f ) with dimensions ( %d, %d ) from %.2f to %.2f.\n",
+        printf( "% 4d: Draw %scicle sector at ( %.2f, %.2f ) with dimensions ( %d, %d ) from %.2f to %.2f.\n",
             $this->call++,
             ( $filled ? 'filled ' : '' ),
             $center->x,
@@ -126,7 +127,7 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
      */
     public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color )
     {
-        printf( "%03d: Draw circular arc at ( %.2f, %.2f ) with dimensions ( %d, %d ) and size %.2f from %.2f to %.2f.\n",
+        printf( "% 4d: Draw circular arc at ( %.2f, %.2f ) with dimensions ( %d, %d ) and size %.2f from %.2f to %.2f.\n",
             $this->call++,
             $center->x,
             $center->y,
@@ -151,7 +152,7 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
      */
     public function drawCircle( ezcGraphCoordinate $center, $width, $height, ezcGraphColor $color, $filled = true )
     {
-        printf( "%03d: Draw %scircle at ( %.2f, %.2f ) with dimensions ( %d, %d ).\n",
+        printf( "% 4d: Draw %scircle at ( %.2f, %.2f ) with dimensions ( %d, %d ).\n",
             $this->call++,
             ( $filled ? 'filled ' : '' ),
             $center->x,
@@ -172,7 +173,7 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
      */
     public function drawImage( $file, ezcGraphCoordinate $position, $width, $height )
     {
-        printf( "%03d: Draw image '%s' at ( %.2f, %.2f ) with dimensions ( %d, %d ).\n",
+        printf( "% 4d: Draw image '%s' at ( %.2f, %.2f ) with dimensions ( %d, %d ).\n",
             $this->call++,
             $file,
             $position->x,

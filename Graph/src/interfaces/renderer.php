@@ -135,7 +135,7 @@ abstract class ezcGraphRenderer
         $text,
         $align = ezcGraph::LEFT
     );
-    
+
     /**
      * Draw axis
      *
