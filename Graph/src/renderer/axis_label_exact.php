@@ -24,6 +24,18 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
      */
     protected $showLastValue = true;
 
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'showLastValue':
+                $this->showLastValue = (bool) $propertyValue;
+                break;
+            default:
+                return parent::__set( $propertyName, $propertyValue );
+        }
+    }
+
     /**
      * Render Axis labels
      *
@@ -84,18 +96,109 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
             );
         }
 
+        // Determine size of labels
+        $xPaddingDirection = 1;
+        $yPaddingDirection = 1;
+        switch ( $axis->position )
+        {
+            case ezcGraph::RIGHT:
+                $xPaddingDirection = -1;
+            case ezcGraph::LEFT:
+                if ( $this->showLastValue )
+                {
+                    $labelWidth = $majorStep->x / 2;
+                }
+                else
+                {
+                    $labelWidth = $majorStep->x;
+                }
+                $labelHeight = ( $boundings->y1 - $boundings->y0 ) * $axis->axisSpace;
+                break;
+            case ezcGraph::BOTTOM:
+                $yPaddingDirection = -1;
+            case ezcGraph::TOP:
+                if ( $this->showLastValue )
+                {
+                    $labelHeight = $majorStep->y / 2;
+                }
+                else
+                {
+                    $labelHeight = $majorStep->y;
+                }
+                $labelWidth = ( $boundings->x1 - $boundings->x0 ) * $axis->axisSpace;
+                break;
+        }
+
         // Draw steps and grid
-        while ( ( $start->x <= $end->x ) &&
-                ( $start->y <= $end->y ) )
+        $step = 0;
+        while ( $step <= $this->majorStepCount )
         {
             // major grid
             if ( $axis->majorGrid )
             {
                 $this->drawGrid( $renderer, $gridBoundings, $start, $majorStep, $axis->majorGrid );
             }
-
+            
             // major step
             $this->drawStep( $renderer, $start, $direction, $axis->position, $this->majorStepSize, $axis->border );
+
+            // draw label
+            $label = $axis->getLabel( $step );
+            switch ( true )
+            {
+                // Draw label at top left of step
+                case ( ( $axis->position === ezcGraph::BOTTOM ) &&
+                       ( $step < $this->majorStepCount ) ) ||
+                     ( ( $axis->position === ezcGraph::TOP ) &&
+                       ( $step == $this->majorStepCount ) ):
+                    $renderer->drawText(
+                        new ezcGraphBoundings(
+                            $start->x - $labelWidth + $this->labelPadding,
+                            $start->y - $labelHeight * $yPaddingDirection + $this->labelPadding,
+                            $start->x - $this->labelPadding,
+                            $start->y - $this->labelPadding
+                        ),
+                        $label,
+                        ezcGraph::RIGHT | ezcGraph::BOTTOM
+                    );
+                break;
+                // Draw label at bottom right of step
+                case ( ( $axis->position === ezcGraph::LEFT ) &&
+                       ( $step < $this->majorStepCount ) ) ||
+                     ( ( $axis->position === ezcGraph::RIGHT ) &&
+                       ( $step == $this->majorStepCount ) ):
+                    $renderer->drawText(
+                        new ezcGraphBoundings(
+                            $start->x + $this->labelPadding,
+                            $start->y + $this->labelPadding,
+                            $start->x + $labelWidth * $xPaddingDirection - $this->labelPadding,
+                            $start->y + $labelHeight - $this->labelPadding
+                        ),
+                        $label,
+                        ezcGraph::LEFT | ezcGraph::TOP
+                    );
+                break;
+                // Draw label at bottom left of step
+                case ( ( $axis->position === ezcGraph::TOP ) &&
+                       ( $step < $this->majorStepCount ) ) ||
+                     ( ( $axis->position === ezcGraph::RIGHT ) &&
+                       ( $step < $this->majorStepCount ) ) ||
+                     ( ( $axis->position === ezcGraph::BOTTOM ) &&
+                       ( $step == $this->majorStepCount ) ) ||
+                     ( ( $axis->position === ezcGraph::LEFT ) &&
+                       +( $step == $this->majorStepCount ) ):
+                    $renderer->drawText(
+                        new ezcGraphBoundings(
+                            $start->x - $labelWidth * $xPaddingDirection + $this->labelPadding,
+                            $start->y + $this->labelPadding,
+                            $start->x - $this->labelPadding,
+                            $start->y + $labelHeight * $yPaddingDirection - $this->labelPadding
+                        ),
+                        $label,
+                        ezcGraph::RIGHT | ezcGraph::TOP
+                    );
+                break;
+            }
 
             // second iteration for minor steps, if wanted
             if ( $this->minorStepCount )
@@ -123,6 +226,7 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
 
             $start->x += $majorStep->x;
             $start->y += $majorStep->y;
+            ++$step;
         }
     }
 }

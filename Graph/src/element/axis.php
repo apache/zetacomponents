@@ -31,13 +31,6 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
     protected $axisSpace = .1;
 
     /**
-     * Padding between labels and axis in pixel
-     * 
-     * @var integer
-     */
-    protected $labelPadding = 2;
-
-    /**
      * Color of major majorGrid 
      * 
      * @var ezcGraphColor
@@ -129,9 +122,6 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 break;
             case 'axisSpace':
                 $this->axisSpace = min( 1, max( 0, (float) $propertyValue ) );
-                break;
-            case 'labelPadding':
-                $this->labelPadding = min( 0, max( 0, (float) $propertyValue ) );
                 break;
             case 'majorGrid':
                 if ( $propertyValue instanceof ezcGraphColor )

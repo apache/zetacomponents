@@ -33,6 +33,8 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
 
     protected $outerGrid = false;
 
+    protected $labelPadding = 2;
+
     public function __set( $propertyName, $propertyValue )
     {
         switch ( $propertyName )
@@ -76,15 +78,12 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
     public function determineLineCuttingPoint( ezcGraphCoordinate $aStart, ezcGraphCoordinate $aDir, ezcGraphCoordinate $bStart, ezcGraphCoordinate $bDir )
     {
         // Check if line are parallel
-        // @TODO: This is not the optimal way because of inexact floating point
-        // numbers and not needed use of sqrt
-        $aLength = sqrt( pow( $aDir->x, 2 ) + pow( $aDir->y, 2 ) );
-        $bLength = sqrt( pow( $bDir->x, 2 ) + pow( $bDir->y, 2 ) );
-
-        if ( ( $aLength > 0 ) &&
-             ( $aDir->x / $aLength == $bDir->x / $bLength ) &&
-             ( $bLength > 0 ) &&
-             ( $aDir->y / $aLength == $bDir->y / $bLength ) )
+        if ( ( ( $aDir->x == 0 ) && ( $bDir->x == 0 ) ) ||
+             ( ( $aDir->y == 0 ) && ( $bDir->y == 0 ) ) || 
+             ( ( ( $aDir->x * $bDir->x * $aDir->y * $bDir->y ) != 0 ) && 
+               ( ( $aDir->x / $aDir->y ) == ( $bDir->x / $bDir->y ) ) 
+             )
+           )
         {
             return false;
         }
@@ -131,8 +130,12 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
      */
     public function drawStep( ezcGraphRenderer $renderer, ezcGraphCoordinate $position, ezcGraphCoordinate $direction, $axisPosition, $size, ezcGraphColor $color )
     {
-        $drawStep = false;
+        if ( ! ( $this->innerStep || $this->outerStep ) )
+        {
+            return false;
+        }
 
+        $drawStep = false;
         if ( ( ( $axisPosition === ezcGraph::CENTER ) && $this->innerStep ) ||
              ( ( $axisPosition === ezcGraph::BOTTOM ) && $this->outerStep ) ||
              ( ( $axisPosition === ezcGraph::TOP ) && $this->innerStep ) ||
@@ -239,7 +242,7 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
                 continue;
             }
             // Round to prevent minor float incorectnesses
-            $cuttingPosition = round( $cuttingPosition, 2 );
+            $cuttingPosition = abs( round( $cuttingPosition, 2 ) );
 
             if ( ( $cuttingPosition >= 0 ) && 
                  ( $cuttingPosition <= 1 ) )

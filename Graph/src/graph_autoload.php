@@ -32,7 +32,9 @@ return array(
     'ezcGraphInvalidRendererException'          => 'Graph/exceptions/invalid_renderer.php',
 
     'ezcGraphAxisLabelRenderer'                 => 'Graph/interfaces/axis_label_renderer.php',
+    'ezcGraphAxisNoLabelRenderer'               => 'Graph/renderer/axis_label_none.php',
     'ezcGraphAxisExactLabelRenderer'            => 'Graph/renderer/axis_label_exact.php',
+    'ezcGraphAxisCenteredLabelRenderer'         => 'Graph/renderer/axis_label_centered.php',
 
     'ezcGraphDriver'                            => 'Graph/interfaces/driver.php',
     'ezcGraphDriverOptions'                     => 'Graph/options/driver.php',

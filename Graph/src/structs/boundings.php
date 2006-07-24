@@ -19,6 +19,21 @@ class ezcGraphBoundings
         $this->y0 = $y0;
         $this->x1 = $x1;
         $this->y1 = $y1;
+
+        // Switch values to ensure correct order
+        if ( $this->x0 > $this->x1 )
+        {
+            $tmp = $this->x0;
+            $this->x0 = $this->x1;
+            $this->x1 = $tmp;
+        }
+
+        if ( $this->y0 > $this->y1 )
+        {
+            $tmp = $this->y0;
+            $this->y0 = $this->y1;
+            $this->y1 = $tmp;
+        }
     }
 
     /**

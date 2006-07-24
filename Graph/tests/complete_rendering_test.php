@@ -75,6 +75,31 @@ class ezcGraphCompleteRenderingTest extends ezcImageTestCase
         );
     }
 
+    public function testRenderLineChartReverse()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = ezcGraph::create( 'line' );
+        $chart->palette = 'Black';
+
+        $chart['Line 1'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['Line 2'] = array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613);
+
+        $chart->xAxis->position = ezcGraph::RIGHT;
+        $chart->yAxis->position = ezcGraph::TOP;
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
     public function testRenderLineChartAxis()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';

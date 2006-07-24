@@ -35,6 +35,13 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
      */
     const MAX_LABEL_COUNT = 10;
 
+    public function __construct( array $options = array() )
+    {
+        $this->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
+
+        parent::__construct( $options );
+    }
+
     protected function increaseKeys( $array, $startKey )
     {
         foreach ( $array as $key => $value )
