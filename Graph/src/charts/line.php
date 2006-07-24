@@ -72,11 +72,14 @@ class ezcGraphLineChart extends ezcGraphChart
     protected function renderData( $renderer, $boundings )
     {
         // Apply axis space
-        $boundings->x0 += ( $boundings->x1 - $boundings->x0 ) * $this->xAxis->axisSpace;
-        $boundings->x1 -= ( $boundings->x1 - $boundings->x0 ) * $this->xAxis->axisSpace;
+        $xAxisSpace = ( $boundings->x1 - $boundings->x0 ) * $this->xAxis->axisSpace;
+        $yAxisSpace = ( $boundings->y1 - $boundings->y0 ) * $this->yAxis->axisSpace;
 
-        $boundings->y0 += ( $boundings->y1 - $boundings->y0 ) * $this->yAxis->axisSpace;
-        $boundings->y1 -= ( $boundings->y1 - $boundings->y0 ) * $this->yAxis->axisSpace;
+        $boundings->x0 += $xAxisSpace;
+        $boundings->x1 -= $xAxisSpace;
+
+        $boundings->y0 += $yAxisSpace;
+        $boundings->y1 -= $yAxisSpace;
 
         foreach ( $this->data as $data )
         {

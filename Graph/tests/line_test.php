@@ -110,7 +110,7 @@ class ezcGraphLineChartTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawDataLine' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 140., 20., 464., 182. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .0, .415 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( .0, .415 ), .05 ),
@@ -122,7 +122,7 @@ class ezcGraphLineChartTest extends ezcTestCase
             ->expects( $this->at( 1 ) )
             ->method( 'drawDataLine' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 140., 20., 464., 182. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .0, .415 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( .25, .95 ), .05 ),
@@ -134,7 +134,7 @@ class ezcGraphLineChartTest extends ezcTestCase
             ->expects( $this->at( 2 ) )
             ->method( 'drawDataLine' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 140., 20., 464., 182. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .25, .95 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( .5, .2 ), .05 ),
@@ -146,7 +146,7 @@ class ezcGraphLineChartTest extends ezcTestCase
             ->expects( $this->at( 3 ) )
             ->method( 'drawDataLine' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 140., 20., 464., 182. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .5, .2 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( .75, .7 ), .05 ),
@@ -158,7 +158,7 @@ class ezcGraphLineChartTest extends ezcTestCase
            ->expects( $this->at( 4 ) )
             ->method( 'drawDataLine' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 140., 20., 464., 182. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .75, .7 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( 1., .9975 ), .05 ),
@@ -187,7 +187,7 @@ class ezcGraphLineChartTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawDataLine' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 140., 20., 464., 182. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#3465A4' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .0, .165 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( .0, .165 ), .05 ),
@@ -199,7 +199,7 @@ class ezcGraphLineChartTest extends ezcTestCase
             ->expects( $this->at( 1 ) )
             ->method( 'drawDataLine' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 140., 20., 464., 182. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#3465A4' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .0, .165 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( .25, .6975 ), .05 ),
@@ -211,7 +211,7 @@ class ezcGraphLineChartTest extends ezcTestCase
             ->expects( $this->at( 4 ) )
             ->method( 'drawDataLine' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 140., 20., 464., 182. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#3465A4' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .75, .45 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( 1., .5 ), .05 ),
@@ -241,7 +241,7 @@ class ezcGraphLineChartTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawDataLine' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 140., 20., 464., 182. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#729FCF' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .0, .415 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( .0, .415 ), .05 ),
@@ -253,7 +253,7 @@ class ezcGraphLineChartTest extends ezcTestCase
             ->expects( $this->at( 2 ) )
             ->method( 'drawDataLine' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 140., 20., 464., 182. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#729FCF' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .25, .9475 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( .5, .19 ), .05 ),
@@ -265,7 +265,7 @@ class ezcGraphLineChartTest extends ezcTestCase
             ->expects( $this->at( 4 ) )
             ->method( 'drawDataLine' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 140., 20., 464., 182. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#729FCF' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .75, .7 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( 1., .9975 ), .05 ),
