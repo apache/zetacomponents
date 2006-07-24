@@ -133,19 +133,26 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
         $step = 0;
         while ( $step <= $this->majorStepCount )
         {
-            // major grid
-            if ( $axis->majorGrid )
+            if ( ! $axis->isZeroStep( $step ) )
             {
-                $this->drawGrid( $renderer, $gridBoundings, $start, $majorStep, $axis->majorGrid );
+                // major grid
+                if ( $axis->majorGrid )
+                {
+                    $this->drawGrid( $renderer, $gridBoundings, $start, $majorStep, $axis->majorGrid );
+                }
+                
+                // major step
+                $this->drawStep( $renderer, $start, $direction, $axis->position, $this->majorStepSize, $axis->border );
             }
-            
-            // major step
-            $this->drawStep( $renderer, $start, $direction, $axis->position, $this->majorStepSize, $axis->border );
 
             // draw label
             $label = $axis->getLabel( $step );
             switch ( true )
             {
+                case ( !$this->showLastValue && 
+                       ( $step == $this->majorStepCount ) ):
+                    // Skip last step if showLastValue is false
+                    break;
                 // Draw label at top left of step
                 case ( ( $axis->position === ezcGraph::BOTTOM ) &&
                        ( $step < $this->majorStepCount ) ) ||

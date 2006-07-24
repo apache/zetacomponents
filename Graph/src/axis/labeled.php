@@ -204,6 +204,19 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
             return false;
         }
     }
+
+    /**
+     * Is zero step
+     *
+     * Returns true if the given step is the one on the initial axis position
+     * 
+     * @param int $step Number of step
+     * @return bool Status If given step is initial axis position
+     */
+    public function isZeroStep( $step )
+    {
+        return !$step;
+    }
 }
 
 ?>

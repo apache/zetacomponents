@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcGraphAxisExactRendererTest 
+ * ezcGraphAxisCenteredRendererTest 
  * 
  * @package Graph
  * @version //autogen//
@@ -15,7 +15,7 @@
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphAxisExactRendererTest extends ezcTestCase
+class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 {
 
     protected $renderer;
@@ -24,7 +24,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcGraphAxisExactRendererTest" );
+		return new ezcTestSuite( "ezcGraphAxisCenteredRendererTest" );
 	}
 
     /**
@@ -45,91 +45,11 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
     {
     }
 
-    public function testDetermineCuttingPoint()
-    {
-        $aStart = new ezcGraphCoordinate( -1, -5 );
-        $aDir = new ezcGraphCoordinate( 4, 3 );
-
-        $bStart = new ezcGraphCoordinate( 1, 2 );
-        $bDir = new ezcGraphCoordinate( 1, -2 );
-
-        $axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
-        $cuttingPosition = $axisLabelRenderer->determineLineCuttingPoint( $aStart, $aDir, $bStart, $bDir );
-
-        $this->assertEquals(
-            $cuttingPosition,
-            2.,
-            'Cutting position should be <2>',
-            .1
-        );
-
-        $cuttingPoint = new ezcGraphCoordinate(
-            $bStart->x + $cuttingPosition * $bDir->x,
-            $bStart->y + $cuttingPosition * $bDir->y
-        );
-
-        $this->assertEquals(
-            $cuttingPoint,
-            new ezcGraphCoordinate( 3., -2. ),
-            'Wrong cutting point.',
-            .1
-        );
-    }
-
-    public function testDetermineCuttingPoint2()
-    {
-        $aStart = new ezcGraphCoordinate( 0, 2 );
-        $aDir = new ezcGraphCoordinate( 3, 1 );
-
-        $bStart = new ezcGraphCoordinate( 2, -1 );
-        $bDir = new ezcGraphCoordinate( 1, 2 );
-
-        $axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
-        $cuttingPosition = $axisLabelRenderer->determineLineCuttingPoint( $aStart, $aDir, $bStart, $bDir );
-
-        $this->assertEquals(
-            $cuttingPosition,
-            2.2,
-            'Cutting position should be <2.2>',
-            .1
-        );
-
-        $cuttingPoint = new ezcGraphCoordinate(
-            $bStart->x + $cuttingPosition * $bDir->x,
-            $bStart->y + $cuttingPosition * $bDir->y
-        );
-
-        $this->assertEquals(
-            $cuttingPoint,
-            new ezcGraphCoordinate( 4.2, 3.4 ),
-            'Wrong cutting point.',
-            .1
-        );
-    }
-
-    public function testNoCuttingPoint()
-    {
-        $aStart = new ezcGraphCoordinate( 0, 0 );
-        $aDir = new ezcGraphCoordinate( 1, 0 );
-
-        $bStart = new ezcGraphCoordinate( 0, 1 );
-        $bDir = new ezcGraphCoordinate( 3, 0 );
-
-        $axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
-        $cuttingPosition = $axisLabelRenderer->determineLineCuttingPoint( $aStart, $aDir, $bStart, $bDir );
-
-        $this->assertSame(
-            $cuttingPosition,
-            false,
-            'There should not be a cutting point.'
-        );
-    }
-
     public function testRenderAxisGrid()
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->palette = 'Black';
-        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         
@@ -163,7 +83,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->palette = 'Black';
-        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->xAxis->axisLabelRenderer->outerGrid = true;
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
@@ -198,7 +118,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->palette = 'Black';
-        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         
@@ -232,7 +152,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->palette = 'Black';
-        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->xAxis->axisLabelRenderer->outerStep = true;
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
@@ -267,7 +187,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->palette = 'Black';
-        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->xAxis->axisLabelRenderer->innerStep = false;
         $chart->xAxis->axisLabelRenderer->outerStep = true;
@@ -303,7 +223,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->palette = 'Black';
-        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->xAxis->axisLabelRenderer->innerStep = false;
         $chart->yAxis->axisLabelRenderer->innerStep = false;
@@ -326,7 +246,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->palette = 'Black';
-        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         
@@ -338,25 +258,17 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 142., 182., 178., 198. ), 1. ),
-                $this->equalTo( 'sample 1' ),
-                $this->equalTo( ezcGraph::TOP | ezcGraph::LEFT )
-            );
-        $mockedRenderer
-            ->expects( $this->at( 1 ) )
-            ->method( 'drawText' )
-            ->with(
-                $this->equalTo( new ezcGraphBoundings( 222., 182., 258., 198. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 182., 182., 258., 198. ), 1. ),
                 $this->equalTo( 'sample 2' ),
-                $this->equalTo( ezcGraph::TOP | ezcGraph::LEFT )
+                $this->equalTo( ezcGraph::TOP | ezcGraph::CENTER )
             );
         $mockedRenderer
-            ->expects( $this->at( 4 ) )
+            ->expects( $this->at( 3 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 422., 182., 458., 198. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 422., 182., 498., 198. ), 1. ),
                 $this->equalTo( 'sample 5' ),
-                $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT )
+                $this->equalTo( ezcGraph::TOP | ezcGraph::CENTER )
             );
 
         $chart->renderer = $mockedRenderer;
@@ -364,13 +276,13 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
         $chart->render( 500, 200 );
     }
 
-    public function testRenderTextBoxesWithoutLastLabel()
+    public function testRenderTextBoxesWithZeroValue()
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->palette = 'Black';
-        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
-        $chart->xAxis->axisLabelRenderer->showLastValue = false;
+        $chart->xAxis->axisLabelRenderer->showZeroValue = true;
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
@@ -381,25 +293,25 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 142., 182., 218., 198. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 102., 182., 178., 198. ), 1. ),
                 $this->equalTo( 'sample 1' ),
-                $this->equalTo( ezcGraph::TOP | ezcGraph::LEFT )
+                $this->equalTo( ezcGraph::TOP | ezcGraph::CENTER )
             );
         $mockedRenderer
             ->expects( $this->at( 1 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 222., 182., 298., 198. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 182., 182., 258., 198. ), 1. ),
                 $this->equalTo( 'sample 2' ),
-                $this->equalTo( ezcGraph::TOP | ezcGraph::LEFT )
+                $this->equalTo( ezcGraph::TOP | ezcGraph::CENTER )
             );
         $mockedRenderer
-            ->expects( $this->at( 3 ) )
+            ->expects( $this->at( 4 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 382., 182., 458., 198. ), 1. ),
-                $this->equalTo( 'sample 4' ),
-                $this->equalTo( ezcGraph::TOP | ezcGraph::LEFT )
+                $this->equalTo( new ezcGraphBoundings( 422., 182., 498., 198. ), 1. ),
+                $this->equalTo( 'sample 5' ),
+                $this->equalTo( ezcGraph::TOP | ezcGraph::CENTER )
             );
 
         $chart->renderer = $mockedRenderer;
@@ -411,7 +323,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->palette = 'Black';
-        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->xAxis->position = ezcGraph::RIGHT;
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
@@ -447,7 +359,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
         $chart = ezcGraph::create( 'Line' );
         $chart->palette = 'Black';
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
-        $chart->yAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $chart->yAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->position = ezcGraph::TOP;
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         
@@ -482,7 +394,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
         $chart = ezcGraph::create( 'Line' );
         $chart->palette = 'Black';
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
-        $chart->yAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $chart->yAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->position = ezcGraph::BOTTOM;
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         
@@ -516,7 +428,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
     {
         $chart = ezcGraph::create( 'Line' );
         $chart->palette = 'Black';
-        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->xAxis->position = ezcGraph::RIGHT;
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
@@ -529,25 +441,17 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 422., 182., 458., 198. ), 1. ),
-                $this->equalTo( 'sample 1' ),
-                $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT )
-            );
-        $mockedRenderer
-            ->expects( $this->at( 1 ) )
-            ->method( 'drawText' )
-            ->with(
-                $this->equalTo( new ezcGraphBoundings( 342., 182., 378., 198. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 342., 182., 418., 198. ), 1. ),
                 $this->equalTo( 'sample 2' ),
-                $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT )
+                $this->equalTo( ezcGraph::TOP | ezcGraph::CENTER )
             );
         $mockedRenderer
-            ->expects( $this->at( 4 ) )
+            ->expects( $this->at( 3 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 142., 182., 178., 198. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 102., 182., 178., 198. ), 1. ),
                 $this->equalTo( 'sample 5' ),
-                $this->equalTo( ezcGraph::TOP | ezcGraph::LEFT )
+                $this->equalTo( ezcGraph::TOP | ezcGraph::CENTER )
             );
 
         $chart->renderer = $mockedRenderer;
@@ -560,7 +464,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
         $chart = ezcGraph::create( 'Line' );
         $chart->palette = 'Black';
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
-        $chart->yAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $chart->yAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->position = ezcGraph::TOP;
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         
@@ -572,25 +476,17 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 102., 22., 138., 38. ), 1. ),
-                $this->equalTo( '0' ),
-                $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT )
-            );
-        $mockedRenderer
-            ->expects( $this->at( 1 ) )
-            ->method( 'drawText' )
-            ->with(
-                $this->equalTo( new ezcGraphBoundings( 102., 62., 138., 78. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 102., 42., 138., 78. ), 1. ),
                 $this->equalTo( '100' ),
-                $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT )
+                $this->equalTo( ezcGraph::MIDDLE | ezcGraph::RIGHT )
             );
         $mockedRenderer
-            ->expects( $this->at( 4 ) )
+            ->expects( $this->at( 3 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 102., 162., 138., 178. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 102., 162., 138., 198. ), 1. ),
                 $this->equalTo( '400' ),
-                $this->equalTo( ezcGraph::BOTTOM | ezcGraph::RIGHT )
+                $this->equalTo( ezcGraph::MIDDLE | ezcGraph::RIGHT )
             );
 
         $chart->renderer = $mockedRenderer;
@@ -603,7 +499,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
         $chart = ezcGraph::create( 'Line' );
         $chart->palette = 'Black';
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
-        $chart->yAxis->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        $chart->yAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->position = ezcGraph::BOTTOM;
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         
@@ -615,25 +511,17 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 102., 162., 138., 178. ), 1. ),
-                $this->equalTo( '0' ),
-                $this->equalTo( ezcGraph::BOTTOM | ezcGraph::RIGHT )
-            );
-        $mockedRenderer
-            ->expects( $this->at( 1 ) )
-            ->method( 'drawText' )
-            ->with(
-                $this->equalTo( new ezcGraphBoundings( 102., 122., 138., 138. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 102., 122., 138., 158. ), 1. ),
                 $this->equalTo( '100' ),
-                $this->equalTo( ezcGraph::BOTTOM | ezcGraph::RIGHT )
+                $this->equalTo( ezcGraph::MIDDLE | ezcGraph::RIGHT )
             );
         $mockedRenderer
-            ->expects( $this->at( 4 ) )
+            ->expects( $this->at( 3 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 102., 22., 138., 38. ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 102., 2., 138., 38. ), 1. ),
                 $this->equalTo( '400' ),
-                $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT )
+                $this->equalTo( ezcGraph::MIDDLE | ezcGraph::RIGHT )
             );
 
         $chart->renderer = $mockedRenderer;

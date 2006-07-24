@@ -82,9 +82,12 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
 
     public function __construct( array $options = array() )
     {
-        $this->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
-
         parent::__construct( $options );
+
+        if ( !isset( $this->axisLabelRenderer ) )
+        {
+            $this->axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+        }
     }
 
     /**
@@ -208,6 +211,16 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
      * @return string label
      */
     abstract public function getLabel( $step );
+
+    /**
+     * Is zero step
+     *
+     * Returns true if the given step is the one on the initial axis position
+     * 
+     * @param int $step Number of step
+     * @return bool Status If given step is initial axis position
+     */
+    abstract public function isZeroStep( $step );
 
     /**
      * Add data for this axis
