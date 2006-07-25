@@ -1,3 +1,11 @@
+1.1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed bug #8711: Pagesize after cropping
+# For ImageMagick 6.0, did not check for 5.0, yet.
+- Fixed bug #8712: Cropping x and y are offsets, not coords
+
+
 1.1 - Monday 12 June 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

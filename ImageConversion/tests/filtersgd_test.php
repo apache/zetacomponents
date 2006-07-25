@@ -497,6 +497,18 @@ class ezcImageConversionFiltersGdTest extends ezcTestCase
         );
     }
 
+    public function testCrop_0_Offset()
+    {
+        $filters = $this->handler;
+        $filters->crop( 0, 0, 10, 10 );
+        $this->handler->save( $this->imageReference, $this->tmpPath . 'testCrop_0_Offset.jpg' );
+        $this->assertEquals(
+            'f3472263a06b89f5983587b92b470a42',
+            md5_file( $this->tmpPath . 'testCrop_0_Offset.jpg' ),
+            'md5 sum for cropped file did not match.'
+        );
+    }
+
     public function testColorspaceGrey()
     {
         $filters = $this->handler;

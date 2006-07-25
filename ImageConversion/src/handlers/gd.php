@@ -316,8 +316,8 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
      * to apply filters through the {@link ezcImageGdHandler::applyFilter()} method, 
      * which enables you to specify the image a filter is applied to.
      *
-     * @param int $x      Start cropping, x coordinate.
-     * @param int $y      Start cropping, y coordinate.
+     * @param int $x      X offset of the cropping area.
+     * @param int $y      Y offset of the cropping area.
      * @param int $width  Width of cropping area.
      * @param int $height Height of cropping area.
      * @return void
@@ -331,13 +331,13 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
      */
     public function crop( $x, $y, $width, $height )
     {
-        if ( !is_int( $x ) || $x < 1 )
+        if ( !is_int( $x ) || $x < 0 )
         {
-            throw new ezcBaseValueException( 'x', $x, 'int > 0' );
+            throw new ezcBaseValueException( 'x', $x, 'int >= 0' );
         }
-        if ( !is_int( $y ) || $y < 1 )
+        if ( !is_int( $y ) || $y < 0 )
         {
-            throw new ezcBaseValueException( 'y', $y, 'int > 0' );
+            throw new ezcBaseValueException( 'y', $y, 'int >= 0' );
         }
         if ( !is_int( $height ) )
         {

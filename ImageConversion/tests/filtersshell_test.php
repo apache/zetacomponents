@@ -53,6 +53,7 @@ class ezcImageConversionFiltersShellTest extends ezcTestCase
         'testCrop_1' => '0e72228abfebdab1f9df8ccfa1cda17b',
         'testCrop_2' => '0e72228abfebdab1f9df8ccfa1cda17b',
         'testCrop_3' => 'bee4239402275d1ea197b8bcc5581e41',
+        'testCrop_0_Offset' => 'e8af29aca01fcad87acbbf76f4a5261e',
         'testColorspaceGrey' => 'dfb2d024ff62069e3b853783d24962d8',
         'testColorspaceMonochrome' => '867cf5b6fff001c2b7123d3c5d0d0776',
         'testColorspaceSepia' => 'ead6ab2d5da3ca38df00331bc74c631e',
@@ -443,6 +444,22 @@ class ezcImageConversionFiltersShellTest extends ezcTestCase
         $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
         $filters = $this->handler;
         $filters->crop( 50, 75, 250, 38 );
+        $this->handler->save( $this->getActiveReference(), $dstPath );
+        // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
+        $this->assertEquals(
+            $this->expectedResults[__FUNCTION__],
+            md5_file( $dstPath ),
+            'Filter <'.__METHOD__.'> did not produce correct output.'
+        );
+        $this->handler->close( $this->getActiveReference() );
+        $this->removeTempDir();
+    }
+
+    public function testCrop_0_Offset()
+    {
+        $dstPath = $this->createTempDir( str_replace( '::', '_', __METHOD__) . '_' ) . '/result';
+        $filters = $this->handler;
+        $filters->crop( 0, 0, 10, 10 );
         $this->handler->save( $this->getActiveReference(), $dstPath );
         // echo "\n'".__FUNCTION__."' => '".md5_file( $dstPath )."',\n";
         $this->assertEquals(

@@ -238,8 +238,8 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler implemen
      * to apply filters through the {@link ezcImageImagemagickHandler::applyFilter()}
      * method, which enables you to specify the image a filter is applied to.
      *
-     * @param int $x      Start cropping, x coordinate.
-     * @param int $y      Start cropping, y coordinate.
+     * @param int $x      X offset of the cropping area.
+     * @param int $y      Y offset of the cropping area.
      * @param int $width  Width of cropping area.
      * @param int $height Height of cropping area.
      * @return void
@@ -251,13 +251,13 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler implemen
      */
     public function crop( $x, $y, $width, $height )
     {
-        if ( !is_int( $x ) || $x < 1 )
+        if ( !is_int( $x ) || $x < 0 )
         {
-            throw new ezcBaseValueException( 'x', $x, 'int > 0' );
+            throw new ezcBaseValueException( 'x', $x, 'int >= 0' );
         }
-        if ( !is_int( $y ) || $y < 1 )
+        if ( !is_int( $y ) || $y < 0 )
         {
-            throw new ezcBaseValueException( 'y', $y, 'int > 0' );
+            throw new ezcBaseValueException( 'y', $y, 'int >= 0' );
         }
         if ( !is_int( $height ) )
         {
@@ -268,12 +268,12 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler implemen
             throw new ezcBaseValueException( 'width', $width, 'int' );
         }
 
-        $xStart = ( $xStart = min( $x, $x + $width ) ) > 0 ? '+'.$xStart : $xStart;
-        $yStart = ( $yStart = min( $y, $y + $height ) ) > 0 ? '+'.$yStart : $yStart;
+        $xStart = ( $xStart = min( $x, $x + $width ) ) >= 0 ? '+'.$xStart : $xStart;
+        $yStart = ( $yStart = min( $y, $y + $height ) ) >= 0 ? '+'.$yStart : $yStart;
         $this->addFilterOption(
             $this->getActiveReference(),
             '-crop ',
-            abs( $width ).'x'.abs( $height ).$xStart.$yStart
+            abs( $width ).'x'.abs( $height ).$xStart.$yStart.'!'
         );
     }
 
