@@ -428,7 +428,7 @@ class ezcImageConversionTransformationTest extends ezcTestCase
         $this->commonTransformTestSuccess(
             'png',
             0,
-            '151828979c8b76e0ddd922d7707cc0eb',
+            '0c4c2ab1c373717de4e921b233b9a383',
             __METHOD__
         );
     }
@@ -448,7 +448,7 @@ class ezcImageConversionTransformationTest extends ezcTestCase
         $this->commonTransformTestSuccess(
             'png',
             2,
-            '455cdcc06e091d8aa59321d5fd3bdf1a',
+            '0e37f55de6904a5279f1021f35f936a7',
             __METHOD__
         );
     }
@@ -458,7 +458,7 @@ class ezcImageConversionTransformationTest extends ezcTestCase
         $this->commonTransformTestSuccess(
             'jpeg',
             0,
-            'd80369dc2442357ac4dbd58af83ac398',
+            '255d6921b53b79ec38140d2dea0eee96',
             __METHOD__
         );
     }
@@ -578,8 +578,8 @@ class ezcImageConversionTransformationTest extends ezcTestCase
         $trans->transform( $inFiles[0], $outFiles[0] );
         $trans->transform( $inFiles[1], $outFiles[1] );
 
-        $this->assertEquals( 'd80369dc2442357ac4dbd58af83ac398', md5_file( $outFiles[0] ) );
-        $this->assertEquals( '56ede4f5cef9e4ec3938832894a43254', md5_file( $outFiles[1] ) );
+        $this->assertEquals( '255d6921b53b79ec38140d2dea0eee96', md5_file( $outFiles[0] ) );
+        $this->assertEquals( 'bb85f174c3be80459030611b53a43ccb', md5_file( $outFiles[1] ) );
 
         $this->removeTempDir();
     }

@@ -211,7 +211,7 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
         $this->handler->save( $ref, $dstPath );
 
         $this->assertEquals(
-            '17630fa6dc4c04e83f671458d115c183',
+            'a9bdc41169bc958a4422b53135bfe78b',
             md5_file( $dstPath ),
             'Applying multiple filter through handler failed.'
         );

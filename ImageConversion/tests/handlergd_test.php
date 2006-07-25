@@ -178,7 +178,7 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
         $this->handler->applyFilter( $ref, new ezcImageFilter( 'scale', array( 'width' => 200, 'height' => 200, 'direction' => ezcImageGeometryFilters::SCALE_BOTH ) ) );
         $this->handler->save( $ref, $dstPath );
         $this->assertEquals(
-             '8fdbaa50ce1c403814a623babc7ca686',
+             '05b8d29008dd13be25d88a872a5a0193',
              md5_file( $dstPath ),
             'Applying single filter through handler failed.'
         );
@@ -196,7 +196,7 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
         $this->handler->save( $ref, $dstPath );
 
         $this->assertEquals(
-            '015a3bd639eeb06b2ef5ae081ef9f5b8',
+            'bcd9d3645fd2cfe7bcbaa2485ff6ce21',
             md5_file( $dstPath ),
             'Applying multiple filter through handler failed.'
         );
