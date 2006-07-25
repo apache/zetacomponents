@@ -111,6 +111,7 @@ class PersistentTestObject
         $result['varchar'] = $this->varchar;
         $result['integer'] = $this->integer;
         $result['text'] = $this->text;
+        $result['no_such_var'] = "bah"; // This is here to make sure it does not provoke an error.
         return $result;
     }
 }

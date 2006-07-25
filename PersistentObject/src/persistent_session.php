@@ -496,7 +496,7 @@ class ezcPersistentSession
     public function save( $pObject )
     {
         $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) );// propagate exception
-        $state = $pObject->getState();
+        $state = $this->filterAndCastState( $pObject->getState(), $def );
         $idValue = $state[$def->idProperty->propertyName];
 
         // fetch the id generator
@@ -601,7 +601,7 @@ class ezcPersistentSession
     public function update( $pObject )
     {
         $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) ); // propagate exception
-        $state = $pObject->getState();
+        $state = $this->filterAndCastState( $pObject->getState(), $def );
         $idValue = $state[$def->idProperty->propertyName];
 
         // check that this object is stored to db already
@@ -686,6 +686,53 @@ class ezcPersistentSession
             $columns[] = $property->columnName;
         }
         return $columns;
+    }
+
+    /**
+     * Filters out all properties not in the definition and casts the
+     * values to native PHP types.
+     *
+     * @param array(string=>string) $state
+     * @param ezcPersistentObjectDefinition $def
+     * @return array(string=>mixed)
+     */
+    private function filterAndCastState( array $state, ezcPersistentObjectDefinition $def )
+    {
+        $typedState = array();
+        foreach ( $state as $name => $value )
+        {
+            if( $name == $def->idProperty->propertyName )
+            {
+                if( $value !== null )
+                {
+                    $typedState[$name] = (int) $value;
+                    continue;
+                }
+            }
+            else if( !isset( $def->properties[$name] ) )
+            {
+                continue;
+            }
+
+            if( !is_null( $value ) )
+            {
+                switch ( $def->properties[$name]->propertyType )
+                {
+                    case ezcPersistentObjectProperty::PHP_TYPE_INT:
+                    {
+                        $value = (int) $value;
+                        break;
+                    }
+                    case ezcPersistentObjectProperty::PHP_TYPE_FLOAT:
+                    {
+                        $value = (float) $value;
+                        break;
+                    }
+                }
+            }
+            $typedState[$name] = $value;
+        }
+        return $typedState;
     }
 }
 ?>
