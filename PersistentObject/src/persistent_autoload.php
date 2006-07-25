@@ -12,6 +12,7 @@ return array(
     'ezcPersistentObjectProperty' => 'PersistentObject/structs/persistent_object_property.php',
     'ezcPersistentObjectIdProperty' => 'PersistentObject/structs/persistent_object_id_property.php',
     'ezcPersistentDefinitionManager' => 'PersistentObject/interfaces/definition_manager.php',
+    'ezcPersistentMultiManager' => 'PersistentObject/managers/multi_manager.php',
     'ezcPersistentCodeManager' => 'PersistentObject/managers/code_manager.php',
     'ezcPersistentSession' => 'PersistentObject/persistent_session.php',
     'ezcPersistentObjectException' => 'PersistentObject/exceptions/persistent_object_exception.php',

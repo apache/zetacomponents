@@ -1,6 +1,7 @@
 1.1.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Implemented support for several definition managers through ezcPersistentMultiManager.
 - Implemented suggestion #8595: Singleton for ezcPersistentSession.	
 - Implemented suggestion #8526: retreiving the dbHandler from the persistentObject for transaction support
 - Fixed #8489: absolute path in the "cannot find definition file" exception message.

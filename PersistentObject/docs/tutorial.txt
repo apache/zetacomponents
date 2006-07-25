@@ -167,7 +167,9 @@ objects. A session can be created simply by instantiating it: ::
 The session takes two arguments: a pointer to the database instance to use and
 the manager it should use to retrieve persistent object definitions. We are
 using the ezcPersistentCodeManager which loads the definitions directly from
-file. You should point it to the location where you saved the person.php file.
+file. You should point it to the location where you saved the person.php
+file. If you have several directories containing your definitions you can use
+the ezcPersistentMultiManager class to add as many as you like.
 
 While it is possible to create a new session each time you want to manipulate a
 persistent object you will probably want to use the same session each
