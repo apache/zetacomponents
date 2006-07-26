@@ -21,11 +21,15 @@ class ezcPersistentObjectDefinition
 {
     /**
      * Name of the database table to use.
+     *
+     * @var string
      */
     public $table = null;
 
     /**
      * Class-name of the PersistentObject
+     *
+     * @var string
      */
     public $class = null;
 
@@ -39,12 +43,16 @@ class ezcPersistentObjectDefinition
     /**
      * The fields of the Persistent Object as an array of ezcPersistentObjectProperty.
      * The key is the name of the persistent object field name.
+     *
+     * @var array(string=>ezcPersistentObjectProperty)
      */
     public $properties = array();
 
     /**
      * The fields of the Persistent Object as an array of ezcPersistentObjectProperty.
      * The key is the name of the original database column.
+     *
+     * @var array(string=>ezcPersistentObjectProperty)
      */
     public $columns = array();
 

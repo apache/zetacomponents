@@ -19,19 +19,36 @@ class ezcPersistentObjectIdProperty
 {
     /**
      * The name of the database field that stores the value.
+     *
+     * @var string
      */
     public $columnName;
 
     /**
      * The name of the PersistentObject property that holds the value in the PHP object.
+     *
+     * @var string
      */
     public $propertyName;
 
     /**
      * The visibility of the field. Can be either VISIBILITY_PRIVATE, VISIBILITY_PROTECTED or VISIBILITY_PUBLIC.
+     *
+     * @var int
      */
     public $visibility;
 
+    /**
+     * The type of generator to use for the identifier.
+     *
+     * The identifier generator must be an object that extends the
+     * abstract class ezcPersistentIdentifierGenerator. The current
+     * options that are part of this package are:
+     * - ezcPersistentSequenceGenerator
+     * - ezcPersistentManualGenerator
+     *
+     * @var ezcPersistentIdentifierGenerator
+     */
     public $generator; // sequence
 
     /**

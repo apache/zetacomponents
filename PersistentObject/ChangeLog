@@ -1,6 +1,7 @@
 1.1.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed #8511: @access private for the 'id generator' classes.
 - Implemented #8664: ezcPersistentSession: Cast values and skip undefined properties. Patch by Joel Arvidsson.
 - Implemented support for several definition managers through ezcPersistentMultiManager.
 - Implemented suggestion #8595: Singleton for ezcPersistentSession.	

@@ -6,17 +6,15 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @access private
  */
 
 /**
- * Does not generate ID's. Simply uses the ID set in the object
- * when new objects are saved.
+ * This identifier generator does not generate any ID's. Instead the user must manually
+ * assign an ID when the object is saved.
  *
  * This is useful don't want any automatic id generation.
  *
  * @package PersistentObject
- * @access private
  */
 class ezcPersistentManualGenerator extends ezcPersistentIdentifierGenerator
 {

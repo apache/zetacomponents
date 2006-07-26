@@ -6,7 +6,6 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @access private
  */
 
 /**
@@ -33,12 +32,11 @@
  *              supporting auto_increment.
  *
  * @package PersistentObject
- * @access private
  */
 class ezcPersistentSequenceGenerator extends ezcPersistentIdentifierGenerator
 {
     /**
-     * This method does not do anything.
+     * Fetches the next sequence value for PostgreSQL and Oracle implementations.
      *
      * @param ezcPersistentObjectDefinition $def
      * @param ezcDbHandler $db
