@@ -36,14 +36,6 @@ class ezcGraphChartElementText extends ezcGraphChartElement
             return $boundings;
         }
 
-        $boundings = $renderer->drawBox(
-            $boundings,
-            $this->background,
-            $this->border,
-            $this->borderWidth,
-            $this->margin,
-            $this->padding
-        );
 
         $height = (int) min( 
             round( $this->maxHeight * ( $boundings->y1 - $boundings->y0 ) ),
@@ -53,33 +45,40 @@ class ezcGraphChartElementText extends ezcGraphChartElement
         switch ( $this->position )
         {
             case ezcGraph::TOP:
-                $renderer->drawText(
-                    new ezcGraphBoundings(
-                        $boundings->x0,
-                        $boundings->y0,
-                        $boundings->x1,
-                        $boundings->y0 + $height
-                    ),
-                    $this->title,
-                    ezcGraph::CENTER | ezcGraph::MIDDLE
+                $textBoundings = new ezcGraphBoundings(
+                    $boundings->x0,
+                    $boundings->y0,
+                    $boundings->x1,
+                    $boundings->y0 + $height
                 );
-
                 $boundings->y0 += $height + $this->margin;
                 break;
             case ezcGraph::BOTTOM:
-                $renderer->drawText(
-                    new ezcGraphBoundings(
-                        $boundings->x0,
-                        $boundings->y1 - $height,
-                        $boundings->x1,
-                        $boundings->y1
-                    ),
-                    $this->title,
-                    ezcGraph::CENTER | ezcGraph::MIDDLE
+                $textBoundings = new ezcGraphBoundings(
+                    $boundings->x0,
+                    $boundings->y1 - $height,
+                    $boundings->x1,
+                    $boundings->y1
                 );
                 $boundings->y1 -= $height + $this->margin;
                 break;
         }
+
+        $textBoundings = $renderer->drawBox(
+            $textBoundings,
+            $this->background,
+            $this->border,
+            $this->borderWidth,
+            $this->margin,
+            $this->padding
+        );
+
+        $renderer->drawText(
+            $textBoundings,
+            $this->title,
+            ezcGraph::CENTER | ezcGraph::MIDDLE
+        );
+
         return $boundings;
     }
 }

@@ -48,7 +48,7 @@ class ezcGraphTextTest extends ezcTestCase
 
         $chart->title = 'Title of a chart';
 
-        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
             'drawText',
         ) );
 
@@ -57,7 +57,7 @@ class ezcGraphTextTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 1, 1, 499, 21 ) ),
+                $this->equalTo( new ezcGraphBoundings( 1, 1, 499, 19 ) ),
                 $this->equalTo( 'Title of a chart' ),
                 $this->equalTo( ezcGraph::CENTER | ezcGraph::MIDDLE )
             );
@@ -75,7 +75,7 @@ class ezcGraphTextTest extends ezcTestCase
         $chart->title = 'Title of a chart';
         $chart->title->position = ezcGraph::BOTTOM;
 
-        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
             'drawText',
         ) );
 
@@ -84,7 +84,7 @@ class ezcGraphTextTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 1, 179, 499, 199 ) ),
+                $this->equalTo( new ezcGraphBoundings( 1, 181, 499, 199 ) ),
                 $this->equalTo( 'Title of a chart' ),
                 $this->equalTo( ezcGraph::CENTER | ezcGraph::MIDDLE )
             );
@@ -103,7 +103,7 @@ class ezcGraphTextTest extends ezcTestCase
         $chart->title->position = ezcGraph::TOP;
         $chart->title->margin = 5;
 
-        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
             'drawText',
         ) );
 
@@ -112,7 +112,7 @@ class ezcGraphTextTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 6, 6, 494, 25 ) ),
+                $this->equalTo( new ezcGraphBoundings( 6, 6, 494, 14 ) ),
                 $this->equalTo( 'Title of a chart' ),
                 $this->equalTo( ezcGraph::CENTER | ezcGraph::MIDDLE )
             );
