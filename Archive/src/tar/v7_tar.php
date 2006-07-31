@@ -33,7 +33,7 @@ class ezcArchiveV7Tar extends ezcArchive
     /**
      * Amount of bytes in a block.
      */
-    const BLOCK_SIZE      = 512;
+    const BLOCK_SIZE = 512;
 
     /**
      * Tar archives have always $blockFactor of blocks.
@@ -83,7 +83,9 @@ class ezcArchiveV7Tar extends ezcArchive
 
         $this->entriesRead = 0;
         $this->fileNumber = 0;
-        $this->readCurrentFromArchive();
+
+        $this->readFirstEntry = true;
+        //$this->readCurrentFromArchive();
     }
 
     // Documentation is inherited.
@@ -224,6 +226,8 @@ class ezcArchiveV7Tar extends ezcArchive
         }
         else
         {
+//            echo ("Searching fileNumber: $fileNumber, and I am currently in file: ". $this->fileNumber );
+
             $this->seek( $fileNumber ); // read the headers.
             $endBlockNumber = $this->headerPositions[ $fileNumber - 1 ] +  $this->file->getBlocksFromBytes( $this->headers[ $fileNumber - 1 ]->fileSize );
 
@@ -232,7 +236,12 @@ class ezcArchiveV7Tar extends ezcArchive
                 return false;
             }
 
-            $this->file->truncate ( $endBlockNumber + 1 );
+            if( !$this->file->truncate ( $endBlockNumber + 1 ) )
+            {
+                throw new ezcArchiveException( "The archive cannot be truncated to " . ($endBlockNumber + 1) . " block(s). ".
+                                               "This happens with write-only files or stream (e.g. compress.zlib) ");
+            }
+
             $this->entriesRead = $fileNumber;
             $this->completed = true;
 
@@ -247,11 +256,25 @@ class ezcArchiveV7Tar extends ezcArchive
     // Documentation is inherited.
     public function appendToCurrent( $files, $prefix, $appendNullBlocks = true )
     {
+        if ($this->file->isReadOnlyWriteOnlyStream() )
+        {
+            throw new ezcArchiveException( "Cannot appendToCurrent when writing to a read-only, write-only stream (e.g. compress.zlib)." );
+        }
+
+        if ($this->readFirstEntry && $this->fileNumber == 0 ) 
+        {
+            $this->readFirstEntry = false;
+            $this->readCurrentFromArchive();
+        }
+
         if ( !$this->isWritable() )
         {
             throw new ezcBaseFilePermissionException( $this->file->getFileName(),  ezcBaseFilePermissionException::WRITE );
         }
 
+        $entries = $this->getEntries( $files, $prefix);
+
+        /*
         if ( !is_array( $files ) )
         {
             $files = array( $files );
@@ -259,14 +282,16 @@ class ezcArchiveV7Tar extends ezcArchive
 
         // Search for all the entries, because otherwise hardlinked files show up as an ordinary file. 
         $entries = ezcArchiveEntry::getEntryFromFile( $files, $prefix );
+         */
 
         $originalFileNumber = $this->fileNumber;
 
         for( $i = 0; $i < sizeof( $files ); $i++)
         {
-            if ( !file_exists( $files[$i] ) && !is_link( $files[$i] ) ) throw new ezcBaseFileNotFoundException( $files[$i] );
+            // TODO: Remove next line? Already in getEntries()? 
+            //if ( !file_exists( $files[$i] ) && !is_link( $files[$i] ) ) throw new ezcBaseFileNotFoundException( $files[$i] );
             // Changes the fileNumber
-            $this->appendHeaderAndFileToCurrent( $files[$i], $entries[$i], $appendNullBlocks );
+            $this->appendHeaderAndFileToCurrent( $entries[$i], $appendNullBlocks );
         }
 
         $this->fileNumber = $originalFileNumber;
@@ -274,6 +299,38 @@ class ezcArchiveV7Tar extends ezcArchive
 
         return $this->valid();
     }
+
+
+    /** 
+     * Append a file or directory to the end of the archive. Multiple files or directory can 
+     * be added to the archive when an array is used as input parameter.
+     *
+     * @see appendToCurrent()
+     *
+     * @throws ezcArchiveWriteException  if one of the files cannot be written to the archive.
+     * @throws ezcFileReadException      if one of the files cannot be read from the local filesystem.
+     *
+     * @param string|array(string) $entries  Add the files and or directories to the archive.
+     *
+     * @return void
+     */
+    public function append( $files, $prefix, $appendNullBlocks = true )
+    {
+        if ( !$this->isWritable() )
+        {
+            throw new ezcArchiveException( "Archive is read-only", ezcArchiveException::ARCHIVE_NOT_WRITABLE );
+        }
+
+        //$this->seek( 0, SEEK_END );
+        //$this->appendToCurrent( $files, $prefix ); 
+        //
+        $entries = $this->getEntries( $files, $prefix);
+
+        for( $i = 0; $i < sizeof( $files ); $i++)
+        {
+            $this->appendHeaderAndFileToEnd( $entries[$i], $appendNullBlocks );
+        }
+     }
 
     /**
      * Appends the given {@link ezcArchiveBlockFile} $file and {@link ezcArchiveEntry} $entry 
@@ -290,28 +347,75 @@ class ezcArchiveV7Tar extends ezcArchive
      * @param bool $appendNullBlocks
      * @return void
      */
-    protected function appendHeaderAndFileToCurrent( $file, $entry, $appendNullBlocks )
+    protected function appendHeaderAndFileToCurrent( $entry, $appendNullBlocks )
     {
-         // FIXME, can we omit the $file parameter, and use  pure the $entry?
+        // Are we at a valid entry?
+        if ( !$this->isEmpty() && !$this->valid() ) return false;
 
-            // Are we at a valid entry?
-            if ( !$this->isEmpty() && !$this->valid() ) return false;
+        if ( !$this->isEmpty() )
+        {
+            // Truncate the next file and don't add the null blocks.
+            $this->truncate( $this->fileNumber + 1, false );
+        }
 
-            if ( !$this->isEmpty() )
-            {
-                // Truncate the next file and don't add the null blocks.
-                $this->truncate( $this->fileNumber + 1, false );
-            }
+        if ( $this->entriesRead == 0 ) $this->fileNumber = 0; else $this->fileNumber++;
 
-            if ( $this->entriesRead == 0 ) $this->fileNumber = 0; else $this->fileNumber++;
+        // Add the new header to the file map.
+        $this->headers[ $this->fileNumber ] = $this->createTarHeader(); 
+        $this->headers[ $this->fileNumber ]->setHeaderFromArchiveEntry( $entry );
 
-            // Add the new header to the file map.
-            $this->headers[ $this->fileNumber ] = $this->createTarHeader(); 
-            $this->headers[ $this->fileNumber ]->setHeaderFromArchiveEntry( $entry );
+        // Search the end of the block file, append encoded header, and search for the end-again.
+        $this->file->seek( 0, SEEK_END );
+        $this->headers[$this->fileNumber]->writeEncodedHeader( $this->file );
+
+        $this->file->seek( 0, SEEK_END );
+
+        // Add the new blocknumber to the map.
+        $this->headerPositions[$this->fileNumber] = $this->file->key();
+
+        // Append the file, if needed.
+        if ( $entry->getSize() > 0 ) 
+            $this->file->append( file_get_contents( $entry->getPath() ) );
+
+        if ( $appendNullBlocks ) $this->appendNullBlocks();
+
+        $this->completed = true;
+        $this->entriesRead++;
+
+        $this->entries[$this->fileNumber] = $entry;
+
+        return true;
+    }
+
+    protected function appendHeaderAndFileToEnd( $entry, $appendNullBlocks )
+    {
+        // Add the new header to the file map.
+        $header = $this->createTarHeader(); 
+        $header->setHeaderFromArchiveEntry( $entry );
+        $header->writeEncodedHeader( $this->file );
+
+        if ( $entry->getSize() > 0 ) 
+        {
+            // TODO FIX large file read. 
+            $this->file->append( file_get_contents( $entry->getPath(false) ) );
+        }
+
+        // TODO GUESS THE NULL BLOCKS.
+        /* Doesn't work.
+        if ( $appendNullBlocks ) 
+        {
+            $this->appendNullBlocks();
+        }
+         */
+
+        $this->completed = false;
+        return true;
+/*
+
 
             // Search the end of the block file, append encoded header, and search for the end-again.
-            $this->file->seek( 0, SEEK_END );
-            $this->headers[$this->fileNumber]->writeEncodedHeader( $this->file );
+        $this->file->seek( 0, SEEK_END );
+        $this->headers[$this->fileNumber]->writeEncodedHeader( $this->file );
 
             $this->file->seek( 0, SEEK_END );
 
@@ -330,6 +434,8 @@ class ezcArchiveV7Tar extends ezcArchive
             $this->entries[$this->fileNumber] = $entry;
 
             return true;
+ */
+
     }
 
     /**

@@ -106,7 +106,8 @@ class ezcArchiveZip extends ezcArchive implements Iterator
      * Reads the entire archive and creates all the entries.
      * 
      * To find the central directory structure we need to read all the headers.
-     * Some algorithms search backwards, but these don't expect comments.
+     * Some algorithms search backwards, but these don't expect comments at the end
+     * of the archive.
      *
      * The central directory structure gives us extra information about the 
      * stored file like: symlinks and permissions.
@@ -373,6 +374,19 @@ Part: 2/2
 
         $this->entriesRead = $cur + 1;
     } 
+    
+    public function append( $files, $prefix )
+    {
+        if ( !$this->isWritable() )
+        {
+            throw new ezcArchiveException( "Archive is read-only", ezcArchiveException::ARCHIVE_NOT_WRITABLE );
+        }
+
+        $this->seek( 0, SEEK_END );
+        $this->appendToCurrent( $files, $prefix ); 
+     }
+
+
 
     // Documentation is inherited.
     public function truncate( $fileNumber = 0 )

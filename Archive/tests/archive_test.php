@@ -104,28 +104,12 @@ class ezcArchiveTest extends ezcArchiveTestCase
         exec( "gzip $dir/mytar.tar" );
         $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz" );
         $archive->extract( $dir );
-
-        $archive->rewind();
-        $archive->next();
-
-        try
-        {
-            file_put_contents( "$dir/file3.txt", "Hahaha");
-            $archive->appendToCurrent( "$dir/file3.txt", $dir);
-            $this->fail( "Read only exception expected");
-        }
-        catch (ezcBaseFilePermissionException $e )
-        {
-            // Expect read-only exception.
-        }
-        
+       
         clearstatcache();
         $this->assertTrue( file_exists( "$dir/file1.txt" ) );
         $this->assertTrue( file_exists( "$dir/file2.txt" ) );
     }
 
-
-    // Extracting works fine. But adding files breaks. 
     public function testReadBzippedTar()
     {
         $dir = $this->getTempDir();
@@ -137,20 +121,6 @@ class ezcArchiveTest extends ezcArchiveTestCase
 
         $archive->extract( $dir );
         $archive->rewind();
-
-        $archive->next();
-
-        try
-        {
-            file_put_contents( "$dir/file3.txt", "Hahaha");
-            $archive->appendToCurrent( "$dir/file3.txt", $dir);
-            $this->fail( "Read only exception expected");
-        }
-        catch (ezcBaseFilePermissionException $e )
-        {
-            // Expect read-only exception.
-        }
-        
 
         clearstatcache();
         $this->assertTrue( file_exists( "$dir/file1.txt" ) );
@@ -167,19 +137,6 @@ class ezcArchiveTest extends ezcArchiveTestCase
 
         $archive->extract( $dir );
         $archive->rewind();
-
-        $archive->next();
-
-        try
-        {
-            file_put_contents( "$dir/file3.txt", "Hahaha");
-            $archive->appendToCurrent( "$dir/file3.txt", $dir);
-            $this->fail( "Read only exception expected");
-        }
-        catch (ezcBaseFilePermissionException $e )
-        {
-            // Expect read-only exception.
-        }
 
         clearstatcache();
         $this->assertTrue( file_exists( "$dir/file1.txt" ) );
@@ -235,6 +192,8 @@ class ezcArchiveTest extends ezcArchiveTestCase
         {
         }
     }
+
+    /*
     public function testWriteBzippedTarAuto()
     {
         $dir = $this->getTempDir();
@@ -254,6 +213,7 @@ class ezcArchiveTest extends ezcArchiveTestCase
             // Expect read-only exception.
         }
     }
+     */
 
 
     /*
@@ -342,6 +302,8 @@ class ezcArchiveTest extends ezcArchiveTestCase
     }
     
 /* Doesn't work, because we cannot read and write to an gzipped file at the same time.
+ */
+    /*
     public function testCreateNewGzippedTar()
     {
         $dir = $this->getTempDir();
@@ -363,7 +325,8 @@ class ezcArchiveTest extends ezcArchiveTestCase
         $this->assertEquals( "bla.txt", $archive->current()->getPath() );
         $this->assertEquals( "bla2.txt", $archive->next()->getPath() );
     }
-    */
+*/
+//    */
 
     public function testWinzipExtract()
     {

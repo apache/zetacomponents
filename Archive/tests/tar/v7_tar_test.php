@@ -287,6 +287,8 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         {
             $ustarFile = new ezcArchiveBlockFile( dirname( __FILE__) . "/../data/tar_v7_invalid_checksum.tar" );
             $tar = new ezcArchiveV7Tar( $ustarFile );
+            $tar->current();
+
             $this->fail("Expected the checksum to fail.");
         } 
         catch ( ezcArchiveChecksumException $e )

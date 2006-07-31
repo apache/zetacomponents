@@ -79,17 +79,95 @@ abstract class ezcArchiveFile implements Iterator
 
     protected $streamFilters;
 
+    protected $readWriteSwitch = -1;
+
     protected function openFile( $fileName, $createIfNotExist )
     {
+        if( $createIfNotExist && !self::fileExists( $fileName ) )
+        {
+            $this->isEmpty = true;
+            if( !self::touch( $fileName ) )
+            {
+                throw new ezcBaseFilePermissionException( self::getPureFileName( $fileName ), ezcBaseFilePermissionException::WRITE );
+            }
+        }
+        
+        // Try to open it in read and write mode.
+        $this->fp = @fopen( $fileName, "r+b" );
+        if ( !$this->fp )
+        {
+            // Try to open it in read-only mode.
+            $this->fp = @fopen( $fileName, "rb" );
+            $this->readOnly = true;
+        }
+
+        // Check if we opened the file. 
+        if ( !$this->fp )
+        {
+            if( !self::fileExists( $fileName ) )
+            {
+                throw new ezcBaseFileNotFoundException( $fileName );
+            }
+
+            // Cannot read the file.
+            throw new ezcBaseFilePermissionException( $fileName, ezcBaseFilePermissionException::READ );
+        }
+
+        $status =  stream_get_meta_data( $this->fp );
+        
+        // Set some modes.
+        $this->fpIsSeekable = $status["seekable"];
+        $this->fpMode = $status["mode"];
+        $this->fpUri = $status["uri"];
+
+        // Hardcode BZip2 to read-only.
+        // For some reason we can open the file in read-write mode, but we cannot rewind the fp. Strange..
+        if ( $status["wrapper_type"] == "BZip2" ) $this->readOnly = true;
+
+        // Why is it read only?
+        if( $this->readOnly )
+        {
+            if( $status["wrapper_type"] == "ZLIB" || $status["wrapper_type"] == "BZip2" ) 
+            {
+                // Write only mode available?
+                $b = fopen( $fileName, "a" );
+                if( $b !== false )
+                {
+                    // We have also a write-only mode. Back to the read only mode.
+                    fclose( $b );
+
+                    $this->readOnly = false;
+                    $this->readWriteSwitch = 0; // Set to reading.
+                }
+            }
+        }
+
+        // Check if the archive is empty.
+        if( fgetc( $this->fp ) === false )
+        {
+            $this->isEmpty = true;
+        }
+        else
+        {
+            $this->rewind();
+            $this->isEmpty = false;
+        }
+
+        $this->fileName = $fileName;
+    }
+
+/*
         $this->readOnly = false;
         $this->fileName = $fileName;
 
         if ( $createIfNotExist && !self::fileExists( $fileName ) ) 
         {
-            $this->fp = fopen( $fileName, "w+b" );
+            $this->fp = @fopen( $fileName, "w+b" );
 
             if ( $this->fp === false )
             {
+
+
                 throw new ezcBaseFilePermissionException( $fileName, ezcBaseFilePermissionException::WRITE | ezcBaseFilePermissionException::READ, "Cannot create file for reading and writing." );
             }
 
@@ -120,7 +198,8 @@ abstract class ezcArchiveFile implements Iterator
         }
 
         $this->getStreamInformation();
-    }
+ */
+    //}
 
     /** 
      * Returns the file name or file path.
@@ -132,13 +211,61 @@ abstract class ezcArchiveFile implements Iterator
         return $this->fileName;
     }
 
+    /** 
+     *  Switch to write mode.
+     */
+    public function switchWriteMode()
+    {
+        // Switch only when we are in read (only) mode.
+        if( $this->readWriteSwitch == 0 )
+        {
+            fclose( $this->fp );
+            $this->fp = fopen( $this->fileName, "ab" );
+            if ($this->fp === false )
+            {
+                throw new ezcBaseFilePermissionException( self::getPureFileName( $this->fileName ), ezcBaseFilePermissionException::WRITE, "Cannot switch to write mode");
+            }
+            $this->readWriteSwitch = 1;
+        }
+    }
+
+    public function switchReadMode( $pos = 0)
+    {
+        // Switch only when we are in write (only) mode.
+        if( $this->readWriteSwitch == 1 )
+        {
+            fclose( $this->fp );
+
+            $this->fp = fopen( $this->fileName, "rb" );
+            if ($this->fp === false )
+            {
+                throw new ezcBaseFilePermissionException( self::getPureFileName( $this->fileName ), ezcBaseFilePermissionException::READ, "Cannot switch back to read mode");
+            }
+            $this->readWriteSwitch = 0;
+            $this->positionSeek( $pos );
+        }
+    }
+
+    public function isReadOnlyWriteOnlyStream()
+    {
+        return ( $this->readWriteSwitch >= 0 );
+    }
+
+
 
     /**
-     * file_exists doesn't work correctly with the compress.zlib file.
+     * PHP system touch doesn't work correctly with the compress.zlib file.
      * 
      */
+    public static function touch( $fileName )
+    {
+        return touch( self::getPureFileName( $fileName ) );
+    }
+
     public static function fileExists( $fileName )
     {
+        return file_exists( self::getPureFileName( $fileName ) );
+/*
         if ( !file_exists( $fileName ) )
         {
             if ( strncmp( $fileName, "compress.zlib://", 16 ) == 0 )
@@ -155,7 +282,29 @@ abstract class ezcArchiveFile implements Iterator
         }
 
         return true;
+ */
     }
+
+    /**
+     *  Return the file name without any filters or compression stream.
+     */
+    private static function getPureFileName( $fileName )
+    {
+        // TODO: Multistream goes wrong.
+        if ( strncmp( $fileName, "compress.zlib://", 16 ) == 0 )
+        {
+            return substr( $fileName, 16);
+        }
+        
+        if ( strncmp( $fileName, "compress.bzip2://", 17 ) == 0 )
+        {
+            return substr( $fileName, 17);
+        }
+
+        return $fileName;
+    }
+
+
 
 
     /**
@@ -172,7 +321,6 @@ abstract class ezcArchiveFile implements Iterator
             {
                 fclose( $this->fp );
                 $this->fp = fopen( $this->fpUri, $this->fpMode );
-
             }
             else
             {
@@ -189,7 +337,8 @@ abstract class ezcArchiveFile implements Iterator
 
     public function getStreamInformation()
     {
-        $status =  socket_get_status( $this->fp );
+        $status =  stream_get_meta_data( $this->fp );
+       // $status =  socket_get_status( $this->fp );
         $this->fpIsSeekable = $status["seekable"];
         $this->fpMode = $status["mode"];
         $this->fpUri = $status["uri"];

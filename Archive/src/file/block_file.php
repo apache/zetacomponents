@@ -60,6 +60,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      */
     private $blockData;
 
+    private $lastBlock = -1;
     /**
      * Sets the property $name to $value.
      * 
@@ -139,6 +140,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
     public function rewind()
     {
         $this->blockNumber = -1;
+        
         parent::rewind();
     }
 
@@ -165,9 +167,14 @@ class ezcArchiveBlockFile extends ezcArchiveFile
     {
         if ( $this->isValid  )
         {
+            $this->switchReadMode( ( $this->blockNumber + 1 ) * $this->blockSize );
+            
+            // Read one block.
             $this->blockData = fread( $this->fp, $this->blockSize );
+
             if ( strlen( $this->blockData ) < $this->blockSize )
             {
+                $this->lastBlock = $this->blockNumber;
                 $this->isValid = false;
                 return false;
             }
@@ -244,9 +251,20 @@ class ezcArchiveBlockFile extends ezcArchiveFile
     public function append( $data )
     {
         if ( $this->readOnly ) 
+        {
             throw new ezcBaseFilePermissionException( $this->fileName, ezcBaseFilePermissionException::WRITE, "The archive is opened in a read-only mode." );
+        }
         
-        ftruncate( $this->fp, ftell( $this->fp ) );
+        $currentPos = ftell($this->fp );
+        if( $currentPos == false ) $currentPos = 0;
+        $lastBlock = $this->lastBlock  < 0 ? 0 : $this->lastBlock;
+
+        $this->switchWriteMode();
+
+        if ( $lastBlock * $this->blockSize != $currentPos )
+        {
+            ftruncate( $this->fp, ftell( $this->fp ) );
+        }
 
         $dataLength = sizeof( $data );
         $length = $this->writeBytes( $data );
@@ -260,6 +278,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
 
         $this->isEmpty = false;
         $this->blockNumber += $addedBlocks;
+        $this->lastBlock += $addedBlocks;
         $this->blockData = $data;
         $this->isValid = true;
 
@@ -328,6 +347,48 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      */
     public function truncate( $blocks = 0 )
     {
+        // Since we can only read or only write to the file, we have some limitations.
+        if( $this->readWriteSwitch >= 0 )
+        {
+            if( $blocks == 0 )
+            {
+                $this->isEmpty = true;
+                die ("TRUNCATING TO ZERO: FIX" );
+            }
+
+            // Check if we want to truncate after the last block. In that case, we don't truncate at all.
+            if ( !$this->valid() )
+            {
+               $this->rewind();
+            }
+
+            $this->next();
+            while( $this->next() && $blocks > $this->blockNumber );
+
+            if( $blocks > $this->blockNumber ) 
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /*
+        // Maybe we just want to write to the next block.
+        if( $blocks == $this->blockNumber + 1 )
+        {
+            if( $this->next() === false )
+            {
+                // Perfect, we are at the last block.
+
+                $this->lastBlock = $blocks; 
+                
+                echo ("JA");
+                return true;
+            }
+        }
+         */
+
         $pos = $blocks * $this->blockSize;
         ftruncate( $this->fp, $pos );
 
@@ -340,6 +401,10 @@ class ezcArchiveBlockFile extends ezcArchiveFile
         {
             $this->isValid = false;
         }
+
+        $this->lastBlock = $blocks;
+
+        return true;
     }
     
 
