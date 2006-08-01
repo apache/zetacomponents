@@ -15,14 +15,6 @@
 class ezcGraphPieChartOptions extends ezcGraphChartOptions
 {
     /**
-     * Percent of chart height used as maximum height for pie chart labels
-     * 
-     * @var float
-     * @access protected
-     */
-    protected $maxLabelHeight = .15;
-
-    /**
      * String used to label pies
      *      %$1s    Name of pie
      *      %2$d    Value of pie
@@ -32,29 +24,6 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
      * @access protected
      */
     protected $label = '%1$s: %2$d (%3$.1f%%)';
-
-    /**
-     * Indicates wheather to show the line between pie elements and labels
-     * 
-     * @var bool
-     */
-    protected $showSymbol = true;
-
-    /**
-     * Size of symbols used concat a label with a pie
-     * 
-     * @var float
-     * @access protected
-     */
-    protected $symbolSize = 6;
-
-    /**
-     * Percent to move pie chart elements out of the middle on highlight
-     * 
-     * @var float
-     * @access protected
-     */
-    protected $moveOut = .1;
 
     /**
      * Set an option value
@@ -69,20 +38,8 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
     {
         switch ( $propertyName )
         {
-            case 'maxLabelHeight':
-                $this->maxLabelHeight = min( 1, max( 0, (float) $propertyValue ) );
-                break;
             case 'label':
                 $this->label = (string) $propertyValue;
-                break;
-            case 'symbolSize':
-                $this->symbolSize = (int) $propertyValue;
-                break;
-            case 'moveOut':
-                $this->moveOut = min( 1, max( 0, (float) $propertyValue ) );
-                break;
-            case 'showSymbol':
-                $this->showSymbol = (bool) $propertyValue;
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );
