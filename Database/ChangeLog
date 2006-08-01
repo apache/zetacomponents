@@ -1,3 +1,5 @@
+- Fixed calling nonexistent methods in sqlabstraction for Oracle.
+
 1.1 - Monday 12 June 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
