@@ -212,8 +212,8 @@ is usually also more efficient since you don't need to escape the data and the
 SQL server does not have to parse it as part of the query string.
 
 
- Notable differences between databases
- =====================================
+Notable differences between databases
+=====================================
 
 Even though the query abstraction layer creates syntactic equal queries for the
 supported databases, the results may still differ. This is due to a large
