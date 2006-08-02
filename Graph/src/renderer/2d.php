@@ -352,11 +352,11 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         $this->driver->drawLine(
             new ezcGraphCoordinate(
                 $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $start->x,
-                $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $start->y
+                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $start->y
             ),
             new ezcGraphCoordinate(
                 $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $end->y
+                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y
             ),
             $color,
             $thickness
@@ -373,9 +373,9 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
             $this->drawSymbol(
                 new ezcGraphBoundings(
                     $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x - $this->options->symbolSize / 2,
-                    $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $end->y - $this->options->symbolSize / 2,
+                    $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y - $this->options->symbolSize / 2,
                     $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x + $this->options->symbolSize / 2,
-                    $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $end->y + $this->options->symbolSize / 2
+                    $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y + $this->options->symbolSize / 2
                 ),
                 $symbolColor,
                 $symbol
