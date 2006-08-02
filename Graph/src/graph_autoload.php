@@ -26,9 +26,10 @@ return array(
     'ezcGraphUnknownColorDefinitionException'   => 'Graph/exceptions/unknown_color_definition.php',
 
     'ezcGraphRenderer'                          => 'Graph/interfaces/renderer.php',
-    'ezcGraphRenderer2D'                        => 'Graph/renderer/2d.php',
+    'ezcGraphRenderer2d'                        => 'Graph/renderer/2d.php',
     'ezcGraphRenderer2dOptions'                 => 'Graph/options/renderer_2d.php',
-    'ezcGraphRenderer3D'                        => 'Graph/renderer/3d.php',
+    'ezcGraphRenderer3d'                        => 'Graph/renderer/3d.php',
+    'ezcGraphRenderer3dOptions'                 => 'Graph/options/renderer_3d.php',
     'ezcGraphInvalidRendererException'          => 'Graph/exceptions/invalid_renderer.php',
 
     'ezcGraphAxisLabelRenderer'                 => 'Graph/interfaces/axis_label_renderer.php',

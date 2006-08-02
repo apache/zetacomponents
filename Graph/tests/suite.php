@@ -27,13 +27,13 @@ require_once 'text_test.php';
 require_once 'numeric_axis_test.php';
 require_once 'labeled_axis_test.php';
 require_once 'renderer_2d_test.php';
+require_once 'renderer_3d_test.php';
 require_once 'axis_exact_renderer_test.php';
 require_once 'axis_centered_renderer_test.php';
 require_once 'driver_gd_test.php';
 require_once 'driver_svg_test.php';
 require_once 'font_test.php';
 require_once 'palette_test.php';
-require_once 'complete_rendering_test.php';
 
 /**
 * Test suite for ImageAnalysis package.
@@ -58,6 +58,7 @@ class ezcGraphSuite extends ezcTestSuite
         $this->addTest( ezcGraphNumericAxisTest::suite() );
         $this->addTest( ezcGraphLabeledAxisTest::suite() );
         $this->addTest( ezcGraphRenderer2dTest::suite() );
+        $this->addTest( ezcGraphRenderer3dTest::suite() );
         $this->addTest( ezcGraphAxisExactRendererTest::suite() );
         $this->addTest( ezcGraphAxisCenteredRendererTest::suite() );
         $this->addTest( ezcGraphGdDriverTest::suite() );
@@ -65,7 +66,6 @@ class ezcGraphSuite extends ezcTestSuite
         $this->addTest( ezcGraphFontTest::suite() );
         $this->addTest( ezcGraphTextTest::suite() );
         $this->addTest( ezcGraphPaletteTest::suite() );
-        $this->addTest( ezcGraphCompleteRenderingTest::suite() );
     }
 
     public static function suite()

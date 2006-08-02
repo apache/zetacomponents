@@ -78,7 +78,7 @@ abstract class ezcGraphChart implements ArrayAccess
 
         // Define standard renderer and driver
         $this->driver = new ezcGraphSvgDriver();
-        $this->renderer = new ezcGraphRenderer2D();
+        $this->renderer = new ezcGraphRenderer2d();
         $this->renderer->setDriver( $this->driver );
     }
 

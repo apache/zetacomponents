@@ -81,8 +81,12 @@ class ezcGraphLineChart extends ezcGraphChart
         $boundings->y0 += $yAxisSpace;
         $boundings->y1 -= $yAxisSpace;
 
+        $yAxisNullPosition = $this->elements['yAxis']->getCoordinate( false );
+
+        $nr = count( $this->data );
         foreach ( $this->data as $data )
         {
+            --$nr;
             // Determine fill color for dataset
             if ( $this->options->fillLines !== false )
             {
@@ -108,9 +112,12 @@ class ezcGraphLineChart extends ezcGraphChart
                     $data->color->default,
                     ( $lastPoint === false ? $point : $lastPoint ),
                     $point,
+                    $nr,
+                    count( $this->data ),
                     $data->symbol[$key],
                     $data->color[$key],
-                    $fillColor
+                    $fillColor,
+                    $yAxisNullPosition
                 );
 
                 $lastPoint = $point;

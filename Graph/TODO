@@ -1,13 +1,13 @@
 Alpha:
- - Fix grid on axis
  - Check for undocumented functions
  - Fix scaling of background image
- - Make hilight a function
  - Tresh hold for pie charts
- - Find reason for offset in big charts
 
 Next steps:
  - 3D-Renderer
+   - Inaccurate rendering for line charts
+   - z-Bffer problems for pie charts
+   - Symbol priority wrong
  - Enhance font configuration with magic
  - Return datapoinnt positions for imagemap and / or adding additional 
    information with div overlays

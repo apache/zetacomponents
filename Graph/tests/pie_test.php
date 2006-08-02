@@ -95,7 +95,7 @@ class ezcGraphPieChartTest extends ezcTestCase
 
         $chart['sample']->highlight['wget'] = true;
 
-        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
             'drawPieSegment',
         ) );
 

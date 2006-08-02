@@ -55,6 +55,8 @@ abstract class ezcGraphRenderer
      * @param ezcGraphColor $color Color of line
      * @param ezcGraphCoordinate $start Starting point
      * @param ezcGraphCoordinate $end Ending point
+     * @param int $dataNumber Number of dataset
+     * @param int $dataCount Count of datasets in chart
      * @param int $symbol Symbol to draw for line
      * @param ezcGraphColor $symbolColor Color of the symbol, defaults to linecolor
      * @param ezcGraphColor $fillColor Color to fill line with
@@ -67,6 +69,8 @@ abstract class ezcGraphRenderer
         ezcGraphColor $color,
         ezcGraphCoordinate $start,
         ezcGraphCoordinate $end,
+        $dataNumber = 1,
+        $dataCount = 1,
         $symbol = ezcGraph::NO_SYMBOL,
         ezcGraphColor $symbolColor = null,
         ezcGraphColor $fillColor = null,

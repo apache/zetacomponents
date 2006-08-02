@@ -102,7 +102,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         $chart['sampleData']->color = '#CC0000';
         $chart['sampleData']->symbol = ezcGraph::DIAMOND;
 
-        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
             'drawDataLine',
         ) );
 
@@ -114,6 +114,8 @@ class ezcGraphLineChartTest extends ezcTestCase
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .0, .415 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( .0, .415 ), .05 ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 ),
                 $this->equalTo( ezcGraph::DIAMOND ),
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( null )
@@ -126,6 +128,8 @@ class ezcGraphLineChartTest extends ezcTestCase
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .0, .415 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( .25, .95 ), .05 ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 ),
                 $this->equalTo( ezcGraph::DIAMOND ),
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( null )
@@ -138,6 +142,8 @@ class ezcGraphLineChartTest extends ezcTestCase
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .25, .95 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( .5, .2 ), .05 ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 ),
                 $this->equalTo( ezcGraph::DIAMOND ),
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( null )
@@ -150,6 +156,8 @@ class ezcGraphLineChartTest extends ezcTestCase
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .5, .2 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( .75, .7 ), .05 ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 ),
                 $this->equalTo( ezcGraph::DIAMOND ),
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( null )
@@ -162,6 +170,8 @@ class ezcGraphLineChartTest extends ezcTestCase
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .75, .7 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( 1., .9975 ), .05 ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 ),
                 $this->equalTo( ezcGraph::DIAMOND ),
                 $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( null )
@@ -179,7 +189,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         $chart->palette = 'Black';
         $chart->options->fillLines = 100;
 
-        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
             'drawDataLine',
         ) );
 
@@ -191,6 +201,8 @@ class ezcGraphLineChartTest extends ezcTestCase
                 $this->equalTo( ezcGraphColor::fromHex( '#3465A4' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .0, .165 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( .0, .165 ), .05 ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 ),
                 $this->equalTo( ezcGraph::NO_SYMBOL ),
                 $this->equalTo( ezcGraphColor::fromHex( '#3465A4' ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#3465A464' ) )
@@ -203,6 +215,8 @@ class ezcGraphLineChartTest extends ezcTestCase
                 $this->equalTo( ezcGraphColor::fromHex( '#3465A4' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .0, .165 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( .25, .6975 ), .05 ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 ),
                 $this->equalTo( ezcGraph::NO_SYMBOL ),
                 $this->equalTo( ezcGraphColor::fromHex( '#3465A4' ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#3465A464' ) )
@@ -215,6 +229,8 @@ class ezcGraphLineChartTest extends ezcTestCase
                 $this->equalTo( ezcGraphColor::fromHex( '#3465A4' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .75, .45 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( 1., .5 ), .05 ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 ),
                 $this->equalTo( ezcGraph::NO_SYMBOL ),
                 $this->equalTo( ezcGraphColor::fromHex( '#3465A4' ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#3465A464' ) )
@@ -233,7 +249,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         $chart['sampleData']->symbol = ezcGraph::DIAMOND;
         $chart['sampleData']->symbol['sample 3'] = ezcGraph::CIRCLE;
 
-        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2D', array(
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
             'drawDataLine',
         ) );
 
@@ -245,6 +261,8 @@ class ezcGraphLineChartTest extends ezcTestCase
                 $this->equalTo( ezcGraphColor::fromHex( '#729FCF' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .0, .415 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( .0, .415 ), .05 ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 ),
                 $this->equalTo( ezcGraph::DIAMOND ),
                 $this->equalTo( ezcGraphColor::fromHex( '#729FCF' ) ),
                 $this->equalTo( null )
@@ -257,6 +275,8 @@ class ezcGraphLineChartTest extends ezcTestCase
                 $this->equalTo( ezcGraphColor::fromHex( '#729FCF' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .25, .9475 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( .5, .19 ), .05 ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 ),
                 $this->equalTo( ezcGraph::CIRCLE ),
                 $this->equalTo( ezcGraphColor::fromHex( '#729FCF' ) ),
                 $this->equalTo( null )
@@ -269,6 +289,8 @@ class ezcGraphLineChartTest extends ezcTestCase
                 $this->equalTo( ezcGraphColor::fromHex( '#729FCF' ) ),
                 $this->equalTo( new ezcGraphCoordinate( .75, .7 ), .05 ),
                 $this->equalTo( new ezcGraphCoordinate( 1., .9975 ), .05 ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 ),
                 $this->equalTo( ezcGraph::DIAMOND ),
                 $this->equalTo( ezcGraphColor::fromHex( '#729FCF' ) ),
                 $this->equalTo( null )

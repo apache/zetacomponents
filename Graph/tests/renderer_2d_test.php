@@ -15,8 +15,12 @@
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphRenderer2dTest extends ezcTestCase
+class ezcGraphRenderer2dTest extends ezcImageTestCase
 {
+
+    protected $basePath;
+
+    protected $tempDir;
 
     protected $renderer;
 
@@ -34,7 +38,11 @@ class ezcGraphRenderer2dTest extends ezcTestCase
      */
     public function setUp()
     {
-        $this->renderer = new ezcGraphRenderer2D();
+        static $i = 0;
+        $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
+        $this->basePath = dirname( __FILE__ ) . '/data/';
+
+        $this->renderer = new ezcGraphRenderer2d();
 
         $this->driver = $this->getMock( 'ezcGraphGdDriver', array(
             'drawPolygon',
@@ -58,6 +66,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
      */
     public function tearDown()
     {
+        $this->removeTempDir();
     }
 
     public function testRenderLabeledPieSegment()
@@ -292,8 +301,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawLine' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 40., 160. ), 1. ),
-                $this->equalTo( new ezcGraphCoordinate( 280., 140. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 40., 40. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 280., 60. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
                 $this->equalTo( 1 )
             );
@@ -313,10 +322,10 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->method( 'drawPolygon' )
             ->with(
                 $this->equalTo( array(
-                    new ezcGraphCoordinate( 40., 160. ),
-                    new ezcGraphCoordinate( 280., 140. ),
-                    new ezcGraphCoordinate( 280., 200. ),
-                    new ezcGraphCoordinate( 40., 200. ),
+                    new ezcGraphCoordinate( 40., 40. ),
+                    new ezcGraphCoordinate( 280., 60. ),
+                    new ezcGraphCoordinate( 280., 0. ),
+                    new ezcGraphCoordinate( 40., 0. ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#FF0000DD' ) ),
                 $this->equalTo( true )
@@ -325,8 +334,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->expects( $this->at( 1 ) )
             ->method( 'drawLine' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 40., 160. ), 1. ),
-                $this->equalTo( new ezcGraphCoordinate( 280., 140. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 40., 40. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 280., 60. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
                 $this->equalTo( 1 )
             );
@@ -336,6 +345,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ezcGraphColor::fromHex( '#FF0000' ), 
             new ezcGraphCoordinate( .1, .2 ),
             new ezcGraphCoordinate( .7, .3 ),
+            0,
+            1,
             ezcGraph::NO_SYMBOL,
             null, 
             ezcGraphColor::fromHex( '#FF0000DD' ), 
@@ -351,8 +362,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->with(
                 $this->equalTo( array(
                     new ezcGraphCoordinate( 40., 100. ),
-                    new ezcGraphCoordinate( 40., 160. ),
-                    new ezcGraphCoordinate( 148., 100. ),
+                    new ezcGraphCoordinate( 40., 40. ),
+                    new ezcGraphCoordinate( 184., 100. ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#FF0000DD' ) ),
                 $this->equalTo( true )
@@ -363,8 +374,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->with(
                 $this->equalTo( array(
                     new ezcGraphCoordinate( 280., 100. ),
-                    new ezcGraphCoordinate( 280., 60. ),
-                    new ezcGraphCoordinate( 148., 100. ),
+                    new ezcGraphCoordinate( 280., 140. ),
+                    new ezcGraphCoordinate( 184., 100. ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#FF0000DD' ) ),
                 $this->equalTo( true )
@@ -384,6 +395,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ezcGraphColor::fromHex( '#FF0000' ), 
             new ezcGraphCoordinate( .1, .2 ),
             new ezcGraphCoordinate( .7, .7 ),
+            0,
+            1,
             ezcGraph::NO_SYMBOL,
             null, 
             ezcGraphColor::fromHex( '#FF0000DD' ), 
@@ -484,8 +497,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->with(
                 $this->equalTo( array(
                     new ezcGraphCoordinate( 40., 100. ),
-                    new ezcGraphCoordinate( 40., 160. ),
-                    new ezcGraphCoordinate( 148., 100. ),
+                    new ezcGraphCoordinate( 40., 40. ),
+                    new ezcGraphCoordinate( 184., 100. ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#FF0000DD' ) ),
                 $this->equalTo( true )
@@ -496,8 +509,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->with(
                 $this->equalTo( array(
                     new ezcGraphCoordinate( 280., 100. ),
-                    new ezcGraphCoordinate( 280., 60. ),
-                    new ezcGraphCoordinate( 148., 100. ),
+                    new ezcGraphCoordinate( 280., 140. ),
+                    new ezcGraphCoordinate( 184., 100. ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#FF0000DD' ) ),
                 $this->equalTo( true )
@@ -527,6 +540,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ezcGraphColor::fromHex( '#FF0000' ), 
             new ezcGraphCoordinate( .1, .2 ),
             new ezcGraphCoordinate( .7, .7 ),
+            0,
+            1,
             ezcGraph::CIRCLE,
             null, 
             ezcGraphColor::fromHex( '#FF0000DD' ), 
@@ -542,8 +557,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->with(
                 $this->equalTo( array(
                     new ezcGraphCoordinate( 40., 100. ),
-                    new ezcGraphCoordinate( 40., 160. ),
-                    new ezcGraphCoordinate( 148., 100. ),
+                    new ezcGraphCoordinate( 40., 40. ),
+                    new ezcGraphCoordinate( 184., 100. ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#FF0000DD' ) ),
                 $this->equalTo( true )
@@ -554,8 +569,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->with(
                 $this->equalTo( array(
                     new ezcGraphCoordinate( 280., 100. ),
-                    new ezcGraphCoordinate( 280., 60. ),
-                    new ezcGraphCoordinate( 148., 100. ),
+                    new ezcGraphCoordinate( 280., 140. ),
+                    new ezcGraphCoordinate( 184., 100. ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#FF0000DD' ) ),
                 $this->equalTo( true )
@@ -587,6 +602,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ezcGraphColor::fromHex( '#FF0000' ), 
             new ezcGraphCoordinate( .1, .2 ),
             new ezcGraphCoordinate( .7, .7 ),
+            0,
+            1,
             ezcGraph::BULLET,
             ezcGraphColor::fromHex( '#00FF00' ), 
             ezcGraphColor::fromHex( '#FF0000DD' ), 
@@ -1456,6 +1473,101 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             new ezcGraphCoordinate( 350, 100 ),
             new ezcGraphCoordinate( 50, 100 ),
             $chart->yAxis
+        );
+    }
+
+    public function testRenderLineChart()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = ezcGraph::create( 'line' );
+        $chart->palette = 'Black';
+
+        $chart['Line 1'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['Line 2'] = array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613);
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
+    public function testRenderFilledLineChart()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = ezcGraph::create( 'line' );
+        $chart->palette = 'Black';
+        $chart->options->fillLines = 200;
+
+        $chart['Line 1'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['Line 2'] = array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613);
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
+    public function testRenderFilledLineChartWithAxisIntersection()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = ezcGraph::create( 'line' );
+        $chart->palette = 'Black';
+        $chart->options->fillLines = 200;
+
+        $chart['Line 1'] = array( 'sample 1' => 234, 'sample 2' => -151, 'sample 3' => 324, 'sample 4' => -120, 'sample 5' => 1);
+        $chart['Line 2'] = array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => -5, 'sample 5' => -124);
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
+    public function testRenderPieChart()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = ezcGraph::create( 'Pie' );
+        $chart['sample'] = array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        );
+
+        $chart['sample']->highlight['Safari'] = true;
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
         );
     }
 }

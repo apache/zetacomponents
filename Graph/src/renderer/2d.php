@@ -243,6 +243,8 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
      * @param ezcGraphColor $color Color of line
      * @param ezcGraphCoordinate $start Starting point
      * @param ezcGraphCoordinate $end Ending point
+     * @param int $dataNumber Number of dataset
+     * @param int $dataCount Count of datasets in chart
      * @param int $symbol Symbol to draw for line
      * @param ezcGraphColor $symbolColor Color of the symbol, defaults to linecolor
      * @param ezcGraphColor $fillColor Color to fill line with
@@ -255,11 +257,13 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         ezcGraphColor $color,
         ezcGraphCoordinate $start,
         ezcGraphCoordinate $end,
+        $dataNumber = 1,
+        $dataCount = 1,
         $symbol = ezcGraph::NO_SYMBOL,
         ezcGraphColor $symbolColor = null,
         ezcGraphColor $fillColor = null,
         $axisPosition = 0.,
-        $thickness = 1 )
+        $thickness = 1)
     {
         // Perhaps fill up line
         if ( $fillColor !== null &&
@@ -277,19 +281,19 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                     array(
                         new ezcGraphCoordinate(
                             $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $start->x,
-                            $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $start->y
+                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $start->y
                         ),
                         new ezcGraphCoordinate(
                             $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                            $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $end->y
+                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y
                         ),
                         new ezcGraphCoordinate(
                             $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                            $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $axisPosition
+                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
                         ),
                         new ezcGraphCoordinate(
                             $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $start->x,
-                            $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $axisPosition
+                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
                         ),
                     ),
                     $fillColor,
@@ -302,7 +306,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                 $startDiff = abs( $axisPosition - $start->y );
                 $endDiff = abs( $axisPosition - $end->y );
 
-                $cuttingPosition = $startDiff / ( $endDiff / $startDiff );
+                $cuttingPosition = $startDiff / ( $endDiff + $startDiff );
                 $cuttingPoint = new ezcGraphCoordinate(
                     $start->x + ( $end->x - $start->x ) * $cuttingPosition,
                     $axisPosition
@@ -312,15 +316,15 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                     array(
                         new ezcGraphCoordinate(
                             $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $start->x,
-                            $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $axisPosition
+                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
                         ),
                         new ezcGraphCoordinate(
                             $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $start->x,
-                            $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $start->y
+                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $start->y
                         ),
                         new ezcGraphCoordinate(
                             $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $cuttingPoint->x,
-                            $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $cuttingPoint->y
+                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $cuttingPoint->y
                         ),
                     ),
                     $fillColor,
@@ -331,15 +335,15 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                     array(
                         new ezcGraphCoordinate(
                             $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                            $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $axisPosition
+                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
                         ),
                         new ezcGraphCoordinate(
                             $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                            $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $end->y
+                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y
                         ),
                         new ezcGraphCoordinate(
                             $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $cuttingPoint->x,
-                            $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $cuttingPoint->y
+                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $cuttingPoint->y
                         ),
                     ),
                     $fillColor,

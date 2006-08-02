@@ -117,6 +117,35 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         );
     }
 
+    public function testDrawTransparentPolygon()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 45, 12 ),
+                new ezcGraphCoordinate( 122, 34 ),
+                new ezcGraphCoordinate( 12, 71 ),
+            ),
+            ezcGraphColor::fromHex( '#3465A4BB' ),
+            true
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
     public function testDrawPolygonThreePointsNotFilled()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
@@ -355,7 +384,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         $this->driver->drawCircularArc(
             new ezcGraphCoordinate( 100, 50 ),
             150,
-            80,
+            70,
             10,
             25,
             300,

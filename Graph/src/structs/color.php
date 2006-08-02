@@ -203,10 +203,26 @@ class ezcGraphColor
     }
 
     /**
-     * Darkens the color
+     * Returns a copy of the current color made more transparent by the given
+     * factor
+     * 
+     * @param mixed $value  Percent to make color mor transparent
+     * @return ezcGraphColor New color
+     */
+    public function transparent( $value )
+    {
+        $color = clone $this;
+
+        $color->alpha = 255 - (int) round( ( 255 - $this->alpha ) * ( 1 - $value ) );
+
+        return $color;
+    }
+
+    /**
+     * Returns a copy of the current color darkened by the given factor
      * 
      * @param float $value Percent to darken the color
-     * @return void
+     * @return ezcGraphColor New color
      */
     public function darken( $value )
     {

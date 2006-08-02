@@ -156,7 +156,7 @@ class ezcGraphChartTest extends ezcTestCase
     public function testSetRenderer()
     {
         $pieChart = ezcGraph::create( 'Pie' );
-        $renderer = $pieChart->renderer = new ezcGraphRenderer2D();
+        $renderer = $pieChart->renderer = new ezcGraphRenderer2d();
 
         $this->assertSame(
             $renderer,
