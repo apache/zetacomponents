@@ -2,7 +2,8 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed bug #8525: ConsoleInput::getHelpTable() exits with a fatal error.
-- Fixed bug #8645: Default values not set correctly in ezcConsoleInput
+- Fixed bug #8645: Default values not set correctly in ezcConsoleInput.
+
 
 1.1 - Monday 12 June 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
