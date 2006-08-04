@@ -1,4 +1,3 @@
-
 <?php
 /**
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.

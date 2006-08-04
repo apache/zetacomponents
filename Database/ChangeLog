@@ -1,4 +1,11 @@
-- Fixed calling nonexistent methods in sqlabstraction for Oracle.
+1.1.1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed bug #8360: ezcQueryExpressionOracle::concat() calls non-existing
+  method.
+- Added ezcQuery::resetBinds() which allows you to reset the bound values and
+  parameters associated with a query.
+
 
 1.1 - Monday 12 June 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
