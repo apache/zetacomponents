@@ -23,6 +23,8 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
 
     protected $pieSegmentBoundings = false;
 
+    protected $linePostSymbols = array();
+
     protected $frontLines = array();
 
     protected $circleSectors = array();
@@ -179,11 +181,20 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
             {
                 // Determine position of label
                 $minHeight += max( 0, $height - $minHeight - $labelHeight ) / ( $boundings->y1 - $boundings->y0 ) * $toShare;
+                $verticalDistance = ( $center->y - $minHeight - $labelHeight / 2 ) / $radius;
+
                 $labelPosition = new ezcGraphCoordinate(
                     $center->x - 
-                    $sign * ( 
-                        cos ( asin ( ( $center->y - $minHeight - $labelHeight / 2 ) / $radius ) ) * $radius + 
-                        $symbolSize * (int) $this->options->showSymbol 
+                    $sign * (
+                        abs( $verticalDistance ) > 1 ?
+                        // If vertical distance to center is greater then the
+                        // radius, use the centerline for the horizontal 
+                        // position
+                        5 :
+                        // Else place the label outside of the pie chart
+                        (   cos ( asin ( $verticalDistance ) ) * $radius + 
+                            $symbolSize * (int) $this->options->showSymbol 
+                        )
                     ),
                     $minHeight + $labelHeight / 2
                 );
@@ -233,107 +244,125 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
 
     protected function finishCirleSectors()
     {
-        // Draw circular arcs
-        foreach ( $this->circleSectors as $circleSector )
-        {
-            $this->driver->drawCircularArc(
-                $circleSector['center'],
-                $circleSector['width'],
-                $circleSector['height'],
-                $this->options->pieChartHeight,
-                $circleSector['start'],
-                $circleSector['end'],
-                $circleSector['color']
-            );
-        }
+        $zBuffer = array();
 
-        // Draw borders
+        // Add circle sector sides to simple z buffer prioriry list
         foreach ( $this->circleSectors as $circleSector )
         {
             $darkenedColor = $circleSector['color']->darken( $this->options->dataBorder );
 
-            $this->driver->drawPolygon(
-                array(
+            $zBuffer[
+                (int) ( $circleSector['center']->y + sin( deg2rad( $circleSector['start'] + ( $circleSector['end'] - $circleSector['start'] ) / 2 ) ) * $circleSector['height'] / 2 )
+            ][] = array(
+                'method' => 'drawCircularArc',
+                'paramenters' => array(
                     $circleSector['center'],
-                    new ezcGraphCoordinate(
-                        $circleSector['center']->x,
-                        $circleSector['center']->y + $this->options->pieChartHeight
-                    ),
-                    new ezcGraphCoordinate(
-                        $circleSector['center']->x + cos( deg2rad( $circleSector['start'] ) ) * $circleSector['width'] / 2,
-                        $circleSector['center']->y + sin( deg2rad( $circleSector['start'] ) ) * $circleSector['height'] / 2 + $this->options->pieChartHeight
-                    ),
-                    new ezcGraphCoordinate(
-                        $circleSector['center']->x + cos( deg2rad( $circleSector['start'] ) ) * $circleSector['width'] / 2,
-                        $circleSector['center']->y + sin( deg2rad( $circleSector['start'] ) ) * $circleSector['height'] / 2
-                    ),
-                ),
-                $circleSector['color'],
-                true
+                    $circleSector['width'],
+                    $circleSector['height'],
+                    $this->options->pieChartHeight,
+                    $circleSector['start'],
+                    $circleSector['end'],
+                    $circleSector['color']
+                )
             );
 
-            $this->driver->drawPolygon(
-                array(
-                    $circleSector['center'],
-                    new ezcGraphCoordinate(
-                        $circleSector['center']->x,
-                        $circleSector['center']->y + $this->options->pieChartHeight
-                    ),
-                    new ezcGraphCoordinate(
-                        $circleSector['center']->x + cos( deg2rad( $circleSector['start'] ) ) * $circleSector['width'] / 2,
-                        $circleSector['center']->y + sin( deg2rad( $circleSector['start'] ) ) * $circleSector['height'] / 2 + $this->options->pieChartHeight
-                    ),
-                    new ezcGraphCoordinate(
-                        $circleSector['center']->x + cos( deg2rad( $circleSector['start'] ) ) * $circleSector['width'] / 2,
-                        $circleSector['center']->y + sin( deg2rad( $circleSector['start'] ) ) * $circleSector['height'] / 2
-                    ),
+            // Left side
+            $polygonPoints = array(
+                $circleSector['center'],
+                new ezcGraphCoordinate(
+                    $circleSector['center']->x,
+                    $circleSector['center']->y + $this->options->pieChartHeight
                 ),
-                $darkenedColor,
-                false
+                new ezcGraphCoordinate(
+                    $circleSector['center']->x + cos( deg2rad( $circleSector['start'] ) ) * $circleSector['width'] / 2,
+                    $circleSector['center']->y + sin( deg2rad( $circleSector['start'] ) ) * $circleSector['height'] / 2 + $this->options->pieChartHeight
+                ),
+                new ezcGraphCoordinate(
+                    $circleSector['center']->x + cos( deg2rad( $circleSector['start'] ) ) * $circleSector['width'] / 2,
+                    $circleSector['center']->y + sin( deg2rad( $circleSector['start'] ) ) * $circleSector['height'] / 2
+                ),
             );
 
-            $this->driver->drawPolygon(
-                array(
-                    $circleSector['center'],
-                    new ezcGraphCoordinate(
-                        $circleSector['center']->x,
-                        $circleSector['center']->y + $this->options->pieChartHeight
-                    ),
-                    new ezcGraphCoordinate(
-                        $circleSector['center']->x + cos( deg2rad( $circleSector['end'] ) ) * $circleSector['width'] / 2,
-                        $circleSector['center']->y + sin( deg2rad( $circleSector['end'] ) ) * $circleSector['height'] / 2 + $this->options->pieChartHeight
-                    ),
-                    new ezcGraphCoordinate(
-                        $circleSector['center']->x + cos( deg2rad( $circleSector['end'] ) ) * $circleSector['width'] / 2,
-                        $circleSector['center']->y + sin( deg2rad( $circleSector['end'] ) ) * $circleSector['height'] / 2
-                    ),
+            // Get average y coordinate for polygon to use for zBuffer
+            $center = 0;
+            foreach( $polygonPoints as $point )
+            {
+                $center += $point->y;
+            }
+            $center = (int) ( $center / count( $polygonPoints ) );
+
+            $zBuffer[$center][] = array(
+                'method' => 'drawPolygon',
+                'paramenters' => array(
+                    $polygonPoints,
+                    $circleSector['color'],
+                    true
                 ),
-                $circleSector['color'],
-                true
             );
 
-            $this->driver->drawPolygon(
-                array(
-                    $circleSector['center'],
-                    new ezcGraphCoordinate(
-                        $circleSector['center']->x,
-                        $circleSector['center']->y + $this->options->pieChartHeight
-                    ),
-                    new ezcGraphCoordinate(
-                        $circleSector['center']->x + cos( deg2rad( $circleSector['end'] ) ) * $circleSector['width'] / 2,
-                        $circleSector['center']->y + sin( deg2rad( $circleSector['end'] ) ) * $circleSector['height'] / 2 + $this->options->pieChartHeight
-                    ),
-                    new ezcGraphCoordinate(
-                        $circleSector['center']->x + cos( deg2rad( $circleSector['end'] ) ) * $circleSector['width'] / 2,
-                        $circleSector['center']->y + sin( deg2rad( $circleSector['end'] ) ) * $circleSector['height'] / 2
-                    ),
+            $zBuffer[$center][] = array(
+                'method' => 'drawPolygon',
+                'paramenters' => array(
+                    $polygonPoints,
+                    $darkenedColor,
+                    false
                 ),
-                $darkenedColor,
-                false
+            );
+
+            // Right side
+            $polygonPoints = array(
+                $circleSector['center'],
+                new ezcGraphCoordinate(
+                    $circleSector['center']->x,
+                    $circleSector['center']->y + $this->options->pieChartHeight
+                ),
+                new ezcGraphCoordinate(
+                    $circleSector['center']->x + cos( deg2rad( $circleSector['end'] ) ) * $circleSector['width'] / 2,
+                    $circleSector['center']->y + sin( deg2rad( $circleSector['end'] ) ) * $circleSector['height'] / 2 + $this->options->pieChartHeight
+                ),
+                new ezcGraphCoordinate(
+                    $circleSector['center']->x + cos( deg2rad( $circleSector['end'] ) ) * $circleSector['width'] / 2,
+                    $circleSector['center']->y + sin( deg2rad( $circleSector['end'] ) ) * $circleSector['height'] / 2
+                ),
+            );
+
+            // Get average y coordinate for polygon to use for zBuffer
+            $center = 0;
+            foreach( $polygonPoints as $point )
+            {
+                $center += $point->y;
+            }
+            $center = (int) ( $center / count( $polygonPoints ) );
+
+            $zBuffer[$center][] = array(
+                'method' => 'drawPolygon',
+                'paramenters' => array(
+                    $polygonPoints,
+                    $circleSector['color'],
+                    true
+                ),
+            );
+
+            $zBuffer[$center][] = array(
+                'method' => 'drawPolygon',
+                'paramenters' => array(
+                    $polygonPoints,
+                    $darkenedColor,
+                    false
+                ),
             );
         }
 
-        // Draw circle sector
+        ksort( $zBuffer );
+        foreach ( $zBuffer as $sides )
+        {
+            foreach ( $sides as $side )
+            {
+                call_user_func_array( array( $this->driver, $side['method'] ), $side['paramenters'] );
+            }
+        }
+
+        // Draw circle sector for front
         foreach ( $this->circleSectors as $circleSector )
         {
             $this->driver->drawCircleSector(
@@ -364,10 +393,22 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         foreach ( $this->frontLines as $line )
         {
             $this->driver->drawLine(
-                $line[0],
+               $line[0],
                 $line[1],
                 $line[2],
                 $line[3]
+            );
+        }
+    }
+
+    protected function finishLineSymbols()
+    {
+        foreach ( $this->linePostSymbols as $symbol )
+        {
+            $this->drawSymbol(
+                $symbol['boundings'],
+                $symbol['color'],
+                $symbol['symbol']
             );
         }
     }
@@ -580,15 +621,15 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 $symbolColor = $color;
             }
 
-            $this->drawSymbol(
-                new ezcGraphBoundings(
-                    $pointModifier + $depth / 2 + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x - $this->options->symbolSize / 2,
-                    -$pointModifier - $depth / 2 + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y - $this->options->symbolSize / 2,
-                    $pointModifier + $depth / 2 + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x + $this->options->symbolSize / 2,
-                    -$pointModifier - $depth / 2 + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y + $this->options->symbolSize / 2
+            $this->linePostSymbols[] = array(
+                'boundings' => new ezcGraphBoundings(
+                    $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x - $this->options->symbolSize / 2,
+                    -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y - $this->options->symbolSize / 2,
+                    $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x + $this->options->symbolSize / 2,
+                    -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y + $this->options->symbolSize / 2
                 ),
-                $symbolColor,
-                $symbol
+                'color' => $symbolColor,
+                'symbol' => $symbol,
             );
         }
     }
@@ -1312,6 +1353,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
     {
         $this->finishCirleSectors();
         $this->finishPieSegmentLabels();
+        $this->finishLineSymbols();
         $this->finishFrontLines();
 
         return true;

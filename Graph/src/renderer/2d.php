@@ -23,6 +23,8 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
 
     protected $pieSegmentBoundings = false;
 
+    protected $linePostSymbols = array();
+
     protected $options;
 
     public function __construct( array $options = array() )
@@ -154,15 +156,21 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
             ( $boundings->y1 - $boundings->y0 ) / 2
         );
 
+        $pieChartHeight = min(
+            $radius * 2 + $this->options->maxLabelHeight * 2,
+            $boundings->y1 - $boundings->y0
+        );
+        $pieChartYPosition = $boundings->y0 + ( ( $boundings->y1 - $boundings->y0 ) - $pieChartHeight ) / 2;
+
         // Calculate maximum height of labels
         $labelHeight = (int) round( min(
             ( count( $this->pieSegmentLabels[0] )
-                ? ( $boundings->y1 - $boundings->y0 ) / count( $this->pieSegmentLabels[0] )
-                : ( $boundings->y1 - $boundings->y0 )
+                ? $pieChartHeight / count( $this->pieSegmentLabels[0] )
+                : $pieChartHeight
             ),
             ( count( $this->pieSegmentLabels[1] )
-                ? ( $boundings->y1 - $boundings->y0 ) / count( $this->pieSegmentLabels[1] )
-                : ( $boundings->y1 - $boundings->y0 )
+                ? $pieChartHeight / count( $this->pieSegmentLabels[1] )
+                : $pieChartHeight
             ),
             ( $boundings->y1 - $boundings->y0 ) * $this->options->maxLabelHeight
         ) );
@@ -171,8 +179,8 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
 
         foreach ( $this->pieSegmentLabels as $side => $labelPart )
         {
-            $minHeight = $boundings->y0;
-            $toShare = ( $boundings->y1 - $boundings->y0 ) - count( $labelPart ) * $labelHeight;
+            $minHeight = $pieChartYPosition;
+            $toShare = $pieChartHeight - count( $labelPart ) * $labelHeight;
 
             // Sort to draw topmost label first
             ksort( $labelPart );
@@ -181,12 +189,21 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
             foreach ( $labelPart as $height => $label )
             {
                 // Determine position of label
-                $minHeight += max( 0, $height - $minHeight - $labelHeight ) / ( $boundings->y1 - $boundings->y0 ) * $toShare;
+                $minHeight += max( 0, $height - $minHeight - $labelHeight ) / $pieChartHeight * $toShare;
+                $verticalDistance = ( $center->y - $minHeight - $labelHeight / 2 ) / $radius;
+
                 $labelPosition = new ezcGraphCoordinate(
                     $center->x - 
-                    $sign * ( 
-                        cos ( asin ( ( $center->y - $minHeight - $labelHeight / 2 ) / $radius ) ) * $radius + 
-                        $symbolSize * (int) $this->options->showSymbol 
+                    $sign * (
+                        abs( $verticalDistance ) > 1 ?
+                        // If vertical distance to center is greater then the
+                        // radius, use the centerline for the horizontal 
+                        // position
+                        5 :
+                        // Else place the label outside of the pie chart
+                        (   cos ( asin ( $verticalDistance ) ) * $radius + 
+                            $symbolSize * (int) $this->options->showSymbol 
+                        )
                     ),
                     $minHeight + $labelHeight / 2
                 );
@@ -231,6 +248,18 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                 // Add used space to minHeight
                 $minHeight += $labelHeight;
             }
+        }
+    }
+
+    protected function finishLineSymbols()
+    {
+        foreach ( $this->linePostSymbols as $symbol )
+        {
+            $this->drawSymbol(
+                $symbol['boundings'],
+                $symbol['color'],
+                $symbol['symbol']
+            );
         }
     }
     
@@ -373,16 +402,16 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
             {
                 $symbolColor = $color;
             }
-
-            $this->drawSymbol(
-                new ezcGraphBoundings(
+    
+            $this->linePostSymbols[] = array(
+                'boundings' => new ezcGraphBoundings(
                     $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x - $this->options->symbolSize / 2,
                     $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y - $this->options->symbolSize / 2,
                     $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x + $this->options->symbolSize / 2,
                     $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y + $this->options->symbolSize / 2
                 ),
-                $symbolColor,
-                $symbol
+                'color' => $symbolColor,
+                'symbol' => $symbol,
             );
         }
     }
@@ -927,6 +956,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
     protected function finish()
     {
         $this->finishPieSegmentLabels();
+        $this->finishLineSymbols();
 
         return true;
     }

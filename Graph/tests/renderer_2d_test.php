@@ -28,7 +28,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcGraphRenderer2dTest" );
+	    return new ezcTestSuite( "ezcGraphRenderer2dTest" );
 	}
 
     /**

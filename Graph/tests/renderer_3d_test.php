@@ -46,7 +46,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
      */
     public function tearDown()
     {
-        //$this->removeTempDir();
+        $this->removeTempDir();
     }
 
     public function testRenderLabeledPieSegment()
@@ -65,6 +65,43 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart['sample']->highlight['Safari'] = true;
 
         $chart->renderer = new ezcGraphRenderer3d();
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
+    public function testRenderLabeledPieSegmentPolygonOrder()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = ezcGraph::create( 'Pie' );
+        $chart['sample'] = array(
+            'label 1' => 20,
+            'label 2' => 20,
+            'label 3' => 20,
+            'label 4' => 20,
+            'label 5' => 20,
+            'label 6' => 20,
+            'label 7' => 20,
+            'label 8' => 20,
+            'label 9' => 20,
+            'label 10' => 20,
+        );
+
+        $chart['sample']->highlight = true;
+        $chart->options->label = '%1$s';
+        $chart->legend = false;
+
+        $chart->renderer = new ezcGraphRenderer3d();
+        $chart->renderer->moveOut = .3;
+
         $chart->driver = new ezcGraphGdDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );

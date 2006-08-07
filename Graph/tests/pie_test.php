@@ -15,7 +15,7 @@
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphPieChartTest extends ezcTestCase
+class ezcGraphPieChartTest extends ezcImageTestCase
 {
 
     protected $basePath;
@@ -35,7 +35,7 @@ class ezcGraphPieChartTest extends ezcTestCase
     public function setUp()
     {
         static $i = 0;
-        $this->tempDir = $this->createTempDir( 'ezcGraphGdDriverTest' . sprintf( '_%03d_', ++$i ) ) . '/';
+        $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
         $this->basePath = dirname( __FILE__ ) . '/data/';
     }
 
@@ -157,6 +157,48 @@ class ezcGraphPieChartTest extends ezcTestCase
 
         $chart->renderer = $mockedRenderer;
         $chart->render( 400, 200 );
+    }
+
+    public function testRenderPieChartWithLotsOfLabels()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = ezcGraph::create( 'Pie' );
+        $chart['Skien'] = array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 );
+
+        $chart['Skien']->highlight['Norwegian'] = true;
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
+    public function testRenderPortraitPieChartWithLotsOfLabels()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = ezcGraph::create( 'Pie' );
+        $chart['Skien'] = array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 );
+
+        $chart['Skien']->highlight['Norwegian'] = true;
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 500, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
     }
 }
 ?>
