@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphDatasetAverage class
+ * File containing the abstract ezcGraphDataSetAverage class
  *
  * @package Graph
  * @version //autogentag//
@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-class ezcGraphDatasetAverage extends ezcDataset 
+class ezcGraphDataSetAverage extends ezcDataSet 
 {
 
 }

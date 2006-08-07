@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphDatasetStringProperty class
+ * File containing the abstract ezcGraphDataSetStringProperty class
  *
  * @package Graph
  * @version //autogentag//
@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-class ezcGraphDatasetStringProperty extends ezcGraphDatasetProperty
+class ezcGraphDataSetStringProperty extends ezcGraphDataSetProperty
 {
     /**
      * Converts value to an ezcGraphColor object

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphDatasetProperty class
+ * File containing the abstract ezcGraphDataSetProperty class
  *
  * @package Graph
  * @version //autogentag//
@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-abstract class ezcGraphDatasetProperty implements ArrayAccess
+abstract class ezcGraphDataSetProperty implements ArrayAccess
 {
     /**
      * Default value for this property
@@ -32,7 +32,7 @@ abstract class ezcGraphDatasetProperty implements ArrayAccess
      * Contains a reference to the dataset to check for availability of data
      * keys
      * 
-     * @var ezcGraphDataset
+     * @var ezcGraphDataSet
      */
     protected $dataset;
 
@@ -46,7 +46,7 @@ abstract class ezcGraphDatasetProperty implements ArrayAccess
      */
     abstract protected function checkValue( &$value );
 
-    public function __construct( ezcGraphDataset $dataset )
+    public function __construct( ezcGraphDataSet $dataset )
     {
         $this->dataset = $dataset;
     }

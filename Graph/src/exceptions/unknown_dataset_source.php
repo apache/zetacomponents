@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcGraphUnknownDatasetSourceException class
+ * File containing the ezcGraphUnknownDataSetSourceException class
  *
  * @package Graph
  * @version //autogen//
@@ -14,7 +14,7 @@
  * @package Graph
  * @version //autogen//
  */
-class ezcGraphUnknownDatasetSourceException extends ezcGraphException
+class ezcGraphUnknownDataSetSourceException extends ezcGraphException
 {
     public function __construct( $source )
     {

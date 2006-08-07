@@ -27,16 +27,16 @@ class ezcGraphPieChart extends ezcGraphChart
      * 
      * @param string $name Name of dataset
      * @param mixed $values Values to create dataset with
-     * @throws ezcGraphTooManyDatasetExceptions
+     * @throws ezcGraphTooManyDataSetExceptions
      *          If too many datasets are created
-     * @return ezcGraphDataset
+     * @return ezcGraphDataSet
      */
     protected function addDataSet( $name, $values )
     {
         if ( count( $this->data ) >= 1 &&
              !isset( $this->data[$name] ) )
         {
-            throw new ezcGraphTooManyDatasetsExceptions( $name );
+            throw new ezcGraphTooManyDataSetsExceptions( $name );
         }
         else
         {
@@ -92,7 +92,7 @@ class ezcGraphPieChart extends ezcGraphChart
         $this->driver->options->height = $height;
 
         // Generate legend
-        $this->elements['legend']->generateFromDataset( reset( $this->data ) );
+        $this->elements['legend']->generateFromDataSet( reset( $this->data ) );
 
         // Get boundings from parameters
         $this->options->width = $width;

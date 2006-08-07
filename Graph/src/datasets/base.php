@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphDataset class
+ * File containing the abstract ezcGraphDataSet class
  *
  * @package Graph
  * @version //autogentag//
@@ -12,34 +12,34 @@
  *
  * @package Graph
  */
-class ezcGraphDataset implements ArrayAccess, Iterator
+class ezcGraphDataSet implements ArrayAccess, Iterator
 {
 
     /**
      * labels for dataset and dataset elements
      * 
-     * @var ezcGraphDatasetStringProperty
+     * @var ezcGraphDataSetStringProperty
      */
     protected $label;
 
     /**
      * Colors for dataset elements
      * 
-     * @var ezcGraphDatasetColorProperty
+     * @var ezcGraphDataSetColorProperty
      */
     protected $color;
 
     /**
      * Symbols for dataset elements
      * 
-     * @var ezcGraphDatasetIntProperty
+     * @var ezcGraphDataSetIntProperty
      */
     protected $symbol;
 
     /**
      * Status if dataset element is hilighted
      * 
-     * @var ezcGraphDatasetBooleanProperty
+     * @var ezcGraphDataSetBooleanProperty
      * @access protected
      */
     protected $highlight;
@@ -68,10 +68,10 @@ class ezcGraphDataset implements ArrayAccess, Iterator
 
     public function __construct()
     {
-        $this->label = new ezcGraphDatasetStringProperty( $this );
-        $this->color = new ezcGraphDatasetColorProperty( $this );
-        $this->symbol = new ezcGraphDatasetIntProperty( $this );
-        $this->highlight = new ezcGraphDatasetBooleanProperty( $this );
+        $this->label = new ezcGraphDataSetStringProperty( $this );
+        $this->color = new ezcGraphDataSetColorProperty( $this );
+        $this->symbol = new ezcGraphDataSetIntProperty( $this );
+        $this->highlight = new ezcGraphDataSetBooleanProperty( $this );
 
         $this->highlight->default = false;
     }

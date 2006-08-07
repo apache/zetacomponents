@@ -1107,7 +1107,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
             $chart['evenMoreData'],
         );
 
-        $chart->legend->generateFromDatasets( $datasets );
+        $chart->legend->generateFromDataSets( $datasets );
 
         $this->driver
             ->expects( $this->at( 0 ) )
@@ -1174,7 +1174,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
             $chart['evenMoreData'],
         );
 
-        $chart->legend->generateFromDatasets( $datasets );
+        $chart->legend->generateFromDataSets( $datasets );
 
         $this->driver
             ->expects( $this->at( 1 ) )
@@ -1232,7 +1232,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
             $chart['evenMoreData'],
         );
 
-        $chart->legend->generateFromDatasets( $datasets );
+        $chart->legend->generateFromDataSets( $datasets );
 
         $this->driver
             ->expects( $this->at( 0 ) )
@@ -1300,7 +1300,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
             $chart['evenMoreData'],
         );
 
-        $chart->legend->generateFromDatasets( $datasets );
+        $chart->legend->generateFromDataSets( $datasets );
 
         $this->driver
             ->expects( $this->at( 1 ) )

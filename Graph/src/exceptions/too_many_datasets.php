@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcGraphTooManyDatasetsExceptions class
+ * File containing the ezcGraphTooManyDataSetsExceptions class
  *
  * @package Graph
  * @version //autogen//
@@ -14,7 +14,7 @@
  * @package Graph
  * @version //autogen//
  */
-class ezcGraphTooManyDatasetsExceptions extends ezcGraphException
+class ezcGraphTooManyDataSetsExceptions extends ezcGraphException
 {
     public function __construct()
     {

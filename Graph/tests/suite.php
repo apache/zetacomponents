@@ -53,7 +53,7 @@ class ezcGraphSuite extends ezcTestSuite
         $this->addTest( ezcGraphChartTest::suite() );
         $this->addTest( ezcGraphPieChartTest::suite() );
         $this->addTest( ezcGraphLineChartTest::suite() );
-        $this->addTest( ezcGraphDatasetTest::suite() );
+        $this->addTest( ezcGraphDataSetTest::suite() );
         $this->addTest( ezcGraphLegendTest::suite() );
         $this->addTest( ezcGraphNumericAxisTest::suite() );
         $this->addTest( ezcGraphLabeledAxisTest::suite() );

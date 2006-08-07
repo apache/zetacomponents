@@ -129,55 +129,55 @@ class ezcGraphPaletteTest extends ezcTestCase
         $this->assertEquals(
             ezcGraphColor::fromHex( '#3465A4' ),
             $chart->palette->dataSetColor,
-            'Dataset color not properly set.'
+            'DataSet color not properly set.'
         );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#4E9A06' ),
             $chart->palette->dataSetColor,
-            'Dataset color not properly set.'
+            'DataSet color not properly set.'
         );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#CC0000' ),
             $chart->palette->dataSetColor,
-            'Dataset color not properly set.'
+            'DataSet color not properly set.'
         );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#EDD400' ),
             $chart->palette->dataSetColor,
-            'Dataset color not properly set.'
+            'DataSet color not properly set.'
         );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#75505B' ),
             $chart->palette->dataSetColor,
-            'Dataset color not properly set.'
+            'DataSet color not properly set.'
         );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#F57900' ),
             $chart->palette->dataSetColor,
-            'Dataset color not properly set.'
+            'DataSet color not properly set.'
         );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#204A87' ),
             $chart->palette->dataSetColor,
-            'Dataset color not properly set.'
+            'DataSet color not properly set.'
         );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#C17D11' ),
             $chart->palette->dataSetColor,
-            'Dataset color not properly set.'
+            'DataSet color not properly set.'
         );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#3465A4' ),
             $chart->palette->dataSetColor,
-            'Dataset color not properly set.'
+            'DataSet color not properly set.'
         );
     }
 
@@ -286,7 +286,7 @@ class ezcGraphPaletteTest extends ezcTestCase
         );
     }
 
-    public function testDatasetAutomaticColorization()
+    public function testDataSetAutomaticColorization()
     {
         $chart = ezcGraph::create( 'Line' );
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );

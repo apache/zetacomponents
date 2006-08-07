@@ -157,7 +157,7 @@ class ezcGraphLineChart extends ezcGraphChart
         $this->elements['yAxis']->calculateAxisBoundings();
 
         // Generate legend
-        $this->elements['legend']->generateFromDatasets( $this->data );
+        $this->elements['legend']->generateFromDataSets( $this->data );
 
         // Get boundings from parameters
         $this->options->width = $width;

@@ -204,7 +204,7 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
                 }
                 break;
             default:
-                throw new ezcGraphNoSuchDatasetException( $propertyName );
+                throw new ezcGraphNoSuchDataSetException( $propertyName );
                 break;
         }
     }

@@ -578,7 +578,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         );
     }
 
-    public function testNullPositionMultipleDatasets()
+    public function testNullPositionMultipleDataSets()
     {
         $chart = ezcGraph::create( 'Line' );
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcGraphNoSuchDatasetException class
+ * File containing the ezcGraphNoSuchDataSetException class
  *
  * @package Graph
  * @version //autogen//
@@ -14,7 +14,7 @@
  * @package Graph
  * @version //autogen//
  */
-class ezcGraphNoSuchDatasetException extends ezcGraphException
+class ezcGraphNoSuchDataSetException extends ezcGraphException
 {
     public function __construct( $name )
     {

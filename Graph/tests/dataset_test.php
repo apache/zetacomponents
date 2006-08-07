@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcGraphDatasetTest 
+ * ezcGraphDataSetTest 
  * 
  * @package Graph
  * @version //autogen//
@@ -15,12 +15,12 @@
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphDatasetTest extends ezcTestCase
+class ezcGraphDataSetTest extends ezcTestCase
 {
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcGraphDatasetTest" );
+		return new ezcTestSuite( "ezcGraphDataSetTest" );
 	}
 
     /**
@@ -41,30 +41,30 @@ class ezcGraphDatasetTest extends ezcTestCase
     {
     }
 
-    public function testCreateDatasetFromArray()
+    public function testCreateDataSetFromArray()
     {
         $chart = ezcGraph::create( 'Pie' );
         $chart['humanoids'] = array( 'monkey' => 54, 'ape' => 37, 'human' => 9 );
 
         $datasets = $this->getNonPublicProperty( $chart, 'data' );
         $this->assertTrue(
-            $datasets['humanoids'] instanceof ezcGraphDataset,
-            'No ezcGraphDataset was created.'
+            $datasets['humanoids'] instanceof ezcGraphDataSet,
+            'No ezcGraphDataSet was created.'
         );
     }
 
-    public function testGetDataset()
+    public function testGetDataSet()
     {
         $chart = ezcGraph::create( 'Pie' );
         $chart['humanoids'] = array( 'monkey' => 54, 'ape' => 37, 'human' => 9 );
 
         $this->assertTrue(
-            $chart['humanoids'] instanceof ezcGraphDataset,
-            'No ezcGraphDataset was created.'
+            $chart['humanoids'] instanceof ezcGraphDataSet,
+            'No ezcGraphDataSet was created.'
         );
     }
 
-    public function testDatasetContent()
+    public function testDataSetContent()
     {
         $chart = ezcGraph::create( 'Pie' );
         $chart['example'] = array( 'monkey' => 54, 2001 => 37 );
@@ -81,7 +81,7 @@ class ezcGraphDatasetTest extends ezcTestCase
         );
     }
 
-    public function testCreateMultipleDatasetsFromArray()
+    public function testCreateMultipleDataSetsFromArray()
     {
         $chart = ezcGraph::create( 'Line' );
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
@@ -89,16 +89,16 @@ class ezcGraphDatasetTest extends ezcTestCase
 
         $datasets = $this->getNonPublicProperty( $chart, 'data' );
         $this->assertTrue(
-            $datasets['income'] instanceof ezcGraphDataset,
-            'No ezcGraphDataset was created.'
+            $datasets['income'] instanceof ezcGraphDataSet,
+            'No ezcGraphDataSet was created.'
         );
         $this->assertTrue(
-            $datasets['spending'] instanceof ezcGraphDataset,
-            'No second ezcGraphDataset was created.'
+            $datasets['spending'] instanceof ezcGraphDataSet,
+            'No second ezcGraphDataSet was created.'
         );
     }
 
-    public function testCreateMultiplePiechartDatasetsFromArray()
+    public function testCreateMultiplePiechartDataSetsFromArray()
     {
         try 
         {
@@ -106,15 +106,15 @@ class ezcGraphDatasetTest extends ezcTestCase
             $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
             $chart['spending'] = array( 2000 => 2347.2, 2458.3, 2569.4 );
         }
-        catch ( ezcGraphTooManyDatasetsExceptions $e )
+        catch ( ezcGraphTooManyDataSetsExceptions $e )
         {
             return true;
         }
 
-        $this->fail( 'Expected ezcGraphTooManyDatasetsExceptions.' );
+        $this->fail( 'Expected ezcGraphTooManyDataSetsExceptions.' );
     }
 
-    public function testDatasetLabel()
+    public function testDataSetLabel()
     {
         $chart = ezcGraph::create( 'Pie' );
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
@@ -125,7 +125,7 @@ class ezcGraphDatasetTest extends ezcTestCase
         );
     }
 
-    public function testDatasetSetLabel()
+    public function testDataSetSetLabel()
     {
         $chart = ezcGraph::create( 'Pie' );
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
@@ -137,7 +137,7 @@ class ezcGraphDatasetTest extends ezcTestCase
         );
     }
 
-    public function testDatasetSetColor()
+    public function testDataSetSetColor()
     {
         $chart = ezcGraph::create( 'Pie' );
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
@@ -149,7 +149,7 @@ class ezcGraphDatasetTest extends ezcTestCase
         );
     }
 
-    public function testDatasetSetHighlight()
+    public function testDataSetSetHighlight()
     {
         $chart = ezcGraph::create( 'Pie' );
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
@@ -161,7 +161,7 @@ class ezcGraphDatasetTest extends ezcTestCase
         );
     }
 
-    public function testDatasetGetHighlight()
+    public function testDataSetGetHighlight()
     {
         $chart = ezcGraph::create( 'Pie' );
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
@@ -177,7 +177,7 @@ class ezcGraphDatasetTest extends ezcTestCase
         );
     }
 
-    public function testDatasetSetHighlightSingle()
+    public function testDataSetSetHighlightSingle()
     {
         $chart = ezcGraph::create( 'Pie' );
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
@@ -194,7 +194,7 @@ class ezcGraphDatasetTest extends ezcTestCase
         );
     }
 
-    public function testDatasetSetSingleColor()
+    public function testDataSetSetSingleColor()
     {
         $chart = ezcGraph::create( 'Pie' );
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
@@ -206,7 +206,7 @@ class ezcGraphDatasetTest extends ezcTestCase
         );
     }
 
-    public function testDatasetSetSingleSymbol()
+    public function testDataSetSetSingleSymbol()
     {
         $chart = ezcGraph::create( 'Pie' );
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
@@ -218,7 +218,7 @@ class ezcGraphDatasetTest extends ezcTestCase
         );
     }
 
-    public function testDatasetPropertyValueFallback()
+    public function testDataSetPropertyValueFallback()
     {
         $chart = ezcGraph::create( 'Pie' );
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
@@ -230,7 +230,7 @@ class ezcGraphDatasetTest extends ezcTestCase
         );
     }
 
-    public function testDatasetSetNonexistingSingle()
+    public function testDataSetSetNonexistingSingle()
     {
         try
         {
@@ -246,7 +246,7 @@ class ezcGraphDatasetTest extends ezcTestCase
         $this->fail( 'Expected ezcGraphNoSuchDataException.' );
     }
 
-    public function testDatasetGetSingleData()
+    public function testDataSetGetSingleData()
     {
         $chart = ezcGraph::create( 'Pie' );
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
@@ -257,7 +257,7 @@ class ezcGraphDatasetTest extends ezcTestCase
         );
     }
 
-    public function testDatasetSetSingleData()
+    public function testDataSetSetSingleData()
     {
         $chart = ezcGraph::create( 'Pie' );
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );

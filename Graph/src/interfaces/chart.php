@@ -32,7 +32,7 @@ abstract class ezcGraphChart implements ArrayAccess
     /**
      * Contains the data of the chart
      * 
-     * @var array( ezcGraphDataset )
+     * @var array( ezcGraphDataSet )
      */
     protected $data = array();
 
@@ -190,13 +190,13 @@ abstract class ezcGraphChart implements ArrayAccess
      * 
      * @param string $name Name of dataset
      * @param mixed $values Values to create dataset with
-     * @throws ezcGraphTooManyDatasetExceptions
+     * @throws ezcGraphTooManyDataSetExceptions
      *          If too many datasets are created
-     * @return ezcGraphDataset
+     * @return ezcGraphDataSet
      */
     protected function addDataSet( $name, $values )
     {
-        $this->data[$name] = new ezcGraphDataset();
+        $this->data[$name] = new ezcGraphDataSet();
         
         if ( is_array($values) )
         {
@@ -212,7 +212,7 @@ abstract class ezcGraphChart implements ArrayAccess
         }
         else
         {
-            throw new ezcGraphUnknownDatasetSourceException( $values );
+            throw new ezcGraphUnknownDataSetSourceException( $values );
         }
     }
 
@@ -253,7 +253,7 @@ abstract class ezcGraphChart implements ArrayAccess
     {
         if ( !isset( $key ) )
         {
-            throw new ezcGraphNoSuchDatasetException( $key );
+            throw new ezcGraphNoSuchDataSetException( $key );
         }
 
         return $this->data[$key];
@@ -261,14 +261,14 @@ abstract class ezcGraphChart implements ArrayAccess
 
     public function offsetSet( $key, $value )
     {
-        return $this->addDataset( $key, $value );
+        return $this->addDataSet( $key, $value );
     }
 
     public function offsetUnset( $key )
     {
         if ( !isset( $key ) )
         {
-            throw new ezcGraphNoSuchDatasetException( $key );
+            throw new ezcGraphNoSuchDataSetException( $key );
         }
 
         unset( $this->data[$key] );
