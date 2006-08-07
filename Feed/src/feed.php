@@ -101,13 +101,15 @@ class ezcFeed implements Iterator
         $this->feedProcessor = new self::$supportedFeedTypes[$type];
     }
 
-    public function addModule( $moduleName )
+    public function addModule( $className )
     {
-        if ( !isset( self::$supportedModules[$moduleName] ) )
+        $moduleObj = new $className( $this->feedType );
+        if ( !$moduleObj instanceof ezcFeedModule )
         {
-            throw new ezcFeedUnsupportedModuleException( $moduleName );
+            throw new ezcFeedUnsupportedModuleException( $className );
         }
-        $this->$moduleName = $this->feedProcessor->addModule( $moduleName, self::getModule( $moduleName, $this->feedType ) );
+        $moduleName = $moduleObj->getModuleName();
+        $this->$moduleName = $this->feedProcessor->addModule( $moduleName, $moduleObj );
     }
 
     public function __set( $property, $value )

@@ -242,7 +242,7 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ com
     public function testWithModule1()
     {
         $feed = new ezcFeed( 'rss2' );
-        $feed->addModule( 'DublinCore' );
+        $feed->addModule( 'ezcFeedModuleDublinCore' );
 
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";
@@ -260,7 +260,7 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ com
     public function testComplexWithModule1()
     {
         $feed = new ezcFeed( 'rss2' );
-        $feed->addModule( 'DublinCore' );
+        $feed->addModule( 'ezcFeedModuleDublinCore' );
 
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";

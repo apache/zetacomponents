@@ -43,21 +43,7 @@ class ezcFeedTest extends ezcTestCase
     public function testAddModuleSupported()
     {
         $feed = new ezcFeed( 'rss2' );
-        $feed->addModule( 'DublinCore' );
-    }
-
-    public function testAddModuleNotSupported()
-    {
-        $feed = new ezcFeed( 'rss2' );
-        try
-        {
-            $feed->addModule( 'DublinBase' );
-            self::fail( 'Expected exception not thrown' );
-        }
-        catch ( ezcFeedUnsupportedModuleException $e )
-        {
-            self::assertEquals( "The module <DublinBase> is not supported.", $e->getMessage() );
-        }
+        $feed->addModule( 'ezcFeedModuleDublinCore' );
     }
 
     public function testFeedNonExistentLocal()
