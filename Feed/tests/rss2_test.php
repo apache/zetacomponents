@@ -16,7 +16,7 @@ class ezcFeedRss2Test extends ezcTestCase
 {
     public function testSimpleEmpty1()
     {
-        $feed = ezcFeed::create( 'rss2' );
+        $feed = new ezcFeed( 'rss2' );
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ components Feed Generator";
@@ -28,7 +28,7 @@ class ezcFeedRss2Test extends ezcTestCase
 
     public function testSimpleEmpty2()
     {
-        $feed = ezcFeed::create( 'rss2' );
+        $feed = new ezcFeed( 'rss2' );
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ components Feed Generator";
@@ -42,7 +42,7 @@ class ezcFeedRss2Test extends ezcTestCase
 
     public function testSimpleEmptyWithError1()
     {
-        $feed = ezcFeed::create( 'rss2' );
+        $feed = new ezcFeed( 'rss2' );
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";
 
@@ -59,7 +59,7 @@ class ezcFeedRss2Test extends ezcTestCase
 
     public function testSimpleEmptyWithError2()
     {
-        $feed = ezcFeed::create( 'rss2' );
+        $feed = new ezcFeed( 'rss2' );
 
         try
         {
@@ -74,7 +74,7 @@ class ezcFeedRss2Test extends ezcTestCase
 
     public function testSimpleWithItems1()
     {
-        $feed = ezcFeed::create( 'rss2' );
+        $feed = new ezcFeed( 'rss2' );
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ components Feed Generator";
@@ -99,7 +99,7 @@ class ezcFeedRss2Test extends ezcTestCase
 
     public function testSimpleWithItems2()
     {
-        $feed = ezcFeed::create( 'rss2' );
+        $feed = new ezcFeed( 'rss2' );
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ components Feed Generator";
@@ -120,7 +120,7 @@ class ezcFeedRss2Test extends ezcTestCase
 
     public function testComplex1()
     {
-        $feed = ezcFeed::create( 'rss2' );
+        $feed = new ezcFeed( 'rss2' );
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ components Feed Generator";
@@ -147,7 +147,7 @@ class ezcFeedRss2Test extends ezcTestCase
 
     public function testComplex2()
     {
-        $feed = ezcFeed::create( 'rss2' );
+        $feed = new ezcFeed( 'rss2' );
         $feed->title = "eZ components test";
         $feed->link = "http://components.ez.no";
         $feed->description = "This is a test for the eZ components Feed Generator";
@@ -241,7 +241,7 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ com
 
     public function testWithModule1()
     {
-        $feed = ezcFeed::create( 'rss2' );
+        $feed = new ezcFeed( 'rss2' );
         $feed->addModule( 'DublinCore' );
 
         $feed->title = "eZ components test";
@@ -259,7 +259,7 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ com
 
     public function testComplexWithModule1()
     {
-        $feed = ezcFeed::create( 'rss2' );
+        $feed = new ezcFeed( 'rss2' );
         $feed->addModule( 'DublinCore' );
 
         $feed->title = "eZ components test";
@@ -287,7 +287,6 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ com
         $item->DublinCore->rights = "Copyright only.";
 
         $expected = file_get_contents( dirname( __FILE__ ) . "/data/rss2-09.xml" );
-        xdebug_break();
         self::assertEquals( $expected, $feed->generate() );
     }
 

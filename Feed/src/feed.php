@@ -45,23 +45,6 @@ class ezcFeed implements Iterator
     private $iteratorElementCount = 0;
     private $iteratorPosition = 0;
 
-    /**
-     * Factory method to create a $type feed
-     *
-     * @throws ezcFeedUnsupportedTypeException
-     *         If the passed $type is an unsupported feed type
-     *
-     * @param string $type
-     * @return ezcFeed
-     */
-    static public function create( $type )
-    {
-        if ( !in_array( $type, array_keys( self::$supportedFeedTypes ) ) )
-        {
-            throw new ezcFeedUnsupportedTypeException( $type );
-        }
-        return new ezcFeed( $type );
-    }
 
     static public function parse( $uri )
     {
@@ -100,8 +83,20 @@ class ezcFeed implements Iterator
         return new self::$supportedModules[$moduleName]( $feedType );
     }
 
-    private function __construct( $type )
+    /**
+     * Creates a new feed
+     *
+     * @throws ezcFeedUnsupportedTypeException
+     *         If the passed $type is an unsupported feed type
+     *
+     * @param string $type
+     */
+    public function __construct( $type )
     {
+        if ( !in_array( $type, array_keys( self::$supportedFeedTypes ) ) )
+        {
+            throw new ezcFeedUnsupportedTypeException( $type );
+        }
         $this->feedType = $type;
         $this->feedProcessor = new self::$supportedFeedTypes[$type];
     }

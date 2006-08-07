@@ -297,7 +297,7 @@ class ezcFeedRss2 extends ezcFeedRss
 
     public function parse( DomDocument $xml )
     {
-        $feed = ezcFeed::create( 'rss2' );
+        $feed = new ezcFeed( 'rss2' );
         $rssChildren = $xml->documentElement->childNodes;
         $channel = null;
 

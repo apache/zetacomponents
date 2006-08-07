@@ -23,7 +23,7 @@ class ezcFeedTest extends ezcTestCase
 
     public function testCreateFeedSupported()
     {
-        $feed = ezcFeed::create( 'rss1' );
+        $feed = new ezcFeed( 'rss1' );
         self::assertEquals( 'ezcFeed', get_class( $feed ) );
     }
 
@@ -31,7 +31,7 @@ class ezcFeedTest extends ezcTestCase
     {
         try
         {
-            $feed = ezcFeed::create( 'molecule' );
+            $feed = new ezcFeed( 'molecule' );
             self::fail( 'Expected exception not thrown' );
         }
         catch ( ezcFeedUnsupportedTypeException $e )
@@ -42,13 +42,13 @@ class ezcFeedTest extends ezcTestCase
 
     public function testAddModuleSupported()
     {
-        $feed = ezcFeed::create( 'rss2' );
+        $feed = new ezcFeed( 'rss2' );
         $feed->addModule( 'DublinCore' );
     }
 
     public function testAddModuleNotSupported()
     {
-        $feed = ezcFeed::create( 'rss2' );
+        $feed = new ezcFeed( 'rss2' );
         try
         {
             $feed->addModule( 'DublinBase' );
