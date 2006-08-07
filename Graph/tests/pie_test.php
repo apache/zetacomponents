@@ -51,7 +51,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
 
     public function testElementGenerationLegend()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         $chart->render( 500, 200 );
         
@@ -84,7 +84,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
 
     public function testPieRenderPieSegments()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['sample'] = array(
             'Mozilla' => 4375,
             'IE' => 345,
@@ -163,7 +163,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['Skien'] = array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 );
 
         $chart['Skien']->highlight['Norwegian'] = true;
@@ -184,7 +184,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['Skien'] = array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 );
 
         $chart['Skien']->highlight['Norwegian'] = true;

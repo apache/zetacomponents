@@ -66,7 +66,7 @@ abstract class ezcGraphChart implements ArrayAccess
 
     public function __construct( array $options = array() )
     {
-        $this->__set( 'palette', 'Tango' );
+        $this->__set( 'palette', new ezcGraphPaletteTango() );
 
         // Add standard elements
         $this->addElement( 'title', new ezcGraphChartElementText() );
@@ -144,7 +144,7 @@ abstract class ezcGraphChart implements ArrayAccess
                 }
                 else
                 {
-                    $this->palette = ezcGraph::createPalette( $propertyValue );
+                    throw new ezcBaseValueException( "palette", $propertyValue, "instanceof ezcGraphPalette" );
                 }
 
                 $this->setFromPalette( $this->palette );

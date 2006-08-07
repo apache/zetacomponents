@@ -51,7 +51,7 @@ class ezcGraphChartTest extends ezcTestCase
 
     public function testSetTitle()
     {
-        $pieChart = ezcGraph::create( 'Pie' );
+        $pieChart = new ezcGraphPieChart();
         $pieChart->title = 'Test title';
 
         $this->assertSame(
@@ -66,7 +66,7 @@ class ezcGraphChartTest extends ezcTestCase
 
     public function testSetOptionsValidBackgroundImage()
     {
-        $pieChart = ezcGraph::create( 'Pie' );
+        $pieChart = new ezcGraphPieChart();
         $pieChart->options->backgroundImage = $this->basePath . $this->testFiles['jpeg'];
 
         $background = $this->getNonPublicProperty( $pieChart->options, 'backgroundImage' );
@@ -82,7 +82,7 @@ class ezcGraphChartTest extends ezcTestCase
     {
         try 
         {
-            $pieChart = ezcGraph::create( 'Pie' );
+            $pieChart = new ezcGraphPieChart();
             $pieChart->options->backgroundImage = $this->basePath . $this->testFiles['invalid'];
         } 
         catch ( ezcGraphInvalidImageFileException $e ) 
@@ -97,7 +97,7 @@ class ezcGraphChartTest extends ezcTestCase
     {
         try 
         {
-            $pieChart = ezcGraph::create( 'Pie' );
+            $pieChart = new ezcGraphPieChart();
             $pieChart->options->backgroundImage = $this->basePath . $this->testFiles['nonexistant'];
         } 
         catch ( ezcBaseFileNotFoundException $e ) 
@@ -110,7 +110,7 @@ class ezcGraphChartTest extends ezcTestCase
 
     public function testSetOptionsBackground()
     {
-        $pieChart = ezcGraph::create( 'Pie' );
+        $pieChart = new ezcGraphPieChart();
         $pieChart->options->background = '#FF0000';
 
         $this->assertEquals( 
@@ -121,7 +121,7 @@ class ezcGraphChartTest extends ezcTestCase
 
     public function testSetOptionsBorder()
     {
-        $pieChart = ezcGraph::create( 'Pie' );
+        $pieChart = new ezcGraphPieChart();
         $pieChart->options->border = '#FF0000';
 
         $this->assertEquals( 
@@ -132,7 +132,7 @@ class ezcGraphChartTest extends ezcTestCase
 
     public function testSetOptionsBorderWidth()
     {
-        $pieChart = ezcGraph::create( 'Pie' );
+        $pieChart = new ezcGraphPieChart();
         $pieChart->options->borderWidth = 3;
 
         $this->assertSame( 3, $this->getNonPublicProperty( $pieChart->options, 'borderWidth' ) );
@@ -142,7 +142,7 @@ class ezcGraphChartTest extends ezcTestCase
     {
         try
         {
-            $pieChart = ezcGraph::create( 'Pie' );
+            $pieChart = new ezcGraphPieChart();
             $pieChart->options->unknown = 'unknown';
         }
         catch ( ezcBasePropertyNotFoundException $e )
@@ -155,7 +155,7 @@ class ezcGraphChartTest extends ezcTestCase
 
     public function testSetRenderer()
     {
-        $pieChart = ezcGraph::create( 'Pie' );
+        $pieChart = new ezcGraphPieChart();
         $renderer = $pieChart->renderer = new ezcGraphRenderer2d();
 
         $this->assertSame(
@@ -168,7 +168,7 @@ class ezcGraphChartTest extends ezcTestCase
     {
         try
         {
-            $pieChart = ezcGraph::create( 'Pie' );
+            $pieChart = new ezcGraphPieChart();
             $pieChart->renderer = 'invalid';
         }
         catch ( ezcGraphInvalidRendererException $e )
@@ -181,7 +181,7 @@ class ezcGraphChartTest extends ezcTestCase
 
     public function testSetDriver()
     {
-        $pieChart = ezcGraph::create( 'Pie' );
+        $pieChart = new ezcGraphPieChart();
         $driver = $pieChart->driver = new ezcGraphGdDriver();
 
         $this->assertSame(
@@ -194,7 +194,7 @@ class ezcGraphChartTest extends ezcTestCase
     {
         try
         {
-            $pieChart = ezcGraph::create( 'Pie' );
+            $pieChart = new ezcGraphPieChart();
             $pieChart->driver = 'invalid';
         }
         catch ( ezcGraphInvalidDriverException $e )

@@ -58,7 +58,7 @@ class ezcGraphLineChartTest extends ezcTestCase
 
     public function testElementGenerationLegend()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
         $this->addSampleData( $chart );
         $chart->render( 500, 200 );
         
@@ -97,7 +97,7 @@ class ezcGraphLineChartTest extends ezcTestCase
 
     public function testRenderChartLines()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 );
         $chart['sampleData']->color = '#CC0000';
         $chart['sampleData']->symbol = ezcGraph::DIAMOND;
@@ -184,9 +184,9 @@ class ezcGraphLineChartTest extends ezcTestCase
 
     public function testRenderChartFilledLines()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => -46, 'sample 4' => 120, 'sample 5'  => 100 );
-        $chart->palette = 'Black';
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->options->fillLines = 100;
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
@@ -243,8 +243,8 @@ class ezcGraphLineChartTest extends ezcTestCase
 
     public function testRenderChartSymbols()
     {
-        $chart = ezcGraph::create( 'Line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         $chart['sampleData']->symbol = ezcGraph::DIAMOND;
         $chart['sampleData']->symbol['sample 3'] = ezcGraph::CIRCLE;

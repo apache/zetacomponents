@@ -55,7 +55,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
     public function testFactoryLegend()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
 
         $this->assertTrue(
             $chart->legend instanceof ezcGraphChartElementLegend
@@ -64,7 +64,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
     public function testLegendSetBackground()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart->legend->background = '#FF0000';
 
         $this->assertEquals(
@@ -80,7 +80,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
     public function testLegendSetBorder()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart->legend->border = '#FF0000';
 
         $this->assertEquals(
@@ -96,7 +96,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
     public function testLegendSetBorderWidth()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart->legend->borderWidth = 1;
 
         $this->assertEquals(
@@ -112,7 +112,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
     public function testLegendSetPosition()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart->legend->position = ezcGraph::LEFT;
 
         $this->assertEquals(

@@ -47,8 +47,8 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 
     public function testRenderAxisGrid()
     {
-        $chart = ezcGraph::create( 'Line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
@@ -81,8 +81,8 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 
     public function testRenderAxisOuterGrid()
     {
-        $chart = ezcGraph::create( 'Line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->xAxis->axisLabelRenderer->outerGrid = true;
@@ -116,8 +116,8 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 
     public function testRenderAxisSteps()
     {
-        $chart = ezcGraph::create( 'Line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
@@ -150,8 +150,8 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 
     public function testRenderAxisOuterSteps()
     {
-        $chart = ezcGraph::create( 'Line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->xAxis->axisLabelRenderer->outerStep = true;
@@ -185,8 +185,8 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 
     public function testRenderAxisNoInnerSteps()
     {
-        $chart = ezcGraph::create( 'Line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->xAxis->axisLabelRenderer->innerStep = false;
@@ -221,8 +221,8 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 
     public function testRenderAxisNoSteps()
     {
-        $chart = ezcGraph::create( 'Line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->xAxis->axisLabelRenderer->innerStep = false;
@@ -244,8 +244,8 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 
     public function testRenderTextBoxes()
     {
-        $chart = ezcGraph::create( 'Line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
@@ -278,8 +278,8 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 
     public function testRenderTextBoxesWithZeroValue()
     {
-        $chart = ezcGraph::create( 'Line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->xAxis->axisLabelRenderer->showZeroValue = true;
@@ -321,8 +321,8 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 
     public function testRenderAxisGridFromRight()
     {
-        $chart = ezcGraph::create( 'Line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->xAxis->position = ezcGraph::RIGHT;
@@ -356,8 +356,8 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 
     public function testRenderAxisGridFromTop()
     {
-        $chart = ezcGraph::create( 'Line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->position = ezcGraph::TOP;
@@ -391,8 +391,8 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 
     public function testRenderAxisGridFromBottom()
     {
-        $chart = ezcGraph::create( 'Line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->position = ezcGraph::BOTTOM;
@@ -426,8 +426,8 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 
     public function testRenderTextBoxesFromRight()
     {
-        $chart = ezcGraph::create( 'Line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->xAxis->position = ezcGraph::RIGHT;
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
@@ -461,8 +461,8 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 
     public function testRenderTextBoxesFromTop()
     {
-        $chart = ezcGraph::create( 'Line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->position = ezcGraph::TOP;
@@ -496,8 +496,8 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 
     public function testRenderTextBoxesFromBottom()
     {
-        $chart = ezcGraph::create( 'Line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->position = ezcGraph::BOTTOM;

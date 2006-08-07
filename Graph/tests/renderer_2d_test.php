@@ -1090,7 +1090,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
 
     public function testRenderVerticalLegendSymbols()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
 
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         $chart['sampleData']->color = '#0000FF';
@@ -1157,7 +1157,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
 
     public function testRenderVerticalLegendText()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
 
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         $chart['sampleData']->color = '#0000FF';
@@ -1215,7 +1215,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
 
     public function testRenderHorizontalLegendSymbols()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
 
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         $chart['sampleData']->color = '#0000FF';
@@ -1283,7 +1283,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
 
     public function testRenderHorizontalLegendText()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
 
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         $chart['sampleData']->color = '#0000FF';
@@ -1342,7 +1342,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
     
     public function testRenderVerticalAxis()
     {
-        $chart = ezcGraph::create( 'line' );
+        $chart = new ezcGraphLineChart();
 
         $this->driver
             ->expects( $this->at( 0 ) )
@@ -1376,7 +1376,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
     
     public function testRenderVerticalAxisReverse()
     {
-        $chart = ezcGraph::create( 'line' );
+        $chart = new ezcGraphLineChart();
 
         $this->driver
             ->expects( $this->at( 0 ) )
@@ -1410,7 +1410,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
     
     public function testRenderHorizontalAxis()
     {
-        $chart = ezcGraph::create( 'line' );
+        $chart = new ezcGraphLineChart();
 
         $this->driver
             ->expects( $this->at( 0 ) )
@@ -1444,7 +1444,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
     
     public function testRenderHorizontalAxisReverse()
     {
-        $chart = ezcGraph::create( 'line' );
+        $chart = new ezcGraphLineChart();
 
         $this->driver
             ->expects( $this->at( 0 ) )
@@ -1480,8 +1480,8 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $chart = ezcGraph::create( 'line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
 
         $chart['Line 1'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         $chart['Line 2'] = array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613);
@@ -1502,8 +1502,8 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $chart = ezcGraph::create( 'line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->options->fillLines = 200;
 
         $chart['Line 1'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
@@ -1525,8 +1525,8 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $chart = ezcGraph::create( 'line' );
-        $chart->palette = 'Black';
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
         $chart->options->fillLines = 200;
 
         $chart['Line 1'] = array( 'sample 1' => 234, 'sample 2' => -151, 'sample 3' => 324, 'sample 4' => -120, 'sample 5' => 1);
@@ -1548,7 +1548,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['sample'] = array(
             'Mozilla' => 4375,
             'IE' => 345,

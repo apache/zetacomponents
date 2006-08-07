@@ -43,7 +43,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
     public function testFactoryLabeledAxis()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
 
         $this->assertTrue(
             $chart->xAxis instanceof ezcGraphChartElementLabeledAxis
@@ -52,7 +52,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
     public function testAutomaticLabelingSingle()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
         $chart['sample'] = array( 2000 => 20, 70, 12, 130 );
         $chart->render( 500, 200 );
 
@@ -69,7 +69,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
     public function testAutomaticLabelingMultiple()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
         $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
         $chart['sample2'] = array( 2002 => 1270, 1170, 1610, 1370 );
         $chart->render( 500, 200 );
@@ -89,7 +89,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
     public function testAutomaticLabelingMultipleMixed()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
         $chart['sample'] = array( 2000 => 1045, 2001 => 1300, 2004 => 1012, 2006 => 1450 );
         $chart['sample2'] = array( 2001 => 1270, 1170, 1610, 1370, 1559 );
         $chart->render( 500, 200 );
@@ -110,7 +110,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
     public function testPositionLeft()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
         $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
         $chart->xAxis->position = ezcGraph::LEFT;
         $chart->render( 500, 200 );
@@ -153,7 +153,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
     public function testPositionRight()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
         $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
         $chart->xAxis->position = ezcGraph::RIGHT;
         $chart->render( 500, 200 );
@@ -196,7 +196,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
     public function testPositionTop()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
         $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
         $chart->xAxis->position = ezcGraph::TOP;
         $chart->render( 500, 200 );
@@ -239,7 +239,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
     public function testPositionBottom()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
         $chart['sample'] = array( 2000 => 1045, 1300, 1012, 1450 );
         $chart->xAxis->position = ezcGraph::BOTTOM;
         $chart->render( 500, 200 );

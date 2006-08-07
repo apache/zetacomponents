@@ -10,11 +10,6 @@
 */
 
 /**
-* Require test suite for Graph class.
-*/
-require_once 'graph_test.php';
-
-/**
 * Require test suites.
 */
 require_once 'color_test.php';
@@ -48,7 +43,6 @@ class ezcGraphSuite extends ezcTestSuite
         parent::__construct();
         $this->setName( "Graph" );
 
-        $this->addTest( ezcGraphTest::suite() );
         $this->addTest( ezcGraphColorTest::suite() );
         $this->addTest( ezcGraphChartTest::suite() );
         $this->addTest( ezcGraphPieChartTest::suite() );

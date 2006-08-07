@@ -43,7 +43,7 @@ class ezcGraphDataSetTest extends ezcTestCase
 
     public function testCreateDataSetFromArray()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['humanoids'] = array( 'monkey' => 54, 'ape' => 37, 'human' => 9 );
 
         $datasets = $this->getNonPublicProperty( $chart, 'data' );
@@ -55,7 +55,7 @@ class ezcGraphDataSetTest extends ezcTestCase
 
     public function testGetDataSet()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['humanoids'] = array( 'monkey' => 54, 'ape' => 37, 'human' => 9 );
 
         $this->assertTrue(
@@ -66,7 +66,7 @@ class ezcGraphDataSetTest extends ezcTestCase
 
     public function testDataSetContent()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['example'] = array( 'monkey' => 54, 2001 => 37 );
 
         $data = $this->getNonPublicProperty( $chart['example'], 'data' );
@@ -83,7 +83,7 @@ class ezcGraphDataSetTest extends ezcTestCase
 
     public function testCreateMultipleDataSetsFromArray()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
         $chart['spending'] = array( 2000 => 2347.2, 2458.3, 2569.4 );
 
@@ -102,7 +102,7 @@ class ezcGraphDataSetTest extends ezcTestCase
     {
         try 
         {
-            $chart = ezcGraph::create( 'Pie' );
+            $chart = new ezcGraphPieChart();
             $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
             $chart['spending'] = array( 2000 => 2347.2, 2458.3, 2569.4 );
         }
@@ -116,7 +116,7 @@ class ezcGraphDataSetTest extends ezcTestCase
 
     public function testDataSetLabel()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
 
         $this->assertEquals(
@@ -127,7 +127,7 @@ class ezcGraphDataSetTest extends ezcTestCase
 
     public function testDataSetSetLabel()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
         $chart['income']->label = 'Income Label';
 
@@ -139,7 +139,7 @@ class ezcGraphDataSetTest extends ezcTestCase
 
     public function testDataSetSetColor()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
         $chart['income']->color = '#FF0000';
 
@@ -151,7 +151,7 @@ class ezcGraphDataSetTest extends ezcTestCase
 
     public function testDataSetSetHighlight()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
         $chart['income']->highlight = true;
 
@@ -163,7 +163,7 @@ class ezcGraphDataSetTest extends ezcTestCase
 
     public function testDataSetGetHighlight()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
 
         $this->assertEquals(
@@ -179,7 +179,7 @@ class ezcGraphDataSetTest extends ezcTestCase
 
     public function testDataSetSetHighlightSingle()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
         $chart['income']->highlight[2001] = true;
 
@@ -196,7 +196,7 @@ class ezcGraphDataSetTest extends ezcTestCase
 
     public function testDataSetSetSingleColor()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
         $chart['income']->color[2001] = '#FF0000';
 
@@ -208,7 +208,7 @@ class ezcGraphDataSetTest extends ezcTestCase
 
     public function testDataSetSetSingleSymbol()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
         $chart['income']->symbol[2001] = ezcGraph::DIAMOND;
 
@@ -220,7 +220,7 @@ class ezcGraphDataSetTest extends ezcTestCase
 
     public function testDataSetPropertyValueFallback()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
         $chart['income']->symbol = ezcGraph::DIAMOND;
 
@@ -234,7 +234,7 @@ class ezcGraphDataSetTest extends ezcTestCase
     {
         try
         {
-            $chart = ezcGraph::create( 'Pie' );
+            $chart = new ezcGraphPieChart();
             $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
             $chart['income']->symbol[2006] = ezcGraph::DIAMOND;
         }
@@ -248,7 +248,7 @@ class ezcGraphDataSetTest extends ezcTestCase
 
     public function testDataSetGetSingleData()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
 
         $this->assertSame(
@@ -259,7 +259,7 @@ class ezcGraphDataSetTest extends ezcTestCase
 
     public function testDataSetSetSingleData()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart['income'] = array( 2000 => 2345.2, 2456.3, 2567.4 );
         $chart['income'][2005] = 234.21;
 

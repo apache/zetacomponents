@@ -46,7 +46,7 @@ class ezcGraphFontTest extends ezcTestCase
 
     public function testSetGeneralFont()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart->options->font = $this->basePath . 'font.ttf';
         
         $this->assertTrue(
@@ -69,7 +69,7 @@ class ezcGraphFontTest extends ezcTestCase
 
     public function testGetGeneralFontForElement()
     {
-        $chart = ezcGraph::create( 'Pie' );
+        $chart = new ezcGraphPieChart();
         $chart->options->font = $this->basePath . 'font.ttf';
         
         $this->assertTrue(
@@ -86,7 +86,7 @@ class ezcGraphFontTest extends ezcTestCase
 
     public function testSetFontForElement()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->legend->font = $this->basePath . 'font2.ttf';
 
@@ -116,7 +116,7 @@ class ezcGraphFontTest extends ezcTestCase
 
     public function testSetFontForElementWithRendering()
     {
-        $chart = ezcGraph::create( 'Line' );
+        $chart = new ezcGraphLineChart();
         $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->legend->font = $this->basePath . 'font2.ttf';

@@ -14,7 +14,6 @@
  */
 class ezcGraph
 {
-
     const NO_SYMBOL = 0;
     const DIAMOND = 1;
     const BULLET = 2;
@@ -30,52 +29,6 @@ class ezcGraph
     const RIGHT = 8;
     const CENTER = 16;
     const MIDDLE = 32;
-
-    static protected $chartTypes = array(
-        'pie'   => 'ezcGraphPieChart',
-        'line'  => 'ezcGraphLineChart',
-    );
-
-    /**
-     * create 
-     * 
-     * @param string $type Type of chart to create
-     * @param array $options Options to create the chart with
-     * @throws ezcGraphUnknownChartTypeException
-     * @return ezcGraphChart
-     */
-    static public function create( $type, $options = array() ) 
-    {
-        $type = strtolower( $type );
-        if ( isset( self::$chartTypes[$type] ) )
-        {
-            $className = self::$chartTypes[$type];
-            return new $className( $options );
-        }
-        else 
-        {
-            throw new ezcGraphUnknownChartTypeException($type);
-        }
-    }
-
-    /**
-     * Creates a palette from given name
-     * 
-     * @param string $name Name of the palette
-     * @return ezcGraphPalette Created palette
-     */
-    static public function createPalette( $name )
-    {
-        $className = 'ezcGraphPalette' . $name;
-        if ( class_exists( $className ) )
-        {
-            return new $className();
-        }
-        else
-        {
-            throw new ezcGraphUnknownPaletteException( $name );
-        }
-    }
 }
 
 ?>
