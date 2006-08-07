@@ -5,6 +5,7 @@ require_once( "tar/v7_tar_test.php");
 require_once( "tar/ustar_tar_test.php");
 require_once( "tar/pax_tar_test.php");
 require_once( "tar/gnu_tar_test.php");
+require_once( "compressed_archives/zlib_test.php");
 
 require_once( "zip/zip_test.php");
 
@@ -30,6 +31,8 @@ class ezcArchiveSuite extends ezcTestSuite
 		$this->addTest( ezcArchiveGnuTarTest::suite() );
 
 		$this->addTest( ezcArchiveZipTest::suite() );
+
+		$this->addTest( ezcArchiveZlibTest::suite() );
         
 
 	}

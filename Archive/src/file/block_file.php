@@ -12,22 +12,31 @@
 /** 
  * The ezcArchiveBlockFile class provides an interface for reading from and writing to a block file.
  *
- * The file is opened via in constructor and closed via the destructor.
- *
- * The iterator functionality can be used to read blocks from and append blocks to the file.
- * The example code, reads all even blocks from the input file and appends it to the output file:
- * <code>
- * $in = new ezcArchiveBlockFile( "/tmp/input.blk" );
- * $out = new ezcArchiveBlockFile( "/tmp/output.blk", true ); 
+ * A block file is a file that consist of zero or more blocks. Each block has a predefined amount
+ * of bytes known as the block-size. The block file implements the Iterator interface. Via the methods
  * 
- * foreach ( $in as $block ) // Uses the iterator.
- * {
- *   if ( $in->key() % 2 == 0 )
- *   {
- *       $out->appendToCurrent( $block );
- *       $out->next();
- *   }
- * }
+ * - key()
+ * - valid()
+ * - current()
+ * - rewind()
+ *
+ * can single blocks be accessed. The append(), appendToCurrent() method, appends and possibly removes 
+ * blocks from and to the file.
+ *
+ * The block-file takes the necessary measurements to read and write to a compressed stream.
+ *
+ * The following example stores 16 bytes in 4 blocks. The current() points to the second block: 1.
+ * <code>
+ *  ---- ---- ---- ---- 
+ * |0 1 | 5 6| 9 0| 3 4|
+ * |2 4 | 7 8| 1 2| 5 6|
+ *  ---- ---- ---- ---- 
+ *   0    1    2    3    
+ *
+ *        ^         ^
+ *        |         \ LastBlock
+ *
+ *     Current      
  * </code>
  * 
  *
@@ -51,7 +60,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      *
      * @var int  
      */
-    private $blockNumber;
+    private $blockNumber = -1;
 
     /**
      * The current block data.
@@ -61,6 +70,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
     private $blockData;
 
     private $lastBlock = -1;
+
     /**
      * Sets the property $name to $value.
      * 
@@ -117,7 +127,6 @@ class ezcArchiveBlockFile extends ezcArchiveFile
         $this->blockSize = $blockSize;
 
         $this->openFile( $fileName, $createIfNotExist );
-        $this->rewind();
     }
 
 
@@ -167,13 +176,21 @@ class ezcArchiveBlockFile extends ezcArchiveFile
     {
         if ( $this->isValid  )
         {
-            $this->switchReadMode( ( $this->blockNumber + 1 ) * $this->blockSize );
+            // XXX move the calc to readmode? 
+            //$this->switchReadMode( ( $this->blockNumber + 1 ) * $this->blockSize );
             
             // Read one block.
             $this->blockData = fread( $this->fp, $this->blockSize );
 
             if ( strlen( $this->blockData ) < $this->blockSize )
             {
+                if( $this->lastBlock != -1 ) 
+                {
+                    if( $this->blockNumber != $this->lastBlock )
+                    {
+                        die ("Something weird happened with the blockNumber. Lastblock number registered at " . $this->lastBlock . " but changed into " . $this->blockNumber );
+                    }
+                }
                 $this->lastBlock = $this->blockNumber;
                 $this->isValid = false;
                 return false;
@@ -187,7 +204,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
     }
 
     /**
-     * Returns the key, the current block number, of the current element. 
+     * Returns the key, the current block number of the current element. 
      *
      * The first block has the number zero. 
      * 
@@ -254,17 +271,69 @@ class ezcArchiveBlockFile extends ezcArchiveFile
         {
             throw new ezcBaseFilePermissionException( $this->fileName, ezcBaseFilePermissionException::WRITE, "The archive is opened in a read-only mode." );
         }
-        
-        $currentPos = ftell($this->fp );
-        if( $currentPos == false ) $currentPos = 0;
-        $lastBlock = $this->lastBlock  < 0 ? 0 : $this->lastBlock;
 
-        $this->switchWriteMode();
-
-        if ( $lastBlock * $this->blockSize != $currentPos )
+        if( !$this->isEmpty && $this->isValid)
         {
-            ftruncate( $this->fp, ftell( $this->fp ) );
+            $needToTruncate = true;
+            $currentBlock = $this->blockNumber;
+            // Do we need to truncate the file?
+
+            // Check if we already read the entire file. This way is quicker to check.
+            if( $this->lastBlock != -1 )
+            {
+                // Last block is known. 
+                if( $this->lastBlock == $this->blockNumber )
+                {
+                    // We are at the last block.
+                    $needToTruncate = false;
+                }
+            }
+            else
+            {
+                // The slower method. Check if we can read the next block.
+                if( !$this->next() )
+                {
+                    // We got a next block. 
+                    $needToTruncate = false;
+                }
+            }
+
+            if( $needToTruncate )
+            {
+                if( $this->readWriteSwitch >= 0 )
+                {
+                    // Sorry, don't know how to truncate this file (except copying everything).
+                    throw new ezcArchiveException( "Cannot truncate the file" );
+                }
+
+                echo ("\nNEED TO TRUNCATE\n");
+
+                if( $this->blockNumber < $this->lastBlock ) 
+                {
+                echo ("blocknumber: " . $this->blockNumber ."\n");
+                echo ("Last block: " . $this->lastBlock ."\n" );
+
+                    die ("\nHello,  NO need to truncate. But why are we not at the last block? \n\n" );
+                }
+                $pos = $currentBlock * $this->blockSize;
+                ftruncate( $this->fp, $pos );
+
+                $this->lastBlock = $currentBlock;
+                $this->blockNumber = $currentBlock;
+            }
         }
+        else
+        {
+            if( !$this->isEmpty && !$this->isValid ) 
+            {
+                echo ("WARNING, should not append to a non-empty, non-valid block. Assuming the end.\n");
+                //throw new ezcArchiveException ("Not at a valid block position to append");
+            }
+        }
+
+        // We are at the end of the file. Let's append the data.
+        // Switch write mode, if needed.
+        $this->switchWriteMode();
 
         $dataLength = sizeof( $data );
         $length = $this->writeBytes( $data );
@@ -274,15 +343,59 @@ class ezcArchiveBlockFile extends ezcArchiveFile
             $this->writeBytes( pack( "a". ( $this->blockSize  - $mod ), "") );
         }
 
-        $addedBlocks = ( (int) ($length / $this->blockSize ) ) + 1;
+//        echo ("\nLength " . $length );
+//        echo ("\nmod " . $mod );
+//        echo ("\nbs " . $this->blockSize );
 
+        //$addedBlocks = ( (int) ($length / $this->blockSize ) ) + 1;
+        //$addedBlocks = ( (int) (($length + $this->blockSize - $mod) / $this->blockSize ) );
+        $addedBlocks = ( (int) (($length - 1) / $this->blockSize ) ) + 1;
+
+        // Added the blocks. 
+        $this->isModified = true;
         $this->isEmpty = false;
+
         $this->blockNumber += $addedBlocks;
         $this->lastBlock += $addedBlocks;
         $this->blockData = $data;
         $this->isValid = true;
 
+        $this->switchReadMode();
+
         return $addedBlocks;
+
+
+       /*
+        $currentPos = ftell($this->fp );
+        if( $currentPos == false ) $currentPos = 0;
+        $lastBlock = $this->lastBlock  < 0 ? 0 : $this->lastBlock;
+         */
+
+        // XXX = SOLVE IT WITH BLOCK NUMBERS..
+        // IF we are not at the end; and have to switch to write mode, we cannot append.
+        
+        // XXX append should switch back to readMode.
+        
+        //$this->switchWriteMode();
+
+        // Always at the end?
+
+/*
+        if( $this->lastBlock != $this->blockNumber )
+        {
+            echo ("LAST BLOCK: " . $this->lastBlock . "\n" );
+            echo ("BLOCK NUmber: " . $this->blockNumber . "\n" );
+            ftruncate( $this->fp, ftell( $this->fp ) );
+        }
+ */
+
+        /*
+        if ( $lastBlock * $this->blockSize != $currentPos )
+        {
+            ftruncate( $this->fp, ftell( $this->fp ) );
+        }
+         */
+
     }
 
     /**
@@ -329,9 +442,10 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      * 
      * @return void
      */
-    public function appendNullBlock()
+    // XXX rename to appendNullBlocks
+    public function appendNullBlock( $amount = 1 )
     {
-        $this->append( pack( "a". ( $this->blockSize ), "" ) );
+        $this->append( pack( "a". ( $amount * $this->blockSize ), "" ) );
     }
  
 
@@ -347,16 +461,94 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      */
     public function truncate( $blocks = 0 )
     {
+        // Empty files don't need to be truncated.
+        if( $this->isEmpty() ) return true;
+
+        if( $this->readWriteSwitch < 0 )
+        {
+            // We can read-write in the file. Easy.
+            $pos = $blocks * $this->blockSize;
+            ftruncate( $this->fp, $pos );
+            $this->isModified = true;
+            if ( $pos == 0 )
+            {
+                $this->isEmpty = true;
+            }
+            
+            if ( $this->blockNumber >= $blocks )
+            {
+                $this->isValid = false;
+            }
+
+            $this->lastBlock = $blocks - 1;
+
+            return true;
+       }
+        
+        //
+        // Truncate the whole file.
+        if( $blocks == 0 )
+        {
+            die("Truncate whole file");
+        }
+
+        // Truncate at the end?
+
+        if( !$this->isValid )
+        {
+            $this->rewind();
+        }
+
+        // XXX check this, can be done via getLastBlockNumber() ? 
+        while( $this->isValid && $blocks > $this->blockNumber ) $this->next();
+
+        if( $this->isValid )
+        {
+            die ("CANNOT TRUNCATE 1234RAY");
+        }
+
+        return true;
+
+
+/*
+
+        // Some where in the middle.
+        
+
+        // If we are not at a valid position or we are too far in the file then rewind.
+        if( !$this->isValid || $blocks < $this->blockNumber) $this->rewind();
+
+        // Read the next block.
+        while ( $blocks < $this->blockNumber  ) $this->next();
+
+        // XXX Do the position trick. We cannot truncate in the middle anyway.
+
+
+
+
+        if( $this->lastBlock == -1 )
+        {
+            // Didn't read the entire file, yet.
+
+
+
+
+        }
+
+
+       
+
         // Since we can only read or only write to the file, we have some limitations.
         if( $this->readWriteSwitch >= 0 )
         {
+
             if( $blocks == 0 )
             {
                 $this->isEmpty = true;
                 die ("TRUNCATING TO ZERO: FIX" );
             }
 
-            // Check if we want to truncate after the last block. In that case, we don't truncate at all.
+            // XXX Check if we want to truncate after the last block. In that case, we don't truncate at all.
             if ( !$this->valid() )
             {
                $this->rewind();
@@ -388,7 +580,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
             }
         }
          */
-
+/*
         $pos = $blocks * $this->blockSize;
         ftruncate( $this->fp, $pos );
 
@@ -405,6 +597,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
         $this->lastBlock = $blocks;
 
         return true;
+ */
     }
     
 
@@ -427,20 +620,79 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      */
     public function seek( $blockOffset, $whence = SEEK_SET )
     {
-        $this->isValid = true;
-
-        $pos = $this->blockSize * $blockOffset;
-        if ( $whence == SEEK_END || $whence == SEEK_CUR )
+        if( ftell( $this->fp ) === false || $this->readWriteSwitch >= 0)
         {
-            if ( !$this->isEmpty() ) $pos -= $this->blockSize;
+            // Okay, cannot tell the current file position. 
+            // This happens with some compression streams. 
+
+            if( !$this->isValid ) 
+            {
+                if( $whence == SEEK_CUR )
+                {
+                    throw new ezcArchiveException("Cannot seek SEEK_CUR with an invalid block position");
+                }
+
+                $this->rewind();
+            }
+
+            if( $whence == SEEK_END && $this->lastBlock == -1 )
+            {
+                if( $blockOffset > 0 ) 
+                {
+                    die ("This requires us to read the file twice. Try not to do this");
+                }
+
+                // Go to the end.
+                while( $this->next() ); 
+
+
+                // We are a bit too far. Sneak back position.
+                //die( "SNEAK BACK");
+                //SHOULD GO GREIT
+            }
+
+            switch($whence )
+            {
+                case SEEK_CUR:  $searchBlock = $this->blockNumber += $blockOffset; break;
+                case SEEK_END:  $searchBlock = $this->lastBlock += $blockOffset; break;
+                case SEEK_SET:  $searchBlock = $blockOffset; break;
+            }
+
+            if( $searchBlock < $this->blockNumber )
+            {
+                $this->rewind();
+            }
+
+            while( $this->isValid && $this->blockNumber < $searchBlock ) $this->next();
+
+            return ( $this->blockNumber == $searchBlock );
         }
+        else
+        {
+            $this->isValid = true;
 
-        if ( !( $whence == SEEK_SET && $pos == ftell( $this->fp ) ) )
-            $this->positionSeek( $pos, $whence );
+            $pos = $this->blockSize * $blockOffset;
+            if ( $whence == SEEK_END || $whence == SEEK_CUR )
+            {
+                if ( !$this->isEmpty() ) 
+                {
+                    $pos -= $this->blockSize;
+                }
+            }
 
-        $this->blockNumber = $this->getBlocksFromBytes( ftell( $this->fp ) ) - 1; 
+            if ( !( $whence == SEEK_SET && $pos == ftell( $this->fp ) ) )
+            {
+                $this->positionSeek( $pos, $whence );
+            }
 
-        $this->next(); // Will set isValid to false, if blockfile is empty.
+            if( ftell( $this->fp ) === false )
+            {
+                throw new ezcArchiveException( "Cannot tell the current position, but this is after the position seek. " );
+            }
+
+            $this->blockNumber = $this->getBlocksFromBytes( ftell( $this->fp ) ) - 1; 
+            $this->next(); // Will set isValid to false, if blockfile is empty.
+        }
     }
 
     /**
@@ -462,6 +714,11 @@ class ezcArchiveBlockFile extends ezcArchiveFile
     public function isEmpty()
     {
         return $this->isEmpty;
+    }
+
+    public function getLastBlockNumber()
+    {
+        return $this->lastBlock;
     }
 }
 ?>

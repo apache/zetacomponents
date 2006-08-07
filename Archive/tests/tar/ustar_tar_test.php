@@ -76,6 +76,7 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
         $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat ); 
 
         $archive->appendToCurrent( "$dir/$filename/$filename/$filename", $dir );
+        $archive->close();
  
         exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir $filename/$filename/$filename");
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents( "$dir/myarchive.tar" ) );
@@ -177,6 +178,7 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
         
         $archive->seek(0, SEEK_END); // File number two.
         $archive->appendToCurrent( "$dir/file1.txt", $dir );
+        $archive->close();
 
         // Do the same with gnu tar.
         exec("tar -rf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir file1.txt");
@@ -198,6 +200,7 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
         // Appending an character device.
         // FIXME, will fail under windows.
         $archive->appendToCurrent( "/dev/zero", "/dev/" );
+        $archive->close();
         
         // Do the same with gnu tar.
         exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C /dev/ zero");
@@ -219,6 +222,8 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
         $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat ); 
 
         $archive->appendToCurrent( "$dir/myfifo", "$dir" );
+        $archive->close();
+
         
         // Do the same with gnu tar.
         exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir/ myfifo");

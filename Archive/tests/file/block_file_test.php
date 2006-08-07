@@ -2,6 +2,17 @@
 
 class ezcArchiveBlockFileTest extends ezcTestCase
 {
+    public function createTempFile( $file )
+    {
+        $original = dirname(__FILE__) . "/../data/$file" ;
+
+        $tmpDir = $this->createTempDir("ezcArchive_");
+        $tmpFile = $tmpDir . "/temp_file.tar";
+        copy( $original, $tmpFile );
+
+        return $tmpFile;
+    }
+
 
     public function testOpenFile()
     {
@@ -10,6 +21,77 @@ class ezcArchiveBlockFileTest extends ezcTestCase
         $data = $blockFile->current();
         $this->assertEquals( "file1.txt", substr($data, 0, 9) );
     }
+
+    public function testOpenNonExistingFile()
+    {
+        try 
+        {
+            $blockFile = new ezcArchiveBlockFile( dirname(__FILE__) . "/../data/this_file_does_not_exist.tar" );
+            $this->fail("Expected a file not found exception.");
+        } 
+        catch (ezcBaseFileNotFoundException $e)
+        {
+        }
+
+        // Same test, but now with a gzipped compressed file.
+        try 
+        {
+            $blockFile = new ezcArchiveBlockFile( "compress.zlib://". dirname(__FILE__) . "/../data/this_file_does_not_exist.tar.gz" );
+            $this->fail("Expected a file not found exception.");
+        } 
+        catch (ezcBaseFileNotFoundException $e)
+        {
+        }
+    }
+
+    public function testCompressedStream()
+    {
+        $dir = $this->createTempDir("ezcArchive_");
+        //$file =   $dir . "/blockfile";
+        $file =  "compress.zlib://" . $dir . "/blockfile";
+
+        // Create the file. 
+        // Blocksize = 4.
+        $bf = new ezcArchiveBlockFile( $file, true, 4 );
+        $this->assertFalse ($bf->valid() );
+
+        // Exact 1 block.
+        $bf->append("abcd");
+        $this->assertTrue ($bf->valid() );
+        $this->assertEquals( 0, $bf->key(), "Current block should be 0");
+        $this->assertEquals( 0, $bf->getLastBlockNumber(), "Last block should be 0");
+
+        // halve block.
+        $bf->append("ef");
+        $this->assertEquals( 1, $bf->key(), "Current block should be 1");
+        $this->assertEquals( 1, $bf->getLastBlockNumber(), "Last block should be 1");
+
+        // File should contain: abcdef\0\0
+        $this->assertEquals( "abcdef\0\0", file_get_contents( $file ) );
+
+        $bf->rewind();
+        $this->assertEquals( 0, $bf->key(), "Current block should be 0");
+        $this->assertEquals( "abcd" , $bf->current() );
+        $this->assertTrue( $bf->valid() );
+        $this->assertEquals( 1 , $bf->getLastBlockNumber() );
+
+        try
+        {
+            $bf->append("ZZ");
+            $this->fail( "Expected an exception that the block could not be appended in the middle" );
+        }
+        catch( ezcArchiveException $e ) { }
+
+        $bf->next();
+        $bf->append("ZZ");
+
+        $this->assertEquals( 2, $bf->key(), "Current block should be 0");
+        $this->assertEquals( "ZZ" , $bf->current() );
+        $this->assertTrue( $bf->valid() );
+        $this->assertEquals( 2 , $bf->getLastBlockNumber() );
+    }
+
+
 
     /*
     public function testGzipOpenFile()
@@ -23,19 +105,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
         $this->removeTempDir();
     }
     */
-
-    public function testFileNotFoundException()
-    {
-        try 
-        {
-            $blockFile = new ezcArchiveBlockFile( dirname(__FILE__) . "/../data/this_file_does_not_exist.tar" );
-            $this->fail("Expected a file not found exception.");
-        } 
-        catch (ezcBaseFileNotFoundException $e)
-        {
-        }
-    }
-
+/*
     public function testOpenReadOnlyFile()
     {
         $original =  dirname(__FILE__) . "/../data/tar_ustar_2_textfiles.tar" ;
@@ -114,18 +184,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
     }
 
 
-    public function createTempFile( $file )
-    {
-        $original = dirname(__FILE__) . "/../data/$file" ;
-
-        $tmpDir = $this->createTempDir("ezcArchive_");
-        $tmpFile = $tmpDir . "/temp_file.tar";
-        copy( $original, $tmpFile );
-
-        return $tmpFile;
-    }
-
-    
+   
     public function testTruncateAll()
     {
         $tmpFile = $this->createTempFile("tar_ustar_2_textfiles.tar");
@@ -406,7 +465,6 @@ class ezcArchiveBlockFileTest extends ezcTestCase
         unset( $blockFile );
         $this->removeTempDir();
     }
-    
  
     public function testBlockFromBytes()
     {
@@ -540,6 +598,73 @@ class ezcArchiveBlockFileTest extends ezcTestCase
         unset( $blockFile );
         $this->removeTempDir();
     }
+
+ */
+
+//    public function testLastBlockNumber()
+//    {
+//        $tmpFile = $this->createTempFile("tar_ustar_2_textfiles.tar");
+//        $blockFile = new ezcArchiveBlockFile( $tmpFile );
+//
+//        $this->assertEquals( -1, $blockFile->getLastBlockNumber(), "Last blocknumber supposed to be unknown" );
+//
+//        while( $blockFile->next() );
+//
+//        $this->assertEquals( 19, $blockFile->getLastBlockNumber(), "Last blocknumber supposed to be 19. (0 .. 19)" );
+//
+//        $blockFile->append("Hello");
+//        $this->assertEquals( 20, $blockFile->getLastBlockNumber());
+//
+//        $blockFile->append("Hello");
+//        $this->assertEquals( 21, $blockFile->getLastBlockNumber());
+//        
+//        $blockFile->truncate();
+//        $blockFile->rewind();
+//        $this->assertEquals( -1, $blockFile->getLastBlockNumber());
+//
+//        // First block
+//        $blockFile->append("Hello");
+//        $this->assertEquals( 0, $blockFile->getLastBlockNumber());
+//        $this->assertEquals( 0, $blockFile->key());
+//
+//        $blockFile->append("Hello");
+//        $this->assertEquals( 1, $blockFile->getLastBlockNumber());
+//        $this->assertEquals( 1, $blockFile->key());
+//
+//        $blockFile->rewind();
+//        
+//        // First block
+//        $blockFile->append("Hello");
+//        $this->assertEquals( 1, $blockFile->getLastBlockNumber());
+//
+//
+//
+//
+//        /*
+//        $blockFile->next(); //Block number: 1.
+//        $this->assertEquals(1, $blockFile->key() );
+//
+//        $blockFile->seek( 0, SEEK_CUR ); // Stay at the same block
+//        $this->assertEquals(1, $blockFile->key() );
+//
+//        $blockFile->seek( 1, SEEK_CUR ); // one block further
+//        $this->assertEquals(2, $blockFile->key() );
+//
+//        $data = $blockFile->current();
+//        $this->assertEquals( "file2.txt", substr( $data, 0, 9 ) ); 
+//
+//        $blockFile->seek( -2, SEEK_CUR ); // two blocks back.
+//        $this->assertEquals(0, $blockFile->key() );
+//
+//        $data = $blockFile->current();
+//        $this->assertEquals( "file1.txt", substr( $data, 0, 9 ) ); 
+//
+//        unset( $blockFile );
+//         */
+//        $this->removeTempDir();
+//    }
+
+
 
     public static function suite()
     {

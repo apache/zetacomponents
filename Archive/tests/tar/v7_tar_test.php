@@ -106,6 +106,7 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
     */
 
 
+
     public function testOpenArchive()
     {
         $entry = $this->archive->current();
@@ -680,7 +681,9 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         $this->assertEquals("file1.txt", $entry->getPath() );
 
         $archive->truncate( 1 ); // keep the first file.
-        $blockFile->rewind();
+        $archive->close();
+
+        $blockFile = new ezcArchiveBlockFile( $this->file );
 
         // Should be 20 blocks..
         $i = 1;
@@ -695,10 +698,6 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
 
         $blockFile->seek(2);
         $this->assertTrue(  $blockFile->isNullBlock(), "expect a null block" );
-
-        $archive->truncate(); // Remove all.
-        $blockFile->rewind();
-        $this->assertFalse( $blockFile->valid(), "No blocks expected" );
 
         unset( $blockFile );
     }
@@ -745,12 +744,10 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat ); 
         $this->assertFalse( $archive->valid() );
         $archive->appendToCurrent( "$dir/file1.txt", $dir );
+        $archive->close();
 
-        $bf->rewind();
 
-        $i = 1;
-        while ($bf->next() ) $i++;
-        $this->assertEquals(20, $i, "Expected 20 blocks in the file" );
+        $this->assertEquals( 10240, strlen( file_get_contents( "$dir/empty_archive.tar" ) ), "Expected 20 blocks of 512 bytes" );
 
         // Do the same with gnu tar.
         exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir file1.txt");
@@ -775,11 +772,12 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         
         $archive->seek(0, SEEK_END); // File number two.
         $archive->appendToCurrent( "$dir/file1.txt", $dir );
+        $archive->close();
 
         // Do the same with gnu tar.
         exec("tar -rf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir file1.txt");
 
-        $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents($this->file ) );
+        $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents( $this->file ) );
 
         unset( $archive );
         unset( $bf );
@@ -799,6 +797,7 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         
         $archive->seek(0); // After file number one.
         $archive->appendToCurrent( "$dir/file1.txt", $dir );
+        $archive->close();
 
         // Do the same with gnu tar.
         exec("tar --delete -f $dir/gnutar.tar --format=".$this->tarFormat." -C $dir file2.txt");
@@ -815,17 +814,21 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
 
         // Extract the archive.
         $dir = $this->getTempDir();
-        $this->archive->extractCurrent( $dir );
-        $this->archive->next();
-        $this->archive->extractCurrent( $dir );
+
+        $bf = new ezcArchiveBlockFile( $this->file );
+        $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat );
+        $archive->extractCurrent( $dir );
+        $archive->next();
+        $archive->extractCurrent( $dir );
 
         // Clear the archive.
-        $this->archive->truncate();
+        $archive->truncate();
 
         // Append the files again.
-        $this->archive->appendToCurrent( $dir . "/file1.txt", $dir );
+        $archive->appendToCurrent( $dir . "/file1.txt", $dir );
         //$this->assertTrue( $this->archive->next() !== false );
-        $this->archive->appendToCurrent( $dir . "/file2.txt", $dir );
+        $archive->appendToCurrent( $dir . "/file2.txt", $dir );
+        $archive->close();
 
         // Do the same with gnu tar.
         exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir file1.txt file2.txt");
@@ -833,9 +836,12 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         // Compare
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents($this->file ) );
 
+        $bf = new ezcArchiveBlockFile( $this->file );
+        $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat );
+
         // Append another file.
-        $this->archive->next();
-        $this->archive->appendToCurrent( $dir . "/file1.txt", $dir );
+        $archive->append( $dir . "/file1.txt", $dir );
+        $archive->close();
 
         exec("tar -rf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir file1.txt");
 
@@ -853,6 +859,7 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         $bf = new ezcArchiveBlockFile( $emptyTar, true );
         $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat );
         $archive->appendToCurrent( $dir . "/files", $dir ); 
+        $archive->close();
 
         // Do the same with gnu tar.
         exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir files");
@@ -873,6 +880,7 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         $bf = new ezcArchiveBlockFile( $emptyTar, true );
         $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat );
         $archive->appendToCurrent( $dir . "/files/file3.txt", $dir ); 
+        $archive->close();
 
         // Do the same with gnu tar.
         exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir files/file3.txt");
@@ -895,6 +903,7 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         $bf = new ezcArchiveBlockFile( $emptyTar, true );
         $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat );
         $archive->appendToCurrent( $dir . "/files/file4.txt", $dir ); 
+        $archive->writeEnd();
 
         // Do the same with gnu tar.
         exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir files/file4.txt");
@@ -903,6 +912,7 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         // File was appended as a normal file.
         $archive->rewind();
         $archive->appendToCurrent( $dir . "/files/bla/file3.txt", $dir ); 
+        $archive->close();
 
         // Do the same with gnu tar.
         exec("tar -rf $dir/gnutar.tar --format=".$this->tarFormat." -C $dir files/bla/file3.txt");
@@ -930,6 +940,8 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
 
         $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat );
         $archive->appendToCurrent( array ("$dir/files/bla/file3.txt", "$dir/files/file4.txt"), $dir ); 
+        $archive->close();
+
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents($emptyTar ) );
         unset( $bf );
     }
@@ -967,6 +979,7 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         $bf = new ezcArchiveBlockFile( $mytar, true );
         $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat );
         $archive->appendToCurrent( $files, $src ); 
+        $archive->close();
         exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C $src files");
 
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents( $mytar ) );

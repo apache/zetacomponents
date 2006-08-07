@@ -81,15 +81,30 @@ abstract class ezcArchiveFile implements Iterator
 
     protected $readWriteSwitch = -1;
 
+    protected $isNew;
+
+    protected $isModified;
+
+
+    const FP_POS_BEGIN = -1;
+    const FP_POS_MIDDLE = 0;
+    const FP_POS_END = 1;
+    protected $fpPosition;
+
     protected function openFile( $fileName, $createIfNotExist )
     {
         if( $createIfNotExist && !self::fileExists( $fileName ) )
         {
+            $this->isNew = true;
             $this->isEmpty = true;
             if( !self::touch( $fileName ) )
             {
                 throw new ezcBaseFilePermissionException( self::getPureFileName( $fileName ), ezcBaseFilePermissionException::WRITE );
             }
+        }
+        else
+        {
+            $this->isNew = false;
         }
         
         // Try to open it in read and write mode.
@@ -129,13 +144,14 @@ abstract class ezcArchiveFile implements Iterator
         {
             if( $status["wrapper_type"] == "ZLIB" || $status["wrapper_type"] == "BZip2" ) 
             {
-                // Write only mode available?
-                $b = fopen( $fileName, "a" );
+                // Append mode available?
+                $b = @fopen( $fileName, "ab" );
                 if( $b !== false )
                 {
-                    // We have also a write-only mode. Back to the read only mode.
+                    // We have also a write-only mode.
                     fclose( $b );
 
+                    // The file is either read-only or write-only.
                     $this->readOnly = false;
                     $this->readWriteSwitch = 0; // Set to reading.
                 }
@@ -154,6 +170,7 @@ abstract class ezcArchiveFile implements Iterator
         }
 
         $this->fileName = $fileName;
+        $this->isModified = false;
     }
 
 /*
@@ -237,12 +254,20 @@ abstract class ezcArchiveFile implements Iterator
             fclose( $this->fp );
 
             $this->fp = fopen( $this->fileName, "rb" );
+
+            //echo ("Switch read mode should seek to the end of the file ");
+
             if ($this->fp === false )
             {
                 throw new ezcBaseFilePermissionException( self::getPureFileName( $this->fileName ), ezcBaseFilePermissionException::READ, "Cannot switch back to read mode");
             }
             $this->readWriteSwitch = 0;
-            $this->positionSeek( $pos );
+            //$this->positionSeek( $pos );
+            $this->positionSeek( 0, SEEK_END );
+
+            // XXX DOESN'T Make sense, Seek-end should be at the end!
+            //echo ("nonsense function called");
+            while( fgetc( $this->fp ) !== false);
         }
     }
 
@@ -404,6 +429,27 @@ abstract class ezcArchiveFile implements Iterator
         stream_filter_remove( array_pop( $this->streamFilters ) );
     }
     
+
+    public function isNew() 
+    {
+        return $this->isNew;
+    }
+
+    public function isModified()
+    {
+        return $this->isModified;
+    }
+
+    public function close()
+    {
+        if( is_resource( $this->fp ) ) 
+        {
+            fclose( $this->fp );
+            $this->fp = null;
+        }
+    }
+
+
 
 
 }

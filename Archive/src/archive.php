@@ -120,16 +120,6 @@ abstract class ezcArchive implements Iterator
      */
     protected $completed = false;
 
-    /** 
-     *  Is true when the first entry needs to be read. This flag makes sure
-     *  that the first entry is read when it is totally necessary. 
-     *
-     *  For example, the first entry would normally be read when an tar archive
-     *  is opened. The Current() returns directly the first entry. However, if
-     *  we append only one file to the archive, reading the first entry is useless.
-     */
-    protected $readFirstEntry;
-
     /**
      * Stores the entries read from the archive.
      *
@@ -356,12 +346,6 @@ abstract class ezcArchive implements Iterator
      */
     public function valid()
     {
-        if ($this->readFirstEntry && $this->fileNumber == 0 ) 
-        {
-            $this->readFirstEntry = false;
-            $this->readCurrentFromArchive();
-        }
-
         return ( $this->fileNumber >= 0 && $this->fileNumber < $this->entriesRead );
     }
     
@@ -581,17 +565,11 @@ public function extractCurrent( $target, $keepExisting = false )
  */
 public function seek( $offset, $whence = SEEK_SET )
 {
-    if ( $this->readFirstEntry && $this->fileNumber == 0 ) 
-    {
-        $this->readFirstEntry = false;
-        $this->readCurrentFromArchive();
-    }
-
     // Cannot trust the current position if the current position is invalid.
     if ( $whence == SEEK_CUR && $this->valid() == false ) 
         return false;
      
-    if ( $whence == SEEK_END && !$this->completed)
+    if ( $whence == SEEK_END && !$this->completed )
     {
         // read the entire archive.
          $this->fileNumber = $this->entriesRead;
@@ -810,12 +788,6 @@ public function extract( $target, $keepExisting = false )
      */
     public function isEmpty()
     {
-        if ($this->readFirstEntry && $this->fileNumber == 0 ) 
-        {
-            $this->readFirstEntry = false;
-            $this->readCurrentFromArchive();
-        }
-
         return ( $this->entriesRead == 0 );
     }
 
