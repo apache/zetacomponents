@@ -39,6 +39,10 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
 
     protected $dataBoundings = false;
 
+    protected $xAxisSpace = false;
+
+    protected $yAxisSpace = false;
+
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphRenderer3dOptions( $options );
@@ -53,6 +57,14 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
         }
+    }
+
+    protected function get3dCoordinate( ezcGraphCoordinate $c, $front = true )
+    {
+        return new ezcGraphCoordinate(
+            ( $c->x - $this->dataBoundings->x0 ) * $this->xDepthFactor + $this->dataBoundings->x0 + $this->depth * $front,
+            ( $c->y - $this->dataBoundings->y0 ) * $this->yDepthFactor + $this->dataBoundings->y0 + $this->depth * ( 1 - $front )
+        );
     }
 
     /**
@@ -153,15 +165,21 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
             ( $boundings->y1 - $boundings->y0 ) / 2
         );
 
+        $pieChartHeight = min(
+            $radius * 2 + $this->options->maxLabelHeight * 2,
+            $boundings->y1 - $boundings->y0
+        );
+        $pieChartYPosition = $boundings->y0 + ( ( $boundings->y1 - $boundings->y0 ) - $pieChartHeight ) / 2;
+
         // Calculate maximum height of labels
         $labelHeight = (int) round( min(
             ( count( $this->pieSegmentLabels[0] )
-                ? ( $boundings->y1 - $boundings->y0 ) / count( $this->pieSegmentLabels[0] )
-                : ( $boundings->y1 - $boundings->y0 )
+                ? $pieChartHeight / count( $this->pieSegmentLabels[0] )
+                : $pieChartHeight
             ),
             ( count( $this->pieSegmentLabels[1] )
-                ? ( $boundings->y1 - $boundings->y0 ) / count( $this->pieSegmentLabels[1] )
-                : ( $boundings->y1 - $boundings->y0 )
+                ? $pieChartHeight / count( $this->pieSegmentLabels[1] )
+                : $pieChartHeight
             ),
             ( $boundings->y1 - $boundings->y0 ) * $this->options->maxLabelHeight
         ) );
@@ -170,8 +188,8 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
 
         foreach ( $this->pieSegmentLabels as $side => $labelPart )
         {
-            $minHeight = $boundings->y0;
-            $toShare = ( $boundings->y1 - $boundings->y0 ) - count( $labelPart ) * $labelHeight;
+            $minHeight = $pieChartYPosition;
+            $toShare = $pieChartHeight - count( $labelPart ) * $labelHeight;
 
             // Sort to draw topmost label first
             ksort( $labelPart );
@@ -180,7 +198,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
             foreach ( $labelPart as $height => $label )
             {
                 // Determine position of label
-                $minHeight += max( 0, $height - $minHeight - $labelHeight ) / ( $boundings->y1 - $boundings->y0 ) * $toShare;
+                $minHeight += max( 0, $height - $minHeight - $labelHeight ) / $pieChartHeight * $toShare;
                 $verticalDistance = ( $center->y - $minHeight - $labelHeight / 2 ) / $radius;
 
                 $labelPosition = new ezcGraphCoordinate(
@@ -436,7 +454,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         ezcGraphColor $color,
         ezcGraphCoordinate $start,
         ezcGraphCoordinate $end,
-        $dataNumber = 1,
+        $dataNumber = 0,
         $dataCount = 1,
         $symbol = ezcGraph::NO_SYMBOL,
         ezcGraphColor $symbolColor = null,
@@ -447,22 +465,49 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         // Calculate line width based on options
         if ( $this->options->seperateLines )
         {
-            $depth = $this->depth / $dataCount;
-            $pointModifier = $depth * $dataNumber;
+            $startDepth = ( 1 / $dataCount ) * $dataNumber;
+            $endDepth = ( 1 / $dataCount ) * ( $dataNumber + 1 );
         }
         else
         {
-            $depth = $this->depth;
-            $pointModifier = 0.;
+            $startDepth = false;
+            $endDepth = true;
         }
 
-        // Apply depth factor to coords
-        $start = clone $start;
-        $start->x *= $this->xDepthFactor;
-        $start->y *= $this->yDepthFactor;
-        $end = clone $end;
-        $end->x *= $this->xDepthFactor;
-        $end->y *= $this->yDepthFactor;
+        // Determine Coordinates depending on boundings and data point position
+        $startCoord = new ezcGraphCoordinate( 
+            $this->dataBoundings->x0 + $this->xAxisSpace + $start->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ),
+            $this->dataBoundings->y0 + $this->yAxisSpace + $start->y * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) )
+        );
+        $endCoord = new ezcGraphCoordinate( 
+            $this->dataBoundings->x0 + $this->xAxisSpace + $end->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ),
+            $this->dataBoundings->y0 + $this->yAxisSpace + $end->y * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) )
+        );
+
+        // 3D-fy coordinates
+        $linePolygonPoints = array(
+            $this->get3dCoordinate( $startCoord, $startDepth ),
+            $this->get3dCoordinate( $endCoord, $startDepth ),
+            $this->get3dCoordinate( $endCoord, $endDepth ),
+            $this->get3dCoordinate( $startCoord, $endDepth ),
+        );
+
+        $startAxisCoord = new ezcGraphCoordinate( 
+            $this->dataBoundings->x0 + $this->xAxisSpace + $start->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ),
+            $this->dataBoundings->y0 + $this->yAxisSpace + $axisPosition * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) )
+        );
+        $endAxisCoord = new ezcGraphCoordinate( 
+            $this->dataBoundings->x0 + $this->xAxisSpace + $end->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ),
+            $this->dataBoundings->y0 + $this->yAxisSpace + $axisPosition * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) )
+        );
+
+        // 3D-fy coordinates
+        $axisPolygonPoints = array(
+            $this->get3dCoordinate( $startAxisCoord, $startDepth ),
+            $this->get3dCoordinate( $endAxisCoord, $startDepth ),
+            $this->get3dCoordinate( $endAxisCoord, $endDepth ),
+            $this->get3dCoordinate( $startAxisCoord, $endDepth ),
+        );
 
         // Perhaps fill up line
         if ( $fillColor !== null &&
@@ -478,22 +523,10 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 // Values have the same sign or are on the axis
                 $this->driver->drawPolygon(
                     array(
-                        new ezcGraphCoordinate(
-                            $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $start->x,
-                            -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $start->y
-                        ),
-                        new ezcGraphCoordinate(
-                            $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                            -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y
-                        ),
-                        new ezcGraphCoordinate(
-                            $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                            -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
-                        ),
-                        new ezcGraphCoordinate(
-                            $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $start->x,
-                            -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
-                        ),
+                        $linePolygonPoints[0],
+                        $linePolygonPoints[1],
+                        $this->get3dCoordinate( $endAxisCoord, $startDepth ),
+                        $this->get3dCoordinate( $startAxisCoord, $startDepth ),
                     ),
                     $fillColor,
                     true
@@ -507,24 +540,15 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
 
                 $cuttingPosition = $startDiff / ( $endDiff + $startDiff );
                 $cuttingPoint = new ezcGraphCoordinate(
-                    $start->x + ( $end->x - $start->x ) * $cuttingPosition,
-                    $axisPosition
+                    $startCoord->x + ( $endCoord->x - $startCoord->x ) * $cuttingPosition,
+                    $startAxisCoord->y
                 );
 
                 $this->driver->drawPolygon(
                     array(
-                        new ezcGraphCoordinate(
-                            $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $start->x,
-                            -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
-                        ),
-                        new ezcGraphCoordinate(
-                            $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $start->x,
-                            -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $start->y
-                        ),
-                        new ezcGraphCoordinate(
-                            $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $cuttingPoint->x,
-                            -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $cuttingPoint->y
-                        ),
+                        $this->get3dCoordinate( $startAxisCoord, $startDepth ),
+                        $linePolygonPoints[0],
+                        $this->get3dCoordinate( $cuttingPoint, $startDepth ),
                     ),
                     $fillColor,
                     true
@@ -532,18 +556,9 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
 
                 $this->driver->drawPolygon(
                     array(
-                        new ezcGraphCoordinate(
-                            $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                            -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
-                        ),
-                        new ezcGraphCoordinate(
-                            $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                            -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y
-                        ),
-                        new ezcGraphCoordinate(
-                            $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $cuttingPoint->x,
-                            -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $cuttingPoint->y
-                        ),
+                        $this->get3dCoordinate( $endAxisCoord, $startDepth ),
+                        $linePolygonPoints[1],
+                        $this->get3dCoordinate( $cuttingPoint, $startDepth ),
                     ),
                     $fillColor,
                     true
@@ -553,46 +568,16 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
             // Draw closing foo
             $this->driver->drawPolygon(
                 array(
-                    new ezcGraphCoordinate(
-                        $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                        -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y
-                    ),
-                    new ezcGraphCoordinate(
-                        $pointModifier + $depth + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                        -$pointModifier - $depth + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y
-                    ),
-                    new ezcGraphCoordinate(
-                        $pointModifier + $depth + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                        -$pointModifier - $depth + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
-                    ),
-                    new ezcGraphCoordinate(
-                        $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                        -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
-                    ),
+                    $linePolygonPoints[2],
+                    $linePolygonPoints[1],
+                    $this->get3dCoordinate( $endAxisCoord, $startDepth ),
+                    $this->get3dCoordinate( $endAxisCoord, $endDepth ),
                 ),
                 $fillColor,
                 true
             );
         }
 
-        $linePolygonPoints = array(
-            new ezcGraphCoordinate(
-                $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $start->x,
-                -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $start->y
-            ),
-            new ezcGraphCoordinate(
-                $pointModifier + $depth + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $start->x,
-                -$pointModifier - $depth + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $start->y
-            ),
-            new ezcGraphCoordinate(
-                $pointModifier + $depth + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                -$pointModifier - $depth + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y
-            ),
-            new ezcGraphCoordinate(
-                $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y
-            ),
-        );
 
         // Draw line
         $this->driver->drawPolygon(
@@ -614,7 +599,8 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         }
 
         // Draw line symbol
-        if ( $symbol !== ezcGraph::NO_SYMBOL )
+        if ( $this->options->showSymbol && 
+             ( $symbol !== ezcGraph::NO_SYMBOL ) )
         {
             if ( $symbolColor === null )
             {
@@ -623,10 +609,10 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
 
             $this->linePostSymbols[] = array(
                 'boundings' => new ezcGraphBoundings(
-                    $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x - $this->options->symbolSize / 2,
-                    -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y - $this->options->symbolSize / 2,
-                    $pointModifier + $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x + $this->options->symbolSize / 2,
-                    -$pointModifier + $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y + $this->options->symbolSize / 2
+                    $linePolygonPoints[2]->x - $this->options->symbolSize / 2,
+                    $linePolygonPoints[2]->y - $this->options->symbolSize / 2,
+                    $linePolygonPoints[2]->x + $this->options->symbolSize / 2,
+                    $linePolygonPoints[2]->y + $this->options->symbolSize / 2
                 ),
                 'color' => $symbolColor,
                 'symbol' => $symbol,
@@ -828,11 +814,24 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         $text,
         $align = ezcGraph::LEFT )
     {
+        $topleft = $this->get3dCoordinate( 
+            new ezcGraphCoordinate( 
+                $boundings->x0, 
+                $boundings->y0
+            ), false 
+        );
+        $bottomright = $this->get3dCoordinate( 
+            new ezcGraphCoordinate( 
+                $boundings->x1, 
+                $boundings->y1
+            ), false 
+        );
+
         $this->driver->drawTextBox(
             $text,
-            new ezcGraphCoordinate( $boundings->x0, $boundings->y0 ),
-            $boundings->x1 - $boundings->x0,
-            $boundings->y1 - $boundings->y0,
+            $topleft,
+            $bottomright->x - $topleft->x,
+            $bottomright->y - $topleft->y,
             $align
         );
     }
@@ -850,76 +849,71 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
      */
     public function drawGridLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color )
     {
-        $xFactor = round( ( $end->x - $start->x ) / ( $this->dataBoundings->x1 - $this->dataBoundings->x0 ) );
-        $yFactor = round( ( $end->y - $start->y ) / ( $this->dataBoundings->y1 - $this->dataBoundings->y0 ) );
-
         $gridPolygonCoordinates = array(
-            new ezcGraphCoordinate(
-                $start->x,
-                $start->y + ( $this->depth * $yFactor )
-            ),
-            new ezcGraphCoordinate(
-                $end->x - ( $this->depth * $xFactor ),
-                $end->y
-            ),
-            new ezcGraphCoordinate(
-                $end->x + ( $this->depth * $yFactor ),
-                $end->y - ( $this->depth * $yFactor ) - ( $this->depth * $xFactor )
-            ),
-            new ezcGraphCoordinate(
-                $start->x + ( $this->depth * $yFactor ) + ( $this->depth * $xFactor ),
-                $start->y - ( $this->depth * $xFactor )
-            ),
+            $this->get3dCoordinate( $start, false ),
+            $this->get3dCoordinate( $end, false ),
+            $this->get3dCoordinate( $end, true ),
+            $this->get3dCoordinate( $start, true ),
         );
 
         // Draw grid polygon
-        if ( ( $this->options->fillGrid > 0 ) &&
-             ( $this->options->fillGrid < 1 ) )
+        if ( $this->options->fillGrid === 0 )
         {
-            $this->driver->drawPolygon(
-                $gridPolygonCoordinates,
-                $color->transparent( $this->options->fillGrid ),
-                true
+            $this->driver->drawLine(
+                $gridPolygonCoordinates[2],
+                $gridPolygonCoordinates[3],
+                $color
             );
         }
         else
         {
-            $this->driver->drawPolygon(
-                $gridPolygonCoordinates,
+            if ( $this->options->fillGrid === 1 )
+            {
+                $this->driver->drawPolygon(
+                    $gridPolygonCoordinates,
+                    $color,
+                    true
+                );
+            }
+            else
+            {
+                $this->driver->drawPolygon(
+                    $gridPolygonCoordinates,
+                    $color->transparent( $this->options->fillGrid ),
+                    true
+                );
+            }
+            
+            // Draw grid lines - scedule some for later to be drawn in front of 
+            // the data
+            $this->frontLines[] = array(
+                $gridPolygonCoordinates[0],
+                $gridPolygonCoordinates[1],
                 $color,
-                !(bool) $this->options->fillGrid
+                1
+            );
+        
+            $this->frontLines[] = array(
+                $gridPolygonCoordinates[1],
+                $gridPolygonCoordinates[2],
+                $color,
+                1
+            );
+
+            $this->driver->drawLine(
+                $gridPolygonCoordinates[2],
+                $gridPolygonCoordinates[3],
+                $color,
+                1
+            );
+
+            $this->frontLines[] = array(
+                $gridPolygonCoordinates[3],
+                $gridPolygonCoordinates[0],
+                $color,
+                1
             );
         }
-        
-        // Draw grid lines - scedule some for later to be drawn in front of 
-        // the data
-        $this->frontLines[] = array(
-            $gridPolygonCoordinates[0],
-            $gridPolygonCoordinates[1],
-            $color,
-            1
-        );
-    
-        $this->frontLines[] = array(
-            $gridPolygonCoordinates[1],
-            $gridPolygonCoordinates[2],
-            $color,
-            1
-        );
-
-        $this->driver->drawLine(
-            $gridPolygonCoordinates[2],
-            $gridPolygonCoordinates[3],
-            $color,
-            1
-        );
-
-        $this->frontLines[] = array(
-            $gridPolygonCoordinates[3],
-            $gridPolygonCoordinates[0],
-            $color,
-            1
-        );
     }
 
     /**
@@ -935,16 +929,10 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
     public function drawStepLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color )
     {
         $stepPolygonCoordinates = array(
-            $start,
-            new ezcGraphCoordinate(
-                $start->x + $this->depth,
-                $start->y - $this->depth
-            ),
-            new ezcGraphCoordinate(
-                $end->x + $this->depth,
-                $end->y - $this->depth
-            ),
-            $end,
+            $this->get3dCoordinate( $start, true ),
+            $this->get3dCoordinate( $end, true ),
+            $this->get3dCoordinate( $end, false ),
+            $this->get3dCoordinate( $start, false ),
         );
 
         // Draw step polygon
@@ -1022,7 +1010,19 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
             $this->xDepthFactor = 1 - $this->depth / ( $boundings->x1 - $boundings->x0 );
             $this->yDepthFactor = 1 - $this->depth / ( $boundings->y1 - $boundings->y0 );
 
-            $this->dataBoundings = $boundings;
+            $this->dataBoundings = clone $boundings;
+        }
+
+        switch ( $axis->position )
+        {
+            case ezcGraph::TOP:
+            case ezcGraph::BOTTOM:
+                $this->xAxisSpace = ( $boundings->x1 - $boundings->x0 ) * $axis->axisSpace;
+                break;
+            case ezcGraph::LEFT:
+            case ezcGraph::RIGHT:
+                $this->yAxisSpace = ( $boundings->y1 - $boundings->y0 ) * $axis->axisSpace;
+                break;
         }
 
         // Determine normalized direction
@@ -1034,28 +1034,16 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         $direction->x /= $length;
         $direction->y /= $length;
 
-        $start->x *= $this->xDepthFactor;
-        $start->y *= $this->yDepthFactor;
-        $end->x *= $this->xDepthFactor;
-        $end->y *= $this->yDepthFactor;
+        $start->x += $boundings->x0;
+        $start->y += $boundings->y0;
+        $end->x += $boundings->x0;
+        $end->y += $boundings->y0;
 
         $axisPolygonCoordinates = array(
-            new ezcGraphCoordinate(
-                $boundings->x0 + $start->x,
-                $boundings->y0 + $start->y + $this->depth
-            ),
-            new ezcGraphCoordinate(
-                $boundings->x0 + $end->x,
-                $boundings->y0 + $end->y + $this->depth
-            ),
-            new ezcGraphCoordinate(
-                $boundings->x0 + $end->x + $this->depth,
-                $boundings->y0 + $end->y
-            ),
-            new ezcGraphCoordinate(
-                $boundings->x0 + $start->x + $this->depth,
-                $boundings->y0 + $start->y
-            ),
+            $this->get3dCoordinate( $start, true ),
+            $this->get3dCoordinate( $end, true ),
+            $this->get3dCoordinate( $end, false ),
+            $this->get3dCoordinate( $start, false ),
         );
 
         // Draw axis
@@ -1115,27 +1103,22 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
 
         $this->driver->drawPolygon(
             array(
+                $axisPolygonCoordinates[1],
                 new ezcGraphCoordinate(
-                    $boundings->x0 + $end->x,
-                    $boundings->y0 + $end->y + $this->depth
-                ),
-                new ezcGraphCoordinate(
-                    $boundings->x0 + $end->x
+                    $axisPolygonCoordinates[1]->x
                         + $direction->y * $size / 2
                         + $direction->x * $size,
-                    $boundings->y0 + $end->y
+                    $axisPolygonCoordinates[1]->y
                         + $direction->x * $size / 2
                         + $direction->y * $size
-                        + $this->depth
                 ),
                 new ezcGraphCoordinate(
-                    $boundings->x0 + $end->x
+                    $axisPolygonCoordinates[1]->x
                         - $direction->y * $size / 2
                         + $direction->x * $size,
-                    $boundings->y0 + $end->y
+                    $axisPolygonCoordinates[1]->y
                         - $direction->x * $size / 2
                         + $direction->y * $size
-                        + $this->depth
                 ),
             ),
             $axis->border,
@@ -1146,24 +1129,22 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         $yAxisSpace = ( $end->y - $start->y ) * $axis->axisSpace;
 
         // Apply axisSpace to start and end
-        $start->x += $xAxisSpace;
-        $start->y += $yAxisSpace;
-        $end->x -= $xAxisSpace;
-        $end->y -= $yAxisSpace;
+        $start = new ezcGraphCoordinate(
+            $start->x + $xAxisSpace,
+            $start->y + $yAxisSpace
+        );
+        $end = new ezcGraphCoordinate(
+            $end->x - $xAxisSpace,
+            $end->y - $yAxisSpace
+        );
 
         if ( $labelClass !== null )
         {
             $labelClass->renderLabels(
                 $this,
                 $boundings,
-                new ezcGraphCoordinate(
-                    $boundings->x0 + $start->x,
-                    $boundings->y0 + $start->y + $this->depth
-                ),
-                new ezcGraphCoordinate(
-                    $boundings->x0 + $end->x,
-                    $boundings->y0 + $end->y + $this->depth
-                ),
+                $start,
+                $end,
                 $axis
             );
         }

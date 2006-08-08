@@ -86,7 +86,7 @@ class ezcGraphRenderer3dOptions extends ezcGraphChartOptions
      * 
      * @var float
      */
-    protected $fillGrid = .95;
+    protected $fillGrid = 0;
 
     /**
      * Factor to darken border of data elements, like lines, bars and pie 

@@ -264,6 +264,28 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         );
     }
 
+    public function testRenderPieChartWithLotsOfLabels()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = new ezcGraphPieChart();
+        $chart['Skien'] = array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 );
+
+        $chart['Skien']->highlight['Norwegian'] = true;
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->renderer = new ezcGraphRenderer3d();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
     public function testRender3dLineChart()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
