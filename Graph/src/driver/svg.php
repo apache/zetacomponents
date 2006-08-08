@@ -291,7 +291,6 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             foreach ( $text['text'] as $line )
             {
                 $string = implode( ' ', $line );
-                $boundings = imagettfbbox( $size, 0, $font, $string );
                 $text['position']->y += $size;
 
                 switch ( true )
