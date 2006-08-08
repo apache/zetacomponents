@@ -12,6 +12,11 @@ class ezcDebugTest extends ezcTestCase
         set_error_handler(array( $this, "TestDebugHandler"));
     }
 
+    public function TearDown()
+    {
+        restore_error_handler();
+    }
+
     // For trigger_error tests.
     public function TestDebugHandler($errno, $errstr, $errfile, $errline)
     {
