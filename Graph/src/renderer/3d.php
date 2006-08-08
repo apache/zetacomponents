@@ -814,18 +814,35 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         $text,
         $align = ezcGraph::LEFT )
     {
-        $topleft = $this->get3dCoordinate( 
-            new ezcGraphCoordinate( 
+        if ( $this->depth === false )
+        {
+            // We are not 3d for now, wg. rendering normal text boxes like the
+            // title
+            $topleft = new ezcGraphCoordinate( 
                 $boundings->x0, 
                 $boundings->y0
-            ), false 
-        );
-        $bottomright = $this->get3dCoordinate( 
-            new ezcGraphCoordinate( 
+            );
+            $bottomright = new ezcGraphCoordinate( 
                 $boundings->x1, 
                 $boundings->y1
-            ), false 
-        );
+            );
+        }
+        else
+        {
+            // The 3d part started
+            $topleft = $this->get3dCoordinate( 
+                new ezcGraphCoordinate( 
+                    $boundings->x0, 
+                    $boundings->y0
+                ), false 
+            );
+            $bottomright = $this->get3dCoordinate( 
+                new ezcGraphCoordinate( 
+                    $boundings->x1, 
+                    $boundings->y1
+                ), false 
+            );
+        }
 
         $this->driver->drawTextBox(
             $text,
