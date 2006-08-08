@@ -72,6 +72,9 @@ class ezcGraphSvgDriver extends ezcGraphDriver
 
             $this->elements = $this->dom->createElement( 'g' );
             $this->elements->setAttribute( 'id', 'chart' );
+            $this->elements->setAttribute( 'color-rendering', $this->options->colorRendering );
+            $this->elements->setAttribute( 'shape-rendering', $this->options->shapeRendering );
+            $this->elements->setAttribute( 'text-rendering', $this->options->textRendering );
             $this->elements = $svg->appendChild( $this->elements );
         }
     }
@@ -122,12 +125,13 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         {
             $path->setAttribute(
                 'style', 
-                sprintf( 'fill: none; stroke: #%02x%02x%02x; stroke-width: %d; stroke-opacity: %.2f;',
+                sprintf( 'fill: none; stroke: #%02x%02x%02x; stroke-width: %d; stroke-opacity: %.2f; stroke-linecap: %s;',
                     $color->red,
                     $color->green,
                     $color->blue,
                     $thickness,
-                    1 - ( $color->alpha / 255 )
+                    1 - ( $color->alpha / 255 ),
+                    $this->options->strokeLineCap
                 )
             );
         }
@@ -158,12 +162,13 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $path->setAttribute( 'd', $pointString );
         $path->setAttribute(
             'style', 
-            sprintf( 'fill: none; stroke: #%02x%02x%02x; stroke-width: %d; stroke-opacity: %.2f;',
+            sprintf( 'fill: none; stroke: #%02x%02x%02x; stroke-width: %d; stroke-opacity: %.2f; stroke-linecap: %s;',
                 $color->red,
                 $color->green,
                 $color->blue,
                 $thickness,
-                1 - ( $color->alpha / 255 )
+                1 - ( $color->alpha / 255 ),
+                $this->options->strokeLineCap
             )
         );
 
@@ -401,12 +406,13 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         {
             $arc->setAttribute(
                 'style', 
-                sprintf( 'fill: none; stroke: #%02x%02x%02x; stroke-width: %d; stroke-opacity: %.2f;',
+                sprintf( 'fill: none; stroke: #%02x%02x%02x; stroke-width: %d; stroke-opacity: %.2f; stroke-linecap: %s;',
                     $color->red,
                     $color->green,
                     $color->blue,
                     1, // Line Thickness
-                    1 - ( $color->alpha / 255 )
+                    1 - ( $color->alpha / 255 ),
+                    $this->options->strokeLineCap
                 )
             );
         }
@@ -521,12 +527,13 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         {
             $ellipse->setAttribute(
                 'style', 
-                sprintf( 'fill: none; stroke: #%02x%02x%02x; stroke-width: %d; stroke-opacity: %.2f;',
+                sprintf( 'fill: none; stroke: #%02x%02x%02x; stroke-width: %d; stroke-opacity: %.2f; stroke-linecap: %s;',
                     $color->red,
                     $color->green,
                     $color->blue,
                     1, // Line Thickness
-                    1 - ( $color->alpha / 255 )
+                    1 - ( $color->alpha / 255 ),
+                    $this->options->strokeLineCap
                 )
             );
         }

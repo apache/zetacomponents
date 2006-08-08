@@ -62,6 +62,33 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         $this->removeTempDir();
     }
 
+    /**
+     * Compares a generated image with a stored file
+     * 
+     * @param string $generated Filename of generated image
+     * @param string $compare Filename of stored image
+     * @return void
+     */
+    protected function compare( $generated, $compare )
+    {
+        $this->assertTrue(
+            file_exists( $generated ),
+            'No image file has been created.'
+        );
+
+        $this->assertTrue(
+            file_exists( $compare ),
+            'Comparision image does not exist.'
+        );
+
+        if ( md5_file( $generated ) !== md5_file( $compare ) )
+        {
+            // Adding a diff makes no sense here, because created XML uses
+            // only two lines
+            $this->fail( 'Rendered image is not correct.');
+        }
+    }
+
     public function testDrawLine()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
@@ -74,15 +101,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '53b4c2d537fe72e0f02d3c79649071a9',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -102,15 +123,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '0560d69e0a473521009ebb353a8d619a',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -130,15 +145,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '805da20cc5bfa362014f48f6a9e7dadc',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -160,15 +169,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '68fe9d21539e371fdac779cdc8b6bf7f',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -187,15 +190,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            'bb333f8f9aa563cbd79f238ed444dd49',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -215,15 +212,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '9bcbb9f0076861e15a9f426923f9e64e',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -242,15 +233,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            'bb333f8f9aa563cbd79f238ed444dd49',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -269,15 +254,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '5425f0e9c0a1b101749eede1e8426e96',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -297,15 +276,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '7cc7bca87ad13efe8310826199854240',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -325,15 +298,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '7cc7bca87ad13efe8310826199854240',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -353,15 +320,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '5bd2450976479e57f1cf74f7e6345a5b',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -378,15 +339,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            'c748cd3c8720b98cbf8724296a7bd9c4',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -404,15 +359,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            'bad8083fa82cb61db55f401fbc876037',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -429,15 +378,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            'broken',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -454,15 +397,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            'broken',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -490,15 +427,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '21ad413d4b34220ce2dadf25fdfe93aa',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -526,15 +457,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '58da91a8541e65abcd0ea3d170f53cef',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -562,15 +487,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            'ec91b1b2a65ccd8619f441c45b680ded',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -598,15 +517,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            'c4131ce32ed143c3b13749b13555151f',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -634,15 +547,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '172d4886684c5868ae3c2be95f187c1e',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -670,15 +577,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            'a514061b35ba6ea8bbae39d59ecb263d',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -706,15 +607,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '5672013761efc0a1e28a17a96b0f05fb',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -742,15 +637,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            'be283e77d2527507374daec5668f0c93',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -778,15 +667,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            'dde4bc623ba3ccfa6d5da72432381e90',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -814,15 +697,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '9c95e975d06a7dab5131d5ac4f859d52',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -850,15 +727,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            'b1dfba96a96380b91056cf22b539d521',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -886,15 +757,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '856506208598ed3ec05e4009fda19fdc',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -922,15 +787,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '72001c5cec1fc3432bc71577a49b2d1f',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
@@ -958,15 +817,9 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->assertTrue(
-            file_exists( $filename ),
-            'No image was generated.'
-        );
-
-        $this->assertEquals(
-            '1bd0c084899d5025da3f66224c4cdef9',
-            md5_file( $filename ),
-            'Incorrect image rendered.'
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 }
