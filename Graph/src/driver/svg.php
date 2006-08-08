@@ -61,7 +61,6 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             $svg = $this->dom->createElement( 'svg' );
 
             $svg->setAttribute( 'xmlns', 'http://www.w3.org/2000/svg' );
-            $svg->setAttribute( 'xmlns:xlink', 'http://www.w3.org/1999/xlink' );
             $svg->setAttribute( 'width', $this->options->width );
             $svg->setAttribute( 'height', $this->options->height );
             $svg->setAttribute( 'version', '1.0' );
@@ -549,6 +548,8 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     {
         $this->createDocument();  
         
+        // @TODO: Inline images instead of linking them
+        /*
         $image = $this->dom->createElement( 'image' );
         $image->setAttribute( 'x', $position->x );
         $image->setAttribute( 'y', $position->y );
@@ -557,6 +558,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $image->setAttribute( 'xlink:href', $file );
 
         $this->elements->appendChild( $image );
+        */
     }
 
     /**
