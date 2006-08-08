@@ -31,6 +31,7 @@ class ezcLogTest extends ezcTestCase
     {
         //$this->cleanTempDir();
         $this->removeTempDir();
+        restore_error_handler();
     }
 
     public function TestErrorHandler($errno, $errstr, $errfile, $errline)
