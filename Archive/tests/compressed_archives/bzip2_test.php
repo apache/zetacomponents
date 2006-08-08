@@ -3,7 +3,7 @@
 require_once( dirname( __FILE__ ) . "/../testdata.php" );
 require_once(dirname(__FILE__) . "/../archive_test_case.php");
 
-class ezcArchiveZlibTest extends ezcArchiveTestCase
+class ezcArchiveBzip2Test extends ezcArchiveTestCase
 {
     public function setUp()
     {
@@ -15,7 +15,7 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
     {
         $this->removeTempDir();
     }
-
+/*
     public function testCreateTar()
     {
         $dir = $this->getTempDir();
@@ -29,20 +29,39 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents( "$dir/mytar.tar" ) );
     }
 
-    public function testCreateGzippedTar()
+ */
+    public function testCreateBzip2Tar()
     {
         $dir = $this->getTempDir();
-        $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR);
+        $archive = ezcArchive::open( "compress.bzip2://$dir/mytar.tar.bz2", ezcArchive::TAR_USTAR);
         file_put_contents( "$dir/a.txt", "Hello world!" );
         $archive->append( "$dir/a.txt", $dir);
         $archive->close();
 
         exec("tar -cf $dir/gnutar.tar --format=ustar -C $dir a.txt");
-        exec("gunzip $dir/mytar.tar.gz");
+        exec("bunzip2 $dir/mytar.tar.bz2");
 
         $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents( "$dir/mytar.tar" ) );
     }
 
+    public function testCreateBzip2TarWithTwoFiles()
+    {
+        $dir = $this->getTempDir();
+        $archive = ezcArchive::open( "compress.bzip2://$dir/mytar.tar.bz2", ezcArchive::TAR_USTAR);
+        file_put_contents( "$dir/a.txt", "Hello world!" );
+        file_put_contents( "$dir/b.txt", "BBBBBBBBBBBB" );
+        $archive->append( "$dir/a.txt", $dir);
+        $archive->append( "$dir/b.txt", $dir);
+        $archive->close();
+
+        exec("tar -cf $dir/gnutar.tar --format=ustar -C $dir a.txt b.txt");
+        exec("bunzip2 $dir/mytar.tar.bz2");
+
+        $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents( "$dir/mytar.tar" ) );
+    }
+
+
+/*
     public function testWriteToExistingGzippedTar()
     {
         // Create an archive with one file.
@@ -159,11 +178,11 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
         $this->assertEquals( 2, sizeof( $a ) );
 
     }
-
+*/
 
     public static function suite()
     {
-        return new ezcTestSuite( "ezcArchiveZlibTest" );
+        return new ezcTestSuite( __CLASS__  );
     }
 
 }

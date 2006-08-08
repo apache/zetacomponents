@@ -142,8 +142,13 @@ class ezcArchiveV7Tar extends ezcArchive
      *
      * @return void
      */
+    // XXX should be protected?
     public function readCurrentFromArchive()
     {
+        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+
+        if( $this->file->isWriteOnly() ) return; 
+
         // Not cached, read the next block.
         if ( $this->entriesRead == 0 )
         {
@@ -227,6 +232,8 @@ class ezcArchiveV7Tar extends ezcArchive
     // Documentation is inherited.
     public function truncate( $fileNumber = 0, $appendNullBlocks = true )
     {
+        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+
         if ( !$this->isWritable() )
         {
             throw new ezcBaseFilePermissionException( $this->file->getFileName(), ezcBaseFilePermissionException::WRITE, "Archive is read-only" );
@@ -277,6 +284,7 @@ class ezcArchiveV7Tar extends ezcArchive
     // Documentation is inherited.
     public function appendToCurrent( $files, $prefix, $appendNullBlocks = true )
     {
+        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
         
         if ($this->file->isReadOnlyWriteOnlyStream() )
         {
@@ -317,9 +325,11 @@ class ezcArchiveV7Tar extends ezcArchive
      */
     public function append( $files, $prefix, $appendNullBlocks = true )
     {
+        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+
         if ( !$this->isWritable() )
         {
-            throw new ezcArchiveException( "Archive is read-only", ezcArchiveException::ARCHIVE_NOT_WRITABLE );
+            throw new ezcArchiveException( "Archive is read-only" );
         }
 
         // Appending to an existing archive with a compressed stream does not work because we have to remove the NULL-blocks. 
@@ -360,6 +370,8 @@ class ezcArchiveV7Tar extends ezcArchive
 
     public function writeEnd()
     {
+        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+
         if( $this->file->isModified() )
         {
             if( !$this->hasNullBlocks )
@@ -416,7 +428,7 @@ class ezcArchiveV7Tar extends ezcArchive
         // Are we at a valid entry?
         if ( !$this->isEmpty() && !$this->valid() ) return false;
 
-        if ( !$this->isEmpty() )
+        if ( !$this->isEmpty() && !$this->file->isWriteOnly())
         {
             // Truncate the next file and don't add the null blocks.
             $this->truncate( $this->fileNumber + 1, false );
@@ -447,7 +459,10 @@ class ezcArchiveV7Tar extends ezcArchive
             $this->addedBlocks += $this->file->append( file_get_contents( $entry->getPath() ) );
         }
 
-        $this->addedBlocksNotReliable = true;
+        if(!( $this->file->isNew() && $this->file->isWriteOnly() ))
+        {
+            $this->addedBlocksNotReliable = true;
+        }
 
         $this->hasNullBlocks = false;
         $this->completed = true;

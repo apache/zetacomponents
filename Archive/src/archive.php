@@ -262,6 +262,8 @@ abstract class ezcArchive implements Iterator
      */
     public function isWritable()
     {
+        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+
         return ( !$this->file->isReadOnly() && $this->algorithmCanWrite() );
     }
 
@@ -431,6 +433,8 @@ public function next()
  */
 public function extractCurrent( $target, $keepExisting = false )
 {
+    if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+
     if ( !$this->valid() )
     {
         return false;
@@ -565,6 +569,8 @@ public function extractCurrent( $target, $keepExisting = false )
  */
 public function seek( $offset, $whence = SEEK_SET )
 {
+    if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+    
     // Cannot trust the current position if the current position is invalid.
     if ( $whence == SEEK_CUR && $this->valid() == false ) 
         return false;
@@ -694,6 +700,8 @@ protected abstract function writeCurrentDataToFile( $targetPath );
  */
 public function getListing()
 {
+    if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+
     $result = array();
     $this->rewind();
 
@@ -714,6 +722,8 @@ public function getListing()
  */
 public function __toString()
 {
+    if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+
     $result = "";
     $this->rewind();
 
@@ -744,6 +754,8 @@ public function __toString()
  */
 public function extract( $target, $keepExisting = false )
 {
+    if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+
     $this->rewind();
     if ( !$this->valid() ) 
         {

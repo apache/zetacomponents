@@ -620,6 +620,8 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      */
     public function seek( $blockOffset, $whence = SEEK_SET )
     {
+        if( $this->writeOnly && $blockOffset == 0 && $whence == SEEK_END ) return true;
+
         if( ftell( $this->fp ) === false || $this->readWriteSwitch >= 0)
         {
             // Okay, cannot tell the current file position. 

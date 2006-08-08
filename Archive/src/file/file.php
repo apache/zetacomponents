@@ -33,6 +33,8 @@ abstract class ezcArchiveFile implements Iterator
      */
     protected $readOnly = false;
 
+    protected $writeOnly = false;
+
     /**
      * True when the current block is valid, otherwise false.
      *
@@ -154,6 +156,29 @@ abstract class ezcArchiveFile implements Iterator
                     // The file is either read-only or write-only.
                     $this->readOnly = false;
                     $this->readWriteSwitch = 0; // Set to reading.
+                }
+                else
+                {
+                    // Maybe we should write only to the archive.
+                    // Test this only, when the archive is new. 
+
+                    if( $this->isNew )
+                    {
+                        $b = @fopen( $fileName, "wb" );
+                        if( $b !== false )
+                        {
+                            // XXX Clean up.
+                            $this->fp = $b;
+
+                            $this->isEmpty = true;
+                            $this->readOnly = false;
+                            $this->writeOnly = true;
+                            $this->fileName = $fileName;
+                            $this->isModified = false;
+
+                            return true;
+                        }
+                    }
                 }
             }
         }
@@ -374,6 +399,9 @@ abstract class ezcArchiveFile implements Iterator
 
     protected function positionSeek( $pos, $whence = SEEK_SET)
     {
+        // Seek the end of the file in a write only file always succeeds.
+        if( $this->writeOnly && $pos == 0 && $whence == SEEK_END ) return true; 
+
         if ( $this->fpIsSeekable )
         {
           return fseek( $this->fp, $pos, $whence );
@@ -417,6 +445,12 @@ abstract class ezcArchiveFile implements Iterator
     {
         return $this->readOnly;
     }
+
+    public function isWriteOnly()
+    {
+        return $this->writeOnly;
+    }
+
 
     public function appendStreamFilter( $filter )
     {
