@@ -23,6 +23,30 @@ class ezcGraphChartElementText extends ezcGraphChartElement
     protected $maxHeight = .1;
 
     /**
+     * __set 
+     * 
+     * @param mixed $propertyName 
+     * @param mixed $propertyValue 
+     * @throws ezcBaseValueException
+     *          If a submitted parameter was out of range or type.
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return void
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'maxHeight':
+                $this->maxHeight = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            default:
+                parent::__set( $propertyName, $propertyValue );
+                break;
+        }
+    }
+
+    /**
      * Render a legend
      * 
      * @param ezcGraphRenderer $renderer 
@@ -39,7 +63,7 @@ class ezcGraphChartElementText extends ezcGraphChartElement
 
         $height = (int) min( 
             round( $this->maxHeight * ( $boundings->y1 - $boundings->y0 ) ),
-            $this->font->maxFontSize + $this->padding * 2
+            $this->font->maxFontSize + $this->padding * 2 + $this->margin * 2
         );
 
         switch ( $this->position )

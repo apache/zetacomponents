@@ -341,6 +341,59 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         );
     }
 
+    public function testRender3dLineChartSmallMaxFontSize()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+
+        $chart['Line 1'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['Line 2'] = array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613);
+
+        $chart->title = 'Line chart title';
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->renderer = new ezcGraphRenderer3d();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->title->font->maxFontSize = 8;
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
+    public function testRender3dLineChartBigMaxFontSize()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+
+        $chart['Line 1'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['Line 2'] = array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613);
+
+        $chart->title = 'Line chart title';
+        $chart->title->maxHeight = .2;
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->renderer = new ezcGraphRenderer3d();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->title->font->maxFontSize = 32;
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
     public function testRender3dFilledLineChart()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
