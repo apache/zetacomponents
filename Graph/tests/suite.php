@@ -21,6 +21,7 @@ require_once 'legend_test.php';
 require_once 'text_test.php';
 require_once 'numeric_axis_test.php';
 require_once 'labeled_axis_test.php';
+require_once 'date_axis_test.php';
 require_once 'renderer_2d_test.php';
 require_once 'renderer_3d_test.php';
 require_once 'axis_exact_renderer_test.php';
@@ -51,6 +52,7 @@ class ezcGraphSuite extends ezcTestSuite
         $this->addTest( ezcGraphLegendTest::suite() );
         $this->addTest( ezcGraphNumericAxisTest::suite() );
         $this->addTest( ezcGraphLabeledAxisTest::suite() );
+        $this->addTest( ezcGraphDateAxisTest::suite() );
         $this->addTest( ezcGraphRenderer2dTest::suite() );
         $this->addTest( ezcGraphRenderer3dTest::suite() );
         $this->addTest( ezcGraphAxisExactRendererTest::suite() );

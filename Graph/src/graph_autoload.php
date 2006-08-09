@@ -60,6 +60,7 @@ return array(
     'ezcGraphChartElementLegend'                => 'Graph/element/legend.php',
     'ezcGraphChartElementBackgroundImage'       => 'Graph/element/background.php',
     'ezcGraphChartElementAxis'                  => 'Graph/element/axis.php',
+    'ezcGraphChartElementDateAxis'              => 'Graph/axis/date.php',
     'ezcGraphChartElementNumericAxis'           => 'Graph/axis/numeric.php',
     'ezcGraphChartElementLabeledAxis'           => 'Graph/axis/labeled.php',
 
