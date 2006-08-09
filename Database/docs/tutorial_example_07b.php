@@ -10,8 +10,9 @@ $q->select( 'id' )
         ->from( 'table1' )
             ->rightJoin( 'table2', 'table1.id', 'table2.id' )
             ->rightJoin( 'table3', 'table2.id', 'table3.id' );
-$q->prepare();
-$q->execute();
+
+$stmt = $q->prepare();
+$stmt->execute();
 
 
 ?>
