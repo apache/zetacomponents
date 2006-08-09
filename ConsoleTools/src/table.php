@@ -577,12 +577,12 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
                             $this->options->lineHorizontal, 
                             $borderFormat
                         );
-            $rowData .= ' ';
+            $rowData .= $this->options->colPadding;
             $rowData .= $this->outputHandler->formatText(
                             str_pad( $data, $colWidth[$cell], ' ', $align ),
                             $format
                         );
-            $rowData .= ' ';
+            $rowData .= $this->options->colPadding;
         }
         $rowData .= $this->outputHandler->formatText( $this->options->lineHorizontal, $row->borderFormat );
         return $rowData;
@@ -716,8 +716,14 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
         {
             $colCount = max( sizeof( $row ), $colCount );
         }
+        $borderWidth = strlen( $this->options->lineHorizontal );
         // Subtract border and padding chars from global width
-        $globalWidth = $this->width - ( $colCount * ( 2 * strlen( $this->options->colPadding ) + 1 ) ) - 1;
+        $globalWidth = $this->width
+            - ( 
+                // Per column: 2 * border padding + 1 border
+                $colCount * ( 2 * strlen( $this->options->colPadding ) + $borderWidth ) 
+              // 1 Additional border
+              ) - $borderWidth;
         // Width of a column if each is made equal
         $colNormWidth = round( $globalWidth / $colCount );
         $colMaxWidth = array();

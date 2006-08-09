@@ -132,6 +132,28 @@ class ezcConsoleToolsTableTest extends ezcTestCase
             array( 'lineFormatHead' => 'magenta', 'defaultAlign' => ezcConsoleTable::ALIGN_RIGHT )
         );
     }
+   
+    // Bug #8738: Unexpected behaviour with options->colPadding
+    public function testTableColPadding1()
+    {
+        $this->commonTableTest(
+            __FUNCTION__,
+            $this->tableData2,
+            array( 'width' =>  100 ),
+            array( 'defaultAlign' => ezcConsoleTable::ALIGN_CENTER, 'colPadding' => '~~~', 'widthType' => ezcConsoleTable::WIDTH_FIXED )
+        );
+    }
+    
+    // Bug #8738: Unexpected behaviour with options->colPadding
+    public function testTableColPadding2()
+    {
+        $this->commonTableTest(
+            __FUNCTION__,
+            $this->tableData2,
+            array( 'width' =>  100 ),
+            array( 'defaultAlign' => ezcConsoleTable::ALIGN_CENTER, 'colPadding' => '~~~' )
+        );
+    }
     
     public function testTable3a()
     {
@@ -511,6 +533,9 @@ class ezcConsoleToolsTableTest extends ezcTestCase
 //        echo implode( "\n", $table->getTable() );
 //        echo "\n\n";
         
+        // To prepare test files, uncomment this block
+        // file_put_contents( dirname( __FILE__ ) . '/data/' . $refFile . '.dat', implode( "\n", $table->getTable() ) );
+        
         // For test assertion, uncomment this block
         $this->assertEquals(
             file_get_contents( dirname( __FILE__ ) . '/data/' . $refFile . '.dat' ),
@@ -518,8 +543,6 @@ class ezcConsoleToolsTableTest extends ezcTestCase
             'Table not correctly generated for ' . $refFile . '.'
         );
 
-        // To prepare test files, uncomment this block
-        // file_put_contents( dirname( __FILE__ ) . '/data/' . $refFile . '.dat', implode( "\n", $table->getTable() ) );
     }
 }
 ?>
