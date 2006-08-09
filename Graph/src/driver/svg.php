@@ -58,14 +58,13 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         if ( $this->dom === null )
         {
             $this->dom = new DOMDocument();
-            $svg = $this->dom->createElement( 'svg' );
+            $svg = $this->dom->createElementNS( 'http://www.w3.org/2000/svg', 'svg' );
+            $this->dom->appendChild( $svg );
 
-            $svg->setAttribute( 'xmlns', 'http://www.w3.org/2000/svg' );
             $svg->setAttribute( 'width', $this->options->width );
             $svg->setAttribute( 'height', $this->options->height );
             $svg->setAttribute( 'version', '1.0' );
             $svg->setAttribute( 'id', 'ezcGraph' );
-            $this->dom->appendChild( $svg );
 
             $this->defs = $this->dom->createElement( 'defs' );
             $this->defs = $svg->appendChild( $this->defs );
@@ -552,19 +551,25 @@ class ezcGraphSvgDriver extends ezcGraphDriver
      */
     public function drawImage( $file, ezcGraphCoordinate $position, $width, $height )
     {
-        $this->createDocument();  
-        
-        // @TODO: Inline images instead of linking them
-        /*
+        $this->createDocument();
+
+        $data = getimagesize( $file );
         $image = $this->dom->createElement( 'image' );
+
         $image->setAttribute( 'x', $position->x );
         $image->setAttribute( 'y', $position->y );
         $image->setAttribute( 'width', $width . 'px' );
         $image->setAttribute( 'height', $height . 'px' );
-        $image->setAttribute( 'xlink:href', $file );
+        $image->setAttributeNS( 
+            'http://www.w3.org/1999/xlink', 
+            'xlink:href', 
+            sprintf( 'data:%s;base64,%s',
+                $data['mime'],
+                base64_encode( file_get_contents( $file ) )
+            )
+        );
 
         $this->elements->appendChild( $image );
-        */
     }
 
     /**
