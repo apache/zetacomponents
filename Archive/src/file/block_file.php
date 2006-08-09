@@ -267,7 +267,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      */
     public function append( $data )
     {
-        if ( $this->readOnly ) 
+        if ( $this->fileAccess == self::READ_ONLY ) 
         {
             throw new ezcBaseFilePermissionException( $this->fileName, ezcBaseFilePermissionException::WRITE, "The archive is opened in a read-only mode." );
         }
@@ -300,7 +300,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
 
             if( $needToTruncate )
             {
-                if( $this->readWriteSwitch >= 0 )
+                if( $this->fileAccess == self::READ_APPEND )
                 {
                     // Sorry, don't know how to truncate this file (except copying everything).
                     throw new ezcArchiveException( "Cannot truncate the file" );
@@ -464,7 +464,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
         // Empty files don't need to be truncated.
         if( $this->isEmpty() ) return true;
 
-        if( $this->readWriteSwitch < 0 )
+        if( $this->fileAccess !== self::READ_APPEND )
         {
             // We can read-write in the file. Easy.
             $pos = $blocks * $this->blockSize;
@@ -620,9 +620,9 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      */
     public function seek( $blockOffset, $whence = SEEK_SET )
     {
-        if( $this->writeOnly && $blockOffset == 0 && $whence == SEEK_END ) return true;
+        if( $this->fileAccess == self::WRITE_ONLY && $blockOffset == 0 && $whence == SEEK_END ) return true;
 
-        if( ftell( $this->fp ) === false || $this->readWriteSwitch >= 0)
+        if( ftell( $this->fp ) === false || $this->fileAccess == self::READ_APPEND)
         {
             // Okay, cannot tell the current file position. 
             // This happens with some compression streams. 

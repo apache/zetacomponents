@@ -198,7 +198,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
      */
     public function append( $data )
     {
-        if ( $this->readOnly ) 
+        if ( $this->fileAccess == self::READ_ONLY ) 
             throw new ezcBaseFilePermissionException( $this->fileName, ezcBaseFilePermissionException::WRITE, "The archive is opened in a read-only mode." );
         
         $pos = ftell( $this->fp );
@@ -371,7 +371,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
      */
     public function write( $data )
     {
-        if ( $this->readOnly ) 
+        if ( $this->fileAccess == self::READ_ONLY ) 
             throw new ezcBaseFilePermissionException( $this->fileName, ezcBaseFilePermissionException::WRITE, "The archive is opened in a read-only mode." );
        
         $pos = ftell( $this->fp );

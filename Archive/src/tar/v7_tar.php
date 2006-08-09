@@ -96,7 +96,7 @@ class ezcArchiveV7Tar extends ezcArchive
         $this->hasNullBlocks = $this->file->isNew() ?  false : true;
         $this->addedBlocks = 0;
 
-        $this->readCurrentFromArchive();
+        if( $this->file->getFileAccess() !== ezcArchiveFile::WRITE_ONLY) $this->readCurrentFromArchive();
     }
 
     public function __destruct()
@@ -143,12 +143,8 @@ class ezcArchiveV7Tar extends ezcArchive
      * @return void
      */
     // XXX should be protected?
-    public function readCurrentFromArchive()
+    protected function readCurrentFromArchive()
     {
-        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
-
-        if( $this->file->isWriteOnly() ) return; 
-
         // Not cached, read the next block.
         if ( $this->entriesRead == 0 )
         {
@@ -234,7 +230,7 @@ class ezcArchiveV7Tar extends ezcArchive
     {
         if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
 
-        if ( !$this->isWritable() )
+        if ($this->file->getFileAccess() === ezcArchiveFile::READ_ONLY || !$this->algorithmCanWrite())
         {
             throw new ezcBaseFilePermissionException( $this->file->getFileName(), ezcBaseFilePermissionException::WRITE, "Archive is read-only" );
         }
@@ -272,9 +268,6 @@ class ezcArchiveV7Tar extends ezcArchive
 
             $this->entriesRead = $fileNumber;
             $this->completed = true;
-
-            //if ( $appendNullBlocks ) $this->appendNullBlocks();
-
             $this->fileNumber = $originalFileNumber;
 
             return $this->valid();
@@ -286,12 +279,12 @@ class ezcArchiveV7Tar extends ezcArchive
     {
         if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
         
-        if ($this->file->isReadOnlyWriteOnlyStream() )
+        if ($this->file->getFileAccess() !== ezcArchiveFile::READ_WRITE )
         {
             throw new ezcArchiveException( "Cannot appendToCurrent when writing to a read-only, write-only stream (e.g. compress.zlib)." );
         }
 
-        if ( !$this->isWritable() )
+        if ($this->file->getFileAccess() === ezcArchiveFile::READ_ONLY || !$this->algorithmCanWrite())
         {
             throw new ezcBaseFilePermissionException( $this->file->getFileName(),  ezcBaseFilePermissionException::WRITE );
         }
@@ -327,20 +320,20 @@ class ezcArchiveV7Tar extends ezcArchive
     {
         if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
 
-        if ( !$this->isWritable() )
+        if ($this->file->getFileAccess() === ezcArchiveFile::READ_ONLY || !$this->algorithmCanWrite())
         {
             throw new ezcArchiveException( "Archive is read-only" );
         }
 
         // Appending to an existing archive with a compressed stream does not work because we have to remove the NULL-blocks. 
-        if( $this->hasNullBlocks && $this->file->isReadOnlyWriteOnlyStream() )
+        if( $this->hasNullBlocks && $this->file->getFileAccess() !== ezcArchiveFile::READ_WRITE )
         {
             throw new ezcArchiveException( "Cannot append to this archive" );
         }
 
         // Existing files need to be read, because we don't know if it contains NULL-blocks at the end of the archive.
-        $this->seek( 0, SEEK_END );
-
+        if( $this->file->getFileAccess() !== ezcArchiveFile::WRITE_ONLY )
+            $this->seek( 0, SEEK_END );
 
         // Do the same as in appendToCurrent(). But we know that it's possible.
         $entries = $this->getEntries( $files, $prefix);
@@ -382,8 +375,6 @@ class ezcArchiveV7Tar extends ezcArchive
                 }
                 else
                 {
-
-
                     // Added Blocks  -  Added null blocks (Block factor 20)
                     // 0             -  0
                     // 1             - 19
@@ -397,14 +388,7 @@ class ezcArchiveV7Tar extends ezcArchive
                 $this->hasNullBlocks = true;
                 $this->addedBlocksNotReliable = false;
                 $this->addedBlocks = 0;
-
-
-                    //echo ("Append: ". $this->nullBlocksToAppend );
-                //$this->file->appendNullBlocks( $this->nullBlocksToAppend );
-
-                //die ("SHOULD WRITE NULL_BLOCKS" );
             }
-
         }
     }
 
@@ -428,7 +412,7 @@ class ezcArchiveV7Tar extends ezcArchive
         // Are we at a valid entry?
         if ( !$this->isEmpty() && !$this->valid() ) return false;
 
-        if ( !$this->isEmpty() && !$this->file->isWriteOnly())
+        if ( !$this->isEmpty() && $this->file->getFileAccess() !== ezcArchiveFile::WRITE_ONLY)
         {
             // Truncate the next file and don't add the null blocks.
             $this->truncate( $this->fileNumber + 1, false );
@@ -459,7 +443,7 @@ class ezcArchiveV7Tar extends ezcArchive
             $this->addedBlocks += $this->file->append( file_get_contents( $entry->getPath() ) );
         }
 
-        if(!( $this->file->isNew() && $this->file->isWriteOnly() ))
+        if(!( $this->file->isNew() && $this->file->getFileAccess() === ezcArchiveFile::WRITE_ONLY  ))
         {
             $this->addedBlocksNotReliable = true;
         }
@@ -469,45 +453,6 @@ class ezcArchiveV7Tar extends ezcArchive
         $this->entriesRead++;
 
         $this->entries[$this->fileNumber] = $entry;
-        return true;
-    }
-
-    protected function appendHeaderAndFileToEnd( $entry, $appendNullBlocks )
-    {
-        // Add the new header to the file map.
-        $header = $this->createTarHeader(); 
-        $header->setHeaderFromArchiveEntry( $entry );
-        $header->writeEncodedHeader( $this->file );
-
-        $this->addedBlocks += 1;
-        if ( $entry->getSize() > 0 ) 
-        {
-            // TODO FIX large file read. 
-            $this->addedBlocks += $this->file->append( file_get_contents( $entry->getPath() ) );
-        }
-
-        if ( $this->entriesRead == 0 ) 
-        {
-            $this->readCurrentFromArchive();
-            $this->completed = true;
-            $this->hasNullBlocks = false;
-/*
-            $this->headers[ 0 ] = $header;
-            $this->headerPositions[ 0 ] = 1;
-
-            $this->entriesRead = 1;
-            $this->fileNumber = 1;
-        $this->hasNullBlocks = false;
-        $this->completed = true;
- */
-        }
-        else
-        {
-
-            $this->completed = false;
-        }
-
-        $this->hasNullBlocks = false;
         return true;
     }
 

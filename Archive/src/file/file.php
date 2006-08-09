@@ -19,28 +19,55 @@
  */ 
 abstract class ezcArchiveFile implements Iterator 
 {
+    /** 
+     * The file is read-only. 
+     * The file permissions can be set to read-only or file is compressed with a 
+     * stream that can only be read. E.g. bzip2.
+     */
+    const READ_ONLY   = 1; 
+
+    /** 
+     * The file is write-only. 
+     * The file permissions can be set to write-only or file should be compressed with a 
+     * stream that can only write. E.g. bzip2.
+     */
+    const WRITE_ONLY  = 2; 
+
+    /** 
+     * The file is either read or append mode. 
+     * Some compressed streams (zlib) do not support reading and writing. But seperate reading
+     * and appending does work. 
+     */
+    const READ_APPEND = 3; 
+
     /**
-     * The current location in the open file.
+     * The file is opened in a read and write mode.
+     */
+    const READ_WRITE  = 4; 
+
+
+    /**
+     * The mode the file is opened in. It has one of the following constant values: 
+     * READ_ONLY, WRITE_ONLY, READ_APPEND, or READ_WRITE.
+     *
+     * @var int
+     */
+    protected $fileAccess = null; 
+
+    /**
+     * The current resource of the opened file. 
+     * If the file is closed, this resource should point to NULL.
      *
      * @var resource  
      */
     protected $fp = null;
 
-    /**
-     * True if the current file is opened read-only. 
+    /** 
+     * The name of the file.
      *
-     * @var boolean  
+     * @var string
      */
-    protected $readOnly = false;
-
-    protected $writeOnly = false;
-
-    /**
-     * True when the current block is valid, otherwise false.
-     *
-     * @var boolean  
-     */
-    protected $isValid = false;
+    protected $fileName;
 
     /**
      * True when the current file does not have any blocks, otherwise false.
@@ -49,49 +76,34 @@ abstract class ezcArchiveFile implements Iterator
      */
     protected $isEmpty;
 
-    /** 
-     * The name of the character of block file.
-     *
-     * @var string
-     */
-    protected $fileName;
-
     /**
      * True if the file-pointer supports seeking, otherwise false.
      * For example, files that use the bzip2 stream cannot seek.  
      *
      * @var boolean       
      */
-    protected $fpIsSeekable;
+    protected $fileMetaData;
 
     /**
-     * The mode that the file is opened. 
-     * For example: "r+w", "rb", etc. 
+     * True when the current block is valid, otherwise false.
      *
-     * @var string   
+     * @var boolean  
      */
-    protected $fpMode;
+    protected $isValid = false;
+
+
+
+    const SWITCH_READ = 0;
+    const SWITCH_APPEND = 1;
 
     /**
-     * The Uri of the file.
-     *
-     * @var string   
+     *  
      */
-    protected $fpUri;
-
-    protected $streamFilters;
-
-    protected $readWriteSwitch = -1;
+    protected $readAppendSwitch;
 
     protected $isNew;
 
     protected $isModified;
-
-
-    const FP_POS_BEGIN = -1;
-    const FP_POS_MIDDLE = 0;
-    const FP_POS_END = 1;
-    protected $fpPosition;
 
     protected function openFile( $fileName, $createIfNotExist )
     {
@@ -111,40 +123,42 @@ abstract class ezcArchiveFile implements Iterator
         
         // Try to open it in read and write mode.
         $this->fp = @fopen( $fileName, "r+b" );
-        if ( !$this->fp )
+        if ( $this->fp )
+        {
+            $this->fileAccess = self::READ_WRITE;
+        }
+        else
         {
             // Try to open it in read-only mode.
             $this->fp = @fopen( $fileName, "rb" );
-            $this->readOnly = true;
-        }
+            $this->fileAccess = self::READ_ONLY;
 
-        // Check if we opened the file. 
-        if ( !$this->fp )
-        {
-            if( !self::fileExists( $fileName ) )
+            // Check if we opened the file. 
+            if ( !$this->fp )
             {
-                throw new ezcBaseFileNotFoundException( $fileName );
-            }
+                if( !self::fileExists( $fileName ) )
+                {
+                    throw new ezcBaseFileNotFoundException( $fileName );
+                }
 
-            // Cannot read the file.
-            throw new ezcBaseFilePermissionException( $fileName, ezcBaseFilePermissionException::READ );
+                // Cannot read the file.
+                throw new ezcBaseFilePermissionException( $fileName, ezcBaseFilePermissionException::READ );
+            }
         }
 
-        $status =  stream_get_meta_data( $this->fp );
+        $this->fileMetaData = stream_get_meta_data( $this->fp );
         
-        // Set some modes.
-        $this->fpIsSeekable = $status["seekable"];
-        $this->fpMode = $status["mode"];
-        $this->fpUri = $status["uri"];
-
         // Hardcode BZip2 to read-only.
         // For some reason we can open the file in read-write mode, but we cannot rewind the fp. Strange..
-        if ( $status["wrapper_type"] == "BZip2" ) $this->readOnly = true;
+        if ( $this->fileMetaData["wrapper_type"] == "BZip2" ) 
+        {
+            $this->fileAccess = self::READ_ONLY;
+        }
 
         // Why is it read only?
-        if( $this->readOnly )
+        if( $this->fileAccess == self::READ_ONLY )
         {
-            if( $status["wrapper_type"] == "ZLIB" || $status["wrapper_type"] == "BZip2" ) 
+            if( $this->fileMetaData["wrapper_type"] == "ZLIB" || $this->fileMetaData["wrapper_type"] == "BZip2" ) 
             {
                 // Append mode available?
                 $b = @fopen( $fileName, "ab" );
@@ -154,8 +168,8 @@ abstract class ezcArchiveFile implements Iterator
                     fclose( $b );
 
                     // The file is either read-only or write-only.
-                    $this->readOnly = false;
-                    $this->readWriteSwitch = 0; // Set to reading.
+                    $this->fileAccess = self::READ_APPEND;
+                    $this->readAppendSwitch = self::SWITCH_READ; 
                 }
                 else
                 {
@@ -171,8 +185,8 @@ abstract class ezcArchiveFile implements Iterator
                             $this->fp = $b;
 
                             $this->isEmpty = true;
-                            $this->readOnly = false;
-                            $this->writeOnly = true;
+                            $this->fileAccess = self::WRITE_ONLY;
+
                             $this->fileName = $fileName;
                             $this->isModified = false;
 
@@ -259,7 +273,7 @@ abstract class ezcArchiveFile implements Iterator
     public function switchWriteMode()
     {
         // Switch only when we are in read (only) mode.
-        if( $this->readWriteSwitch == 0 )
+        if( $this->fileAccess == self::READ_APPEND && $this->readAppendSwitch == self::SWITCH_READ )
         {
             fclose( $this->fp );
             $this->fp = fopen( $this->fileName, "ab" );
@@ -267,14 +281,14 @@ abstract class ezcArchiveFile implements Iterator
             {
                 throw new ezcBaseFilePermissionException( self::getPureFileName( $this->fileName ), ezcBaseFilePermissionException::WRITE, "Cannot switch to write mode");
             }
-            $this->readWriteSwitch = 1;
+            $this->readAppendSwitch = self::SWITCH_APPEND;
         }
     }
 
     public function switchReadMode( $pos = 0)
     {
         // Switch only when we are in write (only) mode.
-        if( $this->readWriteSwitch == 1 )
+        if( $this->fileAccess == self::READ_APPEND && $this->readAppendSwitch == self::SWITCH_APPEND )
         {
             fclose( $this->fp );
 
@@ -286,7 +300,8 @@ abstract class ezcArchiveFile implements Iterator
             {
                 throw new ezcBaseFilePermissionException( self::getPureFileName( $this->fileName ), ezcBaseFilePermissionException::READ, "Cannot switch back to read mode");
             }
-            $this->readWriteSwitch = 0;
+            $this->readAppendSwitch = self::SWITCH_READ;
+
             //$this->positionSeek( $pos );
             $this->positionSeek( 0, SEEK_END );
 
@@ -298,7 +313,7 @@ abstract class ezcArchiveFile implements Iterator
 
     public function isReadOnlyWriteOnlyStream()
     {
-        return ( $this->readWriteSwitch >= 0 );
+        return $this->fileAccess == self::READ_APPEND; 
     }
 
 
@@ -367,10 +382,10 @@ abstract class ezcArchiveFile implements Iterator
         {
             $this->isValid = true;
 
-            if ( !$this->fpIsSeekable )
+            if ( !$this->fileMetaData["seekable"] )
             {
                 fclose( $this->fp );
-                $this->fp = fopen( $this->fpUri, $this->fpMode );
+                $this->fp = fopen( $this->fileMetaData["uri"], $this->fileMetaData["mode"] );
             }
             else
             {
@@ -385,24 +400,12 @@ abstract class ezcArchiveFile implements Iterator
         }
     }
 
-    public function getStreamInformation()
-    {
-        $status =  stream_get_meta_data( $this->fp );
-       // $status =  socket_get_status( $this->fp );
-        $this->fpIsSeekable = $status["seekable"];
-        $this->fpMode = $status["mode"];
-        $this->fpUri = $status["uri"];
-
-        // Hardcode BZip2 to read-only.
-        if ( $status["wrapper_type"] == "BZip2" && !$this->readOnly ) $this->readOnly = true;
-    }
-
     protected function positionSeek( $pos, $whence = SEEK_SET)
     {
         // Seek the end of the file in a write only file always succeeds.
-        if( $this->writeOnly && $pos == 0 && $whence == SEEK_END ) return true; 
+        if( $this->fileAccess == self::WRITE_ONLY && $pos == 0 && $whence == SEEK_END ) return true; 
 
-        if ( $this->fpIsSeekable )
+        if ( $this->fileMetaData["seekable"] )
         {
           return fseek( $this->fp, $pos, $whence );
         }
@@ -426,7 +429,7 @@ abstract class ezcArchiveFile implements Iterator
             if ( $transPos <  $cur )
             {
                 fclose( $this->fp );
-                $this->fp = fopen( $this->fpUri, $this->fpMode );
+                $this->fp = fopen( $this->fileMetaData["uri"], $this->fileMetaData["mode"] );
 
                 $cur = 0;
             }
@@ -441,28 +444,23 @@ abstract class ezcArchiveFile implements Iterator
         }
     }
 
+    public function getFileAccess()
+    {
+        return $this->fileAccess;
+    }
+
     public function isReadOnly()
     {
-        return $this->readOnly;
+        return $this->fileAccess == self::READ_ONLY;
     }
 
     public function isWriteOnly()
     {
-        return $this->writeOnly;
+        return $this->fileAccess == self::WRITE_ONLY;
     }
 
 
-    public function appendStreamFilter( $filter )
-    {
-        $this->streamFilters[] = stream_filter_append( $this->fp, $filter );
-        //var_dump ( $this->streamFilters );
-    }
-
-    public function removeStreamFilter()
-    {
-        stream_filter_remove( array_pop( $this->streamFilters ) );
-    }
-    
+   
 
     public function isNew() 
     {
