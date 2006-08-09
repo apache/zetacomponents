@@ -36,7 +36,7 @@ class ezcGraphChartOptions extends ezcBaseOptions
      */
     protected $font;
     
-    public function __construct( array $options=array() )
+    public function __construct( array $options = array() )
     {
         $this->font = new ezcGraphFontOptions();
 

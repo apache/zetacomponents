@@ -57,24 +57,49 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     {
         if ( $this->dom === null )
         {
-            $this->dom = new DOMDocument();
-            $svg = $this->dom->createElementNS( 'http://www.w3.org/2000/svg', 'svg' );
-            $this->dom->appendChild( $svg );
+            if ( $this->options->templateDocument !== false )
+            {
+                $this->dom = new DOMDocument();
+                $this->dom->load( $this->options->templateDocument );
 
-            $svg->setAttribute( 'width', $this->options->width );
-            $svg->setAttribute( 'height', $this->options->height );
-            $svg->setAttribute( 'version', '1.0' );
-            $svg->setAttribute( 'id', 'ezcGraph' );
+                $this->defs = $this->dom->getElementsByTagName( 'defs' )->item( 0 );
+                $svg = $this->dom->getElementsByTagName( 'svg' )->item( 0 );
+            }
+            else
+            {
+                $this->dom = new DOMDocument();
+                $svg = $this->dom->createElementNS( 'http://www.w3.org/2000/svg', 'svg' );
+                $this->dom->appendChild( $svg );
 
-            $this->defs = $this->dom->createElement( 'defs' );
-            $this->defs = $svg->appendChild( $this->defs );
+                $svg->setAttribute( 'width', $this->options->width );
+                $svg->setAttribute( 'height', $this->options->height );
+                $svg->setAttribute( 'version', '1.0' );
+                $svg->setAttribute( 'id', 'ezcGraph' );
 
-            $this->elements = $this->dom->createElement( 'g' );
-            $this->elements->setAttribute( 'id', 'chart' );
-            $this->elements->setAttribute( 'color-rendering', $this->options->colorRendering );
-            $this->elements->setAttribute( 'shape-rendering', $this->options->shapeRendering );
-            $this->elements->setAttribute( 'text-rendering', $this->options->textRendering );
-            $this->elements = $svg->appendChild( $this->elements );
+                $this->defs = $this->dom->createElement( 'defs' );
+                $this->defs = $svg->appendChild( $this->defs );
+            }
+
+            if ( $this->options->insertIntoGroup !== false )
+            {
+                // getElementById only works for Documents validated against a certain 
+                // schema, so that the use of XPath should be faster in most cases.
+                $xpath = new DomXPath( $this->dom );
+                $this->elements = $xpath->query( '//*[@id = \'' . $this->options->insertIntoGroup . '\']' )->item( 0 );
+                if ( !$this->elements )
+                {
+                    throw new ezcGraphSvgDriverInvalidIdException( $this->options->insertIntoGroup );
+                }
+            }
+            else
+            {
+                $this->elements = $this->dom->createElement( 'g' );
+                $this->elements->setAttribute( 'id', 'chart' );
+                $this->elements->setAttribute( 'color-rendering', $this->options->colorRendering );
+                $this->elements->setAttribute( 'shape-rendering', $this->options->shapeRendering );
+                $this->elements->setAttribute( 'text-rendering', $this->options->textRendering );
+                $this->elements = $svg->appendChild( $this->elements );
+            }
         }
     }
 
@@ -92,15 +117,15 @@ class ezcGraphSvgDriver extends ezcGraphDriver
 
 		$lastPoint = end( $points );
         $pointString = sprintf( ' M %.4f,%.4f', 
-            $lastPoint->x, 
-            $lastPoint->y
+            $lastPoint->x + $this->options->graphOffset->x, 
+            $lastPoint->y + $this->options->graphOffset->y
         );
 
 		foreach ( $points as $point )
         {
             $pointString .= sprintf( ' L %.4f,%.4f', 
-                $point->x,
-                $point->y
+                $point->x + $this->options->graphOffset->x,
+                $point->y + $this->options->graphOffset->y
             );
         }
 		$pointString .= ' z ';
@@ -151,10 +176,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $this->createDocument();  
         
         $pointString = sprintf( ' M %.4f,%.4f L %.4f,%.4f', 
-            $start->x, 
-            $start->y,
-            $end->x, 
-            $end->y
+            $start->x + $this->options->graphOffset->x, 
+            $start->y + $this->options->graphOffset->y,
+            $end->x + $this->options->graphOffset->x, 
+            $end->y + $this->options->graphOffset->y
         );
 
         $path = $this->dom->createElement( 'path' );
@@ -320,9 +345,9 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 }
 
                 $textNode = $this->dom->createElement( 'text', $string );
-                $textNode->setAttribute( 'x', $position->x );
+                $textNode->setAttribute( 'x', $position->x + $this->options->graphOffset->x );
                 $textNode->setAttribute( 'text-length', ( $size * strlen( $string ) * $this->options->assumedCharacterWidth ) . 'px' );
-                $textNode->setAttribute( 'y', $position->y );
+                $textNode->setAttribute( 'y', $position->y + $this->options->graphOffset->y );
                 $textNode->setAttribute( 
                     'style', 
                     sprintf(
@@ -369,15 +394,15 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $width /= 2;
         $height /= 2;
 
-        $Xstart = $center->x + $width * cos( ( -$startAngle / 180 ) * M_PI );
-        $Ystart = $center->y + $height * sin( ( $startAngle / 180 ) * M_PI );
-        $Xend = $center->x + $width * cos( ( -( $endAngle ) / 180 ) * M_PI );
-        $Yend = $center->y + $height * sin( ( ( $endAngle ) / 180 ) * M_PI );
+        $Xstart = $center->x + $this->options->graphOffset->x + $width * cos( ( -$startAngle / 180 ) * M_PI );
+        $Ystart = $center->y + $this->options->graphOffset->y + $height * sin( ( $startAngle / 180 ) * M_PI );
+        $Xend = $center->x + $this->options->graphOffset->x + $width * cos( ( -( $endAngle ) / 180 ) * M_PI );
+        $Yend = $center->y + $this->options->graphOffset->y + $height * sin( ( ( $endAngle ) / 180 ) * M_PI );
         
         $arc = $this->dom->createElement( 'path' );
         $arc->setAttribute('d', sprintf('M %.2f,%.2f L %.2f,%.2f A %.2f,%2f 0 %d,1 %.2f,%.2f z',
             // Middle
-            $center->x, $center->y,
+            $center->x + $this->options->graphOffset->x, $center->y + $this->options->graphOffset->y,
             // Startpoint
             $Xstart, $Ystart,
             // Radius
@@ -447,10 +472,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $width /= 2;
         $height /= 2;
 
-        $Xstart = $center->x + $width * cos( ( -$startAngle / 180 ) * M_PI );
-        $Ystart = $center->y + $height * sin( ( $startAngle / 180 ) * M_PI );
-        $Xend = $center->x + $width * cos( ( -( $endAngle ) / 180 ) * M_PI );
-        $Yend = $center->y + $height * sin( ( ( $endAngle ) / 180 ) * M_PI );
+        $Xstart = $center->x + $this->options->graphOffset->x + $width * cos( ( -$startAngle / 180 ) * M_PI );
+        $Ystart = $center->y + $this->options->graphOffset->y + $height * sin( ( $startAngle / 180 ) * M_PI );
+        $Xend = $center->x + $this->options->graphOffset->x + $width * cos( ( -( $endAngle ) / 180 ) * M_PI );
+        $Yend = $center->y + $this->options->graphOffset->y + $height * sin( ( ( $endAngle ) / 180 ) * M_PI );
         
         $arc = $this->dom->createElement( 'path' );
         $arc->setAttribute('d', sprintf('   M %.2f,%.2f 
@@ -505,8 +530,8 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $this->createDocument();  
         
         $ellipse = $this->dom->createElement('ellipse');
-        $ellipse->setAttribute( 'cx', $center->x );
-        $ellipse->setAttribute( 'cy', $center->y );
+        $ellipse->setAttribute( 'cx', $center->x + $this->options->graphOffset->x );
+        $ellipse->setAttribute( 'cy', $center->y + $this->options->graphOffset->y );
         $ellipse->setAttribute( 'rx', $width / 2 );
         $ellipse->setAttribute( 'ry', $height / 2 );
 
@@ -556,8 +581,8 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $data = getimagesize( $file );
         $image = $this->dom->createElement( 'image' );
 
-        $image->setAttribute( 'x', $position->x );
-        $image->setAttribute( 'y', $position->y );
+        $image->setAttribute( 'x', $position->x + $this->options->graphOffset->x );
+        $image->setAttribute( 'y', $position->y + $this->options->graphOffset->y );
         $image->setAttribute( 'width', $width . 'px' );
         $image->setAttribute( 'height', $height . 'px' );
         $image->setAttributeNS( 

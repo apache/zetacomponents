@@ -45,6 +45,7 @@ return array(
     'ezcGraphGdDriverUnsupportedImageTypeException' => 'Graph/exceptions/unsupported_image_type.php',
     'ezcGraphSvgDriver'                         => 'Graph/driver/svg.php',
     'ezcGraphSvgDriverOptions'                  => 'Graph/options/svg_driver.php',
+    'ezcGraphSvgDriverInvalidIdException'       => 'Graph/exceptions/invalid_id.php',
     'ezcGraphInvalidDriverException'            => 'Graph/exceptions/invalid_driver.php',
     'ezcGraphVerboseDriver'                     => 'Graph/driver/verbose.php',
 

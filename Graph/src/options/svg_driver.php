@@ -60,6 +60,37 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
     protected $textRendering = 'optimizeLegibility';
 
     /**
+     * Use existing SVG document as template to insert graph into. If 
+     * insertIntoGroup is not set, a new group will be inserted in the svg
+     * root node.
+     * 
+     * @var string
+     */
+    protected $templateDocument = false;
+
+    /**
+     * ID of a SVG group node to insert the graph. Only works with a custom
+     * template document.
+     * 
+     * @var mixed
+     * @access protected
+     */
+    protected $insertIntoGroup = false;
+
+    /**
+     * Offset of the graph in the svg
+     * 
+     * @var ezcGraphCoordinate
+     */
+    protected $graphOffset;
+
+    public function __construct( array $options = array() )
+    {
+        $this->graphOffset = new ezcGraphCoordinate( 0, 0 );
+        parent::__construct( $options );
+    }
+
+    /**
      * Set an option value
      * 
      * @param string $propertyName 
@@ -143,6 +174,36 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
                 else
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, implode( $values, ', ' ) );
+                }
+                break;
+            case 'templateDocument':
+                if ( !is_file( $propertyValue ) || !is_readable( $propertyValue ) )
+                {
+                    throw new ezcBaseFileNotFoundException( $propertyValue );
+                }
+                else
+                {
+                    $this->templateDocument = realpath( $propertyValue );
+                }
+                break;
+            case 'insertIntoGroup':
+                if ( !is_string( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
+                }
+                else
+                {
+                    $this->insertIntoGroup = $propertyValue;
+                }
+                break;
+            case 'graphOffset':
+                if ( $propertyValue instanceof ezcGraphCoordinate )
+                {
+                    $this->graphOffset = $propertyValue;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphCoordinate' );
                 }
                 break;
             default:
