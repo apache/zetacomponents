@@ -47,6 +47,20 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
     protected $supersampling = 2;
 
     /**
+     * Background image to put the graph on 
+     * 
+     * @var string
+     */
+    protected $background = false;
+
+    /**
+     * Function used to resample / resize images
+     * 
+     * @var string
+     */
+    protected $resampleFunction = 'imagecopyresampled';
+    
+    /**
      * Set an option value
      * 
      * @param string $propertyName 
@@ -66,7 +80,7 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
                 }
                 else
                 {
-                    throw new ezcBaseValueException( $propertyValue, 'Unsupported image type.' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'Unsupported image type.' );
                 }
                 break;
             case 'detail':
@@ -77,6 +91,27 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
                 break;
             case 'supersampling':
                 $this->supersampling = (int) max( 1, $propertyValue );
+                break;
+            case 'background':
+                if ( $propertyValue === false ||
+                     ( is_file( $propertyValue ) && is_readable( $propertyValue ) ) )
+                {
+                    $this->background = realpath( $propertyValue );
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'readable file' );
+                }
+                break;
+            case 'resampleFunction':
+                if ( function_exists( $propertyValue ) )
+                {
+                    $this->resampleFunction = $propertyValue;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'function' );
+                }
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );

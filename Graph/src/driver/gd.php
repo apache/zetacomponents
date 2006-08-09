@@ -23,6 +23,13 @@ class ezcGraphGdDriver extends ezcGraphDriver
     protected $image;
 
     /**
+     * Array with image files to draw
+     * 
+     * @var array
+     */
+    protected $preProcessImages = array();
+
+    /**
      * List of strings to draw
      * array ( array(
      *          'text' => array( 'strings' ),
@@ -594,20 +601,39 @@ class ezcGraphGdDriver extends ezcGraphDriver
      */
     public function drawImage( $file, ezcGraphCoordinate $position, $width, $height )
     {
-        $imageFile = $this->imageCreateFrom( $file );
-        $image = $this->getImage();
-
-        imagecopyresampled( 
-            $image, 
-            $imageFile['image'], 
-            $this->supersample( $position->x ), 
-            $this->supersample( $position->y ),
-            0, 
-            0,
-            $this->supersample( $width ), 
-            $this->supersample( $height ),
-            $imageFile['width'], $imageFile['height']
+        $this->preProcessImages[] = array(
+            'file' => $file, 
+            'position' => $position,
+            'width' => $width,
+            'height' => $height,
         );
+    }
+
+    /**
+     * Draw all images to image ressource handler
+     * 
+     * @param ressource $image Image to draw on
+     * @return ressource Updated image ressource
+     */
+    protected function addImages( $image )
+    {
+        foreach ( $this->preProcessImages as $preImage )
+        {
+            $preImageData = $this->imageCreateFrom( $preImage['file'] );
+            call_user_func_array(
+                $this->options->resampleFunction,
+                array(
+                    $image,
+                    $preImageData['image'],
+                    $preImage['position']->x, $preImage['position']->y,
+                    0, 0,
+                    $preImage['width'], $preImage['height'],
+                    $preImageData['width'], $preImageData['height'],
+                )
+            );
+        }
+
+        return $image;
     }
 
     /**
@@ -618,32 +644,51 @@ class ezcGraphGdDriver extends ezcGraphDriver
      */
     public function render ( $file )
     {
-        if ( ( $supersampling = $this->options->supersampling ) > 1 )
+        $destination = imagecreatetruecolor( $this->options->width, $this->options->height );
+
+        // Default to a transparent white background
+        $bgColor = imagecolorallocatealpha( $destination, 255, 255, 255, 127 );
+        imagealphablending( $destination, true );
+        imagesavealpha( $destination, true );
+        imagefill( $destination, 1, 1, $bgColor );
+
+        // Apply background if one is defined
+        if ( $this->options->background !== false )
         {
-            // Supersampling active, resample image
-            $image = $this->getImage();
-            $sampled = imagecreatetruecolor( $this->options->width, $this->options->height );
+            $background = $this->imageCreateFrom( $this->options->background );
 
-            // Default to a transparent white background
-            $bgColor = imagecolorallocatealpha( $sampled, 255, 255, 255, 127 );
-            imagealphablending( $sampled, true );
-            imagesavealpha( $sampled, true );
-            imagefill( $sampled, 1, 1, $bgColor );
+            call_user_func_array(
+                $this->options->resampleFunction,
+                array(
+                    $destination,
+                    $background['image'],
+                    0, 0,
+                    0, 0,
+                    $this->options->width, $this->options->height,
+                    $background['width'], $background['height'],
+                )
+            );
+        }
 
-            imagecopyresampled(
-                $sampled,
+        // Draw all images to exclude them from supersampling
+        $destination = $this->addImages( $destination );
+
+        // Finally merge with graph
+        $image = $this->getImage();
+        call_user_func_array(
+            $this->options->resampleFunction,
+            array(
+                $destination,
                 $image,
                 0, 0,
                 0, 0,
-                $this->options->width,
-                $this->options->height,
-                $this->supersample( $this->options->width ),
-                $this->supersample( $this->options->height )
-            );
+                $this->options->width, $this->options->height,
+                $this->supersample( $this->options->width ), $this->supersample( $this->options->height )
+            )
+        );
 
-            $this->image = $sampled;
-            imagedestroy( $image );
-        }
+        $this->image = $destination;
+        imagedestroy( $image );
 
         // Draw all texts
         $this->drawAllTexts();

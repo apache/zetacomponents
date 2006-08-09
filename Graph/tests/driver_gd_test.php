@@ -127,7 +127,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
                 new ezcGraphCoordinate( 122, 34 ),
                 new ezcGraphCoordinate( 12, 71 ),
             ),
-            ezcGraphColor::fromHex( '#3465A4BB' ),
+            ezcGraphColor::fromHex( '#3465A47F' ),
             true
         );
 
@@ -1108,6 +1108,91 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             new ezcGraphCoordinate( 10, 10 ),
             100,
             50
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
+    public function testSupersamplingDrawImagePngWithBackground()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->supersampling = 2;
+        $this->driver->options->background = $this->basePath . $this->testFiles['png'];
+
+        $this->driver->drawImage(
+            $this->basePath . $this->testFiles['jpeg'],
+            new ezcGraphCoordinate( 10, 10 ),
+            100,
+            50
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
+    public function testSupersamplingDrawTransparentCircleFilledWithBackground()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->supersampling = 2;
+        $this->driver->options->background = $this->basePath . $this->testFiles['png'];
+
+        $this->driver->drawCircle(
+            new ezcGraphCoordinate( 100, 50 ),
+            80,
+            40,
+            ezcGraphColor::fromHex( '#3465A47F' )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
+    public function testRisizedSupersamplingDrawTransparentCircleFilledWithBackground()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->supersampling = 2;
+        $this->driver->options->background = $this->basePath . $this->testFiles['png'];
+        $this->driver->options->resampleFunction = 'imagecopyresized';
+
+        $this->driver->drawCircle(
+            new ezcGraphCoordinate( 100, 50 ),
+            80,
+            40,
+            ezcGraphColor::fromHex( '#3465A47F' )
         );
 
         $this->driver->render( $filename );
