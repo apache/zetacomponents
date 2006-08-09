@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphChartElementText class
+ * File containing the abstract ezcGraphChartElementBackground class
  *
  * @package Graph
  * @version //autogentag//
@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-class ezcGraphChartElementBackgroundImage extends ezcGraphChartElement
+class ezcGraphChartElementBackground extends ezcGraphChartElement
 {
 
     /**
@@ -20,7 +20,14 @@ class ezcGraphChartElementBackgroundImage extends ezcGraphChartElement
      * 
      * @var string
      */
-    protected $source = '';
+    protected $image = false;
+
+    /**
+     * Defines how the background image gets repeated
+     * 
+     * @var int
+     */
+    protected $repeat = ezcGraph::NO_REPEAT;
 
     /**
      * __set 
@@ -37,7 +44,7 @@ class ezcGraphChartElementBackgroundImage extends ezcGraphChartElement
     {
         switch ( $propertyName )
         {
-            case 'source':
+            case 'image':
                 // Check for existance of file
                 if ( !is_file( $propertyValue ) || !is_readable( $propertyValue ) )
                 {
@@ -57,14 +64,50 @@ class ezcGraphChartElementBackgroundImage extends ezcGraphChartElement
                     throw new ezcGraphInvalidImageFileException( 'We cant use SWF files like <' . $propertyValue . '>.' );
                 }
 
-                $this->source = $propertyValue;
+                $this->image = $propertyValue;
+                break;
+            case 'repeat':
+                if ( ( $propertyValue >= 0 ) && ( $propertyValue <= 3 ) )
+                {
+                    $this->repeat = (int) $propertyValue;
+                }
+                else
+                {
+                    throw new ezcBaseValeException( $propertyName, $propertyValue, '0 <= int <= 3' );
+                }
                 break;
             case 'position':
-                $this->position = (int) $propertyValue;
+                if ( is_int( $propertyValue ) )
+                {
+                    $this->position = $propertyValue;
+                }
+                else 
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'integer' );
+                }
+                break;
+            case 'color':
+                // Use color as an alias to set background color for background
+                $this->__set( 'background', $propertyValue );
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );
         }
+    }
+
+    /**
+     * Set colors and border fro this element
+     * 
+     * @param ezcGraphPalette $palette Palette
+     * @return void
+     */
+    public function setFromPalette( ezcGraphPalette $palette )
+    {
+        $this->border = $palette->chartBorderColor;
+        $this->borderWidth = $palette->chartBorderWidth;
+        $this->background = $palette->chartBackground;
+        $this->padding = 0;
+        $this->margin = 0;
     }
 
     /**
@@ -76,49 +119,25 @@ class ezcGraphChartElementBackgroundImage extends ezcGraphChartElement
      */
     public function render( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings )
     {
-        if ( empty( $this->source ) )
+        $boundings = $renderer->drawBox(
+            $boundings,
+            $this->background,
+            $this->border,
+            $this->borderWidth,
+            $this->margin,
+            $this->padding
+        );
+
+        if ( $this->image === false )
         {
             return $boundings;
         }
 
-        // Get background image boundings
-        $data = getimagesize( $this->source );
-
-        // Determine x position
-        switch ( true )
-        {
-            case ( $this->position & ezcGraph::LEFT ):
-                $xPosition = 0;
-                break;
-            case ( $this->position & ezcGraph::RIGHT ):
-                $xPosition = $boundings->x1 - $data[0];
-                break;
-            case ( $this->position & ezcGraph::CENTER ):
-            default:
-                $xPosition = (int) round( ( $boundings->x1 - $data[0] ) / 2 );
-                break;
-        }
-
-        // Determine y position
-        switch ( true )
-        {
-            case ( $this->position & ezcGraph::TOP ):
-                $yPosition = 0;
-                break;
-            case ( $this->position & ezcGraph::BOTTOM ):
-                $yPosition = $boundings->y1 - $data[1];
-                break;
-            case ( $this->position & ezcGraph::MIDDLE ):
-            default:
-                $yPosition = (int) round( ( $boundings->y1 - $data[1] ) / 2 );
-                break;
-        }
-
         $renderer->drawBackgroundImage(
-            $this->source,
-            new ezcGraphCoordinate( $xPosition, $yPosition ),
-            $data[0],
-            $data[1]
+            $boundings,
+            $this->image,
+            $this->position,
+            $this->repeat
         );
 
         return $boundings;

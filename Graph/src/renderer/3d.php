@@ -1189,7 +1189,13 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         $imageWidth = $imageData[0];
         $imageHeight = $imageData[1];
 
-        $imagePosition = new ezcGraphCoordinate( 0, 0 );
+        $imageWidth = min( $imageWidth, $boundings->x1 - $boundings->x0 );
+        $imageHeight = min( $imageHeight, $boundings->y1 - $boundings->y0 );
+
+        $imagePosition = new ezcGraphCoordinate( 
+            $boundings->x0, 
+            $boundings->y0
+        );
 
         // Determine x position
         switch ( true ) {
@@ -1232,9 +1238,6 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 );
                 break;
         }
-
-        $imageWidth = min( $imageWidth, $boundings->x1 - $boundings->x0 );
-        $imageHeight = min( $imageHeight, $boundings->y1 - $boundings->y0 );
 
         // Texturize backround based on position and repetition
         $position = new ezcGraphCoordinate(

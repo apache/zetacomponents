@@ -30,48 +30,6 @@ class ezcGraphChartOptions extends ezcBaseOptions
     protected $height;
 
     /**
-     * Background images filename
-     * 
-     * @var string
-     */
-    protected $backgroundImage;
-
-    /**
-     * Background color of the chart
-     * 
-     * @var ezcGraphColor
-     */
-    protected $background;
-
-    /**
-     * Border color of the chart 
-     * 
-     * @var ezcGraphColor
-     */
-    protected $border;
-
-    /**
-     * Border width 
-     * 
-     * @var int
-     */
-    protected $borderWidth = 0;
-
-    /**
-     * Space between border and content
-     * 
-     * @var integer
-     */
-    protected $padding = 0;
-
-    /**
-     * Distance between outer boundings and border of an element 
-     * 
-     * @var integer
-     */
-    protected $margin = 0;
-
-    /**
      * Font used in the graph 
      * 
      * @var int
@@ -81,9 +39,6 @@ class ezcGraphChartOptions extends ezcBaseOptions
     public function __construct( array $options=array() )
     {
         $this->font = new ezcGraphFontOptions();
-
-        $this->backgroundImage = new ezcGraphChartElementBackgroundImage();
-        $this->backgroundImage->position = ezcGraph::CENTER | ezcGraph::MIDDLE;
 
         parent::__construct( $options );
     }
@@ -106,24 +61,6 @@ class ezcGraphChartOptions extends ezcBaseOptions
                 break;
             case 'height':
                 $this->height = max( 1, (int) $propertyValue );
-                break;
-            case 'padding':
-                $this->padding = max( 0, (int) $propertyValue );
-                break;
-            case 'margin':
-                $this->margin = max( 0, (int) $propertyValue );
-                break;
-            case 'backgroundImage':
-                $this->backgroundImage->source = $propertyValue;
-                break;
-            case 'background':
-                $this->background = ezcGraphColor::create( $propertyValue );
-                break;
-            case 'border':
-                $this->border = ezcGraphColor::create( $propertyValue );
-                break;
-            case 'borderWidth':
-                $this->borderWidth = max( 0, (int) $propertyValue );
                 break;
             case 'font':
                 $this->font->font = $propertyValue;

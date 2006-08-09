@@ -1570,6 +1570,64 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
             10
         );
     }
+
+    public function testRenderPieChartWithBackgroundBottomRight()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = new ezcGraphPieChart();
+        $chart['sample'] = array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        );
+
+        $chart->background->color = '#FFFFFFDD';
+        $chart->background->image = dirname( __FILE__ ) . '/data/ez.png';
+        $chart->background->position = ezcGraph::BOTTOM | ezcGraph::RIGHT;
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
+    public function testRenderPieChartWithTextureBackground()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = new ezcGraphPieChart();
+        $chart['sample'] = array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        );
+
+        $chart->background->color = '#FFFFFFDD';
+        $chart->background->image = dirname( __FILE__ ) . '/data/texture.png';
+        $chart->background->repeat = ezcGraph::HORIZONTAL | ezcGraph::VERTICAL;
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
 }
 
 ?>

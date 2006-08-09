@@ -69,6 +69,9 @@ abstract class ezcGraphChart implements ArrayAccess
         $this->__set( 'palette', new ezcGraphPaletteTango() );
 
         // Add standard elements
+        $this->addElement( 'background', new ezcGraphChartElementBackground() );
+        $this->elements['background']->position = ezcGraph::CENTER | ezcGraph::MIDDLE;
+
         $this->addElement( 'title', new ezcGraphChartElementText() );
         $this->elements['title']->position = ezcGraph::TOP;
         $this->renderElement['title'] = false;
@@ -175,9 +178,6 @@ abstract class ezcGraphChart implements ArrayAccess
     {
         $this->options->font->font = $palette->fontFace;
         $this->options->font->color = $palette->fontColor;
-        $this->options->background = $palette->chartBackground;
-        $this->options->border = $palette->chartBorderColor;
-        $this->options->borderWidth = $palette->chartBorderWidth;
 
         foreach ( $this->elements as $element )
         {

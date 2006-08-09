@@ -603,7 +603,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
     {
         $this->preProcessImages[] = array(
             'file' => $file, 
-            'position' => $position,
+            'position' => clone $position,
             'width' => $width,
             'height' => $height,
         );

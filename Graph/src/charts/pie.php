@@ -102,16 +102,6 @@ class ezcGraphPieChart extends ezcGraphChart
         $boundings->x1 = $this->options->width;
         $boundings->y1 = $this->options->height;
 
-        // Render border and background
-        $boundings = $this->renderer->drawBox(
-            $boundings,
-            $this->options->background,
-            $this->options->border,
-            $this->options->borderWidth,
-            $this->options->margin,
-            $this->options->padding
-        );
-
         // Render subelements
         foreach ( $this->elements as $name => $element )
         {

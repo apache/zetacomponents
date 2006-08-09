@@ -58,7 +58,7 @@ return array(
     'ezcGraphFontOptions'                       => 'Graph/options/font.php',
     'ezcGraphChartElementText'                  => 'Graph/element/text.php',
     'ezcGraphChartElementLegend'                => 'Graph/element/legend.php',
-    'ezcGraphChartElementBackgroundImage'       => 'Graph/element/background.php',
+    'ezcGraphChartElementBackground'            => 'Graph/element/background.php',
     'ezcGraphChartElementAxis'                  => 'Graph/element/axis.php',
     'ezcGraphChartElementDateAxis'              => 'Graph/axis/date.php',
     'ezcGraphChartElementNumericAxis'           => 'Graph/axis/numeric.php',

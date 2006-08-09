@@ -313,7 +313,7 @@ class ezcGraphPaletteTest extends ezcTestCase
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#EEEEEC' ),
-            $chart->options->background,
+            $chart->background->background,
             'Chart background not set from pallet.'
         );
     }

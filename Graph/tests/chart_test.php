@@ -64,26 +64,12 @@ class ezcGraphChartTest extends ezcTestCase
         );
     }
 
-    public function testSetOptionsValidBackgroundImage()
-    {
-        $pieChart = new ezcGraphPieChart();
-        $pieChart->options->backgroundImage = $this->basePath . $this->testFiles['jpeg'];
-
-        $background = $this->getNonPublicProperty( $pieChart->options, 'backgroundImage' );
-        $this->assertTrue(
-            $background instanceof ezcGraphChartElementBackgroundImage,
-            'Background is not an ezcGraphChartElementBackgroundImage.'
-        );
-
-        $this->assertSame( $this->basePath . $this->testFiles['jpeg'], $this->getNonPublicProperty( $background, 'source' ) );
-    }
-
     public function testSetOptionsInvalidBackgroundImage()
     {
         try 
         {
             $pieChart = new ezcGraphPieChart();
-            $pieChart->options->backgroundImage = $this->basePath . $this->testFiles['invalid'];
+            $pieChart->background->image = $this->basePath . $this->testFiles['invalid'];
         } 
         catch ( ezcGraphInvalidImageFileException $e ) 
         {
@@ -98,7 +84,7 @@ class ezcGraphChartTest extends ezcTestCase
         try 
         {
             $pieChart = new ezcGraphPieChart();
-            $pieChart->options->backgroundImage = $this->basePath . $this->testFiles['nonexistant'];
+            $pieChart->background->image = $this->basePath . $this->testFiles['nonexistant'];
         } 
         catch ( ezcBaseFileNotFoundException $e ) 
         {
@@ -111,31 +97,31 @@ class ezcGraphChartTest extends ezcTestCase
     public function testSetOptionsBackground()
     {
         $pieChart = new ezcGraphPieChart();
-        $pieChart->options->background = '#FF0000';
+        $pieChart->background->color = '#FF0000';
 
         $this->assertEquals( 
             ezcGraphColor::fromHex( 'FF0000' ),
-            $this->getNonPublicProperty( $pieChart->options, 'background' )
+            $this->getNonPublicProperty( $pieChart->background, 'background' )
         );
     }
 
     public function testSetOptionsBorder()
     {
         $pieChart = new ezcGraphPieChart();
-        $pieChart->options->border = '#FF0000';
+        $pieChart->background->border = '#FF0000';
 
         $this->assertEquals( 
             ezcGraphColor::fromHex( 'FF0000' ),
-            $this->getNonPublicProperty( $pieChart->options, 'border' )
+            $this->getNonPublicProperty( $pieChart->background, 'border' )
         );
     }
 
     public function testSetOptionsBorderWidth()
     {
         $pieChart = new ezcGraphPieChart();
-        $pieChart->options->borderWidth = 3;
+        $pieChart->background->borderWidth = 3;
 
-        $this->assertSame( 3, $this->getNonPublicProperty( $pieChart->options, 'borderWidth' ) );
+        $this->assertSame( 3, $this->getNonPublicProperty( $pieChart->background, 'borderWidth' ) );
     }
 
     public function testSetOptionsUnknown()

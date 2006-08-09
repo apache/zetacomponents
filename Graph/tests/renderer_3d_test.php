@@ -49,6 +49,249 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $this->removeTempDir();
     }
 
+    public function testRenderBackgroundImage()
+    {
+        $driver = $this->getMock( 'ezcGraphGdDriver', array(
+            'drawImage',
+        ) );
+
+        $driver->options->width = 400;
+        $driver->options->height = 200;
+
+        $driver
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawImage' )
+            ->with(
+                $this->equalTo( dirname( __FILE__ ) . '/data/jpeg.jpg' ),
+                $this->equalTo( new ezcGraphCoordinate( 125., 43.5 ), 1. ),
+                $this->equalTo( 150., 1. ),
+                $this->equalTo( 113., 1. )
+            );
+
+        $renderer = new ezcGraphRenderer3d();
+        $renderer->setDriver( $driver );
+        $renderer->drawBackgroundImage(
+            new ezcGraphBoundings( 0, 0, 400, 200 ),
+            dirname( __FILE__ ) . '/data/jpeg.jpg'
+        );
+    }
+
+    public function testRenderTopLeftBackgroundImage()
+    {
+        $driver = $this->getMock( 'ezcGraphGdDriver', array(
+            'drawImage',
+        ) );
+
+        $driver->options->width = 400;
+        $driver->options->height = 200;
+
+        $driver
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawImage' )
+            ->with(
+                $this->equalTo( dirname( __FILE__ ) . '/data/jpeg.jpg' ),
+                $this->equalTo( new ezcGraphCoordinate( 0., 0. ), 1. ),
+                $this->equalTo( 150., 1. ),
+                $this->equalTo( 113., 1. )
+            );
+
+        $renderer = new ezcGraphRenderer3d();
+        $renderer->setDriver( $driver );
+        $renderer->drawBackgroundImage(
+            new ezcGraphBoundings( 0, 0, 400, 200 ),
+            dirname( __FILE__ ) . '/data/jpeg.jpg',
+            ezcGraph::TOP | ezcGraph::LEFT
+        );
+    }
+
+    public function testRenderBottomRightBackgroundImage()
+    {
+        $driver = $this->getMock( 'ezcGraphGdDriver', array(
+            'drawImage',
+        ) );
+
+        $driver->options->width = 400;
+        $driver->options->height = 200;
+
+        $driver
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawImage' )
+            ->with(
+                $this->equalTo( dirname( __FILE__ ) . '/data/jpeg.jpg' ),
+                $this->equalTo( new ezcGraphCoordinate( 250., 87. ), 1. ),
+                $this->equalTo( 150., 1. ),
+                $this->equalTo( 113., 1. )
+            );
+
+        $renderer = new ezcGraphRenderer3d();
+        $renderer->setDriver( $driver );
+        $renderer->drawBackgroundImage(
+            new ezcGraphBoundings( 0, 0, 400, 200 ),
+            dirname( __FILE__ ) . '/data/jpeg.jpg',
+            ezcGraph::BOTTOM | ezcGraph::RIGHT
+        );
+    }
+
+    public function testRenderToBigBackgroundImage()
+    {
+        $driver = $this->getMock( 'ezcGraphGdDriver', array(
+            'drawImage',
+        ) );
+
+        $driver->options->width = 400;
+        $driver->options->height = 200;
+
+        $driver
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawImage' )
+            ->with(
+                $this->equalTo( dirname( __FILE__ ) . '/data/jpeg.jpg' ),
+                $this->equalTo( new ezcGraphCoordinate( 0., 0. ), 1. ),
+                $this->equalTo( 100., 1. ),
+                $this->equalTo( 100., 1. )
+            );
+
+        $renderer = new ezcGraphRenderer3d();
+        $renderer->setDriver( $driver );
+        $renderer->drawBackgroundImage(
+            new ezcGraphBoundings( 0, 0, 100, 100 ),
+            dirname( __FILE__ ) . '/data/jpeg.jpg',
+            ezcGraph::BOTTOM | ezcGraph::RIGHT
+        );
+    }
+
+    public function testRenderBackgroundImageRepeatX()
+    {
+        $driver = $this->getMock( 'ezcGraphGdDriver', array(
+            'drawImage',
+        ) );
+
+        $driver->options->width = 400;
+        $driver->options->height = 200;
+
+        $driver
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawImage' )
+            ->with(
+                $this->equalTo( dirname( __FILE__ ) . '/data/jpeg.jpg' ),
+                $this->equalTo( new ezcGraphCoordinate( 0., 87. ), 1. ),
+                $this->equalTo( 150., 1. ),
+                $this->equalTo( 113., 1. )
+            );
+        $driver
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawImage' )
+            ->with(
+                $this->equalTo( dirname( __FILE__ ) . '/data/jpeg.jpg' ),
+                $this->equalTo( new ezcGraphCoordinate( 150., 87. ), 1. ),
+                $this->equalTo( 150., 1. ),
+                $this->equalTo( 113., 1. )
+            );
+        $driver
+            ->expects( $this->at( 2 ) )
+            ->method( 'drawImage' )
+            ->with(
+                $this->equalTo( dirname( __FILE__ ) . '/data/jpeg.jpg' ),
+                $this->equalTo( new ezcGraphCoordinate( 300., 87. ), 1. ),
+                $this->equalTo( 150., 1. ),
+                $this->equalTo( 113., 1. )
+            );
+
+        $renderer = new ezcGraphRenderer3d();
+        $renderer->setDriver( $driver );
+        $renderer->drawBackgroundImage(
+            new ezcGraphBoundings( 0, 0, 400, 200 ),
+            dirname( __FILE__ ) . '/data/jpeg.jpg',
+            ezcGraph::BOTTOM | ezcGraph::RIGHT,
+            ezcGraph::HORIZONTAL
+        );
+    }
+
+    public function testRenderBackgroundImageRepeatY()
+    {
+        $driver = $this->getMock( 'ezcGraphGdDriver', array(
+            'drawImage',
+        ) );
+
+        $driver->options->width = 400;
+        $driver->options->height = 200;
+
+        $driver
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawImage' )
+            ->with(
+                $this->equalTo( dirname( __FILE__ ) . '/data/jpeg.jpg' ),
+                $this->equalTo( new ezcGraphCoordinate( 250., 0. ), 1. ),
+                $this->equalTo( 150., 1. ),
+                $this->equalTo( 113., 1. )
+            );
+        $driver
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawImage' )
+            ->with(
+                $this->equalTo( dirname( __FILE__ ) . '/data/jpeg.jpg' ),
+                $this->equalTo( new ezcGraphCoordinate( 250., 113. ), 1. ),
+                $this->equalTo( 150., 1. ),
+                $this->equalTo( 113., 1. )
+            );
+
+        $renderer = new ezcGraphRenderer3d();
+        $renderer->setDriver( $driver );
+        $renderer->drawBackgroundImage(
+            new ezcGraphBoundings( 0, 0, 400, 200 ),
+            dirname( __FILE__ ) . '/data/jpeg.jpg',
+            ezcGraph::BOTTOM | ezcGraph::RIGHT,
+            ezcGraph::VERTICAL
+        );
+    }
+
+    public function testRenderBackgroundImageRepeatBoth()
+    {
+        $driver = $this->getMock( 'ezcGraphGdDriver', array(
+            'drawImage',
+        ) );
+
+        $driver->options->width = 400;
+        $driver->options->height = 200;
+
+        $driver
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawImage' )
+            ->with(
+                $this->equalTo( dirname( __FILE__ ) . '/data/jpeg.jpg' ),
+                $this->equalTo( new ezcGraphCoordinate( 0., 0. ), 1. ),
+                $this->equalTo( 150., 1. ),
+                $this->equalTo( 113., 1. )
+            );
+        $driver
+            ->expects( $this->at( 3 ) )
+            ->method( 'drawImage' )
+            ->with(
+                $this->equalTo( dirname( __FILE__ ) . '/data/jpeg.jpg' ),
+                $this->equalTo( new ezcGraphCoordinate( 150., 113. ), 1. ),
+                $this->equalTo( 150., 1. ),
+                $this->equalTo( 113., 1. )
+            );
+        $driver
+            ->expects( $this->at( 5 ) )
+            ->method( 'drawImage' )
+            ->with(
+                $this->equalTo( dirname( __FILE__ ) . '/data/jpeg.jpg' ),
+                $this->equalTo( new ezcGraphCoordinate( 300., 113. ), 1. ),
+                $this->equalTo( 150., 1. ),
+                $this->equalTo( 113., 1. )
+            );
+
+        $renderer = new ezcGraphRenderer3d();
+        $renderer->setDriver( $driver );
+        $renderer->drawBackgroundImage(
+            new ezcGraphBoundings( 0, 0, 400, 200 ),
+            dirname( __FILE__ ) . '/data/jpeg.jpg',
+            ezcGraph::BOTTOM | ezcGraph::RIGHT,
+            ezcGraph::VERTICAL | ezcGraph::HORIZONTAL
+        );
+    }
+
     public function testRenderLabeledPieSegment()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
@@ -506,6 +749,65 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->fillAxis = 1;
 
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
+    public function testRenderPieChartWithBackgroundBottomCenter()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = new ezcGraphPieChart();
+        $chart['sample'] = array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        );
+
+        $chart->background->color = '#FFFFFFDD';
+        $chart->background->image = dirname( __FILE__ ) . '/data/ez.png';
+        $chart->background->position = ezcGraph::BOTTOM | ezcGraph::CENTER;
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
+    public function testRenderPieChartWithHorizontalTextureBackground()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = new ezcGraphPieChart();
+        $chart['sample'] = array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        );
+
+        $chart->background->color = '#FFFFFFDD';
+        $chart->background->image = dirname( __FILE__ ) . '/data/texture.png';
+        $chart->background->repeat = ezcGraph::HORIZONTAL;
+        $chart->background->position = ezcGraph::BOTTOM;
+
+        $chart->driver = new ezcGraphGdDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
