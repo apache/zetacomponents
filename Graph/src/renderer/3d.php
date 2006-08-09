@@ -1084,7 +1084,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
 
         // Draw axis lines - scedule some for later to be drawn in front of 
         // the data
-        $this->frontLines[] = array(
+        $this->driver->drawLine(
             $axisPolygonCoordinates[0],
             $axisPolygonCoordinates[1],
             $axis->border,
@@ -1098,7 +1098,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
             1
         );
 
-        $this->driver->drawLine(
+        $this->frontLines[] = array(
             $axisPolygonCoordinates[2],
             $axisPolygonCoordinates[3],
             $axis->border,
