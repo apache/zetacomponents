@@ -2,6 +2,9 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed bug #8738: Unexpected behaviour with options->colPadding.
+- Fixed bug #8478: ezcConsoleOutput format (foreground) color 'black' not
+  available. (The fore-/background colors black and gray are now the same and
+  available for fore- and background).
 
 
 1.1.1 - Monday 07 August 2006

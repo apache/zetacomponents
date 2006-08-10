@@ -172,11 +172,14 @@ class ezcConsoleToolsOutputTest extends ezcTestCase
     {
         $this->consoleOutput->options->autobreak = 20;
         $testText = 'Some text which is obviously longer than 20 characters and should be broken.';
-        $testResText = 'Some text which is
+
+        $testResText = <<<EOT
+Some text which is
 obviously longer
 than 20 characters
 and should be
-broken.';
+broken.
+EOT;
         
         foreach ( $this->testFormats as $name => $inout ) 
         {
@@ -192,6 +195,31 @@ broken.';
                 'Test "' . $name . ' failed. String <' . $realRes . '> (real) is not equal to <' . $fakeRes . '> (fake).' 
             );
         }
+    }
+
+    public function testOutputColorAliases()
+    {
+        $this->consoleOutput->formats->aliasBG->bgcolor = "gray";
+        $this->consoleOutput->formats->aliasBG->color = "white";
+        $this->consoleOutput->formats->realBG->bgcolor = "black";
+        $this->consoleOutput->formats->realBG->color = "white";
+        
+        $this->consoleOutput->formats->realFG->color = "gray";
+        $this->consoleOutput->formats->realFG->bgcolor = "white";
+        $this->consoleOutput->formats->aliasFG->color = "black";
+        $this->consoleOutput->formats->aliasFG->bgcolor = "white";
+
+        $this->assertEquals(
+            $this->consoleOutput->formatText( "I am black!", "aliasBG" ),
+            $this->consoleOutput->formatText( "I am black!", "realBG" ),
+            "Backgroundcolor <gray> not correctly aliased to <black>."
+        );
+
+        $this->assertEquals(
+            $this->consoleOutput->formatText( "I am gray!", "aliasFG" ),
+            $this->consoleOutput->formatText( "I am gray!", "realFG" ),
+            "Foregroundcolor <black> not correctly aliased to <gray>."
+        );
     }
 
     /**

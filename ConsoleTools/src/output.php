@@ -96,7 +96,8 @@ class ezcConsoleOutput
      * @var array(string=>int)
      */
     protected static $color = array(
-    	'gray'          => 30,
+        'gray'          => 30,
+        'black'         => 30,      // Alias black to gray (Bug #8478)
     	'red'           => 31,
     	'green'         => 32,
     	'yellow'        => 33,
@@ -114,6 +115,7 @@ class ezcConsoleOutput
      * @var array(string=>int)
      */
     protected static $bgcolor = array(
+        'gray'       => 40,      // Alias gray to black (Bug #8478)
         'black'      => 40,
         'red'        => 41,
     	'green'      => 42,
