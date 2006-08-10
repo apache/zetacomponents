@@ -389,7 +389,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
 
         $this->switchWriteMode();
 
-        $localFile = fopen( $fileName, "rb");
+        $localFile = @fopen( $fileName, "rb");
         if( !$localFile ) 
         {
             throw new ezcArchiveException( "Cannot open the file: <$fileName> for reading." );

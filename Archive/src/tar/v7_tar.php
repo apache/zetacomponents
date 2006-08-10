@@ -418,8 +418,6 @@ class ezcArchiveV7Tar extends ezcArchive
         $this->file->seek( 0, SEEK_END );
         $this->headers[$this->fileNumber]->writeEncodedHeader( $this->file );
 
-        $this->file->seek( 0, SEEK_END );
-
         // Add the new blocknumber to the map.
         $this->headerPositions[$this->fileNumber] = $this->file->key();
 

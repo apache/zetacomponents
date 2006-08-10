@@ -212,51 +212,6 @@ abstract class ezcArchiveFile implements Iterator
         $this->isModified = false;
     }
 
-/*
-        $this->readOnly = false;
-        $this->fileName = $fileName;
-
-        if ( $createIfNotExist && !self::fileExists( $fileName ) ) 
-        {
-            $this->fp = @fopen( $fileName, "w+b" );
-
-            if ( $this->fp === false )
-            {
-
-
-                throw new ezcBaseFilePermissionException( $fileName, ezcBaseFilePermissionException::WRITE | ezcBaseFilePermissionException::READ, "Cannot create file for reading and writing." );
-            }
-
-            $this->isEmpty = true;
-        }
-        else
-        {
-            $this->isEmpty = false; 
-
-            // Try to open it, even when we know that the file doesn't exist.
-            $this->fp = @fopen( $fileName, "r+b" );
-            if ( !$this->fp )
-            {
-                // Try to open readonly.
-                $this->fp = @fopen( $fileName, "rb" );
-                $this->readOnly = true;
-            }
-
-            if ( !$this->fp )
-            {
-                if ( !file_exists( $fileName ) )
-                {
-                    throw new ezcBaseFileNotFoundException( $fileName );
-                }
-
-                throw new ezcBaseFilePermissionException( $fileName, ezcBaseFilePermissionException::READ );
-            }
-        }
-
-        $this->getStreamInformation();
- */
-    //}
-
     /** 
      * Returns the file name or file path.
      *
@@ -276,7 +231,7 @@ abstract class ezcArchiveFile implements Iterator
         if( $this->fileAccess == self::READ_APPEND && $this->readAppendSwitch == self::SWITCH_READ )
         {
             fclose( $this->fp );
-            $this->fp = fopen( $this->fileName, "ab" );
+            $this->fp = @fopen( $this->fileName, "ab" );
             if ($this->fp === false )
             {
                 throw new ezcBaseFilePermissionException( self::getPureFileName( $this->fileName ), ezcBaseFilePermissionException::WRITE, "Cannot switch to write mode");
@@ -330,24 +285,6 @@ abstract class ezcArchiveFile implements Iterator
     public static function fileExists( $fileName )
     {
         return file_exists( self::getPureFileName( $fileName ) );
-/*
-        if ( !file_exists( $fileName ) )
-        {
-            if ( strncmp( $fileName, "compress.zlib://", 16 ) == 0 )
-            {
-                return file_exists( substr( $fileName, 16) );
-            }
-            
-            if ( strncmp( $fileName, "compress.bzip2://", 17 ) == 0 )
-            {
-                return file_exists( substr( $fileName, 17) );
-            }
-            
-            return false;
-        }
-
-        return true;
- */
     }
 
     /**
@@ -368,9 +305,6 @@ abstract class ezcArchiveFile implements Iterator
 
         return $fileName;
     }
-
-
-
 
     /**
      * Rewind the current file, and the current() method will return the
@@ -454,14 +388,6 @@ abstract class ezcArchiveFile implements Iterator
         return $this->fileAccess == self::READ_ONLY;
     }
 
-    public function isWriteOnly()
-    {
-        return $this->fileAccess == self::WRITE_ONLY;
-    }
-
-
-   
-
     public function isNew() 
     {
         return $this->isNew;
@@ -480,10 +406,6 @@ abstract class ezcArchiveFile implements Iterator
             $this->fp = null;
         }
     }
-
-
-
-
 }
 
 
