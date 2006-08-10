@@ -354,15 +354,6 @@ Part: 2/2
             $this->centralHeaders[ $i ]->writeEncodedHeader( $this->file );
         }
 
-        // Write the end record.
-        $this->endRecord = new ezcArchiveCentralDirectoryEndHeader();
-        $this->endRecord->centralDirectoryStart = $this->centralHeaderPositions[0];
-        $this->endRecord->centralDirectorySize = $this->file->getPosition() - $this->centralHeaderPositions[0] ; 
-
-        $this->endRecord->totalCentralDirectoryEntries = $cur + 1;
-        $this->endRecord->writeEncodedHeader( $this->file );
-
-
         // Remove the rest of the localHeaders and centralHeaders.
         for ( $i = ( $cur + 1 ); $i < $this->entriesRead; $i++ )
         {
@@ -373,6 +364,14 @@ Part: 2/2
         }
 
         $this->entriesRead = $cur + 1;
+
+        // Write the end record.
+        $this->endRecord = new ezcArchiveCentralDirectoryEndHeader();
+        $this->endRecord->centralDirectoryStart = $this->centralHeaderPositions[0];
+        $this->endRecord->centralDirectorySize = $this->file->getPosition() - $this->centralHeaderPositions[0] ; 
+
+        $this->endRecord->totalCentralDirectoryEntries = $cur + 1;
+        $this->endRecord->writeEncodedHeader( $this->file );
     } 
     
     public function append( $files, $prefix )
@@ -385,7 +384,6 @@ Part: 2/2
         $this->seek( 0, SEEK_END );
         $this->appendToCurrent( $files, $prefix ); 
      }
-
 
 
     // Documentation is inherited.
