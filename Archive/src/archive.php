@@ -250,23 +250,6 @@ abstract class ezcArchive implements Iterator
      */
     public abstract function algorithmCanWrite();
 
-    /**
-     * Returns true if it is possible to write to the archive, otherwise false.
-     *
-     * This method returns false if the archive is read-only, the algorithm
-     * didn't implement any write methods, or both.
-     *
-     * @see algorithmCanWrite()
-     *
-     * @return bool
-     */
-    public function isWritable()
-    {
-        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
-
-        return ( !$this->file->isReadOnly() && $this->algorithmCanWrite() );
-    }
-
 
     /**
      * Returns an instance of the archive with the given type.

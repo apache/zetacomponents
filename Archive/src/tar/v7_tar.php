@@ -63,8 +63,6 @@ class ezcArchiveV7Tar extends ezcArchive
 
     protected $hasNullBlocks;
 
-    protected $nullBlocksToAppend;
-
 
     protected $addedBlocks = 0;
     protected $addedBlocksNotReliable = false;
@@ -142,7 +140,6 @@ class ezcArchiveV7Tar extends ezcArchive
      *
      * @return void
      */
-    // XXX should be protected?
     protected function readCurrentFromArchive()
     {
         // Not cached, read the next block.
@@ -182,7 +179,6 @@ class ezcArchiveV7Tar extends ezcArchive
         // Set the currentEntry information.
         $struct = new ezcArchiveFileStructure(); 
         $this->headers[ $this->fileNumber ]->setArchiveFileStructure( $struct );
-
         $this->entries[ $this->fileNumber ] = new ezcArchiveEntry( $struct );
 
         $this->entriesRead++;
@@ -226,7 +222,7 @@ class ezcArchiveV7Tar extends ezcArchive
     }
 
     // Documentation is inherited.
-    public function truncate( $fileNumber = 0, $appendNullBlocks = true )
+    public function truncate( $fileNumber = 0)
     {
         if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
 
@@ -250,8 +246,6 @@ class ezcArchiveV7Tar extends ezcArchive
         }
         else
         {
-//            echo ("Searching fileNumber: $fileNumber, and I am currently in file: ". $this->fileNumber );
-
             $this->seek( $fileNumber ); // read the headers.
             $endBlockNumber = $this->headerPositions[ $fileNumber - 1 ] +  $this->file->getBlocksFromBytes( $this->headers[ $fileNumber - 1 ]->fileSize );
 
@@ -275,7 +269,7 @@ class ezcArchiveV7Tar extends ezcArchive
     }
 
     // Documentation is inherited.
-    public function appendToCurrent( $files, $prefix, $appendNullBlocks = true )
+    public function appendToCurrent( $files, $prefix )
     {
         if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
         
@@ -295,7 +289,7 @@ class ezcArchiveV7Tar extends ezcArchive
         for( $i = 0; $i < sizeof( $files ); $i++)
         {
             // Changes the fileNumber
-            $this->appendHeaderAndFileToCurrent( $entries[$i], $appendNullBlocks );
+            $this->appendHeaderAndFileToCurrent( $entries[$i] );
         }
 
         $this->fileNumber = $originalFileNumber;
@@ -316,7 +310,7 @@ class ezcArchiveV7Tar extends ezcArchive
      *
      * @return void
      */
-    public function append( $files, $prefix, $appendNullBlocks = true )
+    public function append( $files, $prefix)
     {
         if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
 
@@ -342,7 +336,7 @@ class ezcArchiveV7Tar extends ezcArchive
         for( $i = 0; $i < sizeof( $files ); $i++)
         {
             // Changes the fileNumber
-            $this->appendHeaderAndFileToCurrent( $entries[$i], $appendNullBlocks );
+            $this->appendHeaderAndFileToCurrent( $entries[$i] );
         }
 
         $this->fileNumber = $originalFileNumber;
@@ -399,15 +393,11 @@ class ezcArchiveV7Tar extends ezcArchive
      * The $entry will be used to create the correct header, whereas the $file contains the raw data 
      * that should be append to the archive. 
      *
-     * $appendNullBlocks specifies whether or not null blocks should be appended to the end of the archive.
-     * These null blocks will give the archive exactly a {@link @blockFactor} size.
-     *
      * @param string $file
      * @param ezcArchiveEntry $entry
-     * @param bool $appendNullBlocks
      * @return void
      */
-    protected function appendHeaderAndFileToCurrent( $entry, $appendNullBlocks )
+    protected function appendHeaderAndFileToCurrent( $entry )
     {
         // Are we at a valid entry?
         if ( !$this->isEmpty() && !$this->valid() ) return false;
@@ -427,9 +417,6 @@ class ezcArchiveV7Tar extends ezcArchive
         // Search the end of the block file, append encoded header, and search for the end-again.
         $this->file->seek( 0, SEEK_END );
         $this->headers[$this->fileNumber]->writeEncodedHeader( $this->file );
-//        echo "LB: ".$this->file->getLastBlockNumber();
-//        echo ("Second seek");
-//        echo ("Expect last block to be 0. and current block 0. ");
 
         $this->file->seek( 0, SEEK_END );
 
@@ -440,7 +427,7 @@ class ezcArchiveV7Tar extends ezcArchive
         $this->addedBlocks += 1;
         if ( $entry->getSize() > 0 ) 
         {
-            $this->addedBlocks += $this->file->append( file_get_contents( $entry->getPath() ) );
+            $this->addedBlocks += $this->file->appendFile( $entry->getPath() );
         }
 
         if(!( $this->file->isNew() && $this->file->getFileAccess() === ezcArchiveFile::WRITE_ONLY  ))

@@ -248,24 +248,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
         return false;
     }
 
-    /**
-     * Appends the string $data after the current block.
-     * 
-     * The blocks after the current block are removed and the $data will be 
-     * appended. The data will always be appended after the current block. 
-     * To replace the data from the first block, the truncate() method should 
-     * be called first. 
-     * 
-     * Multiple blocks will be written when the length of the $data exceeds
-     * the block size. If the data doesn't fill an entire block, the rest 
-     * of the block will be filled with NUL characters.
-     *
-     * @param   string  $data  Data that should be appended.
-     * @return int        The total amount of blocks added.
-     * 
-     * @throws  ezcBaseFilePermissionException when the file is opened in read-only mode.
-     */
-    public function append( $data )
+    private function appendTruncate()
     {
         if ( $this->fileAccess == self::READ_ONLY ) 
         {
@@ -330,6 +313,30 @@ class ezcArchiveBlockFile extends ezcArchiveFile
                 //throw new ezcArchiveException ("Not at a valid block position to append");
             }
         }
+    }
+
+
+
+    /**
+     * Appends the string $data after the current block.
+     * 
+     * The blocks after the current block are removed and the $data will be 
+     * appended. The data will always be appended after the current block. 
+     * To replace the data from the first block, the truncate() method should 
+     * be called first. 
+     * 
+     * Multiple blocks will be written when the length of the $data exceeds
+     * the block size. If the data doesn't fill an entire block, the rest 
+     * of the block will be filled with NUL characters.
+     *
+     * @param   string  $data  Data that should be appended.
+     * @return int        The total amount of blocks added.
+     * 
+     * @throws  ezcBaseFilePermissionException when the file is opened in read-only mode.
+     */
+    public function append( $data )
+    {
+        $this->appendTruncate();
 
         // We are at the end of the file. Let's append the data.
         // Switch write mode, if needed.
@@ -343,12 +350,6 @@ class ezcArchiveBlockFile extends ezcArchiveFile
             $this->writeBytes( pack( "a". ( $this->blockSize  - $mod ), "") );
         }
 
-//        echo ("\nLength " . $length );
-//        echo ("\nmod " . $mod );
-//        echo ("\nbs " . $this->blockSize );
-
-        //$addedBlocks = ( (int) ($length / $this->blockSize ) ) + 1;
-        //$addedBlocks = ( (int) (($length + $this->blockSize - $mod) / $this->blockSize ) );
         $addedBlocks = ( (int) (($length - 1) / $this->blockSize ) ) + 1;
 
         // Added the blocks. 
@@ -363,39 +364,64 @@ class ezcArchiveBlockFile extends ezcArchiveFile
         $this->switchReadMode();
 
         return $addedBlocks;
+    }
 
+    /**
+     * Appends the data from the given file $fileName to the current block file.
+     * 
+     * The blocks after the current block are removed and the data will be 
+     * appended. The data will always be appended after the current block. 
+     * To replace the data from the first block, the truncate() method should 
+     * be called first. 
+     * 
+     * Multiple blocks will be written when the length of the data exceeds
+     * the block size. If the data doesn't fill an entire block, the rest 
+     * of the block will be filled with NUL characters.
+     *
+     * @param   string  $fileName  The filename that contains the data.
+     * @return int                 The total amount of blocks added.
+     * 
+     * @throws  ezcBaseFilePermissionException when the file is opened in read-only mode.
+     */
+    public function appendFile( $fileName )
+    {
+        $this->appendTruncate();
 
-       /*
-        $currentPos = ftell($this->fp );
-        if( $currentPos == false ) $currentPos = 0;
-        $lastBlock = $this->lastBlock  < 0 ? 0 : $this->lastBlock;
-         */
+        $this->switchWriteMode();
 
-        // XXX = SOLVE IT WITH BLOCK NUMBERS..
-        // IF we are not at the end; and have to switch to write mode, we cannot append.
-        
-        // XXX append should switch back to readMode.
-        
-        //$this->switchWriteMode();
-
-        // Always at the end?
-
-/*
-        if( $this->lastBlock != $this->blockNumber )
+        $localFile = fopen( $fileName, "rb");
+        if( !$localFile ) 
         {
-            echo ("LAST BLOCK: " . $this->lastBlock . "\n" );
-            echo ("BLOCK NUmber: " . $this->blockNumber . "\n" );
-            ftruncate( $this->fp, ftell( $this->fp ) );
+            throw new ezcArchiveException( "Cannot open the file: <$fileName> for reading." );
         }
- */
 
-        /*
-        if ( $lastBlock * $this->blockSize != $currentPos )
+        $addedBlocks = 0;
+        $length = 0;
+        while( !feof( $localFile ) && ( $data = fread( $localFile, $this->blockSize ) ) !== false )
         {
-            ftruncate( $this->fp, ftell( $this->fp ) );
+            $addedBlocks++;
+            $length = $this->writeBytes( $data );
         }
-         */
 
+        if ( ( $mod = ( $length % $this->blockSize ) ) > 0 )
+        {
+            $this->writeBytes( pack( "a". ( $this->blockSize  - $mod ), "") );
+        }
+
+        fclose( $localFile );
+
+        // Added the blocks. 
+        $this->isModified = true;
+        $this->isEmpty = false;
+
+        $this->blockNumber += $addedBlocks;
+        $this->lastBlock += $addedBlocks;
+        $this->blockData = $data;
+        $this->isValid = true;
+
+        $this->switchReadMode();
+
+        return $addedBlocks;
     }
 
     /**
