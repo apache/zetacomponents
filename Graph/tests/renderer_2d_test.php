@@ -295,6 +295,73 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
         $this->renderer->render( 'foo.png' );
     }
 
+    public function testRenderBar()
+    {
+        $this->driver
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array( 
+                    new ezcGraphCoordinate( 157.5, 0. ),
+                    new ezcGraphCoordinate( 157.5, 40. ),
+                    new ezcGraphCoordinate( 242.5, 40. ),
+                    new ezcGraphCoordinate( 242.5, 0. ),
+                ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
+                $this->equalTo( true )
+            );
+        $this->driver
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array( 
+                    new ezcGraphCoordinate( 157.5, 0. ),
+                    new ezcGraphCoordinate( 157.5, 40. ),
+                    new ezcGraphCoordinate( 242.5, 40. ),
+                    new ezcGraphCoordinate( 242.5, 0. ),
+                ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#800000' ) ),
+                $this->equalTo( false )
+            );
+
+        $this->renderer->drawBar( 
+            new ezcGraphBoundings( 0, 0, 400, 200 ),
+            ezcGraphColor::fromHex( '#FF0000' ), 
+            new ezcGraphCoordinate( .5, .2 ),
+            100,
+            0,
+            1,
+            0
+        );
+    }
+
+    public function testRenderSecondBar()
+    {
+        $this->driver
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array( 
+                    new ezcGraphCoordinate( 202.5, 0. ),
+                    new ezcGraphCoordinate( 202.5, 40. ),
+                    new ezcGraphCoordinate( 242.5, 40. ),
+                    new ezcGraphCoordinate( 242.5, 0. ),
+                ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
+                $this->equalTo( 1 )
+            );
+
+        $this->renderer->drawBar( 
+            new ezcGraphBoundings( 0, 0, 400, 200 ),
+            ezcGraphColor::fromHex( '#FF0000' ), 
+            new ezcGraphCoordinate( .5, .2 ),
+            100,
+            1,
+            2,
+            0
+        );
+    }
+
     public function testRenderDataLine()
     {
         $this->driver
@@ -1092,12 +1159,12 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
     {
         $chart = new ezcGraphLineChart();
 
-        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart['sampleData']->color = '#0000FF';
         $chart['sampleData']->symbol = ezcGraph::DIAMOND;
-        $chart['moreData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart['moreData']->color = '#FF0000';
-        $chart['evenMoreData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['evenMoreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart['evenMoreData']->color = '#00FF00';
         $chart['evenMoreData']->label = 'Even more data';
 
@@ -1159,12 +1226,12 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
     {
         $chart = new ezcGraphLineChart();
 
-        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart['sampleData']->color = '#0000FF';
         $chart['sampleData']->symbol = ezcGraph::DIAMOND;
-        $chart['moreData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart['moreData']->color = '#FF0000';
-        $chart['evenMoreData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['evenMoreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart['evenMoreData']->color = '#00FF00';
         $chart['evenMoreData']->label = 'Even more data';
 
@@ -1217,12 +1284,12 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
     {
         $chart = new ezcGraphLineChart();
 
-        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart['sampleData']->color = '#0000FF';
         $chart['sampleData']->symbol = ezcGraph::DIAMOND;
-        $chart['moreData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart['moreData']->color = '#FF0000';
-        $chart['evenMoreData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['evenMoreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart['evenMoreData']->color = '#00FF00';
         $chart['evenMoreData']->label = 'Even more data';
 
@@ -1285,12 +1352,12 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
     {
         $chart = new ezcGraphLineChart();
 
-        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart['sampleData']->color = '#0000FF';
         $chart['sampleData']->symbol = ezcGraph::DIAMOND;
-        $chart['moreData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart['moreData']->color = '#FF0000';
-        $chart['evenMoreData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['evenMoreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart['evenMoreData']->color = '#00FF00';
         $chart['evenMoreData']->label = 'Even more data';
 
@@ -1483,8 +1550,8 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
 
-        $chart['Line 1'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
-        $chart['Line 2'] = array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613);
+        $chart['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
@@ -1494,7 +1561,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -1506,8 +1573,8 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
         $chart->palette = new ezcGraphPaletteBlack();
         $chart->options->fillLines = 200;
 
-        $chart['Line 1'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
-        $chart['Line 2'] = array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613);
+        $chart['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
@@ -1517,7 +1584,36 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
+        );
+    }
+
+    public function testRenderFilledLineBarChart()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+        $chart->options->fillLines = 200;
+
+        $chart['Line 0'] = new ezcGraphArrayDataSet( array( 'sample 1' => 432, 'sample 2' => 43, 'sample 3' => 65, 'sample 4' => 97, 'sample 5' => 154) );
+        $chart['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+
+        $chart['Line 0']->displayType = ezcGraph::BAR;
+        $chart['Line 1']->displayType = ezcGraph::BAR;
+
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisBoxedLabelRenderer();
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
         );
     }
 
@@ -1529,8 +1625,8 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
         $chart->palette = new ezcGraphPaletteBlack();
         $chart->options->fillLines = 200;
 
-        $chart['Line 1'] = array( 'sample 1' => 234, 'sample 2' => -151, 'sample 3' => 324, 'sample 4' => -120, 'sample 5' => 1);
-        $chart['Line 2'] = array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => -5, 'sample 5' => -124);
+        $chart['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -151, 'sample 3' => 324, 'sample 4' => -120, 'sample 5' => 1) );
+        $chart['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => -5, 'sample 5' => -124) );
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
@@ -1540,7 +1636,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -1549,13 +1645,13 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = array(
+        $chart['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
             'wget' => 231,
             'Safari' => 987,
-        );
+        ) );
 
         $chart['sample']->highlight['Safari'] = true;
 
@@ -1567,7 +1663,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -1576,13 +1672,13 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = array(
+        $chart['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
             'wget' => 231,
             'Safari' => 987,
-        );
+        ) );
 
         $chart->background->color = '#FFFFFFDD';
         $chart->background->image = dirname( __FILE__ ) . '/data/ez.png';
@@ -1596,7 +1692,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -1605,13 +1701,13 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = array(
+        $chart['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
             'wget' => 231,
             'Safari' => 987,
-        );
+        ) );
 
         $chart->background->color = '#FFFFFFDD';
         $chart->background->image = dirname( __FILE__ ) . '/data/texture.png';
@@ -1625,7 +1721,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 }

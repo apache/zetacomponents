@@ -47,6 +47,30 @@ abstract class ezcGraphRenderer
     );
     
     /**
+     * Draw bar
+     *
+     * Draws a bar as a data element in a line chart
+     * 
+     * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphColor $color Color of line
+     * @param ezcGraphCoordinate $position Position of data point
+     * @param float $stepSize Space which can be used for bars
+     * @param int $dataNumber Number of dataset
+     * @param int $dataCount Count of datasets in chart
+     * @param float $axisPosition Position of axis for drawing filled lines
+     * @return void
+     */
+    abstract public function drawBar(
+        ezcGraphBoundings $boundings,
+        ezcGraphColor $color,
+        ezcGraphCoordinate $position,
+        $stepSize,
+        $dataNumber = 1,
+        $dataCount = 1,
+        $axisPosition = 0.
+    );
+    
+    /**
      * Draw data line
      *
      * Draws a line as a data element in a line chart

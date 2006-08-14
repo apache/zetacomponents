@@ -270,7 +270,7 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
     /**
      * Modify chart boundings
      *
-     * Optionally modify boundings of 
+     * Optionally modify boundings of chart data
      * 
      * @param ezcGraphBoundings $boundings Current boundings of chart
      * @param ezcGraphCoordinate $direction Direction of the current axis
@@ -287,10 +287,9 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
      * Optionally additionally modify the coodinate of a data point
      * 
      * @param ezcGraphCoordinate $coordinate Data point coordinate
-     * @param ezcGraphCoordinate $direction Direction of the current axis
      * @return ezcGraphCoordinate Modified coordinate
      */
-    public function modifyChartDataPosition( ezcGraphCoordinate $coordinate, ezcGraphCoordinate $direction )
+    public function modifyChartDataPosition( ezcGraphCoordinate $coordinate )
     {
         return $coordinate;
     }

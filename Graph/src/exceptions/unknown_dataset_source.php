@@ -18,7 +18,7 @@ class ezcGraphUnknownDataSetSourceException extends ezcGraphException
 {
     public function __construct( $source )
     {
-        parent::__construct( 'You provided data which could not be handled as a dataset, yet.' );
+        parent::__construct( 'Your provided data which could not be handled as a dataset.' );
     }
 }
 

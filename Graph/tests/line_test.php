@@ -51,9 +51,9 @@ class ezcGraphLineChartTest extends ezcTestCase
 
     protected function addSampleData( ezcGraphChart $chart )
     {
-        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
-        $chart['moreData'] = array( 'sample 1' => 112, 'sample 2' => 54, 'sample 3' => 12, 'sample 4' => -167, 'sample 5' => 329);
-        $chart['Even more data'] = array( 'sample 1' => 300, 'sample 2' => -30, 'sample 3' => 220, 'sample 4' => 67, 'sample 5' => 450);
+        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 112, 'sample 2' => 54, 'sample 3' => 12, 'sample 4' => -167, 'sample 5' => 329) );
+        $chart['Even more data'] = new ezcGraphArrayDataSet( array( 'sample 1' => 300, 'sample 2' => -30, 'sample 3' => 220, 'sample 4' => 67, 'sample 5' => 450) );
     }
 
     public function testElementGenerationLegend()
@@ -95,10 +95,28 @@ class ezcGraphLineChartTest extends ezcTestCase
         );
     }
 
+    public function testInvalidDisplayType()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
+        $chart['sampleData']->displayType = ezcGraph::PIE;
+
+        try 
+        {
+            $chart->render( 500, 200 );
+        }
+        catch ( ezcGraphInvalidDisplayTypeException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphInvalidDisplayTypeException.' );
+    }
+
     public function testRenderChartLines()
     {
         $chart = new ezcGraphLineChart();
-        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 );
+        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
         $chart['sampleData']->color = '#CC0000';
         $chart['sampleData']->symbol = ezcGraph::DIAMOND;
 
@@ -182,10 +200,155 @@ class ezcGraphLineChartTest extends ezcTestCase
         $chart->render( 500, 200 );
     }
 
+    public function testRenderChartMixedBarsAndLines()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
+        $chart['sampleData']->color = '#CC0000';
+        $chart['sampleData']->displayType = ezcGraph::BAR;
+
+        $chart['sampleData2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
+        $chart['sampleData2']->color = '#CC0000';
+        $chart['sampleData2']->symbol = ezcGraph::DIAMOND;
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
+            'drawBar',
+            'drawDataLine',
+        ) );
+
+        $mockedRenderer
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawBar' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                $this->equalTo( new ezcGraphCoordinate( .0, .415 ), .05 ),
+                $this->equalTo( 80., 1. ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 )
+            );
+        $mockedRenderer
+           ->expects( $this->at( 4 ) )
+            ->method( 'drawBar' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                $this->equalTo( new ezcGraphCoordinate( 1., .9975 ), .05 ),
+                $this->equalTo( 80., 1. ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 5 ) )
+            ->method( 'drawDataLine' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                $this->equalTo( new ezcGraphCoordinate( .0, .415 ), .05 ),
+                $this->equalTo( new ezcGraphCoordinate( .0, .415 ), .05 ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 ),
+                $this->equalTo( ezcGraph::DIAMOND ),
+                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                $this->equalTo( null )
+            );
+        $mockedRenderer
+           ->expects( $this->at( 9 ) )
+            ->method( 'drawDataLine' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                $this->equalTo( new ezcGraphCoordinate( .75, .7 ), .05 ),
+                $this->equalTo( new ezcGraphCoordinate( 1., .9975 ), .05 ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 ),
+                $this->equalTo( ezcGraph::DIAMOND ),
+                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                $this->equalTo( null )
+            );
+
+        $chart->renderer = $mockedRenderer;
+
+        $chart->render( 500, 200 );
+    }
+
+    public function testRenderChartBars()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
+        $chart['sampleData']->color = '#CC0000';
+        $chart['sampleData']->symbol = ezcGraph::DIAMOND;
+        $chart['sampleData']->displayType = ezcGraph::BAR;
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
+            'drawBar',
+        ) );
+
+        $mockedRenderer
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawBar' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                $this->equalTo( new ezcGraphCoordinate( .0, .415 ), .05 ),
+                $this->equalTo( 80., 1. ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawBar' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                $this->equalTo( new ezcGraphCoordinate( .25, .95 ), .05 ),
+                $this->equalTo( 80., 1. ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 2 ) )
+            ->method( 'drawBar' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                $this->equalTo( new ezcGraphCoordinate( .5, .2 ), .05 ),
+                $this->equalTo( 80., 1. ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 3 ) )
+            ->method( 'drawBar' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                $this->equalTo( new ezcGraphCoordinate( .75, .7 ), .05 ),
+                $this->equalTo( 80., 1. ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 )
+            );
+        $mockedRenderer
+           ->expects( $this->at( 4 ) )
+            ->method( 'drawBar' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 140., 20., 460., 180. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                $this->equalTo( new ezcGraphCoordinate( 1., .9975 ), .05 ),
+                $this->equalTo( 80., 1. ),
+                $this->equalTo( 0 ),
+                $this->equalTo( 1 )
+            );
+
+        $chart->renderer = $mockedRenderer;
+
+        $chart->render( 500, 200 );
+    }
+
     public function testRenderChartFilledLines()
     {
         $chart = new ezcGraphLineChart();
-        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => -46, 'sample 4' => 120, 'sample 5'  => 100 );
+        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => -46, 'sample 4' => 120, 'sample 5'  => 100 ) );
         $chart->palette = new ezcGraphPaletteBlack();
         $chart->options->fillLines = 100;
 
@@ -245,7 +408,7 @@ class ezcGraphLineChartTest extends ezcTestCase
     {
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
-        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart['sampleData']->symbol = ezcGraph::DIAMOND;
         $chart['sampleData']->symbol['sample 3'] = ezcGraph::CIRCLE;
 

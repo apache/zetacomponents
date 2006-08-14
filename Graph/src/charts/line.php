@@ -83,46 +83,116 @@ class ezcGraphLineChart extends ezcGraphChart
 
         $yAxisNullPosition = $this->elements['yAxis']->getCoordinate( false );
 
-        $nr = count( $this->data );
+        // Initialize counters
+        $nr = array();
+        $count = array();
+
         foreach ( $this->data as $data )
         {
-            --$nr;
-            // Determine fill color for dataset
-            if ( $this->options->fillLines !== false )
+            if ( !isset( $nr[$data->displayType->default] ) )
             {
-                $fillColor = clone $data->color->default;
-                $fillColor->alpha = (int) round( ( 255 - $fillColor->alpha ) * ( $this->options->fillLines / 255 ) );
-            }
-            else
-            {
-                $fillColor = null;
+                $nr[$data->displayType->default] = 0;
+                $count[$data->displayType->default] = 0;
             }
 
-            // Draw lines for dataset
-            $lastPoint = false;
-            foreach ( $data as $key => $value )
+            $nr[$data->displayType->default]++;
+            $count[$data->displayType->default]++;
+        }
+
+        // Display data
+        foreach ( $this->data as $data )
+        {
+            --$nr[$data->displayType->default];
+            switch ( $data->displayType->default )
             {
-                $point = new ezcGraphCoordinate( 
-                    $this->elements['xAxis']->getCoordinate( $key ),
-                    $this->elements['yAxis']->getCoordinate( $value )
-                );
+                case ezcGraph::LINE:
+                    // Determine fill color for dataset
+                    if ( $this->options->fillLines !== false )
+                    {
+                        $fillColor = clone $data->color->default;
+                        $fillColor->alpha = (int) round( ( 255 - $fillColor->alpha ) * ( $this->options->fillLines / 255 ) );
+                    }
+                    else
+                    {
+                        $fillColor = null;
+                    }
 
-                $renderer->drawDataLine(
-                    $boundings,
-                    $data->color->default,
-                    ( $lastPoint === false ? $point : $lastPoint ),
-                    $point,
-                    $nr,
-                    count( $this->data ),
-                    $data->symbol[$key],
-                    $data->color[$key],
-                    $fillColor,
-                    $yAxisNullPosition
-                );
+                    // Draw lines for dataset
+                    $lastPoint = false;
+                    foreach ( $data as $key => $value )
+                    {
+                        $point = $this->elements['xAxis']->axisLabelRenderer->modifyChartDataPosition( 
+                            $this->elements['yAxis']->axisLabelRenderer->modifyChartDataPosition(
+                                new ezcGraphCoordinate( 
+                                    $this->elements['xAxis']->getCoordinate( $key ),
+                                    $this->elements['yAxis']->getCoordinate( $value )
+                                )
+                            )
+                        );
 
-                $lastPoint = $point;
+                        $renderer->drawDataLine(
+                            $boundings,
+                            $data->color->default,
+                            ( $lastPoint === false ? $point : $lastPoint ),
+                            $point,
+                            $nr[$data->displayType->default],
+                            $count[$data->displayType->default],
+                            $data->symbol[$key],
+                            $data->color[$key],
+                            $fillColor,
+                            $yAxisNullPosition
+                        );
+
+                        $lastPoint = $point;
+                    }
+                    break;
+                case ezcGraph::BAR:
+                    $width = $this->elements['xAxis']->axisLabelRenderer->modifyChartDataPosition( 
+                        $this->elements['yAxis']->axisLabelRenderer->modifyChartDataPosition(
+                            new ezcGraphCoordinate(
+                                ( $boundings->x1 - $boundings->x0 ) / $this->elements['xAxis']->getMajorStepCount(), 
+                                0 
+                            )
+                        )
+                    )->x;
+
+                    foreach ( $data as $key => $value )
+                    {
+                        $point = new ezcGraphCoordinate( 
+                            $this->elements['xAxis']->getCoordinate( $key ),
+                            $this->elements['yAxis']->getCoordinate( $value )
+                        );
+
+                        $renderer->drawBar(
+                            $boundings,
+                            $data->color->default,
+                            $this->elements['xAxis']->axisLabelRenderer->modifyChartDataPosition( 
+                                $this->elements['yAxis']->axisLabelRenderer->modifyChartDataPosition(
+                                    $point
+                                )
+                            ),
+                            $width,
+                            $nr[$data->displayType->default],
+                            $count[$data->displayType->default],
+                            $yAxisNullPosition
+                        );
+                    }
+                    break;
+                default:
+                    throw new ezcGraphInvalidDisplayTypeException( $data->displayType->default );
+                    break;
             }
         }
+    }
+
+    /**
+     * Returns the default display type of the current chart type.
+     * 
+     * @return int Display type
+     */
+    protected function getDefaultDisplayType()
+    {
+        return ezcGraph::LINE;
     }
 
     /**
@@ -167,6 +237,12 @@ class ezcGraphLineChart extends ezcGraphChart
         $boundings = new ezcGraphBoundings();
         $boundings->x1 = $this->options->width;
         $boundings->y1 = $this->options->height;
+
+        $boundings = $this->elements['xAxis']->axisLabelRenderer->modifyChartBoundings( 
+            $this->elements['yAxis']->axisLabelRenderer->modifyChartBoundings(
+                $boundings, new ezcGraphCoordinate( 1, 0 )
+            ), new ezcGraphCoordinate( -1, 0 )
+        );
 
         // Render subelements
         foreach ( $this->elements as $name => $element )

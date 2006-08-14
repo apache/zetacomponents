@@ -91,7 +91,8 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         // Calculate position and size of pie
         $center = new ezcGraphCoordinate(
             $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2,
-            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2 - $this->options->pieChartHeight / 2
+            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2 
+                - $this->options->pieChartHeight / 2 
         );
 
         // Limit radius to fourth of width and half of height at maximum
@@ -429,6 +430,32 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 $symbol['symbol']
             );
         }
+    }
+    
+    /**
+     * Draw bar
+     *
+     * Draws a bar as a data element in a line chart
+     * 
+     * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphColor $color Color of line
+     * @param ezcGraphCoordinate $position Position of data point
+     * @param float $stepSize Space which can be used for bars
+     * @param int $dataNumber Number of dataset
+     * @param int $dataCount Count of datasets in chart
+     * @param float $axisPosition Position of axis for drawing filled lines
+     * @return void
+     */
+    public function drawBar(
+        ezcGraphBoundings $boundings,
+        ezcGraphColor $color,
+        ezcGraphCoordinate $position,
+        $stepSize,
+        $dataNumber = 1,
+        $dataCount = 1,
+        $axisPosition = 0. )
+    {
+        // @TODO: implement
     }
     
     /**

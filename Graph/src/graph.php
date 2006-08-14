@@ -29,6 +29,10 @@ class ezcGraph
     const RIGHT = 8;
     const CENTER = 16;
     const MIDDLE = 32;
+
+    const PIE = 1;
+    const LINE = 2;
+    const BAR = 3;
 }
 
 ?>

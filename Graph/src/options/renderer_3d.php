@@ -112,6 +112,27 @@ class ezcGraphRenderer3dOptions extends ezcGraphChartOptions
     protected $pieChartRotation = .6;
 
     /**
+     * Used transparency for pie chart shadows
+     * 
+     * @var float
+     */
+    protected $pieChartShadow = .6;
+
+    /**
+     * Procentual distance between bar blocks
+     * 
+     * @var float
+     */
+    protected $barMargin = .1;
+
+    /**
+     * Procentual distance between bars
+     * 
+     * @var float
+     */
+    protected $barPadding = .05;
+
+    /**
      * Set an option value
      * 
      * @param string $propertyName 
@@ -162,6 +183,18 @@ class ezcGraphRenderer3dOptions extends ezcGraphChartOptions
                 break;
             case 'pieChartRotation':
                 $this->pieChartRotation = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'pieChartRotation':
+                $this->pieChartRotation = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'pieChartShadow':
+                $this->pieChartShadow = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'barMargin':
+                $this->barMargin = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'barPadding':
+                $this->barPadding = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );

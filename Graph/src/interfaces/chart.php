@@ -194,26 +194,13 @@ abstract class ezcGraphChart implements ArrayAccess
      *          If too many datasets are created
      * @return ezcGraphDataSet
      */
-    protected function addDataSet( $name, $values )
+    protected function addDataSet( $name, ezcGraphDataSet $dataSet )
     {
-        $this->data[$name] = new ezcGraphDataSet();
+        $this->data[$name] = $dataSet;
         
-        if ( is_array($values) )
-        {
-            $this->data[$name]->createFromArray( $values );
-            $this->data[$name]->label = $name;
-            $this->data[$name]->palette = $this->palette;
-        }
-        elseif ( $values instanceof PDOStatement )
-        {
-            $this->data[$name]->createFromStatement( $values );
-            $this->data[$name]->label = $name;
-            $this->data[$name]->palette = $this->palette;
-        }
-        else
-        {
-            throw new ezcGraphUnknownDataSetSourceException( $values );
-        }
+        $this->data[$name]->label = $name;
+        $this->data[$name]->palette = $this->palette;
+        $this->data[$name]->displayType = $this->getDefaultDisplayType();
     }
 
     /**
@@ -261,6 +248,11 @@ abstract class ezcGraphChart implements ArrayAccess
 
     public function offsetSet( $key, $value )
     {
+        if ( !$value instanceof ezcGraphDataSet )
+        {
+            throw new ezcGraphUnknownDataSetSourceException( $value );
+        }
+
         return $this->addDataSet( $key, $value );
     }
 
@@ -289,6 +281,13 @@ abstract class ezcGraphChart implements ArrayAccess
             throw new ezcBaseValueException( "options", $options, "instance of ezcGraphOptions" );
         }
     }
+
+    /**
+     * Returns the default display type of the current chart type.
+     * 
+     * @return int Display type
+     */
+    abstract protected function getDefaultDisplayType();
 
     /**
      * Renders this chart

@@ -36,6 +36,7 @@ return array(
     'ezcGraphAxisNoLabelRenderer'               => 'Graph/renderer/axis_label_none.php',
     'ezcGraphAxisExactLabelRenderer'            => 'Graph/renderer/axis_label_exact.php',
     'ezcGraphAxisCenteredLabelRenderer'         => 'Graph/renderer/axis_label_centered.php',
+    'ezcGraphAxisBoxedLabelRenderer'            => 'Graph/renderer/axis_label_boxed.php',
 
     'ezcGraphDriver'                            => 'Graph/interfaces/driver.php',
     'ezcGraphDriverOptions'                     => 'Graph/options/driver.php',
@@ -66,7 +67,8 @@ return array(
     'ezcGraphChartElementLabeledAxis'           => 'Graph/axis/labeled.php',
 
     'ezcGraphDataSet'                           => 'Graph/datasets/base.php',
-    'ezcGraphDataSetAverage'                    => 'Graph/datasets/average.php',
+    'ezcGraphArrayDataSet'                      => 'Graph/datasets/array.php',
+    'ezcGraphAverageDataSet'                    => 'Graph/datasets/average.php',
     'ezcGraphDataSetProperty'                   => 'Graph/interfaces/dataset_property.php',
     'ezcGraphDataSetColorProperty'              => 'Graph/datasets/property/color.php',
     'ezcGraphDataSetStringProperty'             => 'Graph/datasets/property/string.php',
@@ -76,6 +78,7 @@ return array(
     'ezcGraphNoSuchDataSetException'            => 'Graph/exceptions/no_such_dataset.php',
     'ezcGraphTooManyDataSetsExceptions'         => 'Graph/exceptions/too_many_datasets.php',
     'ezcGraphUnknownDataSetSourceException'     => 'Graph/exceptions/unknown_dataset_source.php',
+    'ezcGraphInvalidDisplayTypeException'       => 'Graph/exceptions/invalid_display_type.php',
 
     'ezcGraphBoundings'                         => 'Graph/structs/boundings.php',
     'ezcGraphCoordinate'                        => 'Graph/structs/coordinate.php',

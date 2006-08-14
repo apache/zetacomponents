@@ -23,4 +23,3 @@ class ezcGraphSvgDriverInvalidIdException extends ezcGraphException
 }
 
 ?>
-

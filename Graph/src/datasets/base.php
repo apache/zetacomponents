@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-class ezcGraphDataSet implements ArrayAccess, Iterator
+abstract class ezcGraphDataSet implements ArrayAccess, Iterator
 {
 
     /**
@@ -45,6 +45,13 @@ class ezcGraphDataSet implements ArrayAccess, Iterator
     protected $highlight;
 
     /**
+     * Display type of chart data.
+     * 
+     * @var integer
+     */
+    protected $displayType;
+
+    /**
      * Array which contains the data of the dataset
      * 
      * @var array
@@ -72,26 +79,9 @@ class ezcGraphDataSet implements ArrayAccess, Iterator
         $this->color = new ezcGraphDataSetColorProperty( $this );
         $this->symbol = new ezcGraphDataSetIntProperty( $this );
         $this->highlight = new ezcGraphDataSetBooleanProperty( $this );
+        $this->displayType = new ezcGraphDataSetIntProperty( $this );
 
         $this->highlight->default = false;
-    }
-
-    /**
-     * setData 
-     * 
-     * @param array $data 
-     * @access public
-     * @return void
-     */
-    public function createFromArray( $data = array() ) 
-    {
-        foreach ( $data as $key => $value )
-        {
-            if ( is_numeric( $value ) )
-            {
-                $this->data[$key] = (float) $value;
-            }
-        }
     }
 
     public function __set( $propertyName, $propertyValue )
@@ -110,6 +100,9 @@ class ezcGraphDataSet implements ArrayAccess, Iterator
             case 'highlight':
             case 'hilight':
                 $this->highlight->default = $propertyValue;
+                break;
+            case 'displayType':
+                $this->displayType->default = $propertyValue;
                 break;
             case 'palette':
                 $this->palette = $propertyValue;

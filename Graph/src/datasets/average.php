@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-class ezcGraphDataSetAverage extends ezcDataSet 
+class ezcGraphDataSetAverage extends ezcGraphDataSet 
 {
 
 }

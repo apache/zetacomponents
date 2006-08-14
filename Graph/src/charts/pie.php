@@ -31,7 +31,7 @@ class ezcGraphPieChart extends ezcGraphChart
      *          If too many datasets are created
      * @return ezcGraphDataSet
      */
-    protected function addDataSet( $name, $values )
+    protected function addDataSet( $name, ezcGraphDataSet $values )
     {
         if ( count( $this->data ) >= 1 &&
              !isset( $this->data[$name] ) )
@@ -67,15 +67,33 @@ class ezcGraphPieChart extends ezcGraphChart
         $angle = 0;
         foreach ( $dataset as $label => $value )
         {
-            $renderer->drawPieSegment(
-                $boundings,
-                $dataset->color[$label],
-                $angle,
-                $angle += $value / $sum * 360,
-                sprintf( $this->options->label, $label, $value, $value / $sum * 100 ),
-                $dataset->highlight[$label]
-            );
+            switch( $dataset->displayType->default )
+            {
+                case ezcGraph::PIE:
+                    $renderer->drawPieSegment(
+                        $boundings,
+                        $dataset->color[$label],
+                        $angle,
+                        $angle += $value / $sum * 360,
+                        sprintf( $this->options->label, $label, $value, $value / $sum * 100 ),
+                        $dataset->highlight[$label]
+                    );
+                    break;
+                default:
+                    throw new ezcGraphInvalidDisplayTypeException( $dataset->displayType->default );
+                    break;
+            }
         }
+    }
+
+    /**
+     * Returns the default display type of the current chart type.
+     * 
+     * @return int Display type
+     */
+    protected function getDefaultDisplayType()
+    {
+        return ezcGraph::PIE;
     }
 
     /**

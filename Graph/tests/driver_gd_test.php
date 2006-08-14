@@ -84,7 +84,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -113,7 +113,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -142,7 +142,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -171,7 +171,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -202,7 +202,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -230,7 +230,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -259,7 +259,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -287,7 +287,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -315,7 +315,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -344,7 +344,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -373,7 +373,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -402,7 +402,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -428,7 +428,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -455,7 +455,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -481,7 +481,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -507,7 +507,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -534,7 +534,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -561,7 +561,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -588,7 +588,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -615,7 +615,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -652,7 +652,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -679,7 +679,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -706,7 +706,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -733,7 +733,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -760,7 +760,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -787,7 +787,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -814,7 +814,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -841,7 +841,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -868,7 +868,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -894,7 +894,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -920,7 +920,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -950,7 +950,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -980,7 +980,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -1009,7 +1009,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -1039,7 +1039,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -1066,7 +1066,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -1094,7 +1094,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -1121,7 +1121,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -1149,7 +1149,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -1177,7 +1177,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -1206,7 +1206,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -1234,7 +1234,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -1272,7 +1272,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 }

@@ -264,6 +264,72 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
     }
     
     /**
+     * Draw bar
+     *
+     * Draws a bar as a data element in a line chart
+     * 
+     * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphColor $color Color of line
+     * @param ezcGraphCoordinate $position Position of data point
+     * @param float $stepSize Space which can be used for bars
+     * @param int $dataNumber Number of dataset
+     * @param int $dataCount Count of datasets in chart
+     * @param float $axisPosition Position of axis for drawing filled lines
+     * @return void
+     */
+    public function drawBar(
+        ezcGraphBoundings $boundings,
+        ezcGraphColor $color,
+        ezcGraphCoordinate $position,
+        $stepSize,
+        $dataNumber = 1,
+        $dataCount = 1,
+        $axisPosition = 0. )
+    {
+        // Apply margin
+        $margin = $stepSize * $this->options->barMargin;
+        $padding = $stepSize * $this->options->barPadding;
+        $barWidth = ( $stepSize - $margin ) / $dataCount - $padding;
+        $offset = - $stepSize / 2 + $margin / 2 + $dataNumber * ( $padding + $barWidth ) + $padding / 2;
+
+        $barPointArray = array(
+            new ezcGraphCoordinate(
+                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $position->x + $offset,
+                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
+            ),
+            new ezcGraphCoordinate(
+                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $position->x + $offset,
+                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $position->y
+            ),
+            new ezcGraphCoordinate(
+                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $position->x + $offset + $barWidth,
+                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $position->y
+            ),
+            new ezcGraphCoordinate(
+                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $position->x + $offset + $barWidth,
+                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
+            ),
+        );
+
+        $this->driver->drawPolygon(
+            $barPointArray,
+            $color,
+            true
+        );
+
+        if ( $this->options->dataBorder > 0 )
+        {
+            $darkened = $color->darken( $this->options->dataBorder );
+            $this->driver->drawPolygon(
+                $barPointArray,
+                $darkened,
+                false,
+                1
+            );
+        }
+    }
+    
+    /**
      * Draw data line
      *
      * Draws a line as a data element in a line chart

@@ -52,7 +52,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
     public function testElementGenerationLegend()
     {
         $chart = new ezcGraphPieChart();
-        $chart['sampleData'] = array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1);
+        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
         $chart->render( 500, 200 );
         
         $legend = $this->getNonPublicProperty( $chart->legend, 'labels' );
@@ -82,16 +82,34 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         );
     }
 
+    public function testInvalidDisplayType()
+    {
+        $chart = new ezcGraphPieChart();
+        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
+        $chart['sampleData']->displayType = ezcGraph::LINE;
+
+        try 
+        {
+            $chart->render( 500, 200 );
+        }
+        catch ( ezcGraphInvalidDisplayTypeException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphInvalidDisplayTypeException.' );
+    }
+
     public function testPieRenderPieSegments()
     {
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = array(
+        $chart['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
             'wget' => 231,
             'Safari' => 987,
-        );
+        ) );
 
         $chart['sample']->highlight['wget'] = true;
 
@@ -164,7 +182,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['Skien'] = array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 );
+        $chart['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 ) );
 
         $chart['Skien']->highlight['Norwegian'] = true;
 
@@ -176,7 +194,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 
@@ -185,7 +203,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['Skien'] = array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 );
+        $chart['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 ) );
 
         $chart['Skien']->highlight['Norwegian'] = true;
 
@@ -197,7 +215,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
-            10
+            2000
         );
     }
 }

@@ -60,6 +60,28 @@ class ezcGraphRenderer2dOptions extends ezcGraphChartOptions
     protected $titleAlignement = 48; // ezcGraph::MIDDLE | ezcGraph::CENTER
 
     /**
+     * Factor to darken border of data elements, like lines, bars and pie 
+     * segments
+     * 
+     * @var float
+     */
+    protected $dataBorder = .5;
+
+    /**
+     * Procentual distance between bar blocks
+     * 
+     * @var float
+     */
+    protected $barMargin = .1;
+
+    /**
+     * Procentual distance between bars
+     * 
+     * @var float
+     */
+    protected $barPadding = .05;
+
+    /**
      * Set an option value
      * 
      * @param string $propertyName 
@@ -89,6 +111,15 @@ class ezcGraphRenderer2dOptions extends ezcGraphChartOptions
                 break;
             case 'titleAlignement':
                 $this->titleAlignement = (int) $propertyValue;
+                break;
+            case 'dataBorder':
+                $this->dataBorder = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'barMargin':
+                $this->barMargin = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'barPadding':
+                $this->barPadding = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );
