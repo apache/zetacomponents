@@ -16,9 +16,17 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
 {
     public function setUp()
     {
+        try
+        {
+            $this->db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
+
         $this->testFilesDir = dirname( __FILE__ ) . '/testfiles/';
         $this->tempDir = $this->createTempDir( 'ezcDatabaseMySqlTest' );
-        $this->db = ezcDbInstance::get();
 
         $tables = $this->db->query( "SHOW TABLES" )->fetchAll();
         array_walk( $tables, create_function( '&$item,$key', '$item = $item[0];' ) );

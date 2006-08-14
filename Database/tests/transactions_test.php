@@ -51,8 +51,15 @@ class ezcDatabaseTransactionsTest extends ezcTestCase
 {
     public function setUp()
     {
-        $dbparams = ezcTestSettings::getInstance()->db->dsn;
-        MyDB::setParams( $dbparams );
+        try
+        {
+            $dbparams = ezcTestSettings::getInstance()->db->dsn;
+            MyDB::setParams( $dbparams );
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
     }
 
     // normal: test nested transactions

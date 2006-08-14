@@ -27,9 +27,17 @@ class ezcDatabaseSchemaMySqlDiffTest extends ezcTestCase
 
     public function setUp()
     {
+        try
+        {
+            $this->db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
+
         $this->testFilesDir = dirname( __FILE__ ) . '/testfiles/';
         $this->tempDir = $this->createTempDir( 'ezcDatabaseMySqlTest' );
-        $this->db = ezcDbInstance::get();
         $this->resetDb();
     }
 

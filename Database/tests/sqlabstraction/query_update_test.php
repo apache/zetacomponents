@@ -20,7 +20,14 @@ class ezcQueryUpdateTest extends ezcTestCase
 
     public function setUp()
     {
-        $db = ezcDbInstance::get();
+        try {
+            $db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
+
         $this->assertNotNull( $db, 'Database instance is not initialized.' );
 
         $this->q = new ezcQueryUpdate( $db );

@@ -25,7 +25,14 @@ class ezcQueryExpressionTest extends ezcTestCase
     private $db;
     public function setUp()
     {
-        $this->db = ezcDbInstance::get();
+        try {
+            $this->db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
+
         $this->q = $this->db->createSelectQuery();
         $this->e = $this->db->createExpression();
         $this->assertNotNull( $this->db, 'Database instance is not initialized.' );

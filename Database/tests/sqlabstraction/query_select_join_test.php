@@ -23,8 +23,15 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
     private $db;
     public function setUp()
     {
+        try
+        {
+            $this->db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
 
-        $this->db = ezcDbInstance::get();
         $this->q = $this->db->createSelectQuery();
         $this->e = $this->q->expr;
         $this->assertNotNull( $this->db, 'Database instance is not initialized.' );

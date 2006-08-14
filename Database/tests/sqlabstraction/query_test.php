@@ -44,7 +44,14 @@ class ezcQueryTest extends ezcTestCase
     private $q;
     public function setUp()
     {
-        $this->q = new MyQuery();
+        try
+        {
+            $this->q = new MyQuery();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
     }
 
     public static function suite()

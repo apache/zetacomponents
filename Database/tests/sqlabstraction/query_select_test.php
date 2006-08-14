@@ -60,7 +60,15 @@ class ezcQuerySelectTest extends ezcTestCase
     private $e; // queryExpression
     public function setUp()
     {
-        $db = ezcDbInstance::get();
+        try
+        {
+            $db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
+
         $this->q = new TestSelect( $db );
         $this->e = $this->q->expr;
     }

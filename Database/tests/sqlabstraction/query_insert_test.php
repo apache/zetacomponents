@@ -20,8 +20,14 @@ class ezcQueryInsertTest extends ezcTestCase
 
     public function setUp()
     {
-        $db = ezcDbInstance::get();
-        $this->assertNotNull( $db, 'Database instance is not initialized.' );
+        try
+        {
+            $db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
 
         $this->q = new ezcQueryInsert( $db );
         try

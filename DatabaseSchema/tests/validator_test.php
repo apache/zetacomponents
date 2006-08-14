@@ -16,7 +16,15 @@ class ezcDatabaseSchemaValidatorTest extends ezcTestCase
 {
     public function setUp()
     {
-        $this->db = ezcDbInstance::get();
+        try
+        {
+            $this->db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
+
     }
 
     public function testIndexFields()

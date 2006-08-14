@@ -19,7 +19,14 @@ class ezcDatabaseInstanceTest extends ezcTestCase
     private $default;
     public function setUp()
     {
-        $this->default = ezcDbInstance::get();
+        try
+        {
+            $this->default = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
     }
 
     public function tearDown()

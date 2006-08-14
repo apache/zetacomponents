@@ -4,7 +4,15 @@ class ezcLogDatabaseWriterTest extends ezcTestCase
 {
     public function setUp()
     {
-        $db = ezcDbInstance::get();
+        try
+        {
+            $db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
+
         $this->writer = new ezcLogDatabaseWriter( $db, "log");
 
         $this->assertNotNull( $db, 'Database instance is not initialized.' );
