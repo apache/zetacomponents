@@ -20,9 +20,18 @@ class ezcPersistentSessionTest extends ezcTestCase
 {
     private $session = null;
     private $hasTables = false;
+
     public function setUp()
     {
-        $db = ezcDbInstance::get();
+        try
+        {
+            $db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
+
         PersistentTestObject::setupTable();
         PersistentTestObject::insertCleanData();
 //        PersistentTestObject::saveSqlSchemas();

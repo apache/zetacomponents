@@ -17,8 +17,17 @@
 class ezcPersistentSessionInstanceTest extends ezcTestCase
 {
     private $default;
+
     public function setUp()
     {
+        try
+        {
+            $db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
     }
 
     public function tearDown()

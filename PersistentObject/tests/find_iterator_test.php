@@ -24,10 +24,18 @@ class ezcPersistentFindIteratorTest extends ezcTestCase
 
     public function setUp()
     {
+        try
+        {
+            $this->db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
+
         PersistentTestObject::setupTable();
         PersistentTestObject::insertCleanData();
         $this->manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
-        $this->db = ezcDbInstance::get();
         $this->session = new ezcPersistentSession( $this->db, $this->manager );
     }
 
