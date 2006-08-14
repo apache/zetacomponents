@@ -1,8 +1,7 @@
 <?php
+require_once 'PHPUnit/Framework/TestSuite.php';
 
-require_once 'PHPUnit2/Framework/TestSuite.php';
-
-class ezcTestSuite extends PHPUnit2_Framework_TestSuite
+class ezcTestSuite extends PHPUnit_Framework_TestSuite
 {
     protected static $depth = 0;
 
@@ -10,13 +9,13 @@ class ezcTestSuite extends PHPUnit2_Framework_TestSuite
     {
         // Remove this file name from the assertion trace.
         // (Displayed when a test fails)
-        PHPUnit2_Util_Filter::addFileToFilter( __FILE__ );
+        PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
  
         parent::__construct( $theClass, $name );
     }
 
 
-    public function run( PHPUnit2_Framework_TestResult $result = NULL )
+    public function run( PHPUnit_Framework_TestResult $result = NULL )
     {
         print ( "\n" );
         ezcTestSuite::$depth++;

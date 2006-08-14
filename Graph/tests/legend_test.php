@@ -74,7 +74,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#FF0000' ),
-            $this->getNonPublicProperty( $chart->legend, 'background' )
+            $this->getAttribute( $chart->legend, 'background' )
         );
     }
 
@@ -90,7 +90,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#FF0000' ),
-            $this->getNonPublicProperty( $chart->legend, 'border' )
+            $this->getAttribute( $chart->legend, 'border' )
         );
     }
 
@@ -106,7 +106,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
         $this->assertEquals(
             1,
-            $this->getNonPublicProperty( $chart->legend, 'borderWidth' )
+            $this->getAttribute( $chart->legend, 'borderWidth' )
         );
     }
 
@@ -122,7 +122,7 @@ class ezcGraphLegendTest extends ezcTestCase
 
         $this->assertEquals(
             ezcGraph::LEFT,
-            $this->getNonPublicProperty( $chart->legend, 'position' )
+            $this->getAttribute( $chart->legend, 'position' )
         );
     }
 }

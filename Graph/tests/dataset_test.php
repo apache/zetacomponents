@@ -46,7 +46,7 @@ class ezcGraphDataSetTest extends ezcTestCase
         $chart = new ezcGraphPieChart();
         $chart['humanoids'] = new ezcGraphArrayDataSet( array( 'monkey' => 54, 'ape' => 37, 'human' => 9 ) );
 
-        $datasets = $this->getNonPublicProperty( $chart, 'data' );
+        $datasets = $this->getAttribute( $chart, 'data' );
         $this->assertTrue(
             $datasets['humanoids'] instanceof ezcGraphDataSet,
             'No ezcGraphDataSet was created.'
@@ -69,7 +69,7 @@ class ezcGraphDataSetTest extends ezcTestCase
         $chart = new ezcGraphPieChart();
         $chart['example'] = new ezcGraphArrayDataSet( array( 'monkey' => 54, 2001 => 37 ) );
 
-        $data = $this->getNonPublicProperty( $chart['example'], 'data' );
+        $data = $this->getAttribute( $chart['example'], 'data' );
 
         $this->assertSame( 
             54.,
@@ -87,7 +87,7 @@ class ezcGraphDataSetTest extends ezcTestCase
         $chart['income'] = new ezcGraphArrayDataSet( array( 2000 => 2345.2, 2456.3, 2567.4 ) );
         $chart['spending'] = new ezcGraphArrayDataSet( array( 2000 => 2347.2, 2458.3, 2569.4 ) );
 
-        $datasets = $this->getNonPublicProperty( $chart, 'data' );
+        $datasets = $this->getAttribute( $chart, 'data' );
         $this->assertTrue(
             $datasets['income'] instanceof ezcGraphDataSet,
             'No ezcGraphDataSet was created.'

@@ -37,7 +37,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         class_exists( 'ezcTemplateSourceCode' );
         //class_exists( 'ezcTemplateManager' );
         $this->manager = new ezcTemplateManager();
-        PHPUnit2_Extensions_MockObject_Mock::generate( 'ezcTemplateParser', array( "reportElementCursor" ), 'MockElement_ezcTemplateParser' );
+        PHPUnit_Extensions_MockObject_Mock::generate( 'ezcTemplateParser', array( "reportElementCursor" ), 'MockElement_ezcTemplateParser' );
 
         $this->basePath = realpath( dirname( __FILE__ ) ) . '/';
         $this->templatePath = $this->basePath . 'templates/';

@@ -1,9 +1,8 @@
 <?php
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'PHPUnit/Util/Filter.php';
 
-require_once 'PHPUnit2/Framework/TestCase.php';
-
-require_once 'PHPUnit2/Util/Filter.php';
-PHPUnit2_Util_Filter::addFileToFilter( __FILE__ );
+PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
 
 abstract class ezcImageTestCase extends ezcTestCase
 {

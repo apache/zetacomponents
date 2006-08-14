@@ -1,19 +1,14 @@
 <?php
-
 // Prevent that our extended class starts to run.
-if ( !defined( 'PHPUnit2_MAIN_METHOD' ) )
+if ( !defined( 'PHPUnit_MAIN_METHOD' ) )
 {
-    define( 'PHPUnit2_MAIN_METHOD', 'TestRunner::main' );
+    define( 'PHPUnit_MAIN_METHOD', 'TestRunner::main' );
 }
 
-// FIXME: Circumvent the E_STRICT errors from PEAR itself.
-$oldErrorReporting = error_reporting( 0 );
-require_once 'PHPUnit2/TextUI/TestRunner.php';
-require_once 'PHPUnit2/Util/Filter.php';
-error_reporting( $oldErrorReporting );
+require_once 'PHPUnit/TextUI/TestRunner.php';
+require_once 'PHPUnit/Util/Filter.php';
 
-
-class ezcTestRunner extends PHPUnit2_TextUI_TestRunner
+class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 {
     const SUITE_FILENAME = "tests/suite.php";
 
@@ -25,7 +20,7 @@ class ezcTestRunner extends PHPUnit2_TextUI_TestRunner
 
         // Remove this file name from the assertion trace.
         // (Displayed when a test fails)
-        PHPUnit2_Util_Filter::addFileToFilter( __FILE__ );
+        PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
     }
 
     /**
@@ -184,7 +179,7 @@ class ezcTestRunner extends PHPUnit2_TextUI_TestRunner
 
     protected function printCredits()
     {
-        $version = PHPUnit2_Runner_Version::getVersionString();
+        $version = PHPUnit_Runner_Version::getVersionString();
         $pos = strpos( $version, "by Sebastian" );
 
         print( "ezcUnitTest uses the " . substr( $version, 0, $pos ) . "framework from Sebastian Bergmann.\n\n" );

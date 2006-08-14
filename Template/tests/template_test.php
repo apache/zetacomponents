@@ -304,12 +304,12 @@ class ezcTemplateTest extends ezcTestCase
 
 //     public function testFindSource()
 //     {
-//         throw new PHPUnit2_Framework_IncompleteTestError;
+//         throw new PHPUnit_Framework_IncompleteTestError;
 //     }
 
 //     public function testFindCompiled()
 //     {
-//         throw new PHPUnit2_Framework_IncompleteTestError;
+//         throw new PHPUnit_Framework_IncompleteTestError;
 //     }
 
      public function testProcess()

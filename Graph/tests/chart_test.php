@@ -101,7 +101,7 @@ class ezcGraphChartTest extends ezcTestCase
 
         $this->assertEquals( 
             ezcGraphColor::fromHex( 'FF0000' ),
-            $this->getNonPublicProperty( $pieChart->background, 'background' )
+            $this->getAttribute( $pieChart->background, 'background' )
         );
     }
 
@@ -112,7 +112,7 @@ class ezcGraphChartTest extends ezcTestCase
 
         $this->assertEquals( 
             ezcGraphColor::fromHex( 'FF0000' ),
-            $this->getNonPublicProperty( $pieChart->background, 'border' )
+            $this->getAttribute( $pieChart->background, 'border' )
         );
     }
 
@@ -121,7 +121,7 @@ class ezcGraphChartTest extends ezcTestCase
         $pieChart = new ezcGraphPieChart();
         $pieChart->background->borderWidth = 3;
 
-        $this->assertSame( 3, $this->getNonPublicProperty( $pieChart->background, 'borderWidth' ) );
+        $this->assertSame( 3, $this->getAttribute( $pieChart->background, 'borderWidth' ) );
     }
 
     public function testSetOptionsUnknown()
@@ -146,7 +146,7 @@ class ezcGraphChartTest extends ezcTestCase
 
         $this->assertSame(
             $renderer,
-            $this->getNonPublicProperty( $pieChart, 'renderer' )
+            $this->getAttribute( $pieChart, 'renderer' )
         );
     }
 
@@ -172,7 +172,7 @@ class ezcGraphChartTest extends ezcTestCase
 
         $this->assertSame(
             $driver,
-            $this->getNonPublicProperty( $pieChart, 'driver' )
+            $this->getAttribute( $pieChart, 'driver' )
         );
     }
 

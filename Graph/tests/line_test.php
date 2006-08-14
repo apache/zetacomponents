@@ -62,7 +62,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         $this->addSampleData( $chart );
         $chart->render( 500, 200 );
         
-        $legend = $this->getNonPublicProperty( $chart->legend, 'labels' );
+        $legend = $this->getAttribute( $chart->legend, 'labels' );
 
         $this->assertEquals(
             3,

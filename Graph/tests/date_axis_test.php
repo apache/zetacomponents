@@ -60,19 +60,19 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
         $this->assertEquals(
             0,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'startDate' ),
+            $this->getAttribute( $this->chart->xAxis, 'startDate' ),
             'Wrong starting date. '
         );
 
         $this->assertEquals(
             100,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'endDate' ),
+            $this->getAttribute( $this->chart->xAxis, 'endDate' ),
             'Wrong end date. '
         );
 
         $this->assertEquals(
             10,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'interval' ),
+            $this->getAttribute( $this->chart->xAxis, 'interval' ),
             'Wrong interval. '
         );
     }
@@ -88,19 +88,19 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
         $this->assertEquals(
             0,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'startDate' ),
+            $this->getAttribute( $this->chart->xAxis, 'startDate' ),
             'Wrong starting date. '
         );
 
         $this->assertEquals(
             100,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'endDate' ),
+            $this->getAttribute( $this->chart->xAxis, 'endDate' ),
             'Wrong end date. '
         );
 
         $this->assertEquals(
             10,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'interval' ),
+            $this->getAttribute( $this->chart->xAxis, 'interval' ),
             'Wrong interval. '
         );
     }
@@ -115,19 +115,19 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
         $this->assertEquals(
             10,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'startDate' ),
+            $this->getAttribute( $this->chart->xAxis, 'startDate' ),
             'Wrong starting date. '
         );
 
         $this->assertEquals(
             120,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'endDate' ),
+            $this->getAttribute( $this->chart->xAxis, 'endDate' ),
             'Wrong end date. '
         );
 
         $this->assertEquals(
             10,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'interval' ),
+            $this->getAttribute( $this->chart->xAxis, 'interval' ),
             'Wrong interval. '
         );
     }
@@ -139,19 +139,19 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
         $this->assertEquals(
             0,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'startDate' ),
+            $this->getAttribute( $this->chart->xAxis, 'startDate' ),
             'Wrong starting date. '
         );
 
         $this->assertEquals(
             120,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'endDate' ),
+            $this->getAttribute( $this->chart->xAxis, 'endDate' ),
             'Wrong end date. '
         );
 
         $this->assertEquals(
             30,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'interval' ),
+            $this->getAttribute( $this->chart->xAxis, 'interval' ),
             'Wrong interval. '
         );
     }
@@ -163,19 +163,19 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
         $this->assertEquals(
             30000,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'startDate' ),
+            $this->getAttribute( $this->chart->xAxis, 'startDate' ),
             'Wrong starting date. '
         );
 
         $this->assertEquals(
             30120,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'endDate' ),
+            $this->getAttribute( $this->chart->xAxis, 'endDate' ),
             'Wrong end date. '
         );
 
         $this->assertEquals(
             30,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'interval' ),
+            $this->getAttribute( $this->chart->xAxis, 'interval' ),
             'Wrong interval. '
         );
     }
@@ -192,19 +192,19 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
         $this->assertEquals(
             'Sun, 07 May 2006 10:00:00 +0200',
-            date( 'r', $this->getNonPublicProperty( $this->chart->xAxis, 'startDate' ) ),
+            date( 'r', $this->getAttribute( $this->chart->xAxis, 'startDate' ) ),
             'Wrong starting date. '
         );
 
         $this->assertEquals(
             'Sun, 07 May 2006 13:00:00 +0200',
-            date( 'r', $this->getNonPublicProperty( $this->chart->xAxis, 'endDate' ) ),
+            date( 'r', $this->getAttribute( $this->chart->xAxis, 'endDate' ) ),
             'Wrong end date. '
         );
 
         $this->assertEquals(
             1800,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'interval' ),
+            $this->getAttribute( $this->chart->xAxis, 'interval' ),
             'Wrong interval. '
         );
     }
@@ -222,19 +222,19 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
         $this->assertEquals(
             'Sun, 07 May 2006 06:00:00 +0200',
-            date( 'r', $this->getNonPublicProperty( $this->chart->xAxis, 'startDate' ) ),
+            date( 'r', $this->getAttribute( $this->chart->xAxis, 'startDate' ) ),
             'Wrong starting date. '
         );
 
         $this->assertEquals(
             'Tue, 09 May 2006 12:00:00 +0200',
-            date( 'r', $this->getNonPublicProperty( $this->chart->xAxis, 'endDate' ) ),
+            date( 'r', $this->getAttribute( $this->chart->xAxis, 'endDate' ) ),
             'Wrong end date. '
         );
 
         $this->assertEquals(
             21600,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'interval' ),
+            $this->getAttribute( $this->chart->xAxis, 'interval' ),
             'Wrong interval. '
         );
     }
@@ -251,19 +251,19 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
         $this->assertEquals(
             'Mon, 01 Jan 2001 01:00:00 +0100',
-            date( 'r', $this->getNonPublicProperty( $this->chart->xAxis, 'startDate' ) ),
+            date( 'r', $this->getAttribute( $this->chart->xAxis, 'startDate' ) ),
             'Wrong starting date. '
         );
 
         $this->assertEquals(
             'Thu, 01 Jan 2004 01:00:00 +0100',
-            date( 'r', $this->getNonPublicProperty( $this->chart->xAxis, 'endDate' ) ),
+            date( 'r', $this->getAttribute( $this->chart->xAxis, 'endDate' ) ),
             'Wrong end date. '
         );
 
         $this->assertEquals(
             31536000,
-            $this->getNonPublicProperty( $this->chart->xAxis, 'interval' ),
+            $this->getAttribute( $this->chart->xAxis, 'interval' ),
             'Wrong interval. '
         );
     }

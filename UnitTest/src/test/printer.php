@@ -1,8 +1,7 @@
 <?php
+require_once 'PHPUnit/TextUI/ResultPrinter.php';
 
-require_once 'PHPUnit2/TextUI/ResultPrinter.php';
-
-class ezcTestPrinter extends PHPUnit2_TextUI_ResultPrinter
+class ezcTestPrinter extends PHPUnit_TextUI_ResultPrinter
 {
     /**
      * Overrides ResultPrinter::nextColumn method to get rid of to automatic 

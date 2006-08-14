@@ -63,7 +63,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                 '2002',
                 '2003',
             ),
-            $this->getNonPublicProperty( $chart->xAxis, 'labels' )
+            $this->getAttribute( $chart->xAxis, 'labels' )
         );
     }
 
@@ -83,7 +83,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                 '2004',
                 '2005',
             ),
-            $this->getNonPublicProperty( $chart->xAxis, 'labels' )
+            $this->getAttribute( $chart->xAxis, 'labels' )
         );
     }
 
@@ -104,7 +104,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
                 '2005',
                 '2006',
             ),
-            $this->getNonPublicProperty( $chart->xAxis, 'labels' )
+            $this->getAttribute( $chart->xAxis, 'labels' )
         );
     }
 

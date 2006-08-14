@@ -12,7 +12,7 @@
  *
  * @package Unittest
  */
-class ezcTestConstraintSimilarImage implements PHPUnit2_Framework_Constraint
+class ezcTestConstraintSimilarImage implements PHPUnit_Framework_Constraint
 {
 
     /**
@@ -90,14 +90,14 @@ class ezcTestConstraintSimilarImage implements PHPUnit2_Framework_Constraint
      * 
      * @param string $other Filename of compared image
      * @param string $description Description of failure
-     * @throw PHPUnit2_Framework_ExpectationFailedException
+     * @throw PHPUnit_Framework_ExpectationFailedException
      * @return void
      */
     public function fail( $other, $description )
     {
-        throw new PHPUnit2_Framework_ExpectationFailedException(
+        throw new PHPUnit_Framework_ExpectationFailedException(
             $description,
-            PHPUnit2_Framework_ComparisonFailure::diffEqual( $this->delta, $this->difference )
+            PHPUnit_Framework_ComparisonFailure::diffEqual( $this->delta, $this->difference )
         );
     }
 

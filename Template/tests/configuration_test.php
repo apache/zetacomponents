@@ -73,7 +73,7 @@ class ezcTemplateConfigurationTest extends ezcTestCase
 
 //     public function testAutoloaderRegistration()
 //     {
-//         throw new PHPUnit2_Framework_IncompleteTestError;
+//         throw new PHPUnit_Framework_IncompleteTestError;
 //     }
 }
 
