@@ -634,10 +634,10 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                     'index' => $barCenterBottom->x,
                     'method' => 'drawCircularArc',
                     'parameters' => array(
-                        $this->get3dCoordinate( $barCenterBottom, $midDepth ),
+                        $this->get3dCoordinate( $barCenterTop, $midDepth ),
                         $barWidth,
                         $barWidth / 2,
-                        ( $barCenterTop->y - $barCenterBottom->y ) * $this->yDepthFactor,
+                        ( $barCenterBottom->y - $barCenterTop->y ) * $this->yDepthFactor,
                         0,
                         360,
                         $color
