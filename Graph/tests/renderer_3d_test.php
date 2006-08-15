@@ -46,7 +46,10 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
      */
     public function tearDown()
     {
-        $this->removeTempDir();
+        if( !$this->hasFailed() )
+        {
+            $this->removeTempDir();
+        }
     }
 
     public function testRenderBackgroundImage()
@@ -545,6 +548,33 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 ) );
 
         $chart->data['Skien']->highlight['Norwegian'] = true;
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->renderer = new ezcGraphRenderer3d();
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
+    public function testRenderBarChart()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+
+        $chart->data['Line 0'] = new ezcGraphArrayDataSet( array( 'sample 1' => 432, 'sample 2' => 43, 'sample 3' => 65, 'sample 4' => 97, 'sample 5' => 154) );
+        $chart->data['Line 0']->displayType = ezcGraph::BAR;
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 1']->displayType = ezcGraph::BAR;
+
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisBoxedLabelRenderer();
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->renderer = new ezcGraphRenderer3d();

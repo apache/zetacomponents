@@ -133,6 +133,20 @@ class ezcGraphRenderer3dOptions extends ezcGraphChartOptions
     protected $barPadding = .05;
 
     /**
+     * Factor to darken the color used for the bars side polygon
+     * 
+     * @var float
+     */
+    protected $barDarkenSide = .2;
+
+    /**
+     * Factor to darken the color used for the bars top polygon
+     * 
+     * @var float
+     */
+    protected $barDarkenTop = .4;
+
+    /**
      * Set an option value
      * 
      * @param string $propertyName 
@@ -195,6 +209,12 @@ class ezcGraphRenderer3dOptions extends ezcGraphChartOptions
                 break;
             case 'barPadding':
                 $this->barPadding = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'barDarkenSide':
+                $this->barDarkenSide = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'barDarkenTop':
+                $this->barDarkenTop = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );
