@@ -17,6 +17,7 @@ return array(
     'ezcGraphChart'                             => 'Graph/interfaces/chart.php',
     'ezcGraphPieChart'                          => 'Graph/charts/pie.php',
     'ezcGraphLineChart'                         => 'Graph/charts/line.php',
+    'ezcGraphBarChart'                          => 'Graph/charts/bar.php',
     'ezcGraphChartOptions'                      => 'Graph/options/chart.php',
     'ezcGraphPieChartOptions'                   => 'Graph/options/pie_chart.php',
     'ezcGraphLineChartOptions'                  => 'Graph/options/line_chart.php',

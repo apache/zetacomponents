@@ -566,17 +566,13 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $chart = new ezcGraphLineChart();
+        $chart = new ezcGraphBarChart();
         $chart->palette = new ezcGraphPaletteBlack();
 
         $chart->data['Line 0'] = new ezcGraphArrayDataSet( array( 'sample 1' => 432, 'sample 2' => 43, 'sample 3' => 65, 'sample 4' => 97, 'sample 5' => 154) );
-        $chart->data['Line 0']->displayType = ezcGraph::BAR;
         $chart->data['Line 0']->symbol = ezcGraph::NO_SYMBOL;
         $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart->data['Line 1']->displayType = ezcGraph::BAR;
         $chart->data['Line 1']->symbol = ezcGraph::NO_SYMBOL;
-
-        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisBoxedLabelRenderer();
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->renderer = new ezcGraphRenderer3d();
@@ -595,23 +591,17 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $chart = new ezcGraphLineChart();
+        $chart = new ezcGraphBarChart();
         $chart->palette = new ezcGraphPaletteBlack();
 
         $chart->data['Rectangle'] = new ezcGraphArrayDataSet( array( 'sample 1' => 432, 'sample 2' => 43, 'sample 3' => 65, 'sample 4' => 97, 'sample 5' => 154) );
-        $chart->data['Rectangle']->displayType = ezcGraph::BAR;
         $chart->data['Rectangle']->symbol = ezcGraph::NO_SYMBOL;
         $chart->data['Circle'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart->data['Circle']->displayType = ezcGraph::BAR;
         $chart->data['Circle']->symbol = ezcGraph::CIRCLE;
         $chart->data['Bullet'] = new ezcGraphArrayDataSet( array( 'sample 1' => 124, 'sample 2' => 245, 'sample 3' => 361, 'sample 4' => 412, 'sample 5' => 480) );
-        $chart->data['Bullet']->displayType = ezcGraph::BAR;
         $chart->data['Bullet']->symbol = ezcGraph::BULLET;
         $chart->data['Diamond'] = new ezcGraphArrayDataSet( array( 'sample 1' => 387, 'sample 2' => 261, 'sample 3' => 24, 'sample 4' => 59, 'sample 5' => 112) );
-        $chart->data['Diamond']->displayType = ezcGraph::BAR;
         $chart->data['Diamond']->symbol = ezcGraph::DIAMOND;
-
-        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisBoxedLabelRenderer();
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->renderer = new ezcGraphRenderer3d();
@@ -630,23 +620,17 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $chart = new ezcGraphLineChart();
+        $chart = new ezcGraphBarChart();
         $chart->palette = new ezcGraphPaletteBlack();
 
         $chart->data['Rectangle'] = new ezcGraphArrayDataSet( array( 'sample -1' => -432, 'sample -2' => -43, 'sample -3' => -65, 'sample -4' => -97, 'sample -5' => -154) );
-        $chart->data['Rectangle']->displayType = ezcGraph::BAR;
         $chart->data['Rectangle']->symbol = ezcGraph::NO_SYMBOL;
         $chart->data['Circle'] = new ezcGraphArrayDataSet( array( 'sample -1' => -234, 'sample -2' => -21, 'sample -3' => -324, 'sample -4' => -120, 'sample -5' => -1) );
-        $chart->data['Circle']->displayType = ezcGraph::BAR;
         $chart->data['Circle']->symbol = ezcGraph::CIRCLE;
         $chart->data['Bullet'] = new ezcGraphArrayDataSet( array( 'sample -1' => -124, 'sample -2' => -245, 'sample -3' => -361, 'sample -4' => -412, 'sample -5' => -480) );
-        $chart->data['Bullet']->displayType = ezcGraph::BAR;
         $chart->data['Bullet']->symbol = ezcGraph::BULLET;
         $chart->data['Diamond'] = new ezcGraphArrayDataSet( array( 'sample -1' => -387, 'sample -2' => -261, 'sample -3' => -24, 'sample -4' => -59, 'sample -5' => -112) );
-        $chart->data['Diamond']->displayType = ezcGraph::BAR;
         $chart->data['Diamond']->symbol = ezcGraph::DIAMOND;
-
-        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisBoxedLabelRenderer();
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->renderer = new ezcGraphRenderer3d();
