@@ -57,6 +57,7 @@ abstract class ezcGraphRenderer
      * @param float $stepSize Space which can be used for bars
      * @param int $dataNumber Number of dataset
      * @param int $dataCount Count of datasets in chart
+     * @param int $symbol Symbol to draw for line
      * @param float $axisPosition Position of axis for drawing filled lines
      * @return void
      */
@@ -67,6 +68,7 @@ abstract class ezcGraphRenderer
         $stepSize,
         $dataNumber = 1,
         $dataCount = 1,
+        $symbol = ezcGraph::NO_SYMBOL,
         $axisPosition = 0.
     );
     

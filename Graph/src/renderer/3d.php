@@ -445,6 +445,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
      * @param float $stepSize Space which can be used for bars
      * @param int $dataNumber Number of dataset
      * @param int $dataCount Count of datasets in chart
+     * @param int $symbol Symbol to draw for line
      * @param float $axisPosition Position of axis for drawing filled lines
      * @return void
      */
@@ -455,6 +456,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         $stepSize,
         $dataNumber = 1,
         $dataCount = 1,
+        $symbol = ezcGraph::NO_SYMBOL,
         $axisPosition = 0. )
     {
         // Apply margin
@@ -464,98 +466,224 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         $offset = - $stepSize / 2 + $margin / 2 + ( $dataCount - $dataNumber - 1 ) * ( $padding + $barWidth ) + $padding / 2;
 
         $startDepth = $this->options->barMargin;
+        $midDepth = .5;
         $endDepth = 1 - $this->options->barMargin;
 
-        $barPolygonArray = array(
-            new ezcGraphCoordinate( 
-                $this->dataBoundings->x0 + $this->xAxisSpace + $position->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ) + $offset,
-                $this->dataBoundings->y0 + $this->yAxisSpace + $axisPosition * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) )
-            ),
-            new ezcGraphCoordinate( 
-                $this->dataBoundings->x0 + $this->xAxisSpace + $position->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ) + $offset,
-                $this->dataBoundings->y0 + $this->yAxisSpace + $position->y * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) )
-            ),
-            new ezcGraphCoordinate( 
-                $this->dataBoundings->x0 + $this->xAxisSpace + $position->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ) + $offset + $barWidth,
-                $this->dataBoundings->y0 + $this->yAxisSpace + $position->y * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) )
-            ),
-            new ezcGraphCoordinate( 
-                $this->dataBoundings->x0 + $this->xAxisSpace + $position->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ) + $offset + $barWidth,
-                $this->dataBoundings->y0 + $this->yAxisSpace + $axisPosition * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) )
-            ),
-        );
+        switch ( $symbol )
+        {
+            case ezcGraph::NO_SYMBOL:
+                $barPolygonArray = array(
+                    new ezcGraphCoordinate( 
+                        $this->dataBoundings->x0 + $this->xAxisSpace + $position->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ) + $offset,
+                        $this->dataBoundings->y0 + $this->yAxisSpace + $axisPosition * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) )
+                    ),
+                    new ezcGraphCoordinate( 
+                        $this->dataBoundings->x0 + $this->xAxisSpace + $position->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ) + $offset,
+                        $this->dataBoundings->y0 + $this->yAxisSpace + $position->y * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) )
+                    ),
+                    new ezcGraphCoordinate( 
+                        $this->dataBoundings->x0 + $this->xAxisSpace + $position->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ) + $offset + $barWidth,
+                        $this->dataBoundings->y0 + $this->yAxisSpace + $position->y * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) )
+                    ),
+                    new ezcGraphCoordinate( 
+                        $this->dataBoundings->x0 + $this->xAxisSpace + $position->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ) + $offset + $barWidth,
+                        $this->dataBoundings->y0 + $this->yAxisSpace + $axisPosition * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) )
+                    ),
+                );
 
-        // Draw right bar side
-        $this->barPostProcessing[] = array(
-            'polygone' => array(
-                $this->get3dCoordinate( $barPolygonArray[2], $startDepth ),
-                $this->get3dCoordinate( $barPolygonArray[3], $startDepth ),
-                $this->get3dCoordinate( $barPolygonArray[3], $endDepth ),
-                $this->get3dCoordinate( $barPolygonArray[2], $endDepth ),
-            ),
-            'color' => $color->darken( $this->options->barDarkenSide ),
-        );
+                // Draw right bar side
+                $this->barPostProcessing[] = array(
+                    'index' => $barPolygonArray[2]->x,
+                    'method' => 'drawPolygon',
+                    'parameters' => array(
+                        array(
+                            $this->get3dCoordinate( $barPolygonArray[2], $startDepth ),
+                            $this->get3dCoordinate( $barPolygonArray[3], $startDepth ),
+                            $this->get3dCoordinate( $barPolygonArray[3], $endDepth ),
+                            $this->get3dCoordinate( $barPolygonArray[2], $endDepth ),
+                        ),
+                        $color->darken( $this->options->barDarkenSide ),
+                        true
+                    ),
+                );
 
-        // Draw bar top
-        $this->barPostProcessing[] = array(
-            'polygone' => array(
-                $this->get3dCoordinate( $barPolygonArray[1], $startDepth ),
-                $this->get3dCoordinate( $barPolygonArray[2], $startDepth ),
-                $this->get3dCoordinate( $barPolygonArray[2], $endDepth ),
-                $this->get3dCoordinate( $barPolygonArray[1], $endDepth ),
-            ),
-            'color' => $color->darken( $this->options->barDarkenTop ),
-        );
+                $this->barPostProcessing[] = array(
+                    'index' => $barPolygonArray[1]->x,
+                    'method' => 'drawPolygon',
+                    'parameters' => array(
+                        ( $barPolygonArray[1]->y < $barPolygonArray[3]->y
+                        ?   array(
+                                $this->get3dCoordinate( $barPolygonArray[1], $startDepth ),
+                                $this->get3dCoordinate( $barPolygonArray[2], $startDepth ),
+                                $this->get3dCoordinate( $barPolygonArray[2], $endDepth ),
+                                $this->get3dCoordinate( $barPolygonArray[1], $endDepth ),
+                            )
+                        :   array(
+                                $this->get3dCoordinate( $barPolygonArray[0], $startDepth ),
+                                $this->get3dCoordinate( $barPolygonArray[3], $startDepth ),
+                                $this->get3dCoordinate( $barPolygonArray[3], $endDepth ),
+                                $this->get3dCoordinate( $barPolygonArray[0], $endDepth ),
+                            )
+                        ),
+                        $color->darken( $this->options->barDarkenTop ),
+                        true
+                    ),
+                );
 
-        // Draw front side
-        $this->barPostProcessing[] = array(
-            'polygone' => array(
-                $this->get3dCoordinate( $barPolygonArray[0], $startDepth ),
-                $this->get3dCoordinate( $barPolygonArray[1], $startDepth ),
-                $this->get3dCoordinate( $barPolygonArray[2], $startDepth ),
-                $this->get3dCoordinate( $barPolygonArray[3], $startDepth ),
-            ),
-            'color' => $color,
-        );
+                $this->barPostProcessing[] = array(
+                    'index' => $barPolygonArray[1]->x,
+                    'method' => 'drawPolygon',
+                    'parameters' => array(
+                        array(
+                            $this->get3dCoordinate( $barPolygonArray[0], $startDepth ),
+                            $this->get3dCoordinate( $barPolygonArray[1], $startDepth ),
+                            $this->get3dCoordinate( $barPolygonArray[2], $startDepth ),
+                            $this->get3dCoordinate( $barPolygonArray[3], $startDepth ),
+                        ),
+                        $color,
+                        true
+                    ),
+                );
+                break;
+            case ezcGraph::DIAMOND:
+                $barCoordinateArray = array(
+                    // The bottom point of the diamond is moved to .7 instead 
+                    // of .5 because it looks more correct, even it is wrong...
+                    'x' => array(
+                        $this->dataBoundings->x0 + $this->xAxisSpace + $position->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ) + $offset,
+                        $this->dataBoundings->x0 + $this->xAxisSpace + $position->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ) + $offset + $barWidth * .7,
+                        $this->dataBoundings->x0 + $this->xAxisSpace + $position->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ) + $offset + $barWidth,
+                        $this->dataBoundings->x0 + $this->xAxisSpace + $position->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ) + $offset + $barWidth * .3,
+                    ),
+                    'y' => array(
+                        $this->dataBoundings->y0 + $this->yAxisSpace + $axisPosition * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) ),
+                        $this->dataBoundings->y0 + $this->yAxisSpace + $position->y * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) ),
+                    ),
+                );
+
+                $this->barPostProcessing[] = array(
+                    'index' => $barCoordinateArray['x'][0],
+                    'method' => 'drawPolygon',
+                    'parameters' => array(
+                        array(
+                            $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][0], $barCoordinateArray['y'][0] ), $midDepth ),
+                            $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][0], $barCoordinateArray['y'][1] ), $midDepth ),
+                            $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][1], $barCoordinateArray['y'][1] ), $startDepth ),
+                            $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][1], $barCoordinateArray['y'][0] ), $startDepth ),
+                        ),
+                        $color,
+                        true
+                    ),
+                );
+
+                $this->barPostProcessing[] = array(
+                    'index' => $barCoordinateArray['x'][1],
+                    'method' => 'drawPolygon',
+                    'parameters' => array(
+                        array(
+                            $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][2], $barCoordinateArray['y'][0] ), $midDepth ),
+                            $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][2], $barCoordinateArray['y'][1] ), $midDepth ),
+                            $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][1], $barCoordinateArray['y'][1] ), $startDepth ),
+                            $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][1], $barCoordinateArray['y'][0] ), $startDepth ),
+                        ),
+                        $color->darken( $this->options->barDarkenSide ),
+                        true
+                    ),
+                );
+
+                $topLocation = min(
+                    $barCoordinateArray['y'][0],
+                    $barCoordinateArray['y'][1]
+                );
+
+                $this->barPostProcessing[] = array(
+                    'index' => $barCoordinateArray['x'][0],
+                    'method' => 'drawPolygon',
+                    'parameters' => array(
+                        array(
+                            $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][1], $topLocation ), $startDepth ),
+                            $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][2], $topLocation ), $midDepth ),
+                            $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][3], $topLocation ), $endDepth ),
+                            $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][0], $topLocation ), $midDepth ),
+                        ),
+                        $color->darken( $this->options->barDarkenTop ),
+                        true
+                    ),
+                );
+                break;
+            case ezcGraph::BULLET:
+            case ezcGraph::CIRCLE:
+                $barCenterTop = new ezcGraphCoordinate(
+                    $this->dataBoundings->x0 + $this->xAxisSpace + $position->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ) + $offset + $barWidth / 2,
+                    $this->dataBoundings->y0 + $this->yAxisSpace + $position->y * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) )
+                    
+                );
+                $barCenterBottom = new ezcGraphCoordinate(
+                    $this->dataBoundings->x0 + $this->xAxisSpace + $position->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ) + $offset + $barWidth / 2,
+                    $this->dataBoundings->y0 + $this->yAxisSpace + $axisPosition * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) )
+                );
+
+                if ( $barCenterTop->y > $barCenterBottom->y )
+                {
+                    $tmp = $barCenterTop;
+                    $barCenterTop = $barCenterBottom;
+                    $barCenterBottom = $tmp;
+                }
+
+                $this->barPostProcessing[] = array(
+                    'index' => $barCenterBottom->x,
+                    'method' => 'drawCircularArc',
+                    'parameters' => array(
+                        $this->get3dCoordinate( $barCenterBottom, $midDepth ),
+                        $barWidth,
+                        $barWidth / 2,
+                        ( $barCenterTop->y - $barCenterBottom->y ) * $this->yDepthFactor,
+                        0,
+                        360,
+                        $color
+                    ),
+                );
+
+                $this->barPostProcessing[] = array(
+                    'index' => $barCenterBottom->x + 1,
+                    'method' => 'drawCircle',
+                    'parameters' => array(
+                        $this->get3dCoordinate( $barCenterTop, $midDepth ),
+                        $barWidth,
+                        $barWidth / 2,
+                        ( $symbol === ezcGraph::CIRCLE ? $color->darken( $this->options->barDarkenTop ) : $color )
+                    ),
+                );
+
+                break;
+        }
+
     }
  
     protected function finishBars()
     {
-        $zBuffer = array();
+        if ( !count( $this->barPostProcessing ) )
+        {
+            return true;
+        }
+
+        $zIndexArray = array();
+        foreach ( $this->barPostProcessing as $key => $barPolygon )
+        {
+            $zIndexArray[$key] = $barPolygon['index'];
+        }
+
+        array_multisort(
+            $zIndexArray, SORT_ASC, SORT_NUMERIC,
+            $this->barPostProcessing
+        );
 
         foreach ( $this->barPostProcessing as $bar )
         {
-            $zIndex = (int) ( $bar['polygone'][0]->x * 10 );
-            if ( !isset( $zBuffer[$zIndex] ) )
-            {
-                $zBuffer[$zIndex] = array();
-            }
-
-            $zBuffer[$zIndex][] = $bar;
-        }
-
-        ksort( $zBuffer );
-
-        foreach ( $zBuffer as $bars )
-        {
-            foreach ( $bars as $bar )
-            {
-                $this->driver->drawPolygon(
-                    $bar['polygone'],
-                    $bar['color'],
-                    true
-                );
-
-                if ( $this->options->dataBorder > 0 )
-                {
-                    $borderColor = $bar['color']->darken( $this->options->dataBorder );
-                    $this->driver->drawPolygon(
-                        $bar['polygone'],
-                        $borderColor,
-                        false
-                    );
-                }
-            }
+            call_user_func_array(
+                array( $this->driver, $bar['method'] ),
+                $bar['parameters']
+            );
         }
     }
 

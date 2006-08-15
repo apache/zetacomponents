@@ -174,6 +174,7 @@ class ezcGraphLineChart extends ezcGraphChart
                             $width,
                             $nr[$data->displayType->default],
                             $count[$data->displayType->default],
+                            $data->symbol[$key],
                             $yAxisNullPosition
                         );
                     }
