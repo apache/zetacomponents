@@ -190,7 +190,7 @@ class ezcGraphLineChart extends ezcGraphChart
      * 
      * @return int Display type
      */
-    protected function getDefaultDisplayType()
+    public function getDefaultDisplayType()
     {
         return ezcGraph::LINE;
     }

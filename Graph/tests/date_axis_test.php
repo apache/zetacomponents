@@ -54,7 +54,7 @@ class ezcGraphDateAxisTest extends ezcTestCase
         $this->chart->xAxis->endDate = 100;
         $this->chart->xAxis->interval = 10;
 
-        $this->chart['some data'] = new ezcGraphArrayDataSet( array( 10 => 12, 37 => 235, 43 => 17, 114 => 39 ) );
+        $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 10 => 12, 37 => 235, 43 => 17, 114 => 39 ) );
 
         $this->chart->render( 500, 200 );
 
@@ -82,7 +82,7 @@ class ezcGraphDateAxisTest extends ezcTestCase
         $this->chart->xAxis->startDate = 0;
         $this->chart->xAxis->endDate = 100;
 
-        $this->chart['some data'] = new ezcGraphArrayDataSet( array( 10 => 12, 37 => 235, 43 => 17, 114 => 39 ) );
+        $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 10 => 12, 37 => 235, 43 => 17, 114 => 39 ) );
 
         $this->chart->render( 500, 200 );
 
@@ -109,7 +109,7 @@ class ezcGraphDateAxisTest extends ezcTestCase
     {
         $this->chart->xAxis->interval = 10;
 
-        $this->chart['some data'] = new ezcGraphArrayDataSet( array( 10 => 12, 37 => 235, 43 => 17, 114 => 39 ) );
+        $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 10 => 12, 37 => 235, 43 => 17, 114 => 39 ) );
 
         $this->chart->render( 500, 200 );
 
@@ -134,7 +134,7 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
     public function testAutomagicScalingSingle1()
     {
-        $this->chart['some data'] = new ezcGraphArrayDataSet( array( 10 => 12, 37 => 235, 43 => 17, 114 => 39 ) );
+        $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 10 => 12, 37 => 235, 43 => 17, 114 => 39 ) );
         $this->chart->render( 500, 200 );
 
         $this->assertEquals(
@@ -158,7 +158,7 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
     public function testAutomagicScalingSingle2()
     {
-        $this->chart['some data'] = new ezcGraphArrayDataSet( array( 30010 => 12, 30037 => 235, 30043 => 17, 30114 => 39 ) );
+        $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 30010 => 12, 30037 => 235, 30043 => 17, 30114 => 39 ) );
         $this->chart->render( 500, 200 );
 
         $this->assertEquals(
@@ -182,7 +182,7 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
     public function testAutomagicScalingSingle3()
     {
-        $this->chart['some data'] = new ezcGraphArrayDataSet( array( 
+        $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 
             mktime( 10, 13, 57, 5, 7, 2006 ) => 324,
             mktime( 10, 46, 13, 5, 7, 2006 ) => 324,
             mktime( 11, 15, 45, 5, 7, 2006 ) => 324,
@@ -211,7 +211,7 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
     public function testAutomagicScalingSingle4()
     {
-        $this->chart['some data'] = new ezcGraphArrayDataSet( array( 
+        $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 
             mktime( 10, 13, 57, 5, 7, 2006 ) => 324,
             mktime( 17, 46, 13, 5, 7, 2006 ) => 324,
             mktime( 11, 15, 45, 5, 8, 2006 ) => 324,
@@ -241,7 +241,7 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
     public function testAutomagicScalingSingle5()
     {
-        $this->chart['some data'] = new ezcGraphArrayDataSet( array( 
+        $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 
             mktime( 1, 0, 0, 1, 1, 2001 ) => 324,
             mktime( 1, 0, 0, 1, 1, 2002 ) => 324,
             mktime( 1, 0, 0, 1, 1, 2003 ) => 324,
@@ -270,7 +270,7 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
     public function testPositionLeft()
     {
-        $this->chart['some data'] = new ezcGraphArrayDataSet( array( 
+        $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 
             mktime( 10, 13, 57, 5, 7, 2006 ) => 324,
             mktime( 17, 46, 13, 5, 7, 2006 ) => 324,
             mktime( 11, 15, 45, 5, 8, 2006 ) => 324,
@@ -311,7 +311,7 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
     public function testPositionRight()
     {
-        $this->chart['some data'] = new ezcGraphArrayDataSet( array( 
+        $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 
             mktime( 10, 13, 57, 5, 7, 2006 ) => 324,
             mktime( 17, 46, 13, 5, 7, 2006 ) => 324,
             mktime( 11, 15, 45, 5, 8, 2006 ) => 324,

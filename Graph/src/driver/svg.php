@@ -60,6 +60,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             if ( $this->options->templateDocument !== false )
             {
                 $this->dom = new DOMDocument();
+// @TODO: Add                $this->dom->format
                 $this->dom->load( $this->options->templateDocument );
 
                 $this->defs = $this->dom->getElementsByTagName( 'defs' )->item( 0 );

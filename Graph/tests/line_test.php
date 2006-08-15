@@ -51,9 +51,9 @@ class ezcGraphLineChartTest extends ezcTestCase
 
     protected function addSampleData( ezcGraphChart $chart )
     {
-        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 112, 'sample 2' => 54, 'sample 3' => 12, 'sample 4' => -167, 'sample 5' => 329) );
-        $chart['Even more data'] = new ezcGraphArrayDataSet( array( 'sample 1' => 300, 'sample 2' => -30, 'sample 3' => 220, 'sample 4' => 67, 'sample 5' => 450) );
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 112, 'sample 2' => 54, 'sample 3' => 12, 'sample 4' => -167, 'sample 5' => 329) );
+        $chart->data['Even more data'] = new ezcGraphArrayDataSet( array( 'sample 1' => 300, 'sample 2' => -30, 'sample 3' => 220, 'sample 4' => 67, 'sample 5' => 450) );
     }
 
     public function testElementGenerationLegend()
@@ -98,8 +98,8 @@ class ezcGraphLineChartTest extends ezcTestCase
     public function testInvalidDisplayType()
     {
         $chart = new ezcGraphLineChart();
-        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
-        $chart['sampleData']->displayType = ezcGraph::PIE;
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
+        $chart->data['sampleData']->displayType = ezcGraph::PIE;
 
         try 
         {
@@ -116,9 +116,9 @@ class ezcGraphLineChartTest extends ezcTestCase
     public function testRenderChartLines()
     {
         $chart = new ezcGraphLineChart();
-        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
-        $chart['sampleData']->color = '#CC0000';
-        $chart['sampleData']->symbol = ezcGraph::DIAMOND;
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
+        $chart->data['sampleData']->color = '#CC0000';
+        $chart->data['sampleData']->symbol = ezcGraph::DIAMOND;
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
             'drawDataLine',
@@ -203,13 +203,13 @@ class ezcGraphLineChartTest extends ezcTestCase
     public function testRenderChartMixedBarsAndLines()
     {
         $chart = new ezcGraphLineChart();
-        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
-        $chart['sampleData']->color = '#CC0000';
-        $chart['sampleData']->displayType = ezcGraph::BAR;
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
+        $chart->data['sampleData']->color = '#CC0000';
+        $chart->data['sampleData']->displayType = ezcGraph::BAR;
 
-        $chart['sampleData2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
-        $chart['sampleData2']->color = '#CC0000';
-        $chart['sampleData2']->symbol = ezcGraph::DIAMOND;
+        $chart->data['sampleData2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
+        $chart->data['sampleData2']->color = '#CC0000';
+        $chart->data['sampleData2']->symbol = ezcGraph::DIAMOND;
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
             'drawBar',
@@ -275,10 +275,10 @@ class ezcGraphLineChartTest extends ezcTestCase
     public function testRenderChartBars()
     {
         $chart = new ezcGraphLineChart();
-        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
-        $chart['sampleData']->color = '#CC0000';
-        $chart['sampleData']->symbol = ezcGraph::DIAMOND;
-        $chart['sampleData']->displayType = ezcGraph::BAR;
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1 ) );
+        $chart->data['sampleData']->color = '#CC0000';
+        $chart->data['sampleData']->symbol = ezcGraph::DIAMOND;
+        $chart->data['sampleData']->displayType = ezcGraph::BAR;
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
             'drawBar',
@@ -348,7 +348,7 @@ class ezcGraphLineChartTest extends ezcTestCase
     public function testRenderChartFilledLines()
     {
         $chart = new ezcGraphLineChart();
-        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => -46, 'sample 4' => 120, 'sample 5'  => 100 ) );
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => -46, 'sample 4' => 120, 'sample 5'  => 100 ) );
         $chart->palette = new ezcGraphPaletteBlack();
         $chart->options->fillLines = 100;
 
@@ -408,9 +408,9 @@ class ezcGraphLineChartTest extends ezcTestCase
     {
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
-        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['sampleData']->symbol = ezcGraph::DIAMOND;
-        $chart['sampleData']->symbol['sample 3'] = ezcGraph::CIRCLE;
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['sampleData']->symbol = ezcGraph::DIAMOND;
+        $chart->data['sampleData']->symbol['sample 3'] = ezcGraph::CIRCLE;
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
             'drawDataLine',

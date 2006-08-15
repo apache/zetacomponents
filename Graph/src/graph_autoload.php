@@ -22,6 +22,9 @@ return array(
     'ezcGraphLineChartOptions'                  => 'Graph/options/line_chart.php',
     'ezcGraphInvalidImageFileException'         => 'Graph/exceptions/invalid_image_file.php',
 
+    'ezcGraphChartDataContainer'                => 'Graph/data_container/base.php',
+    'ezcGraphChartSingleDataContainer'          => 'Graph/data_container/single.php',
+
     'ezcGraphColor'                             => 'Graph/structs/color.php',
     'ezcGraphUnknownColorDefinitionException'   => 'Graph/exceptions/unknown_color_definition.php',
 

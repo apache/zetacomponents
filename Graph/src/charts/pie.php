@@ -20,40 +20,14 @@ class ezcGraphPieChart extends ezcGraphChart
         $this->options = new ezcGraphPieChartOptions( $options );
 
         parent::__construct( $options );
-    }
 
-    /**
-     * Adds a dataset to the charts data
-     * 
-     * @param string $name Name of dataset
-     * @param mixed $values Values to create dataset with
-     * @throws ezcGraphTooManyDataSetExceptions
-     *          If too many datasets are created
-     * @return ezcGraphDataSet
-     */
-    protected function addDataSet( $name, ezcGraphDataSet $values )
-    {
-        if ( count( $this->data ) >= 1 &&
-             !isset( $this->data[$name] ) )
-        {
-            throw new ezcGraphTooManyDataSetsExceptions( $name );
-        }
-        else
-        {
-            parent::addDataSet( $name, $values );
-
-            // Colorize each data element
-            foreach ( $this->data[$name] as $label => $value )
-            {
-                $this->data[$name]->color[$label] = $this->palette->dataSetColor;
-            }
-        }
+        $this->data = new ezcGraphChartSingleDataContainer( $this );
     }
 
     protected function renderData( $renderer, $boundings )
     {
         // Only draw the first (and only) dataset
-        $dataset = reset( $this->data );
+        $dataset = $this->data->rewind();
 
         $this->driver->options->font = $this->options->font;
 
@@ -91,7 +65,7 @@ class ezcGraphPieChart extends ezcGraphChart
      * 
      * @return int Display type
      */
-    protected function getDefaultDisplayType()
+    public function getDefaultDisplayType()
     {
         return ezcGraph::PIE;
     }
@@ -110,7 +84,7 @@ class ezcGraphPieChart extends ezcGraphChart
         $this->driver->options->height = $height;
 
         // Generate legend
-        $this->elements['legend']->generateFromDataSet( reset( $this->data ) );
+        $this->elements['legend']->generateFromDataSet( $this->data->rewind() );
 
         // Get boundings from parameters
         $this->options->width = $width;

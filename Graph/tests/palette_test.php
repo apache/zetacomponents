@@ -289,18 +289,18 @@ class ezcGraphPaletteTest extends ezcTestCase
     public function testDataSetAutomaticColorization()
     {
         $chart = new ezcGraphLineChart();
-        $chart['income'] = new ezcGraphArrayDataSet( array( 2000 => 2345.2, 2456.3, 2567.4 ) );
-        $chart['spending'] = new ezcGraphArrayDataSet( array( 2000 => 2347.2, 2458.3, 2569.4 ) );
+        $chart->data['income'] = new ezcGraphArrayDataSet( array( 2000 => 2345.2, 2456.3, 2567.4 ) );
+        $chart->data['spending'] = new ezcGraphArrayDataSet( array( 2000 => 2347.2, 2458.3, 2569.4 ) );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#3465A4' ),
-            $chart['income']->color->default,
+            $chart->data['income']->color->default,
             'Wrong automatic color set.'
         );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#4E9A06' ),
-            $chart['spending']->color->default,
+            $chart->data['spending']->color->default,
             'Wrong automatic color set.'
         );
     }
@@ -308,8 +308,8 @@ class ezcGraphPaletteTest extends ezcTestCase
     public function testChartBackground()
     {
         $chart = new ezcGraphLineChart();
-        $chart['income'] = new ezcGraphArrayDataSet( array( 2000 => 2345.2, 2456.3, 2567.4 ) );
-        $chart['spending'] = new ezcGraphArrayDataSet( array( 2000 => 2347.2, 2458.3, 2569.4 ) );
+        $chart->data['income'] = new ezcGraphArrayDataSet( array( 2000 => 2345.2, 2456.3, 2567.4 ) );
+        $chart->data['spending'] = new ezcGraphArrayDataSet( array( 2000 => 2347.2, 2458.3, 2569.4 ) );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#EEEEEC' ),
@@ -321,8 +321,8 @@ class ezcGraphPaletteTest extends ezcTestCase
     public function testChartElementBorder()
     {
         $chart = new ezcGraphLineChart();
-        $chart['income'] = new ezcGraphArrayDataSet( array( 2000 => 2345.2, 2456.3, 2567.4 ) );
-        $chart['spending'] = new ezcGraphArrayDataSet( array( 2000 => 2347.2, 2458.3, 2569.4 ) );
+        $chart->data['income'] = new ezcGraphArrayDataSet( array( 2000 => 2345.2, 2456.3, 2567.4 ) );
+        $chart->data['spending'] = new ezcGraphArrayDataSet( array( 2000 => 2347.2, 2458.3, 2569.4 ) );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#000000FF' ),
@@ -334,8 +334,8 @@ class ezcGraphPaletteTest extends ezcTestCase
     public function testChartElementBorderWidth()
     {
         $chart = new ezcGraphLineChart();
-        $chart['income'] = new ezcGraphArrayDataSet( array( 2000 => 2345.2, 2456.3, 2567.4 ) );
-        $chart['spending'] = new ezcGraphArrayDataSet( array( 2000 => 2347.2, 2458.3, 2569.4 ) );
+        $chart->data['income'] = new ezcGraphArrayDataSet( array( 2000 => 2345.2, 2456.3, 2567.4 ) );
+        $chart->data['spending'] = new ezcGraphArrayDataSet( array( 2000 => 2347.2, 2458.3, 2569.4 ) );
 
         $this->assertEquals(
             0,
@@ -347,8 +347,8 @@ class ezcGraphPaletteTest extends ezcTestCase
     public function testChartElementAxisColor()
     {
         $chart = new ezcGraphLineChart();
-        $chart['income'] = new ezcGraphArrayDataSet( array( 2000 => 2345.2, 2456.3, 2567.4 ) );
-        $chart['spending'] = new ezcGraphArrayDataSet( array( 2000 => 2347.2, 2458.3, 2569.4 ) );
+        $chart->data['income'] = new ezcGraphArrayDataSet( array( 2000 => 2345.2, 2456.3, 2567.4 ) );
+        $chart->data['spending'] = new ezcGraphArrayDataSet( array( 2000 => 2347.2, 2458.3, 2569.4 ) );
 
         $this->assertEquals(
             ezcGraphColor::fromHex( '#2E3436' ),

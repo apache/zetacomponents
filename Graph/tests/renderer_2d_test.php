@@ -1159,22 +1159,16 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
     {
         $chart = new ezcGraphLineChart();
 
-        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['sampleData']->color = '#0000FF';
-        $chart['sampleData']->symbol = ezcGraph::DIAMOND;
-        $chart['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['moreData']->color = '#FF0000';
-        $chart['evenMoreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['evenMoreData']->color = '#00FF00';
-        $chart['evenMoreData']->label = 'Even more data';
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['sampleData']->color = '#0000FF';
+        $chart->data['sampleData']->symbol = ezcGraph::DIAMOND;
+        $chart->data['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['moreData']->color = '#FF0000';
+        $chart->data['evenMoreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['evenMoreData']->color = '#00FF00';
+        $chart->data['evenMoreData']->label = 'Even more data';
 
-        $datasets = array(
-            $chart['sampleData'],
-            $chart['moreData'],
-            $chart['evenMoreData'],
-        );
-
-        $chart->legend->generateFromDataSets( $datasets );
+        $chart->legend->generateFromDataSets( $chart->data );
 
         $this->driver
             ->expects( $this->at( 0 ) )
@@ -1226,22 +1220,16 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
     {
         $chart = new ezcGraphLineChart();
 
-        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['sampleData']->color = '#0000FF';
-        $chart['sampleData']->symbol = ezcGraph::DIAMOND;
-        $chart['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['moreData']->color = '#FF0000';
-        $chart['evenMoreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['evenMoreData']->color = '#00FF00';
-        $chart['evenMoreData']->label = 'Even more data';
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['sampleData']->color = '#0000FF';
+        $chart->data['sampleData']->symbol = ezcGraph::DIAMOND;
+        $chart->data['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['moreData']->color = '#FF0000';
+        $chart->data['evenMoreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['evenMoreData']->color = '#00FF00';
+        $chart->data['evenMoreData']->label = 'Even more data';
 
-        $datasets = array(
-            $chart['sampleData'],
-            $chart['moreData'],
-            $chart['evenMoreData'],
-        );
-
-        $chart->legend->generateFromDataSets( $datasets );
+        $chart->legend->generateFromDataSets( $chart->data );
 
         $this->driver
             ->expects( $this->at( 1 ) )
@@ -1284,22 +1272,16 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
     {
         $chart = new ezcGraphLineChart();
 
-        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['sampleData']->color = '#0000FF';
-        $chart['sampleData']->symbol = ezcGraph::DIAMOND;
-        $chart['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['moreData']->color = '#FF0000';
-        $chart['evenMoreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['evenMoreData']->color = '#00FF00';
-        $chart['evenMoreData']->label = 'Even more data';
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['sampleData']->color = '#0000FF';
+        $chart->data['sampleData']->symbol = ezcGraph::DIAMOND;
+        $chart->data['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['moreData']->color = '#FF0000';
+        $chart->data['evenMoreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['evenMoreData']->color = '#00FF00';
+        $chart->data['evenMoreData']->label = 'Even more data';
 
-        $datasets = array(
-            $chart['sampleData'],
-            $chart['moreData'],
-            $chart['evenMoreData'],
-        );
-
-        $chart->legend->generateFromDataSets( $datasets );
+        $chart->legend->generateFromDataSets( $chart->data );
 
         $this->driver
             ->expects( $this->at( 0 ) )
@@ -1352,22 +1334,16 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
     {
         $chart = new ezcGraphLineChart();
 
-        $chart['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['sampleData']->color = '#0000FF';
-        $chart['sampleData']->symbol = ezcGraph::DIAMOND;
-        $chart['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['moreData']->color = '#FF0000';
-        $chart['evenMoreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['evenMoreData']->color = '#00FF00';
-        $chart['evenMoreData']->label = 'Even more data';
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['sampleData']->color = '#0000FF';
+        $chart->data['sampleData']->symbol = ezcGraph::DIAMOND;
+        $chart->data['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['moreData']->color = '#FF0000';
+        $chart->data['evenMoreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['evenMoreData']->color = '#00FF00';
+        $chart->data['evenMoreData']->label = 'Even more data';
 
-        $datasets = array(
-            $chart['sampleData'],
-            $chart['moreData'],
-            $chart['evenMoreData'],
-        );
-
-        $chart->legend->generateFromDataSets( $datasets );
+        $chart->legend->generateFromDataSets( $chart->data );
 
         $this->driver
             ->expects( $this->at( 1 ) )
@@ -1550,8 +1526,8 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
 
-        $chart['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
@@ -1573,8 +1549,8 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
         $chart->palette = new ezcGraphPaletteBlack();
         $chart->options->fillLines = 200;
 
-        $chart['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
@@ -1596,12 +1572,12 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
         $chart->palette = new ezcGraphPaletteBlack();
         $chart->options->fillLines = 200;
 
-        $chart['Line 0'] = new ezcGraphArrayDataSet( array( 'sample 1' => 432, 'sample 2' => 43, 'sample 3' => 65, 'sample 4' => 97, 'sample 5' => 154) );
-        $chart['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+        $chart->data['Line 0'] = new ezcGraphArrayDataSet( array( 'sample 1' => 432, 'sample 2' => 43, 'sample 3' => 65, 'sample 4' => 97, 'sample 5' => 154) );
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
-        $chart['Line 0']->displayType = ezcGraph::BAR;
-        $chart['Line 1']->displayType = ezcGraph::BAR;
+        $chart->data['Line 0']->displayType = ezcGraph::BAR;
+        $chart->data['Line 1']->displayType = ezcGraph::BAR;
 
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisBoxedLabelRenderer();
 
@@ -1625,8 +1601,8 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
         $chart->palette = new ezcGraphPaletteBlack();
         $chart->options->fillLines = 200;
 
-        $chart['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -151, 'sample 3' => 324, 'sample 4' => -120, 'sample 5' => 1) );
-        $chart['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => -5, 'sample 5' => -124) );
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -151, 'sample 3' => 324, 'sample 4' => -120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => -5, 'sample 5' => -124) );
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
@@ -1645,7 +1621,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = new ezcGraphArrayDataSet( array(
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -1653,7 +1629,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
             'Safari' => 987,
         ) );
 
-        $chart['sample']->highlight['Safari'] = true;
+        $chart->data['sample']->highlight['Safari'] = true;
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
@@ -1672,7 +1648,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = new ezcGraphArrayDataSet( array(
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -1701,7 +1677,7 @@ class ezcGraphRenderer2dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = new ezcGraphArrayDataSet( array(
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,

@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-abstract class ezcGraphChart implements ArrayAccess
+abstract class ezcGraphChart
 {
 
     /**
@@ -32,9 +32,9 @@ abstract class ezcGraphChart implements ArrayAccess
     /**
      * Contains the data of the chart
      * 
-     * @var array( ezcGraphDataSet )
+     * @var ezcGraphChartDataContainer
      */
-    protected $data = array();
+    protected $data;
 
     /**
      * Renderer for the chart
@@ -67,6 +67,8 @@ abstract class ezcGraphChart implements ArrayAccess
     public function __construct( array $options = array() )
     {
         $this->__set( 'palette', new ezcGraphPaletteTango() );
+
+        $this->data = new ezcGraphChartDataContainer( $this );
 
         // Add standard elements
         $this->addElement( 'background', new ezcGraphChartElementBackground() );
@@ -186,24 +188,6 @@ abstract class ezcGraphChart implements ArrayAccess
     }
 
     /**
-     * Adds a dataset to the charts data
-     * 
-     * @param string $name Name of dataset
-     * @param mixed $values Values to create dataset with
-     * @throws ezcGraphTooManyDataSetExceptions
-     *          If too many datasets are created
-     * @return ezcGraphDataSet
-     */
-    protected function addDataSet( $name, ezcGraphDataSet $dataSet )
-    {
-        $this->data[$name] = $dataSet;
-        
-        $this->data[$name]->label = $name;
-        $this->data[$name]->palette = $this->palette;
-        $this->data[$name]->displayType = $this->getDefaultDisplayType();
-    }
-
-    /**
      * Returns the requested property 
      * 
      * @param mixed $propertyName 
@@ -221,7 +205,7 @@ abstract class ezcGraphChart implements ArrayAccess
             return $this->elements[$propertyName];
         }
 
-        if ( $propertyName === "options" )
+        if ( $propertyName === 'options' )
         {
             return $this->options;
         }
@@ -229,41 +213,6 @@ abstract class ezcGraphChart implements ArrayAccess
         {
             throw new ezcGraphNoSuchElementException( $propertyName );
         }
-    }
-
-    public function offsetExists( $key )
-    {
-        return isset( $this->data[$key] );
-    }
-
-    public function offsetGet( $key )
-    {
-        if ( !isset( $key ) )
-        {
-            throw new ezcGraphNoSuchDataSetException( $key );
-        }
-
-        return $this->data[$key];
-    }
-
-    public function offsetSet( $key, $value )
-    {
-        if ( !$value instanceof ezcGraphDataSet )
-        {
-            throw new ezcGraphUnknownDataSetSourceException( $value );
-        }
-
-        return $this->addDataSet( $key, $value );
-    }
-
-    public function offsetUnset( $key )
-    {
-        if ( !isset( $key ) )
-        {
-            throw new ezcGraphNoSuchDataSetException( $key );
-        }
-
-        unset( $this->data[$key] );
     }
 
     public function setOptions( $options )
@@ -287,7 +236,7 @@ abstract class ezcGraphChart implements ArrayAccess
      * 
      * @return int Display type
      */
-    abstract protected function getDefaultDisplayType();
+    abstract public function getDefaultDisplayType();
 
     /**
      * Renders this chart

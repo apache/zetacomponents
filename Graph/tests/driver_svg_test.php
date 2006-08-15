@@ -828,7 +828,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = new ezcGraphArrayDataSet( array(
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -853,7 +853,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = new ezcGraphArrayDataSet( array(
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,

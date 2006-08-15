@@ -297,7 +297,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = new ezcGraphArrayDataSet( array(
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -305,7 +305,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             'Safari' => 987,
         ) );
 
-        $chart['sample']->highlight['Safari'] = true;
+        $chart->data['sample']->highlight['Safari'] = true;
 
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->driver = new ezcGraphGdDriver();
@@ -325,7 +325,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = new ezcGraphArrayDataSet( array(
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -333,7 +333,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             'Safari' => 987,
         ) );
 
-        $chart['sample']->highlight['Safari'] = true;
+        $chart->data['sample']->highlight['Safari'] = true;
 
         $chart->title = 'Pie chart title';
 
@@ -355,7 +355,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = new ezcGraphArrayDataSet( array(
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'label 1' => 20,
             'label 2' => 20,
             'label 3' => 20,
@@ -368,7 +368,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             'label 10' => 20,
         ) );
 
-        $chart['sample']->highlight = true;
+        $chart->data['sample']->highlight = true;
         $chart->options->label = '%1$s';
         $chart->legend = false;
 
@@ -392,7 +392,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = new ezcGraphArrayDataSet( array(
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -400,7 +400,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             'Safari' => 987,
         ) );
 
-        $chart['sample']->highlight['Safari'] = true;
+        $chart->data['sample']->highlight['Safari'] = true;
 
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->showSymbol = false;
@@ -422,7 +422,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = new ezcGraphArrayDataSet( array(
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -430,7 +430,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             'Safari' => 987,
         ) );
 
-        $chart['sample']->highlight['Safari'] = true;
+        $chart->data['sample']->highlight['Safari'] = true;
 
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->moveOut = .2;
@@ -452,7 +452,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = new ezcGraphArrayDataSet( array(
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -460,7 +460,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             'Safari' => 987,
         ) );
 
-        $chart['sample']->highlight['Safari'] = true;
+        $chart->data['sample']->highlight['Safari'] = true;
 
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->dataBorder = 0;
@@ -482,7 +482,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = new ezcGraphArrayDataSet( array(
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -490,7 +490,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             'Safari' => 987,
         ) );
 
-        $chart['sample']->highlight['Safari'] = true;
+        $chart->data['sample']->highlight['Safari'] = true;
 
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->pieChartHeight = 5;
@@ -512,7 +512,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = new ezcGraphArrayDataSet( array(
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -520,7 +520,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             'Safari' => 987,
         ) );
 
-        $chart['sample']->highlight['Safari'] = true;
+        $chart->data['sample']->highlight['Safari'] = true;
 
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->pieChartRotation = .3;
@@ -542,9 +542,9 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 ) );
+        $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 ) );
 
-        $chart['Skien']->highlight['Norwegian'] = true;
+        $chart->data['Skien']->highlight['Norwegian'] = true;
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->renderer = new ezcGraphRenderer3d();
@@ -566,8 +566,8 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
 
-        $chart['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
         $chart->title = 'Line chart title';
 
@@ -591,8 +591,8 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
 
-        $chart['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
         $chart->title = 'Line chart title';
 
@@ -617,8 +617,8 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
 
-        $chart['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
         $chart->title = 'Line chart title';
         $chart->title->maxHeight = .2;
@@ -645,8 +645,8 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->palette = new ezcGraphPaletteBlack();
         $chart->options->fillLines = 200;
 
-        $chart['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->renderer = new ezcGraphRenderer3d();
@@ -669,8 +669,8 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->palette = new ezcGraphPaletteBlack();
         $chart->options->fillLines = 200;
 
-        $chart['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -151, 'sample 3' => 324, 'sample 4' => -120, 'sample 5' => 1) );
-        $chart['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => -5, 'sample 5' => -124) );
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -151, 'sample 3' => 324, 'sample 4' => -120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => -5, 'sample 5' => -124) );
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->renderer = new ezcGraphRenderer3d();
@@ -692,8 +692,8 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
 
-        $chart['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->renderer = new ezcGraphRenderer3d();
@@ -717,8 +717,8 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
 
-        $chart['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->renderer = new ezcGraphRenderer3d();
@@ -742,8 +742,8 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
 
-        $chart['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
-        $chart['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
         $chart->driver = new ezcGraphGdDriver();
         $chart->renderer = new ezcGraphRenderer3d();
@@ -765,7 +765,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = new ezcGraphArrayDataSet( array(
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,
@@ -794,7 +794,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
-        $chart['sample'] = new ezcGraphArrayDataSet( array(
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
             'Opera' => 1204,

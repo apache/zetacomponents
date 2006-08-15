@@ -117,10 +117,10 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
      * @param array $datasets 
      * @return void
      */
-    public function generateFromDataSets(array $datasets)
+    public function generateFromDataSets( ezcGraphChartDataContainer $datasets )
     {
         $this->labels = array();
-        foreach ($datasets as $dataset)
+        foreach ( $datasets as $dataset )
         {
             $this->labels[] = array(
                 'label' => $dataset->label->default,
@@ -138,10 +138,10 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
      * @param ezcGraphDataSet $dataset 
      * @return void
      */
-    public function generateFromDataSet(ezcGraphDataSet $dataset)
+    public function generateFromDataSet( ezcGraphDataSet $dataset )
     {
         $this->labels = array();
-        foreach ($dataset as $label => $data)
+        foreach ( $dataset as $label => $data )
         {
             $this->labels[] = array(
                 'label' => $label,
