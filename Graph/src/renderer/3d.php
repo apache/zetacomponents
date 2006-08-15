@@ -639,7 +639,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                         $barWidth / 2,
                         ( $barCenterBottom->y - $barCenterTop->y ) * $this->yDepthFactor,
                         0,
-                        360,
+                        180,
                         $color
                     ),
                 );
