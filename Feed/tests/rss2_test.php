@@ -14,6 +14,11 @@
  */
 class ezcFeedRss2Test extends ezcTestCase
 {
+    public function setup()
+    {
+        date_default_timezone_set( 'Europe/Oslo' );
+    }
+
     public function testSimpleEmpty1()
     {
         $feed = new ezcFeed( 'rss2' );
