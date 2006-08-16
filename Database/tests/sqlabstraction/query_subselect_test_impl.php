@@ -24,7 +24,8 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
     private $db;
     public function setUp()
     {
-        try {
+        try
+        {
             $this->db = ezcDbInstance::get();
         }
         catch ( Exception $e )

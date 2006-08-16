@@ -232,7 +232,8 @@ class ezcLogTest extends ezcTestCase
 
     public function testLogDatabase()
     {
-        try {
+        try
+        {
             $db = ezcDbInstance::get();
         }
         catch ( Exception $e )
@@ -273,7 +274,8 @@ class ezcLogTest extends ezcTestCase
 
     public function testLogDatabaseAndFile()
     {
-        try {
+        try
+        {
             $db = ezcDbInstance::get();
         }
         catch ( Exception $e )
@@ -329,7 +331,8 @@ class ezcLogTest extends ezcTestCase
 
     public function testException()
     {
-        try {
+        try
+        {
             $db = ezcDbInstance::get();
         }
         catch ( Exception $e )
@@ -354,7 +357,8 @@ class ezcLogTest extends ezcTestCase
 
     public function testDisableExceptions()
     {
-        try {
+        try
+        {
             $db = ezcDbInstance::get();
         }
         catch ( Exception $e )
@@ -380,7 +384,8 @@ class ezcLogTest extends ezcTestCase
     /*
     public function testDetach()
     {
-        try {
+        try
+        {
             $db = ezcDbInstance::get();
         }
         catch ( Exception $e )
