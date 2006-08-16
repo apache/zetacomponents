@@ -232,7 +232,13 @@ class ezcLogTest extends ezcTestCase
 
     public function testLogDatabase()
     {
-        $db = ezcDbInstance::get();
+        try {
+            $db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
 
         try
         {
@@ -267,7 +273,13 @@ class ezcLogTest extends ezcTestCase
 
     public function testLogDatabaseAndFile()
     {
-        $db = ezcDbInstance::get();
+        try {
+            $db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
 
         try
         {
@@ -317,8 +329,16 @@ class ezcLogTest extends ezcTestCase
 
     public function testException()
     {
+        try {
+            $db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
+
         $this->log->reset();
-        $this->log->getMapper()->appendRule( new ezcLogFilterRule(  new ezcLogFilter, $writer = new ezcLogDatabaseWriter( ezcDbInstance::get(),  "log" ), true ) );
+        $this->log->getMapper()->appendRule( new ezcLogFilterRule(  new ezcLogFilter, $writer = new ezcLogDatabaseWriter( $db,  "log" ), true ) );
 
         try
         {
@@ -334,8 +354,16 @@ class ezcLogTest extends ezcTestCase
 
     public function testDisableExceptions()
     {
+        try {
+            $db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
+
         $this->log->reset();
-        $this->log->getMapper()->appendRule( new ezcLogFilterRule( new ezcLogFilter, $writer = new ezcLogDatabaseWriter( ezcDbInstance::get(), "log"), true ) );
+        $this->log->getMapper()->appendRule( new ezcLogFilterRule( new ezcLogFilter, $writer = new ezcLogDatabaseWriter( $db, "log"), true ) );
         $this->log->throwWriterExceptions(false);
 
         try
@@ -352,7 +380,13 @@ class ezcLogTest extends ezcTestCase
     /*
     public function testDetach()
     {
-        $db = ezcDbInstance::get();
+        try {
+            $db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
 
         try
         {

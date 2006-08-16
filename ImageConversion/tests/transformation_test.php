@@ -47,117 +47,124 @@ class ezcImageConversionTransformationTest extends ezcTestCase
      */
     public function setUp()
     {
-        $this->testFiltersSuccess = array(
-            0 => array(
-                0 => new ezcImageFilter(
-                    'scaleExact',
-                    array(
-                        'width'     => 50,
-                        'height'    => 50,
-                        'direction' => ezcImageGeometryFilters::SCALE_BOTH,
-                        )
+        try
+        {
+            $this->testFiltersSuccess = array(
+                0 => array(
+                    0 => new ezcImageFilter(
+                        'scaleExact',
+                        array(
+                            'width'     => 50,
+                            'height'    => 50,
+                            'direction' => ezcImageGeometryFilters::SCALE_BOTH,
+                            )
+                        ),
+                    1 => new ezcImageFilter(
+                        'crop',
+                        array(
+                            'x'     => 10,
+                            'width' => 30,
+                            'y'     => 10,
+                            'height'=> 30,
+                            )
+                        ),
+                    2 => new ezcImageFilter(
+                        'colorspace',
+                        array(
+                            'space' => ezcImageColorspaceFilters::COLORSPACE_GREY,
+                            )
+                        ),
                     ),
-                1 => new ezcImageFilter(
-                    'crop',
-                    array(
-                        'x'     => 10,
-                        'width' => 30,
-                        'y'     => 10,
-                        'height'=> 30,
-                        )
+                1 => array(
+                    0 => new ezcImageFilter(
+                        'scale',
+                        array(
+                            'width'     => 50,
+                            'height'    => 1000,
+                            'direction' => ezcImageGeometryFilters::SCALE_DOWN,
+                            )
+                        ),
+                    2 => new ezcImageFilter(
+                        'colorspace',
+                        array(
+                            'space' => ezcImageColorspaceFilters::COLORSPACE_MONOCHROME,
+                            )
+                        ),
                     ),
-                2 => new ezcImageFilter(
-                    'colorspace',
-                    array(
-                        'space' => ezcImageColorspaceFilters::COLORSPACE_GREY,
-                        )
+                2 => array(
+                    0 => new ezcImageFilter(
+                        'scaleHeight',
+                        array(
+                            'height'    => 70,
+                            'direction' => ezcImageGeometryFilters::SCALE_BOTH,
+                            )
+                        ),
+                    2 => new ezcImageFilter(
+                        'colorspace',
+                        array(
+                            'space' => ezcImageColorspaceFilters::COLORSPACE_SEPIA,
+                            )
+                        ),
                     ),
-                ),
-            1 => array(
-                0 => new ezcImageFilter(
-                    'scale',
-                    array(
-                        'width'     => 50,
-                        'height'    => 1000,
-                        'direction' => ezcImageGeometryFilters::SCALE_DOWN,
-                        )
+                );
+            $this->testFiltersFailure = array(
+                // Nonexistant filter
+                0 => array(
+                    0 => new ezcImageFilter(
+                        'toby',
+                        array(
+                            'width'     => 50,
+                            'height'    => 50,
+                            'direction' => ezcImageGeometryFilters::SCALE_BOTH,
+                            )
+                        ),
+                    1 => new ezcImageFilter(
+                        'crop',
+                        array(
+                            'x'     => 10,
+                            'width' => 30,
+                            'y'     => 10,
+                            'height'=> 30,
+                            )
+                        ),
+                    2 => new ezcImageFilter(
+                        'colorspace',
+                        array(
+                            'space' => ezcImageColorspaceFilters::COLORSPACE_GREY,
+                            )
+                        ),
                     ),
-                2 => new ezcImageFilter(
-                    'colorspace',
-                    array(
-                        'space' => ezcImageColorspaceFilters::COLORSPACE_MONOCHROME,
-                        )
+                // Missing option
+                1 => array(
+                    0 => new ezcImageFilter(
+                        'scale',
+                        array(
+                    )
+                        ),
+                    2 => new ezcImageFilter(
+                        'colorspace',
+                        array(
+                            'space' => ezcImageColorspaceFilters::COLORSPACE_MONOCHROME,
+                            )
+                        ),
                     ),
-                ),
-            2 => array(
-                0 => new ezcImageFilter(
-                    'scaleHeight',
-                    array(
-                        'height'    => 70,
-                        'direction' => ezcImageGeometryFilters::SCALE_BOTH,
-                        )
-                    ),
-                2 => new ezcImageFilter(
-                    'colorspace',
-                    array(
-                        'space' => ezcImageColorspaceFilters::COLORSPACE_SEPIA,
-                        )
-                    ),
-                ),
-            );
-        $this->testFiltersFailure = array(
-            // Nonexistant filter
-            0 => array(
-                0 => new ezcImageFilter(
-                    'toby',
-                    array(
-                        'width'     => 50,
-                        'height'    => 50,
-                        'direction' => ezcImageGeometryFilters::SCALE_BOTH,
-                        )
-                    ),
-                1 => new ezcImageFilter(
-                    'crop',
-                    array(
-                        'x'     => 10,
-                        'width' => 30,
-                        'y'     => 10,
-                        'height'=> 30,
-                        )
-                    ),
-                2 => new ezcImageFilter(
-                    'colorspace',
-                    array(
-                        'space' => ezcImageColorspaceFilters::COLORSPACE_GREY,
-                        )
-                    ),
-                ),
-            // Missing option
-            1 => array(
-                0 => new ezcImageFilter(
-                    'scale',
-                    array(
-                )
-                    ),
-                2 => new ezcImageFilter(
-                    'colorspace',
-                    array(
-                        'space' => ezcImageColorspaceFilters::COLORSPACE_MONOCHROME,
-                        )
-                    ),
-                ),
-            );
+                );
 
-        static $i = 1;
-        $this->basePath = dirname( __FILE__ ) . '/data/';
-        $conversionsIn = array(
-            'image/gif'  => 'image/png',
-            'image/xpm'  => 'image/jpeg',
-            'image/wbmp' => 'image/jpeg',
-        );
-        $settings = new ezcImageConverterSettings( array( new ezcImageHandlerSettings( 'GD', 'ezcImageGdHandler' ) ),
-                                                   $conversionsIn );
-        $this->converter = new ezcImageConverter( $settings );
+            static $i = 1;
+            $this->basePath = dirname( __FILE__ ) . '/data/';
+            $conversionsIn = array(
+                'image/gif'  => 'image/png',
+                'image/xpm'  => 'image/jpeg',
+                'image/wbmp' => 'image/jpeg',
+            );
+            $settings = new ezcImageConverterSettings( array( new ezcImageHandlerSettings( 'GD', 'ezcImageGdHandler' ) ),
+                                                       $conversionsIn );
+            $this->converter = new ezcImageConverter( $settings );
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
     }
 
     /**

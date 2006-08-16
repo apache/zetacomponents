@@ -112,6 +112,11 @@ class ezcArchiveTest extends ezcArchiveTestCase
 
     public function testReadBzippedTar()
     {
+        if ( !extension_loaded( 'bz2' ) )
+        {
+            $this->markTestSkipped();
+        }
+
         $dir = $this->getTempDir();
         copy(  dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar");
         
@@ -178,6 +183,11 @@ class ezcArchiveTest extends ezcArchiveTestCase
 
     public function testWriteBzippedTar()
     {
+        if ( !extension_loaded( 'bz2' ) )
+        {
+            $this->markTestSkipped();
+        }
+
         $dir = $this->getTempDir();
 
         try
