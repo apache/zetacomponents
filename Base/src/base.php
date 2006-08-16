@@ -11,6 +11,7 @@
  * Base class implements the methods needed to use the eZ components.
  *
  * @package Base
+ * @mainclass
  */
 class ezcBase
 {

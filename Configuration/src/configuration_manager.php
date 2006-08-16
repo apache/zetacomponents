@@ -31,6 +31,7 @@
  * @see ezcConfiguration, ezcConfigurationReader, ezcConfigurationWriter
  *
  * @package Configuration
+ * @mainclass
  * @version //autogen//
  */
 class ezcConfigurationManager

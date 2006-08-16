@@ -91,6 +91,7 @@
  *
  * @package Configuration
  * @version //autogen//
+ * @mainclass
  */
 class ezcConfiguration
 {
