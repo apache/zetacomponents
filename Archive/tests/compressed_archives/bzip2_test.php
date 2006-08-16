@@ -32,6 +32,11 @@ class ezcArchiveBzip2Test extends ezcArchiveTestCase
  */
     public function testCreateBzip2Tar()
     {
+        if ( !extension_loaded( 'bz2' ) )
+        {
+            $this->markTestSkipped();
+        }
+
         $dir = $this->getTempDir();
         $archive = ezcArchive::open( "compress.bzip2://$dir/mytar.tar.bz2", ezcArchive::TAR_USTAR);
         file_put_contents( "$dir/a.txt", "Hello world!" );
@@ -46,6 +51,11 @@ class ezcArchiveBzip2Test extends ezcArchiveTestCase
 
     public function testCreateBzip2TarWithTwoFiles()
     {
+        if ( !extension_loaded( 'bz2' ) )
+        {
+            $this->markTestSkipped();
+        }
+
         $dir = $this->getTempDir();
         $archive = ezcArchive::open( "compress.bzip2://$dir/mytar.tar.bz2", ezcArchive::TAR_USTAR);
         file_put_contents( "$dir/a.txt", "Hello world!" );
@@ -64,6 +74,11 @@ class ezcArchiveBzip2Test extends ezcArchiveTestCase
 /*
     public function testWriteToExistingGzippedTar()
     {
+        if ( !extension_loaded( 'zlib' ) )
+        {
+            $this->markTestSkipped();
+        }
+
         // Create an archive with one file.
         $dir = $this->getTempDir();
         $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR);
@@ -88,6 +103,11 @@ class ezcArchiveBzip2Test extends ezcArchiveTestCase
   
     public function testCreateNewGzippedTarArchiveTogetherWithReadingEntries()
     {
+        if ( !extension_loaded( 'zlib' ) )
+        {
+            $this->markTestSkipped();
+        }
+
         $dir = $this->getTempDir();
 
         // Create some test data.
@@ -133,6 +153,11 @@ class ezcArchiveBzip2Test extends ezcArchiveTestCase
 
     public function testAppendToCurrentException()
     {
+        if ( !extension_loaded( 'zlib' ) )
+        {
+            $this->markTestSkipped();
+        }
+
         $dir = $this->getTempDir();
         $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR);
         file_put_contents( "$dir/a.txt", "AAAAAAAAAAA" );
@@ -149,6 +174,11 @@ class ezcArchiveBzip2Test extends ezcArchiveTestCase
 
     public function testCloseException()
     {
+        if ( !extension_loaded( 'zlib' ) )
+        {
+            $this->markTestSkipped();
+        }
+
         $dir = $this->getTempDir();
         $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR);
         file_put_contents( "$dir/a.txt", "AAAAAAAAAAA" );
@@ -167,6 +197,11 @@ class ezcArchiveBzip2Test extends ezcArchiveTestCase
 
     public function testListing()
     {
+        if ( !extension_loaded( 'zlib' ) )
+        {
+            $this->markTestSkipped();
+        }
+
         $dir = $this->getTempDir();
         $archive = ezcArchive::open( "compress.zlib://$dir/mytar.tar.gz", ezcArchive::TAR_USTAR);
         file_put_contents( "$dir/a.txt", "AAAAAAAAAAA" );
@@ -186,6 +221,4 @@ class ezcArchiveBzip2Test extends ezcArchiveTestCase
     }
 
 }
-
-
 ?>

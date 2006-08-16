@@ -55,6 +55,7 @@ class ezcDatabaseTransactionsTest extends ezcTestCase
         {
             $dbparams = ezcTestSettings::getInstance()->db->dsn;
             MyDB::setParams( $dbparams );
+            $this->db = MyDB::create();
         }
         catch ( Exception $e )
         {
@@ -67,14 +68,12 @@ class ezcDatabaseTransactionsTest extends ezcTestCase
     {
         try
         {
-            $db = MyDB::create();
-            $db->beginTransaction();
-            $db->beginTransaction();
-            $db->commit();
-            $db->beginTransaction();
-            $db->commit();
-            $db->commit();
-            unset( $db );
+            $this->db->beginTransaction();
+            $this->db->beginTransaction();
+            $this->db->commit();
+            $this->db->beginTransaction();
+            $this->db->commit();
+            $this->db->commit();
         }
         catch ( ezcDbTransactionException $e )
         {
@@ -86,14 +85,12 @@ class ezcDatabaseTransactionsTest extends ezcTestCase
     {
         try
         {
-            $db = MyDB::create();
-            $db->beginTransaction();
-            $db->beginTransaction();
-            $db->beginTransaction();
-            $db->beginTransaction();
-            $db->commit();
-            $db->commit();
-            unset( $db ); // destroy db connection
+            $this->db->beginTransaction();
+            $this->db->beginTransaction();
+            $this->db->beginTransaction();
+            $this->db->beginTransaction();
+            $this->db->commit();
+            $this->db->commit();
         }
         catch ( Exception $e )
         {
@@ -107,14 +104,12 @@ class ezcDatabaseTransactionsTest extends ezcTestCase
     {
         try
         {
-            $db = MyDB::create();
-            $db->beginTransaction();
-            $db->commit();
-            $db->commit();
-            $db->commit();
-            $db->commit();
-            $db->commit();
-            unset( $db ); // destroy db connection
+            $this->db->beginTransaction();
+            $this->db->commit();
+            $this->db->commit();
+            $this->db->commit();
+            $this->db->commit();
+            $this->db->commit();
         }
         catch ( ezcDbTransactionException $e )
         {
@@ -129,12 +124,10 @@ class ezcDatabaseTransactionsTest extends ezcTestCase
     {
         try
         {
-            $db = MyDB::create();
-            $db->beginTransaction();
-            $db->beginTransaction();
-            $db->commit();
-            $db->rollback();
-            unset( $db );
+            $this->db->beginTransaction();
+            $this->db->beginTransaction();
+            $this->db->commit();
+            $this->db->rollback();
         }
         catch ( ezcDbException $e )
         {
@@ -147,12 +140,10 @@ class ezcDatabaseTransactionsTest extends ezcTestCase
     {
         try
         {
-            $db = MyDB::create();
-            $db->beginTransaction();
-            $db->beginTransaction();
-            $db->rollback();
-            $db->commit();
-            unset( $db );
+            $this->db->beginTransaction();
+            $this->db->beginTransaction();
+            $this->db->rollback();
+            $this->db->commit();
         }
         catch ( ezcDbException $e )
         {
@@ -165,11 +156,9 @@ class ezcDatabaseTransactionsTest extends ezcTestCase
     {
         try
         {
-            $db = MyDB::create();
-            $db->beginTransaction();
-            $db->rollback();
-            $db->commit();
-            unset( $db );
+            $this->db->beginTransaction();
+            $this->db->rollback();
+            $this->db->commit();
         }
         catch ( ezcDbTransactionException $e )
         {
@@ -184,11 +173,9 @@ class ezcDatabaseTransactionsTest extends ezcTestCase
     {
         try
         {
-            $db = MyDB::create();
-            $db->beginTransaction();
-            $db->commit();
-            $db->rollback();
-            unset( $db );
+            $this->db->beginTransaction();
+            $this->db->commit();
+            $this->db->rollback();
         }
         catch ( ezcDbTransactionException $e )
         {
