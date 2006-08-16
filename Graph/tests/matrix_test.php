@@ -258,6 +258,24 @@ class ezcGraphMatrixTest extends ezcTestCase
 
         $this->fail( 'Expected ezcGraphMatrixInvalidDimensionsException.' );
     }
+
+    public function testTransposeMatrix()
+    {
+        $matrix = new ezcGraphMatrix( 2, 3, array(
+            array( 1, 2, 3 ),
+            array( 4, 5, 6 ),
+        ) );
+        $matrix->transpose();
+
+        $this->assertEquals(
+            array(
+                array( 1, 4 ),
+                array( 2, 5 ),
+                array( 3, 6 ),
+            ),
+            $this->getAttribute( $matrix, 'matrix' )
+        );
+    }
 }
 
 ?>

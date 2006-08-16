@@ -228,6 +228,31 @@ class ezcGraphMatrix
         }
     }
 
+    /**
+     * Transpose matrix
+     * 
+     * @return ezcGraphMatrix Transposed matrix
+     */
+    public function transpose()
+    {
+        $matrix = clone $this;
+
+        $this->rows = $matrix->columns();
+        $this->columns = $matrix->rows();
+
+        $this->matrix = array();
+
+        for ( $i = 0; $i < $this->columns; ++$i )
+        {
+            for ( $j = 0; $j < $this->rows; ++$j )
+            {
+                $this->matrix[$i][$j] = $matrix->get( $j, $i );
+            }
+        }
+
+        return $this;
+    }
+
 	/**
      * Multiplies two matrices
      *
