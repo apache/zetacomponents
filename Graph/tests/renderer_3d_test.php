@@ -15,7 +15,7 @@
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphRenderer3dTest extends ezcImageTestCase
+class ezcGraphRenderer3dTest extends ezcTestCase
 {
 
     protected $basePath;
@@ -52,9 +52,36 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         }
     }
 
+    /**
+     * Compares a generated image with a stored file
+     * 
+     * @param string $generated Filename of generated image
+     * @param string $compare Filename of stored image
+     * @return void
+     */
+    protected function compare( $generated, $compare )
+    {
+        $this->assertTrue(
+            file_exists( $generated ),
+            'No image file has been created.'
+        );
+
+        $this->assertTrue(
+            file_exists( $compare ),
+            'Comparision image does not exist.'
+        );
+
+        if ( md5_file( $generated ) !== md5_file( $compare ) )
+        {
+            // Adding a diff makes no sense here, because created XML uses
+            // only two lines
+            $this->fail( 'Rendered image is not correct.');
+        }
+    }
+
     public function testRenderBackgroundImage()
     {
-        $driver = $this->getMock( 'ezcGraphGdDriver', array(
+        $driver = $this->getMock( 'ezcGraphSvgDriver', array(
             'drawImage',
         ) );
 
@@ -81,7 +108,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
 
     public function testRenderTopLeftBackgroundImage()
     {
-        $driver = $this->getMock( 'ezcGraphGdDriver', array(
+        $driver = $this->getMock( 'ezcGraphSvgDriver', array(
             'drawImage',
         ) );
 
@@ -109,7 +136,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
 
     public function testRenderBottomRightBackgroundImage()
     {
-        $driver = $this->getMock( 'ezcGraphGdDriver', array(
+        $driver = $this->getMock( 'ezcGraphSvgDriver', array(
             'drawImage',
         ) );
 
@@ -137,7 +164,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
 
     public function testRenderToBigBackgroundImage()
     {
-        $driver = $this->getMock( 'ezcGraphGdDriver', array(
+        $driver = $this->getMock( 'ezcGraphSvgDriver', array(
             'drawImage',
         ) );
 
@@ -165,7 +192,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
 
     public function testRenderBackgroundImageRepeatX()
     {
-        $driver = $this->getMock( 'ezcGraphGdDriver', array(
+        $driver = $this->getMock( 'ezcGraphSvgDriver', array(
             'drawImage',
         ) );
 
@@ -212,7 +239,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
 
     public function testRenderBackgroundImageRepeatY()
     {
-        $driver = $this->getMock( 'ezcGraphGdDriver', array(
+        $driver = $this->getMock( 'ezcGraphSvgDriver', array(
             'drawImage',
         ) );
 
@@ -250,7 +277,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
 
     public function testRenderBackgroundImageRepeatBoth()
     {
-        $driver = $this->getMock( 'ezcGraphGdDriver', array(
+        $driver = $this->getMock( 'ezcGraphSvgDriver', array(
             'drawImage',
         ) );
 
@@ -297,7 +324,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
 
     public function testRenderLabeledPieSegment()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( array(
@@ -311,21 +338,19 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->data['sample']->highlight['Safari'] = true;
 
         $chart->renderer = new ezcGraphRenderer3d();
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRenderLabeledPieSegmentWithTitle()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( array(
@@ -341,21 +366,19 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->title = 'Pie chart title';
 
         $chart->renderer = new ezcGraphRenderer3d();
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRenderLabeledPieSegmentPolygonOrder()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( array(
@@ -378,21 +401,19 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->moveOut = .3;
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRenderLabeledPieSegmentWithoutSymbols()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( array(
@@ -408,21 +429,19 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->showSymbol = false;
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRenderLabeledPieSegmentWithIncreasedMoveOut()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( array(
@@ -438,21 +457,19 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->moveOut = .2;
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRenderLabeledPieSegmentWithoutDataBorder()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( array(
@@ -468,21 +485,19 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->dataBorder = 0;
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRenderLabeledPieSegmentWithCustomHeight()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( array(
@@ -498,21 +513,19 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->pieChartHeight = 5;
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRenderLabeledPieSegmentWithCustomRotation()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( array(
@@ -528,43 +541,39 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->pieChartRotation = .3;
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRenderPieChartWithLotsOfLabels()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
         $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 ) );
 
         $chart->data['Skien']->highlight['Norwegian'] = true;
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRenderBarChart()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphBarChart();
         $chart->palette = new ezcGraphPaletteBlack();
@@ -574,22 +583,20 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart->data['Line 1']->symbol = ezcGraph::NO_SYMBOL;
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRenderBarChartSymbols()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphBarChart();
         $chart->palette = new ezcGraphPaletteBlack();
@@ -603,22 +610,20 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->data['Diamond'] = new ezcGraphArrayDataSet( array( 'sample 1' => 387, 'sample 2' => 261, 'sample 3' => 24, 'sample 4' => 59, 'sample 5' => 112) );
         $chart->data['Diamond']->symbol = ezcGraph::DIAMOND;
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 700, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRenderNegativeBarChartSymbols()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphBarChart();
         $chart->palette = new ezcGraphPaletteBlack();
@@ -632,22 +637,20 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->data['Diamond'] = new ezcGraphArrayDataSet( array( 'sample -1' => -387, 'sample -2' => -261, 'sample -3' => -24, 'sample -4' => -59, 'sample -5' => -112) );
         $chart->data['Diamond']->symbol = ezcGraph::DIAMOND;
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 700, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRender3dLineChart()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
@@ -657,22 +660,20 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
 
         $chart->title = 'Line chart title';
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRender3dLineChartSmallMaxFontSize()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
@@ -682,23 +683,21 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
 
         $chart->title = 'Line chart title';
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->title->font->maxFontSize = 8;
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRender3dLineChartBigMaxFontSize()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
@@ -709,23 +708,21 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->title = 'Line chart title';
         $chart->title->maxHeight = .2;
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->title->font->maxFontSize = 32;
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRender3dFilledLineChart()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
@@ -734,22 +731,20 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRender3dFilledLineChartWithAxisIntersection()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
@@ -758,22 +753,20 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -151, 'sample 3' => 324, 'sample 4' => -120, 'sample 5' => 1) );
         $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => -5, 'sample 5' => -124) );
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRender3dFilledLineChartWithoutDataBorder()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
@@ -781,24 +774,22 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->dataBorder = 0;
 
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRender3dFilledLineChartNonFilledGrid()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
@@ -806,24 +797,22 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->fillGrid = 1;
 
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRender3dFilledLineChartNonFilledAxis()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
@@ -831,24 +820,22 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->fillAxis = 1;
 
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRenderPieChartWithBackgroundBottomCenter()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( array(
@@ -863,21 +850,20 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->background->image = dirname( __FILE__ ) . '/data/ez.png';
         $chart->background->position = ezcGraph::BOTTOM | ezcGraph::CENTER;
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
+        $chart->renderer = new ezcGraphRenderer3d();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRenderPieChartWithHorizontalTextureBackground()
     {
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( array(
@@ -893,15 +879,39 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $chart->background->repeat = ezcGraph::HORIZONTAL;
         $chart->background->position = ezcGraph::BOTTOM;
 
-        $chart->driver = new ezcGraphGdDriver();
+        $chart->driver = new ezcGraphSvgDriver();
+        $chart->renderer = new ezcGraphRenderer3d();
         $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testRenderPieChartWithOffset()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->driver = new ezcGraphSvgDriver();
+        $chart->renderer = new ezcGraphRenderer3d();
+        $chart->renderer->options->pieChartOffset = 156;
+        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 }

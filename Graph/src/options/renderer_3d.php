@@ -12,59 +12,8 @@
  *
  * @package Graph
  */
-class ezcGraphRenderer3dOptions extends ezcGraphChartOptions
+class ezcGraphRenderer3dOptions extends ezcGraphRendererOptions
 {
-    /**
-     * Percent of chart height used as maximum height for pie chart labels
-     * 
-     * @var float
-     * @access protected
-     */
-    protected $maxLabelHeight = .15;
-
-    /**
-     * Indicates wheather to show the line between pie elements and labels
-     * 
-     * @var bool
-     */
-    protected $showSymbol = true;
-
-    /**
-     * Size of symbols used concat a label with a pie
-     * 
-     * @var float
-     * @access protected
-     */
-    protected $symbolSize = 6;
-
-    /**
-     * Percent to move pie chart elements out of the middle on highlight
-     * 
-     * @var float
-     * @access protected
-     */
-    protected $moveOut = .1;
-
-    /**
-     * Position of title in a box
-     * 
-     * @var int
-     */
-    protected $titlePosition = ezcGraph::TOP;
-
-    /**
-     * Alignement of box titles 
-     * 
-     * @var int
-     */
-    protected $titleAlignement = 48; // ezcGraph::MIDDLE | ezcGraph::CENTER
-
-    /**
-     * Part of picture used to simulate depth of three dimensional chart
-     * 
-     * @var float
-     */
-    protected $depth = .1;
 
     /**
      * Indicates wheather the full depth should be used for each line in the
@@ -89,12 +38,11 @@ class ezcGraphRenderer3dOptions extends ezcGraphChartOptions
     protected $fillGrid = 0;
 
     /**
-     * Factor to darken border of data elements, like lines, bars and pie 
-     * segments
-     * 
+     * Part of picture used to simulate depth of three dimensional chart
+     *
      * @var float
-     */
-    protected $dataBorder = .5;
+    */
+    protected $depth = .1;
 
     /**
      * Height of the pie charts border
@@ -159,24 +107,6 @@ class ezcGraphRenderer3dOptions extends ezcGraphChartOptions
     {
         switch ( $propertyName )
         {
-            case 'maxLabelHeight':
-                $this->maxLabelHeight = min( 1, max( 0, (float) $propertyValue ) );
-                break;
-            case 'symbolSize':
-                $this->symbolSize = (int) $propertyValue;
-                break;
-            case 'moveOut':
-                $this->moveOut = min( 1, max( 0, (float) $propertyValue ) );
-                break;
-            case 'showSymbol':
-                $this->showSymbol = (bool) $propertyValue;
-                break;
-            case 'titlePosition':
-                $this->titlePosition = (int) $propertyValue;
-                break;
-            case 'titleAlignement':
-                $this->titleAlignement = (int) $propertyValue;
-                break;
             case 'depth':
                 $this->depth = min( 1, max( 0, (float) $propertyValue ) );
                 break;
@@ -198,17 +128,8 @@ class ezcGraphRenderer3dOptions extends ezcGraphChartOptions
             case 'pieChartRotation':
                 $this->pieChartRotation = min( 1, max( 0, (float) $propertyValue ) );
                 break;
-            case 'pieChartRotation':
-                $this->pieChartRotation = min( 1, max( 0, (float) $propertyValue ) );
-                break;
             case 'pieChartShadow':
                 $this->pieChartShadow = min( 1, max( 0, (float) $propertyValue ) );
-                break;
-            case 'barMargin':
-                $this->barMargin = min( 1, max( 0, (float) $propertyValue ) );
-                break;
-            case 'barPadding':
-                $this->barPadding = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             case 'barDarkenSide':
                 $this->barDarkenSide = min( 1, max( 0, (float) $propertyValue ) );

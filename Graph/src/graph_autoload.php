@@ -30,6 +30,7 @@ return array(
     'ezcGraphUnknownColorDefinitionException'   => 'Graph/exceptions/unknown_color_definition.php',
 
     'ezcGraphRenderer'                          => 'Graph/interfaces/renderer.php',
+    'ezcGraphRendererOptions'                   => 'Graph/options/renderer.php',
     'ezcGraphRenderer2d'                        => 'Graph/renderer/2d.php',
     'ezcGraphRenderer2dOptions'                 => 'Graph/options/renderer_2d.php',
     'ezcGraphRenderer3d'                        => 'Graph/renderer/3d.php',

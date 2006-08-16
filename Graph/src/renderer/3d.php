@@ -90,6 +90,10 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         $label = false,
         $moveOut = false )
     {
+        // Apply offset
+        $startAngle += $this->options->pieChartOffset;
+        $endAngle += $this->options->pieChartOffset;
+
         // Calculate position and size of pie
         $center = new ezcGraphCoordinate(
             $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2,

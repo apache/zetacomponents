@@ -92,8 +92,8 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
             $center,
             $radius * 2,
             $radius * 2,
-            $startAngle,
-            $endAngle,
+            $startAngle + $this->options->pieChartOffset,
+            $endAngle + $this->options->pieChartOffset,
             $color,
             true
         );
@@ -103,8 +103,8 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
             $center,
             $radius * 2,
             $radius * 2,
-            $startAngle,
-            $endAngle,
+            $startAngle + $this->options->pieChartOffset,
+            $endAngle + $this->options->pieChartOffset,
             $darkenedColor,
             false
         );
@@ -112,7 +112,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         if ( $label )
         {
             // Determine position of label
-            $middle = $startAngle + ( $endAngle - $startAngle ) / 2;
+            $middle = $startAngle + ( $endAngle - $startAngle ) / 2 + $this->options->pieChartOffset;
             $pieSegmentCenter = new ezcGraphCoordinate(
                 cos( deg2rad( $middle ) ) * $radius + $center->x,
                 sin( deg2rad( $middle ) ) * $radius + $center->y
