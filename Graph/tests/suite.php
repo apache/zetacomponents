@@ -30,6 +30,8 @@ require_once 'driver_gd_test.php';
 require_once 'driver_svg_test.php';
 require_once 'font_test.php';
 require_once 'palette_test.php';
+require_once 'matrix_test.php';
+require_once 'polynom_test.php';
 
 /**
 * Test suite for ImageAnalysis package.
@@ -62,6 +64,8 @@ class ezcGraphSuite extends ezcTestSuite
         $this->addTest( ezcGraphFontTest::suite() );
         $this->addTest( ezcGraphTextTest::suite() );
         $this->addTest( ezcGraphPaletteTest::suite() );
+        $this->addTest( ezcGraphMatrixTest::suite() );
+        $this->addTest( ezcGraphPolynomTest::suite() );
     }
 
     public static function suite()

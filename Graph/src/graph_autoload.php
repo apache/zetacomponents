@@ -85,6 +85,11 @@ return array(
     'ezcGraphUnknownDataSetSourceException'     => 'Graph/exceptions/unknown_dataset_source.php',
     'ezcGraphInvalidDisplayTypeException'       => 'Graph/exceptions/invalid_display_type.php',
 
+    'ezcGraphMatrix'                            => 'Graph/math/matrix.php',
+    'ezcGraphMatrixInvalidDimensionsException'  => 'Graph/exceptions/invalid_dimensions.php',
+    'ezcGraphMatrixOutOfBoundingsException'     => 'Graph/exceptions/out_of_boundings.php',
+    'ezcGraphPolynom'                           => 'Graph/math/polynom.php',
+
     'ezcGraphBoundings'                         => 'Graph/structs/boundings.php',
     'ezcGraphCoordinate'                        => 'Graph/structs/coordinate.php',
 );
