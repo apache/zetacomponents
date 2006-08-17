@@ -49,7 +49,6 @@ class ezcTestSettings
 
     /** 
      * No properties can be set.
-     * @ignore
      */
    public function __set( $name, $value )
     {
@@ -63,7 +62,6 @@ class ezcTestSettings
 
     /**
      * The db property can be read.
-     * @ignore
      */
     public function __get( $name )
     {
@@ -71,8 +69,10 @@ class ezcTestSettings
         {
             case 'db':
                 return $this->properties['db'];
+                break;
             default:
                 return parent::__get( $name );
+                break;
         }
     }
 

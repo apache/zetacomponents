@@ -68,7 +68,7 @@
  * // Set the new collection of handler classes.
  * ezcImageAnalyzer::setHandlerClasses( $handlerClasses );
  *
- * // Somewhere else in the code... This now tries to use your handler in the 
+ * // Somewehre else in the code... This now tries to use your handler in the 
  * // first place
  * $image = new ezcImageAnalyzer( '/var/cache/images/toby.jpg' );
  * </code>
@@ -86,15 +86,11 @@
  * $image = new ezcImageAnalyzer( '/var/cache/images/toby.jpg' );
  * </code>
  *
- * @property-read string $mime
- *                The MIME type of the image.
- * @property-read ezcImageAnalyzerData $data
- *                Extended data about the image.
- *
  * @package ImageAnalysis
  */
 class ezcImageAnalyzer
 {
+
     /**
      * The path of the file to analyze.
      *
@@ -111,11 +107,19 @@ class ezcImageAnalyzer
     protected $isAnalyzed;
 
     /**
-     * Container to hold the properties
-     *
-     * @var array(string=>mixed)
+     * The MIME type of the image. 
+     * 
+     * @var string
      */
-    protected $properties;
+    protected $mime;
+
+    /**
+     * Extended data about the image. 
+     * 
+     * @var ezcImageAnalyzerData
+     */
+    protected $data;
+
 
     /**
      * Collection of known handler classes. Classes are ordered by priority.
@@ -233,7 +237,6 @@ class ezcImageAnalyzer
      *         If the property does not exist.
      * @throws ezcBasePropertyPermissionException 
      *         If the property cannot be modified.
-     * @ignore
      */
     public function __set( $name, $value )
     {
@@ -255,20 +258,19 @@ class ezcImageAnalyzer
      *
      * @throws ezcBasePropertyNotFoundException 
      *         If the property does not exist.
-     * @ignore
      */
     public function __get( $name )
     {
         switch ( $name )
         {
             case 'mime':
-                return $this->properties['mime'];
+                return $this->mime;
             case 'data':
                 if ( !$this->isAnalyzed )
                 {
                     $this->analyzeImage();
                 }
-                return $this->properties[$name];
+                return $this->$name;
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
         }
@@ -279,7 +281,6 @@ class ezcImageAnalyzer
      *
      * @param string $name
      * @return bool
-     * @ignore
      */
     public function __isset( $name )
     {
@@ -312,7 +313,7 @@ class ezcImageAnalyzer
         {
             if ( ( $mime = $handler->analyzeType( $this->filePath ) ) !== false )
             {
-                $this->properties['mime'] = $mime;
+                $this->mime = $mime;
                 return;
             }
         }
@@ -336,15 +337,15 @@ class ezcImageAnalyzer
         {
             $this->checkHandlers();
         }
-        if ( !isset( $this->properties['mime'] ) )
+        if ( !isset( $this->mime ) )
         {
             $this->analyzeType();
         }
         foreach ( ezcImageAnalyzer::$availableHandlers as $handler )
         {
-            if ( $handler->canAnalyze( $this->properties['mime'] ) )
+            if ( $handler->canAnalyze( $this->mime ) )
             {
-                $this->properties['data'] = $handler->analyzeImage( $this->filePath );
+                $this->data = $handler->analyzeImage( $this->filePath );
                 $this->isAnalyzed = true;
                 return;
             }

@@ -24,18 +24,18 @@ require_once( 'persistent_session_instance_test.php' );
  */
 class ezcPersistentObjectSuite extends ezcTestSuite
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setName("PersistentObject");
+	public function __construct()
+	{
+            parent::__construct();
+            $this->setName("PersistentObject");
 
-        $this->addTest( ezcPersistentCodeManagerTest::suite() );
-        $this->addTest( ezcPersistentMultiManagerTest::suite() );
-        $this->addTest( ezcPersistentSessionTest::suite() );
-        $this->addTest( ezcPersistentFindIteratorTest::suite() );
-        $this->addTest( ezcPersistentManualGeneratorTest::suite() );
-        $this->addTest( ezcPersistentSessionInstanceTest::suite() );
-    }
+            $this->addTest( ezcPersistentCodeManagerTest::suite() );
+            $this->addTest( ezcPersistentMultiManagerTest::suite() );
+            $this->addTest( ezcPersistentSessionTest::suite() );
+            $this->addTest( ezcPersistentFindIteratorTest::suite() );
+            $this->addTest( ezcPersistentManualGeneratorTest::suite() );
+            $this->addTest( ezcPersistentSessionInstanceTest::suite() );
+	}
 
     public static function suite()
     {

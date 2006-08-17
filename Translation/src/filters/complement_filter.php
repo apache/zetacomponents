@@ -12,8 +12,6 @@
  * The filter replaces a missing translated string with its original.
  *
  * @package Translation
- * @version //autogentag//
- * @mainclass
  */
 class ezcTranslationComplementEmptyFilter implements ezcTranslationFilter
 {

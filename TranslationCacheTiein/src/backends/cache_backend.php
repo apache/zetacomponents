@@ -72,8 +72,6 @@
  * </code>
  *
  * @package TranslationCacheTiein
- * @version //autogentag//
- * @mainclass
  */
 class ezcTranslationCacheBackend implements ezcTranslationBackend, ezcTranslationContextWrite
 {

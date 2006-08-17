@@ -56,18 +56,19 @@
  * ?>
  * </code>
  *
- * @property int $indentLevel
- *           Contains the level of indentation. Increase or decrease by one if
- *           you want the indentation level to change.
- * @property string $lineBreak
- *           Contains the characters to use for linebreaks.  The default is
- *           "\r\n".
- * @property bool $niceIndentation
- *           Controls whether to output the PHP nicely indented or not. The
- *           default is false.
- * @property string $indentString
- *           Contains the characters that are indented per indentation level.
- *           The default is '  ' (two spaces).
+ * This class implements the following properties:
+ *
+ * - <b>indentLevel</b> (int), contains the level of indentation. Increase or
+ *   decrease by one if you want the indentation level to change.
+ *
+ * - <b>lineBreak</b> (string), contains the characters to use for linebreaks.
+ *   The default is "\r\n".
+ *
+ * - <b>niceIndentation</b> (bool), controls whether to output the PHP nicely
+ *    indented or not. The default is false.
+ *
+ * - <b>indentString</b> (string), contains the characters that are indented per
+ *   indentation level. The default is '  ' (two spaces).
  *
  * @package PhpGenerator
  * @version //autogentag//
@@ -237,7 +238,7 @@ class ezcPhpGenerator
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @param mixed $value
-     * @ignore
+     * @return void
      */
     public function __set( $name, $value )
     {
@@ -271,20 +272,30 @@ class ezcPhpGenerator
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @return mixed
-     * @ignore
      */
     public function __get( $name )
     {
         switch ( $name )
         {
             case 'lineBreak':
+                return $this->properties['lineBreak'];
+                break;
+
             case 'indentLevel':
+                return $this->properties['indentLevel'];
+                break;
+
             case 'indentString':
+                return $this->properties['indentString'];
+                break;
+
             case 'niceIndentation':
-                return $this->properties[$name];
+                return $this->properties['niceIndentation'];
+                break;
 
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
+                break;
         }
     }
 

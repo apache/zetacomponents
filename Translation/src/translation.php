@@ -17,8 +17,6 @@
  * @see ezcTranslationManager for an example.
  *
  * @package Translation
- * @version //autogentag//
- * @mainclass
  */
 class ezcTranslation
 {

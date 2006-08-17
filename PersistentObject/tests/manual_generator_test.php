@@ -29,7 +29,7 @@ class ezcPersistentManualGeneratorTest extends ezcTestCase
         }
         catch ( Exception $e )
         {
-            $this->markTestSkipped( 'There was no database configured' );
+            $this->markTestSkipped();
         }
 
         PersistentTestObject::setupTable();

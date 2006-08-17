@@ -10,6 +10,7 @@
  * @access private
  */
 
+
 /**
  * ezcImageHandler implementation for the GD2 extension of PHP.
  * This class only implements the base funtionality of handling GD images. If
@@ -24,7 +25,6 @@
  * @see ezcImageHandler
  *
  * @package ImageConversion
- * @access private
  */
 class ezcImageGdBaseHandler extends ezcImageMethodcallHandler 
 {

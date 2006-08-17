@@ -32,8 +32,6 @@
  * </code>
  *
  * @package Translation
- * @version //autogentag//
- * @mainclass
  */
 class ezcTranslationManager
 {

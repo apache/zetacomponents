@@ -13,41 +13,31 @@
  * Struct class to store the options of the ezcTranslationTsBackend class.
  *
  * This class stores the options for the {@link ezcTranslationTsBackend} class.
- *
- * @property string $location
- *           Path to the directory that contains all TS .xml files.
- * @property string $format
- *           Format for the translation file's name.  In this format
- *           string the special place holder [LOCALE] will be
- *           replaced with the requested locale's name. For example a
- *           format of "translations/[LOCALE].xml" will result in the
- *           filename for the translation file to be
- *           "translations/nl_NL.xml" if the nl_NL locale is
- *           requested.
  * 
  * @package ConsoleTools
- * @version //autogentag//
- * @mainclass
+ * @version //autogen//
  */
 class ezcTranslationTsBackendOptions extends ezcBaseOptions
 {
     /**
-     * Constructs a new options class.
-     *
-     * It also sets the default values of the format property
-     *
-     * @param array(string=>mixed) $options The initial options to set.
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
-     * @throws ezcBaseValueException
-     *         If a the value for a property is out of range.
+     * Path to the directory that contains all TS .xml files
+     * 
+     * @var string
      */
-    public function __construct( $array = array() )
-    {
-        $this->properties['format'] = '[LOCALE].xml';
-        parent::__construct( $array );
-    }
+    protected $location = "";
+
+    /**
+     * Format for the translation file's name
+     *
+     * In this format string the special place holder [LOCALE] will be replaced
+     * with the requested locale's name. For example a format of
+     * "translations/[LOCALE].xml" will result in the filename for the
+     * translation file to be "translations/nl_NL.xml" if the nl_NL locale is
+     * requested.
+     *
+     * @var string
+     */
+    protected $format = '[LOCALE].xml';
 
     /**
      * Property write access.
@@ -59,7 +49,7 @@ class ezcTranslationTsBackendOptions extends ezcBaseOptions
      *
      * @param string $propertyName Name of the property.
      * @param mixed $val  The value for the property.
-     * @ignore
+     * @return void
      */
     public function __set( $propertyName, $val )
     {
@@ -76,7 +66,7 @@ class ezcTranslationTsBackendOptions extends ezcBaseOptions
             default:
                 throw new ezcBaseSettingNotFoundException( $propertyName );
         }
-        $this->properties[$propertyName] = $val;
+        $this->$propertyName = $val;
     }
 }
 
