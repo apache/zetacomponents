@@ -15,9 +15,10 @@
  * the object is already persistent you can store it using update() which results in
  * an UPDATE query. If you want to query persistent objects you can use the find methods.
  *
- * The ezcPersistentSession class has the following properties:
- * - <b>database</b> <i>ezcDbHandler</i>, the database handler set in the constructor.
- * - <b>definitionManager</b> <i>ezcPersistentDefinitionManager</i>, the persistent definition manager set in the constructor.
+ * @property-read ezcDbHandler $database
+ *                The database handler set in the constructor.
+ * @property-read ezcPersistentDefinitionManager $definitionManager
+ *                The persistent definition manager set in the constructor.
  *
  * @package PersistentObject
  */
@@ -51,7 +52,7 @@ class ezcPersistentSession
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @param mixed $value
-     * @return void
+     * @ignore
      */
     public function __set( $name, $value )
     {
@@ -74,6 +75,7 @@ class ezcPersistentSession
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @return mixed
+     * @ignore
      */
     public function __get( $name )
     {
