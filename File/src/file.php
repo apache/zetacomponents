@@ -31,6 +31,8 @@
  * </code>
  *
  * @package File
+ * @version //autogentag//
+ * @mainclass
  */
 class ezcFile
 {
