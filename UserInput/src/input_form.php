@@ -78,7 +78,13 @@
  * ?>
  * </code>
  *
+ * @property-read string $formFields
+ *                There is a read-only property for each field that is defined
+ *                as input field.
+ *
  * @package UserInput
+ * @version //autogentag//
+ * @mainclass
  */
 class ezcInputForm
 {
@@ -342,6 +348,7 @@ class ezcInputForm
      *
      * @param string $propertyName
      * @return mixed The value of the input variable.
+     * @ignore
      */
     public function __get( $propertyName )
     {
@@ -386,7 +393,7 @@ class ezcInputForm
      *         function.
      * @param string $propertyName
      * @param mixed  $newValue
-     * @return void
+     * @ignore
      */
     public function __set( $propertyName, $newValue )
     {

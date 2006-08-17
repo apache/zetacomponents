@@ -11,7 +11,8 @@
  * This struct records information about Input Form definition elements.
  *
  * @package UserInput
- * @version //autogen//
+ * @version //autogentag//
+ * @mainclass
  */
 class ezcInputFormDefinitionElement
 {
