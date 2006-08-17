@@ -12,19 +12,34 @@
 /**
  * Struct class to store the options of the ezcConsoleOutput class.
  * This class stores the options for the {@link ezcConsoleOutput} class.
+ *
+ * @property string $formatString
+ *           The format string to describe the complete progress monitor.
  * 
  * @package ConsoleTools
  * @version //autogen//
  */
 class ezcConsoleProgressMonitorOptions extends ezcBaseOptions
 {
-
     /**
-     * The format string to describe the complete progressmonitor. 
+     * Construct a new options object.
+     * Options are constructed from an option array by default. The constructor
+     * automatically passes the given options to the __set() method to set them 
+     * in the class.
      * 
-     * @var string
+     * @param array(string=>mixed) $options The initial options to set.
+     * @return void
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If a the value for the property options is not an instance of
+     * @throws ezcBaseValueException
+     *         If a the value for a property is out of range.
      */
-    protected $formatString = "%8.1f%% %s %s";
+    public function __construct( array $options = array() )
+    {
+        $this->properties['formatString'] = '%8.1f%% %s %s';
+        parent::__construct( $options );
+    }
 
     /**
      * Option write access.
@@ -36,7 +51,7 @@ class ezcConsoleProgressMonitorOptions extends ezcBaseOptions
      *
      * @param string $key Name of the property.
      * @param mixed $value  The value for the property.
-     * @return void
+     * @ignore
      */
     public function __set( $key, $value )
     {
@@ -51,7 +66,7 @@ class ezcConsoleProgressMonitorOptions extends ezcBaseOptions
             default:
                 throw new ezcBaseSettingNotFoundException( $key );
         }
-        $this->$key = $value;
+        $this->properties[$key] = $value;
     }
 }
 

@@ -13,6 +13,15 @@
  * Struct class to store the options of the ezcConsoleOutput class.
  *
  * This class stores the options for the {@link ezcConsoleOutput} class.
+ *
+ * @property int $verbosityLevel
+ *           Determines the level of verbosity.
+ * @property int $autobreak
+ *           Determines, whether text is automatically wrapped after a
+ *           specific amount of characters in a line. If set to 0
+ *           (default), lines will not be wrapped automatically.
+ * @property bool $useFormats
+ *           Whether to use formatting or not.
  * 
  * @package ConsoleTools
  * @version //autogen//
@@ -20,33 +29,10 @@
 class ezcConsoleOutputOptions extends ezcBaseOptions
 {
     /**
-     * Determines the level of verbosity. 
-     * 
-     * @var int
-     */
-    protected $verbosityLevel = 1;
-
-    /**
-     * Determines, whether text is automatically wrapped after a specific amount
-     * of characters in a line. If set to 0 (default), lines will not be wrapped
-     * automatically.
-     * 
-     * @var int
-     */
-    protected $autobreak = 0;
-
-    /**
-     * Wether to use formatting or not. 
-     * 
-     * @var bool
-     */
-    protected $useFormats = true;
-
-    /**
      * Construct a new options object.
      *
      * NOTE: For BC reasons the old method of instanciating this class is kept,
-     * but the usage of the new versoion is highly incouraged.
+     * but the usage of the new version is highly encouraged.
      * 
      * @param array(string=>mixed) $options The initial options to set.
      * @return void
@@ -58,6 +44,9 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
      */
     public function __construct()
     {
+        $this->properties['verbosityLevel'] = 1;
+        $this->properties['autobreak'] = 0;
+        $this->properties['useFormats'] = true;
         $args = func_get_args();
         if ( func_num_args() === 1 && is_array( $args[0] ) )
         {
@@ -93,7 +82,7 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
      *
      * @param string $propertyName Name of the property.
      * @param mixed $val  The value for the property.
-     * @return void
+     * @ignore
      */
     public function __set( $propertyName, $val )
     {
@@ -115,7 +104,7 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
             default:
                 throw new ezcBaseSettingNotFoundException( $propertyName );
         }
-        $this->$propertyName = $val;
+        $this->properties[$propertyName] = $val;
     }
 }
 

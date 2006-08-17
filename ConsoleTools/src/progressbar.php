@@ -37,31 +37,23 @@
  * 
  * $out->outputText( "Successfully uploaded </tmp/foobar.tar.bz2>.\n", 'success' );
  * </code>
- *  
  * 
+ * @property ezcConsoleProgressbarOptions $options
+ *           Contains the options for this class.
+ * @property int $max
+ *           The maximum progress value to reach.
+ *
  * @package ConsoleTools
  * @version //autogen//
  */
 class ezcConsoleProgressbar
 {
     /**
-     * Settings for the progress bar.
-     * Contains settings for the progress bar. Mandatory setting values are:
+     * Container to hold the properties
      *
-     * <code>
-     * $progress->max;      // The maximum progress value to reach.
-     * </code>
-     * 
-     * @var array(string=>int)
+     * @var array(string=>mixed)
      */
-    protected $settings;
-
-    /**
-     * Options
-     *
-     * @var ezcConsoleProgressbarOptions
-     */
-    protected $options;
+    protected $properties;
 
     /**
      * Storage for actual values to be replaced in the format string.
@@ -132,14 +124,13 @@ class ezcConsoleProgressbar
      *                                       reaches 100%.
      * @param array(string=>string) $options Options
      *
-     * @see ezcConsoleProgressbar::$settings
      * @see ezcConsoleProgressbar::$options
      */
     public function __construct( ezcConsoleOutput $outHandler, $max, array $options = array() )
     {
         $this->output = $outHandler;
         $this->__set( 'max', $max );
-        $this->options = new ezcConsoleProgressbarOptions( $options );
+        $this->properties['options'] = new ezcConsoleProgressbarOptions( $options );
     }
     
     /**
@@ -160,11 +151,11 @@ class ezcConsoleProgressbar
     {
         if ( is_array( $options ) ) 
         {
-            $this->options->merge( $options );
+            $this->properties['options']->merge( $options );
         } 
         else if ( $options instanceof ezcConsoleProgressbarOptions ) 
         {
-            $this->options = $options;
+            $this->properties['options'] = $options;
         }
         else
         {
@@ -180,7 +171,7 @@ class ezcConsoleProgressbar
      */
     public function getOptions()
     {
-        return $this->options;
+        return $this->properties['options'];
     }
 
     /**
@@ -191,18 +182,19 @@ class ezcConsoleProgressbar
      *
      * @throws ezcBasePropertyNotFoundException
      *         If the the desired property is not found.
+     * @ignore
      */
     public function __get( $key )
     {
         switch ( $key )
         {
             case 'options':
-                return $this->options;
+                return $this->properties['options'];
             case 'step':
                 // Step is now an option
-                return $this->options->step;
+                return $this->properties['options']->step;
             case 'max':
-                return $this->settings[$key];
+                return $this->properties[$key];
             default:
                 break;
         }
@@ -219,7 +211,7 @@ class ezcConsoleProgressbar
      *         If a desired property could not be found.
      * @throws ezcBaseValueException
      *         If a desired property value is out of range.
-     * @return void
+     * @ignore
      */
     public function __set( $key, $val )
     {
@@ -243,7 +235,7 @@ class ezcConsoleProgressbar
                     throw new ezcBaseValueException( $key, $val, 'number >= 0' );
                 }
                 // Step is now an option.
-                $this->options->step = $val;
+                $this->properties['options']->step = $val;
                 return;
             default:
                 throw new ezcBasePropertyNotFoundException( $key );
@@ -251,7 +243,7 @@ class ezcConsoleProgressbar
         }
         // Changes settings or options, need for recalculating measures
         $this->started = false;
-        $this->$key = $val;
+        $this->properties[$key] = $val;
     }
  
     /**
@@ -259,6 +251,7 @@ class ezcConsoleProgressbar
      * 
      * @param string $key Name of the property.
      * @return bool True is the property is set, otherwise false.
+     * @ignore
      */
     public function __isset( $key )
     {
@@ -317,7 +310,7 @@ class ezcConsoleProgressbar
     public function advance( $redraw = true, $step = 1 ) 
     {
         $this->currentStep += $step;
-        if ( $redraw === true && $this->currentStep % $this->options->redrawFrequency === 0 )
+        if ( $redraw === true && $this->currentStep % $this->properties['options']->redrawFrequency === 0 )
         {
             $this->output();
         }
@@ -350,41 +343,41 @@ class ezcConsoleProgressbar
         $barFilledSpace = $barFilledSpace > $this->measures['barSpace'] ? $this->measures['barSpace'] : $barFilledSpace;
         $bar = str_pad( 
             str_pad( 
-                $this->options->progressChar, 
+                $this->properties['options']->progressChar, 
                 $barFilledSpace, 
-                $this->options->barChar, 
+                $this->properties['options']->barChar, 
                 STR_PAD_LEFT
             ), 
             $this->measures['barSpace'], 
-            $this->options->emptyChar, 
+            $this->properties['options']->emptyChar, 
             STR_PAD_RIGHT 
         );
         $this->valueMap['bar'] = $bar;
 
         // Fraction
         $fractionVal = sprintf( 
-            $this->options->fractionFormat,
-            ( $fractionVal = ( $this->options->step * $this->currentStep ) / $this->max * 100 ) > 100 ? 100 : $fractionVal
+            $this->properties['options']->fractionFormat,
+            ( $fractionVal = ( $this->properties['options']->step * $this->currentStep ) / $this->max * 100 ) > 100 ? 100 : $fractionVal
         );
         $this->valueMap['fraction'] = str_pad( 
             $fractionVal, 
-            strlen( sprintf( $this->options->fractionFormat, 100 ) ),
+            strlen( sprintf( $this->properties['options']->fractionFormat, 100 ) ),
             ' ',
             STR_PAD_LEFT
         );
 
         // Act / max
         $actVal = sprintf(
-            $this->options->actFormat,
-            ( $actVal = $this->currentStep * $this->options->step ) > $this->max ? $this->max : $actVal
+            $this->properties['options']->actFormat,
+            ( $actVal = $this->currentStep * $this->properties['options']->step ) > $this->max ? $this->max : $actVal
         );
         $this->valueMap['act'] = str_pad( 
             $actVal, 
-            strlen( sprintf( $this->options->actFormat, $this->max ) ),
+            strlen( sprintf( $this->properties['options']->actFormat, $this->max ) ),
             ' ',
             STR_PAD_LEFT
         );
-        $this->valueMap['max'] = sprintf( $this->options->maxFormat, $this->max );
+        $this->valueMap['max'] = sprintf( $this->properties['options']->maxFormat, $this->max );
     }
 
     /**
@@ -394,7 +387,7 @@ class ezcConsoleProgressbar
      */
     protected function insertValues()
     {
-        $bar = $this->options->formatString;
+        $bar = $this->properties['options']->formatString;
         foreach ( $this->valueMap as $name => $val )
         {
             $bar = str_replace( "%{$name}%", $val, $bar );
@@ -410,23 +403,23 @@ class ezcConsoleProgressbar
     protected function calculateMeasures()
     {
         // Calc number of steps bar goes through
-        $this->numSteps = ( int ) round( $this->max / $this->options->step );
+        $this->numSteps = ( int ) round( $this->max / $this->properties['options']->step );
         // Calculate measures
         $this->measures['fixedCharSpace'] = strlen( $this->stripEscapeSequences( $this->insertValues() ) );
-        if ( strpos( $this->options->formatString,'%max%' ) !== false )
+        if ( strpos( $this->properties['options']->formatString,'%max%' ) !== false )
         {
-            $this->measures['maxSpace'] = strlen( sprintf( $this->options->maxFormat, $this->max ) );
+            $this->measures['maxSpace'] = strlen( sprintf( $this->properties['options']->maxFormat, $this->max ) );
 
         }
-        if ( strpos( $this->options->formatString, '%act%' ) !== false )
+        if ( strpos( $this->properties['options']->formatString, '%act%' ) !== false )
         {
-            $this->measures['actSpace'] = strlen( sprintf( $this->options->actFormat, $this->max ) );
+            $this->measures['actSpace'] = strlen( sprintf( $this->properties['options']->actFormat, $this->max ) );
         }
-        if ( strpos( $this->options->formatString, '%fraction%' ) !== false )
+        if ( strpos( $this->properties['options']->formatString, '%fraction%' ) !== false )
         {
-            $this->measures['fractionSpace'] = strlen( sprintf( $this->options->fractionFormat, 100 ) );
+            $this->measures['fractionSpace'] = strlen( sprintf( $this->properties['options']->fractionFormat, 100 ) );
         }
-        $this->measures['barSpace'] = $this->options->width - array_sum( $this->measures );
+        $this->measures['barSpace'] = $this->properties['options']->width - array_sum( $this->measures );
     }
 
     /**

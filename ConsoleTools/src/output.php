@@ -62,24 +62,22 @@
  * For a list of valid colors, style attributes and background colors, please 
  * refer to {@link ezcConsoleOutputFormat}.
  * 
+ * @property ezcConsoleOutputOptions $options
+ *           Contains the options for this class.
+ * @property ezcConsoleOutputFormats $formats
+ *           Contains the output formats.
+ *
  * @package ConsoleTools
  * @version //autogen//
  */
 class ezcConsoleOutput
 {
     /**
-     * Options
-     * 
-     * @var ezcConsoleOutputOptions
+     * Container to hold the properties
+     *
+     * @var array(string=>mixed)
      */
-    protected $options;
-
-    /**
-     * Formats 
-     * 
-     * @var ezcConsoleOutputFormats
-     */
-    protected $formats;
+    protected $properties;
 
     /**
      * Whether a position has been stored before, using the storePos() method.
@@ -177,8 +175,8 @@ class ezcConsoleOutput
     {
         $options = isset( $options ) ? $options : new ezcConsoleOutputOptions();
         $formats = isset( $formats ) ? $formats : new ezcConsoleOutputFormats();
-        $this->options = new ezcConsoleOutputOptions( $options );
-        $this->formats = $formats;
+        $this->properties['options'] = new ezcConsoleOutputOptions( $options );
+        $this->properties['formats'] = $formats;
     }
     
     /**
@@ -199,11 +197,11 @@ class ezcConsoleOutput
     {
         if ( is_array( $options ) ) 
         {
-            $this->options->merge( $options );
+            $this->properties['options']->merge( $options );
         } 
         else if ( $options instanceof ezcConsoleOutputOptions ) 
         {
-            $this->options = $options;
+            $this->properties['options'] = $options;
         }
         else
         {
@@ -219,7 +217,7 @@ class ezcConsoleOutput
      */
     public function getOptions()
     {
-        return $this->options;
+        return $this->properties['options'];
     }
 
     /**
@@ -230,15 +228,15 @@ class ezcConsoleOutput
      * 
      * @param string $propertyName Name of the property.
      * @return mixed Value of the property or null.
+     * @ignore
      */
     public function __get( $propertyName )
     {
         switch ( $propertyName ) 
         {
             case 'options':
-                return $this->options;
             case 'formats':
-                return $this->formats;
+                return $this->properties[$propertyName];
             default:
                 break;
         }
@@ -257,7 +255,7 @@ class ezcConsoleOutput
      * @throws ezcBaseValueException 
      *         If a the value for the property formats is not an instance of 
      *         ezcConsoleOutputFormats. 
-     * @return void
+     * @ignore
      */
     public function __set( $propertyName, $val )
     {
@@ -268,14 +266,14 @@ class ezcConsoleOutput
                 {
                     throw new ezcBaseValueException( $key, $val, 'ezcConsoleOutputOptions' );
                 }
-                $this->options = $val;
+                $this->properties['options'] = $val;
                 return;
             case 'formats':
                 if ( !( $val instanceof ezcConsoleOutputFormats ) )
                 {
                     throw new ezcBaseValueException( $key, $val, 'ezcConsoleOutputFormats' );
                 }
-                $this->formats = $val;
+                $this->properties['formats'] = $val;
                 return;
             default:
                 break;
@@ -288,6 +286,7 @@ class ezcConsoleOutput
      * 
      * @param string $propertyName Name of the property.
      * @return bool True is the property is set, otherwise false.
+     * @ignore
      */
     public function __isset( $propertyName )
     {
@@ -315,18 +314,18 @@ class ezcConsoleOutput
      */
     public function outputText( $text, $format = 'default', $verbosityLevel = 1 ) 
     {
-        if ( $this->options->verbosityLevel >= $verbosityLevel ) 
+        if ( $this->properties['options']->verbosityLevel >= $verbosityLevel ) 
         {
-            if ( is_int( $this->options->autobreak ) && $this->options->autobreak > 0 )
+            if ( is_int( $this->properties['options']->autobreak ) && $this->properties['options']->autobreak > 0 )
             {
                 $textLines = explode( "\n", $text );
                 foreach ( $textLines as $id => $textLine )
                 {
-                    $textLines[$id] = wordwrap( $textLine, $this->options->autobreak, "\n", true );
+                    $textLines[$id] = wordwrap( $textLine, $this->properties['options']->autobreak, "\n", true );
                 }
                 $text = implode( "\n", $textLines );
             }
-            echo ( $this->options->useFormats == true ) ? $this->formatText( $text, $format ) : $text;
+            echo ( $this->properties['options']->useFormats == true ) ? $this->formatText( $text, $format ) : $text;
         }
     }
 

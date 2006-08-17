@@ -32,6 +32,8 @@
  * $out->outputText( "Finished uploading files: $msg\n" );
  * </code>
  *  
+ * @property ezcConsoleStatusbarOptions $options
+ *           Contains the options for this class.
  * 
  * @package ConsoleTools
  * @version //autogen//
@@ -39,11 +41,11 @@
 class ezcConsoleStatusbar
 {
     /**
-     * Options
+     * Container to hold the properties
      *
-     * @var ezcConsoleStatusbarOptions
+     * @var array(string=>mixed)
      */
-    protected $options;
+    protected $properties;
 
     /**
      * The ezcConsoleOutput object to use.
@@ -73,7 +75,7 @@ class ezcConsoleStatusbar
     public function __construct( ezcConsoleOutput $outHandler, array $options = array() )
     {
         $this->outputHandler = $outHandler;
-        $this->options = new ezcConsoleStatusbarOptions( $options );
+        $this->properties['options'] = new ezcConsoleStatusbarOptions( $options );
     }
 
     /**
@@ -84,18 +86,19 @@ class ezcConsoleStatusbar
      *
      * @throws ezcBasePropertyNotFoundException
      *         If the the desired property is not found.
+     * @ignore
      */
     public function __get( $key )
     {
         switch ( $key )
         {
             case 'options':
-                return $this->options;
+                return $this->properties['options'];
                 break;
         }
-        if ( isset( $this->options->$key ) )
+        if ( isset( $this->properties['options']->$key ) )
         {
-            return $this->options->$key;
+            return $this->properties['options']->$key;
         }
         throw new ezcBasePropertyNotFoundException( $key );
     }
@@ -118,11 +121,11 @@ class ezcConsoleStatusbar
     {
         if ( is_array( $options ) ) 
         {
-            $this->options->merge( $options );
+            $this->properties['options']->merge( $options );
         } 
         else if ( $options instanceof ezcConsoleStatusbarOptions ) 
         {
-            $this->options = $options;
+            $this->properties['options'] = $options;
         }
         else
         {
@@ -140,12 +143,15 @@ class ezcConsoleStatusbar
      *         If a desired property could not be found.
      * @throws ezcBaseValueException
      *         If a desired property value is out of range.
-     * @return void
+     * @ignore
      */
     public function __set( $key, $val )
     {
         switch ( $key )
         {
+            // Those two are here for BC reasons only, it is proper to
+            // use $statusbar->options->successChar instead of just
+            // $statusbar->successChar.
             case 'successChar':
             case 'failureChar':
                 if ( strlen( $val ) < 1 )
@@ -156,7 +162,7 @@ class ezcConsoleStatusbar
             default:
                 throw new ezcBasePropertyNotFoundException( $key );
         }
-        $this->options[$key] = $val;
+        $this->properties['options'][$key] = $val;
     }
  
     /**
@@ -164,10 +170,11 @@ class ezcConsoleStatusbar
      * 
      * @param string $key Name of the property.
      * @return bool True is the property is set, otherwise false.
+     * @ignore
      */
     public function __isset( $key )
     {
-        return isset( $this->options[$key] );
+        return isset( $this->properties['options'][$key] );
     }
     
     /**
@@ -178,7 +185,7 @@ class ezcConsoleStatusbar
      */
     public function getOptions()
     {
-        return $this->options;
+        return $this->properties['options'];
     }
 
     /**
@@ -195,11 +202,11 @@ class ezcConsoleStatusbar
         switch ( $status )
         {
             case true:
-                $this->outputHandler->outputText( $this->options['successChar'], 'success' );
+                $this->outputHandler->outputText( $this->properties['options']['successChar'], 'success' );
                 break;
 
             case false:
-                $this->outputHandler->outputText( $this->options['failureChar'], 'failure' );
+                $this->outputHandler->outputText( $this->properties['options']['failureChar'], 'failure' );
                 break;
             
             default:
