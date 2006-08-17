@@ -65,7 +65,12 @@
  *
  * For a more extensive example see {@link ezcTranslationManager}.
  *
+ * @property ezcTranslationTsBackendOptions $options
+ *           Contains the options for this class.
+ *
  * @package Translation
+ * @version //autogentag//
+ * @mainclass
  */
 class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationContextRead
 {
@@ -98,11 +103,11 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
     private $xmlParser = null;
 
     /**
-     * Options
-     * 
-     * @var ezcTranslationTsBackendOptions
+     * Container to hold the properties
+     *
+     * @var array(string=>mixed)
      */
-    protected $options;
+    protected $properties;
 
     /**
      * Constructs a new ezcTranslationTsBackend that will use the file specified by $location.
@@ -121,8 +126,8 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
         {
             throw new ezcTranslationNotConfiguredException( $location );
         }
-        $this->options = new ezcTranslationTsBackendOptions( $options );
-        $this->options->location = $location;
+        $this->properties['options'] = new ezcTranslationTsBackendOptions( $options );
+        $this->properties['options']->location = $location;
     }
 
     /**
@@ -469,13 +474,14 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
      * 
      * @param string $propertyName Name of the property.
      * @return mixed Value of the property or null.
+     * @ignore
      */
     public function __get( $propertyName )
     {
         switch ( $propertyName ) 
         {
             case 'options':
-                return $this->options;
+                return $this->properties['options'];
             default:
                 break;
         }
@@ -491,7 +497,7 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
      * @throws ezcBaseValueException 
      *         If a the value for the property options is not an instance of 
      *         ezcConsoleOutputOptions. 
-     * @return void
+     * @ignore
      */
     public function __set( $propertyName, $val )
     {
@@ -502,7 +508,7 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
                 {
                     throw new ezcBaseValueException( $key, $val, 'ezcTranslationTsBackendOptions' );
                 }
-                $this->options = $val;
+                $this->properties['options'] = $val;
                 return;
             default:
                 break;
@@ -515,6 +521,7 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
      * 
      * @param string $propertyName Name of the property.
      * @return bool True is the property is set, otherwise false.
+     * @ignore
      */
     public function __isset( $propertyName )
     {

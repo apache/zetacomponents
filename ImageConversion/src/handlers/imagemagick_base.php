@@ -25,6 +25,7 @@
  * @see ezcImageHandler
  *
  * @package ImageConversion
+ * @access private
  */
 class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler 
 {

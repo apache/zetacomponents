@@ -22,6 +22,7 @@
  *
  * @package DatabaseSchema
  * @version //autogentag//
+ * @mainclass
  */
 class ezcDbSchemaComparator
 {

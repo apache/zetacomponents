@@ -19,6 +19,7 @@
  * @see ezcImageHandler
  *
  * @package ImageConversion
+ * @access private
  */
 class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometryFilters, ezcImageColorspaceFilters
 {

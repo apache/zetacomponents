@@ -14,6 +14,21 @@
  */
 abstract class ezcBaseOptions implements ArrayAccess
 {
+    /**
+     * Container to hold the properties
+     *
+     * @var array(string=>mixed)
+     */
+    protected $properties;
+
+    /**
+     * Sets an option.
+     * This method is called when an option is set.
+     * 
+     * @param string $key  The option name.
+     * @param mixed $value The option value.
+     * @ignore void
+     */
     abstract public function __set( $propertyName, $propertyValue );
 
     /**
@@ -70,9 +85,9 @@ abstract class ezcBaseOptions implements ArrayAccess
      */
     public function __get( $propertyName )
     {
-        if ( isset( $this->$propertyName ) )
+        if ( isset( $this->properties[$propertyName] ) )
         {
-            return $this->$propertyName;
+            return $this->properties[$propertyName];
         }
         throw new ezcBasePropertyNotFoundException( $propertyName );
     }
@@ -86,7 +101,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      */
     public function offsetExists( $propertyName )
     {
-        return isset( $this->$propertyName );
+        return isset( $this->properties[$propertyName] );
     }
 
     /**

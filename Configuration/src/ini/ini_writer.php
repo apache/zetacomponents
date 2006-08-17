@@ -36,6 +36,7 @@
  *
  * @package Configuration
  * @version //autogen//
+ * @mainclass
  */
 class ezcConfigurationIniWriter extends ezcConfigurationFileWriter
 {

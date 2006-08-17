@@ -41,6 +41,7 @@
  *
  * @package Configuration
  * @version //autogen//
+ * @mainclass
  */
 class ezcConfigurationArrayWriter extends ezcConfigurationFileWriter
 {

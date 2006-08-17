@@ -42,34 +42,28 @@
  * </code>
  *
  * This class stores the rows for the {@link ezcConsoleTable} class.
+ *
+ * @property string $borderFormat
+ *           Set the format applied to the borders of this row.  See
+ *           {@link ezcConsoleOutput}
+ * @property string $format
+ *           Format applied to cell contents of cells marked with
+ *           format "default" in this row.
+ * @property mixed $align
+ *           Alignment applied to cells marked with
+ *           ezcConsoleTable::ALIGN_DEFAULT.
  * 
  * @package ConsoleTools
  * @version //autogen//
  */
-class ezcConsoleTableRow implements Countable, Iterator, ArrayAccess {
-
+class ezcConsoleTableRow implements Countable, Iterator, ArrayAccess
+{
     /**
-     * Set the format applied to the borders of this row. 
-     * 
-     * @see ezcConsoleOutput
-     * 
-     * @var string
+     * Container to hold the properties
+     *
+     * @var array(string=>mixed)
      */
-    protected $borderFormat = 'default';
-
-    /**
-     * Format applied to cell contents of cells marked with format "default" in this row.
-     * 
-     * @var string
-     */
-    protected $format = 'default';
-
-    /**
-     * Alignment applied to cells marked with ezcConsoleTable::ALIGN_DEFAULT.
-     * 
-     * @var mixed
-     */
-    protected $align = ezcConsoleTable::ALIGN_DEFAULT;
+    protected $properties;
 
     /**
      * The cells of the row. 
@@ -91,6 +85,10 @@ class ezcConsoleTableRow implements Countable, Iterator, ArrayAccess {
      */
     public function __construct()
     {
+        $this->properties['borderFormat'] = 'default';
+        $this->properties['format'] = 'default';
+        $this->properties['align'] = ezcConsoleTable::ALIGN_DEFAULT;
+
         if ( func_num_args() > 0 )
         {
             foreach ( func_get_args() as $id => $arg )
@@ -295,12 +293,13 @@ class ezcConsoleTableRow implements Countable, Iterator, ArrayAccess {
      *
      * @throws ezcBasePropertyNotFoundException
      *         If the the desired property is not found.
+     * @ignore
      */
     public function __get( $key )
     {
-        if ( isset( $this->$key ) )
+        if ( isset( $this->properties[$key] ) )
         {
-            return $this->$key;
+            return $this->properties[$key];
         }
     }
 
@@ -317,7 +316,7 @@ class ezcConsoleTableRow implements Countable, Iterator, ArrayAccess {
      *         {@link ezcConsoleTable::ALIGN_RIGHT},
      *         {@link ezcConsoleTable::ALIGN_DEFAULT}
      *
-     * @return void
+     * @ignore
      */
     public function __set( $key, $val )
     {
@@ -326,7 +325,7 @@ class ezcConsoleTableRow implements Countable, Iterator, ArrayAccess {
         {
             case 'format':
             case 'borderFormat':
-                $this->$key = $val;
+                $this->properties[$key] = $val;
                 return;
             case 'align':
                 if ( $val !== ezcConsoleTable::ALIGN_LEFT 
@@ -337,7 +336,7 @@ class ezcConsoleTableRow implements Countable, Iterator, ArrayAccess {
                 {
                     throw new ezcBaseValueException( $key, $val, 'ezcConsoleTable::ALIGN_DEFAULT, ezcConsoleTable::ALIGN_LEFT, ezcConsoleTable::ALIGN_CENTER, ezcConsoleTable::ALIGN_RIGHT' );
                 }
-                $this->align = $val;
+                $this->properties['align'] = $val;
                 return;
         }
         throw new ezcBasePropertyNotFoundException( $key );
@@ -348,6 +347,7 @@ class ezcConsoleTableRow implements Countable, Iterator, ArrayAccess {
      * 
      * @param string $key Name of the property.
      * @return bool True is the property is set, otherwise false.
+     * @ignore
      */
     public function __isset( $key )
     {

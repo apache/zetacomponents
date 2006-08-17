@@ -24,6 +24,8 @@
  * </code>
  *
  * @package DatabaseSchema
+ * @version //autogentag//
+ * @mainclass
  */
 class ezcDbSchemaValidator
 {

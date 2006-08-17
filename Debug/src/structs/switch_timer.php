@@ -11,8 +11,6 @@
  */
 
 /**
- *
- *
  * @package Debug
  * @version //autogentag//
  * @access private

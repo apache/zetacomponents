@@ -110,6 +110,7 @@ class ezcFeed implements Iterator
         }
         $moduleName = $moduleObj->getModuleName();
         $this->$moduleName = $this->feedProcessor->addModule( $moduleName, $moduleObj );
+        return $moduleName;
     }
 
     public function __set( $property, $value )

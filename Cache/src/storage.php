@@ -30,28 +30,25 @@
  * - ezcCacheStorageFileArray
  * - ezcCacheStorageFileEvalArray
  * - ezcCacheStorageFilePlain
+ *
+ * @property ezcCacheStorageOptions $options
+ *           Options for the cache storage. Which options are
+ *           supported depends on the specific implementation of the
+ *           ezcCacheStorage.
+ * @property string $location
+ *           The location the cache resides in.
+ *
  * 
  * @package Cache
  */
 abstract class ezcCacheStorage 
 {
     /**
-     * The location the cache resides in.
+     * Container to hold the properties
      *
-     * @var string
+     * @var array(string=>mixed)
      */
-    protected $location;
-
-    /**
-     * Options for the cache storage.
-     * Depends on the specific implementation of the ezcCacheStorage.
-     * Options available for all implementations are:
-     *
-     * 'ttl' [60*60*24, 24hrs Time-To-Life]
-     *
-     * @var ezcCacheStorageOptions
-     */
-    protected $options;
+    protected $properties;
 
     /**
      * Creates a new cache storage in the given location.
@@ -92,9 +89,9 @@ abstract class ezcCacheStorage
      */
     public function __construct( $location, $options = array() ) 
     {
-        $this->location = ( substr( $location, -1 ) === '/' ) ? $location : $location . '/';
+        $this->properties['location'] = ( substr( $location, -1 ) === '/' ) ? $location : $location . '/';
         $this->validateLocation();
-        $this->options = new ezcCacheStorageOptions( $options );
+        $this->properties['options'] = new ezcCacheStorageOptions( $options );
     }
 
     /**
@@ -229,7 +226,7 @@ abstract class ezcCacheStorage
      */
     public function getLocation()
     {
-        return $this->location;
+        return $this->properties['location'];
     }
 
     /**
@@ -243,7 +240,7 @@ abstract class ezcCacheStorage
      */
     public function getOptions()
     {
-        return $this->options;
+        return $this->properties['options'];
     }
 
     /**
@@ -277,11 +274,11 @@ abstract class ezcCacheStorage
     {
         if ( is_array( $options ) ) 
         {
-            $this->options->merge( $options );
+            $this->properties['options']->merge( $options );
         } 
         else if ( $options instanceof ezcCacheStorageOptions ) 
         {
-            $this->options = $options;
+            $this->properties['options'] = $options;
         }
         else
         {
@@ -298,13 +295,14 @@ abstract class ezcCacheStorage
      * 
      * @param string $propertyName Name of the property.
      * @return mixed Value of the property or null.
+     * @ignore
      */
     public function __get( $propertyName )
     {
         switch ( $propertyName ) 
         {
             case 'options':
-                return $this->options;
+                return $this->properties['options'];
         }
         throw new ezcBasePropertyNotFoundException( $propertyName );
     }
@@ -318,7 +316,7 @@ abstract class ezcCacheStorage
      * @throws ezcBaseValueException 
      *         If a the value for the property options is not an instance of 
      *         ezcCacheStorageOptions. 
-     * @return void
+     * @ignore
      */
     public function __set( $propertyName, $val )
     {
@@ -329,7 +327,7 @@ abstract class ezcCacheStorage
                 {
                     throw new ezcBaseValueException( $key, $val, 'instance of ezcCacheStorageOptions' );
                 }
-                $this->options = $val;
+                $this->properties['options'] = $val;
                 return;
         }
         throw new ezcBasePropertyNotFoundException( $propertyName );
@@ -340,6 +338,7 @@ abstract class ezcCacheStorage
      * 
      * @param string $propertyName Name of the property.
      * @return bool True is the property is set, otherwise false.
+     * @ignore
      */
     public function __isset( $propertyName )
     {
@@ -347,11 +346,8 @@ abstract class ezcCacheStorage
         {
             case 'options':
                 return true;
-                break;
         }
         return false;
     }
-
-
 }
 ?>

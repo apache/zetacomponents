@@ -26,7 +26,7 @@ class ezcPersistentSessionInstanceTest extends ezcTestCase
         }
         catch ( Exception $e )
         {
-            $this->markTestSkipped();
+            $this->markTestSkipped( 'There was no database configured' );
         }
     }
 

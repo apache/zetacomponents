@@ -21,11 +21,11 @@
 abstract class ezcImageHandler
 {
     /**
-     * Name of the handler
+     * Container to hold the properties
      *
-     * @var string
+     * @var array(string=>mixed)
      */
-    protected $name;
+    protected $properties;
 
     /**
      * Settings of the handlers 
@@ -46,7 +46,7 @@ abstract class ezcImageHandler
      */
     public function __construct( ezcImageHandlerSettings $settings )
     {
-        $this->name = $settings->referenceName;
+        $this->properties['name'] = $settings->referenceName;
         $this->settings = $settings;
     }
 
@@ -57,14 +57,14 @@ abstract class ezcImageHandler
      * @throws ezcBasePropertyReadOnlyException if the property cannot be modified.
      * @param string $name
      * @param mixed $value
-     * @return void
+     * @ignore
      */
     public function __set( $name, $value )
     {
         switch ( $name )
         {
             case 'name':
-                throw new ezcBasePropertyReadOnlyException( $name );
+                throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
         }
@@ -76,13 +76,14 @@ abstract class ezcImageHandler
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @return mixed
+     * @ignore
      */
     public function __get( $name )
     {
         switch ( $name )
         {
             case 'name':
-                return $this->$name;
+                return $this->properties[$name];
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
         }
@@ -93,6 +94,7 @@ abstract class ezcImageHandler
      *
      * @param string $name
      * @return bool
+     * @ignore
      */
     public function __isset( $name )
     {
