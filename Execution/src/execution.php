@@ -36,6 +36,8 @@
  * </code>
  *
  * @package Execution
+ * @version //autogentag//
+ * @mainclass
  */
 class ezcExecution
 {
