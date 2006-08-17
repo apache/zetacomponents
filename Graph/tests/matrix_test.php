@@ -235,16 +235,16 @@ class ezcGraphMatrixTest extends ezcTestCase
         );
     }
 
-    public function testMatrixMultiplication2()
+    public function testMatrixMultiplicationInvalidDimensions()
     {
-        $a = new ezcGraphMatrix( 2, 3, array(
-            array( 1, 2, 3 ),
-            array( 4, 5, 6 ),
-        ) );
-        $b = new ezcGraphMatrix( 3, 3, array(
+        $a = new ezcGraphMatrix( 3, 3, array(
             array( 6, -1 ),
             array( 3, 2 ),
             array( 0, -3 ),
+        ) );
+        $b = new ezcGraphMatrix( 2, 3, array(
+            array( 1, 2, 3 ),
+            array( 4, 5, 6 ),
         ) );
 
         try
@@ -274,6 +274,52 @@ class ezcGraphMatrixTest extends ezcTestCase
                 array( 3, 6 ),
             ),
             $this->getAttribute( $matrix, 'matrix' )
+        );
+    }
+
+    public function testLRdecomposition()
+    {
+        $matrix = new ezcGraphMatrix( 3, 3, array(
+            array( 1, 2, 3 ),
+            array( 4, 5, 6 ),
+            array( 7, 8, 10 ),
+        ) );
+
+        $dec = $matrix->LRdecomposition();
+
+        $this->assertEquals(
+            array(
+                'l' => new ezcGraphMatrix( 3, 3, array( 
+                    array( 1, 0, 0 ),
+                    array( 4, 1, 0 ),
+                    array( 7, 2, 1 ),
+                ) ),
+                'r' => new ezcGraphMatrix( 3, 3, array( 
+                    array( 1, 2, 3 ),
+                    array( 0, -3, -6 ),
+                    array( 0, 0, 1 ),
+                ) ),
+            ),
+            $dec
+        );
+    }
+
+    public function testSolveNonlinearEquatation()
+    {
+        $a = new ezcGraphMatrix( 3, 3, array(
+            array( 5, 4, 7 ),
+            array( 2, 12, 8 ),
+            array( 3, 6, 10 ),
+        ) );
+        $b = new ezcGraphMatrix( 3, 1, array( 
+            array( 1, 2, 3 ),
+        ) );
+
+        $polynom = $a->solveNonlinearEquatation( $b );
+
+        $this->assertEquals(
+            '-0.12 * x^2 + 0.02 * x + 0.35',
+            $polynom->__toString()
         );
     }
 }

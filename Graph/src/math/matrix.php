@@ -15,9 +15,9 @@
 class ezcGraphMatrix
 {
 
-    protected $columns;
-
     protected $rows;
+
+    protected $columns;
 
     protected $matrix;
 
@@ -28,15 +28,15 @@ class ezcGraphMatrix
      * define the initial matrix values. If no array is given an identity 
      * matrix is created.
      * 
-     * @param int $columns Number of columns
      * @param int $rows Number of rows
+     * @param int $columns Number of columns
      * @param array $values Array with values
      * @return void
      */
-    public function __construct( $columns = 3, $rows = 3, array $values = null )
+    public function __construct( $rows = 3, $columns = 3, array $values = null )
     {
-        $this->columns = max( 2, (int) $columns );
-        $this->rows = max( 2, (int) $rows );
+        $this->rows = max( 1, (int) $rows );
+        $this->columns = max( 1, (int) $columns );
 
         if ( $values !== null )
         {
@@ -58,9 +58,9 @@ class ezcGraphMatrix
      */
     public function fromArray( array $values )
     {
-        for ( $i = 0; $i < $this->columns; ++$i )
+        for ( $i = 0; $i < $this->rows; ++$i )
         {
-            for ( $j = 0; $j < $this->rows; ++$j )
+            for ( $j = 0; $j < $this->columns; ++$j )
             {
                 $this->matrix[$i][$j] =
                     ( isset( $values[$i][$j] )
@@ -81,25 +81,15 @@ class ezcGraphMatrix
      */
     public function init()
     {
-        for ( $i = 0; $i < $this->columns; ++$i )
+        for ( $i = 0; $i < $this->rows; ++$i )
         {
-            for ( $j = 0; $j < $this->rows; ++$j )
+            for ( $j = 0; $j < $this->columns; ++$j )
             {
                 $this->matrix[$i][$j] = ( $i === $j ? 1 : 0 );
             }
         }
 
         return $this;
-    }
-
-    /**
-     * Returns number of columns 
-     * 
-     * @return int Number of columns
-     */
-    public function columns()
-    {
-        return $this->columns;
     }
 
     /**
@@ -113,22 +103,35 @@ class ezcGraphMatrix
     }
 
     /**
+     * Returns number of columns 
+     * 
+     * @return int Number of columns
+     */
+    public function columns()
+    {
+        return $this->columns;
+    }
+
+    /**
      * Get a single matrix value
      *
      * Returns the value of the matrix at the given position
      * 
-     * @param int $i Row
-     * @param int $j Column
+     * @param int $i Column
+     * @param int $j Row
      * @return float Matrix value
      */
     public function get( $i, $j )
     {
-        if ( !isset( $this->matrix[$i][$j] ) )
+        if ( ( $i < 0 ) ||
+             ( $i >= $this->rows ) ||
+             ( $j < 0 ) ||
+             ( $j >= $this->columns ) )
         {
-            throw new ezcGraphMatrixOutOfBoundingsException( $this->columns, $this->rows, $i, $j );
+            throw new ezcGraphMatrixOutOfBoundingsException( $this->rows, $this->columns, $i, $j );
         }
 
-        return $this->matrix[$i][$j];
+        return ( !isset( $this->matrix[$i][$j] ) ? .0 : $this->matrix[$i][$j] );
     }
 
     /**
@@ -136,16 +139,19 @@ class ezcGraphMatrix
      *
      * Sets the value of the matrix at the given position
      * 
-     * @param int $i Row
-     * @param int $j Column
+     * @param int $i Column
+     * @param int $j Row
      * @param float $value Value
      * @return ezcGraphMatrix Updated matrix
      */
     public function set( $i, $j, $value )
     {
-        if ( !isset( $this->matrix[$i][$j] ) )
+        if ( ( $i < 0 ) ||
+             ( $i >= $this->rows ) ||
+             ( $j < 0 ) ||
+             ( $j >= $this->columns ) )
         {
-            throw new ezcGraphMatrixOutOfBoundingsException( $this->columns, $this->rows, $i, $j );
+            throw new ezcGraphMatrixOutOfBoundingsException( $this->rows, $this->columns, $i, $j );
         }
 
         $this->matrix[$i][$j] = $value;
@@ -163,15 +169,15 @@ class ezcGraphMatrix
      */
     public function add( ezcGraphMatrix $matrix )
     {
-        if ( ( $this->columns !== $matrix->columns() ) ||
-             ( $this->rows !== $matrix->rows() ) )
+        if ( ( $this->rows !== $matrix->rows() ) ||
+             ( $this->columns !== $matrix->columns() ) )
         {
-            throw new ezcGraphMatrixInvalidDimensionsException( $this->columns, $this->rows, $matrix->columns(), $matrix->rows() );
+            throw new ezcGraphMatrixInvalidDimensionsException( $this->rows, $this->columns, $matrix->rows(), $matrix->columns() );
         }
 
-        for ( $i = 0; $i < $this->columns; ++$i )
+        for ( $i = 0; $i < $this->rows; ++$i )
         {
-            for ( $j = 0; $j < $this->rows; ++$j )
+            for ( $j = 0; $j < $this->columns; ++$j )
             {
                 $this->matrix[$i][$j] += $matrix->get( $i, $j );
             }
@@ -190,15 +196,15 @@ class ezcGraphMatrix
      */
     public function diff( ezcGraphMatrix $matrix )
     {
-        if ( ( $this->columns !== $matrix->columns() ) ||
-             ( $this->rows !== $matrix->rows() ) )
+        if ( ( $this->rows !== $matrix->rows() ) ||
+             ( $this->columns !== $matrix->columns() ) )
         {
-            throw new ezcGraphMatrixInvalidDimensionsException( $this->columns, $this->rows, $matrix->columns(), $matrix->rows() );
+            throw new ezcGraphMatrixInvalidDimensionsException( $this->rows, $this->columns, $matrix->rows(), $matrix->columns() );
         }
 
-        for ( $i = 0; $i < $this->columns; ++$i )
+        for ( $i = 0; $i < $this->rows; ++$i )
         {
-            for ( $j = 0; $j < $this->rows; ++$j )
+            for ( $j = 0; $j < $this->columns; ++$j )
             {
                 $this->matrix[$i][$j] -= $matrix->get( $i, $j );
             }
@@ -219,9 +225,9 @@ class ezcGraphMatrix
     {
         $scalar = (float) $scalar;
 
-        for ( $i = 0; $i < $this->columns; ++$i )
+        for ( $i = 0; $i < $this->rows; ++$i )
         {
-            for ( $j = 0; $j < $this->rows; ++$j )
+            for ( $j = 0; $j < $this->columns; ++$j )
             {
                 $this->matrix[$i][$j] *= $scalar;
             }
@@ -242,9 +248,9 @@ class ezcGraphMatrix
 
         $this->matrix = array();
 
-        for ( $i = 0; $i < $this->columns; ++$i )
+        for ( $i = 0; $i < $this->rows; ++$i )
         {
-            for ( $j = 0; $j < $this->rows; ++$j )
+            for ( $j = 0; $j < $this->columns; ++$j )
             {
                 $this->matrix[$i][$j] = $matrix->get( $j, $i );
             }
@@ -270,14 +276,14 @@ class ezcGraphMatrix
             throw new ezcGraphMatrixInvalidDimensionsException( $this->columns, $this->rows, $mColumns, $mRows );
         }
 
-        $result = new ezcGraphMatrix( $mRows, $mRows );
+        $result = new ezcGraphMatrix( $this->rows, $mColumns );
 
-		for ( $i = 0; $i < $this->columns; ++$i ) 
+		for ( $i = 0; $i < $this->rows; ++$i ) 
         {
-			for ( $j = 0; $j < $mRows; ++$j ) 
+			for ( $j = 0; $j < $mColumns; ++$j ) 
             {
 				$sum = 0;
-				for ( $k = 0; $k < $mColumns; ++$k ) {
+				for ( $k = 0; $k < $mRows; ++$k ) {
 					$sum += $this->matrix[$i][$k] * $matrix->get( $k, $j );
 				}
 
@@ -286,6 +292,164 @@ class ezcGraphMatrix
 		}
 
         return $result;
+    }
+
+    /**
+     * Solve nonlinear equatation
+     * 
+     * Tries to solve equatation given by two matrices, with assumption, that:
+     *      A * x = B
+     * where $this is A, and the paramenter B. x is cosnidered as a vector
+     * x = ( x^n, x^(n-1), ..., x^2, x, 1 )
+     *
+     * Will return a polynomial solution for x.
+     *
+     * See: http://en.wikipedia.org/wiki/Gauss-Newton_algorithm
+     *
+     * @param ezcGraphMatrix $matrix B
+     * @return ezcGraphPolygon Solution of equatation
+     */
+    public function solveNonlinearEquatation( ezcGraphMatrix $matrix )
+    {
+        // Build complete equatation
+        $equatation = new ezcGraphMatrix( $this->rows, $columns = ( $this->columns + 1 ) );
+		for ( $i = 0; $i < $this->rows; ++$i ) 
+        {
+			for ( $j = 0; $j < $this->columns; ++$j ) 
+            {
+                $equatation->set( $i, $j, $this->matrix[$i][$j] );
+            }
+            $equatation->set( $i, $this->columns, $matrix->get( $i, 0 ) );
+        }
+
+        // Compute upper triangular matrix on left side of equatation
+		for ( $i = 0; $i < ( $this->rows - 1 ); ++$i ) 
+        {
+			for ( $j = $i + 1; $j < $this->rows; ++$j ) 
+            {
+                if ( $equatation->get( $j, $i ) !== 0 )
+                {
+                    if ( $equatation->get( $j, $i ) == 0 )
+                    {
+                        $factor = 0;
+                    }
+                    else
+                    {
+                        $factor = -( $equatation->get( $i, $i ) / $equatation->get( $j, $i ) );
+                    }
+
+                    for ( $k = $i; $k < $columns; ++$k )
+                    {
+                        $equatation->set( $j, $k, $equatation->get( $i, $k ) + $factor * $equatation->get( $j, $k ) );
+                    }
+                }
+            }
+        }
+
+        // Normalize values on left side matrix diagonale
+		for ( $i = 0; $i < $this->rows; ++$i ) 
+        {
+            if ( ( ( $value = $equatation->get( $i, $i ) ) != 1 ) &&
+                 ( $value != 0 ) )
+            {
+                $factor = 1 / $value;
+                for ( $k = $i; $k < $columns; ++$k )
+                {
+                    $equatation->set( $i, $k, $equatation->get( $i, $k ) * $factor );
+                }
+            }
+        }
+
+        // Build up solving polynom
+        $polynom = new ezcGraphPolynom();
+        for ( $i = ( $this->rows - 1 ); $i >= 0; --$i )
+        {
+            for ( $j = $i + 1; $j < $this->columns; ++$j )
+            {
+                $equatation->set(
+                    $i, 
+                    $this->columns, 
+                    $equatation->get( $i, $this->columns ) + ( -$equatation->get( $i, $j ) * $polynom->get( $j ) )
+                );
+                $equatation->set( $i, $j, 0 );
+            }
+            $polynom->set( $i, $equatation->get( $i, $this->columns ) );
+        }
+
+        return $polynom;
+    }
+
+    public function __toString()
+    {
+        $string = sprintf( "%d x %d matrix:\n", $this->rows, $this->columns );
+
+		for ( $i = 0; $i < $this->rows; ++$i ) 
+        {
+            $string .= '| ';
+			for ( $j = 0; $j < $this->columns; ++$j ) 
+            {
+                $string .= sprintf( '%04.2f ', $this->get( $i, $j ) );
+            }
+            $string .= "|\n";
+        }
+
+        return $string;
+    }
+
+    public function LRdecomposition()
+    {
+        /**
+         * Use Cholesky-Crout algorithm to get LR decomposition
+         *
+         *  Input: Matrix A ($this)
+         *  
+         *  For i = 1 To n
+         *      For j = i To n
+         *          R(i,j)=A(i,j)             
+         *          For k = 1 TO i-1               
+         *              R(i,j)-=L(i,k)*R(k,j)
+         *          end
+         *      end    
+         *      For j=i+1 To n
+         *          L(j,i)= A(j,i)
+         *          For k = 1 TO i-1
+         *              L(j,i)-=L(j,k)*R(k,i)
+         *          end
+         *          L(j,i)/=R(i,i)
+         *      end
+         *  end
+         *  
+         *  Output: matrices L,R
+         */
+        $l = new ezcGraphMatrix( $this->columns, $this->rows );
+        $r = new ezcGraphMatrix( $this->columns, $this->rows );
+
+		for ( $i = 0; $i < $this->columns; ++$i ) 
+        {
+			for ( $j = $i; $j < $this->rows; ++$j ) 
+            {
+                $r->set( $i, $j, $this->matrix[$i][$j] );
+                for ( $k = 0; $k <= ( $i - 1 ); ++$k )
+                {
+                    $r->set( $i, $j, $r->get( $i, $j ) - $l->get( $i, $k ) * $r->get( $k, $j ) );
+                }
+            }
+
+			for ( $j = $i + 1; $j < $this->rows; ++$j ) 
+            {
+                $l->set( $j, $i, $this->matrix[$j][$i] );
+                for ( $k = 0; $k <= ( $i - 1 ); ++$k )
+                {
+                    $l->set( $j, $i, $l->get( $j, $i ) - $l->get( $j, $k ) * $r->get( $k, $i ) );
+                }
+                $l->set( $j, $i, $l->get( $j, $i ) / $r->get( $i, $i ) );
+            }
+        }
+
+        return array( 
+            'l' => $l, 
+            'r' => $r,
+        );
     }
 }
 ?>

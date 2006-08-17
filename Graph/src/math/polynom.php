@@ -147,18 +147,25 @@ class ezcGraphPolynom
      * 
      * @return string String representation of polynom
      */
-    public function __to_string()
+    public function __toString()
     {
         krsort( $this->values );
         $string = '';
 
         foreach ( $this->values as $exponent => $factor )
         {
-            $string .=
-                ( $factor != 1 ? sprintf( '%.2f * ', $factor ) : '' ) .
-                ( $exponent > 1 ? sprintf( 'x^%d + ', $exponent ) : 
-                    ( $exponent === 1 ? 'x + ' : '' ) 
-                );
+            if ( $factor == 0 )
+            {
+                continue;
+            }
+            elseif ( $factor != 1 )
+            {
+                $string .= sprintf( '%.2f * ', $factor );
+            }
+
+            $string .= ( $exponent > 1 ? sprintf( 'x^%d + ', $exponent ) : 
+                        ( $exponent === 1 ? 'x + ' : '' ) 
+                    );
         }
 
         return substr( $string, 0, -3 );

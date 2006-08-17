@@ -47,7 +47,7 @@ class ezcGraphPolynomTest extends ezcTestCase
 
         $this->assertEquals(
             'x^2',
-            $polynom->__to_string()
+            $polynom->__toString()
         );
     }
 
@@ -57,7 +57,7 @@ class ezcGraphPolynomTest extends ezcTestCase
 
         $this->assertEquals(
             '0.50 * x^2 + 3.00 * x + -4.50',
-            $polynom->__to_string()
+            $polynom->__toString()
         );
     }
 
@@ -78,7 +78,7 @@ class ezcGraphPolynomTest extends ezcTestCase
 
         $this->assertEquals(
             '1.50 * x^2 + 3.00 * x + -4.50',
-            $polynom->__to_string()
+            $polynom->__toString()
         );
     }
 
