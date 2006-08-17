@@ -10,35 +10,20 @@
 /**
  * Class containing the basic options for charts
  *
+ * @property int $width
+ *           Width of the chart.
+ * @property int $heigh
+ *           Height of the chart.
+ * @property int $font
+ *           Font used in the graph.
+ *
  * @package Graph
  */
 class ezcGraphChartOptions extends ezcBaseOptions
 {
-    /**
-     * Width of the chart
-     * 
-     * @var int
-     */
-    protected $width;
-
-    /**
-     * Height of the chart
-     * 
-     * @var int
-     * @access protected
-     */
-    protected $height;
-
-    /**
-     * Font used in the graph 
-     * 
-     * @var int
-     */
-    protected $font;
-    
     public function __construct( array $options = array() )
     {
-        $this->font = new ezcGraphFontOptions();
+        $this->properties['font'] = new ezcGraphFontOptions();
 
         parent::__construct( $options );
     }
@@ -50,20 +35,20 @@ class ezcGraphChartOptions extends ezcBaseOptions
      * @param mixed $propertyValue 
      * @throws ezcBasePropertyNotFoundException
      *          If a property is not defined in this class
-     * @return void
+     * @ignore
      */
     public function __set( $propertyName, $propertyValue )
     {
         switch ( $propertyName )
         {
             case 'width':
-                $this->width = max( 1, (int) $propertyValue );
+                $this->properties['width'] = max( 1, (int) $propertyValue );
                 break;
             case 'height':
-                $this->height = max( 1, (int) $propertyValue );
+                $this->properties['height'] = max( 1, (int) $propertyValue );
                 break;
             case 'font':
-                $this->font->font = $propertyValue;
+                $this->properties['font']->font = $propertyValue;
                 break;
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
