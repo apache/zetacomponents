@@ -43,15 +43,22 @@
  *  ezcUrl::prepend( 'site', 'company/about' );    // returns '/mysite/company/about'
  * </code>
  *
- * The ezcUrl class has the following properties:
- * <b>host</b> - hostname or null
- * <b>path<b> - complete path as an array
- * <b>user</b> - user or null
- * <b>pass</b> - password or null
- * <b>port</b> - port or null
- * <b>scheme</b> - protocol or null
- * <b>query</b> - complete query string as an associative array
- * <b>fragment</b> - anchor or null
+ * @property string $host
+ *           Hostname or null
+ * @property string $path
+ *           Complete path as an array.
+ * @property string $user
+ *           User or null.
+ * @property string $pass
+ *           Password or null.
+ * @property string $port
+ *           Port or nul.l
+ * @property string $scheme
+ *           Protocol or null.
+ * @property string $query
+ *           Complete query string as an associative array.
+ * @property string $fragment
+ *           Anchor or null.
  *
  * @package Url
  * @version //autogen//
@@ -150,7 +157,7 @@ class ezcUrl
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @param mixed $value
-     * @return void
+     * @ignore
      */
     public function __set( $name, $value )
     {
@@ -178,6 +185,7 @@ class ezcUrl
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @return mixed
+     * @ignore
      */
     public function __get( $name )
     {
