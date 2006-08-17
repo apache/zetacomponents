@@ -64,10 +64,6 @@
  * $table->outputTable();
  * </code>
  * 
- * @property ezcConsoleTableOptions $options
- *           Contains the options for this class.
- * @property int $width
- *           Width of the table.
  *
  * @see ezcConsoleOutput
  * @package ConsoleTools
@@ -80,14 +76,12 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      * @see ezcConsoleTable::$options
      */
     const WRAP_AUTO = 1;
-
     /**
      * Do not wrap text. Columns will be extended to fit the largest text.
      * ATTENTION: This is risky!
      * @see ezcConsoleTable::$options
      */
     const WRAP_NONE = 2;
-
     /**
      * Text will be cut to fit into a column.
      * @see ezcConsoleTable::$options
@@ -121,11 +115,26 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
     const WIDTH_MAX = 2;
 
     /**
-     * Container to hold the properties
+     * Settings for the table.
      *
-     * @var array(string=>mixed)
+     * <code>
+     * array(
+     *  'width' => <int>,       // Width of the table
+     * );
+     * </code>
+     *
+     * @var array(string=>string)
      */
-    protected $properties;
+    protected $settings = array( 
+        'width' => 100,
+    );
+
+    /**
+     * Options for the table.
+     *
+     * @var ezcConsoleTableOptions
+     */
+    protected $options;
 
     /**
      * The ezcConsoleOutput object to use.
@@ -148,22 +157,22 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      * @param int $width                   Overall width of the table (chars).
      * @param array $options               Options
      *
+     * @see ezcConsoleTable::$settings
      * @see ezcConsoleTable::$options
      *
      * @throws ezcBaseValueException On an invalid setting.
      */
     public function __construct( ezcConsoleOutput $outHandler, $width, $options = array() ) 
     {
-        $this->rows = array();
         $this->outputHandler = $outHandler;
         $this->__set( 'width', $width );
         if ( $options instanceof ezcConsoleTableOptions )
         {
-            $this->properties['options'] = $options;
+            $this->options = $options;
         }
         else if ( is_array( $options ) )
         {
-            $this->properties['options'] = new ezcConsoleTableOptions( $options );
+            $this->options = new ezcConsoleTableOptions( $options );
         }
         else
         {
@@ -189,11 +198,11 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
     {
         if ( is_array( $options ) ) 
         {
-            $this->properties['options']->merge( $options );
+            $thig->options->merge( $options );
         } 
         else if ( $options instanceof ezcConsoleTableOptions ) 
         {
-            $this->properties['options'] = $options;
+            $this->options = $options;
         }
         else
         {
@@ -209,7 +218,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      */
     public function getOptions()
     {
-        return $this->properties['options'];
+        return $this->options;
     }
 
     /**
@@ -433,15 +442,16 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      *
      * @throws ezcBasePropertyNotFoundException
      *         If the the desired property is not found.
-     * @ignore
      */
     public function __get( $key )
     {
         switch ( $key )
         {
             case 'options':
+                return $this->$key;
             case 'width':
-                return $this->properties[$key];
+            case 'cols':
+                return $this->settings[$key];
             default:
                 break;
         }
@@ -458,7 +468,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      *         If a the value for the property options is not an instance of
      * @throws ezcBaseValueException
      *         If a the value for a property is out of range.
-     * @ignore
+     * @return void
      */
     public function __set( $key, $val )
     {
@@ -469,14 +479,15 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
                 {
                     throw new ezcBaseValueException( $key, $val, 'ezcConsoleTableOptions' );
                 }
-                $this->properties['options'] = $val;
+                $this->options = $val;
                 return;
             case 'width':
+            case 'cols':
                 if ( $val < 1 )
                 {
                     throw new ezcBaseValueException( $key, $val, 'int > 0' );
                 }
-                $this->properties[$key] = $val; 
+                $this->settings[$key] = $val; 
                 return;
             default:
                 break;
@@ -489,7 +500,6 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      * 
      * @param string $key Name of the property.
      * @return bool True is the property is set, otherwise false.
-     * @ignore
      */
     public function __isset( $key )
     {
@@ -538,9 +548,9 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
         $border = '';
         foreach ( $colWidth as $col => $width )
         {
-            $border .= $this->properties['options']->corner . str_repeat( $this->properties['options']->lineVertical, $width + ( 2 * strlen( $this->properties['options']->colPadding ) ) );
+            $border .= $this->options->corner . str_repeat( $this->options->lineVertical, $width + ( 2 * strlen( $this->options->colPadding ) ) );
         }
-        $border .= $this->properties['options']->corner;
+        $border .= $this->options->corner;
 
         return $this->outputHandler->formatText( $border, $format );
     }
@@ -564,17 +574,17 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
             
             $data = isset( $cells[$cell] ) ? $cells[$cell] : '';
             $rowData .= $this->outputHandler->formatText( 
-                            $this->properties['options']->lineHorizontal, 
+                            $this->options->lineHorizontal, 
                             $borderFormat
                         );
-            $rowData .= $this->properties['options']->colPadding;
+            $rowData .= $this->options->colPadding;
             $rowData .= $this->outputHandler->formatText(
                             str_pad( $data, $colWidth[$cell], ' ', $align ),
                             $format
                         );
-            $rowData .= $this->properties['options']->colPadding;
+            $rowData .= $this->options->colPadding;
         }
-        $rowData .= $this->outputHandler->formatText( $this->properties['options']->lineHorizontal, $row->borderFormat );
+        $rowData .= $this->outputHandler->formatText( $this->options->lineHorizontal, $row->borderFormat );
         return $rowData;
     }
 
@@ -595,8 +605,8 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
             ? $row[$cellId]->align
             : ( $row->align !== ezcConsoleTable::ALIGN_DEFAULT
                 ? $row->align
-                : ( $this->properties['options']->defaultAlign !== ezcConsoleTable::ALIGN_DEFAULT
-                    ? $this->properties['options']->defaultAlign
+                : ( $this->options->defaultAlign !== ezcConsoleTable::ALIGN_DEFAULT
+                    ? $this->options->defaultAlign
                     : ezcConsoleTable::ALIGN_LEFT ) ) );
     }
 
@@ -617,7 +627,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
             ? $row[$cellId]->format
             : ( $row->format !== 'default'
                 ? $row->format
-                : $this->properties['options']->defaultFormat ) );
+                : $this->options->defaultFormat ) );
     }
 
     /**
@@ -633,7 +643,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
     {
         return $row->borderFormat !== 'default'
             ? $row->borderFormat
-            : $this->properties['options']->defaultBorderFormat;
+            : $this->options->defaultBorderFormat;
     }
 
     /**
@@ -662,7 +672,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
                 // Does the physical row fit?
                 if ( strlen( $dataLine ) > ( $colWidth[$cell] ) )
                 {
-                    switch ( $this->properties['options']->colWrap )
+                    switch ( $this->options->colWrap )
                     {
                         case ezcConsoleTable::WRAP_AUTO:
                             $subLines = explode( "\n", wordwrap( $dataLine, $colWidth[$cell], "\n", true ) );
@@ -696,9 +706,9 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      */
     private function getColWidths()
     {
-        if ( is_array( $this->properties['options']->colWidth ) )
+        if ( is_array( $this->options->colWidth ) )
         {
-            return $this->properties['options']->colWidth;
+            return $this->options->colWidth;
         }
         // Determine number of columns:
         $colCount = 0;
@@ -706,12 +716,12 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
         {
             $colCount = max( sizeof( $row ), $colCount );
         }
-        $borderWidth = strlen( $this->properties['options']->lineHorizontal );
+        $borderWidth = strlen( $this->options->lineHorizontal );
         // Subtract border and padding chars from global width
         $globalWidth = $this->width
             - ( 
                 // Per column: 2 * border padding + 1 border
-                $colCount * ( 2 * strlen( $this->properties['options']->colPadding ) + $borderWidth ) 
+                $colCount * ( 2 * strlen( $this->options->colPadding ) + $borderWidth ) 
               // 1 Additional border
               ) - $borderWidth;
         // Width of a column if each is made equal
@@ -760,7 +770,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
                     $colWidth[$col] += floor( $overflow / $overflowSum * $spareWidth );
                 }
             }
-            elseif ( $this->properties['options']->widthType === ezcConsoleTable::WIDTH_FIXED )
+            elseif ( $this->options->widthType === ezcConsoleTable::WIDTH_FIXED )
             {
                 $widthSum = array_sum( $colWidth );
                 foreach ( $colWidth as $col => $width )
@@ -770,7 +780,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
             }
         }
         // Finally sanitize values from rounding issues, if necessary
-        if ( ( $colSum = array_sum( $colWidth ) ) != $globalWidth && $this->properties['options']->widthType === ezcConsoleTable::WIDTH_FIXED )
+        if ( ( $colSum = array_sum( $colWidth ) ) != $globalWidth && $this->options->widthType === ezcConsoleTable::WIDTH_FIXED )
         {
             $colWidth[count( $colWidth ) - 1] -= $colSum - $globalWidth;
         }

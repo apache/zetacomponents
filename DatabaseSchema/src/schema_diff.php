@@ -11,7 +11,6 @@
  *
  * @package DatabaseSchema
  * @version //autogentag//
- * @mainclass
  */
 class ezcDbSchemaDiff
 {

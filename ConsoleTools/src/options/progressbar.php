@@ -12,27 +12,6 @@
 /**
  * Struct class to store the options of the ezcConsoleOutput class.
  * This class stores the options for the {@link ezcConsoleOutput} class.
- *
- * @property string $barChar
- *           The character to fill the bar with, during progress indication.
- * @property string $emptyChar
- *           The character to pre-fill the bar, before indicating progress.
- * @property string $formatString
- *           The format string to describe the complete progressbar.
- * @property string $fractionFormat
- *           Format to display the fraction value.
- * @property string $processChar
- *           The character for the end of the progress area (the arrow!).
- * @property int $redrawFrequency
- *           How often to redraw the progressbar (on every Xth call to advance()).
- * @property int $step
- *           How many steps to advance the progressbar on each call to advance().
- * @property int $width
- *           The width of the bar itself.
- * @property string $actFormat
- *           The format to display the actual value with.
- * @property string $maxFormat
- *           The format to display the actual value with.
  * 
  * @package ConsoleTools
  * @version //autogen//
@@ -40,33 +19,74 @@
 class ezcConsoleProgressbarOptions extends ezcBaseOptions
 {
     /**
-     * Construct a new options object.
-     * Options are constructed from an option array by default. The constructor
-     * automatically passes the given options to the __set() method to set them 
-     * in the class.
+     * The character to fill the bar with, during progress indication. 
      * 
-     * @param array(string=>mixed) $options The initial options to set.
-     * @return void
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
-     * @throws ezcBaseValueException
-     *         If a the value for a property is out of range.
+     * @var string
      */
-    public function __construct( array $options = array() )
-    {
-        $this->properties['barChar'] = "+";
-        $this->properties['emptyChar'] = "-";
-        $this->properties['formatString'] = "%act% / %max% [%bar%] %fraction%%";
-        $this->properties['fractionFormat'] = "%01.2f";
-        $this->properties['progressChar'] = ">";
-        $this->properties['redrawFrequency'] = 1;
-        $this->properties['step'] = 1;
-        $this->properties['width'] = 78;
-        $this->properties['actFormat'] = '%.0f';
-        $this->properties['maxFormat'] = '%.0f';
-        parent::__construct( $options );
-    }
+
+    protected $barChar = "+";
+    /**
+     * The character to pre-fill the bar, before indicating progress. 
+     * 
+     * @var string
+     */
+    protected $emptyChar = "-";
+
+    /**
+     * The format string to describe the complete progressbar. 
+     * 
+     * @var string
+     */
+    protected $formatString = "%act% / %max% [%bar%] %fraction%%";
+
+    /**
+     * Format to display the fraction value. 
+     * 
+     * @var string
+     */
+    protected $fractionFormat = "%01.2f";
+
+    /**
+     * The character for the end of the progress area (the arrow!).
+     * 
+     * @var string
+     */
+    protected $progressChar = ">";
+
+    /**
+     * How often to redraw the progressbar (on every Xth call to advance()).
+     * 
+     * @var int
+     */
+    protected $redrawFrequency = 1;
+
+    /**
+     * How many steps to advance the progressbar on each call to advance().
+     * 
+     * @var int
+     */
+    protected $step = 1;
+
+    /**
+     * The width of the bar itself. 
+     * 
+     * @var int
+     */
+    protected $width = 78;
+
+    /**
+     * The format to display the actual value with. 
+     * 
+     * @var string
+     */
+    protected $actFormat = '%.0f';
+
+    /**
+     * The format to display the actual value with. 
+     * 
+     * @var string
+     */
+    protected $maxFormat = '%.0f';
 
     /**
      * Option write access.
@@ -78,7 +98,7 @@ class ezcConsoleProgressbarOptions extends ezcBaseOptions
      *
      * @param string $key Name of the property.
      * @param mixed $value  The value for the property.
-     * @ignore
+     * @return void
      */
     public function __set( $key, $value )
     {
@@ -112,7 +132,7 @@ class ezcConsoleProgressbarOptions extends ezcBaseOptions
             default:
                 throw new ezcBaseSettingNotFoundException( $key );
         }
-        $this->properties[$key] = $value;
+        $this->$key = $value;
     }
 }
 

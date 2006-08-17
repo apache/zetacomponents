@@ -135,7 +135,7 @@ class ezcDebug
      *
      * @throws ezcBasePropertyNotFoundException
      * @param string $name
-     * @ignore
+     * @return mixed
      */
     public function __get( $name )
     {
@@ -148,7 +148,7 @@ class ezcDebug
      * @throws ezcBasePropertyNotFoundException
      * @param string $name
      * @param string $value
-     * @ignore
+     * @return mixed
      */
     public function __set( $name, $value )
     {

@@ -13,39 +13,31 @@
  * Option class for the ezcCacheStorage class.
  * Instances of this class store the option of ezcCacheStorage implementations.
  *
- * @property int    $ttl       The time to live of cache entries.
- * @property string $extension The (file) extension to use for the storage items.
- *
  * @package Cache
  */
 class ezcCacheStorageOptions extends ezcBaseOptions
 {
     /**
-     * Constructs a new options class.
-     *
-     * It also sets the default values of the format property
-     *
-     * @param array(string=>mixed) $options The initial options to set.
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
-     * @throws ezcBaseValueException
-     *         If a the value for a property is out of range.
+     * The time to live. 
+     * 
+     * @var int
      */
-    public function __construct( $array = array() )
-    {
-        $this->properties['ttl'] = 86400;
-        $this->properties['extension'] = '.cache';
-        parent::__construct( $array );
-    }
+    protected $ttl = 86400;   // 60 * 60 * 24 = 24 hrs
 
     /**
-     * Sets an option.
-     * This method is called when an option is set.
+     * The (file) extension to use for the storage items.
+     * 
+     * @var string
+     */
+    protected $extension = ".cache";
+
+    /**
+     * Sets an options.
+     * This method is called when an options is set.
      * 
      * @param string $key  The option name.
      * @param mixed $value The option value.
-     * @ignore
+     * @return void
      */
     public function __set( $key, $value )
     {
@@ -66,7 +58,7 @@ class ezcCacheStorageOptions extends ezcBaseOptions
             default:
                 throw new ezcBaseSettingNotFoundException( $key );
         }
-        $this->properties[$key] = $value;
+        $this->$key = $value;
     }
 }
 

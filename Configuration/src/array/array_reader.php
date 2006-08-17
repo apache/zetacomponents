@@ -73,7 +73,6 @@
  *
  * @package Configuration
  * @version //autogen//
- * @mainclass
  */
 class ezcConfigurationArrayReader extends ezcConfigurationFileReader
 {

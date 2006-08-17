@@ -74,7 +74,6 @@
  *
  * @package Configuration
  * @version //autogen//
- * @mainclass
  */
 class ezcConfigurationIniReader extends ezcConfigurationFileReader
 {

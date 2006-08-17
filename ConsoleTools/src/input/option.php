@@ -17,52 +17,22 @@
  * the parameter data, the handling of options and arguments is done by the
  * class {@link ezcConsoleInput}.
  * 
- * @property-read string $short
- *                Short name of the parameter without '-' (eg. 'f').
- * @property-read string $long
- *                Long name of the parameter without '--' (eg. 'file').
- * @property int $type
- *           Value type of this parameter, default is ezcConsoleInput::TYPE_NONE.
- *           See {@link ezcConsoleInput::TYPE_NONE},
- *           {@link ezcConsoleInput::TYPE_INT} and
- *           {@link ezcConsoleInput::TYPE_STRING}.
- * @property mixed $default
- *           Default value if the parameter is submitted without value.  If a
- *           parameter is eg. of type ezcConsoleInput::TYPE_STRING and
- *           therefore expects a value when being submitted, it may be
- *           submitted without a value and automatically get the default value
- *           specified here.
- * @property bool $multiple
- *           Is the submission of multiple instances of this parameters
- *           allowed? 
- * @property string $shorthelp
- *           Short help text. Usually displayed when showing parameter help
- *           overview.
- * @property string $longhelp
- *           Long help text. Usually displayed when showing parameter detailed
- *           help.
- * @property bool $arguments
- *           Whether arguments to the program are allowed, when this parameter
- *           is submitted. 
- * @property bool $mandatory
- *           Whether a parameter is mandatory to be set.  If this flag is true,
- *           the parameter must be submitted whenever the program is run.
- * @property bool $isHelpOption
- *           Whether a parameter is a help option.  If this flag is true, and
- *           the parameter is set, all options marked as mandatory may be
- *           skipped.
- *
  * @package ConsoleTools
  * @version //autogen//
  */
-class ezcConsoleOption
-{
+class ezcConsoleOption {
+
     /**
-     * Container to hold the properties
-     *
-     * @var array(string=>mixed)
+     * Properties, which provide only read access.
+     * Stores the short and long name of a parameter which are read-only after 
+     * being set once during construction.
+     * 
+     * @var array(string)
      */
-    protected $properties;
+    protected $properties = array( 
+        'short' => '',
+        'long'  => '',
+    );
 
     /**
      * Value type of this parameter, default is ezcConsoleInput::TYPE_NONE.
@@ -72,7 +42,7 @@ class ezcConsoleOption
      * 
      * @var int
      */
-//    private $type = ezcConsoleInput::TYPE_NONE;
+    private $type = ezcConsoleInput::TYPE_NONE;
 
     /**
      * Default value if the parameter is submitted without value.
@@ -82,28 +52,28 @@ class ezcConsoleOption
      * 
      * @var mixed
      */
-//    private $default;
+    private $default;
 
     /**
      * Is the submition of multiple instances of this parameters allowed? 
      * 
      * @var bool
      */
-//    private $multiple = false;
+    private $multiple = false;
     
     /**
      * Short help text. Usually displayed when showing parameter help overview.
      * 
      * @var string
      */
-//    private $shorthelp = 'No help available.';
+    private $shorthelp = 'No help available.';
     
     /**
      * Long help text. Usually displayed when showing parameter detailed help.
      * 
      * @var string
      */
-//    private $longhelp = 'Sorry, there is no help text available for this parameter.';
+    private $longhelp = 'Sorry, there is no help text available for this parameter.';
 
     /**
      * Dependency rules of this parameter.
@@ -136,7 +106,7 @@ class ezcConsoleOption
      * 
      * @var bool
      */
-//    private $arguments = true;
+    private $arguments = true;
 
     /**
      * Wether a parameter is mandatory to be set.
@@ -145,7 +115,7 @@ class ezcConsoleOption
      * 
      * @var bool
      */
-//    private $mandatory = false;
+    private $mandatory = false;
 
     /**
      * Wether a parameter is a help option.
@@ -154,7 +124,7 @@ class ezcConsoleOption
      *  
      * @var bool
      */
-//    private $isHelpOption = false;
+    private $isHelpOption = false;
 
     /**
      * The value the parameter was assigned to when being submitted.
@@ -226,10 +196,6 @@ class ezcConsoleOption
         $mandatory = false,
         $isHelpOption = false
     ) {
-        $this->properties['short'] = '';
-        $this->properties['long'] = '';
-        $this->properties['arguments'] = $arguments;
-
         if ( !self::validateOptionName( $short ) )
         {
             throw new ezcConsoleInvalidOptionNameException( $short );
@@ -490,14 +456,11 @@ class ezcConsoleOption
      * 
      * @param string $key The name of the property.
      * @return mixed The value if property exists and isset, otherwise null.
-     * @ignore
      */
     public function __get( $key )
     {
         switch ( $key  )
         {
-            case 'short':
-            case 'long':
             case 'type':
             case 'default':
             case 'multiple':
@@ -506,10 +469,11 @@ class ezcConsoleOption
             case 'arguments':
             case 'isHelpOption':
             case 'mandatory':
-                return $this->properties[$key];
-            case 'dependencies':
-            default:
-                throw new ezcBasePropertyNotFoundException( $key );
+                return $this->$key;
+        }
+        if ( isset( $this->properties[$key] ) )
+        {
+            return $this->properties[$key];
         }
     }
 
@@ -521,7 +485,7 @@ class ezcConsoleOption
      *
      * @throws ezcBasePropertyPermissionException
      *         If the property you try to access is read-only.
-     * @ignore
+     * @return void
      */
     public function __set( $key, $val )
     {
@@ -589,7 +553,7 @@ class ezcConsoleOption
                 throw new ezcBasePropertyNotFoundException( $key );
                 break;
         }
-        $this->properties[$key] = $val;
+        $this->$key = $val;
     }
  
     /**
@@ -597,14 +561,11 @@ class ezcConsoleOption
      * 
      * @param string $key Name of the property.
      * @return bool True is the property is set, otherwise false.
-     * @ignore
      */
     public function __isset( $key )
     {
         switch ( $key  )
         {
-            case 'short':
-            case 'long':
             case 'type':
             case 'default':
             case 'multiple':
@@ -613,9 +574,9 @@ class ezcConsoleOption
             case 'arguments':
             case 'isHelpOption':
             case 'mandatory':
-                return ( $this->properties[$key] !== null );
+                return ( $this->$key !== null );
         }
-        return false;
+        return isset( $this->properties[$key] );
     }
 
     /**

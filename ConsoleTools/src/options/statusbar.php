@@ -12,37 +12,26 @@
 /**
  * Struct class to store the options of the ezcConsoleOutput class.
  * This class stores the options for the {@link ezcConsoleOutput} class.
- *
- * @property string $successChar
- *           The char shown for a succeeded status.
- * @property string $failureChar
- *           The char shown for a failed status.
  * 
  * @package ConsoleTools
  * @version //autogen//
  */
 class ezcConsoleStatusbarOptions extends ezcBaseOptions
 {
+
     /**
-     * Construct a new options object.
-     * Options are constructed from an option array by default. The constructor
-     * automatically passes the given options to the __set() method to set them 
-     * in the class.
+     * The char shown for a succeded status. 
      * 
-     * @param array(string=>mixed) $options The initial options to set.
-     * @return void
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
-     * @throws ezcBaseValueException
-     *         If a the value for a property is out of range.
+     * @var string
      */
-    public function __construct( array $options = array() )
-    {
-        $this->properties['successChar'] = "+";
-        $this->properties['failureChar'] = "-";
-        parent::__construct( $options );
-    }
+    protected $successChar = "+";
+
+    /**
+     * The char shown for a failed status. 
+     * 
+     * @var string
+     */
+    protected $failureChar = "-";
 
     /**
      * Option write access.
@@ -54,7 +43,7 @@ class ezcConsoleStatusbarOptions extends ezcBaseOptions
      *
      * @param string $key Name of the property.
      * @param mixed $value  The value for the property.
-     * @ignore
+     * @return void
      */
     public function __set( $key, $value )
     {
@@ -70,7 +59,7 @@ class ezcConsoleStatusbarOptions extends ezcBaseOptions
             default:
                 throw new ezcBaseSettingNotFoundException( $key );
         }
-        $this->properties[$key] = $value;
+        $this->$key = $value;
     }
 }
 

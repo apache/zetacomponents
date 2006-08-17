@@ -32,7 +32,7 @@ class ezcDebugStructure
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @param mixed $value
-     * @ignore
+     * @return void
      */
     public function __set( $name, $value )
     {
@@ -42,12 +42,13 @@ class ezcDebugStructure
    /**
      * Returns the property $name.
      *
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
-     * @ignore
+     * @return mixed
      */
     public function __get( $name )
     {
-        return $this->properties[$name];
+        return $this->properties[ $name ];
     }
 
     /**

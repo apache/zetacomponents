@@ -18,28 +18,38 @@
  *
  * @see ezcConsoleTableRow
  * 
- * @property string $content
- *           Text displayed in the cell.
- * @property string $format
- *           Format applied to the displayed text.
- * @property int $align
- *           Alignment of the text inside the cell.  Must be one of
- *           ezcConsoleTable::ALIGN_ constants. See
- *           {@link ezcConsoleTable::ALIGN_LEFT},
- *           {@link ezcConsoleTable::ALIGN_RIGHT} and
- *           {@link ezcConsoleTable::ALIGN_CENTER}.
- *
  * @package ConsoleTools
  * @version //autogen//
  */
-class ezcConsoleTableCell
-{
+class ezcConsoleTableCell {
+
     /**
-     * Container to hold the properties
-     *
-     * @var array(string=>mixed)
+     * Text displayed in the cell. 
+     * 
+     * @var string
      */
-    protected $properties;
+    protected $content = '';
+
+    /**
+     * Format applied to the displayed text.
+     * 
+     * @see ezcConsoleOutput
+     * 
+     * @var string
+     */
+    protected $format = 'default';
+
+    /**
+     * Alignment of the text inside the cell.
+     * Must be one of ezcConsoleTable::ALIGN_ constants.
+     *
+     * @see ezcConsoleTable::ALIGN_LEFT
+     * @see ezcConsoleTable::ALIGN_RIGHT
+     * @see ezcConsoleTable::ALIGN_CENTER
+     * 
+     * @var int
+     */
+    protected $align = ezcConsoleTable::ALIGN_DEFAULT;
 
     /**
      * Create a new ezcConsoleProgressbarCell. 
@@ -65,13 +75,12 @@ class ezcConsoleTableCell
      *
      * @throws ezcBasePropertyNotFoundException
      *         If the the desired property is not found.
-     * @ignore
      */
     public function __get( $key )
     {
-        if ( isset( $this->properties[$key] ) )
+        if ( isset( $this->$key ) )
         {
-            return $this->properties[$key];
+            return $this->$key;
         }
     }
 
@@ -88,7 +97,7 @@ class ezcConsoleTableCell
      *         {@link ezcConsoleTable::ALIGN_RIGHT},
      *         {@link ezcConsoleTable::ALIGN_DEFAULT}
      *
-     * @ignore
+     * @return void
      */
     public function __set( $key, $val )
     {
@@ -97,7 +106,7 @@ class ezcConsoleTableCell
         {
             case 'content':
             case 'format':
-                $this->properties[$key] = $val;
+                $this->$key = $val;
                 return;
             case 'align':
                 if ( $val !== ezcConsoleTable::ALIGN_LEFT 
@@ -108,7 +117,7 @@ class ezcConsoleTableCell
                 {
                     throw new ezcBaseValueException( $key,  $val, 'ezcConsoleTable::ALIGN_DEFAULT, ezcConsoleTable::ALIGN_LEFT, ezcConsoleTable::ALIGN_CENTER, ezcConsoleTable::ALIGN_RIGHT' );
                 }
-                $this->properties['align'] = $val;
+                $this->align = $val;
                 return;
         }
         throw new ezcBasePropertyNotFoundException( $key );
@@ -119,7 +128,6 @@ class ezcConsoleTableCell
      * 
      * @param string $key Name of the property.
      * @return bool True is the property is set, otherwise false.
-     * @ignore
      */
     public function __isset( $key )
     {

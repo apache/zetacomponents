@@ -14,6 +14,11 @@
  *
  * Struct class to store formating entities used by ezcConsoleOutput.
  *
+ * The ezcConsoleOptionRule class has the following properties:
+ * - <b>color</b> <i>string</i>, contains the color for this format.
+ * - <b>style</b> <i>array(string)</i>, contains the lists of styles that are associated with this format.
+ * - <b>bgcolor</b> <i>string</i>, contains the background color for this format.
+ *
  * Possible values of {@link ezcConsoleOutputFormat::$color} are:
  * - gray	
  * - red	
@@ -59,13 +64,6 @@
  * - negative
  * - positive
  *
- * @property string $color
- *           Contains the color for this format.
- * @property array(string) $style
- *           Contains the lists of styles that are associated with
- *           this format.
- * @property string $bgcolor
- *           Contains the background color for this format.
  *
  * @package ConsoleTools
  * @version //autogen//
@@ -73,9 +71,9 @@
 class ezcConsoleOutputFormat
 {
     /**
-     * Container to hold the properties
+     * Array that defines this class' properties.
      *
-     * @var array(string=>mixed)
+     * @var array(string=>string)
      */
     protected $properties = array( 
         'color'     => 'default',
@@ -103,7 +101,6 @@ class ezcConsoleOutputFormat
      * 
      * @param string $propertyName Name of the property to read.
      * @return mixed Desired value if exists, otherwise null.
-     * @ignore
      */
     public function __get( $propertyName )
     {
@@ -124,7 +121,7 @@ class ezcConsoleOutputFormat
      * 
      * @param string $propertyName Name of the attrinbute to access.
      * @param string $val The value to set.
-     * @ignore
+     * @return void
      */
     public function __set( $propertyName, $val )
     {
@@ -161,7 +158,6 @@ class ezcConsoleOutputFormat
      * 
      * @param string $propertyName Name of the property.
      * @return bool True is the property is set, otherwise false.
-     * @ignore
      */
     public function __isset( $propertyName )
     {

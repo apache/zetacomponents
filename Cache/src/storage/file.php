@@ -104,7 +104,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
      */
     public function store( $id, $data, $attributes = array() ) 
     {
-        $filename = $this->properties['location'] . $this->generateIdentifier( $id, $attributes );
+        $filename = $this->location . $this->generateIdentifier( $id, $attributes );
         if ( file_exists( $filename ) ) 
         {
             if ( unlink( $filename ) === false ) 
@@ -156,7 +156,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
      */
     public function restore( $id, $attributes = array() )
     {
-        $filename = $this->properties['location'] . $this->generateIdentifier( $id, $attributes );
+        $filename = $this->location . $this->generateIdentifier( $id, $attributes );
         if ( file_exists( $filename ) === false ) 
         {
             if ( count( $files = $this->search( $id, $attributes ) ) === 1 ) 
@@ -174,7 +174,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
             return false;
         }
         // Cached data outdated, purge it.
-        if ( $this->calcLifetime( $filename ) > $this->properties['options']['ttl'] && $this->properties['options']['ttl'] !== false ) 
+        if ( $this->calcLifetime( $filename ) > $this->options['ttl'] && $this->options['ttl'] !== false ) 
         {
             $this->delete( $id, $attributes );
             return false;
@@ -207,7 +207,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
      */
     public function delete( $id = null, $attributes = array() )
     {
-        $filename = $this->properties['location'] . $this->generateIdentifier( $id, $attributes );
+        $filename = $this->location . $this->generateIdentifier( $id, $attributes );
         $delFiles = array();
         if ( file_exists( $filename ) ) 
         {
@@ -257,7 +257,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
         if ( count( $objects = $this->search( $id, $attributes ) ) > 0 ) 
         {
             $lifetime = $this->calcLifetime( $objects[0] );
-            return ( ( $remaining = ( $this->properties['options']['ttl'] - $lifetime ) ) > 0 ) ? $remaining : 0;
+            return ( ( $remaining = ( $this->options['ttl'] - $lifetime ) ) > 0 ) ? $remaining : 0;
         }
         return 0;
     }
@@ -283,7 +283,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
             $glob = strtr( $globArr[0], array( '-' => '*', '.' => '*' ) );
         }
         $glob = ( $id === null ? '*' : '' ) . $glob;
-        return $this->searchRecursive( $glob, $this->properties['location'] );
+        return $this->searchRecursive( $glob, $this->location );
     }
 
     /**
@@ -332,19 +332,19 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
      */
     protected function validateLocation()
     {
-        if ( file_exists( $this->properties['location'] ) === false ) 
+        if ( file_exists( $this->location ) === false ) 
         {
-            throw new ezcBaseFileNotFoundException( $this->properties['location'], 'cache location' );
+            throw new ezcBaseFileNotFoundException( $this->location, 'cache location' );
         }
             
-        if ( is_dir( $this->properties['location'] ) === false ) 
+        if ( is_dir( $this->location ) === false ) 
         {
-            throw new ezcBaseFileNotFoundException( $this->properties['location'], 'cache location', 'Cache location not a directory.' );
+            throw new ezcBaseFileNotFoundException( $this->location, 'cache location', 'Cache location not a directory.' );
         }
 
-        if ( is_writeable( $this->properties['location'] ) === false ) 
+        if ( is_writeable( $this->location ) === false ) 
         {
-            throw new ezcBaseFilePermissionException( $this->properties['location'], ezcBaseFileException::WRITE, 'Cache location is not a directory.' );
+            throw new ezcBaseFilePermissionException( $this->location, ezcBaseFileException::WRITE, 'Cache location is not a directory.' );
         }
     }
 
@@ -395,7 +395,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
         {
             $filename .= "-";
         }
-        return $filename . $this->properties['options']['extension'];
+        return $filename . $this->options['extension'];
     }
 
     /**

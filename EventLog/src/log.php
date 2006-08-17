@@ -82,8 +82,17 @@
  * </code>
  * 
  * The log message will get by default the category and source: "default". The
- * default values can be modified by changing, respectively, the properties
- * $category and $source.
+ * default values can be modified by changing, respectively, the properties:
+ * category and source. Their use is as follows:
+ * - Source, definition of the global location where the log message comes from. 
+ *   Some examples are: module, source file, extension, etc. The source depends
+ *   also on the severity of the message. For DEBUG messages is the source file
+ *   more important whereas for a FATAL error the module is sufficient.
+ * - Category, definition of the message group. Again the category is related to
+ *   the severity. The non audit trails can group the log messages like: Database
+ *   (or even the database types), Templates, etc. For audit trails it makes
+ *   much sense to categorize the actions. For example: security, modified content,
+ *   published content, shop, etc.
  *
  * An example of a Payment checker is as follows:
  * <code>
@@ -124,19 +133,6 @@
  *
  * See the {@link ezcDebug} package for more detailed information about writing DEBUG
  * messages.
- *
- * @property string $source
- *           Definition of the global location where the log message comes
- *           from.  Some examples are: module, source file, extension, etc. The
- *           source depends also on the severity of the message. For DEBUG
- *           messages is the source file more important whereas for a FATAL
- *           error the module is sufficient.
- * @property string $category
- *           Definition of the message group. Again the category is related to
- *           the severity. The non audit trails can group the log messages
- *           like: Database (or even the database types), Templates, etc. For
- *           audit trails it makes much sense to categorize the actions. For
- *           example: security, modified content, published content, shop, etc.
  *
  * @package EventLog
  * @version //autogentag//
@@ -330,8 +326,8 @@ class ezcLog
      */
     protected function setDefaults()
     {
-        $this->properties['source'] = "default";
-        $this->properties['category'] = "default";
+        $this->source = "default";
+        $this->category = "default";
     }
 
     /**

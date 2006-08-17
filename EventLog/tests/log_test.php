@@ -337,7 +337,7 @@ class ezcLogTest extends ezcTestCase
         }
         catch ( Exception $e )
         {
-            $this->markTestSkipped( 'There is no database configured.' );
+            $this->markTestSkipped();
         }
 
         $this->log->reset();
@@ -363,7 +363,7 @@ class ezcLogTest extends ezcTestCase
         }
         catch ( Exception $e )
         {
-            $this->markTestSkipped( 'There is no database configured.' );
+            $this->markTestSkipped();
         }
 
         $this->log->reset();
