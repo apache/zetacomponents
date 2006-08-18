@@ -48,7 +48,6 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         $this->driver = new ezcGraphSvgDriver();
         $this->driver->options->width = 200;
         $this->driver->options->height = 100;
-        $this->driver->options->font->font = $this->basePath . 'font.ttf';
     }
 
     /**

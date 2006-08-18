@@ -48,7 +48,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         $this->driver = new ezcGraphGdDriver();
         $this->driver->options->width = 200;
         $this->driver->options->height = 100;
-        $this->driver->options->font->font = $this->basePath . 'font.ttf';
+        $this->driver->options->font->path = $this->basePath . 'font.ttf';
         $this->driver->options->supersampling = 1;
     }
 

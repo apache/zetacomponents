@@ -1560,7 +1560,6 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -1581,7 +1580,6 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
 
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -1608,7 +1606,6 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisBoxedLabelRenderer();
 
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -1629,7 +1626,6 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => -5, 'sample 5' => -124) );
 
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -1654,7 +1650,6 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         $chart->data['sample']->highlight['Safari'] = true;
 
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -1681,7 +1676,6 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         $chart->background->position = ezcGraph::BOTTOM | ezcGraph::RIGHT;
 
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -1708,7 +1702,6 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         $chart->background->repeat = ezcGraph::HORIZONTAL | ezcGraph::VERTICAL;
 
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -1733,7 +1726,6 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         $chart->renderer->options->pieChartOffset = 156;
 
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -1758,7 +1750,6 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         $chart->legend->title = 'Legenda';
 
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(

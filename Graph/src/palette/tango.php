@@ -48,11 +48,11 @@ class ezcGraphPaletteTango extends ezcGraphPalette
     );
 
     /**
-     * Fontface
+     * Name of font to use
      * 
      * @var string
      */
-    protected $fontFace = 'Vera.ttf';
+    protected $fontName = 'sans-serif';
 
     /**
      * Fontcolor 

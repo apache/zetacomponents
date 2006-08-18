@@ -64,11 +64,11 @@ abstract class ezcGraphPalette
     protected $dataSetSymbol;
 
     /**
-     * Fontface
+     * Name of font to use
      * 
      * @var string
      */
-    protected $fontFace;
+    protected $fontName;
 
     /**
      * Fontcolor 
@@ -182,8 +182,8 @@ abstract class ezcGraphPalette
 
             case 'fontColor':
                 return $this->checkColor( $this->fontColor );
-            case 'fontFace':
-                return $this->fontFace;
+            case 'fontName':
+                return $this->fontName;
 
             case 'chartBackground':
                 return $this->checkColor( $this->chartBackground );

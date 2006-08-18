@@ -298,7 +298,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         foreach ( $this->strings as $text )
         {
             $size = $text['options']->minimalUsedFont;
-            $font = $text['options']->font;
+            $font = $text['options']->name;
 
             $completeHeight = count( $text['text'] ) * $size + ( count( $text['text'] ) - 1 ) * $this->options->lineSpacing;
 
@@ -352,8 +352,9 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 $textNode->setAttribute( 
                     'style', 
                     sprintf(
-                        'font-size: %dpx; font-family: sans-serif; fill: #%02x%02x%02x; fill-opacity: %.2f; stroke: none;',
+                        'font-size: %dpx; font-family: %s; fill: #%02x%02x%02x; fill-opacity: %.2f; stroke: none;',
                         $size,
+                        $text['options']->name,
                         $text['options']->color->red,
                         $text['options']->color->green,
                         $text['options']->color->blue,

@@ -198,13 +198,13 @@ class ezcGraphPaletteTest extends ezcTestCase
         );
     }
 
-    public function testFontFace()
+    public function testFontName()
     {
         $chart = new ezcGraphLineChart();
 
         $this->assertEquals(
-            'Vera.ttf',
-            $chart->palette->fontFace,
+            'sans-serif',
+            $chart->palette->fontName,
             'Font face not properly set.'
         );
     }

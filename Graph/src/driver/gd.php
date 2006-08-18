@@ -209,7 +209,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
             $selectedLine = $lines[$line];
             $selectedLine[] = $token;
 
-            $boundings = imagettfbbox( $size, 0, $this->options->font->font, implode( ' ', $selectedLine ) );
+            $boundings = imagettfbbox( $size, 0, $this->options->font->path, implode( ' ', $selectedLine ) );
 
             // Check if line is too long
             if ( $boundings[2] > $width )
@@ -240,7 +240,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
         }
 
         // Check width of last line
-        $boundings = imagettfbbox( $size, 0, $this->options->font->font, implode( ' ', $lines[$line] ) );
+        $boundings = imagettfbbox( $size, 0, $this->options->font->path, implode( ' ', $lines[$line] ) );
         if ( $boundings[2] > $width ) {
             return false;
         }
@@ -263,9 +263,9 @@ class ezcGraphGdDriver extends ezcGraphDriver
     {
         // Test font
         // @TODO: try to find font at standard locations if no path was provided
-        if ( !is_file( $this->options->font->font ) || !is_readable( $this->options->font->font ) )
+        if ( !is_file( $this->options->font->path ) || !is_readable( $this->options->font->path ) )
         {
-            throw new ezcGraphGdDriverInvalidFontException( $this->options->font->font );
+            throw new ezcGraphGdDriverInvalidFontException( $this->options->font->path );
         }
 
         // Try to get a font size for the text to fit into the box
@@ -306,7 +306,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
         foreach ( $this->strings as $text )
         {
             $size = $text['options']->minimalUsedFont;
-            $font = $text['options']->font;
+            $font = $text['options']->path;
             $drawColor = $this->allocate( $text['options']->color );
 
             $completeHeight = count( $text['text'] ) * $size + ( count( $text['text'] ) - 1 ) * $this->options->lineSpacing;

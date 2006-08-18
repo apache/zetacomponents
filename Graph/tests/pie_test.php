@@ -187,7 +187,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         $chart->data['Skien']->highlight['Norwegian'] = true;
 
         $chart->driver = new ezcGraphGdDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->options->font->path = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->assertImageSimilar(
@@ -208,7 +208,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         $chart->data['Skien']->highlight['Norwegian'] = true;
 
         $chart->driver = new ezcGraphGdDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
+        $chart->options->font->path = $this->basePath . 'font.ttf';
         $chart->render( 500, 500, $filename );
 
         $this->assertImageSimilar(

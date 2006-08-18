@@ -339,7 +339,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
 
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -367,7 +366,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
 
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -402,7 +400,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
         $chart->renderer->moveOut = .3;
 
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -430,7 +427,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
         $chart->renderer->options->showSymbol = false;
 
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -458,7 +454,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
         $chart->renderer->options->moveOut = .2;
 
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -486,7 +481,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
         $chart->renderer->options->dataBorder = 0;
 
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -514,7 +508,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
         $chart->renderer->options->pieChartHeight = 5;
 
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -542,7 +535,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
         $chart->renderer->options->pieChartRotation = .3;
 
         $chart->driver = new ezcGraphSvgDriver();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -562,7 +554,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
 
         $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -585,7 +576,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
 
         $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -612,7 +602,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
 
         $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 700, 200, $filename );
 
         $this->compare(
@@ -639,7 +628,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
 
         $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 700, 200, $filename );
 
         $this->compare(
@@ -662,7 +650,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
 
         $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -685,7 +672,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
 
         $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->title->font->maxFontSize = 8;
         $chart->render( 500, 200, $filename );
 
@@ -710,7 +696,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
 
         $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->title->font->maxFontSize = 32;
         $chart->render( 500, 200, $filename );
 
@@ -733,7 +718,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
 
         $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -755,7 +739,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
 
         $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -778,7 +761,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->dataBorder = 0;
 
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -801,7 +783,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->fillGrid = 1;
 
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -824,7 +805,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->fillAxis = 1;
 
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -852,7 +832,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
 
         $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -881,7 +860,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
 
         $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -906,7 +884,6 @@ class ezcGraphRenderer3dTest extends ezcTestCase
         $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->renderer->options->pieChartOffset = 156;
-        $chart->options->font = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
         $this->compare(

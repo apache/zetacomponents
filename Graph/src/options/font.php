@@ -10,8 +10,16 @@
 /**
  * Class containing the basic options for charts
  *
- * @property string $font
- *           Font face.
+ * @property string $name
+ *           Name of font.
+ * @property string $path
+ *           Path to font file.
+ * @property string $type
+ *           Type of used font. May be one of the following:
+ *            - TTF_FONT    Native TTF fonts
+ *            - PS_FONT     PostScript Type1 fonts
+ *            - FT2_FONT    FreeType 2 fonts
+ *            - GD_FONT     Native GD bitmap fonts
  * @property float $minFontSize
  *           Minimum font size for displayed texts.
  * @property float $maxFontSize
@@ -36,6 +44,10 @@ class ezcGraphFontOptions extends ezcBaseOptions
      */
     public function __construct( array $options = array() )
     {
+        $this->properties['name'] = 'sans-serif';
+        $this->properties['path'] = 'Graph/tests/data/font.ttf';
+        $this->properties['type'] = ezcGraph::TTF_FONT;
+
         $this->properties['minFontSize'] = 6;
         $this->properties['maxFontSize'] = 96;
         $this->properties['minimalUsedFont'] = 96;
@@ -81,16 +93,36 @@ class ezcGraphFontOptions extends ezcBaseOptions
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphColor' );
                 }
                 break;
-            case 'font':
+            case 'name':
                 if ( is_string( $propertyValue ) )
                 {
-                    $this->properties['font'] = $propertyValue;
+                    $this->properties['name'] = $propertyValue;
                 }
                 else 
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'string' );
                 }
                 break;
+            case 'path':
+                if ( is_file( $propertyValue ) && is_readable( $propertyValue ) )
+                {
+                    $this->properties['path'] = $propertyValue;
+                    // @TODO: Autodetect font type
+                }
+                else 
+                {
+                    throw new ezcBaseFileNotFoundException( $propertyValue, 'font' );
+                }
+                break;
+            case 'type':
+                if ( is_int( $propertyValue ) )
+                {
+                    $this->properties['type'] = $propertyValue;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int' );
+                }
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
                 break;

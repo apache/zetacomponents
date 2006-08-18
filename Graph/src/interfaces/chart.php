@@ -186,7 +186,7 @@ abstract class ezcGraphChart
      */
     public function setFromPalette( ezcGraphPalette $palette )
     {
-        $this->options->font->font = $palette->fontFace;
+        $this->options->font->name = $palette->fontName;
         $this->options->font->color = $palette->fontColor;
 
         foreach ( $this->elements as $element )
