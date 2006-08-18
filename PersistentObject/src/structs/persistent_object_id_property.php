@@ -15,7 +15,7 @@
  *
  * @package PersistentObject
  */
-class ezcPersistentObjectIdProperty
+class ezcPersistentObjectIdProperty extends ezcBaseStruct
 {
     /**
      * The name of the database field that stores the value.

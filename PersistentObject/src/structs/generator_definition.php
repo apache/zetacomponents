@@ -13,7 +13,7 @@
  *
  * @package PersistentObject
  */
-class ezcPersistentGeneratorDefinition
+class ezcPersistentGeneratorDefinition extends ezcBaseStruct
 {
     /**
      * The name of the class implementing the generator.

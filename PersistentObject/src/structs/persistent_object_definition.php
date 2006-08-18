@@ -17,7 +17,7 @@
  *
  * @package PersistentObject
  */
-class ezcPersistentObjectDefinition
+class ezcPersistentObjectDefinition extends ezcBaseStruct
 {
     /**
      * Name of the database table to use.
