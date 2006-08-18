@@ -19,7 +19,7 @@
  * @package Configuration
  * @version //autogen//
  */
-class ezcConfigurationValidationItem
+class ezcConfigurationValidationItem extends ezcBaseStruct
 {
     /**
      * The validation is an error which means the configuration cannot be read,

@@ -14,7 +14,7 @@
  *
  * @package Configuration
  */
-class ezcConfigurationIniItem
+class ezcConfigurationIniItem extends ezcBaseStruct
 {
     /**
      * The Configuration item is a setting.
