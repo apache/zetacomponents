@@ -10,38 +10,20 @@
 /**
  * Class to represent a axe as a chart element
  *
+ * @property float $min
+ *           Minimum value of displayed scale on axis.
+ * @property float $max
+ *           Maximum value of displayed scale on axis.
+ * @property float $minValue
+ *           Minimum Value to display on this axis.
+ * @property float $maxValue
+ *           Maximum value to display on this axis.
+ *           
+ *
  * @package Graph
  */
 class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
 {
-    
-    /**
-     * Minimum value of displayed scale on axis
-     * 
-     * @var float
-     */
-    protected $min = false;
-
-    /**
-     * Maximum value of displayed scale on axis
-     * 
-     * @var float
-     */
-    protected $max = false;
-
-    /**
-     * Minimum Value to display on this axis
-     * 
-     * @var float
-     */
-    protected $minValue = false;
-
-    /**
-     * Maximum value to display on this axis
-     * 
-     * @var float
-     */
-    protected $maxValue = false;
 
     /**
      * Constant used for calculation of automatic definition of major scaling 
@@ -56,6 +38,23 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
     const MIN_MINOR_COUNT = 8;
 
     /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
+    public function __construct( array $options = array() )
+    {
+        $this->properties['min'] = false;
+        $this->properties['max'] = false;
+        $this->properties['minValue'] = false;
+        $this->properties['maxValue'] = false;
+
+        parent::__construct( $options );
+    }
+
+    /**
      * __set 
      * 
      * @param mixed $propertyName 
@@ -65,16 +64,17 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
      * @throws ezcBasePropertyNotFoundException
      *          If a the value for the property options is not an instance of
      * @return void
+     * @ignore
      */
     public function __set( $propertyName, $propertyValue )
     {
         switch ( $propertyName )
         {
             case 'min':
-                $this->min = (float) $propertyValue;
+                $this->properties['min'] = (float) $propertyValue;
                 break;
             case 'max':
-                $this->max = (float) $propertyValue;
+                $this->properties['max'] = (float) $propertyValue;
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );
@@ -133,7 +133,7 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
      */
     protected function calculateMinimum( $min, $max )
     {
-        $this->min = floor( $min / $this->majorStep ) * $this->majorStep;
+        $this->properties['min'] = floor( $min / $this->properties['majorStep'] ) * $this->properties['majorStep'];
     }
 
     /**
@@ -146,7 +146,7 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
      */
     protected function calculateMaximum( $min, $max )
     {
-        $this->max = ceil( $max / $this->majorStep ) * $this->majorStep;
+        $this->properties['max'] = ceil( $max / $this->properties['majorStep'] ) * $this->properties['majorStep'];
     }
 
     /**
@@ -158,8 +158,8 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
      */
     protected function calculateMinorStep( $min, $max )
     {
-        $stepSize = $this->majorStep / self::MIN_MINOR_COUNT;
-        $this->minorStep = $this->getNiceNumber( $stepSize );
+        $stepSize = $this->properties['majorStep'] / self::MIN_MINOR_COUNT;
+        $this->properties['minorStep'] = $this->getNiceNumber( $stepSize );
     }
 
     /**
@@ -174,7 +174,7 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
     {
         $span = $max - $min;
         $stepSize = $span / self::MIN_MAJOR_COUNT;
-        $this->majorStep = $this->getNiceNumber( $stepSize );
+        $this->properties['majorStep'] = $this->getNiceNumber( $stepSize );
     }
 
     /**
@@ -187,16 +187,16 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
     {
         foreach ( $values as $value )
         {
-            if ( $this->minValue === false ||
-                 $value < $this->minValue )
+            if ( $this->properties['minValue'] === false ||
+                 $value < $this->properties['minValue'] )
             {
-                $this->minValue = $value;
+                $this->properties['minValue'] = $value;
             }
 
-            if ( $this->maxValue === false ||
-                 $value > $this->maxValue )
+            if ( $this->properties['maxValue'] === false ||
+                 $value > $this->properties['maxValue'] )
             {
-                $this->maxValue = $value;
+                $this->properties['maxValue'] = $value;
             }
         }
     }
@@ -211,49 +211,49 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
     public function calculateAxisBoundings()
     {
         // Prevent division by zero, when min == max
-        if ( $this->minValue == $this->maxValue )
+        if ( $this->properties['minValue'] == $this->properties['maxValue'] )
         {
-            if ( $this->minValue == 0 )
+            if ( $this->properties['minValue'] == 0 )
             {
-                $this->maxValue = 1;
+                $this->properties['maxValue'] = 1;
             }
             else
             {
-                $this->minValue -= ( $this->minValue * .1 );
-                $this->maxValue += ( $this->maxValue * .1 );
+                $this->properties['minValue'] -= ( $this->properties['minValue'] * .1 );
+                $this->properties['maxValue'] += ( $this->properties['maxValue'] * .1 );
             }
         }
 
         // Use custom minimum and maximum if available
-        if ( $this->min !== false )
+        if ( $this->properties['min'] !== false )
         {
-            $this->minValue = $this->min;
+            $this->properties['minValue'] = $this->properties['min'];
         }
 
-        if ( $this->max !== false )
+        if ( $this->properties['max'] !== false )
         {
-            $this->maxValue = $this->max;
+            $this->properties['maxValue'] = $this->properties['max'];
         }
 
         // Calculate "nice" values for scaling parameters
-        if ( $this->majorStep === false )
+        if ( $this->properties['majorStep'] === false )
         {
-            $this->calculateMajorStep( $this->minValue, $this->maxValue );
+            $this->calculateMajorStep( $this->properties['minValue'], $this->properties['maxValue'] );
         }
 
-        if ( $this->minorStep === false )
+        if ( $this->properties['minorStep'] === false )
         {
-            $this->calculateMinorStep( $this->minValue, $this->maxValue );
+            $this->calculateMinorStep( $this->properties['minValue'], $this->properties['maxValue'] );
         }
 
-        if ( $this->min === false )
+        if ( $this->properties['min'] === false )
         {
-            $this->calculateMinimum( $this->minValue, $this->maxValue );
+            $this->calculateMinimum( $this->properties['minValue'], $this->properties['maxValue'] );
         }
 
-        if ( $this->max === false )
+        if ( $this->properties['max'] === false )
         {
-            $this->calculateMaximum( $this->minValue, $this->maxValue );
+            $this->calculateMaximum( $this->properties['minValue'], $this->properties['maxValue'] );
         }
     }
 
@@ -270,7 +270,7 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
         $floatValue = (float) $value;
 
         if ( ( $value === false ) &&
-             ( ( $floatValue < $this->min ) || ( $floatValue > $this->max ) ) )
+             ( ( $floatValue < $this->properties['min'] ) || ( $floatValue > $this->properties['max'] ) ) )
         {
             switch ( $this->position )
             {
@@ -288,10 +288,10 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
             {
                 case ezcGraph::LEFT:
                 case ezcGraph::TOP:
-                    return ( $value - $this->min ) / ( $this->max - $this->min );
+                    return ( $value - $this->properties['min'] ) / ( $this->properties['max'] - $this->properties['min'] );
                 case ezcGraph::RIGHT:
                 case ezcGraph::BOTTOM:
-                    return 1 - ( $value - $this->min ) / ( $this->max - $this->min );
+                    return 1 - ( $value - $this->properties['min'] ) / ( $this->properties['max'] - $this->properties['min'] );
             }
         }
     }
@@ -303,7 +303,7 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
      */
     public function getMinorStepCount()
     {
-        return (int) ( ( $this->max - $this->min ) / $this->minorStep );
+        return (int) ( ( $this->properties['max'] - $this->properties['min'] ) / $this->properties['minorStep'] );
     }
 
     /**
@@ -313,7 +313,7 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
      */
     public function getMajorStepCount()
     {
-        return (int) ( ( $this->max - $this->min ) / $this->majorStep );
+        return (int) ( ( $this->properties['max'] - $this->properties['min'] ) / $this->properties['majorStep'] );
     }
 
     /**
@@ -324,7 +324,7 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
      */
     public function getLabel( $step )
     {
-        return $this->min + ( $step * $this->majorStep );
+        return $this->properties['min'] + ( $step * $this->properties['majorStep'] );
     }
 
     /**

@@ -60,22 +60,22 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->assertEquals(
             10.,
-            $this->getAttribute( $chart->yAxis, 'min' )
+            $chart->yAxis->min
         );
 
         $this->assertEquals(
             50.,
-            $this->getAttribute( $chart->yAxis, 'max' )
+            $chart->yAxis->max
         );
 
         $this->assertEquals(
             10.,
-            $this->getAttribute( $chart->yAxis, 'majorStep' )
+            $chart->yAxis->majorStep
         );
 
         $this->assertEquals(
             1.,
-            $this->getAttribute( $chart->yAxis, 'minorStep' )
+            $chart->yAxis->minorStep
         );
     }
 

@@ -15,6 +15,13 @@
 class ezcGraphBarChart extends ezcGraphLineChart
 {
  
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
     public function __construct( array $options = array() )
     {
         parent::__construct();

@@ -10,17 +10,26 @@
 /**
  * Class to represent a legend as a chart element
  *
+ * @property float $height
+ *           Maximum percent of bounding used to display the text.
+ *
  * @package Graph
  */
 class ezcGraphChartElementText extends ezcGraphChartElement
 {
-
     /**
-     * Maximum percent of bounding used to display the text
+     * Constructor
      * 
-     * @var float
+     * @param array $options Default option array
+     * @return void
+     * @ignore
      */
-    protected $maxHeight = .1;
+    public function __construct( array $options = array() )
+    {
+        $this->properties['maxHeight'] = .1;
+
+        parent::__construct( $options );
+    }
 
     /**
      * __set 
@@ -38,7 +47,7 @@ class ezcGraphChartElementText extends ezcGraphChartElement
         switch ( $propertyName )
         {
             case 'maxHeight':
-                $this->maxHeight = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['maxHeight'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );
@@ -55,18 +64,18 @@ class ezcGraphChartElementText extends ezcGraphChartElement
      */
     public function render( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings )
     {
-        if ( empty( $this->title ) )
+        if ( empty( $this->properties['title'] ) )
         {
             return $boundings;
         }
 
 
         $height = (int) min( 
-            round( $this->maxHeight * ( $boundings->y1 - $boundings->y0 ) ),
-            $this->font->maxFontSize + $this->padding * 2 + $this->margin * 2
+            round( $this->properties['maxHeight'] * ( $boundings->y1 - $boundings->y0 ) ),
+            $this->properties['font']->maxFontSize + $this->padding * 2 + $this->margin * 2
         );
 
-        switch ( $this->position )
+        switch ( $this->properties['position'] )
         {
             case ezcGraph::TOP:
                 $textBoundings = new ezcGraphBoundings(
@@ -75,7 +84,7 @@ class ezcGraphChartElementText extends ezcGraphChartElement
                     $boundings->x1,
                     $boundings->y0 + $height
                 );
-                $boundings->y0 += $height + $this->margin;
+                $boundings->y0 += $height + $this->properties['margin'];
                 break;
             case ezcGraph::BOTTOM:
                 $textBoundings = new ezcGraphBoundings(
@@ -84,22 +93,22 @@ class ezcGraphChartElementText extends ezcGraphChartElement
                     $boundings->x1,
                     $boundings->y1
                 );
-                $boundings->y1 -= $height + $this->margin;
+                $boundings->y1 -= $height + $this->properties['margin'];
                 break;
         }
 
         $textBoundings = $renderer->drawBox(
             $textBoundings,
-            $this->background,
-            $this->border,
-            $this->borderWidth,
-            $this->margin,
-            $this->padding
+            $this->properties['background'],
+            $this->properties['border'],
+            $this->properties['borderWidth'],
+            $this->properties['margin'],
+            $this->properties['padding']
         );
 
         $renderer->drawText(
             $textBoundings,
-            $this->title,
+            $this->properties['title'],
             ezcGraph::CENTER | ezcGraph::MIDDLE
         );
 

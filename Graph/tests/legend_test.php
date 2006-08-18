@@ -71,11 +71,6 @@ class ezcGraphLegendTest extends ezcTestCase
             ezcGraphColor::fromHex( '#FF0000' ),
             $chart->legend->background
         );
-
-        $this->assertEquals(
-            ezcGraphColor::fromHex( '#FF0000' ),
-            $this->getAttribute( $chart->legend, 'background' )
-        );
     }
 
     public function testLegendSetBorder()
@@ -86,11 +81,6 @@ class ezcGraphLegendTest extends ezcTestCase
         $this->assertEquals(
             ezcGraphColor::fromHex( '#FF0000' ),
             $chart->legend->border
-        );
-
-        $this->assertEquals(
-            ezcGraphColor::fromHex( '#FF0000' ),
-            $this->getAttribute( $chart->legend, 'border' )
         );
     }
 
@@ -103,11 +93,6 @@ class ezcGraphLegendTest extends ezcTestCase
             1,
             $chart->legend->borderWidth
         );
-
-        $this->assertEquals(
-            1,
-            $this->getAttribute( $chart->legend, 'borderWidth' )
-        );
     }
 
     public function testLegendSetPosition()
@@ -118,11 +103,6 @@ class ezcGraphLegendTest extends ezcTestCase
         $this->assertEquals(
             ezcGraph::LEFT,
             $chart->legend->position
-        );
-
-        $this->assertEquals(
-            ezcGraph::LEFT,
-            $this->getAttribute( $chart->legend, 'position' )
         );
     }
 }

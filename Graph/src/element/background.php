@@ -10,24 +10,30 @@
 /**
  * Class to represent a legend as a chart element
  *
+ * @property string $image
+ *           Filename of the file to use for background
+ * @property int $repeat
+ *           Defines how the background image gets repeated
+ *
  * @package Graph
  */
 class ezcGraphChartElementBackground extends ezcGraphChartElement
 {
 
     /**
-     * Filename of the file to use for background
+     * Constructor
      * 
-     * @var string
+     * @param array $options Default option array
+     * @return void
+     * @ignore
      */
-    protected $image = false;
+    public function __construct( array $options = array() )
+    {
+        $this->properties['image'] = false;
+        $this->properties['repeat'] = ezcGraph::NO_REPEAT;
 
-    /**
-     * Defines how the background image gets repeated
-     * 
-     * @var int
-     */
-    protected $repeat = ezcGraph::NO_REPEAT;
+        parent::__construct( $options );
+    }
 
     /**
      * __set 
@@ -39,6 +45,7 @@ class ezcGraphChartElementBackground extends ezcGraphChartElement
      * @throws ezcBasePropertyNotFoundException
      *          If a the value for the property options is not an instance of
      * @return void
+     * @ignore
      */
     public function __set( $propertyName, $propertyValue )
     {
@@ -64,12 +71,12 @@ class ezcGraphChartElementBackground extends ezcGraphChartElement
                     throw new ezcGraphInvalidImageFileException( 'We cant use SWF files like <' . $propertyValue . '>.' );
                 }
 
-                $this->image = $propertyValue;
+                $this->properties['image'] = $propertyValue;
                 break;
             case 'repeat':
                 if ( ( $propertyValue >= 0 ) && ( $propertyValue <= 3 ) )
                 {
-                    $this->repeat = (int) $propertyValue;
+                    $this->properties['repeat'] = (int) $propertyValue;
                 }
                 else
                 {
@@ -77,9 +84,12 @@ class ezcGraphChartElementBackground extends ezcGraphChartElement
                 }
                 break;
             case 'position':
+                // Overwrite parent position setter, to be able to use 
+                // combination of positions like 
+                //      ezcGraph::TOP | ezcGraph::CENTER
                 if ( is_int( $propertyValue ) )
                 {
-                    $this->position = $propertyValue;
+                    $this->properties['position'] = $propertyValue;
                 }
                 else 
                 {
@@ -92,6 +102,18 @@ class ezcGraphChartElementBackground extends ezcGraphChartElement
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );
+        }
+    }
+
+    public function __get( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'color':
+                // Use color as an alias to set background color for background
+                return $this->properties['background'];
+            default:
+                return parent::__get( $propertyName );
         }
     }
 

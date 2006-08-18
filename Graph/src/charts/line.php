@@ -15,6 +15,13 @@
 class ezcGraphLineChart extends ezcGraphChart
 {
  
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphLineChartOptions( $options );
@@ -38,6 +45,7 @@ class ezcGraphLineChart extends ezcGraphChart
      * @param mixed $propertyName   Option name
      * @param mixed $propertyValue  Option value;
      * @return mixed
+     * @ignore
      */
     public function __set( $propertyName, $propertyValue ) 
     {
@@ -265,6 +273,10 @@ class ezcGraphLineChart extends ezcGraphChart
                     // get Position of 0 on the X-axis for orientation of the y-axis
                     $element->nullPosition = $this->elements['xAxis']->getCoordinate( false );
                     break;
+            }
+            if ( !$element->font instanceof ezcGraphFontOptions )
+            {
+                echo "Wrong font config: $name\n";
             }
             $this->driver->options->font = $element->font;
             $boundings = $element->render( $this->renderer, $boundings );

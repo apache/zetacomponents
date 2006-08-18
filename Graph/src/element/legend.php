@@ -10,6 +10,20 @@
 /**
  * Class to represent a legend as a chart element
  *
+ * @property float $portraitSize
+ *           Size of a portrait style legend in percent of the size of the 
+ *           complete chart.
+ * @property float $landscapeSize
+ *           Size of a landscape style legend in percent of the size of the 
+ *           complete chart.
+ * @property int $symbolSize
+ *           Standard size of symbols and text in legends.
+ * @property float $minimumSymbolSize
+ *           Scale symbol size up to to percent of complete legends size for 
+ *           very big legends.
+ * @property int $spacing
+ *           Space between labels elements in pixel.
+ *
  * @package Graph
  */
 class ezcGraphChartElementLegend extends ezcGraphChartElement
@@ -31,49 +45,23 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
     protected $labels;
 
     /**
-     * Size of a portrait style legend in percent of the size of the complete 
-     * chart
+     * Constructor
      * 
-     * @var float
+     * @param array $options Default option array
+     * @return void
+     * @ignore
      */
-    protected $portraitSize = .2;
+    public function __construct( array $options = array() )
+    {
+        $this->properties['portraitSize'] = .2;
+        $this->properties['landscapeSize'] = .1;
+        $this->properties['symbolSize'] = 14;
+        $this->properties['padding'] = 1;
+        $this->properties['minimumSymbolSize'] = .05;
+        $this->properties['spacing'] = 2;
 
-    /**
-     * Size of a landscape style legend in percent of the size of the complete 
-     * chart
-     * 
-     * @var float
-     */
-    protected $landscapeSize = .1;
-
-    /**
-     * Standard size of symbols and text in legends 
-     * 
-     * @var integer
-     */
-    protected $symbolSize = 14;
-
-    /**
-     * Padding for label elements 
-     * 
-     * @var integer
-     */
-    protected $padding = 1;
-
-    /**
-     * Scale symbol size up to to percent of complete legends size for very
-     * big legends
-     * 
-     * @var float
-     */
-    protected $minimumSymbolSize = .05;
-
-    /**
-     * Space between lael elements in pixel 
-     * 
-     * @var integer
-     */
-    protected $spacing = 2;
+        parent::__construct( $options );
+    }
 
     /**
      * __set 
@@ -85,6 +73,7 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
      * @throws ezcBasePropertyNotFoundException
      *          If a the value for the property options is not an instance of
      * @return void
+     * @ignore
      */
     public function __set( $propertyName, $propertyValue )
     {
@@ -108,6 +97,17 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
             default:
                 parent::__set( $propertyName, $propertyValue );
                 break;
+        }
+    }
+    
+    public function __get( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'labels':
+                return $this->labels;
+            default:
+                return parent::__get( $propertyName );
         }
     }
 
@@ -155,7 +155,7 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
     
     protected function calculateBoundings( ezcGraphBoundings $boundings )
     {
-        $this->boundings = clone $boundings;
+        $this->properties['boundings'] = clone $boundings;
 
         switch ( $this->position )
         {
@@ -209,15 +209,15 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
         }
 
         // Render standard elements
-        $this->boundings = $renderer->drawBox(
-            $this->boundings,
-            $this->background,
-            $this->border,
-            $this->borderWidth,
-            $this->margin,
-            $this->padding,
-            $this->title,
-            $this->getTitleSize( $this->boundings, $type )
+        $this->properties['boundings'] = $renderer->drawBox(
+            $this->properties['boundings'],
+            $this->properties['background'],
+            $this->properties['border'],
+            $this->properties['borderWidth'],
+            $this->properties['margin'],
+            $this->properties['padding'],
+            $this->properties['title'],
+            $this->getTitleSize( $this->properties['boundings'], $type )
         );
 
         // Render legend

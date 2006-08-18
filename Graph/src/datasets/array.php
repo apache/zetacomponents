@@ -14,6 +14,13 @@
  */
 class ezcGraphArrayDataSet extends ezcGraphDataSet
 {
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
     public function __construct( $data )
     {
         $this->createFromArray( $data );

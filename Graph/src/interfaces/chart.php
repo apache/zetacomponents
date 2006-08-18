@@ -64,6 +64,13 @@ abstract class ezcGraphChart
      */
     protected $renderElement;
 
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
     public function __construct( array $options = array() )
     {
         $this->__set( 'palette', new ezcGraphPaletteTango() );
@@ -106,7 +113,8 @@ abstract class ezcGraphChart
      *          If value is out of range
      * @param mixed $propertyName   Option name
      * @param mixed $propertyValue  Option value;
-     * @return mixed
+     * @return void
+     * @ignore
      */
     public function __set( $propertyName, $propertyValue ) 
     {
@@ -188,10 +196,13 @@ abstract class ezcGraphChart
     }
 
     /**
-     * Returns the requested property 
+     * __get 
      * 
      * @param mixed $propertyName 
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
      * @return mixed
+     * @ignore
      */
     public function __get( $propertyName )
     {

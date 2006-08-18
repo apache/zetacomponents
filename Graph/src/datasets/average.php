@@ -11,20 +11,32 @@
  * Extension of basic dataset to represent averation.
  * Algorithm: http://en.wikipedia.org/wiki/Least_squares
  *
+ * @property int $polynomOrder
+ *           Maximum order of polygon to interpolate from points
+ * @property int $resolution
+ *           Rsolution used to draw line in graph
+ *
  * @package Graph
  */
 class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet 
 {
-    protected $polynomOrder = 3;
 
     protected $source;
 
-    protected $resolution = 5;
-
     protected $polynom = false;
 
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
     public function __construct( ezcGraphDataSet $dataset )
     {
+        $this->properties['resolution'] = 5;
+        $this->properties['polynomOrder'] = 3;
+
         $this->source = $dataset;
     }
 
@@ -43,7 +55,7 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
     {
         switch ( $propertyName ) {
             case 'polynomOrder':
-                $this->polynomOrder = (int) $propertyValue;
+                $this->properties['polynomOrder'] = (int) $propertyValue;
                 $this->polynom = false;
                 break;
             default:
@@ -65,7 +77,7 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
         $a = new ezcGraphMatrix( count( $points ), $this->polynomOrder + 1 );
         $b = new ezcGraphMatrix( count( $points ), 1 );
 
-        for ( $i = 0; $i <= $this->polynomOrder; ++$i )
+        for ( $i = 0; $i <= $this->properties['polynomOrder']; ++$i )
         {
             foreach ( $points as $nr => $point )
             {

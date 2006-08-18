@@ -8,7 +8,37 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
+ * Class for basic chart elements
  * 
+ * @property string $title
+ *           Title of chart element.
+ * @property ezcGraphColor $background
+ *           Background color of chart element.
+ * @property ezcGraphBoundings $boundings
+ *           Boundings of this elements.
+ * @property ezcGraphColor $border
+ *           Border color of chart element.
+ * @property int $padding
+ *           Distance between border and content of element.
+ * @property int $margin
+ *           Distance between outer boundings and border of an element.
+ * @property int $borderWidth
+ *           Border width.
+ * @property int $position
+ *           Integer defining the elements position in the chart.
+ * @property int $maxTitleHeight
+ *           Maximum size of the title.
+ * @property float $portraitTitleSize
+ *           Percentage of boundings which are used for the title with 
+ *           position left, right or center.
+ * @property float $landscapeTitleSize
+ *           Percentage of boundings which are used for the title with 
+ *           position top or bottom.
+ * @property ezcGraphFontOptions $font
+ *           Font used for this element.
+ * @property bool $fontCloned
+ *           Indicates if font configuration was already cloned for this 
+ *           specific element.
  *
  * @package Graph
  */
@@ -16,104 +46,27 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
 {
 
     /**
-     * Title of chart element
+     * Constructor
      * 
-     * @var string
+     * @param array $options Default option array
+     * @return void
+     * @ignore
      */
-    protected $title;
-
-    /**
-     * Background color of chart element 
-     * 
-     * @var ezcGraphColor
-     */
-    protected $background;
-
-    /**
-     * Boundings of this elements
-     * 
-     * @var ezcGraphBoundings
-     */
-    protected $boundings;
-
-    /**
-     * Border color of chart element 
-     * 
-     * @var ezcGraphColor
-     */
-    protected $border;
-
-    /**
-     * Distance between border and content of element
-     * 
-     * @var integer
-     */
-    protected $padding;
-
-    /**
-     * Distance between outer boundings and border of an element 
-     * 
-     * @var integer
-     */
-    protected $margin;
-
-    /**
-     * Border width 
-     * 
-     * @var integer
-     */
-    protected $borderWidth;
-
-    /**
-     * Integer defining the elements position in the chart 
-     * 
-     * @var integer
-     */
-    protected $position;
-
-    /**
-     * Maximum size of the title
-     * 
-     * @var integer
-     */
-    protected $maxTitleHeight = 16;
-
-    /**
-     * Percentage of boundings which are used for the title with position
-     * left, right or center
-     * 
-     * @var float
-     */
-    protected $portraitTitleSize = .15;
-
-    /**
-     * Percentage of boundings which are used for the title with position
-     * top otr bottom
-     * 
-     * @var float
-     */
-    protected $landscapeTitleSize = .2;
-
-    /**
-     * Font used for this element 
-     * 
-     * @var ezcGraphFontOptions
-     */
-    protected $font;
-
-    /**
-     * Indicates if font configuration was already cloned for this specific
-     * element.
-     * 
-     * @var boolean
-     */
-    protected $fontCloned = false;
-
     public function __construct( array $options = array() )
     {
-        $this->boundings = new ezcGraphBoundings();
-        $this->position = ezcGraph::LEFT;
-        $this->font = new ezcGraphFontOptions();
+        $this->properties['title'] = false;
+        $this->properties['background'] = false;
+        $this->properties['boundings'] = new ezcGraphBoundings();
+        $this->properties['border'] = false;
+        $this->properties['borderWidth'] = 0;
+        $this->properties['padding'] = 0;
+        $this->properties['margin'] = 0;
+        $this->properties['position'] = ezcGraph::LEFT;
+        $this->properties['maxTitleHeight'] = 16;
+        $this->properties['portraitTitleSize'] = .15;
+        $this->properties['landscapeTitleSize'] = .2;
+        $this->properties['font'] = new ezcGraphFontOptions();
+        $this->properties['fontCloned'] = false;
 
         parent::__construct( $options );
     }
@@ -126,11 +79,11 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
      */
     public function setFromPalette( ezcGraphPalette $palette )
     {
-        $this->border = $palette->elementBorderColor;
-        $this->borderWidth = $palette->elementBorderWidth;
-        $this->background = $palette->elementBackground;
-        $this->padding = $palette->padding;
-        $this->margin = $palette->margin;
+        $this->properties['border'] = $palette->elementBorderColor;
+        $this->properties['borderWidth'] = $palette->elementBorderWidth;
+        $this->properties['background'] = $palette->elementBackground;
+        $this->properties['padding'] = $palette->padding;
+        $this->properties['margin'] = $palette->margin;
     }
 
     /**
@@ -143,43 +96,44 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
      * @throws ezcBasePropertyNotFoundException
      *          If a the value for the property options is not an instance of
      * @return void
+     * @ignore
      */
     public function __set( $propertyName, $propertyValue )
     {
         switch ( $propertyName )
         {
             case 'title':
-                $this->title = (string) $propertyValue;
+                $this->properties['title'] = (string) $propertyValue;
                 break;
             case 'background':
-                $this->background = ezcGraphColor::create( $propertyValue );
+                $this->properties['background'] = ezcGraphColor::create( $propertyValue );
                 break;
             case 'border':
-                $this->border = ezcGraphColor::create( $propertyValue );
+                $this->properties['border'] = ezcGraphColor::create( $propertyValue );
                 break;
             case 'padding':
-                $this->padding = max( 0, (int) $propertyValue );
+                $this->properties['padding'] = max( 0, (int) $propertyValue );
                 break;
             case 'margin':
-                $this->margin = max( 0, (int) $propertyValue );
+                $this->properties['margin'] = max( 0, (int) $propertyValue );
                 break;
             case 'borderWidth':
-                $this->borderWidth = max( 0, (int) $propertyValue);
+                $this->properties['borderWidth'] = max( 0, (int) $propertyValue);
                 break;
             case 'font':
                 if ( $propertyValue instanceof ezcGraphFontOptions )
                 {
-                    $this->font = $propertyValue;
+                    $this->properties['font'] = $propertyValue;
                 }
                 elseif ( is_string( $propertyValue ) )
                 {
                     if ( !$this->fontCloned )
                     {
-                        $this->font = clone $this->font;
-                        $this->fontCloned = true;
+                        $this->properties['font'] = clone $this->font;
+                        $this->properties['fontCloned'] = true;
                     }
 
-                    $this->font->font = $propertyValue;
+                    $this->properties['font']->font = $propertyValue;
                 }
                 else
                 {
@@ -196,7 +150,7 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
 
                 if ( in_array( $propertyValue, $positions, true ) )
                 {
-                    $this->position = $propertyValue;
+                    $this->properties['position'] = $propertyValue;
                 }
                 else 
                 {
@@ -209,19 +163,30 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
         }
     }
     
+    /**
+     * __get 
+     * 
+     * @param mixed $propertyName 
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return mixed
+     * @ignore
+     */
     public function __get( $propertyName )
     {
-        if ( $propertyName === 'font' )
+        switch ( $propertyName )
         {
-            // Clone font configuration when requested for this element
-            if ( !$this->fontCloned )
-            {
-                $this->font = clone $this->font;
-                $this->fontCloned = true;
-            }
+            case 'font':
+                // Clone font configuration when requested for this element
+                if ( !$this->fontCloned )
+                {
+                    $this->properties['font'] = clone $this->properties['font'];
+                    $this->properties['fontCloned'] = true;
+                }
+                return $this->properties['font'];
+            default:
+                return parent::__get( $propertyName );
         }
-
-        return parent::__get( $propertyName );
     }
 
     /**

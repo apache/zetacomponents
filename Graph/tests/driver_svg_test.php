@@ -59,7 +59,10 @@ class ezcGraphSvgDriverTest extends ezcTestCase
     public function tearDown()
     {
         unset( $this->driver );
-        $this->removeTempDir();
+        if ( !$this->hasFailed() )
+        {
+            $this->removeTempDir();
+        }
     }
 
     /**

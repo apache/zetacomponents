@@ -12,29 +12,67 @@
  * Abstract class to render labels and grids on axis. Will be extended to
  * make it possible using different algorithms for rendering axis labels.
  *
+ * @property bool $majorStepCount
+ *           Count of major steps.
+ * @property bool $minorStepCount
+ *           Count of minor steps.
+ * @property int $majorStepSize
+ *           Size of major steps.
+ * @property int $minorStepSize
+ *           Size of minor steps.
+ * @property bool $innerStep
+ *           Indicates if steps are shown on the inner side of axis.
+ * @property bool $outerStep
+ *           Indicates if steps are shown on the outer side of axis.
+ * @property bool $outerGrid
+ *           Indicates if the grid is shown on the outer side of axis.
+ * @property int $labelPadding
+ *           Padding of labels.
+ *
  * @package Graph
  */
 abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
 {
-
+    /**
+     * Driver to render axis labels
+     * 
+     * @var ezcGraphDriver
+     */
     protected $driver;
 
-    protected $majorStepCount = false;
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
+    public function __construct( array $options = array() )
+    {
+        $this->properties['majorStepCount'] = false;
+        $this->properties['minorStepCount'] = false;
+        $this->properties['majorStepSize'] = 3;
+        $this->properties['minorStepSize'] = 1;
+        $this->properties['innerStep'] = true;
+        $this->properties['outerStep'] = false;
+        $this->properties['outerGrid'] = false;
+        $this->properties['labelPadding'] = 2;
 
-    protected $minorStepCount = false;
+        parent::__construct( $options );
+    }
 
-    protected $majorStepSize = 3;
-
-    protected $minorStepSize = 1;
-
-    protected $innerStep = true;
-
-    protected $outerStep = false;
-
-    protected $outerGrid = false;
-
-    protected $labelPadding = 2;
-
+    /**
+     * __set 
+     * 
+     * @param mixed $propertyName 
+     * @param mixed $propertyValue 
+     * @throws ezcBaseValueException
+     *          If a submitted parameter was out of range or type.
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return void
+     * @ignore
+     */
     public function __set( $propertyName, $propertyValue )
     {
         switch ( $propertyName )
@@ -42,7 +80,7 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
             case 'driver':
                 if ( $propertyValue instanceof ezcGraphDriver )
                 {
-                    $this->driver = $propertyValue;
+                    $this->properties['driver'] = $propertyValue;
                 }
                 else
                 {
@@ -50,25 +88,25 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
                 }
                 break;
             case 'majorStepCount':
-                $this->majorStepCount = (int) $propertyValue;
+                $this->properties['majorStepCount'] = (int) $propertyValue;
                 break;
             case 'minorStepCount':
-                $this->minorStepCount = (int) $propertyValue;
+                $this->properties['minorStepCount'] = (int) $propertyValue;
                 break;
             case 'majorStepSize':
-                $this->majorStepSize = (int) $propertyValue;
+                $this->properties['majorStepSize'] = (int) $propertyValue;
                 break;
             case 'minorStepSize':
-                $this->minorStepSize = (int) $propertyValue;
+                $this->properties['minorStepSize'] = (int) $propertyValue;
                 break;
             case 'innerStep':
-                $this->innerStep = (bool) $propertyValue;
+                $this->properties['innerStep'] = (bool) $propertyValue;
                 break;
             case 'outerStep':
-                $this->outerStep = (bool) $propertyValue;
+                $this->properties['outerStep'] = (bool) $propertyValue;
                 break;
             case 'outerGrid':
-                $this->outerGrid = (bool) $propertyValue;
+                $this->properties['outerGrid'] = (bool) $propertyValue;
                 break;
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );

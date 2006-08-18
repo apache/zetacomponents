@@ -10,43 +10,31 @@
 /**
  * Class containing the basic options for charts
  *
+ * @property int $width
+ *           Width of the chart.
+ * @property int $height
+ *           Height of the chart.
+ * @property int $font
+ *           Font used in the graph.
+ * @property float $lineSpacing
+ *           Percent of font size used for line spacing
+ *
  * @package Graph
  */
 abstract class ezcGraphDriverOptions extends ezcBaseOptions
 {
     /**
-     * Width of the chart
+     * Constructor
      * 
-     * @var int
+     * @param array $options Default option array
+     * @return void
+     * @ignore
      */
-    protected $width;
-
-    /**
-     * Height of the chart
-     * 
-     * @var int
-     * @access protected
-     */
-    protected $height;
-
-    /**
-     * Font configuration
-     * 
-     * @var ezcGraphFontOptions
-     */
-    protected $font;
-
-    /**
-     * Percent of font size used for line spacing 
-     * 
-     * @var float
-     */
-    protected $lineSpacing = .1;
-
     public function __construct( array $options = array() )
     {
-        $this->font = new ezcGraphFontOptions();
-        $this->font->color = ezcGraphColor::fromHex( '#000000' );
+        $this->properties['lineSpacing'] = .1;
+        $this->properties['font'] = new ezcGraphFontOptions();
+        $this->properties['font']->color = ezcGraphColor::fromHex( '#000000' );
 
         parent::__construct( $options );
     }
@@ -65,19 +53,19 @@ abstract class ezcGraphDriverOptions extends ezcBaseOptions
         switch ( $propertyName )
         {
             case 'width':
-                $this->width = max( 1, (int) $propertyValue );
+                $this->properties['width'] = max( 1, (int) $propertyValue );
                 break;
             case 'height':
-                $this->height = max( 1, (int) $propertyValue );
+                $this->properties['height'] = max( 1, (int) $propertyValue );
                 break;
             case 'font':
                 if ( $propertyValue instanceof ezcGraphFontOptions )
                 {
-                    $this->font = $propertyValue;
+                    $this->properties['font'] = $propertyValue;
                 }
                 else
                 {
-                    throw new ezcBaseValueException( $propertyValue, 'ezcGraphFontOptions' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphFontOptions' );
                 }
                 break;
             default:

@@ -10,55 +10,37 @@
 /**
  * Class containing the basic options for charts
  *
+ * @property string $font
+ *           Font face.
+ * @property float $minFontSize
+ *           Minimum font size for displayed texts.
+ * @property float $maxFontSize
+ *           Maximum font size for displayed texts.
+ * @property float $minimalUsedFont
+ *           The minimal used font size for this element.
+ * @property ezcGraphColor $color
+ *           Font color.
+ * @property float $lineSpacing
+ *           Percent of font size used for line spacing
+ *
  * @package Graph
  */
 class ezcGraphFontOptions extends ezcBaseOptions
 {
     /**
-     * Font face 
+     * Constructor
      * 
-     * @var mixed
+     * @param array $options Default option array
+     * @return void
+     * @ignore
      */
-    protected $font;
-
-    /**
-     * Minimum font size for displayed texts
-     * 
-     * @var float
-     */
-    protected $minFontSize = 6;
-
-    /**
-     * Maximum font size for displayed texts
-     * 
-     * @var float
-     */
-    protected $maxFontSize = 96;
-
-    /**
-     * The minimal used font size for this element
-     * 
-     * @var float
-     */
-    protected $minimalUsedFont = 96;
-
-    /**
-     * Font color 
-     * 
-     * @var ezcGraphColor
-     */
-    protected $color;
-
-    /**
-     * Percent of font size used for line spacing 
-     * 
-     * @var float
-     */
-    protected $lineSpacing = .1;
-
     public function __construct( array $options = array() )
     {
-        $this->color = ezcGraphColor::fromHex( '#000000' );
+        $this->properties['minFontSize'] = 6;
+        $this->properties['maxFontSize'] = 96;
+        $this->properties['minimalUsedFont'] = 96;
+        $this->properties['lineSpacing'] = .1;
+        $this->properties['color'] = ezcGraphColor::fromHex( '#000000' );
 
         parent::__construct( $options );
     }
@@ -77,22 +59,22 @@ class ezcGraphFontOptions extends ezcBaseOptions
         switch ( $propertyName )
         {
             case 'minFontSize':
-                $this->minFontSize = max(1, (float) $propertyValue);
+                $this->properties['minFontSize'] = max(1, (float) $propertyValue);
                 break;
             case 'maxFontSize':
-                $this->maxFontSize = max(1, (float) $propertyValue);
+                $this->properties['maxFontSize'] = max(1, (float) $propertyValue);
                 break;
             case 'minimalUsedFont':
                 $propertyValue = (float) $propertyValue;
                 if ( $propertyValue < $this->minimalUsedFont )
                 {
-                    $this->minimalUsedFont = $propertyValue;
+                    $this->properties['minimalUsedFont'] = $propertyValue;
                 }
                 break;
             case 'color':
                 if ( $propertyValue instanceof ezcGraphColor )
                 {
-                    $this->color = $propertyValue;
+                    $this->properties['color'] = $propertyValue;
                 }
                 else
                 {
@@ -102,7 +84,7 @@ class ezcGraphFontOptions extends ezcBaseOptions
             case 'font':
                 if ( is_string( $propertyValue ) )
                 {
-                    $this->font = $propertyValue;
+                    $this->properties['font'] = $propertyValue;
                 }
                 else 
                 {

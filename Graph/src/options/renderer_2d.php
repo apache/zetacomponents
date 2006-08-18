@@ -14,24 +14,6 @@
  */
 class ezcGraphRenderer2dOptions extends ezcGraphRendererOptions
 {
-
-    /**
-     * Set an option value
-     * 
-     * @param string $propertyName 
-     * @param mixed $propertyValue 
-     * @throws ezcBasePropertyNotFoundException
-     *          If a property is not defined in this class
-     * @return void
-     */
-    public function __set( $propertyName, $propertyValue )
-    {
-        switch ( $propertyName )
-        {
-            default:
-                return parent::__set( $propertyName, $propertyValue );
-        }
-    }
 }
 
 ?>

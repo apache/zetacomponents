@@ -10,55 +10,42 @@
 /**
  * Class containing the basic options for charts
  *
+ * @property int $imageFormat
+ *           Type of generated image.
+ *           Should be one of those: IMG_PNG, IMG_JPEG
+ * @property int $detail
+ *           Count of degrees to render one polygon for in circular arcs
+ * @property float $shadeCircularArc
+ *           Percent to darken circular arcs at the sides
+ * @property int $supersampling
+ *           Factor of supersampling used to simulate antialiasing
+ * @property string $background
+ *           Background image to put the graph on
+ * @property string $resampleFunction
+ *           Function used to resample / resize images
+ *
  * @package Graph
  */
 class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
 {
     /**
-     * Type of generated image.
-     *
-     * Should be one of those:
-     *  - IMG_PNG
-     *  - IMG_JPEG
+     * Constructor
      * 
-     * @var int
+     * @param array $options Default option array
+     * @return void
+     * @ignore
      */
-    protected $imageFormat = IMG_PNG;
+    public function __construct( array $options = array() )
+    {
+        $this->properties['imageFormat'] = IMG_PNG;
+        $this->properties['detail'] = 1;
+        $this->properties['shadeCircularArc'] = .5;
+        $this->properties['supersampling'] = 2;
+        $this->properties['background'] = false;
+        $this->properties['resampleFunction'] = 'imagecopyresampled';
 
-    /**
-     * Count of degrees to render one polygon for in circular arcs
-     * 
-     * @var integer
-     */
-    protected $detail = 1;
-
-    /**
-     * Percent to darken circular arcs at the sides
-     * 
-     * @var float
-     */
-    protected $shadeCircularArc = .5;
-
-    /**
-     * Factor of supersampling used to simulate antialiasing 
-     * 
-     * @var integer
-     */
-    protected $supersampling = 2;
-
-    /**
-     * Background image to put the graph on 
-     * 
-     * @var string
-     */
-    protected $background = false;
-
-    /**
-     * Function used to resample / resize images
-     * 
-     * @var string
-     */
-    protected $resampleFunction = 'imagecopyresampled';
+        parent::__construct( $options );
+    }
     
     /**
      * Set an option value
@@ -76,7 +63,7 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
             case 'imageFormat':
                 if ( imagetypes() & $propertyValue )
                 {
-                    $this->imageFormat = (int) $propertyValue;
+                    $this->properties['imageFormat'] = (int) $propertyValue;
                 }
                 else
                 {
@@ -84,19 +71,19 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
                 }
                 break;
             case 'detail':
-                $this->detail = max( 1, (int) $propertyValue );
+                $this->properties['detail'] = max( 1, (int) $propertyValue );
                 break;
             case 'shadeCircularArc':
-                $this->shadeCircularArc = max( 0, min( 1, (float) $propertyValue ) );
+                $this->properties['shadeCircularArc'] = max( 0, min( 1, (float) $propertyValue ) );
                 break;
             case 'supersampling':
-                $this->supersampling = (int) max( 1, $propertyValue );
+                $this->properties['supersampling'] = (int) max( 1, $propertyValue );
                 break;
             case 'background':
                 if ( $propertyValue === false ||
                      ( is_file( $propertyValue ) && is_readable( $propertyValue ) ) )
                 {
-                    $this->background = realpath( $propertyValue );
+                    $this->properties['background'] = realpath( $propertyValue );
                 }
                 else
                 {
@@ -106,7 +93,7 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
             case 'resampleFunction':
                 if ( function_exists( $propertyValue ) )
                 {
-                    $this->resampleFunction = $propertyValue;
+                    $this->properties['resampleFunction'] = $propertyValue;
                 }
                 else
                 {

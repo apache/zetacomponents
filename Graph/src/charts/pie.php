@@ -15,6 +15,13 @@
 class ezcGraphPieChart extends ezcGraphChart
 {
     
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphPieChartOptions( $options );

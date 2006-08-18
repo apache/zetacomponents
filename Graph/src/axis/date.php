@@ -10,6 +10,16 @@
 /**
  * Class to represent a axe as a chart element
  *
+ * @property float $startDate
+ *           Starting date used to display on axis.
+ * @property float $endDate
+ *           End date used to display on axis.
+ * @property float $interval
+ *           Time interval between steps on axis.
+ * @property string $dateFormat
+ *           Format of date string
+ *           Like http://php.net/date
+ *
  * @package Graph
  */
 class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
@@ -28,36 +38,6 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
      * @var int
      */
     protected $maxValue = false;
-
-    /**
-     * Starting date used to display on axis
-     * 
-     * @var float
-     */
-    protected $startDate = false;
-
-    /**
-     * End date used to display on axis
-     * 
-     * @var float
-     */
-    protected $endDate = false;
-
-    /**
-     * Time interval between steps on axis
-     * 
-     * @var float
-     */
-    protected $interval = false;
-
-    /**
-     * Format of date string
-     *
-     * Like http://php.net/date
-     * 
-     * @var string
-     */
-    protected $dateFormat = false;
 
     /**
      * Nice time intervals to used if there is no user defined interval
@@ -104,6 +84,23 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
     const MAJOR_COUNT = 10;
 
     /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
+    public function __construct( array $options = array() )
+    {
+        $this->properties['startDate'] = false;
+        $this->properties['endDate'] = false;
+        $this->properties['interval'] = false;
+        $this->properties['dateFormat'] = false;
+
+        parent::__construct( $options );
+    }
+
+    /**
      * __set 
      * 
      * @param mixed $propertyName 
@@ -113,22 +110,23 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
      * @throws ezcBasePropertyNotFoundException
      *          If a the value for the property options is not an instance of
      * @return void
+     * @ignore
      */
     public function __set( $propertyName, $propertyValue )
     {
         switch ( $propertyName )
         {
             case 'startDate':
-                $this->startDate = (int) $propertyValue;
+                $this->properties['startDate'] = (int) $propertyValue;
                 break;
             case 'endDate':
-                $this->endDate = (int) $propertyValue;
+                $this->properties['endDate'] = (int) $propertyValue;
                 break;
             case 'interval':
-                $this->interval = (int) $propertyValue;
+                $this->properties['interval'] = (int) $propertyValue;
                 break;
             case 'dateFormat':
-                $this->dateFormat = (string) $propertyValue;
+                $this->properties['dateFormat'] = (string) $propertyValue;
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );
@@ -191,7 +189,7 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
             }
         }
 
-        $this->interval = $interval;
+        $this->properties['interval'] = $interval;
     }
 
     protected function calculateLowerNiceDate( $min, $interval )
@@ -229,16 +227,16 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
 
     public function calculateMinimum( $min, $max )
     {
-        $this->startDate = $this->calculateLowerNiceDate( $min, $this->interval );
+        $this->properties['startDate'] = $this->calculateLowerNiceDate( $min, $this->interval );
     }
 
     public function calculateMaximum( $min, $max )
     {
-        $this->endDate = $this->calculateLowerNiceDate( $max, $this->interval );
+        $this->properties['endDate'] = $this->calculateLowerNiceDate( $max, $this->interval );
 
-        while ( $this->endDate < $max )
+        while ( $this->properties['endDate'] < $max )
         {
-            $this->endDate += $this->interval;
+            $this->properties['endDate'] += $this->interval;
         }
     }
 
@@ -266,33 +264,33 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
         }
 
         // Use custom minimum and maximum if available
-        if ( $this->startDate !== false )
+        if ( $this->properties['startDate'] !== false )
         {
-            $this->minValue = $this->startDate;
+            $this->minValue = $this->properties['startDate'];
         }
 
-        if ( $this->endDate !== false )
+        if ( $this->properties['endDate'] !== false )
         {
-            $this->maxValue = $this->endDate;
+            $this->maxValue = $this->properties['endDate'];
         }
 
         // Calculate "nice" values for scaling parameters
-        if ( $this->interval === false )
+        if ( $this->properties['interval'] === false )
         {
             $this->calculateInterval( $this->minValue, $this->maxValue );
         }
 
-        if ( $this->dateFormat === false && isset( $this->predefinedIntervals[$this->interval] ) )
+        if ( $this->properties['dateFormat'] === false && isset( $this->predefinedIntervals[$this->interval] ) )
         {
-            $this->dateFormat = $this->predefinedIntervals[$this->interval];
+            $this->properties['dateFormat'] = $this->predefinedIntervals[$this->interval];
         }
 
-        if ( $this->startDate === false )
+        if ( $this->properties['startDate'] === false )
         {
             $this->calculateMinimum( $this->minValue, $this->maxValue );
         }
 
-        if ( $this->endDate === false )
+        if ( $this->properties['endDate'] === false )
         {
             $this->calculateMaximum( $this->minValue, $this->maxValue );
         }
@@ -311,7 +309,7 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
         $floatValue = (float) $value;
 
         if ( ( $value === false ) &&
-             ( ( $floatValue < $this->startDate ) || ( $floatValue > $this->endDate ) ) )
+             ( ( $floatValue < $this->properties['startDate'] ) || ( $floatValue > $this->endDate ) ) )
         {
             switch ( $this->position )
             {
@@ -329,10 +327,10 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
             {
                 case ezcGraph::LEFT:
                 case ezcGraph::TOP:
-                    return ( $value - $this->startDate ) / ( $this->endDate - $this->startDate );
+                    return ( $value - $this->properties['startDate'] ) / ( $this->endDate - $this->startDate );
                 case ezcGraph::RIGHT:
                 case ezcGraph::BOTTOM:
-                    return 1 - ( $value - $this->startDate ) / ( $this->endDate - $this->startDate );
+                    return 1 - ( $value - $this->properties['startDate'] ) / ( $this->endDate - $this->startDate );
             }
         }
     }
@@ -354,7 +352,7 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
      */
     public function getMajorStepCount()
     {
-        return (int) ( ( $this->endDate - $this->startDate ) / $this->interval );
+        return (int) ( ( $this->properties['endDate'] - $this->startDate ) / $this->interval );
     }
 
     /**
@@ -365,7 +363,7 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
      */
     public function getLabel( $step )
     {
-        return date( $this->dateFormat, $this->startDate + ( $step * $this->interval ) );
+        return date( $this->properties['dateFormat'], $this->startDate + ( $step * $this->interval ) );
     }
 
     /**

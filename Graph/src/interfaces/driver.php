@@ -20,20 +20,6 @@ abstract class ezcGraphDriver
      * @var ezcDriverOptions
      */
     protected $options;
-
-    /**
-     * Width of image in pixel
-     * 
-     * @var integer
-     */
-    protected $width;
-
-    /**
-     * Height of image in pixel
-     * 
-     * @var integer
-     */
-    protected $height;
     
     abstract public function __construct( array $options = array() );
     
@@ -47,6 +33,7 @@ abstract class ezcGraphDriver
      * @param mixed $propertyName   Option name
      * @param mixed $propertyValue  Option value;
      * @return mixed
+     * @ignore
      */
     public function __set( $propertyName, $propertyValue ) 
     {
@@ -67,20 +54,22 @@ abstract class ezcGraphDriver
     }
 
     /**
-     * Returns the requested property 
+     * __get 
      * 
      * @param mixed $propertyName 
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
      * @return mixed
+     * @ignore
      */
     public function __get( $propertyName )
     {
-        if ( isset( $this->$propertyName ) )
+        switch ( $propertyName )
         {
-            return $this->$propertyName;
-        }
-        else
-        {
-            throw new ezcBasePropertyNotFoundException( $propertyName );
+            case 'options':
+                return $this->options;
+            default:
+                return parent::__get( $propertyName );
         }
     }
 

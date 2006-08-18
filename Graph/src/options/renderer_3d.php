@@ -10,89 +10,52 @@
 /**
  * Class containing the basic options for pie charts
  *
+ * @property bool $seperateLines
+ *           Indicates wheather the full depth should be used for each line in
+ *           the chart, or beeing seperated by the count of lines.
+ * @property float $fillAxis
+ *           Transparency used to fill the axis polygon.
+ * @property float $fillGrid
+ *           Transparency used to fill the grid lines.
+ * @property float $depth
+ *           Part of picture used to simulate depth of three dimensional chart.
+ * @property float $pieChartHeight
+ *           Height of the pie charts border.
+ * @property float $pieChartRotation
+ *           Rotation of pie chart. Defines the percent of width used to 
+ *           calculate the height of the ellipse.
+ * @property float $pieChartShadow
+ *           Used transparency for pie chart shadows
+ * @property float $barDarkenSide
+ *           Factor to darken the color used for the bars side polygon.
+ * @property float $barDarkenTop
+ *           Factor to darken the color used for the bars top polygon.
+ * 
  * @package Graph
  */
 class ezcGraphRenderer3dOptions extends ezcGraphRendererOptions
 {
-
     /**
-     * Indicates wheather the full depth should be used for each line in the
-     * chart, or beeing seperated by the count of lines
+     * Constructor
      * 
-     * @var bool
+     * @param array $options Default option array
+     * @return void
+     * @ignore
      */
-    protected $seperateLines = true;
+    public function __construct( array $options = array() )
+    {
+        $this->properties['seperateLines'] = true;
+        $this->properties['fillAxis'] = .8;
+        $this->properties['fillGrid'] = 0;
+        $this->properties['depth'] = .1;
+        $this->properties['pieChartHeight'] = 10;
+        $this->properties['pieChartRotation'] = .6;
+        $this->properties['pieChartShadow'] = .6;
+        $this->properties['barDarkenSide'] = .2;
+        $this->properties['barDarkenTop'] = .4;
 
-    /**
-     * Transparency used to fill the axis polygon
-     * 
-     * @var float
-     */
-    protected $fillAxis = .8;
-
-    /**
-     * Transparency used to fill the grid lines
-     * 
-     * @var float
-     */
-    protected $fillGrid = 0;
-
-    /**
-     * Part of picture used to simulate depth of three dimensional chart
-     *
-     * @var float
-    */
-    protected $depth = .1;
-
-    /**
-     * Height of the pie charts border
-     * 
-     * @var float
-     */
-    protected $pieChartHeight = 10;
-
-    /**
-     * Rotation of pie chart. Defines the percent of width used to calculate
-     * the height of the ellipse.
-     * 
-     * @var float
-     */
-    protected $pieChartRotation = .6;
-
-    /**
-     * Used transparency for pie chart shadows
-     * 
-     * @var float
-     */
-    protected $pieChartShadow = .6;
-
-    /**
-     * Procentual distance between bar blocks
-     * 
-     * @var float
-     */
-    protected $barMargin = .1;
-
-    /**
-     * Procentual distance between bars
-     * 
-     * @var float
-     */
-    protected $barPadding = .05;
-
-    /**
-     * Factor to darken the color used for the bars side polygon
-     * 
-     * @var float
-     */
-    protected $barDarkenSide = .2;
-
-    /**
-     * Factor to darken the color used for the bars top polygon
-     * 
-     * @var float
-     */
-    protected $barDarkenTop = .4;
+        parent::__construct( $options );
+    }
 
     /**
      * Set an option value
@@ -102,40 +65,41 @@ class ezcGraphRenderer3dOptions extends ezcGraphRendererOptions
      * @throws ezcBasePropertyNotFoundException
      *          If a property is not defined in this class
      * @return void
+     * @ignore
      */
     public function __set( $propertyName, $propertyValue )
     {
         switch ( $propertyName )
         {
             case 'depth':
-                $this->depth = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['depth'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             case 'seperateLines':
-                $this->seperateLines = (bool) $propertyValue;
+                $this->properties['seperateLines'] = (bool) $propertyValue;
                 break;
             case 'fillAxis':
-                $this->fillAxis = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['fillAxis'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             case 'fillGrid':
-                $this->fillGrid = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['fillGrid'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             case 'dataBorder':
-                $this->dataBorder = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['dataBorder'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             case 'pieChartHeight':
-                $this->pieChartHeight = (float) $propertyValue;
+                $this->properties['pieChartHeight'] = (float) $propertyValue;
                 break;
             case 'pieChartRotation':
-                $this->pieChartRotation = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['pieChartRotation'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             case 'pieChartShadow':
-                $this->pieChartShadow = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['pieChartShadow'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             case 'barDarkenSide':
-                $this->barDarkenSide = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['barDarkenSide'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             case 'barDarkenTop':
-                $this->barDarkenTop = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['barDarkenTop'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );

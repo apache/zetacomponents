@@ -101,7 +101,7 @@ class ezcGraphChartTest extends ezcTestCase
 
         $this->assertEquals( 
             ezcGraphColor::fromHex( 'FF0000' ),
-            $this->getAttribute( $pieChart->background, 'background' )
+            $pieChart->background->color
         );
     }
 
@@ -112,7 +112,7 @@ class ezcGraphChartTest extends ezcTestCase
 
         $this->assertEquals( 
             ezcGraphColor::fromHex( 'FF0000' ),
-            $this->getAttribute( $pieChart->background, 'border' )
+            $pieChart->background->border
         );
     }
 
@@ -121,7 +121,7 @@ class ezcGraphChartTest extends ezcTestCase
         $pieChart = new ezcGraphPieChart();
         $pieChart->background->borderWidth = 3;
 
-        $this->assertSame( 3, $this->getAttribute( $pieChart->background, 'borderWidth' ) );
+        $this->assertSame( 3, $pieChart->background->borderWidth );
     }
 
     public function testSetOptionsUnknown()

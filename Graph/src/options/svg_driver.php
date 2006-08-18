@@ -10,83 +10,58 @@
 /**
  * Class containing the basic options for charts
  *
+ * @property float $assumedCharacterWidth
+ *           Assumed percentual average width of chars with the used font.
+ * @property string $strokeLineCap
+ *           This specifies the shape to be used at the end of open subpaths 
+ *           when they are stroked.
+ * @property string $shapeRendering
+ *           "The creator of SVG content might want to provide a hint to the
+ *           implementation about what tradeoffs to make as it renders vector
+ *           graphics elements such as 'path' elements and basic shapes such as
+ *           circles and rectangles."
+ * @property string $colorRendering
+ *           "The creator of SVG content might want to provide a hint to the
+ *           implementation about how to make speed vs. quality tradeoffs as it
+ *           performs color interpolation and compositing. The 
+ *           'color-rendering' property provides a hint to the SVG user agent 
+ *           about how to optimize its color interpolation and compositing 
+ *           operations."
+ * @property string $textRendering
+ *           "The creator of SVG content might want to provide a hint to the
+ *           implementation about what tradeoffs to make as it renders text."
+ * @property mixed $templateDocument
+ *           Use existing SVG document as template to insert graph into. If
+ *           insertIntoGroup is not set, a new group will be inserted in the 
+ *           svg root node.
+ * @property mixed $insertIntoGroup
+ *           ID of a SVG group node to insert the graph. Only works with a 
+ *           custom template document.
+ * @property ezcGraphCoordinate $graphOffset
+ *           Offset of the graph in the svg.
+ * 
  * @package Graph
  */
 class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
 {
-
     /**
-     * Assumed percentual average width of chars with the used font
+     * Constructor
      * 
-     * @var float
+     * @param array $options Default option array
+     * @return void
+     * @ignore
      */
-    protected $assumedCharacterWidth = .55;
-
-    /**
-     * This specifies the shape to be used at the end of open subpaths when 
-     * they are stroked.
-     * 
-     * @var string
-     */
-    protected $strokeLineCap = 'round';
-
-    /**
-     * "The creator of SVG content might want to provide a hint to the 
-     * implementation about what tradeoffs to make as it renders vector 
-     * graphics elements such as 'path' elements and basic shapes such as 
-     * circles and rectangles."
-     * 
-     * @var string
-     */
-    protected $shapeRendering = 'geometricPrecision';
-
-    /**
-     * "The creator of SVG content might want to provide a hint to the 
-     * implementation about how to make speed vs. quality tradeoffs as it 
-     * performs color interpolation and compositing. The 'color-rendering' 
-     * property provides a hint to the SVG user agent about how to optimize 
-     * its color interpolation and compositing operations."
-     * 
-     * @var string
-     */
-    protected $colorRendering = 'optimizeQuality';
-
-    /**
-     * "The creator of SVG content might want to provide a hint to the 
-     * implementation about what tradeoffs to make as it renders text." 
-     * 
-     * @var string
-     */
-    protected $textRendering = 'optimizeLegibility';
-
-    /**
-     * Use existing SVG document as template to insert graph into. If 
-     * insertIntoGroup is not set, a new group will be inserted in the svg
-     * root node.
-     * 
-     * @var string
-     */
-    protected $templateDocument = false;
-
-    /**
-     * ID of a SVG group node to insert the graph. Only works with a custom
-     * template document.
-     * 
-     * @var mixed
-     * @access protected
-     */
-    protected $insertIntoGroup = false;
-
-    /**
-     * Offset of the graph in the svg
-     * 
-     * @var ezcGraphCoordinate
-     */
-    protected $graphOffset;
-
     public function __construct( array $options = array() )
     {
-        $this->graphOffset = new ezcGraphCoordinate( 0, 0 );
+        $this->properties['assumedCharacterWidth'] = .55;
+        $this->properties['strokeLineCap'] = 'round';
+        $this->properties['shapeRendering'] = 'geometricPrecision';
+        $this->properties['colorRendering'] = 'optimizeQuality';
+        $this->properties['textRendering'] = 'optimizeLegibility';
+        $this->properties['templateDocument'] = false;
+        $this->properties['insertIntoGroup'] = false;
+        $this->properties['graphOffset'] = new ezcGraphCoordinate( 0, 0 );
+
         parent::__construct( $options );
     }
 
@@ -98,13 +73,14 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
      * @throws ezcBasePropertyNotFoundException
      *          If a property is not defined in this class
      * @return void
+     * @ignore
      */
     public function __set( $propertyName, $propertyValue )
     {
         switch ( $propertyName )
         {
             case 'assumedCharacterWidth':
-                $this->assumedCharacterWidth = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['assumedCharacterWidth'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             case 'strokeLineCap':
                 $values = array(
@@ -116,7 +92,7 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
 
                 if ( in_array( $propertyValue, $values, true ) )
                 {
-                    $this->strokeLineCap = $propertyValue;
+                    $this->properties['strokeLineCap'] = $propertyValue;
                 }
                 else
                 {
@@ -134,7 +110,7 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
 
                 if ( in_array( $propertyValue, $values, true ) )
                 {
-                    $this->shapeRendering = $propertyValue;
+                    $this->properties['shapeRendering'] = $propertyValue;
                 }
                 else
                 {
@@ -151,7 +127,7 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
 
                 if ( in_array( $propertyValue, $values, true ) )
                 {
-                    $this->colorRendering = $propertyValue;
+                    $this->properties['colorRendering'] = $propertyValue;
                 }
                 else
                 {
@@ -169,7 +145,7 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
 
                 if ( in_array( $propertyValue, $values, true ) )
                 {
-                    $this->textRendering = $propertyValue;
+                    $this->properties['textRendering'] = $propertyValue;
                 }
                 else
                 {
@@ -183,7 +159,7 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
                 }
                 else
                 {
-                    $this->templateDocument = realpath( $propertyValue );
+                    $this->properties['templateDocument'] = realpath( $propertyValue );
                 }
                 break;
             case 'insertIntoGroup':
@@ -193,13 +169,13 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
                 }
                 else
                 {
-                    $this->insertIntoGroup = $propertyValue;
+                    $this->properties['insertIntoGroup'] = $propertyValue;
                 }
                 break;
             case 'graphOffset':
                 if ( $propertyValue instanceof ezcGraphCoordinate )
                 {
-                    $this->graphOffset = $propertyValue;
+                    $this->properties['graphOffset'] = $propertyValue;
                 }
                 else
                 {

@@ -10,20 +10,29 @@
 /**
  * Class containing the basic options for pie charts
  *
+ * @property string $label
+ *           String used to label pies
+ *              %$1s    Name of pie
+ *              %2$d    Value of pie
+ *              %3$.1f  Percentage
+ * 
  * @package Graph
  */
 class ezcGraphPieChartOptions extends ezcGraphChartOptions
 {
     /**
-     * String used to label pies
-     *      %$1s    Name of pie
-     *      %2$d    Value of pie
-     *      %3$.1f  Percentage
+     * Constructor
      * 
-     * @var string
-     * @access protected
+     * @param array $options Default option array
+     * @return void
+     * @ignore
      */
-    protected $label = '%1$s: %2$d (%3$.1f%%)';
+    public function __construct( array $options = array() )
+    {
+        $this->properties['label'] = '%1$s: %2$d (%3$.1f%%)';
+
+        parent::__construct( $options );
+    }
 
     /**
      * Set an option value
@@ -33,13 +42,14 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
      * @throws ezcBasePropertyNotFoundException
      *          If a property is not defined in this class
      * @return void
+     * @ignore
      */
     public function __set( $propertyName, $propertyValue )
     {
         switch ( $propertyName )
         {
             case 'label':
-                $this->label = (string) $propertyValue;
+                $this->properties['label'] = (string) $propertyValue;
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );

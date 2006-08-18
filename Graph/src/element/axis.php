@@ -10,69 +10,28 @@
 /**
  * Class to represent a legend as a chart element
  *
+ * @property float $nullPosition
+ *           The position of the null value.
+ * @property float $axisSpace
+ *           Percent of the chart space used to display axis labels and 
+ *           arrowheads instead of data values.
+ * @property ezcGraphColor $majorStep
+ *           Color of major majorGrid.
+ * @property ezcGraphColor $minorStep
+ *           Color of minor majorGrid.
+ * @property mixed $majorStep
+ *           Labeled major steps displayed on the axis.
+ * @property mixed $minorStep
+ *           Non labeled minor steps on the axis.
+ * @property string $formatString
+ *           Formatstring to use for labeling og the axis.
+ * @property int $maxArrowHeadSize
+ *           Maximum Size used to draw arrow heads.
+ *
  * @package Graph
  */
 abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
 {
-    
-    /**
-     * The position of the null value
-     * 
-     * @var float
-     */
-    protected $nullPosition;
-
-    /**
-     * Percent of the chart space used to display axis labels and arrowheads
-     * instead of data values
-     * 
-     * @var float
-     */
-    protected $axisSpace = .1;
-
-    /**
-     * Color of major majorGrid 
-     * 
-     * @var ezcGraphColor
-     */
-    protected $majorGrid;
-
-    /**
-     * Color of minor majorGrid 
-     * 
-     * @var ezcGraphColor
-     */
-    protected $minorGrid;
-
-    /**
-     * Labeled major steps displayed on the axis 
-     * 
-     * @var float
-     */
-    protected $majorStep = false;
-
-    /**
-     * Non labeled minor steps on the axis
-     * 
-     * @var mixed
-     * @access protected
-     */
-    protected $minorStep = false;
-
-    /**
-     * Formatstring to use for labeling og the axis
-     * 
-     * @var string
-     */
-    protected $formatString = '%s';
-
-    /**
-     * Maximum Size used to draw arrow heads
-     * 
-     * @var integer
-     */
-    protected $maxArrowHeadSize = 8;
-
     /**
      * Axis label renderer class
      * 
@@ -80,8 +39,24 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
      */
     protected $axisLabelRenderer;
 
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
     public function __construct( array $options = array() )
     {
+        $this->properties['nullPosition'] = false;
+        $this->properties['axisSpace'] = .1;
+        $this->properties['majorGrid'] = false;
+        $this->properties['minorGrid'] = false;
+        $this->properties['majorStep'] = false;
+        $this->properties['minorStep'] = false;
+        $this->properties['formatString'] = '%s';
+        $this->properties['maxArrowHeadSize'] = 8;
+
         parent::__construct( $options );
 
         if ( !isset( $this->axisLabelRenderer ) )
@@ -121,29 +96,29 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         switch ( $propertyName )
         {
             case 'nullPosition':
-                $this->nullPosition = (float) $propertyValue;
+                $this->properties['nullPosition'] = (float) $propertyValue;
                 break;
             case 'axisSpace':
-                $this->axisSpace = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['axisSpace'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             case 'majorGrid':
                 if ( $propertyValue instanceof ezcGraphColor )
                 {
-                    $this->majorGrid = $propertyValue;
+                    $this->properties['majorGrid'] = $propertyValue;
                 }
                 else
                 {
-                    $this->majorGrid = ezcGraphColor::create( $propertyValue );
+                    $this->properties['majorGrid'] = ezcGraphColor::create( $propertyValue );
                 }
                 break;
             case 'minorGrid':
                 if ( $propertyValue instanceof ezcGraphColor )
                 {
-                    $this->minorGrid = $propertyValue;
+                    $this->properties['minorGrid'] = $propertyValue;
                 }
                 else
                 {
-                    $this->minorGrid = ezcGraphColor::create( $propertyValue );
+                    $this->properties['minorGrid'] = ezcGraphColor::create( $propertyValue );
                 }
                 break;
             case 'majorStep':
@@ -151,20 +126,20 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 {
                     throw new ezcBaseValueException( 'majorStep', $propertyValue, 'float > 0' );
                 }
-                $this->majorStep = (float) $propertyValue;
+                $this->properties['majorStep'] = (float) $propertyValue;
                 break;
             case 'minorStep':
                 if ( $propertyValue <= 0 )
                 {
                     throw new ezcBaseValueException( 'minorStep', $propertyValue, 'float > 0' );
                 }
-                $this->minorStep = (float) $propertyValue;
+                $this->properties['minorStep'] = (float) $propertyValue;
                 break;
             case 'formatString':
-                $this->formatString = (string) $propertyValue;
+                $this->properties['formatString'] = (string) $propertyValue;
                 break;
             case 'maxArrowHeadSize':
-                $this->maxArrowHeadSize = max( 0, (int) $propertyValue );
+                $this->properties['maxArrowHeadSize'] = max( 0, (int) $propertyValue );
                 break;
             case 'axisLabelRenderer':
                 if ( $propertyValue instanceof ezcGraphAxisLabelRenderer )
@@ -179,6 +154,17 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
             default:
                 parent::__set( $propertyName, $propertyValue );
                 break;
+        }
+    }
+
+    public function __get( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'axisLabelRenderer':
+                return $this->axisLabelRenderer;
+            default:
+                return parent::__get( $propertyName );
         }
     }
 

@@ -10,33 +10,34 @@
 /**
  * Class containing the basic options for line charts
  *
+ * @property float $lineThickness
+ *           Theickness of chart lines
+ * @property mixed $fillLines
+ *           Status wheather the space between line and axis should get filled.
+ *            - FALSE to not fill the space at all.
+ *            - (int) Opacity used to fill up the space with the lines color.
+ * @property int $symbolSize
+ *           Size of symbols in line chart.
+ *
  * @package Graph
  */
 class ezcGraphLineChartOptions extends ezcGraphChartOptions
 {
     /**
-     * Theickness of chart lines
+     * Constructor
      * 
-     * @var float
-     * @access protected
+     * @param array $options Default option array
+     * @return void
+     * @ignore
      */
-    protected $lineThickness = 2;
+    public function __construct( array $options = array() )
+    {
+        $this->properties['lineThickness'] = 2;
+        $this->properties['fillLines'] = false;
+        $this->properties['symbolSize'] = 8;
 
-    /**
-     * Status wheather the space between line and axis should get filled.
-     *  - FALSE to not fill the space at all
-     *  - (int) Opacity used to fill up the space with the lines color
-     *
-     * @var mixed
-     */
-    protected $fillLines = false;
-
-    /**
-     * Size of symbols in line chart
-     * 
-     * @var integer
-     */
-    protected $symbolSize = 8;
+        parent::__construct( $options );
+    }
 
     /**
      * Set an option value
@@ -52,20 +53,20 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
         switch ( $propertyName )
         {
             case 'lineThickness':
-                $this->lineThickness = max( 1, (int) $propertyValue );
+                $this->properties['lineThickness'] = max( 1, (int) $propertyValue );
                 break;
             case 'fillLines':
                 if ( $propertyValue === false )
                 {
-                    $this->fillLines = false;
+                    $this->properties['fillLines'] = false;
                 }
                 else
                 {
-                    $this->fillLines = min( 255, max( 0, (int) $propertyValue ) );
+                    $this->properties['fillLines'] = min( 255, max( 0, (int) $propertyValue ) );
                 }
                 break;
             case 'symbolSize':
-                $this->symbolSize = max( 1, (int) $propertyValue );
+                $this->properties['symbolSize'] = max( 1, (int) $propertyValue );
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );
