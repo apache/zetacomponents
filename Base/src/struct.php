@@ -16,6 +16,7 @@ class ezcBaseStruct
 {
     /**
      * Throws a BasePropertyNotFound exception.
+     * @ignore
      */
     final public function __set( $name, $value )
     {
@@ -24,6 +25,7 @@ class ezcBaseStruct
 
     /**
      * Throws a BasePropertyNotFound exception.
+     * @ignore
      */
     final public function __get( $name )
     {
