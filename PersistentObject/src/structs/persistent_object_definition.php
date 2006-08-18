@@ -57,7 +57,12 @@ class ezcPersistentObjectDefinition extends ezcBaseStruct
     public $columns = array();
 
     /**
-     * Constructs a new PersistentObjectDefinition
+     * Constructs a new PersistentObjectDefinition.
+     *
+     * The parameters $key and $incrementKey are not used any more and will be removed
+     * next time we can break backwards compatibility.
+     *
+     * @apichange Remove parameters $key and $incrementKey and add idProperty and $properties.
      */
     public function __construct( $table = '',
                                  $key = '',
@@ -66,9 +71,7 @@ class ezcPersistentObjectDefinition extends ezcBaseStruct
                                  array $properties = array() )
     {
         $this->table = $table;
-        $this->primaryKey = $key;
         $this->class = $class;
-        $this->incrementKey = $incrementKey;
         $this->properties = $properties;
     }
 
