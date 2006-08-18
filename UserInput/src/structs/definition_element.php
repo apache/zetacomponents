@@ -14,7 +14,7 @@
  * @version //autogentag//
  * @mainclass
  */
-class ezcInputFormDefinitionElement
+class ezcInputFormDefinitionElement extends ezcBaseStruct
 {
     /**
      * @var OPTIONAL marks an input field as "optional". Optional input fields
