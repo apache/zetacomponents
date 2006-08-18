@@ -6,8 +6,11 @@ eZ components - Database
 Introduction
 ============
 
-The database component is built upon the PDO library in PHP 5 and consists of
-two main parts:
+Before attempting to use the the Database component you should make yourself
+familiar with the PDO documentation_. The Database component builds upon PDO
+and we do not provide examples of the PDO basics.
+
+The Database component consists of two main parts:
 
 1. Database handlers derived from PDO with some added functionality. A database
    handler provides a common API for all databases to execute queries on a
@@ -151,6 +154,11 @@ and introduces the usage of bind parameters in the query:
 The query will fetch the ten first quotes by Robert Foster sorted by the quote itself.
 Note that string parameters must be either bound using 
 ezcQuery::bindParam()/ezcQueryBindValue() or escaped and quoted manually.
+
+As you can see logical expressions are built up using the expression object of
+the type ezcQueryExpression. Note that the methods for logical or and and are
+named lOr and lAnd respectively. This is because and and or are reserved names
+in PHP and can not be used in method names.
 
 The next example shows that you in a similar way to the SELECT query can
 insert, update and delete rows from a table using the query abstraction layer.

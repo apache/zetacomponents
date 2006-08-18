@@ -14,6 +14,10 @@
  * The QueryExpression class is usually used through the 'expr' variable in
  * one of the Select, Insert, Update or Delete classes.
  *
+ * Note that the methods for logical or and and are
+ * named lOr and lAnd respectively. This is because and and or are reserved names
+ * in PHP and can not be used in method names.
+ *
  * @package Database
  */
 class ezcQueryExpression
