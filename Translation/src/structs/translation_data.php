@@ -14,7 +14,7 @@
  *
  * @package Translation
  */
-class ezcTranslationData
+class ezcTranslationData extends ezcBaseStruct
 {
     /**
      * Used when the translated string is up-to-date
