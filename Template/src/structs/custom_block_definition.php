@@ -7,6 +7,7 @@ class ezcTemplateCustomBlockDefinition extends ezcBaseStruct
     public $isNestingBlock;
 
     public $hasStartExpression;
+    public $startExpressionName;
     public $optionalParameters = array();
     public $requiredParameters = array();
 }
