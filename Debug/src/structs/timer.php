@@ -86,14 +86,6 @@ class ezcDebugTimerStruct extends ezcBaseStruct
      * @var int
      */
     public $stopNumber;   
-
-
-    /**
-     * Empty constructor
-     */
-    public function __construct()
-    {
-    }
 }
 
 ?>

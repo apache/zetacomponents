@@ -30,12 +30,5 @@ class ezcDebugSwitchTimerStruct extends ezcBaseStruct
      * @var float
      */
     public $time;   
-
-    /** 
-     * Empty constructor
-     */
-    public function __construct()
-    {
-    }
 }
 ?>
