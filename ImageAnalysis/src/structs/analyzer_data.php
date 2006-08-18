@@ -31,7 +31,7 @@
  *
  * @package ImageAnalysis
  */
-class ezcImageAnalyzerData
+class ezcImageAnalyzerData extends ezcBaseStruct
 {
 
     /**
