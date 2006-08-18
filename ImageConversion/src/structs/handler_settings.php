@@ -19,7 +19,7 @@
  *
  * @package ImageConversion
  */
-class ezcImageHandlerSettings
+class ezcImageHandlerSettings extends ezcBaseStruct
 {
     /**
      * The reference name for the handler.

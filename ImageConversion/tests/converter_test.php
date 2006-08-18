@@ -53,7 +53,7 @@ class ezcImageConversionConverterTest extends ezcTestCase
         }
         catch ( Exception $e )
         {
-            $this->markTestSkipped();
+            $this->markTestSkipped( $e->getMessage() );
         }
     }
 

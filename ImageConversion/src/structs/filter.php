@@ -19,7 +19,7 @@
  *
  * @package ImageConversion
  */
-class ezcImageFilter
+class ezcImageFilter extends ezcBaseStruct
 {
     /**
      * Name of filter operation to use.

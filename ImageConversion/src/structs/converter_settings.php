@@ -18,7 +18,7 @@
  *
  * @package ImageConversion
  */
-class ezcImageConverterSettings
+class ezcImageConverterSettings extends ezcBaseStruct
 {
     /**
      * Array with {@link ezcImageHandlerSettings handler settings} objects.
