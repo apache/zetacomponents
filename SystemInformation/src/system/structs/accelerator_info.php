@@ -23,7 +23,7 @@
  *
  * @package SystemInformation
  */
-class ezcSystemInfoAccelerator
+class ezcSystemInfoAccelerator extends ezcBaseStruct
 {
     /**
      * Name of PHP accelerator.
