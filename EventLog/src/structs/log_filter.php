@@ -30,7 +30,7 @@
  * @package EventLog
  * @version //autogentag//
  */
-class ezcLogFilter
+class ezcLogFilter extends ezcBaseStruct
 {
    /**
     * The severities that are accepted by the ezcLogFilter.
