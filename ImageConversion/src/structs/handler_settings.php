@@ -39,7 +39,7 @@ class ezcImageHandlerSettings extends ezcBaseStruct
      *
      * @var string
      */
-    public $name;
+    public $className;
 
     /**
      * Associative array of misc options for the handler.
