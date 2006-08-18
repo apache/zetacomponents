@@ -15,7 +15,7 @@
  * @version //autogentag//
  * @access private
  */
-class ezcDebugSwitchTimerStruct
+class ezcDebugSwitchTimerStruct extends ezcBaseStruct
 {
     /**
      * The name of the timer took over the old timer.
@@ -37,22 +37,5 @@ class ezcDebugSwitchTimerStruct
     public function __construct()
     {
     }
-
-    /**
-     * Throws a BasePropertyNotFound exception.
-     */
-    public function __set( $name, $value )
-    {
-        throw new ezcBasePropertyNotFoundException( $name );
-    }
-
-    /**
-     * Throws a BasePropertyNotFound exception.
-     */
-    public function __get( $name )
-    {
-        throw new ezcBasePropertyNotFoundException( $name );
-    }
 }
-
 ?>
