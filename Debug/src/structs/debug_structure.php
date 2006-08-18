@@ -47,6 +47,11 @@ class ezcDebugStructure
      */
     public function __get( $name )
     {
+        $value = $this->properties[$name];
+        if ( is_array( $value ) )
+        {
+            return (array) $this->properties[$name];
+        }
         return $this->properties[$name];
     }
 

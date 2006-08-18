@@ -107,9 +107,15 @@ class ezcConsoleOutputFormat
      */
     public function __get( $propertyName )
     {
-        if ( isset( $this->properties[$propertyName] ) )
+        switch ( $propertyName )
         {
-            return $this->properties[$propertyName];
+            case 'style':
+                return (array) $this->properties[$propertyName];
+            case 'color':
+            case 'bgcolor':
+                return $this->properties[$propertyName];
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
         }
     }
 
@@ -130,9 +136,7 @@ class ezcConsoleOutputFormat
     {
         if ( !isset( $this->properties[$propertyName] ) )
         {
-            throw new ezcBasePropertyNotFoundException( 
-                $propertyName
-            );
+            throw new ezcBasePropertyNotFoundException( $propertyName );
         }
         // Extry handling of multi styles
         if ( $propertyName === 'style' )

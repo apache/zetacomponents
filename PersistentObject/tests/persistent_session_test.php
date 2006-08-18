@@ -508,7 +508,7 @@ class ezcPersistentSessionTest extends ezcTestCase
         $db = ezcDbInstance::get();
         $session = new ezcPersistentSession( $db,
                                              new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" ) );
-        $this->assertEquals( (string)$db, (string)$session->database );
+        $this->assertSame( $db, $session->database );
         try
         {
             $session->database = $db;
@@ -522,7 +522,7 @@ class ezcPersistentSessionTest extends ezcTestCase
         $db = ezcDbInstance::get();
         $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
         $session = new ezcPersistentSession( $db, $manager );
-        $this->assertEquals( (string)$manager, (string)$session->definitionManager );
+        $this->assertSame( $manager, $session->definitionManager );
         try
         {
             $session->definitionManager = $manager;
