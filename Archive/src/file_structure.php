@@ -19,7 +19,7 @@
  * @version //autogentag//
  * @access private
  */ 
-class ezcArchiveFileStructure
+class ezcArchiveFileStructure extends ezcBaseStruct
 {
     /**
      * The file path.
