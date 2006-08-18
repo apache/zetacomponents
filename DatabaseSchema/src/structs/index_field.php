@@ -12,7 +12,7 @@
  * @package DatabaseSchema
  * @version //autogentag//
  */
-class ezcDbSchemaIndexField
+class ezcDbSchemaIndexField extends ezcBaseStruct
 {
     /**
      * The sorting of the index (false = descending, true = ascending)

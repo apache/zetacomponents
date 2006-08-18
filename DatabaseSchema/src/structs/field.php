@@ -12,7 +12,7 @@
  * @package DatabaseSchema
  * @version //autogentag//
  */
-class ezcDbSchemaField
+class ezcDbSchemaField extends ezcBaseStruct
 {
     /**
      * The type of this field

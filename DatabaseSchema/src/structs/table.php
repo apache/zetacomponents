@@ -12,7 +12,7 @@
  * @package DatabaseSchema
  * @version //autogentag//
  */
-class ezcDbSchemaTable
+class ezcDbSchemaTable extends ezcBaseStruct
 {
     /**
      * A list of all the fields in this table.

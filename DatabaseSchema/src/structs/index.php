@@ -12,7 +12,7 @@
  * @package DatabaseSchema
  * @version //autogentag//
  */
-class ezcDbSchemaIndex
+class ezcDbSchemaIndex extends ezcBaseStruct
 {
     /**
      * The fields that make up this index

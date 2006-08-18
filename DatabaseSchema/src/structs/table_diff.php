@@ -12,7 +12,7 @@
  * @package DatabaseSchema
  * @version //autogentag//
  */
-class ezcDbSchemaTableDiff
+class ezcDbSchemaTableDiff extends ezcBaseStruct
 {
     /**
      * All added fields
