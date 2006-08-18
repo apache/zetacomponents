@@ -16,7 +16,7 @@
  * @package PhpGenerator
  * @version //autogentag//
  */
-class ezcPhpGeneratorParameter
+class ezcPhpGeneratorParameter extends ezcBaseStruct
 {
     /**
      * Specifies that $variable contains the name of a variable which exists in

@@ -18,7 +18,7 @@
  * @package PhpGenerator
  * @version //autogentag//
  */
-class ezcPhpGeneratorReturnData
+class ezcPhpGeneratorReturnData extends ezcBaseStruct
 {
     /**
      * The type of the assignment to use. The default is a normal '=' assignment.
