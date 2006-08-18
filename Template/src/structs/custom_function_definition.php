@@ -1,6 +1,6 @@
 <?php
 
-class ezcTemplateCustomFunctionDefinition
+class ezcTemplateCustomFunctionDefinition extends ezcBaseStruct
 {
     public $class;
     public $method;

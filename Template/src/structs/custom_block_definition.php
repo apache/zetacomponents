@@ -1,6 +1,6 @@
 <?php
 
-class ezcTemplateCustomBlockDefinition
+class ezcTemplateCustomBlockDefinition extends ezcBaseStruct
 {
     public $class;
     public $method;

@@ -21,7 +21,7 @@
  * @version //autogen//
  * @access private
  */
-class ezcTemplateAutoloaderDefinition
+class ezcTemplateAutoloaderDefinition extends ezcBaseStruct
 {
 
     /**
