@@ -328,7 +328,7 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
      * using ImageMagick's "identify" binary.
      *
      * This method tries to provide the EXIF data in a format as close as
-     * possible to the format returned by ext/EXIF @link http://php.net/exif.
+     * possible to the format returned by ext/EXIF {@link http://php.net/exif}.
      * 
      * @param ezcImageAnalyzerData $data The data object to fill.
      * @param string $file               The file to analyze.
