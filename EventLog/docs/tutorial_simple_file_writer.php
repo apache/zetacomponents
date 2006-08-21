@@ -1,7 +1,6 @@
 <?php
 
 require_once 'tutorial_autoload.php';
-date_default_timezone_set( "UTC" );
 
 // Get the one and only instance of the ezcLog.
 $log = ezcLog::getInstance();

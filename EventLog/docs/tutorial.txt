@@ -86,9 +86,7 @@ This example creates a file writer, and assigns it to the default log mapper.
    :literal:
 
 First the tutorial_autoload.php is included. The included file loads the
-correct php files for the EventLog component. Hereafter the time zone is set to
-"UTC". The log uses some date functions and without a time zone set, PHP may
-show warnings.
+correct php files for the EventLog component.
 
 Hereafter the log is set up, and a message is written to the log file
 "default.log" and the file will be placed in the "/tmp/log" directory.
