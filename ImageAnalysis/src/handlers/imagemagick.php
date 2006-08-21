@@ -326,34 +326,191 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
      * Analyze Exif data contained in JPEG and TIFF images.
      * This method analyzes the Exif data contained in JPEG and TIFF images, 
      * using ImageMagick's "identify" binary.
+     *
+     * This method tries to provide the EXIF data in a format as close as
+     * possible to the format returned by ext/EXIF @link http://php.net/exif.
      * 
      * @param ezcImageAnalyzerData $data The data object to fill.
      * @param string $file               The file to analyze.
      * @return void
-     *
-     * @todo Grab more exif data from ImageMagick (especially UserComment, 
-     * IsColor, Copyright,...).
-     * @todo Activate code to parse date (Derick adds it to ext/Date).
      */
     protected function analyzeExif( ezcImageAnalyzerData $data, $file )
     {
-        /*
-        $command = '-format ' 
-                 . escapeshellarg( '%[EXIF:DateTime]' ) 
-                 . ' ' . escapeshellarg( $file );
-        
-        $return = $this->runCommand( $command, $outputString, $errorString );
+        $tagMap = array(
+            "IFD0" => array(
+                "ImageDescription",
+                "Make",
+                "Model",
+                "Orientation",
+                "XResolution",
+                "YResolution",
+                "ResolutionUnit",
+                "Software",
+                "DateTime",
+                "YCbCrPositioning",
+                "Exif_IFD_Pointer",
+                "Copyright",
+                "UserComment",
+            ),
+
+            "EXIF" => array(
+                "ExposureTime",
+                "FNumber",
+                "ExposureProgram",
+                "ISOSpeedRatings",
+                "ExifVersion",
+                "DateTimeOriginal",
+                "DateTimeDigitized",
+                "ComponentsConfiguration",
+                "BrightnessValue",
+                "ExposureBiasValue",
+                "MaxApertureValue",
+                "MeteringMode",
+                "LightSource",
+                "Flash",
+                "FocalLength",
+// ImageMagick does not grab this correct, therefore not supported
+//                "SubjectLocation",
+                "MakerNote",
+                "UserComment",
+                "FlashPixVersion",
+                "ColorSpace",
+                "ExifImageWidth",
+                "ExifImageLength",
+                "InteroperabilityOffset",
+                "FileSource",
+                "SceneType",
+                "CustomRendered",
+                "ExposureMode",
+                "WhiteBalance",
+                "DigitalZoomRatio",
+                "FocalLengthIn35mmFilm",
+                "SceneCaptureType",
+                "GainControl",
+                "Contrast",
+                "Saturation",
+                "Sharpness",
+                "SubjectDistanceRange",
+            ),
+            "INTEROP" => array(
+                "InterOperabilityIndex",
+                "InterOperabilityVersion"
+            )
+        );
+
+        // Retreive exif data
+        $command = '-format ' . escapeshellarg( "%[EXIF:*]"  ) . ' ' . escapeshellarg( $file );
+        $return = $this->runCommand( $command, $outputString, $errorString, false );
         if ( $return !== 0 || $errorString !== '' )
         {
-            return;
+            throw new ezcImageAnalyzerFileNotProcessableException( $file, "ImageMagick error: <{$errorString}>." );
         }
-        if ( substr( $outputString, -1, 1)  === '.' )
+
+        // The following is done in 2 steps to ensure the same array order as ext/exif provides.
+
+        // Pre-process data
+        $rawData = explode( "\n", $outputString );
+        $dataArr = array();
+        foreach ( $rawData as $dataString )
         {
-            // Strip weired dot from the end
-            $outputString = substr( $outputString, 0, -1 );
+            $dataParts = explode( "=", $dataString, 2 );
+            if ( sizeof( $dataParts ) === 2 )
+            {
+                $dataArr[$dataParts[0]] = substr( $dataParts[1], -1, 1 ) === "." ? substr( $dataParts[1], 0, -1 ) : $dataParts[1];
+            }
         }
-        echo "$outputString - ".date( 'd.M.Y', strtotime( $outputString ) )."\n";
-        */
+        // Some post-processing is needed because ext/exif has some different tag names
+        if ( isset( $dataArr["ExifOffset"] ) )
+        {
+            $dataArr["Exif_IFD_Pointer"] =  $dataArr["ExifOffset"];
+        }
+        if ( isset( $dataArr["InteroperabilityIndex"] ) )
+        {
+            $dataArr["InterOperabilityIndex"] = $dataArr["InteroperabilityIndex"];
+        }
+        if ( isset( $dataArr["InteroperabilityVersion"] ) )
+        {
+            $dataArr["InterOperabilityVersion"] = $dataArr["InteroperabilityVersion"];
+        }
+        if ( isset( $dataArr["Artist"] ) )
+        {
+            $dataArr["Author"] = $dataArr["Artist"];
+        }
+
+        // Assign data to tags
+        $exifArr = array();
+        foreach ( $tagMap as $section => $tags )
+        {
+            foreach ( $tags as $tag )
+            {
+                if ( isset( $dataArr[$tag] ) )
+                {
+                    // Correct types
+                    switch ( true )
+                    {
+                        case ( ctype_digit( $dataArr[$tag] ) && stripos( $tag, "version" ) === false ):
+                            $exifArr[$section][$tag] = (int)$dataArr[$tag];
+                            break;
+                        case ( is_numeric( $dataArr[$tag] ) && stripos( $tag, "version" ) === false ):
+                            $exifArr[$section][$tag] = (float)$dataArr[$tag];
+                            break;
+                        default:
+                            $exifArr[$section][$tag] = $dataArr[$tag];
+                            break;
+                    }
+                }
+            }
+        }
+
+        // Retreive additional data for computation
+        $imageData = getimagesize( $file );
+       
+        $colorCount = 0;
+        $command = '-format ' . escapeshellarg( '%k' ) . ' ' . escapeshellarg( $file );
+        $return = $this->runCommand( $command, $colorCount, $errorString );
+        if ( $return !== 0 || $errorString !== '' )
+        {
+            throw new ezcImageAnalyzerFileNotProcessableException( $file, "ImageMagick error: <{$errorString}>." );
+        }
+    
+        // Compute additional section ext/EXIF provides
+        $additionsArr = array();
+        $addtionsArr["FILE"]["FileName"]               =  basename( $file );
+        $addtionsArr["FILE"]["FileDateTime"]           =  filemtime( $file );
+        $addtionsArr["FILE"]["FileSize"]               =  filesize( $file );
+        $addtionsArr["FILE"]["FileType"]               =  $imageData[2];
+        $addtionsArr["FILE"]["MimeType"]               =  $data->mime;
+        $addtionsArr["FILE"]["SectionsFound"]          =  
+                ( isset( $exifArr["EXIF"] ) || isset( $exifArr["IFD0"] ) ? "ANY_TAG, " : "" ) 
+                . implode( ", ", array_keys( $exifArr ) );
+        
+        $addtionsArr["COMPUTED"]["html"]               =  "width=\"{$data->width}\" height=\"{$data->height}\"";
+        $addtionsArr["COMPUTED"]["Height"]             =  $data->height;
+        $addtionsArr["COMPUTED"]["Width"]              =  $data->width;
+        $addtionsArr["COMPUTED"]["IsColor"]            =  ( $colorCount < 3 ) ? 0 : 1;
+
+        // @todo Implement if possible!
+        // $addtionsArr["COMPUTED"]["ByteOrderMotorola"]  =  null;
+        
+        $fNumberParts = isset( $exifArr["EXIF"]["FNumber"] ) ? explode( "/", $exifArr["EXIF"]["FNumber"] ) : null;
+        if ( sizeof( $fNumberParts ) === 2 )
+        {
+            $addtionsArr["COMPUTED"]["ApertureFNumber"] = sprintf( "f/%.1f", $fNumberParts[0] / $fNumberParts[1] );
+        }
+        // ImageMagick resturns "..." for not set comments
+        if ( isset( $exifArr["EXIF"]["UserComment"] ) )
+        {
+            $addtionsArr["COMPUTED"]["UserComment"]    =  preg_match( "/^\.*$/", $exifArr["EXIF"]["UserComment"] ) === false ? $exifArr["EXIF"]["UserComment"] : null;
+            // @todo Maybe we can determine that somehow?
+            // $addtionsArr["COMPUTED"]["UserCommentEncoding"] =  "UNDEFINED";
+        }
+                     
+        // Not available through ImageMagick
+        // $addtionsArr["COMPUTED"]["Thumbnail.FileType"]  =  null
+        // $addtionsArr["COMPUTED"]["Thumbnail.MimeType"]  =  null
+       
+        // Merge arrays (done here, to have consistent key order)
+        $data->exif = array_merge( $addtionsArr, $exifArr );
     }
 
     /**
@@ -432,12 +589,13 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
      * to STDOUT and ERROUT is available through the $stdOut and $errOut 
      * parameters.
      * 
-     * @param string $parameters The parameters for the binary to execute.
-     * @param string $stdOut     The standard output.
-     * @param string $errOut     The error output.
+     * @param string $parameters    The parameters for the binary to execute.
+     * @param string $stdOut        The standard output.
+     * @param string $errOut        The error output.
+     * @param bool   $stripNewlines Wether to strip the newlines from STDOUT.
      * @return int The return value of the command (0 on success).
      */
-    protected function runCommand( $parameters, &$stdOut, &$errOut )
+    protected function runCommand( $parameters, &$stdOut, &$errOut, $stripNewlines = true )
     {
         $command = escapeshellcmd( $this->binary ) . ( $parameters !== '' ?  ' ' . $parameters : '' );
         // Prepare to run ImageMagick command
@@ -457,14 +615,14 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
         $stdOut = '';
         do 
         {
-            $stdOut .= rtrim( fgets( $pipes[1], 1024) , "\n" );
+            $stdOut .= ( $stripNewlines === true ) ? rtrim( fgets( $pipes[1], 1024), "\n" ) : fgets( $pipes[1], 1024);
         } while ( !feof( $pipes[1] ) );
 
         // Read STDERR 
         $errOut = '';
         do 
         {
-            $errOut .= rtrim( fgets( $pipes[2], 1024) , "\n" );
+            $errOut .= rtrim( fgets( $pipes[2], 1024), "\n" );
         } while ( !feof( $pipes[2] ) );
 
         // Wait for process to terminate and store return value
