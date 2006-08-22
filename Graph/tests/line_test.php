@@ -35,6 +35,10 @@ class ezcGraphLineChartTest extends ezcTestCase
     public function setUp()
     {
         static $i = 0;
+        if ( version_compare( phpversion(), '5.1.3', '<' ) )
+        {
+            $this->markTestSkipped( "These tests required atleast PHP 5.1.3" );
+        }
         $this->tempDir = $this->createTempDir( 'ezcGraphGdDriverTest' . sprintf( '_%03d_', ++$i ) ) . '/';
         $this->basePath = dirname( __FILE__ ) . '/data/';
     }
