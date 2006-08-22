@@ -7,6 +7,7 @@
  * @package Feed
  */
 /**
+ * @property-read array(int=>ezcFeedItem) $items The items belonging to the feed.
  * @package Translation
  * @version //autogentag//
  */
@@ -162,14 +163,15 @@ class ezcFeed implements Iterator
         return $this->feedProcessor->generate();
     }
 
-    public function item( $nr )
+    public function __get( $propertyName )
     {
-        $items = $this->feedProcessor->getItems();
-        if ( $nr < 0 || $nr > count( $items ) -1 )
+        switch ( $propertyName )
         {
-            throw new ezcFeedItemNrOutOfRangeException( $nr, count( $items ) );
+            case 'items':
+                return (array) $this->feedProcessor->getItems();
+            default:
+                return ezcBasePropertyNotFoundException( $propertyName );
         }
-        return $items[$nr];
     }
 
     public function rewind()
