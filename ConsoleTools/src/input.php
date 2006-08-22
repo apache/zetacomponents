@@ -104,6 +104,7 @@
  * 
  * @package ConsoleTools
  * @version //autogen//
+ * @mainclass
  */
 class ezcConsoleInput
 {

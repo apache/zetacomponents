@@ -41,6 +41,7 @@
  * @todo introduction needs explation of security etc.
  * @todo introduction needs examples with clone(), reusing a query and advanced binding.
  * @package Database
+ * @mainclass
  */
 class ezcQuerySelect extends ezcQuery
 {

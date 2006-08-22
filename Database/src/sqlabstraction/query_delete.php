@@ -33,6 +33,7 @@
  * </code>
  *
  * @package Database
+ * @mainclass
  */
 class ezcQueryDelete extends ezcQuery
 {

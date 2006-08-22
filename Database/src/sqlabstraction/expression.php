@@ -19,6 +19,7 @@
  * in PHP and can not be used in method names.
  *
  * @package Database
+ * @mainclass
  */
 class ezcQueryExpression
 {

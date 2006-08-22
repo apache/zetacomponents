@@ -66,6 +66,7 @@
  *
  * @package Debug
  * @version //autogentag//
+ * @mainclass
  */
 class ezcDebug
 {

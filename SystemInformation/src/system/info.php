@@ -53,6 +53,7 @@
  *
  * @package SystemInformation
  * @version //autogentag//
+ * @mainclass
  */
 class ezcSystemInfo
 {

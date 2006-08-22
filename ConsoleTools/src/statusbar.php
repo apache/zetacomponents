@@ -37,6 +37,7 @@
  * 
  * @package ConsoleTools
  * @version //autogen//
+ * @mainclass
  */
 class ezcConsoleStatusbar
 {

@@ -97,6 +97,7 @@
  * </code>
  * 
  * @package Cache
+ * @mainclass
  */
 class ezcCacheManager 
 {

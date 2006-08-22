@@ -13,6 +13,7 @@
  *
  * @package EventLog
  * @version //autogentag//
+ * @mainclass
  */
 class ezcLogUnixFileWriter extends ezcLogFileWriter
 {

@@ -72,6 +72,7 @@
  * @see ezcConsoleOutput
  * @package ConsoleTools
  * @version //autogen//
+ * @mainclass
  */
 class ezcConsoleTable implements Countable, Iterator, ArrayAccess
 {

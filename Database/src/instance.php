@@ -44,6 +44,7 @@
  * </code>
  *
  * @package Database
+ * @mainclass
  */
 class ezcDbInstance
 {

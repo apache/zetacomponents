@@ -45,6 +45,7 @@
  *
  * @package ConsoleTools
  * @version //autogen//
+ * @mainclass
  */
 class ezcConsoleProgressbar
 {

@@ -167,6 +167,7 @@
  * @see ezcImageTransformation
  *
  * @package ImageConversion
+ * @mainclass
  */
 class ezcImageConverter
 {

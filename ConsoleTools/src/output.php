@@ -69,6 +69,7 @@
  *
  * @package ConsoleTools
  * @version //autogen//
+ * @mainclass
  */
 class ezcConsoleOutput
 {

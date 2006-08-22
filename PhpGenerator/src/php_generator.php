@@ -71,6 +71,7 @@
  *
  * @package PhpGenerator
  * @version //autogentag//
+ * @mainclass
  */
 class ezcPhpGenerator
 {

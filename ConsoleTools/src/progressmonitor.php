@@ -29,6 +29,7 @@
  * 
  * @package ConsoleTools
  * @version //autogen//
+ * @mainclass
  */
 class ezcConsoleProgressMonitor
 {

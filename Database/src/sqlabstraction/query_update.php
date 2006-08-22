@@ -37,6 +37,7 @@
  * </code>
  *
  * @package Database
+ * @mainclass
  */
 class ezcQueryUpdate extends ezcQuery
 {

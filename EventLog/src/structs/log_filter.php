@@ -29,6 +29,7 @@
  *
  * @package EventLog
  * @version //autogentag//
+ * @mainclass
  */
 class ezcLogFilter extends ezcBaseStruct
 {
