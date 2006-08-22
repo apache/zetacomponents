@@ -65,47 +65,6 @@ class ezcConsoleOption
     protected $properties;
 
     /**
-     * Value type of this parameter, default is ezcConsoleInput::TYPE_NONE.
-     * @see ezcConsoleInput::TYPE_NONE
-     * @see ezcConsoleInput::TYPE_INT
-     * @see ezcConsoleInput::TYPE_STRING
-     * 
-     * @var int
-     */
-//    private $type = ezcConsoleInput::TYPE_NONE;
-
-    /**
-     * Default value if the parameter is submitted without value.
-     * If a parameter is eg. of type ezcConsoleInput::TYPE_STRING and 
-     * therefore expects a value when being submitted, it may be submitted
-     * without a value and automatically get the default value specified here.
-     * 
-     * @var mixed
-     */
-//    private $default;
-
-    /**
-     * Is the submition of multiple instances of this parameters allowed? 
-     * 
-     * @var bool
-     */
-//    private $multiple = false;
-    
-    /**
-     * Short help text. Usually displayed when showing parameter help overview.
-     * 
-     * @var string
-     */
-//    private $shorthelp = 'No help available.';
-    
-    /**
-     * Long help text. Usually displayed when showing parameter detailed help.
-     * 
-     * @var string
-     */
-//    private $longhelp = 'Sorry, there is no help text available for this parameter.';
-
-    /**
      * Dependency rules of this parameter.
      * 
      * @see ezcConsoleParamemterStruct::addDependency()
@@ -130,31 +89,6 @@ class ezcConsoleOption
      * @var array(string=>ezcConsoleParamemterRule)
      */
     protected $exclusions = array();
-
-    /**
-     * Whether arguments to the program are allowed, when this parameter is submitted. 
-     * 
-     * @var bool
-     */
-//    private $arguments = true;
-
-    /**
-     * Wether a parameter is mandatory to be set.
-     * If this flag is true, the parameter must be submitted whenever the 
-     * program is run.
-     * 
-     * @var bool
-     */
-//    private $mandatory = false;
-
-    /**
-     * Wether a parameter is a help option.
-     * If this flag is true, and the parameter is set, all options marked as 
-     * mandatory may be skipped.
-     *  
-     * @var bool
-     */
-//    private $isHelpOption = false;
 
     /**
      * The value the parameter was assigned to when being submitted.
