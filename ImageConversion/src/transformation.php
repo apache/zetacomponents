@@ -58,7 +58,6 @@
  * @see ezcImageConverter
  *
  * @package ImageConversion
- * @mainclass
  */
 class ezcImageTransformation
 {
