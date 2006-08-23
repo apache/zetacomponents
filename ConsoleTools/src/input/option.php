@@ -54,7 +54,6 @@
  *
  * @package ConsoleTools
  * @version //autogen//
- * @mainclass
  */
 class ezcConsoleOption
 {
