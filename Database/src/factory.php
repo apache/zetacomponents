@@ -33,7 +33,6 @@
  * @see create()
  *
  * @package Database
- * @mainclass
  */
 class ezcDbFactory
 {

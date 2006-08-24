@@ -16,6 +16,7 @@
  * - correct recursive handling of transactions
  *
  * @package Database
+ * @mainclass
  */
 abstract class ezcDbHandler extends PDO
 {

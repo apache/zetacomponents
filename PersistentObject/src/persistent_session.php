@@ -21,6 +21,7 @@
  *                The persistent definition manager set in the constructor.
  *
  * @package PersistentObject
+ * @mainclass
  */
 class ezcPersistentSession
 {

@@ -16,6 +16,7 @@
  * @see ezcPersistentSession for an elaborate example.
  *
  * @package PersistentObject
+ * @mainclass
  */
 class ezcPersistentObjectDefinition extends ezcBaseStruct
 {
