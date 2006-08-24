@@ -144,8 +144,8 @@ class ezcQuerySelect extends ezcQuery
      * select() accepts an arbitrary number of parameters. Each parameter
      * must contain either the name of a column or an array containing
      * the names of the columns.
-     * select() could be invoked several times. All provided arguments
-     * added to the end of $selectString and form final SELECT clause.
+     * Each call to select() appends columns to the list of columns that will be
+     * used in the query.
      *
      * Example:
      * <code>
@@ -222,8 +222,8 @@ class ezcQuerySelect extends ezcQuery
      * from() accepts an arbitrary number of parameters. Each parameter
      * must contain either the name of a table or an array containing
      * the names of tables..
-     * from() could be invoked several times. All provided arguments
-     * added to the end of $fromString.
+     * Each call to from() appends tables to the list of tables that will be
+     * used in the query.
      *
      * Example:
      * <code>
@@ -593,8 +593,8 @@ class ezcQuerySelect extends ezcQuery
      * must contain a logical expression or an array with logical expressions.
      * If you specify multiple logical expression they are connected using
      * a logical and.
-     * where() could be invoked several times. All provided arguments
-     * added to the end of $whereString and form final WHERE clause of the query.
+     *
+     * Multiple calls to where() will join the expressions using a logical and.
      *
      * Example:
      * <code>
