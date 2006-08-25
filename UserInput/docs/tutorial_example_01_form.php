@@ -5,3 +5,6 @@ Age: <input type='text' name='age' value='<?php echo $property_age; ?>'/><?php e
 E-mail: <input type='text' name='email' value='<?php echo $property_email; ?>'/><?php echo $warning_email; ?><br/>
 <input type='submit' value='submit'/><br/>
 </form>
+<?php
+// just to make my test script happy
+?>
