@@ -48,6 +48,13 @@ class ezcGraphSvgDriver extends ezcGraphDriver
      */
     protected $strings = array();
 
+    /**
+     * List of already created gradients
+     * 
+     * @var array
+     */
+    protected $drawnGradients = array();
+
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphSvgDriverOptions( $options );
@@ -104,6 +111,158 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         }
     }
 
+    protected function getGradientUrl( ezcGraphColor $color )
+    {
+        switch ( true )
+        {
+            case ( $color instanceof ezcGraphLinearGradient ):
+                if ( !in_array( $color->__toString(), $this->drawnGradients, true ) )
+                {
+                    $gradient = $this->dom->createElement( 'linearGradient' );
+                    $gradient->setAttribute( 'id', 'Definition_' . $color->__toString() );
+                    $this->defs->appendChild( $gradient );
+
+                    // Start of linear gradient
+                    $stop = $this->dom->createElement( 'stop' );
+                    $stop->setAttribute( 'offset', 0 );
+                    $stop->setAttribute( 'style', sprintf( 'stop-color: #%02x%02x%02x; stop-opacity: %.2f;',
+                        $color->startColor->red,
+                        $color->startColor->green,
+                        $color->startColor->blue,
+                        1 - ( $color->startColor->alpha / 255 )
+                        )
+                    );
+                    $gradient->appendChild( $stop );
+
+                    // End of linear gradient
+                    $stop = $this->dom->createElement( 'stop' );
+                    $stop->setAttribute( 'offset', 1 );
+                    $stop->setAttribute( 'style', sprintf( 'stop-color: #%02x%02x%02x; stop-opacity: %.2f;',
+                        $color->endColor->red,
+                        $color->endColor->green,
+                        $color->endColor->blue,
+                        1 - ( $color->endColor->alpha / 255 )
+                        )
+                    );
+                    $gradient->appendChild( $stop );
+
+                    $gradient = $this->dom->createElement( 'linearGradient' );
+                    $gradient->setAttribute( 'id', $color->__toString() );
+                    $gradient->setAttribute( 'x1', $color->startPoint->x );
+                    $gradient->setAttribute( 'y1', $color->startPoint->y );
+                    $gradient->setAttribute( 'x2', $color->endPoint->x );
+                    $gradient->setAttribute( 'y2', $color->endPoint->y );
+                    $gradient->setAttribute( 'gradientUnits', 'userSpaceOnUse' );
+                    $gradient->setAttributeNS( 
+                        'http://www.w3.org/1999/xlink', 
+                        'xlink:href',
+                        '#Definition_' . $color->__toString()
+                    );
+                    $this->defs->appendChild( $gradient );
+
+                    $this->drawnGradients[] = $color->__toString();
+                }
+
+                return sprintf( 'url(#%s)',
+                    $color->__toString()
+                );
+            case ( $color instanceof ezcGraphRadialGradient ):
+                if ( !in_array( $color->__toString(), $this->drawnGradients, true ) )
+                {
+                    $gradient = $this->dom->createElement( 'linearGradient' );
+                    $gradient->setAttribute( 'id', 'Definition_' . $color->__toString() );
+                    $this->defs->appendChild( $gradient );
+
+                    // Start of linear gradient
+                    $stop = $this->dom->createElement( 'stop' );
+                    $stop->setAttribute( 'offset', 0 );
+                    $stop->setAttribute( 'style', sprintf( 'stop-color: #%02x%02x%02x; stop-opacity: %.2f;',
+                        $color->startColor->red,
+                        $color->startColor->green,
+                        $color->startColor->blue,
+                        1 - ( $color->startColor->alpha / 255 )
+                        )
+                    );
+                    $gradient->appendChild( $stop );
+
+                    // End of linear gradient
+                    $stop = $this->dom->createElement( 'stop' );
+                    $stop->setAttribute( 'offset', 1 );
+                    $stop->setAttribute( 'style', sprintf( 'stop-color: #%02x%02x%02x; stop-opacity: %.2f;',
+                        $color->endColor->red,
+                        $color->endColor->green,
+                        $color->endColor->blue,
+                        1 - ( $color->endColor->alpha / 255 )
+                        )
+                    );
+                    $gradient->appendChild( $stop );
+
+                    $gradient = $this->dom->createElement( 'radialGradient' );
+                    $gradient->setAttribute( 'id', $color->__toString() );
+                    $gradient->setAttribute( 'cx', $color->center->x );
+                    $gradient->setAttribute( 'cy', $color->center->y );
+                    $gradient->setAttribute( 'fx', $color->center->x );
+                    $gradient->setAttribute( 'fy', $color->center->y );
+                    $gradient->setAttribute( 'r', max( $color->height, $color->width ) );
+                    $gradient->setAttribute( 'gradientUnits', 'userSpaceOnUse' );
+                    $gradient->setAttributeNS( 
+                        'http://www.w3.org/1999/xlink', 
+                        'xlink:href',
+                        '#Definition_' . $color->__toString()
+                    );
+                    $this->defs->appendChild( $gradient );
+
+                    $this->drawnGradients[] = $color->__toString();
+                }
+
+                return sprintf( 'url(#%s)',
+                    $color->__toString()
+                );
+            default:
+                return false;
+        }
+
+    }
+
+    protected function getStyle( ezcGraphColor $color, $filled = true, $thickness = 1 )
+    {
+        if ( $filled )
+        {
+            if ( $url = $this->getGradientUrl( $color ) )
+            {
+                return sprintf( 'fill: %s; stroke: none;', $url );
+            }
+            else
+            {
+                return sprintf( 'fill: #%02x%02x%02x; fill-opacity: %.2f; stroke: none;',
+                    $color->red,
+                    $color->green,
+                    $color->blue,
+                    1 - ( $color->alpha / 255 )
+                );
+            }
+        }
+        else
+        {
+            if ( $url = $this->getGradientUrl( $color ) )
+            {
+                return sprintf( 'fill: none; stroke: %s;', $url );
+            }
+            else
+            {
+                return sprintf( 'fill: none; stroke: #%02x%02x%02x; stroke-width: %d; stroke-opacity: %.2f; stroke-linecap: %s; stroke-linejoin: %s;',
+                    $color->red,
+                    $color->green,
+                    $color->blue,
+                    $thickness,
+                    1 - ( $color->alpha / 255 ),
+                    $this->options->strokeLineCap,
+                    $this->options->strokeLineJoin
+                );
+            }
+        }
+    }
+
     /**
      * Draws a single polygon 
      * 
@@ -134,32 +293,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $path = $this->dom->createElement( 'path' );
         $path->setAttribute( 'd', $pointString );
 
-        if ( $filled )
-        {
-            $path->setAttribute(
-                'style', 
-                sprintf( 'fill: #%02x%02x%02x; fill-opacity: %.2f; stroke: none;',
-                    $color->red,
-                    $color->green,
-                    $color->blue,
-                    1 - ( $color->alpha / 255 )
-                )
-            );
-        }
-        else
-        {
-            $path->setAttribute(
-                'style', 
-                sprintf( 'fill: none; stroke: #%02x%02x%02x; stroke-width: %d; stroke-opacity: %.2f; stroke-linecap: %s;',
-                    $color->red,
-                    $color->green,
-                    $color->blue,
-                    $thickness,
-                    1 - ( $color->alpha / 255 ),
-                    $this->options->strokeLineCap
-                )
-            );
-        }
+        $path->setAttribute(
+            'style',
+            $this->getStyle( $color, $filled, $thickness )
+        );
 		
 		$this->elements->appendChild( $path );
     }
@@ -187,14 +324,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $path->setAttribute( 'd', $pointString );
         $path->setAttribute(
             'style', 
-            sprintf( 'fill: none; stroke: #%02x%02x%02x; stroke-width: %d; stroke-opacity: %.2f; stroke-linecap: %s;',
-                $color->red,
-                $color->green,
-                $color->blue,
-                $thickness,
-                1 - ( $color->alpha / 255 ),
-                $this->options->strokeLineCap
-            )
+            $this->getStyle( $color, false, $thickness )
         );
 
         $this->elements->appendChild( $path );
@@ -402,7 +532,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $Yend = $center->y + $this->options->graphOffset->y + $height * sin( ( ( $endAngle ) / 180 ) * M_PI );
         
         $arc = $this->dom->createElement( 'path' );
-        $arc->setAttribute('d', sprintf('M %.2f,%.2f L %.2f,%.2f A %.2f,%2f 0 %d,1 %.2f,%.2f z',
+        $arc->setAttribute('d', sprintf('M %.2f,%.2f L %.2f,%.2f A %.2f,%.2f 0 %d,1 %.2f,%.2f z',
             // Middle
             $center->x + $this->options->graphOffset->x, $center->y + $this->options->graphOffset->y,
             // Startpoint
@@ -416,32 +546,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             )
         );
 
-        if ( $filled )
-        {
-            $arc->setAttribute(
-                'style', 
-                sprintf( 'fill: #%02x%02x%02x; fill-opacity: %.2f; stroke: none;',
-                    $color->red,
-                    $color->green,
-                    $color->blue,
-                    1 - ( $color->alpha / 255 )
-                )
-            );
-        }
-        else
-        {
-            $arc->setAttribute(
-                'style', 
-                sprintf( 'fill: none; stroke: #%02x%02x%02x; stroke-width: %d; stroke-opacity: %.2f; stroke-linecap: %s;',
-                    $color->red,
-                    $color->green,
-                    $color->blue,
-                    1, // Line Thickness
-                    1 - ( $color->alpha / 255 ),
-                    $this->options->strokeLineCap
-                )
-            );
-        }
+        $arc->setAttribute(
+            'style', 
+            $this->getStyle( $color, $filled, 1 )
+        );
         
         $this->elements->appendChild( $arc );
     }
@@ -458,7 +566,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
      * @param ezcGraphColor $color Color of Border
      * @return void
      */
-    public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color )
+    public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color, $filled = true )
     {
         $this->createDocument();  
 
@@ -470,50 +578,120 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             $endAngle = $tmp;
         }
         
+        if ( ( $endAngle - $startAngle > 180 ) ||
+             ( ( $startAngle % 180 != 0) && ( $endAngle % 180 != 0) && ( ( $startAngle % 360 > 180 ) XOR ( $endAngle % 360 > 180 ) ) ) )
+        {
+            // Border crosses he 180 degrees border
+            $intersection = floor( $endAngle / 180 ) * 180;
+            while ( $intersection >= $endAngle )
+            {
+                $intersection -= 180;
+            }
+
+            $this->drawCircularArc( $center, $width, $height, $size, $startAngle, $intersection, $color, $filled );
+            $this->drawCircularArc( $center, $width, $height, $size, $intersection, $endAngle, $color, $filled );
+            return;
+        }
+
         // We need the radius
         $width /= 2;
         $height /= 2;
 
-        $Xstart = $center->x + $this->options->graphOffset->x + $width * cos( ( -$startAngle / 180 ) * M_PI );
+        $Xstart = $center->x + $this->options->graphOffset->x + $width * cos( -( $startAngle / 180 ) * M_PI );
         $Ystart = $center->y + $this->options->graphOffset->y + $height * sin( ( $startAngle / 180 ) * M_PI );
         $Xend = $center->x + $this->options->graphOffset->x + $width * cos( ( -( $endAngle ) / 180 ) * M_PI );
         $Yend = $center->y + $this->options->graphOffset->y + $height * sin( ( ( $endAngle ) / 180 ) * M_PI );
         
-        $arc = $this->dom->createElement( 'path' );
-        $arc->setAttribute('d', sprintf('   M %.2f,%.2f 
-                                            A %.2f,%2f 0 %d,0 %.2f,%.2f 
-                                            L %.2f,%.2f 
-                                            A %.2f,%2f 0 %d,1 %.2f,%.2f z',
-            // Endpoint low
-            $Xend, $Yend + $size,
-            // Radius
-            $width, $height,
-            // SVG-Stuff
-            ( $endAngle - $startAngle ) > 180,
-            // Startpoint low
-            $Xstart, $Ystart + $size,
-            // Startpoint
-            $Xstart, $Ystart,
-            // Radius
-            $width, $height,
-            // SVG-Stuff
-            ( $endAngle - $startAngle ) > 180,
-            // Endpoint
-            $Xend, $Yend
-            )
-        );
+        if ( $filled === true )
+        {
+            $arc = $this->dom->createElement( 'path' );
+            $arc->setAttribute('d', sprintf( 'M %.2f,%.2f A %.2f,%.2f 0 %d,0 %.2f,%.2f L %.2f,%.2f A %.2f,%2f 0 %d,1 %.2f,%.2f z',
+                // Endpoint low
+                $Xend, $Yend + $size,
+                // Radius
+                $width, $height,
+                // SVG-Stuff
+                ( $endAngle - $startAngle ) > 180,
+                // Startpoint low
+                $Xstart, $Ystart + $size,
+                // Startpoint
+                $Xstart, $Ystart,
+                // Radius
+                $width, $height,
+                // SVG-Stuff
+                ( $endAngle - $startAngle ) > 180,
+                // Endpoint
+                $Xend, $Yend
+                )
+            );
+        }
+        else
+        {
+            $arc = $this->dom->createElement( 'path' );
+            $arc->setAttribute('d', sprintf( 'M %.2f,%.2f  A %.2f,%.2f 0 %d,1 %.2f,%.2f',
+                // Startpoint
+                $Xstart, $Ystart,
+                // Radius
+                $width, $height,
+                // SVG-Stuff
+                ( $endAngle - $startAngle ) > 180,
+                // Endpoint
+                $Xend, $Yend
+                )
+            );
+        }
 
         $arc->setAttribute(
             'style', 
-            sprintf( 'fill: #%02x%02x%02x; fill-opacity: %.2f; stroke: none;',
-                $color->red,
-                $color->green,
-                $color->blue,
-                1 - ( $color->alpha / 255 )
-            )
+            $this->getStyle( $color, $filled )
         );
 
         $this->elements->appendChild( $arc );
+
+        if ( ( $this->options->shadeCircularArc !== false ) &&
+             $filled )
+        {
+            $gradient = new ezcGraphLinearGradient(
+                new ezcGraphCoordinate(
+                    $center->x - $width,
+                    $center->y
+                ),
+                new ezcGraphCoordinate(
+                    $center->x + $width,
+                    $center->y
+                ),
+                ezcGraphColor::fromHex( '#FFFFFF' )->transparent( $this->options->shadeCircularArc * 1.5 ),
+                ezcGraphColor::fromHex( '#000000' )->transparent( $this->options->shadeCircularArc )
+            );
+
+            $arc = $this->dom->createElement( 'path' );
+            $arc->setAttribute('d', sprintf( 'M %.2f,%.2f A %.2f,%.2f 0 %d,0 %.2f,%.2f L %.2f,%.2f A %.2f,%2f 0 %d,1 %.2f,%.2f z',
+                // Endpoint low
+                $Xend, $Yend + $size,
+                // Radius
+                $width, $height,
+                // SVG-Stuff
+                ( $endAngle - $startAngle ) > 180,
+                // Startpoint low
+                $Xstart, $Ystart + $size,
+                // Startpoint
+                $Xstart, $Ystart,
+                // Radius
+                $width, $height,
+                // SVG-Stuff
+                ( $endAngle - $startAngle ) > 180,
+                // Endpoint
+                $Xend, $Yend
+                )
+            );
+        
+            $arc->setAttribute(
+                'style', 
+                $this->getStyle( $gradient, $filled )
+            );
+
+            $this->elements->appendChild( $arc );
+        }
     }
 
     /**
@@ -537,32 +715,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $ellipse->setAttribute( 'rx', $width / 2 );
         $ellipse->setAttribute( 'ry', $height / 2 );
 
-        if ( $filled )
-        {
-            $ellipse->setAttribute(
-                'style', 
-                sprintf( 'fill: #%02x%02x%02x; fill-opacity: %.2f; stroke: none;',
-                    $color->red,
-                    $color->green,
-                    $color->blue,
-                    1 - ( $color->alpha / 255 )
-                )
-            );
-        }
-        else
-        {
-            $ellipse->setAttribute(
-                'style', 
-                sprintf( 'fill: none; stroke: #%02x%02x%02x; stroke-width: %d; stroke-opacity: %.2f; stroke-linecap: %s;',
-                    $color->red,
-                    $color->green,
-                    $color->blue,
-                    1, // Line Thickness
-                    1 - ( $color->alpha / 255 ),
-                    $this->options->strokeLineCap
-                )
-            );
-        }
+        $ellipse->setAttribute(
+            'style', 
+            $this->getStyle( $color, $filled, 1 )
+        );
         
         $this->elements->appendChild( $ellipse );
     }

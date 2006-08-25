@@ -110,11 +110,11 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         // Move pie segment out of the center
         if ( $moveOut )
         {
-            $direction = $startAngle + ( $endAngle - $startAngle ) / 2;
+            $direction = ( $endAngle + $startAngle ) / 2;
 
             $center = new ezcGraphCoordinate(
                 $center->x + $this->options->moveOut * $radius * cos( deg2rad( $direction ) ),
-                $center->y + $this->options->moveOut * $radius * sin( deg2rad( $direction ) )
+                $center->y + $this->options->moveOut * $radius * sin( deg2rad( $direction ) ) * $this->options->pieChartRotation
             );
         }
 
@@ -131,13 +131,13 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         if ( $label )
         {
             // Determine position of label
-            $middle = $startAngle + ( $endAngle - $startAngle ) / 2;
+            $direction = ( $endAngle + $startAngle ) / 2;
             $pieSegmentCenter = new ezcGraphCoordinate(
-                cos( deg2rad( $middle ) ) * $radius * 2 / 3 + $center->x,
-                sin( deg2rad( $middle ) ) * $radius * $this->options->pieChartRotation * 2 / 3 + $center->y
+                $center->x + cos( deg2rad( $direction ) ) * $radius * 2 / 3,
+                $center->y + sin( deg2rad( $direction ) ) * $radius * 2 / 3 * $this->options->pieChartRotation
             );
 
-            // Split labels up into left an right size and index them on their
+            // Split labels up into left a right site and index them on their
             // y position
             $this->pieSegmentLabels[(int) ($pieSegmentCenter->x > $center->x)][$pieSegmentCenter->y] = array(
                 clone $pieSegmentCenter,
@@ -271,9 +271,42 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
     {
         $zBuffer = array();
 
+        $shadows = array();
+        $shadowCenter = false;
+        $shadowEndAngle = false;
+
         // Add circle sector sides to simple z buffer prioriry list
         foreach ( $this->circleSectors as $circleSector )
         {
+            // Draw shadow if wanted
+            if ( $this->options->pieChartShadowSize > 0 )
+            {
+                if ( $shadowEndAngle === false )
+                {
+                    $shadowStartAngle = $circleSector['start'];
+                    $shadowEndAngle = $circleSector['end'];
+                    $shadowCenter = $circleSector['center'];
+                }
+                elseif ( $circleSector['center'] == $shadowCenter )
+                {
+                    $shadowEndAngle = $circleSector['end'];
+                }
+                else
+                {
+                    $shadows[] = array( 
+                        'center' => $shadowCenter,
+                        'start' => $shadowStartAngle, 
+                        'end' => $shadowEndAngle,
+                        'width' => $circleSector['width'],
+                        'height' => $circleSector['height'],
+                    );
+
+                    $shadowCenter = $circleSector['center'];
+                    $shadowStartAngle = $circleSector['start'];
+                    $shadowEndAngle = $circleSector['end'];
+                }
+            }
+
             $darkenedColor = $circleSector['color']->darken( $this->options->dataBorder );
 
             $zBuffer[
@@ -378,6 +411,38 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
             );
         }
 
+        if ( $this->options->pieChartShadowSize > 0 )
+        {
+            $shadows[] = array( 
+                'center' => $shadowCenter,
+                'start' => $shadowStartAngle, 
+                'end' => $shadowEndAngle,
+                'width' => $circleSector['width'],
+                'height' => $circleSector['height'],
+            );
+        }
+
+        // Draw collected shadows
+        foreach ( $shadows as $circleSector )
+        {
+            for ( $i = $this->options->pieChartShadowSize; $i > 0; --$i )
+            {
+                $midAngle = ( $circleSector['start'] + $circleSector['end'] ) / 2;
+                $this->driver->drawCircleSector(
+                    new ezcGraphCoordinate(
+                        $circleSector['center']->x,
+                        $circleSector['center']->y + $this->options->pieChartHeight
+                    ),
+                    $circleSector['width'] + $i * 2,
+                    $circleSector['height'] + $i * 2,
+                    $circleSector['start'] - ( $this->options->pieChartShadowSize - $i ),
+                    $circleSector['end'] + ( $this->options->pieChartShadowSize - $i ),
+                    $this->options->pieChartShadowColor->transparent( 1 - ( $this->options->pieChartShadowTransparency / $this->options->pieChartShadowSize ) ),
+                    true
+                );
+            }
+        }
+
         ksort( $zBuffer );
         foreach ( $zBuffer as $sides )
         {
@@ -400,6 +465,29 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 true
             );
 
+            if ( $this->options->pieChartGleam !== false )
+            {
+                $gradient = new ezcGraphLinearGradient(
+                    $circleSector['center'],
+                    new ezcGraphCoordinate(
+                        $circleSector['center']->x - $circleSector['width'] / 2,
+                        $circleSector['center']->y - $circleSector['height'] / 2
+                    ),
+                    $this->options->pieChartGleamColor->transparent( 1 ),
+                    $this->options->pieChartGleamColor->transparent( $this->options->pieChartGleam )
+                );
+
+                $this->driver->drawCircleSector(
+                    $circleSector['center'],
+                    $circleSector['width'],
+                    $circleSector['height'],
+                    $circleSector['start'],
+                    $circleSector['end'],
+                    $gradient,
+                    true
+                );
+            }
+
             $darkenedColor = $circleSector['color']->darken( $this->options->dataBorder );
             $this->driver->drawCircleSector(
                 $circleSector['center'],
@@ -410,6 +498,31 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 $darkenedColor,
                 false
             );
+
+            if ( $this->options->pieChartGleam !== false )
+            {
+                $radialGradient = new ezcGraphRadialGradient(
+                    new ezcGraphCoordinate(
+                        $circleSector['center']->x + $circleSector['width'] / 2 * cos( deg2rad( 135 ) ),
+                        $circleSector['center']->y + $circleSector['height'] / 2 * sin( deg2rad( 135 ) )
+                    ),
+                    $circleSector['width'],
+                    $circleSector['height'],
+                    $this->options->pieChartGleamColor->transparent( $this->options->pieChartGleam ),
+                    $this->options->pieChartGleamColor->transparent( .8 )
+                );
+
+                $this->driver->drawCircularArc(
+                    $circleSector['center'],
+                    $circleSector['width'],
+                    $circleSector['height'],
+                    0,
+                    $circleSector['start'],
+                    $circleSector['end'],
+                    $radialGradient,
+                    false
+                );
+            }
         }
     }
 
@@ -418,7 +531,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         foreach ( $this->frontLines as $line )
         {
             $this->driver->drawLine(
-               $line[0],
+                $line[0],
                 $line[1],
                 $line[2],
                 $line[3]
@@ -652,10 +765,24 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                     'index' => $barCenterBottom->x + 1,
                     'method' => 'drawCircle',
                     'parameters' => array(
-                        $this->get3dCoordinate( $barCenterTop, $midDepth ),
+                        $top = $this->get3dCoordinate( $barCenterTop, $midDepth ),
                         $barWidth,
                         $barWidth / 2,
-                        ( $symbol === ezcGraph::CIRCLE ? $color->darken( $this->options->barDarkenTop ) : $color )
+                        ( $symbol === ezcGraph::CIRCLE
+                            ? new ezcGraphLinearGradient(
+                                new ezcGraphCoordinate(
+                                    $top->x - $barWidth / 2,
+                                    $top->y
+                                ),
+                                new ezcGraphCoordinate(
+                                    $top->x + $barWidth / 2,
+                                    $top->y
+                                ),
+                                $color->darken( $this->options->barDarkenTop ),
+                                $color
+                            )    
+                            : $color
+                        )
                     ),
                 );
 

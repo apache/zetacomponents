@@ -351,6 +351,77 @@ class ezcGraphRenderer3dTest extends ezcTestCase
         );
     }
 
+    public function testRenderLabeledPieSegmentWithGleamAndShadow()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->data['sample']->highlight['Safari'] = true;
+        $chart->data['sample']->color['Safari'] = '#000000';
+        $chart->data['sample']->highlight['IE'] = true;
+
+        $chart->renderer = new ezcGraphRenderer3d();
+
+        $chart->renderer->options->pieChartShadowSize = 10;
+        $chart->renderer->options->pieChartGleam = .5;
+        $chart->renderer->options->dataBorder = false;
+        $chart->renderer->options->pieChartHeight = 16;
+
+        $chart->renderer->options->pieChartOffset = 180;
+
+        $chart->driver = new ezcGraphSvgDriver();
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testRenderLabeledPieSegmentWithGleamAndShadowGD()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $chart = new ezcGraphPieChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+        $chart->options->font->path = dirname( __FILE__ ) . '/data/font.ttf';
+
+        $chart->data['sample']->highlight['Safari'] = true;
+        $chart->data['sample']->color['Safari'] = '#000000';
+        $chart->data['sample']->highlight['IE'] = true;
+
+        $chart->renderer = new ezcGraphRenderer3d();
+
+        $chart->renderer->options->pieChartShadowSize = 10;
+        $chart->renderer->options->pieChartGleam = .5;
+        $chart->renderer->options->dataBorder = false;
+        $chart->renderer->options->pieChartHeight = 16;
+
+        $chart->renderer->options->pieChartOffset = 180;
+
+        $chart->driver = new ezcGraphGdDriver();
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png'
+        );
+    }
+
     public function testRenderLabeledPieSegmentWithTitle()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';

@@ -15,6 +15,8 @@
  * @property string $strokeLineCap
  *           This specifies the shape to be used at the end of open subpaths 
  *           when they are stroked.
+ * @property string $strokeLineJoin
+ *           This specifies the shape to be used at the edges of paths.
  * @property string $shapeRendering
  *           "The creator of SVG content might want to provide a hint to the
  *           implementation about what tradeoffs to make as it renders vector
@@ -54,6 +56,7 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
     public function __construct( array $options = array() )
     {
         $this->properties['assumedCharacterWidth'] = .55;
+        $this->properties['strokeLineJoin'] = 'round';
         $this->properties['strokeLineCap'] = 'round';
         $this->properties['shapeRendering'] = 'geometricPrecision';
         $this->properties['colorRendering'] = 'optimizeQuality';
@@ -81,6 +84,23 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
         {
             case 'assumedCharacterWidth':
                 $this->properties['assumedCharacterWidth'] = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'strokeLineJoin':
+                $values = array(
+                    'round',
+                    'butt',
+                    'square',
+                    'inherit',
+                );
+
+                if ( in_array( $propertyValue, $values, true ) )
+                {
+                    $this->properties['strokeLineJoin'] = $propertyValue;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, implode( $values, ', ' ) );
+                }
                 break;
             case 'strokeLineCap':
                 $values = array(

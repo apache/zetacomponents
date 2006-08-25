@@ -473,7 +473,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
                         ( ( sin( deg2rad( $endAngle ) ) * $height ) / 2 )
                 ),
             ),
-            $color->darken( $this->options->shadeCircularArc * abs ( cos ( deg2rad( $startAngle ) ) ) ),
+            $color->darken( $this->options->shadeCircularArc * ( 1 + cos ( deg2rad( $startAngle ) ) ) / 2 ),
             true
         );
     }
@@ -490,7 +490,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
      * @param ezcGraphColor $color Color of Border
      * @return void
      */
-    public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color )
+    public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color, $filled = true )
     {
         $image = $this->getImage();
         $drawColor = $this->allocate( $color );
@@ -502,49 +502,66 @@ class ezcGraphGdDriver extends ezcGraphDriver
             $startAngle = $endAngle;
             $endAngle = $tmp;
         }
-        
-        $startIteration = ceil( $startAngle / $this->options->detail ) * $this->options->detail;
-        $endIteration = floor( $endAngle / $this->options->detail ) * $this->options->detail;
-
-        if ( $startAngle < $startIteration )
+ 
+        if ( $filled === true )
         {
-            // Draw initial step
-            $this->drawCircularArcStep( 
-                $center, 
-                $width, 
-                $height, 
-                $size, 
+            $startIteration = ceil( $startAngle / $this->options->detail ) * $this->options->detail;
+            $endIteration = floor( $endAngle / $this->options->detail ) * $this->options->detail;
+
+            if ( $startAngle < $startIteration )
+            {
+                // Draw initial step
+                $this->drawCircularArcStep( 
+                    $center, 
+                    $width, 
+                    $height, 
+                    $size, 
+                    $startAngle, 
+                    $startIteration, 
+                    $color
+                );
+            }
+
+            // Draw all steps
+            for ( ; $startIteration < $endIteration; $startIteration += $this->options->detail )
+            {
+                $this->drawCircularArcStep( 
+                    $center, 
+                    $width, 
+                    $height, 
+                    $size, 
+                    $startIteration, 
+                    $startIteration + $this->options->detail, 
+                    $color 
+                );
+            }
+
+            if ( $endIteration < $endAngle )
+            {
+                // Draw closing step
+                $this->drawCircularArcStep( 
+                    $center, 
+                    $width, 
+                    $height, 
+                    $size, 
+                    $endIteration, 
+                    $endAngle, 
+                    $color 
+                );
+            }
+        }
+        else
+        {
+            imagefilledarc( 
+                $image, 
+                $this->supersample( $center->x ), 
+                $this->supersample( $center->y ), 
+                $this->supersample( $width ), 
+                $this->supersample( $height ), 
                 $startAngle, 
-                $startIteration, 
-                $color
-            );
-        }
-
-        // Draw all steps
-        for ( ; $startIteration < $endIteration; $startIteration += $this->options->detail )
-        {
-            $this->drawCircularArcStep( 
-                $center, 
-                $width, 
-                $height, 
-                $size, 
-                $startIteration, 
-                $startIteration + $this->options->detail, 
-                $color 
-            );
-        }
-
-        if ( $endIteration < $endAngle )
-        {
-            // Draw closing step
-            $this->drawCircularArcStep( 
-                $center, 
-                $width, 
-                $height, 
-                $size, 
-                $endIteration, 
                 $endAngle, 
-                $color 
+                $drawColor, 
+                IMG_ARC_PIE | IMG_ARC_NOFILL
             );
         }
     }

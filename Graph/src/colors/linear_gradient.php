@@ -1,0 +1,152 @@
+<?php
+/**
+ * File containing the ezcGraphLinearGradient class
+ *
+ * @package Graph
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * Class representing linear gradient fills. For drivers which cannot draw 
+ * gradients it falls back to a native ezcGraphColor
+ *
+ * @property ezcGraphCoordinate $startPoint
+ *           Starting point of the gradient.
+ * @property ezcGraphCoordinate $endPoint
+ *           Ending point of the gradient.
+ * @property ezcGraphColor $startColor
+ *           Starting color of the gradient.
+ * @property ezcGraphColor $endColor
+ *           Ending color of the gradient.
+ *
+ * @package Graph
+ */
+class ezcGraphLinearGradient extends ezcGraphColor
+{
+    /**
+     * Constructor
+     * 
+     * @param ezcGraphCoordinate $startPoint 
+     * @param ezcGraphCoordinate $endPoint 
+     * @param ezcGraphColor $startColor 
+     * @param ezcGraphColor $endColor 
+     * @return void
+     */
+    public function __construct( ezcGraphCoordinate $startPoint, ezcGraphCoordinate $endPoint, ezcGraphColor $startColor, ezcGraphColor $endColor )
+    {
+        $this->properties['startColor'] = $startColor;
+        $this->properties['endColor'] = $endColor;
+        $this->properties['startPoint'] = $startPoint;
+        $this->properties['endPoint'] = $endPoint;
+    }
+
+    /**
+     * __set 
+     * 
+     * @param mixed $propertyName 
+     * @param mixed $propertyValue 
+     * @throws ezcBaseValueException
+     *          If a submitted parameter was out of range or type.
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return void
+     * @ignore
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'startPoint':
+                if ( !$propertyValue instanceof ezcGraphCoordinate )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphCoordinate' );
+                }
+                else
+                {
+                    $this->properties['startPoint'] = $propertyValue;
+                }
+                break;
+            case 'endPoint':
+                if ( !$propertyValue instanceof ezcGraphCoordinate )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphCoordinate' );
+                }
+                else
+                {
+                    $this->properties['endPoint'] = $propertyValue;
+                }
+                break;
+            case 'startColor':
+                if ( !$propertyValue instanceof ezcGraphCoordinate )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphCoordinate' );
+                }
+                else
+                {
+                    $this->properties['startColor'] = $propertyValue;
+                }
+                break;
+            case 'endColor':
+                if ( !$propertyValue instanceof ezcGraphCoordinate )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphCoordinate' );
+                }
+                else
+                {
+                    $this->properties['endColor'] = $propertyValue;
+                }
+                break;
+        }
+    }
+
+    /**
+     * __get 
+     * 
+     * @param mixed $propertyName 
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return mixed
+     * @ignore
+     */
+    public function __get( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'red':
+            case 'green':
+            case 'blue':
+            case 'alpha':
+                // Fallback to native color
+                return $this->properties['startColor']->$propertyName;
+            default:
+                if ( isset( $this->properties[$propertyName] ) )
+                {
+                    return $this->properties[$propertyName];
+                }
+                else
+                {
+                    throw new ezcBasePropertyNotFoundException( $propertyName );
+                }
+        }
+    }
+
+    public function __toString()
+    {
+        return sprintf( 'LinearGradient_%d_%d_%d_%d_%02x%02x%02x%02x_%02x%02x%02x%02x',
+            $this->properties['startPoint']->x,
+            $this->properties['startPoint']->y,
+            $this->properties['endPoint']->x,
+            $this->properties['endPoint']->y,
+            $this->properties['startColor']->red,
+            $this->properties['startColor']->green,
+            $this->properties['startColor']->blue,
+            $this->properties['startColor']->alpha,
+            $this->properties['endColor']->red,
+            $this->properties['endColor']->green,
+            $this->properties['endColor']->blue,
+            $this->properties['endColor']->alpha
+        );
+    }
+}

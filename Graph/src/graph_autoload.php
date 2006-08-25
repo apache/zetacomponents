@@ -26,7 +26,9 @@ return array(
     'ezcGraphChartDataContainer'                => 'Graph/data_container/base.php',
     'ezcGraphChartSingleDataContainer'          => 'Graph/data_container/single.php',
 
-    'ezcGraphColor'                             => 'Graph/structs/color.php',
+    'ezcGraphColor'                             => 'Graph/colors/color.php',
+    'ezcGraphLinearGradient'                    => 'Graph/colors/linear_gradient.php',
+    'ezcGraphRadialGradient'                    => 'Graph/colors/radial_gradient.php',
     'ezcGraphUnknownColorDefinitionException'   => 'Graph/exceptions/unknown_color_definition.php',
 
     'ezcGraphRenderer'                          => 'Graph/interfaces/renderer.php',

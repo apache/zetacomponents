@@ -14,6 +14,8 @@
  *           Width of the chart.
  * @property int $height
  *           Height of the chart.
+ * @property float $shadeCircularArc
+ *           Percent to darken circular arcs at the sides
  * @property int $font
  *           Font used in the graph.
  * @property float $lineSpacing
@@ -33,6 +35,7 @@ abstract class ezcGraphDriverOptions extends ezcBaseOptions
     public function __construct( array $options = array() )
     {
         $this->properties['lineSpacing'] = .1;
+        $this->properties['shadeCircularArc'] = .5;
         $this->properties['font'] = new ezcGraphFontOptions();
         $this->properties['font']->color = ezcGraphColor::fromHex( '#000000' );
 
@@ -57,6 +60,9 @@ abstract class ezcGraphDriverOptions extends ezcBaseOptions
                 break;
             case 'height':
                 $this->properties['height'] = max( 1, (int) $propertyValue );
+                break;
+            case 'shadeCircularArc':
+                $this->properties['shadeCircularArc'] = max( 0, min( 1, (float) $propertyValue ) );
                 break;
             case 'font':
                 if ( $propertyValue instanceof ezcGraphFontOptions )

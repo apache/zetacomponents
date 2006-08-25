@@ -60,7 +60,10 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
     public function tearDown()
     {
         unset( $this->driver );
-        $this->removeTempDir();
+        if ( !$this->hasFailed() )
+        {
+            $this->removeTempDir();
+        }
     }
 
     public function testDrawLine()
@@ -403,6 +406,36 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
             2000
+        );
+    }
+
+    public function testDrawCircularArcAcuteBorder()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->drawCircularArc(
+            new ezcGraphCoordinate( 100, 50 ),
+            150,
+            80,
+            10,
+            12.5,
+            55,
+            ezcGraphColor::fromHex( '#3465A4' ),
+            false
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            0
         );
     }
 

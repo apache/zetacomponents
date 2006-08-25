@@ -1,4 +1,12 @@
 <?php
+/**
+ * File containing the ezcGraphColor class
+ *
+ * @package Graph
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 
 /**
  * ezcGraphColor 
@@ -6,67 +14,63 @@
  * Struct for representing colors in ezcGraph. A color is defined using the
  * common RGBA model with integer values between 0 and 255. An alpha value 
  * of zero means full opacity, while 255 means full transparency.
+ *
+ * @property integer $red
+ *           Red RGBA value of color.
+ * @property integer $green
+ *           Green RGBA value of color.
+ * @property integer $blue
+ *           Blue RGBA value of color.
+ * @property integer $alpha
+ *           Alpha RGBA value of color.
+ *
+ * @package Graph
  */
-class ezcGraphColor
+class ezcGraphColor extends ezcBaseOptions
 {
     /**
-     * Red color value.
-     *
-     * Contains a value between 0 and 255
+     * Constructor
      * 
-     * @var integer
+     * @param array $options Default option array
+     * @return void
+     * @ignore
      */
-    public $red = 0;
-
-    /**
-     * Green color value.
-     *
-     * Contains a value between 0 and 255
-     * 
-     * @var integer
-     */
-    public $green = 0;
-
-    /**
-     * Blue color value.
-     *
-     * Contains a value between 0 and 255
-     * 
-     * @var integer
-     */
-    public $blue = 0;
-
-    /**
-     * Alpha color value.
-     *
-     * Contains a value between 0 and 255. 0 means full opacity and 255 full 
-     * transparency.
-     * 
-     * @var integer
-     */
-    public $alpha = 0;
-    
-    /**
-     * Empty constructor
-     */
-    public function __construct()
+    public function __construct( array $options = array() )
     {
+        $this->properties['red'] = 0;
+        $this->properties['green'] = 0;
+        $this->properties['blue'] = 0;
+        $this->properties['alpha'] = 0;
+
+        parent::__construct( $options );
     }
 
     /**
-     * Throws a BasePropertyNotFound exception.
+     * __set 
+     * 
+     * @param mixed $propertyName 
+     * @param mixed $propertyValue 
+     * @throws ezcBaseValueException
+     *          If a submitted parameter was out of range or type.
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return void
+     * @ignore
      */
-    public function __set( $name, $key )
+    public function __set( $propertyName, $propertyValue )
     {
-        throw new ezcBasePropertyNotFoundException( $name );
-    }
-
-    /**
-     * Throws a BasePropertyNotFound exception.
-     */
-    public function __get( $name )
-    {
-        throw new ezcBasePropertyNotFoundException( $name );
+        switch ( $propertyName )
+        {
+            case 'red':
+            case 'green':
+            case 'blue':
+            case 'alpha':
+                $this->properties[$propertyName] = max( 0, min( 255, (int) $propertyValue ) );
+                break;
+            default:
+                throw new ezcGraphNoSuchDataSetException( $propertyName );
+                break;
+        }
     }
 
     /**

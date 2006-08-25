@@ -284,6 +284,29 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         );
     }
 
+    public function testDrawCircularArcAcuteBorder()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->drawCircularArc(
+            new ezcGraphCoordinate( 100, 50 ),
+            150,
+            80,
+            10,
+            12.5,
+            55,
+            ezcGraphColor::fromHex( '#3465A4' ),
+            false
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testDrawCircularArcAcuteReverse()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';

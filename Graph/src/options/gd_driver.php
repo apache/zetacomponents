@@ -15,8 +15,6 @@
  *           Should be one of those: IMG_PNG, IMG_JPEG
  * @property int $detail
  *           Count of degrees to render one polygon for in circular arcs
- * @property float $shadeCircularArc
- *           Percent to darken circular arcs at the sides
  * @property int $supersampling
  *           Factor of supersampling used to simulate antialiasing
  * @property string $background
@@ -72,9 +70,6 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
                 break;
             case 'detail':
                 $this->properties['detail'] = max( 1, (int) $propertyValue );
-                break;
-            case 'shadeCircularArc':
-                $this->properties['shadeCircularArc'] = max( 0, min( 1, (float) $propertyValue ) );
                 break;
             case 'supersampling':
                 $this->properties['supersampling'] = (int) max( 1, $propertyValue );
