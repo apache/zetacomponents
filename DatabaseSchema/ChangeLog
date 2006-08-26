@@ -1,6 +1,7 @@
 1.0.2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Implemented FR #8901: Written schemas should indent the XML.
 - Refactored the structs to use the new ezcBaseStruct class.
 
 

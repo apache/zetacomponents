@@ -61,5 +61,9 @@ class XMLWriter
     {
         fputs( $this->uriFs, "\n" );
     }
+
+    public function setIndent( $switch )
+    {
+    }
 }
 ?>

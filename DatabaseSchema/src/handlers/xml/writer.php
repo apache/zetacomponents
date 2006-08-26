@@ -316,6 +316,7 @@ class ezcDbSchemaXmlWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDiffFile
         $this->writer = new XMLWriter();
         $this->writer->openUri( $file );
         $this->writer->startDocument( '1.0', 'utf-8' );
+        $this->writer->setIndent( true );
 
         $this->writer->startElement( 'database' );
 
@@ -341,6 +342,7 @@ class ezcDbSchemaXmlWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDiffFile
         $this->writer = new XMLWriter();
         $this->writer->openUri( $file );
         $this->writer->startDocument( '1.0', 'utf-8' );
+        $this->writer->setIndent( true );
 
         $this->writer->startElement( 'database' );
         $this->writer->flush();
