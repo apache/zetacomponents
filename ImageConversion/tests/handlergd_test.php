@@ -11,7 +11,7 @@
 /**
  * Require base class for handler tests.
  */
-require_once 'handler_test.php';
+require_once "handler_test.php";
 
 /**
  * Test suite for ImageHandlerGd class.
@@ -29,30 +29,35 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
 
     public function setUp()
     {
-        $this->handlerClass = 'ezcImageGdHandler';
+        $this->handlerClass = "ezcImageGdHandler";
         parent::setUp();
     }
 
     public function testLoadSuccess()
     {
-        $filePath = $this->basePath . $this->testFiles['jpeg'];
+        $filePath = $this->testFiles["jpeg"];
 
         $ref = $this->handler->load( $filePath );
 
-        $handleArr = (array)$this->handler;
-        $refProp = $handleArr["\0ezcImageMethodcallHandler\0references"];
+        $refProp = $this->getReferences();
         $imageRef = current( $refProp );
 
-        $this->assertTrue(
-            $imageRef['file'] === $filePath && $imageRef['mime'] === 'image/jpeg',
-            'Image reference not registered correctly.'
+        $this->assertEquals(
+            $imageRef["file"],
+            $filePath,
+            "Image reference not registered correctly."
         );
+        
+        $this->assertEquals(
+            $imageRef["mime"],
+            "image/jpeg",
+            "Image reference not registered correctly."
+        ); 
     }
 
     public function testLoadFailureFilenotexists()
     {
-        // Non existant path
-        $filePath = $this->basePath . $this->testFiles['nonexistant'];
+        $filePath = $this->testFiles["nonexistent"];
 
         try
         {
@@ -62,13 +67,12 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
         {
             return;
         }
-        $this->fail( 'Required exception not thrown on not existing file.' );
+        $this->fail( "Required exception not thrown on not existing file." );
     }
 
     public function testLoadFailureUnknownmimetype()
     {
-        // Non existant path
-        $filePath = $this->basePath . $this->testFiles['invalid'];
+        $filePath = $this->testFiles["text"];
 
         try
         {
@@ -78,13 +82,13 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
         {
             return;
         }
-        $this->fail( 'Required exception not thrown on not existing file.' );
+        $this->fail( "Required exception not thrown on not existing file." );
     }
 
     public function testSaveOldfileNoconvert()
     {
-        $srcPath = $this->basePath . $this->testFiles['jpeg'];
-        $dstPath = $this->testPath . __METHOD__;
+        $srcPath = $this->testFiles["jpeg"];
+        $dstPath = $this->getTempPath();
 
         copy( $srcPath, $dstPath );
 
@@ -99,14 +103,14 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
 
         $this->assertTrue(
             file_exists( $dstPath ),
-            'File not correctly saved to old destination.'
+            "File not correctly saved to old destination."
         );
     }
 
     public function testSaveNewfileNoconvert()
     {
-        $srcPath = $this->basePath . $this->testFiles['jpeg'];
-        $dstPath = $this->testPath . __METHOD__;
+        $srcPath = $this->testFiles["jpeg"];
+        $dstPath = $this->getTempPath();
 
         $handler = new ezcImageGdHandler( ezcImageGdHandler::defaultSettings() );
         $ref = $handler->load( $srcPath );
@@ -114,91 +118,95 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
 
         $this->assertTrue(
             file_exists( $dstPath ),
-            'File not correctly saved to new destination.'
+            "File not correctly saved to new destination."
         );
     }
 
     public function testSaveNewfileConvert()
     {
-        $srcPath = $this->basePath . $this->testFiles['jpeg'];
-        $dstPath = $this->testPath . __METHOD__;
+        $srcPath = $this->testFiles["jpeg"];
+        $dstPath = $this->getTempPath();
 
         $handler = new ezcImageGdHandler( ezcImageGdHandler::defaultSettings() );
         $ref = $handler->load( $srcPath );
-        $handler->save( $ref, $dstPath, 'image/png' );
+        $handler->save( $ref, $dstPath, "image/png" );
 
         $analyzer = new ezcImageAnalyzer( $dstPath );
 
-        $this->assertTrue(
-            $analyzer->mime === 'image/png',
-            'File not correctly saved to new destination.'
+        $this->assertEquals(
+            "image/png",
+            $analyzer->mime,
+            "File not correctly saved to new destination."
         );
     }
 
     public function testConvertSuccess()
     {
-        $filePath = $this->basePath . $this->testFiles['jpeg'];
+        $filePath = $this->testFiles["jpeg"];
 
         $ref = $this->handler->load( $filePath );
-        $this->handler->convert( $ref, 'image/png' );
+        $this->handler->convert( $ref, "image/png" );
 
-        $handleArr = (array)$this->handler;
-        $refProp = $handleArr["\0ezcImageMethodcallHandler\0references"];
+        $refProp = $this->getReferences();
         $imageRef = current( $refProp );
 
         $this->assertTrue(
-            $imageRef['mime'] === 'image/png',
-            'MIME type conversion not registered correctly.'
+            $imageRef["mime"] === "image/png",
+            "MIME type conversion not registered correctly."
         );
     }
 
     public function testConvertFailure()
     {
-        $filePath = $this->basePath . $this->testFiles['jpeg'];
+        $filePath = $this->testFiles["jpeg"];
 
         $ref = $this->handler->load( $filePath );
 
         try
         {
-            $this->handler->convert( $ref, 'application/php' );
+            $this->handler->convert( $ref, "application/ezc" );
         }
         catch ( ezcImageMimeTypeUnsupportedException $e )
         {
             return;
         }
-        $this->fail( 'Exception for unknown conversion not thrown.' );
+        $this->fail( "Exception for unknown conversion not thrown." );
     }
 
     public function testApplyFilterSingle()
     {
-        $srcPath = $this->basePath . $this->testFiles['jpeg'];
-        $dstPath = $this->testPath . __METHOD__;
+        $srcPath = $this->testFiles["jpeg"];
+        $dstPath = $this->getTempPath();
 
         $ref = $this->handler->load( $srcPath );
-        $this->handler->applyFilter( $ref, new ezcImageFilter( 'scale', array( 'width' => 200, 'height' => 200, 'direction' => ezcImageGeometryFilters::SCALE_BOTH ) ) );
+        $this->handler->applyFilter( $ref, new ezcImageFilter( "scale", array( "width" => 200, "height" => 200, "direction" => ezcImageGeometryFilters::SCALE_BOTH ) ) );
         $this->handler->save( $ref, $dstPath );
-        $this->assertEquals(
-             '05b8d29008dd13be25d88a872a5a0193',
-             md5_file( $dstPath ),
-            'Applying single filter through handler failed.'
+        // REGENERATE # $this->handler->save( $ref, $this->getReferencePath() );
+        $this->assertImageSimilar(
+             $this->getReferencePath(),
+             $dstPath,
+            "Applying single filter through handler failed.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
     }
 
     public function testApplyFilterMultiple()
     {
-        $srcPath = $this->basePath . $this->testFiles['jpeg'];
-        $dstPath = $this->testPath . __METHOD__;
+        $srcPath = $this->testFiles["jpeg"];
+        $dstPath = $this->getTempPath();
 
         $ref = $this->handler->load( $srcPath );
-        $this->handler->applyFilter( $ref, new ezcImageFilter( 'scale', array( 'width' => 200, 'height' => 200, 'direction' => ezcImageGeometryFilters::SCALE_BOTH ) ) );
-        $this->handler->applyFilter( $ref, new ezcImageFilter( 'crop', array( 'x' => 50, 'width' => 100, 'y' => 100, 'height' => 100 ) ) );
-        $this->handler->applyFilter( $ref, new ezcImageFilter( 'colorspace', array( 'space' => ezcImageColorspaceFilters::COLORSPACE_SEPIA ) ) );
+        $this->handler->applyFilter( $ref, new ezcImageFilter( "scale", array( "width" => 200, "height" => 200, "direction" => ezcImageGeometryFilters::SCALE_BOTH ) ) );
+        $this->handler->applyFilter( $ref, new ezcImageFilter( "crop", array( "x" => 50, "width" => 100, "y" => 100, "height" => 100 ) ) );
+        $this->handler->applyFilter( $ref, new ezcImageFilter( "colorspace", array( "space" => ezcImageColorspaceFilters::COLORSPACE_SEPIA ) ) );
         $this->handler->save( $ref, $dstPath );
+        // REGENERATE # $this->handler->save( $ref, $this->getReferencePath() );
 
-        $this->assertEquals(
-            'bcd9d3645fd2cfe7bcbaa2485ff6ce21',
-            md5_file( $dstPath ),
-            'Applying multiple filter through handler failed.'
+        $this->assertImageSimilar(
+             $this->getReferencePath(),
+             $dstPath,
+            "Applying multiple filter through handler failed.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
     }
 }

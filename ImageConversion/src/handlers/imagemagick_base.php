@@ -84,6 +84,8 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         $ref = $this->loadCommon( $file, isset( $mime ) ? $mime : null );
 
         // Atomic file operation
+        // @todo We should invent a destructor, which cleans up this temp files, 
+        // to ensure they don't stay around, if someone forgets to call close()!
         $fileTmp = tempnam( dirname( $file ), '.' . basename( $file ) );
         copy( $file, $fileTmp );
 

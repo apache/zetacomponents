@@ -10,6 +10,11 @@
  */
 
 /**
+ * Require basis test case class.
+ */
+require_once "test_case.php";
+
+/**
  * Require test suite for ezcImageConverter class.
  */
 require_once 'converter_test.php';
@@ -37,12 +42,6 @@ require_once 'handlershell_test.php';
  */
 require_once 'filtersshell_test.php';
 
-/**
- * Test suite for ImageConversion package.
- *
- * @package ImageConversion
- * @subpackage Tests
- */
 class ezcImageConversionSuite extends ezcTestSuite
 {
     public function __construct()

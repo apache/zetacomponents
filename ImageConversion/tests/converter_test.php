@@ -14,14 +14,9 @@
  * @package ImageConversion
  * @version //autogentag//
  */
-class ezcImageConversionConverterTest extends ezcTestCase
+class ezcImageConversionConverterTest extends ezcImageConversionTestCase
 {
-    protected $testFiles = array(
-        'jpeg'          => 'jpeg.jpg',
-        'nonexistant'   => 'nonexisting.jpg',
-        'invalid'       => 'text.txt',
-    );
-
+    
     protected $converter;
 
 	public static function suite()
@@ -29,26 +24,17 @@ class ezcImageConversionConverterTest extends ezcTestCase
 		return new ezcTestSuite( "ezcImageConversionConverterTest" );
 	}
 
-    /**
-     * setUp
-     *
-     * @access public
-     */
     public function setUp()
     {
-        static $i = 1;
-        $this->basePath = dirname( __FILE__ ) . '/data/';
-        $this->testPath = $this->createTempDir('ezcImageConversionHandlerTest_' . sprintf( '%03d', $i++ ) . '_' ) . '/';
-        $conversionsIn = array(
-            'image/gif'  => 'image/png',
-            'image/xpm'  => 'image/jpeg',
-            'image/wbmp' => 'image/jpeg',
-        );
-
         try
         {
-            $settings = new ezcImageConverterSettings( array( new ezcImageHandlerSettings( 'GD', 'ezcImageGdHandler' ) ),
-                                                   $conversionsIn );
+            $conversionsIn = array(
+                "image/gif" => "image/png",
+            );
+            $settings = new ezcImageConverterSettings(
+                array( new ezcImageHandlerSettings( "GD", "ezcImageGdHandler" ) ),
+                $conversionsIn 
+            );
             $this->converter = new ezcImageConverter( $settings );
         }
         catch ( Exception $e )
@@ -57,52 +43,50 @@ class ezcImageConversionConverterTest extends ezcTestCase
         }
     }
 
-    /**
-     * tearDown
-     *
-     * @access public
-     */
     public function tearDown()
     {
         unset( $this->converter );
-        $this->removeTempDir();
     }
+
+    // Constructor tests
 
     public function testConstructSingleHandlerSuccess()
     {
         $conversionsIn = array(
-            'image/gif'  => 'image/png',
-            'image/xpm'  => 'image/jpeg',
-            'image/wbmp' => 'image/jpeg',
+            "image/gif"  => "image/png",
+            "image/xpm"  => "image/jpeg",
+            "image/wbmp" => "image/jpeg",
         );
-        $settings = new ezcImageConverterSettings( array( new ezcImageHandlerSettings( 'GD', 'ezcImageGdHandler' ) ),
+        $settings = new ezcImageConverterSettings( array( new ezcImageHandlerSettings( "GD", "ezcImageGdHandler" ) ),
                                                    $conversionsIn );
         $converter = new ezcImageConverter( $settings );
 
-        $converterArr = (array)$converter;
-        $handlers = $converterArr["\0*\0handlers"];
-        $settings = $converterArr["\0*\0settings"];
+        $handlers = $this->getAttribute( $converter, "handlers" );
+        $settings = $this->getAttribute( $converter, "settings" );
 
-        $this->assertTrue(
-            $handlers['GD'] instanceof ezcImageGdHandler,
-            'Handler <GD> is not an instance of ezcImageGdHandler.'
+        $this->assertType(
+            "ezcImageGdHandler",
+            $handlers["GD"],
+            "Handler <GD> is not an instance of ezcImageGdHandler."
         );
         $this->assertEquals(
             $conversionsIn,
             $settings->conversions,
-            'Conversions not registered successfully.'
+            "Conversions not registered successfully."
         );
     }
 
-    public function testConstructSingleHandlerFailure_1()
+    public function testConstructSingleHandlerFailureOutputMimeTypeNotSupported()
     {
         $conversionsIn = array(
-            'image/gif'  => 'image/png',
-            'image/xpm'  => 'application/php',
-            'image/wbmp' => 'image/jpeg',
+            "image/gif"  => "image/png",
+            "image/xpm"  => "application/ezc",
+            "image/wbmp" => "image/jpeg",
         );
-        $settings = new ezcImageConverterSettings( array( new ezcImageHandlerSettings( 'GD', 'ezcImageGdHandler' ) ),
-                                                   $conversionsIn );
+        $settings = new ezcImageConverterSettings(
+            array( new ezcImageHandlerSettings( "GD", "ezcImageGdHandler" ) ),
+            $conversionsIn
+        );
         try
         {
             $converter = new ezcImageConverter( $settings );
@@ -111,18 +95,21 @@ class ezcImageConversionConverterTest extends ezcTestCase
         {
             return;
         }
-        $this->fail( 'Expected excption not thrown when creating ezcImageConverter with unsupported conversion.' );
+        $this->fail( "Expected excption not thrown when creating ezcImageConverter with unsupported conversion." );
     }
 
-    public function testConstructSingleHandlerFailure_2()
+    public function testConstructSingleHandlerFailureInputMimeTypeNotSupported()
     {
         $conversionsIn = array(
-            'image/gif'  => 'image/png',
-            'image/toby'  => 'image/jpeg',
-            'image/wbmp' => 'image/jpeg',
+            "image/gif"  => "image/png",
+            "image/ezc"  => "image/jpeg",
+            "image/wbmp" => "image/jpeg",
         );
-        $settings = new ezcImageConverterSettings( array( new ezcImageHandlerSettings( 'GD', 'ezcImageGdHandler' ) ),
-                                                   $conversionsIn );
+        $settings = new ezcImageConverterSettings( 
+            array( new ezcImageHandlerSettings( "GD", "ezcImageGdHandler" ) ),
+            $conversionsIn 
+        );
+
         try
         {
             $converter = new ezcImageConverter( $settings );
@@ -131,18 +118,20 @@ class ezcImageConversionConverterTest extends ezcTestCase
         {
             return;
         }
-        $this->fail( 'Expected excption not thrown when creating ezcImageConverter with unsupported conversion.' );
+        $this->fail( "Expected excption not thrown when creating ezcImageConverter with unsupported conversion." );
     }
 
-    public function testConstructSingleHandlerFailure_3()
+    public function testConstructSingleHandlerFailureHandlerNotAvailable()
     {
         $conversionsIn = array(
-            'image/gif'  => 'image/png',
-            'image/xpm'  => 'image/jpeg',
-            'image/wbmp' => 'image/jpeg',
+            "image/gif"  => "image/png",
+            "image/xpm"  => "image/jpeg",
+            "image/wbmp" => "image/jpeg",
         );
-        $settings = new ezcImageConverterSettings( array( new ezcImageHandlerSettings( 'Toby', 'ezcImageHandlerToby' ) ),
-                                                   $conversionsIn );
+        $settings = new ezcImageConverterSettings( 
+            array( new ezcImageHandlerSettings( "Toby", "ezcImageHandlerToby" ) ),
+            $conversionsIn
+        );
         try
         {
             $converter = new ezcImageConverter( $settings );
@@ -151,66 +140,70 @@ class ezcImageConversionConverterTest extends ezcTestCase
         {
             return;
         }
-        $this->fail( 'Expected excption not thrown when creating ezcImageConverter with unsupported handler.' );
+        $this->fail( "Expected excption not thrown when creating ezcImageConverter with unsupported handler." );
     }
+
+    // Transformation tests
 
     public function testCreateTransformation()
     {
         $transformation = $this->converter->createTransformation( "thumbnail", array(), array() );
-        $this->assertEquals(
+        $this->assertType(
             "ezcImageTransformation",
-            get_class( $transformation ),
-            'Converter does not return created transformation.'
+            $transformation,
+            "Converter does not return created transformation."
         );
     }
+
+    // MIME type tests
 
     public function testAllowsInputSuccess()
     {
         $this->assertTrue(
-            $this->converter->allowsInput( 'image/jpeg' ),
-            'Converter does not allow input MIME type <image/jpeg>. This sounds impossible...'
+            $this->converter->allowsInput( "image/jpeg" ),
+            "Converter does not allow input MIME type <image/jpeg>. This sounds impossible..."
         );
     }
 
     public function testAllowsInputFailure()
     {
         $this->assertFalse(
-            $this->converter->allowsInput( 'application/toby' ),
-            'Converter allows input MIME type <application/toby>. This sounds impossible...'
+            $this->converter->allowsInput( "application/ezc" ),
+            "Converter allows input MIME type <application/ezc>. This sounds impossible..."
         );
     }
 
     public function testAllowsOutputSuccess()
     {
         $this->assertTrue(
-            $this->converter->allowsOutput( 'image/jpeg' ),
-            'Converter does not allow output MIME type <image/jpeg>. This sounds impossible...'
+            $this->converter->allowsOutput( "image/jpeg" ),
+            "Converter does not allow output MIME type <image/jpeg>. This sounds impossible..."
         );
     }
 
     public function testAllowsOutputFailure()
     {
         $this->assertFalse(
-            $this->converter->allowsOutput( 'application/toby' ),
-            'Converter allows output MIME type <application/toby>. This sounds impossible...'
+            $this->converter->allowsOutput( "application/ezc" ),
+            "Converter allows output MIME type <application/ezc>. This sounds impossible..."
         );
     }
 
-    public function testGetMimeOutSuccess_1()
+    public function testGetMimeOutSuccessConversionPerformed()
     {
         $this->assertEquals(
-            'image/png',
-            $this->converter->getMimeOut( 'image/gif' ),
-            'Converter converted MIME type incorrectly.'
+            "image/png",
+            $this->converter->getMimeOut( "image/gif" ),
+            "Converter converted MIME type incorrectly."
         );
     }
 
-    public function testGetMimeOutSuccess_2()
+    public function testGetMimeOutSuccessNoConversionPerformed()
     {
         $this->assertEquals(
-            'image/jpeg',
-            $this->converter->getMimeOut( 'image/jpeg' ),
-            'Converter converted MIME type incorrectly.'
+            "image/jpeg",
+            $this->converter->getMimeOut( "image/jpeg" ),
+            "Converter converted MIME type incorrectly."
         );
     }
 
@@ -218,223 +211,245 @@ class ezcImageConversionConverterTest extends ezcTestCase
     {
         try
         {
-            $this->converter->getMimeOut( 'application/toby' );
+            $this->converter->getMimeOut( "application/ezc" );
         }
         catch ( ezcImageMimeTypeUnsupportedException $e )
         {
             return;
         }
-        $this->fail( 'Expected exception not thrown when getting output MIME type for invalid input type.' );
+        $this->fail( "Expected exception not thrown when getting output MIME type for invalid input type." );
     }
+
+    // Filter tests
 
     public function testHasFilterSuccess()
     {
         $this->assertTrue(
-            $this->converter->hasFilter( 'scale' ),
-            'Converter does not have filter <scale>. This sounds impossible...'
+            $this->converter->hasFilter( "scale" ),
+            "Converter does not have filter <scale>. This sounds impossible..."
         );
     }
 
     public function testHasFilterFailure()
     {
         $this->assertFalse(
-            $this->converter->hasFilter( 'toby' ),
-            'Converter has filter <toby>. This sounds impossible...'
+            $this->converter->hasFilter( "ezc" ),
+            "Converter has filter <ezc>. This sounds impossible..."
         );
     }
 
-    public function testGetFilterNames_1()
+    public function testGetFilterNamesIncluded()
     {
         $standardFilters = array(
-             'scale',
-             'scaleWidth',
-             'scaleHeight',
-             'scalePercent',
-             'scaleExact',
-             'crop',
-             'colorspace',
+             "scale",
+             "scaleWidth",
+             "scaleHeight",
+             "scalePercent",
+             "scaleExact",
+             "crop",
+             "colorspace",
         );
         $this->assertEquals(
             array_intersect( $standardFilters, $this->converter->getFilterNames() ),
             $standardFilters,
-            'Converter seems not to support standard filters from GD.'
+            "Converter seems not to support standard filters from GD."
         );
     }
 
-    public function testGetFilterNames_2()
+    public function testGetFilterNamesExcluded()
     {
         $impossibleFilters = array(
-            '__construct',
-            '__destruct',
-            '__get',
-            '__set',
-            '__call',
+            "__construct",
+            "__destruct",
+            "__get",
+            "__set",
+            "__call",
         );
         $this->assertEquals(
             array_intersect( $impossibleFilters, $this->converter->getFilterNames() ),
             array(),
-            'Converter seems to support impossible filters.'
+            "Converter seems to support impossible filters."
         );
     }
 
-    public function testApplyFilterSuccess_1()
-    {
-        $srcPath = $this->basePath . $this->testFiles['jpeg'];
-        $dstPath = $this->testPath . __METHOD__;
+    // Conversion tests
 
-        $this->converter->applyFilter( new ezcImageFilter( 'scale', array( 'width' => 10, 'height' => 10, 'direction' => ezcImageGeometryFilters::SCALE_DOWN ) ),
+    public function testApplyFilterSuccessScale()
+    {
+        $srcPath = $this->testFiles["jpeg"];
+        $dstPath = $this->getTempPath();
+
+        $this->converter->applyFilter( 
+            new ezcImageFilter( 
+                "scale", 
+                array( "width" => 10, "height" => 10, "direction" => ezcImageGeometryFilters::SCALE_DOWN ) 
+            ),
+            $srcPath,
+            $dstPath
+        );
+
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $dstPath,
+            "Image comparison failed.",
+            2000
+        );
+    }
+
+    public function testApplyFilterSuccessColorspace()
+    {
+        $srcPath = $this->testFiles["jpeg"];
+        $dstPath = $this->getTempPath();
+
+        $this->converter->applyFilter( new ezcImageFilter( "colorspace", array( "space" => ezcImageColorspaceFilters::COLORSPACE_MONOCHROME ) ),
                                        $srcPath, $dstPath );
 
-        $this->assertTrue(
-            file_exists( $dstPath ),
-            'Applying filter through converter failed.'
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $dstPath,
+            "Image comparison failed.",
+            2000
         );
     }
 
-    public function testApplyFilterSuccess_2()
+    public function testApplyFilterFailureHandlerNotAvailable()
     {
-        $srcPath = $this->basePath . $this->testFiles['jpeg'];
-        $dstPath = $this->testPath . __METHOD__;
-
-        $this->converter->applyFilter( new ezcImageFilter( 'colorspace', array( 'space' => ezcImageColorspaceFilters::COLORSPACE_MONOCHROME ) ),
-                                       $srcPath, $dstPath );
-
-        $this->assertEquals(
-            'c2acebb7bde3a516ca4eb13a342ec63f',
-            md5_file( $dstPath ),
-            'Applying filter through converter produced incorrect result.'
-        );
-    }
-
-    public function testApplyFilterFailure_1()
-    {
-        $srcPath = $this->basePath . $this->testFiles['jpeg'];
-        $dstPath = $this->testPath . __METHOD__;
+        $srcPath = $this->testFiles["jpeg"];
+        $dstPath = $this->getTempPath();
 
         try
         {
-            $this->converter->applyFilter( new ezcImageFilter( 'colorspace', array( 'space' => ezcImageColorspaceFilters::COLORSPACE_MONOCHROME ) ),
-                                           $srcPath, $dstPath, 'toby' );
+            $this->converter->applyFilter(
+                new ezcImageFilter( "colorspace", array( "space" => ezcImageColorspaceFilters::COLORSPACE_MONOCHROME ) ),
+                $srcPath,
+                $dstPath, 
+                "ezc" 
+            );
         }
         catch ( ezcImageHandlerNotAvailableException $e )
         {
             return;
         }
-        $this->fail( 'Converter did not throw exception on not available handler while applying filter.' );
+        $this->fail( "Converter did not throw exception on not available handler while applying filter." );
     }
 
-    public function testApplyFilterFailure_2()
+    public function testApplyFilterFailurewFilterNotAvailable()
     {
-        $srcPath = $this->basePath . $this->testFiles['jpeg'];
-        $dstPath = $this->testPath . __METHOD__;
+        $srcPath = $this->testFiles["jpeg"];
+        $dstPath = $this->getTempPath();
 
         try
         {
-            $this->converter->applyFilter( new ezcImageFilter( 'toby', array() ),
-                                           $srcPath, $dstPath );
+            $this->converter->applyFilter(
+                new ezcImageFilter( "ezc", array() ),
+                $srcPath,
+                $dstPath 
+            );
         }
         catch ( ezcImageFilterNotAvailableException $e )
         {
             return;
         }
-        $this->fail( 'Converter did not throw exception on not available filter while applying filter.' );
+        $this->fail( "Converter did not throw exception on not available filter while applying filter." );
     }
 
-    public function testGetHandlerSuccess_1()
+    // Handler retrieval tests
+
+    public function testGetHandlerSuccessNoFilterNoInNoOut()
     {
         $this->assertType(
-            'ezcImageHandler',
+            "ezcImageHandler",
             $this->converter->getHandler(),
-            'Returned object is not an ezcImageHandler.'
+            "Returned object is not an ezcImageHandler."
         );
     }
 
-    public function testGetHandlerSuccess_2()
+    public function testGetHandlerSuccessFilterNoInNoOut()
     {
         $this->assertType(
-            'ezcImageHandler',
-            $this->converter->getHandler( 'scale' ),
-            'Returned object is not an ezcImageHandler.'
+            "ezcImageHandler",
+            $this->converter->getHandler( "scale" ),
+            "Returned object is not an ezcImageHandler."
         );
     }
 
-    public function testGetHandlerSuccess_3()
+    public function testGetHandlerSuccessNoFilterInNoOut()
     {
         $this->assertType(
-            'ezcImageHandler',
-            $this->converter->getHandler( null, 'image/jpeg' ),
-            'Returned object is not an ezcImageHandler.'
+            "ezcImageHandler",
+            $this->converter->getHandler( null, "image/jpeg" ),
+            "Returned object is not an ezcImageHandler."
         );
     }
 
-    public function testGetHandlerSuccess_4()
+    public function testGetHandlerSuccessNoFilterNoInOut()
     {
         $this->assertType(
-            'ezcImageHandler',
-            $this->converter->getHandler( null, null, 'image/jpeg' ),
-            'Returned object is not an ezcImageHandler.'
+            "ezcImageHandler",
+            $this->converter->getHandler( null, null, "image/jpeg" ),
+            "Returned object is not an ezcImageHandler."
         );
     }
 
-    public function testGetHandlerSuccess_5()
+    public function testGetHandlerSuccessFilterInOut()
     {
         $this->assertType(
-            'ezcImageHandler',
-            $this->converter->getHandler( 'scale', 'image/jpeg', 'image/jpeg' ),
-            'Returned object is not an ezcImageHandler.'
+            "ezcImageHandler",
+            $this->converter->getHandler( "scale", "image/jpeg", "image/jpeg" ),
+            "Returned object is not an ezcImageHandler."
         );
     }
 
-    public function testGetHandlerFailure_1()
+    public function testGetHandlerFailureFilterNoInNoOut()
     {
         try
         {
-            $this->converter->getHandler( 'toby' );
+            $this->converter->getHandler( "ezc" );
         }
         catch ( ezcImageHandlerNotAvailableException $e )
         {
             return;
         }
-        $this->fail( 'Converter did not throw exception on request of impossible handler.' );
+        $this->fail( "Converter did not throw exception on request of impossible handler." );
     }
 
-    public function testGetHandlerFailure_2()
+    public function testGetHandlerFailureNoFilterInNoOut()
     {
         try
         {
-            $this->converter->getHandler( null, 'application/toby' );
+            $this->converter->getHandler( null, "application/ezc" );
         }
         catch ( ezcImageHandlerNotAvailableException $e )
         {
             return;
         }
-        $this->fail( 'Converter did not throw exception on request of impossible handler.' );
+        $this->fail( "Converter did not throw exception on request of impossible handler." );
     }
 
-    public function testGetHandlerFailure_3()
+    public function testGetHandlerFailureNoFilterNoInOut()
     {
         try
         {
-            $this->converter->getHandler( null, null, 'application/toby' );
+            $this->converter->getHandler( null, null, "application/ezc" );
         }
         catch ( ezcImageHandlerNotAvailableException $e )
         {
             return;
         }
-        $this->fail( 'Converter did not throw exception on request of impossible handler.' );
+        $this->fail( "Converter did not throw exception on request of impossible handler." );
     }
 
-    public function testGetHandlerFailure_4()
+    public function testGetHandlerFailureNotAvailableFilterInOut()
     {
         try
         {
-            $this->converter->getHandler( 'toby', 'application/toby', 'application/toby' );
+            $this->converter->getHandler( "ezc", "application/ezc", "application/ezc" );
         }
         catch ( ezcImageHandlerNotAvailableException $e )
         {
             return;
         }
-        $this->fail( 'Converter did not throw exception on request of impossible handler.' );
+        $this->fail( "Converter did not throw exception on request of impossible handler." );
     }
 }
 ?>
