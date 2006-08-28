@@ -55,7 +55,7 @@ class ezcImageConversionTestCase extends ezcImageTestCase
         {
             $this->fail( "BROKEN TEST CASE. MISSING OBJECT OR FUNCTION IN BACKTRACE" );
         }
-        return $trace[2]["class"] . "::" . $trace[2]["function"] . $index;
+        return $trace[2]["class"] . "_" . $trace[2]["function"] . $index;
     }
 
     private function getTempBasePath()
