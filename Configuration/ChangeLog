@@ -1,4 +1,4 @@
-1.0.3 - [RELEASEDATE]
+1.0.3 - Monday 28 August 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Refactored to use new ezcBaseStruct class to inherit all the structs from.
