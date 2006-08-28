@@ -48,13 +48,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scale( 500, 500, ezcImageGeometryFilters::SCALE_BOTH );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScaleDown_do()
@@ -62,13 +62,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scale( 500, 2, ezcImageGeometryFilters::SCALE_DOWN );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScaleDown_dont()
@@ -76,13 +76,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scale( 500, 500, ezcImageGeometryFilters::SCALE_DOWN );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScaleUp_do()
@@ -90,13 +90,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scale( 500, 500, ezcImageGeometryFilters::SCALE_UP );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScaleUp_dont()
@@ -104,13 +104,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scale( 2, 2, ezcImageGeometryFilters::SCALE_UP );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScaleWidthBoth()
@@ -119,13 +119,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scaleWidth( 50, ezcImageGeometryFilters::SCALE_BOTH );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScaleWidthUp_1()
@@ -133,13 +133,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scaleWidth( 50, ezcImageGeometryFilters::SCALE_UP );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScaleWidthUp_2()
@@ -147,13 +147,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scaleWidth( 300, ezcImageGeometryFilters::SCALE_UP );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScaleWidthDown_1()
@@ -161,13 +161,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scaleWidth( 300, ezcImageGeometryFilters::SCALE_DOWN );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScaleWidthDown_2()
@@ -175,14 +175,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scaleWidth( 50, ezcImageGeometryFilters::SCALE_DOWN );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
-        // echo "\n'".__FUNCTION__."' => '".md5_file( $this->getTempPath() )."',\n";
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScaleHeightUp_1()
@@ -190,13 +189,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scaleHeight( 300, ezcImageGeometryFilters::SCALE_UP );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScaleHeightUp_2()
@@ -204,13 +203,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scaleHeight( 300, ezcImageGeometryFilters::SCALE_DOWN );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScaleHeightDown_1()
@@ -218,13 +217,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scaleHeight( 30, ezcImageGeometryFilters::SCALE_UP );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScaleHeightDown_2()
@@ -232,13 +231,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scaleHeight( 30, ezcImageGeometryFilters::SCALE_DOWN );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScalePercent_1()
@@ -246,13 +245,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scalePercent( 50, 50 );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScalePercent_2()
@@ -260,13 +259,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scaleExact( 200, 200 );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScaleExact_1()
@@ -275,13 +274,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scaleExact( 200, 200 );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScaleExact_2()
@@ -289,13 +288,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scaleExact( 10, 200 );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testScaleExact_3()
@@ -303,13 +302,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->scaleExact( 200, 10 );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testCrop_1()
@@ -317,13 +316,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->crop( 50, 38, 50, 37 );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testCrop_2()
@@ -331,13 +330,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->crop( 100, 75, -50, -37 );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testCrop_3()
@@ -345,13 +344,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->crop( 50, 75, 250, 38 );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testCrop_0_Offset()
@@ -359,13 +358,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->crop( 0, 0, 10, 10 );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testColorspaceGrey()
@@ -373,13 +372,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->colorspace( ezcImageColorspaceFilters::COLORSPACE_GREY );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testColorspaceMonochrome()
@@ -387,13 +386,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->colorspace( ezcImageColorspaceFilters::COLORSPACE_MONOCHROME );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testColorspaceSepia()
@@ -401,13 +400,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->colorspace( ezcImageColorspaceFilters::COLORSPACE_SEPIA );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testNoiseUniform()
@@ -415,6 +414,7 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->noise( 'Uniform' );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
@@ -422,7 +422,6 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
             // Noise is normally different each time
             200
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testNoiseGaussian()
@@ -430,6 +429,7 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->noise( 'Gaussian' );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
@@ -437,7 +437,6 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
             // Noise is normally different each time
             30000
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testNoiseMultiplicative()
@@ -445,6 +444,7 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->noise( 'Multiplicative' );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
@@ -452,7 +452,6 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
             // Noise is normally different each time
             30000
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testNoiseImpulse()
@@ -460,6 +459,7 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->noise( 'Impulse' );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
@@ -467,7 +467,6 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
             // Noise is normally different each time
             10000
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testNoiseLaplacian()
@@ -475,6 +474,7 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->noise( 'Laplacian' );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
@@ -482,7 +482,6 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
             // Noise is normally different each time
             22000
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testNoisePoisson()
@@ -490,6 +489,7 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->noise( 'Poisson' );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
@@ -497,7 +497,6 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
             // Noise is normally different each time
             12000
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testSwirl_10()
@@ -505,13 +504,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->swirl( 10 );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testSwirl_50()
@@ -519,13 +518,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->swirl( 50 );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testSwirl_100()
@@ -533,13 +532,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->swirl( 100 );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testBorder_2()
@@ -547,13 +546,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->border( 2, array( 0x00, 0x00, 0xFF ) );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 
     public function testBorder_5()
@@ -561,13 +560,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->handler->border( 5, array( 255, 0, 0 ) );
         // REGENERATE # $this->handler->save( $this->getActiveReference(), $this->getReferencePath() );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
+        $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $this->getActiveReference() );
     }
 }
 ?>
