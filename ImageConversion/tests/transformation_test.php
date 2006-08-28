@@ -416,7 +416,6 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             $this->testFiltersSuccess[0],
             array( "image/jpeg", "image/png" )
         );
-        //REGENERATE # $trans->transform( $this->testFiles["png"], $this->getReferencePath() );
         $trans->transform( $this->testFiles["png"], $this->getTempPath() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
@@ -434,7 +433,6 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             $this->testFiltersSuccess[1],
             array( "image/jpeg", "image/png" )
         );
-        //REGENERATE # $trans->transform( $this->testFiles["png"], $this->getReferencePath() );
         $trans->transform( $this->testFiles["png"], $this->getTempPath() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
@@ -452,7 +450,6 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             $this->testFiltersSuccess[2],
             array( "image/jpeg", "image/png" )
         );
-        //REGENERATE # $trans->transform( $this->testFiles["png"], $this->getReferencePath() );
         $trans->transform( $this->testFiles["png"], $this->getTempPath() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
@@ -470,7 +467,6 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             $this->testFiltersSuccess[0],
             array( "image/jpeg", "image/png" )
         );
-        //REGENERATE # $trans->transform( $this->testFiles["jpeg"], $this->getReferencePath() );
         $trans->transform( $this->testFiles["jpeg"], $this->getTempPath() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
@@ -488,7 +484,6 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             $this->testFiltersSuccess[1],
             array( "image/jpeg", "image/png" )
         );
-        //REGENERATE # $trans->transform( $this->testFiles["jpeg"], $this->getReferencePath() );
         $trans->transform( $this->testFiles["jpeg"], $this->getTempPath() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
@@ -506,7 +501,6 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             $this->testFiltersSuccess[2],
             array( "image/jpeg", "image/png" )
         );
-        //REGENERATE # $trans->transform( $this->testFiles["jpeg"], $this->getReferencePath() );
         $trans->transform( $this->testFiles["jpeg"], $this->getTempPath() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
@@ -524,7 +518,6 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             $this->testFiltersSuccess[0],
             array( "image/jpeg", "image/png" )
         );
-        //REGENERATE # $trans->transform( $this->testFiles["gif_nonanimated"], $this->getReferencePath() );
         $trans->transform( $this->testFiles["gif_nonanimated"], $this->getTempPath() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
@@ -542,7 +535,6 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             $this->testFiltersSuccess[1],
             array( "image/jpeg", "image/png" )
         );
-        //REGENERATE # $trans->transform( $this->testFiles["gif_nonanimated"], $this->getReferencePath() );
         $trans->transform( $this->testFiles["gif_nonanimated"], $this->getTempPath() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
@@ -560,7 +552,6 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             $this->testFiltersSuccess[2],
             array( "image/jpeg", "image/png" )
         );
-        //REGENERATE # $trans->transform( $this->testFiles["gif_nonanimated"], $this->getReferencePath() );
         $trans->transform( $this->testFiles["gif_nonanimated"], $this->getTempPath() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
@@ -578,7 +569,6 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             $this->testFiltersSuccess[2],
             array( "image/jpeg", "image/png" )
         );
-        //REGENERATE # $trans->transform( $this->testFiles["gif_animated"], $this->getReferencePath() );
         $trans->transform( $this->testFiles["gif_animated"], $this->getTempPath() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
@@ -654,9 +644,7 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
         $mimeOut = array( "image/jpeg" );
         $trans = new ezcImageTransformation( $this->converter, "test", $this->testFiltersSuccess[0], $mimeOut );
 
-        //REGENERATE # $trans->transform( $this->testFiles["jpeg"], $this->getReferencePath() );
         $trans->transform( $this->testFiles["jpeg"], $this->getTempPath( "jpeg" ) );
-        //REGENERATE # $trans->transform( $this->testFiles["png"], $this->getReferencePath() );
         $trans->transform( $this->testFiles["png"], $this->getTempPath( "png" ) );
 
         $this->assertImageSimilar(

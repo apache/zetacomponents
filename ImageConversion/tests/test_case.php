@@ -4,14 +4,17 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 class ezcImageConversionTestCase extends ezcImageTestCase
 {
+    // To regenerate all test files, set this to true
+    const REGENERATION_MODE = true;
+
+    // Set this to false to keep the temporary test dirs
+    const REMOVE_TEMP_DIRS = true;
 
     const DEFAULT_SIMILARITY_GAP = 10;
 
     protected static $tempDirs = array();
 
     protected $testFiles = array();
-
-    protected $tempPath;
 
     protected $referencePath;
 
@@ -34,15 +37,18 @@ class ezcImageConversionTestCase extends ezcImageTestCase
 
     public function __destruct()
     {
-        if ( sizeof( glob( "{$this->tempPath}/*" ) ) === 0 )
+        if ( ezcImageConversionTestCase::REMOVE_TEMP_DIRS === true )
         {
             $this->removeTempDir();
+            unset( ezcImageConversionTestCase::$tempDirs[get_class( $this )] );
         }
     }
 
     protected function getTempPath( $index = "" )
     {
-        return "{$this->getTempBasePath()}/{$this->getTestName( $index )}";
+        return ezcImageConversionTestCase::REGENERATION_MODE === true
+            ? "{$this->referencePath}/{$this->getTestName( $index )}"
+            : "{$this->getTempBasePath()}/{$this->getTestName( $index )}";
     }
 
     protected function getReferencePath( $index = "" )

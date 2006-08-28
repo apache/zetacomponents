@@ -181,7 +181,6 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
         $ref = $this->handler->load( $srcPath );
         $this->handler->applyFilter( $ref, new ezcImageFilter( "scale", array( "width" => 200, "height" => 200, "direction" => ezcImageGeometryFilters::SCALE_BOTH ) ) );
         $this->handler->save( $ref, $dstPath );
-        // REGENERATE # $this->handler->save( $ref, $this->getReferencePath() );
         $this->assertImageSimilar(
              $this->getReferencePath(),
              $dstPath,
@@ -200,7 +199,6 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
         $this->handler->applyFilter( $ref, new ezcImageFilter( "crop", array( "x" => 50, "width" => 100, "y" => 100, "height" => 100 ) ) );
         $this->handler->applyFilter( $ref, new ezcImageFilter( "colorspace", array( "space" => ezcImageColorspaceFilters::COLORSPACE_SEPIA ) ) );
         $this->handler->save( $ref, $dstPath );
-        // REGENERATE # $this->handler->save( $ref, $this->getReferencePath() );
 
         $this->assertImageSimilar(
              $this->getReferencePath(),

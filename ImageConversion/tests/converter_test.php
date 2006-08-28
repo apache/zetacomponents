@@ -286,6 +286,7 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
         $srcPath = $this->testFiles["jpeg"];
         $dstPath = $this->getTempPath();
 
+
         $this->converter->applyFilter( 
             new ezcImageFilter( 
                 "scale", 
@@ -307,6 +308,7 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
     {
         $srcPath = $this->testFiles["jpeg"];
         $dstPath = $this->getTempPath();
+        
 
         $this->converter->applyFilter( new ezcImageFilter( "colorspace", array( "space" => ezcImageColorspaceFilters::COLORSPACE_MONOCHROME ) ),
                                        $srcPath, $dstPath );
