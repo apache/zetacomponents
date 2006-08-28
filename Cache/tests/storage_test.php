@@ -9,6 +9,9 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once 'PHPUnit/Util/Filter.php';
+PHPUnit_Util_Filter::addFileToFilter(__FILE__);
+
 /**
  * Abstract base test class for ezcCacheStorage tests.
  * 

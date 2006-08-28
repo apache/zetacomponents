@@ -1,4 +1,6 @@
 <?php
+require_once 'PHPUnit/Util/Filter.php';
+PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 $res["testNoParameters"] = '[34;1meZ components PersistentObject definition generator[0m[m
 [0m[0m[0m[m

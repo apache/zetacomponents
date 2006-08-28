@@ -1,4 +1,7 @@
 <?php
+require_once 'PHPUnit/Util/Filter.php';
+PHPUnit_Util_Filter::addFileToFilter(__FILE__);
+
 /*
  * Holds the definition for PersistentTestObject
  * This definition is used by the code manager for

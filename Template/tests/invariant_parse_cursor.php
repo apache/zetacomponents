@@ -1,4 +1,7 @@
 <?php
+require_once 'PHPUnit/Util/Filter.php';
+PHPUnit_Util_Filter::addFileToFilter(__FILE__);
+
 /**
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license LGPL {@link http://www.gnu.org/copyleft/lesser.html}

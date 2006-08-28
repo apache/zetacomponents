@@ -8,6 +8,9 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once 'PHPUnit/Util/Filter.php';
+PHPUnit_Util_Filter::addFileToFilter(__FILE__);
+
 /**
  * Test suite for ImageHandler class.
  * This class contains all tests that are common between backend handlers.
