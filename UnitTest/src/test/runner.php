@@ -100,6 +100,12 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
         // Exclude DSN from the host parameters.
         $host->addExclusion( new ezcConsoleOptionRule( $dsn ) );
+
+        // coverage report dir
+        $report = new ezcConsoleOption( 'c', 'report-dir', ezcConsoleInput::TYPE_STRING );
+        $report->shorthelp = "Directory to store test reports and code coverage reports in.";
+        $report->default = "";
+        $consoleInput->registerOption( $report );
     }
 
     protected static function processConsoleArguments( $consoleInput )
@@ -161,14 +167,20 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $this->printCredits();
 
         print( '[Preparing tests]:' );
+        $params = array();
 
         // Set the release. Default is trunk. 
         $release = $consoleInput->getOption( 'release' )->value;
         $release = ( $release == false || $release == "trunk" ? "trunk" : "releases/$release" );
 
         $allSuites = $this->prepareTests( $consoleInput->getArguments(),  $release );
+        $reportDir = $consoleInput->getOption( 'report-dir' )->value;
+        if ( $reportDir )
+        {
+            $params['reportDirectory'] = $reportDir;
+        }
 
-        $this->doRun( $allSuites );
+        $this->doRun( $allSuites, $params );
     }
 
     protected function printCredits()
