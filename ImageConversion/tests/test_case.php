@@ -5,7 +5,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 class ezcImageConversionTestCase extends ezcImageTestCase
 {
     // To regenerate all test files, set this to true
-    const REGENERATION_MODE = true;
+    const REGENERATION_MODE = false;
 
     // Set this to false to keep the temporary test dirs
     const REMOVE_TEMP_DIRS = true;
