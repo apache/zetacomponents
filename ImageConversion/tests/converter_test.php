@@ -57,9 +57,16 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
             "image/xpm"  => "image/jpeg",
             "image/wbmp" => "image/jpeg",
         );
-        $settings = new ezcImageConverterSettings( array( new ezcImageHandlerSettings( "GD", "ezcImageGdHandler" ) ),
-                                                   $conversionsIn );
-        $converter = new ezcImageConverter( $settings );
+        try
+        {
+            $settings = new ezcImageConverterSettings( array( new ezcImageHandlerSettings( "GD", "ezcImageGdHandler" ) ),
+                                                       $conversionsIn );
+            $converter = new ezcImageConverter( $settings );
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped();
+        }
 
         $handlers = $this->getAttribute( $converter, "handlers" );
         $settings = $this->getAttribute( $converter, "settings" );
