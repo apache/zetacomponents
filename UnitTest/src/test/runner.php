@@ -1,10 +1,4 @@
 <?php
-// Prevent that our extended class starts to run.
-if ( !defined( 'PHPUnit_MAIN_METHOD' ) )
-{
-    define( 'PHPUnit_MAIN_METHOD', 'TestRunner::main' );
-}
-
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'PHPUnit/Util/Filter.php';
 
