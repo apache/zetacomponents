@@ -219,6 +219,20 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
         self::assertEquals( $expected, $tableLiveuserTranslations );
     }
 
+    // bug #8900
+    public function testMysqlTwoTablesPrimaryKey()
+    {
+        $fileNameOrig = realpath( $this->testFilesDir . 'bug8900.xml' );
+        $schema = ezcDbSchema::createFromFile( 'xml', $fileNameOrig );
+        $text = '';
+        foreach ( $schema->convertToDDL( $this->db ) as $statement )
+        {
+            $text .= $statement . ";\n";
+        }
+        $sql = file_get_contents( $this->testFilesDir . 'bug8900.sql' );
+        self::assertEquals( $sql, $text );
+    }
+
     public static function suite()
     {
         return new ezcTestSuite( 'ezcDatabaseSchemaMySqlTest' );

@@ -16,6 +16,7 @@ return array(
     'ezcDbSchemaValidator'              => 'DatabaseSchema/validator.php',
     'ezcDbSchemaTypesValidator'         => 'DatabaseSchema/validators/types.php',
     'ezcDbSchemaIndexFieldsValidator'   => 'DatabaseSchema/validators/index_fields.php',
+    'ezcDbSchemaAutoIncrementIndexValidator' => 'DatabaseSchema/validators/auto_increment_index.php',
 
     'ezcDbSchemaComparator'             => 'DatabaseSchema/comparator.php',
     'ezcDbSchemaTableDiff'              => 'DatabaseSchema/structs/table_diff.php',

@@ -1,6 +1,10 @@
 1.0.2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed bug #8900: Problem with auto increment and primary keys for MySQL
+  because the skip_primary context was not reset for new tables.
+- Added a new validator to check whether columns marked as 'auto_increment'
+  actually have a primary key defined as well.
 - Implemented FR #8901: Written schemas should indent the XML.
 - Refactored the structs to use the new ezcBaseStruct class.
 

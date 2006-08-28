@@ -91,6 +91,31 @@ class ezcDatabaseSchemaValidatorTest extends ezcTestCase
         self::assertEquals( $expected, ezcDbSchemaValidator::validate( $schema ) );
     }
 
+    public function testMissingIndexForAutoincrementField()
+    {
+        $schema = new ezcDbSchema(
+            array(
+                'bugdb' => new ezcDbSchemaTable(
+                    array (
+                        'id' => new ezcDbSchemaField( 'integer', false, true, null, true ),
+                    )
+                ),
+                'bugdb2' => new ezcDbSchemaTable(
+                    array (
+                        'id' => new ezcDbSchemaField( 'integer', false, true, null, true ),
+                    ),
+                    array (
+                        'primary' => new ezcDbSchemaIndex( array ( 'id' => new ezcDbSchemaIndexField() ), true ),
+                    )
+                ),
+            )
+        );
+        $expected = array(
+            "Field <bugdb:id> is auto increment but there is no primary index defined.",
+        );
+        self::assertEquals( $expected, ezcDbSchemaValidator::validate( $schema ) );
+    }
+
     public static function suite()
     {
         return new ezcTestSuite( 'ezcDatabaseSchemaValidatorTest' );

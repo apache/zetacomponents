@@ -175,6 +175,36 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
     }
 
     /**
+     * Adds a "create table" query for the table $tableName with definition $tableDefinition to the internal list of queries.
+     *
+     * @param string           $tableName
+     * @param ezcDbSchemaTable $tableDefinition
+     */
+    protected function generateCreateTableSql( $tableName, ezcDbSchemaTable $tableDefinition )
+    {
+        $this->context['skip_primary'] = false;
+        parent::generateCreateTableSql( $tableName, $tableDefinition );
+    }
+
+    /**
+     * Generates queries to upgrade a the table $tableName with the differences in $tableDiff.
+     *
+     * This method generates queries to migrate a table to a new version
+     * with the changes that are stored in the $tableDiff property. It
+     * will call different subfunctions for the different types of changes, and
+     * those functions will add queries to the internal list of queries that is
+     * stored in $this->queries.
+     *
+     * @param string $tableName
+     * @param string $tableDiff
+     */
+    protected function generateDiffSchemaTableAsSql( $tableName, ezcDbSchemaTableDiff $tableDiff )
+    {
+        $this->context['skip_primary'] = false;
+        parent::generateDiffSchemaTableAsSql( $tableName, $tableDiff );
+    }
+
+    /**
      * Adds a "alter table" query to add the field $fieldName to $tableName with the definition $fieldDefinition.
      *
      * @param string           $tableName
@@ -260,7 +290,7 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
 
         if ( $indexDefinition->primary )
         {
-            if ( isset( $this->context['skip_primary'] ) && $this->context['skip_primary'] )
+            if ( $this->context['skip_primary'] )
             {
                 return;
             }

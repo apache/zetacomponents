@@ -50,9 +50,10 @@ abstract class ezcDbSchemaCommonSqlWriter
     /**
      * Adds a "create table" query for the table $tableName with definition $tableDefinition to the internal list of queries.
      *
-     * @param string $tableName
+     * @param string           $tableName
+     * @param ezcDbSchemaTable $tableDefinition
      */
-    private function generateCreateTableSql( $tableName, ezcDbSchemaTable $tableDefinition )
+    protected function generateCreateTableSql( $tableName, ezcDbSchemaTable $tableDefinition )
     {
         $sql = '';
 
@@ -121,46 +122,7 @@ abstract class ezcDbSchemaCommonSqlWriter
     {
         foreach ( $this->diffSchema->changedTables as $tableName => $tableDiff )
         {
-            foreach ( $tableDiff->removedIndexes as $indexName => $isRemoved )
-            {
-                if ( $isRemoved )
-                {
-                    $this->generateDropIndexSql( $tableName, $indexName );
-                }
-            }
-
-            foreach ( $tableDiff->changedIndexes as $indexName => $indexDefinition )
-            {
-                $this->generateDropIndexSql( $tableName, $indexName );
-            }
-
-            foreach ( $tableDiff->removedFields as $fieldName => $isRemoved )
-            {
-                if ( $isRemoved )
-                {
-                    $this->generateDropFieldSql( $tableName, $fieldName );
-                }
-            }
-
-            foreach ( $tableDiff->changedFields as $fieldName => $fieldDefinition )
-            {
-                $this->generateChangeFieldSql( $tableName, $fieldName, $fieldDefinition );
-            }
-
-            foreach ( $tableDiff->addedFields as $fieldName => $fieldDefinition )
-            {
-                $this->generateAddFieldSql( $tableName, $fieldName, $fieldDefinition );
-            }
-
-            foreach ( $tableDiff->changedIndexes as $indexName => $indexDefinition )
-            {
-                $this->generateAddIndexSql( $tableName, $indexName, $indexDefinition );
-            }
-
-            foreach ( $tableDiff->addedIndexes as $indexName => $indexDefinition )
-            {
-                $this->generateAddIndexSql( $tableName, $indexName, $indexDefinition );
-            }
+            $this->generateDiffSchemaTableAsSql( $tableName, $tableDiff );
         }
 
         foreach ( $this->diffSchema->newTables as $tableName => $tableDef )
@@ -171,6 +133,62 @@ abstract class ezcDbSchemaCommonSqlWriter
         foreach ( $this->diffSchema->removedTables as $tableName => $dummy )
         {
             $this->generateDropTableSql( $tableName );
+        }
+    }
+
+    /**
+     * Generates queries to upgrade a the table $tableName with the differences in $tableDiff.
+     *
+     * This method generates queries to migrate a table to a new version
+     * with the changes that are stored in the $tableDiff property. It
+     * will call different subfunctions for the different types of changes, and
+     * those functions will add queries to the internal list of queries that is
+     * stored in $this->queries.
+     *
+     * @param string $tableName
+     * @param string $tableDiff
+     */
+    protected function generateDiffSchemaTableAsSql( $tableName, ezcDbSchemaTableDiff $tableDiff )
+    {
+        foreach ( $tableDiff->removedIndexes as $indexName => $isRemoved )
+        {
+            if ( $isRemoved )
+            {
+                $this->generateDropIndexSql( $tableName, $indexName );
+            }
+        }
+
+        foreach ( $tableDiff->changedIndexes as $indexName => $indexDefinition )
+        {
+            $this->generateDropIndexSql( $tableName, $indexName );
+        }
+
+        foreach ( $tableDiff->removedFields as $fieldName => $isRemoved )
+        {
+            if ( $isRemoved )
+            {
+                $this->generateDropFieldSql( $tableName, $fieldName );
+            }
+        }
+
+        foreach ( $tableDiff->changedFields as $fieldName => $fieldDefinition )
+        {
+            $this->generateChangeFieldSql( $tableName, $fieldName, $fieldDefinition );
+        }
+
+        foreach ( $tableDiff->addedFields as $fieldName => $fieldDefinition )
+        {
+            $this->generateAddFieldSql( $tableName, $fieldName, $fieldDefinition );
+        }
+
+        foreach ( $tableDiff->changedIndexes as $indexName => $indexDefinition )
+        {
+            $this->generateAddIndexSql( $tableName, $indexName, $indexDefinition );
+        }
+
+        foreach ( $tableDiff->addedIndexes as $indexName => $indexDefinition )
+        {
+            $this->generateAddIndexSql( $tableName, $indexName, $indexDefinition );
         }
     }
 

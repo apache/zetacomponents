@@ -155,6 +155,25 @@ class ezcDatabaseSchemaMySqlDiffTest extends ezcTestCase
         self::assertEquals( self::getSchema2(), $schemaInDb );
     }
 
+    // bug #8900
+    public function testMysqlTwoTablesPrimaryKey()
+    {
+        $fileNameWithout = realpath( $this->testFilesDir . 'bug8900-without-index.xml' );
+        $schemaWithout = ezcDbSchema::createFromFile( 'xml', $fileNameWithout );
+
+        $fileNameWith = realpath( $this->testFilesDir . 'bug8900.xml' );
+        $schemaWith = ezcDbSchema::createFromFile( 'xml', $fileNameWith );
+
+        $diff = ezcDbSchemaComparator::compareSchemas( $schemaWithout, $schemaWith );
+        $text = '';
+        foreach ( $diff->convertToDDL( $this->db ) as $statement )
+        {
+            $text .= $statement . ";\n";
+        }
+        $sql = file_get_contents( $this->testFilesDir . 'bug8900-diff.sql' );
+        self::assertEquals( $sql, $text );
+    }
+
     public static function suite()
     {
         return new ezcTestSuite( 'ezcDatabaseSchemaMysqlDiffTest' );

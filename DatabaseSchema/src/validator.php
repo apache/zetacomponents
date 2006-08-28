@@ -38,7 +38,8 @@ class ezcDbSchemaValidator
      */
     static private $validators = array(
         'ezcDbSchemaTypesValidator',
-        'ezcDbSchemaIndexFieldsValidator'
+        'ezcDbSchemaIndexFieldsValidator',
+        'ezcDbSchemaAutoIncrementIndexValidator',
     );
 
     /**
