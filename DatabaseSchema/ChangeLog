@@ -1,4 +1,4 @@
-1.0.2 - [RELEASEDATE]
+1.0.2 - Monday 28 August 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed bug #8900: Problem with auto increment and primary keys for MySQL
