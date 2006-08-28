@@ -1,4 +1,4 @@
-1.0.2 - [RELEASEDATE]
+1.0.2 - Monday 28 August 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Refactored to use new ezcBaseStruct class and new properties approach.
