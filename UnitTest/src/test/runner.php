@@ -2,8 +2,6 @@
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'PHPUnit/Util/Filter.php';
 
-PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
-
 class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 {
     const SUITE_FILENAME = "tests/suite.php";
@@ -413,5 +411,12 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         print( "For example: mysql://root:root@localhost/unittests\n\n" );
         exit();
     }
+
+    public static function addFileToFilter( $filename, $group = 'DEFAULT' )
+    {
+        PHPUnit_Util_Filter::addFileToFilter( $filename, $group );
+    }
 }
+
+ezcTestRunner::addFileToFilter( __FILE__ );
 ?>
