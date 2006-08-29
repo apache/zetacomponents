@@ -1,4 +1,8 @@
 <?php
+require_once 'PHPUnit/Util/Filter.php';
+
+PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
+
 // All errors must be reported
 error_reporting( E_ALL | E_STRICT );
 require_once("Base/src/base.php");
@@ -15,10 +19,6 @@ function __autoload( $className )
     }
     ezcBase::autoload( $className );
 }
-
-// Remove this file name from the assertion trace.
-require_once 'PHPUnit/Util/Filter.php';
-PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 ezcTestRunner::main();
 ?>

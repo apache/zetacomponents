@@ -1,5 +1,8 @@
 <?php
 require_once 'PHPUnit/Framework/TestSuite.php';
+require_once 'PHPUnit/Util/Filter.php';
+
+PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
 
 class ezcTestSuite extends PHPUnit_Framework_TestSuite
 {
@@ -13,7 +16,6 @@ class ezcTestSuite extends PHPUnit_Framework_TestSuite
  
         parent::__construct( $theClass, $name );
     }
-
 
     public function run( PHPUnit_Framework_TestResult $result = NULL )
     {
@@ -29,6 +31,5 @@ class ezcTestSuite extends PHPUnit_Framework_TestSuite
 
         ezcTestSuite::$depth--;
     }
-    
 }
 ?>

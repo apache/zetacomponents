@@ -1,5 +1,4 @@
 <?php
-    
 /**
  * File containing the ezcTestDatabaseSettings class
  *
@@ -8,6 +7,11 @@
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
+require_once 'PHPUnit/Util/Filter.php';
+
+PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
+
 /**
  * This class represents the structure of all the database settings.
  * 
@@ -36,5 +40,4 @@ class ezcTestDatabaseSettings
 
     public $database;
 }
-
 ?>

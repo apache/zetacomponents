@@ -1,5 +1,7 @@
 <?php
+require_once 'PHPUnit/Util/Filter.php';
 
+PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
 
 return array (
 	"ezcTestRunner" => "UnitTest/test/runner.php",
@@ -13,7 +15,4 @@ return array (
 	"ezcTestSettings" => "UnitTest/test/settings.php",
 	"ezcTestDatabaseSettings" => "UnitTest/test/database_settings.php"
 );
-
-
-
 ?>

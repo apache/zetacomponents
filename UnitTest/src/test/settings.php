@@ -7,6 +7,11 @@
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
+require_once 'PHPUnit/Util/Filter.php';
+
+PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
+
 /**
  * This object stores the settings from the TestRunner. Every TestCase can get
  * the instance of this object, and access the settings. 

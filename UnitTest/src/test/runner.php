@@ -2,6 +2,8 @@
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'PHPUnit/Util/Filter.php';
 
+PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
+
 class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 {
     const SUITE_FILENAME = "tests/suite.php";
@@ -11,10 +13,6 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         // Call this method only once?
         $printer = new ezcTestPrinter();
         $this->setPrinter( $printer );
-
-        // Remove this file name from the assertion trace.
-        // (Displayed when a test fails)
-        PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
     }
 
     /**
