@@ -23,7 +23,7 @@ class ezcTranslationLeetFilter implements ezcTranslationFilter
     /**
      * Private constructor to prevent non-singleton use
      */
-    private function __constructor()
+    private function __construct()
     {
     }
 
