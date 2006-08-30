@@ -111,7 +111,6 @@ class ezcTemplate
                         if ( get_class( $this->properties[$name] ) != 'ezcTemplateConfiguration' )
                         {
                             throw new Exception( "Static method ezcTemplateConfiguration::getInstance() did not return an object of class ezcTemplateConfiguration" );
-                            // $this->properties[$name] = new ezcTemplateConfiguration();
                         }
                 }
                 return $this->properties[$name];
@@ -300,29 +299,6 @@ class ezcTemplate
                                     false /*(bool)$this->compiledDebugEnabled*/ . ')' ),
                              10, 36 );
     }
-
-    /**
-     * Adds custom tags or function to the template language.
-     *
-     * The parameter $customBlockClass expects a class that implements either 
-     * the interface ezcTemplateCustomBlock, ezcTemplateCustomFunction, or both. 
-     *
-     * @param ezcTemplateCustomBlock|ezcTemplateCustomFunctoin $customBlockClass
-     * @return void
-     */
-    public function addExtension( $customClass )
-    {
-        if ( $customClass instanceof ezcTemplateCustomBlock )
-        {
-            ezcTemplateCustomBlockManager::getInstance()->addClass( $customClass );
-        }
-
-        if (  $customClass instanceof ezcTemplateCustomFunction )
-        {
-            ezcTemplateCustomFunctionManager::getInstance()->addClass( $customClass );
-        }
-    }
-
 
 //   /**
 //     * Locates the source template file named $source and returns an

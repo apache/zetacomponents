@@ -30,6 +30,7 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
         }
     }
 
+
     public static function noParameters()
     {
         return "NoParameter";
@@ -53,7 +54,7 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def = new ezcTemplateCustomBlockDefinition();
                 $def->class = __CLASS__;
                 $def->method = "reflectParameters";
-                $def->isNestingBlock = true;
+                $def->hasCloseTag = true;
                 $def->startExpressionName = "";
                 $def->requiredParameters = array();
                 $def->optionalParameters = array("optional");
@@ -63,7 +64,7 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def = new ezcTemplateCustomBlockDefinition();
                 $def->class = __CLASS__;
                 $def->method = "reflectParameters";
-                $def->isNestingBlock = true;
+                $def->hasCloseTag = true;
                 $def->startExpressionName = "";
                 $def->requiredParameters = array("required");
                 $def->optionalParameters = array();
@@ -73,7 +74,7 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def = new ezcTemplateCustomBlockDefinition();
                 $def->class = __CLASS__;
                 $def->method = "reflectParameters";
-                $def->isNestingBlock = true;
+                $def->hasCloseTag = true;
                 $def->startExpressionName = "";
                 $def->requiredParameters = array("required");
                 $def->optionalParameters = array("optional");
@@ -83,7 +84,7 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def = new ezcTemplateCustomBlockDefinition();
                 $def->class = __CLASS__;
                 $def->method = "reflectParameters";
-                $def->isNestingBlock = true;
+                $def->hasCloseTag = true;
                 $def->startExpressionName = "start_expression";
                 $def->requiredParameters = array("start_expression");
                 $def->optionalParameters = array();
@@ -93,7 +94,7 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def = new ezcTemplateCustomBlockDefinition();
                 $def->class = __CLASS__;
                 $def->method = "reflectParameters";
-                $def->isNestingBlock = true;
+                $def->hasCloseTag = true;
                 $def->startExpressionName = "start_expression";
                 $def->requiredParameters = array();
                 $def->optionalParameters = array("start_expression");
@@ -103,7 +104,7 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def = new ezcTemplateCustomBlockDefinition();
                 $def->class = __CLASS__;
                 $def->method = "reflectParameters";
-                $def->isNestingBlock = true;
+                $def->hasCloseTag = true;
                 $def->startExpressionName = "start_expresssion";
                 $def->requiredParameters = array();
                 $def->optionalParameters = array("bla");
@@ -116,7 +117,7 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def = new ezcTemplateCustomBlockDefinition();
                 $def->class = __CLASS__;
                 $def->method = "reflectParameters";
-                $def->isNestingBlock = false;
+                $def->hasCloseTag = false;
                 $def->startExpressionName = "";
                 $def->requiredParameters = array();
                 $def->optionalParameters = array("optional");
@@ -126,7 +127,7 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def = new ezcTemplateCustomBlockDefinition();
                 $def->class = __CLASS__;
                 $def->method = "reflectParameters";
-                $def->isNestingBlock = false;
+                $def->hasCloseTag = false;
                 $def->startExpressionName = "";
                 $def->requiredParameters = array("required");
                 $def->optionalParameters = array();
@@ -136,7 +137,7 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def = new ezcTemplateCustomBlockDefinition();
                 $def->class = __CLASS__;
                 $def->method = "reflectParameters";
-                $def->isNestingBlock = false;
+                $def->hasCloseTag = false;
                 $def->startExpressionName = "";
                 $def->requiredParameters = array("required");
                 $def->optionalParameters = array("optional");
@@ -146,7 +147,7 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def = new ezcTemplateCustomBlockDefinition();
                 $def->class = __CLASS__;
                 $def->method = "reflectParameters";
-                $def->isNestingBlock = false;
+                $def->hasCloseTag = false;
                 $def->startExpressionName = "start_expression";
                 $def->requiredParameters = array("start_expression");
                 $def->optionalParameters = array();
@@ -156,7 +157,7 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def = new ezcTemplateCustomBlockDefinition();
                 $def->class = __CLASS__;
                 $def->method = "reflectParameters";
-                $def->isNestingBlock = false;
+                $def->hasCloseTag = false;
                 $def->startExpressionName = "start_expression";
                 $def->requiredParameters = array();
                 $def->optionalParameters = array("start_expression");
@@ -166,13 +167,14 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def = new ezcTemplateCustomBlockDefinition();
                 $def->class = __CLASS__;
                 $def->method = "reflectParameters";
-                $def->isNestingBlock = false;
+                $def->hasCloseTag = false;
                 $def->startExpressionName = "start_expresssion";
                 $def->requiredParameters = array();
                 $def->optionalParameters = array("bla");
                 return $def;
         }
     }
+
 
 	public static function reflectParameters( $parameters, $source = null )
 	{

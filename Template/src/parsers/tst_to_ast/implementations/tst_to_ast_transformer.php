@@ -49,7 +49,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function __construct( $parser )
     {
-        $this->functions = new ezcTemplateFunctions();
+        $this->functions = new ezcTemplateFunctions( $parser );
         $this->parser = $parser;
         $this->outputVariable = new ezcTemplateOutputVariableManager();
     }
@@ -191,7 +191,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $params->value[] = $value->accept($this);
         }
 
-        if( $def->isNestingBlock )
+        if( $def->hasCloseTag )
         {
             $this->outputVariable->push( $this->getUniqueVariableName( "_ezcTemplate_custom" ) );
             $iniCustom = $this->outputVariable->getInitializationAst();

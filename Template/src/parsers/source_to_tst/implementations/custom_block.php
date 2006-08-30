@@ -26,6 +26,23 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
         $this->block = null;
     }
 
+
+    function getCustomBlockDefinition( $name )
+    {
+        foreach( $this->parser->template->configuration->customBlocks as $class )
+        {
+            $def = call_user_func( array( $class, "getCustomBlockDefinition" ),  $name );
+
+            if( $def instanceof ezcTemplateCustomBlockDefinition )
+            {
+                return $def;
+            }
+        }
+
+        return false;
+    }
+
+
     /**
      * Parses the expression by using the ezcTemplateExpressionSourceToTstParser class.
      */
@@ -70,7 +87,10 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
         $cursor->advance( strlen( $name ) );
         $this->findNextElement( $cursor );
 
-        $def = ezcTemplateCustomBlockManager::getInstance()->getDefinition( $name );
+        //$def = ezcTemplateCustomBlockManager::getInstance()->getDefinition( $name );
+
+        $def = $this->getCustomBlockDefinition( $name );
+
         if( $def === false )
         {
             return false;
@@ -78,8 +98,7 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
 
         $cb = new ezcTemplateCustomBlockTstNode( $this->parser->source, $this->startCursor, $cursor );
         $cb->definition = $def;
-        $this->block->isNestingBlock = $def->isNestingBlock;// $requireNesting;
-        $cb->isNestingBlock = $def->isNestingBlock;
+        $this->block->isNestingBlock = $cb->isNestingBlock = $def->hasCloseTag;
 
         if( isset( $def->startExpressionName ) && $def->startExpressionName != "" )
         {

@@ -16,9 +16,9 @@ include_once ("custom_blocks/testblocks.php");
 include_once ("custom_blocks/brainfuck.php");
 class ezcTemplateRegressionTest extends ezcTestCase
 {
-    public $requestRegeneration = true;
+    public $requestRegeneration = false;
 
-    public $showTreesOnFailure = false;
+    public $showTreesOnFailure = true;
 
     private $stdin = null;
 
@@ -97,13 +97,13 @@ class ezcTemplateRegressionTest extends ezcTestCase
         foreach( $directories as $directory )
         {
             $template = new ezcTemplate();
-            $template->addExtension( new BrainFuck() );
-            $template->addExtension( new TestBlocks() );
-
             $dir = dirname( $directory );
             $base = basename( $directory );
 
             $template->configuration = new ezcTemplateConfiguration( $dir, $this->getTempDir() );
+            $template->configuration->addExtension( "BrainFuck" );
+            $template->configuration->addExtension( "TestBlocks" );
+
 
             if( preg_match("#^(\w+)@(\w+)\..*$#", $base, $match ) )
             {
@@ -114,7 +114,6 @@ class ezcTemplateRegressionTest extends ezcTestCase
             {
                 $template->configuration->context = new ezcTemplateNoContext();
             }
-
 
             $send = substr( $directory, 0, -3 ) . ".send";
             if( file_exists( $send ) )

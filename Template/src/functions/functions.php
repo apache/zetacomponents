@@ -18,9 +18,11 @@ class ezcTemplateFunctions
 {
     protected $functionToClass;
     protected $errorMessage = "";
+    private $parser = null;
 
-    public function __construct()
+    public function __construct( ezcTemplateParser $parser )
     {
+        $this->parser = $parser;
         $this->functionToClass = include( "function_to_class.php" );
     }
 
@@ -189,6 +191,21 @@ class ezcTemplateFunctions
         return null;
     }
 
+    public function getCustomFunction( $name )
+    {
+        foreach( $this->parser->template->configuration->customFunctions as $class )
+        {
+            $def = call_user_func( array( $class, "getCustomFunctionDefinition" ),  $name );
+
+            if( $def instanceof ezcTemplateCustomFunctionDefinition )
+            {
+                return $def;
+            }
+        }
+
+        return false;
+    }
+
     public function getAstTree( $functionName, $parameters )
     {
         // Try the built-in template functions.
@@ -202,7 +219,10 @@ class ezcTemplateFunctions
         }
 
         // Try the custom template functions.
-        $def = ezcTemplateCustomFunctionManager::getInstance()->getDefinition( $functionName );
+//        $def = ezcTemplateCustomFunctionManager::getInstance()->getDefinition( $functionName );
+
+        $def = $this->getCustomFunction( $functionName );
+        
         if( $def !== false )
         {
             $givenParameters = sizeof( $parameters);

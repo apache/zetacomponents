@@ -43,6 +43,7 @@ return array(
              "ezcTemplateCustomBlock" => "Template/interfaces/custom_block.php",
              "ezcTemplateCustomFunction" => "Template/interfaces/custom_function.php",
 
+             "ezcTemplateCustomExtension" => "Template/structs/custom_extension.php",
              "ezcTemplateCustomBlockDefinition" => "Template/structs/custom_block_definition.php",
              "ezcTemplateCustomFunctionDefinition" => "Template/structs/custom_function_definition.php",
 
@@ -310,6 +311,7 @@ return array(
 
              "ezcTemplateTstNodeException" => "Template/exceptions/element_exception.php",
              "ezcTemplateParserException" => "Template/exceptions/parser_exception.php",
+             "ezcTemplateCustomBlockException" => "Template/exceptions/custom_block_exception.php",
 
 
 

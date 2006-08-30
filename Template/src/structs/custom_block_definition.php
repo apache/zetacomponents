@@ -1,10 +1,11 @@
 <?php
 
-class ezcTemplateCustomBlockDefinition extends ezcBaseStruct
+class ezcTemplateCustomBlockDefinition extends ezcTemplateCustomExtension
 {
     public $class;
     public $method;
-    public $isNestingBlock;
+
+    public $hasCloseTag;
 
     public $hasStartExpression;
     public $startExpressionName;

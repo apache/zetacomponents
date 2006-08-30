@@ -56,6 +56,8 @@ class ezcTemplateConfiguration
                                   'templatePath' => ".",
                                   'compilePath' => ".",
                                   'checkModifiedTemplates' => true,
+                                  'customBlocks' => array(),
+                                  'customFunctions' => array(),
                               );
     /**
      * Returns the value of the property $name.
@@ -78,6 +80,8 @@ class ezcTemplateConfiguration
             case 'templatePath': 
             case 'compilePath': 
             case 'checkModifiedTemplates':
+            case 'customBlocks':
+            case 'customFunctions':
                 return $this->properties[$name];
 
             default:
@@ -113,6 +117,8 @@ class ezcTemplateConfiguration
             case 'templatePath': 
             case 'compilePath': 
             case 'checkModifiedTemplates': 
+            case 'customBlocks': 
+            case 'customFunctions': 
                 $this->properties[$name] = $value;
                 break;
 
@@ -149,7 +155,7 @@ class ezcTemplateConfiguration
      * All requested templates are search from the defined $templatePath. 
      * Use an empty string to fetch templates from the root of the filesystem.
      * 
-     * All compiled templates are placed in subfulders under the compiled templates. 
+     * All compiled templates are placed in subfolders under the compiled templates. 
      * Use an empty string to compile templates at the root of the filesystem.
      */
     public function __construct( $templatePath = ".", $compilePath = ".", $context = null )
@@ -174,5 +180,47 @@ class ezcTemplateConfiguration
 
         return self::$instanceList[$name];
     }
+
+
+    /**
+     * Adds custom tags or function to the customBlock or customFunction property and 
+     * indirectly add the custom extension to the template language. 
+     *
+     * The parameter $customBlockClass expects a class that implements either 
+     * the interface ezcTemplateCustomBlock, ezcTemplateCustomFunction, or both. 
+     *
+     * @param string $customClass
+     * @return void
+     */
+    public function addExtension( $customClass )
+    {
+        if( !is_string( $customClass ) )
+        {
+            throw new ezcTemplateCustomBlockException( "Could not add the extension $customClass, because the given value is not a string." );
+        }
+
+        $implements = class_implements( $customClass );
+
+        $added = false;
+        if( in_array( "ezcTemplateCustomBlock", $implements ) )
+        {
+            $this->properties["customBlocks"][$customClass] = $customClass;
+            $added = true;
+        }
+
+        if( in_array( "ezcTemplateCustomFunction", $implements ) )
+        {
+            $this->properties["customFunctions"][$customClass] = $customClass;
+            $added = true;
+        }
+
+        if( !$added)
+        {
+            throw new ezcTemplateCustomBlockException( "Could not add the extension $customClass. Does it implement ezcTemplateCustomBlock or ezcTemplateCustomFunction?" );
+        }
+    }
+
+
+
 }
 ?>

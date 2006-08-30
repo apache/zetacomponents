@@ -1,9 +1,10 @@
 <?php
 
-class ezcTemplateCustomFunctionDefinition extends ezcBaseStruct
+class ezcTemplateCustomFunctionDefinition extends ezcTemplateCustomExtension
 {
     public $class;
     public $method;
+
     public $parameters = array();
 }
 

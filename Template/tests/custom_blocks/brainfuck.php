@@ -26,7 +26,7 @@ class BrainFuck implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def = new ezcTemplateCustomBlockDefinition();
                 $def->class = __CLASS__;
                 $def->method = "emulate";
-                $def->isNestingBlock = true;
+                $def->hasCloseTag = true;
 
                 $def->requiredParameters = array();
                 $def->optionalParameters = array("buffer_size");
@@ -36,7 +36,7 @@ class BrainFuck implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def = new ezcTemplateCustomBlockDefinition();
                 $def->class = __CLASS__;
                 $def->method = "emulate_inline";
-                $def->isNestingBlock = false;
+                $def->hasCloseTag = false;
 
                 $def->startExpressionName = "code";
                 $def->requiredParameters = array("code");
