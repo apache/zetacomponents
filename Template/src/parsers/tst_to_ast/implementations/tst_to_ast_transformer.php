@@ -193,20 +193,42 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
         if( $def->hasCloseTag )
         {
-            $this->outputVariable->push( $this->getUniqueVariableName( "_ezcTemplate_custom" ) );
-            $iniCustom = $this->outputVariable->getInitializationAst();
+            $result = array(); // Will contain an array with AST nodes.
 
-            $astNode = $type->elements[0]->accept( $this );
+            // Write to the custom block output. 
+            $this->outputVariable->push( $this->getUniqueVariableName( "_ezcTemplate_custom" ) );
+
+            // Set the output to "".
+            $result[] = $this->outputVariable->getInitializationAst();
+
+            // execute all the 'children' in the custom block.
+            foreach( $type->elements as $element )
+            {
+                $r = $element->accept( $this );
+                // It could be an array :-(. Should change this one time to a pseudo node.
+
+                if( is_array( $r ) )
+                {
+                    foreach ($r as $a ) 
+                    {
+                        $result[] = $a; 
+                    }
+                }
+                else
+                {
+                    $result[]  = $r;
+                }
+            }
 
             $customBlockOutput = $this->outputVariable->getAst();
             $this->outputVariable->pop();
 
-            $b = new ezcTemplateGenericStatementAstNode( 
+            $result[] = new ezcTemplateGenericStatementAstNode( 
                 new ezcTemplateConcatAssignmentOperatorAstNode( $this->outputVariable->getAst(), 
                    new ezcTemplateFunctionCallAstNode( $def->class . "::".$def->method, 
                    array( $params, $customBlockOutput ) ) ) ); 
 
-            return array( $iniCustom, $astNode, $b );
+            return $result;
         }
         else
         {

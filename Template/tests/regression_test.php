@@ -15,6 +15,8 @@
 include_once ("custom_blocks/testblocks.php");
 include_once ("custom_blocks/brainfuck.php");
 include_once ("custom_blocks/links.php");
+include_once ("custom_blocks/cblock.php");
+
 class ezcTemplateRegressionTest extends ezcTestCase
 {
     public $requestRegeneration = true;
@@ -105,6 +107,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
             $template->configuration->addExtension( "BrainFuck" );
             $template->configuration->addExtension( "TestBlocks" );
             $template->configuration->addExtension( "LinksCustomBlock" );
+            $template->configuration->addExtension( "cblockTemplateExtension" );
 
             if( preg_match("#^(\w+)@(\w+)\..*$#", $base, $match ) )
             {
