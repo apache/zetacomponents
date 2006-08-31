@@ -8,7 +8,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 return array(
-    'ezcSignalObserver' => 'SignalObserver/signal/observer.php',
+    'ezcSignalCollection' => 'SignalObserver/signal_collection',
+    'ezcSignalStaticConnections' => 'SignalObserver/signal_collection'
 );
 
 ?>
