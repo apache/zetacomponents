@@ -1,0 +1,9 @@
+{cblock}
+	Hello
+	{cblock}
+		{foreach 1..3 as $i}
+		{$i}
+		{/foreach}
+	{/cblock}
+	world!
+{/cblock}
