@@ -60,7 +60,14 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
      */
     public function setUp()
     {
-        $this->handler = new ezcImageGdHandler( ezcImageGdHandler::defaultSettings() );
+        try
+        {
+            $this->handler = new ezcImageGdHandler( ezcImageGdHandler::defaultSettings() );
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped( $e->getMessage() );
+        }
         $this->imageReference = $this->handler->load( $this->testFiles["jpeg"] );
     }
 

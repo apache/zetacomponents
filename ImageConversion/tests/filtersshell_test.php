@@ -34,7 +34,14 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
 
     public function setUp()
     {
-        $this->handler = new ezcImageImagemagickHandler( ezcImageImagemagickHandler::defaultSettings() );
+        try
+        {
+            $this->handler = new ezcImageImagemagickHandler( ezcImageGdBaseHandler::defaultSettings() );
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped( $e->getMessage() );
+        }
         $this->imageReference = $this->handler->load( $this->testFiles['jpeg'] );
     }
 

@@ -29,11 +29,13 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
         try
         {
             $conversionsIn = array(
-                "image/gif" => "image/png",
+                "image/gif"  => "image/png",
+                "image/xpm"  => "image/jpeg",
+                "image/wbmp" => "image/jpeg",
             );
             $settings = new ezcImageConverterSettings(
                 array( new ezcImageHandlerSettings( "GD", "ezcImageGdHandler" ) ),
-                $conversionsIn 
+                $conversionsIn
             );
             $this->converter = new ezcImageConverter( $settings );
         }

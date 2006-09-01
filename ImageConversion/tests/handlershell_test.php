@@ -29,6 +29,14 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
 
     public function setUp()
     {
+        try
+        {
+            $dummy = new ezcImageImagemagickHandler( ezcImageImagemagickBaseHandler::defaultSettings() );
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped( $e->getMessage() );
+        }
         $this->handlerClass = "ezcImageImagemagickHandler";
         parent::setUp();
     }
