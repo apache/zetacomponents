@@ -33,7 +33,7 @@ class ezcSignalStaticConnections
     /**
      * Holds the properties of this class.
      *
-     * @var array(string=>mixed)
+     * @var array(string=>array(signalName=>array(slots)))
      */
     private $properties = array();
 
