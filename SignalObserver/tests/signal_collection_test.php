@@ -8,59 +8,7 @@
  * @subpackage Tests
  */
 
-class TheGiver
-{
-    public $signals;
-
-    public function __construct()
-    {
-        $this->signals = new ezcSignalCollection( __CLASS__ );
-    }
-}
-
-class TheReceiver
-{
-    public $stack = array();
-    public function slotNoParams1()
-    {
-        array_push( $this->stack, "slotNoParams1" );
-    }
-
-    public function slotNoParams2()
-    {
-        array_push( $this->stack, "slotNoParams2" );
-    }
-
-    public function slotNoParams3()
-    {
-        array_push( $this->stack, "slotNoParams3" );
-    }
-
-    public function slotNoParams4()
-    {
-        array_push( $this->stack, "slotNoParams4" );
-    }
-
-    public function slotNoParams5()
-    {
-        array_push( $this->stack, "slotNoParams5" );
-    }
-
-    public function slotSingleParam( $param1 )
-    {
-        array_push( $this->stack, $param1 );
-    }
-
-    public function slotDoubleParams( $param1, $param2 )
-    {
-        array_push( $this->stack, "{$param1}{$param2}" );
-    }
-
-    public function slotTrippleParams( $param1, $param2, $param3 )
-    {
-        array_push( $this->stack, "{$param1}{$param2}{$param3}" );
-    }
-}
+require_once( "test_classes.php" );
 
 /**
  * @package PhpGenerator
@@ -77,6 +25,8 @@ class ezcSignalCollectionTest extends ezcTestCase
     {
         $this->giver = new TheGiver();
         $this->receiver = new TheReceiver();
+        TheReceiver::$globalFunctionRun = false;
+        TheReceiver::$staticFunctionRun = false;
     }
 
     public function testSignalsBlocked()
@@ -168,6 +118,19 @@ class ezcSignalCollectionTest extends ezcTestCase
                              $this->receiver->stack );
     }
 
+    public function testGlobalSlot()
+    {
+        $this->giver->signals->connect( "signal", "slotFunction" );
+        $this->giver->signals->emit( "signal" );
+        $this->assertEquals( "brain damage", TheReceiver::$globalFunctionRun );
+    }
+
+    public function testStaticSlot()
+    {
+        $this->giver->signals->connect( "signal", array( "TheReceiver", "slotStatic" )  );
+        $this->giver->signals->emit( "signal" );
+        $this->assertEquals( "have a cigar", TheReceiver::$staticFunctionRun );
+    }
 
     public function testDisconnect()
     {
@@ -227,7 +190,7 @@ class ezcSignalCollectionTest extends ezcTestCase
         $this->assertEquals( array( "slotNoParams1", "slotNoParams2" ), $this->receiver->stack );
     }
 
-    public function testAdvancedDisconnectNoSeveralConnections()
+    public function testAdvancedDisconnectPrioritySeveralConnections()
     {
         $this->giver->signals->connect( "signal", array( $this->receiver, "slotNoParams2" ), 5000 );
         $this->giver->signals->connect( "signal", array( $this->receiver, "slotNoParams3" ) );

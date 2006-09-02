@@ -9,7 +9,8 @@
  */
 return array(
     'ezcSignalCollection' => 'SignalObserver/signal_collection.php',
-    'ezcSignalStaticConnections' => 'SignalObserver/static_connections.php'
+    'ezcSignalStaticConnections' => 'SignalObserver/static_connections.php',
+    'ezcSignalCallbackComparer' => 'SignalObserver/internal/callback_comparer.php'
 );
 
 ?>

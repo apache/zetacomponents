@@ -33,7 +33,7 @@ class ezcSignalStaticConnections
     /**
      * Holds the properties of this class.
      *
-     * @var array(string=>array(signalName=>array(slots)))
+     * @var array(string=>string)
      */
     private $properties = array();
 
@@ -44,13 +44,6 @@ class ezcSignalStaticConnections
      */
     private static $instance = null;
 
-    /**
-     * Holds the connections for this object.
-     *
-     * @var array(string=>array(int=>array(callback)))
-     */
-    private $connections = array();
-
     public static function getInstance()
     {
         if( self::$instance === null )
@@ -58,6 +51,11 @@ class ezcSignalStaticConnections
             self::$instance = new ezcSignalStaticConnections();
         }
         return self::$instance;
+    }
+
+    private function __construct()
+    {
+        $this->properties['connections'] = array();
     }
 
     /**
@@ -103,6 +101,15 @@ class ezcSignalStaticConnections
         }
     }
 
+    public function getConnections( $identifier, $signal )
+    {
+        if( isset( $this->connections[$identifier] ) &&
+            isset( $this->connections[$identifier][$signal] ) )
+        {
+            return $this->connections[$identifier][$signal];
+        }
+        return array();
+    }
 
     /**
      * Connects the signal $signal emited by any ezcSignalCollection with the identifier
@@ -128,13 +135,65 @@ class ezcSignalStaticConnections
      * @param int priority
      * @return void
      */
-    public function connect( $identifier, $signal, $slot )
+    public function connect( $identifier, $signal, $slot, $priority = 1000 )
     {
-        if( !isset( $this->connections[$identifier] ) )
+        $this->properties['connections'][$identifier][$signal][$priority][] = $slot;
+        sort( $this->properties['connections'][$identifier][$signal][$priority], SORT_NUMERIC );
+    }
+
+    /**
+     * Disconnects the $slot from the $signal with identifier $identifier..
+     *
+     * If the priority is given it will try to disconnect a slot with that priority.
+     * If no such slot is found no slot will be disconnected.
+     *
+     * If no priority is given it will disconnect the matching slot with the lowest priority.
+     *
+     * @param string $identifier
+     * @param string $signal
+     * @param callback $slot
+     * @param int priority
+     * @return void
+     */
+    public function disconnect( $identifier, $signal, $slot, $priority = null )
+    {
+        if( !isset( $this->connections[$identifier] ) ||
+            !isset( $this->connections[$identifier][$signal] ) )
         {
-            $this->connections[$identifier] = array();
+            return;
         }
-        $this->connections[$identifier][$signal][] = $slot;
+
+        if( $priority === null ) // delete first found, searched from back
+        {
+            $allKeys = array_keys( $this->connections[$identifier][$signal] );
+            rsort( $allKeys, SORT_NUMERIC );
+            foreach( $allKeys as $priority )
+            {
+                foreach( $this->connections[$identifier][$signal][$priority] as $key => $callback)
+                {
+                    if( ezcSignalCallbackComparer::compareCallbacks( $slot, $callback ) )
+                    {
+                        unset( $this->properties['connections'][$identifier][$signal][$priority][$key] );
+                        return;
+                    }
+                }
+            }
+
+        }
+        else // only delete from priority connections
+        {
+            if( isset( $this->connections[$identifier][$signal][$priority] ) )
+            {
+                foreach( $this->connections[$identifier][$signal][$priority] as $key => $callback )
+                {
+                    if( ezcSignalCallbackComparer::compareCallbacks( $slot, $callback ) )
+                    {
+                        unset( $this->properties['connections'][$identifier][$signal][$priority][$key] );
+                        return;
+                    }
+                }
+            }
+        }
     }
 }
 

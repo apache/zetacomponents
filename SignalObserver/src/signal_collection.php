@@ -9,7 +9,7 @@
 
 /**
  * ezcSignalCollection implements a mechanism for inter and intra object communication.
- *
+ * TODO: order in which signals are called
  * TODO: examples
  *
  * @property bool $signalsBlocked     If set to true emits will not cause any slots to be called.
@@ -126,9 +126,9 @@ class ezcSignalCollection
         $parameters = array_slice( func_get_args(), 1 );
 
         // check if there are any static connections
-        $priStaticConnections = array(); // TODO
+        $priStaticConnections = ezcSignalStaticConnections::getInstance()->getConnections( $this->identifier, $signal );
         $hasPriStaticConnections = false;
-        if( count( $priStaticConnections ) > isset( $priStaticConnections[1000] ) ? 1 : 0 )
+        if( count( $priStaticConnections ) > (isset( $priStaticConnections[1000] ) ? 1 : 0) )
         {
             $hasPriStaticConnections = true;
         }
@@ -163,16 +163,14 @@ class ezcSignalCollection
 
             $allKeys = array_unique( array_merge( $defaultKeys, $staticKeys, array( 1000 ) /*default*/ ) );
             sort( $allKeys, SORT_NUMERIC );
+
             foreach( $allKeys as $key ) // call all slots in the correct order
             {
-                if( $key == 1000 )
+                if( $key == 1000 && isset( $this->defaultConnections[$signal] ) )
                 {
-                    if( isset( $this->defaultConnections[$signal] ) )
+                    foreach( $this->defaultConnections[$signal] as $callback )
                     {
-                        foreach( $this->defaultConnections[$signal] as $callback )
-                        {
-                            call_user_func_array( $callback, $parameters );
-                        }
+                        call_user_func_array( $callback, $parameters );
                     }
                 }
                 if( isset( $this->priorityConnections[$signal][$key] ) )
@@ -216,7 +214,7 @@ class ezcSignalCollection
      * @param int priority
      * @return void
      */
-    public function connect( $signal, array $slot, $priority = 1000 )
+    public function connect( $signal, $slot, $priority = 1000 )
     {
         if( $priority === 1000 ) // default
         {
@@ -262,8 +260,7 @@ class ezcSignalCollection
                     {
                         foreach( $this->defaultConnections[$signal] as $key => $callback )
                         {
-                            if( ( is_string( $slot ) && $slot === $callback ) ||
-                                count( array_udiff( $slot, $callback, array( $this, 'comp_func') ) ) == 0 )
+                            if( ezcSignalCallbackComparer::compareCallbacks( $slot, $callback ) )
                             {
                                 unset( $this->defaultConnections[$signal][$key] );
                                 return;
@@ -273,13 +270,16 @@ class ezcSignalCollection
                 }
                 else
                 {
-                    foreach( $this->priorityConnections[$signal][$priority] as $key => $callback)
+                    if( isset( $this->priorityConnections[$signal] ) &&
+                        isset( $this->priorityConnections[$signal][$priority] ) )
                     {
-                        if( ( is_string( $slot ) && $slot === $callback ) ||
-                            count( array_udiff( $slot, $callback, array( $this, 'comp_func') ) ) == 0 )
+                        foreach( $this->priorityConnections[$signal][$priority] as $key => $callback)
                         {
-                            unset( $this->priorityConnections[$signal][$priority][$key] );
-                            return;
+                            if( ezcSignalCallbackComparer::compareCallbacks( $slot, $callback ) )
+                            {
+                                unset( $this->priorityConnections[$signal][$priority][$key] );
+                                return;
+                            }
                         }
                     }
                 }
@@ -292,8 +292,7 @@ class ezcSignalCollection
             {
                 foreach( $this->defaultConnections[$signal] as $key => $callback )
                 {
-                    if( ( is_string( $slot ) && $slot === $callback ) ||
-                        count( array_udiff( $slot, $callback, array( $this, 'comp_func') ) ) == 0 )
+                    if( ezcSignalCallbackComparer::compareCallbacks( $slot, $callback ) )
                     {
                         unset( $this->defaultConnections[$signal][$key] );
                         return;
@@ -301,15 +300,14 @@ class ezcSignalCollection
                 }
             }
         }
-        else // only delete from $priority
+        else // delete from priority connectinos
         {
             if( isset( $this->priorityConnections[$signal] ) &&
                 isset( $this->priorityConnections[$signal][$priority] ) )
             {
                 foreach( $this->priorityConnections[$signal][$priority] as $key => $callback )
                 {
-                    if( ( is_string( $slot ) && $slot === $callback ) ||
-                        count( array_udiff( $slot, $callback, array( $this, 'comp_func') ) ) == 0 )
+                    if( ezcSignalCallbackComparer::compareCallbacks( $slot, $callback ) )
                     {
                         unset( $this->priorityConnections[$signal][$priority][$key] );
                         return;
