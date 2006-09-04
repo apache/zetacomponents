@@ -8,6 +8,7 @@
  */
 
 require_once( "base_test.php");
+require_once( "features_test.php");
 
 /**
  * @package Base
@@ -21,6 +22,7 @@ class ezcBaseSuite extends ezcTestSuite
         $this->setName("Base");
         
 		$this->addTest( ezcBaseTest::suite() );
+        $this->addTest( ezcBaseFeaturesTest::suite() );
 	}
 
     public static function suite()

@@ -21,6 +21,7 @@ return array(
     'ezcBaseValueException'                => 'Base/exceptions/value.php',
 
     'ezcBaseOptions'                       => 'Base/options.php',
+    'ezcBaseFeatures'                      => 'Base/features.php',
     'ezcBaseStruct'                        => 'Base/struct.php',
 );
 ?>
