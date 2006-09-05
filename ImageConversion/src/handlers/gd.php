@@ -354,12 +354,6 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
             'x' => abs( $width ),
             'y' => abs( $height ),
         );
-        $coords = array(
-            'xStart' => min( $x, $x + $width ),
-            'xEnd'   => max( $x, $x + $width ),
-            'yStart' => min( $y, $y + $height ),
-            'yEnd'   => max( $y, $y + $height ),
-        );
         if ( imageistruecolor( $oldResource ) )
         {
             $newResource = imagecreatetruecolor( $dimensions['x'], $dimensions['y']  );
@@ -369,13 +363,16 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
             $newResource = imagecreate( $dimensions['x'], $dimensions['y'] );
         }
         $res = imagecopyresampled(
-            $newResource,
-            $oldResource,
-            0, 0, $coords['xStart'], $coords['yStart'],
-            $dimensions['x'],
-            $dimensions['y'],
-            $coords['xEnd'],
-            $coords['yEnd']
+            $newResource,           // destination resource 
+            $oldResource,           // source resource
+            0,                      // destination x coord
+            0,                      // destination y coord
+            min( $x, $x + $width ), // source x coord
+            min( $y, $y + $height ),// source y coord
+            $dimensions['x'],       // destination width
+            $dimensions['y'],       // destination height
+            $dimensions['x'],       // source witdh
+            $dimensions['y']        // source height
         );
         if ( $res === false )
         {
