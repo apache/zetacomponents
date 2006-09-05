@@ -348,31 +348,46 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
         {
             throw new ezcBaseValueException( 'width', $width, 'int' );
         }
-        
+
+        $x = min( $x, $x + $width );
+        $y = min( $y, $y + $height );
+       
+        $width = abs( $width );
+        $height = abs( $height );
+
         $oldResource = $this->getActiveResource();
-        $dimensions = array(
-            'x' => abs( $width ),
-            'y' => abs( $height ),
-        );
+        
+        $sourceWidth = imagesx( $oldResource );
+        $sourceHeight = imagesy( $oldResource );
+
+        if ( $x + $width > $sourceWidth )
+        {
+            $width = $sourceWidth - $x;
+        }
+        if ( $y + $height > $sourceHeight )
+        {
+            $height = $sourceHeight - $y;
+        }
+
         if ( imageistruecolor( $oldResource ) )
         {
-            $newResource = imagecreatetruecolor( $dimensions['x'], $dimensions['y']  );
+            $newResource = imagecreatetruecolor( $width, $height  );
         }
         else
         {
-            $newResource = imagecreate( $dimensions['x'], $dimensions['y'] );
+            $newResource = imagecreate( $width, $height );
         }
         $res = imagecopyresampled(
             $newResource,           // destination resource 
             $oldResource,           // source resource
             0,                      // destination x coord
             0,                      // destination y coord
-            min( $x, $x + $width ), // source x coord
-            min( $y, $y + $height ),// source y coord
-            $dimensions['x'],       // destination width
-            $dimensions['y'],       // destination height
-            $dimensions['x'],       // source witdh
-            $dimensions['y']        // source height
+            $x,                     // source x coord
+            $y,                     // source y coord
+            $width,                 // destination width
+            $height,                // destination height
+            $width,                 // source witdh
+            $height                 // source height
         );
         if ( $res === false )
         {

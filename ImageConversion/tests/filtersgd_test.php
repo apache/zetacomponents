@@ -483,7 +483,7 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
 
     public function testCrop_3()
     {
-        $this->handler->crop( 50, 75, 200, -37 );
+        $this->handler->crop( 50, 75, 250, 38 );
         $this->handler->save( $this->imageReference, $this->getTempPath() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
