@@ -131,6 +131,21 @@ class ezcQuerySelectOracle extends ezcQuerySelect
         }
         return $query;
     }
+
+    /**
+     * Handles preparing query.
+     * 
+     * Adds "FROM dual" to the select if no FROM clause specified 
+     * i.e. fixes queries like "SELECT 1+1" to work in Oracle.
+     */
+    public function prepare(){
+      if ( $this->fromString == null || $this->fromString == "" )
+      {
+      	$this->from( $this->getDummyTableName() );
+      }
+        return parent::prepare();
+    }
+
 }
 
 ?>
