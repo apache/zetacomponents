@@ -331,7 +331,7 @@ Inverse relation load
         "persons",
         $q->expr->and( 
             $q->expr->eq( "persons.employer_id", "employers.id" ),
-            $q->expr->lt( "loan", 3000 )
+            $q->expr->lt( "salary", 3000 )
         )
     );
 
@@ -342,7 +342,7 @@ Inverse relation load
 
     foreach ( $session->getRelatedObjects( $employer, "Person" ) as $employee )
     {
-        $employee->loan += 1000;
+        $employee->salary += 1000;
     }
 
     // Update the employees. Note that we need to retrieve the person objects
