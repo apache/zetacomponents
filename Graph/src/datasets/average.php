@@ -36,16 +36,17 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
     /**
      * Constructor
      * 
-     * @param array $options Default option array
+     * @param array $dataset Dataset to interpolate
+     * @param array $order Maximum order of interpolating polynom
      * @return void
      * @ignore
      */
-    public function __construct( ezcGraphDataSet $dataset )
+    public function __construct( ezcGraphDataSet $dataset, $order = 3 )
     {
         parent::__construct();
 
         $this->properties['resolution'] = 100;
-        $this->properties['polynomOrder'] = 3;
+        $this->properties['polynomOrder'] = (int) $order;
 
         $this->source = $dataset;
     }

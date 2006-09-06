@@ -190,17 +190,10 @@ class ezcGraphDataSetAverageTest extends ezcTestCase
         ) );
         $chart->data['Statistical data']->symbol = ezcGraph::BULLET;
 
-        $chart->data['polynom order 0'] = new ezcGraphDataSetAveragePolynom( $chart->data['Statistical data'] );
-        $chart->data['polynom order 0']->polynomOrder = 0;
-        
-        $chart->data['polynom order 1'] = new ezcGraphDataSetAveragePolynom( $chart->data['Statistical data'] );
-        $chart->data['polynom order 1']->polynomOrder = 1;
-        
-        $chart->data['polynom order 3'] = new ezcGraphDataSetAveragePolynom( $chart->data['Statistical data'] );
-        $chart->data['polynom order 3']->polynomOrder = 3;
-        
-        $chart->data['polynom order 5'] = new ezcGraphDataSetAveragePolynom( $chart->data['Statistical data'] );
-        $chart->data['polynom order 5']->polynomOrder = 5;
+        $chart->data['polynom order 0'] = new ezcGraphDataSetAveragePolynom( $chart->data['Statistical data'], 0 );
+        $chart->data['polynom order 1'] = new ezcGraphDataSetAveragePolynom( $chart->data['Statistical data'], 1 );
+        $chart->data['polynom order 3'] = new ezcGraphDataSetAveragePolynom( $chart->data['Statistical data'], 3 );
+        $chart->data['polynom order 5'] = new ezcGraphDataSetAveragePolynom( $chart->data['Statistical data'], 5 );
         
         $chart->xAxis = new ezcGraphChartElementNumericAxis();
 
