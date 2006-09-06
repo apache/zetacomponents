@@ -39,17 +39,17 @@ class ezcGraphBoundings
     /**
      * Throws a BasePropertyNotFound exception.
      */
-    public function __set( $name, $value )
-    {
-        throw new ezcBasePropertyNotFoundException( $name );
-    }
-
-    /**
-     * Throws a BasePropertyNotFound exception.
-     */
     public function __get( $name )
     {
-        throw new ezcBasePropertyNotFoundException( $name );
+        switch ( $name )
+        {
+            case 'width':
+                return $this->x1 - $this->x0;
+            case 'height':
+                return $this->y1 - $this->y0;
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
+        }
     }
 }
 

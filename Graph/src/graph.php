@@ -38,11 +38,6 @@ class ezcGraph
     const TTF_FONT = 1;
     // PostScript Type1 fonts
     const PS_FONT = 2;
-    // FreeType 2 fonts
-    const FT2_FONT = 3;
-    // Native GD bitmap fonts
-    const GD_FONT = 4;
-
 }
 
 ?>

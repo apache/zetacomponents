@@ -46,6 +46,8 @@ return array(
     'ezcGraphAxisBoxedLabelRenderer'            => 'Graph/renderer/axis_label_boxed.php',
 
     'ezcGraphDriver'                            => 'Graph/interfaces/driver.php',
+    'ezcGraphFontRenderingException'            => 'Graph/exceptions/font_rendering.php',
+    'ezcGraphUnknownFontTypeException'          => 'Graph/exceptions/font_type.php',
     'ezcGraphDriverOptions'                     => 'Graph/options/driver.php',
     'ezcGraphGdDriver'                          => 'Graph/driver/gd.php',
     'ezcGraphGdDriverOptions'                   => 'Graph/options/gd_driver.php',
@@ -91,8 +93,8 @@ return array(
     'ezcGraphMatrixInvalidDimensionsException'  => 'Graph/exceptions/invalid_dimensions.php',
     'ezcGraphMatrixOutOfBoundingsException'     => 'Graph/exceptions/out_of_boundings.php',
     'ezcGraphPolynom'                           => 'Graph/math/polynom.php',
+    'ezcGraphBoundings'                         => 'Graph/math/boundings.php',
 
-    'ezcGraphBoundings'                         => 'Graph/structs/boundings.php',
     'ezcGraphCoordinate'                        => 'Graph/structs/coordinate.php',
 );
 

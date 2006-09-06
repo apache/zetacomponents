@@ -1271,10 +1271,10 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         );
     }
 
-    public function testDrawStringWithSpecialChars()
+    public function testDrawSmallNativeTTFStringWithSpecialChars()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
-        $this->driver->options->supersampling = 2;
+        $this->driver->options->forceNativeTTF = true;
 
         $this->driver->drawPolygon(
             array(
@@ -1305,8 +1305,192 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
+            10
+        );
+    }
+
+    public function testDrawSmallFreeTypeStringWithSpecialChars()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->drawPolygon(
+            array(
+                new ezcGraphCoordinate( 47, 54 ),
+                new ezcGraphCoordinate( 47, 84 ),
+                new ezcGraphCoordinate( 99, 84 ),
+                new ezcGraphCoordinate( 99, 54 ),
+            ),
+            ezcGraphColor::fromHex( '#DDDDDD' ),
+            true
+        );
+        $this->driver->drawTextBox(
+            'Safari (13.8%)',
+            new ezcGraphCoordinate( 47, 54 ),
+            52,
+            30,
+            ezcGraph::LEFT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
+    public function testDrawSmallPsStringWithSpecialChars()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->font->path = $this->basePath . 'ps_font.pfb';
+
+        $this->driver->drawPolygon(
+            array(
+                new ezcGraphCoordinate( 47, 54 ),
+                new ezcGraphCoordinate( 47, 84 ),
+                new ezcGraphCoordinate( 99, 84 ),
+                new ezcGraphCoordinate( 99, 54 ),
+            ),
+            ezcGraphColor::fromHex( '#DDDDDD' ),
+            true
+        );
+        $this->driver->drawTextBox(
+            'Safari (13.8%)',
+            new ezcGraphCoordinate( 47, 54 ),
+            52,
+            30,
+            ezcGraph::LEFT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            10
+        );
+    }
+
+    public function testDrawNativeTTFText()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->font->path = $this->basePath . 'font.ttf';
+        $this->driver->options->forceNativeTTF = true;
+
+        $this->driver->drawTextBox(
+            'Fontfiletest',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
             2000
         );
+    }
+
+    public function testDrawFreeTypeTTFText()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->font->path = $this->basePath . 'font.ttf';
+
+        $this->driver->drawTextBox(
+            'Fontfiletest',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
+    public function testDrawPSText()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $this->driver->options->font->path = $this->basePath . 'ps_font.pfb';
+
+        $this->driver->drawTextBox(
+            'Fontfiletest',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
+    public function testDrawTooLongTextException()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        try
+        {
+            $this->driver->drawTextBox(
+                'This is very long text which is not supposed to fit in the bounding box.',
+                new ezcGraphCoordinate( 10, 10 ),
+                50,
+                20,
+                ezcGraph::LEFT
+            );
+
+            $this->driver->render( $filename );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphFontRenderingException.' );
     }
 }
 

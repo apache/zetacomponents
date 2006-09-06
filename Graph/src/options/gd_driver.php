@@ -21,6 +21,8 @@
  *           Background image to put the graph on
  * @property string $resampleFunction
  *           Function used to resample / resize images
+ * @property bool $forceNativeTTF
+ *           Force use of native ttf functions instead of free type 2
  *
  * @package Graph
  */
@@ -41,6 +43,7 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
         $this->properties['supersampling'] = 2;
         $this->properties['background'] = false;
         $this->properties['resampleFunction'] = 'imagecopyresampled';
+        $this->properties['forceNativeTTF'] = false;
 
         parent::__construct( $options );
     }
@@ -94,6 +97,9 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'function' );
                 }
+                break;
+            case 'forceNativeTTF':
+                $this->properties['forceNativeTTF'] = (bool) $propertyValue;
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );

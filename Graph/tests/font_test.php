@@ -145,6 +145,46 @@ class ezcGraphFontTest extends ezcTestCase
             'Font face for legend has not changed.'
         );
     }
+
+    public function testTTFFontType()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->options->font->path = $this->basePath . 'font.ttf';
+        
+        $this->assertSame( 
+            $chart->options->font->type,
+            ezcGraph::TTF_FONT,
+            'Font type is not TTF.'
+        );
+    }
+
+    public function testPSFontType()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->options->font->path = $this->basePath . 'ps_font.pfb';
+        
+        $this->assertSame( 
+            $chart->options->font->type,
+            ezcGraph::PS_FONT,
+            'Font type is not TTF.'
+        );
+    }
+
+    public function testUnknownFontType()
+    {
+        $chart = new ezcGraphLineChart();
+
+        try
+        {
+            $chart->options->font->path = $this->basePath . 'ez.png';
+        }
+        catch ( ezcGraphUnknownFontTypeException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphUnknownFontTypeException.' );
+    }
 }
 
 ?>

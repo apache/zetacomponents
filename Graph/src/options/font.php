@@ -106,8 +106,19 @@ class ezcGraphFontOptions extends ezcBaseOptions
             case 'path':
                 if ( is_file( $propertyValue ) && is_readable( $propertyValue ) )
                 {
-                    $this->properties['path'] = $propertyValue;
-                    // @TODO: Autodetect font type
+                    $this->properties['path'] = realpath( $propertyValue );
+                    $parts = pathinfo( $this->properties['path'] );
+                    switch ( strtolower( $parts['extension'] ) )
+                    {
+                        case 'pfb':
+                            $this->properties['type'] = ezcGraph::PS_FONT;
+                            break;
+                        case 'ttf':
+                            $this->properties['type'] = ezcGraph::TTF_FONT;
+                            break;
+                        default:
+                            throw new ezcGraphUnknownFontTypeException( $propertyValue, $parts['extension'] );
+                    }
                 }
                 else 
                 {

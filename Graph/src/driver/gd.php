@@ -40,6 +40,16 @@ class ezcGraphGdDriver extends ezcGraphDriver
      */
     protected $strings = array();
 
+    /**
+     * Contains ressources for already loaded ps fonts.
+     *  array(
+     *      path => ressource
+     *  )
+     * 
+     * @var array
+     */
+    protected $psFontRessources = array();
+
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphGdDriverOptions( $options );
@@ -196,6 +206,114 @@ class ezcGraphGdDriver extends ezcGraphDriver
         );
     }
     
+    /**
+     * Returns boundings of text
+     * 
+     * @param float $size Textsize
+     * @param ezcGraphFontOptions $font Font
+     * @param string $text Text
+     * @return ezcGraphBoundings Boundings of text
+     */
+    protected function getTextBoundings( $size, ezcGraphFontOptions $font, $text )
+    {
+        switch( $font->type )
+        {
+            case ezcGraph::PS_FONT:
+                if ( !isset( $this->psFontRessources[$font->path] ) )
+                {
+                    $this->psFontRessources[$font->path] = imagePsLoadFont( $font->path );
+                }
+
+                $boundings = imagePsBBox( $text, $this->psFontRessources[$font->path], $size );
+                return new ezcGraphBoundings(
+                    $boundings[0],
+                    $boundings[1],
+                    $boundings[2],
+                    $boundings[3]
+                );
+            case ezcGraph::TTF_FONT:
+                switch ( true )
+                {
+                    case function_exists( 'imageftbbox' ) && !$this->options->forceNativeTTF:
+                        $boundings = imageFtBBox( $size, 0, $font->path, $text );
+                        return new ezcGraphBoundings(
+                            $boundings[0],
+                            $boundings[1],
+                            $boundings[4],
+                            $boundings[5]
+                        );
+                    case function_exists( 'imagettfbbox' ):
+                        $boundings = imageTtfBBox( $size, 0, $font->path, $text );
+                        return new ezcGraphBoundings(
+                            $boundings[0],
+                            $boundings[1],
+                            $boundings[4],
+                            $boundings[5]
+                        );
+                }
+                break;
+        }
+    }
+
+    /**
+     * Render text depending of font type and available font extensions
+     * 
+     * @param ressource $image Image ressource
+     * @param string $text Text
+     * @param ezcGraphFontOptions $font Font
+     * @param ezcGraphCoordinate $position Position
+     * @param float $size Textsize
+     * @param ezcGraphColor $color Textcolor 
+     * @return void
+     */
+    protected function renderText( $image, $text, ezcGraphFontOptions $font, ezcGraphCoordinate $position, $size )
+    {
+        switch( $font->type )
+        {
+            case ezcGraph::PS_FONT:
+                imagePsText( 
+                    $image, 
+                    $text, 
+                    $this->psFontRessources[$font->path], 
+                    $size, 
+                    $this->allocate( $font->color ), 
+                    1, 
+                    $position->x, 
+                    $position->y 
+                );
+                break;
+            case ezcGraph::TTF_FONT:
+                switch ( true )
+                {
+                    case function_exists( 'imagefttext' ) && !$this->options->forceNativeTTF:
+                        imageFtText(
+                            $image, 
+                            $size,
+                            0,
+                            $position->x,
+                            $position->y,
+                            $this->allocate( $font->color ),
+                            $font->path,
+                            $text
+                        );
+                        break;
+                    case function_exists( 'imagettftext' ):
+                        imageTtfText(
+                            $image, 
+                            $size,
+                            0,
+                            $position->x,
+                            $position->y,
+                            $this->allocate( $font->color ),
+                            $font->path,
+                            $text
+                        );
+                        break;
+                }
+                break;
+        }
+    }
+
     protected function testFitStringInTextBox( $string, ezcGraphCoordinate $position, $width, $height, $size )
     {
         // Tokenize String
@@ -209,10 +327,10 @@ class ezcGraphGdDriver extends ezcGraphDriver
             $selectedLine = $lines[$line];
             $selectedLine[] = $token;
 
-            $boundings = imagettfbbox( $size, 0, $this->options->font->path, implode( ' ', $selectedLine ) );
+            $boundings = $this->getTextBoundings( $size, $this->options->font, implode( ' ', $selectedLine ) );
 
             // Check if line is too long
-            if ( $boundings[2] > $width )
+            if ( $boundings->width > $width )
             {
                 if ( count( $selectedLine ) == 1 )
                 {
@@ -240,8 +358,8 @@ class ezcGraphGdDriver extends ezcGraphDriver
         }
 
         // Check width of last line
-        $boundings = imagettfbbox( $size, 0, $this->options->font->path, implode( ' ', $lines[$line] ) );
-        if ( $boundings[2] > $width ) {
+        $boundings = $this->getTextBoundings( $size, $this->options->font, implode( ' ', $lines[$line] ) );
+        if ( $boundings->width > $width ) {
             return false;
         }
 
@@ -290,12 +408,12 @@ class ezcGraphGdDriver extends ezcGraphDriver
                 'width' => $width,
                 'height' => $height,
                 'align' => $align,
-                'options' => $this->options->font,
+                'font' => $this->options->font,
             );
         }
         else
         {
-            // @TODO: Try to fit text in box with minimum font size
+            throw new ezcGraphFontRenderingException( $string, $this->options->font->minFontSize, $width, $height );
         }
     }
     
@@ -305,9 +423,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
 
         foreach ( $this->strings as $text )
         {
-            $size = $text['options']->minimalUsedFont;
-            $font = $text['options']->path;
-            $drawColor = $this->allocate( $text['options']->color );
+            $size = $text['font']->minimalUsedFont;
 
             $completeHeight = count( $text['text'] ) * $size + ( count( $text['text'] ) - 1 ) * $this->options->lineSpacing;
 
@@ -330,45 +446,45 @@ class ezcGraphGdDriver extends ezcGraphDriver
             foreach ( $text['text'] as $line )
             {
                 $string = implode( ' ', $line );
-                $boundings = imagettfbbox( $size, 0, $font, $string );
+                $boundings = $this->getTextBoundings( $size, $text['font'], $string );
                 $text['position']->y += $size;
 
                 switch ( true )
                 {
                     case ( $text['align'] & ezcGraph::LEFT ):
-                        imagettftext( 
+                        $this->renderText( 
                             $image, 
-                            $size, 
-                            0, 
-                            $text['position']->x, 
-                            $text['position']->y + $yOffset, 
-                            $drawColor, 
-                            $font, 
-                            $string
+                            $string,
+                            $text['font'], 
+                            new ezcGraphCoordinate( 
+                                $text['position']->x, 
+                                $text['position']->y + $yOffset
+                            ),
+                            $size
                         );
                         break;
                     case ( $text['align'] & ezcGraph::RIGHT ):
-                        imagettftext( 
+                        $this->renderText( 
                             $image, 
-                            $size, 
-                            0, 
-                            $text['position']->x + ( $text['width'] - $boundings[2] ), 
-                            $text['position']->y + $yOffset, 
-                            $drawColor, 
-                            $font, 
-                            $string 
+                            $string,
+                            $text['font'], 
+                            new ezcGraphCoordinate( 
+                                $text['position']->x + ( $text['width'] - $boundings->width ), 
+                                $text['position']->y + $yOffset
+                            ),
+                            $size
                         );
                         break;
                     case ( $text['align'] & ezcGraph::CENTER ):
-                        imagettftext( 
+                        $this->renderText( 
                             $image, 
-                            $size, 
-                            0, 
-                            $text['position']->x + ( ( $text['width'] - $boundings[2] ) / 2 ), 
-                            $text['position']->y + $yOffset, 
-                            $drawColor, 
-                            $font, 
-                            $string
+                            $string,
+                            $text['font'], 
+                            new ezcGraphCoordinate( 
+                                $text['position']->x + ( ( $text['width'] - $boundings->width ) / 2 ), 
+                                $text['position']->y + $yOffset
+                            ),
+                            $size
                         );
                         break;
                 }
