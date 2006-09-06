@@ -1,0 +1,602 @@
+eZ component: PersistentObject, Design, 1.2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Tobias Schlitt
+:Revision: $Rev$
+:Date: $Date$
+:Status: Draft
+
+.. contents::
+
+Scope
+=====
+
+The scope of this document is to describe the proposed enhancements for the
+PersistentObject component version 1.2.
+
+The general goal for this version is to support the handling of relations
+between persistent objects. The term "relation" in this case refers to the
+
+The first part of this document briefly introduces the Java Hibernate system,
+which works as the reference implementation. Highly Java specific details are
+intentionally left out here, but will occasionally occur in the second and
+third part, to explain design decisions. The latter 2 parts of this document
+describes the proposed design of our system in detail and explain why this way
+has been chosen.
+
+Hibernate (Java)
+================
+
+Hibernate is a development component for the Java programming language, that
+allows developers to transparently store objects inside a relational database
+(RDB). The approach is an implementation of the Active Record design pattern.
+Hibernate was used to model the current PersistentObject component of eZ
+components. One of the larges benefits of Hibernate against other Active Record
+implementations is, that in Hibernate the classes of persistent objects are not
+required to extend a common base class or to implement a specific interface.
+
+General overview
+----------------
+
+Hibernate in general allows you to store any Java object into a database and
+retrieve it back from there, without the need of altering the object itself
+(e.g. requiring its class to extend a certain other class or implement an
+interface). Hibernate needs a special configuration for each class to achieve
+the mapping of objects to database tables.
+
+Hibernate is then able to store, load, delete and update class instances
+transparently in the database. Objects that can be stored in a database are
+called "persistent objects". Hibernate is also capable of handling relations
+between objects directly on the relational database.
+
+With an internal implementation of transactions, it is possible to alter
+objects in the code in any way and have their database representation updated
+automatically without the need to call a specific method for each object. This
+method is called "automate dirty-checking".
+
+Hibernate distinguishes between different types of relational mappings:
+
+Foreign key mappings
+--------------------
+
+- Many-to-one
+- One-to-one
+
+Foreign key mappings define that an object has exactly 1 other related object
+of a specific class.
+
+Collection mappings
+-------------------
+
+- One-to-many
+- Many-to-many
+
+A collection mapping maps one-to-many (1:n) or many-to-many (n:m) relations.
+Such relations are reflected in Java using a object of a collection type like
+java.util.Set These types store a certain number of objects, while each
+key/object pair is unique.
+
+One-to-many relations are simpler than many-to-many relations, since they
+don't have the need of a connection table inside the RDB. 
+
+Collection mappings allow the definition of a "fetch" type, which defines how
+related objects are fetched from the database. Possible configuration values
+are:
+
+SELECT
+  The related objects are not fetched by default, but only on request. In Java
+  this is implemented using "lazy loading", which means, that the requested
+  objects are queried from the database as soon as the related property is
+  accessed.
+
+JOIN
+  The related objects are fetched automatically, as soon as the original
+  object is fetched (using a join). JOIN is the default behavior.
+
+Mappings can be defined as bidirectional, which means, that a related object
+can know about the object is related to (original object). For this case, both
+class definitions contain a relation definition to each other. One of these
+relations must be marked as "inverse". The "inverse" configuration value
+indicates, which relation direction will be stored inside the database to avoid
+storing duplicate connections.
+
+Join tables
+-----------
+
+Using "join tables" it is possible to store the data of multiple tables inside
+1 object.
+
+Hibernate Query Language (HQL)
+------------------------------
+
+HQL is a query language similar to SQL, which is used by Hibernate to
+formulate complex queries without the pitfalls of database dependent SQL
+dialects. HQL is quite complex and powerful.
+
+Further reading
+---------------
+
+- `Hibernate documentation`_
+- `Hibernate relation mapping documentation`_
+- `Hibernate configuration documentation`_
+
+.. _`Hibernate documentation`: http://hibernate.org/hib_docs/v3/reference/en/html/
+.. _`Hibernate relation mapping documentation`: http://hibernate.org/hib_docs/v3/reference/en/html/mapping.html
+.. _`Hibernate configuration documentation`: http://hibernate.org/hib_docs/v3/reference/en/html/session-configuration.html
+
+Design description
+==================
+
+The planned enhancements will enable the PersistentObject component to deal
+with object relations. It is planned that all 3 types of relations (1:1, 1:n,
+n:m) are supported. The following paragraphs describe the 2 different areas of
+the newly created API (usage and configuration) and give practical code examples
+to illustrate the new functionalities.
+
+Usage
+-----
+
+Relations will be available through a couple of new methods on instances of the
+ezcPersistentSession class:
+
+array(object) ezcPersistentSession->getRelatedObjects( object $originalObject, string $relatedClass )
+  This method will be used to retrieve an array of related objects for
+  one-to-many and many-to-many relations. The first parameter is the object to
+  fetch related objects for. The second one is a string, naming the class of
+  the objects to retrieve. The method can also be used with one-to-one and
+  many-to-one relations, while the returned array will then contain only 1
+  object. Related objects can either be pre-loaded or get loaded on demand.
+  Both techniques are explained further below.
+
+object ezcPersistentSession->getRelatedObject( object $originalObject, string $relatedClass )
+  This method is almost identical to the described getRelatedObjects() method,
+  but returns only 1 object instead of an array of objects. This is especially
+  sensible for one-to-one and many-to-one relations. For one-to-many and
+  many-to-many relations, the returned object will be the first object
+  available.
+
+void ezcPersistentSession->addRelatedObjects( object $originalObject, mixed $relatedObject )
+  Using the addRelatedObjects() method, new relations can be stored to the database.
+  The first parameter for this method is always the original object, to which a
+  new related object should be added. The second parameter can either be a
+  single object or an array of objects to be added as related objects. In case
+  the relation that should be created is defined as "inverse", an exception
+  will be thrown, since this is not allowed.
+
+Since access to the internal structure of the persistent object classes is not
+possible in PHP (remember that we do not require the classes to extend a common base
+class), we will have to modify the methodology of loading related persistent
+objects Hibernate provides. Real "lazy loading" is not possible, but we offer 2
+ways of loading related persistent objects:
+
+Pre-loaded
+  "Pre-loading" is the opposite of "lazy loading". While lazy loading performs fetches
+  from the database only on request, pre-loading fetches the related objects directly,
+  when the original object is fetched.
+
+On-demand-loading
+  "On-demand-loading" is almost the same than "lazy-loading", which means that
+  data is only fetched, when it is used for the first time. While
+  "lazy-loading" usually implies, that data is loaded transparently on it's
+  first access (e.g. on access to a public property), we name our technique
+  differently, since we require an explicit call to getRelated*().
+
+To use the pre-loading mechanism, the user will have to explicitly define the
+tables to JOIN during the request of the original object. The eZ database
+component already provides support for creating JOIN clauses within its SQL
+abstraction layer. To pre-load related persistent objects, the user will need to
+create a find query, which includes JOIN clauses for all related objects to
+fetch. Calls to ezcPersistentSession->getRelated*() will then return the
+objects, which are already kept in memory.
+
+If no JOIN for a related object was specified in the find query of the original
+object or the object was loaded in a different way (e.g. using
+ezcPersistentSession->load()), the persistent session will attempt to load the
+related objects on the fly, using a newly created SELECT statement. Note, that
+during the call of ezcPersistentsSession->getRelated*() the user does not see
+any difference between both methods.
+
+The functionality of automatic dirty checking will not be implemented in the
+PersistentObject component for several reasons:
+
+a) A persistent session can hardly keep track of all object relations which are
+currently in use, since the original object cannot be altered during run-time
+to keep track of it's changes.
+
+b) Keeping track of sets of objects (especially creation and deletion) would
+require the implementation of new data structures, since monitoring arrays in
+PHP is not possible. Beside that, complex checks have to be done during the
+database update. Both factors would make the usage of PersistentObject
+unnecessarily slow.
+
+Instead we will enhance the currently available methods of ezcPersistentSession
+to be able to deal with multiple objects at once: 
+
+ezcPersistentSession->save( mixed $object )
+  The save method will accept not only single objects, but also arrays of
+  objects, which will all be saved. The same applies to the update() and
+  saveOrUpdate() methods of ezcPersistentSession.
+
+ezcPersistentSession->delete( mixed $object )
+  The delete() method will also be enhanced to accept single objects and arrays
+  of objects. Additionally, it will be able to deal with the configuration flag
+  "cascade" of relation configurations. "cascade" allows you to define, that if
+  an object, that has a one-to-one or one-to-many relation defined, is deleted
+  all of its related objects are deleted, too.
+
+To illustrate the described enhancements, a few code examples will follow.
+
+Pre-loading
+```````````
+
+::
+
+    <?php
+    // Setup the query to load all persons from Dortmund and their contact data
+    // and employer.
+    
+    $q = $session->createFindQuery( "Person" );
+    $q->where(
+        $q->expr->eq( "City", "Dortmund" )
+    )->leftJoin(
+        "contacts", $q->expr->eq( "persons.id", "contacts.person_id" )
+    )->leftJoin(
+        "employers", $q->expr->eq( "persons.employer_id", "employers.id" )
+    )->orderBy( 
+        "person.surname"
+    )->orderBy(
+        "person.firstname"
+    );
+
+    // Fetch the desired person objects and all related contact and employer
+    // objects in the background.
+    
+    $persons = $session->find( $q, "Person" );
+
+    foreach ( $persons as $person )
+    {
+        echo "{$person->firstname} {$person->surname} is reachable on the following email addresses:\n";
+
+        // Person -> Contact is a one-to-many relation (note the use of
+        // getRelatedObjects() here). The objects have already been fetched so
+        // no new query will be submitted.
+        
+        foreach ( $session->getRelatedObjects( $person, "Contact" ) as $contact )
+        {
+            echo "    $contact->email\n";
+        }
+        
+        // Person -> Employer is a many-to-one relation (note the usage of
+        // getRelatedObject() here). The related object was already fetched so
+        // no new query will be submitted.
+        
+        echo "The employer is: ", $session->getRelatedObject( $person, "Employer" );
+    }
+    ?>
+
+On-demand-loading
+`````````````````
+
+::
+
+    <?php
+    // Setup query without joins to fetch only the Person objects.
+
+    $q = $session->createFindQuery( "Person" );
+    $q->where(
+        $q->expr->eq( "City", "Dortmund" )
+    )->orderBy( 
+        "person.surname"
+    )->orderBy(
+        "person.firstname"
+    );
+
+    // Fetch the desired person objects
+    
+    $persons = $session->find( $q, "Person" );
+
+    foreach ( $persons as $person )
+    {
+        echo "{$person->firstname} {$person->surname} is reachable on the following email addresses:\n";
+
+        // Person -> Contact is a one-to-many relation. The objects are not
+        // pre-loaded so a new SELECT query is run to fetch them from the
+        // database.
+        
+        foreach ( $session->getRelatedObjects( $person, "Contact" ) as $contact )
+        {
+            echo "    $contact->email\n";
+        }
+        
+        // Person -> Employer is a many-to-one relation. The related object is
+        // not pre-loaded so a new SELECT query is run to fetch it from the
+        // database.
+        
+        echo "The employer is: ", $session->getRelatedObject( $person, "Employer" );
+    }
+    ?>
+
+Inverse relation load
+`````````````````````
+
+::
+
+    <?php
+    // Load the employer eZ systems and all of its employees that earn less
+    // than 3000 EURO a month.
+
+    $q = $session->createFindQuery( "Employer" );
+    $q->where(
+        $q->expr->eq( "name", "eZ systems" )
+    )->leftJoin(
+        "persons",
+        $q->expr->and( 
+            $q->expr->eq( "persons.employer_id", "employers.id" ),
+            $q->expr->lt( "loan", 3000 )
+        )
+    );
+
+    $employers = $session->find( $q, "Employer" );
+    $employer = $employers[0];
+
+    // Itertate through all found employees and raise their loan by 1000 EURO.
+
+    foreach ( $session->getRelatedObjects( $employer, "Person" ) as $employee )
+    {
+        $employee->loan += 1000;
+    }
+
+    // Update the employees. Note that we need to retrieve the person objects
+    // here explicitly, since we do not have automatic dirty checking.
+
+    $session->update( $session->getRelatedObjects( $employer, "Person" ) );
+    ?>
+
+Adding new relations
+````````````````````
+
+::
+
+    <?php
+    // Load a person object.
+
+    $person = $session->load( "Person", 123 );
+
+    // Create addresses to add,
+    $addresses[0] = new Address();
+    $addresses[0]->email = "test@example.com";
+    $addresses[1] = new Address();
+    $addresses[1]->email = "test@example.org";
+
+    // Add all addresses to the person
+    $session->addRelatedObjects( $person, $addresses );
+
+    // Create a new emplyoer
+    $employer = new Employer( "eZ systems" );
+    $employer->website = "http://ez.no";
+
+    // Add this employer to the person
+    $session->addRelatedObjects( $person, $employer );
+    ?>
+
+Updating / deleting related objects
+```````````````````````````````````
+
+::
+
+    <?php
+    // Load all persons that have an email address at example.com and their
+    // related address objects.
+
+    $q = $session->createFindQuery( "Person" );
+    $q->leftJoin(
+        "addresses",
+        $q->expr->and(
+            $q->expr->eq( "person.id", "address.personId" ),
+            $q->expr->like( "address.email", "%example.com" )
+    );
+
+    // Fetch the desired person objects
+    
+    $persons = $session->find( $q, "Person" );
+    foreach ( $persons as $person )
+    {
+        if ( sizeof( $session->getRelated( $person, "Address" ) ) > 1 )
+        {
+            // Delete persons and all related addresses. This will only work, if
+            // the "cascade" configuration flag is set. Else only the $person
+            // object will be deleted.
+            $session->delete( $person );
+        }
+    }
+    ?>
+
+Configuration
+-------------
+
+In contrast to Hibernate (which uses XML configuration files) we will follow
+our current approach of configuring object relations in PHP code. Each relation
+is defined in a new array element of the property "relations" of an
+ezcPersistentObjectDefitinion instances. The array key must be named after the
+class the relation refers to. The different types of relations are realized in
+their own sub classes.
+
+One-to-many relations
+`````````````````````
+
+::
+
+    <?php
+    // Create basic definition for a persistent object. This part will be left
+    // out in further exmaples, if capable.
+    $def = new ezcPersistentObjectDefinition();
+    $def->table = "persons";
+    $def->class = "Person";
+
+    // Create a new OneToMany relation.
+	$def->relations["Address"] = new ezcPersistentObjectOneToManyRelation;
+
+    // Define the mapping for this relation. At least 1 column of the
+    // original table must be mapped to 1 column of the related table.
+    $def->relations["Address"]->columnMap = array(
+        array( "persons" => "id", "addresses" => "person_id" ),
+    );
+
+    // This relation should cascade deletes.
+    $def->relations["Address"]->cascade = true;
+    ?>
+
+The above shown example code will allow you to retrieve objects of the class
+Address that are related to an instance of the class Person, using the
+ezcPersistentSession->getRelated*() methods.
+
+Note, that the "column map" contains the database column names, and not the
+property names of the persistent classes. Column maps for a one-to-many
+relation must at least contain 1 array element, with 2 mappings, which assign a
+table name to a column name. In this case we have the mapping persons.id =>
+addresses.person_id. You can also add more mappings to the column map, which
+allows you a more fine grained selection of the objects to fetch and also
+allows you to specify multiple keys to match.
+
+The "cascade" flag will enable the automatic deletion of related objects.
+
+Many-to-many relations
+``````````````````````
+
+::
+
+    <?php
+    // Same base definition as before.
+
+    // This time, multiple persons can live at 1 address, so we need a
+    // many-to-many relation.
+	$def->relations["Address"] = new ezcPersistentObjectOneToManyRelation( "persons_addresses" );
+
+    // Many-to-many relations need at least 2 mappings: 1 incoming and 1
+    // outgoing for the relation table.
+    $def->relations["Address"]->columnMap = array(
+        array( "persons" => "id", "persons_addresses" => "person_id" ),
+        array( "persons_addresses" => "address_id", "addresses" => "id" ),
+    );
+    ?>
+
+This example shows a many-to-many relation, which needs an additional table to reflect the
+relation. The relation-table name is given to the constructor. To reflect the 3-level
+mapping, needed for a many-to-many relation, the column map needs to contain at
+least 2 mappings. You can still add more mappings, if this is desired. Note,
+that the ezcPersistentObjectManyToManyRelation class does not know a "cascade"
+flag, since this does not make sense.
+
+Many-to-one relations
+`````````````````````
+
+A many-to-one relation works almost exactly like the one-to-many relation, but
+the other way around. This example shows the one-to-many relation, which
+realizes the reverse mapping of the first one-to-many example: ::
+
+    <?php
+    // Same base definition as before.
+
+    $def->relations["Person"] = new ezcPersistentObjectManyToOneRelation();
+    $def->relations["Person"]->columnMap = array(
+        array( "addresses" => "person_id", "persosn" => "id" ),
+    );
+    $def->relations["Person"]->reverse = true;
+    ?>
+
+The speciality in this example is the "reverse" flag. This is necessary, to
+avoid constraint violations within the database, if the same relation is added
+twice. Setting "reverse" to true indicates, that there is already a relation
+defined in the opposite direction, which is the main relation. The effect in
+usage is here, that a call to ezcPersistentSession->addRelatedObjects(
+$address, $person ) will result in an exception, while the call to 
+ezcPersistentSession->addRelatedObjects( $person, $address ) has the expected
+result.
+
+One-to-one relations
+````````````````````
+
+This (simplest) type of relation works like the one-to-many relation from a
+configuration point of view.
+
+Design comments
+===============
+
+This section gives some general comments on the proposed design, to explain
+some design decisions. Beside that, it lists some already known issues of this
+design concept and lists features that have been left out intentionally, but
+maybe implemented later.
+
+General comments
+----------------
+
+The described design is not as "nice" and "clean" as the Hibernate approach is.
+This mainly results from the lack of features in PHP, which are provided by
+Java and used in Hibernate. The largest issue is, that we cannot change classes during
+compile-/runtime, which disables us to add methods to classes after they
+have been defined. Since we do not want to force persistent classes to extend a
+common base class, we cannot use cute features like overloading to make a nicer
+API. 
+
+While discussing this, the idea came up, to offer a common base class, as an
+option, but make it not necessary. This approach would allow us to e.g.
+implement real lazy-loading through property access. Such a base class is
+easily implementable using the current design proposal as the basis.
+
+Another thing that would be nice is the automatic dirty checking. This approach
+was not taken up so far, since it would add a lot of overhead to the
+PersistentObject implementation, which would most probably make it very slow.
+Further details on this have already been discussed earlier in this document.
+
+Left out features
+-----------------
+
+Hibernate offers a lot more features than this design document + the original
+implementation of PersistentObject cover. This sections lists the features
+directly related to "object relation handling", which might make sense to be
+implemented later:
+
+Discriminators
+  A discriminator decides on basis of a database columns value, which subclass
+  of a persistent object class should be instantiated. This maybe useful in
+  some rare situations, therefore the feature should be left out, for now.
+
+Versioned and timestamped data
+  Hibernate is capable of dealing with multiple versions of the same object in
+  one table. This sounds like a reasonable feature for PersistentObject, but is
+  out of scope for this release. Adding this feature later on should be no
+  problem.
+
+Fetch settings
+  Hibernate allows to switch between "SELECT" and "JOIN" as the "fetch" setting
+  for persistent objects. This setting determines, if a related object is
+  fetched always (JOIN) or only on request (SELECT). We do not want to
+  determine this at configuration time. Therefore we have the on-demand-loading
+  / pre-loading approach.
+
+Calculated properties
+  Hibernate also allows to specify SQL snippets to generate persistent object
+  properties on the database side, which are not columns in the database (e.g.
+  you can let the database calculate a persons age, if you have his birth date).
+  This is a  useful feature, but not necessary to be implemented now. Adding
+  this later on is easily possible using the current approach.
+
+Hibernate supports a lot more features, which are not listed here. Those
+features should be examined again in the next release cycle.
+
+Known issues
+------------
+
+- Due to PHPs limitations, a lot of the quite nice Hibernate API must be
+  changed, so that migration from Hibernate to PersistentObject is not as
+  smooth as desired.
+
+- Support for cascading actions (like delete) must be supported either by PDO
+  (what limits us e.g. with MySQL to version 5.x) or emulated manually.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
