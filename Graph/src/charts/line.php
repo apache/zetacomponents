@@ -274,10 +274,7 @@ class ezcGraphLineChart extends ezcGraphChart
                     $element->nullPosition = $this->elements['xAxis']->getCoordinate( false );
                     break;
             }
-            if ( !$element->font instanceof ezcGraphFontOptions )
-            {
-                echo "Wrong font config: $name\n";
-            }
+
             $this->driver->options->font = $element->font;
             $boundings = $element->render( $this->renderer, $boundings );
         }

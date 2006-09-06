@@ -14,7 +14,7 @@
  * @property int $polynomOrder
  *           Maximum order of polygon to interpolate from points
  * @property int $resolution
- *           Rsolution used to draw line in graph
+ *           Resolution used to draw line in graph
  *
  * @package Graph
  */
@@ -25,6 +25,14 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
 
     protected $polynom = false;
 
+    protected $min = false;
+
+    protected $max = false;
+
+    protected $position = 0;
+
+    protected $properties;
+
     /**
      * Constructor
      * 
@@ -34,7 +42,9 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
      */
     public function __construct( ezcGraphDataSet $dataset )
     {
-        $this->properties['resolution'] = 5;
+        parent::__construct();
+
+        $this->properties['resolution'] = 100;
         $this->properties['polynomOrder'] = 3;
 
         $this->source = $dataset;
@@ -58,18 +68,58 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
                 $this->properties['polynomOrder'] = (int) $propertyValue;
                 $this->polynom = false;
                 break;
+            case 'resolution':
+                $this->properties['polynomOrder'] = max( 1, (int) $propertyValue );
+                break;
             default:
-                throw new ezcBasePropertyNotFoundException( $propertyName );
+                parent::__set( $propertyName, $propertyValue );
                 break;
         }
     }
+
+    /**
+     * Property get access.
+     * Simply returns a given option.
+     * 
+     * @param string $propertyName The name of the option to get.
+     * @return mixed The option value.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If a the value for the property options is not an instance of
+     */
+    public function __get( $propertyName )
+    {
+        if ( isset( $this->properties[$propertyName] ) )
+        {
+            return $this->properties[$propertyName];
+        }
+        else
+        {
+            return parent::__get( $propertyName );
+        }
+    }
     
+    /**
+     * Build the polynom based on the given points.
+     * 
+     * @return void
+     */
     protected function buildPolynom()
     {
         $points = array();
 
         foreach ( $this->source as $key => $value )
         {
+            if ( ( $this->min === false ) || ( $this->min > $key ) )
+            {
+                $this->min = (float) $key;
+            }
+
+            if ( ( $this->max === false ) || ( $this->max < $key ) )
+            {
+                $this->max = (float) $key;
+            }
+
             $points[] = new ezcGraphCoordinate( (float) $key, (float) $value );
         }
 
@@ -95,6 +145,12 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
         $this->polynom = $left->solveNonlinearEquatation( $right );
     }
 
+    /**
+     * Returns a polynom of the defined order witch matches the datapoints
+     * using the least squares algorithm.
+     * 
+     * @return ezcGraphPolynom Polynom
+     */
     public function getPolynom()
     {
         if ( $this->polynom === false )
@@ -103,6 +159,135 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
         }
 
         return $this->polynom;
+    }
+
+    /**
+     * Get the x coordinate for the current position
+     * 
+     * @param int $position Position
+     * @return float x coordinate
+     */
+    protected function getKey()
+    {
+        return $this->min +
+            ( $this->max - $this->min ) / $this->resolution * $this->position;
+    }
+    
+    /**
+     * Returns true if the given datapoint exists
+     * Allows isset() using ArrayAccess.
+     * 
+     * @param string $key The key of the datapoint to get.
+     * @return bool Wether the key exists.
+     */
+    public function offsetExists( $key )
+    {
+        return ( ( $key >= $this->min ) && ( $key <= $this->max ) );
+    }
+
+    /**
+     * Returns the value for the given datapoint
+     * Get an datapoint value by ArrayAccess.
+     * 
+     * @param string $key The key of the datapoint to get.
+     * @return float The datapoint value.
+     */
+    public function offsetGet( $key )
+    {
+        $polynom = $this->getPolynom();
+        return $polynom->evaluate( $key );
+    }
+
+    /**
+     * Throws a ezcBasePropertyPermissionException because single datapoints
+     * cannot be set in average datasets.
+     * 
+     * @param string $key The kex of a datapoint to set.
+     * @param float $value The value for the datapoint.
+     * @throws ezcBasePropertyPermissionException
+     *         Always, because access is readonly.
+     * @return void
+     */
+    public function offsetSet( $key, $value )
+    {
+        throw new ezcBasePropertyPermissionException( $key, ezcBasePropertyPermissionException::READ );
+    }
+
+    /**
+     * Returns the currently selected datapoint.
+     *
+     * This method is part of the Iterator interface to allow access to the 
+     * datapoints of this row by iterating over it like an array (e.g. using
+     * foreach).
+     * 
+     * @return string The currently selected datapoint.
+     */
+    final public function current()
+    {
+        $polynom = $this->getPolynom();
+        return $polynom->evaluate( $this->getKey() );
+    }
+
+    /**
+     * Returns the next datapoint and selects it or false on the last datapoint.
+     *
+     * This method is part of the Iterator interface to allow access to the 
+     * datapoints of this row by iterating over it like an array (e.g. using
+     * foreach).
+     *
+     * @return float datapoint if it exists, or false.
+     */
+    final public function next()
+    {
+        if ( ++$this->position >= $this->resolution )
+        {
+            return false;
+        }
+        else 
+        {
+            return $this->current();
+        }
+    }
+
+    /**
+     * Returns the key of the currently selected datapoint.
+     *
+     * This method is part of the Iterator interface to allow access to the 
+     * datapoints of this row by iterating over it like an array (e.g. using
+     * foreach).
+     * 
+     * @return string The key of the currently selected datapoint.
+     */
+    final public function key()
+    {
+        return (string) $this->getKey();
+    }
+
+    /**
+     * Returns if the current datapoint is valid.
+     *
+     * This method is part of the Iterator interface to allow access to the 
+     * datapoints of this row by iterating over it like an array (e.g. using
+     * foreach).
+     *
+     * @return bool If the current datapoint is valid
+     */
+    final public function valid()
+    {
+        return ( ( $this->getKey() >= $this->min ) && ( $this->getKey() <= $this->max ) );
+    }
+
+    /**
+     * Selects the very first datapoint and returns it.
+     * This method is part of the Iterator interface to allow access to the 
+     * datapoints of this row by iterating over it like an array (e.g. using
+     * foreach).
+     *
+     * @return float The very first datapoint.
+     */
+    final public function rewind()
+    {
+        $this->position = 0;
     }
 }
 ?>

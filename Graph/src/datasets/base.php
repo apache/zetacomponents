@@ -16,28 +16,28 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator
 {
 
     /**
-     * labels for dataset and dataset elements
+     * labels for datapoint and datapoint elements
      * 
      * @var ezcGraphDataSetStringProperty
      */
     protected $label;
 
     /**
-     * Colors for dataset elements
+     * Colors for datapoint elements
      * 
      * @var ezcGraphDataSetColorProperty
      */
     protected $color;
 
     /**
-     * Symbols for dataset elements
+     * Symbols for datapoint elements
      * 
      * @var ezcGraphDataSetIntProperty
      */
     protected $symbol;
 
     /**
-     * Status if dataset element is hilighted
+     * Status if datapoint element is hilighted
      * 
      * @var ezcGraphDataSetBooleanProperty
      * @access protected
@@ -52,22 +52,22 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator
     protected $displayType;
 
     /**
-     * Array which contains the data of the dataset
+     * Array which contains the data of the datapoint
      * 
      * @var array
      */
     protected $data;
 
     /**
-     * Current dataset element
-     * needed for iteration over dataset with ArrayAccess
+     * Current datapoint element
+     * needed for iteration over datapoint with ArrayAccess
      * 
      * @var mixed
      */
     protected $current;
 
     /**
-     * Color palette used for dataset colorization
+     * Color palette used for datapoint colorization
      * 
      * @var ezcGraphPalette
      */
@@ -112,6 +112,16 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator
         }
     }
 
+    /**
+     * Property get access.
+     * Simply returns a given option.
+     * 
+     * @param string $propertyName The name of the option to get.
+     * @return mixed The option value.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If a the value for the property options is not an instance of
+     */
     public function __get( $propertyName )
     {
         if ( isset( $this->$propertyName ) ) {
@@ -124,46 +134,38 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator
     }
     
     /**
-     * Returns if an option exists.
+     * Returns true if the given datapoint exists
      * Allows isset() using ArrayAccess.
      * 
-     * @param string $key The name of the option to get.
-     * @return bool Wether the option exists.
+     * @param string $key The key of the datapoint to get.
+     * @return bool Wether the key exists.
      */
-    final public function offsetExists( $key )
+    public function offsetExists( $key )
     {
         return isset( $this->data[$key] );
     }
 
     /**
-     * Returns an option value.
-     * Get an option value by ArrayAccess.
+     * Returns the value for the given datapoint
+     * Get an datapoint value by ArrayAccess.
      * 
-     * @param string $key The name of the option to get.
-     * @return mixed The option value.
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
+     * @param string $key The key of the datapoint to get.
+     * @return float The datapoint value.
      */
-    final public function offsetGet( $key )
+    public function offsetGet( $key )
     {
         return $this->data[$key];
     }
 
     /**
-     * Set an option.
-     * Sets an option using ArrayAccess.
+     * Sets the value for a datapoint.
+     * Sets an datapoint using ArrayAccess.
      * 
-     * @param string $key The option to set.
-     * @param mixed $value The value for the option.
+     * @param string $key The kex of a datapoint to set.
+     * @param float $value The value for the datapoint.
      * @return void
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
-     * @throws ezcBaseValueException
-     *         If a the value for a property is out of range.
      */
-    final public function offsetSet( $key, $value )
+    public function offsetSet( $key, $value )
     {
         $this->data[$key] = (float) $value;
     }
@@ -180,12 +182,21 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator
      * @throws ezcBaseValueException
      *         If a the value for a property is out of range.
      */
-    final public function offsetUnset( $key )
+    public function offsetUnset( $key )
     {
         unset( $this->data[$key] );
     }
 
-    final public function current()
+    /**
+     * Returns the currently selected datapoint.
+     *
+     * This method is part of the Iterator interface to allow access to the 
+     * datapoints of this row by iterating over it like an array (e.g. using
+     * foreach).
+     * 
+     * @return string The currently selected datapoint.
+     */
+    public function current()
     {
         $keys = array_keys( $this->data );
         if ( !isset( $this->current ) )
@@ -196,7 +207,16 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator
         return $this->data[$keys[$this->current]];
     }
 
-    final public function next()
+    /**
+     * Returns the next datapoint and selects it or false on the last datapoint.
+     *
+     * This method is part of the Iterator interface to allow access to the 
+     * datapoints of this row by iterating over it like an array (e.g. using
+     * foreach).
+     *
+     * @return float datapoint if it exists, or false.
+     */
+    public function next()
     {
         $keys = array_keys( $this->data );
         if ( ++$this->current >= count( $keys ) )
@@ -209,19 +229,45 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator
         }
     }
 
-    final public function key()
+    /**
+     * Returns the key of the currently selected datapoint.
+     *
+     * This method is part of the Iterator interface to allow access to the 
+     * datapoints of this row by iterating over it like an array (e.g. using
+     * foreach).
+     * 
+     * @return string The key of the currently selected datapoint.
+     */
+    public function key()
     {
         $keys = array_keys( $this->data );
         return $keys[$this->current];
     }
 
-    final public function valid()
+    /**
+     * Returns if the current datapoint is valid.
+     *
+     * This method is part of the Iterator interface to allow access to the 
+     * datapoints of this row by iterating over it like an array (e.g. using
+     * foreach).
+     *
+     * @return bool If the current datapoint is valid
+     */
+    public function valid()
     {
         $keys = array_keys( $this->data );
         return isset( $keys[$this->current] );
     }
 
-    final public function rewind()
+    /**
+     * Selects the very first datapoint and returns it.
+     * This method is part of the Iterator interface to allow access to the 
+     * datapoints of this row by iterating over it like an array (e.g. using
+     * foreach).
+     *
+     * @return float The very first datapoint.
+     */
+    public function rewind()
     {
         $this->current = 0;
     }
