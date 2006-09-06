@@ -38,6 +38,8 @@
  *           Factor to darken the color used for the bars side polygon.
  * @property float $barDarkenTop
  *           Factor to darken the color used for the bars top polygon.
+ * @property float $barChartGleam
+ *           Transparancy for gleam on bar charts
  * 
  * @package Graph
  */
@@ -65,6 +67,7 @@ class ezcGraphRenderer3dOptions extends ezcGraphRendererOptions
         $this->properties['pieChartGleamColor'] = ezcGraphColor::fromHex( '#FFFFFF' );
         $this->properties['barDarkenSide'] = .2;
         $this->properties['barDarkenTop'] = .4;
+        $this->properties['barChartGleam'] = false;
 
         parent::__construct( $options );
     }
@@ -125,6 +128,9 @@ class ezcGraphRenderer3dOptions extends ezcGraphRendererOptions
                 break;
             case 'barDarkenTop':
                 $this->properties['barDarkenTop'] = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'barChartGleam':
+                $this->properties['barChartGleam'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );

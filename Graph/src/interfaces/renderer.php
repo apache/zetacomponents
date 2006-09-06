@@ -235,11 +235,171 @@ abstract class ezcGraphRenderer
      * @param int $symbol Type of symbol
      * @return void
      */
-    abstract public function drawSymbol(
+    public function drawSymbol(
         ezcGraphBoundings $boundings,
         ezcGraphColor $color,
-        $symbol = ezcGraph::NO_SYMBOL
-    );
+        $symbol = ezcGraph::NO_SYMBOL )
+    {
+        switch ( $symbol )
+        {
+            case ezcGraph::NO_SYMBOL:
+                $this->driver->drawPolygon(
+                    array(
+                        new ezcGraphCoordinate( $boundings->x0, $boundings->y0 ),
+                        new ezcGraphCoordinate( $boundings->x1, $boundings->y0 ),
+                        new ezcGraphCoordinate( $boundings->x1, $boundings->y1 ),
+                        new ezcGraphCoordinate( $boundings->x0, $boundings->y1 ),
+                    ),
+                    $color,
+                    true
+                );
+
+                // Draw optional gleam
+                if ( $this->options->legendSymbolGleam !== false )
+                {
+                    $this->driver->drawPolygon(
+                        array(
+                            $topLeft = new ezcGraphCoordinate( 
+                                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $this->options->legendSymbolGleamSize, 
+                                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $this->options->legendSymbolGleamSize 
+                            ),
+                            new ezcGraphCoordinate( 
+                                $boundings->x1 - ( $boundings->x1 - $boundings->x0 ) * $this->options->legendSymbolGleamSize, 
+                                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $this->options->legendSymbolGleamSize 
+                            ),
+                            $bottomRight = new ezcGraphCoordinate( 
+                                $boundings->x1 - ( $boundings->x1 - $boundings->x0 ) * $this->options->legendSymbolGleamSize, 
+                                $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $this->options->legendSymbolGleamSize 
+                            ),
+                            new ezcGraphCoordinate( 
+                                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $this->options->legendSymbolGleamSize, 
+                                $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $this->options->legendSymbolGleamSize 
+                            ),
+                        ),
+                        new ezcGraphLinearGradient(
+                            $bottomRight,
+                            $topLeft,
+                            $color->darken( -$this->options->legendSymbolGleam ),
+                            $color->darken( $this->options->legendSymbolGleam )
+                        ),
+                        true
+                    );
+                }
+                break;
+            case ezcGraph::DIAMOND:
+                $this->driver->drawPolygon(
+                    array(
+                        new ezcGraphCoordinate( 
+                            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2, 
+                            $boundings->y0 
+                        ),
+                        new ezcGraphCoordinate( 
+                            $boundings->x1,
+                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2
+                        ),
+                        new ezcGraphCoordinate( 
+                            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2, 
+                            $boundings->y1 
+                        ),
+                        new ezcGraphCoordinate( 
+                            $boundings->x0,
+                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2
+                        ),
+                    ),
+                    $color,
+                    true
+                );
+
+                // Draw optional gleam
+                if ( $this->options->legendSymbolGleam !== false )
+                {
+                    $this->driver->drawPolygon(
+                        array(
+                            new ezcGraphCoordinate( 
+                                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2, 
+                                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $this->options->legendSymbolGleamSize 
+                            ),
+                            new ezcGraphCoordinate( 
+                                $boundings->x1 - ( $boundings->x1 - $boundings->x0 ) * $this->options->legendSymbolGleamSize, 
+                                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2
+                            ),
+                            new ezcGraphCoordinate( 
+                                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2, 
+                                $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $this->options->legendSymbolGleamSize 
+                            ),
+                            new ezcGraphCoordinate( 
+                                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $this->options->legendSymbolGleamSize, 
+                                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2
+                            ),
+                        ),
+                        new ezcGraphLinearGradient(
+                            new ezcGraphCoordinate( 
+                                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * 0.353553391, 
+                                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * 0.353553391
+                            ),
+                            new ezcGraphCoordinate( 
+                                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * ( 1 - 0.353553391 ), 
+                                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * ( 1 - 0.353553391 )
+                            ),
+                            $color->darken( -$this->options->legendSymbolGleam ),
+                            $color->darken( $this->options->legendSymbolGleam )
+                        ),
+                        true
+                    );
+                }
+                break;
+            case ezcGraph::BULLET:
+                $this->driver->drawCircle(
+                    new ezcGraphCoordinate( 
+                        $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2, 
+                        $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2
+                    ),
+                    $boundings->x1 - $boundings->x0,
+                    $boundings->y1 - $boundings->y0,
+                    $color,
+                    true
+                );
+
+                // Draw optional gleam
+                if ( $this->options->legendSymbolGleam !== false )
+                {
+                    $this->driver->drawCircle(
+                        new ezcGraphCoordinate( 
+                            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2, 
+                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2
+                        ),
+                        ( $boundings->x1 - $boundings->x0 ) * $this->options->legendSymbolGleamSize,
+                        ( $boundings->y1 - $boundings->y0 ) * $this->options->legendSymbolGleamSize,
+                        new ezcGraphLinearGradient(
+                            new ezcGraphCoordinate( 
+                                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * 0.292893219, 
+                                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * 0.292893219
+                            ),
+                            new ezcGraphCoordinate( 
+                                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * 0.707106781, 
+                                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * 0.707106781
+                            ),
+                            $color->darken( -$this->options->legendSymbolGleam ),
+                            $color->darken( $this->options->legendSymbolGleam )
+                        ),
+                        true
+                    );
+                }
+                break;
+            case ezcGraph::CIRCLE:
+                $this->driver->drawCircle(
+                    new ezcGraphCoordinate( 
+                        $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2, 
+                        $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2
+                    ),
+                    $boundings->x1 - $boundings->x0,
+                    $boundings->y1 - $boundings->y0,
+                    $color,
+                    false
+                );
+                break;
+        }
+    }
 
     /**
      * Finish rendering

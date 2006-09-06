@@ -624,6 +624,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                     ),
                 );
 
+                // Draw top side
                 $this->barPostProcessing[] = array(
                     'index' => $barPolygonArray[1]->x,
                     'method' => 'drawPolygon',
@@ -647,6 +648,45 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                     ),
                 );
 
+                // Draw top side gleam
+                if ( $this->options->barChartGleam !== false )
+                {
+                    $this->barPostProcessing[] = array(
+                        'index' => $barPolygonArray[1]->x + 1,
+                        'method' => 'drawPolygon',
+                        'parameters' => array(
+                            ( $barPolygonArray[1]->y < $barPolygonArray[3]->y
+                            ?   array(
+                                    $this->get3dCoordinate( $barPolygonArray[1], $startDepth ),
+                                    $this->get3dCoordinate( $barPolygonArray[2], $startDepth ),
+                                    $this->get3dCoordinate( $barPolygonArray[2], $endDepth ),
+                                    $this->get3dCoordinate( $barPolygonArray[1], $endDepth ),
+                                )
+                            :   array(
+                                    $this->get3dCoordinate( $barPolygonArray[0], $startDepth ),
+                                    $this->get3dCoordinate( $barPolygonArray[3], $startDepth ),
+                                    $this->get3dCoordinate( $barPolygonArray[3], $endDepth ),
+                                    $this->get3dCoordinate( $barPolygonArray[0], $endDepth ),
+                                )
+                            ),
+                            new ezcGraphLinearGradient(
+                                ( $barPolygonArray[1]->y < $barPolygonArray[3]->y
+                                ? $this->get3dCoordinate( $barPolygonArray[2], $endDepth )
+                                : $this->get3dCoordinate( $barPolygonArray[3], $endDepth )
+                                ),
+                                ( $barPolygonArray[1]->y < $barPolygonArray[3]->y
+                                ? $this->get3dCoordinate( $barPolygonArray[1], $startDepth )
+                                : $this->get3dCoordinate( $barPolygonArray[0], $startDepth )
+                                ),
+                                ezcGraphColor::fromHex( '#FFFFFFFF' ),
+                                ezcGraphColor::fromHex( '#FFFFFF' )->transparent( 1 - $this->options->barChartGleam )
+                            ),
+                            true
+                        ),
+                    );
+                }
+
+                // Draw front side
                 $this->barPostProcessing[] = array(
                     'index' => $barPolygonArray[1]->x,
                     'method' => 'drawPolygon',
@@ -661,6 +701,31 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                         true
                     ),
                 );
+
+                // Draw front side gleam
+                if ( $this->options->barChartGleam !== false )
+                {
+                    $this->barPostProcessing[] = array(
+                        'index' => $barPolygonArray[1]->x + 1,
+                        'method' => 'drawPolygon',
+                        'parameters' => array(
+                            array(
+                                $this->get3dCoordinate( $barPolygonArray[0], $startDepth ),
+                                $this->get3dCoordinate( $barPolygonArray[1], $startDepth ),
+                                $this->get3dCoordinate( $barPolygonArray[2], $startDepth ),
+                                $this->get3dCoordinate( $barPolygonArray[3], $startDepth ),
+                            ),
+                            new ezcGraphLinearGradient(
+                                $this->get3dCoordinate( $barPolygonArray[3], $startDepth ),
+                                $this->get3dCoordinate( $barPolygonArray[1], $startDepth ),
+                                ezcGraphColor::fromHex( '#FFFFFFFF' ),
+                                ezcGraphColor::fromHex( '#FFFFFF' )->transparent( 1 - $this->options->barChartGleam )
+                            ),
+                            true
+                        ),
+                    );
+                }
+
                 break;
             case ezcGraph::DIAMOND:
                 $barCoordinateArray = array(
@@ -678,6 +743,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                     ),
                 );
 
+                // Left side
                 $this->barPostProcessing[] = array(
                     'index' => $barCoordinateArray['x'][0],
                     'method' => 'drawPolygon',
@@ -693,6 +759,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                     ),
                 );
 
+                // Right side
                 $this->barPostProcessing[] = array(
                     'index' => $barCoordinateArray['x'][1],
                     'method' => 'drawPolygon',
@@ -713,6 +780,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                     $barCoordinateArray['y'][1]
                 );
 
+                // Top side
                 $this->barPostProcessing[] = array(
                     'index' => $barCoordinateArray['x'][0],
                     'method' => 'drawPolygon',
@@ -727,6 +795,30 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                         true
                     ),
                 );
+
+                // Top side gleam
+                if ( $this->options->barChartGleam !== false )
+                {
+                    $this->barPostProcessing[] = array(
+                        'index' => $barCoordinateArray['x'][0] + 1,
+                        'method' => 'drawPolygon',
+                        'parameters' => array(
+                            array(
+                                $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][1], $topLocation ), $startDepth ),
+                                $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][2], $topLocation ), $midDepth ),
+                                $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][3], $topLocation ), $endDepth ),
+                                $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][0], $topLocation ), $midDepth ),
+                            ),
+                            new ezcGraphLinearGradient(
+                                $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][2], $topLocation ), $midDepth ),
+                                $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][0], $topLocation ), $midDepth ),
+                                ezcGraphColor::fromHex( '#FFFFFFFF' ),
+                                ezcGraphColor::fromHex( '#FFFFFF' )->transparent( 1 - $this->options->barChartGleam )
+                            ),
+                            true
+                        ),
+                    );
+                }
                 break;
             case ezcGraph::BULLET:
             case ezcGraph::CIRCLE:
@@ -1654,87 +1746,6 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         }
         while ( ( $position->x < $boundings->x1 ) &&
                 ( $repeat & ezcGraph::HORIZONTAL ) );
-    }
-    
-    /**
-     * Draw Symbol
-     *
-     * Draws a single symbol defined by the symbol constants in ezcGraph. for
-     * NO_SYMBOL a rect will be drawn.
-     * 
-     * @param ezcGraphBoundings $boundings Boundings of symbol
-     * @param ezcGraphColor $color Color of symbol
-     * @param int $symbol Type of symbol
-     * @return void
-     */
-    public function drawSymbol(
-        ezcGraphBoundings $boundings,
-        ezcGraphColor $color,
-        $symbol = ezcGraph::NO_SYMBOL )
-    {
-        switch ( $symbol )
-        {
-            case ezcGraph::NO_SYMBOL:
-                $this->driver->drawPolygon(
-                    array(
-                        new ezcGraphCoordinate( $boundings->x0, $boundings->y0 ),
-                        new ezcGraphCoordinate( $boundings->x1, $boundings->y0 ),
-                        new ezcGraphCoordinate( $boundings->x1, $boundings->y1 ),
-                        new ezcGraphCoordinate( $boundings->x0, $boundings->y1 ),
-                    ),
-                    $color,
-                    true
-                );
-                break;
-            case ezcGraph::DIAMOND:
-                $this->driver->drawPolygon(
-                    array(
-                        new ezcGraphCoordinate( 
-                            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2, 
-                            $boundings->y0 
-                        ),
-                        new ezcGraphCoordinate( 
-                            $boundings->x1,
-                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2
-                        ),
-                        new ezcGraphCoordinate( 
-                            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2, 
-                            $boundings->y1 
-                        ),
-                        new ezcGraphCoordinate( 
-                            $boundings->x0,
-                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2
-                        ),
-                    ),
-                    $color,
-                    true
-                );
-                break;
-            case ezcGraph::BULLET:
-                $this->driver->drawCircle(
-                    new ezcGraphCoordinate( 
-                        $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2, 
-                        $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2
-                    ),
-                    $boundings->x1 - $boundings->x0,
-                    $boundings->y1 - $boundings->y0,
-                    $color,
-                    true
-                );
-                break;
-            case ezcGraph::CIRCLE:
-                $this->driver->drawCircle(
-                    new ezcGraphCoordinate( 
-                        $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2, 
-                        $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2
-                    ),
-                    $boundings->x1 - $boundings->x0,
-                    $boundings->y1 - $boundings->y0,
-                    $color,
-                    false
-                );
-                break;
-        }
     }
 
     protected function finish()

@@ -33,6 +33,10 @@
  *           Procentual distance between bars.
  * @property float $pieChartOffset
  *           Offset for starting with first pie chart segment in degrees.
+ * @property float $legendSymbolGleam
+ *           Opacity of gleam in legend symbols
+ * @property float $legendSymbolGleamSize
+ *           Size of gleam in legend symbols
  * 
  * @package Graph
  */
@@ -57,6 +61,8 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
         $this->properties['barMargin'] = .1;
         $this->properties['barPadding'] = .05;
         $this->properties['pieChartOffset'] = 0;
+        $this->properties['legendSymbolGleam'] = false;
+        $this->properties['legendSymbolGleamSize'] = .9;
 
         parent::__construct( $options );
     }
@@ -105,6 +111,19 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
                 break;
             case 'pieChartOffset':
                 $this->properties['pieChartOffset'] = $propertyValue % 360;
+                break;
+            case 'legendSymbolGleam':
+                $this->properties['legendSymbolGleam'] = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'legendSymbolGleamSize':
+                $this->properties['legendSymbolGleamSize'] = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'legendSymbolGleamColor':
+                if ( !$propertyValue instanceof ezcGraphColor )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphColor' );
+                }
+                $this->properties['legendSymbolGleamColor'] = $propertyValue;
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );

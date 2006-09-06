@@ -368,12 +368,17 @@ class ezcGraphRenderer3dTest extends ezcTestCase
         $chart->data['sample']->color['Safari'] = '#000000';
         $chart->data['sample']->highlight['IE'] = true;
 
+        $chart->data['sample']->symbol['IE'] = ezcGraph::CIRCLE;
+        $chart->data['sample']->symbol['Opera'] = ezcGraph::BULLET;
+        $chart->data['sample']->symbol['wget'] = ezcGraph::DIAMOND;
+
         $chart->renderer = new ezcGraphRenderer3d();
 
         $chart->renderer->options->pieChartShadowSize = 10;
         $chart->renderer->options->pieChartGleam = .5;
         $chart->renderer->options->dataBorder = false;
         $chart->renderer->options->pieChartHeight = 16;
+        $chart->renderer->options->legendSymbolGleam = .5;
 
         $chart->renderer->options->pieChartOffset = 180;
 
@@ -404,12 +409,17 @@ class ezcGraphRenderer3dTest extends ezcTestCase
         $chart->data['sample']->color['Safari'] = '#000000';
         $chart->data['sample']->highlight['IE'] = true;
 
+        $chart->data['sample']->symbol['IE'] = ezcGraph::CIRCLE;
+        $chart->data['sample']->symbol['Opera'] = ezcGraph::BULLET;
+        $chart->data['sample']->symbol['wget'] = ezcGraph::DIAMOND;
+
         $chart->renderer = new ezcGraphRenderer3d();
 
         $chart->renderer->options->pieChartShadowSize = 10;
         $chart->renderer->options->pieChartGleam = .5;
         $chart->renderer->options->dataBorder = false;
         $chart->renderer->options->pieChartHeight = 16;
+        $chart->renderer->options->legendSymbolGleam = .5;
 
         $chart->renderer->options->pieChartOffset = 180;
 
@@ -652,6 +662,36 @@ class ezcGraphRenderer3dTest extends ezcTestCase
         $chart->driver = new ezcGraphSvgDriver();
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testRenderPimpedBarChart()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphBarChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+
+        $chart->data['Rectangle'] = new ezcGraphArrayDataSet( array( 'sample 1' => 432, 'sample 2' => -43, 'sample 3' => 65 ) );
+        $chart->data['Rectangle']->symbol = ezcGraph::NO_SYMBOL;
+        $chart->data['Circle'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324 ) );
+        $chart->data['Circle']->symbol = ezcGraph::CIRCLE;
+        $chart->data['Bullet'] = new ezcGraphArrayDataSet( array( 'sample 1' => 124, 'sample 2' => -245, 'sample 3' => 361 ) );
+        $chart->data['Bullet']->symbol = ezcGraph::BULLET;
+        $chart->data['Diamond'] = new ezcGraphArrayDataSet( array( 'sample 1' => 387, 'sample 2' => -213, 'sample 3' => 24 ) );
+        $chart->data['Diamond']->symbol = ezcGraph::DIAMOND;
+
+        $chart->driver = new ezcGraphSvgDriver();
+        $chart->renderer = new ezcGraphRenderer3d();
+
+        $chart->renderer->options->barChartGleam = .5;
+        $chart->renderer->options->legendSymbolGleam = .5;
+
+        $chart->render( 700, 300, $filename );
 
         $this->compare(
             $filename,
