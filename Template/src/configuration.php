@@ -80,9 +80,10 @@ class ezcTemplateConfiguration
             case 'templatePath': 
             case 'compilePath': 
             case 'checkModifiedTemplates':
+                return $this->properties[$name];
             case 'customBlocks':
             case 'customFunctions':
-                return $this->properties[$name];
+                return (array) $this->properties[$name];
 
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
