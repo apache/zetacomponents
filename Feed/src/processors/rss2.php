@@ -19,7 +19,7 @@ class ezcFeedRss2 extends ezcFeedRss
      *
      * @var array(string)
      */
-    protected $supportedModules = array( 'DublinCore' );
+    protected $supportedModules = array( 'DublinCore', 'Content' );
 
     /**
      * A list of required attributes for the channel definition
@@ -279,7 +279,9 @@ class ezcFeedRss2 extends ezcFeedRss
                         $feedItem->$tagName = $this->prepareDate( $itemChild->textContent );
                         break;
                     case 'category':
-                        $this->handleArrayValue( $feedItem, $tagName, $itemChild->textContent );
+                        $array = $feedItem->$tagName;
+                        $array[] = $itemChild->textContent;
+                        $feedItem->$tagName = $array;
                         break;
                     default:
                         // check if it's part of a known module/namespace
@@ -350,14 +352,12 @@ class ezcFeedRss2 extends ezcFeedRss
                     case 'generator':
                     case 'ttl':
                     case 'docs':
+                    case 'category':
                         $feed->$tagName = $channelChild->textContent;
                         break;
                     case 'published':
                     case 'updated':
                         $feed->$tagName = $this->prepareDate( $channelChild->textContent );
-                        break;
-                    case 'category':
-                        $this->handleArrayValue( $feed, $tagName, $channelChild->textContent );
                         break;
                     case 'item':
                         $this->parseItem( $feed, $channelChild );

@@ -1,0 +1,1269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+	<channel>
+		<title>Derick Rethans</title>
+		<link>http://www.derickrethans.nl/</link>
+		<description>Rants, interesting tools and political views, all "IMO".</description>
+		<language>en-us</language>
+		<copyright>Copyright 2002-2005 Derick Rethans</copyright>
+		<dc:date>2006-08-19T18:38:00+02:00</dc:date>
+		<managingEditor>derick@derickrethans.nl (Derick Rethans)</managingEditor>
+		<webMaster>derick@derickrethans.nl (Derick Rethans)</webMaster><item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>php</category>
+  <category>work</category>
+  <title>Overloaded properties (__get)</title>
+  <link>http://derickrethans.nl/overloaded_properties_get.php</link>
+  <content:encoded>
+&lt;p&gt;
+While checking whether the &lt;a href="http://components.ez.no"&gt;eZ
+components&lt;/a&gt; would run with the latest PHP 5.2 release candidate we
+noticed that there are some things that are not backwards compatible
+with PHP 5.1.
+		&lt;/p&gt;
+
+&lt;p&gt;
+The first issue is an extra notice in some cases. In our (&lt;a href="http://ez.no/doc/components/view/latest/(file)/Mail/ezcMailTools.html"&gt;ezcMailTools&lt;/a&gt;)
+class we implement a method that allows you to "reply" to a
+parsed e-mail message. In this method we have the folowing code:
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;pre&gt;
+static public function replyToMail( ezcMail $mail )
+{
+// ...
+    foreach ( $mail-&amp;gt;to as $address )
+    {
+// ...
+    }
+// ...
+}
+
+&lt;/pre&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+As you can see we loop over one of the seemingly public variables of the
+$mail class. However, the &lt;a href="http://ez.no/doc/components/view/latest/(file)/Mail/ezcMail.html"&gt;ezcMail&lt;/a&gt;
+class does not have this as a public member variable, but instead uses
+&lt;a href="http://no.php.net/manual/en/language.oop5.overloading.php"&gt;overload&lt;/a&gt;
+as you can see in this code snippet:
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;pre&gt;
+public function __get( $name )
+{
+    switch ( $name )
+    {
+        case 'to':
+            return $this-&amp;gt;properties[$name];
+    }
+}
+
+&lt;/pre&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+This all works 'fine' with PHP 5.1, however with PHP 5.2 the following
+notice was generated for this code:
+		&lt;/p&gt;
+
+&lt;p&gt;
+Notice: Indirect modification of overloaded property ezcMail::$to has no
+effect in ../Mail/src/tools.php on line 364
+		&lt;/p&gt;
+
+&lt;p&gt;
+The reason for this is that __get() only returns variables in read mode,
+while foreach() wants a variable in read/write mode as it tries to
+modify the internal array pointer. As it can't do this PHP 5.2 will now
+throw a warning on this.
+		&lt;/p&gt;
+
+&lt;p&gt;
+There is a workaround however in the form of casting it to an array.
+After our &lt;a href="http://lists.ez.no/pipermail/svn-components/2006-August/002539.html"&gt;changes&lt;/a&gt;
+the code now looks like:
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;pre&gt;
+public function __get( $name )
+{
+    switch ( $name )
+    {
+        case 'to':
+            return (array) $this-&amp;gt;properties[$name];
+    }
+}
+
+&lt;/pre&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The second issue is related to this. In this case we did not see an
+extra notice but instead a fatal error:
+		&lt;/p&gt;
+
+&lt;p&gt;
+Fatal error: Cannot assign by reference to overloaded object in
+.../trunk/Url/src/url.php on line 242
+		&lt;/p&gt;
+
+&lt;p&gt;
+The code around this line is:
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;pre&gt;
+if ( array_key_exists( $index, $this-&amp;gt;path ) )
+{
+    $this-&amp;gt;path[$name] =&amp;amp; $this-&amp;gt;path[$index];
+}
+
+&lt;/pre&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+In this case $this-&gt;path is also an overloaded property returning an
+array. Because __get() returns a read-only variable assigning a
+reference can not work as that requires a variable to be in read/write
+mode. Most likely the code didn't work properly in PHP 5.1 either but
+luckily this is still in an unreleased component. However, I am not
+aware of a work-around here.
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2006-08-19T18:34:00+02:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>cms</category>
+  <category>php</category>
+  <title>PHP 4.4.3 Released</title>
+  <link>http://derickrethans.nl/php_443_released.php</link>
+  <content:encoded>
+&lt;p&gt;
+I just released PHP 4.4.3 which brings a number of security fixes (and
+other fixes) that were backported from the PHP 5.1 branch. None of the
+security issues are very critical, but it is a good idea to
+upgrade anyway as you never know what clever ways people come up with
+to try to hack your servers :)
+		&lt;/p&gt;
+
+&lt;p&gt;
+For more information, see &lt;a href="http://www.php.net/release_4_4_3.php"&gt;the release
+announcement&lt;/a&gt; and &lt;a href="http://www.php.net/ChangeLog-4.php#4.4.3"&gt;The ChangeLog&lt;/a&gt;.
+		&lt;/p&gt;
+
+&lt;p&gt;
+This is not the last PHP 4.4 relase and the PHP team will continue to
+support it for some years to come.
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2006-08-03T11:46:00+02:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>holiday</category>
+  <category>nature</category>
+  <category>photography</category>
+  <title>Iceland - Fire and Water</title>
+  <link>http://derickrethans.nl/iceland_fire_and_water.php</link>
+  <content:encoded>
+&lt;p&gt;
+Most people don't mention "Iceland" as their top number one
+holiday destination. However I'm a bit strange and decided to go to
+just this place on holiday this year. After some investigations it
+seemed that the best time of year was somewhere around the end of July
+regarding temparature, however you never know certain about what to
+expect. That means packing all types of clothes... summer
+clothes, but also a thick winter jacket, skiing clothes and rain
+clothes. Of course, depending on what you are going to do exactly. I
+wanted to see all possible types of terrain on iceland, which includes
+nice warm lagoons (swim wear) and glacier (warm clothes is a good idea
+there). Flights to Iceland are not very cheap either, but then again,
+nor is anything else cheap on Iceland. (Yes, the alcohol tax is even
+higher than in Norway). After a bit of investigation in the different
+points-of-interest on Iceland with the help of some locals (thanks
+Helgi and Bjori!) and the Lonely Planet I headed to Iceland with a
+friend on July 6th.
+		&lt;/p&gt;
+
+&lt;p&gt;
+101 Reykjavik
+		&lt;/p&gt;
+
+&lt;p&gt;
+After getting to Keflavik airport way to late at night we managed to
+find our way to the guesthouse just to find that I fluked the
+reservation and they they expected us to arrive the next day. That
+meant that we had to sleep in "sleeping bag accomodations"
+which was not so confortable but I really didn't care after this overly
+long trip. A guesthouse is normally just a small step down from a hotel
+usually without people cleaning up your room every day. It does however
+provide a good and somewhat cheaper place to stay at.
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/is-bluelagoon.jpg' align='' alt=''/&gt;
+		&lt;/p&gt;
+
+&lt;p&gt;
+The next day we toured around Reykjavik and the Reykjanes peninsula a
+bit and basically just waited until our room at the guest house was
+ready. After a well needed shower to get rid of all the smells we met
+up with a local and headed for a relaxing bath in the Blue Lagoon, the
+most famous (but definitely not the only) geothermal pool in Iceland.
+Helgi suggested to have dinner at ... and so we went there for a good
+meal. The best meat in Iceland is sheep or lamb and you figure out why
+once you start out driving in the country side... the only animal that
+you'd find there is sheep... and you find them literally everywhere -
+both off the road and on the roads.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Þingvellír (Thingvellir)
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/is-thingvellir.jpg' align='right' alt=''/&gt;
+Iceland begun quite some time ago with the first parliament ever in
+930. The parliament was build on a site called Þingvellír which is
+now part of a national park. Besides the site of the former parliament
+the general landscape is also quite interesting as well as there is a
+massive lava ridge cutting across the landscape there as well as some
+water filled gorges and (ofcourse) a waterfall. From Þingvellír we
+avoided the ring road on the way back to Reykjavik and instead took
+some road closer to the south of the country. Little did we know as
+suddendly the road turned into a gravel road which we had to follow for
+the next, say, 50 kilometers. The road did however pass an interesting
+site with lots of water coming up from the ground in bright coloured
+mud pools.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Water
+		&lt;/p&gt;
+
+&lt;p&gt;
+As proper tourists we visited two other popular sites the next day.
+Starting off on the southern ring road we left busy Reykjavik to visit
+"Geysir".
+		&lt;/p&gt;
+
+&lt;p&gt;
+Before we ended up at the geysirs we drove past the Keriđ explosion
+crater. We actually tried to have a look at this one the day before but
+our map had it in a totally wrong place, however my GPS map (!! add
+link) did have it correctly. (!! add stuff about this event). All that
+as left now is a crater which now houses a small lake in the middle.
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/is-strokkur.jpg' align='left' alt=''/&gt; The
+English word geysir finds its origin in exactly the site which formerly
+housed this great natural water fountain in Iceland. However, in the
+last few years the original geysir does no longer function properly and
+only rarely spits out its water into the air. However at the same site
+there is another geysir called Strokkur which still performs well.
+About every 5 to 10 minutes it bursts out water into the air, however
+each bursts intensity varies quite a bit. You need to be a bit lucky to
+see a "big one". Besides Strokkur there are also a number of
+smaller less regular geysirs and "Bluesi" - a very blue pool
+with warm water.
+		&lt;/p&gt;
+
+&lt;p&gt;
+From the geysir field we then proceeded towards Gullfoss - the Golden
+Falls - named because its always present rainbow. However... if there
+is no sun there won't be a rainbow either ofcourse. We were lucky and
+the weather was fair so we could enjoy the magic of the great falls.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Past the great glacier
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/is-puffin.jpg' align='left' alt=''/&gt;
+Leaving Reykjavik behind we set off for Höfn (pronounced like
+"Hùb"). Along this route there are many smaller and larger
+waterfalls including one of Iceland's finest called
+"Seljalandsfoss". We went to see a few of those and then
+wandered off the ring road to have a look at the Dyrhólaey plateau
+where there is a large colony of puffins as well. We spend some time
+trying to get as close to the puffins as possible for a good photo and
+then proceeded our route to Höfn. When driving along the southern ring
+road we passed lots of lava fields and glacier tongues. The glacier
+toungues are all part of the largest icecap of Europe: Vatnajökull.
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/is-glacier.jpg' align='' alt=''/&gt;
+		&lt;/p&gt;
+
+&lt;p&gt;
+About an hour before Höfn we passed the Jökulsárlón bay which is
+filled with icebergs from the Breiđamerkurjökull glacier. This bay
+gives a very strange feeling as it looks like it just comes out of a
+movie. Coincidentally we figured out later that parts of a James Bond
+film (Die Another Day) was shot here on this bay. Höfn itself is a
+tiny tiny town with little to do, however we would only use it as base
+camp for our glacier expedition.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Hike on Svínafellsjökull glacier
+		&lt;/p&gt;
+
+&lt;p&gt;
+The next morning we left early from Höfn to be on time for our 10
+o'clock appointment with the Icelandic Mountain Guides. This little
+plan of ours almost went wrong because at the Jökulsárlón bay they
+where working on the bridge which set us back by about 20 minutes. We
+barely made it on time to the base camp of the mountain guides just to
+find that they had us down for 14:00 and not 10:00. Luckily there was
+still some space for us in the 10:00 tour. There was not much Icelandic
+about our guide as he was there on an exchange project from New Zealand:
+Ben. Ben took us out on a trip over the lower parts of the
+Svínafellsjökull glacier and explained us about the different things
+that make up a glacier. Basically a glacier is just compressed snow but
+because of gravity this compressed mass starts moving down the valleys
+until there is a point where the sun is winning from the accumulation
+of snow. Here the glacier melts and ends. Between the main icecap
+Vatnajökull and the edge are the glacier valleys and ice falls. Just
+after we came off the glacier it started to pour so we just drove back
+to Höfn and stayed in. I managed to assemble most of my panoramas and
+manage all my photos that I'd taken so far.
+		&lt;/p&gt;
+
+&lt;p&gt;
+From Höfn to Akureyri
+		&lt;/p&gt;
+
+&lt;p&gt;
+Rain, rain and more rain was the case this day as well when we passed
+past numerous bays and inlets on the eastern side of Iceland and later
+through high plains with lava fields. Somewhat closer to Myvatn we made
+a small detour to see the Krafla region's vulcanic activity but bad wind
+and rain killed that plan. We did manage to have a look at the Krafla
+power station where electricity is won from earth heated water in the
+form of steam. The small tour of the plant was done by a girl who've
+had this summer job for the past 4 years and was happy to answer our
+questions, especially because were not so loud as the three tour busses
+that left when we just got there I suppose. We promised to come back to
+the Krafla area to see more of it the next day as weather was supposed
+to improve a lot.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Waterfalls and Vulcanoes
+		&lt;/p&gt;
+
+&lt;p&gt;
+And indeed the weather did improve. With 18°C and sunny it was the
+perfect day to investigate some of the waterfalls in the area and then
+head back to the Krafla region. First on the menu was Gođafoss, which
+is situated very close to the ring road itself. From there on we went
+to the Ásbyrgi canyon on the north side of the road that leads to
+Dettifoss. The road that leads to Dettifoss is a 25 km long gravel road
+(doesn't matter from which end) that goes over some very intersting
+landscape which can only be similar to something as remote as the moon.
+There are actually multiple waterfalls in this river and you can get
+close to three without too much walking. The first one is
+Hafragillsfoss, which is rather uninspiring as you can see Dettifoss'
+spray in the background already. Dettifoss is actually quite ugly with
+black water but it is the most powerful waterfall in Iceland so you
+shouldn't really miss it.
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/is-pothole.jpg' align='right' alt=''/&gt; From
+the same carpark that serves Dettifoss it's a nice 1.5 km hike to the
+third waterfall that you can get to, Selfoss. After visiting those
+three falls we proceeded southward to end up in the Krafla region, this
+time with some sun. Now the rain was gone we could actually see the big
+Viti explosion crater and walk a bit around it. Another popular hike
+here is the one around Lernhjúkur that takes you through a geothermic
+area with lots of hot springs and the lava fields that were created
+with the latest erruptions in this area. You can quite clearly show
+where the lava came from and how it flowed. It was also clear that the
+area is still active as the ground was usually warm and there were lots
+of steam vents spraying bad smelling vapor into the air. Nearby is the
+Hverarönd area which also has a lot of interesting pools.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Dimmuborgir
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/is-dimmu.jpg' align='' alt=''/&gt;
+		&lt;/p&gt;
+
+&lt;p&gt;
+On our last day on the North side of the country we again traveled to
+the Myvatn area to see Dimmuborgir, the black castles. However before
+we went there we tried to have a look at some intersting lava pillars
+that can be found just inside the lake. It is quite obvious why the
+name of the lake is Myvatn (Mosquito lake) as the were literally swarms
+of mosquitoes attacking us as soon as we got out of the car. Even at the
+Dimmuborgir site the mosquitoes were quite persistent however not as bad
+as closer to the lake. Dimmuborgir has some intersting formations of
+lava resembling buildings and even a church. On the way back we also
+visited the Laufás farm museum which has some restored old homes.
+		&lt;/p&gt;
+
+&lt;p&gt;
+To the west
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/is-kirkufjell.jpg' align='left' alt=''/&gt;
+After Akureyri we traveled to the Snæfellsness peninsula on the west
+of Iceland. Unfortunately this day was again full of rain and lots of
+wind so we didn't really see a lot besides dirt against the car window.
+We stayed in a tiny town called Grundarfjórdur in a tiny but cosy hotel
+which also serves as the local restaurant. The town lies under the realm
+of Kirkufjell which we actually couldn't quite see just yet. With
+promises that the weather would clear up the next day we headed for bed
+early.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Snæfellsness Peninsula
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/is-arnarstapi.jpg' align='right' alt=''/&gt;
+At the westernern part of Iceland is the Snæfellsness peninsula with
+its main feature being the Snæfellsnessjökull glacier. But there are
+many more sites along the coast, although some of them might be a hard
+to get to. The Lonely Planet helped here a bit and we eventually made
+it to some very little traveled place: Öndsverdnes - the most western
+point of Europe - Very remote and actually quite boring. However when
+traveling further south along the coast the weather cleared and we had
+some nice walks along the coast near Arnarstapi where the water carved
+out interesting features in the rocks. The small hikes here however
+were the end of the holiday as we needed to head back for Reykjavik to
+catch the next day's early morning flight.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Pictures
+		&lt;/p&gt;
+
+&lt;p&gt;
+For pictures of the whole trip, see &lt;a href="http://photos.derickrethans.nl/iceland"&gt;my gallery&lt;/a&gt;,
+panoramas are &lt;a href="http://photos.derickrethans.nl/iceland-panoramas"&gt;here&lt;/a&gt;.
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2006-07-18T17:09:00+02:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>cms</category>
+  <category>conference</category>
+  <category>php</category>
+  <category>work</category>
+  <title>php|works</title>
+  <link>http://derickrethans.nl/phpworks.php</link>
+  <content:encoded>
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/phpw_button_Speaker_2006.gif' align='left' alt=''/&gt;I'll be speaking at
+&lt;a href="http://phparch.com/works"&gt;php|works&lt;/a&gt; (September 12-14)
+on a couple of subjects. The first talk I will do is on input
+filtering, especially going into the new filter extension but also
+covering some other forms as well. The conference also features the
+return of "Derick's Ranting Hour" where I invite the audience
+to come up with subjects regrading what they hate and love about PHP.
+The third session I will give is on the &lt;a href="http://components.ez.no"&gt;eZ components&lt;/a&gt; introducing the cool
+new things that we've added, and will be adding, for the next version.
+Hope to see you there!
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2006-07-05T11:13:00+02:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>conference</category>
+  <category>php</category>
+  <category>work</category>
+  <category>xdebug</category>
+  <title>Xdebug 2.0beta6</title>
+  <link>http://derickrethans.nl/xdebug_20beta6.php</link>
+  <content:encoded>
+&lt;p&gt;
+I am currently in Sofia attending the &lt;a href="http://www.wtconferences.com/2006/index.php?id=6,0,0,1,0,0"&gt;webtech&lt;/a&gt;
+conference. However some of the talks are in Bulgarian which makes it
+quite hard to follow. (There is translation available, but it is still
+not easy). So, instead of going to the sessions I finalized some
+optimization patches for &lt;a href="http://xdebug.org"&gt;Xdebug&lt;/a&gt;. I
+managed to find and fix some performance bottlenecks with cachegrind.
+Xdebug usually tries to figure out which variables are available in a
+specific function's scope by iterating over the op array that is being
+excuted. However, in many cases this is totally useles as the
+information is never used in any way. With the patch Xdebug will only
+try to figure out this information when either remote debugging is
+enabled, or when the setting xdebug.show_local_vars is activated. This
+speeds up certain applications by as much as 50%. This patch, and many
+others, made it into Xdebug 2.0.0beta6 which I just released through
+PECL. The source code is also avaible through the Xdebug website.
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2006-06-30T13:03:00+02:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>cms</category>
+  <category>conference</category>
+  <category>travel</category>
+  <category>work</category>
+  <title>Back to Normal</title>
+  <link>http://derickrethans.nl/back_to_normal.php</link>
+  <content:encoded>
+&lt;p&gt;
+The last week has been a bit crazy because of the &lt;a href="http://ez.no/company/events/ez_publish_conference_2006"&gt;eZ
+publish&lt;/a&gt; conference. The whole week was packed with all kinds of
+activities.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Now that life returned to normal busyness I managed to recover my photos
+from New York. (I wiped them off my memory card... which is not smart).
+The photos from the New York trip are &lt;a href="http://photos.derickrethans.nl/nyphpcon2006"&gt;here&lt;/a&gt;.
+		&lt;/p&gt;
+
+&lt;p&gt;
+During last week there were several different events as well. On Tuesday
+we had a crew day where I for the first time met all of my
+collegues. And the last weekend there was &lt;a href="http://phpvikinger.org/"&gt;PHP Vikinger&lt;/a&gt; - an unconference
+about PHP related things.
+		&lt;/p&gt;
+
+&lt;p&gt;
+All events were very succesful. Photos can be found &lt;a href="http://photos.derickrethans.nl/ezconf2006"&gt;here&lt;/a&gt;.
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2006-06-26T23:50:00+02:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>conference</category>
+  <category>php</category>
+  <category>work</category>
+  <title>Typehints for scalar types</title>
+  <link>http://derickrethans.nl/typehints_for_scalar_types.php</link>
+  <content:encoded>
+&lt;p&gt;
+An attendee at the &lt;a href="http://phpnycon.com"&gt;PHP New York
+Conference&lt;/a&gt; asked me on some tips on how to implement typehinting
+for scalar types (integer, float, string, boolean...). In about 20
+minutes I explained how it could be done, but I got a bit bored at my
+flight back so I finished the &lt;a href="http://files.derickrethans.nl/patches/ze-type-hint-2006-06-17.diff.txt"&gt;patch&lt;/a&gt;
+already. The patch is most likely not the best way of implementing this
+either, and I am also not sure if this patch should be applied to PHP's
+CVS at all. It might be useful for people that have more control over
+their PHP setup so I decided to publish it here instead.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Besides the four scalar types it also allows the "object" type
+hint which will allow objects of any class to be passed. A small example
+is here:
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;pre&gt;
+&amp;lt;?php
+class blah {
+}
+function foo1( object $a )
+{
+}
+$b = new blah;
+foo1( $b );
+function foo2( integer $i, float $f, bool $b )
+{
+}
+foo2( 'string', 42, 49.9 );
+
+&lt;/pre&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The example above should show:
+		&lt;/p&gt;
+
+&lt;p&gt;
+Catchable fatal error: Argument 1 passed to foo2() must be of type
+integer, string given, called in /tmp/test.php on line 16 and defined
+in /tmp/test.php on line 12
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2006-06-17T16:03:00+02:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>conference</category>
+  <category>php</category>
+  <category>work</category>
+  <title>Database Design Slides (finally)</title>
+  <link>http://derickrethans.nl/database_design_slides_finally.php</link>
+  <content:encoded>
+&lt;p&gt;
+I finally managed to create a PDF of my database design tutorial that I
+gave at &lt;a href="http://phparch.com/phptek"&gt;php|tek&lt;/a&gt; earlier
+this year. You can as usual find that on my &lt;a href="talks.php"&gt;talks&lt;/a&gt; page.
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2006-06-17T14:09:00+02:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>conference</category>
+  <category>php</category>
+  <category>travel</category>
+  <category>work</category>
+  <title>New York PHP Conference - Slides</title>
+  <link>http://derickrethans.nl/new_york_php_conference_slides.php</link>
+  <content:encoded>
+&lt;p&gt;
+The slides for my presentation on &lt;a href="http://xdebug.org"&gt;Xdebug&lt;/a&gt; from the &lt;a href="http://www.nyphpcon.com/"&gt;New York PHP Conference&lt;/a&gt; can be
+found on my &lt;a href="http://derickrethans.nl/talks.php"&gt;talks&lt;/a&gt; page.
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2006-06-16T13:10:00+02:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>conference</category>
+  <category>php</category>
+  <title>New York PHP Conference</title>
+  <link>http://derickrethans.nl/new_york_php_conference.php</link>
+  <content:encoded>
+&lt;p&gt;
+The next few days I will be in New York City to talk about &lt;a href="http://xdebug.org"&gt;Xdebug&lt;/a&gt; at the &lt;a href="http://www.nyphpcon.com/"&gt;New York PHP Conference&lt;/a&gt;. Hope to
+see you there!
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2006-06-12T22:55:00+02:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>php</category>
+  <category>xdebug</category>
+  <title>Debugging Protocol Shoot-out (Part 2)</title>
+  <link>http://derickrethans.nl/debugging_protocol_shootout_part_2.php</link>
+  <content:encoded>
+&lt;p&gt;
+&lt;a href="http://guyharpaz.blogspot.com/"&gt;Guy Harpaz&lt;/a&gt; posted a
+reply to my &lt;a href="http://derickrethans.nl/debugging_protocol_shootout.php"&gt;Debugger
+Protocol Shoot-out&lt;/a&gt; on his newly created blog. In this &lt;a href="http://guyharpaz.blogspot.com/2006/05/php-ide-debug-protocol.html"&gt;post&lt;/a&gt;
+he tries to counter some of my arguments. I don't quite understand why
+he couldn't just have posted his comments here though. (And in case why
+you're wondering why I'm not adding a comment to his post: You need a
+blogger.com account to comment, and I refuse to create one just to be
+able to comment on a blog).
+		&lt;/p&gt;
+
+&lt;p&gt;
+The first thing that strikes me as odd is the following quote:
+		&lt;/p&gt;
+
+&lt;p&gt;
+We chose performance (binary based protocol) over easy
+server side implementation (textual based protocol).
+		&lt;/p&gt;
+
+&lt;p&gt;
+Easy implementation was never the reason for going with a textual based
+protocol. The main reason was to allow extensions to the protocol be as
+easy as possible. Cramming as much data in as little bytes as possible
+is also not going to increase performance if your protocol has no ways
+to paginate through arrays with many elements or when you have no means
+of limiting the amount of data in one variable to be send over the wire.
+This is very useful incase you have a few MB files in variables for
+example.
+		&lt;/p&gt;
+
+&lt;p&gt;
+The second argument why you should "choose Zend Studio's
+protocol" is:
+		&lt;/p&gt;
+
+&lt;p&gt;
+DBGp supports several scripting languages and from this
+derives some of its disadvantages. We believe that a debug protocol
+should be as 'close' as possible to the PHP language.
+		&lt;/p&gt;
+
+&lt;p&gt;
+This doesn't make much sense to me, as far as I know Eclipse is a multi
+language IDE. Secondly, which disadvantages there are is not
+mentioned.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Then Guy tries to compare some security points:
+		&lt;/p&gt;
+
+&lt;p&gt;
+The Proxy mechanism has few bugs in it
+		&lt;/p&gt;
+
+&lt;p&gt;
+If that is the case, would you mind telling us where?
+		&lt;/p&gt;
+
+&lt;p&gt;
+He further mentions:
+		&lt;/p&gt;
+
+&lt;p&gt;
+The PHP IDE debug protocol does not specify requirements for
+a security system but defines that the Debug server should receive the
+client IP before initializing the session. By using the IP,
+implementing a security mechanism is very simple.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Xdebug doesn't specify any requirements either. Xdebug could implement
+an extra security that checks whether the IP is allowed to be used as
+debugging IDE client. However, when you are on a NAT-ted local network,
+and your dev server is somewhere outside of this network you have a
+problem without a proxy. As there is no way for the debugging engine on
+the developer machine to connect to individual IDEs anymore (as the IPs
+are simply not accessible by the devel server because of NAT). The
+proxy-server based approach of DBGp allows your devel server to connect
+to the proxy on one IP and one port (which also means you have to poke
+only one hole in your firewall). The IDE then simply have to make
+itself known to the proxy server with its "idekey" to allow
+debugging through a NAT-ted network.
+		&lt;/p&gt;
+
+&lt;p&gt;
+The last point that Guy raises is:
+		&lt;/p&gt;
+
+&lt;p&gt;
+DBGp supports PHP execution stdout and stderr as a general
+solution for all supported languages. PHP IDE as a specific protocol
+for PHP can distingue between header output and standard output and
+between all types of PHP errors (warnings, errors and
+notices).
+		&lt;/p&gt;
+
+&lt;p&gt;
+It really has nothing to do whether a protocol is specifically made for
+PHP or not to allow the sending of HTTP headers. DBGp currently has no
+options for sending headers, but that would not be hard to add. It
+definitely would not be the selling point on why somebody should
+"choose Zend Studio's protocol".
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2006-05-11T16:13:00+02:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>php</category>
+  <category>xdebug</category>
+  <title>Debugging Protocol Shoot-out</title>
+  <link>http://derickrethans.nl/debugging_protocol_shootout.php</link>
+  <content:encoded>
+&lt;p&gt;
+(Note: I might be biased as I'm one of the authors of the &lt;a href="http://xdebug.org/docs-dbgp.php"&gt;DBGp&lt;/a&gt; protocol.)
+		&lt;/p&gt;
+
+&lt;p&gt;
+(Note: As the PHP IDE project seem to have swapped the meanings of
+client and server in their specification I will use the terms
+"debugging engine" and "IDE" in this overview)
+		&lt;/p&gt;
+
+&lt;p&gt;
+Since a few days Zend has &lt;a href="http://www.eclipse.org/php/docs.php"&gt;published&lt;/a&gt; their
+debugging protocol that they're going to implement for their Eclipse
+PHP IDE. This protocol is apparently a derivate of the protocol that
+they now use for their Zend Studio. Lukas already &lt;a href="http://www.pooteeweet.org/blog/357"&gt;pointed out&lt;/a&gt; in his
+opinion open source should work in such a way that the best technical
+solution should be used, but the Eclipse project &lt;a href="http://www.pooteeweet.org/blog/359"&gt;seems&lt;/a&gt; to work a bit
+different. In order to have a small view on what the "better"
+debugging protocol is I made a small comparison between the protocol
+that Zend published and &lt;a href="http://xdebug.org/docs-dbgp.php"&gt;DBGp&lt;/a&gt; that is used in &lt;a href="http://activestate.com/komodo"&gt;Komodo&lt;/a&gt; and a number of other
+commercial, free and open source IDEs.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Protocol Communication
+		&lt;/p&gt;
+
+&lt;p&gt;
+The PHP IDE protocol is binary while DBGp is an ASCII/XML based format.
+		&lt;/p&gt;
+
+&lt;p&gt;
+A binary protocol uses less data over the wire and will therefore be
+faster to transport data with. However a binary protocol is also less
+flexible as all data types need to be defined exactly and the protocol
+specifications are required to be very rigid. An ASCII/XML based
+protocol uses more bandwidth, but it is more flexible as the format
+doesn't have to be so rigid. It is also much easier to debug by just
+looking at what goes over the wire.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Session Initialization
+		&lt;/p&gt;
+
+&lt;p&gt;
+The PHP IDE protocol allows you select a host and port to which the
+debug engine should connect to the IDE through an HTTP parameter in the
+request to the webserver. DBGp does not have such mechanism.
+		&lt;/p&gt;
+
+&lt;p&gt;
+On first sight it seems like a good idea to have the visitor of the web
+site to select which host and port to connect to as this makes things
+more flexible. However you should realize that not only the person who
+is debugging the application and set the host and port, but also
+everybody else who is visiting the site. Unless the debugging engine
+has configuration options to only allow a certain set of hosts this
+makes it easy for an attacker to manipulate an application. DBGp
+instead has the facility for &lt;a href="http://xdebug/docs-dbgp.php#just-in-time-debugging-and-debugger-proxies"&gt;Proxy
+Servers&lt;/a&gt; that allow you to have multiple people debugging
+applications on the same development server.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Transporting Variables
+		&lt;/p&gt;
+
+&lt;p&gt;
+The PHP IDE protocol uses serialized data to transfer variables from the
+debugging engine to the IDE. (It does not define what kind of
+serialization is used, so I have to assume it's the same as the output
+of PHP's serialize() call). DBGp uses an XML format.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Of course serialized PHP data uses less data and an XML format to
+describe a variable takes more space. But PHP's serialized data is a
+format that is only specific for PHP and will not match correctly to
+other languages. DBGp's XML format is language agnostic and allows the
+definition of a typemap to see which language's native type maps to a
+DBGp data type.
+		&lt;/p&gt;
+
+&lt;p&gt;
+The PHP IDE protocol allows you to select the maximum depth of variable
+contents to return when you request a variable, DBGp has something
+similar by means of setting options for a debugging connection. Besides
+a maximum depth DBGp also provides functionality for limiting the amount
+of elements that is returned in one array, and how much of the content
+of a variable is returned. This was added so that one array with 10.000
+elements containing a 500 byte string can not clog down the connection
+between debugging engine and IDE.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Breakpoint Support
+		&lt;/p&gt;
+
+&lt;p&gt;
+The PHP IDE protocol only supports either conditional breakpoints with a
+condition, or static breakpoints on a file/line number combination. The
+DBGp protocol supports breakpoints on exceptions, function entry,
+function return and watches as well. The DBGp protocol also facilitates
+that certain breakpoints should only be used when they're reached after
+or before a certain hit-count.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Output Capturing
+		&lt;/p&gt;
+
+&lt;p&gt;
+The PHP IDE debugger protocol only supports "PHP Script
+Output", DBGp supports both stdout and stderr capturing in two
+types of streams.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Conclusion
+		&lt;/p&gt;
+
+&lt;p&gt;
+The proposed protocol for the PHP IDE seems to be less powerful than the
+DBGp protocol. I wonder then also whether people on the Zend team
+actually had a look at the DBGp protocol. There were plenty of
+opportunies where we suggest that there is some discussion about the
+protocol but there was never any answer to this. In case you're
+interested in the DBGp protocol and want to discuss things with it, or
+if you want some help by adapting DBGp to use in an IDE that you are
+developing feel free to contact us at the &lt;a href="http://xdebug.org/support.php"&gt;Xdebug general mailinglist&lt;/a&gt;.
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2006-05-07T11:25:00+02:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>cms</category>
+  <category>php</category>
+  <category>work</category>
+  <title>Parsing Mail with PHP</title>
+  <link>http://derickrethans.nl/parsing_mail_with_php.php</link>
+  <content:encoded>
+&lt;p&gt;
+Many PHP applications require to parse e-mail messages. For example bug
+systems and ticket systems that want to allow input by e-mail. For
+sending e-mail there are already decent implementations, &lt;a href="http://ez.no/doc/components/view/1.0.1/(file)/introduction_Mail.html"&gt;ones&lt;/a&gt;
+that even allow sending multi-part and mixed text/html messages with
+attachments and so on.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Parsing e-mail is a whole different story, and definitely not an easy
+task. As &lt;a href="http://ez.no"&gt;we&lt;/a&gt; see this task as something
+important we decided to add e-mail parsing functionality to the Mail
+&lt;a href="http://ez.no/products/ez_components"&gt;component&lt;/a&gt;. We
+just released an alpha release of this component as &lt;a href="http://pear.php.net"&gt;PEAR package&lt;/a&gt; which you should be able
+to install with (not sure if you have to add the components channel
+first, for information on how to do that see the "PEAR
+Installer" section in &lt;a href="http://ez.no/community/articles/an_introduction_to_ez_components"&gt;this&lt;/a&gt;
+article.
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;pre&gt;
+pear install components.ez.no/mail-beta
+
+&lt;/pre&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The Mail parsing part of the component can currently use a POP3 server
+or a file to parse e-mail messages from. A small example to parse
+e-mail from a POP 3 server looks like (if you use the PEAR installer to
+install the component):
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;pre&gt;
+&amp;lt;?php
+require_once &amp;quot;ezc/Base/base.php&amp;quot;;
+function __autoload( $className )
+{
+    ezcBase::autoload( $className );
+}
+$pop3 = new ezcMailPop3Transport( &amp;quot;pop3.example.com&amp;quot; );
+$pop3-&amp;gt;authenticate( &amp;quot;user&amp;quot;, &amp;quot;password&amp;quot; );
+$set = $pop3-&amp;gt;fetchAll();
+$parser = new ezcMailParser();
+$mails = $parser-&amp;gt;parseMail( $set );
+foreach ( $mails as $mail )
+{
+    echo &amp;quot;From: {$mail-&amp;gt;from-&amp;gt;email}\n&amp;quot;;
+    echo &amp;quot;To: &amp;quot;;
+    foreach ( $mail-&amp;gt;to as $to ) {
+        echo &amp;quot;{$to-&amp;gt;name} ({$to-&amp;gt;email}) &amp;quot;;
+    }
+    echo &amp;quot;\n&amp;quot;;
+    echo &amp;quot;Subject: {$mail-&amp;gt;subject}\n&amp;quot;;
+    switch ( get_class( $mail-&amp;gt;body ) )
+    {
+        case 'ezcMailText':
+            echo &amp;quot;Text part, &amp;quot;.
+                &amp;quot;type={$mail-&amp;gt;body-&amp;gt;subType}\n--\n&amp;quot;;
+            echo $mail-&amp;gt;body-&amp;gt;text;
+            echo &amp;quot;\n--\n&amp;quot;;
+            break;
+        case 'ezcMailMultipartMixed':
+            echo &amp;quot;Multipart mail\n&amp;quot;;
+            break;
+    }
+    echo &amp;quot;\n&amp;quot;;
+}
+?&amp;gt;
+
+&lt;/pre&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The $mail variable now holds an array of &lt;a href="http://ez.no/doc/components/view/latest/(file)/Mail/ezcMail.html"&gt;ezcMail&lt;/a&gt;
+objects. For more information on how to access the information in the
+mail classes, please refer to the &lt;a href="http://ez.no/doc/components/view/latest/(file)/classtrees_Mail.html"&gt;documentation&lt;/a&gt;.
+Currently not all the ezcMailPart decendents document the available
+properties yet, but this will ofcourse be addressed before the first
+beta.
+		&lt;/p&gt;
+
+&lt;p&gt;
+In the near future we want to expand the component with an IMAP
+transport, more authentication mechanisms and add methods that allow
+you to "reply" to a parsed e-mail message or
+"forward" one. Those methods then set the correct headers in
+the e-mail object, including the correct handling of
+"References" and "In-Reply-To" headers.
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2006-04-04T10:49:00+02:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>blog</category>
+  <category>photography</category>
+  <title>Holmenkollen</title>
+  <link>http://derickrethans.nl/holmenkollen.php</link>
+  <content:encoded>
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/holmenkollen1.png' align='left' alt=''/&gt;
+		&lt;/p&gt;
+
+&lt;p&gt;
+Every year there is a ski jumping event in Oslo, at the Holmenkollen
+venue. As I'm turning more and more Norwegian now (already been here
+for almost two years now) I could not let this slip. So together with
+some folks we drove to Oslo and walked up the hill to the venue. It's
+pretty impressive to see how high this hill they jump off actually is.
+Much more impressive then on TV.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Normally Holmenkollen is always very foggy, but this year there was
+excellent weather: "warm" and sunny. We were a bit early so
+had to wait a bit but atleast there were some performances to get the
+audience going. Amazingly that seemed to work better than I expected.
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/holmenkollen2.png' align='left' alt=''/&gt;
+		&lt;/p&gt;
+
+&lt;p&gt;
+There were 50 participants and they started in the order they were
+ranked in &lt;a href="http://www.fis-ski.com"&gt;FIS&lt;/a&gt;' World
+Championship. After the first round the best 30 continue to the second
+heat where the best one from the first heat is the last man to jump.
+Adam Malysz &lt;a href="http://www.fis-ski.com/uk/604/610.html?sector=JP&amp;raceid=1987"&gt;won&lt;/a&gt;
+which didn't please the Norwegians too much (best Norwegian was 10th).
+There were a lot of Poles at the event though, and they were ofcourse
+quite happy.
+		&lt;/p&gt;
+
+&lt;p&gt;
+For more photos see my &lt;a href="http://photos.derickrethans.nl/holmenkollen"&gt;gallery&lt;/a&gt;.
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2006-03-14T11:15:00+01:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>holiday</category>
+  <category>nature</category>
+  <category>photography</category>
+  <category>travel</category>
+  <title>Singapore, Bangkok and Bintan</title>
+  <link>http://derickrethans.nl/singapore_bangkok_and_bintan.php</link>
+  <content:encoded>
+&lt;p&gt;
+In the last week of November and the first week of December I had my
+holiday, which I choose to spend in South East Asia. &lt;img src='http://derickrethans.nl/images/content/asia2005/dsc_6427.jpg' align='left' alt=''/&gt; The first stop
+was Singapore, where I have &lt;a href="http://bijfemme.nl"&gt;some
+family&lt;/a&gt;. That made it an exellent point to start my trip. The
+flight to Singapore is quite long from where I'm living and the 7 hour
+time difference is not very nice either. The moment I stepped out of
+the &lt;a href="http://en.wikipedia.org/wiki/Singapore_Changi_Airport"&gt;airport&lt;/a&gt;
+and into the taxi the rain started pouring down, topped off with a nice
+loud lightning strike - that was an excellent start.
+		&lt;/p&gt;
+
+&lt;p&gt;
+Singapore is a very &lt;a href="http://en.wikipedia.org/wiki/Singapore"&gt;modern and western&lt;/a&gt;
+city, albeit it has a lot of eastern influences. &lt;img src='http://derickrethans.nl/images/content/asia2005/dsc_6458.jpg' align='right' alt=''/&gt; Not only from
+the Chinese and &lt;a href="http://en.wikipedia.org/wiki/Malay_people"&gt;Malay&lt;/a&gt;, but also
+from Tamils. Therefore in Singapore most signs are in 4 languages
+(English, which is still the primairy language, Mandarin Chinese, Tamil
+and Malay). The influences from the other cultures are mostly visible in
+dedicated areas. There is Little India and of course China Town.
+Interestingly enough, the largest hindoe temple (to the right) is in
+China Town :).
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/asia2005/dsc_6523.jpg' align='' alt=''/&gt;
+		&lt;/p&gt;
+
+&lt;p&gt;
+When &lt;a href="http://en.wikipedia.org/wiki/Thomas_Stamford_Raffles"&gt;Stamford
+Raffles&lt;/a&gt; reached Singapore in the early 1800s he did not find a
+large bustling city that is now Singpare, but instead he found a lot of
+rain forest. There is still some of it left, in the northern part of the
+country, in a nature reserve called &lt;a href="http://en.wikipedia.org/wiki/Bukit_Timah_Nature_Reserve"&gt;Bukit
+Timah&lt;/a&gt; where monkeys still roam freely (although they also pester
+you near the entrance of the park).
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/asia2005/dsc_6576.jpg' align='left' alt=''/&gt; From Singapore we made a
+6 day trip to &lt;a href="http://en.wikipedia.org/wiki/Bangkok"&gt;Bangkok&lt;/a&gt;, which
+official name in Thai is "กรุงเทพมหานคร
+อมรรัตนโกสินทร์
+มหินทรายุธยามหาดิลก
+ภพนพรัตน์
+ราชธานีบุรีรมย์
+อุดมราชนิเวศน์ มหาสถาน
+อมรพิมาน อวตารสถิต
+สักกะทัตติยะ
+วิษณุกรรมประสิทธิ์". Bangkok
+is a whole different world compared to Singapore. Where Singapore is
+clean and modern, Bangkok is large and polluted and has a horrible
+traffic problem. The main attraction (atleast for me) is all the
+different temples (wat in Thai). As I like photography, all those
+temples are a nice subject to take shots of. At your left you find the
+46 meter long reclining buddha at &lt;a href="http://en.wikipedia.org/wiki/Wat_Pho"&gt;Wat Pho&lt;/a&gt;. &lt;img src='http://derickrethans.nl/images/content/asia2005/dsc_6616.jpg' align='right' alt=''/&gt;
+Above is one of the decorations around the building housing the emerald
+buddha at &lt;a href="http://en.wikipedia.org/wiki/Wat_Phra_Kaew"&gt;Wat
+Phra Kaew&lt;/a&gt;. This temple lies on the Grand Palace premises, which
+houses a lot of other templates and the some buildings used for
+royalty. &lt;img src='http://derickrethans.nl/images/content/asia2005/dsc_6689.jpg' align='left' alt=''/&gt; We visited the day before
+the King's birthday which unfortunately meant that some of the buildings
+were closed. Our hotel was close to &lt;a href="http://en.wikipedia.org/wiki/Khaosan_Road"&gt;Khaosan Road&lt;/a&gt;,
+which is a very vibrant area with lots of food stands and shops that
+sell fake stuff :). One temple that has quite a different style
+compared to the others is &lt;a href="http://en.wikipedia.org/wiki/Wat_Arun"&gt;Wat Arun&lt;/a&gt; which you
+see here on the left. It's in Khmer style and covered with porcelain.
+		&lt;/p&gt;
+
+&lt;p&gt;
+After 6 days we left Bangkok and prepared for our next trip. The next
+trip went to Bintan, an Indonesian island about an hour by ferry from
+Singapore. As Dutchie I needed to get a visa for &lt;a href="http://en.wikipedia.org/wiki/Indonesia"&gt;Indonesia&lt;/a&gt; so we had
+to spend some annoying time at the Indonesian embassy in Singapore. We
+managed to retrieve our passport with the visa just in time before
+going to Thailand so we were all set to go.
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/asia2005/dsc_6766.jpg' align='' alt=''/&gt;
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href="http://en.wikipedia.org/wiki/Bintan"&gt;Bintan&lt;/a&gt; is a small
+island and mostly leased by Singapore to put resorts on. We did not go
+to the North Western resort area but instead we went to Trikora Beach
+on the east side. We stayed at the &lt;a href="http://www.lobo.kinemotion.de/"&gt;Shady Shack&lt;/a&gt; which is
+definitely not a luxurious place. It did have running water (from a
+large tank) and electricity but that was about it. The main attraction
+was the nice beach on which our shacks were located. We were the only
+tourists there and it was very nice and quiet to relax on for a whole
+day. &lt;img src='http://derickrethans.nl/images/content/asia2005/dsc_6874.jpg' align='right' alt=''/&gt; On the second day of our
+stay we walked to a nearby fishing village that was built on poles in
+the ocean. During the night the villagers go out fishing with their
+kelang (houses on floats) and during they day they would sell their
+fish in the village. Bintan gave me a small tan and I relaxed quite
+nicely. In the afternoon of the second day we went back to Singapore
+where I concluded my holiday.
+		&lt;/p&gt;
+
+&lt;p&gt;
+For all the other pictures that I made during the trip see my &lt;a href="http://photos.derickrethans.nl/asia05"&gt;gallery&lt;/a&gt;.
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2005-12-23T19:47:00+01:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>conference</category>
+  <category>photography</category>
+  <category>php</category>
+  <category>travel</category>
+  <title>PDM 2005 photos</title>
+  <link>http://derickrethans.nl/pdm_2005_photos.php</link>
+  <content:encoded>
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/eiffel.png' align='left' alt=''/&gt; Last
+weekend we had a PHP developers meeting in Paris to discuss PHP 6.
+(More about that later). Ofcourse when you're in Paris you need to see
+some of the sights. Together with &lt;a href="http://marcus-boerger.de"&gt;Marcus&lt;/a&gt;, &lt;a href="http://gravitonic.com"&gt;Andrei&lt;/a&gt; and Jani we toured the famous
+landmarks in Paris. On the left you can see &lt;a href="http://en.wikipedia.org/wiki/Eiffel_Tower"&gt;the Eiffel Tour&lt;/a&gt;
+and below the &lt;a href="http://en.wikipedia.org/wiki/Arc_de_Triomphe"&gt;Arc de
+Triomphe&lt;/a&gt;.
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/arc-de-triomphe.png' align='' alt=''/&gt;
+		&lt;/p&gt;
+
+&lt;p&gt;
+The other pictures can be found in my &lt;a href="http://photos.derickrethans.nl/pdm2005"&gt;gallery&lt;/a&gt;.
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2005-11-20T22:47:00+01:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>conference</category>
+  <category>nature</category>
+  <category>photography</category>
+  <category>php</category>
+  <category>travel</category>
+  <title>Frankfurt Zoo</title>
+  <link>http://derickrethans.nl/frankfurt_zoo.php</link>
+  <content:encoded>
+&lt;p&gt;
+During the conference in &lt;a href="http://derickrethans.nl/frankfurt_conference.php"&gt;Frankfurt&lt;/a&gt; I visited the local
+Zoo with &lt;a href="http://ilia.ws"&gt;Ilia&lt;/a&gt; and &lt;a href="http://sebastian-bergmann.de"&gt;Sebastian&lt;/a&gt; to take some
+pictures.
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/lion.png' align='' alt=''/&gt;
+		&lt;/p&gt;
+
+&lt;p&gt;
+Unfortunately most of the animals were inside, and it's quite hard to
+take pictures through think glass. But atleast you can get really close
+up pictures without your head getting torn off.
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/reptile.png' align='' alt=''/&gt;
+		&lt;/p&gt;
+
+&lt;p&gt;
+This shows really well what an aperture of 1.2 does - you can see that
+only a very small amount is in the focus area here.
+		&lt;/p&gt;
+
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/leopard.png' align='' alt=''/&gt;
+		&lt;/p&gt;
+
+&lt;p&gt;
+Outside we found two leopards, one was constantly moving, but this one
+was quietly laying and watching around.
+		&lt;/p&gt;
+
+&lt;p&gt;
+The rest of the pictures from the Zoo are in my &lt;a href="http://photos.derickrethans.nl/animals"&gt;gallery&lt;/a&gt;.
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2005-11-20T19:53:00+01:00</dc:date>
+</item>
+<item xmlns:php="http://php.net/xsl" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <category>photography</category>
+  <title>Skien Sunset</title>
+  <link>http://derickrethans.nl/skien_sunset.php</link>
+  <content:encoded>
+&lt;p&gt;
+&lt;img src='http://derickrethans.nl/images/content/astronomy/sunset.png' align='' alt=''/&gt;
+		&lt;/p&gt;
+</content:encoded>
+  <author>derick@derickrethans.nl</author>
+  <dc:date>2005-10-16T14:31:00+02:00</dc:date>
+</item>
+	</channel>
+</rss>

@@ -13,6 +13,8 @@
  */
 require_once 'feed_test.php';
 require_once 'rss2_test.php';
+require_once 'rss2_content_test.php';
+require_once 'rss2_dc_test.php';
 
 /**
  * @package Feed
@@ -27,6 +29,8 @@ class ezcFeedSuite extends ezcTestSuite
 
         $this->addTest( ezcFeedTest::suite() );
         $this->addTest( ezcFeedRss2Test::suite() );
+        $this->addTest( ezcFeedRss2ContentTest::suite() );
+        $this->addTest( ezcFeedRss2DCTest::suite() );
     }
 
     public static function suite()

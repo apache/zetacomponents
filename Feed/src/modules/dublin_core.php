@@ -15,7 +15,7 @@
 class ezcFeedModuleDublinCore implements ezcFeedModule
 {
     private $feedType;
-    protected $supportedElements = array(
+    private $supportedElements = array(
         'title', 'creator', 'subject', 'description', 'publisher',
         'contributor', 'date', 'type', 'format', 'identifier',
         'source', 'language', 'relation', 'coverage', 'rights'
@@ -41,7 +41,12 @@ class ezcFeedModuleDublinCore implements ezcFeedModule
         return 'dc';
     }
 
-    public function isElementAllowed( $element )
+    public function isChannelElementAllowed( $element )
+    {
+        return in_array( $element, $this->supportedElements );
+    }
+
+    public function isItemElementAllowed( $element )
     {
         return in_array( $element, $this->supportedElements );
     }
@@ -114,7 +119,10 @@ class ezcFeedModuleDublinCore implements ezcFeedModule
 
     public function feedMetaGenerateHook( $moduleData, &$element, &$value )
     {
-        if ( isset( $moduleData['date'] ) && $element === 'published' )
+        if ( 
+            ( isset( $moduleData['creator'] ) && $element === 'author' ) ||
+            ( isset( $moduleData['date'] ) && $element === 'published' )
+        )
         {
             return false;
         }

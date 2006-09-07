@@ -27,7 +27,7 @@ class ezcFeedModuleData
 
     function __set( $element, $value )
     {
-        if ( !$this->moduleObj->isElementAllowed( $element ) )
+        if ( !$this->moduleObj->isChannelElementAllowed( $element ) )
         {
             throw new ezcFeedUnsupportedModuleElementException( $this->moduleName, $element );
         }

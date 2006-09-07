@@ -30,6 +30,7 @@ class ezcFeed implements Iterator
      * @var array(string=>string)
      */
     static private $supportedModules = array(
+        'Content'    => 'ezcFeedModuleContent',
         'DublinCore' => 'ezcFeedModuleDublinCore',
     );
 
@@ -146,6 +147,33 @@ class ezcFeed implements Iterator
         }
     }
 
+    public function __get( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'title': // required in RSS1, RSS2, ATOM
+            case 'subtitle': // ATOM only
+            case 'link': // required in RSS2, rdf:about AND link in RSS1
+            case 'description': // required in RSS1, RSS2
+            case 'language':
+            case 'copyright': // rights in ATOM
+            case 'author': // managingEditor in RSS2, required in ATOM
+            case 'webMaster': // RSS2 only
+            case 'published': // pubDate in RSS2
+            case 'updated':   // lastBuildDate in RSS2, required in ATOM
+            case 'category':
+            case 'generator':
+            case 'ttl':
+            case 'image': // icon in ATOM
+            case 'id': // ATOM only, required in ATOM
+                return $this->feedProcessor->getFeedElement( $propertyName );
+
+            case 'items':
+                return (array) $this->feedProcessor->getItems();
+        }
+        throw new Exception( "OH OH: $propertyName" );
+    }
+
     /**
      * Returns new item for this feed
      *
@@ -161,17 +189,6 @@ class ezcFeed implements Iterator
     public function generate()
     {
         return $this->feedProcessor->generate();
-    }
-
-    public function __get( $propertyName )
-    {
-        switch ( $propertyName )
-        {
-            case 'items':
-                return (array) $this->feedProcessor->getItems();
-            default:
-                return ezcBasePropertyNotFoundException( $propertyName );
-        }
     }
 
     public function rewind()

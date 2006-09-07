@@ -19,6 +19,7 @@ interface ezcFeedModule
     public static function getNamespacePrefix();
     public function feedMetaSetHook( &$element, &$value );
     public function feedItemSetHook( &$element, &$value );
-    public function isElementAllowed( $element );
+    public function isChannelElementAllowed( $element );
+    public function isItemElementAllowed( $element );
 }
 ?>

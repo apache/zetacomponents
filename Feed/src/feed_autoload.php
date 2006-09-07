@@ -21,6 +21,7 @@ return array(
     'ezcFeedAtom'                        => 'Feed/processors/atom.php',
 
     'ezcFeedModule'                      => 'Feed/interfaces/module.php',
+    'ezcFeedModuleContent'               => 'Feed/modules/content.php',
     'ezcFeedModuleDublinCore'            => 'Feed/modules/dublin_core.php',
     'ezcFeedModuleData'                  => 'Feed/structs/module_data.php',
     'ezcFeedItemModuleData'              => 'Feed/structs/item_module_data.php',
@@ -33,6 +34,7 @@ return array(
     'ezcFeedRequiredMetaDataMissingException' => 'Feed/exceptions/meta_data_missing.php',
     'ezcFeedUnsupportedModuleException'  => 'Feed/exceptions/unsupported_module.php',
     'ezcFeedUnsupportedModuleElementException'  => 'Feed/exceptions/unsupported_module_element.php',
+    'ezcFeedUnsupportedModuleItemElementException'  => 'Feed/exceptions/unsupported_module_item_element.php',
     'ezcFeedUnsupportedTypeException'    => 'Feed/exceptions/unsupported_type.php',
 );
 ?>

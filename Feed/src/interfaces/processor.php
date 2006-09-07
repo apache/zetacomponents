@@ -127,7 +127,7 @@ abstract class ezcFeedProcessor
             $hookResult = $moduleDescription->moduleObj->feedItemSetHook( $element, $value );
             if ( $hookResult === true )
             {
-                $feed->setModuleItemData( $item, $moduleName, $element, $value );
+                $this->setModuleItemData( $moduleName, $moduleDescription->moduleObj, $item, $element, $value );
             }
         }
     }

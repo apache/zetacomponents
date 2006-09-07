@@ -144,7 +144,11 @@ class ezcFeedItem
 
     public function getAllModuleMetaData( $module )
     {
-        return $this->moduleMetaData[$module];
+        if ( isset( $this->moduleMetaData[$module] ) )
+        {
+            return $this->moduleMetaData[$module];
+        }
+        return array();
     }
 }
 ?>
