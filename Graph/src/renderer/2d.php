@@ -820,6 +820,63 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
             true
         );
 
+        // Draw axis label
+        if ( $axis->label !== false )
+        {
+            $width = $boundings->x1 - $boundings->x0;
+            switch ( $axis->position )
+            {
+                case ezcGraph::TOP:
+                    $this->driver->drawTextBox(
+                        $axis->label,
+                        new ezcGraphCoordinate(
+                            $end->x + $axis->labelMargin - $width * ( 1 - $axis->axisSpace * 2 ),
+                            $end->y - $axis->labelMargin - $axis->labelSize
+                        ),
+                        $width * ( 1 - $axis->axisSpace * 2 ) - $axis->labelMargin,
+                        $axis->labelSize,
+                        ezcGraph::TOP | ezcGraph::RIGHT
+                    );
+                    break;
+                case ezcGraph::BOTTOM:
+                    $this->driver->drawTextBox(
+                        $axis->label,
+                        new ezcGraphCoordinate(
+                            $end->x + $axis->labelMargin,
+                            $end->y + $axis->labelMargin
+                        ),
+                        $width * ( 1 - $axis->axisSpace * 2 ) - $axis->labelMargin,
+                        $axis->labelSize,
+                        ezcGraph::TOP | ezcGraph::LEFT
+                    );
+                    break;
+                case ezcGraph::LEFT:
+                    $this->driver->drawTextBox(
+                        $axis->label,
+                        new ezcGraphCoordinate(
+                            $end->x - $width,
+                            $end->y - $axis->labelSize - $axis->labelMargin
+                        ),
+                        $width - $axis->labelMargin,
+                        $axis->labelSize,
+                        ezcGraph::BOTTOM | ezcGraph::RIGHT
+                    );
+                    break;
+                case ezcGraph::RIGHT:
+                    $this->driver->drawTextBox(
+                        $axis->label,
+                        new ezcGraphCoordinate(
+                            $end->x,
+                            $end->y - $axis->labelSize - $axis->labelMargin
+                        ),
+                        $width - $axis->labelMargin,
+                        $axis->labelSize,
+                        ezcGraph::BOTTOM | ezcGraph::LEFT
+                    );
+                    break;
+            }
+        }
+
         $xAxisSpace = ( $end->x - $start->x ) * $axis->axisSpace;
         $yAxisSpace = ( $end->y - $start->y ) * $axis->axisSpace;
 

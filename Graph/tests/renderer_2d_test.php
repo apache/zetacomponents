@@ -1761,6 +1761,54 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
+
+    public function testRenderLineChartWithAxisLabels()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+
+        $chart->xAxis->label = 'Samples';
+        $chart->yAxis->label = 'Numbers';
+
+        $chart->driver = new ezcGraphSvgDriver();
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testRenderLineChartWithAxisLabelsReversedAxis()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+
+        $chart->xAxis->label = 'Samples';
+        $chart->xAxis->position = ezcGraph::RIGHT;
+        $chart->yAxis->label = 'Numbers';
+        $chart->yAxis->position = ezcGraph::TOP;
+
+        $chart->driver = new ezcGraphSvgDriver();
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
 }
 
 ?>
