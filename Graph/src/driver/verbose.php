@@ -125,7 +125,7 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
      * @param ezcGraphColor $color Color of Border
      * @return void
      */
-    public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color )
+    public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color, $filled = true )
     {
         printf( "% 4d: Draw circular arc at ( %.2f, %.2f ) with dimensions ( %d, %d ) and size %.2f from %.2f to %.2f.\n",
             $this->call++,

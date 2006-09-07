@@ -24,7 +24,13 @@
  * @property mixed $minorStep
  *           Non labeled minor steps on the axis.
  * @property string $formatString
- *           Formatstring to use for labeling og the axis.
+ *           Formatstring to use for labeling of the axis.
+ * @property string $label
+ *           Axis label
+ * @property int $labelSize
+ *           Size of axis label
+ * @property int $labelMargin
+ *           Distance between label an axis
  * @property int $maxArrowHeadSize
  *           Maximum Size used to draw arrow heads.
  *
@@ -55,6 +61,9 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         $this->properties['majorStep'] = false;
         $this->properties['minorStep'] = false;
         $this->properties['formatString'] = '%s';
+        $this->properties['label'] = false;
+        $this->properties['labelSize'] = 14;
+        $this->properties['labelMargin'] = 2;
         $this->properties['maxArrowHeadSize'] = 8;
 
         parent::__construct( $options );
@@ -137,6 +146,15 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 break;
             case 'formatString':
                 $this->properties['formatString'] = (string) $propertyValue;
+                break;
+            case 'label':
+                $this->properties['label'] = (string) $propertyValue;
+                break;
+            case 'labelSize':
+                $this->properties['labelSize'] = max( 6, (int) $propertyValue );
+                break;
+            case 'labelMargin':
+                $this->properties['labelMargin'] = max( 0, (int) $propertyValue );
                 break;
             case 'maxArrowHeadSize':
                 $this->properties['maxArrowHeadSize'] = max( 0, (int) $propertyValue );
