@@ -15,7 +15,7 @@
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphRenderer3dTest extends ezcTestCase
+class ezcGraphRenderer3dTest extends ezcImageTestCase
 {
 
     protected $basePath;
@@ -426,9 +426,11 @@ class ezcGraphRenderer3dTest extends ezcTestCase
         $chart->driver = new ezcGraphGdDriver();
         $chart->render( 500, 200, $filename );
 
-        $this->compare(
+        $this->assertImageSimilar(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png'
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
         );
     }
 
