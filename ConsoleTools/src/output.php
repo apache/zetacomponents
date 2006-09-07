@@ -73,6 +73,22 @@
  */
 class ezcConsoleOutput
 {
+
+    /**
+     * Target to print to standard out, with output buffering possibility.
+     */
+    const TARGET_OUTPUT = "php://output";
+
+    /**
+     * Target to print to standard out. 
+     */
+    const TARGET_STDOUT = "php://stdout";
+
+    /**
+     * Target to print to standard error. 
+     */
+    const TARGET_STDERR = "php://stderr";
+
     /**
      * Container to hold the properties
      *
@@ -160,6 +176,13 @@ class ezcConsoleOutput
      * @var string
      */
     private $escapeSequence = "\033[%sm";
+
+    /**
+     * Collection of targets to print to. 
+     * 
+     * @var array
+     */
+    private $targets = array();
 
     /**
      * Create a new console output handler.
@@ -308,6 +331,10 @@ class ezcConsoleOutput
      * {@link ezcConsoleOutput::$options}, a style name 
      * {@link ezcConsoleOutput$formats} or 'none' to print without any styling.
      *
+     * @throws ezcConsoleInvalidOutputTargetException
+     *         If the given target ({@see ezcConsoleOutputFormat}) could not 
+     *         be opened for writing or writing failed.
+     *
      * @param string $text        The text to print.
      * @param string $format      Format chosen for printing.
      * @param int $verbosityLevel On which verbose level to output this message.
@@ -326,7 +353,29 @@ class ezcConsoleOutput
                 }
                 $text = implode( "\n", $textLines );
             }
-            echo ( $this->properties['options']->useFormats == true ) ? $this->formatText( $text, $format ) : $text;
+            // Initialize target, if not happened before
+            if ( !isset( $this->targets[$this->formats->$format->target] ) )
+            {
+                // @ to suppress the warning. We handle error cases with an
+                // exception here.
+                if ( ( $this->targets[$this->formats->$format->target] = @fopen( $this->formats->$format->target, "w" ) ) === false )
+                {
+                    throw new ezcConsoleInvalidOutputTargetException( $this->formats->$format->target );
+                }
+            }
+            // Print using formats or without. Note: Since the target is a part
+            // of the format, it will also be ignored, if you switch formats off!
+            if ( $this->properties['options']->useFormats === true )
+            {
+                if ( fwrite( $this->targets[$this->formats->$format->target], $this->formatText( $text, $format ) ) === false )
+                {
+                    throw new ezcConsoleInvalidOutputTargetException( $this->formats->$format->target );
+                }
+            }
+            else
+            {
+               echo $text;
+            }
         }
     }
 

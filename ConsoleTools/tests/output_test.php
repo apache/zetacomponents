@@ -222,6 +222,20 @@ EOT;
         );
     }
 
+    public function testOutputToTarget()
+    {
+        $outFile = $this->createTempDir( __FUNCTION__ ) . "/outfile";
+        touch( $outFile );
+        $this->consoleOutput->formats->targetFile->target = $outFile;
+        $this->consoleOutput->formats->targetFile->color = "blue";
+        $this->consoleOutput->outputText( "Hello, I'm a cool text, written to a file!", "targetFile" );
+
+        $this->assertEquals( 
+            $this->consoleOutput->formatText( "Hello, I'm a cool text, written to a file!", "targetFile" ),
+            file_get_contents( $outFile )
+        );
+    }
+
     /**
      * dumpString 
      * 

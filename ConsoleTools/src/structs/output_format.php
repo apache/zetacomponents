@@ -81,6 +81,7 @@ class ezcConsoleOutputFormat
         'color'     => 'default',
         'style'     => array( 'default' ),
         'bgcolor'   => 'default',
+        'target'    => ezcConsoleOutput::TARGET_OUTPUT,
     );
 
     /**
@@ -90,12 +91,14 @@ class ezcConsoleOutputFormat
      * @param string $color             Name of a color value.
      * @param array(int=>string) $style Names of style values.
      * @param string $bgcolor           Name of a bgcolor value.
+     * @param string $target            Target output stream. {@see
      */
-    public function __construct( $color = 'default', array $style = null, $bgcolor = 'default' )
+    public function __construct( $color = 'default', array $style = null, $bgcolor = 'default', $target = ezcConsoleOutput::TARGET_OUTPUT )
     {
         $this->__set( 'color', $color );
         $this->__set( 'style', isset( $style ) ? $style : array( 'default' ) );
         $this->__set( 'bgcolor', $bgcolor );
+        $this->__set( 'target', $target );
     }
     
     /**
@@ -113,6 +116,7 @@ class ezcConsoleOutputFormat
                 return (array) $this->properties[$propertyName];
             case 'color':
             case 'bgcolor':
+            case 'target':
                 return $this->properties[$propertyName];
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
@@ -153,7 +157,8 @@ class ezcConsoleOutputFormat
             return;
         }
         // Continue normal handling
-        if ( !ezcConsoleOutput::isValidFormatCode( $propertyName, $val ) )
+        if ( ( $propertyName === "color" || $propertyName === "bgcolor" )
+             && !ezcConsoleOutput::isValidFormatCode( $propertyName, $val ) )
         {
             throw new ezcBaseValueException( $propertyName, $style, 'valid ezcConsoleOutput format code' );
         }
