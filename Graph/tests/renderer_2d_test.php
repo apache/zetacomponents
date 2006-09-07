@@ -183,7 +183,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             0
         );
 
-        $this->renderer->render( 'foo.svg' );
+        $this->renderer->render( $this->tempDir . '/' . __METHOD__ . '.svg' );
     }
 
     public function testRenderNonLabeledPieSegment()
@@ -223,7 +223,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             0
         );
 
-        $this->renderer->render( 'foo.svg' );
+        $this->renderer->render( $this->tempDir . '/' . __METHOD__ . '.svg' );
     }
 
     public function testRenderNonLabeledPieSegmentMoveOut()
@@ -263,7 +263,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             true
         );
 
-        $this->renderer->render( 'foo.svg' );
+        $this->renderer->render( $this->tempDir . '/' . __METHOD__ . '.svg' );
     }
 
     public function testRenderLotsOfLabeledPieSegments()
@@ -326,7 +326,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         $this->renderer->drawPieSegment( new ezcGraphBoundings( 0, 0, 400, 200 ), ezcGraphColor::fromHex( '#FF0000' ), 45, 70, 'Label 4', true );
         $this->renderer->drawPieSegment( new ezcGraphBoundings( 0, 0, 400, 200 ), ezcGraphColor::fromHex( '#FF0000' ), 70, 119, 'Label 5', true );
 
-        $this->renderer->render( 'foo.svg' );
+        $this->renderer->render( $this->tempDir . '/' . __METHOD__ . '.svg' );
     }
 
     public function testRenderBar()
