@@ -37,7 +37,7 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
      * Constructor
      * 
      * @param array $dataset Dataset to interpolate
-     * @param array $order Maximum order of interpolating polynom
+     * @param int $order Maximum order of interpolating polynom
      * @return void
      * @ignore
      */

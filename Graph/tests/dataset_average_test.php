@@ -139,6 +139,19 @@ class ezcGraphDataSetAverageTest extends ezcTestCase
         );
     }
 
+    public function testCreateDatasetFromDatasetHighOrderConstructorParameter()
+    {
+        $arrayDataSet = new ezcGraphArrayDataSet( array( -1 => 2, 1 => 2, 3 => 10 ) );
+
+        $averageDataSet = new ezcGraphDataSetAveragePolynom( $arrayDataSet, 3 );
+        $polynom = $averageDataSet->getPolynom();
+
+        $this->assertEquals(
+            'x^2 + 1.00',
+            $polynom->__toString()
+        );
+    }
+
     public function testIterateOverAverageDataset()
     {
         $arrayDataSet = new ezcGraphArrayDataSet( array( -1 => 2, 1 => 2, 3 => 10 ) );
