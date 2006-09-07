@@ -92,7 +92,7 @@ class ezcSignalStaticConnections
         switch ( $name )
         {
             case 'connections':
-                return $this->properties[$name];
+                return (array) $this->properties[$name];
                 break;
 
             default:
