@@ -36,3 +36,4 @@ $graph->renderer->options->pieChartOffset = 100;
 // Output the graph with std SVG driver
 $graph->render( 500, 200, 'wiki_graph.svg' );
 
+?>
