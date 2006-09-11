@@ -41,6 +41,54 @@ class ezcDatabaseHandlerTest extends ezcTestCase
         catch( ezcDbMissingParameterException $e ) {}
     }
 
+    public function testIdentifierQuotingNoEscape()
+    {
+        $db = ezcDbInstance::get();
+        switch ( get_class( $db ) )
+        {
+            case "ezcDbHandlerMysql":
+                $quoteChars = array( "`", "`" );
+                break;
+            case "ezcDbHandlerOracle":
+            case "ezcDbHandlerPgsql":
+            case "ezcDbHandlerSqlite":
+                $quoteChars = array( '"', '"' );
+                break;
+                
+            default:
+                $this->markTestSkipped( "No quoting test defined for handler class <{" . get_class( $db ) . "}>" );
+        }
+
+        $this->assertEquals(
+            $quoteChars[0] . "TestIdentifier" . $quoteChars[1],
+            $db->quoteIdentifier( "TestIdentifier" )
+        );
+    }
+
+    public function testIdentifierQuotingEscape()
+    {
+        $db = ezcDbInstance::get();
+        switch ( get_class( $db ) )
+        {
+            case "ezcDbHandlerMysql":
+                $quoteChars = array( "`", "`" );
+                break;
+            case "ezcDbHandlerOracle":
+            case "ezcDbHandlerPgsql":
+            case "ezcDbHandlerSqlite":
+                $quoteChars = array( '"', '"' );
+                break;
+                
+            default:
+                $this->markTestSkipped( "No quoting test defined for handler class <{" . get_class( $db ) . "}>" );
+        }
+
+        $this->assertEquals(
+            $quoteChars[0] . "Test" . $quoteChars[1] . $quoteChars[1] . "Identifier" . $quoteChars[1],
+            $db->quoteIdentifier( "Test" . $quoteChars[1] . "Identifier" )
+        );
+    }
+
     public static function suite()
     {
          return new ezcTestSuite( "ezcDatabaseHandlerTest" );

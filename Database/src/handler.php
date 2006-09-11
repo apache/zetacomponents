@@ -36,6 +36,19 @@ abstract class ezcDbHandler extends PDO
     protected $transactionErrorFlag = false;
 
     /**
+     * Characters to quote identifiers with. Should be overwritten in handler
+     * implementation, if different for a specific handler. In some cases the
+     * quoting start and end characters differ (e.g. ODBC), but mostly they are
+     * the same.
+     * 
+     * @var string
+     */
+    protected $identifierQuoteChars = array(
+        "start" => '"',
+        "end"   => '"',
+    );
+
+    /**
      * Constructs a handler object.
      *
      * note: Remember to always call this constructor from constructor of a derived class!
@@ -269,6 +282,30 @@ abstract class ezcDbHandler extends PDO
     public function createUtilities()
     {
         return new ezcDbUtilities( $this );
+    }
+
+    /**
+     * Returns the quoted version of an identifier to be used in an SQL query.
+     * This method takes a given identifier and quotes it, so it can savely be
+     * used in SQL queries.
+     * 
+     * @param string $identifier The identifier to quote.
+     * @return string The quoted identifier.
+     */
+    public function quoteIdentifier( $identifier )
+    {
+        if ( sizeof( $this->identifierQuoteChars ) === 2 )
+        {
+            $identifier = 
+                $this->identifierQuoteChars["start"]
+                . str_replace( 
+                    $this->identifierQuoteChars["end"],
+                    $this->identifierQuoteChars["end"].$this->identifierQuoteChars["end"],
+                    $identifier
+                  )
+                . $this->identifierQuoteChars["end"];
+        }
+        return $identifier;
     }
 }
 ?>

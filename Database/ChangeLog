@@ -1,3 +1,7 @@
+1.2.0 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Added method quoteIdentifier() to ezcDbHandler.
 - Fixed handling queries like "SELECT 1+1" in Oracle.
 
 1.1.2 - Monday 28 August 2006

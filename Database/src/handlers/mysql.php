@@ -17,6 +17,19 @@
 class ezcDbHandlerMysql extends ezcDbHandler
 {
     /**
+     * Characters to quote identifiers with. Should be overwritten in handler
+     * implementation, if different for a specific handler. In some cases the
+     * quoting start and end characters differ (e.g. ODBC), but mostly they are
+     * the same.
+     * 
+     * @var string
+     */
+    protected $identifierQuoteChars = array(
+        "start" => '`',
+        "end"   => '`',
+    );
+
+    /**
      * Constructs a handler object from the parameters $dbParams.
      *
      * Supported database parameters are:
