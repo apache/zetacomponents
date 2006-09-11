@@ -27,6 +27,8 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
 
     protected $options;
 
+    protected $axisLabels = array();
+
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphRenderer2dOptions( $options );
@@ -39,7 +41,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
             case 'options':
                 return $this->options;
             default:
-                throw new ezcBasePropertyNotFoundException( $propertyName );
+                return parent::__get( $propertyName );
         }
     }
 
@@ -765,6 +767,22 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         ezcGraphChartElementAxis $axis,
         ezcGraphAxisLabelRenderer $labelClass = null )
     {
+        // Store axis space for use by label renderer
+        switch ( $axis->position )
+        {
+            case ezcGraph::TOP:
+            case ezcGraph::BOTTOM:
+                $this->xAxisSpace = ( $boundings->x1 - $boundings->x0 ) * $axis->axisSpace;
+                break;
+            case ezcGraph::LEFT:
+            case ezcGraph::RIGHT:
+                $this->yAxisSpace = ( $boundings->y1 - $boundings->y0 ) * $axis->axisSpace;
+                break;
+        }
+
+        // Clone boundings because of internal modifications
+        $boundings = clone $boundings;
+
         $start->x += $boundings->x0;
         $start->y += $boundings->y0;
         $end->x += $boundings->x0;
@@ -877,24 +895,41 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
             }
         }
 
-        $xAxisSpace = ( $end->x - $start->x ) * $axis->axisSpace;
-        $yAxisSpace = ( $end->y - $start->y ) * $axis->axisSpace;
+        // Collect axis labels and draw, when all axisSpaces are collected
+        $this->axisLabels[] = array(
+            'object' => $labelClass,
+            'boundings' => $boundings,
+            'start' => clone $start,
+            'end' => clone $end,
+            'axis' => $axis,
+        );
 
-        // Apply axisSpace to start and end
-        $start->x += $xAxisSpace;
-        $start->y += $yAxisSpace;
-        $end->x -= $xAxisSpace;
-        $end->y -= $yAxisSpace;
-
-        if ( $labelClass !== null )
+        if ( $this->xAxisSpace && $this->yAxisSpace )
         {
-            $labelClass->renderLabels(
-                $this,
-                $boundings,
-                $start,
-                $end,
-                $axis
-            );
+            foreach ( $this->axisLabels as $axisLabel )
+            {
+                switch ( $axisLabel['axis']->position )
+                {
+                    case ezcGraph::RIGHT:
+                    case ezcGraph::LEFT:
+                        $axisLabel['start']->x += $this->xAxisSpace * ( $axisLabel['start'] > $axisLabel['end'] ? -1 : 1 );
+                        $axisLabel['end']->x -= $this->xAxisSpace * ( $axisLabel['start'] > $axisLabel['end'] ? -1 : 1 );
+                        break;
+                    case ezcGraph::TOP:
+                    case ezcGraph::BOTTOM:
+                        $axisLabel['start']->y += $this->yAxisSpace * ( $axisLabel['start'] > $axisLabel['end'] ? -1 : 1 );
+                        $axisLabel['end']->y -= $this->yAxisSpace * ( $axisLabel['start'] > $axisLabel['end'] ? -1 : 1 );
+                        break;
+                }
+
+                $axisLabel['object']->renderLabels(
+                    $this,
+                    $axisLabel['boundings'],
+                    $axisLabel['start'],
+                    $axisLabel['end'],
+                    $axisLabel['axis']
+                );
+            }
         }
     }
 

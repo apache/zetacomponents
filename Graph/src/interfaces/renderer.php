@@ -19,9 +19,34 @@ abstract class ezcGraphRenderer
 
     protected $driver;
 
+    protected $xAxisSpace = false;
+    
+    protected $yAxisSpace = false;
+
     public function setDriver( ezcGraphDriver $driver )
     {
         $this->driver = $driver;
+    }
+
+    /**
+     * __get 
+     * 
+     * @param mixed $propertyName 
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return mixed
+     * @ignore
+     */
+    public function __get( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'xAxisSpace':
+            case 'yAxisSpace':
+                return $this->$propertyName;
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
     }
 
     /**

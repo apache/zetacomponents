@@ -89,10 +89,10 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
         else
         {
             $gridBoundings = new ezcGraphBoundings(
-                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $axis->axisSpace,
-                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axis->axisSpace,
-                $boundings->x1 - ( $boundings->x1 - $boundings->x0 ) * $axis->axisSpace,
-                $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $axis->axisSpace
+                $boundings->x0 + $renderer->xAxisSpace,
+                $boundings->y0 + $renderer->yAxisSpace,
+                $boundings->x1 - $renderer->xAxisSpace,
+                $boundings->y1 - $renderer->yAxisSpace
             );
         }
 

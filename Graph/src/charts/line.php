@@ -80,8 +80,8 @@ class ezcGraphLineChart extends ezcGraphChart
     protected function renderData( $renderer, $boundings )
     {
         // Apply axis space
-        $xAxisSpace = ( $boundings->x1 - $boundings->x0 ) * $this->xAxis->axisSpace;
-        $yAxisSpace = ( $boundings->y1 - $boundings->y0 ) * $this->yAxis->axisSpace;
+        $xAxisSpace = ( $boundings->x1 - $boundings->x0 ) * $this->yAxis->axisSpace;
+        $yAxisSpace = ( $boundings->y1 - $boundings->y0 ) * $this->xAxis->axisSpace;
 
         $boundings->x0 += $xAxisSpace;
         $boundings->x1 -= $xAxisSpace;

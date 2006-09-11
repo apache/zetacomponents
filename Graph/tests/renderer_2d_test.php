@@ -1638,6 +1638,29 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         );
     }
 
+    public function testRenderLineChartWithDifferentAxisSpace()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+        
+        $chart->xAxis->axisSpace = .2;
+        $chart->yAxis->axisSpace = .05;
+        
+        $chart->driver = new ezcGraphSvgDriver();
+        
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testRenderPieChart()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
