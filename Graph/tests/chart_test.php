@@ -167,6 +167,12 @@ class ezcGraphChartTest extends ezcTestCase
 
     public function testSetDriver()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'gd' ) && 
+             ( ezcBaseFeatures::hasFunction( 'imagefttext' ) || ezcBaseFeatures::hasFunction( 'imagettftext' ) ) )
+        {
+            $this->markTestSkipped( 'This test needs ext/gd with native ttf support or FreeType 2 support.' );
+        }
+
         $pieChart = new ezcGraphPieChart();
         $driver = $pieChart->driver = new ezcGraphGdDriver();
 

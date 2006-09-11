@@ -41,6 +41,12 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
      */
     public function setUp()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'gd' ) && 
+             ( ezcBaseFeatures::hasFunction( 'imagefttext' ) || ezcBaseFeatures::hasFunction( 'imagettftext' ) ) )
+        {
+            $this->markTestSkipped( 'This test needs ext/gd with native ttf support or FreeType 2 support.' );
+        }
+
         static $i = 0;
         $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
         $this->basePath = dirname( __FILE__ ) . '/data/';
@@ -1273,6 +1279,11 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
 
     public function testDrawSmallNativeTTFStringWithSpecialChars()
     {
+        if ( !ezcBaseFeatures::hasFunction( 'imagettftext' ) )
+        {
+            $this->markTestSkipped( 'This test needs native ttf support within your gd extension.' );
+        }
+
         $filename = $this->tempDir . __FUNCTION__ . '.png';
         $this->driver->options->forceNativeTTF = true;
 
@@ -1311,6 +1322,11 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
 
     public function testDrawSmallFreeTypeStringWithSpecialChars()
     {
+        if ( !ezcBaseFeatures::hasFunction( 'imagefttext' ) )
+        {
+            $this->markTestSkipped( 'This test needs FreeType 2 ttf support within your gd extension.' );
+        }
+
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $this->driver->drawPolygon(
@@ -1348,6 +1364,16 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
 
     public function testDrawSmallPsStringWithSpecialChars()
     {
+        if ( !ezcBaseFeatures::hasFunction( 'imagepstext' ) )
+        {
+            $this->markTestSkipped( 'This test needs Type 1 font support within your gd extension.' );
+        }
+
+        if ( !ezcBaseFeatures::hasFunction( 'imagepstext' ) )
+        {
+            $this->markTestSkipped( 'This test needs Type 1 font support within your gd extension.' );
+        }
+
         $filename = $this->tempDir . __FUNCTION__ . '.png';
         $this->driver->options->font->path = $this->basePath . 'ps_font.pfb';
 
@@ -1386,6 +1412,11 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
 
     public function testDrawNativeTTFText()
     {
+        if ( !ezcBaseFeatures::hasFunction( 'imagettftext' ) )
+        {
+            $this->markTestSkipped( 'This test needs native ttf support within your gd extension.' );
+        }
+
         $filename = $this->tempDir . __FUNCTION__ . '.png';
         $this->driver->options->font->path = $this->basePath . 'font.ttf';
         $this->driver->options->forceNativeTTF = true;
@@ -1415,6 +1446,11 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
 
     public function testDrawFreeTypeTTFText()
     {
+        if ( !ezcBaseFeatures::hasFunction( 'imagefttext' ) )
+        {
+            $this->markTestSkipped( 'This test needs FreeType 2 ttf support within your gd extension.' );
+        }
+
         $filename = $this->tempDir . __FUNCTION__ . '.png';
         $this->driver->options->font->path = $this->basePath . 'font.ttf';
 
@@ -1443,6 +1479,11 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
 
     public function testDrawPSText()
     {
+        if ( !ezcBaseFeatures::hasFunction( 'imagepstext' ) )
+        {
+            $this->markTestSkipped( 'This test needs Type 1 font support within your gd extension.' );
+        }
+
         $filename = $this->tempDir . __FUNCTION__ . '.png';
         $this->driver->options->font->path = $this->basePath . 'ps_font.pfb';
 

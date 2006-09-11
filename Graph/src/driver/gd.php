@@ -234,7 +234,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
             case ezcGraph::TTF_FONT:
                 switch ( true )
                 {
-                    case function_exists( 'imageftbbox' ) && !$this->options->forceNativeTTF:
+                    case ezcBaseFeatures::hasFunction( 'imageftbbox' ) && !$this->options->forceNativeTTF:
                         $boundings = imageFtBBox( $size, 0, $font->path, $text );
                         return new ezcGraphBoundings(
                             $boundings[0],
@@ -242,7 +242,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
                             $boundings[4],
                             $boundings[5]
                         );
-                    case function_exists( 'imagettfbbox' ):
+                    case ezcBaseFeatures::hasFunction( 'imagettfbbox' ):
                         $boundings = imageTtfBBox( $size, 0, $font->path, $text );
                         return new ezcGraphBoundings(
                             $boundings[0],
@@ -285,7 +285,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
             case ezcGraph::TTF_FONT:
                 switch ( true )
                 {
-                    case function_exists( 'imagefttext' ) && !$this->options->forceNativeTTF:
+                    case ezcBaseFeatures::hasFunction( 'imagefttext' ) && !$this->options->forceNativeTTF:
                         imageFtText(
                             $image, 
                             $size,
@@ -297,7 +297,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
                             $text
                         );
                         break;
-                    case function_exists( 'imagettftext' ):
+                    case ezcBaseFeatures::hasFunction( 'imagettftext' ):
                         imageTtfText(
                             $image, 
                             $size,

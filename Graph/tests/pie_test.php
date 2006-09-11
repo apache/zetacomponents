@@ -183,6 +183,12 @@ class ezcGraphPieChartTest extends ezcImageTestCase
 
     public function testRenderPieChartWithLotsOfLabels()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'gd' ) && 
+             ( ezcBaseFeatures::hasFunction( 'imagefttext' ) || ezcBaseFeatures::hasFunction( 'imagettftext' ) ) )
+        {
+            $this->markTestSkipped( 'This test needs ext/gd with native ttf support or FreeType 2 support.' );
+        }
+
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
@@ -204,6 +210,12 @@ class ezcGraphPieChartTest extends ezcImageTestCase
 
     public function testRenderPortraitPieChartWithLotsOfLabels()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'gd' ) && 
+             ( ezcBaseFeatures::hasFunction( 'imagefttext' ) || ezcBaseFeatures::hasFunction( 'imagettftext' ) ) )
+        {
+            $this->markTestSkipped( 'This test needs ext/gd with native ttf support or FreeType 2 support.' );
+        }
+
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
         $chart = new ezcGraphPieChart();
