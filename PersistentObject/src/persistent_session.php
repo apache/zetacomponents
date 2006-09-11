@@ -529,7 +529,7 @@ class ezcPersistentSession
             if ( $name != $def->idProperty->propertyName ) // skip the id field
             {
                 // set each of the properties
-                $q->set( $def->properties[$name]->columnName, $q->bindValue( $value ) );
+                $q->set( $this->database->quoteIdentifier( $def->properties[$name]->columnName ), $q->bindValue( $value ) );
             }
         }
 
@@ -621,7 +621,7 @@ class ezcPersistentSession
             if ( $name != $def->idProperty->propertyName ) // skip the id field
             {
                 // set each of the properties
-                $q->set( $def->properties[$name]->columnName, $q->bindValue( $value ) );
+                $q->set( $this->database->quoteIdentifier( $def->properties[$name]->columnName ), $q->bindValue( $value ) );
             }
         }
         $q->where( $q->expr->eq( $def->idProperty->columnName, $q->bindValue( $idValue ) ) );
@@ -683,10 +683,10 @@ class ezcPersistentSession
     private function getColumnsFromDefinition( ezcPersistentObjectDefinition $def )
     {
         $columns = array();
-        $columns[] = $def->idProperty->columnName;
+        $columns[] = $this->database->quoteIdentifier( $def->idProperty->columnName );
         foreach ( $def->properties as $property )
         {
-            $columns[] = $property->columnName;
+            $columns[] = $this->database->quoteIdentifier( $property->columnName );
         }
         return $columns;
     }
