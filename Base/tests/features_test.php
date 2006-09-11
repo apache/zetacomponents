@@ -61,6 +61,16 @@ class ezcBaseFeaturesTest extends ezcTestCase
         $this->assertEquals( true, ezcBaseFeatures::hasExtensionSupport( 'mysql' ) );
     }
 
+    public function testHasFunction1()
+    {
+        $this->assertEquals( true, ezcBaseFeatures::hasFunction( 'function_exists' ) );
+    }
+
+    public function testHasFunction2()
+    {
+        $this->assertEquals( false, ezcBaseFeatures::hasFunction( 'non_existant_funtion_in_php' ) );
+    }
+
     public function testHasExtensionSupport2()
     {
         $this->assertEquals( true, ezcBaseFeatures::hasExtensionSupport( 'date', '5.1.0' ) );

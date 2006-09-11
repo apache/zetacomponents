@@ -173,6 +173,24 @@ class ezcBaseFeatures
     }
 
     /**
+     * Determines if the specified function is available.
+     * 
+     * Examples:
+     * <code>
+     * ezcBaseFeatures::hasFunction( 'imagepstext' );
+     * </code>
+     * will return true if support for Type 1 fonts is available with your GD
+     * extension.
+     * 
+     * @param string $functionName Name of function
+     * @return bool
+     */
+    public static function hasFunction( $functionName )
+    {
+        return function_exists( $functionName );
+    }
+
+    /**
      * Returns the operating system on which php is running.
      * 
      * @return string
