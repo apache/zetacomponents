@@ -431,7 +431,20 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         {
             for ( $i = $this->options->pieChartShadowSize; $i > 0; --$i )
             {
-                $midAngle = ( $circleSector['start'] + $circleSector['end'] ) / 2;
+                $startAngle = $circleSector['start'];
+                $endAngle = $circleSector['end'];
+                if ( $startAngle != ( $endAngle % 360 ) )
+                {
+                    $startAngle = $circleSector['start'] - ( $this->options->pieChartShadowSize - $i );
+                    $endAngle = $circleSector['end'] + ( $this->options->pieChartShadowSize - $i );
+                }
+
+                if ( $startAngle < ( $endAngle % 360 ) )
+                {
+                    // Skip if block is to big
+                    break;
+                }
+
                 $this->driver->drawCircleSector(
                     new ezcGraphCoordinate(
                         $circleSector['center']->x,
@@ -439,8 +452,8 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                     ),
                     $circleSector['width'] + $i * 2,
                     $circleSector['height'] + $i * 2,
-                    $circleSector['start'] - ( $this->options->pieChartShadowSize - $i ),
-                    $circleSector['end'] + ( $this->options->pieChartShadowSize - $i ),
+                    $startAngle,
+                    $endAngle,
                     $this->options->pieChartShadowColor->transparent( 1 - ( $this->options->pieChartShadowTransparency / $this->options->pieChartShadowSize ) ),
                     true
                 );
