@@ -41,6 +41,8 @@
  *           custom template document.
  * @property ezcGraphCoordinate $graphOffset
  *           Offset of the graph in the svg.
+ * @property string $idPrefix
+ *           Prefix used for the ids in SVG documents.
  * 
  * @package Graph
  */
@@ -64,6 +66,7 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
         $this->properties['templateDocument'] = false;
         $this->properties['insertIntoGroup'] = false;
         $this->properties['graphOffset'] = new ezcGraphCoordinate( 0, 0 );
+        $this->properties['idPrefix'] = 'ezcGraph';
 
         parent::__construct( $options );
     }
@@ -201,6 +204,9 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphCoordinate' );
                 }
+                break;
+            case 'idPrefix':
+                $this->properties['idPrefix'] = (string) $propertyValue;
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );

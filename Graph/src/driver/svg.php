@@ -89,7 +89,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 $svg->setAttribute( 'width', $this->options->width );
                 $svg->setAttribute( 'height', $this->options->height );
                 $svg->setAttribute( 'version', '1.0' );
-                $svg->setAttribute( 'id', 'ezcGraph' );
+                $svg->setAttribute( 'id', $this->options->idPrefix );
 
                 $this->defs = $this->dom->createElement( 'defs' );
                 $this->defs = $svg->appendChild( $this->defs );
@@ -109,7 +109,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             else
             {
                 $this->elements = $this->dom->createElement( 'g' );
-                $this->elements->setAttribute( 'id', 'chart' );
+                $this->elements->setAttribute( 'id', $this->options->idPrefix . 'Chart' );
                 $this->elements->setAttribute( 'color-rendering', $this->options->colorRendering );
                 $this->elements->setAttribute( 'shape-rendering', $this->options->shapeRendering );
                 $this->elements->setAttribute( 'text-rendering', $this->options->textRendering );
@@ -304,7 +304,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             'style',
             $this->getStyle( $color, $filled, $thickness )
         );
-        $path->setAttribute( 'id', $id = ( 'ezcGraphPolygon_' . ++$this->elementID ) );
+        $path->setAttribute( 'id', $id = ( $this->options->idPrefix . 'Polygon_' . ++$this->elementID ) );
 		$this->elements->appendChild( $path );
 
         return $id;
@@ -336,7 +336,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             $this->getStyle( $color, false, $thickness )
         );
 
-        $path->setAttribute( 'id', $id = ( 'ezcGraphLine_' . ++$this->elementID ) );
+        $path->setAttribute( 'id', $id = ( $this->options->idPrefix . 'Line_' . ++$this->elementID ) );
         $this->elements->appendChild( $path );
 
         return $id;
@@ -423,7 +423,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $this->options->font->minimalUsedFont = $size;
         $this->strings[] = array(
             'text' => $result,
-            'id' => $id = ( 'ezcGraphTextBox_' . ++$this->elementID ),
+            'id' => $id = ( $this->options->idPrefix . 'TextBox_' . ++$this->elementID ),
             'position' => $position,
             'width' => $width,
             'height' => $height,
@@ -563,7 +563,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             $this->getStyle( $color, $filled, 1 )
         );
         
-        $arc->setAttribute( 'id', $id = ( 'ezcGraphCircleSector_' . ++$this->elementID ) );
+        $arc->setAttribute( 'id', $id = ( $this->options->idPrefix . 'CircleSector_' . ++$this->elementID ) );
         $this->elements->appendChild( $arc );
         
         return $id;
@@ -661,7 +661,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             $this->getStyle( $color, $filled )
         );
 
-        $arc->setAttribute( 'id', $id = ( 'ezcGraphCircularArc_' . ++$this->elementID ) );
+        $arc->setAttribute( 'id', $id = ( $this->options->idPrefix . 'CircularArc_' . ++$this->elementID ) );
         $this->elements->appendChild( $arc );
 
         if ( ( $this->options->shadeCircularArc !== false ) &&
@@ -738,7 +738,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             $this->getStyle( $color, $filled, 1 )
         );
         
-        $ellipse->setAttribute( 'id', $id = ( 'ezcGraphCircle_' . ++$this->elementID ) );
+        $ellipse->setAttribute( 'id', $id = ( $this->options->idPrefix . 'Circle_' . ++$this->elementID ) );
         $this->elements->appendChild( $ellipse );
 
         return $id;
@@ -774,7 +774,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         );
 
         $this->elements->appendChild( $image );
-        $image->setAttribute( 'id', $id = ( 'ezcGraphImage_' . ++$this->elementID ) );
+        $image->setAttribute( 'id', $id = ( $this->options->idPrefix . 'Image_' . ++$this->elementID ) );
 
         return $id;
     }
