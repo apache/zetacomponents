@@ -150,7 +150,7 @@ class ezcPersistentSession
      * Example:
      * <code>
      * $q = $session->createDeleteQuery();
-     * $q->where( $q->expr->gt( 'age', 15 ) );
+     * $q->where( $q->expr->gt( 'age', $q->bindValue( 15 ) ) );
      * $session->deleteFromQuery( $q );
      * </code>
      *

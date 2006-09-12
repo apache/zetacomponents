@@ -22,7 +22,7 @@
  * Example:
  * <code>
  *  $q = $session->createFindQuery( 'Person' );
- *  $q->where( $q->expr->gt( 'age', 15 ) )
+ *  $q->where( $q->expr->gt( 'age', $q->bindValue( 15 ) ) )
  *    ->orderBy( 'name' )
  *    ->limit( 10 );
  *  $objects = $session->findIterator( $q, 'Person' );

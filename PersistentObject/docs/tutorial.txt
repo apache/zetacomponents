@@ -231,7 +231,7 @@ can retrieve from the session first. ::
 
     <?php
     $q = $session->createFindQuery( 'Person' );
-    $q->where( $q->expr->gt( 'age', 15 ) )
+    $q->where( $q->expr->gt( 'age', $q->bindValue( 15 ) ) )
        ->orderBy( 'full_name' )
        ->limit( 10 );
     $objects = $session->find( $q, 'Person' );
@@ -247,7 +247,7 @@ method: ::
 
     <?php
     $q = $session->createFindQuery( 'Person' );
-    $q->where( $q->expr->gt( 'age', 15 ) )
+    $q->where( $q->expr->gt( 'age', $q->bindValue( 15 ) ) )
       ->orderBy( 'name' )
       ->limit( 10 );
     $objects = $session->findIterator( $q, 'Person' );
@@ -279,7 +279,7 @@ use the deleteFromQuery() method: ::
 
     <?php
     $q = $session->createDeleteQuery( 'Person' );
-    $q->where( $q->expr->gt( 'age', 15 ) );
+    $q->where( $q->expr->gt( 'age', $q->bindValue( 15 ) ) );
     $session->deleteFromQuery( $q );
     ?>
 
