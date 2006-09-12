@@ -29,6 +29,8 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
 
     protected $axisLabels = array();
 
+    protected $circleSectors = array();
+
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphRenderer2dOptions( $options );
@@ -91,29 +93,15 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
             );
         }
 
-        // Draw circle sector
-        $this->addElementReference( 
-            $context,
-            $this->driver->drawCircleSector(
-                $center,
-                $radius * 2,
-                $radius * 2,
-                $startAngle + $this->options->pieChartOffset,
-                $endAngle + $this->options->pieChartOffset,
-                $color,
-                true
-            )
-        );
-
-        $darkenedColor = $color->darken( .5 );
-        $this->driver->drawCircleSector(
-            $center,
-            $radius * 2,
-            $radius * 2,
-            $startAngle + $this->options->pieChartOffset,
-            $endAngle + $this->options->pieChartOffset,
-            $darkenedColor,
-            false
+        // Add circle sector to queue
+        $this->circleSectors[] = array(
+            'center' =>     $center,
+            'context' =>    $context,
+            'width' =>      $radius * 2,
+            'height' =>     $radius * 2,
+            'start' =>      $startAngle + $this->options->pieChartOffset,
+            'end' =>        $endAngle + $this->options->pieChartOffset,
+            'color' =>      $color,
         );
 
         if ( $label )
@@ -140,6 +128,57 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         if ( !$this->pieSegmentBoundings )
         {
             $this->pieSegmentBoundings = $boundings;
+        }
+    }
+
+    protected function finishCirleSectors()
+    {
+        // Add circle sector sides to simple z buffer prioriry list
+        if ( $this->options->pieChartShadowSize > 0 )
+        {
+            foreach ( $this->circleSectors as $circleSector )
+            {
+                $this->driver->drawCircleSector(
+                    new ezcGraphCoordinate(
+                        $circleSector['center']->x + $this->options->pieChartShadowSize,
+                        $circleSector['center']->y + $this->options->pieChartShadowSize
+                    ),
+                    $circleSector['width'],
+                    $circleSector['height'],
+                    $circleSector['start'],
+                    $circleSector['end'],
+                    $this->options->pieChartShadowColor->transparent( $this->options->pieChartShadowTransparency ),
+                    true
+                );
+            }
+        }
+
+        foreach ( $this->circleSectors as $circleSector )
+        {
+            // Draw circle sector
+            $this->addElementReference( 
+                $circleSector['context'],
+                $this->driver->drawCircleSector(
+                    $circleSector['center'],
+                    $circleSector['width'],
+                    $circleSector['height'],
+                    $circleSector['start'],
+                    $circleSector['end'],
+                    $circleSector['color'],
+                    true
+                )
+            );
+
+            $darkenedColor = $circleSector['color']->darken( .5 );
+            $this->driver->drawCircleSector(
+                $circleSector['center'],
+                $circleSector['width'],
+                $circleSector['height'],
+                $circleSector['start'],
+                $circleSector['end'],
+                $darkenedColor,
+                false
+            );
         }
     }
 
@@ -1057,6 +1096,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
 
     protected function finish()
     {
+        $this->finishCirleSectors();
         $this->finishPieSegmentLabels();
         $this->finishLineSymbols();
 
