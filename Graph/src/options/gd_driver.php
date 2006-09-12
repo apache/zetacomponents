@@ -23,6 +23,9 @@
  *           Function used to resample / resize images
  * @property bool $forceNativeTTF
  *           Force use of native ttf functions instead of free type 2
+ * @property float $imageMapResolution
+ *           Degree step used to interpolate round image primitives by 
+ *           polygons for image maps
  *
  * @package Graph
  */
@@ -44,6 +47,7 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
         $this->properties['background'] = false;
         $this->properties['resampleFunction'] = 'imagecopyresampled';
         $this->properties['forceNativeTTF'] = false;
+        $this->properties['imageMapResolution'] = 10;
 
         parent::__construct( $options );
     }
@@ -100,6 +104,9 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
                 break;
             case 'forceNativeTTF':
                 $this->properties['forceNativeTTF'] = (bool) $propertyValue;
+                break;
+            case 'imageMapResolution':
+                $this->properties['imageMapResolution'] = max( 1, (int) $propertyValue );
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );

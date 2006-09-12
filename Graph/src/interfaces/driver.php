@@ -69,7 +69,7 @@ abstract class ezcGraphDriver
             case 'options':
                 return $this->options;
             default:
-                return parent::__get( $propertyName );
+                throw new ezcBasePropertyNotFoundException( $propertyName );
         }
     }
 

@@ -108,7 +108,7 @@ class ezcGraphLineChart extends ezcGraphChart
         }
 
         // Display data
-        foreach ( $this->data as $data )
+        foreach ( $this->data as $datasetName => $data )
         {
             --$nr[$data->displayType->default];
             switch ( $data->displayType->default )
@@ -140,6 +140,7 @@ class ezcGraphLineChart extends ezcGraphChart
 
                         $renderer->drawDataLine(
                             $boundings,
+                            new ezcGraphContext( $datasetName, $key ),
                             $data->color->default,
                             ( $lastPoint === false ? $point : $lastPoint ),
                             $point,
@@ -173,6 +174,7 @@ class ezcGraphLineChart extends ezcGraphChart
 
                         $renderer->drawBar(
                             $boundings,
+                            new ezcGraphContext( $datasetName, $key ),
                             $data->color->default,
                             $this->elements['xAxis']->axisLabelRenderer->modifyChartDataPosition( 
                                 $this->elements['yAxis']->axisLabelRenderer->modifyChartDataPosition(

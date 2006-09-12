@@ -96,6 +96,7 @@ return array(
     'ezcGraphBoundings'                         => 'Graph/math/boundings.php',
 
     'ezcGraphCoordinate'                        => 'Graph/structs/coordinate.php',
+    'ezcGraphContext'                           => 'Graph/structs/context.php',
 );
 
 ?>

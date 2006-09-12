@@ -101,7 +101,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $this->driver->drawPolygon(
+        $return = $this->driver->drawPolygon(
             array( 
                 new ezcGraphCoordinate( 45, 12 ),
                 new ezcGraphCoordinate( 122, 34 ),
@@ -123,6 +123,16 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
             2000
+        );
+
+        $this->assertEquals(
+            $return,
+            array( 
+                new ezcGraphCoordinate( 45, 12 ),
+                new ezcGraphCoordinate( 122, 34 ),
+                new ezcGraphCoordinate( 12, 71 ),
+            ),
+            'Expected point array as return value.'
         );
     }
 
@@ -219,7 +229,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $this->driver->drawCircleSector(
+        $return = $this->driver->drawCircleSector(
             new ezcGraphCoordinate( 100, 50 ),
             80,
             40,
@@ -240,6 +250,18 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
             2000
+        );
+
+        $this->assertEquals(
+            $return,
+            array(
+                new ezcGraphCoordinate( 100., 50. ),
+                new ezcGraphCoordinate( 139., 54. ),
+                new ezcGraphCoordinate( 137., 58. ),
+                new ezcGraphCoordinate( 136., 58.5 ),
+            ),
+            'Expected point array as return value.',
+            1.
         );
     }
 
@@ -321,7 +343,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         );
 
         $this->assertImageSimilar(
-            $filename,
+        $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
             2000
@@ -332,7 +354,8 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $this->driver->drawCircularArc(
+        $this->driver->options->imageMapResolution = 90;
+        $return = $this->driver->drawCircularArc(
             new ezcGraphCoordinate( 100, 50 ),
             150,
             80,
@@ -354,6 +377,18 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
             2000
+        );
+
+        $this->assertEquals(
+            $return,
+            array(
+                new ezcGraphCoordinate( 173., 59. ),
+                new ezcGraphCoordinate( 143., 83. ),
+                new ezcGraphCoordinate( 153., 83. ),
+                new ezcGraphCoordinate( 183., 59. ),
+            ),
+            'Expected point array as return value.',
+            1.
         );
     }
 
@@ -449,7 +484,8 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $this->driver->drawCircle(
+        $this->driver->options->imageMapResolution = 90;
+        $return = $this->driver->drawCircle(
             new ezcGraphCoordinate( 100, 50 ),
             80,
             40,
@@ -468,6 +504,18 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
             2000
+        );
+
+        $this->assertEquals(
+            $return,
+            array(
+                new ezcGraphCoordinate( 140., 50. ),
+                new ezcGraphCoordinate( 100., 70. ),
+                new ezcGraphCoordinate( 60., 50. ),
+                new ezcGraphCoordinate( 100., 30. ),
+            ),
+            'Expected point array as return value.',
+            1.
         );
     }
 
@@ -502,7 +550,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $this->driver->drawImage(
+        $return = $this->driver->drawImage(
             $this->basePath . $this->testFiles['jpeg'],
             new ezcGraphCoordinate( 10, 10 ),
             100,
@@ -521,6 +569,18 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
             2000
+        );
+
+        $this->assertEquals(
+            $return,
+            array(
+                new ezcGraphCoordinate( 10., 10. ),
+                new ezcGraphCoordinate( 110., 10. ),
+                new ezcGraphCoordinate( 110., 60. ),
+                new ezcGraphCoordinate( 10., 60. ),
+            ),
+            'Expected point array as return value.',
+            1.
         );
     }
 
@@ -554,7 +614,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';
 
-        $this->driver->drawTextBox(
+        $return = $this->driver->drawTextBox(
             'Short',
             new ezcGraphCoordinate( 10, 10 ),
             150,
@@ -574,6 +634,18 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
             'Image does not look as expected.',
             2000
+        );
+
+        $this->assertEquals(
+            $return,
+            array(
+                new ezcGraphCoordinate( 10., 10. ),
+                new ezcGraphCoordinate( 160., 10. ),
+                new ezcGraphCoordinate( 160., 80. ),
+                new ezcGraphCoordinate( 10., 80. ),
+            ),
+            'Expected point array as return value.',
+            1.
         );
     }
 

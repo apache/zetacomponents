@@ -176,6 +176,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         // Render
         $this->renderer->drawPieSegment(
             new ezcGraphBoundings( 0, 0, 400, 200 ),
+            new ezcGraphContext(),
             ezcGraphColor::fromHex( '#FF0000' ),
             15,
             156,
@@ -216,6 +217,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         // Render
         $this->renderer->drawPieSegment(
             new ezcGraphBoundings( 0, 0, 400, 200 ),
+            new ezcGraphContext(),
             ezcGraphColor::fromHex( '#FF0000' ),
             15,
             156,
@@ -256,6 +258,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         // Render
         $this->renderer->drawPieSegment(
             new ezcGraphBoundings( 0, 0, 400, 200 ),
+            new ezcGraphContext(),
             ezcGraphColor::fromHex( '#FF0000' ),
             15,
             156,
@@ -320,11 +323,11 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             );
 
         // Render
-        $this->renderer->drawPieSegment( new ezcGraphBoundings( 0, 0, 400, 200 ), ezcGraphColor::fromHex( '#FF0000' ), 15, 27, 'Label 1', true );
-        $this->renderer->drawPieSegment( new ezcGraphBoundings( 0, 0, 400, 200 ), ezcGraphColor::fromHex( '#FF0000' ), 27, 38, 'Label 2', true );
-        $this->renderer->drawPieSegment( new ezcGraphBoundings( 0, 0, 400, 200 ), ezcGraphColor::fromHex( '#FF0000' ), 38, 45, 'Label 3', true );
-        $this->renderer->drawPieSegment( new ezcGraphBoundings( 0, 0, 400, 200 ), ezcGraphColor::fromHex( '#FF0000' ), 45, 70, 'Label 4', true );
-        $this->renderer->drawPieSegment( new ezcGraphBoundings( 0, 0, 400, 200 ), ezcGraphColor::fromHex( '#FF0000' ), 70, 119, 'Label 5', true );
+        $this->renderer->drawPieSegment( new ezcGraphBoundings( 0, 0, 400, 200 ), new ezcGraphContext(), ezcGraphColor::fromHex( '#FF0000' ), 15, 27, 'Label 1', true );
+        $this->renderer->drawPieSegment( new ezcGraphBoundings( 0, 0, 400, 200 ), new ezcGraphContext(), ezcGraphColor::fromHex( '#FF0000' ), 27, 38, 'Label 2', true );
+        $this->renderer->drawPieSegment( new ezcGraphBoundings( 0, 0, 400, 200 ), new ezcGraphContext(), ezcGraphColor::fromHex( '#FF0000' ), 38, 45, 'Label 3', true );
+        $this->renderer->drawPieSegment( new ezcGraphBoundings( 0, 0, 400, 200 ), new ezcGraphContext(), ezcGraphColor::fromHex( '#FF0000' ), 45, 70, 'Label 4', true );
+        $this->renderer->drawPieSegment( new ezcGraphBoundings( 0, 0, 400, 200 ), new ezcGraphContext(), ezcGraphColor::fromHex( '#FF0000' ), 70, 119, 'Label 5', true );
 
         $this->renderer->render( $this->tempDir . '/' . __METHOD__ . '.svg' );
     }
@@ -360,6 +363,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
 
         $this->renderer->drawBar( 
             new ezcGraphBoundings( 0, 0, 400, 200 ),
+            new ezcGraphContext(),
             ezcGraphColor::fromHex( '#FF0000' ), 
             new ezcGraphCoordinate( .5, .2 ),
             100,
@@ -387,6 +391,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
 
         $this->renderer->drawBar( 
             new ezcGraphBoundings( 0, 0, 400, 200 ),
+            new ezcGraphContext(),
             ezcGraphColor::fromHex( '#FF0000' ), 
             new ezcGraphCoordinate( .5, .2 ),
             100,
@@ -410,6 +415,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
 
         $this->renderer->drawDataLine( 
             new ezcGraphBoundings( 0, 0, 400, 200 ),
+            new ezcGraphContext(),
             ezcGraphColor::fromHex( '#FF0000' ), 
             new ezcGraphCoordinate( .1, .2 ),
             new ezcGraphCoordinate( .7, .3 )
@@ -443,6 +449,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
 
         $this->renderer->drawDataLine( 
             new ezcGraphBoundings( 0, 0, 400, 200 ),
+            new ezcGraphContext(),
             ezcGraphColor::fromHex( '#FF0000' ), 
             new ezcGraphCoordinate( .1, .2 ),
             new ezcGraphCoordinate( .7, .3 ),
@@ -493,6 +500,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
 
         $this->renderer->drawDataLine( 
             new ezcGraphBoundings( 0, 0, 400, 200 ),
+            new ezcGraphContext(),
             ezcGraphColor::fromHex( '#FF0000' ), 
             new ezcGraphCoordinate( .1, .2 ),
             new ezcGraphCoordinate( .7, .7 ),
@@ -638,6 +646,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
 
         $this->renderer->drawDataLine( 
             new ezcGraphBoundings( 0, 0, 400, 200 ),
+            new ezcGraphContext(),
             ezcGraphColor::fromHex( '#FF0000' ), 
             new ezcGraphCoordinate( .1, .2 ),
             new ezcGraphCoordinate( .7, .7 ),
@@ -700,6 +709,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
 
         $this->renderer->drawDataLine( 
             new ezcGraphBoundings( 0, 0, 400, 200 ),
+            new ezcGraphContext(),
             ezcGraphColor::fromHex( '#FF0000' ), 
             new ezcGraphCoordinate( .1, .2 ),
             new ezcGraphCoordinate( .7, .7 ),

@@ -51,6 +51,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
      * Draws a single pie segment
      * 
      * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphContext $context Context of call
      * @param ezcGraphColor $color Color of pie segment
      * @param float $startAngle Start angle
      * @param float $endAngle End angle
@@ -60,6 +61,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
      */
     public function drawPieSegment(
         ezcGraphBoundings $boundings,
+        ezcGraphContext $context,
         ezcGraphColor $color,
         $startAngle = .0,
         $endAngle = 360.,
@@ -90,14 +92,17 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         }
 
         // Draw circle sector
-        $this->driver->drawCircleSector(
-            $center,
-            $radius * 2,
-            $radius * 2,
-            $startAngle + $this->options->pieChartOffset,
-            $endAngle + $this->options->pieChartOffset,
-            $color,
-            true
+        $this->addElementReference( 
+            $context,
+            $this->driver->drawCircleSector(
+                $center,
+                $radius * 2,
+                $radius * 2,
+                $startAngle + $this->options->pieChartOffset,
+                $endAngle + $this->options->pieChartOffset,
+                $color,
+                true
+            )
         );
 
         $darkenedColor = $color->darken( .5 );
@@ -127,7 +132,8 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                     cos( deg2rad( $middle ) ) * $radius * 2 / 3 + $center->x,
                     sin( deg2rad( $middle ) ) * $radius * 2 / 3 + $center->y
                 ),
-                $label
+                $label,
+                $context
             );
         }
 
@@ -236,15 +242,18 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                     );
                 }
 
-                $this->driver->drawTextBox(
-                    $label[1],
-                    new ezcGraphCoordinate(
-                        ( !$side ? $boundings->x0 : $labelPosition->x + $symbolSize ),
-                        $minHeight
-                    ),
-                    ( !$side ? $labelPosition->x - $boundings->x0 - $symbolSize : $boundings->x1 - $labelPosition->x - $symbolSize ),
-                    $labelHeight,
-                    ( !$side ? ezcGraph::RIGHT : ezcGraph::LEFT ) | ezcGraph::MIDDLE
+                $this->addElementReference( 
+                    $label[2],
+                    $this->driver->drawTextBox(
+                        $label[1],
+                        new ezcGraphCoordinate(
+                            ( !$side ? $boundings->x0 : $labelPosition->x + $symbolSize ),
+                            $minHeight
+                        ),
+                        ( !$side ? $labelPosition->x - $boundings->x0 - $symbolSize : $boundings->x1 - $labelPosition->x - $symbolSize ),
+                        $labelHeight,
+                        ( !$side ? ezcGraph::RIGHT : ezcGraph::LEFT ) | ezcGraph::MIDDLE
+                    )
                 );
 
                 // Add used space to minHeight
@@ -257,10 +266,13 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
     {
         foreach ( $this->linePostSymbols as $symbol )
         {
-            $this->drawSymbol(
-                $symbol['boundings'],
-                $symbol['color'],
-                $symbol['symbol']
+            $this->addElementReference(
+                $symbol['context'],
+                $this->drawSymbol(
+                    $symbol['boundings'],
+                    $symbol['color'],
+                    $symbol['symbol']
+                )
             );
         }
     }
@@ -271,6 +283,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
      * Draws a bar as a data element in a line chart
      * 
      * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphContext $context Context of call
      * @param ezcGraphColor $color Color of line
      * @param ezcGraphCoordinate $position Position of data point
      * @param float $stepSize Space which can be used for bars
@@ -282,6 +295,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
      */
     public function drawBar(
         ezcGraphBoundings $boundings,
+        ezcGraphContext $context,
         ezcGraphColor $color,
         ezcGraphCoordinate $position,
         $stepSize,
@@ -315,10 +329,13 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
             ),
         );
 
-        $this->driver->drawPolygon(
-            $barPointArray,
-            $color,
-            true
+        $this->addElementReference(
+            $context,
+            $this->driver->drawPolygon(
+                $barPointArray,
+                $color,
+                true
+            )
         );
 
         if ( $this->options->dataBorder > 0 )
@@ -339,6 +356,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
      * Draws a line as a data element in a line chart
      * 
      * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphContext $context Context of call
      * @param ezcGraphColor $color Color of line
      * @param ezcGraphCoordinate $start Starting point
      * @param ezcGraphCoordinate $end Ending point
@@ -353,6 +371,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
      */
     public function drawDataLine(
         ezcGraphBoundings $boundings,
+        ezcGraphContext $context,
         ezcGraphColor $color,
         ezcGraphCoordinate $start,
         ezcGraphCoordinate $end,
@@ -481,6 +500,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                     $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y + $this->options->symbolSize / 2
                 ),
                 'color' => $symbolColor,
+                'context' => $context,
                 'symbol' => $symbol,
             );
         }
@@ -527,7 +547,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         $labelPosition = new ezcGraphCoordinate( $boundings->x0, $boundings->y0 );
         foreach ( $labels as $label )
         {
-            $this->drawSymbol(
+            $this->elements['legend'][$label['label']]['symbol'] = $this->drawSymbol(
                 new ezcGraphBoundings(
                     $labelPosition->x + $legend->padding,
                     $labelPosition->y + $legend->padding,
@@ -538,7 +558,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                 $label['symbol']
             );
 
-            $this->driver->drawTextBox(
+            $this->elements['legend'][$label['label']]['text'] = $this->driver->drawTextBox(
                 $label['label'],
                 new ezcGraphCoordinate(
                     $labelPosition->x + 2 * $legend->padding + $symbolSize,

@@ -23,9 +23,21 @@ abstract class ezcGraphRenderer
     
     protected $yAxisSpace = false;
 
+    protected $elements = array();
+
     public function setDriver( ezcGraphDriver $driver )
     {
         $this->driver = $driver;
+    }
+
+    protected function addElementReference( ezcGraphContext $context, $reference )
+    {
+        $this->elements['data'][$context->dataset][$context->datapoint][] = $reference;
+    }
+
+    public function getElementReferences()
+    {
+        return $this->elements;
     }
 
     /**
@@ -44,6 +56,8 @@ abstract class ezcGraphRenderer
             case 'xAxisSpace':
             case 'yAxisSpace':
                 return $this->$propertyName;
+            case 'elements':
+                return $this->elements;
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
         }
@@ -55,6 +69,7 @@ abstract class ezcGraphRenderer
      * Draws a single pie segment
      * 
      * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphContext $context Context of call
      * @param ezcGraphColor $color Color of pie segment
      * @param float $startAngle Start angle
      * @param float $endAngle End angle
@@ -64,6 +79,7 @@ abstract class ezcGraphRenderer
      */
     abstract public function drawPieSegment(
         ezcGraphBoundings $boundings,
+        ezcGraphContext $context,
         ezcGraphColor $color,
         $startAngle = .0,
         $endAngle = 360.,
@@ -77,6 +93,7 @@ abstract class ezcGraphRenderer
      * Draws a bar as a data element in a line chart
      * 
      * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphContext $context Context of call
      * @param ezcGraphColor $color Color of line
      * @param ezcGraphCoordinate $position Position of data point
      * @param float $stepSize Space which can be used for bars
@@ -88,6 +105,7 @@ abstract class ezcGraphRenderer
      */
     abstract public function drawBar(
         ezcGraphBoundings $boundings,
+        ezcGraphContext $context,
         ezcGraphColor $color,
         ezcGraphCoordinate $position,
         $stepSize,
@@ -103,6 +121,7 @@ abstract class ezcGraphRenderer
      * Draws a line as a data element in a line chart
      * 
      * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphContext $context Context of call
      * @param ezcGraphColor $color Color of line
      * @param ezcGraphCoordinate $start Starting point
      * @param ezcGraphCoordinate $end Ending point
@@ -117,6 +136,7 @@ abstract class ezcGraphRenderer
      */
     abstract public function drawDataLine(
         ezcGraphBoundings $boundings,
+        ezcGraphContext $context,
         ezcGraphColor $color,
         ezcGraphCoordinate $start,
         ezcGraphCoordinate $end,
@@ -268,7 +288,7 @@ abstract class ezcGraphRenderer
         switch ( $symbol )
         {
             case ezcGraph::NO_SYMBOL:
-                $this->driver->drawPolygon(
+                $return = $this->driver->drawPolygon(
                     array(
                         new ezcGraphCoordinate( $boundings->x0, $boundings->y0 ),
                         new ezcGraphCoordinate( $boundings->x1, $boundings->y0 ),
@@ -310,9 +330,9 @@ abstract class ezcGraphRenderer
                         true
                     );
                 }
-                break;
+                return $return;
             case ezcGraph::DIAMOND:
-                $this->driver->drawPolygon(
+                $return = $this->driver->drawPolygon(
                     array(
                         new ezcGraphCoordinate( 
                             $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2, 
@@ -372,9 +392,9 @@ abstract class ezcGraphRenderer
                         true
                     );
                 }
-                break;
+                return $return;
             case ezcGraph::BULLET:
-                $this->driver->drawCircle(
+                $return = $this->driver->drawCircle(
                     new ezcGraphCoordinate( 
                         $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2, 
                         $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2
@@ -410,9 +430,9 @@ abstract class ezcGraphRenderer
                         true
                     );
                 }
-                break;
+                return $return;
             case ezcGraph::CIRCLE:
-                $this->driver->drawCircle(
+                return $this->driver->drawCircle(
                     new ezcGraphCoordinate( 
                         $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2, 
                         $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2
@@ -422,7 +442,6 @@ abstract class ezcGraphRenderer
                     $color,
                     false
                 );
-                break;
         }
     }
 

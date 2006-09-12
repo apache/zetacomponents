@@ -55,6 +55,13 @@ class ezcGraphSvgDriver extends ezcGraphDriver
      */
     protected $drawnGradients = array();
 
+    /**
+     * Numeric unique element id
+     * 
+     * @var int
+     */
+    protected $elementID = 0;
+
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphSvgDriverOptions( $options );
@@ -297,8 +304,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             'style',
             $this->getStyle( $color, $filled, $thickness )
         );
-		
+        $path->setAttribute( 'id', $id = ( 'ezcGraphPolygon_' . ++$this->elementID ) );
 		$this->elements->appendChild( $path );
+
+        return $id;
     }
     
     /**
@@ -327,7 +336,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             $this->getStyle( $color, false, $thickness )
         );
 
+        $path->setAttribute( 'id', $id = ( 'ezcGraphLine_' . ++$this->elementID ) );
         $this->elements->appendChild( $path );
+
+        return $id;
     }
 
     protected function testFitStringInTextBox( $string, ezcGraphCoordinate $position, $width, $height, $size )
@@ -408,19 +420,18 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             }
         }
 
-        if ( is_array( $result ) )
-        {
-            $this->options->font->minimalUsedFont = $size;
+        $this->options->font->minimalUsedFont = $size;
+        $this->strings[] = array(
+            'text' => $result,
+            'id' => $id = ( 'ezcGraphTextBox_' . ++$this->elementID ),
+            'position' => $position,
+            'width' => $width,
+            'height' => $height,
+            'align' => $align,
+            'options' => $this->options->font,
+        );
 
-            $this->strings[] = array(
-                'text' => $result,
-                'position' => $position,
-                'width' => $width,
-                'height' => $height,
-                'align' => $align,
-                'options' => $this->options->font,
-            );
-        }
+        return $id;
     }
 
     protected function drawAllTexts()
@@ -476,6 +487,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 }
 
                 $textNode = $this->dom->createElement( 'text', $string );
+                $textNode->setAttribute( 'id', $text['id'] );
                 $textNode->setAttribute( 'x', $position->x + $this->options->graphOffset->x );
                 $textNode->setAttribute( 'text-length', ( $size * strlen( $string ) * $this->options->assumedCharacterWidth ) . 'px' );
                 $textNode->setAttribute( 'y', $position->y + $this->options->graphOffset->y );
@@ -551,7 +563,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             $this->getStyle( $color, $filled, 1 )
         );
         
+        $arc->setAttribute( 'id', $id = ( 'ezcGraphCircleSector_' . ++$this->elementID ) );
         $this->elements->appendChild( $arc );
+        
+        return $id;
     }
 
     /**
@@ -646,6 +661,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             $this->getStyle( $color, $filled )
         );
 
+        $arc->setAttribute( 'id', $id = ( 'ezcGraphCircularArc_' . ++$this->elementID ) );
         $this->elements->appendChild( $arc );
 
         if ( ( $this->options->shadeCircularArc !== false ) &&
@@ -692,6 +708,8 @@ class ezcGraphSvgDriver extends ezcGraphDriver
 
             $this->elements->appendChild( $arc );
         }
+
+        return $id;
     }
 
     /**
@@ -720,7 +738,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             $this->getStyle( $color, $filled, 1 )
         );
         
+        $ellipse->setAttribute( 'id', $id = ( 'ezcGraphCircle_' . ++$this->elementID ) );
         $this->elements->appendChild( $ellipse );
+
+        return $id;
     }
 
     /**
@@ -753,6 +774,9 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         );
 
         $this->elements->appendChild( $image );
+        $image->setAttribute( 'id', $id = ( 'ezcGraphImage_' . ++$this->elementID ) );
+
+        return $id;
     }
 
     /**

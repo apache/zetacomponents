@@ -35,6 +35,7 @@ class ezcGraphPieChart extends ezcGraphChart
     {
         // Only draw the first (and only) dataset
         $dataset = $this->data->rewind();
+        $datasetName = $this->data->key();
 
         $this->driver->options->font = $this->options->font;
 
@@ -53,6 +54,7 @@ class ezcGraphPieChart extends ezcGraphChart
                 case ezcGraph::PIE:
                     $renderer->drawPieSegment(
                         $boundings,
+                        new ezcGraphContext( $datasetName, $label ),
                         $dataset->color[$label],
                         $angle,
                         $angle += $value / $sum * 360,

@@ -73,6 +73,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
      * Draws a single pie segment
      * 
      * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphContext $context Context of call
      * @param ezcGraphColor $color Color of pie segment
      * @param float $startAngle Start angle
      * @param float $endAngle End angle
@@ -82,6 +83,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
      */
     public function drawPieSegment(
         ezcGraphBoundings $boundings,
+        ezcGraphContext $context,
         ezcGraphColor $color,
         $startAngle = .0,
         $endAngle = 360.,
@@ -119,6 +121,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         // Add circle sector to queue
         $this->circleSectors[] = array(
             'center' =>     $center,
+            'context' =>    $context,
             'width' =>      $radius * 2,
             'height' =>     $radius * 2 * $this->options->pieChartRotation - $this->options->pieChartHeight,
             'start' =>      $startAngle,
@@ -139,7 +142,8 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
             // y position
             $this->pieSegmentLabels[(int) ($pieSegmentCenter->x > $center->x)][$pieSegmentCenter->y] = array(
                 clone $pieSegmentCenter,
-                $label
+                $label,
+                $context,
             );
         }
 
@@ -248,15 +252,17 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                     );
                 }
 
-                $this->driver->drawTextBox(
-                    $label[1],
-                    new ezcGraphCoordinate(
-                        ( !$side ? $boundings->x0 : $labelPosition->x + $symbolSize ),
-                        $minHeight
-                    ),
-                    ( !$side ? $labelPosition->x - $boundings->x0 - $symbolSize : $boundings->x1 - $labelPosition->x - $symbolSize ),
-                    $labelHeight,
-                    ( !$side ? ezcGraph::RIGHT : ezcGraph::LEFT ) | ezcGraph::MIDDLE
+                $this->addElementReference( $label[2], 
+                    $this->driver->drawTextBox(
+                        $label[1],
+                        new ezcGraphCoordinate(
+                            ( !$side ? $boundings->x0 : $labelPosition->x + $symbolSize ),
+                            $minHeight
+                        ),
+                        ( !$side ? $labelPosition->x - $boundings->x0 - $symbolSize : $boundings->x1 - $labelPosition->x - $symbolSize ),
+                        $labelHeight,
+                        ( !$side ? ezcGraph::RIGHT : ezcGraph::LEFT ) | ezcGraph::MIDDLE
+                    )
                 );
 
                 // Add used space to minHeight
@@ -453,14 +459,16 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         // Draw circle sector for front
         foreach ( $this->circleSectors as $circleSector )
         {
-            $this->driver->drawCircleSector(
-                $circleSector['center'],
-                $circleSector['width'],
-                $circleSector['height'],
-                $circleSector['start'],
-                $circleSector['end'],
-                $circleSector['color'],
-                true
+            $this->addElementReference( $circleSector['context'],
+                $this->driver->drawCircleSector(
+                    $circleSector['center'],
+                    $circleSector['width'],
+                    $circleSector['height'],
+                    $circleSector['start'],
+                    $circleSector['end'],
+                    $circleSector['color'],
+                    true
+                )
             );
 
             if ( $this->options->pieChartGleam !== false )
@@ -541,10 +549,12 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
     {
         foreach ( $this->linePostSymbols as $symbol )
         {
-            $this->drawSymbol(
-                $symbol['boundings'],
-                $symbol['color'],
-                $symbol['symbol']
+            $this->addElementReference( $symbol['context'],
+                $this->drawSymbol(
+                    $symbol['boundings'],
+                    $symbol['color'],
+                    $symbol['symbol']
+                )
             );
         }
     }
@@ -555,6 +565,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
      * Draws a bar as a data element in a line chart
      * 
      * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphContext $context Context of call
      * @param ezcGraphColor $color Color of line
      * @param ezcGraphCoordinate $position Position of data point
      * @param float $stepSize Space which can be used for bars
@@ -566,6 +577,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
      */
     public function drawBar(
         ezcGraphBoundings $boundings,
+        ezcGraphContext $context,
         ezcGraphColor $color,
         ezcGraphCoordinate $position,
         $stepSize,
@@ -610,6 +622,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 $this->barPostProcessing[] = array(
                     'index' => $barPolygonArray[2]->x,
                     'method' => 'drawPolygon',
+                    'context' => $context,
                     'parameters' => array(
                         array(
                             $this->get3dCoordinate( $barPolygonArray[2], $startDepth ),
@@ -626,6 +639,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 $this->barPostProcessing[] = array(
                     'index' => $barPolygonArray[1]->x,
                     'method' => 'drawPolygon',
+                    'context' => $context,
                     'parameters' => array(
                         ( $barPolygonArray[1]->y < $barPolygonArray[3]->y
                         ?   array(
@@ -652,6 +666,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                     $this->barPostProcessing[] = array(
                         'index' => $barPolygonArray[1]->x + 1,
                         'method' => 'drawPolygon',
+                        'context' => $context,
                         'parameters' => array(
                             ( $barPolygonArray[1]->y < $barPolygonArray[3]->y
                             ?   array(
@@ -688,6 +703,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 $this->barPostProcessing[] = array(
                     'index' => $barPolygonArray[1]->x,
                     'method' => 'drawPolygon',
+                    'context' => $context,
                     'parameters' => array(
                         array(
                             $this->get3dCoordinate( $barPolygonArray[0], $startDepth ),
@@ -706,6 +722,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                     $this->barPostProcessing[] = array(
                         'index' => $barPolygonArray[1]->x + 1,
                         'method' => 'drawPolygon',
+                        'context' => $context,
                         'parameters' => array(
                             array(
                                 $this->get3dCoordinate( $barPolygonArray[0], $startDepth ),
@@ -745,6 +762,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 $this->barPostProcessing[] = array(
                     'index' => $barCoordinateArray['x'][0],
                     'method' => 'drawPolygon',
+                    'context' => $context,
                     'parameters' => array(
                         array(
                             $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][0], $barCoordinateArray['y'][0] ), $midDepth ),
@@ -761,6 +779,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 $this->barPostProcessing[] = array(
                     'index' => $barCoordinateArray['x'][1],
                     'method' => 'drawPolygon',
+                    'context' => $context,
                     'parameters' => array(
                         array(
                             $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][2], $barCoordinateArray['y'][0] ), $midDepth ),
@@ -782,6 +801,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 $this->barPostProcessing[] = array(
                     'index' => $barCoordinateArray['x'][0],
                     'method' => 'drawPolygon',
+                    'context' => $context,
                     'parameters' => array(
                         array(
                             $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][1], $topLocation ), $startDepth ),
@@ -800,6 +820,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                     $this->barPostProcessing[] = array(
                         'index' => $barCoordinateArray['x'][0] + 1,
                         'method' => 'drawPolygon',
+                        'context' => $context,
                         'parameters' => array(
                             array(
                                 $this->get3dCoordinate( new ezcGraphCoordinate( $barCoordinateArray['x'][1], $topLocation ), $startDepth ),
@@ -840,6 +861,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 $this->barPostProcessing[] = array(
                     'index' => $barCenterBottom->x,
                     'method' => 'drawCircularArc',
+                    'context' => $context,
                     'parameters' => array(
                         $this->get3dCoordinate( $barCenterTop, $midDepth ),
                         $barWidth,
@@ -854,6 +876,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 $this->barPostProcessing[] = array(
                     'index' => $barCenterBottom->x + 1,
                     'method' => 'drawCircle',
+                    'context' => $context,
                     'parameters' => array(
                         $top = $this->get3dCoordinate( $barCenterTop, $midDepth ),
                         $barWidth,
@@ -901,9 +924,11 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
 
         foreach ( $this->barPostProcessing as $bar )
         {
-            call_user_func_array(
-                array( $this->driver, $bar['method'] ),
-                $bar['parameters']
+            $this->addElementReference( $bar['context'],
+                call_user_func_array(
+                    array( $this->driver, $bar['method'] ),
+                    $bar['parameters']
+                )
             );
         }
     }
@@ -914,6 +939,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
      * Draws a line as a data element in a line chart
      * 
      * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphContext $context Context of call
      * @param ezcGraphColor $color Color of line
      * @param ezcGraphCoordinate $start Starting point
      * @param ezcGraphCoordinate $end Ending point
@@ -928,6 +954,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
      */
     public function drawDataLine(
         ezcGraphBoundings $boundings,
+        ezcGraphContext $context,
         ezcGraphColor $color,
         ezcGraphCoordinate $start,
         ezcGraphCoordinate $end,
@@ -1092,6 +1119,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                     $linePolygonPoints[2]->y + $this->options->symbolSize / 2
                 ),
                 'color' => $symbolColor,
+                'context' => $context,
                 'symbol' => $symbol,
             );
         }
@@ -1138,7 +1166,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         $labelPosition = new ezcGraphCoordinate( $boundings->x0, $boundings->y0 );
         foreach ( $labels as $label )
         {
-            $this->drawSymbol(
+            $this->elements['legend'][$label['label']]['symbol'] = $this->drawSymbol(
                 new ezcGraphBoundings(
                     $labelPosition->x + $legend->padding,
                     $labelPosition->y + $legend->padding,
@@ -1149,7 +1177,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 $label['symbol']
             );
 
-            $this->driver->drawTextBox(
+            $this->elements['legend'][$label['label']]['text'] = $this->driver->drawTextBox(
                 $label['label'],
                 new ezcGraphCoordinate(
                     $labelPosition->x + 2 * $legend->padding + $symbolSize,

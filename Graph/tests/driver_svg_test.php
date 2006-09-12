@@ -113,7 +113,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
-        $this->driver->drawPolygon(
+        $return = $this->driver->drawPolygon(
             array( 
                 new ezcGraphCoordinate( 45, 12 ),
                 new ezcGraphCoordinate( 122, 34 ),
@@ -128,6 +128,12 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         $this->compare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+
+        $this->assertEquals(
+            'ezcGraphPolygon_1',
+            $return,
+            'Expected xml id as return value.'
         );
     }
 
@@ -181,7 +187,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
-        $this->driver->drawCircleSector(
+        $return = $this->driver->drawCircleSector(
             new ezcGraphCoordinate( 100, 50 ),
             80,
             40,
@@ -195,6 +201,12 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         $this->compare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+        
+        $this->assertEquals(
+            'ezcGraphCircleSector_1',
+            $return,
+            'Expected xml id as return value.'
         );
     }
 
@@ -266,7 +278,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
-        $this->driver->drawCircularArc(
+        $return = $this->driver->drawCircularArc(
             new ezcGraphCoordinate( 100, 50 ),
             150,
             80,
@@ -281,6 +293,12 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         $this->compare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+        
+        $this->assertEquals(
+            'ezcGraphCircularArc_1',
+            $return,
+            'Expected xml id as return value.'
         );
     }
 
@@ -355,7 +373,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
-        $this->driver->drawCircle(
+        $return = $this->driver->drawCircle(
             new ezcGraphCoordinate( 100, 50 ),
             80,
             40,
@@ -367,6 +385,12 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         $this->compare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+        
+        $this->assertEquals(
+            'ezcGraphCircle_1',
+            $return,
+            'Expected xml id as return value.'
         );
     }
 
@@ -394,7 +418,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
-        $this->driver->drawImage(
+        $return = $this->driver->drawImage(
             $this->basePath . $this->testFiles['jpeg'],
             new ezcGraphCoordinate( 10, 10 ),
             100,
@@ -406,6 +430,12 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         $this->compare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+        
+        $this->assertEquals(
+            'ezcGraphImage_1',
+            $return,
+            'Expected xml id as return value.'
         );
     }
 
@@ -442,7 +472,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
             ezcGraphColor::fromHex( '#eeeeec' ),
             true
         );
-        $this->driver->drawTextBox(
+        $return = $this->driver->drawTextBox(
             'Short',
             new ezcGraphCoordinate( 10, 10 ),
             150,
@@ -455,6 +485,12 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         $this->compare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+        
+        $this->assertEquals(
+            'ezcGraphTextBox_2',
+            $return,
+            'Expected xml id as return value.'
         );
     }
 

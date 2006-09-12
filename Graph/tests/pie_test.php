@@ -126,6 +126,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
             ->method( 'drawPieSegment' )
             ->with(
                 $this->equalTo( new ezcGraphBoundings( 80, 0, 400, 200 ) ),
+                $this->equalTo( new ezcGraphContext( 'sample', 'Mozilla' ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#4E9A06' ) ),
                 $this->equalTo( 0., 1. ),
                 $this->equalTo( 220.5, .1 ),
@@ -137,7 +138,8 @@ class ezcGraphPieChartTest extends ezcImageTestCase
             ->method( 'drawPieSegment' )
             ->with(
                 $this->equalTo( new ezcGraphBoundings( 80, 0, 400, 200 ) ),
-               $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                $this->equalTo( new ezcGraphContext( 'sample', 'IE' ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
                 $this->equalTo( 220.5, .1 ),
                 $this->equalTo( 238., 1. ),
                 $this->equalTo( 'IE: 345 (4.8%)' ),
@@ -148,6 +150,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
             ->method( 'drawPieSegment' )
             ->with(
                 $this->equalTo( new ezcGraphBoundings( 80, 0, 400, 200 ) ),
+                $this->equalTo( new ezcGraphContext( 'sample', 'Opera' ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#EDD400' ) ),
                 $this->equalTo( 238., 1. ),
                 $this->equalTo( 298.6, 1. ),
@@ -159,6 +162,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
             ->method( 'drawPieSegment' )
             ->with(
                 $this->equalTo( new ezcGraphBoundings( 80, 0, 400, 200 ) ),
+                $this->equalTo( new ezcGraphContext( 'sample', 'wget' ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#75505B' ) ),
                 $this->equalTo( 298.6, 1. ),
                 $this->equalTo( 310., 1. ),
@@ -170,6 +174,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
             ->method( 'drawPieSegment' )
             ->with(
                 $this->equalTo( new ezcGraphBoundings( 80, 0, 400, 200 ) ),
+                $this->equalTo( new ezcGraphContext( 'sample', 'Safari' ) ),
                 $this->equalTo( ezcGraphColor::fromHex( '#F57900' ) ),
                 $this->equalTo( 310., 1. ),
                 $this->equalTo( 360., 1. ),

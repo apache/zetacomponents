@@ -170,6 +170,8 @@ class ezcGraphGdDriver extends ezcGraphDriver
         {
             imagepolygon( $image, $pointArray, $pointCount, $drawColor );
         }
+
+        return $points;
     }
     
     /**
@@ -204,6 +206,8 @@ class ezcGraphGdDriver extends ezcGraphDriver
             $this->image, 
             $this->options->supersampling
         );
+
+        return array();
     }
     
     /**
@@ -415,6 +419,13 @@ class ezcGraphGdDriver extends ezcGraphDriver
         {
             throw new ezcGraphFontRenderingException( $string, $this->options->font->minFontSize, $width, $height );
         }
+
+        return array(
+            clone $position,
+            new ezcGraphCoordinate( $position->x + $width, $position->y ),
+            new ezcGraphCoordinate( $position->x + $width, $position->y + $height ),
+            new ezcGraphCoordinate( $position->x, $position->y + $height ),
+        );
     }
     
     protected function drawAllTexts()
@@ -546,6 +557,26 @@ class ezcGraphGdDriver extends ezcGraphDriver
                 IMG_ARC_PIE | IMG_ARC_NOFILL | IMG_ARC_EDGED
             );
         }
+
+        // Create polygon array to return
+        $polygonArray = array( $center );
+        for ( $angle = $startAngle; $angle < $endAngle; $angle += $this->options->imageMapResolution )
+        {
+            $polygonArray[] = new ezcGraphCoordinate(
+                $center->x + 
+                    ( ( cos( deg2rad( $angle ) ) * $width ) / 2 ),
+                $center->y + 
+                    ( ( sin( deg2rad( $angle ) ) * $height ) / 2 )
+            );
+        }
+        $polygonArray[] = new ezcGraphCoordinate(
+            $center->x + 
+                ( ( cos( deg2rad( $endAngle ) ) * $width ) / 2 ),
+            $center->y + 
+                ( ( sin( deg2rad( $endAngle ) ) * $height ) / 2 )
+        );
+
+        return $polygonArray;
     }
 
     /**
@@ -680,6 +711,42 @@ class ezcGraphGdDriver extends ezcGraphDriver
                 IMG_ARC_PIE | IMG_ARC_NOFILL
             );
         }
+
+        // Create polygon array to return
+        $polygonArray = array();
+        for ( $angle = $startAngle; $angle < $endAngle; $angle += $this->options->imageMapResolution )
+        {
+            $polygonArray[] = new ezcGraphCoordinate(
+                $center->x + 
+                    ( ( cos( deg2rad( $angle ) ) * $width ) / 2 ),
+                $center->y + 
+                    ( ( sin( deg2rad( $angle ) ) * $height ) / 2 )
+            );
+        }
+        $polygonArray[] = new ezcGraphCoordinate(
+            $center->x + 
+                ( ( cos( deg2rad( $endAngle ) ) * $width ) / 2 ),
+            $center->y + 
+                ( ( sin( deg2rad( $endAngle ) ) * $height ) / 2 )
+        );
+
+        for ( $angle = $endAngle; $angle > $startAngle; $angle -= $this->options->imageMapResolution )
+        {
+            $polygonArray[] = new ezcGraphCoordinate(
+                $center->x + 
+                    ( ( cos( deg2rad( $angle ) ) * $width ) / 2 ) + $size,
+                $center->y + 
+                    ( ( sin( deg2rad( $angle ) ) * $height ) / 2 )
+            );
+        }
+        $polygonArray[] = new ezcGraphCoordinate(
+            $center->x + 
+                ( ( cos( deg2rad( $startAngle ) ) * $width ) / 2 ) + $size,
+            $center->y + 
+                ( ( sin( deg2rad( $startAngle ) ) * $height ) / 2 )
+        );
+
+        return $polygonArray;
     }
     
     /**
@@ -721,6 +788,19 @@ class ezcGraphGdDriver extends ezcGraphDriver
                 $drawColor 
             );
         }
+
+        $polygonArray = array();
+        for ( $angle = 0; $angle < 360; $angle += $this->options->imageMapResolution )
+        {
+            $polygonArray[] = new ezcGraphCoordinate(
+                $center->x + 
+                    ( ( cos( deg2rad( $angle ) ) * $width ) / 2 ),
+                $center->y + 
+                    ( ( sin( deg2rad( $angle ) ) * $height ) / 2 )
+            );
+        }
+
+        return $polygonArray;
     }
     
     /**
@@ -739,6 +819,13 @@ class ezcGraphGdDriver extends ezcGraphDriver
             'position' => clone $position,
             'width' => $width,
             'height' => $height,
+        );
+
+        return array(
+            $position,
+            new ezcGraphCoordinate( $position->x + $width, $position->y ),
+            new ezcGraphCoordinate( $position->x + $width, $position->y + $height ),
+            new ezcGraphCoordinate( $position->x, $position->y + $height ),
         );
     }
 
