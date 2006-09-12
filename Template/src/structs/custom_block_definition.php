@@ -7,7 +7,6 @@ class ezcTemplateCustomBlockDefinition extends ezcTemplateCustomExtension
 
     public $hasCloseTag;
 
-    public $hasStartExpression;
     public $startExpressionName;
     public $optionalParameters = array();
     public $requiredParameters = array();
