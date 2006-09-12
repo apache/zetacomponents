@@ -5,9 +5,9 @@
   exception message.
 - Fixed bug #8511: @access private for the 'id generator' classes.
 - Fixed bug #8663: Undeclared property "type" used instead of "propertyType"
-- Fixed bug #8340: Column names are not escaped.
   in ezcPersistentObjectProperty.  This property is not used until now. And
   causes no change in the usage of the system.
+- Fixed bug #8340: Column names are not escaped.
 - Implemented suggestion #8526: Allow retrieving of the database handler and
   definition manager through the database and definitionManager properties of
   the ezcPersistentObjectSession class to help with transaction support.
