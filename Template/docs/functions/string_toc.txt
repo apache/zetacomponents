@@ -31,7 +31,6 @@ String functions
 * string str_prepend_ ( string *$s1*, string *$s2* )
 * string str_remove_ ( string *$before*, int *$index*, int *$length*)
 * string str_replace_ ( string *$before*, int *$index*, int *$length*, string *$replace*)
-* string str_replace_ ( string *$before*, int *$index*, int *$length*, string *$replace*)
 * string str_reverse_ ( string *$str* )
 * string str_right_ ( string *$str*, int *$length* )
 * string str_simplify_ ( string *$str* )
