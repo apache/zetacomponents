@@ -43,6 +43,19 @@ class ezcImageConversionTestCase extends ezcImageTestCase
         }
     }
 
+    /**
+     * setUp 
+     * 
+     * @access public
+     */
+    public function setUp()
+    {
+        if ( !extension_loaded( 'gd' ) )
+        {
+            $this->markTestSkipped( 'ext/gd is required to run this test.' );
+        }
+    }
+
     protected function getTempPath( $index = "" )
     {
         return ezcImageConversionTestCase::REGENERATION_MODE === true

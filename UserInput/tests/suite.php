@@ -27,11 +27,6 @@ class ezcUserInputSuite extends ezcTestSuite
         $this->addTest( ezcInputFilterDefinitionTest::suite() );
     }
 
-    public static function canRun()
-    {
-        return extension_loaded( 'filter' );
-    }
-
     public static function suite()
     {
         return new ezcUserInputSuite();

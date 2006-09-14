@@ -10,6 +10,19 @@
 
 class ezcInputFilterDefinitionTest extends ezcTestCase
 {
+    /**
+     * setUp 
+     * 
+     * @access public
+     */
+    public function setUp()
+    {
+        if ( !extension_loaded( 'filter' ) )
+        {
+            $this->markTestSkipped( 'ext/filter is required to run this test.' );
+        }
+    }
+
     public function testValidateDefinitionArray()
     {
         // The definition parameter should be an array

@@ -29,11 +29,6 @@ class ezcImageAnalysisSuite extends ezcTestSuite
         $this->addTest( ezcImageAnalysisAnalyzerTest::suite() );
     }
 
-    public static function canRun()
-    {
-        return extension_loaded( 'exif' );
-    }
-
     public static function suite()
     {
         return new ezcImageAnalysisSuite( "ezcImageAnalysisSuite" );

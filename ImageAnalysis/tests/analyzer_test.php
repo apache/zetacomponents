@@ -42,6 +42,11 @@ class ezcImageAnalysisAnalyzerTest extends ezcTestCase
      */
     public function setUp()
     {
+        if ( !extension_loaded( 'exif' ) )
+        {
+            $this->markTestSkipped( 'ext/exif is required to run this test.' );
+        }
+
         $this->basePath = dirname( __FILE__ ) . '/data/';
     }
 

@@ -59,11 +59,6 @@ class ezcImageConversionSuite extends ezcTestSuite
         $this->addTest( ezcImageConversionFiltersShellTest::suite() );
     }
 
-    static public function canRun()
-    {
-        return extension_loaded( 'gd' );
-    }
-
     public static function suite()
     {
         return new ezcImageConversionSuite( "ezcImageConversionSuite" );

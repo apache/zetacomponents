@@ -349,17 +349,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
             require_once( $suitePath );
 
             $className = "ezc". $package . "Suite";
-           
-            if ( method_exists( $className, "canRun" ) )
-            {
-                $canRun = call_user_func( array( $className, 'canRun' ) );
-                if ( $canRun == false )
-                {
-                    print( "\n  Skipped: $className because the requirements for this test are not met. canRun() method returned false." );
-                    return null;
-                }
-            }
-            
+
             $s = call_user_func( array( $className, 'suite' ) );
 
             return $s;
