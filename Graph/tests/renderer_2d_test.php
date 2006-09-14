@@ -482,8 +482,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->expects( $this->at( 2 ) )
             ->method( 'drawLine' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 40., 160. ), 1. ),
-                $this->equalTo( new ezcGraphCoordinate( 280., 60. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 40., 40. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 280., 140. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
                 $this->equalTo( 1 )
             );
@@ -618,8 +618,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->expects( $this->at( 2 ) )
             ->method( 'drawLine' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 40., 160. ), 1. ),
-                $this->equalTo( new ezcGraphCoordinate( 280., 60. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 40., 40. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 280., 140. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
                 $this->equalTo( 1 )
             );
@@ -627,7 +627,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->expects( $this->at( 3 ) )
             ->method( 'drawCircle' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 280, 60 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 280, 140 ) ),
                 $this->equalTo( 6 ),
                 $this->equalTo( 6 ),
                 $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
@@ -647,6 +647,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ezcGraphColor::fromHex( '#FF0000DD' ), 
             .5
         );
+        $this->renderer->render( 400, 200, $this->tempDir . __METHOD__ . 'svg' );
     }
 
     public function testRenderFilledDataLineWithSymbolInDifferentColorAndCustomSize()
@@ -679,8 +680,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->expects( $this->at( 2 ) )
             ->method( 'drawLine' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 40., 160. ), 1. ),
-                $this->equalTo( new ezcGraphCoordinate( 280., 60. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 40., 40. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 280., 140. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
                 $this->equalTo( 1 )
             );
@@ -688,7 +689,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->expects( $this->at( 3 ) )
             ->method( 'drawCircle' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 280, 60 ) ),
+                $this->equalTo( new ezcGraphCoordinate( 280, 140 ) ),
                 $this->equalTo( 10 ),
                 $this->equalTo( 10 ),
                 $this->equalTo( ezcGraphColor::fromHex( '#00FF00' ) ),
@@ -710,6 +711,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ezcGraphColor::fromHex( '#FF0000DD' ), 
             .5
         );
+        $this->renderer->render( 400, 200, $this->tempDir . __METHOD__ . 'svg' );
     }
 
     public function testRenderBox()
