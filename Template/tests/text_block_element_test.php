@@ -19,14 +19,6 @@ class ezcTemplateTextBlockElementTest extends ezcTestCase
          return new ezcTestSuite( "ezcTemplateTextBlockElementTest" );
     }
 
-    public function setUp()
-    {
-    }
-
-    public function tearDown()
-    {
-    }
-
     /**
      * Test if escaped braces are properly handled in text blocks.
      */

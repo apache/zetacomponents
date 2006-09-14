@@ -23,7 +23,8 @@ class ezcQueryExpressionTest extends ezcTestCase
     private $q;
     private $e;
     private $db;
-    public function setUp()
+
+    protected function setUp()
     {
         try {
             $this->db = ezcDbInstance::get();
@@ -51,7 +52,7 @@ class ezcQueryExpressionTest extends ezcTestCase
         $this->db->exec( "INSERT INTO query_test VALUES ( 4, 'IBM', 'Germany', null )" );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->db->exec( 'DROP TABLE query_test' );
     }

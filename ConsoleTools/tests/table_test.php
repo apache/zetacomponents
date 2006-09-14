@@ -47,12 +47,7 @@ class ezcConsoleToolsTableTest extends ezcTestCase
 		return new ezcTestSuite( "ezcConsoleToolsTableTest" );
 	}
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         $this->output = new ezcConsoleOutput();
         $formats = array(
@@ -80,15 +75,6 @@ class ezcConsoleToolsTableTest extends ezcTestCase
                 $this->output->formats->$name->$type = $val;
             }
         }
-    }
-
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
-    {
     }
 
     public function testTable1a()

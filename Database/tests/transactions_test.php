@@ -49,7 +49,7 @@ class MyDB
  */
 class ezcDatabaseTransactionsTest extends ezcTestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         try
         {

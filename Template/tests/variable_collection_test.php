@@ -20,20 +20,6 @@ class ezcTemplateVariableCollectionTest extends ezcTestCase
     }
 
     /**
-     * Creates a set of variables and a collection for testing.
-     */
-    public function setUp()
-    {
-    }
-
-    /**
-     * Unsets all variables
-     */
-    public function tearDown()
-    {
-    }
-
-    /**
      * Test default constructor values
      */
     public function testDefault()

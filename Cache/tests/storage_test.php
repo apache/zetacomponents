@@ -73,24 +73,14 @@ abstract class ezcCacheStorageTest extends ezcTestCase
        10 => 12.3746,
     );
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         // Class name == <inheriting class> - "Test"
         $storageClass = ( $this->storageClass = substr( get_class( $this ), 0, strlen( get_class(  $this ) ) - 4 ) );
         $this->storage = new $storageClass( $this->createTempDir( 'ezcCacheTest' ) );
     }
 
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
+    protected function tearDown()
     {
         $this->removeTempDir();
     }

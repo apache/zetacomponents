@@ -24,7 +24,7 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
 		return new ezcTestSuite( "ezcImageConversionConverterTest" );
 	}
 
-    public function setUp()
+    protected function setUp()
     {
         try
         {
@@ -45,7 +45,7 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
         }
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset( $this->converter );
     }

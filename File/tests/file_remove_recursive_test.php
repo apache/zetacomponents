@@ -10,7 +10,7 @@
 
 class ezcFileRemoveRecursiveTest extends ezcTestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $this->tempDir = $this->createTempDir( 'ezcFileRemoveFileRecursiveTest' );
         mkdir( $this->tempDir . '/dir1' );
@@ -40,7 +40,7 @@ class ezcFileRemoveRecursiveTest extends ezcTestCase
         chmod( $this->tempDir . '/dir6', 0400 );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         chmod( $this->tempDir . '/dir5', 0700 );
         chmod( $this->tempDir . '/dir6', 0700 );

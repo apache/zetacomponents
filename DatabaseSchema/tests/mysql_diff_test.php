@@ -14,18 +14,7 @@
  */
 class ezcDatabaseSchemaMySqlDiffTest extends ezcTestCase
 {
-    private function resetDb()
-    {
-        $tables = $this->db->query( "SHOW TABLES" )->fetchAll();
-        array_walk( $tables, create_function( '&$item,$key', '$item = $item[0];' ) );
-
-        foreach ( $tables as $tableName )
-        {
-            $this->db->query( "DROP TABLE $tableName" );
-        }
-    }
-
-    public function setUp()
+    protected function setUp()
     {
         try
         {
@@ -41,9 +30,20 @@ class ezcDatabaseSchemaMySqlDiffTest extends ezcTestCase
         $this->resetDb();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->removeTempDir();
+    }
+
+    private function resetDb()
+    {
+        $tables = $this->db->query( "SHOW TABLES" )->fetchAll();
+        array_walk( $tables, create_function( '&$item,$key', '$item = $item[0];' ) );
+
+        foreach ( $tables as $tableName )
+        {
+            $this->db->query( "DROP TABLE $tableName" );
+        }
     }
 
     private static function getSchema1()

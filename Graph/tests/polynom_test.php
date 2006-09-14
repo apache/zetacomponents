@@ -17,29 +17,10 @@
  */
 class ezcGraphPolynomTest extends ezcTestCase
 {
-
 	public static function suite()
 	{
 		return new ezcTestSuite( "ezcGraphPolynomTest" );
 	}
-
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
-    {
-    }
-
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
-    {
-    }
 
     public function testCreatePolynom()
     {

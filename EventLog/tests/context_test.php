@@ -4,7 +4,7 @@ class ezcLogContextTest extends ezcTestCase
 {
     protected $context;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->context = new ezcLogContext();
     }

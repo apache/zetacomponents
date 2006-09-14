@@ -173,12 +173,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
 		return new ezcTestSuite( "ezcConsoleToolsInputTest" );
 	}
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         $this->consoleParameter = new ezcConsoleInput();
         foreach ( $this->testParams as $paramData )
@@ -213,12 +208,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         return $param;
     }
 
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
+    protected function tearDown()
     {
         unset( $this->consoleParameter );
     }

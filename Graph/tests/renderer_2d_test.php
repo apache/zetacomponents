@@ -17,7 +17,6 @@
  */
 class ezcGraphRenderer2dTest extends ezcTestCase
 {
-
     protected $basePath;
 
     protected $tempDir;
@@ -31,18 +30,14 @@ class ezcGraphRenderer2dTest extends ezcTestCase
 	    return new ezcTestSuite( "ezcGraphRenderer2dTest" );
 	}
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         static $i = 0;
         if ( version_compare( phpversion(), '5.1.3', '<' ) )
         {
-            $this->markTestSkipped( "These tests required atleast PHP 5.1.3" );
+            $this->markTestSkipped( "This test requires PHP 5.1.3 or later." );
         }
+
         $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
         $this->basePath = dirname( __FILE__ ) . '/data/';
 
@@ -63,12 +58,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         $this->driver->options->height = 200;
     }
 
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
+    protected function tearDown()
     {
         if ( !$this->hasFailed() )
         {

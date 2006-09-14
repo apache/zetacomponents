@@ -5,7 +5,7 @@ class ezcLogFilterSetTest extends ezcTestCase
 {
 	private $map;
 
-	public function setUp()
+	protected function setUp()
 	{
 		$this->map = new ezcLogFilterSet();
 	}

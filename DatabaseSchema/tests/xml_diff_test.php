@@ -14,13 +14,13 @@
  */
 class ezcDatabaseSchemaXmlDiffTest extends ezcTestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $this->testFilesDir = dirname( __FILE__ ) . '/testfiles/';
         $this->tempDir = $this->createTempDir( 'ezcDatabaseXmlTest' );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->removeTempDir();
     }

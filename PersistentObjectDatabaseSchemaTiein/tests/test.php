@@ -29,18 +29,9 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
      * 
      * @access public
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->results = require dirname( __FILE__ ) . "/data.php";
-    }
-
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
-    {
     }
 
     public function testNoParameters()

@@ -16,7 +16,6 @@
  */
 class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
 {
-
     protected $testFiltersSuccess = array();
 
     protected $testFiltersFailure = array();
@@ -28,12 +27,7 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
 		return new ezcTestSuite( "ezcImageConversionTransformationTest" );
 	}
 
-    /**
-     * setUp
-     *
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         try
         {
@@ -155,7 +149,7 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
         }
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset( $this->converter );
     }

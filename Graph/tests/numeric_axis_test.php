@@ -17,29 +17,10 @@
  */
 class ezcGraphNumericAxisTest extends ezcTestCase
 {
-
 	public static function suite()
 	{
 		return new ezcTestSuite( "ezcGraphNumericAxisTest" );
 	}
-
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
-    {
-    }
-
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
-    {
-    }
 
     public function testFactoryNumericAxis()
     {

@@ -17,7 +17,6 @@
  */
 class ezcGraphFontTest extends ezcTestCase
 {
-
     protected $basePath;
 
 	public static function suite()
@@ -25,23 +24,9 @@ class ezcGraphFontTest extends ezcTestCase
 		return new ezcTestSuite( "ezcGraphFontTest" );
 	}
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         $this->basePath = dirname( __FILE__ ) . '/data/';
-    }
-
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
-    {
     }
 
     public function testSetGeneralFont()

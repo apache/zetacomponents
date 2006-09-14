@@ -17,7 +17,6 @@
  */
 class ezcGraphPieChartTest extends ezcImageTestCase
 {
-
     protected $basePath;
 
     protected $tempDir;
@@ -27,12 +26,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
 		return new ezcTestSuite( "ezcGraphPieChartTest" );
 	}
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         static $i = 0;
         if ( version_compare( phpversion(), '5.1.3', '<' ) )
@@ -43,12 +37,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         $this->basePath = dirname( __FILE__ ) . '/data/';
     }
 
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
+    protected function tearDown()
     {
         $this->removeTempDir();
     }

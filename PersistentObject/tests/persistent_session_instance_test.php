@@ -18,7 +18,7 @@ class ezcPersistentSessionInstanceTest extends ezcTestCase
 {
     private $default;
 
-    public function setUp()
+    protected function setUp()
     {
         try
         {
@@ -28,10 +28,6 @@ class ezcPersistentSessionInstanceTest extends ezcTestCase
         {
             $this->markTestSkipped( 'There was no database configured' );
         }
-    }
-
-    public function tearDown()
-    {
     }
 
     public function testGetWithIdentifierValid()

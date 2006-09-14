@@ -17,7 +17,6 @@
  */
 class ezcGraphDateAxisTest extends ezcTestCase
 {
-
     protected $chart;
 
 	public static function suite()
@@ -25,12 +24,7 @@ class ezcGraphDateAxisTest extends ezcTestCase
 		return new ezcTestSuite( "ezcGraphDateAxisTest" );
 	}
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         date_default_timezone_set( 'Europe/Berlin' );
 
@@ -38,12 +32,7 @@ class ezcGraphDateAxisTest extends ezcTestCase
         $this->chart->xAxis = new ezcGraphChartElementDateAxis();
     }
 
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
+    protected function tearDown()
     {
         unset( $this->chart );
     }

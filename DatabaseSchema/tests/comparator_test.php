@@ -14,7 +14,7 @@
  */
 class ezcDatabaseSchemaComparatorTest extends ezcTestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         try
         {

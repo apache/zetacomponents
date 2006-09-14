@@ -17,7 +17,6 @@
  */
 class ezcGraphImageMapTest extends ezcTestCase
 {
-
     protected $basePath;
 
     protected $tempDir;
@@ -31,24 +30,14 @@ class ezcGraphImageMapTest extends ezcTestCase
 	    return new ezcTestSuite( "ezcGraphImageMapTest" );
 	}
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         static $i = 0;
         $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
         $this->basePath = dirname( __FILE__ ) . '/data/';
     }
 
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
+    protected function tearDown()
     {
         if ( !$this->hasFailed() )
         {

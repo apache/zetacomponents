@@ -17,7 +17,6 @@
  */
 class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 {
-
     protected $renderer;
 
     protected $driver;
@@ -27,26 +26,12 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 		return new ezcTestSuite( "ezcGraphAxisCenteredRendererTest" );
 	}
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         if ( version_compare( phpversion(), '5.1.3', '<' ) )
         {
             $this->markTestSkipped( "These tests required atleast PHP 5.1.3" );
         }
-    }
-
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
-    {
     }
 
     public function testRenderAxisGrid()

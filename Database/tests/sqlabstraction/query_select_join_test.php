@@ -21,7 +21,8 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
     private $q;
     private $e;
     private $db;
-    public function setUp()
+
+    protected function setUp()
     {
         try
         {
@@ -74,7 +75,7 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
         $this->db->exec( "INSERT INTO in_use VALUES ( 2006, 1005, 2, 1 )" );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->db->exec( 'DROP TABLE employees' );
         $this->db->exec( 'DROP TABLE orders' );

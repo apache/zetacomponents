@@ -19,7 +19,7 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
          return new ezcTestSuite( "ezcTemplateCompiledCodeTest" );
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $this->basePath = realpath( dirname( __FILE__ ) ) . '/';
         $this->templatePath = $this->basePath . 'templates/';
@@ -35,7 +35,7 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
             unlink( $this->templateStorePath . "full-14862b79ceaf01443626bd5d564c53e2.php" );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         // remove temporarily stored file if possible
         if ( file_exists( $this->templateStorePath . "full-14862b79ceaf01443626bd5d564c53e2.php" ) )

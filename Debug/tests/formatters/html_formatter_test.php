@@ -2,10 +2,6 @@
 
 class ezcDebugHtmlFormatterTest extends ezcTestCase
 {
-    public function setUp()
-    {
-    }
-
     public function testHtml()
     {
         $html = new ezcDebugHtmlFormatter();

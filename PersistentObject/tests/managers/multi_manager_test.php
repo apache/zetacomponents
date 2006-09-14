@@ -17,7 +17,8 @@
 class ezcPersistentMultiManagerTest extends ezcTestCase
 {
     private $manager = null;
-    public function setUp()
+
+    protected function setUp()
     {
         $managers = array();
         $managers[] = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );

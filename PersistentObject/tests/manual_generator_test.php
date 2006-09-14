@@ -21,7 +21,7 @@ class ezcPersistentManualGeneratorTest extends ezcTestCase
     private $session = null;
     private $hasTables = false;
 
-    public function setUp()
+    protected function setUp()
     {
         try
         {
@@ -39,7 +39,7 @@ class ezcPersistentManualGeneratorTest extends ezcTestCase
                                                    new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" ) );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         PersistentTestObject::cleanup();
     }

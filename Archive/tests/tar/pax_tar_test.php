@@ -5,7 +5,7 @@ require_once( "ustar_tar_test.php" );
 // Extend the Ustar tests.
 class ezcArchivePaxTarTest extends ezcArchiveUstarTarTest
 {
-    public function setUp()
+    protected function setUp()
     {
         date_default_timezone_set("UTC"); 
         $this->tarFormat = "posix";
@@ -23,7 +23,7 @@ class ezcArchivePaxTarTest extends ezcArchiveUstarTarTest
         $this->complexArchive = new ezcArchivePaxTar( $blockFile );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset( $this->archive );
         unset( $this->file );

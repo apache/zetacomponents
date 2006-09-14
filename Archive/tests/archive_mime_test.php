@@ -3,13 +3,13 @@
 
 class ezcArchiveMimeTest extends ezcTestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $this->createTempDir( "ezcArchive_" );
         date_default_timezone_set("UTC"); 
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->removeTempDir();
     }

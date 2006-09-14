@@ -22,7 +22,7 @@ class ezcPersistentFindIteratorTest extends ezcTestCase
     private $manager;
     private $session;
 
-    public function setUp()
+    protected function setUp()
     {
         try
         {
@@ -39,7 +39,7 @@ class ezcPersistentFindIteratorTest extends ezcTestCase
         $this->session = new ezcPersistentSession( $this->db, $this->manager );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         PersistentTestObject::cleanup();
     }

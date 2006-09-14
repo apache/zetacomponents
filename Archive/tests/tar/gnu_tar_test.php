@@ -5,7 +5,7 @@ require_once( "pax_tar_test.php" );
 // Use the pax tests.
 class ezcArchiveGnuTarTest extends ezcArchivePaxTarTest
 {
-    public function setUp()
+    protected function setUp()
     {
         date_default_timezone_set("UTC"); 
         $this->tarFormat = "gnu";
@@ -23,7 +23,7 @@ class ezcArchiveGnuTarTest extends ezcArchivePaxTarTest
         $this->complexArchive = new ezcArchiveGnuTar( $blockFile );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset( $this->archive );
         unset( $this->file );

@@ -6,8 +6,7 @@ require_once( "v7_tar_test.php" );
     // Everything should also work with the Ustar test.
 class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
 {
-
-    public function setUp()
+    protected function setUp()
     {
         date_default_timezone_set("UTC"); 
         $this->tarFormat = "ustar";
@@ -25,7 +24,7 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
         unset( $blockFile );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset( $this->archive );
         unset( $this->file );

@@ -19,7 +19,7 @@ class ezcTemplateConfigurationTest extends ezcTestCase
          return new ezcTestSuite( "ezcTemplateConfigurationTest" );
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $this->basePath = realpath( dirname( __FILE__ ) ) . '/';
         $this->templatePath = $this->basePath . 'templates/';

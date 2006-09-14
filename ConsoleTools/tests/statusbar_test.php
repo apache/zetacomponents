@@ -17,7 +17,6 @@
  */
 class ezcConsoleToolsStatusbarTest extends ezcTestCase
 {
-
     private $stati = array( 
         true,
         false,
@@ -50,24 +49,6 @@ class ezcConsoleToolsStatusbarTest extends ezcTestCase
 	{
 		return new ezcTestSuite( "ezcConsoleToolsStatusbarTest" );
 	}
-
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
-    {
-    }
-
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
-    {
-    }
 
     public function testStatusbar1()
     {

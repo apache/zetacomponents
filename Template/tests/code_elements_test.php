@@ -19,7 +19,7 @@ class ezcTemplateCodeElementsTest extends ezcTestCase
          return new ezcTestSuite( "ezcTemplateCodeElementsTest" );
     }
 
-    public function setUp()
+    protected function setUp()
     {
         // assignment operators
         $this->assignmentOperators = array( 'AdditionAssignment',
@@ -58,10 +58,6 @@ class ezcTemplateCodeElementsTest extends ezcTestCase
                                         'Instanceof',
                                         'ObjectAccess' );
         $this->binaryOperators = array_merge( $this->binaryOperators, $this->assignmentOperators, $this->logicalOperators );
-    }
-
-    public function tearDown()
-    {
     }
 
     /**

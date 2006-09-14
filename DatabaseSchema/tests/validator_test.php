@@ -14,7 +14,7 @@
  */
 class ezcDatabaseSchemaValidatorTest extends ezcTestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         try
         {

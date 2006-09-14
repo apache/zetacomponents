@@ -30,23 +30,9 @@ class ezcGraphChartTest extends ezcTestCase
 		return new ezcTestSuite( "ezcGraphChartTest" );
 	}
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         $this->basePath = dirname( __FILE__ ) . '/data/';
-    }
-
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
-    {
     }
 
     public function testSetTitle()

@@ -21,7 +21,7 @@ class ezcSignalCollectionTest extends ezcTestCase
     private $giver;
     private $receiver;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->giver = new TheGiver();
         $this->receiver = new TheReceiver();

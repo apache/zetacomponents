@@ -3,7 +3,8 @@
 class ezcDebugTest extends ezcTestCase
 {
     private $dbg;
-    public function setUp()
+
+    protected function setUp()
     {
         $this->dbg = ezcDebug::getInstance();
         $this->dbg->reset();
@@ -12,7 +13,7 @@ class ezcDebugTest extends ezcTestCase
         set_error_handler(array( $this, "TestDebugHandler"));
     }
 
-    public function TearDown()
+    protected function tearDown()
     {
         restore_error_handler();
     }

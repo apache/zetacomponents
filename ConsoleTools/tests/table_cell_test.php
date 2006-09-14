@@ -23,24 +23,6 @@ class ezcConsoleToolsTableCellTest extends ezcTestCase
 		return new ezcTestSuite( "ezcConsoleToolsTableCellTest" );
 	}
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
-    {
-    }
-
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
-    {
-    }
-
     public function testCtorSuccess()
     {
         $cell = new ezcConsoleTableCell( 'test', 'success', ezcConsoleTable::ALIGN_RIGHT );

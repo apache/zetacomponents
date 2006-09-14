@@ -14,6 +14,7 @@
 class MyQuery extends ezcQuery
 {
     private $query;
+
     public function __construct()
     {
         parent::__construct( ezcDbInstance::get() );
@@ -42,7 +43,8 @@ class MyQuery extends ezcQuery
 class ezcQueryTest extends ezcTestCase
 {
     private $q;
-    public function setUp()
+
+    protected function setUp()
     {
         try
         {

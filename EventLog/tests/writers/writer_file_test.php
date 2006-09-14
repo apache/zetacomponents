@@ -5,7 +5,7 @@ class ezcLogFileWriterTest extends ezcTestCase
     protected $logFile;
     protected $writer;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->createTempDir( "ezcLogTest_" );
         $this->logFile = "default.log";
@@ -13,7 +13,7 @@ class ezcLogFileWriterTest extends ezcTestCase
         $this->writer = new TempImplementation($this->getTempDir(), $this->logFile);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->removeTempDir();
     }

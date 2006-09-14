@@ -18,7 +18,7 @@ class ezcQueryUpdateTest extends ezcTestCase
 {
     private $q;
 
-    public function setUp()
+    protected function setUp()
     {
         try {
             $db = ezcDbInstance::get();
@@ -42,7 +42,7 @@ class ezcQueryUpdateTest extends ezcTestCase
 
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $db = ezcDbInstance::get();
         $db->exec( 'DROP TABLE query_test' );

@@ -17,13 +17,10 @@
 class ezcPersistentCodeManagerTest extends ezcTestCase
 {
     private $manager = null;
-    public function setUp()
+
+    protected function setUp()
     {
         $this->manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
-    }
-
-    public function tearDown()
-    {
     }
 
     public function testFetchValid()

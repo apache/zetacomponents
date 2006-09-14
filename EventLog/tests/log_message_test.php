@@ -9,12 +9,11 @@ class ezcLogMessageTest extends ezcTestCase
         return new ezcTestSuite("ezcLogMessageTest");
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $this->tm = new TestMessages();
     }
 
-    
     public function testObjectMother()
     {
         $this->assertEquals( "[Laverne, Female] This is all your fault Bernard.", $this->tm->getMessage(0, true, true) );

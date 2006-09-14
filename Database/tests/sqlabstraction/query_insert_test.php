@@ -18,7 +18,7 @@ class ezcQueryInsertTest extends ezcTestCase
 {
     private $q;
 
-    public function setUp()
+    protected function setUp()
     {
         try
         {
@@ -41,7 +41,7 @@ class ezcQueryInsertTest extends ezcTestCase
 
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $db = ezcDbInstance::get();
         $db->exec( 'DROP TABLE query_test' );

@@ -19,7 +19,7 @@ class ezcLogTest extends ezcTestCase
         //$this->removeTempDir();
     }
 
-    public function setUp()
+    protected function setUp()
     {
         set_error_handler(array( $this, "TestErrorHandler"));
         $this->log = ezcLog::getInstance();
@@ -27,7 +27,7 @@ class ezcLogTest extends ezcTestCase
         $this->createTempDir( "ezcLogTest_" );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         //$this->cleanTempDir();
         $this->removeTempDir();

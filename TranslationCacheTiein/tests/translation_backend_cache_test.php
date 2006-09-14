@@ -16,7 +16,7 @@ class ezcTranslationCacheBackendTest extends ezcTestCase
 {
     private $cacheObj;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->cacheObj = new ezcCacheStorageFileArray( $this->createTempDir( 'ezcTranslationCacheBackendTest' ) );
 
@@ -35,7 +35,7 @@ class ezcTranslationCacheBackendTest extends ezcTestCase
         $this->cacheObj->store( 'nl-nl/design/admin/collaboration/group_tree', $expected );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->removeTempDir();
     }

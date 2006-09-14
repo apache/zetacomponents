@@ -16,12 +16,12 @@ class ezcConfigurationIniWriterTest extends ezcTestCase
 {
     private $tempDir;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->tempDir = $this->createTempDir( 'ezcConfigurationIniWriterTest' );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->removeTempDir();
     }

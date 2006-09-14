@@ -17,32 +17,17 @@
  */
 class ezcGraphTextTest extends ezcTestCase
 {
-
 	public static function suite()
 	{
 		return new ezcTestSuite( "ezcGraphTextTest" );
 	}
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         if ( version_compare( phpversion(), '5.1.3', '<' ) )
         {
-            $this->markTestSkipped( "These tests required atleast PHP 5.1.3" );
+            $this->markTestSkipped( "This test requires PHP 5.1.3 or later." );
         }
-    }
-
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
-    {
     }
 
     public function testRenderTextTop()

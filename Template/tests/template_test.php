@@ -24,7 +24,7 @@ class ezcTemplateTest extends ezcTestCase
      * This is prepended to all created path values to ensure tests where
      * they are installed.
      */
-    public function setUp()
+    protected function setUp()
     {
         /*
         $this->basePath = realpath( dirname( __FILE__ ) ) . '/';

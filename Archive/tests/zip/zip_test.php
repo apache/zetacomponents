@@ -7,7 +7,7 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
 {
     protected $td;
 
-    public function setUp()
+    protected function setUp()
     {
         date_default_timezone_set("UTC"); 
 
@@ -17,7 +17,7 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         $this->td = new ezcArchiveTestData( $dataDir, $tempDir, "zip", "infozip" ); 
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->removeTempDir();
     }

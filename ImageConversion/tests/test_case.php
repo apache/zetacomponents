@@ -43,12 +43,7 @@ class ezcImageConversionTestCase extends ezcImageTestCase
         }
     }
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         if ( !extension_loaded( 'gd' ) )
         {

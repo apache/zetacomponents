@@ -35,12 +35,7 @@ class ezcImageAnalysisAnalyzerTest extends ezcTestCase
 		return new ezcTestSuite( "ezcImageAnalysisAnalyzerTest" );
 	}
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         if ( !extension_loaded( 'exif' ) )
         {
@@ -48,15 +43,6 @@ class ezcImageAnalysisAnalyzerTest extends ezcTestCase
         }
 
         $this->basePath = dirname( __FILE__ ) . '/data/';
-    }
-
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
-    {
     }
 
     public function testPhpHandlerGetMimeJpegExif()

@@ -14,7 +14,7 @@
  */
 class ezcFeedRss2DCTest extends ezcTestCase
 {
-    public function setup()
+    protected function setup()
     {
         date_default_timezone_set( 'Europe/Oslo' );
     }

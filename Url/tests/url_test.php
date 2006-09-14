@@ -14,19 +14,12 @@
  */
 class ezcUrlTest extends ezcTestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         if ( version_compare( phpversion(), '5.2.0dev', '>=' ) )
         {
-            $this->markTestSkipped( "Only works with PHP 5.1.x and not any higher version." );
+            $this->markTestSkipped( "This test does not work with PHP 5.2 or later." );
         }
-    }
-
-    /**
-     * Make sure the result file is removed after each run.
-     */
-    public function tearDown()
-    {
     }
 
     public static function suite()

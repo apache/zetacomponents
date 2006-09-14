@@ -53,12 +53,7 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
 		return new ezcTestSuite( "ezcImageConversionFiltersGdTest" );
 	}
 
-    /**
-     * setUp
-     *
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         try
         {
@@ -71,12 +66,7 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
         $this->imageReference = $this->handler->load( $this->testFiles["jpeg"] );
     }
 
-    /**
-     * tearDown
-     *
-     * @access public
-     */
-    public function tearDown()
+    protected function tearDown()
     {
         unset( $this->handler );
     }

@@ -95,12 +95,7 @@ class ezcConsoleToolsOutputTest extends ezcTestCase
 		return new ezcTestSuite( "ezcConsoleToolsOutputTest" );
 	}
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         $this->consoleOutput = new ezcConsoleOutput();
         foreach ( $this->testFormats as $name => $inout ) 
@@ -112,12 +107,7 @@ class ezcConsoleToolsOutputTest extends ezcTestCase
         }
     }
 
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
+    protected function tearDown()
     {
         unset( $this->consoleOutput );
     }

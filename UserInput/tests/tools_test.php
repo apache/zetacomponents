@@ -15,7 +15,7 @@ class ezcInputFilterDefinitionTest extends ezcTestCase
      * 
      * @access public
      */
-    public function setUp()
+    protected function setUp()
     {
         if ( !extension_loaded( 'filter' ) )
         {

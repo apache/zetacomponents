@@ -12,7 +12,7 @@
  */
 class ezcBaseFeaturesTest extends ezcTestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $uname = php_uname( 's' );
         if ( substr( $uname, 0, 7 ) == 'Windows' )

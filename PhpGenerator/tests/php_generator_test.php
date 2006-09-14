@@ -17,7 +17,7 @@ class ezcPhpGeneratorTest extends ezcTestCase
     /**
      * Make sure the result file is removed after each run.
      */
-    public function tearDown()
+    protected function tearDown()
     {
         if ( file_exists( dirname( __FILE__ ) . '/data/generator_test.php' ) )
         {

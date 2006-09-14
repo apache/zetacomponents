@@ -17,29 +17,10 @@
  */
 class ezcGraphMatrixTest extends ezcTestCase
 {
-
 	public static function suite()
 	{
 		return new ezcTestSuite( "ezcGraphMatrixTest" );
 	}
-
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
-    {
-    }
-
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
-    {
-    }
 
     public function testCreateIdentityMatrix()
     {

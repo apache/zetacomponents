@@ -17,29 +17,10 @@
  */
 class ezcGraphLegendTest extends ezcTestCase
 {
-
 	public static function suite()
 	{
 		return new ezcTestSuite( "ezcGraphLegendTest" );
 	}
-
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
-    {
-    }
-
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
-    {
-    }
 
     protected function addSampleData( ezcGraphChart $chart )
     {

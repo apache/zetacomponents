@@ -19,7 +19,7 @@ class ezcTemplateSourceCodeTest extends ezcTestCase
          return new ezcTestSuite( "ezcTemplateSourceCodeTest" );
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $this->basePath = realpath( dirname( __FILE__ ) ) . '/';
         $this->templatePath = $this->basePath . 'templates/';
@@ -33,7 +33,7 @@ class ezcTemplateSourceCodeTest extends ezcTestCase
             unlink( $this->templateStorePath . "#zhadum.ezt#" );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         // remove temporarily stored file if possible
         if ( file_exists( $this->templateStorePath . "zhadum.ezt" ) )

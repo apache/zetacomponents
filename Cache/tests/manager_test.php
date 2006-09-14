@@ -35,24 +35,6 @@ class ezcCacheManagerTest extends ezcTestCase
      * @var mixed
      */
     private $location;
-    
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
-    {
-    }
-
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
-    {
-    }
 
     /**
      * suite 

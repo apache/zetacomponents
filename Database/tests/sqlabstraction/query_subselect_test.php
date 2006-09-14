@@ -58,7 +58,7 @@ class ezcQuerySubSelectTest extends ezcTestCase
 {
     private $q; // query
     private $e; // queryExpression
-    public function setUp()
+    protected function setUp()
     {
         try
         {

@@ -17,7 +17,6 @@
  */
 class ezcGraphGdDriverTest extends ezcImageTestCase
 {
-
     protected $driver;
 
     protected $tempDir;
@@ -34,12 +33,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
 		return new ezcTestSuite( "ezcGraphGdDriverTest" );
 	}
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         if ( !ezcBaseFeatures::hasExtensionSupport( 'gd' ) && 
              ( ezcBaseFeatures::hasFunction( 'imagefttext' ) || ezcBaseFeatures::hasFunction( 'imagettftext' ) ) )
@@ -58,12 +52,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         $this->driver->options->supersampling = 1;
     }
 
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
+    protected function tearDown()
     {
         unset( $this->driver );
         if ( !$this->hasFailed() )

@@ -21,14 +21,14 @@ class ezcTemplateCursorTest extends ezcTestCase
          return new ezcTestSuite( "ezcTemplateCursorTest" );
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $this->defaultCursor = new Invariant_ezcTemplateCursor( "a simple line\nsecond line" );
         $this->cursor = new Invariant_ezcTemplateCursor( "a simple line\nsecond line", 18, 2, 4 );
 
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset( $this->cursor );
     }

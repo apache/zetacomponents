@@ -32,7 +32,7 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
 		return new ezcTestSuite( "ezcImageConversionFiltersShellTest" );
 	}
 
-    public function setUp()
+    protected function setUp()
     {
         try
         {
@@ -45,7 +45,7 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         $this->imageReference = $this->handler->load( $this->testFiles['jpeg'] );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset( $this->handler );
     }

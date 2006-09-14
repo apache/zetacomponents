@@ -24,12 +24,11 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         return $tmpFile;
     }
 
-    public function setUp()
+    protected function setUp()
     {
         date_default_timezone_set("UTC"); 
         $this->tarFormat = "v7";
         $this->tarMimeFormat = ezcArchive::TAR_V7;
-
 
         $this->createTempDir("ezcArchive_");
 
@@ -44,7 +43,7 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         unset( $blockFile );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset( $this->archive );
         unset( $this->complexArchive );

@@ -16,7 +16,7 @@
  */
 class ezcDatabaseHandlerTest extends ezcTestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         try
         {

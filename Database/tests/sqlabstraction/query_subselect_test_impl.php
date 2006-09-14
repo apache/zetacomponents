@@ -22,7 +22,8 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
     private $q;
     private $e;
     private $db;
-    public function setUp()
+
+    protected function setUp()
     {
         try
         {
@@ -59,7 +60,7 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
         $this->db->exec( "INSERT INTO query_test2 VALUES ( 4, 'IBM', 'Germany', null )" );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->db->exec( 'DROP TABLE query_test' );
         $this->db->exec( 'DROP TABLE query_test2' );

@@ -17,7 +17,6 @@
  */
 class ezcConsoleToolsProgressMonitorTest extends ezcTestCase
 {
-
     private $stati = array(
         array( 'UPLOAD', '/var/upload/test.php' ),
         array( 'UPLOAD', '/var/upload/testing.php' ),
@@ -35,24 +34,6 @@ class ezcConsoleToolsProgressMonitorTest extends ezcTestCase
 	{
 		return new ezcTestSuite( "ezcConsoleToolsProgressMonitorTest" );
 	}
-
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
-    {
-    }
-
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
-    {
-    }
 
     public function testProgressMonitor1()
     {

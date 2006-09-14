@@ -2,7 +2,7 @@
 
 class ezcLogDatabaseWriterTest extends ezcTestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         try
         {
@@ -30,7 +30,7 @@ class ezcLogDatabaseWriterTest extends ezcTestCase
                   "`category` VARCHAR( 100 ) NOT NULL , `file` VARCHAR( 100 ) NOT NULL , `line` INT NOT NULL , PRIMARY KEY ( `id` ))");
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $db = ezcDbInstance::get();
         $db->exec("DROP TABLE `log`");

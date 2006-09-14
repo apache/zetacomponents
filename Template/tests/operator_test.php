@@ -19,7 +19,7 @@ class ezcTemplateOperatorTest extends ezcTestCase
          return new ezcTestSuite( "ezcTemplateOperatorTest" );
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $source = new ezcTemplateSourceCode( '', '', '' );
         $start = new ezcTemplateCursor( '', 0, 1, 0 );
@@ -67,10 +67,6 @@ class ezcTemplateOperatorTest extends ezcTestCase
         $this->operators[] = new ezcTemplateDivisionAssignmentOperatorTstNode( $source, $start, $end );
         $this->operators[] = new ezcTemplateConcatAssignmentOperatorTstNode( $source, $start, $end );
         $this->operators[] = new ezcTemplateModuloAssignmentOperatorTstNode( $source, $start, $end );
-    }
-
-    public function tearDown()
-    {
     }
 
     /**

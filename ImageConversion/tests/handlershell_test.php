@@ -27,7 +27,7 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
 		return new ezcTestSuite( "ezcImageConversionHandlerShellTest" );
 	}
 
-    public function setUp()
+    protected function setUp()
     {
         try
         {

@@ -31,7 +31,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         return new ezcMockFileExistsConstraint();
     }
 
-    public function setUp()
+    protected function setUp()
     {
         //// required because of Reflection autoload bug
         class_exists( 'ezcTemplateSourceCode' );
@@ -43,10 +43,6 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         $this->templatePath = $this->basePath . 'templates/';
         $this->templateCompiledPath = $this->basePath . 'compiled/';
         $this->templateStorePath = $this->basePath . 'stored_templates/';
-    }
-
-    public function tearDown()
-    {
     }
 
     /**

@@ -14,7 +14,7 @@
  */
 class ezcDatabaseSchemaMySqlTest extends ezcTestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         try
         {
@@ -38,7 +38,7 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
 
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->removeTempDir();
     }

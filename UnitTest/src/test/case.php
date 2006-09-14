@@ -16,11 +16,6 @@ abstract class ezcTestCase extends PHPUnit_Framework_TestCase
         parent::__construct( $string );
     }
 
-    public function setUp()
-    {
-        return parent::setUp();
-    }
-
     /**
      * Creates and returns the temporary directory.
      *

@@ -34,7 +34,7 @@ class ezcImageConversionHandlerTest extends ezcImageConversionTestCase
 		return new ezcTestSuite( "ezcImageConversionHandlerTest" );
 	}
 
-    public function setUp()
+    protected function setUp()
     {
         $this->handler  = new $this->handlerClass( call_user_func( array( $this->handlerClass, "defaultSettings" ) ) );
     }

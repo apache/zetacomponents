@@ -21,7 +21,7 @@ class ezcTemplateParserTest extends ezcTestCase
         return new ezcTestSuite( __CLASS__ );
     }
 
-    public function setUp()
+    protected function setUp()
     {
         //// required because of Reflection autoload bug
         class_exists( 'ezcTemplateSourceCode' );
@@ -34,7 +34,7 @@ class ezcTemplateParserTest extends ezcTestCase
         $this->templateStorePath = $this->basePath . 'stored_templates/';
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
     }
 

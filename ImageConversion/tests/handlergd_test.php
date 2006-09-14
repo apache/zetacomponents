@@ -27,7 +27,7 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
 		return new ezcTestSuite( "ezcImageConversionHandlerGdTest" );
 	}
 
-    public function setUp()
+    protected function setUp()
     {
         try
         {

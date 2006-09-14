@@ -22,7 +22,7 @@ class ezcDatabaseSchemaConversionTest extends ezcTestCase
     /**
      * "constructor"
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->referenceFile = dirname( __FILE__ ) . '/data/schema.dba';
         $this->generatedFile = dirname( __FILE__ ) . '/data/schema-generated.dba';
@@ -32,7 +32,7 @@ class ezcDatabaseSchemaConversionTest extends ezcTestCase
     /**
      * "destructor"
      */
-    public function tearDown()
+    protected function tearDown()
     {
         @unlink( $this->generatedFile );
         @unlink( $this->deltaFile );

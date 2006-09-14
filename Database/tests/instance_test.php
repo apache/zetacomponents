@@ -17,7 +17,8 @@
 class ezcDatabaseInstanceTest extends ezcTestCase
 {
     private $default;
-    public function setUp()
+
+    protected function setUp()
     {
         try
         {
@@ -29,7 +30,7 @@ class ezcDatabaseInstanceTest extends ezcTestCase
         }
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         ezcDbInstance::reset();
         ezcDbInstance::set( $this->default );

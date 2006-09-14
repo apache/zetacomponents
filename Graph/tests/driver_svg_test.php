@@ -17,7 +17,6 @@
  */
 class ezcGraphSvgDriverTest extends ezcTestCase
 {
-
     protected $driver;
 
     protected $tempDir;
@@ -34,12 +33,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 		return new ezcTestSuite( "ezcGraphSvgDriverTest" );
 	}
 
-    /**
-     * setUp 
-     * 
-     * @access public
-     */
-    public function setUp()
+    protected function setUp()
     {
         static $i = 0;
         $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
@@ -50,12 +44,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         $this->driver->options->height = 100;
     }
 
-    /**
-     * tearDown 
-     * 
-     * @access public
-     */
-    public function tearDown()
+    protected function tearDown()
     {
         unset( $this->driver );
         if ( !$this->hasFailed() )
