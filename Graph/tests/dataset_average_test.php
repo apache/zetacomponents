@@ -98,6 +98,28 @@ class ezcGraphDataSetAverageTest extends ezcTestCase
         );
     }
 
+    public function testCreateDatasetFromDataset3()
+    {
+        date_default_timezone_set( 'MET' );
+        $arrayDataSet = new ezcGraphArrayDataSet( array(
+            strtotime( 'Jun 2006' ) => 1300000,
+            strtotime( 'May 2006' ) => 1200000,
+            strtotime( 'Apr 2006' ) => 1100000,
+            strtotime( 'Mar 2006' ) => 1100000,
+            strtotime( 'Feb 2006' ) => 1000000,
+            strtotime( 'Jan 2006' ) =>  965000,
+        ) );
+
+        $averageDataSet = new ezcGraphDataSetAveragePolynom( $arrayDataSet, 2 );
+
+        $polynom = $averageDataSet->getPolynom();
+
+        $this->assertEquals(
+            '0.00 * x^2 + -1.85 * x + 1044430783.35',
+            $polynom->__toString()
+        );
+    }
+
     public function testCreateDatasetFromDatasetLowOrder()
     {
         $arrayDataSet = new ezcGraphArrayDataSet( array( -1 => 2, 1 => 2, 3 => 10 ) );
@@ -205,6 +227,38 @@ class ezcGraphDataSetAverageTest extends ezcTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
+    }
+
+    public function testRenderCompleteLineChart2()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+        date_default_timezone_set( 'MET' );
+        $chart->data['Statistical data'] = new ezcGraphArrayDataSet( array(
+            'Jun 2006' => 1300000,
+            'May 2006' => 1200000,
+            'Apr 2006' => 1100000,
+            'Mar 2006' => 1100000,
+            'Feb 2006' => 1000000,
+            'Jan 2006' =>  965000,
+        ) );
+        $chart->data['Statistical data']->symbol = ezcGraph::BULLET;
+
+        $chart->data['polynom order 2'] = new ezcGraphDataSetAveragePolynom( $chart->data['Statistical data'], 2 );
+        
+        $chart->xAxis = new ezcGraphChartElementNumericAxis();
+
+        try
+        {
+            $chart->render( 500, 200, $filename );
+        }
+        catch ( ezcGraphDatasetAverageInvalidKeysException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphDatasetAverageInvalidKeysException.' );
     }
 }
 ?>

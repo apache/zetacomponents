@@ -17,6 +17,7 @@ require_once 'chart_test.php';
 require_once 'pie_test.php';
 require_once 'line_test.php';
 require_once 'dataset_test.php';
+require_once 'dataset_average_test.php';
 require_once 'legend_test.php';
 require_once 'text_test.php';
 require_once 'numeric_axis_test.php';
@@ -52,6 +53,7 @@ class ezcGraphSuite extends ezcTestSuite
         $this->addTest( ezcGraphPieChartTest::suite() );
         $this->addTest( ezcGraphLineChartTest::suite() );
         $this->addTest( ezcGraphDataSetTest::suite() );
+        $this->addTest( ezcGraphDataSetAverageTest::suite() );
         $this->addTest( ezcGraphLegendTest::suite() );
         $this->addTest( ezcGraphNumericAxisTest::suite() );
         $this->addTest( ezcGraphLabeledAxisTest::suite() );

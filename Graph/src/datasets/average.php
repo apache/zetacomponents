@@ -240,6 +240,11 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
      */
     final public function next()
     {
+        if ( $this->min === $this->max )
+        {
+            throw new ezcGraphDatasetAverageInvalidKeysException();
+        }
+
         if ( ++$this->position >= $this->resolution )
         {
             return false;
