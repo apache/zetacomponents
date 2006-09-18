@@ -1,7 +1,11 @@
-eZ components - Template language
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+eZ components - Template component
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
+
+
+Template language
+=================
 
 
 Basic syntax
@@ -1354,8 +1358,8 @@ Raw
 ```
 The raw construct outputs raw information and is not affected by the Contexts_.
 
-If for example the XHTML context is set and an expression contains HTML
-characters that should be outputted then the "raw" block should be used:: 
+For example, the XHTML context is set and an expression contains HTML
+characters (which should be sent to the output) then use the "raw" block:: 
 
     {var $myBoldText = "<b>Hello world</b>"}
     {raw $myBoldText} 
@@ -1363,6 +1367,417 @@ characters that should be outputted then the "raw" block should be used::
 This template outputs::
     
     <b>Hello world</b>
+
+
+
+Extensions
+==========
+
+This section explains how you can extend your template language. Extending the
+template language gives you the opportunity to add more application specific
+functionality. Some examples of template language extensions are:
+
+- Adding a method to fetch information from a data structure. This data
+  structure could be a single or a group of objects, a database, an array, etc.
+- Creating an HTML table using your own customized template blocks.
+- Doing an application specific calculation.
+
+Currently, there are two ways of adding custom functionality to the template.
+The methods are named: **custom blocks** and **custom functions**. Together we call
+them **custom extensions**.
+
+First, we'll explain how to create a custom block. With the knowledge of these
+custom blocks, we explain - much shorter - the custom functions.
+
+
+Custom blocks
+-------------
+Custom blocks (and custom functions) are used in the template language and
+implemented in PHP. We take a look at the template language, first. When it is
+clear how custom blocks are used, we explain how to add a custom block using PHP. 
+
+
+Custom blocks in the template language
+``````````````````````````````````````
+Custom blocks add specific behavior to the template language. The most basic
+structure of a custom block - without any parameters - is:: 
+
+    '{' <name> '}'
+
+The block starts and ends with curly braces. The *<name>* identifies the custom
+block. Optionally, a custom block has also a closing block::
+
+    '{' '/' <name> '}'
+
+The name is the same  as the start block, but starts with a forward slash ('/'). The
+text between the open and close tag is considered as input data. Whether a 
+custom block should have a close tag is up to the developer.
+
+The next example demonstrates a custom block with an open and close tag that 
+capitalizes the text in between::
+
+    {capitalize}
+        Guybrush Threepwood.
+    {/capitalize}
+
+Another example that uses a custom block without a close tag::
+
+    {capitalize "Guybrush Threepwood."}
+
+Whether or not a custom block has a close tag, it handles the parameters the
+same. The structure of a custom block is as follows::
+
+    '{' block_name [start_expression] [ <param_name> ['='] <value> ... ] '}'    
+
+Basically, it describes that a custom block can have:
+
+- One optional expression which is not bound to a parameter name.
+- Zero or more named parameters with a value. Between the parameter name and
+  value is an optional equal sign. 
+
+Some example blocks which uses parameters:: 
+
+    {link "eZ systems" to "http://ez.no"}
+    {table border=true bgcolor="red"}
+    {debug}
+    {calculate 5 plus 5}
+    {join array( 'Hello', "world" ) with "_"}
+
+Note that the values used in the examples are just ordinary expressions.
+Therefore it also possible to write::
+
+    {link "eZ" . " systems" to 'http'. "://" . "ez.no"}
+    {calculate 2 + 3 plus 1 * 2 + 3}
+
+Again, the optional and required parameters are up to the developer.
+
+
+Adding a new custom block
+`````````````````````````
+New custom blocks are added to the template engine with the
+ezcTemplateConfiguration::addExtension() method. This method expects the class
+name which implements the new custom block. The next example adds a custom
+block to the template engine which is implemented in MyClass::
+
+    $config = ezcTemplateConfiguration::getInstance();
+    $config->addExtension( "MyClass" );
+    
+The custom block class should implement the ezcTemplateCustomExtension interface.
+This interface has only one method getCustomBlockDefinition(). The class
+implementing this method should return an ezcTemplateCustomBlockDefinition
+object from a given block name, if possible.
+
+
+Custom block definition
+```````````````````````
+The custom block definition describes how the template engine should interpret 
+the custom block. The information is provided by returning an instance of the 
+ezcTemplateCustomBlockDefinition::
+
+    class ezcTemplateCustomBlockDefinition extends ezcTemplateCustomExtension
+    {
+        public $class;
+        public $method;
+
+        public $hasCloseTag;
+
+        public $startExpressionName;
+        public $optionalParameters = array();
+        public $requiredParameters = array();
+    }
+
+The member variables that should be set in this class are:
+
+:class:  String value that specifies the (static) class that implements the function to be executed. 
+:method: String value that specifies the (static) method that should be run.
+:hasCloseTag: Boolean value that specifies whether the class has an open and close tag or only a open tag.
+:startExpressionName: The first parameter of a custom block without a name is
+    called the start expression. If the custom block should have a start
+    expression then this variable specifies a name for it. The name should reappear
+    in either the optionalParameters or the requiredParameters.
+:optionalParameters: Optional named parameters for this custom block.
+:requiredParameters: Required named parameters for this custom block.
+ 
+The following custom block creates a hyper-link from a name and an URL::
+
+    {link "name" to "url" [title "title"]}
+
+This custom block has a:
+
+- Required unnamed parameter that contains the name.
+- Required named parameter "to" that contains the URL.
+- Optional named parameter "title" that contains the title. 
+
+Except for the class and the method name the CustomBlockDefinition should look 
+like:: 
+
+    $def = new ezcTemplateCustomBlockDefinition;
+
+    $def->class = "MyLink"
+    $def->method = "linkMethod" 
+
+    $def->hasCloseTag = false; 
+    $def->startExpressionName = "from"; 
+    $def->optionalParameters = array( "title" ); 
+    $def->requiredParameters = array( "from", "to" ); 
+
+
+The CB definition should be made available to the template engine via a class
+implementing the ezcTemplateCustomBlock interface::
+
+    interface ezcTemplateCustomBlock
+    {
+        public static function getCustomBlockDefinition( $name );
+    }
+
+
+The class implementing the getCustomBlockDefinition() method should 
+return an ezcTemplateCustomBlockDefinition for the given block name $name.
+The next code demonstrates a class that implements the interface::
+
+    class MyLink implements ezcTemplateCustomBlock
+    {
+        public static function getCustomBlockDefinition( $name )
+        {
+            switch ($name )
+            {
+                case "link":
+                    $def = new ezcTemplateCustomBlockDefinition;
+                    $def->class = "MyLink";
+                    // 
+                    // Create definition
+
+                    return $def;
+            }
+
+            return false;
+        }
+    }
+
+
+Handling the custom block
+`````````````````````````
+In the CB definition is specified which class and what method should produce the
+custom block output. A typical implementation to create a hyper-link would be::
+
+    public static function link( $parameters )
+    {
+        $title = "";
+        if( isset( $parameters["title"] ) )
+        {
+            $title = "title='". $parameters["title"] ."'";
+        }
+        
+        return "<a href='".$parameters["to"]."' $title>".$parameters["from"]."</a>"
+    }
+
+
+The method implementing the custom block returns a string that will be
+inserted in the template output. The custom block parameters are provided in
+the first parameter as an array. The method itself must check whether the
+optional parameters are sent or not. Required parameters are always available
+as the template compiler throws a compiler exception if these parameters are
+absent. 
+
+The custom blocks that do have a close tag need a method that accepts two
+parameters. For example the following custom block has a close tag::
+
+    {capitalize}
+        Guybrush Threepwood
+    {/capitalize}
+
+The method that implements the custom block::
+
+    public static function capitalize( $parameters, $text )
+    {
+        return strtoupper( $text );
+    }
+
+The $parameters parameter is never used. The text between the open and close
+tag of the custom block is always passed in the second parameter.
+
+
+Example
+```````
+The 'calc' custom block calculates the sum of the given values. The sum is
+calculated from the initial value plus or minus the values added to the "plus"
+and or "minus" parameter. Some usage examples are::
+
+    {calc 5 plus 3}
+    {calc 5 plus array(2,5,2) minus 2}
+    {calc 2 minus 5}
+
+
+The custom block could be implemented like::
+
+    class CalcCustomBlock implements ezcTemplateCustomBlock
+    {
+        public static function getCustomBlockDefinition( $name )
+        {
+            switch ($name )
+            {
+                case "calc":
+                    $def = new ezcTemplateCustomBlockDefinition;
+                    $def->class = __CLASS__;
+                    $def->method = "calculate";
+                    $def->hasCloseTag = false;
+                    $def->startExpressionName = "init";
+                    $def->requiredParameters = array("init");
+                    $def->optionalParameters = array("plus", "minus");
+                    return $def;
+            }
+
+            return false;
+        }
+
+        public static function calculate( $params )
+        {
+            $result = $params["init"];
+
+            if ( isset( $params["plus"] ) )
+            {
+                if( is_array( $params["plus"] ) )
+                {
+                    foreach( $params["plus"] as $value )
+                    {
+                        result += $value;
+                    }
+                }
+                else
+                {
+                    $result += $params["plus"];
+                }
+            }
+
+            if ( isset( $params["minus"] ) )
+            {
+                if( is_array( $params["minus"] ) )
+                {
+                    foreach( $params["minus"] as $value )
+                    {
+                        result -= $value;
+                    }
+                }
+                else
+                {
+                    $result -= $params["minus"];
+                }
+            }
+
+            return $result;
+        }
+    }
+
+This new custom block needs to be assigned to the Template configuration::
+
+    $config = ezcTemplateConfiguration::getInstance();
+    $config->addExtension( "CalcCustomBlock" );
+
+
+And of course the template can be run like::
+
+    $t = new ezcTemplate();
+    $t->process( "my_template.ezt" );
+
+
+
+Custom functions
+----------------
+This section explains how the custom function can be implemented. Custom
+blocks and custom functions are very similar. Therefore we explain the custom
+functions much shorter.
+
+
+Custom functions in the template language
+`````````````````````````````````````````
+Custom functions are extra functions that can be used in the Template 
+expressions. Some (mathematical) examples are::
+
+    Greatest common divisor: {gcd(8, 12)}
+    {sin( $angle ) * 2}
+    { matrix_multiply( $m1, $m2) }
+
+Basically, the second line in the example runs a custom function and multiplies
+the result with two. This demonstrates that the difference between a custom
+block and a custom function. Custom functions can be used within an
+expression. Custom blocks are directly generating an output result.
+
+
+Adding a new custom function
+````````````````````````````
+As with the custom block, custom functions are added to the template engine
+by the ezcTemplateConfiguration::addExtension() method. The class name given to
+this method should implement the ezcTemplateCustomFunctionDefinition. Notice
+that this is the same as adding a custom block.  ::
+    
+    $config = ezcTemplateConfiguration::getInstance();
+    $config->addExtension( "MyClass" );
+ 
+The example above adds *MyClass* to the ezcTemplateConfiguration. MyClass
+implements the ezcTemplateCustomFunctionDefinition:: 
+
+    class ezcTemplateCustomFunctionDefinition extends ezcTemplateCustomExtension
+    {
+        public $class;
+        public $method;
+
+        public $parameters = array();
+    }
+
+
+The $class and $method parameter are the same as for custom blocks. The
+$parameters member variable specifies the required and optional parameters for
+the custom function.  
+
+- Required parameters are named strings.
+- Optional parameters are named strings enclosed with square brackets. These
+  parameters should be specified after the required parameters.
+
+As with functions in PHP the order of the parameters matter. The next example
+demonstrates a complete custom function implementation::
+
+    class MyClass implements ezcTemplateCustomFunction
+    {
+        public static function getCustomFunctionDefinition( $name )
+        {
+            switch ($name )
+            {
+                case "func":
+                    $def = new ezcTemplateCustomBlockDefinition;
+                    $def->class = "MyClass";
+                    $def->method = "customFunction";
+                    $def->parameters = array( "reqParam", "anotherReqParam", "[optionalParam]"); 
+
+                    return $def;
+            }
+
+            return false;
+        }
+
+
+        public static function customFunction( $firstParam, $secondParam, $thirdParm = "isOptional" )
+        {
+            // Implementation.
+
+            return "string";
+        }
+    }
+
+
+The custom parameters specified in the definition block should also be present
+in the *customFunction* implementation. Three parameters are specified, so the
+customFunction implementation should have three parameters.  The last parameter
+in the parameter definition is specified as optional, so should the last
+parameter in customFunction be optional.
+
+The interface of the ezcTemplateCustomFunction requires to implement
+getCustomFunctionDefinition::
+
+    interface ezcTemplateCustomFunction
+    {
+        public static function getCustomBlockDefinition( $name );
+    }
+
 
 
 
