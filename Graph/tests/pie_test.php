@@ -45,6 +45,33 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         }
     }
 
+    /**
+     * Compares a generated image with a stored file
+     * 
+     * @param string $generated Filename of generated image
+     * @param string $compare Filename of stored image
+     * @return void
+     */
+    protected function compare( $generated, $compare )
+    {
+        $this->assertTrue(
+            file_exists( $generated ),
+            'No image file has been created.'
+        );
+
+        $this->assertTrue(
+            file_exists( $compare ),
+            'Comparision image does not exist.'
+        );
+
+        if ( md5_file( $generated ) !== md5_file( $compare ) )
+        {
+            // Adding a diff makes no sense here, because created XML uses
+            // only two lines
+            $this->fail( 'Rendered image is not correct.');
+        }
+    }
+
     public function testElementGenerationLegend()
     {
         $chart = new ezcGraphPieChart();
@@ -191,65 +218,43 @@ class ezcGraphPieChartTest extends ezcImageTestCase
 
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRenderPieChartWithLotsOfLabels()
     {
-        if ( !ezcBaseFeatures::hasExtensionSupport( 'gd' ) && 
-             ( ezcBaseFeatures::hasFunction( 'imagefttext' ) || ezcBaseFeatures::hasFunction( 'imagettftext' ) ) )
-        {
-            $this->markTestSkipped( 'This test needs ext/gd with native ttf support or FreeType 2 support.' );
-        }
-
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
         $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 ) );
 
         $chart->data['Skien']->highlight['Norwegian'] = true;
 
-        $chart->driver = new ezcGraphGdDriver();
-        $chart->options->font->path = $this->basePath . 'font.ttf';
         $chart->render( 500, 200, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRenderPortraitPieChartWithLotsOfLabels()
     {
-        if ( !ezcBaseFeatures::hasExtensionSupport( 'gd' ) && 
-             ( ezcBaseFeatures::hasFunction( 'imagefttext' ) || ezcBaseFeatures::hasFunction( 'imagettftext' ) ) )
-        {
-            $this->markTestSkipped( 'This test needs ext/gd with native ttf support or FreeType 2 support.' );
-        }
-
-        $filename = $this->tempDir . __FUNCTION__ . '.png';
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
         $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 ) );
 
         $chart->data['Skien']->highlight['Norwegian'] = true;
 
-        $chart->driver = new ezcGraphGdDriver();
-        $chart->options->font->path = $this->basePath . 'font.ttf';
         $chart->render( 500, 500, $filename );
 
-        $this->assertImageSimilar(
+        $this->compare(
             $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
-            'Image does not look as expected.',
-            2000
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 }
