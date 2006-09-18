@@ -103,8 +103,8 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
 
         // Limit radius to fourth of width and half of height at maximum
         $radius = min(
-            ( $boundings->x1 - $boundings->x0 ) / 4,
-            ( $boundings->y1 - $boundings->y0 ) / 2
+            ( $boundings->x1 - $boundings->x0 ) * $this->options->pieHorizontalSize,
+            ( $boundings->y1 - $boundings->y0 ) * $this->options->pieVerticalSize
         ) * ( 1 - $this->options->moveOut );
 
         // Move pie segment out of the center

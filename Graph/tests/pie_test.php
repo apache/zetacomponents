@@ -39,7 +39,10 @@ class ezcGraphPieChartTest extends ezcImageTestCase
 
     protected function tearDown()
     {
-        $this->removeTempDir();
+        if ( !$this->hasFailed() )
+        {
+            $this->removeTempDir();
+        }
     }
 
     public function testElementGenerationLegend()
@@ -173,6 +176,27 @@ class ezcGraphPieChartTest extends ezcImageTestCase
 
         $chart->renderer = $mockedRenderer;
         $chart->render( 400, 200 );
+    }
+
+    public function testRenderSmallPieChart()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 ) );
+        $chart->data['Skien']->highlight['Norwegian'] = true;
+
+        $chart->renderer->options->pieVerticalSize = .1;
+        $chart->renderer->options->pieHorizontalSize = .1;
+
+        $chart->render( 500, 200, $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
     }
 
     public function testRenderPieChartWithLotsOfLabels()

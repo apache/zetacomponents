@@ -37,6 +37,10 @@
  *           Opacity of gleam in legend symbols
  * @property float $legendSymbolGleamSize
  *           Size of gleam in legend symbols
+ * @property float $pieVerticalSize
+ *           Percent of vertical space used for maximum pie chart size.
+ * @property float $pieHorizontalSize
+ *           Percent of horizontal space used for maximum pie chart size.
  * 
  * @package Graph
  */
@@ -63,6 +67,8 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
         $this->properties['pieChartOffset'] = 0;
         $this->properties['legendSymbolGleam'] = false;
         $this->properties['legendSymbolGleamSize'] = .9;
+        $this->properties['pieVerticalSize'] = .5;
+        $this->properties['pieHorizontalSize'] = .25;
 
         parent::__construct( $options );
     }
@@ -124,6 +130,12 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphColor' );
                 }
                 $this->properties['legendSymbolGleamColor'] = $propertyValue;
+                break;
+            case 'pieVerticalSize':
+                $this->properties['pieVerticalSize'] = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'pieHorizontalSize':
+                $this->properties['pieHorizontalSize'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );
