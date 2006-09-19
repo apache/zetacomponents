@@ -384,11 +384,17 @@ class ezcGraphGdDriver extends ezcGraphDriver
     public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align )
     {
         // Test font
-        // @TODO: try to find font at standard locations if no path was provided
         if ( !is_file( $this->options->font->path ) || !is_readable( $this->options->font->path ) )
         {
             throw new ezcGraphGdDriverInvalidFontException( $this->options->font->path );
         }
+
+        $padding = $this->options->font->padding + ( $this->options->font->border !== false ? $this->options->font->borderWidth : 0 );
+
+        $width -= $padding * 2;
+        $height -= $padding * 2;
+        $position->x += $padding;
+        $position->y += $padding;
 
         // Try to get a font size for the text to fit into the box
         $maxSize = min( $height, $this->options->font->maxFontSize );
@@ -451,6 +457,94 @@ class ezcGraphGdDriver extends ezcGraphDriver
                 default:
                     $yOffset = 0;
                     break;
+            }
+
+            $padding = $text['font']->padding + $text['font']->borderWidth / 2;
+            if ( $this->options->font->minimizeBorder === true )
+            {
+                // Calculate maximum width of text rows
+                $width = false;
+                foreach ( $text['text'] as $line )
+                {
+                    $string = implode( ' ', $line );
+                    $boundings = $this->getTextBoundings( $size, $text['font'], $string );
+                    if ( ( $width === false) || ( $boundings->width > $width ) )
+                    {
+                        $width = $boundings->width;
+                    }
+                }
+
+                switch ( true )
+                {
+                    case ( $text['align'] & ezcGraph::LEFT ):
+                        $xOffset = 0;
+                        break;
+                    case ( $text['align'] & ezcGraph::CENTER ):
+                        $xOffset = ( $text['width'] - $width ) / 2;
+                        break;
+                    case ( $text['align'] & ezcGraph::RIGHT ):
+                        $xOffset = $text['width'] - $width;
+                        break;
+                }
+
+                $borderPolygonArray = array(
+                    new ezcGraphCoordinate(
+                        $text['position']->x - $padding + $xOffset,
+                        $text['position']->y - $padding + $yOffset
+                    ),
+                    new ezcGraphCoordinate(
+                        $text['position']->x + $padding * 2 + $xOffset + $width,
+                        $text['position']->y - $padding + $yOffset
+                    ),
+                    new ezcGraphCoordinate(
+                        $text['position']->x + $padding * 2 + $xOffset + $width,
+                        $text['position']->y + $padding * 2 + $yOffset + $completeHeight
+                    ),
+                    new ezcGraphCoordinate(
+                        $text['position']->x - $padding + $xOffset,
+                        $text['position']->y + $padding * 2 + $yOffset + $completeHeight
+                    ),
+                );
+            }
+            else
+            {
+                $borderPolygonArray = array(
+                    new ezcGraphCoordinate(
+                        $text['position']->x - $padding,
+                        $text['position']->y - $padding
+                    ),
+                    new ezcGraphCoordinate(
+                        $text['position']->x + $padding * 2 + $text['width'],
+                        $text['position']->y - $padding
+                    ),
+                    new ezcGraphCoordinate(
+                        $text['position']->x + $padding * 2 + $text['width'],
+                        $text['position']->y + $padding * 2 + $text['height']
+                    ),
+                    new ezcGraphCoordinate(
+                        $text['position']->x - $padding,
+                        $text['position']->y + $padding * 2 + $text['height']
+                    ),
+                );
+            }
+
+            if ( $text['font']->background !== false )
+            {
+                $this->drawPolygon( 
+                    $borderPolygonArray, 
+                    $text['font']->background,
+                    true
+                );
+            }
+
+            if ( $text['font']->border !== false )
+            {
+                $this->drawPolygon( 
+                    $borderPolygonArray, 
+                    $text['font']->border,
+                    false,
+                    $text['font']->borderWidth
+                );
             }
 
             // Render text with evaluated font size

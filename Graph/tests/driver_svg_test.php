@@ -25,7 +25,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
     protected $testFiles = array(
         'jpeg'          => 'jpeg.jpg',
-        'png'           => 'png.png',
+        'svg'           => 'png.png',
     );
 
 	public static function suite()
@@ -433,7 +433,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $this->driver->drawImage(
-            $this->basePath . $this->testFiles['png'],
+            $this->basePath . $this->testFiles['svg'],
             new ezcGraphCoordinate( 10, 10 ),
             100,
             50
@@ -943,6 +943,127 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->render( 500, 300, $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testDrawTextWithBackground()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->options->font->background = ezcGraphColor::fromHex( '#DDDDDD' );
+        $this->driver->options->font->minimizeBorder = false;
+
+        $this->driver->drawTextBox(
+            'Some test string',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT | ezcGraph::MIDDLE
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testDrawTextWithBorder()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->options->font->border = ezcGraphColor::fromHex( '#555555' );
+        $this->driver->options->font->minimizeBorder = false;
+
+        $this->driver->drawTextBox(
+            'Some test string',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT | ezcGraph::MIDDLE
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testDrawTextWithMinimizedBorderAndBackgroundTopLeft()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->options->font->border = ezcGraphColor::fromHex( '#555555' );
+        $this->driver->options->font->background = ezcGraphColor::fromHex( '#DDDDDD' );
+        $this->driver->options->font->minimizeBorder = true;
+        $this->driver->options->font->padding = 2;
+
+        $this->driver->drawTextBox(
+            'Some test string',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT | ezcGraph::TOP
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testDrawTextWithMinimizedBorderAndBackgroundMiddleCenter()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->options->font->border = ezcGraphColor::fromHex( '#555555' );
+        $this->driver->options->font->background = ezcGraphColor::fromHex( '#DDDDDD' );
+        $this->driver->options->font->minimizeBorder = true;
+        $this->driver->options->font->padding = 2;
+
+        $this->driver->drawTextBox(
+            'Some test string',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::CENTER | ezcGraph::MIDDLE
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testDrawTextWithMinimizedBorderAndBackgroundBottomRight()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->options->font->border = ezcGraphColor::fromHex( '#555555' );
+        $this->driver->options->font->background = ezcGraphColor::fromHex( '#DDDDDD' );
+        $this->driver->options->font->minimizeBorder = true;
+        $this->driver->options->font->padding = 2;
+
+        $this->driver->drawTextBox(
+            'Some test string',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::RIGHT | ezcGraph::BOTTOM
+        );
+
+        $this->driver->render( $filename );
 
         $this->compare( 
             $filename,

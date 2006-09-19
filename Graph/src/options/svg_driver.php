@@ -57,7 +57,7 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->properties['assumedCharacterWidth'] = .55;
+        $this->properties['assumedCharacterWidth'] = .55; // @TODO .6 seems to fit better
         $this->properties['strokeLineJoin'] = 'round';
         $this->properties['strokeLineCap'] = 'round';
         $this->properties['shapeRendering'] = 'geometricPrecision';

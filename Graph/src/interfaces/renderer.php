@@ -148,6 +148,36 @@ abstract class ezcGraphRenderer
         $axisPosition = 0.,
         $thickness = 1
     );
+
+    /**
+     * Draws a highlight textbox for a datapoint.
+     *
+     * A highlight textbox for line and bar charts means a box with the current 
+     * value in the graph.
+     * 
+     * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphContext $context Context of call
+     * @param ezcGraphCoordinate $end Ending point
+     * @param float $axisPosition Position of axis for drawing filled lines
+     * @param int $dataNumber Number of dataset
+     * @param int $dataCount Count of datasets in chart
+     * @param ezcGraphFontOptions $font Font used for highlight string
+     * @param string $text Acutual value
+     * @param int $size Size of highlight text
+     * @return void
+     */
+    abstract public function drawDataHighlightText(
+        ezcGraphBoundings $boundings,
+        ezcGraphContext $context,
+        ezcGraphCoordinate $end,
+        $axisPosition = 0.,
+        $dataNumber = 1,
+        $dataCount = 1,
+        ezcGraphFontOptions $font,
+        $text,
+        $size,
+        ezcGraphColor $markLines = null
+    );
     
     /**
      * Draw legend

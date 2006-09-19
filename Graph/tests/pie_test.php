@@ -213,8 +213,8 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 ) );
         $chart->data['Skien']->highlight['Norwegian'] = true;
 
-        $chart->renderer->options->pieVerticalSize = .1;
-        $chart->renderer->options->pieHorizontalSize = .1;
+        $chart->renderer->options->pieVerticalSize = .2;
+        $chart->renderer->options->pieHorizontalSize = .2;
 
         $chart->render( 500, 200, $filename );
 

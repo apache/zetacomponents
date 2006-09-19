@@ -1594,6 +1594,162 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
 
         $this->fail( 'Expected ezcGraphFontRenderingException.' );
     }
+
+    public function testDrawTextWithBackground()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->options->font->background = ezcGraphColor::fromHex( '#DDDDDD' );
+        $this->driver->options->font->minimizeBorder = false;
+
+        $this->driver->drawTextBox(
+            'Some test string',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT | ezcGraph::MIDDLE
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
+    public function testDrawTextWithBorder()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->options->font->border = ezcGraphColor::fromHex( '#555555' );
+        $this->driver->options->font->minimizeBorder = false;
+
+        $this->driver->drawTextBox(
+            'Some test string',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT | ezcGraph::MIDDLE
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
+    public function testDrawTextWithMinimizedBorderAndBackgroundTopLeft()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->options->font->border = ezcGraphColor::fromHex( '#555555' );
+        $this->driver->options->font->background = ezcGraphColor::fromHex( '#DDDDDD' );
+        $this->driver->options->font->minimizeBorder = true;
+        $this->driver->options->font->padding = 2;
+
+        $this->driver->drawTextBox(
+            'Some test string',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT | ezcGraph::TOP
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
+    public function testDrawTextWithMinimizedBorderAndBackgroundMiddleCenter()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->options->font->border = ezcGraphColor::fromHex( '#555555' );
+        $this->driver->options->font->background = ezcGraphColor::fromHex( '#DDDDDD' );
+        $this->driver->options->font->minimizeBorder = true;
+        $this->driver->options->font->padding = 2;
+
+        $this->driver->drawTextBox(
+            'Some test string',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::CENTER | ezcGraph::MIDDLE
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
+    public function testDrawTextWithMinimizedBorderAndBackgroundBottomRight()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->options->font->border = ezcGraphColor::fromHex( '#555555' );
+        $this->driver->options->font->background = ezcGraphColor::fromHex( '#DDDDDD' );
+        $this->driver->options->font->minimizeBorder = true;
+        $this->driver->options->font->padding = 2;
+
+        $this->driver->drawTextBox(
+            'Some test string',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::RIGHT | ezcGraph::BOTTOM
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
 }
 
 ?>

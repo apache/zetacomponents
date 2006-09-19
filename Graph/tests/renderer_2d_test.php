@@ -1859,6 +1859,36 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
+
+    public function testRenderLineChartWithHighlightedData()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => -120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+
+        $chart->data['Line 1']->highlight = true;
+        $chart->data['Line 2']->highlight['sample 5'] = true;
+        
+        $chart->data['Line 1']->displayType = ezcGraph::BAR;
+
+        $chart->options->highlightSize = 12;
+        $chart->options->highlightFont->color = ezcGraphColor::fromHex( '#3465A4' );
+        $chart->options->highlightFont->background = ezcGraphColor::fromHex( '#D3D7CF' );
+        $chart->options->highlightFont->border = ezcGraphColor::fromHex( '#888A85' );
+        
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisBoxedLabelRenderer();
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
 }
 
 ?>

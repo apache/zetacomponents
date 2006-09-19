@@ -1139,6 +1139,81 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
     }
     
     /**
+     * Draws a highlight textbox for a datapoint.
+     *
+     * A highlight textbox for line and bar charts means a box with the current 
+     * value in the graph.
+     * 
+     * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphContext $context Context of call
+     * @param ezcGraphCoordinate $end Ending point
+     * @param float $axisPosition Position of axis for drawing filled lines
+     * @param int $dataNumber Number of dataset
+     * @param int $dataCount Count of datasets in chart
+     * @param ezcGraphFontOptions $font Font used for highlight string
+     * @param string $text Acutual value
+     * @param int $size Size of highlight text
+     * @return void
+     */
+    public function drawDataHighlightText(
+        ezcGraphBoundings $boundings,
+        ezcGraphContext $context,
+        ezcGraphCoordinate $end,
+        $axisPosition = 0.,
+        $dataNumber = 1,
+        $dataCount = 1,
+        ezcGraphFontOptions $font,
+        $text,
+        $size,
+        ezcGraphColor $markLines = null )
+    {
+        $this->driver->options->font = $font;
+        $width = $this->dataBoundings->width / $dataCount;
+
+        // Calculate line width based on options
+        if ( $this->options->seperateLines )
+        {
+            $endDepth = ( 1 / $dataCount ) * ( $dataNumber + 1 );
+        }
+        else
+        {
+            $endDepth = true;
+        }
+        
+        $dataPoint = new ezcGraphCoordinate( 
+            $this->dataBoundings->x0 + $this->xAxisSpace + $end->x * ( $this->dataBoundings->x1 - ( $this->dataBoundings->x0 + 2 * $this->xAxisSpace ) ),
+            $this->dataBoundings->y0 + $this->yAxisSpace + $end->y * ( $this->dataBoundings->y1 - ( $this->dataBoundings->y0 + 2 * $this->yAxisSpace ) )
+        );
+
+        if ( $end->y < $axisPosition )
+        {
+            $this->driver->drawTextBox(
+                $text,
+                $this->get3dCoordinate( new ezcGraphCoordinate(
+                    $dataPoint->x - $width / 2,
+                    $dataPoint->y - $size - $font->padding - $this->options->symbolSize
+                ), $endDepth ),
+                $width * $this->xDepthFactor,
+                $size,
+                ezcGraph::CENTER | ezcGraph::BOTTOM
+            );
+        }
+        else
+        {
+            $this->driver->drawTextBox(
+                $text,
+                $this->get3dCoordinate( new ezcGraphCoordinate(
+                    $dataPoint->x - $width / 2,
+                    $dataPoint->y + $font->padding + $this->options->symbolSize
+                ), $endDepth ),
+                $width * $this->xDepthFactor,
+                $size,
+                ezcGraph::CENTER | ezcGraph::TOP
+            );
+        }
+    }
+    
+    /**
      * Draw legend
      *
      * Will draw a legend in the bounding box

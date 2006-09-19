@@ -25,6 +25,7 @@ class ezcGraphLineChart extends ezcGraphChart
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphLineChartOptions( $options );
+        $this->options->highlightFont = $this->options->font;
 
         parent::__construct();
 
@@ -152,6 +153,22 @@ class ezcGraphLineChart extends ezcGraphChart
                             $yAxisNullPosition
                         );
 
+                        if ( $data->highlight[$key] )
+                        {
+                            $renderer->drawDataHighlightText(
+                                $boundings,
+                                new ezcGraphContext( $datasetName, $key ),
+                                $point,
+                                $yAxisNullPosition,
+                                $nr[$data->displayType->default],
+                                $count[$data->displayType->default],
+                                $this->options->highlightFont,
+                                $value,
+                                $this->options->highlightSize,
+                                ( $this->options->highlightLines ? $data->color[$key] : null )
+                            );
+                        }
+    
                         $lastPoint = $point;
                     }
                     break;
@@ -176,7 +193,7 @@ class ezcGraphLineChart extends ezcGraphChart
                             $boundings,
                             new ezcGraphContext( $datasetName, $key ),
                             $data->color->default,
-                            $this->elements['xAxis']->axisLabelRenderer->modifyChartDataPosition( 
+                            $point = $this->elements['xAxis']->axisLabelRenderer->modifyChartDataPosition( 
                                 $this->elements['yAxis']->axisLabelRenderer->modifyChartDataPosition(
                                     $point
                                 )
@@ -187,6 +204,22 @@ class ezcGraphLineChart extends ezcGraphChart
                             $data->symbol[$key],
                             $yAxisNullPosition
                         );
+
+                        if ( $data->highlight[$key] )
+                        {
+                            $renderer->drawDataHighlightText(
+                                $boundings,
+                                new ezcGraphContext( $datasetName, $key ),
+                                $point,
+                                $yAxisNullPosition,
+                                $nr[$data->displayType->default],
+                                $count[$data->displayType->default],
+                                $this->options->highlightFont,
+                                $value,
+                                $this->options->highlightSize,
+                                ( $this->options->highlightLines ? $data->color[$key] : null )
+                            );
+                        }
                     }
                     break;
                 default:

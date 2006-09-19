@@ -18,6 +18,13 @@
  *            - (int) Opacity used to fill up the space with the lines color.
  * @property int $symbolSize
  *           Size of symbols in line chart.
+ * @property ezcGraphFontOptions $highlightFont
+ *           Font configuration for highlight tests
+ * @property int $highlightSize
+ *           Size of highlight blocks
+ * @property bool $highlightLines
+ *           If true, it adds lines to highlight the values position on the 
+ *           axis.
  *
  * @package Graph
  */
@@ -35,7 +42,11 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
         $this->properties['lineThickness'] = 2;
         $this->properties['fillLines'] = false;
         $this->properties['symbolSize'] = 8;
-
+        $this->properties['highlightFont'] = new ezcGraphFontOptions();
+        $this->properties['highlightFontCloned'] = false;
+        $this->properties['highlightSize'] = 14;
+        $this->properties['highlightLines'] = false;
+    
         parent::__construct( $options );
     }
 
@@ -68,8 +79,60 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
             case 'symbolSize':
                 $this->properties['symbolSize'] = max( 1, (int) $propertyValue );
                 break;
+            case 'highlightFont':
+                if ( $propertyValue instanceof ezcGraphFontOptions )
+                {
+                    $this->properties['highlightFont'] = $propertyValue;
+                }
+                elseif ( is_string( $propertyValue ) )
+                {
+                    if ( !$this->properties['highlightFontCloned'] )
+                    {
+                        $this->properties['highlightFont'] = clone $this->font;
+                        $this->properties['highlightFontCloned'] = true;
+                    }
+
+                    $this->properties['highlightFont']->font = $propertyValue;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyValue, 'ezcGraphFontOptions' );
+                }
+                break;
+            case 'highlightSize':
+                $this->properties['highlightSize'] = max( 1, (int) $propertyValue );
+                break;
+            case 'highlightLines':
+                $this->properties['highlightLines'] = (bool) $propertyValue;
+                break;
             default:
                 return parent::__set( $propertyName, $propertyValue );
+        }
+    }
+    
+    /**
+     * __get 
+     * 
+     * @param mixed $propertyName 
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return mixed
+     * @ignore
+     */
+    public function __get( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'highlightFont':
+                // Clone font configuration when requested for this element
+                if ( !$this->properties['highlightFontCloned'] )
+                {
+                    $this->properties['highlightFont'] = clone $this->properties['font'];
+                    $this->properties['highlightFontCloned'] = true;
+                }
+                return $this->properties['highlightFont'];
+            default:
+                return parent::__get( $propertyName );
         }
     }
 }

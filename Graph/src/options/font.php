@@ -19,7 +19,6 @@
  *            - TTF_FONT    Native TTF fonts
  *            - PS_FONT     PostScript Type1 fonts
  *            - FT2_FONT    FreeType 2 fonts
- *            - GD_FONT     Native GD bitmap fonts
  * @property float $minFontSize
  *           Minimum font size for displayed texts.
  * @property float $maxFontSize
@@ -30,6 +29,18 @@
  *           Font color.
  * @property float $lineSpacing
  *           Percent of font size used for line spacing
+ * @property ezcGraphColor $background
+ *           Background color
+ * @property ezcGraphColor $border
+ *           Border color
+ * @property int $borderWidth
+ *           Border width
+ * @property int $padding
+ *           Padding between text and border
+ * @property bool $minimizeBorder
+ *           Fit the border exactly around the text, or use the complete 
+ *           possible space.
+ * 
  *
  * @package Graph
  */
@@ -53,6 +64,12 @@ class ezcGraphFontOptions extends ezcBaseOptions
         $this->properties['minimalUsedFont'] = 96;
         $this->properties['lineSpacing'] = .1;
         $this->properties['color'] = ezcGraphColor::fromHex( '#000000' );
+
+        $this->properties['background'] = false;
+        $this->properties['border'] = false;
+        $this->properties['borderWidth'] = 1;
+        $this->properties['padding'] = 0;
+        $this->properties['minimizeBorder'] = true;
 
         parent::__construct( $options );
     }
@@ -93,6 +110,37 @@ class ezcGraphFontOptions extends ezcBaseOptions
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphColor' );
                 }
                 break;
+
+            case 'background':
+                if ( $propertyValue instanceof ezcGraphColor )
+                {
+                    $this->properties['background'] = $propertyValue;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphColor' );
+                }
+                break;
+            case 'border':
+                if ( $propertyValue instanceof ezcGraphColor )
+                {
+                    $this->properties['border'] = $propertyValue;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphColor' );
+                }
+                break;
+            case 'borderWidth':
+                $this->properties['borderWidth'] = (int) $propertyValue;
+                break;
+            case 'padding':
+                $this->properties['padding'] = (int) $propertyValue;
+                break;
+            case 'minimizeBorder':
+                $this->properties['minimizeBorder'] = (bool) $propertyValue;
+                break;
+
             case 'name':
                 if ( is_string( $propertyValue ) )
                 {

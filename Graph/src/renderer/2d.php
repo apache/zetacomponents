@@ -72,14 +72,14 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
     {
         // Calculate position and size of pie
         $center = new ezcGraphCoordinate(
-            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2,
-            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2
+            $boundings->x0 + ( $boundings->width ) / 2,
+            $boundings->y0 + ( $boundings->height ) / 2
         );
 
         // Limit radius to fourth of width and half of height at maximum
         $radius = min(
-            ( $boundings->x1 - $boundings->x0 ) * $this->options->pieHorizontalSize,
-            ( $boundings->y1 - $boundings->y0 ) / $this->options->pieVerticalSize
+            ( $boundings->width ) * $this->options->pieHorizontalSize,
+            ( $boundings->height ) * $this->options->pieVerticalSize
         ) * ( 1 - $this->options->moveOut );
 
         // Move pie segment out of the center
@@ -193,21 +193,21 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
 
         // Calculate position and size of pie
         $center = new ezcGraphCoordinate(
-            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2,
-            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2
+            $boundings->x0 + ( $boundings->width ) / 2,
+            $boundings->y0 + ( $boundings->height ) / 2
         );
 
         // Limit radius to fourth of width and half of height at maximum
         $radius = min(
-            ( $boundings->x1 - $boundings->x0 ) / 4,
-            ( $boundings->y1 - $boundings->y0 ) / 2
+            ( $boundings->width ) / 4,
+            ( $boundings->height ) / 2
         );
 
         $pieChartHeight = min(
             $radius * 2 + $this->options->maxLabelHeight * 2,
-            $boundings->y1 - $boundings->y0
+            $boundings->height
         );
-        $pieChartYPosition = $boundings->y0 + ( ( $boundings->y1 - $boundings->y0 ) - $pieChartHeight ) / 2;
+        $pieChartYPosition = $boundings->y0 + ( ( $boundings->height ) - $pieChartHeight ) / 2;
 
         // Calculate maximum height of labels
         $labelHeight = (int) round( min(
@@ -219,7 +219,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                 ? $pieChartHeight / count( $this->pieSegmentLabels[1] )
                 : $pieChartHeight
             ),
-            ( $boundings->y1 - $boundings->y0 ) * $this->options->maxLabelHeight
+            ( $boundings->height ) * $this->options->maxLabelHeight
         ) );
 
         $symbolSize = $this->options->symbolSize;
@@ -351,20 +351,20 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
 
         $barPointArray = array(
             new ezcGraphCoordinate(
-                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $position->x + $offset,
-                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
+                $boundings->x0 + ( $boundings->width ) * $position->x + $offset,
+                $boundings->y0 + ( $boundings->height ) * $axisPosition
             ),
             new ezcGraphCoordinate(
-                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $position->x + $offset,
-                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $position->y
+                $boundings->x0 + ( $boundings->width ) * $position->x + $offset,
+                $boundings->y0 + ( $boundings->height ) * $position->y
             ),
             new ezcGraphCoordinate(
-                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $position->x + $offset + $barWidth,
-                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $position->y
+                $boundings->x0 + ( $boundings->width ) * $position->x + $offset + $barWidth,
+                $boundings->y0 + ( $boundings->height ) * $position->y
             ),
             new ezcGraphCoordinate(
-                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $position->x + $offset + $barWidth,
-                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
+                $boundings->x0 + ( $boundings->width ) * $position->x + $offset + $barWidth,
+                $boundings->y0 + ( $boundings->height ) * $axisPosition
             ),
         );
 
@@ -437,20 +437,20 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                 $this->driver->drawPolygon(
                     array(
                         new ezcGraphCoordinate(
-                            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $start->x,
-                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $start->y
+                            $boundings->x0 + ( $boundings->width ) * $start->x,
+                            $boundings->y0 + ( $boundings->height ) * $start->y
                         ),
                         new ezcGraphCoordinate(
-                            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y
+                            $boundings->x0 + ( $boundings->width ) * $end->x,
+                            $boundings->y0 + ( $boundings->height ) * $end->y
                         ),
                         new ezcGraphCoordinate(
-                            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
+                            $boundings->x0 + ( $boundings->width ) * $end->x,
+                            $boundings->y0 + ( $boundings->height ) * $axisPosition
                         ),
                         new ezcGraphCoordinate(
-                            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $start->x,
-                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
+                            $boundings->x0 + ( $boundings->width ) * $start->x,
+                            $boundings->y0 + ( $boundings->height ) * $axisPosition
                         ),
                     ),
                     $fillColor,
@@ -472,16 +472,16 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                 $this->driver->drawPolygon(
                     array(
                         new ezcGraphCoordinate(
-                            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $start->x,
-                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
+                            $boundings->x0 + ( $boundings->width ) * $start->x,
+                            $boundings->y0 + ( $boundings->height ) * $axisPosition
                         ),
                         new ezcGraphCoordinate(
-                            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $start->x,
-                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $start->y
+                            $boundings->x0 + ( $boundings->width ) * $start->x,
+                            $boundings->y0 + ( $boundings->height ) * $start->y
                         ),
                         new ezcGraphCoordinate(
-                            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $cuttingPoint->x,
-                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $cuttingPoint->y
+                            $boundings->x0 + ( $boundings->width ) * $cuttingPoint->x,
+                            $boundings->y0 + ( $boundings->height ) * $cuttingPoint->y
                         ),
                     ),
                     $fillColor,
@@ -491,16 +491,16 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                 $this->driver->drawPolygon(
                     array(
                         new ezcGraphCoordinate(
-                            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axisPosition
+                            $boundings->x0 + ( $boundings->width ) * $end->x,
+                            $boundings->y0 + ( $boundings->height ) * $axisPosition
                         ),
                         new ezcGraphCoordinate(
-                            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y
+                            $boundings->x0 + ( $boundings->width ) * $end->x,
+                            $boundings->y0 + ( $boundings->height ) * $end->y
                         ),
                         new ezcGraphCoordinate(
-                            $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $cuttingPoint->x,
-                            $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $cuttingPoint->y
+                            $boundings->x0 + ( $boundings->width ) * $cuttingPoint->x,
+                            $boundings->y0 + ( $boundings->height ) * $cuttingPoint->y
                         ),
                     ),
                     $fillColor,
@@ -512,12 +512,12 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         // Draw line
         $this->driver->drawLine(
             new ezcGraphCoordinate(
-                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $start->x,
-                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $start->y
+                $boundings->x0 + ( $boundings->width ) * $start->x,
+                $boundings->y0 + ( $boundings->height ) * $start->y
             ),
             new ezcGraphCoordinate(
-                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x,
-                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y
+                $boundings->x0 + ( $boundings->width ) * $end->x,
+                $boundings->y0 + ( $boundings->height ) * $end->y
             ),
             $color,
             $thickness
@@ -533,14 +533,79 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
     
             $this->linePostSymbols[] = array(
                 'boundings' => new ezcGraphBoundings(
-                    $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x - $this->options->symbolSize / 2,
-                    $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y - $this->options->symbolSize / 2,
-                    $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $end->x + $this->options->symbolSize / 2,
-                    $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $end->y + $this->options->symbolSize / 2
+                    $boundings->x0 + ( $boundings->width ) * $end->x - $this->options->symbolSize / 2,
+                    $boundings->y0 + ( $boundings->height ) * $end->y - $this->options->symbolSize / 2,
+                    $boundings->x0 + ( $boundings->width ) * $end->x + $this->options->symbolSize / 2,
+                    $boundings->y0 + ( $boundings->height ) * $end->y + $this->options->symbolSize / 2
                 ),
                 'color' => $symbolColor,
                 'context' => $context,
                 'symbol' => $symbol,
+            );
+        }
+    }
+    
+    /**
+     * Draws a highlight textbox for a datapoint.
+     *
+     * A highlight textbox for line and bar charts means a box with the current 
+     * value in the graph.
+     * 
+     * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphContext $context Context of call
+     * @param ezcGraphCoordinate $end Ending point
+     * @param float $axisPosition Position of axis for drawing filled lines
+     * @param int $dataNumber Number of dataset
+     * @param int $dataCount Count of datasets in chart
+     * @param ezcGraphFontOptions $font Font used for highlight string
+     * @param string $text Acutual value
+     * @param int $size Size of highlight text
+     * @return void
+     */
+    public function drawDataHighlightText(
+        ezcGraphBoundings $boundings,
+        ezcGraphContext $context,
+        ezcGraphCoordinate $end,
+        $axisPosition = 0.,
+        $dataNumber = 1,
+        $dataCount = 1,
+        ezcGraphFontOptions $font,
+        $text,
+        $size,
+        ezcGraphColor $markLines = null )
+    {
+        $this->driver->options->font = $font;
+        $width = $boundings->width / $dataCount;
+        
+        $dataPoint = new ezcGraphCoordinate(
+            $boundings->x0 + ( $boundings->width ) * $end->x,
+            $boundings->y0 + ( $boundings->height ) * $end->y
+        );
+
+        if ( $end->y < $axisPosition )
+        {
+            $this->driver->drawTextBox(
+                $text,
+                new ezcGraphCoordinate(
+                    $dataPoint->x - $width / 2,
+                    $dataPoint->y - $size - $font->padding - $this->options->symbolSize
+                ),
+                $width,
+                $size,
+                ezcGraph::CENTER | ezcGraph::BOTTOM
+            );
+        }
+        else
+        {
+            $this->driver->drawTextBox(
+                $text,
+                new ezcGraphCoordinate(
+                    $dataPoint->x - $width / 2,
+                    $dataPoint->y + $font->padding + $this->options->symbolSize
+                ),
+                $width,
+                $size,
+                ezcGraph::CENTER | ezcGraph::TOP
             );
         }
     }
@@ -565,17 +630,17 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         // Calculate boundings of each label
         if ( $type & ezcGraph::VERTICAL )
         {
-            $labelWidth = $boundings->x1 - $boundings->x0;
+            $labelWidth = $boundings->width;
             $labelHeight = min( 
-                ( $boundings->y1 - $boundings->y0 ) / count( $labels ) - $legend->spacing, 
+                ( $boundings->height ) / count( $labels ) - $legend->spacing, 
                 $legend->symbolSize + 2 * $legend->padding
             );
         }
         else
         {
-            $labelWidth = ( $boundings->x1 - $boundings->x0 ) / count( $labels ) - $legend->spacing;
+            $labelWidth = ( $boundings->width ) / count( $labels ) - $legend->spacing;
             $labelHeight = min(
-                $boundings->x1 - $boundings->x0,
+                $boundings->width,
                 $legend->symbolSize + 2 * $legend->padding
             );
         }
@@ -699,7 +764,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                     $this->driver->drawTextBox(
                         $title,
                         new ezcGraphCoordinate( $boundings->x0, $boundings->y0 ),
-                        $boundings->x1 - $boundings->x0,
+                        $boundings->width,
                         $titleSize,
                         $this->options->titleAlignement
                     );
@@ -711,7 +776,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                     $this->driver->drawTextBox(
                         $title,
                         new ezcGraphCoordinate( $boundings->x0, $boundings->y1 - $titleSize ),
-                        $boundings->x1 - $boundings->x0,
+                        $boundings->width,
                         $titleSize,
                         $this->options->titleAlignement
                     );
@@ -742,8 +807,8 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         $this->driver->drawTextBox(
             $text,
             new ezcGraphCoordinate( $boundings->x0, $boundings->y0 ),
-            $boundings->x1 - $boundings->x0,
-            $boundings->y1 - $boundings->y0,
+            $boundings->width,
+            $boundings->height,
             $align
         );
     }
@@ -831,11 +896,11 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         {
             case ezcGraph::TOP:
             case ezcGraph::BOTTOM:
-                $this->xAxisSpace = ( $boundings->x1 - $boundings->x0 ) * $axis->axisSpace;
+                $this->xAxisSpace = ( $boundings->width ) * $axis->axisSpace;
                 break;
             case ezcGraph::LEFT:
             case ezcGraph::RIGHT:
-                $this->yAxisSpace = ( $boundings->y1 - $boundings->y0 ) * $axis->axisSpace;
+                $this->yAxisSpace = ( $boundings->height ) * $axis->axisSpace;
                 break;
         }
 
@@ -900,7 +965,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         // Draw axis label
         if ( $axis->label !== false )
         {
-            $width = $boundings->x1 - $boundings->x0;
+            $width = $boundings->width;
             switch ( $axis->position )
             {
                 case ezcGraph::TOP:
@@ -1014,8 +1079,8 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         $imageWidth = $imageData[0];
         $imageHeight = $imageData[1];
 
-        $imageWidth = min( $imageWidth, $boundings->x1 - $boundings->x0 );
-        $imageHeight = min( $imageHeight, $boundings->y1 - $boundings->y0 );
+        $imageWidth = min( $imageWidth, $boundings->width );
+        $imageHeight = min( $imageHeight, $boundings->height );
 
         $imagePosition = new ezcGraphCoordinate( 
             $boundings->x0, 
@@ -1037,7 +1102,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                 break;
             default:
                 $imagePosition->x = max(
-                    $boundings->x0 + ( $boundings->x1 - $boundings->x0 - $imageWidth ) / 2,
+                    $boundings->x0 + ( $boundings->width - $imageWidth ) / 2,
                     $boundings->x0
                 );
                 break;
@@ -1058,7 +1123,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                 break;
             default:
                 $imagePosition->y = max(
-                    $boundings->y0 + ( $boundings->y1 - $boundings->y0 - $imageHeight ) / 2,
+                    $boundings->y0 + ( $boundings->height - $imageHeight ) / 2,
                     $boundings->y0
                 );
                 break;
