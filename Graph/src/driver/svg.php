@@ -356,7 +356,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             $selectedLine[] = $token;
 
             // Assume characters have the same width as height
-            $strWidth = $size * strlen( implode( ' ', $selectedLine ) ) * $this->options->assumedCharacterWidth;
+            $strWidth = $this->getTextWidth( implode( ' ', $selectedLine ), $size );
 
             // Check if line is too long
             if ( $strWidth > $width )
@@ -387,7 +387,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         }
 
         // Check width of last line
-        $strWidth = $size * strlen( implode( ' ', $selectedLine ) ) * $this->options->assumedCharacterWidth;
+        $strWidth = $this->getTextWidth( implode( ' ', $selectedLine ), $size );
         if ( $strWidth > $width ) {
             return false;
         }
@@ -441,6 +441,18 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         return $id;
     }
 
+    protected function getTextWidth( $string, $size )
+    {
+        if ( is_numeric( $string ) )
+        {
+            return $size * strlen( $string ) * $this->options->assumedNumericCharacterWidth;
+        }
+        else
+        {
+            return $size * strlen( $string ) * $this->options->assumedTextCharacterWidth;
+        }
+    }
+
     protected function drawAllTexts()
     {
         foreach ( $this->strings as $text )
@@ -473,7 +485,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 foreach ( $text['text'] as $line )
                 {
                     $string = implode( ' ', $line );
-                    if ( ( $strWidth = ( $size * strlen( $string ) * $this->options->assumedCharacterWidth ) ) > $width )
+                    if ( ( $strWidth = $this->getTextWidth( $string, $size ) ) > $width )
                     {
                         $width = $strWidth;
                     }
@@ -568,13 +580,13 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                         break;
                     case ( $text['align'] & ezcGraph::RIGHT ):
                         $position = new ezcGraphCoordinate(
-                            $text['position']->x + ( $text['width'] - $size * strlen( $string ) * $this->options->assumedCharacterWidth ), 
+                            $text['position']->x + ( $text['width'] - $this->getTextWidth( $string, $size ) ),
                             $text['position']->y + $yOffset
                         );
                         break;
                     case ( $text['align'] & ezcGraph::CENTER ):
                         $position = new ezcGraphCoordinate(
-                            $text['position']->x + ( ( $text['width'] - $size * strlen( $string ) * $this->options->assumedCharacterWidth ) / 2 ),
+                            $text['position']->x + ( ( $text['width'] - $this->getTextWidth( $string, $size ) ) / 2 ),
                             $text['position']->y + $yOffset
                         );
                         break;
@@ -583,7 +595,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 $textNode = $this->dom->createElement( 'text', $string );
                 $textNode->setAttribute( 'id', $text['id'] );
                 $textNode->setAttribute( 'x', $position->x + $this->options->graphOffset->x );
-                $textNode->setAttribute( 'text-length', ( $size * strlen( $string ) * $this->options->assumedCharacterWidth ) . 'px' );
+                $textNode->setAttribute( 'text-length', $this->getTextWidth( $string, $size ) . 'px' );
                 $textNode->setAttribute( 'y', $position->y + $this->options->graphOffset->y );
                 $textNode->setAttribute( 
                     'style', 

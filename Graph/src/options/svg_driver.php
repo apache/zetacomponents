@@ -10,8 +10,12 @@
 /**
  * Class containing the basic options for charts
  *
- * @property float $assumedCharacterWidth
- *           Assumed percentual average width of chars with the used font.
+ * @property float $assumedNumericCharacterWidth
+ *           Assumed percentual average width of chars in numeric strings with 
+ *           the used font.
+ * @property float $assumedTextCharacterWidth
+ *           Assumed percentual average width of chars in non numeric strings
+ *           with the used font.
  * @property string $strokeLineCap
  *           This specifies the shape to be used at the end of open subpaths 
  *           when they are stroked.
@@ -57,7 +61,8 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->properties['assumedCharacterWidth'] = .55; // @TODO .6 seems to fit better
+        $this->properties['assumedNumericCharacterWidth'] = .62;
+        $this->properties['assumedTextCharacterWidth'] = .53;
         $this->properties['strokeLineJoin'] = 'round';
         $this->properties['strokeLineCap'] = 'round';
         $this->properties['shapeRendering'] = 'geometricPrecision';
@@ -85,8 +90,11 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
     {
         switch ( $propertyName )
         {
-            case 'assumedCharacterWidth':
-                $this->properties['assumedCharacterWidth'] = min( 1, max( 0, (float) $propertyValue ) );
+            case 'assumedNumericCharacterWidth':
+                $this->properties['assumedNumericCharacterWidth'] = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'assumedTextCharacterWidth':
+                $this->properties['assumedTextCharacterWidth'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             case 'strokeLineJoin':
                 $values = array(
