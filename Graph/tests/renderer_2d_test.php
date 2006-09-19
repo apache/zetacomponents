@@ -124,8 +124,8 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->expects( $this->at( 2 ) )
             ->method( 'drawLine' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 205., 160. ), 1. ),
-                $this->equalTo( new ezcGraphCoordinate( 292.5, 150. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 205., 166. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 250., 190. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
                 $this->equalTo( 1 )
             );
@@ -134,7 +134,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->expects( $this->at( 3 ) )
             ->method( 'drawCircle' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 205., 160. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 205., 166. ), 1. ),
                 $this->equalTo( 6 ),
                 $this->equalTo( 6 ),
                 $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
@@ -144,7 +144,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->expects( $this->at( 4 ) )
             ->method( 'drawCircle' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 292.5, 150. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 250., 190. ), 1. ),
                 $this->equalTo( 6 ),
                 $this->equalTo( 6 ),
                 $this->equalTo( ezcGraphColor::fromHex( '#000000' ) ),
@@ -156,9 +156,9 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->method( 'drawTextBox' )
             ->with(
                 $this->equalTo( 'Testlabel' ),
-                $this->equalTo( new ezcGraphCoordinate( 298.5, 135. ), 1. ),
-                $this->equalTo( 101.5, 1. ),
-                $this->equalTo( 30., 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 256., 180. ), 1. ),
+                $this->equalTo( 144.5, 1. ),
+                $this->equalTo( 20., 1. ),
                 $this->equalTo( 36 )
             );
 
@@ -266,9 +266,9 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->method( 'drawTextBox' )
             ->with(
                 $this->equalTo( 'Label 5' ),
-                $this->equalTo( new ezcGraphCoordinate( 0, 143. ), 1. ),
-                $this->equalTo( 106., 1. ),
-                $this->equalTo( 30., 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 0, 180. ), 1. ),
+                $this->equalTo( 144.5, 1. ),
+                $this->equalTo( 20., 1. ),
                 $this->equalTo( 40 )
             );
         $this->driver
@@ -276,9 +276,9 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->method( 'drawTextBox' )
             ->with(
                 $this->equalTo( 'Label 1' ),
-                $this->equalTo( new ezcGraphCoordinate( 302., 42. ), 1. ),
-                $this->equalTo( 97., 1. ),
-                $this->equalTo( 30., 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 307., 120. ), 1. ),
+                $this->equalTo( 92.5, 1. ),
+                $this->equalTo( 20., 1. ),
                 $this->equalTo( 36 )
             );
         $this->driver
@@ -286,9 +286,9 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->method( 'drawTextBox' )
             ->with(
                 $this->equalTo( 'Label 2' ),
-                $this->equalTo( new ezcGraphCoordinate( 312., 92. ), 1. ),
-                $this->equalTo( 88., 1. ),
-                $this->equalTo( 30., 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 298.5, 140. ), 1. ),
+                $this->equalTo( 101.5, 1. ),
+                $this->equalTo( 20., 1. ),
                 $this->equalTo( 36 )
             );
         $this->driver
@@ -296,9 +296,9 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->method( 'drawTextBox' )
             ->with(
                 $this->equalTo( 'Label 3' ),
-                $this->equalTo( new ezcGraphCoordinate( 303., 127. ), 1. ),
-                $this->equalTo( 97., 1. ),
-                $this->equalTo( 30., 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 283.5, 160. ), 1. ),
+                $this->equalTo( 116.5, 1. ),
+                $this->equalTo( 20., 1. ),
                 $this->equalTo( 36 )
             );
         $this->driver
@@ -306,9 +306,9 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->method( 'drawTextBox' )
             ->with(
                 $this->equalTo( 'Label 4' ),
-                $this->equalTo( new ezcGraphCoordinate( 281., 157. ), 1. ),
-                $this->equalTo( 119., 1. ),
-                $this->equalTo( 30., 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 255.5, 180. ), 1. ),
+                $this->equalTo( 144.5, 1. ),
+                $this->equalTo( 20., 1. ),
                 $this->equalTo( 36 )
             );
 

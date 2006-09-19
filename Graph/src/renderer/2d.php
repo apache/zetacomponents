@@ -80,7 +80,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         $radius = min(
             ( $boundings->width ) * $this->options->pieHorizontalSize,
             ( $boundings->height ) * $this->options->pieVerticalSize
-        ) * ( 1 - $this->options->moveOut );
+        );
 
         // Move pie segment out of the center
         if ( $moveOut )
@@ -97,8 +97,8 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         $this->circleSectors[] = array(
             'center' =>     $center,
             'context' =>    $context,
-            'width' =>      $radius * 2,
-            'height' =>     $radius * 2,
+            'width' =>      $radius * 2 * ( 1 - $this->options->moveOut ),
+            'height' =>     $radius * 2 * ( 1 - $this->options->moveOut ),
             'start' =>      $startAngle + $this->options->pieChartOffset,
             'end' =>        $endAngle + $this->options->pieChartOffset,
             'color' =>      $color,
@@ -107,18 +107,18 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         if ( $label )
         {
             // Determine position of label
-            $middle = $startAngle + ( $endAngle - $startAngle ) / 2 + $this->options->pieChartOffset;
+            $direction = $startAngle + ( $endAngle - $startAngle ) / 2 + $this->options->pieChartOffset;
             $pieSegmentCenter = new ezcGraphCoordinate(
-                cos( deg2rad( $middle ) ) * $radius + $center->x,
-                sin( deg2rad( $middle ) ) * $radius + $center->y
+                $center->x + cos( deg2rad( $direction ) ) * $radius,
+                $center->y + sin( deg2rad( $direction ) ) * $radius
             );
 
             // Split labels up into left an right size and index them on their
             // y position
             $this->pieSegmentLabels[(int) ($pieSegmentCenter->x > $center->x)][$pieSegmentCenter->y] = array(
                 new ezcGraphCoordinate(
-                    cos( deg2rad( $middle ) ) * $radius * 2 / 3 + $center->x,
-                    sin( deg2rad( $middle ) ) * $radius * 2 / 3 + $center->y
+                    $center->x + cos( deg2rad( $direction ) ) * $radius * 2 / 3,
+                    $center->y + sin( deg2rad( $direction ) ) * $radius * 2 / 3
                 ),
                 $label,
                 $context
@@ -199,18 +199,18 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
 
         // Limit radius to fourth of width and half of height at maximum
         $radius = min(
-            ( $boundings->width ) / 4,
-            ( $boundings->height ) / 2
+            ( $boundings->width ) * $this->options->pieHorizontalSize,
+            ( $boundings->height ) * $this->options->pieVerticalSize
         );
 
         $pieChartHeight = min(
-            $radius * 2 + $this->options->maxLabelHeight * 2,
+            $radius * 2 + $radius / max( 1, count ( $this->pieSegmentLabels[0] ), count( $this->pieSegmentLabels[1] ) ) * 4,
             $boundings->height
         );
         $pieChartYPosition = $boundings->y0 + ( ( $boundings->height ) - $pieChartHeight ) / 2;
 
         // Calculate maximum height of labels
-        $labelHeight = (int) round( min(
+        $labelHeight = min(
             ( count( $this->pieSegmentLabels[0] )
                 ? $pieChartHeight / count( $this->pieSegmentLabels[0] )
                 : $pieChartHeight
@@ -219,8 +219,8 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                 ? $pieChartHeight / count( $this->pieSegmentLabels[1] )
                 : $pieChartHeight
             ),
-            ( $boundings->height ) * $this->options->maxLabelHeight
-        ) );
+            ( $pieChartHeight ) * $this->options->maxLabelHeight
+        );
 
         $symbolSize = $this->options->symbolSize;
 
@@ -235,6 +235,13 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
 
             foreach ( $labelPart as $height => $label )
             {
+                if ( ( $height - $labelHeight / 2 ) > $minHeight )
+                {
+                    $share = min( $toShare, ( $height - $labelHeight / 2) - $minHeight );
+                    $minHeight += $share;
+                    $toShare -= $share;
+                }
+
                 // Determine position of label
                 $minHeight += max( 0, $height - $minHeight - $labelHeight ) / $pieChartHeight * $toShare;
                 $verticalDistance = ( $center->y - $minHeight - $labelHeight / 2 ) / $radius;
@@ -242,13 +249,16 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                 $labelPosition = new ezcGraphCoordinate(
                     $center->x - 
                     $sign * (
-                        abs( $verticalDistance ) > 1 ?
+                        abs( $verticalDistance ) > 1
                         // If vertical distance to center is greater then the
                         // radius, use the centerline for the horizontal 
                         // position
-                        5 :
+                        ? max (
+                            5,
+                            abs( $label[0]->x - $center->x )
+                        )
                         // Else place the label outside of the pie chart
-                        (   cos ( asin ( $verticalDistance ) ) * $radius + 
+                        : ( cos ( asin ( $verticalDistance ) ) * $radius + 
                             $symbolSize * (int) $this->options->showSymbol 
                         )
                     ),
