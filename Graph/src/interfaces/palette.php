@@ -160,19 +160,22 @@ abstract class ezcGraphPalette
      * 
      * @param string $propertyName Name of property
      * @return mixed
+     * @ignore
      */
     public function __get( $propertyName )
     {
         switch ( $propertyName )
         {
             case 'axisColor':
-                return $this->checkColor( $this->axisColor );
-            
             case 'majorGridColor':
-                return $this->checkColor( $this->majorGridColor );
             case 'minorGridColor':
-                return $this->checkColor( $this->minorGridColor );
-    
+            case 'fontColor':
+            case 'chartBackground':
+            case 'chartBorderColor':
+            case 'elementBackground':
+            case 'elementBorderColor':
+                return ( $this->$propertyName = $this->checkColor( $this->$propertyName ) );
+            
             case 'dataSetColor':
                 $this->colorIndex = ( ( $this->colorIndex + 1 ) % count( $this->dataSetColor ) );
                 return $this->checkColor( $this->dataSetColor[ $this->colorIndex ] );
@@ -180,30 +183,79 @@ abstract class ezcGraphPalette
                 $this->symbolIndex = ( ( $this->symbolIndex + 1 ) % count( $this->dataSetSymbol ) );
                 return $this->dataSetSymbol[ $this->symbolIndex ];
 
-            case 'fontColor':
-                return $this->checkColor( $this->fontColor );
             case 'fontName':
-                return $this->fontName;
-
-            case 'chartBackground':
-                return $this->checkColor( $this->chartBackground );
-            case 'chartBorderColor':
-                return $this->checkColor( $this->chartBorderColor );
             case 'chartBorderWidth':
-                return $this->chartBorderWidth;
-
-            case 'elementBackground':
-                return $this->checkColor( $this->elementBackground );
-            case 'elementBorderColor':
-                return $this->checkColor( $this->elementBorderColor );
             case 'elementBorderWidth':
-                return $this->elementBorderWidth;
-
             case 'padding':
-                return $this->padding;
             case 'margin':
-                return $this->margin;
+                return $this->$propertyName;
 
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+    }
+
+    /**
+     * __set 
+     * 
+     * @param mixed $propertyName Property name
+     * @param mixed $propertyValue Property value
+     * @access public
+     * @ignore
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'axisColor':
+            case 'majorGridColor':
+            case 'minorGridColor':
+            case 'fontColor':
+            case 'chartBackground':
+            case 'chartBorderColor':
+            case 'elementBackground':
+            case 'elementBorderColor':
+                $this->$propertyName = ezcGraphColor::create( $propertyValue );
+                break;
+
+            case 'dataSetColor':
+                if ( !is_array( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'array( ezcGraphColor )' );
+                }
+
+                $this->dataSetColor = array();
+                foreach ( $propertyValue as $value )
+                {
+                    $this->dataSetColor[] = ezcGraphColor::create( $value );
+                }
+                $this->colorIndex = -1;
+                break;
+            case 'dataSetSymbol':
+                if ( !is_array( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'array( (int) ezcGraph::SYMBOL_TYPE )' );
+                }
+
+                $this->dataSetSymbol = array();
+                foreach ( $propertyValue as $value )
+                {
+                    $this->dataSetSymbol[] = (int) $value;
+                }
+                $this->symbolIndex = -1;
+                break;
+
+            case 'fontName':
+                $this->$propertyName = (string) $propertyValue;
+                break;
+
+            case 'chartBorderWidth':
+            case 'elementBorderWidth':
+            case 'padding':
+            case 'margin':
+                $this->$propertyName = max( 0, (int) $propertyValue );
+                break;
+        
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
         }

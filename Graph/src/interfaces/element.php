@@ -137,7 +137,7 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
                 }
                 else
                 {
-                    throw new ezcBaseValueException( $propertyValue, 'ezcGraphFontOptions' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphFontOptions' );
                 }
                 break;
             case 'position':

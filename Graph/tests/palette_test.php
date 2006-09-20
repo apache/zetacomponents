@@ -337,6 +337,96 @@ class ezcGraphPaletteTest extends ezcTestCase
             'Chart background not set from pallet.'
         );
     }
+
+    public function testModifyPaletteColorProperty()
+    {
+        $palette = new ezcGraphPaletteTango();
+
+        $palette->axisColor = '#FFFFFF';
+        $palette->majorGridColor = array( 255, 255, 255, 255 );
+        $palette->minorGridColor = ezcGraphColor::fromHex( '#00000000' );
+
+        $this->assertEquals(
+            $palette->axisColor,
+            ezcGraphColor::fromHex( '#FFFFFF' )
+        );
+
+        try
+        {
+            $palette->axisColor = false;
+        }
+        catch ( ezcGraphUnknownColorDefinitionException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'expected ezcGraphUnknownColorDefinitionException.' );
+    }
+
+    public function testModifyPaletteIntProperty()
+    {
+        $palette = new ezcGraphPaletteTango();
+
+        $palette->chartBorderWidth = 0;
+        $palette->padding = -1;
+        $palette->margin = 3;
+
+        $this->assertSame( $palette->chartBorderWidth, 0 );
+        $this->assertSame( $palette->padding, 0 );
+        $this->assertSame( $palette->margin, 3 );
+    }
+
+    public function testModifyPaletteDatasetColorArray()
+    {
+        $palette = new ezcGraphPaletteTango();
+
+        $palette->dataSetColor = array(
+            '#ABCDEF',
+            array( 255, 255, 255 ),
+        );
+
+        $this->assertEquals(
+            $palette->dataSetColor,
+            ezcGraphColor::fromHex( '#ABCDEF' )
+        );
+
+        try
+        {
+            $palette->dataSetColor = '#FFFFFF';
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'expected ezcBaseValueException.' );
+    }
+
+    public function testModifyPaletteDatasetSymbolArray()
+    {
+        $palette = new ezcGraphPaletteTango();
+
+        $palette->dataSetSymbol = array(
+            ezcGraph::BULLET,
+            ezcGraph::CIRCLE
+        );
+
+        $this->assertSame(
+            $palette->dataSetSymbol,
+            ezcGraph::BULLET
+        );
+
+        try
+        {
+            $palette->dataSetSymbol = ezcGraph::BULLET;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'expected ezcBaseValueException.' );
+    }
 }
 
 ?>
