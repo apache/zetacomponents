@@ -1,35 +1,8 @@
-Alpha:
- - Check for undocumented functions
- - Fix scaling of background image
+Missing features:
  - Tresh hold for pie charts
-
-Next steps:
- - 3D-Renderer
-   - Inaccurate rendering for line charts
-   - z-Bffer problems for pie charts
-   - Symbol priority wrong
- - Enhance font configuration with magic
- - Return datapoinnt positions for imagemap and / or adding additional 
-   information with div overlays
- - TextElement to add copyright info etc.
- - GD-Driver
-   - Antialiasing of lines
- - Datasets
-   - FromPDO
-   - Average (polynomial)
- - Axis
-   - Logarithmical scaled axis
-   - DateAxis
- - Chart types
-   - Bar charts
-   - Radar charts
-     http://www.aditus.nu/jpgraph/img/gallery/radarlogex1.png
-   - "Filled" line charts (combine with normal line charts)
-     http://www.aditus.nu/jpgraph/img/gallery/example17.png
- - Driver
-   - Flash
- - Elements
-   - Shadows for elements like legend, chart, textboxes, etc.
- - Datasets
-   - Average (Bezier, Besplines)
-
+ - Support for rotated texts
+ - Datasets from PDO Statements
+ - Logarithmical scaled axis
+ - Radar charts
+   http://www.aditus.nu/jpgraph/img/gallery/radarlogex1.png
+ - Flash driver
