@@ -142,8 +142,8 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
             // y position
             $this->pieSegmentLabels[(int) ($pieSegmentCenter->x > $center->x)][$pieSegmentCenter->y] = array(
                 new ezcGraphCoordinate(
-                    $center->x + cos( deg2rad( $direction ) ) * $radius * 2 / 3,
-                    $center->y + sin( deg2rad( $direction ) ) * $radius * 2 / 3 * $this->options->pieChartRotation
+                    $center->x + cos( deg2rad( $direction ) ) * $radius * 2 / 3 * ( 1 - $this->options->moveOut ),
+                    $center->y + sin( deg2rad( $direction ) ) * ( $radius - $this->options->pieChartHeight ) * 2 / 3 * ( 1 - $this->options->moveOut ) * $this->options->pieChartRotation
                 ),
                 $label,
                 $context,
