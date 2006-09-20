@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphChart class
+ * File containing the abstract ezcGraphChartDataContainer class
  *
  * @package Graph
  * @version //autogentag//
@@ -8,7 +8,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class containing the container for the charts datasets
+ * Container class for datasets used by the chart classes. Implements usefull
+ * interfaces for convenient access to the datasets.
  *
  * @package Graph
  */

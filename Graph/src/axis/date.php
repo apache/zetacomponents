@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphChartElementDateAxis class
+ * File containing the ezcGraphChartElementDateAxis class
  *
  * @package Graph
  * @version //autogentag//
@@ -8,7 +8,13 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class to represent a axe as a chart element
+ * Class to represent date axis. Date axis will try to find a "nice" interval
+ * based on the values on the x axis. If non numeric values are given, 
+ * ezcGraphChartElementDateAxis will convert them to timestamps using PHPs 
+ * strtotime function.
+ *
+ * It is always possible to set start date, end date and the interval manually
+ * by yourself.
  *
  * @property float $startDate
  *           Starting date used to display on axis.
@@ -192,6 +198,16 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
         $this->properties['interval'] = $interval;
     }
 
+    /**
+     * Calculate lower nice date
+     *
+     * Calculates a date which is earlier or equal to the given date, and is
+     * divisible by the given interval.
+     * 
+     * @param int $min Date
+     * @param int $interval Interval 
+     * @return int Earlier date
+     */
     protected function calculateLowerNiceDate( $min, $interval )
     {
         $dateSteps = array( 60, 60, 24, 7, 52 );
@@ -225,11 +241,33 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
         );
     }
 
+    /**
+     * Calculate start date
+     *
+     * Use calculateLowerNiceDate to get a date earlier or equal date then the 
+     * minimum date to use it as the start date for the axis depending on the
+     * selected interval.
+     * 
+     * @param mixed $min Minimum date
+     * @param mixed $max Maximum date
+     * @return void
+     */
     public function calculateMinimum( $min, $max )
     {
         $this->properties['startDate'] = $this->calculateLowerNiceDate( $min, $this->interval );
     }
 
+    /**
+     * Calculate end date
+     *
+     * Use calculateLowerNiceDate to get a date later or equal date then the 
+     * maximum date to use it as the end date for the axis depending on the
+     * selected interval.
+     * 
+     * @param mixed $min Minimum date
+     * @param mixed $max Maximum date
+     * @return void
+     */
     public function calculateMaximum( $min, $max )
     {
         $this->properties['endDate'] = $this->calculateLowerNiceDate( $max, $this->interval );
@@ -243,8 +281,6 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
     /**
      * Calculate axis bounding values on base of the assigned values 
      * 
-     * @abstract
-     * @access public
      * @return void
      */
     public function calculateAxisBoundings()

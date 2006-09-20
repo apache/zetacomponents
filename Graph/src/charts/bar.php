@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphBarChart class
+ * File containing the ezcGraphBarChart class
  *
  * @package Graph
  * @version //autogentag//
@@ -8,7 +8,33 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class to represent a line chart.
+ * Class for bar charts. Can make use of an unlimited amount of datasets and 
+ * will display them as bars by default.
+ * X axis:
+ *  - Labeled axis
+ *  - Boxed axis label renderer
+ * Y axis:
+ *  - Numeric axis
+ *  - Exact axis label renderer
+ *
+ * <code>
+ *  // Create a new line chart
+ *  $chart = new ezcGraphBarChart();
+ *
+ *  // Add data to line chart
+ *  $chart->data['sample dataset'] = new ezcGraphArrayDataSet(
+ *      array(
+ *          '100' => 1.2,
+ *          '200' => 43.2,
+ *          '300' => -34.14,
+ *          '350' => 65,
+ *          '400' => 123,
+ *      )   
+ *  );
+ *
+ *  // Render chart with default 2d renderer and default SVG driver
+ *  $chart->render( 500, 200, 'bar_chart.svg' );
+ * </code>
  *
  * @package Graph
  */

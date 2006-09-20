@@ -8,7 +8,12 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class to represent a axe as a chart element
+ * Class to represent a numeric axis. The axis tries to calculate "nice" start
+ * and end values for the axis scale. The used interval is considered as nice, 
+ * if it is equal to [1,2,5] * 10^x with x in [.., -1, 0, 1, ..].
+ *
+ * The start and end value are the next bigger / smaller multiple of the 
+ * intervall compared to the maximum / minimum axis value.
  *
  * @property float $min
  *           Minimum value of displayed scale on axis.
@@ -19,7 +24,6 @@
  * @property float $maxValue
  *           Maximum value to display on this axis.
  *           
- *
  * @package Graph
  */
 class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis

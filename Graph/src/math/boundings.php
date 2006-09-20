@@ -1,17 +1,60 @@
 <?php
-
+/**
+ * File containing the ezcGraphBoundings class
+ *
+ * @package Graph
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
+ */
+/**
+ * Provides a class representing boundings in a cartesian coordinate system.
+ *
+ * Currently only works with plane rectangular boundings, should be enhanced by
+ * rotated rectangular boundings.
+ *
+ * @package Graph
+ * @access private
+ */
 class ezcGraphBoundings
 {
+    /**
+     * Top left x coordinate 
+     * 
+     * @var float
+     */
     public $x0 = 0;
 
+    /**
+     * Top left y coordinate 
+     * 
+     * @var float
+     */
     public $y0 = 0;
     
+    /**
+     * Bottom right x coordinate 
+     * 
+     * @var float
+     */
     public $x1 = false;
 
+    /**
+     * Bottom right y coordinate 
+     * 
+     * @var float
+     */
     public $y1 = false;
     
     /**
-     * Empty constructor
+     * Constructor
+     * 
+     * @param float $x0 Top left x coordinate
+     * @param float $y0 Top left y coordinate
+     * @param float $x1 Bottom right x coordinate
+     * @param float $y1 Bottom right y coordinate
+     * @return ezcGraphBoundings
      */
     public function __construct( $x0 = 0, $y0 = 0, $x1 = false, $y1 = false )
     {
@@ -37,7 +80,12 @@ class ezcGraphBoundings
     }
 
     /**
-     * Throws a BasePropertyNotFound exception.
+     * Getter for calculated values depending on the boundings.
+     *  - 'width': Width of bounding recangle
+     *  - 'height': Height of bounding recangle
+     * 
+     * @param string $name Name of property to get
+     * @return mixed Calculated value
      */
     public function __get( $name )
     {

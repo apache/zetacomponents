@@ -6,11 +6,13 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
  */
 /**
  * Provides a class for generic operations on polynoms
  *
  * @package Graph
+ * @access private
  */
 class ezcGraphPolynom
 {
@@ -26,15 +28,13 @@ class ezcGraphPolynom
      *      2 * x^3 + .5 * x - 3
      *  Array:
      *      array (
-     *          3 => 2,
-     *          1 => .5,
-     *          0 => -3,
+     *          (int) 3 => (float) 2,
+     *          (int) 1 => (float) .5,
+     *          (int) 0 => (float) -3,
      *      )
      * 
-     * @param int $columns Number of columns
-     * @param int $rows Number of rows
      * @param array $values Array with values
-     * @return void
+     * @return ezcGraphPolynom
      */
     public function __construct( array $values = array() )
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphLineChart class
+ * File containing the ezcGraphLineChart class
  *
  * @package Graph
  * @version //autogentag//
@@ -8,7 +8,33 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class to represent a line chart.
+ * Class for line charts. Can make use of an unlimited amount of datasets and 
+ * will display them as lines by default.
+ * X axis:
+ *  - Labeled axis
+ *  - Centered axis label renderer
+ * Y axis:
+ *  - Numeric axis
+ *  - Exact axis label renderer
+ *
+ * <code>
+ *  // Create a new line chart
+ *  $chart = new ezcGraphLineChart();
+ *
+ *  // Add data to line chart
+ *  $chart->data['sample dataset'] = new ezcGraphArrayDataSet(
+ *      array(
+ *          '100' => 1.2,
+ *          '200' => 43.2,
+ *          '300' => -34.14,
+ *          '350' => 65,
+ *          '400' => 123,
+ *      )   
+ *  );
+ *
+ *  // Render chart with default 2d renderer and default SVG driver
+ *  $chart->render( 500, 200, 'line_chart.svg' );
+ * </code>
  *
  * @package Graph
  */
@@ -78,7 +104,18 @@ class ezcGraphLineChart extends ezcGraphChart
         }
     }
 
-    protected function renderData( $renderer, $boundings )
+    /**
+     * Render the assigned data
+     *
+     * Will renderer all charts data in the remaining boundings after drawing 
+     * all other chart elements. The data will be rendered depending on the 
+     * settings in the dataset.
+     * 
+     * @param ezcGraphRenderer $renderer Renderer
+     * @param ezcGraphBoundings $boundings Remaining boundings
+     * @return void
+     */
+    protected function renderData( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings )
     {
         // Apply axis space
         $xAxisSpace = ( $boundings->x1 - $boundings->x0 ) * $this->yAxis->axisSpace;
@@ -240,10 +277,15 @@ class ezcGraphLineChart extends ezcGraphChart
     }
 
     /**
-     * Render a line chart
+     * Render the line chart
+     *
+     * Renders the chart into a file or stream. The width and height are 
+     * needed to specify the dimensions of the resulting image. For direct
+     * output use 'php://stdout' as output file.
      * 
-     * @param ezcGraphRenderer $renderer 
-     * @access public
+     * @param int $width Image width
+     * @param int $height Image height
+     * @param string $file Output file
      * @return void
      */
     public function render( $width, $height, $file = null )

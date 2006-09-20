@@ -481,14 +481,9 @@ abstract class ezcGraphRenderer
      * Method is called before the final image is renderer, so that finishing
      * operations can be performed here.
      * 
-     * @abstract
-     * @access public
      * @return void
      */
-    protected function finish()
-    {
-        return true;
-    }
+    abstract protected function finish();
 
     /**
      * Finally renders the image 

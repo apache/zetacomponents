@@ -6,11 +6,13 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
  */
 /**
  * Basic class to contain the charts data
  *
  * @package Graph
+ * @access private
  */
 abstract class ezcGraphDataSet implements ArrayAccess, Iterator
 {
@@ -73,6 +75,13 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator
      */
     protected $pallet;
 
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
     public function __construct()
     {
         $this->label = new ezcGraphDataSetStringProperty( $this );
@@ -84,6 +93,18 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator
         $this->highlight->default = false;
     }
 
+    /**
+     * Options write access
+     * 
+     * @throws ezcBasePropertyNotFoundException
+     *          If Option could not be found
+     * @throws ezcBaseValueException
+     *          If value is out of range
+     * @param mixed $propertyName   Option name
+     * @param mixed $propertyValue  Option value;
+     * @return void
+     * @ignore
+     */
     public function __set( $propertyName, $propertyValue )
     {
         switch ( $propertyName )

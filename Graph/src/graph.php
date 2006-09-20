@@ -14,29 +14,97 @@
  */
 class ezcGraph
 {
+    /**
+     * No symbol, will fallback to a rect in the legend
+     */
     const NO_SYMBOL = 0;
+    /**
+     * Rhomb like looking symbol
+     */
     const DIAMOND = 1;
+    /**
+     * Filled circle
+     */
     const BULLET = 2;
+    /**
+     * Non filled circle
+     */
     const CIRCLE = 3;
 
+    /**
+     * Constant used for background repetition. No repeat.
+     */
     const NO_REPEAT = 0;
+    /**
+     * Constant used for background repetition. Repeat along the x axis. May be
+     * used as a bitmask together with ezcGraph::VERTICAL.
+     */
     const HORIZONTAL = 1;
+    /**
+     * Constant used for background repetition. Repeat along the y axis. May be
+     * used as a bitmask together with ezcGraph::HORIZONTAL.
+     */
     const VERTICAL = 2;
 
+    /**
+     * Constant used for positioning of elements. May be used as a bitmask 
+     * together with other postioning constants.
+     * Element will be placed at the top of the current boundings.
+     */
     const TOP = 1;
+    /**
+     * Constant used for positioning of elements. May be used as a bitmask 
+     * together with other postioning constants.
+     * Element will be placed at the bottom of the current boundings.
+     */
     const BOTTOM = 2;
+    /**
+     * Constant used for positioning of elements. May be used as a bitmask 
+     * together with other postioning constants.
+     * Element will be placed at the left of the current boundings.
+     */
     const LEFT = 4;
+    /**
+     * Constant used for positioning of elements. May be used as a bitmask 
+     * together with other postioning constants.
+     * Element will be placed at the right of the current boundings.
+     */
     const RIGHT = 8;
+    /**
+     * Constant used for positioning of elements. May be used as a bitmask 
+     * together with other postioning constants.
+     * Element will be placed at the horizontalcenter of the current boundings.
+     */
     const CENTER = 16;
+    /**
+     * Constant used for positioning of elements. May be used as a bitmask 
+     * together with other postioning constants.
+     * Element will be placed at the vertical middle of the current boundings.
+     */
     const MIDDLE = 32;
 
+    /**
+     * Display type for datasets. Pie may only be used with pie charts. 
+     */
     const PIE = 1;
+    /**
+     * Display type for datasets. Bar and line charts may contain datasets of
+     * type ezcGraph::LINE.
+     */
     const LINE = 2;
+    /**
+     * Display type for datasets. Bar and line charts may contain datasets of
+     * type ezcGraph::BAR.
+     */
     const BAR = 3;
 
-    // native TTF font
+    /**
+     * Font type definition. Used for True Type fonts.
+     */
     const TTF_FONT = 1;
-    // PostScript Type1 fonts
+    /**
+     * Font type definition. Used for Postscript Type 1 fonts.
+     */
     const PS_FONT = 2;
 }
 

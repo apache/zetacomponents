@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphChart class
+ * File containing the abstract ezcGraphChartSingleDataContainer class
  *
  * @package Graph
  * @version //autogentag//
@@ -8,7 +8,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class containing the container for the charts datasets
+ * Container class for datasets, which ensures, that only one dataset is used.
+ * Needed for pie charts which can only display one dataset.
  *
  * @package Graph
  */

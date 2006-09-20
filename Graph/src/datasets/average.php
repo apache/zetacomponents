@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphDataSetAverage class
+ * File containing the ezcGraphDataSetAverage class
  *
  * @package Graph
  * @version //autogentag//
@@ -21,16 +21,46 @@
 class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet 
 {
 
+    /**
+     * Source dataset to base averation on.
+     * 
+     * @var ezcGraphDataSet
+     */
     protected $source;
 
+    /**
+     * Calculated averation polynom
+     * 
+     * @var ezcGraphPolynom
+     */
     protected $polynom = false;
 
+    /**
+     * Minimum key
+     * 
+     * @var float
+     */
     protected $min = false;
 
+    /**
+     * Maximum key
+     * 
+     * @var float
+     */
     protected $max = false;
 
+    /**
+     * Position of the data iterator. Depends on the configured resolution.
+     * 
+     * @var int
+     */
     protected $position = 0;
 
+    /**
+     * Container to hold the properties
+     *
+     * @var array(string=>mixed)
+     */
     protected $properties;
 
     /**

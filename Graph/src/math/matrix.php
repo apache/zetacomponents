@@ -6,19 +6,45 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
  */
 /**
  * Provides a genereic matrix class with basic math operations
  *
  * @package Graph
+ * @access private
  */
 class ezcGraphMatrix
 {
 
+    /**
+     * Count of matrix rows
+     * 
+     * @var int
+     */
     protected $rows;
 
+    /**
+     * Count of matrix columns
+     * 
+     * @var int
+     */
     protected $columns;
 
+    /**
+     * Array containing matrix values.
+     *
+     * // Matrix
+     *  array(
+     *      // Rows
+     *      array(
+     *          // Column values
+     *          (float)
+     *      )
+     *  )
+     * 
+     * @var array( array( float ) )
+     */
     protected $matrix;
 
     /**
@@ -51,7 +77,7 @@ class ezcGraphMatrix
     /**
      * Create matrix from array
      *
-     * Use the array values to set matrix values
+     * Use an array with float values to set matrix values.
      * 
      * @param array $values Array with values
      * @return ezcGraphMatrix Modified matrix
@@ -75,7 +101,7 @@ class ezcGraphMatrix
     /**
      * Init matrix
      *
-     * Sets matrix to identity matrix
+     * Sets matrix to identity matrix.
      * 
      * @return ezcGraphMatrix Modified matrix
      */
@@ -137,7 +163,7 @@ class ezcGraphMatrix
     /**
      * Set a single matrix value
      *
-     * Sets the value of the matrix at the given position
+     * Sets the value of the matrix at the given position.
      * 
      * @param int $i Column
      * @param int $j Row
@@ -379,23 +405,20 @@ class ezcGraphMatrix
         return $polynom;
     }
 
-    public function __toString()
-    {
-        $string = sprintf( "%d x %d matrix:\n", $this->rows, $this->columns );
-
-		for ( $i = 0; $i < $this->rows; ++$i ) 
-        {
-            $string .= '| ';
-			for ( $j = 0; $j < $this->columns; ++$j ) 
-            {
-                $string .= sprintf( '%04.2f ', $this->get( $i, $j ) );
-            }
-            $string .= "|\n";
-        }
-
-        return $string;
-    }
-
+    /**
+     * Build LR decomposition from matrix
+     *
+     * Use Cholesky-Crout algorithm to get LR decomposition of the current 
+     * matrix.
+     *
+     * Will return an array with two matrices:
+     *  array(
+     *      'l' => (ezcGraphMatrix) $left,
+     *      'r' => (ezcGraphMatrix) $right,
+     *  )
+     * 
+     * @return array( ezcGraphMatrix )
+     */
     public function LRdecomposition()
     {
         /**
@@ -450,6 +473,28 @@ class ezcGraphMatrix
             'l' => $l, 
             'r' => $r,
         );
+    }
+
+    /**
+     * Returns a string representation of the matrix
+     * 
+     * @return string
+     */
+    public function __toString()
+    {
+        $string = sprintf( "%d x %d matrix:\n", $this->rows, $this->columns );
+
+		for ( $i = 0; $i < $this->rows; ++$i ) 
+        {
+            $string .= '| ';
+			for ( $j = 0; $j < $this->columns; ++$j ) 
+            {
+                $string .= sprintf( '%04.2f ', $this->get( $i, $j ) );
+            }
+            $string .= "|\n";
+        }
+
+        return $string;
     }
 }
 ?>

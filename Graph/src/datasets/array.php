@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphArrayDataSet class
+ * File containing the ezcGraphArrayDataSet class
  *
  * @package Graph
  * @version //autogentag//
@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Basic class to contain the charts data
+ * Dataset class which receives arrays and use them as a base for datasets.
  *
  * @package Graph
  */

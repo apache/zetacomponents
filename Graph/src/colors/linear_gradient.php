@@ -10,7 +10,8 @@
 
 /**
  * Class representing linear gradient fills. For drivers which cannot draw 
- * gradients it falls back to a native ezcGraphColor
+ * gradients it falls back to a native ezcGraphColor. In this case the start
+ * color of the gradient will be used.
  *
  * @property ezcGraphCoordinate $startPoint
  *           Starting point of the gradient.
@@ -132,6 +133,12 @@ class ezcGraphLinearGradient extends ezcGraphColor
         }
     }
 
+    /**
+     * Returns a unique string representation for the gradient.
+     * 
+     * @access public
+     * @return void
+     */
     public function __toString()
     {
         return sprintf( 'LinearGradient_%d_%d_%d_%d_%02x%02x%02x%02x_%02x%02x%02x%02x',

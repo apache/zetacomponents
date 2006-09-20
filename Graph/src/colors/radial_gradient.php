@@ -9,8 +9,9 @@
  */
 
 /**
- * Class representing linear gradient fills. For drivers which cannot draw 
- * gradients it falls back to a native ezcGraphColor
+ * Class representing radial gradient fills. For drivers which cannot draw 
+ * gradients it falls back to a native ezcGraphColor. In this case the start
+ * color of the gradient will be used.
  *
  * @property ezcGraphCoordinate $center
  *           Center point of the gradient.
@@ -137,6 +138,12 @@ class ezcGraphRadialGradient extends ezcGraphColor
         }
     }
 
+    /**
+     * Returns a unique string representation for the gradient.
+     * 
+     * @access public
+     * @return void
+     */
     public function __toString()
     {
         return sprintf( 'RadialGradient_%d_%d_%d_%d_%.2f_%02x%02x%02x%02x_%02x%02x%02x%02x',

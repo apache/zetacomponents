@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphChartElementLabeledAxis class
+ * File containing the ezcGraphChartElementLabeledAxis class
  *
  * @package Graph
  * @version //autogentag//
@@ -8,7 +8,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class to represent a axe as a chart element
+ * Class to represent a labeled axis. Values on the x axis are considered as 
+ * strings and used in the given order.
  *
  * @package Graph
  */
@@ -35,6 +36,13 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
      */
     const MAX_LABEL_COUNT = 10;
 
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
     public function __construct( array $options = array() )
     {
         $this->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
@@ -42,7 +50,15 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
         parent::__construct( $options );
     }
 
-    protected function increaseKeys( $array, $startKey )
+    /**
+     * Increase the keys of all elements in the array up from the start key, to
+     * insert an additional element at the correct position.
+     * 
+     * @param array $array Array
+     * @param int $startKey Key to increase keys from
+     * @return array Updated array
+     */
+    protected function increaseKeys( array $array, $startKey )
     {
         foreach ( $array as $key => $value )
         {

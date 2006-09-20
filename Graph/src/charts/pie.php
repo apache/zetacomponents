@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphPieChart class
+ * File containing the ezcGraphPieChart class
  *
  * @package Graph
  * @version //autogentag//
@@ -8,7 +8,27 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class to represent a pie chart.
+ * Class for pie charts. Can only use one dataset which will be dispalyed as a 
+ * pie chart.
+ *
+ * <code>
+ *  // Create a new line chart
+ *  $chart = new ezcGraphLineChart();
+ *
+ *  // Add data to line chart
+ *  $chart->data['sample dataset'] = new ezcGraphArrayDataSet(
+ *      array(
+ *          'one' => 1.2,
+ *          'two' => 43.2,
+ *          'three' => -34.14,
+ *          'four' => 65,
+ *          'five' => 123,
+ *      )   
+ *  );
+ *
+ *  // Render chart with default 2d renderer and default SVG driver
+ *  $chart->render( 500, 200, 'line_chart.svg' );
+ * </code>
  *
  * @package Graph
  */
@@ -31,7 +51,18 @@ class ezcGraphPieChart extends ezcGraphChart
         $this->data = new ezcGraphChartSingleDataContainer( $this );
     }
 
-    protected function renderData( $renderer, $boundings )
+    /**
+     * Render the assigned data
+     *
+     * Will renderer all charts data in the remaining boundings after drawing 
+     * all other chart elements. The data will be rendered depending on the 
+     * settings in the dataset.
+     * 
+     * @param ezcGraphRenderer $renderer Renderer
+     * @param ezcGraphBoundings $boundings Remaining boundings
+     * @return void
+     */
+    protected function renderData( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings )
     {
         // Only draw the first (and only) dataset
         $dataset = $this->data->rewind();
@@ -80,10 +111,15 @@ class ezcGraphPieChart extends ezcGraphChart
     }
 
     /**
-     * Render a pie chart
+     * Render the pie chart
+     *
+     * Renders the chart into a file or stream. The width and height are 
+     * needed to specify the dimensions of the resulting image. For direct
+     * output use 'php://stdout' as output file.
      * 
-     * @param ezcGraphRenderer $renderer 
-     * @access public
+     * @param int $width Image width
+     * @param int $height Image height
+     * @param string $file Output file
      * @return void
      */
     public function render( $width, $height, $file = null )
