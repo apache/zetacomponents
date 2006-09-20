@@ -15,26 +15,6 @@
  */
 class ezcPersistentObjectProperty
 {
-    /**
-     * Used for fields with private visibility.
-     */
-    const VISIBILITY_PRIVATE = 1;
-
-    /**
-     * Used for fields with protected visibility.
-     */
-    const VISIBILITY_PROTECTED = 2;
-
-    /**
-     * Used for fields with public visibility.
-     */
-    const VISIBILITY_PUBLIC  = 3;
-
-    /**
-     * Used for fields that are properties
-     * @todo not visibility but member type?
-     */
-    const VISIBILITY_PROPERTY = 4;
 
     const PHP_TYPE_STRING = 1;
     const PHP_TYPE_INT = 2;
@@ -57,49 +37,16 @@ class ezcPersistentObjectProperty
      */
     public $propertyType = null;
 
-    /*
-     * The default value for this field.
-     * For fields marked as increment_key 'null' is automaticaly chosen.
-     */
-//    public $defaultValue = null;
-
-    /*
-     * We should add support for mapping later. The current implementation will simply do
-     * direct mapping. E.g if the PHP type is a string it will be saved as a string. If the
-     * php type is an int the value will be saved as an int.
-     *
-     * Later we should introduce mapping e.g for date and time types.
-     */
-    // public $mapping;
-
-    /*
-     * The visibility of the field. Can be either VISIBILITY_PRIVATE, VISIBILITY_PROTECTED or VISIBILITY_PUBLIC.
-     */
-//    public $visibility = null;
-
-    /*
-     * Sets if the field is required or not. You will not be able to store
-     * objects where required fields have not been set.
-     */
-//    public $isRequired = false;
-
-
     /**
      * Constructs a new PersistentObjectField
      */
-    public function __construct( $columnName = '',
+    public function __construct( $columnName   = '',
                                  $propertyName = '',
-                                 $type = ''/*,
-                                 $defaultValue = '',
-                                 $visibility = '',
-                                 $isRequired = false*/ )
+                                 $type         = '' )
     {
-        $this->columnName = $columnName;
+        $this->columnName   = $columnName;
         $this->propertyName = $propertyName;
         $this->propertyType = $type;
-//        $this->defaultValue = $defaultValue;
-//        $this->visibility = $visibility;
-//        $this->isRequired = $isRequired;
     }
 
     /**
@@ -119,10 +66,31 @@ class ezcPersistentObjectProperty
     {
         return new ezcPersistentObjectProperty( $array['columnName'],
                                                 $array['propertyName'],
-                                                $array['type']/*,
-                                             $array['defaultValue'],
-                                             $array['visibility'],
-                                             $array['isRequired']*/ );
+                                                $array['type'] );
     }
+    
+    /**
+     * @apichange Never used but left for BC reasons. Will be removed on next 
+     *            major version.
+     */
+    const VISIBILITY_PRIVATE = 1;
+
+    /**
+     * @apichange Never used but left for BC reasons. Will be removed on next 
+     *            major version.
+     */
+    const VISIBILITY_PROTECTED = 2;
+
+    /**
+     * @apichange Never used but left for BC reasons. Will be removed on next 
+     *            major version.
+     */
+    const VISIBILITY_PUBLIC  = 3;
+
+    /**
+     * @apichange Never used but left for BC reasons. Will be removed on next 
+     *            major version.
+     */
+    const VISIBILITY_PROPERTY = 4;
 }
 ?>
