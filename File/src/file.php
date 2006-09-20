@@ -158,6 +158,7 @@ class ezcFile
                 }
             }
         }
+        $d->close();
         rmdir( $sourceDir );
     }
 }
