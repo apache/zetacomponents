@@ -382,6 +382,72 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         );
     }
 
+    public function testRenderLabeledPieChartBlue()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->palette = new ezcGraphPaletteEzBlue();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->data['sample']->highlight['Safari'] = true;
+
+        $chart->renderer = new ezcGraphRenderer3d();
+
+        $chart->renderer->options->pieChartShadowSize = 10;
+        $chart->renderer->options->pieChartGleam = .5;
+        $chart->renderer->options->dataBorder = false;
+        $chart->renderer->options->pieChartHeight = 16;
+        $chart->renderer->options->legendSymbolGleam = .5;
+
+        $chart->driver = new ezcGraphSvgDriver();
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testRenderLabeledPieChartEz()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->palette = new ezcGraphPaletteEz();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->data['sample']->highlight['Safari'] = true;
+
+        $chart->renderer = new ezcGraphRenderer3d();
+
+        $chart->renderer->options->pieChartShadowSize = 10;
+        $chart->renderer->options->pieChartGleam = .5;
+        $chart->renderer->options->dataBorder = false;
+        $chart->renderer->options->pieChartHeight = 16;
+        $chart->renderer->options->legendSymbolGleam = .5;
+
+        $chart->driver = new ezcGraphSvgDriver();
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testRenderLabeledPieSegmentWithGleamAndShadowGD()
     {
         if ( !ezcBaseFeatures::hasExtensionSupport( 'gd' ) && 

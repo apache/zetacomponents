@@ -452,7 +452,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                     $endAngle = $circleSector['end'] + ( $this->options->pieChartShadowSize - $i );
                 }
 
-                if ( $startAngle < ( $endAngle % 360 ) )
+                if ( $endAngle - $startAngle >= 360 )
                 {
                     // Skip if block is to big
                     break;

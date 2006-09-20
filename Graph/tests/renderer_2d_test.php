@@ -647,7 +647,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ezcGraphColor::fromHex( '#FF0000DD' ), 
             .5
         );
-        $this->renderer->render( 400, 200, $this->tempDir . __METHOD__ . 'svg' );
+        $this->renderer->render( $this->tempDir . __METHOD__ . 'svg' );
     }
 
     public function testRenderFilledDataLineWithSymbolInDifferentColorAndCustomSize()
@@ -711,7 +711,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ezcGraphColor::fromHex( '#FF0000DD' ), 
             .5
         );
-        $this->renderer->render( 400, 200, $this->tempDir . __METHOD__ . 'svg' );
+        $this->renderer->render( $this->tempDir . __METHOD__ . 'svg' );
     }
 
     public function testRenderBox()

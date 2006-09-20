@@ -63,6 +63,7 @@ return array(
     'ezcGraphPaletteTango'                      => 'Graph/palette/tango.php',
     'ezcGraphPaletteBlack'                      => 'Graph/palette/black.php',
     'ezcGraphPaletteEzBlue'                     => 'Graph/palette/ez_blue.php',
+    'ezcGraphPaletteEz'                         => 'Graph/palette/ez.php',
     'ezcGraphUnknownPaletteException'           => 'Graph/exceptions/unknown_palette.php',
 
     'ezcGraphChartElement'                      => 'Graph/interfaces/element.php',
