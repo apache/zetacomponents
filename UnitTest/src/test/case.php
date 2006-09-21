@@ -111,26 +111,6 @@ abstract class ezcTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Checks if the property $propertyName in object $object contains the correct value $expectedValue.
-     * Before fetching the value it checks that $object is an object and that the property exists.
-     *
-     * @param $object The object containing the property $propertyName
-     * @param $propertyName The name of the property to access.
-     * @param $expectedValue The value the property is expected to have.
-     *
-     * @see assertSame(), assertPrivatePropertySame(), assertProtectedPropertySame()
-     */
-    public function assertPropertySame( $object, $propertyName, $expectedValue )
-    {
-        self::assertTrue( is_object( $object ),
-                          "Parameter <\$object> must be an object, got: <" . gettype( $object ) . ">" );
-        self::assertSame( true, isset( $object->$propertyName ),
-                          "Property <$propertyName> does not exist on object <" . get_class( $object ) . ">." );
-        self::assertSame( $expectedValue, $object->$propertyName,
-                          "Property <$propertyName> does not return correct value from object <" . get_class( $object ) . ">." );
-    }
-
-    /**
      * Checks if $expectedValues are properly set on $propertyName in $object.
      */
     public function assertSetProperty( $object, $propertyName, $expectedValues )
