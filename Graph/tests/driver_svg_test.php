@@ -1090,6 +1090,40 @@ class ezcGraphSvgDriverTest extends ezcTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
+
+    public function testChangeDefaultRenderSettings()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->options->strokeLineJoin = 'square';
+        $this->driver->options->strokeLineCap = 'square';
+        $this->driver->options->shapeRendering = 'optimizeSpeed';
+        $this->driver->options->colorRendering = 'optimizeSpeed';
+        $this->driver->options->textRendering = 'optimizeSpeed';
+
+        $return = $this->driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 45, 12 ),
+                new ezcGraphCoordinate( 122, 34 ),
+                new ezcGraphCoordinate( 12, 71 ),
+            ),
+            ezcGraphColor::fromHex( '#3465A4' ),
+            false
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+
+        $this->assertEquals(
+            'ezcGraphPolygon_1',
+            $return,
+            'Expected xml id as return value.'
+        );
+    }
 }
 
 ?>
