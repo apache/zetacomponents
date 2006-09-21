@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcGraphDriverGD class
+ * File containing the ezcGraphGdDriver class
  *
  * @package Graph
  * @version //autogentag//
@@ -8,7 +8,13 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Extension of the basic Driver package to utilize the GDlib.
+ * Driver using PHPs ext/gd to draw images. The GD extension is available on 
+ * nearly all PHP installations, but slow and produces slightly incorrect 
+ * results.
+ *
+ * The driver can make use of the different font extensions available with 
+ * ext/gd. It is possible to use Free Type 2, native TTF and PostScript Type 1 
+ * fonts.
  *
  * @package Graph
  */
@@ -50,11 +56,27 @@ class ezcGraphGdDriver extends ezcGraphDriver
      */
     protected $psFontRessources = array();
 
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphGdDriverOptions( $options );
     }
 
+    /**
+     * Returns the image ressource to draw on.
+     *
+     * If no ressource exists the image will be created. The size of the 
+     * returned image depends on the supersampling factor and the size of the
+     * chart.
+     * 
+     * @access ressource
+     */
     protected function getImage()
     {
         if ( !isset( $this->image ) )
@@ -79,6 +101,15 @@ class ezcGraphGdDriver extends ezcGraphDriver
         return $this->image;
     }
 
+    /**
+     * Allocates a color
+     *
+     * This function tries to allocate the requested color. If the color 
+     * already exists in the imaga it will be reused.
+     * 
+     * @param ezcGraphColor $color 
+     * @return int Color index
+     */
     protected function allocate( ezcGraphColor $color )
     {
         $image = $this->getImage();
@@ -103,6 +134,12 @@ class ezcGraphGdDriver extends ezcGraphDriver
         }
     }
 
+    /**
+     * Creates an image ressource from an image file
+     *
+     * @param string $file Filename
+     * @return ressource Image
+     */
     protected function imageCreateFrom( $file )
     {
         $data = getimagesize( $file );
@@ -132,6 +169,14 @@ class ezcGraphGdDriver extends ezcGraphDriver
         }
     }
 
+    /**
+     * Supersamples a single coordinate value.
+     *
+     * Applies supersampling to a single coordinate value.
+     * 
+     * @param float $value Coordinate value
+     * @return float Supersampled coordinate value
+     */
     protected function supersample( $value )
     {
         $mod = (int) floor( $this->options->supersampling / 2 );
@@ -139,11 +184,12 @@ class ezcGraphGdDriver extends ezcGraphDriver
     }
 
     /**
-     * Draws a single polygon 
+     * Draws a single polygon. 
      * 
-     * @param mixed $points 
-     * @param ezcGraphColor $color 
-     * @param mixed $filled 
+     * @param array $points Point array
+     * @param ezcGraphColor $color Polygon color
+     * @param mixed $filled Filled
+     * @param float $thickness Line thickness
      * @return void
      */
     public function drawPolygon( array $points, ezcGraphColor $color, $filled = true, $thickness = 1 )
@@ -175,11 +221,12 @@ class ezcGraphGdDriver extends ezcGraphDriver
     }
     
     /**
-     * Draws a single line
+     * Draws a line 
      * 
-     * @param ezcGraphCoordinate $start 
-     * @param ezcGraphCoordinate $end 
-     * @param ezcGraphColor $color 
+     * @param ezcGraphCoordinate $start Start point
+     * @param ezcGraphCoordinate $end End point
+     * @param ezcGraphColor $color Line color
+     * @param float $thickness Line thickness
      * @return void
      */
     public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color, $thickness = 1 )
@@ -211,7 +258,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
     }
     
     /**
-     * Returns boundings of text
+     * Returns boundings of text depending on the available font extension
      * 
      * @param float $size Textsize
      * @param ezcGraphFontOptions $font Font
@@ -318,6 +365,27 @@ class ezcGraphGdDriver extends ezcGraphDriver
         }
     }
 
+    /**
+     * Test if string fits in a box with given font size
+     *
+     * This method splits the text up into tokens and tries to wrap the text
+     * in an optimal way to fit in the Box defined by width and height.
+     * 
+     * If the text fits into the box an array with lines is returned, which 
+     * can be used to render the text later:
+     *  array(
+     *      // Lines
+     *      array( 'word', 'word', .. ),
+     *  )
+     * Otherwise the function will return false.
+     *
+     * @param string $string Text
+     * @param ezcGraphCoordinate $position Topleft position of the text box
+     * @param float $width Width of textbox
+     * @param float $height Height of textbox
+     * @param int $size Fontsize
+     * @return mixed Array with lines or false on failure
+     */
     protected function testFitStringInTextBox( $string, ezcGraphCoordinate $position, $width, $height, $size )
     {
         // Tokenize String
@@ -372,23 +440,17 @@ class ezcGraphGdDriver extends ezcGraphDriver
     }
 
     /**
-     * Wrties text in a box of desired size
+     * Writes text in a box of desired size
      * 
-     * @param mixed $string 
-     * @param ezcGraphCoordinate $position 
-     * @param mixed $width 
-     * @param mixed $height 
-     * @param ezcGraphColor $color 
+     * @param string $string Text
+     * @param ezcGraphCoordinate $position Top left position
+     * @param float $width Width of text box
+     * @param float $height Height of text box
+     * @param int $align Alignement of text
      * @return void
      */
     public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align )
     {
-        // Test font
-        if ( !is_file( $this->options->font->path ) || !is_readable( $this->options->font->path ) )
-        {
-            throw new ezcGraphGdDriverInvalidFontException( $this->options->font->path );
-        }
-
         $padding = $this->options->font->padding + ( $this->options->font->border !== false ? $this->options->font->borderWidth : 0 );
 
         $width -= $padding * 2;
@@ -434,6 +496,23 @@ class ezcGraphGdDriver extends ezcGraphDriver
         );
     }
     
+    /**
+     * Draw all collected texts
+     *
+     * The texts are collected and their maximum possible font size is 
+     * calculated. This function finally draws the texts on the image, this
+     * delayed drawing has two reasons:
+     *
+     * 1) This way the text strings are always on top of the image, what 
+     *    results in better readable texts
+     * 2) The maximum possible font size can be calculated for a set of texts
+     *    with the same font configuration. Strings belonging to one chart 
+     *    element normally have the same font configuration, so that all texts
+     *    belonging to one element will have the same font size.
+     * 
+     * @access protected
+     * @return void
+     */
     protected function drawAllTexts()
     {
         $image = $this->getImage();
@@ -602,12 +681,13 @@ class ezcGraphGdDriver extends ezcGraphDriver
     /**
      * Draws a sector of cirlce
      * 
-     * @param ezcGraphCoordinate $center 
-     * @param mixed $width
-     * @param mixed $height
-     * @param mixed $startAngle 
-     * @param mixed $endAngle 
-     * @param ezcGraphColor $color 
+     * @param ezcGraphCoordinate $center Center of circle
+     * @param mixed $width Width
+     * @param mixed $height Height
+     * @param mixed $startAngle Start angle of circle sector
+     * @param mixed $endAngle End angle of circle sector
+     * @param ezcGraphColor $color Color
+     * @param mixed $filled Filled
      * @return void
      */
     public function drawCircleSector( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color, $filled = true )
@@ -676,6 +756,11 @@ class ezcGraphGdDriver extends ezcGraphDriver
     /**
      * Draws a single element of a circular arc
      * 
+     * ext/gd itself does not support something like circular arcs, so that
+     * this functions draws rectangular polygons as a part of circular arcs
+     * to interpolate them. This way it is possible to apply a linear gradient
+     * to the circular arc, because we draw single steps anyway.
+     *
      * @param ezcGraphCoordinate $center Center of ellipse
      * @param integer $width Width of ellipse
      * @param integer $height Height of ellipse
@@ -844,14 +929,13 @@ class ezcGraphGdDriver extends ezcGraphDriver
     }
     
     /**
-     * Draws a circle
+     * Draw circle 
      * 
-     * @param ezcGraphCoordinate $center 
-     * @param mixed $width
-     * @param mixed $height
-     * @param ezcGraphColor $color
-     * @param bool $filled
-     *
+     * @param ezcGraphCoordinate $center Center of ellipse
+     * @param mixed $width Width of ellipse
+     * @param mixed $height height of ellipse
+     * @param ezcGraphColor $color Color
+     * @param mixed $filled Filled
      * @return void
      */
     public function drawCircle( ezcGraphCoordinate $center, $width, $height, ezcGraphColor $color, $filled = true )
@@ -898,12 +982,19 @@ class ezcGraphGdDriver extends ezcGraphDriver
     }
     
     /**
-     * Draws a imagemap of desired size
+     * Draw an image
+     *
+     * The actual drawing of the image is delayed, to not apply supersampling 
+     * to the image. The image will normally be resized using the gd function
+     * imagecopyresampled, which provides nice antialiased scaling, so that
+     * additional supersampling would make the image look blurred. The delayed
+     * images will be pre-processed, so that they are draw in the back of 
+     * everything else.
      * 
-     * @param mixed $file 
-     * @param ezcGraphCoordinate $position 
-     * @param mixed $width 
-     * @param mixed $height 
+     * @param mixed $file Image file
+     * @param ezcGraphCoordinate $position Top left position
+     * @param mixed $width Width of image in destination image
+     * @param mixed $height Height of image in destination image
      * @return void
      */
     public function drawImage( $file, ezcGraphCoordinate $position, $width, $height )
@@ -953,7 +1044,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
     /**
      * Finally save image
      * 
-     * @param mixed $file 
+     * @param string $file Destination filename
      * @return void
      */
     public function render ( $file )

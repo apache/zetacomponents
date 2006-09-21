@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Exception thrown when an operation i not possible because of incompatible
+ * Exception thrown when an operation is not possible because of incompatible
  * matrix dimensions.
  *
  * @package Graph

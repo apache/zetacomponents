@@ -8,8 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * ezcGraphUnknownChartTypeException is the exception which is thrown when the
- * factory method tries to return an instance of an unknown chart type
+ * Exception thrown when a file can not be used as a image file.
  *
  * @package Graph
  * @version //autogen//

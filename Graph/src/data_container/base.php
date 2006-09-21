@@ -99,14 +99,14 @@ class ezcGraphChartDataContainer implements ArrayAccess, Iterator, Countable
      * @param ezcGraphDataSet$value The dataset to assign.
      * @return void
      *
-     * @throws ezcGraphUnknownDataSetSourceException
+     * @throws ezcBaseValueException
      *         If supplied value is not an ezcGraphDataSet
      */
     public function offsetSet( $key, $value )
     {
         if ( !$value instanceof ezcGraphDataSet )
         {
-            throw new ezcGraphUnknownDataSetSourceException( $value );
+            throw new ezcBaseValueException( $key, $value, 'ezcGraphDataSet' );
         }
 
         return $this->addDataSet( $key, $value );

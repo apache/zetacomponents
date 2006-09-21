@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphAxisExactLabelRenderer class
+ * File containing the ezcGraphAxisBoxedLabelRenderer class
  *
  * @package Graph
  * @version //autogentag//
@@ -9,16 +9,32 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Renders axis labels like known from charts drawn in analysis
+ * Renders axis labels centered between two axis steps like normally used for 
+ * bar charts.
  *
  * @package Graph
  */
 class ezcGraphAxisBoxedLabelRenderer extends ezcGraphAxisLabelRenderer
 {
-
-    protected $outerStep = true;
-
+    /**
+     * Normalized axis direction 
+     * 
+     * @var ezcGraphCoordinate
+     */
     protected $direction;
+
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
+    public function __construct( array $options = array() )
+    {
+        parent::__construct( $options );
+        $this->properties['outerStep'] = true;
+    }
 
     /**
      * Render Axis labels

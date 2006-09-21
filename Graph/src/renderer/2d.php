@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing teh two dimensional renderer
+ * File containing the two dimensional renderer
  *
  * @package Graph
  * @version //autogentag//
@@ -9,33 +9,83 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class to transform chart primitives into image primitives
+ * Class to transform chart primitives into image primitives 
  *
  * @package Graph
  */
 class ezcGraphRenderer2d extends ezcGraphRenderer
 {
 
+    /**
+     * Pie segment labels divided into two array, containing the labels on the
+     * left and right side of the pie chart center.
+     * 
+     * @var array
+     */
     protected $pieSegmentLabels = array(
         0 => array(),
         1 => array(),
     );
 
+    /**
+     * Contains the boundings used for pie segments
+     * 
+     * @var ezcGraphBoundings
+     */
     protected $pieSegmentBoundings = false;
 
+    /**
+     * Array with symbols for post processing, which ensures, that the symbols
+     * are rendered topmost.
+     * 
+     * @var array
+     */
     protected $linePostSymbols = array();
 
+    /**
+     * Options 
+     * 
+     * @var ezcGraphRenderer2dOptions
+     */
     protected $options;
 
+    /**
+     * Collect axis labels, so that the axis are drawn, when all axis spaces 
+     * are known.
+     * 
+     * @var array
+     */
     protected $axisLabels = array();
 
+    /**
+     * Collects circle sectors to draw shadow in background of all circle 
+     * sectors.
+     * 
+     * @var array
+     */
     protected $circleSectors = array();
 
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphRenderer2dOptions( $options );
     }
 
+    /**
+     * __get 
+     * 
+     * @param mixed $propertyName 
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return mixed
+     * @ignore
+     */
     public function __get( $propertyName )
     {
         switch ( $propertyName )
@@ -131,7 +181,15 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         }
     }
 
-    protected function finishCirleSectors()
+    /**
+     * Draws the collected circle sectors
+     *
+     * All circle sectors are collected and drawn later to be able to render 
+     * the shadows of the pie segments in the back of all pie segments.
+     * 
+     * @return void
+     */
+    protected function finishCircleSectors()
     {
         // Add circle sector sides to simple z buffer prioriry list
         if ( $this->options->pieChartShadowSize > 0 )
@@ -182,6 +240,15 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         }
     }
 
+    /**
+     * Draws the collected pie segment labels
+     *
+     * All labels are collected and drawn later to be able to partition the 
+     * available space for the labels woth knowledge of the overall label 
+     * count and their required size and optimal position.
+     * 
+     * @return void
+     */
     protected function finishPieSegmentLabels()
     {
         if ( $this->pieSegmentBoundings === false )
@@ -311,6 +378,14 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         }
     }
 
+    /**
+     * Draw the collected line symbols
+     *
+     * Symbols for the data lines are collected and delayed to ensure that 
+     * they are not covered and hidden by other data lines.
+     * 
+     * @return void
+     */
     protected function finishLineSymbols()
     {
         foreach ( $this->linePostSymbols as $symbol )
@@ -1169,9 +1244,14 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                 ( $repeat & ezcGraph::HORIZONTAL ) );
     }
 
+    /**
+     * Call all postprocessing functions
+     * 
+     * @return void
+     */
     protected function finish()
     {
-        $this->finishCirleSectors();
+        $this->finishCircleSectors();
         $this->finishPieSegmentLabels();
         $this->finishLineSymbols();
 

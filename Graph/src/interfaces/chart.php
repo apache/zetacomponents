@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class to represent a complete charts.
+ * Class to represent a complete chart.
  *
  * @package Graph
  */
@@ -94,6 +94,16 @@ abstract class ezcGraphChart
         $this->renderer->setDriver( $this->driver );
     }
 
+    /**
+     * Add element to chart
+     *
+     * Add a chart element to the chart and perform the required configuration
+     * tasks for the chart element.
+     * 
+     * @param string $name Element name
+     * @param ezcGraphChartElement $element Chart element
+     * @return void
+     */
     protected function addElement( $name, ezcGraphChartElement $element )
     {
         $this->elements[$name] = $element;
@@ -135,7 +145,7 @@ abstract class ezcGraphChart
                 }
                 else 
                 {
-                    throw new ezcGraphInvalidRendererException( $propertyValue );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphRenderer' );
                 }
                 break;
             case 'driver':
@@ -147,7 +157,7 @@ abstract class ezcGraphChart
                 }
                 else 
                 {
-                    throw new ezcGraphInvalidDriverException( $propertyValue );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphDriver' );
                 }
                 break;
             case 'palette':
@@ -223,22 +233,6 @@ abstract class ezcGraphChart
         else
         {
             throw new ezcGraphNoSuchElementException( $propertyName );
-        }
-    }
-
-    public function setOptions( $options )
-    {
-        if ( is_array( $options ) )
-        {
-            $this->options->merge( $options );
-        } 
-        else if ( $options instanceof ezcGraphOptions )
-        {
-            $this->options = $options;
-        }
-        else
-        {
-            throw new ezcBaseValueException( "options", $options, "instance of ezcGraphOptions" );
         }
     }
 

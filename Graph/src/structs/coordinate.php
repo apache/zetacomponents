@@ -1,13 +1,39 @@
 <?php
-
+/**
+ * File containing the ezcGraphCoordinate struct
+ *
+ * @package Graph
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+/**
+ * Represents coordinates in two dimensional catesian coordinate system.
+ *
+ * @package Graph
+ */
 class ezcGraphCoordinate
 {
+    /**
+     * x coordinate
+     * 
+     * @var float
+     */
     public $x = 0;
 
+    /**
+     * y coordinate
+     * 
+     * @var float
+     */
     public $y = 0;
     
     /**
-     * Empty constructor
+     * Simple constructor
+     *
+     * @param float $x x coordinate
+     * @param float $y y coordinate
+     * @ignore
      */
     public function __construct( $x, $y )
     {
@@ -17,6 +43,8 @@ class ezcGraphCoordinate
 
     /**
      * Throws a BasePropertyNotFound exception.
+     *
+     * @ignore
      */
     public function __set( $name, $value )
     {
@@ -25,10 +53,25 @@ class ezcGraphCoordinate
 
     /**
      * Throws a BasePropertyNotFound exception.
+     *
+     * @ignore
      */
     public function __get( $name )
     {
         throw new ezcBasePropertyNotFoundException( $name );
+    }
+
+    /**
+     * __set_state 
+     * 
+     * @param array $properties Struct properties
+     * @return void
+     * @ignore
+     */
+    public function __set_state( array $properties )
+    {
+        $this->x = (float) $properties['x'];
+        $this->y = (float) $properties['y'];
     }
 }
 

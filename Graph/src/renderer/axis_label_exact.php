@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphAxisExactLabelRenderer class
+ * File containing the ezcGraphAxisExactLabelRenderer class
  *
  * @package Graph
  * @version //autogentag//
@@ -11,25 +11,48 @@
 /**
  * Renders axis labels like known from charts drawn in analysis
  *
+ * @property bool $showLastValue
+ *           Show the last value on the axis, which will be aligned different 
+ *           than all other values, to not interfere with the arrow head of 
+ *           the axis.
+ *
  * @package Graph
  */
 class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
 {
 
     /**
-     * Show the last value on the axis, which will be aligned different than
-     * all other values, to not interfere with the arrow head of the axis.
+     * Constructor
      * 
-     * @var boolean
+     * @param array $options Default option array
+     * @return void
+     * @ignore
      */
-    protected $showLastValue = true;
+    public function __construct( array $options = array() )
+    {
+        $this->properties['showLastValue'] = true;
 
+        parent::__construct( $options );
+    }
+
+    /**
+     * __set 
+     * 
+     * @param mixed $propertyName 
+     * @param mixed $propertyValue 
+     * @throws ezcBaseValueException
+     *          If a submitted parameter was out of range or type.
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return void
+     * @ignore
+     */
     public function __set( $propertyName, $propertyValue )
     {
         switch ( $propertyName )
         {
             case 'showLastValue':
-                $this->showLastValue = (bool) $propertyValue;
+                $this->properties['showLastValue'] = (bool) $propertyValue;
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );

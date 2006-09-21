@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphChartElementBackground class
+ * File containing the ezcGraphChartElementBackground class
  *
  * @package Graph
  * @version //autogentag//
@@ -8,7 +8,26 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class to represent a legend as a chart element
+ * Chart element representing the background. In addition to the standard 
+ * background and border for chart elements it can draw an image on the chart 
+ * background, and optionally repeat it. The position will be used for the 
+ * repetition offset.
+ *
+ * <code>
+ *  $chart->background->image = 'background.png';
+ *
+ *  // Image will be repeated horizontal at the top of the background
+ *  $chart->background->repeat = ezcGraph::HORIZONTAL;
+ *  $chart->background->postion = ezcGraph::TOP;
+ *
+ *  // Image will be placed once in the center
+ *  $chart->background->repeat = ezcGraph::NO_REPEAT; // default;
+ *  $chart->background->position = ezcGraph::CENTER | ezcGraph::MIDDLE;
+ *
+ *  //Image will be repeated all over
+ *  $chart->background->repeat = ezcGraph::HORIZONTAL | ezcGraph::VERTICAL;
+ *      // The position is not relevant here.
+ * </code>
  *
  * @property string $image
  *           Filename of the file to use for background
@@ -118,7 +137,10 @@ class ezcGraphChartElementBackground extends ezcGraphChartElement
     }
 
     /**
-     * Set colors and border fro this element
+     * Set colors and border for this element
+     *
+     * Method is overwritten because we do not ant to apply the global padding 
+     * and margin here.
      * 
      * @param ezcGraphPalette $palette Palette
      * @return void
@@ -133,11 +155,11 @@ class ezcGraphChartElementBackground extends ezcGraphChartElement
     }
 
     /**
-     * Render a legend
-     * 
-     * @param ezcGraphRenderer $renderer 
-     * @access public
-     * @return void
+     * Render the background
+     *
+     * @param ezcGraphRenderer $renderer Renderer
+     * @param ezcGraphBoundings $boundings Boundings
+     * @return ezcGraphBoundings Remaining boundings
      */
     public function render( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings )
     {

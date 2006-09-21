@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Exception thrown when a rrequested matrix value is out of the boundings of 
+ * Exception thrown when a requested matrix value is out of the boundings of 
  * the matrix.
  *
  * @package Graph

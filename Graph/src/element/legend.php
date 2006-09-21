@@ -153,6 +153,15 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
         }
     }
     
+    /**
+     * Calculated boundings needed for the legend.
+     *
+     * Uses the position and the configured horizontal or vertical size of a 
+     * legend to calculate the boundings for the legend.
+     * 
+     * @param ezcGraphBoundings $boundings Avalable boundings
+     * @return ezcGraphBoundings Remaining boundings
+     */
     protected function calculateBoundings( ezcGraphBoundings $boundings )
     {
         $this->properties['boundings'] = clone $boundings;
@@ -191,9 +200,9 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
     /**
      * Render a legend
      * 
-     * @param ezcGraphRenderer $renderer 
-     * @access public
-     * @return void
+     * @param ezcGraphRenderer $renderer Renderer
+     * @param ezcGraphBoundings $boundings Boundings for the axis
+     * @return ezcGraphBoundings Remaining boundings
      */
     public function render( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings )
     {

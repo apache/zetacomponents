@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class to represent a legend as a chart element
+ * Basic axis class
  *
  * @property float $nullPosition
  *           The position of the null value.
@@ -175,6 +175,15 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         }
     }
 
+    /**
+     * __get 
+     * 
+     * @param mixed $propertyName 
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return mixed
+     * @ignore
+     */
     public function __get( $propertyName )
     {
         switch ( $propertyName )
@@ -244,11 +253,11 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
     abstract public function calculateAxisBoundings();
 
     /**
-     * Render an axe
+     * Render the axis 
      * 
-     * @param ezcGraphRenderer $renderer 
-     * @access public
-     * @return void
+     * @param ezcGraphRenderer $renderer Renderer
+     * @param ezcGraphBoundings $boundings Boundings for the axis
+     * @return ezcGraphBoundings Remaining boundings
      */
     public function render( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings )
     {

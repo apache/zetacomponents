@@ -12,7 +12,6 @@
 return array(
     'ezcGraph'                                  => 'Graph/graph.php',
     'ezcGraphException'                         => 'Graph/exceptions/exception.php',
-    'ezcGraphUnknownChartTypeException'         => 'Graph/exceptions/unknown_chart_type.php',
     
     'ezcGraphChart'                             => 'Graph/interfaces/chart.php',
     'ezcGraphPieChart'                          => 'Graph/charts/pie.php',
@@ -37,7 +36,6 @@ return array(
     'ezcGraphRenderer2dOptions'                 => 'Graph/options/renderer_2d.php',
     'ezcGraphRenderer3d'                        => 'Graph/renderer/3d.php',
     'ezcGraphRenderer3dOptions'                 => 'Graph/options/renderer_3d.php',
-    'ezcGraphInvalidRendererException'          => 'Graph/exceptions/invalid_renderer.php',
 
     'ezcGraphAxisLabelRenderer'                 => 'Graph/interfaces/axis_label_renderer.php',
     'ezcGraphAxisNoLabelRenderer'               => 'Graph/renderer/axis_label_none.php',
@@ -51,12 +49,10 @@ return array(
     'ezcGraphDriverOptions'                     => 'Graph/options/driver.php',
     'ezcGraphGdDriver'                          => 'Graph/driver/gd.php',
     'ezcGraphGdDriverOptions'                   => 'Graph/options/gd_driver.php',
-    'ezcGraphGdDriverInvalidFontException'      => 'Graph/exceptions/invalid_font.php',
     'ezcGraphGdDriverUnsupportedImageTypeException' => 'Graph/exceptions/unsupported_image_type.php',
     'ezcGraphSvgDriver'                         => 'Graph/driver/svg.php',
     'ezcGraphSvgDriverOptions'                  => 'Graph/options/svg_driver.php',
     'ezcGraphSvgDriverInvalidIdException'       => 'Graph/exceptions/invalid_id.php',
-    'ezcGraphInvalidDriverException'            => 'Graph/exceptions/invalid_driver.php',
     'ezcGraphVerboseDriver'                     => 'Graph/driver/verbose.php',
 
     'ezcGraphPalette'                           => 'Graph/interfaces/palette.php',
@@ -64,7 +60,6 @@ return array(
     'ezcGraphPaletteBlack'                      => 'Graph/palette/black.php',
     'ezcGraphPaletteEzBlue'                     => 'Graph/palette/ez_blue.php',
     'ezcGraphPaletteEz'                         => 'Graph/palette/ez.php',
-    'ezcGraphUnknownPaletteException'           => 'Graph/exceptions/unknown_palette.php',
 
     'ezcGraphChartElement'                      => 'Graph/interfaces/element.php',
     'ezcGraphNoSuchElementException'            => 'Graph/exceptions/no_such_element.php',
@@ -89,7 +84,6 @@ return array(
     'ezcGraphNoSuchDataException'               => 'Graph/exceptions/no_such_data.php',
     'ezcGraphNoSuchDataSetException'            => 'Graph/exceptions/no_such_dataset.php',
     'ezcGraphTooManyDataSetsExceptions'         => 'Graph/exceptions/too_many_datasets.php',
-    'ezcGraphUnknownDataSetSourceException'     => 'Graph/exceptions/unknown_dataset_source.php',
     'ezcGraphInvalidDisplayTypeException'       => 'Graph/exceptions/invalid_display_type.php',
 
     'ezcGraphMatrix'                            => 'Graph/math/matrix.php',

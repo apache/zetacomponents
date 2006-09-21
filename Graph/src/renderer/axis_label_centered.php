@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphAxisExactLabelRenderer class
+ * File containing the ezcGraphAxisCenteredLabelRenderer class
  *
  * @package Graph
  * @version //autogentag//
@@ -9,27 +9,49 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Renders axis labels like known from charts drawn in analysis
+ * Renders axis labels centered below the axis steps.
+ *
+ * @property bool $showZeroValue
+ *           Show the value at the zero point of an axis. This value might be 
+ *           crossed by the other axis which would result in an unreadable 
+ *           label.
  *
  * @package Graph
  */
 class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
 {
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
+    public function __construct( array $options = array() )
+    {
+        $this->properties['showZeroValue'] = false;
+
+        parent::__construct( $options );
+    }
 
     /**
-     * Show the value at the zero point of an axis. This value might be 
-     * crossed by the other axis which would result in an unreadable label.
-     *
-     * @var boolean
+     * __set 
+     * 
+     * @param mixed $propertyName 
+     * @param mixed $propertyValue 
+     * @throws ezcBaseValueException
+     *          If a submitted parameter was out of range or type.
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return void
+     * @ignore
      */
-    protected $showZeroValue = false;
-
     public function __set( $propertyName, $propertyValue )
     {
         switch ( $propertyName )
         {
             case 'showZeroValue':
-                $this->showZeroValue = (bool) $propertyValue;
+                $this->properties['showZeroValue'] = (bool) $propertyValue;
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );

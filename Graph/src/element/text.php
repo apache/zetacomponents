@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphChartElementText class
+ * File containing the ezcGraphChartElementText class
  *
  * @package Graph
  * @version //autogentag//
@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Class to represent a legend as a chart element
+ * Chart element to display texts in a chart
  *
  * @property float $height
  *           Maximum percent of bounding used to display the text.
@@ -56,11 +56,11 @@ class ezcGraphChartElementText extends ezcGraphChartElement
     }
 
     /**
-     * Render a legend
+     * Render the text
      * 
-     * @param ezcGraphRenderer $renderer 
-     * @access public
-     * @return void
+     * @param ezcGraphRenderer $renderer Renderer
+     * @param ezcGraphBoundings $boundings Boundings for the axis
+     * @return ezcGraphBoundings Remaining boundings
      */
     public function render( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings )
     {

@@ -16,38 +16,128 @@
 class ezcGraphRenderer3d extends ezcGraphRenderer
 {
 
+    /**
+     * Pie segment labels divided into two array, containing the labels on the
+     * left and right side of the pie chart center.
+     * 
+     * @var array
+     */
     protected $pieSegmentLabels = array(
         0 => array(),
         1 => array(),
     );
 
+    /**
+     * Contains the boundings used for pie segments
+     * 
+     * @var ezcGraphBoundings
+     */
     protected $pieSegmentBoundings = false;
 
+    /**
+     * Array with symbols for post processing, which ensures, that the symbols
+     * are rendered topmost.
+     * 
+     * @var array
+     */
     protected $linePostSymbols = array();
 
+    /**
+     * Array containing lines from the axis and grid which should be redrawn on
+     * top of the data.
+     * 
+     * @var array
+     */
     protected $frontLines = array();
 
+    /**
+     * Collects circle sectors to draw shadow in background of all circle 
+     * sectors.
+     * 
+     * @var array
+     */
     protected $circleSectors = array();
 
+    /**
+     * Collects bar sides to draw them in a post processing step to simulate
+     * a simple z buffer.
+     *  array(
+     *      array(
+     *          'index' => (int) // used for sorting
+     *          'context' => ezcGraphContext // context of call
+     *          'method' => (string) // method of driver to call
+     *          'parameters' => array // parameters for method call
+     *      ), ...
+     *  )
+     *
+     * @var array
+     */
     protected $barPostProcessing = array();
 
+    /**
+     * Options
+     * 
+     * @var ezcGraphRenderer3dOptions
+     */
     protected $options;
 
+    /**
+     * Depth of displayed pseudo three dimensional line chart elements.
+     * 
+     * @var float
+     */
     protected $depth = false;
 
+    /**
+     * Factor to reduce the width according to depth 
+     * 
+     * @var float
+     */
     protected $xDepthFactor = false;
 
+    /**
+     * Factor to reduce the height according to depth 
+     * 
+     * @var float
+     */
     protected $yDepthFactor = false;
 
+    /**
+     * Boundings for the chart data
+     * 
+     * @var ezcGraphBoundings
+     */
     protected $dataBoundings = false;
 
+    /**
+     * Collect axis labels, so that the axis are drawn, when all axis spaces 
+     * are known.
+     * 
+     * @var array
+     */
     protected $axisLabels = array();
     
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphRenderer3dOptions( $options );
     }
 
+    /**
+     * __get 
+     * 
+     * @param mixed $propertyName 
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return mixed
+     * @ignore
+     */
     public function __get( $propertyName )
     {
         switch ( $propertyName )
@@ -59,6 +149,17 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         }
     }
 
+    /**
+     * Calculate the display coordinate from a coordinate
+     *
+     * Calculates the display coordinate of a coordinate depending on the 
+     * depth setting and the distance of the coordinate to the front of the 
+     * chart.
+     * 
+     * @param ezcGraphCoordinate $c Coordinate
+     * @param flot $front Distance to front (0 - 1)
+     * @return ezcGraphCoordinate Resulting coordinate
+     */
     protected function get3dCoordinate( ezcGraphCoordinate $c, $front = true )
     {
         return new ezcGraphCoordinate(
@@ -156,6 +257,15 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         }
     }
 
+    /**
+     * Draws the collected pie segment labels
+     *
+     * All labels are collected and drawn later to be able to partition the 
+     * available space for the labels woth knowledge of the overall label 
+     * count and their required size and optimal position.
+     * 
+     * @return void
+     */
     protected function finishPieSegmentLabels()
     {
         if ( $this->pieSegmentBoundings === false )
@@ -284,6 +394,15 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         }
     }
 
+    /**
+     * Draws the collected circle sectors
+     *
+     * All circle sectors are collected and drawn later to be able to render 
+     * the shadows of the pie segments in the back of all pie segments, and 
+     * ensure the correct drawing order for all pie segment elements.
+     * 
+     * @return void
+     */
     protected function finishCirleSectors()
     {
         $zBuffer = array();
@@ -558,6 +677,14 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         }
     }
 
+    /**
+     * Draw collected front lines
+     *
+     * Draw all grid and axis lines, which should be redrawn in front of the 
+     * data.
+     * 
+     * @return void
+     */
     protected function finishFrontLines()
     {
         foreach ( $this->frontLines as $line )
@@ -571,6 +698,14 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         }
     }
 
+    /**
+     * Draw the collected line symbols
+     *
+     * Symbols for the data lines are collected and delayed to ensure that 
+     * they are not covered and hidden by other data lines.
+     * 
+     * @return void
+     */
     protected function finishLineSymbols()
     {
         foreach ( $this->linePostSymbols as $symbol )
@@ -930,6 +1065,15 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
 
     }
  
+    /**
+     * Draw all collected bar elements
+     *
+     * Draw all collected bar elements after sorting them depending of their
+     * position to simulate simple z buffering.
+     * 
+     * @access protected
+     * @return void
+     */
     protected function finishBars()
     {
         if ( !count( $this->barPostProcessing ) )
@@ -1948,6 +2092,11 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 ( $repeat & ezcGraph::HORIZONTAL ) );
     }
 
+    /**
+     * Call all postprocessing functions
+     * 
+     * @return void
+     */
     protected function finish()
     {
         $this->finishCirleSectors();

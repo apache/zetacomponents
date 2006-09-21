@@ -62,11 +62,26 @@ class ezcGraphSvgDriver extends ezcGraphDriver
      */
     protected $elementID = 0;
 
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
     public function __construct( array $options = array() )
     {
         $this->options = new ezcGraphSvgDriverOptions( $options );
     }
 
+    /**
+     * Creates the DOM object to insert SVG nodes in.
+     *
+     * If the DOM document does not exists it will be created or loaded 
+     * according to the settings.
+     * 
+     * @return void
+     */
     protected function createDocument()
     {
         if ( $this->dom === null )
@@ -118,6 +133,16 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         }
     }
 
+    /**
+     * Return gradient URL
+     *
+     * Creates the definitions needed for a gradient, if a proper gradient does
+     * not yet exists. In each case a URL referencing the correct gradient will
+     * be returned.
+     * 
+     * @param ezcGraphColor $color Gradient
+     * @return string Gradient URL
+     */
     protected function getGradientUrl( ezcGraphColor $color )
     {
         switch ( true )
@@ -231,6 +256,17 @@ class ezcGraphSvgDriver extends ezcGraphDriver
 
     }
 
+    /**
+     * Get SVG style definition
+     *
+     * Returns a string with SVG style definitions created from color, 
+     * fillstatus and line thickness.
+     * 
+     * @param ezcGraphColor $color Color
+     * @param mixed $filled Filled
+     * @param float $thickness Line thickness.
+     * @return string Formatstring
+     */
     protected function getStyle( ezcGraphColor $color, $filled = true, $thickness = 1 )
     {
         if ( $filled )
@@ -271,11 +307,12 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     }
 
     /**
-     * Draws a single polygon 
+     * Draws a single polygon. 
      * 
-     * @param mixed $points 
-     * @param ezcGraphColor $color 
-     * @param mixed $filled 
+     * @param array $points Point array
+     * @param ezcGraphColor $color Polygon color
+     * @param mixed $filled Filled
+     * @param float $thickness Line thickness
      * @return void
      */
     public function drawPolygon( array $points, ezcGraphColor $color, $filled = true, $thickness = 1 )
@@ -311,11 +348,12 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     }
     
     /**
-     * Draws a single line
+     * Draws a line 
      * 
-     * @param ezcGraphCoordinate $start 
-     * @param ezcGraphCoordinate $end 
-     * @param ezcGraphColor $color 
+     * @param ezcGraphCoordinate $start Start point
+     * @param ezcGraphCoordinate $end End point
+     * @param ezcGraphColor $color Line color
+     * @param float $thickness Line thickness
      * @return void
      */
     public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color, $thickness = 1 )
@@ -342,6 +380,32 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         return $id;
     }
 
+    /**
+     * Test if string fits in a box with given font size
+     *
+     * This method splits the text up into tokens and tries to wrap the text
+     * in an optimal way to fit in the Box defined by width and height. We 
+     * can't really know how big the SVG renderer will display the font, so 
+     * that we can just guess here. Additionally there is no method to 
+     * calculate the text width of a string with the font used by the SVG 
+     * renderer, so that we assume some character width for calculating the 
+     * text width.
+     * 
+     * If the text fits into the box an array with lines is returned, which 
+     * can be used to render the text later:
+     *  array(
+     *      // Lines
+     *      array( 'word', 'word', .. ),
+     *  )
+     * Otherwise the function will return false.
+     *
+     * @param string $string Text
+     * @param ezcGraphCoordinate $position Topleft position of the text box
+     * @param float $width Width of textbox
+     * @param float $height Height of textbox
+     * @param int $size Fontsize
+     * @return mixed Array with lines or false on failure
+     */
     protected function testFitStringInTextBox( $string, ezcGraphCoordinate $position, $width, $height, $size )
     {
         // Tokenize String
@@ -397,13 +461,13 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     }
 
     /**
-     * Wrties text in a box of desired size
+     * Writes text in a box of desired size
      * 
-     * @param mixed $string 
-     * @param ezcGraphCoordinate $position 
-     * @param mixed $width 
-     * @param mixed $height 
-     * @param ezcGraphColor $color 
+     * @param string $string Text
+     * @param ezcGraphCoordinate $position Top left position
+     * @param float $width Width of text box
+     * @param float $height Height of text box
+     * @param int $align Alignement of text
      * @return void
      */
     public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align )
@@ -441,6 +505,21 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         return $id;
     }
 
+    /**
+     * Guess text width for string
+     *
+     * The is no way to know the font or fontsize used by the SVG renderer to
+     * render the string. We assume some character width defined in the SVG 
+     * driver options, tu guess the length of a string. We discern between
+     * numeric an non numeric strings, because we often use only numeric 
+     * strings to display chart data and numbers tend to be a bit wider then
+     * characters.
+     * 
+     * @param mixed $string 
+     * @param mixed $size 
+     * @access protected
+     * @return void
+     */
     protected function getTextWidth( $string, $size )
     {
         if ( is_numeric( $string ) )
@@ -453,6 +532,23 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         }
     }
 
+    /**
+     * Draw all collected texts
+     *
+     * The texts are collected and their maximum possible font size is 
+     * calculated. This function finally draws the texts on the image, this
+     * delayed drawing has two reasons:
+     *
+     * 1) This way the text strings are always on top of the image, what 
+     *    results in better readable texts
+     * 2) The maximum possible font size can be calculated for a set of texts
+     *    with the same font configuration. Strings belonging to one chart 
+     *    element normally have the same font configuration, so that all texts
+     *    belonging to one element will have the same font size.
+     * 
+     * @access protected
+     * @return void
+     */
     protected function drawAllTexts()
     {
         foreach ( $this->strings as $text )
@@ -620,12 +716,13 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     /**
      * Draws a sector of cirlce
      * 
-     * @param ezcGraphCoordinate $center 
-     * @param mixed $width
-     * @param mixed $height
-     * @param mixed $startAngle 
-     * @param mixed $endAngle 
-     * @param ezcGraphColor $color 
+     * @param ezcGraphCoordinate $center Center of circle
+     * @param mixed $width Width
+     * @param mixed $height Height
+     * @param mixed $startAngle Start angle of circle sector
+     * @param mixed $endAngle End angle of circle sector
+     * @param ezcGraphColor $color Color
+     * @param mixed $filled Filled
      * @return void
      */
     public function drawCircleSector( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color, $filled = true )
@@ -819,14 +916,13 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     }
 
     /**
-     * Draws a circle
+     * Draw circle 
      * 
-     * @param ezcGraphCoordinate $center 
-     * @param mixed $width
-     * @param mixed $height
-     * @param ezcGraphColor $color
-     * @param bool $filled
-     *
+     * @param ezcGraphCoordinate $center Center of ellipse
+     * @param mixed $width Width of ellipse
+     * @param mixed $height height of ellipse
+     * @param ezcGraphColor $color Color
+     * @param mixed $filled Filled
      * @return void
      */
     public function drawCircle( ezcGraphCoordinate $center, $width, $height, ezcGraphColor $color, $filled = true )
@@ -851,12 +947,16 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     }
 
     /**
-     * Draws a imagemap of desired size
+     * Draw an image 
+     *
+     * The image will be inlined in the SVG document using data URL scheme. For
+     * this the mime type and base64 encoded file content will be merged to 
+     * URL.
      * 
-     * @param mixed $file 
-     * @param ezcGraphCoordinate $position 
-     * @param mixed $width 
-     * @param mixed $height 
+     * @param mixed $file Image file
+     * @param ezcGraphCoordinate $position Top left position
+     * @param mixed $width Width of image in destination image
+     * @param mixed $height Height of image in destination image
      * @return void
      */
     public function drawImage( $file, ezcGraphCoordinate $position, $width, $height )
@@ -888,7 +988,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     /**
      * Finally save image
      * 
-     * @param mixed $file 
+     * @param string $file Destination filename
      * @return void
      */
     public function render ( $file )

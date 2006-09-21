@@ -143,7 +143,7 @@ class ezcGraphChartTest extends ezcTestCase
             $pieChart = new ezcGraphPieChart();
             $pieChart->renderer = 'invalid';
         }
-        catch ( ezcGraphInvalidRendererException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -175,7 +175,7 @@ class ezcGraphChartTest extends ezcTestCase
             $pieChart = new ezcGraphPieChart();
             $pieChart->driver = 'invalid';
         }
-        catch ( ezcGraphInvalidDriverException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }

@@ -17,24 +17,63 @@
 abstract class ezcGraphRenderer
 {
 
+    /**
+     * Driver used to render results
+     * 
+     * @var ezcGraphDriver
+     */
     protected $driver;
 
+    /**
+     * Axis space used for the x axis
+     * 
+     * @var float
+     */
     protected $xAxisSpace = false;
     
+    /**
+     * Axis space used for the y axis
+     * 
+     * @var float
+     */
     protected $yAxisSpace = false;
 
+    /**
+     * Context sensitive references to chart elements to use for referencing 
+     * image elements depending on the output driver, like image maps, etc.
+     * 
+     * @var array
+     */
     protected $elements = array();
 
+    /**
+     * Set renderers driver
+     * 
+     * @param ezcGraphDriver $driver Output driver
+     * @return void
+     */
     public function setDriver( ezcGraphDriver $driver )
     {
         $this->driver = $driver;
     }
 
+    /**
+     * Adds a element reference for context
+     * 
+     * @param ezcGraphContext $context Dataoint context
+     * @param mixed $reference Driver dependant reference
+     * @return void
+     */
     protected function addElementReference( ezcGraphContext $context, $reference )
     {
         $this->elements['data'][$context->dataset][$context->datapoint][] = $reference;
     }
 
+    /**
+     * Return all chart element references
+     * 
+     * @return array chart element references
+     */
     public function getElementReferences()
     {
         return $this->elements;

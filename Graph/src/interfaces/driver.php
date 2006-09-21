@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Base options class for all eZ components.
+ * Abstract class to be extended for ezcGraph output drivers.
  *
  * @package Graph
  */
@@ -21,6 +21,13 @@ abstract class ezcGraphDriver
      */
     protected $options;
     
+    /**
+     * Constructor
+     * 
+     * @param array $options Default option array
+     * @return void
+     * @ignore
+     */
     abstract public function __construct( array $options = array() );
     
     /**
@@ -74,32 +81,34 @@ abstract class ezcGraphDriver
     }
 
     /**
-     * Draws a single polygon 
+     * Draws a single polygon. 
      * 
-     * @param mixed $points 
-     * @param ezcGraphColor $color 
-     * @param mixed $filled 
+     * @param array $points Point array
+     * @param ezcGraphColor $color Polygon color
+     * @param mixed $filled Filled
+     * @param float $thickness Line thickness
      * @return void
      */
     abstract public function drawPolygon( array $points, ezcGraphColor $color, $filled = true, $thickness = 1 );
     
     /**
-     * Draws a single line
+     * Draws a line 
      * 
-     * @param ezcGraphCoordinate $start 
-     * @param ezcGraphCoordinate $end 
-     * @param ezcGraphColor $color 
+     * @param ezcGraphCoordinate $start Start point
+     * @param ezcGraphCoordinate $end End point
+     * @param ezcGraphColor $color Line color
+     * @param float $thickness Line thickness
      * @return void
      */
     abstract public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color, $thickness = 1 );
     
     /**
-     * Wrties text in a box of desired size
+     * Writes text in a box of desired size
      * 
-     * @param mixed $string 
-     * @param ezcGraphCoordinate $position 
-     * @param mixed $width 
-     * @param mixed $height 
+     * @param string $string Text
+     * @param ezcGraphCoordinate $position Top left position
+     * @param float $width Width of text box
+     * @param float $height Height of text box
      * @param int $align Alignement of text
      * @return void
      */
@@ -108,12 +117,13 @@ abstract class ezcGraphDriver
     /**
      * Draws a sector of cirlce
      * 
-     * @param ezcGraphCoordinate $center 
-     * @param mixed $width
-     * @param mixed $height
-     * @param mixed $startAngle 
-     * @param mixed $endAngle 
-     * @param ezcGraphColor $color 
+     * @param ezcGraphCoordinate $center Center of circle
+     * @param mixed $width Width
+     * @param mixed $height Height
+     * @param mixed $startAngle Start angle of circle sector
+     * @param mixed $endAngle End angle of circle sector
+     * @param ezcGraphColor $color Color
+     * @param mixed $filled Filled
      * @return void
      */
     abstract public function drawCircleSector( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color, $filled = true );
@@ -133,25 +143,24 @@ abstract class ezcGraphDriver
     abstract public function drawCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color, $filled = true );
     
     /**
-     * Draws a circle
+     * Draw circle 
      * 
-     * @param ezcGraphCoordinate $center 
-     * @param mixed $width
-     * @param mixed $height
-     * @param ezcGraphColor $color
-     * @param bool $filled
-     *
+     * @param ezcGraphCoordinate $center Center of ellipse
+     * @param mixed $width Width of ellipse
+     * @param mixed $height height of ellipse
+     * @param ezcGraphColor $color Color
+     * @param mixed $filled Filled
      * @return void
      */
     abstract public function drawCircle( ezcGraphCoordinate $center, $width, $height, ezcGraphColor $color, $filled = true );
     
     /**
-     * Draws a imagemap of desired size
+     * Draw an image 
      * 
-     * @param mixed $file 
-     * @param ezcGraphCoordinate $position 
-     * @param mixed $width 
-     * @param mixed $height 
+     * @param mixed $file Image file
+     * @param ezcGraphCoordinate $position Top left position
+     * @param mixed $width Width of image in destination image
+     * @param mixed $height Height of image in destination image
      * @return void
      */
     abstract public function drawImage( $file, ezcGraphCoordinate $position, $width, $height );
@@ -159,7 +168,7 @@ abstract class ezcGraphDriver
     /**
      * Finally save image
      * 
-     * @param mixed $file 
+     * @param string $file Destination filename
      * @return void
      */
     abstract public function render( $file );

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphPaletteBlack class
+ * File containing the ezcGraphPaletteBlack class
  *
  * @package Graph
  * @version //autogentag//
