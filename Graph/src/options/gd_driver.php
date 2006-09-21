@@ -119,18 +119,6 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
                 break;
         }
     }
-
-    protected function checkFont( $font )
-    {
-        // We expect a valid font file here.
-        if ( !is_file( $font ) || !is_readable( $font ) )
-        {
-            throw new ezcBaseFileNotFoundException( $font );
-        }
-
-        // @TODO: Check if font file is a valid TTF file.
-        $this->font = realpath( $font );
-    }
 }
 
 ?>
