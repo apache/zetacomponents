@@ -38,7 +38,7 @@ class ezcTemplateCursorTest extends ezcTestCase
      */
     public function testDefault()
     {
-        $receiver = $this->getAttribute($this->defaultCursor, 'receiver');
+        $receiver = $this->getAttribute( $this->defaultCursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 0, 'position', $receiver );
@@ -52,7 +52,7 @@ class ezcTemplateCursorTest extends ezcTestCase
     public function testInit()
     {
         $this->cursor = new Invariant_ezcTemplateCursor( "a simple line\nsecond line", 18, 2, 4 );
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 18, 'position', $receiver );
@@ -69,7 +69,7 @@ class ezcTemplateCursorTest extends ezcTestCase
     public function testGotoBeginning()
     {
         $this->cursor->gotoBeginning();
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 0, 'position', $receiver );
@@ -86,7 +86,7 @@ class ezcTemplateCursorTest extends ezcTestCase
     public function testGotoEnd()
     {
         $this->cursor->gotoEnd();
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 25, 'position', $receiver );
@@ -103,7 +103,7 @@ class ezcTemplateCursorTest extends ezcTestCase
     public function testGotoLineBeginning()
     {
         $this->cursor->gotoLineBeginning();
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 14, 'position', $receiver );
@@ -115,7 +115,7 @@ class ezcTemplateCursorTest extends ezcTestCase
 
         // Second time should not change values
         $this->cursor->gotoLineBeginning();
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 14, 'position', $receiver );
@@ -132,7 +132,7 @@ class ezcTemplateCursorTest extends ezcTestCase
     public function testGotoLineEnd()
     {
         $this->cursor->gotoLineEnd();
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 25, 'position', $receiver );
@@ -144,7 +144,7 @@ class ezcTemplateCursorTest extends ezcTestCase
 
         // Second time should not change values
         $this->cursor->gotoLineEnd();
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 25, 'position', $receiver );
@@ -161,7 +161,7 @@ class ezcTemplateCursorTest extends ezcTestCase
     public function testGotoLines()
     {
         $this->cursor->gotoLineBeginning();
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 14, 'position', $receiver );
@@ -172,7 +172,7 @@ class ezcTemplateCursorTest extends ezcTestCase
         self::assertSame( false, $this->cursor->atEnd(), "Function atEnd() did not return false." );
 
         $this->cursor->gotoLineEnd();
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 25, 'position', $receiver );
@@ -183,7 +183,7 @@ class ezcTemplateCursorTest extends ezcTestCase
         self::assertSame( true, $this->cursor->atEnd(), "Function atEnd() did not return false." );
 
         $this->cursor->gotoLineBeginning();
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 14, 'position', $receiver );
@@ -194,7 +194,7 @@ class ezcTemplateCursorTest extends ezcTestCase
         self::assertSame( false, $this->cursor->atEnd(), "Function atEnd() did not return false." );
 
         $this->cursor->gotoLineEnd();
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 25, 'position', $receiver );
@@ -211,7 +211,7 @@ class ezcTemplateCursorTest extends ezcTestCase
 /*    public function testGotoPosition()
     {
         $this->cursor->gotoPosition( 14 );
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 14, 'position', $receiver );
@@ -219,7 +219,7 @@ class ezcTemplateCursorTest extends ezcTestCase
         self::assertAttributeSame( 0, 'column', $receiver );
 
         $this->cursor->gotoPosition( 4 );
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 4, 'position', $receiver );
@@ -228,7 +228,7 @@ class ezcTemplateCursorTest extends ezcTestCase
 
         // test moving to the start
         $this->cursor->gotoPosition( 0 );
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 0, 'position', $receiver );
@@ -237,7 +237,7 @@ class ezcTemplateCursorTest extends ezcTestCase
 
         // same again
         $this->cursor->gotoPosition( 0 );
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 0, 'position', $receiver );
@@ -252,7 +252,7 @@ class ezcTemplateCursorTest extends ezcTestCase
     {
         $subText = $this->cursor->substring();
         $current = $this->cursor->current();
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 18, 'position', $receiver );
@@ -265,7 +265,7 @@ class ezcTemplateCursorTest extends ezcTestCase
         $this->cursor->gotoEnd();
         $subText = $this->cursor->substring();
         $current = $this->cursor->current();
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 25, 'position', $receiver );
@@ -278,7 +278,7 @@ class ezcTemplateCursorTest extends ezcTestCase
         $this->cursor->gotoBeginning();
         $subText = $this->cursor->substring();
         $current = $this->cursor->current();
-        $receiver = $this->getAttribute($this->cursor, 'receiver');
+        $receiver = $this->getAttribute( $this->cursor, 'receiver' );
 
         self::assertAttributeSame( "a simple line\nsecond line", 'text', $receiver );
         self::assertAttributeSame( 0, 'position', $receiver );
