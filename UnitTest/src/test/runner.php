@@ -102,6 +102,11 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $report->shorthelp = "Directory to store test reports and code coverage reports in.";
         $report->default = "";
         $consoleInput->registerOption( $report );
+
+        // Verbose option
+        $verbose = new ezcConsoleOption( '', 'verbose', ezcConsoleInput::TYPE_NONE );
+        $verbose->shorthelp = "Output more verbose information.";
+        $consoleInput->registerOption( $verbose  );
     }
 
     protected static function processConsoleArguments( $consoleInput )
@@ -171,9 +176,15 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
         $allSuites = $this->prepareTests( $consoleInput->getArguments(),  $release );
         $reportDir = $consoleInput->getOption( 'report-dir' )->value;
+
         if ( $reportDir )
         {
             $params['reportDirectory'] = $reportDir;
+        }
+
+        if ( $consoleInput->getOption( "help" )->value )
+        {
+            $params['verbose'] = true;
         }
 
         $this->doRun( $allSuites, $params );
