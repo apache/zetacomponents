@@ -12,6 +12,11 @@
  */
 class ezcBaseTest extends ezcTestCase
 {
+    /*
+     * For use with the method testInvalidClass().
+     */
+    private $errorMessage = null;
+
     public function testConfigExceptionUnknownSetting()
     {
         try
@@ -325,6 +330,28 @@ class ezcBaseTest extends ezcTestCase
         }
     }
 
+    public function testInvalidClass()
+    {
+        set_error_handler( array( $this, "ErrorHandlerTest" ) );
+        self::assertEquals( false, @class_exists( 'ezcNoSuchClass', true ) );
+        $dirs = ezcBase::getRepositoryDirectories();
+        $paths = array();
+        foreach ( $dirs as $dir )
+        {
+            $paths[] = realpath( $dir[1] );
+        }
+        $expectedErrorMessage = "Could not find a 'ezcNoSuchClass' class to file mapping. Searched for no_such_autoload.php and no_autoload.php in: ";
+        $expectedErrorMessage .= implode( ', ', $paths );
+        self::assertEquals( $expectedErrorMessage, $this->errorMessage );
+        restore_error_handler();
+    }
+
+    // For trigger_error test from testInvalidClass().
+    public function ErrorHandlerTest( $errno, $errstr, $errfile, $errline )
+    {
+        $this->errorMessage = $errstr;
+    }
+    
     public static function suite()
     {
         return new ezcTestSuite("ezcBaseTest");

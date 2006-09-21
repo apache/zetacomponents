@@ -102,6 +102,7 @@ class ezcBase
 
         // Not cached, so load the autoload from the package.
         // Matches the first and optionally the second 'word' from the classname.
+        $fileNames = array();
         if ( preg_match( "/^[a-z]*([A-Z][a-z0-9]*)([A-Z][a-z0-9]*)?/", $className, $matches ) !== false )
         {
             $autoloadFile = "";
@@ -110,6 +111,7 @@ class ezcBase
             {
                 case 3:
                     $autoloadFile = strtolower( "{$matches[1]}_{$matches[2]}_autoload.php" );
+                    $fileNames[] = $autoloadFile;
                     if ( ezcBase::requireFile( $autoloadFile, $className ) )
                     {
                         return true;
@@ -118,6 +120,7 @@ class ezcBase
 
                 case 2:
                     $autoloadFile = strtolower( "{$matches[1]}_autoload.php" );
+                    $fileNames[] = $autoloadFile;
                     if ( ezcBase::requireFile( $autoloadFile, $className ) )
                     {
                         return true;
@@ -139,7 +142,15 @@ class ezcBase
         /* FIXME: this should go away - only for development */
         if ( self::libraryMode == 'devel' )
         {
-            trigger_error( "Couldn't find autoload file for '$className' in '$realPath'", E_USER_WARNING );
+            $dirs = self::getRepositoryDirectories();
+            $message = "Could not find a '{$className}' class to file mapping. Searched for " . implode( ' and ', $fileNames ) . " in: ";
+            $paths = array();
+            foreach ( $dirs as $dir )
+            {
+                $paths[] = realpath( $dir[1] );
+            }
+            $message .= implode( ', ', $paths );
+            trigger_error( $message, E_USER_WARNING );
         }
         return false;
     }
