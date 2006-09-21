@@ -32,6 +32,7 @@ require_once 'driver_svg_test.php';
 require_once 'font_test.php';
 require_once 'palette_test.php';
 require_once 'matrix_test.php';
+require_once 'boundings_test.php';
 require_once 'polynom_test.php';
 require_once 'image_map_test.php';
 
@@ -68,6 +69,7 @@ class ezcGraphSuite extends ezcTestSuite
         $this->addTest( ezcGraphTextTest::suite() );
         $this->addTest( ezcGraphPaletteTest::suite() );
         $this->addTest( ezcGraphMatrixTest::suite() );
+        $this->addTest( ezcGraphBoundingsTest::suite() );
         $this->addTest( ezcGraphPolynomTest::suite() );
         $this->addTest( ezcGraphImageMapTest::suite() );
     }
