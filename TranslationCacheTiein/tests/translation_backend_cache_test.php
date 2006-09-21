@@ -160,6 +160,23 @@ class ezcTranslationCacheBackendTest extends ezcTestCase
         }
     }
 
+    public function testNonInitException3()
+    {
+        $currentDir = dirname( __FILE__ );
+        $backend = new ezcTranslationCacheBackend( $this->cacheObj );
+        $backend->initWriter( 'nb-no' );
+        $backend->deinitWriter();
+
+        try
+        {
+            $backend->deinitWriter();
+        }
+        catch ( ezcTranslationWriterNotInitializedException $e )
+        {
+            self::assertEquals( "The writer is not initialized with the initWriter() method.", $e->getMessage() );
+        }
+    }
+
     public static function suite()
     {
          return new ezcTestSuite( "ezcTranslationCacheBackendTest" );
