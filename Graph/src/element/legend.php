@@ -168,26 +168,26 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
 
         switch ( $this->position )
         {
-            case ezcGraph::TOP:
-                $size = (int) round( $boundings->y0 + ( $boundings->y1 - $boundings->y0) * $this->landscapeSize );
-
-                $boundings->y0 += $size;
-                $this->boundings->y1 = $boundings->y0;
-                break;
             case ezcGraph::LEFT:
-                $size = (int) round( $boundings->x0 + ( $boundings->x1 - $boundings->x0) * $this->portraitSize );
+                $size = ( $boundings->width ) * $this->portraitSize;
 
                 $boundings->x0 += $size;
                 $this->boundings->x1 = $boundings->x0;
                 break;
             case ezcGraph::RIGHT:
-                $size = (int) round( $boundings->x1 - ( $boundings->x1 - $boundings->x0) * $this->portraitSize );
+                $size = ( $boundings->width ) * $this->portraitSize;
 
                 $boundings->x1 -= $size;
                 $this->boundings->x0 = $boundings->x1;
                 break;
+            case ezcGraph::TOP:
+                $size = ( $boundings->height ) * $this->landscapeSize;
+
+                $boundings->y0 += $size;
+                $this->boundings->y1 = $boundings->y0;
+                break;
             case ezcGraph::BOTTOM:
-                $size = (int) round( $boundings->y1 - ( $boundings->y1 - $boundings->y0) * $this->landscapeSize );
+                $size = ( $boundings->height ) * $this->landscapeSize;
 
                 $boundings->y1 -= $size;
                 $this->boundings->y0 = $boundings->y1;
