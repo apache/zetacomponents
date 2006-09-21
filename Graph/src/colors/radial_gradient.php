@@ -33,8 +33,9 @@ class ezcGraphRadialGradient extends ezcGraphColor
     /**
      * Constructor
      * 
-     * @param ezcGraphCoordinate $startPoint 
-     * @param ezcGraphCoordinate $endPoint 
+     * @param ezcGraphCoordinate $center 
+     * @param mixed $width 
+     * @param mixed $height 
      * @param ezcGraphColor $startColor 
      * @param ezcGraphColor $endColor 
      * @return void
@@ -85,9 +86,9 @@ class ezcGraphRadialGradient extends ezcGraphColor
                 $this->properties['offset'] = min( 0, max( 1, (float) $propertyValue ) );
                 break;
             case 'startColor':
-                if ( !$propertyValue instanceof ezcGraphCoordinate )
+                if ( !$propertyValue instanceof ezcGraphColor )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphCoordinate' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphColor' );
                 }
                 else
                 {
@@ -95,9 +96,9 @@ class ezcGraphRadialGradient extends ezcGraphColor
                 }
                 break;
             case 'endColor':
-                if ( !$propertyValue instanceof ezcGraphCoordinate )
+                if ( !$propertyValue instanceof ezcGraphColor )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphCoordinate' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphColor' );
                 }
                 else
                 {

@@ -80,9 +80,9 @@ class ezcGraphLinearGradient extends ezcGraphColor
                 }
                 break;
             case 'startColor':
-                if ( !$propertyValue instanceof ezcGraphCoordinate )
+                if ( !$propertyValue instanceof ezcGraphColor )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphCoordinate' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphColor' );
                 }
                 else
                 {
@@ -90,9 +90,9 @@ class ezcGraphLinearGradient extends ezcGraphColor
                 }
                 break;
             case 'endColor':
-                if ( !$propertyValue instanceof ezcGraphCoordinate )
+                if ( !$propertyValue instanceof ezcGraphColor )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphCoordinate' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphColor' );
                 }
                 else
                 {

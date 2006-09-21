@@ -102,6 +102,109 @@ class ezcGraphColorTest extends ezcTestCase
         $this->assertEquals( $color->alpha, 0, 'Wrong alpha color value' );
     }
 
+    public function testLinearGradientColorFallback()
+    {
+        $color = new ezcGraphLinearGradient(
+            new ezcGraphCoordinate( 0, 0 ),
+            new ezcGraphCoordinate( 10, 10 ),
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            ezcGraphColor::fromHex( '#000000' )
+        );
+
+        $this->assertEquals( $color->red, 255, 'Wrong red color value' );
+        $this->assertEquals( $color->green, 255, 'Wrong green color value' );
+        $this->assertEquals( $color->blue, 255, 'Wrong blue color value' );
+        $this->assertEquals( $color->alpha, 0, 'Wrong alpha color value' );
+    }
+
+    public function testRadialGradientColorFallback()
+    {
+        $color = new ezcGraphRadialGradient(
+            new ezcGraphCoordinate( 0, 0 ),
+            10, 20,
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            ezcGraphColor::fromHex( '#000000' )
+        );
+
+        $this->assertEquals( $color->red, 255, 'Wrong red color value' );
+        $this->assertEquals( $color->green, 255, 'Wrong green color value' );
+        $this->assertEquals( $color->blue, 255, 'Wrong blue color value' );
+        $this->assertEquals( $color->alpha, 0, 'Wrong alpha color value' );
+    }
+
+    public function testLinearGradientProperties()
+    {
+        $color = new ezcGraphLinearGradient(
+            new ezcGraphCoordinate( 0, 0 ),
+            new ezcGraphCoordinate( 10, 10 ),
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            ezcGraphColor::fromHex( '#000000' )
+        );
+
+        $this->assertEquals( $color->startPoint, new ezcGraphCoordinate( 0, 0 ) );
+        $this->assertEquals( $color->endPoint, new ezcGraphCoordinate( 10, 10 ) );
+        $this->assertEquals( $color->startColor, ezcGraphColor::fromHex( '#FFFFFF' ) );
+        $this->assertEquals( $color->endColor, ezcGraphColor::fromHex( '#00000000' ) );
+    }
+
+    public function testRadialGradientProperties()
+    {
+        $color = new ezcGraphRadialGradient(
+            new ezcGraphCoordinate( 0, 0 ),
+            10, 20,
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            ezcGraphColor::fromHex( '#000000' )
+        );
+
+        $this->assertEquals( $color->center, new ezcGraphCoordinate( 0, 0 ) );
+        $this->assertEquals( $color->width, 10 );
+        $this->assertEquals( $color->height, 20 );
+        $this->assertEquals( $color->startColor, ezcGraphColor::fromHex( '#FFFFFF' ) );
+        $this->assertEquals( $color->endColor, ezcGraphColor::fromHex( '#00000000' ) );
+    }
+
+    public function testLinearGradientSetProperties()
+    {
+        $color = new ezcGraphLinearGradient(
+            new ezcGraphCoordinate( 0, 0 ),
+            new ezcGraphCoordinate( 10, 10 ),
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            ezcGraphColor::fromHex( '#000000' )
+        );
+
+        $color->startPoint = new ezcGraphCoordinate( 5, 5 );
+        $color->endPoint = new ezcGraphCoordinate( 15, 15 );
+        $color->startColor = ezcGraphColor::fromHex( '#000000' );
+        $color->endColor = ezcGraphColor::fromHex( '#FFFFFF' );
+
+        $this->assertEquals( $color->startPoint, new ezcGraphCoordinate( 5, 5 ) );
+        $this->assertEquals( $color->endPoint, new ezcGraphCoordinate( 15, 15 ) );
+        $this->assertEquals( $color->startColor, ezcGraphColor::fromHex( '#000000' ) );
+        $this->assertEquals( $color->endColor, ezcGraphColor::fromHex( '#FFFFFF00' ) );
+    }
+
+    public function testRadialGradientSetProperties()
+    {
+        $color = new ezcGraphRadialGradient(
+            new ezcGraphCoordinate( 0, 0 ),
+            10, 20,
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            ezcGraphColor::fromHex( '#000000' )
+        );
+
+        $color->center = new ezcGraphCoordinate( 5, 5 );
+        $color->width = 15;
+        $color->height = 25;
+        $color->startColor = ezcGraphColor::fromHex( '#000000' );
+        $color->endColor = ezcGraphColor::fromHex( '#FFFFFF' );
+        
+        $this->assertEquals( $color->center, new ezcGraphCoordinate( 5, 5 ) );
+        $this->assertEquals( $color->width, 15 );
+        $this->assertEquals( $color->height, 25 );
+        $this->assertEquals( $color->startColor, ezcGraphColor::fromHex( '#000000' ) );
+        $this->assertEquals( $color->endColor, ezcGraphColor::fromHex( '#FFFFFF00' ) );
+    }
+
     public function testFactoryUnknownColorDefinition()
     {
         try
