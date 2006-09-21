@@ -506,7 +506,7 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
             case 'options':
                 if ( !( $val instanceof ezcTranslationTsBackendOptions ) )
                 {
-                    throw new ezcBaseValueException( $key, $val, 'ezcTranslationTsBackendOptions' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'instance of ezcTranslationTsBackendOptions' );
                 }
                 $this->properties['options'] = $val;
                 return;

@@ -27,6 +27,22 @@ class ezcTranslationManagerTest extends ezcTestCase
         self::assertEquals( $expected, $context );
     }
 
+    public function testGetContextCached()
+    {
+        $currentDir = dirname( __FILE__ );
+        $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
+        $backend->setOptions( array ( 'format' => '[LOCALE].xml' ) );
+
+        $trm = new ezcTranslationManager( $backend );
+        $expected = new ezcTranslation( array( new ezcTranslationData( 'Node ID: %node_id Visibility: %visibility', 'Knoop ID: %node_id Zichtbaar: %visibility', false, ezcTranslationData::TRANSLATED ) ) );
+
+        $context1 = $trm->getContext( 'nl-nl', 'contentstructuremenu/show_content_structure' );
+        self::assertEquals( $expected, $context1 );
+        $context2 = $trm->getContext( 'nl-nl', 'contentstructuremenu/show_content_structure' );
+        self::assertEquals( $expected, $context2 );
+        self::assertSame( $context1, $context2 );
+    }
+
     public function testGetContextWithFilter()
     {
         $currentDir = dirname( __FILE__ );

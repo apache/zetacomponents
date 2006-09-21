@@ -14,29 +14,125 @@
  */
 class ezcTranslationTsBackendTest extends ezcTestCase
 {
+    public function testWrongCtorParams()
+    {
+        try
+        {
+            new ezcTranslationTsBackend( '' );
+            self::fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcTranslationNotConfiguredException $e )
+        {
+            self::assertSame( 'Location <> is invalid.', $e->getMessage() );
+        }
+    }
+
     public function testConfigSetting()
     {
         $backend = new ezcTranslationTsBackend( 'tests/translations', array ( 'format' => 'test-[LOCALE].xml' ) );
         self::assertSame( $backend->options->format, 'test-[LOCALE].xml' );
     }
 
-    public function testConfigSettingAlternative()
+    public function testConfigSettingAlternative1()
     {
         $backend = new ezcTranslationTsBackend( 'tests/translations' );
         $backend->setOptions( array ( 'format' => 'test-[LOCALE].xml' ) );
         self::assertSame( $backend->options->format, 'test-[LOCALE].xml' );
     }
 
-    public function testConfigSettingBroken()
+    public function testConfigSettingAlternative2()
+    {
+        $backend = new ezcTranslationTsBackend( 'tests/translations' );
+        $options = new ezcTranslationTsBackendOptions;
+        $options->format = 'test-[LOCALE].xml';
+        $backend->setOptions( $options );
+        self::assertSame( $backend->options->format, 'test-[LOCALE].xml' );
+    }
+
+    public function testConfigGetOption()
+    {
+        $backend = new ezcTranslationTsBackend( 'tests/translations' );
+        $options = new ezcTranslationTsBackendOptions;
+        $options->format = 'test-[LOCALE].xml';
+        $backend->setOptions( $options );
+        $return = $backend->getOptions();
+        self::assertSame( $options, $return );
+    }
+
+    public function testConfigIssetProperty()
+    {
+        $backend = new ezcTranslationTsBackend( 'tests/translations' );
+        self::assertSame( false, isset( $backend->broken ) );
+        self::assertSame( true, isset( $backend->options ) );
+    }
+
+    public function testConfigGetUnknownProperty()
+    {
+        $backend = new ezcTranslationTsBackend( 'tests/translations' );
+        try
+        {
+            $value = $backend->broken;
+            self::fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            self::assertSame( 'No such property name <broken>.', $e->getMessage() );
+        }
+    }
+
+    public function testConfigSetUnknownProperty()
+    {
+        $backend = new ezcTranslationTsBackend( 'tests/translations' );
+        try
+        {
+            $backend->broken = 42;
+            self::fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            self::assertSame( 'No such property name <broken>.', $e->getMessage() );
+        }
+    }
+
+    public function testConfigSettingBroken1()
+    {
+        $backend = new ezcTranslationTsBackend( 'tests/translations' );
+        try
+        {
+            $backend->setOptions( 'broken' );
+            self::fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            self::assertSame( 'The value <broken> that you were trying to assign to setting <options> is invalid. Allowed values are: instance of ezcTranslationTsBackendOptions.', $e->getMessage() );
+        }
+    }
+
+    public function testConfigSettingBroken2()
     {
         $backend = new ezcTranslationTsBackend( 'tests/translations' );
         try
         {
             $backend->setOptions( array ( 'lOcAtIOn' => 'tests/translations' ) );
+            self::fail( 'Expected exception was not thrown' );
         }
         catch ( ezcBaseSettingNotFoundException $e )
         {
             self::assertEquals( "The setting <lOcAtIOn> is not a valid configuration setting.", $e->getMessage() );
+        }
+    }
+
+    public function testConfigSettingBroken3()
+    {
+        $backend = new ezcTranslationTsBackend( 'tests/translations' );
+        try
+        {
+            $backend->options = 'broken';
+            self::fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            self::assertSame( 'The value <broken> that you were trying to assign to setting <options> is invalid. Allowed values are: instance of ezcTranslationTsBackendOptions.', $e->getMessage() );
         }
     }
 
@@ -128,6 +224,7 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         try
         {
             $context = $backend->getContext( 'nl-nl', 'does/not/exist' );
+            self::fail( 'Expected exception was not thrown' );
         }
         catch ( ezcTranslationContextNotAvailableException $e )
         {
@@ -146,6 +243,7 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         $backend->initReader( 'nb-no' );
         $backend->next();
         $context = $backend->currentContext();
+        $backend->deinitReader();
 
         $expected = array(
             'contentstructuremenu/show_content_structure',
@@ -163,6 +261,7 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         $backend->next();
         $backend->next();
         $context = $backend->currentContext();
+        $backend->deinitReader();
 
         $expected = array(
             'design/admin/class/classlist',
@@ -185,6 +284,7 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         $backend->next();
         $backend->next();
         $valid = $backend->valid();
+        $backend->deinitReader();
 
         self::assertEquals( false, $valid );
     }
@@ -204,6 +304,7 @@ class ezcTranslationTsBackendTest extends ezcTestCase
             $contexts[] = $contextName;
             $backend->next();
         }
+        $backend->deinitReader();
 
         $expected = array (
             'contentstructuremenu/show_content_structure',
@@ -226,6 +327,7 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         {
             $contexts[] = $contextName;
         }
+        $backend->deinitReader();
 
         $expected = array (
             'contentstructuremenu/show_content_structure',
@@ -236,20 +338,14 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         self::assertEquals( $expected, $contexts );
     }
 
-    public function testNonInitException1()
+    public function testReaderValid()
     {
         $currentDir = dirname( __FILE__ );
         $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
         $backend->setOptions( array ( 'format' => '[LOCALE].xml' ) );
 
-        try
-        {
-            $backend->valid();
-        }
-        catch ( ezcTranslationReaderNotInitializedException $e )
-        {
-            self::assertEquals( "", $e->getMessage() );
-        }
+        
+        self::assertEquals( false, $backend->valid() );
     }
 
     public function testNonInitException2()
@@ -261,6 +357,24 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         try
         {
             $backend->current();
+            self::fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcTranslationReaderNotInitializedException $e )
+        {
+            self::assertEquals( "The reader is not initialized with the initReader() method.", $e->getMessage() );
+        }
+    }
+
+    public function testNonInitException3()
+    {
+        $currentDir = dirname( __FILE__ );
+        $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
+        $backend->setOptions( array ( 'format' => '[LOCALE].xml' ) );
+
+        try
+        {
+            $backend->next();
+            self::fail( 'Expected exception was not thrown' );
         }
         catch ( ezcTranslationReaderNotInitializedException $e )
         {
