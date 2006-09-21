@@ -100,7 +100,7 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
                 $this->polynom = false;
                 break;
             case 'resolution':
-                $this->properties['polynomOrder'] = max( 1, (int) $propertyValue );
+                $this->properties['resolution'] = max( 1, (int) $propertyValue );
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );

@@ -199,6 +199,39 @@ class ezcGraphDataSetAverageTest extends ezcTestCase
         );
     }
 
+    public function testIterateOverAverageDataset2()
+    {
+        $arrayDataSet = new ezcGraphArrayDataSet( array( -1 => 2, 1 => 2, 3 => 10 ) );
+
+        $averageDataSet = new ezcGraphDataSetAveragePolynom( $arrayDataSet );
+        $averageDataSet->polynomOrder = 3;
+
+        $stepSize = 4 / 100;
+        $start = -1 - $stepSize;
+
+        foreach ( $averageDataSet as $key => $value )
+        {
+            $this->assertEquals( (string) ( $start += $stepSize ), $key, 'Wrong step.', .01 );
+        }
+    }
+
+    public function testIterateOverAverageDataset3()
+    {
+        $arrayDataSet = new ezcGraphArrayDataSet( array( -1 => 2, 1 => 2, 3 => 10 ) );
+
+        $averageDataSet = new ezcGraphDataSetAveragePolynom( $arrayDataSet );
+        $averageDataSet->polynomOrder = 3;
+        $averageDataSet->resolution = 10;
+
+        $stepSize = 4 / 10;
+        $start = -1 - $stepSize;
+
+        foreach ( $averageDataSet as $key => $value )
+        {
+            $this->assertEquals( (string) ( $start += $stepSize ), $key, 'Wrong step.', .01 );
+        }
+    }
+
     public function testRenderCompleteLineChart()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
