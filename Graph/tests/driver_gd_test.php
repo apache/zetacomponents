@@ -26,6 +26,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
     protected $testFiles = array(
         'jpeg'          => 'jpeg.jpg',
         'png'           => 'png.png',
+        'gif'           => 'gif.gif',
     );
 
 	public static function suite()
@@ -579,6 +580,32 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
 
         $this->driver->drawImage(
             $this->basePath . $this->testFiles['png'],
+            new ezcGraphCoordinate( 10, 10 ),
+            100,
+            50
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
+    public function testDrawImageGif()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->drawImage(
+            $this->basePath . $this->testFiles['gif'],
             new ezcGraphCoordinate( 10, 10 ),
             100,
             50
@@ -1746,6 +1773,36 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         $this->assertImageSimilar(
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
+    public function testDrawJpeg()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.jpg';
+
+        $this->driver->options->imageFormat = IMG_JPEG;
+        $this->driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 45, 12 ),
+                new ezcGraphCoordinate( 122, 34 ),
+                new ezcGraphCoordinate( 12, 71 ),
+            ),
+            ezcGraphColor::fromHex( '#3465A4' ),
+            true
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.jpg',
             'Image does not look as expected.',
             2000
         );

@@ -25,7 +25,8 @@ class ezcGraphSvgDriverTest extends ezcTestCase
 
     protected $testFiles = array(
         'jpeg'          => 'jpeg.jpg',
-        'svg'           => 'png.png',
+        'png'           => 'png.png',
+        'gif'           => 'gif.gif',
     );
 
 	public static function suite()
@@ -433,7 +434,26 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $this->driver->drawImage(
-            $this->basePath . $this->testFiles['svg'],
+            $this->basePath . $this->testFiles['png'],
+            new ezcGraphCoordinate( 10, 10 ),
+            100,
+            50
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testDrawImageGif()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->drawImage(
+            $this->basePath . $this->testFiles['gif'],
             new ezcGraphCoordinate( 10, 10 ),
             100,
             50

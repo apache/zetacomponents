@@ -13,6 +13,8 @@
  * @property int $imageFormat
  *           Type of generated image.
  *           Should be one of those: IMG_PNG, IMG_JPEG
+ * @property int $jpegQuality
+ *           Quality of generated jpeg
  * @property int $detail
  *           Count of degrees to render one polygon for in circular arcs
  * @property int $supersampling
@@ -41,6 +43,7 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
     public function __construct( array $options = array() )
     {
         $this->properties['imageFormat'] = IMG_PNG;
+        $this->properties['jpegQuality'] = 70;
         $this->properties['detail'] = 1;
         $this->properties['shadeCircularArc'] = .5;
         $this->properties['supersampling'] = 2;
@@ -74,6 +77,9 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'Unsupported image type.' );
                 }
+                break;
+            case 'jpegQuality':
+                $this->properties['jpegQuality'] = max( 0, min( 100, (int) $propertyValue ) );
                 break;
             case 'detail':
                 $this->properties['detail'] = max( 1, (int) $propertyValue );

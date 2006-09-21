@@ -1105,7 +1105,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
                 imagepng( $image, $file );
                 break;
             case IMG_JPEG:
-                imagejpeg( $image, $file, $this->options->quality );
+                imagejpeg( $image, $file, $this->options->jpegQuality );
                 break;
         }
     }
