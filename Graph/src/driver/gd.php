@@ -22,9 +22,9 @@ class ezcGraphGdDriver extends ezcGraphDriver
 {
 
     /**
-     * Image ressource
+     * Image resource
      * 
-     * @var ressource
+     * @var resource
      */
     protected $image;
 
@@ -47,9 +47,9 @@ class ezcGraphGdDriver extends ezcGraphDriver
     protected $strings = array();
 
     /**
-     * Contains ressources for already loaded ps fonts.
+     * Contains resources for already loaded ps fonts.
      *  array(
-     *      path => ressource
+     *      path => resource
      *  )
      * 
      * @var array
@@ -69,13 +69,13 @@ class ezcGraphGdDriver extends ezcGraphDriver
     }
 
     /**
-     * Returns the image ressource to draw on.
+     * Returns the image resource to draw on.
      *
-     * If no ressource exists the image will be created. The size of the 
+     * If no resource exists the image will be created. The size of the 
      * returned image depends on the supersampling factor and the size of the
      * chart.
      * 
-     * @access ressource
+     * @return resource
      */
     protected function getImage()
     {
@@ -135,10 +135,10 @@ class ezcGraphGdDriver extends ezcGraphDriver
     }
 
     /**
-     * Creates an image ressource from an image file
+     * Creates an image resource from an image file
      *
      * @param string $file Filename
-     * @return ressource Image
+     * @return resource Image
      */
     protected function imageCreateFrom( $file )
     {
@@ -309,7 +309,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
     /**
      * Render text depending of font type and available font extensions
      * 
-     * @param ressource $image Image ressource
+     * @param resource $image Image resource
      * @param string $text Text
      * @param ezcGraphFontOptions $font Font
      * @param ezcGraphCoordinate $position Position
@@ -1015,10 +1015,10 @@ class ezcGraphGdDriver extends ezcGraphDriver
     }
 
     /**
-     * Draw all images to image ressource handler
+     * Draw all images to image resource handler
      * 
-     * @param ressource $image Image to draw on
-     * @return ressource Updated image ressource
+     * @param resource $image Image to draw on
+     * @return resource Updated image resource
      */
     protected function addImages( $image )
     {
