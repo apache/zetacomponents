@@ -4,7 +4,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package SignalObserver
+ * @package SignalSlot
  */
 
 /**
@@ -27,7 +27,7 @@
  *
  * @version //autogen//
  * @mainclass
- * @package SignalObserver
+ * @package SignalSlot
  */
 class ezcSignalStaticConnections
 {

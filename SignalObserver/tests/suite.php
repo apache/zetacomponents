@@ -4,7 +4,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package SignalObserver
+ * @package SignalSlot
  * @subpackage Tests
  */
 
@@ -18,12 +18,12 @@ require_once( "static_connections_test.php" );
  * @package PhpGenerator
  * @subpackage Tests
  */
-class ezcSignalObserverSuite extends ezcTestSuite
+class ezcSignalSlotSuite extends ezcTestSuite
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setName("SignalObserver");
+        $this->setName("SignalSlot");
 
         $this->addTest( ezcSignalCollectionTest::suite() );
         $this->addTest( ezcSignalStaticConnectionsTest::suite() );
@@ -31,7 +31,7 @@ class ezcSignalObserverSuite extends ezcTestSuite
 
     public static function suite()
     {
-        return new ezcSignalObserverSuite();
+        return new ezcSignalSlotSuite();
     }
 }
 ?>
