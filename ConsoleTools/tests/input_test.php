@@ -755,7 +755,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         $this->commonProcessTestFailure( $args, 'ezcConsoleOptionNotExistsException' );
     }
     
-    public function testProcessFailureType()
+    public function testProcessFailureTypeInt()
     {
         $args = array(
             'foo.php',
@@ -763,6 +763,18 @@ class ezcConsoleToolsInputTest extends ezcTestCase
             'not_an_int'
         );
         $this->commonProcessTestFailure( $args, 'ezcConsoleOptionTypeViolationException' );
+    }
+    
+    // Bug #9046: New bug: [ConsoleTools] Last argument not treated invalid option value
+    public function testProcessNoFailureTypeNone()
+    {
+        $args = array(
+            'foo.php',
+            '-s',
+            'a_parameter'
+        );
+        $res = array( "s" => true );
+        $this->commonProcessTestSuccess( $args, $res );
     }
     
     public function testProcessFailureNovalue()

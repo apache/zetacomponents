@@ -833,7 +833,7 @@ class ezcConsoleInput
         if ( $option->type === ezcConsoleInput::TYPE_NONE )
         {
             // No value expected
-            if ( isset( $args[$i] ) && substr( $args[$i], 0, 1 ) !== '-' )
+            if ( isset( $args[$i] ) && substr( $args[$i], 0, 1 ) !== '-' && sizeof( $args ) > ( $i + 1 ) )
             {
                 // But one found
                 throw new ezcConsoleOptionTypeViolationException( $option, $args[$i] );
