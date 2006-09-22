@@ -1,0 +1,227 @@
+eZ components - Graph
+~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+   :depth: 2
+
+Introduction
+============
+
+The graph components enables you to create line, pie and bar charts. The
+output driver mechanism allows you to create different image types from each
+chart, and the available renderers make the chart output customizeable from
+simple two dimensional charts up to beautiful three dimensional data
+projections. 
+
+ezcGraph seperates different parts of the graph in chart elements, which
+display one part of a graph, like the title, the legend or one axis, which are
+all idenpendently configurable. This design not only allows you to use
+different colors or fonts for each chart element, but also define their
+position and size. The main chart elements are the same for all chart types.
+For easy definition of a overall layout for your graph you can use palettes,
+which define colors, symbols, fonts and spacings.
+
+The data is provided through ezcGraphDataSets which are normally create from
+simple arrays, but also can perform statistical operations on the data, as you
+will see later.
+
+Class overview
+==============
+
+This section gives you an overview on all classes, that are intended to be
+used directly.
+
+ezcGraphChart
+  Line, bar and pie chart extend this abstract class, that represents the
+  chart to be rendered. It collects the data and chart elements, gives you
+  access to all configuration settings and calls the driver and renderer for
+  creating the final output.
+
+ezcGraphDataSet
+  All data sets extend this abstract class to provide the data in a general
+  form, accessable by the chart.
+
+ezcGraphChartElement
+  All chart element store configuration values defining their layout. A
+  elements layout definition contains background, border, margin, padding and
+  fonf cofiguration. This class is extended by classes for Legend, Text, 
+  Background and the different axis types.
+
+ezcGraphChartElementAxis
+  Extends ezcGraphChartElement and is the base class for all axis. There are
+  different axis types for different data to be displayed, like numeric axis,
+  string labeld axis or the date axis.
+
+ezcGraphAxisLabelRenderer
+  Defines the rendering algorithm for labels and grid on axis. The distinction
+  is necessary, because bar charts expect their labels placed directly below
+  the datapoint, but numerical data in line charts should be placed next to
+  grid.
+
+ezcGraphPalette
+  Contains color, font, symbol and spacing definitions, that are applied to
+  the complete graph.
+
+ezcGraphRenderer
+  The renderer transforms chart primitives, like pie chart segments, legend
+  or data lines, to image primitives. You have the choice between a two and a
+  three dimensional renderer.
+
+ezcGraphDriver
+  The driver actually renders image primitives to an image. The default driver
+  will output a SVG, but you can also render JPEGs or PNGs using ext/gd.
+
+Usage
+=====
+
+Creating pie charts
+-------------------
+
+The following graph is a simple example how to create a pie chart using the
+default driver, palette and renderer.
+
+.. include:: tutorial_example_01.php
+   :literal:
+
+You just create a new chart object, optionally set a title for the chart
+assign the data and render it. To assign data you access the dataset container
+like an array to define an identifier for your new created dataset. The
+dataset in this example is created from an array, where the keys are used as
+the indetifiers for the datapoints.
+
+Pie charts accept only one dataset, and the data point identifier are used to
+create the legend. To generate the output the default SVG renderer is used
+with the default 2d renderer. For the automatic colorization colors are
+applied from the default Tango palette, which uses colors defined by the Tango
+Desktop Project: http://tango.freedesktop.org/Tango_Desktop_Project
+
+.. image:: img/tutorial_example_01.svg.png
+   :alt:   Created pie chart 
+
+Let's enhance the pie chart and do some custom configuration.
+
+.. include:: tutorial_example_02.php
+   :literal:
+
+The first step in line 8 is to select another palette, for custom colorization.
+ezcGraph includes some palettes, in this case we use one with light blue 
+colors. To gain more space for the actual pie chart you can move the legend
+around, perhaps to the bottom like in line 9.
+
+Additionally we use another driver in this example to directly render bitmaps
+- the GD renderer. For the GD renderer we need to set the path to a font which
+can be used by this driver. We first set a font for the global font
+configuration, which is then applied to all font configurations of elements.
+*Important:* The first time you access a elements font configuration, like in
+line 16, it will be cloned and won't be affected by changes on the global font 
+configuration anymore. As you can see here, the title element uses it own font, 
+a Post Script Type 1 font in this case, which can be used with ezcGraph, if 
+ext/gd was compiled with --with-t1lib.
+
+In line 25 and 26 we change properties of the dataset, which influence how the
+data will be displayed. You can set properties on single datapoints, like the
+highlighted datapoint in line 25, or for complete datasets, like the changed
+symbol in line 26. Furthermore we change the label, used for the pie chart,
+because with the legend we don't need to display the datapoints name again in
+the pie chart.
+
+Finally advice the renderer to add some shadow and render the image.
+
+.. image:: img/tutorial_example_02.png
+   :alt:   Improved pie chart
+
+So let's try the 3D renderer now. Everything works exactly like before, only
+that the 3D renderer has some more options.
+
+.. include:: tutorial_example_03.php
+   :literal:
+
+The result now looks really nice.
+
+.. image:: img/tutorial_example_03.svg.png
+   :alt:   Three dimensional pie chart
+
+There are far more options for the renderer and even for the driver, you can
+read about in the online documentation.
+
+Line charts
+-----------
+
+Besides pie charts the graph component is able to draw line and bar charts.
+The process is very similar to creating pie charts, just replace the used chart
+class with ezcGraphLineChart and you are able to add multiple datasets instead
+of only one, as for pie charts.
+
+.. include:: tutorial_example_04.php
+   :literal:
+
+The example again uses another palette, which defines colors for grids and
+borders for chart elements, so that the legend and the title are surrounded by
+gray lines. In this example several datasets are added, with their data
+defined in an array like this::
+
+	<?php
+  	return array(
+		'English' => array(
+			'Jan 2006' => 965,
+			'Feb 2006' => 1000,
+			...
+		), 
+		...
+  	);
+  	?>
+
+Both axis are chart elements like the legend is and have their own 
+configurations options. In this case we set a description label for the axis 
+in line 19.
+
+.. image:: img/tutorial_example_04.png
+   :alt:   Simple line chart
+
+Bar charts
+----------
+
+Bar charts work exactly the same way as line charts, they just have another
+default display type for the datasets and use another default axis label
+renderer for the x axis. Because of this you can always combine line and bar
+charts like in the following example:
+
+.. include:: tutorial_example_05.php
+   :literal:
+
+.. image:: img/tutorial_example_05.png
+   :alt:   Combined line and bar chart
+
+Mathematical data
+-----------------
+
+Until now the x axis always was a labeled axis used to display strings in the
+order the dataset received them. To display statistical or mathematical data it
+sometimes makes sense to use the date or numeric axis for both, x and y, axis.
+
+.. include:: tutorial_example_06.php
+   :literal:
+
+From the random data generated in the lines 10 to 13 a polynom is generated in
+line 17 which interpolates the existing data. The second parameter in the
+ezcGraphDataSetAveragePolynom contructor defines the maximum order of the used
+polygon. The interpolation uses the least squares method.
+
+In line 20 the x axis is defined as a numeric axis, too, so that the negative
+values display nicely and the output is like expected for methematical data.
+
+.. image:: img/tutorial_example_06.svg.png
+   :alt:   Some random statistical data
+
+More Information
+================
+
+For more information, see the ezcGraph API reference.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
