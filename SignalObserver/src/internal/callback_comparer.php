@@ -9,7 +9,7 @@
  */
 
 /**
- * Check if two callback are the same or not.
+ * Check if two callbacks are the same or not.
  *
  * @version //autogen//
  * @mainclass

@@ -21,7 +21,8 @@
  * TODO: examples
  *
  * @property array $connections Holds the internal structure of signals. The format is
- *                 array(priority=>array(slots)). It can be both read and set in order
+ *                 array( identifier => array( signalName => array(priority=>array(slots)) ) ).
+ *                 It can be both read and set in order
  *                 to provide easy setup of the static connections from disk.
  *
  * @version //autogen//
@@ -38,12 +39,17 @@ class ezcSignalStaticConnections
     private $properties = array();
 
     /**
-     * ezcSignalStaticConnections singleton instance
+     * ezcSignalStaticConnections singleton instance.
      *
      * @var ezcConfigurationManager
      */
     private static $instance = null;
 
+    /**
+     * Returns the instance of the ezcSignalStaticConnections..
+     *
+     * @return ezcConfigurationManager
+     */
     public static function getInstance()
     {
         if( self::$instance === null )
@@ -53,6 +59,9 @@ class ezcSignalStaticConnections
         return self::$instance;
     }
 
+    /**
+     * Constructs a new empty static connections class.
+     */
     private function __construct()
     {
         $this->properties['connections'] = array();
@@ -101,6 +110,14 @@ class ezcSignalStaticConnections
         }
     }
 
+    /**
+     * Returns all the connections for signals $signal in signal collections
+     * with the identifier $identifier.
+     *
+     * @param string $identifier
+     * @param string $signal
+     * @return array(int=>callback)
+     */
     public function getConnections( $identifier, $signal )
     {
         if( isset( $this->connections[$identifier] ) &&

@@ -9,7 +9,6 @@
 
 /**
  * ezcSignalCollection implements a mechanism for inter and intra object communication.
- * TODO: order in which signals are called
  * TODO: examples
  *
  * @property bool $signalsBlocked     If set to true emits will not cause any slots to be called.
@@ -52,7 +51,7 @@ class ezcSignalCollection
      *
      * @param string $identifier
      */
-    public function __construct( $identifier )
+    public function __construct( $identifier = "default" )
     {
         $this->properties['identifier'] = $identifier;
         $this->signalsBlocked = false;
@@ -315,13 +314,6 @@ class ezcSignalCollection
                 }
             }
         }
-    }
-
-    // move to private class
-    public function comp_func( $a, $b )
-    {
-        if( $a === $b ) return 0;
-        return 1;
     }
 }
 ?>
