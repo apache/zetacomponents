@@ -25,6 +25,7 @@ class ezcSignalStaticConnectionsTest extends ezcTestCase
         $this->receiver = new TheReceiver();
         TheReceiver::$globalFunctionRun = false;
         TheReceiver::$staticFunctionRun = false;
+        ezcSignalStaticConnections::getInstance()->connections = array();
     }
 
     public function testSingleConnectionGlobalFunction()
@@ -199,6 +200,12 @@ class ezcSignalStaticConnectionsTest extends ezcTestCase
         ezcSignalStaticConnections::getInstance()->disconnect( "TheGiver", "signal", array( $this->receiver, "slotNoParams3" ) );
         $this->giver->signals->emit( "signal" );
         $this->assertEquals( array( "slotNoParams3", "slotNoParams1", "slotNoParams2" ), $this->receiver->stack );
+    }
+
+    public function testDisconnectEmpty()
+    {
+        ezcSignalStaticConnections::getInstance()->disconnect( "TheGiver", "signal", array( $this->receiver, "slotNoParams3" ), 1000 );
+        $this->assertEquals( 0, count( ezcSignalStaticConnections::getInstance()->connections ) );
     }
 
     public static function suite()
