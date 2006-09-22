@@ -8,6 +8,8 @@
  * @subpackage Tests
  */
 
+ezcTestRunner::addFileToFilter( __FILE__ );
+
 class TheGiver
 {
     public $signals;
