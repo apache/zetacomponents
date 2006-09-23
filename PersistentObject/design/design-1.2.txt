@@ -498,7 +498,7 @@ realizes the reverse mapping of the first one-to-many example: ::
 
     $def->relations["Person"] = new ezcPersistentObjectManyToOneRelation();
     $def->relations["Person"]->columnMap = array(
-        array( "addresses" => "person_id", "persosn" => "id" ),
+        array( "addresses" => "person_id", "persons" => "id" ),
     );
     $def->relations["Person"]->reverse = true;
     ?>
