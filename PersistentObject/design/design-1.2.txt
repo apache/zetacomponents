@@ -438,7 +438,7 @@ One-to-many relations
     // Define the mapping for this relation. At least 1 column of the
     // original table must be mapped to 1 column of the related table.
     $def->relations["Address"]->columnMap = array(
-        array( "persons" => "id", "addresses" => "person_id" ),
+        new ezcPersistentSingleTableMap( "persons", "id", "addresses", "person_id" ),
     );
 
     // This relation should cascade deletes.
@@ -450,12 +450,22 @@ Address that are related to an instance of the class Person, using the
 ezcPersistentSession->getRelated*() methods.
 
 Note, that the "column map" contains the database column names, and not the
-property names of the persistent classes. Column maps for a one-to-many
-relation must at least contain 1 array element, with 2 mappings, which assign a
-table name to a column name. In this case we have the mapping persons.id =>
-addresses.person_id. You can also add more mappings to the column map, which
-allows you a more fine grained selection of the objects to fetch and also
-allows you to specify multiple keys to match.
+property names of the persistent classes. The comlumn map of One-To-Many
+relations must at least contain 1 ezcPersistentSingleTableMap. You can also add
+more mappings to the column map, which allows you a more fine grained selection
+of the objects to fetch and also allows you to specify multiple keys to match.
+
+The struct ezcPersistentSingleTableMap contains the following properties, which
+can be assigned to the constructor in the given order: ::
+    
+    class ezcPersistentSingleTableMap
+    {
+        private $sourceTable;
+        private $sourceColumn;
+
+        private $destinationTable;
+        private $destinationColumn;
+    }
 
 The "cascade" flag will enable the automatic deletion of related objects.
 
@@ -474,17 +484,40 @@ Many-to-many relations
     // Many-to-many relations need at least 2 mappings: 1 incoming and 1
     // outgoing for the relation table.
     $def->relations["Address"]->columnMap = array(
-        array( "persons" => "id", "persons_addresses" => "person_id" ),
-        array( "persons_addresses" => "address_id", "addresses" => "id" ),
+        new ezcPersistentDoubleTableMap( 
+            "persons",
+            "id",
+            "persons_addresses",
+            "person_id"
+            "address_id", 
+            "addresses"
+            "id"
+        ),
     );
     ?>
 
-This example shows a many-to-many relation, which needs an additional table to reflect the
-relation. The relation-table name is given to the constructor. To reflect the 3-level
-mapping, needed for a many-to-many relation, the column map needs to contain at
-least 2 mappings. You can still add more mappings, if this is desired. Note,
-that the ezcPersistentObjectManyToManyRelation class does not know a "cascade"
-flag, since this does not make sense.
+This example shows a many-to-many relation, which needs an additional table to
+reflect the relation. The relation-table name is given to the constructor. To
+reflect the 3-level mapping, needed for a many-to-many relation, the column map
+contains elements of the type ezcPersistentDoubleTableMap. Note, that the
+ezcPersistentObjectManyToManyRelation class does not know a "cascade" flag,
+since this does not make sense.
+
+The struct ezcPersistentDoubleTableMap contains the following properties, which
+can also be assigned through the constructor in the given order: ::
+
+    class ezcPersistentDoubleTableMap
+    {
+        private $sourceTable;
+        private $sourceColumn;
+
+        private $relationTable;
+        private $relationSourceColumn;
+        private $relationDestinationColumn;
+
+        private $destinationTable;
+        private $destinationColumn;
+    }
 
 Many-to-one relations
 `````````````````````
@@ -498,7 +531,7 @@ realizes the reverse mapping of the first one-to-many example: ::
 
     $def->relations["Person"] = new ezcPersistentObjectManyToOneRelation();
     $def->relations["Person"]->columnMap = array(
-        array( "addresses" => "person_id", "persons" => "id" ),
+        new ezcPersistentSingleTableMap( "addresses", "person_id", "persons", "id" ),
     );
     $def->relations["Person"]->reverse = true;
     ?>
