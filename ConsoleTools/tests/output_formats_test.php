@@ -23,52 +23,75 @@ class ezcConsoleToolsOutputFormatsTest extends ezcTestCase
 		return new ezcTestSuite( "ezcConsoleToolsOutputFormatsTest" );
 	}
 
-    /**
-     * testConstructor
-     */
     public function testConstructor()
     {
-        $fake = new ezcConsoleOutputFormats();
-        $fake->default = new ezcConsoleOutputFormat();
+        $formats = new ezcConsoleOutputFormats();
+        $formats->default = new ezcConsoleOutputFormat();
         $this->assertEquals( 
-            $fake,
+            $formats,
             new ezcConsoleOutputFormats(),
             'Default values incorrect for ezcConsoleOutputFormats.'
         );
     }
 
-    /**
-     * Test on the fly creation with __get()
-     */
-    public function testGet()
+    public function testGetAccessNonExistent()
     {
-        $form = new ezcConsoleOutputFormats();
-        $fake = new ezcConsoleOutputFormat();
+        $formats = new ezcConsoleOutputFormats();
+        $format = new ezcConsoleOutputFormat();
         $this->assertEquals( 
-            $fake,
-            $form->foobar,
-            'On the fly creation of ezcConsoleOutputFormat failed.'
+            $format,
+            $formats->foobar
         );
     }
 
-    /**
-     * Test on the fly creation with __set()
-     */
-    public function testGetManipulate()
+    public function testGetAccessExistent()
     {
-        $form = new ezcConsoleOutputFormats();
-        $form->foobar->color = 'blue';
-        
-        $fake = new ezcConsoleOutputFormat();
-        $fake->color = 'blue';
-        
+        $formats = new ezcConsoleOutputFormats();
+        $format = new ezcConsoleOutputFormat();
+        $formats->foobar = $format;
         $this->assertEquals( 
-            $fake,
-            $form->foobar,
-            'Manipulation of ezcConsoleOutputFormat failed.'
+            $format,
+            $formats->foobar
         );
     }
 
+    public function testGetAccessManipulate()
+    {
+        $formats = new ezcConsoleOutputFormats();
+        $formats->foobar->color = 'blue';
+        
+        $format = new ezcConsoleOutputFormat();
+        $format->color = 'blue';
+        
+        $this->assertEquals( 
+            $format,
+            $formats->foobar
+        );
+    }
+
+    public function testSetAccessExistent()
+    {
+        $formats = new ezcConsoleOutputFormats();
+        $format = new ezcConsoleOutputFormat();
+        $formats->foobar = $format;
+        $this->assertEquals( 
+            $format,
+            $formats->foobar
+        );
+    }
+
+    public function testIssetAccessSuccess()
+    {
+        $formats = new ezcConsoleOutputFormats();
+        $formats->foobar = new ezcConsoleOutputFormat();
+        $this->assertTrue( isset( $formats->foobar ) );
+    }
+
+    public function testIssetAccessFailure()
+    {
+        $formats = new ezcConsoleOutputFormats();
+        $this->assertFalse( isset( $formats->foobar ) );
+    }
 }
 
 ?>

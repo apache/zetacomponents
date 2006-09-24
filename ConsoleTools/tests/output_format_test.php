@@ -145,6 +145,21 @@ class ezcConsoleToolsOutputFormatTest extends ezcTestCase
         }
         $this->fail( "Exception not thrown on set of not existing color on ezcConsoleFormat->bgcolor." );
     }
+    
+    public function testSetAccessFailureNonexistent()
+    {
+        $format = new ezcConsoleOutputFormat();
+
+        try
+        {
+            $format->nonExsitent = "nonExistent";
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return true;
+        }
+        $this->fail( "Exception not thrown on set of not existing color on ezcConsoleFormat->bgcolor." );
+    }
 
     public function testIssetAccessSuccess()
     {
