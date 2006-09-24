@@ -46,6 +46,8 @@
  */
 class ezcGraphFontOptions extends ezcBaseOptions
 {
+    protected $pathChecked = false;
+
     /**
      * Constructor
      * 
@@ -146,6 +148,7 @@ class ezcGraphFontOptions extends ezcBaseOptions
                         default:
                             throw new ezcGraphUnknownFontTypeException( $propertyValue, $parts['extension'] );
                     }
+                    $this->pathChecked = true;
                 }
                 else 
                 {
@@ -164,6 +167,31 @@ class ezcGraphFontOptions extends ezcBaseOptions
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
                 break;
+        }
+    }
+
+    /**
+     * __get 
+     * 
+     * @param mixed $propertyName 
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return mixed
+     * @ignore
+     */
+    public function __get( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'path':
+                if ( $this->pathChecked === false )
+                {
+                    // Enforce call of path check
+                    $this->__set( 'path', $this->properties['path'] );
+                }
+                // No break to use parent return
+            default:
+                return parent::__get( $propertyName );
         }
     }
 }
