@@ -34,6 +34,10 @@ require_once 'input_test.php';
  */
 require_once 'option_test.php';
 /**
+ * Require test suite for ezcConsoleOptionRule class.
+ */
+require_once 'option_rule_test.php';
+/**
  * Require test suite for ezcConsoleTable class.
  */
 require_once 'table_test.php';

@@ -99,14 +99,32 @@ class ezcConsoleToolsOptionRuleTest extends ezcTestCase
 
         try
         {
-            $rule->values = 23;
+            $rule->nonExistent = 23;
         }
-        catch ( ezcBaseValueException $e )
+        catch ( ezcBasePropertyNotFoundException $e )
         {
             return;
         }
-        $this->fail( "Exception not thrown on invalid value for ezcConsoleOptionRule->values." );
+        $this->fail( "Exception not thrown on invalid value for ezcConsoleOptionRule->nonExistent." );
     }
+
+    public function testIssetAccessSuccess()
+    {
+        $option = new ezcConsoleOption( "a", "aaa" );
+        $rule = new ezcConsoleOptionRule( $option, array( "a" ) );
+
+        $this->assertTrue( isset( $rule->option ) );
+        $this->assertTrue( isset( $rule->values ) );
+    }
+
+    public function testIssetAccessFailure()
+    {
+        $option = new ezcConsoleOption( "a", "aaa" );
+        $rule = new ezcConsoleOptionRule( $option, array( "a" ) );
+
+        $this->assertFalse( isset( $rule->nonExsistent ) );
+    }
+
 }
 
 ?>
