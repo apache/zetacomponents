@@ -213,14 +213,8 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         unset( $this->input );
     }
 
-    /**
-     * testRegisterParam
-     * 
-     * @access public
-     */
     public function testRegisterParam()
     {
-        // Using local object to test registration itself.
         $input = new ezcConsoleInput();
         foreach ( $this->testOptions as $optionData )
         {
@@ -1155,32 +1149,6 @@ EOF;
             $this->input->getSynopsis( array( 't', 's', 'v' ) ),
             'Program synopsis not generated correctly.'
         );
-    }
-
-    public function testInvalidOptionName_short()
-    {
-        try
-        {
-            $option = new ezcConsoleOption( ' ', 'help' );
-        }
-        catch ( ezcConsoleInvalidOptionNameException $e )
-        {
-            return;
-        }
-        $this->fail( 'Exception not thrown on invalid option name.' );
-    }
-    
-    public function testInvalidOptionName_long()
-    {
-        try
-        {
-            $option = new ezcConsoleOption( 'h', '--help' );
-        }
-        catch ( ezcConsoleInvalidOptionNameException $e )
-        {
-            return;
-        }
-        $this->fail( 'Exception not thrown on invalid option name.' );
     }
     
     private function commonProcessTestSuccess( $args, $res )

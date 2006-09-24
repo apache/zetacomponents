@@ -30,6 +30,10 @@ require_once 'output_options_test.php';
  */
 require_once 'input_test.php';
 /**
+ * Require test suite for ezcConsoleOption class.
+ */
+require_once 'option_test.php';
+/**
  * Require test suite for ezcConsoleTable class.
  */
 require_once 'table_test.php';
@@ -88,6 +92,7 @@ class ezcConsoleToolsSuite extends ezcTestSuite
 		$this->addTest( ezcConsoleToolsOutputFormatsTest::suite() );
 		$this->addTest( ezcConsoleToolsOutputOptionsTest::suite() );
 		$this->addTest( ezcConsoleToolsInputTest::suite() );
+		$this->addTest( ezcConsoleToolsOptionTest::suite() );
 		$this->addTest( ezcConsoleToolsTableCellTest::suite() );
 		$this->addTest( ezcConsoleToolsTableRowTest::suite() );
 		$this->addTest( ezcConsoleToolsTableTest::suite() );
