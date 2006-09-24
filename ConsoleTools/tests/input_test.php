@@ -17,7 +17,7 @@
  */
 class ezcConsoleToolsInputTest extends ezcTestCase
 {
-    private $testParams = array( 
+    private $testOptions = array( 
         array( 
             'short'     => 't',
             'long'      => 'testing',
@@ -175,14 +175,14 @@ class ezcConsoleToolsInputTest extends ezcTestCase
 
     protected function setUp()
     {
-        $this->consoleParameter = new ezcConsoleInput();
-        foreach ( $this->testParams as $paramData )
+        $this->input = new ezcConsoleInput();
+        foreach ( $this->testOptions as $paramData )
         {
-            $this->consoleParameter->registerOption( $this->createFakeParam( $paramData ) );
+            $this->input->registerOption( $this->createFakeOption( $paramData ) );
         }
     }
 
-    protected function createFakeParam( $paramData )
+    protected function createFakeOption( $paramData )
     {
         $param = new ezcConsoleOption( $paramData['short'], $paramData['long'] );
         foreach ( $paramData['options'] as $name => $val )
@@ -191,7 +191,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
             {
                 foreach ( $val as $dep )
                 {
-                    $param->addDependency( new ezcConsoleOptionRule( $this->consoleParameter->getOption( $dep ) ) );
+                    $param->addDependency( new ezcConsoleOptionRule( $this->input->getOption( $dep ) ) );
                 }
                 continue;
             }
@@ -199,7 +199,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
             {
                 foreach ( $val as $dep )
                 {
-                    $param->addExclusion(new ezcConsoleOptionRule( $this->consoleParameter->getOption( $dep ) ) );
+                    $param->addExclusion(new ezcConsoleOptionRule( $this->input->getOption( $dep ) ) );
                 }
                 continue;
             }
@@ -210,7 +210,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
 
     protected function tearDown()
     {
-        unset( $this->consoleParameter );
+        unset( $this->input );
     }
 
     /**
@@ -221,23 +221,23 @@ class ezcConsoleToolsInputTest extends ezcTestCase
     public function testRegisterParam()
     {
         // Using local object to test registration itself.
-        $tmpConsoleInput = new ezcConsoleInput();
-        foreach ( $this->testParams as $paramData )
+        $input = new ezcConsoleInput();
+        foreach ( $this->testOptions as $optionData )
         {
-            $param = $this->createFakeParam( $paramData );
-            $tmpConsoleInput->registerOption( $param );
-            if ( $param->short !== '' )
+            $option = $this->createFakeOption( $optionData );
+            $input->registerOption( $option );
+            if ( $option->short !== '' )
             {
                 $this->assertEquals( 
-                    $param,
-                    $tmpConsoleInput->getOption( $paramData['short'] ),
-                    'Parameter not registered correctly with short name <' . $paramData['short'] . '>.'
+                    $option,
+                    $input->getOption( $optionData['short'] ),
+                    'Parameter not registered correctly with short name <' . $optionData['short'] . '>.'
                 );
             }
             $this->assertEquals( 
-                $param,
-                $tmpConsoleInput->getOption( $paramData['long'] ),
-                'Parameter not registered correctly with long name <' . $paramData['long'] . '>.'
+                $option,
+                $input->getOption( $optionData['long'] ),
+                'Parameter not registered correctly with long name <' . $optionData['long'] . '>.'
             );
         }
     }
@@ -295,7 +295,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
     public function testRegisterAliasSuccess()
     {
         $validParams = array();
-        foreach ( $this->consoleParameter->getOptions() as $param )
+        foreach ( $this->input->getOptions() as $param )
         {
             $validParams[$param->short] = $param;
         }
@@ -303,7 +303,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         {
             try 
             {
-                $this->consoleParameter->registerAlias( $alias['short'], $alias['long'], $validParams[$alias['ref']]  );
+                $this->input->registerAlias( $alias['short'], $alias['long'], $validParams[$alias['ref']]  );
             }
             catch ( ezcConsoleException $e )
             {
@@ -324,7 +324,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         {
             try 
             {
-                $this->consoleParameter->registerAlias( $alias['short'], $alias['long'], new ezcConsoleOption('foo', 'bar') );
+                $this->input->registerAlias( $alias['short'], $alias['long'], new ezcConsoleOption('foo', 'bar') );
             }
             catch ( ezcConsoleOptionNotExistsException $e )
             {
@@ -653,8 +653,8 @@ class ezcConsoleToolsInputTest extends ezcTestCase
             'foo.php',
             '-q',
         );
-        $this->consoleParameter->registerOption(
-            $this->createFakeParam(
+        $this->input->registerOption(
+            $this->createFakeOption(
                 array( 
                     'short'     => 'q',
                     'long'      => 'quite',
@@ -676,8 +676,8 @@ class ezcConsoleToolsInputTest extends ezcTestCase
             'foo.php',
             '-q',
         );
-        $this->consoleParameter->registerOption(
-            $this->createFakeParam(
+        $this->input->registerOption(
+            $this->createFakeOption(
                 array( 
                     'short'     => 'q',
                     'long'      => 'quite',
@@ -700,8 +700,8 @@ class ezcConsoleToolsInputTest extends ezcTestCase
             'foo.php',
             '-h',
         );
-        $this->consoleParameter->registerOption(
-            $this->createFakeParam(
+        $this->input->registerOption(
+            $this->createFakeOption(
                 array( 
                     'short'     => 'q',
                     'long'      => 'quite',
@@ -711,8 +711,8 @@ class ezcConsoleToolsInputTest extends ezcTestCase
                 )
             )
         );
-        $this->consoleParameter->registerOption(
-            $this->createFakeParam(
+        $this->input->registerOption(
+            $this->createFakeOption(
                 array( 
                     'short'     => 'h',
                     'long'      => 'help',
@@ -775,6 +775,17 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         );
         $res = array( "s" => true );
         $this->commonProcessTestSuccess( $args, $res );
+    }
+    
+    public function testProcessFailureTypeNone()
+    {
+        $args = array(
+            'foo.php',
+            '-s',
+            'a_parameter',
+            'another_parameter'
+        );
+        $this->commonProcessTestFailure( $args, 'ezcConsoleOptionTypeViolationException' );
     }
     
     public function testProcessFailureNovalue()
@@ -850,8 +861,8 @@ class ezcConsoleToolsInputTest extends ezcTestCase
             'foo.php',
             '-s',
         );
-        $this->consoleParameter->registerOption(
-            $this->createFakeParam(
+        $this->input->registerOption(
+            $this->createFakeOption(
                 array( 
                     'short'     => 'q',
                     'long'      => 'quite',
@@ -914,7 +925,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         );
         $this->assertEquals( 
             $res,
-            $this->consoleParameter->getHelp(),
+            $this->input->getHelp(),
             'Help array was not generated correctly.'
         );
     }
@@ -969,7 +980,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         );
         $this->assertEquals( 
             $res,
-            $this->consoleParameter->getHelp( true ),
+            $this->input->getHelp( true ),
             'Help array was not generated correctly.'
         );
         
@@ -993,7 +1004,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         );
         $this->assertEquals( 
             $res,
-            $this->consoleParameter->getHelp(false, array( 't', 's', 'v' ) ),
+            $this->input->getHelp(false, array( 't', 's', 'v' ) ),
             'Help array was not generated correctly.'
         );
     }
@@ -1024,7 +1035,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         );
         $this->assertEquals( 
             $res,
-            $this->consoleParameter->getHelp( true, array( 't', 'subway', 'yank', 'e', 'n' ) ),
+            $this->input->getHelp( true, array( 't', 'subway', 'yank', 'e', 'n' ) ),
             'Help array was not generated correctly.'
         );
         
@@ -1034,7 +1045,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
     {
         $this->assertEquals( 
             '$ '.$_SERVER['argv'][0].' [-t] [-s] [--carry] [-v] [-o <string>] [-b 42] [-d "world"] [-y <string>] [-c] [-e] [-n]  [[--] <args>]',
-            $this->consoleParameter->getSynopsis(),
+            $this->input->getSynopsis(),
             'Program synopsis not generated correctly.'
         );
     }
@@ -1057,7 +1068,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         $res[3][1]->content = 'Sorry, there is no help text available for this parameter.';
                 
         $table = new ezcConsoleTable( $output, 80 );
-        $table = $this->consoleParameter->getHelpTable( $table, true, array( 't', 'subway', 'yank', 'e' ) );
+        $table = $this->input->getHelpTable( $table, true, array( 't', 'subway', 'yank', 'e' ) );
         $this->assertEquals(
             $res,
             $table,
@@ -1083,7 +1094,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
         $res[3][1]->content = 'Sorry, there is no help text available for this parameter.';
                 
         $table = new ezcConsoleTable( $output, 80 );
-        $table = $this->consoleParameter->getHelpTable( $table );
+        $table = $this->input->getHelpTable( $table );
 
         $this->assertEquals( 11, sizeof( $table ), "Expected 11 elements in the generated HelpTable" );
     }
@@ -1118,7 +1129,7 @@ Lala
 EOF;
         $this->assertEquals(
             $res,
-            $this->consoleParameter->getHelpText( 'Lala', 20, true, array( 'e', 'y' ) ),
+            $this->input->getHelpText( 'Lala', 20, true, array( 'e', 'y' ) ),
             'Help text not generated correctly.'
         );
     }
@@ -1127,7 +1138,7 @@ EOF;
     {
         $this->assertEquals( 
             '$ '.$_SERVER['argv'][0].' [-t] [-s] [-o <string>]  [[--] <args>]',
-            $this->consoleParameter->getSynopsis( array( 't', 's', 'o' ) ),
+            $this->input->getSynopsis( array( 't', 's', 'o' ) ),
             'Program synopsis not generated correctly.'
         );
     }
@@ -1141,7 +1152,7 @@ EOF;
     {
         $this->assertEquals( 
             '$ '.$_SERVER['argv'][0].' [-t] [-s] [-v]  [[--] <args>]',
-            $this->consoleParameter->getSynopsis( array( 't', 's', 'v' ) ),
+            $this->input->getSynopsis( array( 't', 's', 'v' ) ),
             'Program synopsis not generated correctly.'
         );
     }
@@ -1171,19 +1182,19 @@ EOF;
         }
         $this->fail( 'Exception not thrown on invalid option name.' );
     }
-
+    
     private function commonProcessTestSuccess( $args, $res )
     {
         try 
         {
-            $this->consoleParameter->process( $args );
+            $this->input->process( $args );
         }
         catch ( ezcConsoleException $e )
         {
             $this->fail( $e->getMessage() );
             return;
         }
-        $values = $this->consoleParameter->getOptionValues();
+        $values = $this->input->getOptionValues();
         $this->assertTrue( count( array_diff( $res, $values ) ) == 0, 'Parameters processed incorrectly.' );
     }
     
@@ -1191,7 +1202,7 @@ EOF;
     {
         try 
         {
-            $this->consoleParameter->process( $args );
+            $this->input->process( $args );
         }
         catch ( ezcConsoleException $e )
         {
@@ -1209,7 +1220,7 @@ EOF;
     {
         try
         {
-            $this->consoleParameter->process( $args );
+            $this->input->process( $args );
         }
         catch ( ezcConsoleException $e )
         {
@@ -1218,7 +1229,7 @@ EOF;
         }
         $this->assertEquals(
             $res,
-            $this->consoleParameter->getArguments(),
+            $this->input->getArguments(),
             'Arguments not parsed correctly.'
         );
     }
