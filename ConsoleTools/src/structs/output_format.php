@@ -160,7 +160,7 @@ class ezcConsoleOutputFormat
         if ( ( $propertyName === "color" || $propertyName === "bgcolor" )
              && !ezcConsoleOutput::isValidFormatCode( $propertyName, $val ) )
         {
-            throw new ezcBaseValueException( $propertyName, $style, 'valid ezcConsoleOutput format code' );
+            throw new ezcBaseValueException( $propertyName, $val, 'valid ezcConsoleOutput format code' );
         }
         $this->properties[$propertyName] = $val;
     }
