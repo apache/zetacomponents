@@ -725,7 +725,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         {
             $labelWidth = ( $boundings->width ) / count( $labels ) - $legend->spacing;
             $labelHeight = min(
-                $boundings->width,
+                $boundings->height,
                 $legend->symbolSize + 2 * $legend->padding
             );
         }

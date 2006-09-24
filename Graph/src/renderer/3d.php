@@ -1400,7 +1400,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         {
             $labelWidth = ( $boundings->x1 - $boundings->x0 ) / count( $labels ) - $legend->spacing;
             $labelHeight = min(
-                $boundings->x1 - $boundings->x0,
+                $boundings->height,
                 $legend->symbolSize + 2 * $legend->padding
             );
         }

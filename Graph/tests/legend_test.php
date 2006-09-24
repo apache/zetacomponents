@@ -144,6 +144,7 @@ class ezcGraphLegendTest extends ezcTestCase
         ) );
 
         $chart->legend->position = ezcGraph::LEFT;
+        $chart->legend->padding = 2;
 
         $chart->render( 500, 200, $filename );
 
@@ -167,6 +168,7 @@ class ezcGraphLegendTest extends ezcTestCase
         ) );
 
         $chart->legend->position = ezcGraph::RIGHT;
+        $chart->legend->padding = 2;
 
         $chart->render( 500, 200, $filename );
 
@@ -190,6 +192,7 @@ class ezcGraphLegendTest extends ezcTestCase
         ) );
 
         $chart->legend->position = ezcGraph::TOP;
+        $chart->legend->padding = 2;
 
         $chart->render( 500, 200, $filename );
 
@@ -213,6 +216,7 @@ class ezcGraphLegendTest extends ezcTestCase
         ) );
 
         $chart->legend->position = ezcGraph::BOTTOM;
+        $chart->legend->padding = 2;
 
         $chart->render( 500, 200, $filename );
 
