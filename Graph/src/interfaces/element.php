@@ -133,7 +133,7 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
                         $this->properties['fontCloned'] = true;
                     }
 
-                    $this->properties['font']->font = $propertyValue;
+                    $this->properties['font']->path = $propertyValue;
                 }
                 else
                 {

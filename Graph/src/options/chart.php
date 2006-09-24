@@ -48,7 +48,7 @@ class ezcGraphChartOptions extends ezcBaseOptions
                 $this->properties['height'] = max( 1, (int) $propertyValue );
                 break;
             case 'font':
-                $this->properties['font']->font = $propertyValue;
+                $this->properties['font']->path = $propertyValue;
                 break;
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
