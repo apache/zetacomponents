@@ -93,6 +93,7 @@ class ezcConsoleToolsSuite extends ezcTestSuite
 		$this->addTest( ezcConsoleToolsOutputOptionsTest::suite() );
 		$this->addTest( ezcConsoleToolsInputTest::suite() );
 		$this->addTest( ezcConsoleToolsOptionTest::suite() );
+		$this->addTest( ezcConsoleToolsOptionRuleTest::suite() );
 		$this->addTest( ezcConsoleToolsTableCellTest::suite() );
 		$this->addTest( ezcConsoleToolsTableRowTest::suite() );
 		$this->addTest( ezcConsoleToolsTableTest::suite() );
