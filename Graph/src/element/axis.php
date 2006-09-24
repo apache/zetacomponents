@@ -111,24 +111,10 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 $this->properties['axisSpace'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             case 'majorGrid':
-                if ( $propertyValue instanceof ezcGraphColor )
-                {
-                    $this->properties['majorGrid'] = $propertyValue;
-                }
-                else
-                {
-                    $this->properties['majorGrid'] = ezcGraphColor::create( $propertyValue );
-                }
+                $this->properties['majorGrid'] = ezcGraphColor::create( $propertyValue );
                 break;
             case 'minorGrid':
-                if ( $propertyValue instanceof ezcGraphColor )
-                {
-                    $this->properties['minorGrid'] = $propertyValue;
-                }
-                else
-                {
-                    $this->properties['minorGrid'] = ezcGraphColor::create( $propertyValue );
-                }
+                $this->properties['minorGrid'] = ezcGraphColor::create( $propertyValue );
                 break;
             case 'majorStep':
                 if ( $propertyValue <= 0 )

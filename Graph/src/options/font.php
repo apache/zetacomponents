@@ -101,35 +101,14 @@ class ezcGraphFontOptions extends ezcBaseOptions
                 }
                 break;
             case 'color':
-                if ( $propertyValue instanceof ezcGraphColor )
-                {
-                    $this->properties['color'] = $propertyValue;
-                }
-                else
-                {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphColor' );
-                }
+                $this->properties['color'] = ezcGraphColor::create( $propertyValue );
                 break;
 
             case 'background':
-                if ( $propertyValue instanceof ezcGraphColor )
-                {
-                    $this->properties['background'] = $propertyValue;
-                }
-                else
-                {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphColor' );
-                }
+                $this->properties['background'] = ezcGraphColor::create( $propertyValue );
                 break;
             case 'border':
-                if ( $propertyValue instanceof ezcGraphColor )
-                {
-                    $this->properties['border'] = $propertyValue;
-                }
-                else
-                {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphColor' );
-                }
+                $this->properties['border'] = ezcGraphColor::create( $propertyValue );
                 break;
             case 'borderWidth':
                 $this->properties['borderWidth'] = (int) $propertyValue;

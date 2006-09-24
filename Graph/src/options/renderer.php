@@ -125,11 +125,7 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
                 $this->properties['legendSymbolGleamSize'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             case 'legendSymbolGleamColor':
-                if ( !$propertyValue instanceof ezcGraphColor )
-                {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphColor' );
-                }
-                $this->properties['legendSymbolGleamColor'] = $propertyValue;
+                $this->properties['legendSymbolGleamColor'] = ezcGraphColor::create( $propertyValue );
                 break;
             case 'pieVerticalSize':
                 $this->properties['pieVerticalSize'] = min( 1, max( 0, (float) $propertyValue ) );

@@ -117,11 +117,7 @@ class ezcGraphRenderer3dOptions extends ezcGraphRendererOptions
                 $this->properties['pieChartShadowTransparency'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             case 'pieChartShadowColor':
-                if ( !$propertyValue instanceof ezcGraphColor )
-                {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphColor' );
-                }
-                $this->properties['pieChartShadowColor'] = $propertyValue;
+                $this->properties['pieChartShadowColor'] = ezcGraphColor::create( $propertyValue );
                 break;
             case 'barDarkenSide':
                 $this->properties['barDarkenSide'] = min( 1, max( 0, (float) $propertyValue ) );
