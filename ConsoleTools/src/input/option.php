@@ -250,7 +250,7 @@ class ezcConsoleOption
     {
         foreach ( $this->dependencies as $id => $rule )
         {
-            if ( $rule->param === $param )
+            if ( $rule->option === $param )
             {
                 unset( $this->dependencies[$id] );
             }
@@ -269,7 +269,7 @@ class ezcConsoleOption
     {
         foreach ( $this->dependencies as $id => $rule )
         {
-            if ( $rule->param === $param )
+            if ( $rule->option === $param )
             {
                 return true;
             }
@@ -360,7 +360,7 @@ class ezcConsoleOption
     {
         foreach ( $this->exclusions as $id => $rule )
         {
-            if ( $rule->param === $param )
+            if ( $rule->option === $param )
             {
                 unset( $this->exclusions[$id] );
             }
@@ -379,7 +379,7 @@ class ezcConsoleOption
     {
         foreach ( $this->exclusions as $id => $rule )
         {
-            if ( $rule->param === $param )
+            if ( $rule->option === $param )
             {
                 return true;
             }

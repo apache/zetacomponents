@@ -3,6 +3,7 @@
 
 - Added feature to print to a different output target (e.g. stderr).
 - Fixed bug 9046: Last argument not treated invalid option value.
+- Fixed bug #9052: Exception because of invalid property in ezcConsoleOption.
 
 1.1.2 - Monday 28 August 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
