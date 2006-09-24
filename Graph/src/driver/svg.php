@@ -490,6 +490,11 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 break;
             }
         }
+        
+        if ( !is_array( $result ) )
+        {
+            throw new ezcGraphFontRenderingException( $string, $this->options->font->minFontSize, $width, $height );
+        }
 
         $this->options->font->minimalUsedFont = $size;
         $this->strings[] = array(

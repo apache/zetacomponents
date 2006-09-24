@@ -1124,6 +1124,30 @@ class ezcGraphSvgDriverTest extends ezcTestCase
             'Expected xml id as return value.'
         );
     }
+
+    public function testDrawTooLongTextException()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        try
+        {
+            $this->driver->drawTextBox(
+                'This is very long text which is not supposed to fit in the bounding box.',
+                new ezcGraphCoordinate( 10, 10 ),
+                50,
+                20,
+                ezcGraph::LEFT
+            );
+
+            $this->driver->render( $filename );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphFontRenderingException.' );
+    }
 }
 
 ?>
