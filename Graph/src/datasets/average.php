@@ -200,6 +200,7 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
      */
     protected function getKey()
     {
+        $polynom = $this->getPolynom();
         return $this->min +
             ( $this->max - $this->min ) / $this->resolution * $this->position;
     }
@@ -213,6 +214,7 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
      */
     public function offsetExists( $key )
     {
+        $polynom = $this->getPolynom();
         return ( ( $key >= $this->min ) && ( $key <= $this->max ) );
     }
 
@@ -310,6 +312,7 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
      */
     final public function valid()
     {
+        $polynom = $this->getPolynom();
         return ( ( $this->getKey() >= $this->min ) && ( $this->getKey() <= $this->max ) );
     }
 

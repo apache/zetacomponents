@@ -293,5 +293,20 @@ class ezcGraphDataSetAverageTest extends ezcTestCase
 
         $this->fail( 'Expected ezcGraphDatasetAverageInvalidKeysException.' );
     }
+
+    public function testPAverageDataSetIsset()
+    {
+        $arrayDataSet = new ezcGraphArrayDataSet( array( -1 => 2, 1 => 2, 3 => 10 ) );
+
+        $averageDataSet = new ezcGraphDataSetAveragePolynom( $arrayDataSet );
+        $averageDataSet->polynomOrder = 3;
+        $averageDataSet->resolution = 10;
+
+        $this->assertSame( 
+            isset( $averageDataSet[0] ),
+            true,
+            'Polygon not properly initialized.'
+        );
+    }
 }
 ?>
