@@ -254,7 +254,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $chart = new ezcGraphLineChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( array( 2000 => 1045, 1300, 1012, 1450 ) );
         $chart->yAxis->majorStep = 50;
-        $chart->render( 500, 200 );
+        $chart->render( 500, 300 );
 
         $this->assertEquals(
             1000.,

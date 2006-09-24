@@ -45,7 +45,14 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
         $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 10 => 12, 37 => 235, 43 => 17, 114 => 39 ) );
 
-        $this->chart->render( 500, 200 );
+        try
+        {
+            $this->chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
 
         $this->assertEquals(
             0,
@@ -73,7 +80,14 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
         $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 10 => 12, 37 => 235, 43 => 17, 114 => 39 ) );
 
-        $this->chart->render( 500, 200 );
+        try
+        {
+            $this->chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
 
         $this->assertEquals(
             0,
@@ -100,7 +114,14 @@ class ezcGraphDateAxisTest extends ezcTestCase
 
         $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 10 => 12, 37 => 235, 43 => 17, 114 => 39 ) );
 
-        $this->chart->render( 500, 200 );
+        try
+        {
+            $this->chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
 
         $this->assertEquals(
             10,
@@ -124,7 +145,14 @@ class ezcGraphDateAxisTest extends ezcTestCase
     public function testAutomagicScalingSingle1()
     {
         $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 10 => 12, 37 => 235, 43 => 17, 114 => 39 ) );
-        $this->chart->render( 500, 200 );
+        try
+        {
+            $this->chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
 
         $this->assertEquals(
             0,
@@ -148,7 +176,14 @@ class ezcGraphDateAxisTest extends ezcTestCase
     public function testAutomagicScalingSingle2()
     {
         $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 30010 => 12, 30037 => 235, 30043 => 17, 30114 => 39 ) );
-        $this->chart->render( 500, 200 );
+        try
+        {
+            $this->chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
 
         $this->assertEquals(
             30000,
@@ -177,7 +212,14 @@ class ezcGraphDateAxisTest extends ezcTestCase
             mktime( 11, 15, 45, 5, 7, 2006 ) => 324,
             mktime( 12, 32, 01, 5, 7, 2006 ) => 324,
         ) );
-        $this->chart->render( 500, 200 );
+        try
+        {
+            $this->chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
 
         $this->assertEquals(
             'Sun, 07 May 2006 10:00:00 +0200',
@@ -207,7 +249,14 @@ class ezcGraphDateAxisTest extends ezcTestCase
             mktime( 20, 32, 1, 5, 8, 2006 ) => 324,
             mktime( 8, 43, 19, 5, 9, 2006 ) => 324,
         ) );
-        $this->chart->render( 500, 200 );
+        try
+        {
+            $this->chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
 
         $this->assertEquals(
             'Sun, 07 May 2006 06:00:00 +0200',
@@ -236,7 +285,14 @@ class ezcGraphDateAxisTest extends ezcTestCase
             mktime( 1, 0, 0, 1, 1, 2003 ) => 324,
             mktime( 1, 0, 0, 1, 1, 2004 ) => 324,
         ) );
-        $this->chart->render( 500, 200 );
+        try
+        {
+            $this->chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
 
         $this->assertEquals(
             'Mon, 01 Jan 2001 01:00:00 +0100',
@@ -267,7 +323,14 @@ class ezcGraphDateAxisTest extends ezcTestCase
             mktime( 8, 43, 19, 5, 9, 2006 ) => 324,
         ) );
         $this->chart->xAxis->position = ezcGraph::LEFT;
-        $this->chart->render( 500, 200 );
+        try
+        {
+            $this->chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
 
         $this->assertEquals(
             0.,
@@ -308,7 +371,14 @@ class ezcGraphDateAxisTest extends ezcTestCase
             mktime( 8, 43, 19, 5, 9, 2006 ) => 324,
         ) );
         $this->chart->xAxis->position = ezcGraph::RIGHT;
-        $this->chart->render( 500, 200 );
+        try
+        {
+            $this->chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
 
         $this->assertEquals(
             1.,
