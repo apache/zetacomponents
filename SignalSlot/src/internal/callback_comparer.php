@@ -27,7 +27,7 @@ class ezcSignalCallbackComparer
      */
     public static function compareCallbacks( $a, $b )
     {
-        if( is_string( $a ) || is_string( $b ) )
+        if ( is_string( $a ) || is_string( $b ) )
         {
             return $a === $b;
         }
@@ -45,10 +45,11 @@ class ezcSignalCallbackComparer
      */
     public static function comp_func( $a, $b )
     {
-        if( $a === $b ) return 0;
+        if ( $a === $b )
+        {
+            return 0;
+        }
         return 1;
-
     }
 }
-
 ?>

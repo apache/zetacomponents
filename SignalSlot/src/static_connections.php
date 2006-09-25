@@ -52,7 +52,7 @@ class ezcSignalStaticConnections
      */
     public static function getInstance()
     {
-        if( self::$instance === null )
+        if ( self::$instance === null )
         {
             self::$instance = new ezcSignalStaticConnections();
         }
@@ -120,7 +120,7 @@ class ezcSignalStaticConnections
      */
     public function getConnections( $identifier, $signal )
     {
-        if( isset( $this->connections[$identifier] ) &&
+        if ( isset( $this->connections[$identifier] ) &&
             isset( $this->connections[$identifier][$signal] ) )
         {
             return $this->connections[$identifier][$signal];
@@ -174,21 +174,21 @@ class ezcSignalStaticConnections
      */
     public function disconnect( $identifier, $signal, $slot, $priority = null )
     {
-        if( !isset( $this->connections[$identifier] ) ||
+        if ( !isset( $this->connections[$identifier] ) ||
             !isset( $this->connections[$identifier][$signal] ) )
         {
             return;
         }
 
-        if( $priority === null ) // delete first found, searched from back
+        if ( $priority === null ) // delete first found, searched from back
         {
             $allKeys = array_keys( $this->connections[$identifier][$signal] );
             rsort( $allKeys, SORT_NUMERIC );
-            foreach( $allKeys as $priority )
+            foreach ( $allKeys as $priority )
             {
-                foreach( $this->connections[$identifier][$signal][$priority] as $key => $callback)
+                foreach ( $this->connections[$identifier][$signal][$priority] as $key => $callback )
                 {
-                    if( ezcSignalCallbackComparer::compareCallbacks( $slot, $callback ) )
+                    if ( ezcSignalCallbackComparer::compareCallbacks( $slot, $callback ) )
                     {
                         unset( $this->properties['connections'][$identifier][$signal][$priority][$key] );
                         return;
@@ -199,11 +199,11 @@ class ezcSignalStaticConnections
         }
         else // only delete from priority connections
         {
-            if( isset( $this->connections[$identifier][$signal][$priority] ) )
+            if ( isset( $this->connections[$identifier][$signal][$priority] ) )
             {
-                foreach( $this->connections[$identifier][$signal][$priority] as $key => $callback )
+                foreach ( $this->connections[$identifier][$signal][$priority] as $key => $callback )
                 {
-                    if( ezcSignalCallbackComparer::compareCallbacks( $slot, $callback ) )
+                    if ( ezcSignalCallbackComparer::compareCallbacks( $slot, $callback ) )
                     {
                         unset( $this->properties['connections'][$identifier][$signal][$priority][$key] );
                         return;
