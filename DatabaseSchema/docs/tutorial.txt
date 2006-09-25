@@ -76,6 +76,16 @@ an array of ezcDbSchemaTable objects. The ezcDbSchemaTable object then contains
 in two member variables an array of ezcDbSchemaField objects to describe the
 fields and an array of ezcDbSchemaIndex objects to describe the indices.
 
+Modifying a Database Schema Definition
+--------------------------------------
+
+Once a ezcDbSchema has been created its tables and fields can be manipulated in
+different ways. Tables can be created, edited and deleted. Fields can be added
+to tables, can be edited and deleted. See example below:
+
+.. include:: tutorial_example_05.php
+   :literal:
+
 Saving a Database Schema Definition
 -----------------------------------
 

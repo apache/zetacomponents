@@ -219,11 +219,11 @@ class ezcDbSchema
     }
 
     /**
-     * Returns the internal schema.
+     * Returns the internal schema by reference.
      *
      * @return array(string=>ezcDbSchemaTable)
      */
-    public function getSchema()
+    public function &getSchema()
     {
         return $this->schema;
     }
