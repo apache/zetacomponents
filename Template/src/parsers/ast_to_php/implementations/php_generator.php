@@ -587,6 +587,21 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     }
 
     /**
+     * Visits a code element containing a body of statements.
+     * A body consists of a series of statements in sequence.
+     *
+     * @param ezcTemplateBodyAstNode $body The code element containing the body.
+     */
+    public function visitRootAstNode( ezcTemplateRootAstNode $body )
+    {
+        foreach ( $body->statements as $statement )
+        {
+            $statement->accept( $this );
+        }
+    }
+
+
+    /**
      * Visits a code element containing a generic statement.
      * The expression is evaluated and and a semi-colon added to end the statement.
      * A generic statement contains a generic code expression but is terminated with a semi-colon.

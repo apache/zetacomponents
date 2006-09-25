@@ -19,6 +19,7 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
 {
 
     public $nodePath = array(); 
+    public $statements = array();
 
     public function __construct( )
     {
@@ -160,19 +161,37 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     public function visitBodyAstNode( ezcTemplateBodyAstNode $body )
     {
         array_unshift( $this->nodePath, $body );
+        array_unshift( $this->statements, 0);
+
+        $b = clone( $body );
+
+        for( $i = 0; $i < sizeof( $b->statements ); $i++)
+        {
+            $this->statements[0] = $i;
+            $this->acceptAndUpdate( $b->statements[$i]  );
+        }
+
+        $body = $b;
+
+        array_shift( $this->statements );
+        array_shift( $this->nodePath );
+    }
+
+    public function visitRootAstNode( ezcTemplateRootAstNode &$body )
+    {
+        array_unshift( $this->nodePath, $body );
+        array_unshift( $this->statements, 0);
 
         for( $i = 0; $i < sizeof( $body->statements ); $i++)
         {
+            $this->statements[0] = $i;
             $this->acceptAndUpdate( $body->statements[$i] );
         }
-/*
-        foreach ( $body->statements as $statement )
-        {
-            $ret = $statement->accept( $this );
-        }
-        */
+
+        array_shift( $this->statements );
         array_shift( $this->nodePath );
     }
+
 
     public function visitGenericStatementAstNode( ezcTemplateGenericStatementAstNode $statement )
     {

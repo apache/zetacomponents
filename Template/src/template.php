@@ -254,6 +254,11 @@ class ezcTemplate
             $astToAst = new ezcTemplateAstToAstAssignmentOptimizer();
             $tstToAst->programNode->accept( $astToAst );
 
+            // Run the cacher.
+            $astToAst = new ezcTemplateAstToAstCache( $this );
+            $tstToAst->programNode->accept( $astToAst );
+
+
             $g = new ezcTemplateAstToPhpGenerator( $compiled->path ); // Write to the file.
             $tstToAst->programNode->accept( $g );
         }

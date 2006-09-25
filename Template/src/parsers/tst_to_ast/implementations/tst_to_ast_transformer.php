@@ -243,7 +243,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         if ( $this->programNode === null )
         {
-            $this->programNode = new ezcTemplateBodyAstNode();
+            $this->programNode = new ezcTemplateRootAstNode();
             $this->outputVariable->push( "_ezcTemplate_output" );
 
             $this->programNode->appendStatement( $this->outputVariable->getInitializationAst() );
@@ -266,6 +266,18 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
             $this->programNode->appendStatement( new ezcTemplateReturnAstNode( $this->outputVariable->getAst()) );
         }
+    }
+
+    public function visitCacheTstNode( ezcTemplateCacheTstNode $type )
+    {
+        if( $type->templateCache )
+        {
+            // Modify the root node.
+            $this->programNode->cacheTemplate = true;
+
+            return new ezcTemplateNopAstNode();
+        }
+
     }
 
     public function visitCycleControlTstNode( ezcTemplateCycleControlTstNode $cycle )

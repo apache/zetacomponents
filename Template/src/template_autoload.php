@@ -123,6 +123,8 @@ return array(
              "ezcTemplateIncludeTstNode" => "Template/syntax_trees/tst/nodes/include.php",
              "ezcTemplateReturnTstNode" => "Template/syntax_trees/tst/nodes/return.php",
              "ezcTemplateIdentifierTstNode" => "Template/syntax_trees/tst/nodes/identifier.php",
+             "ezcTemplateCacheTstNode" => "Template/syntax_trees/tst/nodes/cache.php",
+
 
 // Syntax trees / AST
              "ezcTemplateAstBuilder" => "Template/syntax_trees/ast/ast_builder.php",
@@ -136,6 +138,7 @@ return array(
              "ezcTemplateAstNodeVisitor" => "Template/syntax_trees/ast/interfaces/ast_visitor.php",
 
 // Syntax trees / AST  nodes
+             "ezcTemplateRootAstNode" => "Template/syntax_trees/ast/nodes/root.php",
              "ezcTemplateNopAstNode" => "Template/syntax_trees/ast/nodes/nop.php",
              "ezcTemplateLiteralAstNode" => "Template/syntax_trees/ast/nodes/literal.php",
              "ezcTemplateLiteralArrayAstNode" => "Template/syntax_trees/ast/nodes/literalarray.php",
@@ -267,6 +270,7 @@ return array(
              "ezcTemplateDelimiterSourceToTstParser" => "Template/parsers/source_to_tst/implementations/delimiter.php",
              "ezcTemplateCycleSourceToTstParser" => "Template/parsers/source_to_tst/implementations/cycle.php",
              "ezcTemplateIncludeSourceToTstParser" => "Template/parsers/source_to_tst/implementations/include.php",
+             "ezcTemplateCacheSourceToTstParser" => "Template/parsers/source_to_tst/implementations/cache.php",
 
 
 
@@ -285,6 +289,7 @@ return array(
              "ezcTemplateAstWalker"               => "Template/parsers/ast_to_ast/implementations/ast_walker.php",
              "ezcTemplateAstToAstContextAppender" => "Template/parsers/ast_to_ast/implementations/context_appender.php",
              "ezcTemplateAstToAstAssignmentOptimizer" => "Template/parsers/ast_to_ast/implementations/assignment_optimizer.php",
+             "ezcTemplateAstToAstCache"          => "Template/parsers/ast_to_ast/implementations/cache.php",
 
 // Parsers / ast_to_php implementations
              "ezcTemplateAstToPhpGenerator" => "Template/parsers/ast_to_php/implementations/php_generator.php",

@@ -137,6 +137,15 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
             return true;
         }
 
+        // Parse the cache blocks.
+        $cacheParser = new ezcTemplateCacheSourceToTstParser( $this->parser, $this, null );
+        $cacheParser->block = $this->block;
+        if( $this->parseOptionalType( $cacheParser, null ) )
+        {
+            return true;
+        }
+        
+
         // Try to parse custom blocks, these are pluggable and follows a generic syntax.
         $customBlockParser = new ezcTemplateCustomBlockSourceToTstParser( $this->parser, $this, null );
         $customBlockParser->block = $this->block;
