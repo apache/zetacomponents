@@ -433,12 +433,12 @@ One-to-many relations
     $def->class = "Person";
 
     // Create a new OneToMany relation.
-	$def->relations["Address"] = new ezcPersistentObjectOneToManyRelation;
+	$def->relations["Address"] = new ezcPersistentObjectOneToManyRelation( "persons", "addresses" );
 
     // Define the mapping for this relation. At least 1 column of the
     // original table must be mapped to 1 column of the related table.
     $def->relations["Address"]->columnMap = array(
-        new ezcPersistentSingleTableMap( "persons", "id", "addresses", "person_id" ),
+        new ezcPersistentSingleTableMap( "id", "person_id" ),
     );
 
     // This relation should cascade deletes.
@@ -460,10 +460,7 @@ can be assigned to the constructor in the given order: ::
     
     class ezcPersistentSingleTableMap
     {
-        private $sourceTable;
         private $sourceColumn;
-
-        private $destinationTable;
         private $destinationColumn;
     }
 
@@ -479,19 +476,16 @@ Many-to-many relations
 
     // This time, multiple persons can live at 1 address, so we need a
     // many-to-many relation.
-	$def->relations["Address"] = new ezcPersistentObjectOneToManyRelation( "persons_addresses" );
+	$def->relations["Address"] = new ezcPersistentObjectOneToManyRelation( "persons", "addresses", "persons_addresses" );
 
     // Many-to-many relations need at least 2 mappings: 1 incoming and 1
     // outgoing for the relation table.
     $def->relations["Address"]->columnMap = array(
         new ezcPersistentDoubleTableMap( 
-            "persons",
             "id",
-            "persons_addresses",
+            "id"
             "person_id"
             "address_id", 
-            "addresses"
-            "id"
         ),
     );
     ?>
@@ -508,15 +502,12 @@ can also be assigned through the constructor in the given order: ::
 
     class ezcPersistentDoubleTableMap
     {
-        private $sourceTable;
         private $sourceColumn;
-
-        private $relationTable;
+        private $destinationColumn;
+        
         private $relationSourceColumn;
         private $relationDestinationColumn;
 
-        private $destinationTable;
-        private $destinationColumn;
     }
 
 Many-to-one relations
@@ -529,9 +520,9 @@ realizes the reverse mapping of the first one-to-many example: ::
     <?php
     // Same base definition as before.
 
-    $def->relations["Person"] = new ezcPersistentObjectManyToOneRelation();
+    $def->relations["Person"] = new ezcPersistentObjectManyToOneRelation( "addresses", "persons" );
     $def->relations["Person"]->columnMap = array(
-        new ezcPersistentSingleTableMap( "addresses", "person_id", "persons", "id" ),
+        new ezcPersistentSingleTableMap( "person_id", "id" ),
     );
     $def->relations["Person"]->reverse = true;
     ?>
