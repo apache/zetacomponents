@@ -38,10 +38,10 @@ class ezcPersistentSession
      * The $manager provides valid persistent object definitions to the
      * session.
      *
-     * @param PDO $db
-     * @param ezcPersistentDefinitionManager
+     * @param ezcDbHandler $db
+     * @param ezcPersistentDefinitionManager $manager
      */
-    public function __construct( PDO $db, ezcPersistentDefinitionManager $manager )
+    public function __construct( ezcDbHandler $db, ezcPersistentDefinitionManager $manager )
     {
         $this->properties['database'] = $db;
         $this->properties['definitionManager'] = $manager;

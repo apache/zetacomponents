@@ -11,6 +11,7 @@
 - Implemented suggestion #8526: Allow retrieving of the database handler and
   definition manager through the database and definitionManager properties of
   the ezcPersistentObjectSession class to help with transaction support.
+- Fixed bug #9059: Incorrect prototype of ezcPersistentSession->__construct().
 - Implemented suggestion #8595: Added the ezcPersistentMultiManager class that
   serves as a singleton mechanism for ezcPersistentSession.	
 - Implemented suggestion #8664: ezcPersistentSession: Cast values and skip
