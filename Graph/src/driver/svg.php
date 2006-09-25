@@ -452,7 +452,8 @@ class ezcGraphSvgDriver extends ezcGraphDriver
 
         // Check width of last line
         $strWidth = $this->getTextWidth( implode( ' ', $selectedLine ), $size );
-        if ( $strWidth > $width ) {
+        if ( $strWidth > $width )
+        {
             return false;
         }
 
@@ -752,7 +753,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $Yend = $center->y + $this->options->graphOffset->y + $height * sin( ( ( $endAngle ) / 180 ) * M_PI );
         
         $arc = $this->dom->createElement( 'path' );
-        $arc->setAttribute('d', sprintf('M %.2f,%.2f L %.2f,%.2f A %.2f,%.2f 0 %d,1 %.2f,%.2f z',
+        $arc->setAttribute( 'd', sprintf( 'M %.2f,%.2f L %.2f,%.2f A %.2f,%.2f 0 %d,1 %.2f,%.2f z',
             // Middle
             $center->x + $this->options->graphOffset->x, $center->y + $this->options->graphOffset->y,
             // Startpoint
@@ -828,7 +829,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         if ( $filled === true )
         {
             $arc = $this->dom->createElement( 'path' );
-            $arc->setAttribute('d', sprintf( 'M %.2f,%.2f A %.2f,%.2f 0 %d,0 %.2f,%.2f L %.2f,%.2f A %.2f,%2f 0 %d,1 %.2f,%.2f z',
+            $arc->setAttribute( 'd', sprintf( 'M %.2f,%.2f A %.2f,%.2f 0 %d,0 %.2f,%.2f L %.2f,%.2f A %.2f,%2f 0 %d,1 %.2f,%.2f z',
                 // Endpoint low
                 $Xend, $Yend + $size,
                 // Radius
@@ -851,7 +852,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         else
         {
             $arc = $this->dom->createElement( 'path' );
-            $arc->setAttribute('d', sprintf( 'M %.2f,%.2f  A %.2f,%.2f 0 %d,1 %.2f,%.2f',
+            $arc->setAttribute( 'd', sprintf( 'M %.2f,%.2f  A %.2f,%.2f 0 %d,1 %.2f,%.2f',
                 // Startpoint
                 $Xstart, $Ystart,
                 // Radius
@@ -889,7 +890,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             );
 
             $arc = $this->dom->createElement( 'path' );
-            $arc->setAttribute('d', sprintf( 'M %.2f,%.2f A %.2f,%.2f 0 %d,0 %.2f,%.2f L %.2f,%.2f A %.2f,%2f 0 %d,1 %.2f,%.2f z',
+            $arc->setAttribute( 'd', sprintf( 'M %.2f,%.2f A %.2f,%.2f 0 %d,0 %.2f,%.2f L %.2f,%.2f A %.2f,%2f 0 %d,1 %.2f,%.2f z',
                 // Endpoint low
                 $Xend, $Yend + $size,
                 // Radius
@@ -934,7 +935,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     {
         $this->createDocument();  
         
-        $ellipse = $this->dom->createElement('ellipse');
+        $ellipse = $this->dom->createElement( 'ellipse' );
         $ellipse->setAttribute( 'cx', $center->x + $this->options->graphOffset->x );
         $ellipse->setAttribute( 'cy', $center->y + $this->options->graphOffset->y );
         $ellipse->setAttribute( 'rx', $width / 2 );

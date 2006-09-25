@@ -24,7 +24,7 @@
  *  $chart->background->repeat = ezcGraph::NO_REPEAT; // default;
  *  $chart->background->position = ezcGraph::CENTER | ezcGraph::MIDDLE;
  *
- *  //Image will be repeated all over
+ *  // Image will be repeated all over
  *  $chart->background->repeat = ezcGraph::HORIZONTAL | ezcGraph::VERTICAL;
  *      // The position is not relevant here.
  * </code>

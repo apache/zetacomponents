@@ -150,3 +150,4 @@ class ezcGraphRadialGradient extends ezcGraphColor
         );
     }
 }
+?>

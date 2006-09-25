@@ -134,7 +134,7 @@ class ezcGraphPolynom
     public function evaluate( $x )
     {
         $value = 0;
-        foreach( $this->values as $exponent => $factor )
+        foreach ( $this->values as $exponent => $factor )
         {
             $value += $factor * pow( $x, $exponent );
         }

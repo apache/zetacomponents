@@ -90,10 +90,10 @@ class ezcGraphFontOptions extends ezcBaseOptions
         switch ( $propertyName )
         {
             case 'minFontSize':
-                $this->properties['minFontSize'] = max(1, (float) $propertyValue);
+                $this->properties['minFontSize'] = max( 1, (float) $propertyValue );
                 break;
             case 'maxFontSize':
-                $this->properties['maxFontSize'] = max(1, (float) $propertyValue);
+                $this->properties['maxFontSize'] = max( 1, (float) $propertyValue );
                 break;
             case 'minimalUsedFont':
                 $propertyValue = (float) $propertyValue;

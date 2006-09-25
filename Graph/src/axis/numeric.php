@@ -102,12 +102,13 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
         $sign = $float / $abs;
 
         // Normalize number to a range between 1 and 10
-        $log = (int) round( log10( $abs ), 0);
+        $log = (int) round( log10( $abs ), 0 );
         $abs /= pow( 10, $log );
 
 
         // find next nice number
-        if ( $abs > 5 ) {
+        if ( $abs > 5 )
+        {
             $abs = 10.;
         }
         elseif ( $abs > 2.5 )

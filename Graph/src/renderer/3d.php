@@ -479,7 +479,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
 
             // Get average y coordinate for polygon to use for zBuffer
             $center = 0;
-            foreach( $polygonPoints as $point )
+            foreach ( $polygonPoints as $point )
             {
                 $center += $point->y;
             }
@@ -522,7 +522,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
 
             // Get average y coordinate for polygon to use for zBuffer
             $center = 0;
-            foreach( $polygonPoints as $point )
+            foreach ( $polygonPoints as $point )
             {
                 $center += $point->y;
             }
@@ -1723,7 +1723,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
             $this->driver->drawPolygon(
                 $stepPolygonCoordinates,
                 $color,
-                !(bool) $this->options->fillAxis
+                ! (bool) $this->options->fillAxis
             );
         }
     }

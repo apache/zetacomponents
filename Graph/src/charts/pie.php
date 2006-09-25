@@ -80,7 +80,7 @@ class ezcGraphPieChart extends ezcGraphChart
         $angle = 0;
         foreach ( $dataset as $label => $value )
         {
-            switch( $dataset->displayType->default )
+            switch ( $dataset->displayType->default )
             {
                 case ezcGraph::PIE:
                     $renderer->drawPieSegment(

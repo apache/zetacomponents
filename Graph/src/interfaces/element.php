@@ -118,7 +118,7 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
                 $this->properties['margin'] = max( 0, (int) $propertyValue );
                 break;
             case 'borderWidth':
-                $this->properties['borderWidth'] = max( 0, (int) $propertyValue);
+                $this->properties['borderWidth'] = max( 0, (int) $propertyValue );
                 break;
             case 'font':
                 if ( $propertyValue instanceof ezcGraphFontOptions )

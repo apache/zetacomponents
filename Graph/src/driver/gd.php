@@ -267,7 +267,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
      */
     protected function getTextBoundings( $size, ezcGraphFontOptions $font, $text )
     {
-        switch( $font->type )
+        switch ( $font->type )
         {
             case ezcGraph::PS_FONT:
                 if ( !isset( $this->psFontRessources[$font->path] ) )
@@ -319,7 +319,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
      */
     protected function renderText( $image, $text, ezcGraphFontOptions $font, ezcGraphCoordinate $position, $size )
     {
-        switch( $font->type )
+        switch ( $font->type )
         {
             case ezcGraph::PS_FONT:
                 imagePsText( 
@@ -431,7 +431,8 @@ class ezcGraphGdDriver extends ezcGraphDriver
 
         // Check width of last line
         $boundings = $this->getTextBoundings( $size, $this->options->font, implode( ' ', $lines[$line] ) );
-        if ( $boundings->width > $width ) {
+        if ( $boundings->width > $width )
+        {
             return false;
         }
 

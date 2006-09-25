@@ -145,7 +145,8 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator
      */
     public function __get( $propertyName )
     {
-        if ( isset( $this->$propertyName ) ) {
+        if ( isset( $this->$propertyName ) )
+        {
             return $this->$propertyName;
         }
         else 
