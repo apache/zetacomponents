@@ -2,5 +2,3 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Initial release of this package.
-- Fixed bug #8488 (ezcGraphPaletteBlack has same description as 
-  ezcGraphPalletteTango)
