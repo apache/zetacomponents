@@ -1,0 +1,5 @@
+The SignalSlot component implements a mechanism for inter and intra object
+communication through the use of signals and slots. Signals are emitted through
+instances of the ezcSignalCollection class and connected to as many functions as you
+like. The SignalSlot component supports parametered signals and prioritized connections
+as well as static signal connections.
