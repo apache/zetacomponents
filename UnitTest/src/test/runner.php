@@ -103,6 +103,12 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $report->default = "";
         $consoleInput->registerOption( $report );
 
+        // xml logfile
+        $xml = new ezcConsoleOption( '', 'log-xml', ezcConsoleInput::TYPE_STRING );
+        $xml->shorthelp = "Log test execution in XML format to file.";
+        $xml->default = "";
+        $consoleInput->registerOption( $xml );
+
         // Verbose option
         $verbose = new ezcConsoleOption( '', 'verbose', ezcConsoleInput::TYPE_NONE );
         $verbose->shorthelp = "Output more verbose information.";
@@ -175,7 +181,13 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $release = ( $release == false || $release == "trunk" ? "trunk" : "releases/$release" );
 
         $allSuites = $this->prepareTests( $consoleInput->getArguments(),  $release );
+        $logfile   = $consoleInput->getOption( 'log-xml' )->value;
         $reportDir = $consoleInput->getOption( 'report-dir' )->value;
+
+        if ( $logfile )
+        {
+            $params['xmlLogfile'] = $logfile;
+        }
 
         if ( $reportDir )
         {
