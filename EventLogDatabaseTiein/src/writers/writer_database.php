@@ -81,13 +81,19 @@ class ezcLogDatabaseWriter implements ezcLogWriter
     {
         switch ( $name )
         {
-            case 'table':    $this->properties['table'] = $value;    break;
+            case 'table':
+                $this->properties['table'] = $value;
+                break;
             case 'message':
             case 'datetime':
             case 'severity':
             case 'source':
-            case 'category': $this->defaultColumns[ $name ] = $value; break;
-            default:         $this->additionalColumns[ $name ] = $value; break;
+            case 'category':
+                $this->defaultColumns[$name] = $value;
+                break;
+            default:
+                $this->additionalColumns[$name] = $value;
+                break;
         }
     }
 
@@ -102,14 +108,20 @@ class ezcLogDatabaseWriter implements ezcLogWriter
     {
         switch ( $name )
         {
-            case 'table':    return $this->properties['table'];    break;
+            case 'table':
+                return $this->properties['table'];
+                break;
             case 'message':
             case 'datetime':
             case 'severity':
             case 'source':
-            case 'category': return $this->defaultColumns[ $name ]; break;
+            case 'category':
+                return $this->defaultColumns[$name];
+                break;
 
-            default:         return $this->additionalColumns[ $name ]; break;
+            default:
+                return $this->additionalColumns[$name];
+                break;
         }
     }
 
