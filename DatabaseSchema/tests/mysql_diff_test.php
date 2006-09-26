@@ -98,7 +98,7 @@ class ezcDatabaseSchemaMySqlDiffTest extends ezcTestCase
             ),
             'bugdb_change' => new ezcDbSchemaTable(
                 array (
-                    'integerfield2' => new ezcDbSchemaField( 'integer', 0, true ),
+                    'integerfield2' => new ezcDbSchemaField( 'integer', 0, true, 0 ),
                     'integerfield3' => new ezcDbSchemaField( 'text', 64 ),
                 ),
                 array (
@@ -135,7 +135,7 @@ class ezcDatabaseSchemaMySqlDiffTest extends ezcTestCase
             1 => 'ALTER TABLE bugdb_change DROP INDEX `primary`',
             2 => 'ALTER TABLE bugdb_change DROP integerfield1',
             3 => 'ALTER TABLE bugdb_change CHANGE integerfield3 integerfield3 varchar(64)',
-            4 => 'ALTER TABLE bugdb_change ADD integerfield2 bigint NOT NULL',
+            4 => 'ALTER TABLE bugdb_change ADD integerfield2 bigint NOT NULL DEFAULT 0',
             5 => 'ALTER TABLE bugdb_change ADD PRIMARY KEY ( integerfield2 )',
             6 => 'ALTER TABLE bugdb_change ADD UNIQUE secondary ( integerfield3 )',
             7 => "CREATE TABLE bugdb_added (\n\tintegerfield1 bigint\n)",
@@ -170,7 +170,7 @@ class ezcDatabaseSchemaMySqlDiffTest extends ezcTestCase
         {
             $text .= $statement . ";\n";
         }
-        $sql = file_get_contents( $this->testFilesDir . 'bug8900-diff.sql' );
+        $sql = file_get_contents( $this->testFilesDir . 'bug8900-diff_mysql.sql' );
         self::assertEquals( $sql, $text );
     }
 

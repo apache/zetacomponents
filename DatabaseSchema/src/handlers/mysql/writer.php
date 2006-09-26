@@ -61,7 +61,7 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
         $db->beginTransaction();
         foreach ( $this->convertToDDL( $dbSchema ) as $query )
         {
-            $db->query( $query );
+            $db->exec( $query );
         }
         $db->commit();
     }
@@ -114,7 +114,7 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
         $db->beginTransaction();
         foreach ( $this->convertDiffToDDL( $dbSchemaDiff ) as $query )
         {
-            $db->query( $query );
+            $db->exec( $query );
         }
         $db->commit();
     }

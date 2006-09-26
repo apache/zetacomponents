@@ -50,7 +50,7 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
                 array (
                     'id' => new ezcDbSchemaField( 'integer', false, true, null, true ),
                     'bug_type' => new ezcDbSchemaField( 'text', 32, true ),
-                    'severity' => new ezcDbSchemaField( 'integer', false, true ),
+                    'severity' => new ezcDbSchemaField( 'integer', false, true, 0 ),
                     'sdesc'    => new ezcDbSchemaField( 'text', 80, true ),
                     'ldesc'    => new ezcDbSchemaField( 'clob', false, true ),
                     'php_version' => new ezcDbSchemaField( 'text', 100, true ),
@@ -63,7 +63,7 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
             ),
             'bugdb_comments' => new ezcDbSchemaTable(
                 array (
-                    'bug_id' => new ezcDbSchemaField( 'integer', false, true ),
+                    'bug_id' => new ezcDbSchemaField( 'integer', false, true, 0 ),
                     'comment' => new ezcDbSchemaField( 'clob', false, true ),
                     'email' => new ezcDbSchemaField( 'text', 32 ),
                 ),
@@ -136,9 +136,9 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
         $tableCeMessageCategoryRel = $tables['ce_message_category_rel'];
         $expected = new ezcDbSchemaTable(
             array(
-                'category_id' => new ezcDbSchemaField( 'integer', null, true ),
-                'is_shadow' => new ezcDbSchemaField( 'integer', null, true ),
-                'message_id' => new ezcDbSchemaField( 'integer', null, true )
+                'category_id' => new ezcDbSchemaField( 'integer', null, true, 0 ),
+                'is_shadow' => new ezcDbSchemaField( 'integer', null, true, 0 ),
+                'message_id' => new ezcDbSchemaField( 'integer', null, true, 0 )
             ),
             array(
                 'message_category_rel' => new ezcDbSchemaIndex(
@@ -194,9 +194,9 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
                 'description' => new ezcDbSchemaField( 'text', 255, true ),
                 'language_id' => new ezcDbSchemaField( 'text', 2, true ),
                 'name' => new ezcDbSchemaField( 'text', 50, true ),
-                'section_id' => new ezcDbSchemaField( 'integer', null, true ),
-                'section_type' => new ezcDbSchemaField( 'integer', null, true ),
-                'translation_id' => new ezcDbSchemaField( 'integer', null, true, null, true ),
+                'section_id' => new ezcDbSchemaField( 'integer', null, true, 0 ),
+                'section_type' => new ezcDbSchemaField( 'integer', null, true, 0 ),
+                'translation_id' => new ezcDbSchemaField( 'integer', null, true, 0, true ),
             ),
             array(
                 'primary' => new ezcDbSchemaIndex(
@@ -229,7 +229,7 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
         {
             $text .= $statement . ";\n";
         }
-        $sql = file_get_contents( $this->testFilesDir . 'bug8900.sql' );
+        $sql = file_get_contents( $this->testFilesDir . 'bug8900_mysql.sql' );
         self::assertEquals( $sql, $text );
     }
 

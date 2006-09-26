@@ -142,6 +142,11 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
 
             $fieldDefault = null;
 
+            if( strlen( $row['default'] ) != 0 )
+            {
+                $fieldDefault = $row['default'];
+            }
+
             $fieldAutoIncrement = false;
             if ( strstr ( $row['extra'], 'auto_increment' ) !== false )
             {

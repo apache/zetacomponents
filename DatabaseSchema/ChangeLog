@@ -1,9 +1,10 @@
 1.0.3 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Added support for default column values in mysql handler.
+- Fixed getting PDOException when executing queries in mysql handler.
 - Implemented FR #8744: changed the getSchema() method in the ezcDbSchema to
   return the schema as a reference;
-
 
 1.0.2 - Monday 28 August 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
