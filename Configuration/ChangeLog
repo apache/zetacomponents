@@ -1,3 +1,10 @@
+1.0.4 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed a bug where the class name ezcConfigurationUnknownSetting was used
+  instead of the correct name ezcConfigurationUnknownSettingException.
+
+
 1.0.3 - Monday 28 August 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

@@ -571,7 +571,7 @@ class ezcConfiguration
         {
             if ( !$this->hasSetting( $group, $settingName ) )
             {
-                throw new ezcConfigurationUnknownSetting( $group, $settingName );
+                throw new ezcConfigurationUnknownSettingException( $group, $settingName );
             }
 
             unset( $this->settings[$group][$settingName] );

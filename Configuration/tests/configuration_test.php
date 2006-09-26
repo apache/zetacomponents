@@ -822,6 +822,24 @@ class ezcConfigurationTest extends ezcTestCase
             $configuration->getSettingsInGroup( 'TheOnlyGroup' )
         );
         $this->assertEquals( false, $configuration->hasSetting( 'TheOnlyGroup', 'Existing1' ) );
+
+        try
+        {
+            $configuration->removeSettings( 'NotExistingGroup', array( 'Existing1' ) );
+        }
+        catch ( ezcConfigurationUnknownGroupException $e )
+        {
+            $this->assertSame( "The settings group <NotExistingGroup> does not exist.", $e->getMessage() );
+        }
+
+        try
+        {
+            $configuration->removeSettings( 'TheOnlyGroup', array( 'NonExisting' ) );
+        }
+        catch ( ezcConfigurationUnknownSettingException $e )
+        {
+            $this->assertSame( "The setting <TheOnlyGroup>, <NonExisting> does not exist.", $e->getMessage() );
+        }
     }
 
     public function testAddGroup1()
@@ -928,6 +946,24 @@ class ezcConfigurationTest extends ezcTestCase
         {
             $this->assertEquals( "The settings group <TheOnlyGroup> does not exist.", $e->getMessage() );
         }
+    }
+
+    public function testRemoveGroupWithComments()
+    {
+        $settings = array(
+            'TheOnlyGroup' => array(
+                'Existing3' => 1,
+            )
+        );
+        $comments = array(
+            'TheOnlyGroup' => array(
+                'CommentExisting3' => 1,
+            )
+        );
+        $configuration = new ezcConfiguration( $settings, $comments );
+        $configuration->removeGroup( 'TheOnlyGroup' );
+        $this->assertEquals( false, $configuration->hasGroup( 'TheOnlyGroup' ) );
+        $this->assertSame( true, $this->getAttribute( $configuration, 'isModified' ) );
     }
 
     public function testRemoveAllSettings()
