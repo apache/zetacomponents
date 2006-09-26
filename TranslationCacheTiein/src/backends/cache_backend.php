@@ -105,7 +105,8 @@ class ezcTranslationCacheBackend implements ezcTranslationBackend, ezcTranslatio
      * Sets configuration data
      *
      * This backend accepts no settings at all, and will always throw an
-     * ezcBaseConfigException if this setOptions() method is called.
+     * ezcBaseSettingNotFoundException for every setting that is contained
+     * in the $configurationData.
      *
      * @param array $configurationData
      * @throws ezcBaseSettingNotFoundException if an unknown setting is passed.
@@ -116,11 +117,7 @@ class ezcTranslationCacheBackend implements ezcTranslationBackend, ezcTranslatio
     {
         foreach ( $configurationData as $name => $value )
         {
-            switch ( $name )
-            {
-                default:
-                    throw new ezcBaseSettingNotFoundException( $name );
-            }
+            throw new ezcBaseSettingNotFoundException( $name );
         }
     }
     /**
