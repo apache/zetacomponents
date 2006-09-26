@@ -47,11 +47,16 @@ class ezcFile
      * @param string $sourceDir
      * @param array(string) $includeFilters
      * @param array(string) $excludeFilters
+     *
+     * @throws ezcBaseFileNotFoundException if the $sourceDir directory is not
+     *         a directory or does not exist.
+     * @throws ezcBaseFilePermissionException if the $sourceDir directory could
+     *         not be opened for reading.
      * @return array
      */
     static public function findRecursive( $sourceDir, array $includeFilters = array(), array $excludeFilters = array() )
     {
-        if ( !$sourceDir )
+        if ( !is_dir( $sourceDir ) )
         {
             throw new ezcBaseFileNotFoundException( $sourceDir, 'directory' );
         }

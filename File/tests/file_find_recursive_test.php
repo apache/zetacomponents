@@ -91,6 +91,19 @@ class ezcFileFindRecursiveTest extends ezcTestCase
 		self::assertEquals( $expected, ezcFile::findRecursive( "File", array( '@xxx@' ) ) );
 	}
 
+	public function testNonExistingDirectory()
+	{
+		$expected = array();
+        try
+        {
+            ezcFile::findRecursive( "NotHere", array( '@xxx@' ) );
+        }
+        catch ( ezcBaseFileNotFoundException $e )
+        {
+    		self::assertEquals( 'The directory file <NotHere> could not be found.', $e->getMessage() );
+        }
+	}
+
     public static function suite()
     {
          return new ezcTestSuite( "ezcFileFindRecursiveTest" );

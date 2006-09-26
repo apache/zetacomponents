@@ -2,6 +2,8 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed bug #8657: added $d->close() before rmdir() in removeRecursive().
+- Fixed a bug that caused the source directory not to be checked for existance
+  with ezcFile::findRecursive().
 
 
 1.0 - Monday 12 June 2006
