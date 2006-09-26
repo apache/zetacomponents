@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcConfigurationIniReader class
+ * File containing the ezcConfigurationIniParser class
  *
  * @package Configuration
  * @version //autogen//
@@ -260,13 +260,13 @@ class ezcConfigurationIniParser implements Iterator
      * Returns the "key" for each element.
      *
      * This is used by the Iterator to assign a key to each "array" element. As
-     * we don't use that we simply return NULL.
+     * we don't use that we simply return 0.
      *
-     * @return null
+     * @return int
      */
     public function key()
     {
-        return NULL;
+        return 0;
     }
 
     /**
@@ -355,12 +355,14 @@ class ezcConfigurationIniParser implements Iterator
                 $settingDimensions = $matches[3];
                 $settingValue = $matches[5];
 
-                /* Check if the setting name is not valid ID */
+                /* There could be a check if the setting name is not valid ID,
+                 * but that is unnecesary because the previous regexps
+                 * filter this out already.:
                 if ( !preg_match( '@'. self::ID_REGEXP . '@', $settingID ) )
                 {
                     $this->raiseError( "Setting ID <$settingID> has invalid characters" );
                     return;
-                }
+                } */
 
                 $settingComments = $this->fetchComments();
                 if ( $this->emitSetting( $this->currentGroup, $settingID, $settingDimensions, $settingComments, $settingValue ) )

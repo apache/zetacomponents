@@ -149,8 +149,6 @@ class ezcConfigurationIniWriter extends ezcConfigurationFileWriter
                     self::writeSetting( $fp, "{$settingName}[{$settingKey}]", $settingElement, $commentSettingValue );
                 }
                 break;
-            default:
-                echo $type, "\n";
         }
     }
 }

@@ -413,6 +413,40 @@ class ezcConfigurationArrayWriterTest extends ezcTestCase
         $this->assertEquals( POSIX_S_IFREG | 0640, $stat['mode'] );
     }
 
+    public function testValidationNonStrict()
+    {
+        $settings = array(
+            '3D' => array(
+                'Decimal' => array( 42, 0 ),
+                'Array' =>  array(
+                    'Decimal' => array( 'a' => 42, 'b' => 0 ),
+                    'Mixed' => array( 'b' => false, 2 => "Derick \"Tiger\" Rethans" ),
+                ),
+            ),
+        );
+        $comments = array(
+            '3D' => array(
+                'Decimal' => array( " One with a comment", " Second one with a comment" ),
+                'Array' => array(
+                    'Mixed' => array( 2 => " One with a comment" ),
+                ),
+            ),
+        );
+        $test = new ezcConfiguration( $settings, $comments );
+
+        $path = $this->tempDir . '/multi-dim2.php';
+        $backend = new ezcConfigurationArrayWriter( $path, $test );
+        $backend->save();
+
+        $backend = new ezcConfigurationArrayReader( $path );
+        $return = $backend->validate( false );
+
+        $expected = new ezcConfigurationValidationResult( $backend->getLocation(), $backend->getName(), $path );
+        $expected->isValid = true;
+
+        $this->assertEquals( $expected, $return );
+    }
+
 /*
     public function testWriteFailure()
     {

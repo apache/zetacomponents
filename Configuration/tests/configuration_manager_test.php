@@ -93,6 +93,21 @@ class ezcConfigurationManagerTest extends ezcTestCase
         $this->assertEquals( false, $setting );
     }
 
+    public function testNoConfig()
+    {
+        $config = ezcConfigurationManager::getInstance();
+
+        try
+        {
+            $setting = $config->getSetting( 'not-there', 'TheOnlyGroup', 'NotThere' );
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcConfigurationUnknownConfigException $e )
+        {
+            $this->assertEquals( "The configuration <not-there> does not exist.", $e->getMessage() );
+        }
+    }
+
     public function testHasSettingNotExists()
     {
         $config = ezcConfigurationManager::getInstance();
