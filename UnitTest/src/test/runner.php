@@ -215,7 +215,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $directory = dirname( __FILE__ ) . "/../../..";
  
         $allSuites = new ezcTestSuite();
-        $allSuites->setName( "[Testing]" );
+        $allSuites->setName( "eZ components" );
 
         if ( sizeof( $packages ) == 0 )
         {
