@@ -62,7 +62,10 @@ ezcSystemInfoMac
 
 Provides the basic implementation of the Mac system info retrieval.
 
-
-vim:filetype=rst:
-:q
-
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79

@@ -148,8 +148,10 @@ ezcLogMap
 This map keeps track of the writers attached to a specific message; thus
 eventType, eventSource, and category.
 
-
-
- vim:filetype=rst:
-:q
-
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
