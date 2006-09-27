@@ -26,7 +26,7 @@ class ezcDbHandlerOracle extends ezcDbHandler
      * - pass|password:   Database user password
      * - charset:         Client character set
      *
-     * @param array $dbparams Database connection parameters (key=>value pairs).
+     * @param array $dbParams Database connection parameters (key=>value pairs).
      * @throws ezcDbMissingParameterException if the database name was not specified.
      */
     public function __construct( $dbParams )

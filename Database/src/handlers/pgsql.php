@@ -27,7 +27,7 @@ class ezcDbHandlerPgsql extends ezcDbHandler
      * - port:            TCP port
      *
      * @throws ezcDbMissingParameterException if the database name was not specified.
-     * @param array $dbparams Database connection parameters (key=>value pairs).
+     * @param array $dbParams Database connection parameters (key=>value pairs).
      */
     public function __construct( $dbParams )
     {
