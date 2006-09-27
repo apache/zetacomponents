@@ -2,6 +2,9 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed bug #8958: GD crop filter calculates width and height incorrect.
+- Fixed bug #8959: GD and ImageMagick crop filters behave differently.
+# Note that the GD driver now behaves like the ImageMagick driver and reduces
+# the crop dimensions, if they are larger than the source image dimensions.
 
 
 1.1.1 - Monday 28 August 2006
