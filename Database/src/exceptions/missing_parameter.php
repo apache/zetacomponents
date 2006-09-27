@@ -23,7 +23,7 @@ class ezcDbMissingParameterException extends ezcDbException
      */
     public function __construct( $option, $variableName )
     {
-        parent::__construct( "The parameter $option is required in the parameter $variableName." );
+        parent::__construct( "The option <{$option}> is required in the parameter <{$variableName}>." );
     }
 }
 ?>

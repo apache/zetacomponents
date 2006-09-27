@@ -30,6 +30,12 @@
  * $db = ezcDbFactory::create( $dsn );
  * </code>
  *
+ * Other examples of DSNs are:
+ * <code>
+ * $dsn = "sqlite:///tmp/ezc.sqlite"; // Disk based databases for SQLite.
+ * $dsn = "sqlite://:memory:";        // In memory databases for SQLite.
+ * </code>
+ *
  * @see create()
  *
  * @package Database

@@ -55,6 +55,85 @@ class ezcDatabaseFactoryTest extends ezcTestCase
         $this->assertEquals( array( 'mysql', 'pgsql', 'oracle', 'sqlite', 'test' ), $array );
     }
 
+    public function testSqliteDSN1()
+    {
+        if ( !extension_loaded( 'pdo_sqlite') )
+        {
+            $this->markTestSkipped();
+            return;
+        }
+        $db = ezcDbFactory::create( 'sqlite://:memory:' );
+        $db = ezcDbFactory::create( 'sqlite:///tmp/testSqliteDSN1.sqlite' );
+        $this->assertEquals( true, file_exists( '/tmp/testSqliteDSN1.sqlite' ) );
+        unlink( '/tmp/testSqliteDSN1.sqlite' );
+        $this->assertEquals( false, file_exists( ':memory:' ) );
+    }
+
+    public function testSqliteDSN2()
+    {
+        if ( !extension_loaded( 'pdo_sqlite') )
+        {
+            $this->markTestSkipped();
+            return;
+        }
+        try
+        {
+            $db = ezcDbFactory::create( 'sqlite:///:memory:' );
+            $this->fail( "Expected exception not thrown." );
+        }
+        catch ( PDOException $e )
+        {
+            $this->assertEquals( "SQLSTATE[HY000] [14] unable to open database file", $e->getMessage() );
+        }
+    }
+
+    public function testSqliteDSN3()
+    {
+        if ( !extension_loaded( 'pdo_sqlite') )
+        {
+            $this->markTestSkipped();
+            return;
+        }
+        try
+        {
+            $db = ezcDbFactory::create( 'sqlite://' );
+            $this->fail( "Expected exception not thrown." );
+        }
+        catch ( ezcDbMissingParameterException $e )
+        {
+            $this->assertEquals( "The option <database> is required in the parameter <dbParams>.", $e->getMessage() );
+        }
+    }
+
+    public function testParamsSqliteDatabase1()
+    {
+        if ( !extension_loaded( 'pdo_sqlite') )
+        {
+            $this->markTestSkipped();
+            return;
+        }
+        try
+        {
+            $db = ezcDbFactory::create( array( 'handler' => 'sqlite' ) );
+            $this->fail( "Expected exception not thrown." );
+        }
+        catch ( ezcDbMissingParameterException $e )
+        {
+            $this->assertEquals( "The option <database> is required in the parameter <dbParams>.", $e->getMessage() );
+        }
+    }
+
+    public function testParamsSqliteDatabase2()
+    {
+        if ( !extension_loaded( 'pdo_sqlite') )
+        {
+            $this->markTestSkipped();
+            return;
+        }
+        $db = ezcDbFactory::create( array( 'handler' => 'sqlite', 'port' => 'memory' ) );
+        $this->assertEquals( false, file_exists( 'memory' ) );
+    }
+
     public static function suite()
     {
          return new ezcTestSuite( "ezcDatabaseFactoryTest" );

@@ -22,13 +22,15 @@ class ezcDbHandlerSqlite extends ezcDbHandler
      *
      * Supported database parameters are:
      * - dbname|database: Database name
+     * - port:            If "memory" is used then the driver will use an
+     *                    in-memory database, and the database name is ignored.
      *
      * @throws ezcDbMissingParameterException if the database name was not specified.
-     * @param array $dbparams Database connection parameters (key=>value pairs).
+     * @param array $dbParams Database connection parameters (key=>value pairs).
      */
     public function __construct( $dbParams )
     {
-        $database = null;
+        $database = false;
 
         foreach ( $dbParams as $key => $val )
         {
@@ -37,7 +39,7 @@ class ezcDbHandlerSqlite extends ezcDbHandler
                 case 'database':
                 case 'dbname':
                     $database = $val;
-                    if ( $database[0] != '/' )
+                    if ( !empty( $database ) && $database[0] != '/' )
                     {
                         $database = '/' . $database;
                     }
@@ -45,12 +47,21 @@ class ezcDbHandlerSqlite extends ezcDbHandler
             }
         }
 
-        if ( !isset( $database ) )
+        // If the "port" is set then we use "sqlite::memory:" as DSN, otherwise we fallback
+        // to the database name.
+        if ( !empty( $dbParams['port'] ) && $dbParams['port'] == 'memory' )
         {
-            throw new ezcDbMissingParameterException( 'database', 'dbParams' );
+            $dsn = "sqlite::memory:";
         }
+        else
+        {
+            if ( $database === false )
+            {
+                throw new ezcDbMissingParameterException( 'database', 'dbParams' );
+            }
 
-        $dsn = "sqlite:$database";
+            $dsn = "sqlite:$database";
+        }
 
         parent::__construct( $dbParams, $dsn );
 
