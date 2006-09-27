@@ -27,7 +27,7 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
 		return new ezcTestSuite( "ezcImageConversionHandlerShellTest" );
 	}
 
-    protected function setUp()
+    public function setUp()
     {
         try
         {
@@ -51,6 +51,7 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
         $refProp = $this->getReferences();
         $imageRef = current( $refProp );
 
+        $this->handler->close( $ref );
         $this->assertSame(
             $filePath,
             $imageRef["file"],
@@ -63,7 +64,6 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
             "Image reference not registered correctly."
         );
 
-        $this->handler->close( $ref );
     }
 
     public function testLoadFailureFilenotexists()
@@ -105,13 +105,13 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
         $ref = $this->handler->load( $srcPath );
         $this->handler->applyFilter( $ref, new ezcImageFilter( "scale", array( "width" => 200, "height" => 200, "direction" => ezcImageGeometryFilters::SCALE_BOTH ) ) );
         $this->handler->save( $ref, $dstPath );
+        $this->handler->close( $ref );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $dstPath,
              "Applying single filter through handler failed.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
-        $this->handler->close( $ref );
     }
 
     public function testApplyFilterMultiple()
@@ -127,6 +127,7 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
         
         $this->handler->save( $ref, $dstPath );
 
+        $this->handler->close( $ref );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $dstPath,
@@ -134,7 +135,6 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
             // ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
             12000
         );
-        $this->handler->close( $ref );
         $this->removeTempDir();
     }
 }
