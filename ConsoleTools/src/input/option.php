@@ -210,7 +210,7 @@ class ezcConsoleOption
     {
         foreach ( $this->dependencies as $existRule )
         {
-            if ( $rule === $existRule )
+            if ( $rule == $existRule )
             {
                 return;
             }
@@ -230,7 +230,7 @@ class ezcConsoleOption
     {
         foreach ( $this->dependencies as $id => $existRule )
         {
-            if ( $rule === $existRule )
+            if ( $rule == $existRule )
             {
                 unset( $this->dependencies[$id] );
             }
@@ -250,7 +250,7 @@ class ezcConsoleOption
     {
         foreach ( $this->dependencies as $id => $rule )
         {
-            if ( $rule->option === $param )
+            if ( $rule->option == $param )
             {
                 unset( $this->dependencies[$id] );
             }
@@ -269,7 +269,7 @@ class ezcConsoleOption
     {
         foreach ( $this->dependencies as $id => $rule )
         {
-            if ( $rule->option === $param )
+            if ( $rule->option == $param )
             {
                 return true;
             }
@@ -320,7 +320,7 @@ class ezcConsoleOption
     {
         foreach ( $this->exclusions as $existRule )
         {
-            if ( $rule === $existRule )
+            if ( $rule == $existRule )
             {
                 return;
             }
@@ -340,7 +340,7 @@ class ezcConsoleOption
     {
         foreach ( $this->exclusions as $id => $existRule )
         {
-            if ( $rule === $existRule )
+            if ( $rule == $existRule )
             {
                 unset( $this->exclusions[$id] );
             }
@@ -360,7 +360,7 @@ class ezcConsoleOption
     {
         foreach ( $this->exclusions as $id => $rule )
         {
-            if ( $rule->option === $param )
+            if ( $rule->option == $param )
             {
                 unset( $this->exclusions[$id] );
             }
@@ -379,7 +379,7 @@ class ezcConsoleOption
     {
         foreach ( $this->exclusions as $id => $rule )
         {
-            if ( $rule->option === $param )
+            if ( $rule->option == $param )
             {
                 return true;
             }
