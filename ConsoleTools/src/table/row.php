@@ -81,7 +81,7 @@ class ezcConsoleTableRow implements Countable, Iterator, ArrayAccess
      * specified order.
      * 
      * @throws ezcBaseValueException
-     *         If a paremeter is not of type {@link ezcConsoleTableCell}.
+     *         If a parameter is not of type {@link ezcConsoleTableCell}.
      */
     public function __construct()
     {
