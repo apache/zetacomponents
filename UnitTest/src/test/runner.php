@@ -204,10 +204,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
     protected function printCredits()
     {
-        $version = PHPUnit_Runner_Version::getVersionString();
-        $pos = strpos( $version, "by Sebastian" );
-
-        print( "ezcUnitTest uses the " . substr( $version, 0, $pos ) . "framework from Sebastian Bergmann.\n\n" );
+        print( "ezcUnitTest uses the PHPUnit " . PHPUnit_Runner_Version::id() . " framework from Sebastian Bergmann.\n\n" );
     }
 
     protected function prepareTests( $packages, $release )
