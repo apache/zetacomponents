@@ -99,40 +99,40 @@ class ezcArchiveEntry
      * 
      * @param ezcArchiveFileStructure $struct 
      */
-	public function __construct( ezcArchiveFileStructure $struct )
-	{
+    public function __construct( ezcArchiveFileStructure $struct )
+    {
         $this->fileStructure =  $struct; 
-	}
+    }
 
     /**
      * Returns true when this entry represents a directory.
      * 
      * @return bool
      */
-	public function isDirectory()
-	{
+    public function isDirectory()
+    {
         return ( $this->fileStructure->type == self::IS_DIRECTORY );
-	}
+    }
 
     /**
      * Returns true when this entry represents a file.
      * 
      * @return bool
      */
-	public function isFile()
-	{
+    public function isFile()
+    {
         return ( $this->fileStructure->type == self::IS_FILE );
-	}
+    }
 
     /**
      * Returns true when this entry represents a hard link.
      * 
      * @return bool
      */
-	public function isHardLink()
-	{
+    public function isHardLink()
+    {
         return ( $this->fileStructure->type == self::IS_LINK );
-	}
+    }
 
     /**
      * Returns true when this entry represents a symbolic link.
@@ -195,8 +195,8 @@ class ezcArchiveEntry
      * 
      * @return string 
      */
-	public function getPath( $withPrefix = true )
-	{
+    public function getPath( $withPrefix = true )
+    {
         if ( $withPrefix )
         {
             return $this->fileStructure->path;
@@ -205,7 +205,7 @@ class ezcArchiveEntry
         {
             return $this->getPathWithoutPrefix( $this->fileStructure->path, $this->prefix );
         }
-	}
+    }
 
     /**
      * Returns the path without the prefix.
@@ -259,8 +259,8 @@ class ezcArchiveEntry
      *
      * @param bool $withPrefix 
      */
-	public function getLink( $withPrefix = true )
-	{
+    public function getLink( $withPrefix = true )
+    {
         if ( $withPrefix )
         {
             return $this->fileStructure->link;
@@ -269,17 +269,17 @@ class ezcArchiveEntry
         {
             return $this->getPathWithoutPrefix( $this->fileStructure->link, $this->prefix );
         }
-	}
+    }
 
     /**
      * Returns a bit mask representing the permissions of this entry.
      *
      * @return int
      */
-	public function getPermissions()
-	{
+    public function getPermissions()
+    {
         return $this->fileStructure->mode; 
-	}
+    }
 
     /**
      * Returns the file size.

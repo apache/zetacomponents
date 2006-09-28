@@ -138,7 +138,7 @@ class ezcLogDatabaseWriter implements ezcLogWriter
      * @throws ezcLogWriterException when the log writer was unable to write the log message.
      * @param string $message
      * @param int $severity
-	 *        ezcLog:: DEBUG, SUCCES_AUDIT, FAILED_AUDIT, INFO, NOTICE, WARNING, ERROR or FATAL.
+     *        ezcLog:: DEBUG, SUCCES_AUDIT, FAILED_AUDIT, INFO, NOTICE, WARNING, ERROR or FATAL.
      *
      * $param string $source
      * @param string $category
@@ -210,8 +210,8 @@ class ezcLogDatabaseWriter implements ezcLogWriter
     }
 
 
-	/**
-	 * Maps the table $tableName to the messages specified by the {@link ezcLogFilter} $logFilter.
+    /**
+     * Maps the table $tableName to the messages specified by the {@link ezcLogFilter} $logFilter.
      *
      * Log messages that matches with the filter are written to the table $tableName. 
      * This method works the same as {@link ezclog::map()}.
@@ -219,14 +219,14 @@ class ezcLogDatabaseWriter implements ezcLogWriter
      * @param ezcLogFilter $logFilter 
      * @param string $tableName
      * @return void
-	 */
-	public function setTable( ezcLogFilter $logFilter, $tableName )
-	{
+     */
+    public function setTable( ezcLogFilter $logFilter, $tableName )
+    {
         $this->map->appendRule( new ezcLogFilterRule( $logFilter, $tableName, true ) );
-	}
+    }
 
-	/**
-	 * Unmaps the table $tableName from the messages specified by the {@link ezcLogFilter} $logFilter.
+    /**
+     * Unmaps the table $tableName from the messages specified by the {@link ezcLogFilter} $logFilter.
      *
      * Log messages that matches with the filter are no longer written to the table $tableName. 
      * This method works the same as {@link ezclog::unmap()}.
@@ -234,7 +234,7 @@ class ezcLogDatabaseWriter implements ezcLogWriter
      * @param ezcLogFilter $logFilter 
      * @param string $fileName
      * @return void
-	 */
+     */
     public function unmap( ezcLogFilter $logFilter, $tableName )
     {
         $this->map->unmap( $logFilter->severity, $logFilter->source, $logFilter->category, $tableName );

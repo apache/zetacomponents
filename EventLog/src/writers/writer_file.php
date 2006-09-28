@@ -253,31 +253,31 @@ abstract class ezcLogFileWriter implements ezcLogWriter
     }
 
 
-	/**
-	 * Maps the filename $fileName to the messages specified by the {@link ezcLogFilter} $logFilter.
+    /**
+     * Maps the filename $fileName to the messages specified by the {@link ezcLogFilter} $logFilter.
      *
      * Log messages that matches with the filter are written to the file $fileName. 
      *
      * @param ezcLogFilter $logFilter 
      * @param string $fileName
      * @return void
-	 */
-	public function setFile( ezcLogFilter $logFilter, $fileName )
-	{
+     */
+    public function setFile( ezcLogFilter $logFilter, $fileName )
+    {
         $fh = $this->openFile( $fileName );
         $this->fileMap->appendRule( new ezcLogFilterRule( $logFilter, $fh, true ) );
 
-	}
+    }
 //
-//	/**
-//	 * Unmaps the filename $fileName from the messages specified by the {@link ezcLogFilter} $logFilter.
+//    /**
+//     * Unmaps the filename $fileName from the messages specified by the {@link ezcLogFilter} $logFilter.
 //     *
 //     * Log messages that matches with the filter are no longer written to the file $fileName. 
 //     *
 //     * @param ezcLogFilter $logFilter 
 //     * @param string $fileName
 //     * @return void
-//	 */
+//     */
 //    public function unmap( $logFilter, $fileName )
 //    {
 //        $this->fileMap->unmap( $logFilter->severity, $logFilter->source, $logFilter->category, $this->openFiles[ $fileName ] );

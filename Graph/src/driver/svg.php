@@ -319,20 +319,20 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     {
         $this->createDocument();
 
-		$lastPoint = end( $points );
+        $lastPoint = end( $points );
         $pointString = sprintf( ' M %.4f,%.4f', 
             $lastPoint->x + $this->options->graphOffset->x, 
             $lastPoint->y + $this->options->graphOffset->y
         );
 
-		foreach ( $points as $point )
+        foreach ( $points as $point )
         {
             $pointString .= sprintf( ' L %.4f,%.4f', 
                 $point->x + $this->options->graphOffset->x,
                 $point->y + $this->options->graphOffset->y
             );
         }
-		$pointString .= ' z ';
+        $pointString .= ' z ';
 
         $path = $this->dom->createElement( 'path' );
         $path->setAttribute( 'd', $pointString );
@@ -342,7 +342,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             $this->getStyle( $color, $filled, $thickness )
         );
         $path->setAttribute( 'id', $id = ( $this->options->idPrefix . 'Polygon_' . ++$this->elementID ) );
-		$this->elements->appendChild( $path );
+        $this->elements->appendChild( $path );
 
         return $id;
     }

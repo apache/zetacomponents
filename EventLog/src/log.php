@@ -492,9 +492,9 @@ class ezcLog
         $this->context->setSourceContext( $sources, $attributes );
     }
 
-	/**
-	 * This method can be set as error_handler to log using {@link trigger_error()}.
-	 *
+    /**
+     * This method can be set as error_handler to log using {@link trigger_error()}.
+     *
      * This method can be assigned with the {@link set_error_handler()} to handle the
      * trigger_error calls. This method will get the log instance and forward the
      * message. But includes the following information: 

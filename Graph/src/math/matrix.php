@@ -285,7 +285,7 @@ class ezcGraphMatrix
         return $this;
     }
 
-	/**
+    /**
      * Multiplies two matrices
      *
      * Multiply current matrix with another matrix and returns the result 
@@ -294,7 +294,7 @@ class ezcGraphMatrix
      * @param ezcGraphMatrix $matrix Second factor
      * @returns ezcGraphMatrix Result matrix
      */
-	public function multiply( ezcGraphMatrix $matrix ) 
+    public function multiply( ezcGraphMatrix $matrix ) 
     {
         $mColumns = $matrix->columns();
         if ( $this->columns !== ( $mRows = $matrix->rows() ) ) 
@@ -304,18 +304,18 @@ class ezcGraphMatrix
 
         $result = new ezcGraphMatrix( $this->rows, $mColumns );
 
-		for ( $i = 0; $i < $this->rows; ++$i ) 
+        for ( $i = 0; $i < $this->rows; ++$i ) 
         {
-			for ( $j = 0; $j < $mColumns; ++$j ) 
+            for ( $j = 0; $j < $mColumns; ++$j ) 
             {
-				$sum = 0;
-				for ( $k = 0; $k < $mRows; ++$k ) {
-					$sum += $this->matrix[$i][$k] * $matrix->get( $k, $j );
-				}
+                $sum = 0;
+                for ( $k = 0; $k < $mRows; ++$k ) {
+                    $sum += $this->matrix[$i][$k] * $matrix->get( $k, $j );
+                }
 
-				$result->set( $i, $j, $sum );
-			}
-		}
+                $result->set( $i, $j, $sum );
+            }
+        }
 
         return $result;
     }
@@ -339,9 +339,9 @@ class ezcGraphMatrix
     {
         // Build complete equatation
         $equatation = new ezcGraphMatrix( $this->rows, $columns = ( $this->columns + 1 ) );
-		for ( $i = 0; $i < $this->rows; ++$i ) 
+        for ( $i = 0; $i < $this->rows; ++$i ) 
         {
-			for ( $j = 0; $j < $this->columns; ++$j ) 
+            for ( $j = 0; $j < $this->columns; ++$j ) 
             {
                 $equatation->set( $i, $j, $this->matrix[$i][$j] );
             }
@@ -349,9 +349,9 @@ class ezcGraphMatrix
         }
 
         // Compute upper triangular matrix on left side of equatation
-		for ( $i = 0; $i < ( $this->rows - 1 ); ++$i ) 
+        for ( $i = 0; $i < ( $this->rows - 1 ); ++$i ) 
         {
-			for ( $j = $i + 1; $j < $this->rows; ++$j ) 
+            for ( $j = $i + 1; $j < $this->rows; ++$j ) 
             {
                 if ( $equatation->get( $j, $i ) !== 0 )
                 {
@@ -373,7 +373,7 @@ class ezcGraphMatrix
         }
 
         // Normalize values on left side matrix diagonale
-		for ( $i = 0; $i < $this->rows; ++$i ) 
+        for ( $i = 0; $i < $this->rows; ++$i ) 
         {
             if ( ( ( $value = $equatation->get( $i, $i ) ) != 1 ) &&
                  ( $value != 0 ) )
@@ -447,9 +447,9 @@ class ezcGraphMatrix
         $l = new ezcGraphMatrix( $this->columns, $this->rows );
         $r = new ezcGraphMatrix( $this->columns, $this->rows );
 
-		for ( $i = 0; $i < $this->columns; ++$i ) 
+        for ( $i = 0; $i < $this->columns; ++$i ) 
         {
-			for ( $j = $i; $j < $this->rows; ++$j ) 
+            for ( $j = $i; $j < $this->rows; ++$j ) 
             {
                 $r->set( $i, $j, $this->matrix[$i][$j] );
                 for ( $k = 0; $k <= ( $i - 1 ); ++$k )
@@ -458,7 +458,7 @@ class ezcGraphMatrix
                 }
             }
 
-			for ( $j = $i + 1; $j < $this->rows; ++$j ) 
+            for ( $j = $i + 1; $j < $this->rows; ++$j ) 
             {
                 $l->set( $j, $i, $this->matrix[$j][$i] );
                 for ( $k = 0; $k <= ( $i - 1 ); ++$k )
@@ -484,10 +484,10 @@ class ezcGraphMatrix
     {
         $string = sprintf( "%d x %d matrix:\n", $this->rows, $this->columns );
 
-		for ( $i = 0; $i < $this->rows; ++$i ) 
+        for ( $i = 0; $i < $this->rows; ++$i ) 
         {
             $string .= '| ';
-			for ( $j = 0; $j < $this->columns; ++$j ) 
+            for ( $j = 0; $j < $this->columns; ++$j ) 
             {
                 $string .= sprintf( '%04.2f ', $this->get( $i, $j ) );
             }

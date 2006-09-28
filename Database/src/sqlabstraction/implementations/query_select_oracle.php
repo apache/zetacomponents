@@ -144,10 +144,10 @@ class ezcQuerySelectOracle extends ezcQuerySelect
      */
     public function prepare()
     {
-      if ( $this->fromString == null || $this->fromString == "" )
-      {
-          $this->from( $this->getDummyTableName() );
-      }
+        if ( $this->fromString == null || $this->fromString == '' )
+        {
+            $this->from( $this->getDummyTableName() );
+        }
         return parent::prepare();
     }
 

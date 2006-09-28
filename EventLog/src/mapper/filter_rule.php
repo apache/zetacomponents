@@ -34,30 +34,30 @@ class ezcLogFilterRule
      *
      * @var bool 
      */
-	private $continueProcessing;
+    private $continueProcessing;
 
     /**
      * The container that contains the result.
      *
      * @var array(mixed)
      */
-	private $container;
+    private $container;
 
     /**
      * True if it matches all severities, otherwise false.
      *
      * @var bool
      */
-	private $severityStar = false;
+    private $severityStar = false;
 
     /**
      * True if it matches all sources, otherwise false.
      *
      * @var bool
      */
-	private $sourceStar = false;
+    private $sourceStar = false;
 
-	/**
+    /**
      * True if it matches all categories, otherwise false.
      *
      * @var bool
@@ -69,8 +69,8 @@ class ezcLogFilterRule
      *
      * @var array(string=>mixed)
      */
-	private $structure;
-	
+    private $structure;
+    
     /**
      * Creates an ezcLogFilterRule.
      *
@@ -84,32 +84,32 @@ class ezcLogFilterRule
      * @param bool $continueProcessing
      * @return void
      */
-	public function __construct( ezcLogFilter $filter, $container, $continueProcessing )
-	{
+    public function __construct( ezcLogFilter $filter, $container, $continueProcessing )
+    {
         $this->filter = clone( $filter );
 
         if ( $this->filter->severity  == 0 ) 
-		{
-			$this->severityStar = true;
-		}
+        {
+            $this->severityStar = true;
+        }
 
         if ( sizeof( $this->filter->source ) == 0 ) 
-		{
+        {
             $this->filter->source = array( "*" );
-			$this->sourceStar = true;
-		}
+            $this->sourceStar = true;
+        }
 
         if ( sizeof( $this->filter->category ) == 0 ) 
-		{
+        {
             $this->filter->category = array( "*" );
-			$this->categoryStar = true;
-		}
+            $this->categoryStar = true;
+        }
 
-		$this->continueProcessing = $continueProcessing;
-		$this->container = ( is_array( $container ) ? $container : array( $container ) );
+        $this->continueProcessing = $continueProcessing;
+        $this->container = ( is_array( $container ) ? $container : array( $container ) );
 
-		$this->createStructure();
-	}
+        $this->createStructure();
+    }
 
     /**
      * Creates an internal structure, to quickly lookup the combination of severity, source, and 
@@ -117,8 +117,8 @@ class ezcLogFilterRule
      *
      * @return void
      */
-	protected function createStructure()
-	{
+    protected function createStructure()
+    {
         $severities = $this->getMaskArray( $this->filter->severity );
         if ( sizeof( $severities ) == 0 )
         {
@@ -131,13 +131,13 @@ class ezcLogFilterRule
             {
                 foreach ( $this->filter->category as $category )
                 {
-					$key =  $severity . "_" . $source . "_" . $category;
+                    $key =  $severity . "_" . $source . "_" . $category;
 
-               	    $this->structure[ $key ] = true;
+                       $this->structure[ $key ] = true;
                 }
             }
         }
-	}
+    }
 
     /**
      * Returns true when the given $severity, $source, and $category matches with this filter rule.
@@ -147,36 +147,36 @@ class ezcLogFilterRule
      * @param string $category
      * @return bool
      */
-	public function isMatch( $severity, $source, $category )
-	{
-	 if ( $this->severityStar ) 
+    public function isMatch( $severity, $source, $category )
+    {
+     if ( $this->severityStar ) 
         {
             $severity = "*";
         }
 
-	 if ( $this->sourceStar ) 
+     if ( $this->sourceStar ) 
         {
             $source = "*";
         }
 
-	 if ( $this->categoryStar ) 
+     if ( $this->categoryStar ) 
         {
             $category = "*";
         }
 
-		$key =  $severity . "_" . $source . "_" . $category;
-		return ( isset( $this->structure[ $key ] ) && $this->structure[ $key ] );
-	}
+        $key =  $severity . "_" . $source . "_" . $category;
+        return ( isset( $this->structure[ $key ] ) && $this->structure[ $key ] );
+    }
 
     /**
      * Returns the container, containing the result.
      * 
      * @return mixed
      */
-	public function getContainer()
-	{
-		return $this->container;
-	}
+    public function getContainer()
+    {
+        return $this->container;
+    }
 
     /**
      * Returns true if, after matching, should proceeded to the next filter rule.
@@ -184,10 +184,10 @@ class ezcLogFilterRule
      * @return bool
      */
 
-	public function shouldContinueProcessing()
-	{
-		return $this->continueProcessing;
-	}
+    public function shouldContinueProcessing()
+    {
+        return $this->continueProcessing;
+    }
 
     /**
      * Returns the bits set in $mask as separate values in an array.

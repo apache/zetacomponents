@@ -15,14 +15,14 @@
  * Struct class to store formating entities used by ezcConsoleOutput.
  *
  * Possible values of {@link ezcConsoleOutputFormat::$color} are:
- * - gray	
- * - red	
- * - green	
- * - yellow	
- * - blue	
- * - magenta	
- * - cyan	
- * - white	
+ * - gray
+ * - red
+ * - green
+ * - yellow
+ * - blue
+ * - magenta
+ * - cyan
+ * - white
  * - default (representing the consoles default color)
  *
  * For {@link ezcConsoleOutputFormat::$bgcolor} the following values are valid:
