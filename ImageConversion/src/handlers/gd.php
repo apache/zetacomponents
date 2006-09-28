@@ -21,7 +21,7 @@
  * @package ImageConversion
  * @access private
  */
-class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometryFilters, ezcImageColorspaceFilters, ezcImageEffectFilters
+class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometryFilters, ezcImageColorspaceFilters
 {
     /**
      * Scale filter.
@@ -446,127 +446,6 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
                 break;
         }
 
-    }
-
-    /**
-     * Border filter.
-     * Adds a border to the image. The width is measured in pixel. The color is 
-     * defined in an array of hex values:
-     *
-     * <code>
-     * array( 
-     *      0 => <red value>,
-     *      1 => <green value>,
-     *      2 => <blue value>,
-     * );
-     * </code>
-     *
-     * @param int $width        Width of the border.
-     * @param array(int) $color Color.
-     * @return void
-     * 
-     * @throws ezcImageInvalidReferenceException
-     *         No loaded file could be found or an error destroyed a loaded reference.
-     * @throws ezcImageFilterFailedException
-     *         If the operation performed by the the filter failed.
-     * @throws ezcBaseValueException
-     *         If a submitted parameter was out of range or type.
-     */
-    public function border( $width, array $color )
-    {
-        $oldResource = $this->getActiveResource();
-
-        $oldWidth = imagesx( $oldResource );
-        $oldHeight = imagesy( $oldResource );
-        $newWidth = $oldWidth + 2 * $width;
-        $newHeight = $oldHeight + 2 * $width;
-
-        if ( imageistruecolor( $oldResource ) )
-        {
-            $newResource = imagecreatetruecolor( $newWidth, $newHeight  );
-        }
-        else
-        {
-            $newResource = imagecreate( $newWidth, $newHeight );
-        }
-
-        if ( !is_resource( $newResource ) )
-        {
-            throw new ezcImageFilterFailedException( "border", "Could not create new resource with width <{$newWidth}> and height <{$newHeight}>." );
-        }
-
-        $borderColor = imagecolorallocate( $newResource, $color[0], $color[1], $color[2] );
-
-        $res = imagefill( $newResource, 0, 0, $borderColor );
-        if ( $res === false )
-        {
-            throw new ezcImageFilterFailedException( "border", "Could not apply color to image (red: <{$color[0]}>, green: <{$color[1]}>, blue: <{$color[2]}>)." );
-        }
-
-        $res = imagecopyresampled(
-            $newResource,           // destination resource 
-            $oldResource,           // source resource
-            $width,                 // destination x coord
-            $width,                 // destination y coord
-            0,                      // source x coord
-            0,                      // source y coord
-            $oldWidth,              // destination width
-            $oldHeight,             // destination height
-            $oldWidth,              // source witdh
-            $oldHeight              // source height
-        );
-        if ( $res === false )
-        {
-            throw new ezcImageFilterFailedException( 'border', 'Resampling of image failed.' );
-        }
-
-        imagedestroy( $oldResource );
-        $this->setActiveResource( $newResource );
-    }
-
-    /**
-     * Noise filter.
-     * Apply a noise transformation to the image. Valid values are the following 
-     * strings:
-     * - 'Uniform'
-     * - 'Gaussian'
-     * - 'Multiplicative'
-     * - 'Impulse'
-     * - 'Laplacian'
-     * - 'Poisson'
-     *
-     * @param strings $value Noise value as described above.
-     * @return void
-     *
-     * @throws ezcImageFilterFailedException
-     *         If the operation performed by the the filter failed.
-     * @throws ezcBaseValueException
-     *         If a submitted parameter was out of range or type.
-     * @throws ezcImageInvalidReferenceException
-     *         No loaded file could be found or an error destroyed a loaded reference.
-     */
-    public function noise( $value )
-    {
-        // Todo: Implement!
-    }
-
-    /**
-     * Swirl filter.
-     * Applies a swirl with the given intense to the image.
-     *
-     * @param int $value Intense of swirl.
-     * @return void
-     *
-     * @throws ezcImageInvalidReferenceException
-     *         No loaded file could be found or an error destroyed a loaded reference.
-     * @throws ezcImageFilterFailedException
-     *         If the operation performed by the the filter failed.
-     * @throws ezcBaseValueException
-     *         If a submitted parameter was out of range or type.
-     */
-    public function swirl( $value )
-    {
-        // Todo: Implement!
     }
 
     // private

@@ -530,17 +530,5 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
     }
-    
-    public function testBorder()
-    {
-        $this->handler->border( 5, array( 255, 0, 0 ) );
-        $this->handler->save( $this->imageReference, $this->getTempPath() );
-        $this->assertImageSimilar(
-            $this->getReferencePath(),
-            $this->getTempPath(),
-            "Image not rendered as expected.",
-            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
-        );
-    }
 }
 ?>
