@@ -1,11 +1,17 @@
-1.2.0 - [RELEASEDATE]
+1.2beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Added method quoteIdentifier() to ezcDbHandler.
 - Added support for SQLite in-memory databases through the DSN:
   "sqlite://:memory" and the dbParams:
   "array( 'handler' => 'sqlite', 'port' => 'memory' );".
+
+
+1.1.3 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 - Fixed handling queries like "SELECT 1+1" in Oracle.
+
 
 1.1.2 - Monday 28 August 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

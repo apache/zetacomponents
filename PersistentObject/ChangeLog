@@ -1,4 +1,4 @@
-1.2rc1 - [RELEASEDATE]
+1.2beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed bug #8489: Show the absolute path in the "cannot find definition file"
