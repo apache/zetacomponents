@@ -27,6 +27,14 @@ class ezcDebugStructure
     private $properties = array();
 
     /**
+     * Holds the sub-elements of this structure.
+     *
+     * These elements cannot be a part of the property system because it is an
+     * array.
+     */
+    public $elements = array();
+
+    /**
      * Sets the property $name to $value.
      *
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
