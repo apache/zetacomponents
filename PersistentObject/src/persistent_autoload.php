@@ -21,6 +21,7 @@ return array(
     'ezcPersistentObjectException' => 'PersistentObject/exceptions/persistent_object_exception.php',
     'ezcPersistentSessionNotFoundException' => 'PersistentObject/exceptions/session_not_found.php',
     'ezcPersistentDefinitionNotFoundException' => 'PersistentObject/exceptions/definition_not_found.php',
+    'ezcPersistentRelationNotFoundException' => 'PersistentObject/exceptions/relation_not_found.php',
     'ezcPersistentObjectNotPersistentException' => 'PersistentObject/exceptions/not_persistent.php',
     'ezcPersistentObjectAlreadyPersistentException' => 'PersistentObject/exceptions/already_persistent.php',
     'ezcPersistentQueryException' => 'PersistentObject/exceptions/query_exception.php',

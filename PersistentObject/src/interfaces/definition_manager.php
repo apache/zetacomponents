@@ -45,6 +45,10 @@ abstract class ezcPersistentDefinitionManager
         {
             $def->columns[$field->columnName] = $field;
         }
+        if ( isset( $def->idProperty ) )
+        {
+            $def->columns[$def->idProperty->columnName] = $def->idProperty->propertyName;
+        }
         return $def;
     }
 }

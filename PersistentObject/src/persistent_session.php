@@ -293,6 +293,11 @@ class ezcPersistentSession
      * If you are retrieving large result set, consider using findIterator()
      * instead.
      *
+     * Example:
+     * <code>
+     *
+     * </code>
+     *
      * @throws ezcPersistentDefinitionNotFoundException if there is no such persistent class.
      * @throws ezcPersistentQueryException if the find query failed
      * @param ezcQuerySelect $query
@@ -323,6 +328,52 @@ class ezcPersistentSession
             $result[] = $object;
         }
         return $result;
+    }
+
+    /**
+     * Returns the related objects of a given class for an object. 
+     * This method returns the related objects of type $relatedClass for the
+     * object $object.
+     *
+     * Example:
+     * <code>
+     * $person = $session->load( "Person", 1 );
+     * $relatedAddresses = $session->getRelatedObjects( $person, "Address" );
+     * </code>
+     * 
+     * @param mixed $object         The object to fetch related objects for. 
+     * @param mixed $relatedClass   The class of the related objects to fetch.
+     * @return array(int=>$relatedClass)
+     */
+    public function getRelatedObjects( $object, $relatedClass )
+    {
+        $def = $this->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
+        if ( !isset( $def->relations[$relatedClass] ) )
+        {
+            throw new ezcPersistentRelationNotFoundException( $class, $relatedClass );
+        }
+        $relation = $def->relations[$relatedClass];
+        
+        $query = $this->createFindQuery( $relatedClass );
+
+        // @todo: Implement other relations!
+        switch ( get_class( $relation ) )
+        {
+            case "ezcPersistentOneToManyRelation":
+                foreach ( $relation->columnMap as $map )
+                {
+                    $query->where(
+                        $query->expr->eq(
+                            $this->database->quoteIdentifier( "{$map->destinationColumn}" ),
+                            $query->bindValue( $object->{$def->columns[$map->sourceColumn]} )
+                        )
+                    );
+                }
+                break;
+            default:
+                throw new Exception( "Still in development phase, " . get_class( $relation ) . " not implemented, yet." );
+        }
+        return $this->find( $query, $relatedClass );
     }
 
     /*

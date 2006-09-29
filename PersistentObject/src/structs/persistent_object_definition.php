@@ -58,6 +58,15 @@ class ezcPersistentObjectDefinition extends ezcBaseStruct
     public $columns = array();
 
     /**
+     * Contains the relations of this object. An array indexed by class names
+     * of the related object, assigned to a instance of a class derived from
+     * ezcPersistentRelation.
+     * 
+     * @var array(string=>ezcPersistentRelation)
+     */
+    public $relations = array();
+
+    /**
      * Constructs a new PersistentObjectDefinition.
      *
      * The parameters $key and $incrementKey are not used any more and will be removed
@@ -69,11 +78,13 @@ class ezcPersistentObjectDefinition extends ezcBaseStruct
                                  $key = '',
                                  $class = '',
                                  $incrementKey = '',
-                                 array $properties = array() )
+                                 array $properties = array(),
+                                 array $relations = array() )
     {
         $this->table = $table;
         $this->class = $class;
         $this->properties = $properties;
+        $this->relations = $relations;
     }
 
     /**
@@ -95,7 +106,8 @@ class ezcPersistentObjectDefinition extends ezcBaseStruct
                                                   $array['primaryKey'],
                                                   $array['class'],
                                                   $array['incrementKey'],
-                                                  $array['properties'] );
+                                                  $array['properties'],
+                                                  $array['relations'] );
     }
 }
 ?>
