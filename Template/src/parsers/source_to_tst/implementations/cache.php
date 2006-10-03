@@ -31,10 +31,30 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
-        /*
+        
         if ( $this->block->isClosingBlock )
         {
             $this->findNextElement();
+
+            if( $cursor->match( "dynamic" ) )
+            {
+                $this->findNextElement( $cursor );
+
+                if (!$cursor->match( "}" ) )
+                {
+                    die ("Expected '}'");
+
+                }
+
+                $cacheNode = new ezcTemplateCacheTstNode( $this->parser->source, $this->startCursor, $cursor );
+
+                $cacheNode->isClosingBlock = true;
+                $cacheNode->type = ezcTemplateCacheTstNode::TYPE_DYNAMIC_CLOSE;
+                $this->appendElement( $cacheNode);
+                return true;
+            }
+
+            /*
 
             $matches = $cursor->pregMatchComplete( "#^([a-zA-Z_][a-zA-Z0-9_-]*)(?:[^a-zA-Z])#i" );
             if ( $matches === false )
@@ -55,15 +75,16 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
 
             $this->appendElement( $cb );
             return true;
+             */
         }
-         */
+
  
         if( $cursor->match( "cache_template" ) )
         {
             $cacheNode = new ezcTemplateCacheTstNode( $this->parser->source, $this->startCursor, $cursor );
+            $cacheNode->type = ezcTemplateCacheTstNode::TYPE_TEMPLATE_CACHE;
 
             //$cacheNode->isClosingBlock = false;
-            $cacheNode->templateCache = true;
             $this->appendElement( $cacheNode);
             
             $this->findNextElement( $cursor );
@@ -75,6 +96,23 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
 
             return true;
             // Need to cache the template
+        }
+        elseif( $cursor->match( "dynamic" ) )
+        {
+            $cacheNode = new ezcTemplateCacheTstNode( $this->parser->source, $this->startCursor, $cursor );
+
+            //$cacheNode->isClosingBlock = true;
+            $cacheNode->type = ezcTemplateCacheTstNode::TYPE_DYNAMIC_OPEN;
+            $this->appendElement( $cacheNode);
+            
+            $this->findNextElement( $cursor );
+
+            if( !$cursor->match( "}" ) ) 
+            {
+                die ("Expected an '}'");
+            }
+
+            return true;
         }
 
 

@@ -72,6 +72,7 @@ class ezcTemplate
                                  'compiledTemplatePath' => null,
                                  'tstTree' => false,
                                  'astTree' =>  false,
+                                 'stream'  => false,
                                  'output' => "",
                                );
 
@@ -100,6 +101,7 @@ class ezcTemplate
             case 'receive':
             case 'tstTree':
             case 'astTree':
+            case 'stream':
             case 'compiledTemplatePath':
             case 'output':
                 return $this->properties[$name];
@@ -132,8 +134,9 @@ class ezcTemplate
             case 'receive':
             case 'tstTree':
             case 'astTree':
+            case 'stream':
             case 'output':
-                return true;
+                return isset( $name );
             default:
                 return false;
         }
@@ -176,6 +179,7 @@ class ezcTemplate
             case 'astTree':
             case 'compiledTemplatePath':
             case 'output':
+            case 'stream':
             case 'receive':
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
 
@@ -215,29 +219,28 @@ class ezcTemplate
 
         $this->properties["tstTree"] = false;
         $this->properties["astTree"] = false;
+        $this->properties["stream"] = false;
 
-        $stream = false;
-
-        $stream = $location;
-        if ( $stream[0] != "/" ) // Is it a relative path?
+        $this->properties["stream"] = $location;
+        if ( $this->properties["stream"][0] != "/" ) // Is it a relative path?
         {
-            $stream = $config->templatePath ."/". $stream;
+            $this->properties["stream"] = $config->templatePath ."/". $this->properties["stream"];
         }
 
         // lookup compiled code here
-        $compiled = ezcTemplateCompiledCode::findCompiled( $stream, $config->context, $this );
+        $compiled = ezcTemplateCompiledCode::findCompiled( $this->properties["stream"], $config->context, $this );
         $this->properties["compiledTemplatePath"] = $compiled->path;
 
         if ( !file_exists( $compiled->path ) || (
             $config->checkModifiedTemplates &&
-            file_exists( $stream ) && filemtime( $stream ) >= filemtime( $compiled->path ) )
+            file_exists( $this->properties["stream"] ) && filemtime( $this->properties["stream"] ) >= filemtime( $compiled->path ) )
         )
         {
             $this->createDirectory( dirname( $compiled->path ) );
 
             // get the compiled path.
             // use parser here
-            $source = new ezcTemplateSourceCode( $stream, $stream );
+            $source = new ezcTemplateSourceCode( $this->properties["stream"], $this->properties["stream"] );
             $source->load();
             $parser = new ezcTemplateParser( $source, $this );
             $this->properties["tstTree"] = $parser->parseIntoNodeTree();
@@ -257,7 +260,6 @@ class ezcTemplate
             // Run the cacher.
             $astToAst = new ezcTemplateAstToAstCache( $this );
             $tstToAst->programNode->accept( $astToAst );
-
 
             $g = new ezcTemplateAstToPhpGenerator( $compiled->path ); // Write to the file.
             $tstToAst->programNode->accept( $g );

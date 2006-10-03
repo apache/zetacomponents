@@ -119,6 +119,19 @@ class ezcTemplateSymbolTable
         return $this->symbols[ $symbol ];
     }
 
+    public function retrieveSymbolsWithType( $typeArray )
+    {
+        $total = array();
+
+        foreach( $typeArray as $type )
+        {
+            // Search for all the keys in the array, and merge it. 
+            $total = array_merge($total, array_keys( $this->symbols, $type ) );
+        }
+
+        return $total;
+    }
+
     public function getErrorMessage()
     {
         return $this->errorMessage;

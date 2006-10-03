@@ -125,19 +125,31 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 $template->send = include ($send);
             }
 
+            $out = array();
+            $counter = 0;
+
             try
             {
-                $out = $template->process( $base );
+                $out[$counter] = $template->process( $base );
+
+
+                ++$counter;
+                while( file_exists( substr( $directory, 0, -3 ) . ".out" . ($counter + 1) ) )
+                {
+                    $out[$counter] = $template->process( $base );
+                    $counter++;
+                } 
+
             } 
             catch (Exception $e )
             {
-                $out = $e->getMessage();
+                $out[$counter] = $e->getMessage();
 
                 // Begin of the error message contains the full path. We replace this with 'mock' so that the 
                 // tests work on other systems as well.
-                if( strncmp( $out, $directory, strlen( $directory ) ) == 0 )
+                if( strncmp( $out[$counter], $directory, strlen( $directory ) ) == 0 )
                 {
-                    $out = "mock" . substr( $out, strlen( $directory ) );
+                    $out[$counter] = "mock" . substr( $out[$counter], strlen( $directory ) );
                 }
             }
 
@@ -156,7 +168,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
                     if ($char == "y" || $char == "Y" )
                     {
-                        file_put_contents( $expected, $out );
+                        file_put_contents( $expected, $out[$counter] );
                     }
                 }
                 else
@@ -164,7 +176,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     $this->fail( $help );
                 }
             }
-            else if ( file_get_contents( $expected ) != $out )
+            else if ( file_get_contents( $expected ) != $out[0] )
             {
                 $help  = "The evaluated template <".$regressionDir . "/current.tmp> differs ";
                 $help .= "from the expected output: <$expected>.\n\n";
@@ -182,7 +194,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 $help .= "\n";
 
                 $help .= "The eval'ed output:\n";
-                $help .= "----------\n".$out."----------\n";
+                $help .= "----------\n".$out[0]."----------\n";
                 $help .= "\n";
 
                 $help .= "The expected output:\n";
@@ -212,7 +224,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
                     if ($char == "y" || $char == "Y" )
                     {
-                        file_put_contents( $expected, $out );
+                        file_put_contents( $expected, $out[0] );
                     }
                 }
                 else
@@ -221,6 +233,28 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 }
 
                 $this->fail( $help );
+            }
+            elseif( sizeof( $out ) > 1 )
+            {
+                for( $i = 1; $i < sizeof( $out ); $i++ )
+                {
+                    $file = substr( $directory, 0, -3 ) . ".out" . ($i + 1);
+                    if( file_get_contents( $file ) != $out[$i] )
+                    {
+                        $help =  "\nRun ". ($i + 1) . " returns a different value than expected.\n";
+                        $help .= "file: $file \n\n";
+
+                        $help .= "The eval'ed output:\n";
+                        $help .= "----------\n".$out[$i]."----------\n";
+                        $help .= "\n";
+
+                        $help .= "The expected output:\n";
+                        $help .= "----------\n" . file_get_contents( substr( $directory, 0, -3 ) . ".out" . ($i + 1)  ) . "----------\n";
+                        $help .= "\n";
+
+                        die ( $help );
+                    }
+                }
             }
             else
             {

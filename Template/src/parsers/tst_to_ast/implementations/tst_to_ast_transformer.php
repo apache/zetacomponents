@@ -270,13 +270,21 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitCacheTstNode( ezcTemplateCacheTstNode $type )
     {
-        if( $type->templateCache )
+        if( $type->type === ezcTemplateCacheTstNode::TYPE_DYNAMIC_OPEN || $type->type === ezcTemplateCacheTstNode::TYPE_DYNAMIC_CLOSE )
+        {
+            //new ezcTemplateVirtualAstNode();
+            $nop = new ezcTemplateNopAstNode();
+            $nop->type = ($type->type === ezcTemplateCacheTstNode::TYPE_DYNAMIC_OPEN ? ezcTemplateNopAstNode::TYPE_DYNAMIC_OPEN : ezcTemplateNopAstNode::TYPE_DYNAMIC_CLOSE);
+            return $nop;
+        }
+        elseif( $type->type == ezcTemplateCacheTstNode::TYPE_TEMPLATE_CACHE )
         {
             // Modify the root node.
             $this->programNode->cacheTemplate = true;
 
             return new ezcTemplateNopAstNode();
         }
+
 
     }
 

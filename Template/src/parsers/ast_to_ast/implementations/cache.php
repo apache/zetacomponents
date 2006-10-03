@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateAstToAstContextAppender
+ * File containing the ezcTemplateAstToAstCache
  *
  * @package Template
  * @version //autogen//
@@ -9,6 +9,8 @@
  * @access private
  */
 /**
+ * An instance of this class 'walks' over the AST tree and inserts the cache implementation. 
+ *
  * @package Template
  * @version //autogen//
  * @access private
@@ -16,7 +18,7 @@
 class ezcTemplateAstToAstCache extends ezcTemplateAstWalker
 {
     private $template = null;
-    private $uniqueID = null;
+    private $cacheName = null;
 
     public function __construct( $template )
     {
@@ -27,106 +29,272 @@ class ezcTemplateAstToAstCache extends ezcTemplateAstWalker
     {
     }
 
+    /**
+     * Removes the old cache file
+     */
+    protected function removeOldCache( $cachePath )
+    {
+        if( file_exists( $cachePath ) )
+        {
+            unlink( $cachePath );
+        }
+    }
+
+    /**
+     *  Returns the ast tree:  !file_exists( [$this->cacheName] )
+     */
+    protected function _notFileExistsCache()
+    {
+        return new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "file_exists", array( new ezcTemplateLiteralAstNode( $this->cacheName ) ) ) );
+    }
+
+
+    /**
+     *  Returns the ast tree:  include( [$this->cacheName] ); 
+     */
+    protected function _includeCache()
+    {
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "include", array( new ezcTemplateLiteralAstNode( $this->cacheName ) ) ) ); 
+    }
+
+    /**
+     *  Returns the ast tree:  $fp = fopen( [$this->cacheName], "w");
+     */
+    protected function _fopenCacheFileWriteMode()
+    {
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( new ezcTemplateVariableAstNode("fp"), new ezcTemplateFunctionCallAstNode( "fopen", array( new ezcTemplateLiteralAstNode( $this->cacheName ), new ezcTemplateLiteralAstNode( "w")  )) ) );
+
+    }
+
+    /**
+     *  Returns the ast tree:  fwrite( $fp, "<" . "?php\n" );
+     */
+    protected function _fwritePhpOpen()
+    {
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( new ezcTemplateVariableAstNode("fp"),  new ezcTemplateConcatOperatorAstNode( new ezcTemplateLiteralAstNode('<'), new ezcTemplateLiteralAstNode('?php\\n' ) ) ) ) );
+    }
+
+    /**
+     *  Returns the ast tree: <variable> = "";
+     */
+    protected function _assignEmptyString( $variable )
+    {
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( new ezcTemplateVariableAstNode($variable), new ezcTemplateLiteralAstNode( "") ) );
+    }
+
+    /**
+     *  Returns the ast tree: <variableDst> .= <variableSrc>;
+     */
+    protected function _concatAssignVariable( $variableSrc, $variableDst )
+    {
+         return new ezcTemplateGenericStatementAstNode( new ezcTemplateConcatAssignmentOperatorAstNode( new ezcTemplateVariableAstNode($variableDst), new ezcTemplateVariableAstNode($variableSrc) ) );
+    }
+
+    /**
+     *  Returns the ast tree: <variableDst> = <variableSrc>;
+     */
+    protected function _assignVariable( $variableSrc, $variableDst )
+    {
+         return new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( new ezcTemplateVariableAstNode($variableDst), new ezcTemplateVariableAstNode($variableSrc) ) );
+    }
+
+
+    /**
+     *  Returns the ast tree: fwriteLiteral( $fp, <literal_value> ); 
+     */
+    protected function _fwriteLiteral( $literalValue )
+    {
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( new ezcTemplateVariableAstNode("fp"), new ezcTemplateLiteralAstNode( $literalValue ) ) ) );  
+
+    }
+
+    /**
+     *  Returns the ast tree: fwriteVariable( $fp, $<variableName> ); 
+     */
+    protected function _fwriteVariable( $variableName )
+    {
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( new ezcTemplateVariableAstNode("fp"), new ezcTemplateVariableAstNode( $variableName ) ) ) );  
+    }
+
+
+    /**
+     *  Returns the ast tree: return $<variableName>;
+     */
+    protected function _returnVariable( $variableName )
+    {
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateReturnAstNode ( new ezcTemplateVariableAstNode( $variableName ) ) );
+    }
+
+    /**
+     *  Returns one of the following ast trees, depending on the variables $concat and $fwritePhpClose:  
+     *
+     *  fwrite( $fp, "\\\<variableName> = " . var_export( <variableName>, true) . "; ?>" );
+     *  fwrite( $fp, "\\\<variableName> .= " . var_export( <variableName>, true) . ";" ); 
+     *  fwrite( $fp, "\\\<variableName> = " . var_export( <variableName>, true) . "; ?>" );
+     *  fwrite( $fp, "\\\<variableName> .= " . var_export( <variableName>, true) . ";" ); 
+     */
+    protected function _fwriteVarExportVariable( $variableName, $concat, $fwritePhpClose = false )
+    {
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array(new ezcTemplateVariableAstNode("fp"),  new ezcTemplateConcatOperatorAstNode( new ezcTemplateLiteralAstNode("\\\$".$variableName." ". ($concat ? ".=" : "=") ." "), new ezcTemplateConcatOperatorAstNode( new ezcTemplateFunctionCallAstNode(  "var_export", array( new ezcTemplateVariableAstNode("$variableName"), new ezcTemplateLiteralAstNode(true) ) ), new ezcTemplateLiteralAstNode(";\\n" . ($fwritePhpClose ? " ?>" : "" )) ) ) ) ) );
+    }
+
+    /**
+     * Returns the ast tree that inserts comments.
+     */
+    protected function _comment( $str )
+    {
+        return new ezcTemplatePhpCodeAstNode( "// ". str_replace( "\n", "\n// ", $str ) . "\n" );
+    }
+
+    /**
+     *  Returns the ast tree: fclose( $fp);
+     */
+    protected function _fclose()
+    {
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fclose", array( new ezcTemplateVariableAstNode( "fp" ) ) ) ) ;
+    }
+
+
+    /**
+     * This should be the first node found in the AST-tree.
+     */
     public function visitRootAstNode( ezcTemplateRootAstNode &$type )
     {
+        // Should the template be cached?
         if( !$type->cacheTemplate )
         {
+            // No, ET phone home
             return;
         }
 
-        $this->uniqueID = uniqid();
-        
+        $this->cacheName = "/tmp/cache/" . str_replace( '/', "-", $this->template->stream );  
 
-        
-        // Need to make a tree duplication?
-        // To prevent tree madness..
-
-         //////////////////////
-        // Write: $c = 
-         //   $c = new ezcCacheStorageFilePlain("/tmp/cache/");
-
-         //   if ( ( $data = $c->restore( "pizza" ) ) === false )
-         //   {
-         //       $dataOfFirstItem = "Plain cache stored on " . date( 'Y-m-d, H:i:s' );
-         //       $c->store( "pizzaboer", $dataOfFirstItem );
-         //   }
-
-        // Create $cache = new ...
-        $createCacheLine = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( new ezcTemplateVariableAstNode( "cache" ), new ezcTemplateNewAstNode ("ezcCacheStorageFilePlain", array( new ezcTemplateLiteralAstNode("/tmp/cache/") ) ) ) );
-
-        $createDataLine = new ezcTemplateParenthesisAstNode( new ezcTemplateAssignmentOperatorAstNode( new ezcTemplateVariableAstNode( "data" ), new ezcTemplateObjectAccessOperatorAstNode( new ezcTemplateVariableAstNode( "cache"), new ezcTemplateFunctionCallAstNode( "restore", array(new ezcTemplateLiteralAstNode($this->uniqueID) ) ) ) ) ) ;
-
-
-        $compare = new ezcTemplateIdenticalOperatorAstNode( $createDataLine, new ezcTemplateLiteralAstNode( false) );
-
-        $cb = new ezcTemplateConditionBodyAstNode();
-        $cb->condition = $compare;
-
+        // Create the if statement that checks whether the cache file exists.
+        $if = new ezcTemplateIfAstNode();
+        $if->conditions[] = $cb = new ezcTemplateConditionBodyAstNode();
+        $cb->condition = $this->_notFileExistsCache();
         $cb->body = new ezcTemplateBodyAstNode();
+
+        // Move the current statements under the 'if'. (Or: Create an if around the current statements) 
         $cb->body->statements = $type->statements;
 
-        $if = new ezcTemplateIfAstNode();
-        $if->conditions[] = $cb;
+        // Create the 'else' part. The else should 'include' (and execute) the cached file. 
+        $if->conditions[] = $else = new ezcTemplateConditionBodyAstNode();
+        $else->body = new ezcTemplateBodyAstNode();
+        $else->body->statements = array();
+        $else->body->statements[] =  $this->_includeCache();
 
+        // The current statements are already moved to the if node, Don't need them here.
         $type->statements = array();
-        $type->statements[] = $createCacheLine;
+
+        // Of course we need the if-statement we just created.
         $type->statements[] = $if;
 
+        // Create the statements that belong (on top) inside the if-body.
+        $statements = array();
+        $statements[] = $this->_fopenCacheFileWriteMode();                              // $fp = fopen( $this->cache, "w" ); 
+        $statements[] = $this->_fwritePhpOpen();                                        // fwrite( $fp, "<" . "?php\n" );
+        $statements[] = $this->_assignEmptyString("total");                             // $total = ""
+        $statements[] = $this->_fwriteLiteral("\\\$_ezcTemplate_output = '';\\n");      // fwrite( $fp, "\\\$_ezcTemplate_output = '';\\n" );
 
+        // Insert the statements in the front of the statement array: $cb->body->statements
+        array_splice($cb->body->statements, 0, 0, $statements);
+
+        // No need to increase the $this->offset counter, because the parent loops over it (included the new statements).
         parent::visitRootAstNode( $type );
 
-        // return $data;
-        $type->statements[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateReturnAstNode ( new ezcTemplateVariableAstNode( "data") ) );
-
-
-        return;
-     }
+        // Append an additional return $_ezcTemplate_output;  (The previous is gone in the if statements.) 
+        //XXX: Need to copy the previous one.
+        $type->statements[] = $this->_returnVariable("_ezcTemplate_output");
+    }
 
     public function visitReturnAstNode( ezcTemplateReturnAstNode $return )
     {
-        // Write the to cache.
-        // $cache->store( "template_identifier", $data );
+        // These statements should be added above the return-statement.
+        $statements = array();
         
-        $a = new ezcTemplateGenericStatementAstNode( new ezcTemplateObjectAccessOperatorAstNode( new ezcTemplateVariableAstNode( "cache"), new ezcTemplateFunctionCallAstNode( "store", array(new ezcTemplateLiteralAstNode($this->uniqueID), new ezcTemplateVariableAstNode("_ezcTemplate_output") ) ) ) );
+        //fwrite( $fp, "\\\$_ezcTemplate_output .= " . var_export( $ezcTemplate_output, true) . ";" ); 
+        $statements[] = $this->_fwriteVarExportVariable( "_ezcTemplate_output", "true", true);
 
-        array_splice($this->nodePath[0]->statements, $this->statements[0], 0, array($a) );
+        // $total .= $_ezcTemplate_output;
+        $statements[] = $this->_concatAssignVariable( "_ezcTemplate_output", "total");
+            
+        // fclose($fp);  
+        $statements[] = $this->_fclose();
 
+        // $_ezcTemplate_output = $total;
+        $statements[] = $this->_assignVariable( "total", "_ezcTemplate_output" );
 
-        /*
-
-        echo ("Number: " . $this->statements[0] . "\n" );
-
-        var_dump ($this->nodePath[0]->statements[$this->statements[0]]);
-
-        exit();
-        foreach( $this->nodePath as $n )
-        {
-            echo get_class( $n ) . "\n";
-        }
-        exit();
-
-        var_dump( $return );
-      */
-        return;
-        
+        // Insert the statements at the current line.
+        array_splice($this->nodePath[0]->statements, $this->statements[0] + $this->offset[0], 0, $statements );
+        $this->offset[0] += sizeof( $statements );
     }
 
 
-
-
-/*
-    public function visitOutputAstNode( ezcTemplateOutputAstNode $type )
+    public function visitNopAstNode( ezcTemplateNopAstNode $node )
     {
-        parent::visitOutputAstNode( $type );
-
-        if ( $type->isRaw )
+        // The nop-nodes may contain extra information regarding the {dynamic} blocks.
+        if( $node->type == ezcTemplateNopAstNode::TYPE_DYNAMIC_OPEN )
         {
-            return $type;
+            // Write the variables introduced in the static part to the cache.
+            $symbolTable = ezcTemplateSymbolTable::getInstance();
+            $symbols = $symbolTable->retrieveSymbolsWithType( array( ezcTemplateSymbolTable::VARIABLE, ezcTemplateSymbolTable::CYCLE ) );
+
+            $newStatement = array();
+
+            // Initialize the values.
+            // XXX: Check also for the used variables.
+            foreach( $symbols as $symbol )
+            {
+                $newStatement[] = $this->_fwriteVarExportVariable( $symbol, false, false );
+            }
+            
+            $newStatement[] = $this->_comment(" ---> start {dynamic}");
+            
+            // $total .= $_ezcTemplate_output
+            $newStatement[] = $this->_concatAssignVariable( "_ezcTemplate_output", "total");
+
+            // fwrite( $fp, "\\\<variableName> .= " . var_export( <variableName>, true) . ";" ); 
+            $newStatement[] = $this->_fwriteVarExportVariable( "_ezcTemplate_output", true, false);
+
+            // $_ezcTemplate_output = "";
+            $newStatement[] = $this->_assignEmptyString("_ezcTemplate_output");
+
+            // $output .= $_ezcTemplate_output;
+            $newStatement[] = $this->_concatAssignVariable( "_ezcTemplate_output", "total");
+
+            // Place everything in the code block.
+            // XXX scan for quote: '
+            $newStatement[] = new ezcTemplatePhpCodeAstNode( "\$code = '" );
+
+            // Insert the new statements.
+            array_splice($this->nodePath[0]->statements, $this->statements[0] + $this->offset[0], 0, $newStatement);
+            $this->offset[0] += sizeof( $newStatement );
         }
-        return $this->context->transformOutput( $type->expression );
+        elseif( $node->type == ezcTemplateNopAstNode::TYPE_DYNAMIC_CLOSE )
+        {
+            
+            $newStatement = array();
+            $newStatement[] = new ezcTemplatePhpCodeAstNode( "';\n" );
+
+            // fwrite( $fp, $code );
+            $newStatement[] = $this->_fwriteVariable( "code" ); 
+
+            // eval( $code );
+            $newStatement[] = new ezcTemplateGenericStatementAstNode( 
+                new ezcTemplateFunctionCallAstNode( "eval", array( new ezcTemplateVariableAstNode("code") ) ) );
+
+            // $total .= _ezcTemplate_output
+            $newStatement[] = $this->_concatAssignVariable( "_ezcTemplate_output", "total" ); 
+
+            // $ezcTemplate_output = "";
+            $newStatement[] = $this->_assignEmptyString("_ezcTemplate_output"); 
+
+            $newStatement[] = $this->_comment(" <--- stop {/dynamic}");
+
+            array_splice($this->nodePath[0]->statements, $this->statements[0] + $this->offset[0], 0, $newStatement);
+            $this->offset[0] += sizeof($newStatement);
+        }
     }
- */
-
-
 }
 ?>
