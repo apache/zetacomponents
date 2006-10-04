@@ -355,7 +355,7 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                     $this->driver->drawLine(
                         $label[0],
                         $labelPosition,
-                        $this->options->font->color,
+                        $this->options->pieChartSymbolColor,
                         1
                     );
 
@@ -363,14 +363,14 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                         $label[0],
                         $symbolSize,
                         $symbolSize,
-                        $this->options->font->color,
+                        $this->options->pieChartSymbolColor,
                         true
                     );
                     $this->driver->drawCircle(
                         $labelPosition,
                         $symbolSize,
                         $symbolSize,
-                        $this->options->font->color,
+                        $this->options->pieChartSymbolColor,
                         true
                     );
                 }

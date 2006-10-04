@@ -559,6 +559,33 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         );
     }
 
+    public function testRenderLabeledPieSegmentWithModifiedSymbolColor()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->data['sample']->highlight['Safari'] = true;
+
+        $chart->renderer = new ezcGraphRenderer3d();
+        $chart->renderer->options->pieChartSymbolColor = '#000000BB';
+
+        $chart->driver = new ezcGraphSvgDriver();
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testRenderLabeledPieSegmentPolygonOrder()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
