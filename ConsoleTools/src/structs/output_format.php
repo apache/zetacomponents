@@ -66,6 +66,10 @@
  *           this format.
  * @property string $bgcolor
  *           Contains the background color for this format.
+ * @property string $target
+ *           Contains the output target to use. Pick one of
+ *           ezcConsoleOutput::TARGET_OUTPUT, ezcConsoleOutput::TARGET_STDOUT
+ *           or ezcConsoleOutput::TARGET_STDERR.
  *
  * @package ConsoleTools
  * @version //autogen//
