@@ -360,17 +360,9 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawGridLine' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 140., 60. ), 1. ),
-                $this->equalTo( new ezcGraphCoordinate( 460., 60. ), 1. ),
-                $this->equalTo( ezcGraphColor::fromHex( '#888A85' ) )
-            );
-        $mockedRenderer
-            ->expects( $this->at( 3 ) )
-            ->method( 'drawGridLine' )
-            ->with(
-                $this->equalTo( new ezcGraphCoordinate( 140., 180. ), 1. ),
-                $this->equalTo( new ezcGraphCoordinate( 460., 180. ), 1. ),
-                $this->equalTo( ezcGraphColor::fromHex( '#888A85' ) )
+                $this->equalTo( new ezcGraphCoordinate( 140., 30. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 460., 30. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#888A8588' ) )
             );
 
         $chart->renderer = $mockedRenderer;
@@ -395,17 +387,9 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawGridLine' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 140., 140. ), 1. ),
-                $this->equalTo( new ezcGraphCoordinate( 460., 140. ), 1. ),
-                $this->equalTo( ezcGraphColor::fromHex( '#888A85' ) )
-            );
-        $mockedRenderer
-            ->expects( $this->at( 3 ) )
-            ->method( 'drawGridLine' )
-            ->with(
-                $this->equalTo( new ezcGraphCoordinate( 140., 20. ), 1. ),
-                $this->equalTo( new ezcGraphCoordinate( 460., 20. ), 1. ),
-                $this->equalTo( ezcGraphColor::fromHex( '#888A85' ) )
+                $this->equalTo( new ezcGraphCoordinate( 140., 170. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 460., 170. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#888A8588' ) )
             );
 
         $chart->renderer = $mockedRenderer;

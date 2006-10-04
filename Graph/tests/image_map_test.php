@@ -91,7 +91,7 @@ class ezcGraphImageMapTest extends ezcTestCase
         $this->assertSame( 3, count( $reference['data'] ), '3 datasets expected.' );
         $this->assertSame( 5, count( $reference['data']['sampleData'] ), '5 datapoints expected.' );
         $this->assertSame( 1, count( $reference['data']['sampleData']['sample 2'] ), '1 element for datapoint expected.' );
-        $this->assertSame( 'ezcGraphCircle_55', $reference['data']['sampleData']['sample 2'][0], 'ezcGraphCircle element expected.' );
+        $this->assertSame( 'ezcGraphCircle_79', $reference['data']['sampleData']['sample 2'][0], 'ezcGraphCircle element expected.' );
 
         // Check legend references
         $this->assertSame( 3, count( $reference['legend'] ), '3 legend items expected.' );
@@ -197,7 +197,7 @@ class ezcGraphImageMapTest extends ezcTestCase
         $this->assertSame( 3, count( $reference['data'] ), '3 datasets expected.' );
         $this->assertSame( 5, count( $reference['data']['sampleData'] ), '5 datapoints expected.' );
         $this->assertSame( 1, count( $reference['data']['sampleData']['sample 2'] ), '1 element for datapoint expected.' );
-        $this->assertSame( 'ezcGraphCircle_80', $reference['data']['sampleData']['sample 2'][0], 'ezcGraphCircle element expected.' );
+        $this->assertSame( 'ezcGraphCircle_116', $reference['data']['sampleData']['sample 2'][0], 'ezcGraphCircle element expected.' );
 
         // Check legend references
         $this->assertSame( 3, count( $reference['legend'] ), '3 legend items expected.' );

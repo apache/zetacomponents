@@ -298,6 +298,7 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
         }
 
         // Finally draw grid line
+//        var_dump( $cuttingPoints, $color );
         $renderer->drawGridLine(
             $cuttingPoints[0],
             $cuttingPoints[1],

@@ -80,6 +80,7 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
         // receive rendering parameters from axis
         $this->majorStepCount = $axis->getMajorStepCount();
         $this->minorStepCount = $axis->getMinorStepCount();
+        $minorStepsPerMajorStepCount = $this->minorStepCount / $this->majorStepCount - 1;
 
         // Determine normalized axis direction
         $direction = new ezcGraphCoordinate(
@@ -191,14 +192,16 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
             }
 
             // second iteration for minor steps, if wanted
-            if ( $this->minorStepCount )
+            $minorStepNmbr = 0;
+            if ( $this->minorStepCount &&
+                 ( $step < $this->majorStepCount ) )
             {
                 $minorGridPosition = new ezcGraphCoordinate(
                     $start->x + $minorStep->x,
                     $start->y + $minorStep->y
                 );
 
-                while ( $minorGridPosition->x < ( $start->x + $majorStep->x ) )
+                while ( $minorStepNmbr++ < $minorStepsPerMajorStepCount )
                 {
                     // minor grid
                     if ( $axis->minorGrid )
@@ -206,11 +209,11 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
                         $this->drawGrid( $renderer, $gridBoundings, $minorGridPosition, $majorStep, $axis->minorGrid );
                     }
 
-                    $minorGridPosition->x += $minorStep->x;
-                    $minorGridPosition->y += $minorStep->y;
-
                     // minor step
                     $this->drawStep( $renderer, $minorGridPosition, $direction, $axis->position, $this->minorStepSize, $axis->border );
+
+                    $minorGridPosition->x += $minorStep->x;
+                    $minorGridPosition->y += $minorStep->y;
                 }
             }
 

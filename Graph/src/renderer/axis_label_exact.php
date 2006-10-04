@@ -81,6 +81,7 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
         // receive rendering parameters from axis
         $this->majorStepCount = $axis->getMajorStepCount();
         $this->minorStepCount = $axis->getMinorStepCount();
+        $minorStepsPerMajorStepCount = $this->minorStepCount / $this->majorStepCount - 1;
 
         // Determine normalized axis direction
         $direction = new ezcGraphCoordinate(
@@ -112,10 +113,10 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
         else
         {
             $gridBoundings = new ezcGraphBoundings(
-                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $axis->axisSpace,
-                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axis->axisSpace,
-                $boundings->x1 - ( $boundings->x1 - $boundings->x0 ) * $axis->axisSpace,
-                $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $axis->axisSpace
+                $boundings->x0 + $boundings->width * $axis->axisSpace,
+                $boundings->y0 + $boundings->height * $axis->axisSpace,
+                $boundings->x1 - $boundings->width * $axis->axisSpace,
+                $boundings->y1 - $boundings->height * $axis->axisSpace
             );
         }
 
@@ -135,7 +136,7 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
                 {
                     $labelWidth = $majorStep->x;
                 }
-                $labelHeight = ( $boundings->y1 - $boundings->y0 ) * $axis->axisSpace;
+                $labelHeight = $boundings->height * $axis->axisSpace;
                 break;
             case ezcGraph::BOTTOM:
                 $yPaddingDirection = -1;
@@ -148,7 +149,7 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
                 {
                     $labelHeight = $majorStep->y;
                 }
-                $labelWidth = ( $boundings->x1 - $boundings->x0 ) * $axis->axisSpace;
+                $labelWidth = $boundings->width * $axis->axisSpace;
                 break;
         }
 
@@ -231,14 +232,16 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
             }
 
             // second iteration for minor steps, if wanted
-            if ( $this->minorStepCount )
+            $minorStepNmbr = 0;
+            if ( $this->minorStepCount &&
+                 ( $step < $this->majorStepCount ) )
             {
                 $minorGridPosition = new ezcGraphCoordinate(
                     $start->x + $minorStep->x,
                     $start->y + $minorStep->y
                 );
 
-                while ( $minorGridPosition->x < ( $start->x + $majorStep->x ) )
+                while ( $minorStepNmbr++ < $minorStepsPerMajorStepCount )
                 {
                     // minor grid
                     if ( $axis->minorGrid )
@@ -246,11 +249,11 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
                         $this->drawGrid( $renderer, $gridBoundings, $minorGridPosition, $majorStep, $axis->minorGrid );
                     }
 
-                    $minorGridPosition->x += $minorStep->x;
-                    $minorGridPosition->y += $minorStep->y;
-
                     // minor step
                     $this->drawStep( $renderer, $minorGridPosition, $direction, $axis->position, $this->minorStepSize, $axis->border );
+
+                    $minorGridPosition->x += $minorStep->x;
+                    $minorGridPosition->y += $minorStep->y;
                 }
             }
 
