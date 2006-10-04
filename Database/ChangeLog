@@ -1,7 +1,8 @@
 1.2beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Added method quoteIdentifier() to ezcDbHandler.
+- Added the ezcDbHandler::quoteIdentifier() method that you can use to quote
+  identifiers (such as table and column names) with.
 - Added support for SQLite in-memory databases through the DSN:
   "sqlite://:memory" and the dbParams:
   "array( 'handler' => 'sqlite', 'port' => 'memory' );".
