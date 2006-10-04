@@ -1098,7 +1098,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
     public function testGetHelpText()
     {
         $res = <<<EOF
-Usage: $ UnitTest/src/runtests.php [-y <string>] [-e]  [[--] <args>]
+Usage: $ {$_SERVER['argv'][0]} [-y <string>] [-e]  [[--] <args>]
 Lala
 
 -y / --yank  Some
