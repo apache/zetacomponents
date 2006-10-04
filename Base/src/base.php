@@ -28,7 +28,13 @@ class ezcBase
     /**
      * Indirectly it determines the path where the autoloads are stored.
      */
-    const libraryMode = "devel";
+    private static $libraryMode = "devel";
+
+    /**
+     * Contains the current working directory, which is used when the
+     * $libraryMode is set to "custom".
+     */
+    private static $currentWorkingDirectory = null;
 
     /**
      * @var string  The full path to the autoload directory.
@@ -140,7 +146,7 @@ class ezcBase
             trigger_error( "Couldn't find autoload directory '$path'", E_USER_ERROR );
         }
         /* FIXME: this should go away - only for development */
-        if ( self::libraryMode == 'devel' )
+        if ( self::$libraryMode == 'devel' || self::$libraryMode == 'custom' )
         {
             $dirs = self::getRepositoryDirectories();
             $message = "Could not find a '{$className}' class to file mapping. Searched for " . implode( ' and ', $fileNames ) . " in: ";
@@ -155,6 +161,12 @@ class ezcBase
         return false;
     }
 
+    public static function setWorkingDirectory( $directory )
+    {
+        self::$libraryMode = 'custom';
+        self::$currentWorkingDirectory = $directory;
+    }
+
     /**
      * Returns the path to the autoload directory. The path depends on
      * the installation of the ezComponents. The SVN version has different
@@ -167,8 +179,11 @@ class ezcBase
         // Get the path to the components.
         $baseDir = dirname( __FILE__ );
 
-        switch ( ezcBase::libraryMode )
+        switch ( ezcBase::$libraryMode )
         {
+            case "custom":
+                ezcBase::$packageDir = self::$currentWorkingDirectory . '/';
+                break;
             case "devel":
             case "tarball":
                 ezcBase::$packageDir = $baseDir. "/../../";
@@ -249,17 +264,31 @@ class ezcBase
     protected static function loadFile( $file )
     {
         $originalFile = $file;
-        list( $first, $second ) = explode( '/', $file, 2 );
-        switch ( ezcBase::libraryMode )
+        switch ( ezcBase::$libraryMode )
         {
             case "devel":
             case "tarball":
-                // Add the "src/" after the package name.
+                list( $first, $second ) = explode( '/', $file, 2 );
                 $file = $first . "/src/" . $second;
                 break;
 
+            case "custom":
+                list( $first, $second ) = explode( '/', $file, 2 );
+                // Add the "src/" after the package name.
+                if ( $first == 'Base' || $first == 'UnitTest' )
+                {
+                    list( $first, $second ) = explode( '/', $file, 2 );
+                    $file = $first . "/src/" . $second;
+                }
+                else
+                {
+                    list( $first, $second, $third ) = explode( '/', $file, 3 );
+                    $file = $first . '/' . $second . "/src/" . $third;
+                }
+                break;
+
             case "pear":
-                $file = $first . '/'. $second;
+                /* do nothing, it's already correct */
                 break;
         }
 
@@ -346,7 +375,7 @@ class ezcBase
     {
         $autoloadDirs = array();
         ezcBase::setPackageDir();
-        $repositoryDir = realpath( dirname( __FILE__ ) . '/../../' );
+        $repositoryDir = self::$currentWorkingDirectory ? self::$currentWorkingDirectory : ( realpath( dirname( __FILE__ ) . '/../../' ) );
         $autoloadDirs[$repositoryDir] = array( 'ezc', $repositoryDir . "/autoload" );
 
         foreach ( ezcBase::$repositoryDirs as $extraDirKey => $extraDirArray )

@@ -6,13 +6,6 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 {
     const SUITE_FILENAME = "tests/suite.php";
 
-    public function __construct()
-    {
-        // Call this method only once?
-        $printer = new ezcTestPrinter();
-        $this->setPrinter( $printer );
-    }
-
     /**
      * For now, until the Console Tools is finished, we use the following
      * parameters:
@@ -46,7 +39,8 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $consoleInput->registerOption( $help  );
 
         $help = new ezcConsoleOption( 'r', 'release', ezcConsoleInput::TYPE_STRING );
-        $help->shorthelp = "The release from the svn. e.g: trunk, 1.0, 1.0rc1, etc. Default release is trunk.";
+        $help->shorthelp = "The release from the svn. Use either 'trunk' or 'stable'.";
+        $help->default = 'trunk';
         $consoleInput->registerOption( $help  );
 
         // DSN option
@@ -56,61 +50,18 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $dsn->longhelp  .= "mysql://root@mypass@localhost/unittests";
         $consoleInput->registerOption( $dsn  );
 
-        // host 
-        $host = new ezcConsoleOption( 'h', 'host', ezcConsoleInput::TYPE_STRING );
-        $host->shorthelp = "Hostname of the database";
-        $consoleInput->registerOption( $host  );
-
-        // type 
-        $type = new ezcConsoleOption( 't', 'type', ezcConsoleInput::TYPE_STRING );
-        $type->shorthelp = "Type of the database: (mysql, postsql, oracle, etc).";
-        $consoleInput->registerOption( $type );
-
-        // user 
-        $user = new ezcConsoleOption( 'u', 'user', ezcConsoleInput::TYPE_STRING );
-        $user->shorthelp = "User to connect with the database.";
-        $consoleInput->registerOption( $user );
-
-        // password 
-        $password = new ezcConsoleOption( 'p', 'password', ezcConsoleInput::TYPE_STRING );
-        $password->shorthelp = "Password that belongs to the user that connect with the database.";
-        $consoleInput->registerOption( $password );
-
-        // database 
-        $database = new ezcConsoleOption( 'd', 'database', ezcConsoleInput::TYPE_STRING );
-        $database->shorthelp = "Database name.";
-        $consoleInput->registerOption( $database );
-
-        // Add relations, one for all.
-        $type->addDependency( new ezcConsoleOptionRule( $host ) );
-        $user->addDependency( new ezcConsoleOptionRule( $host ) );
-        $database->addDependency( new ezcConsoleOptionRule( $host ) );
-
-        // Add relations, all for one.
-        $host->addDependency( new ezcConsoleOptionRule( $type ) );
-        $host->addDependency( new ezcConsoleOptionRule( $user ) );
-        $host->addDependency( new ezcConsoleOptionRule( $database ) );
-
-        // And the password belongs to the user.
-        $password->addDependency( new ezcConsoleOptionRule( $user ) );
-
-        // Exclude DSN from the host parameters.
-        $host->addExclusion( new ezcConsoleOptionRule( $dsn ) );
-
         // coverage report dir
         $report = new ezcConsoleOption( 'c', 'report-dir', ezcConsoleInput::TYPE_STRING );
         $report->shorthelp = "Directory to store test reports and code coverage reports in.";
-        $report->default = "";
         $consoleInput->registerOption( $report );
 
         // xml logfile
-        $xml = new ezcConsoleOption( '', 'log-xml', ezcConsoleInput::TYPE_STRING );
+        $xml = new ezcConsoleOption( 'x', 'log-xml', ezcConsoleInput::TYPE_STRING );
         $xml->shorthelp = "Log test execution in XML format to file.";
-        $xml->default = "";
         $consoleInput->registerOption( $xml );
 
         // Verbose option
-        $verbose = new ezcConsoleOption( '', 'verbose', ezcConsoleInput::TYPE_NONE );
+        $verbose = new ezcConsoleOption( 'v', 'verbose', ezcConsoleInput::TYPE_NONE );
         $verbose->shorthelp = "Output more verbose information.";
         $consoleInput->registerOption( $verbose  );
     }
@@ -129,19 +80,17 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
     protected static function displayHelp( $consoleInput )
     {
-        echo ("runtests [OPTION...]  [PACKAGE | FILE] [PACKAGE | FILE] ... \n\n" );
-        $options = $consoleInput->getOptions();
-
-        foreach ( $options as $option )
-        {
-            echo "-{$option->short}, --{$option->long}\t    {$option->shorthelp}\n";
-        }
-
-        echo "\n";
+        echo $consoleInput->getHelpText( 'eZ components test runner' );
     }
 
     public function runFromArguments()
     {
+        /* The following hack is needed so that we can also test the console tools in the stable branch */
+        if ( in_array( 'stable', $_SERVER['argv'] ) )
+        {
+            ezcBase::setWorkingDirectory( getcwd() );
+        }
+
         $consoleInput = new ezcConsoleInput();
         self::registerConsoleArguments( $consoleInput );
         self::processConsoleArguments( $consoleInput );
@@ -152,18 +101,13 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
             exit();
         }
 
-        if ( $consoleInput->getOption( 'dsn' )->value || $consoleInput->getOption( 'host' )->value )
+        if ( $consoleInput->getOption( 'dsn' )->value )
         {
             $dsn = $consoleInput->getOption( 'dsn' )->value;
-            $type = $consoleInput->getOption( 'type' )->value;
-            $user = $consoleInput->getOption( 'user' )->value;
-            $password = $consoleInput->getOption( 'password' )->value;
-            $host = $consoleInput->getOption( 'host' )->value;
-            $database = $consoleInput->getOption( 'database' )->value;
 
             try 
             {
-                $this->initializeDatabase( $dsn, $type, $user, $password, $host, $database );
+                $this->initializeDatabase( $dsn );
             }
             catch ( Exception $e )
             {
@@ -178,7 +122,6 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
         // Set the release. Default is trunk. 
         $release = $consoleInput->getOption( 'release' )->value;
-        $release = ( $release == false || $release == "trunk" ? "trunk" : "releases/$release" );
 
         $allSuites = $this->prepareTests( $consoleInput->getArguments(),  $release );
         $logfile   = $consoleInput->getOption( 'log-xml' )->value;
@@ -194,10 +137,17 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
             $params['reportDirectory'] = $reportDir;
         }
 
-        if ( $consoleInput->getOption( "help" )->value )
+        if ( $consoleInput->getOption( "verbose" )->value )
         {
             $params['verbose'] = true;
         }
+        else
+        {
+            $params['verbose'] = false;
+        }
+
+        $printer = new ezcTestPrinter( $params['verbose'] );
+        $this->setPrinter( $printer );
 
         $this->doRun( $allSuites, $params );
     }
@@ -209,19 +159,20 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
     protected function prepareTests( $packages, $release )
     {
-        $directory = dirname( __FILE__ ) . "/../../..";
- 
+        $directory = getcwd();
+
         $allSuites = new ezcTestSuite();
         $allSuites->setName( "eZ components" );
 
         if ( sizeof( $packages ) == 0 )
         {
-            $packages = $this->getPackages( $directory );
+            $packages = $this->getPackages( $release, $directory );
         }
 
         foreach ( $packages as $package )
         {
-            if ( strpos( $package, "/" ) !== false )
+            $slashCount = substr_count( $package, '/' );
+            if ( ( $release == 'trunk' && $slashCount !== 0 ) || ( $release == 'stable' && $slashCount > 1 ) )
             {
                 if ( file_exists( $package ) )
                 {
@@ -277,45 +228,36 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
     }
 
     /**
+     * @param string $release Release branch (stable or trunk)
      * @param string $dir Absolute or relative path to directory to look in.
      *
      * @return array Package names.
      */
-    protected function getPackages( $dir )
+    protected function getPackages( $release, $dir )
     {
         $packages = array();
 
         if ( is_dir( $dir ) )
         {
-            if ( $dh = opendir( $dir ) )
+            $entries = glob( $release == 'trunk' ? "$dir/*" : "$dir/*/*" );
+            foreach ( $entries as $entry )
             {
-                while ( ( $entry = readdir( $dh ) ) !== false )
+                if ( $this->isPackageDir( $entry ) )
                 {
-                    if ( $this->isPackage( $dir, $entry ) )
-                    {
-                        $packages[] = $entry;
-                    }
+                    $packages[] = str_replace( $dir . '/', '', $entry );
                 }
-                closedir( $dh );
             }
-         }
+        }
 
         return $packages;
     }
 
-    protected function isPackage( $dir, $entry )
+    protected function isPackageDir( $dir )
     {
-        // Prepend directory if needed.
-        $fullPath = $dir == "" ? $entry : $dir ."/". $entry;
-
         // Check if it is a package.
-        if ( !is_dir( $fullPath ) )
+        if ( !is_dir( $dir ) || !file_exists( $dir . '/tests/suite.php' ) )
         {
             return false;
-        }
-        if ( $entry[0] == "." )
-        {
-            return false; // .svn, ., ..
         }
 
         return true;
@@ -368,6 +310,10 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         {
             require_once( $suitePath );
 
+            if ( $release == 'stable' )
+            {
+                $package = substr( $package, 0, strpos( $package, '/' ) );
+            }
             $className = "ezc". $package . "Suite";
 
             $s = call_user_func( array( $className, 'suite' ) );
@@ -378,25 +324,13 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         return null;
     }
 
-    protected function initializeDatabase( $dsn, $type, $user, $password, $host, $database )
+    protected function initializeDatabase( $dsn )
     {
         $ts = ezcTestSettings::getInstance();
+        $settings = ezcDbFactory::parseDSN( $dsn );
 
-        if ( $dsn )
-        {
-            $settings = ezcDbFactory::parseDSN( $dsn );
-
-            // Store the settings
-            $ts->db->dsn = $dsn;
-        }
-        else
-        {
-            $settings = array( "type" => $type, 
-                               "user" => $user, 
-                               "password" => $password, 
-                               "host" => $host, 
-                               "database" => $database );
-        }
+        // Store the settings
+        $ts->db->dsn = $dsn;
     
         try
         {
@@ -408,18 +342,6 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         {
             die( $e->getMessage() );
         }
-
-        // TODO Check if the database exists, and whether it is empty.
-
-    }
-
-    protected function printError( $errorString )
-    {
-        print( $errorString . "\n\n" );
-
-        print( "The DSN should look like: <Driver>://<User>[:Password]@<Host>/<Database> \n" );
-        print( "For example: mysql://root:root@localhost/unittests\n\n" );
-        exit();
     }
 
     public static function addFileToFilter( $filename, $group = 'DEFAULT' )

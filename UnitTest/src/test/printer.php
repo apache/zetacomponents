@@ -5,6 +5,11 @@ ezcTestRunner::addFileToFilter( __FILE__ );
 
 class ezcTestPrinter extends PHPUnit_TextUI_ResultPrinter
 {
+    public function __construct( $verbose = false )
+    {
+        parent::__construct( null, $verbose );
+    }
+
     /**
      * Overrides ResultPrinter::nextColumn method to get rid of to automatic 
      * newline inserts.
