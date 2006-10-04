@@ -970,6 +970,53 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         );
     }
 
+    public function testDrawTextWithTextShadow()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->options->font->background = ezcGraphColor::fromHex( '#DDDDDD' );
+        $this->driver->options->font->textShadow = true;
+
+        $this->driver->drawTextBox(
+            'Some test string',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT | ezcGraph::MIDDLE
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testDrawTextWithCustomTextShadow()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->options->font->background = ezcGraphColor::fromHex( '#DDDDDD' );
+        $this->driver->options->font->textShadow = true;
+        $this->driver->options->font->textShadowColor = '#888888';
+
+        $this->driver->drawTextBox(
+            'Some test string',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT | ezcGraph::MIDDLE
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testDrawTextWithBackground()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';

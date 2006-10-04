@@ -694,6 +694,30 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                         break;
                 }
 
+                // Optionally draw text shadow
+                if ( $text['font']->textShadow === true )
+                {
+                    $textNode = $this->dom->createElement( 'text', $string );
+                    $textNode->setAttribute( 'id', $text['id'] );
+                    $textNode->setAttribute( 'x', $position->x + $this->options->graphOffset->x + $text['font']->textShadowOffset );
+                    $textNode->setAttribute( 'text-length', $this->getTextWidth( $string, $size ) . 'px' );
+                    $textNode->setAttribute( 'y', $position->y + $this->options->graphOffset->y + $text['font']->textShadowOffset );
+                    $textNode->setAttribute( 
+                        'style', 
+                        sprintf(
+                            'font-size: %dpx; font-family: %s; fill: #%02x%02x%02x; fill-opacity: %.2f; stroke: none;',
+                            $size,
+                            $text['font']->name,
+                            $text['font']->textShadowColor->red,
+                            $text['font']->textShadowColor->green,
+                            $text['font']->textShadowColor->blue,
+                            1 - ( $text['font']->textShadowColor->alpha / 255 )
+                        )
+                    );
+                    $this->elements->appendChild( $textNode );
+                }
+                
+                // Finally draw text
                 $textNode = $this->dom->createElement( 'text', $string );
                 $textNode->setAttribute( 'id', $text['id'] );
                 $textNode->setAttribute( 'x', $position->x + $this->options->graphOffset->x );
@@ -711,7 +735,6 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                         1 - ( $text['font']->color->alpha / 255 )
                     )
                 );
-
                 $this->elements->appendChild( $textNode );
 
                 $text['position']->y += $size * $this->options->lineSpacing;

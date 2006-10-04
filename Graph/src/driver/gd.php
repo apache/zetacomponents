@@ -311,23 +311,25 @@ class ezcGraphGdDriver extends ezcGraphDriver
      * 
      * @param resource $image Image resource
      * @param string $text Text
-     * @param ezcGraphFontOptions $font Font
+     * @param int $type Font type
+     * @param string $path Font path
+     * @param ezcGraphColor $color Font color
      * @param ezcGraphCoordinate $position Position
      * @param float $size Textsize
      * @param ezcGraphColor $color Textcolor 
      * @return void
      */
-    protected function renderText( $image, $text, ezcGraphFontOptions $font, ezcGraphCoordinate $position, $size )
+    protected function renderText( $image, $text, $type, $path, ezcGraphColor $color, ezcGraphCoordinate $position, $size )
     {
-        switch ( $font->type )
+        switch ( $type )
         {
             case ezcGraph::PS_FONT:
                 imagePsText( 
                     $image, 
                     $text, 
-                    $this->psFontRessources[$font->path], 
+                    $this->psFontRessources[$path], 
                     $size, 
-                    $this->allocate( $font->color ), 
+                    $this->allocate( $color ), 
                     1, 
                     $position->x, 
                     $position->y 
@@ -343,8 +345,8 @@ class ezcGraphGdDriver extends ezcGraphDriver
                             0,
                             $position->x,
                             $position->y,
-                            $this->allocate( $font->color ),
-                            $font->path,
+                            $this->allocate( $color ),
+                            $path,
                             $text
                         );
                         break;
@@ -355,8 +357,8 @@ class ezcGraphGdDriver extends ezcGraphDriver
                             0,
                             $position->x,
                             $position->y,
-                            $this->allocate( $font->color ),
-                            $font->path,
+                            $this->allocate( $color ),
+                            $path,
                             $text
                         );
                         break;
@@ -637,42 +639,52 @@ class ezcGraphGdDriver extends ezcGraphDriver
                 switch ( true )
                 {
                     case ( $text['align'] & ezcGraph::LEFT ):
-                        $this->renderText( 
-                            $image, 
-                            $string,
-                            $text['font'], 
-                            new ezcGraphCoordinate( 
-                                $text['position']->x, 
-                                $text['position']->y + $yOffset
-                            ),
-                            $size
+                        $position = new ezcGraphCoordinate( 
+                            $text['position']->x, 
+                            $text['position']->y + $yOffset
                         );
                         break;
                     case ( $text['align'] & ezcGraph::RIGHT ):
-                        $this->renderText( 
-                            $image, 
-                            $string,
-                            $text['font'], 
-                            new ezcGraphCoordinate( 
-                                $text['position']->x + ( $text['width'] - $boundings->width ), 
-                                $text['position']->y + $yOffset
-                            ),
-                            $size
+                        $position = new ezcGraphCoordinate( 
+                            $text['position']->x + ( $text['width'] - $boundings->width ), 
+                            $text['position']->y + $yOffset
                         );
                         break;
                     case ( $text['align'] & ezcGraph::CENTER ):
-                        $this->renderText( 
-                            $image, 
-                            $string,
-                            $text['font'], 
-                            new ezcGraphCoordinate( 
-                                $text['position']->x + ( ( $text['width'] - $boundings->width ) / 2 ), 
-                                $text['position']->y + $yOffset
-                            ),
-                            $size
+                        $position = new ezcGraphCoordinate( 
+                            $text['position']->x + ( ( $text['width'] - $boundings->width ) / 2 ), 
+                            $text['position']->y + $yOffset
                         );
                         break;
                 }
+
+                // Optionally draw text shadow
+                if ( $text['font']->textShadow === true )
+                {
+                    $this->renderText( 
+                        $image, 
+                        $string,
+                        $text['font']->type, 
+                        $text['font']->path, 
+                        $text['font']->textShadowColor,
+                        new ezcGraphCoordinate(
+                            $position->x + $text['font']->textShadowOffset,
+                            $position->y + $text['font']->textShadowOffset
+                        ),
+                        $size
+                    );
+                }
+                
+                // Finally draw text
+                $this->renderText( 
+                    $image, 
+                    $string,
+                    $text['font']->type, 
+                    $text['font']->path, 
+                    $text['font']->color, 
+                    $position,
+                    $size
+                );
 
                 $text['position']->y += $size * $this->options->lineSpacing;
             }

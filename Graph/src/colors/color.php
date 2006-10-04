@@ -223,6 +223,23 @@ class ezcGraphColor extends ezcBaseOptions
     }
 
     /**
+     * Inverts and returns a copy of the current color
+     * 
+     * @return ezcGraphColor New Color
+     */
+    public function invert()
+    {
+        $color = new ezcGraphColor();
+
+        $color->red = 255 - $this->red;
+        $color->green = 255 - $this->green;
+        $color->blue = 255 - $this->blue;
+        $color->alpha = $this->alpha;
+
+        return $color;
+    }
+
+    /**
      * Returns a copy of the current color darkened by the given factor
      * 
      * @param float $value Percent to darken the color

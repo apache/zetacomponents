@@ -40,7 +40,13 @@
  * @property bool $minimizeBorder
  *           Fit the border exactly around the text, or use the complete 
  *           possible space.
- * 
+ * @property bool $textShadow
+ *           Draw shadow for texts
+ * @property int $textShadowOffset
+ *           Offset for text shadow
+ * @property ezcGraphColor $textShadowColor
+ *           Color of text shadow. If false the inverse color of the text 
+ *           color will be used.
  *
  * @package Graph
  */
@@ -72,6 +78,10 @@ class ezcGraphFontOptions extends ezcBaseOptions
         $this->properties['borderWidth'] = 1;
         $this->properties['padding'] = 0;
         $this->properties['minimizeBorder'] = true;
+        
+        $this->properties['textShadow'] = false;
+        $this->properties['textShadowOffset'] = 1;
+        $this->properties['textShadowColor'] = false;
 
         parent::__construct( $options );
     }
@@ -120,6 +130,16 @@ class ezcGraphFontOptions extends ezcBaseOptions
                 break;
             case 'minimizeBorder':
                 $this->properties['minimizeBorder'] = (bool) $propertyValue;
+                break;
+            
+            case 'textShadow':
+                $this->properties['textShadow'] = (bool) $propertyValue;
+                break;
+            case 'textShadowOffset':
+                $this->properties['textShadowOffset'] = max( 0, (int) $propertyValue );
+                break;
+            case 'textShadowColor':
+                $this->properties['textShadowColor'] = ezcGraphColor::create( $propertyValue );
                 break;
 
             case 'name':
@@ -183,6 +203,14 @@ class ezcGraphFontOptions extends ezcBaseOptions
     {
         switch ( $propertyName )
         {
+            case 'textShadowColor':
+                // Use inverted font color if false
+                if ( $this->properties['textShadowColor'] === false )
+                {
+                    $this->properties['textShadowColor'] = $this->properties['color']->invert();
+                }
+
+                return $this->properties['textShadowColor'];
             case 'path':
                 if ( $this->pathChecked === false )
                 {

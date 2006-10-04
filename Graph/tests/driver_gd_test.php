@@ -1622,6 +1622,67 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         $this->fail( 'Expected ezcGraphFontRenderingException.' );
     }
 
+    public function testDrawTextWithTextShadow()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->options->font->background = ezcGraphColor::fromHex( '#DDDDDD' );
+        $this->driver->options->font->textShadow = true;
+
+        $this->driver->drawTextBox(
+            'Some test string',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT | ezcGraph::MIDDLE
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
+    public function testDrawTextWithCustomTextShadow()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->options->font->background = ezcGraphColor::fromHex( '#DDDDDD' );
+        $this->driver->options->font->textShadow = true;
+        $this->driver->options->font->textShadowColor = '#888888';
+
+        $this->driver->drawTextBox(
+            'Some test string',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT | ezcGraph::MIDDLE
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
     public function testDrawTextWithBackground()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';

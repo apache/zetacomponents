@@ -218,5 +218,45 @@ class ezcGraphColorTest extends ezcTestCase
 
         $this->fail( 'Expected ezcGraphUnknownColorDefinitionException' );
     }
+
+    public function testInvertBlack()
+    {
+        $color = ezcGraphColor::create( '#000000' )->invert();
+
+        $this->assertEquals(
+            $color,
+            ezcGraphColor::create( '#FFFFFF' )
+        );
+    }
+
+    public function testInvertWhite()
+    {
+        $color = ezcGraphColor::create( '#FFFFFF' )->invert();
+
+        $this->assertEquals(
+            $color,
+            ezcGraphColor::create( '#000000' )
+        );
+    }
+
+    public function testInvertTransparentWhite()
+    {
+        $color = ezcGraphColor::create( '#FFFFFF22' )->invert();
+
+        $this->assertEquals(
+            $color,
+            ezcGraphColor::create( '#00000022' )
+        );
+    }
+
+    public function testInvertRandomColor()
+    {
+        $color = ezcGraphColor::create( '#123456' )->invert();
+
+        $this->assertEquals(
+            $color,
+            ezcGraphColor::create( '#EDCBA9' )
+        );
+    }
 }
 ?>
