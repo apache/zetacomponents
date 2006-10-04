@@ -415,6 +415,40 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         );
     }
 
+    public function testRenderFullShadow()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $graph = new ezcGraphPieChart();
+
+        // Configure Graph
+        $graph->legend->position = ezcGraph::BOTTOM;
+
+        // Add data
+        $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
+            'Available' => 72,
+            'Used' => 28,
+        ) );
+
+        $graph->options->label = '%1$s (%3$.1f%%)';
+
+        // Configure renderer options
+        $graph->renderer = new ezcGraphRenderer3d();
+        $graph->renderer->options->pieChartShadowSize = 10;
+        $graph->renderer->options->pieChartGleam = .5;
+        $graph->renderer->options->dataBorder = false;
+        $graph->renderer->options->pieChartHeight = 16;
+        $graph->renderer->options->legendSymbolGleam = .5;
+
+        // Render image
+        $graph->render( 400, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testRenderLabeledPieChartEz()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';

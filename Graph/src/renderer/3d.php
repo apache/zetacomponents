@@ -565,30 +565,38 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
             {
                 $startAngle = $circleSector['start'];
                 $endAngle = $circleSector['end'];
-                if ( $startAngle != ( $endAngle % 360 ) )
-                {
-                    $startAngle = $circleSector['start'] - ( $this->options->pieChartShadowSize - $i );
-                    $endAngle = $circleSector['end'] + ( $this->options->pieChartShadowSize - $i );
-                }
 
-                if ( $endAngle - $startAngle >= 360 )
-                {
-                    // Skip if block is to big
-                    break;
-                }
+                $startAngle = $circleSector['start'] - ( $this->options->pieChartShadowSize - $i );
+                $endAngle = $circleSector['end'] + ( $this->options->pieChartShadowSize - $i );
 
-                $this->driver->drawCircleSector(
-                    new ezcGraphCoordinate(
-                        $circleSector['center']->x,
-                        $circleSector['center']->y + $this->options->pieChartHeight
-                    ),
-                    $circleSector['width'] + $i * 2,
-                    $circleSector['height'] + $i * 2,
-                    $startAngle,
-                    $endAngle,
-                    $this->options->pieChartShadowColor->transparent( 1 - ( $this->options->pieChartShadowTransparency / $this->options->pieChartShadowSize ) ),
-                    true
-                );
+                if ( ( $endAngle - $startAngle ) >= 360 )
+                {
+                    $this->driver->drawCircle(
+                        new ezcGraphCoordinate(
+                            $circleSector['center']->x,
+                            $circleSector['center']->y + $this->options->pieChartHeight
+                        ),
+                        $circleSector['width'] + $i * 2,
+                        $circleSector['height'] + $i * 2,
+                        $this->options->pieChartShadowColor->transparent( 1 - ( $this->options->pieChartShadowTransparency / $this->options->pieChartShadowSize ) ),
+                        true
+                    );
+                }
+                else
+                {
+                    $this->driver->drawCircleSector(
+                        new ezcGraphCoordinate(
+                            $circleSector['center']->x,
+                            $circleSector['center']->y + $this->options->pieChartHeight
+                        ),
+                        $circleSector['width'] + $i * 2,
+                        $circleSector['height'] + $i * 2,
+                        $startAngle,
+                        $endAngle,
+                        $this->options->pieChartShadowColor->transparent( 1 - ( $this->options->pieChartShadowTransparency / $this->options->pieChartShadowSize ) ),
+                        true
+                    );
+                }
             }
         }
 
