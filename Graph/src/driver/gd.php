@@ -1097,7 +1097,11 @@ class ezcGraphGdDriver extends ezcGraphDriver
         imagedestroy( $image );
 
         // Draw all texts
+        // Reset supersampling during text rendering
+        $supersampling = $this->options->supersampling;
+        $this->options->supersampling = 1;
         $this->drawAllTexts();
+        $this->options->supersampling = $supersampling;
 
         $image = $this->getImage();
         switch ( $this->options->imageFormat )
