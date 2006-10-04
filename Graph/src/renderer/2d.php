@@ -237,6 +237,52 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                 $darkenedColor,
                 false
             );
+
+            if ( $this->options->pieChartGleam !== false )
+            {
+                $gradient = new ezcGraphLinearGradient(
+                    $circleSector['center'],
+                    new ezcGraphCoordinate(
+                        $circleSector['center']->x,
+                        $circleSector['center']->y - $circleSector['height'] / 2
+                    ),
+                    $this->options->pieChartGleamColor->transparent( 1 ),
+                    $this->options->pieChartGleamColor->transparent( $this->options->pieChartGleam )
+                );
+
+                $this->driver->drawCircleSector(
+                    $circleSector['center'],
+                    $circleSector['width'] - $this->options->pieChartGleamBorder * 2,
+                    $circleSector['height'] - $this->options->pieChartGleamBorder * 2,
+                    $circleSector['start'],
+                    $circleSector['end'],
+                    $gradient,
+                    true
+                );
+
+                $gradient = new ezcGraphLinearGradient(
+                    new ezcGraphCoordinate(
+                        $circleSector['center']->x,
+                        $circleSector['center']->y + $circleSector['height'] / 4
+                    ),
+                    new ezcGraphCoordinate(
+                        $circleSector['center']->x,
+                        $circleSector['center']->y + $circleSector['height'] / 2
+                    ),
+                    $this->options->pieChartGleamColor->transparent( 1 ),
+                    $this->options->pieChartGleamColor->transparent( $this->options->pieChartGleam )
+                );
+
+                $this->driver->drawCircleSector(
+                    $circleSector['center'],
+                    $circleSector['width'] - $this->options->pieChartGleamBorder * 2,
+                    $circleSector['height'] - $this->options->pieChartGleamBorder * 2,
+                    $circleSector['start'],
+                    $circleSector['end'],
+                    $gradient,
+                    true
+                );
+            }
         }
     }
 

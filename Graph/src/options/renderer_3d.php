@@ -30,10 +30,6 @@
  *           Used transparency for pie chart shadows.
  * @property float $pieChartShadowColor
  *           Color used for pie chart shadows.
- * @property float $pieChartGleam
- *           Enhance pie chart with gleam on top.
- * @property float $pieChartGleamColor
- *           Color used for gleam on pie charts.
  * @property float $barDarkenSide
  *           Factor to darken the color used for the bars side polygon.
  * @property float $barDarkenTop
@@ -106,9 +102,6 @@ class ezcGraphRenderer3dOptions extends ezcGraphRendererOptions
                 break;
             case 'pieChartRotation':
                 $this->properties['pieChartRotation'] = min( 1, max( 0, (float) $propertyValue ) );
-                break;
-            case 'pieChartGleam':
-                $this->properties['pieChartGleam'] = min( 1, max( 0, (float) $propertyValue ) );
                 break;
             case 'pieChartShadowSize':
                 $this->properties['pieChartShadowSize'] = max( 0, (int) $propertyValue );

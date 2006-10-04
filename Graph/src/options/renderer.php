@@ -41,6 +41,12 @@
  *           Percent of vertical space used for maximum pie chart size.
  * @property float $pieHorizontalSize
  *           Percent of horizontal space used for maximum pie chart size.
+ * @property float $pieChartGleam
+ *           Enhance pie chart with gleam on top.
+ * @property float $pieChartGleamColor
+ *           Color used for gleam on pie charts.
+ * @property float $pieChartGleamBorder
+ *           Do not draw gleam on an outer border of this size.
  * 
  * @package Graph
  */
@@ -65,6 +71,9 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
         $this->properties['barMargin'] = .1;
         $this->properties['barPadding'] = .05;
         $this->properties['pieChartOffset'] = 0;
+        $this->properties['pieChartGleam'] = false;
+        $this->properties['pieChartGleamColor'] = ezcGraphColor::fromHex( '#FFFFFF' );
+        $this->properties['pieChartGleamBorder'] = 0;
         $this->properties['legendSymbolGleam'] = false;
         $this->properties['legendSymbolGleamSize'] = .9;
         $this->properties['pieVerticalSize'] = .5;
@@ -117,6 +126,15 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
                 break;
             case 'pieChartOffset':
                 $this->properties['pieChartOffset'] = $propertyValue % 360;
+                break;
+            case 'pieChartGleam':
+                $this->properties['pieChartGleam'] = min( 1, max( 0, (float) $propertyValue ) );
+                break;
+            case 'pieChartGleamColor':
+                $this->properties['pieChartGleamColor'] = ezcGraphColor::create( $propertyValue );
+                break;
+            case 'pieChartGleamBorder':
+                $this->properties['pieChartGleamBorder'] = max( 0, (int) $propertyValue );
                 break;
             case 'legendSymbolGleam':
                 $this->properties['legendSymbolGleam'] = min( 1, max( 0, (float) $propertyValue ) );

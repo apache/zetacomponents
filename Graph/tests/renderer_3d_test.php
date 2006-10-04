@@ -402,6 +402,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
 
         $chart->renderer->options->pieChartShadowSize = 10;
         $chart->renderer->options->pieChartGleam = .5;
+        $chart->renderer->options->pieChartGleamBorder = 3;
         $chart->renderer->options->dataBorder = false;
         $chart->renderer->options->pieChartHeight = 16;
         $chart->renderer->options->legendSymbolGleam = .5;

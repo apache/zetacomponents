@@ -638,8 +638,8 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
 
                 $this->driver->drawCircleSector(
                     $circleSector['center'],
-                    $circleSector['width'],
-                    $circleSector['height'],
+                    $circleSector['width'] - $this->options->pieChartGleamBorder * 2,
+                    $circleSector['height'] - $this->options->pieChartGleamBorder * 2 * $this->options->pieChartRotation,
                     $circleSector['start'],
                     $circleSector['end'],
                     $gradient,
