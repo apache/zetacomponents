@@ -8,6 +8,7 @@ $graph->options->font->path = 'tutorial_font.ttf';
 $graph->options->fillLines = 220;
 
 $graph->title = 'Wikipedia articles';
+$graph->legend->position = ezcGraph::BOTTOM;
 
 // Configure Graph
 $graph->palette = new ezcGraphPaletteBlack();
@@ -28,6 +29,6 @@ $graph->yAxis->label = 'Articles in thousands';
 // Render image
 $graph->driver = new ezcGraphGdDriver();
 
-$graph->render( 500, 200, 'tutorial_example_05.png' );
+$graph->render( 400, 200, 'tutorial_example_05.png' );
 
 ?>
