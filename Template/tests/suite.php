@@ -49,7 +49,7 @@ require_once 'regression_test.php';
  * @package Template
  * @subpackage Tests
  */
-class ezcTemplateSuite extends ezcTestSuite
+class ezcTemplateSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

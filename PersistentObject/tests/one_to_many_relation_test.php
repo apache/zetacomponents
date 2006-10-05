@@ -24,7 +24,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( "ezcPersistentOneToManyRelationTest" );
+        return new PHPUnit_Framework_TestSuite( "ezcPersistentOneToManyRelationTest" );
     }
 
     public function setup()

@@ -559,7 +559,7 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite("ezcArchiveZipTest");
+        return new PHPUnit_Framework_TestSuite("ezcArchiveZipTest");
     }
 }
 

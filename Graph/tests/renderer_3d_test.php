@@ -23,7 +23,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcGraphRenderer3dTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcGraphRenderer3dTest" );
 	}
 
     protected function setUp()

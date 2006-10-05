@@ -29,7 +29,7 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcImageConversionFiltersShellTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcImageConversionFiltersShellTest" );
 	}
 
     protected function setUp()

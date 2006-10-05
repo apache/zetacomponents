@@ -19,7 +19,7 @@ class ezcGraphColorTest extends ezcTestCase
 {
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcGraphColorTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcGraphColorTest" );
 	}
 
     public function testFactoryColorFromHex()

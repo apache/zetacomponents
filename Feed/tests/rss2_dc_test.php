@@ -62,7 +62,7 @@ class ezcFeedRss2DCTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( "ezcFeedRss2DCTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcFeedRss2DCTest" );
     }
 }
 

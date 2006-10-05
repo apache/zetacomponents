@@ -14,7 +14,7 @@ require_once( "features_test.php");
  * @package Base
  * @subpackage Tests
  */
-class ezcBaseSuite extends ezcTestSuite
+class ezcBaseSuite extends PHPUnit_Framework_TestSuite
 {
 	public function __construct()
 	{

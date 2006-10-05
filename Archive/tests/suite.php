@@ -13,7 +13,7 @@ require_once( "zip/zip_test.php");
 require_once( "archive_test.php");
 require_once( "archive_mime_test.php");
     
-class ezcArchiveSuite extends ezcTestSuite
+class ezcArchiveSuite extends PHPUnit_Framework_TestSuite
 {
 	public function __construct()
 	{

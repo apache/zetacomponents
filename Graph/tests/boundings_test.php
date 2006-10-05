@@ -19,7 +19,7 @@ class ezcGraphBoundingsTest extends ezcTestCase
 {
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcGraphBoundingsTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcGraphBoundingsTest" );
 	}
 
     public function testCreateBoundings()

@@ -386,7 +386,7 @@ class ezcArchiveCharacterFileTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite("ezcArchiveCharacterFileTest");
+        return new PHPUnit_Framework_TestSuite("ezcArchiveCharacterFileTest");
     }
 }
 

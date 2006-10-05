@@ -76,7 +76,7 @@ class ezcArchiveMimeTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( "ezcArchiveMimeTest" );
+        return new PHPUnit_Framework_TestSuite( "ezcArchiveMimeTest" );
     }
 }
 

@@ -21,7 +21,7 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcPersistentObjectDatabaseSchemaTieinTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcPersistentObjectDatabaseSchemaTieinTest" );
 	}
 
     /**

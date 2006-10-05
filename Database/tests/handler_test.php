@@ -91,7 +91,7 @@ class ezcDatabaseHandlerTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( "ezcDatabaseHandlerTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcDatabaseHandlerTest" );
     }
 }
 

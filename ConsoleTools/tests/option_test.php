@@ -20,7 +20,7 @@ class ezcConsoleToolsOptionTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcConsoleToolsOptionTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsOptionTest" );
 	}
 
     public function testConstructionSuccess()

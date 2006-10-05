@@ -21,7 +21,7 @@ require_once 'translation_manager_test.php';
  * @package Translation
  * @subpackage Tests
  */
-class ezcTranslationSuite extends ezcTestSuite
+class ezcTranslationSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

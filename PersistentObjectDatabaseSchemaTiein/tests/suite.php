@@ -21,7 +21,7 @@ require_once 'test.php';
  * @package PersistentObjectDatabaseSchemaTiein
  * @subpackage Tests
  */
-class ezcPersistentObjectDatabaseSchemaTieinSuite extends ezcTestSuite
+class ezcPersistentObjectDatabaseSchemaTieinSuite extends PHPUnit_Framework_TestSuite
 {
 	public function __construct()
 	{

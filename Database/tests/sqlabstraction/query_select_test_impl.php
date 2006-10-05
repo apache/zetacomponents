@@ -360,7 +360,7 @@ class ezcQuerySelectTestImpl extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcQuerySelectTestImpl' );
+        return new PHPUnit_Framework_TestSuite( 'ezcQuerySelectTestImpl' );
     }
 }
 ?>

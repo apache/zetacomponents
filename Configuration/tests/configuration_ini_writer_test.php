@@ -438,7 +438,7 @@ class ezcConfigurationIniWriterTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( 'ezcConfigurationIniWriterTest' );
+         return new PHPUnit_Framework_TestSuite( 'ezcConfigurationIniWriterTest' );
     }
 
 }

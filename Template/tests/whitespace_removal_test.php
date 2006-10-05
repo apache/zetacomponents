@@ -16,7 +16,7 @@ class ezcTemplateWhitespaceRemovalTest extends ezcTestCase
 {
     public static function suite()
     {
-         return new ezcTestSuite( "ezcTemplateWhitespaceRemovalTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcTemplateWhitespaceRemovalTest" );
     }
 
     /**

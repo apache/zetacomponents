@@ -16,7 +16,7 @@ class ezcTemplateLocationTest extends ezcTestCase
 {
     public static function suite()
     {
-         return new ezcTestSuite( "ezcTemplateLocationTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcTemplateLocationTest" );
     }
 
     /**

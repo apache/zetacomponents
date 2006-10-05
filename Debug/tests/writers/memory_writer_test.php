@@ -64,7 +64,7 @@ class ezcDebugMemoryWriterTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite("ezcDebugMemoryWriterTest");
+        return new PHPUnit_Framework_TestSuite("ezcDebugMemoryWriterTest");
     }
 }
 

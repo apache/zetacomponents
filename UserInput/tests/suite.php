@@ -17,7 +17,7 @@ require_once 'tools_test.php';
  * @package UserInput
  * @subpackage Tests
  */
-class ezcUserInputSuite extends ezcTestSuite
+class ezcUserInputSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

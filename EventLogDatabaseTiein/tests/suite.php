@@ -1,7 +1,7 @@
 <?php
 require_once( "writers/writer_database_test.php");
     
-class ezcEventLogDatabaseTieinSuite extends ezcTestSuite
+class ezcEventLogDatabaseTieinSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

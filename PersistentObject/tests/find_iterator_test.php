@@ -46,7 +46,7 @@ class ezcPersistentFindIteratorTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcPersistentFindIteratorTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcPersistentFindIteratorTest' );
     }
 
     public function testFaultyStmtReturnsNull()

@@ -21,7 +21,7 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcImageConversionConverterTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcImageConversionConverterTest" );
 	}
 
     protected function setUp()

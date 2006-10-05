@@ -668,7 +668,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite("ezcArchiveBlockFileTest");
+        return new PHPUnit_Framework_TestSuite("ezcArchiveBlockFileTest");
     }
 }
 

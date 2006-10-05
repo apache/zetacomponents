@@ -106,7 +106,7 @@ class ezcFileFindRecursiveTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( "ezcFileFindRecursiveTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcFileFindRecursiveTest" );
     }
 }
 ?>

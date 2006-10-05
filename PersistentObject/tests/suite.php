@@ -23,7 +23,7 @@ require_once( 'one_to_many_relation_test.php' );
  * @package PersistentObject
  * @subpackage Tests
  */
-class ezcPersistentObjectSuite extends ezcTestSuite
+class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

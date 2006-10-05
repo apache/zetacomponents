@@ -598,7 +598,7 @@ class ezcPhpGeneratorTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( "ezcPhpGeneratorTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcPhpGeneratorTest" );
     }
 }
 ?>

@@ -17,7 +17,7 @@ require_once( "php_generator_test.php" );
  * @package PhpGenerator
  * @subpackage Tests
  */
-class ezcPhpGeneratorSuite extends ezcTestSuite
+class ezcPhpGeneratorSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

@@ -19,7 +19,7 @@ class ezcGraphPolynomTest extends ezcTestCase
 {
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcGraphPolynomTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcGraphPolynomTest" );
 	}
 
     public function testCreatePolynom()

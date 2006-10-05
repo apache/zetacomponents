@@ -22,7 +22,7 @@ require_once 'configuration_array_writer_test.php';
  * @package Configuration
  * @subpackage Tests
  */
-class ezcConfigurationSuite extends ezcTestSuite
+class ezcConfigurationSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

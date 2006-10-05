@@ -84,7 +84,7 @@ require_once 'progressmonitor_options_test.php';
  * @package ConsoleTools
  * @subpackage Tests
  */
-class ezcConsoleToolsSuite extends ezcTestSuite
+class ezcConsoleToolsSuite extends PHPUnit_Framework_TestSuite
 {
 	public function __construct()
 	{

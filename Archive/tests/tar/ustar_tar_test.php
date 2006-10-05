@@ -233,7 +233,7 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
 
     public static function suite()
     {
-        return new ezcTestSuite("ezcArchiveUstarTarTest");
+        return new PHPUnit_Framework_TestSuite("ezcArchiveUstarTarTest");
     }
 }
 

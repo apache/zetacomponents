@@ -17,7 +17,7 @@ require_once 'execution_init_test.php';
  * @package Execution
  * @subpackage Tests
  */
-class ezcExecutionSuite extends ezcTestSuite
+class ezcExecutionSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

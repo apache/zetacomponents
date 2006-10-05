@@ -113,7 +113,7 @@ class ezcCacheStorageFileTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( "ezcCacheStorageFileTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcCacheStorageFileTest" );
     }
 }
 ?>

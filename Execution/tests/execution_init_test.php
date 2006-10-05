@@ -119,7 +119,7 @@ class ezcExecutionInitDefinition extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( "ezcExecutionInitDefinition" );
+         return new PHPUnit_Framework_TestSuite( "ezcExecutionInitDefinition" );
     }
 }
 ?>

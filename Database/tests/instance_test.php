@@ -68,7 +68,7 @@ class ezcDatabaseInstanceTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( "ezcDatabaseInstanceTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcDatabaseInstanceTest" );
     }
 }
 

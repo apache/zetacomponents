@@ -34,7 +34,7 @@ class ezcArchiveGnuTarTest extends ezcArchivePaxTarTest
 
     public static function suite()
     {
-        return new ezcTestSuite("ezcArchiveGnuTarTest");
+        return new PHPUnit_Framework_TestSuite("ezcArchiveGnuTarTest");
     }
 }
 

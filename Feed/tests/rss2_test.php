@@ -306,7 +306,7 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ com
 
     public static function suite()
     {
-         return new ezcTestSuite( "ezcFeedRss2Test" );
+         return new PHPUnit_Framework_TestSuite( "ezcFeedRss2Test" );
     }
 }
 

@@ -18,7 +18,7 @@ class ezcTemplateCursorTest extends ezcTestCase
 {
     public static function suite()
     {
-         return new ezcTestSuite( "ezcTemplateCursorTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcTemplateCursorTest" );
     }
 
     protected function setUp()

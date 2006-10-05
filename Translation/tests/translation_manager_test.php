@@ -131,7 +131,7 @@ class ezcTranslationManagerTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( "ezcTranslationManagerTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcTranslationManagerTest" );
     }
 }
 

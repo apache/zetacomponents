@@ -78,7 +78,7 @@ class ezcBaseFeaturesTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite("ezcBaseFeaturesTest");
+        return new PHPUnit_Framework_TestSuite("ezcBaseFeaturesTest");
     }
 }
 ?>

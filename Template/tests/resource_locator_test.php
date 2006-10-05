@@ -16,7 +16,7 @@ class ezcTemplateResourceLocatorTest extends ezcTestCase
 {
     public static function suite()
     {
-         return new ezcTestSuite( "ezcTemplateResourceLocatorTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcTemplateResourceLocatorTest" );
     }
 
     /**

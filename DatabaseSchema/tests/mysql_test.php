@@ -235,7 +235,7 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcDatabaseSchemaMySqlTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaMySqlTest' );
     }
 }
 ?>

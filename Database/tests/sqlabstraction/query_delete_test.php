@@ -182,7 +182,7 @@ class ezcQueryDeleteTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcQueryDeleteTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcQueryDeleteTest' );
     }
 }
 ?>

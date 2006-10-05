@@ -190,7 +190,7 @@ class ezcLogFileWriterTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite("ezcLogFileWriterTest");
+         return new PHPUnit_Framework_TestSuite("ezcLogFileWriterTest");
     }
 }
 

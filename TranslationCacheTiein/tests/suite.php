@@ -17,7 +17,7 @@ require_once 'translation_backend_cache_test.php';
  * @package Translation
  * @subpackage Tests
  */
-class ezcTranslationCacheTieinSuite extends ezcTestSuite
+class ezcTranslationCacheTieinSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

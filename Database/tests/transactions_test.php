@@ -187,7 +187,7 @@ class ezcDatabaseTransactionsTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( "ezcDatabaseTransactionsTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcDatabaseTransactionsTest" );
     }
 }
 ?>

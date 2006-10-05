@@ -6,7 +6,7 @@ require_once( "context_test.php");
 require_once( "writers/writer_file_test.php");
 require_once( "writers/writer_unix_file_test.php");
     
-class ezcEventLogSuite extends ezcTestSuite
+class ezcEventLogSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

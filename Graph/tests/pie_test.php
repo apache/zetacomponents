@@ -23,7 +23,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcGraphPieChartTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcGraphPieChartTest" );
 	}
 
     protected function setUp()

@@ -46,7 +46,7 @@ class ezcArchiveChecksumTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( "ezcArchiveChecksumTest" );
+        return new PHPUnit_Framework_TestSuite( "ezcArchiveChecksumTest" );
     }
 
 

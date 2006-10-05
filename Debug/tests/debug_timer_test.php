@@ -134,7 +134,7 @@ class ezcDebugTimerTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite("ezcDebugTimerTest");
+        return new PHPUnit_Framework_TestSuite("ezcDebugTimerTest");
     }
   
 }

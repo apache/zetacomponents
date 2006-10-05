@@ -16,7 +16,7 @@ class ezcTemplateOperatorTest extends ezcTestCase
 {
     public static function suite()
     {
-         return new ezcTestSuite( "ezcTemplateOperatorTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcTemplateOperatorTest" );
     }
 
     protected function setUp()

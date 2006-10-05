@@ -95,7 +95,7 @@ class ezcDatabaseSchemaXmlTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcDatabaseSchemaXmlTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaXmlTest' );
     }
 }
 ?>

@@ -50,7 +50,7 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcImageConversionFiltersGdTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcImageConversionFiltersGdTest" );
 	}
 
     protected function setUp()

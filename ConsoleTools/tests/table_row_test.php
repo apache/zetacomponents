@@ -19,7 +19,7 @@ class ezcConsoleToolsTableRowTest extends ezcTestCase
 {
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcConsoleToolsTableRowTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsTableRowTest" );
 	}
 
     public function testCtorSuccess_1()

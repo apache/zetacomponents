@@ -76,7 +76,7 @@ class ezcPersistentMultiManagerTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcPersistentMultiManagerTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcPersistentMultiManagerTest' );
     }
 }
 

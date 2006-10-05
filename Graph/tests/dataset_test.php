@@ -19,7 +19,7 @@ class ezcGraphDataSetTest extends ezcTestCase
 {
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcGraphDataSetTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcGraphDataSetTest" );
 	}
 
     public function testCreateDataSetFromArray()

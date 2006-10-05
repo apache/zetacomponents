@@ -79,7 +79,7 @@ class ezcFeedTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( "ezcFeedTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcFeedTest" );
     }
 }
 

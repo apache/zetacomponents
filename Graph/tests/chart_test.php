@@ -27,7 +27,7 @@ class ezcGraphChartTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcGraphChartTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcGraphChartTest" );
 	}
 
     protected function setUp()

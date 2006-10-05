@@ -204,7 +204,7 @@ class ezcSignalCollectionTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( "ezcSignalCollectionTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcSignalCollectionTest" );
     }
 }
 ?>

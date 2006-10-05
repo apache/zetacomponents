@@ -20,7 +20,7 @@ require_once 'sysinfo_test.php';
 * @package SystemInformation
 * @subpackage Tests
 */
-class ezcSystemInformationSuite extends ezcTestSuite
+class ezcSystemInformationSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

@@ -455,7 +455,7 @@ class ezcConfigurationArrayWriterTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( 'ezcConfigurationArrayWriterTest' );
+         return new PHPUnit_Framework_TestSuite( 'ezcConfigurationArrayWriterTest' );
     }
 
 }

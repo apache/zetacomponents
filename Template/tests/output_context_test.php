@@ -16,7 +16,7 @@ class ezcTemplateOutputContextTest extends ezcTestCase
 {
     public static function suite()
     {
-         return new ezcTestSuite( "ezcTemplateOutputContextTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcTemplateOutputContextTest" );
     }
 
     /**

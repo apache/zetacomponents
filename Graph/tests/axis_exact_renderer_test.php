@@ -23,7 +23,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcGraphAxisExactRendererTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcGraphAxisExactRendererTest" );
 	}
 
     protected function setUp()

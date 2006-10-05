@@ -19,7 +19,7 @@ class ezcGraphPaletteTest extends ezcTestCase
 {
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcGraphPaletteTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcGraphPaletteTest" );
 	}
 
     public function testDefaultPalette()

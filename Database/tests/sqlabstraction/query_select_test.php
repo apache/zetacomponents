@@ -316,7 +316,7 @@ class ezcQuerySelectTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcQuerySelectTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcQuerySelectTest' );
     }
 }
 ?>

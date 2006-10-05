@@ -47,7 +47,7 @@ class ezcConsoleToolsStatusbarTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcConsoleToolsStatusbarTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsStatusbarTest" );
 	}
 
     public function testStatusbar1()

@@ -114,7 +114,7 @@ class ezcTranslationFilterBorkifyTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( "ezcTranslationFilterBorkifyTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcTranslationFilterBorkifyTest" );
     }
 }
 

@@ -24,7 +24,7 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
 {
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcImageConversionHandlerGdTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcImageConversionHandlerGdTest" );
 	}
 
     protected function setUp()

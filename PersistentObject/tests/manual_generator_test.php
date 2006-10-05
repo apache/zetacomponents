@@ -46,7 +46,7 @@ class ezcPersistentManualGeneratorTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcPersistentManualGeneratorTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcPersistentManualGeneratorTest' );
     }
 
     // test no id error

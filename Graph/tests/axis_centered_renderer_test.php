@@ -23,7 +23,7 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcGraphAxisCenteredRendererTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcGraphAxisCenteredRendererTest" );
 	}
 
     protected function setUp()

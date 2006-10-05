@@ -20,7 +20,7 @@ require_once 'rss2_dc_test.php';
  * @package Feed
  * @subpackage Tests
  */
-class ezcFeedSuite extends ezcTestSuite
+class ezcFeedSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

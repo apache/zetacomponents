@@ -41,7 +41,7 @@ require_once 'storage_plain_test.php';
  * @package Cache
  * @subpackage Tests
  */
-class ezcCacheSuite extends ezcTestSuite
+class ezcCacheSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

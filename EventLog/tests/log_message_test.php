@@ -6,7 +6,7 @@ class ezcLogMessageTest extends ezcTestCase
     
     public static function suite()
     {
-        return new ezcTestSuite("ezcLogMessageTest");
+        return new PHPUnit_Framework_TestSuite("ezcLogMessageTest");
     }
 
     protected function setUp()

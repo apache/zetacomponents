@@ -18,7 +18,7 @@ require_once 'file_remove_recursive_test.php';
  * @package File
  * @subpackage Tests
  */
-class ezcFileSuite extends ezcTestSuite
+class ezcFileSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

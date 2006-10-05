@@ -170,7 +170,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcConsoleToolsInputTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsInputTest" );
 	}
 
     protected function setUp()

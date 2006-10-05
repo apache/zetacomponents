@@ -17,7 +17,7 @@ require_once( "url_test.php" );
  * @package Url
  * @subpackage Tests
  */
-class ezcUrlSuite extends ezcTestSuite
+class ezcUrlSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

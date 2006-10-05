@@ -70,7 +70,7 @@ class ezcDatabaseSchemaConversionTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( 'ezcDatabaseSchemaConversionTest' );
+         return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaConversionTest' );
     }
 
 }

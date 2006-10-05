@@ -32,7 +32,7 @@ class ezcImageAnalysisAnalyzerTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcImageAnalysisAnalyzerTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcImageAnalysisAnalyzerTest" );
 	}
 
     protected function setUp()

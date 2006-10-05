@@ -163,7 +163,7 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( "ezcArchiveZlibTest" );
+        return new PHPUnit_Framework_TestSuite( "ezcArchiveZlibTest" );
     }
 
 }

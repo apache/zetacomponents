@@ -407,7 +407,7 @@ class ezcArchiveTest extends ezcArchiveTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( "ezcArchiveTest");
+        return new PHPUnit_Framework_TestSuite( "ezcArchiveTest");
     }
 
 }

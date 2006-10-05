@@ -54,7 +54,7 @@ class ezcConfigurationIniParserTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( 'ezcConfigurationIniParserTest' );
+         return new PHPUnit_Framework_TestSuite( 'ezcConfigurationIniParserTest' );
     }
 
 }

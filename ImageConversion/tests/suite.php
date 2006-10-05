@@ -42,7 +42,7 @@ require_once 'handlershell_test.php';
  */
 require_once 'filtersshell_test.php';
 
-class ezcImageConversionSuite extends ezcTestSuite
+class ezcImageConversionSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

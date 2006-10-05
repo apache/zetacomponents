@@ -25,7 +25,7 @@ require_once 'persistent_test.php';
  * @package DatabaseSchema
  * @subpackage Tests
  */
-class ezcDatabaseSchemaSuite extends ezcTestSuite
+class ezcDatabaseSchemaSuite extends PHPUnit_Framework_TestSuite
 {
 	public function __construct()
 	{

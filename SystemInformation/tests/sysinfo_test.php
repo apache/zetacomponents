@@ -241,7 +241,7 @@ class ezcSystemInfoTest extends ezcTestCase
     
     public static function suite()
     {
-        return new ezcTestSuite( "ezcSystemInfoTest" );
+        return new PHPUnit_Framework_TestSuite( "ezcSystemInfoTest" );
     }
 }
 ?>

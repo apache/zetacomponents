@@ -22,7 +22,7 @@ class ezcArchiveEntryTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite("ezcArchiveEntryTest");
+        return new PHPUnit_Framework_TestSuite("ezcArchiveEntryTest");
     }
 }
 

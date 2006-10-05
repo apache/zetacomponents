@@ -133,7 +133,7 @@ class ezcDatabaseSchemaXmlDiffTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcDatabaseSchemaXmlDiffTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaXmlDiffTest' );
     }
 }
 ?>

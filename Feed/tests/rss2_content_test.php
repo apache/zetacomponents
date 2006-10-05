@@ -71,7 +71,7 @@ with PHP 5.1.
 
     public static function suite()
     {
-         return new ezcTestSuite( "ezcFeedRss2ContentTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcFeedRss2ContentTest" );
     }
 }
 

@@ -46,7 +46,7 @@ class ezcPersistentSessionTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcPersistentSessionTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcPersistentSessionTest' );
     }
 
     ///

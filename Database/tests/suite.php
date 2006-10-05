@@ -30,7 +30,7 @@ require_once 'sqlabstraction/query_subselect_test_impl.php';
  * @package Database
  * @subpackage Tests
  */
-class ezcDatabaseSuite extends ezcTestSuite
+class ezcDatabaseSuite extends PHPUnit_Framework_TestSuite
 {
 	public function __construct()
 	{

@@ -88,7 +88,7 @@ class ezcTranslationTest extends ezcTestCase
 
     public static function suite()
     {
-         return new ezcTestSuite( "ezcTranslationTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcTranslationTest" );
     }
 }
 

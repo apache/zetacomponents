@@ -336,7 +336,7 @@ class ezcDatabaseSchemaComparatorTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcDatabaseSchemaComparatorTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaComparatorTest' );
     }
 }
 ?>

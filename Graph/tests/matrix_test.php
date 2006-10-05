@@ -19,7 +19,7 @@ class ezcGraphMatrixTest extends ezcTestCase
 {
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcGraphMatrixTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcGraphMatrixTest" );
 	}
 
     public function testCreateIdentityMatrix()

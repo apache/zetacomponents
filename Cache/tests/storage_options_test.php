@@ -19,7 +19,7 @@ class ezcCacheStorageOptionsTest extends ezcTestCase
 {
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcCacheStorageOptionsTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcCacheStorageOptionsTest" );
 	}
 
     /**

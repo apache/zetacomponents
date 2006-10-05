@@ -16,7 +16,7 @@ class ezcTemplateConfigurationTest extends ezcTestCase
 {
     public static function suite()
     {
-         return new ezcTestSuite( "ezcTemplateConfigurationTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcTemplateConfigurationTest" );
     }
 
     protected function setUp()

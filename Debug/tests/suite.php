@@ -4,7 +4,7 @@ require_once( "debug_timer_test.php");
 require_once( "writers/memory_writer_test.php");
 require_once( "formatters/html_formatter_test.php");
     
-class ezcDebugSuite extends ezcTestSuite
+class ezcDebugSuite extends PHPUnit_Framework_TestSuite
 {
 	public function __construct()
 	{

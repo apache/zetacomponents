@@ -176,7 +176,7 @@ class ezcDatabaseSchemaMySqlDiffTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcDatabaseSchemaMysqlDiffTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaMysqlDiffTest' );
     }
 }
 ?>

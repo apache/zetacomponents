@@ -58,7 +58,7 @@ class ezcQueryTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcQueryTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcQueryTest' );
     }
 
     public function testHasAliases()

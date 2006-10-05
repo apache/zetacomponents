@@ -42,7 +42,7 @@ require_once 'image_map_test.php';
 * @package ImageAnalysis
 * @subpackage Tests
 */
-class ezcGraphSuite extends ezcTestSuite
+class ezcGraphSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

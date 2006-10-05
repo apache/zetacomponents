@@ -103,7 +103,7 @@ class ezcDatabaseSchemaFieldTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcDatabaseSchemaFieldTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaFieldTest' );
     }
 }
 ?>

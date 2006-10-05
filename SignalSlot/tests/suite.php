@@ -18,7 +18,7 @@ require_once( "static_connections_test.php" );
  * @package PhpGenerator
  * @subpackage Tests
  */
-class ezcSignalSlotSuite extends ezcTestSuite
+class ezcSignalSlotSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {

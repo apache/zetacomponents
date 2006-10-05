@@ -59,7 +59,7 @@ class ezcQueryExpressionTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcQueryExpressionTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcQueryExpressionTest' );
     }
 
     public function testLorNone()

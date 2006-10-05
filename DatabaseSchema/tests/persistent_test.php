@@ -85,7 +85,7 @@ class ezcDatabaseSchemaPersistentTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcDatabaseSchemaPersistentTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaPersistentTest' );
     }
 }
 ?>

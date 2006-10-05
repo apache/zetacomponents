@@ -164,7 +164,7 @@ class ezcQueryInsertTest extends ezcTestCase
 
     public static function suite()
     {
-        return new ezcTestSuite( 'ezcQueryInsertTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcQueryInsertTest' );
     }
 }
 ?>

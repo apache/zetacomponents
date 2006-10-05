@@ -44,7 +44,7 @@ class ezcCacheManagerTest extends ezcTestCase
      */
     public static function suite()
     {
-        return new ezcTestSuite( "ezcCacheManagerTest" );
+        return new PHPUnit_Framework_TestSuite( "ezcCacheManagerTest" );
     }
 
     public function testManagerCreateCache_Success()

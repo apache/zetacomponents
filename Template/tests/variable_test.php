@@ -16,7 +16,7 @@ class ezcTemplateVariableTest extends ezcTestCase
 {
     public static function suite()
     {
-         return new ezcTestSuite( "ezcTemplateVariableTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcTemplateVariableTest" );
     }
 
     /**

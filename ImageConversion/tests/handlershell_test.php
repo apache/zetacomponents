@@ -24,7 +24,7 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
 {
 	public static function suite()
 	{
-		return new ezcTestSuite( "ezcImageConversionHandlerShellTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcImageConversionHandlerShellTest" );
 	}
 
     public function setUp()

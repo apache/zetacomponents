@@ -20,7 +20,7 @@ require_once 'analyzer_test.php';
 * @package ImageAnalysis
 * @subpackage Tests
 */
-class ezcImageAnalysisSuite extends ezcTestSuite
+class ezcImageAnalysisSuite extends PHPUnit_Framework_TestSuite
 {
     public function __construct()
     {
