@@ -10,11 +10,16 @@ class ezcTestPrinter extends PHPUnit_TextUI_ResultPrinter
         parent::__construct( null, $verbose );
     }
 
-    /**
-     * Overrides ResultPrinter::nextColumn method to get rid of to automatic 
-     * newline inserts.
-     */
-    protected function nextColumn() 
+    protected function writeProgress($progress)
+    {
+        $this->write($progress);
+    }
+
+    public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
+    {
+    }
+
+    public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
     }
 
@@ -25,7 +30,7 @@ class ezcTestPrinter extends PHPUnit_TextUI_ResultPrinter
     {
         if ( strlen( $string ) < 23 || strcmp( "by Sebastian Bergmann.\n\n", substr( $string, -24 ) ) != 0 )
         {
-            print( $string );
+            parent::write( $string );
         }
     }
 }
