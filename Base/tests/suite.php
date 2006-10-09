@@ -8,6 +8,7 @@
  */
 
 require_once( "base_test.php");
+require_once( "base_init_test.php");
 require_once( "features_test.php");
 
 /**
@@ -22,6 +23,7 @@ class ezcBaseSuite extends PHPUnit_Framework_TestSuite
         $this->setName("Base");
         
 		$this->addTest( ezcBaseTest::suite() );
+		$this->addTest( ezcBaseInitTest::suite() );
         $this->addTest( ezcBaseFeaturesTest::suite() );
 	}
 

@@ -8,20 +8,23 @@
  */
 
 return array(
+    'ezcBaseConfigurationInitializer'      => 'Base/interfaces/configuration_initializer.php',
+    'ezcBaseFeatures'                      => 'Base/features.php',
+    'ezcBaseInit'                          => 'Base/init.php',
+    'ezcBaseOptions'                       => 'Base/options.php',
+    'ezcBaseStruct'                        => 'Base/struct.php',
+
     'ezcBaseException'                     => 'Base/exceptions/exception.php',
     'ezcBaseFileException'                 => 'Base/exceptions/file_exception.php',
 
     'ezcBaseFileNotFoundException'         => 'Base/exceptions/file_not_found.php',
     'ezcBaseFileIoException'               => 'Base/exceptions/file_io.php',
     'ezcBaseFilePermissionException'       => 'Base/exceptions/file_permission.php',
+    'ezcBaseInitCallbackConfiguredException' => 'Base/exceptions/init_callback_configured.php',
     'ezcBasePropertyPermissionException'   => 'Base/exceptions/property_permission.php',
     'ezcBasePropertyNotFoundException'     => 'Base/exceptions/property_not_found.php',
     'ezcBaseSettingNotFoundException'      => 'Base/exceptions/setting_not_found.php',
     'ezcBaseSettingValueException'         => 'Base/exceptions/setting_value.php',
     'ezcBaseValueException'                => 'Base/exceptions/value.php',
-
-    'ezcBaseOptions'                       => 'Base/options.php',
-    'ezcBaseFeatures'                      => 'Base/features.php',
-    'ezcBaseStruct'                        => 'Base/struct.php',
 );
 ?>

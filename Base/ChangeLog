@@ -1,7 +1,11 @@
 1.2beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Added the class ezcFeatures to check for features of the enviroment.
+- Added the ezcBaseFeatures class to check whether the current PHP
+  installation and environment provides features that can be used in the
+  components.
+- Added the ezcBaseInit class that assists you by setting up on-demand
+  configurations for objects (most notable useful for singleton classes).
 - Implemented FR #8508: display search paths for the autoload files in case of
   a missing class.
 
