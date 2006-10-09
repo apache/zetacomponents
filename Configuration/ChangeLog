@@ -1,4 +1,4 @@
-1.0.4 - [RELEASEDATE]
+1.0.4 - Monday 09 October 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed a bug where the class name ezcConfigurationUnknownSetting was used
