@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPersistentRelationNotFoundException class
+ * File containing the ezcPersistentRelatedObjectNotFoundException class
  *
  * @package PersistentObject
  * @version //autogen//
@@ -14,20 +14,20 @@
  * @package PersistentObject
  * @version //autogen//
  */
-class ezcPersistentRelationNotFoundException extends ezcPersistentObjectException
+class ezcPersistentRelatedObjectNotFoundException extends ezcPersistentObjectException
 {
 
     /**
-     * Constructs a new ezcPersistentRelationNotFoundException for the class $class
+     * Constructs a new ezcPersistentRelatedObjectNotFoundException for the class $class
      * which does not have a relation for $relatedClass.
      *
      * @param string $class
      * @param string $relatedClass
      * @return void
      */
-    public function __construct( $class, $relatedClass )
+    public function __construct( $object, $relatedClass )
     {
-        parent::__construct( "Class <{$class}> does not have a relation to <{$relatedClass}>" );
+        parent::__construct( "No related object found with class <{$relatedClass}> for object of class <" . get_class( $object ) . ">." );
     }
 }
 ?>

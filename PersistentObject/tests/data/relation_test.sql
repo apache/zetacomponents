@@ -23,7 +23,7 @@ CREATE TABLE `PO_addresses` (
   `city` varchar(100) NOT NULL,
   `type` varchar(10) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- 
 -- Dumping data for table `PO_addresses`
@@ -44,7 +44,7 @@ CREATE TABLE `PO_employers` (
   `id` tinyint(4) NOT NULL auto_increment,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
 -- 
 -- Dumping data for table `PO_employers`
@@ -65,7 +65,7 @@ CREATE TABLE `PO_persons` (
   `surename` varchar(100) NOT NULL,
   `employer` tinyint(4) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
 -- 
 -- Dumping data for table `PO_persons`

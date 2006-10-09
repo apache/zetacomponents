@@ -18,6 +18,7 @@ require_once( 'find_iterator_test.php' );
 require_once( 'manual_generator_test.php' );
 require_once( 'persistent_session_instance_test.php' );
 require_once( 'one_to_many_relation_test.php' );
+require_once( 'many_to_one_relation_test.php' );
 
 /**
  * @package PersistentObject
@@ -37,6 +38,7 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentManualGeneratorTest::suite() );
         $this->addTest( ezcPersistentSessionInstanceTest::suite() );
         $this->addTest( ezcPersistentOneToManyRelationTest::suite() );
+        $this->addTest( ezcPersistentManyToOneRelationTest::suite() );
     }
 
     public static function suite()

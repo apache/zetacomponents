@@ -24,6 +24,16 @@ class RelationTestEmployer extends RelationTest
             "name" => $this->firstname,
         );
     }
+
+    public static function __set_state( array $state  )
+    {
+        $employer = new RelationTestEmployer();
+        foreach ( $state as $key => $value )
+        {
+            $employer->$key = $value;
+        }
+        return $employer;
+    }
 }
 
 ?>

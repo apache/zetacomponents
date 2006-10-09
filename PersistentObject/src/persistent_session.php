@@ -333,19 +333,84 @@ class ezcPersistentSession
     /**
      * Returns the related objects of a given class for an object. 
      * This method returns the related objects of type $relatedClass for the
-     * object $object.
+     * object $object. This method (in contrast to {@see getRelatedObject()})
+     * always returns an array of result objects, no matter if only 1 object
+     * was found (e.g. {@see ezcPersistentManyToOneRelation}).
      *
      * Example:
      * <code>
      * $person = $session->load( "Person", 1 );
      * $relatedAddresses = $session->getRelatedObjects( $person, "Address" );
+     * echo "Number of addresses found: " . count( $relatedAddresses );
      * </code>
+     *
+     * Relations that should preferably be used with this method are:
+     * - {@see ezcPersistentOneToManyRelation}
+     * - {@see ezcPersistentManyToManyRelation}
      * 
      * @param mixed $object         The object to fetch related objects for. 
      * @param mixed $relatedClass   The class of the related objects to fetch.
-     * @return array(int=>$relatedClass)
+     * @return array(int=>object)
+     *
+     * @throws ezcPersistentRelationNotFoundException
+     *         if the given $object does not have a relation to $relatedClass.
      */
     public function getRelatedObjects( $object, $relatedClass )
+    {
+        $query = $this->createRelationQuery( $object, $relatedClass );
+        return $this->find( $query, $relatedClass );
+    }
+    
+    /**
+     * Returns the related object of a given class for an object. 
+     * This method returns the related object of type $relatedClass for the
+     * object $object. This method (in contrast to {@see getRelatedObjects()})
+     * always a single result object, no matter if more objects could be found
+     * (e.g. {@see ezcPersistentOneToManyRelation}).
+     *
+     * Example:
+     * <code>
+     * $person = $session->load( "Person", 1 );
+     * $relatedAddress = $session->getRelatedObject( $person, "Address" );
+     * echo "Address of this person: " . $relatedAddress->__toString();
+     * </code>
+     *
+     * Relations that should preferably be used with this method are:
+     * - {ezcPersistentManyToOneRelation}
+     * - {ezcPersistentOneToOneRelation}
+     * 
+     * @param object $object         The object to fetch related objects for. 
+     * @param string $relatedClass   The class of the related objects to fetch.
+     * @return object
+     *
+     * @throws ezcPersistentRelationNotFoundException
+     *         if the given $object does not have a relation to $relatedClass.
+     */
+    public function getRelatedObject( $object, $relatedClass )
+    {
+        $query = $this->createRelatedQuery( $object, $relatedClass );
+        // This method only needs to return 1 object
+        $query->limit( 1 );
+        $resArr = $this->find( $query, $relatedClass );
+        if ( sizeof( $resArr ) < 1 )
+        {
+            throw new ezcPersistentRelatedObjectNotFound( $object, $relatedClass );
+        }
+        return $resArr[0];
+    }
+
+    /**
+     * Returns the base query for retrieving related objects.
+     * See {@see getRelatedObject()} and {@see getRelatedObjects()}.
+     * 
+     * @param object $object 
+     * @param string $relatedClass 
+     * @return ezcDbSelectQuery
+     *
+     * @throws ezcPersistentRelationNotFoundException
+     *         if the given $object does not have a relation to $relatedClass.
+     */
+    private function createRelationQuery( $object, $relatedClass )
     {
         $def = $this->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
         if ( !isset( $def->relations[$relatedClass] ) )
@@ -360,20 +425,23 @@ class ezcPersistentSession
         switch ( get_class( $relation ) )
         {
             case "ezcPersistentOneToManyRelation":
+            case "ezcPersistentManyToOneRelation":
+            case "ezcPersistentOneToOneRelation":
                 foreach ( $relation->columnMap as $map )
                 {
                     $query->where(
                         $query->expr->eq(
                             $this->database->quoteIdentifier( "{$map->destinationColumn}" ),
-                            $query->bindValue( $object->{$def->columns[$map->sourceColumn]} )
+                            $query->bindValue( $object->{$def->columns[$map->sourceColumn]->propertyName} )
                         )
                     );
                 }
                 break;
+            case "ezcPersistentManyToManyRelation":
             default:
                 throw new Exception( "Still in development phase, " . get_class( $relation ) . " not implemented, yet." );
         }
-        return $this->find( $query, $relatedClass );
+        return $query;
     }
 
     /*
