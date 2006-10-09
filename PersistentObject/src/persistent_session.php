@@ -388,7 +388,7 @@ class ezcPersistentSession
      */
     public function getRelatedObject( $object, $relatedClass )
     {
-        $query = $this->createRelatedQuery( $object, $relatedClass );
+        $query = $this->createRelationQuery( $object, $relatedClass );
         // This method only needs to return 1 object
         $query->limit( 1 );
         $resArr = $this->find( $query, $relatedClass );

@@ -76,6 +76,36 @@ class ezcPersistentManyToOneRelationTest extends ezcTestCase
             "Related RelationTestPerson objects not fetched correctly."
         );
     }
+
+    public function testGetRelatedObjectEmployer1()
+    {
+        $employer = $this->session->load( "RelationTestPerson", 1 );
+        $res = RelationTestEmployer::__set_state(array(
+                'id' => '2',
+                'name' => 'Oldschool Web 1.x company',
+        ));
+
+        $this->assertEquals(
+            $res,
+            $this->session->getRelatedObject( $employer, "RelationTestEmployer" ),
+            "Related RelationTestPerson objects not fetched correctly."
+        );
+    }
+
+    public function testGetRelatedObjectEmployer2()
+    {
+        $employer = $this->session->load( "RelationTestPerson", 2 );
+        $res = RelationTestEmployer::__set_state(array(
+                'id' => '1',
+                'name' => 'Great Web 2.0 company',
+        ));
+
+        $this->assertEquals(
+            $res,
+            $this->session->getRelatedObject( $employer, "RelationTestEmployer" ),
+            "Related RelationTestPerson objects not fetched correctly."
+        );
+    }
 }
 
 ?>
