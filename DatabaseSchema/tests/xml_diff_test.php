@@ -131,6 +131,21 @@ class ezcDatabaseSchemaXmlDiffTest extends ezcTestCase
         self::assertEquals( $schema, $newSchema );
     }
 
+    public function testWriteUnwriteableDir()
+    {
+        $fileName = $this->tempDir . '/bogus/xml_write_result.xml'; 
+        $schema = self::getSchemaDiff();
+        try
+        {
+            $schema->writeToFile( 'xml', $fileName );
+            $this->fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcBaseFilePermissionException $e )
+        {
+            $this->assertEquals( "The file <{$fileName}> can not be opened for writing.", $e->getMessage() );
+        }
+    }
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaXmlDiffTest' );

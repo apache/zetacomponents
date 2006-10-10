@@ -93,6 +93,21 @@ class ezcDatabaseSchemaPhpArrayTest extends ezcTestCase
         self::assertEquals( $schema, $newSchema );
     }
 
+    public function testPhpArrayUnwritableDir()
+    {
+        $fileName = $this->tempDir . '/bogus/php_array_write_result.php'; 
+        $schema = new ezcDbSchema( self::getSchema() );
+        try
+        {
+            $schema->writeToFile( 'array', $fileName );
+            $this->fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcBaseFilePermissionException $e )
+        {
+            $this->assertEquals( "The file <{$fileName}> can not be opened for writing.", $e->getMessage() );
+        }
+    }
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaPhpArrayTest' );

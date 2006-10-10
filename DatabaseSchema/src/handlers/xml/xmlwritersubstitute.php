@@ -28,6 +28,7 @@ class XMLWriter
     public function openUri( $filename )
     {
         $this->uriFs = fopen( $filename, 'w' );
+        return $this->uriFs;
     }
 
     public function startDocument( $version, $charset = 'utf-8' )

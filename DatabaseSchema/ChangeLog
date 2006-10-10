@@ -3,6 +3,8 @@
 
 - Added support for default column values in mysql handler.
 - Fixed getting PDOException when executing queries in mysql handler.
+- Fixed bug #8650: No exception is thrown when writing database schema files
+  to non-writable directories.
 - Implemented FR #8744: Changed the ezcDbSchema::getSchema() method 
   return the schema as a reference, so that it can be modified properly.
 

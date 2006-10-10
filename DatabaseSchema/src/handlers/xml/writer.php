@@ -314,7 +314,10 @@ class ezcDbSchemaXmlWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDiffFile
         $data = $dbSchema->getData();
 
         $this->writer = new XMLWriter();
-        $this->writer->openUri( $file );
+        if ( ! @$this->writer->openUri( $file ) )
+        {
+            throw new ezcBaseFilePermissionException( $file, ezcBaseFileException::WRITE );
+        }
         $this->writer->startDocument( '1.0', 'utf-8' );
         $this->writer->setIndent( true );
 
@@ -340,7 +343,10 @@ class ezcDbSchemaXmlWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDiffFile
     public function saveDiffToFile( $file, ezcDbSchemaDiff $dbSchema )
     {
         $this->writer = new XMLWriter();
-        $this->writer->openUri( $file );
+        if ( ! @$this->writer->openUri( $file ) )
+        {
+            throw new ezcBaseFilePermissionException( $file, ezcBaseFileException::WRITE );
+        }
         $this->writer->startDocument( '1.0', 'utf-8' );
         $this->writer->setIndent( true );
 

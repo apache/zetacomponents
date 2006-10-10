@@ -53,7 +53,10 @@ class ezcDbSchemaPhpArrayWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDif
         $data = $dbSchema->getData();
         
         $fileData = '<?php return '. var_export( array( $schema, $data ), true ) . '; ?>';
-        file_put_contents( $file, (string) $fileData );
+        if ( ! @file_put_contents( $file, (string) $fileData ) )
+        {
+            throw new ezcBaseFilePermissionException( $file, ezcBaseFileException::WRITE );
+        }
     }
 
     /**
@@ -66,7 +69,10 @@ class ezcDbSchemaPhpArrayWriter implements ezcDbSchemaFileWriter, ezcDbSchemaDif
     public function saveDiffToFile( $file, ezcDbSchemaDiff $dbSchemaDiff )
     {
         $fileData = '<?php return '. var_export( $dbSchemaDiff, true ) . '; ?>';
-        file_put_contents( $file, (string) $fileData );
+        if ( ! @file_put_contents( $file, (string) $fileData ) )
+        {
+            throw new ezcBaseFilePermissionException( $file, ezcBaseFileException::WRITE );
+        }
     }
 }
 ?>
