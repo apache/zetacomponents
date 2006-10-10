@@ -341,7 +341,7 @@ class ezcBase
                 }
                 else
                 {
-                    die( "\nThe {$component} component depends on the PHP extension '{$value}', which is not loaded.\n" );
+                    die( "\nThe {$component} component depends on the default PHP extension '{$value}', which is not loaded.\n" );
                 }
                 break;
 
