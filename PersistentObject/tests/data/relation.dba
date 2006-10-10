@@ -67,6 +67,45 @@
         )),
       ),
     )),
+    'PO_birthdays' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'birthday' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'person_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+       'indexes' => 
+      array (
+        'primary' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'person_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => true,
+           'unique' => true,
+        )),
+      ),
+    )),
     'PO_employers' => 
     ezcDbSchemaTable::__set_state(array(
        'fields' => 

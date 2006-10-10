@@ -25,10 +25,15 @@ $def->properties['employer']->columnName     = 'employer';
 $def->properties['employer']->propertyName   = 'employer';
 $def->properties['employer']->propertyType   = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
-$def->relations["RelationTestEmployer"]                = new ezcPersistentManyToOneRelation( "persons", "employers" );
+$def->relations["RelationTestEmployer"]                = new ezcPersistentManyToOneRelation( "PO_persons", "PO_employers" );
 $def->relations["RelationTestEmployer"]->reverse       = true;
 $def->relations["RelationTestEmployer"]->columnMap     = array(
     new ezcPersistentSingleTableMap( "employer", "id" ),
+);
+
+$def->relations["RelationTestBirthday"]                = new ezcPersistentOneToOneRelation( "PO_persons", "PO_birthdays" );
+$def->relations["RelationTestBirthday"]->columnMap     = array(
+    new ezcPersistentSingleTableMap( "id", "person_id" ),
 );
 
 return $def;

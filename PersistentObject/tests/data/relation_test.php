@@ -2,37 +2,6 @@
 
 ezcTestRunner::addFileToFilter( __FILE__ );
 
-/*
-CREATE TABLE `PO_addresses` (
-  `id` tinyint(3) unsigned NOT NULL auto_increment,
-  `street` varchar(100) NOT NULL,
-  `zip` varchar(5) NOT NULL,
-  `city` varchar(100) NOT NULL,
-  `type` varchar(10) NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
-
-CREATE TABLE `PO_employers` (
-  `id` tinyint(4) NOT NULL auto_increment,
-  `name` varchar(100) NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
-CREATE TABLE `PO_persons` (
-  `id` tinyint(4) NOT NULL auto_increment,
-  `firstname` varchar(100) NOT NULL,
-  `surename` varchar(100) NOT NULL,
-  `employer` tinyint(4) NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
-CREATE TABLE `PO_persons_addresses` (
-  `person_id` tinyint(4) NOT NULL,
-  `address_id` tinyint(4) NOT NULL,
-  PRIMARY KEY  (`person_id`,`address_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-*/
-
 class RelationTest
 {
     /**
@@ -61,6 +30,10 @@ class RelationTest
         $db->exec( "INSERT INTO `PO_persons_addresses` ( `person_id`, `address_id`) VALUES ( 2, 3);" );
         $db->exec( "INSERT INTO `PO_persons_addresses` ( `person_id`, `address_id`) VALUES ( 2, 4);" );
         $db->exec( "INSERT INTO `PO_persons_addresses` ( `person_id`, `address_id`) VALUES ( 3, 4);" );
+
+        $db->exec( "INSERT INTO `PO_birthdays` (`person_id`, `birthday`) VALUES (1, 327535201);"  );
+        $db->exec( "INSERT INTO `PO_birthdays` (`person_id`, `birthday`) VALUES (2, -138243599);" );
+        $db->exec( "INSERT INTO `PO_birthdays` (`person_id`, `birthday`) VALUES (3, 1138575601);" );
     }
 
     /**

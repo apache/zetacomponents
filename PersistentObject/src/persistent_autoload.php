@@ -30,6 +30,7 @@ return array(
     'ezcPersistentRelationNotFoundException'            => 'PersistentObject/exceptions/relation_not_found.php',
     
     'ezcPersistentRelation'                             => 'PersistentObject/interfaces/relation.php',
+    'ezcPersistentOneToOneRelation'                    => 'PersistentObject/relations/one_to_one.php',
     'ezcPersistentOneToManyRelation'                    => 'PersistentObject/relations/one_to_many.php',
     'ezcPersistentManyToOneRelation'                    => 'PersistentObject/relations/many_to_one.php',
     'ezcPersistentSingleTableMap'                       => 'PersistentObject/structs/single_table_map.php',

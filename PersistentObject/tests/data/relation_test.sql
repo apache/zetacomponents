@@ -97,3 +97,21 @@ INSERT INTO `PO_persons_addresses` (`person_id`, `address_id`) VALUES (1, 4);
 INSERT INTO `PO_persons_addresses` (`person_id`, `address_id`) VALUES (2, 1);
 INSERT INTO `PO_persons_addresses` (`person_id`, `address_id`) VALUES (2, 3);
 INSERT INTO `PO_persons_addresses` (`person_id`, `address_id`) VALUES (2, 4);
+
+-- 
+-- Table structure for table `PO_birthdays`
+-- 
+
+CREATE TABLE `PO_birthdays` (
+  `person_id` tinyint(4) NOT NULL,
+  `birthday` int(11) NOT NULL,
+  PRIMARY KEY  (`person_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- 
+-- Dumping data for table `PO_birthdays`
+-- 
+
+INSERT INTO `PO_birthdays` (`person_id`, `birthday`) VALUES (1, 327535201);
+INSERT INTO `PO_birthdays` (`person_id`, `birthday`) VALUES (2, -138243599);
+INSERT INTO `PO_birthdays` (`person_di`, `birthday`) VALUES (3, 1138575601);
