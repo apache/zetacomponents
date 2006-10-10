@@ -22,7 +22,11 @@ class ezcDatabaseSchemaMySqlDiffTest extends ezcTestCase
         }
         catch ( Exception $e )
         {
-            $this->markTestSkipped();
+            $this->markTestSkipped( "No Database connection available" );
+        }
+        if ( $this->db->getName() !== 'mysql' )
+        {
+            $this->markTestSkipped( "We are not testing with MySQL" );
         }
 
         $this->testFilesDir = dirname( __FILE__ ) . '/testfiles/';
