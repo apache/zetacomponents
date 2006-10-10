@@ -12,37 +12,36 @@
  * @package DatabaseSchema
  * @subpackage Tests
  */
-class ezcDatabaseSchemaMySqlTest extends ezcTestCase
+class ezcDatabaseSchemaPgSqlTest extends ezcTestCase
 {
-    protected function setUp()
+    public function setUp()
     {
         try
         {
             $this->db = ezcDbInstance::get();
+            if ($this->db->getName() != 'pgsql' ) 
+            {
+                throw new Exception("Skiping tests for PostgreSQL");
+            }
+            $this->testFilesDir = dirname( __FILE__ ) . '/testfiles/';
+            $this->tempDir = $this->createTempDir( 'ezcDatabaseMySqlTest' );
+
+            $tables = $this->db->query( "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'" )->fetchAll();
+            array_walk( $tables, create_function( '&$item,$key', '$item = $item[0];' ) );
+
+            foreach ( $tables as $tableName )
+            {
+                $this->db->query( "DROP TABLE $tableName" );
+            }
         }
         catch ( Exception $e )
         {
-            $this->markTestSkipped( "No Database connection available" );
-        }
-        if ( $this->db->getName() !== 'mysql' )
-        {
-            $this->markTestSkipped( "We are not testing with MySQL" );
-        }
-
-        $this->testFilesDir = dirname( __FILE__ ) . '/testfiles/';
-        $this->tempDir = $this->createTempDir( 'ezcDatabaseMySqlTest' );
-
-        $tables = $this->db->query( "SHOW TABLES" )->fetchAll();
-        array_walk( $tables, create_function( '&$item,$key', '$item = $item[0];' ) );
-
-        foreach ( $tables as $tableName )
-        {
-            $this->db->query( "DROP TABLE $tableName" );
+            $this->markTestSkipped();
         }
 
     }
 
-    protected function tearDown()
+    public function tearDown()
     {
         $this->removeTempDir();
     }
@@ -54,7 +53,7 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
                 array (
                     'id' => new ezcDbSchemaField( 'integer', false, true, null, true ),
                     'bug_type' => new ezcDbSchemaField( 'text', 32, true ),
-                    'severity' => new ezcDbSchemaField( 'integer', false, true, 0 ),
+                    'severity' => new ezcDbSchemaField( 'integer', false, true ),
                     'sdesc'    => new ezcDbSchemaField( 'text', 80, true ),
                     'ldesc'    => new ezcDbSchemaField( 'clob', false, true ),
                     'php_version' => new ezcDbSchemaField( 'text', 100, true ),
@@ -67,7 +66,7 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
             ),
             'bugdb_comments' => new ezcDbSchemaTable(
                 array (
-                    'bug_id' => new ezcDbSchemaField( 'integer', false, true, 0 ),
+                    'bug_id' => new ezcDbSchemaField( 'integer', false, true ),
                     'comment' => new ezcDbSchemaField( 'clob', false, true ),
                     'email' => new ezcDbSchemaField( 'text', 32 ),
                 ),
@@ -95,14 +94,13 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
         
         $newSchema = ezcDbSchema::createFromDb( $this->db );
         $newDDL1 = $newSchema->convertToDDL( $this->db );
-
         $newSchema->writeToDb( $this->db );
         $newSchema = ezcDbSchema::createFromDb( $this->db );
         $newDDL2 = $newSchema->convertToDDL( $this->db );
 
         self::assertEquals( $newDDL1, $newDDL2 );
     }
-
+    
     public function testXmlMysqlInternal1()
     {
         $fileNameOrig = realpath( $this->testFilesDir . 'webbuilder.schema.xml' );
@@ -117,7 +115,7 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
             array(
                 'badword_id' => new ezcDbSchemaField( 'integer', null, true, null, true ),
                 'word' => new ezcDbSchemaField( 'text', 255, true, 'Hello' ),
-                'substitution' => new ezcDbSchemaField( 'text', 255, true, 'world' ),
+				'substitution' => new ezcDbSchemaField( 'text', 255, true, 'world' ),
             ),
             array(
                 'primary' => new ezcDbSchemaIndex(
@@ -125,6 +123,7 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
                 )
             )
         );
+
         self::assertEquals( $expected, $tableCeBadWord );
     }
 
@@ -132,7 +131,6 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
     {
         $fileNameOrig = realpath( $this->testFilesDir . 'webbuilder.schema.xml' );
         $schema = ezcDbSchema::createFromFile( 'xml', $fileNameOrig );
-
         $schema->writeToDb( $this->db );
         $newSchema = ezcDbSchema::createFromDb( $this->db );
         $tables = $newSchema->getSchema();
@@ -140,9 +138,9 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
         $tableCeMessageCategoryRel = $tables['ce_message_category_rel'];
         $expected = new ezcDbSchemaTable(
             array(
-                'category_id' => new ezcDbSchemaField( 'integer', null, true, 0 ),
+                'category_id' => new ezcDbSchemaField( 'integer', null, true, '0' ),
                 'is_shadow' => new ezcDbSchemaField( 'boolean', null, true, 'false' ),
-                'message_id' => new ezcDbSchemaField( 'integer', null, true, 0 )
+                'message_id' => new ezcDbSchemaField( 'integer', null, true, '0' )
             ),
             array(
                 'message_category_rel' => new ezcDbSchemaIndex(
@@ -195,12 +193,12 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
         $tableLiveuserTranslations = $tables['liveuser_translations'];
         $expected = new ezcDbSchemaTable(
             array(
-                'description' => new ezcDbSchemaField( 'text', 255, true ),
-                'language_id' => new ezcDbSchemaField( 'text', 2, true ),
-                'name' => new ezcDbSchemaField( 'text', 50, true ),
-                'section_id' => new ezcDbSchemaField( 'integer', null, true, 0 ),
-                'section_type' => new ezcDbSchemaField( 'integer', null, true, 0 ),
-                'translation_id' => new ezcDbSchemaField( 'integer', null, true, 0, true ),
+                'description' => new ezcDbSchemaField( 'text', 255, true, '' ),
+                'language_id' => new ezcDbSchemaField( 'text', 2, true, '' ),
+                'name' => new ezcDbSchemaField( 'text', 50, true, '' ),
+                'section_id' => new ezcDbSchemaField( 'integer', null, true, '0' ),
+                'section_type' => new ezcDbSchemaField( 'integer', null, true, '0' ),
+                'translation_id' => new ezcDbSchemaField( 'integer', null, true, null, true ),
             ),
             array(
                 'primary' => new ezcDbSchemaIndex(
@@ -233,13 +231,13 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
         {
             $text .= $statement . ";\n";
         }
-        $sql = file_get_contents( $this->testFilesDir . 'bug8900_mysql.sql' );
+        $sql = file_get_contents( $this->testFilesDir . 'bug8900_pgsql.sql' );
         self::assertEquals( $sql, $text );
     }
 
     public static function suite()
     {
-        return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaMySqlTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaPgSqlTest' );
     }
 }
 ?>

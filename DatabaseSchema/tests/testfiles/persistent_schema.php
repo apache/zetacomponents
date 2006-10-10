@@ -51,10 +51,10 @@ return array (
       )),
       'is_shadow' => 
       ezcDbSchemaField::__set_state(array(
-         'type' => 'text',
+         'type' => 'boolean',
          'length' => 0,
          'notNull' => false,
-         'default' => NULL,
+         'default' => false,
          'autoIncrement' => false,
          'unsigned' => false,
       )),

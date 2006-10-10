@@ -18,14 +18,14 @@
         <type>text</type>
         <length>255</length>
         <notnull>true</notnull>
-        <default> </default>
+        <default>Hello</default>
       </field>
       <field>
         <name>substitution</name>
         <type>text</type>
         <length>255</length>
         <notnull>true</notnull>
-        <default> </default>
+        <default>world</default>
       </field>
     </declaration>
   </table>
@@ -48,7 +48,7 @@
         <name>is_shadow</name>
         <type>boolean</type>
         <notnull>true</notnull>
-        <default>N</default>
+        <default>false</default>
       </field>
       <index>
         <name>message_category_rel</name>
@@ -71,7 +71,7 @@
         <name>session_id</name>
         <type>text</type>
         <notnull>true</notnull>
-        <default> </default>
+        <default>test</default>
         <length>32</length>
       </field>
       <index>

@@ -92,7 +92,7 @@ abstract class ezcDbSchemaCommonSqlWriter
         switch ( $type )
         {
             case 'boolean':
-                return $value ? 'true' : 'false';
+                return ( $value && $value != 'false' ) ? 'true' : 'false';
 
             case 'integer':
                 return (int) $value;

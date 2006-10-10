@@ -31,8 +31,8 @@ class ezcDbSchemaHandlerManager
         'array' => 'ezcDbSchemaPhpArrayReader',
         'mysql' => 'ezcDbSchemaMysqlReader',
 //        'oracle' => 'ezcDbSchemaOracleReader',
-//        'pgsql' => 'ezcDbSchemaPgsqlReader',
-//        'sqlite' => 'ezcDbSchemaSqliteReader',
+        'pgsql' => 'ezcDbSchemaPgsqlReader',
+        'sqlite' => 'ezcDbSchemaSqliteReader',
         'xml' => 'ezcDbSchemaXmlReader',
     );
 
@@ -48,8 +48,8 @@ class ezcDbSchemaHandlerManager
         'array' => 'ezcDbSchemaPhpArrayWriter',
         'mysql' => 'ezcDbSchemaMysqlWriter',
 //        'oracle' => 'ezcDbSchemaOracleWriter',
-//        'pgsql' => 'ezcDbSchemaPgsqlWriter',
-//        'sqlite' => 'ezcDbSchemaSqliteWriter',
+        'pgsql' => 'ezcDbSchemaPgsqlWriter',
+        'sqlite' => 'ezcDbSchemaSqliteWriter',
         'xml' => 'ezcDbSchemaXmlWriter',
         'persistent' => 'ezcDbSchemaPersistentWriter',
     );
@@ -79,8 +79,8 @@ class ezcDbSchemaHandlerManager
         'array' => 'ezcDbSchemaPhpArrayWriter',
         'mysql' => 'ezcDbSchemaMysqlWriter',
 //        'oracle' => 'ezcDbSchemaOracleWriter',
-//        'pgsql' => 'ezcDbSchemaPgsqlWriter',
-//        'sqlite' => 'ezcDbSchemaSqliteWriter',
+        'pgsql' => 'ezcDbSchemaPgsqlWriter',
+        'sqlite' => 'ezcDbSchemaSqliteWriter',
         'xml' => 'ezcDbSchemaXmlWriter',
     );
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDbSchemaMysqlReader class.
+ * File containing the ezcDbSchemaPgsqlReader class.
  *
  * @package DatabaseSchema
  * @version //autogentag//
@@ -9,24 +9,23 @@
  */
 
 /**
- * Handler for files containing PHP arrays that represent DB schema.
+ * Handler for PostgreSQL connections representing a DB schema.
  *
  * @package DatabaseSchema
  * @version //autogentag//
  */
-class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
+class ezcDbSchemaPgsqlReader implements ezcDbSchemaDbReader
 {
     /**
-     * Contains a type map from MySQL native types to generic DbSchema types.
+     * Contains a type map from PostgreSQL native types to generic DbSchema types.
      *
      * @var array
      */
     static private $typeMap = array(
-        'tinyint' => 'integer',
-        'smallint' => 'integer',
-        'mediumint' => 'integer',
-        'int' =>  'integer',
-        'bigint' => 'integer',
+        'int' => 'integer',
+        'int2' => 'integer',
+        'int4' =>  'integer',
+        'int8' => 'integer',
         'integer' => 'integer',
         'bool' => 'boolean',
         'boolean' => 'boolean',
@@ -55,6 +54,10 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
         'text' => 'clob',
         'mediumtext' => 'clob',
         'longtext' => 'clob',
+
+        'character varying'=>'text',
+        'bigint' => 'integer',
+        'double precision' => 'float'
     );
             
             
@@ -94,7 +97,7 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
     {
         $schemaDefinition = array();
 
-        $tables = $this->db->query( "SHOW TABLES" )->fetchAll();
+        $tables = $this->db->query( "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'" )->fetchAll();
         array_walk( $tables, create_function( '&$item,$key', '$item = $item[0];' ) );
 
         foreach ( $tables as $tableName )
@@ -122,53 +125,65 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
     {
         $fields = array();
 
-        $resultArray = $this->db->query( "DESCRIBE $tableName" );
+        //fetching fields info from PostgreSQL
+        $resultArray = $this->db->query( 
+            "SELECT a.attnum, a.attname AS field, t.typname AS type,
+                     format_type(a.atttypid, a.atttypmod) AS fulltype,
+                     ( SELECT substring(d.adsrc for 128) FROM pg_catalog.pg_attrdef d 
+                       WHERE d.adrelid = a.attrelid AND d.adnum = a.attnum AND a.atthasdef
+                     ) AS default,
+                     a.attlen AS length, a.atttypmod AS lengthvar, a.attnotnull AS notnull
+              FROM pg_class c, pg_attribute a, pg_type t 
+              WHERE c.relname = '$tableName' AND 
+                    a.attnum > 0 AND 
+                    a.attrelid = c.oid AND
+                    a.atttypid = t.oid 
+              ORDER BY a.attnum" );
+
         $resultArray->setFetchMode( PDO::FETCH_ASSOC );
 
         foreach ( $resultArray as $row )
         {
             $fieldLength = false;
-
-            //bool and boolean is synonyms for TINYINT(1) in MySQL
-            if( $row['type'] == 'tinyint(1)' ) 
+            $fieldType = self::convertToGenericType( $row['fulltype'], $fieldLength, $fieldPrecision );
+            if ( !$fieldLength )
             {
-                $fieldType = 'boolean';
-            }
-            else
-            {
-                $fieldType = self::convertToGenericType( $row['type'], $fieldLength, $fieldPrecision );
-                if ( !$fieldLength )
-                {
-                    $fieldLength = false;
-                }
+                $fieldLength = false;
             }
 
-            $fieldNotNull = false;
-            if ( strlen( $row['null'] ) == 0 || $row['null'][0] != 'Y' )
-            {
-                $fieldNotNull = true;
-            }
+            $fieldNotNull = $row['notnull'];
 
             $fieldDefault = null;
 
-            if( strlen( $row['default'] ) != 0 )
+            $fieldAutoIncrement = false;
+
+            if ($row['default'] != '' ) 
             {
-                if( $fieldType == 'boolean' )
+                //detecting autoincrement field by string like "nextval('public.TableName_FieldName_seq'::text)" 
+                //in "default"
+                if( strstr( $row['default'], $row['field'].'_seq' ) != false ) 
                 {
-                    $fieldDefault = ($row['default']=='0')?'false':'true';
+                    $fieldAutoIncrement = true;
                 }
                 else
                 {
-                    $fieldDefault = $row['default'];
+                    //try to cut off single quotes and "::Typename" that postgreSQL
+                    //adds to default value string for some types.
+                    //we should do it to get clean value for default clause.
+                    if ( preg_match( "@'(.*)('::[a-z ]*)$@", $row['default'], $matches ) == 1 )
+                    {
+                        $fieldDefault = $matches[1];
+                    }
+                    else
+                    {
+                        $fieldDefault = $row['default'];
+                        if ( $fieldType == 'boolean' )
+                        {
+                            ( $fieldDefault == 'true' )? $fieldDefault = 'true': $fieldDefault = 'false';
+                        }
+                    }
                 }
             }
-
-            $fieldAutoIncrement = false;
-            if ( strstr ( $row['extra'], 'auto_increment' ) !== false )
-            {
-                $fieldAutoIncrement = true;
-            }
-
             // FIXME: unsigned needs to be implemented
             $fieldUnsigned = false;
 
@@ -179,7 +194,7 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
     }
 
     /**
-     * Converts the native MySQL type in $typeString to a generic DbSchema type.
+     * Converts the native PostgreSQL type in $typeString to a generic DbSchema type.
      *
      * This method converts a string like "float(5,10)" to the generic DbSchema
      * type and uses the by-reference parameters $typeLength and $typePrecision
@@ -192,7 +207,7 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
      */
     static function convertToGenericType( $typeString, &$typeLength, &$typePrecision )
     {
-        preg_match( "@([a-z]*)(\((\d*)(,(\d+))?\))?@", $typeString, $matches );
+        preg_match( "@([a-z ]*)(\((\d*)(,(\d+))?\))?@", $typeString, $matches );
         $genericType = self::$typeMap[$matches[1]];
 
         if ( in_array( $genericType, array( 'text', 'decimal', 'float' ) ) && isset( $matches[3] ) )
@@ -258,13 +273,47 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
     private function fetchTableIndexes( $tableName )
     {
         $indexBuffer = array();
+        $resultArray = array();
 
-        $resultArray = $this->db->query( "SHOW INDEX FROM $tableName" );
-        
+        //fetching index info from PostgreSQL
+        $getIndexSQL = "SELECT relname, pg_index.indisunique, pg_index.indisprimary, 
+                               pg_index.indkey, pg_index.indrelid 
+                         FROM pg_class 
+                         WHERE oid IN ( 
+                                SELECT indexrelid 
+                                FROM pg_index, pg_class 
+                                WHERE pg_class.relname='$tableName' AND pg_class.oid=pg_index.indrelid 
+                             ) 
+                      AND pg_index.indexrelid = oid";
+        $indexesArray = $this->db->query( $getIndexSQL )->fetchAll();
+
+        //getting columns to which each index related.
+        foreach ( $indexesArray as $row )
+        {
+            $myIndex[]=$row['relname'];
+
+            $colNumbers = explode(' ', $row['indkey']);
+            $colNumbersSQL = 'IN ('.join(' ,', $colNumbers ).' )';
+            $indexColumns = $this->db->query( "SELECT attname 
+                                               FROM pg_attribute 
+                                               WHERE attrelid={$row['indrelid']} 
+                                                     AND attnum $colNumbersSQL;" );
+
+            foreach ( $indexColumns as $colRow )
+            {
+                $resultArray[] = array( 'key_name' => $row['relname'], 
+                                        'column_name' => $colRow['attname'],
+                                        'non_unique' => !$row['indisunique'],
+                                        'primary' => !$row['indisprimary']
+                                      );
+                $indexColumnNames[] = $colRow['attname'];
+            }
+        }
+
         foreach ( $resultArray as $row )
         {
             $keyName = $row['key_name'];
-            if ( $keyName == 'PRIMARY' )
+            if ( substr( $keyName, -5) == '_pkey' )
             {
                 $keyName = 'primary';
             }
@@ -283,11 +332,6 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
             }
 
             $indexBuffer[$keyName]['fields'][$row['column_name']] = new ezcDbSchemaIndexField();
-
-//            if ( $row['sub_part'] )
-//            {
-//                $indexBuffer[$keyName]['options']['limitations'][$row['column_name']] = $row['sub_part'];
-//            }
         }
 
         $indexes = array();

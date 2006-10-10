@@ -12,9 +12,9 @@
  * @package DatabaseSchema
  * @subpackage Tests
  */
-class ezcDatabaseSchemaMySqlTest extends ezcTestCase
+class ezcDatabaseSchemaSqliteTest extends ezcTestCase
 {
-    protected function setUp()
+    public function setUp()
     {
         try
         {
@@ -22,27 +22,35 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
         }
         catch ( Exception $e )
         {
-            $this->markTestSkipped( "No Database connection available" );
-        }
-        if ( $this->db->getName() !== 'mysql' )
-        {
-            $this->markTestSkipped( "We are not testing with MySQL" );
+            $this->markTestSkipped();
         }
 
         $this->testFilesDir = dirname( __FILE__ ) . '/testfiles/';
-        $this->tempDir = $this->createTempDir( 'ezcDatabaseMySqlTest' );
+        $this->tempDir = $this->createTempDir( 'ezcDatabaseSqliteTest' );
 
-        $tables = $this->db->query( "SHOW TABLES" )->fetchAll();
+        $queryStr = "SELECT name FROM sqlite_master WHERE type='table' 
+        UNION ALL SELECT name FROM sqlite_temp_master WHERE type='table'
+        ORDER BY name;";
+
+        $tables = $this->db->query( $queryStr )->fetchAll();
         array_walk( $tables, create_function( '&$item,$key', '$item = $item[0];' ) );
 
         foreach ( $tables as $tableName )
         {
-            $this->db->query( "DROP TABLE $tableName" );
+            if ($tableName == 'sqlite_sequence') //clear sqlite_sequence table as it 
+                                                 //automatically created by SQLite and couldn't be droped
+            {
+                $this->db->query( "DELETE FROM sqlite_sequence" );
+            }
+            else
+            {
+                $this->db->query( "DROP TABLE $tableName" );
+            }
         }
 
     }
 
-    protected function tearDown()
+    public function tearDown()
     {
         $this->removeTempDir();
     }
@@ -54,7 +62,7 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
                 array (
                     'id' => new ezcDbSchemaField( 'integer', false, true, null, true ),
                     'bug_type' => new ezcDbSchemaField( 'text', 32, true ),
-                    'severity' => new ezcDbSchemaField( 'integer', false, true, 0 ),
+                    'severity' => new ezcDbSchemaField( 'integer', false, true ),
                     'sdesc'    => new ezcDbSchemaField( 'text', 80, true ),
                     'ldesc'    => new ezcDbSchemaField( 'clob', false, true ),
                     'php_version' => new ezcDbSchemaField( 'text', 100, true ),
@@ -67,7 +75,7 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
             ),
             'bugdb_comments' => new ezcDbSchemaTable(
                 array (
-                    'bug_id' => new ezcDbSchemaField( 'integer', false, true, 0 ),
+                    'bug_id' => new ezcDbSchemaField( 'integer', false, true ),
                     'comment' => new ezcDbSchemaField( 'clob', false, true ),
                     'email' => new ezcDbSchemaField( 'text', 32 ),
                 ),
@@ -91,8 +99,9 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
     {
         $fileNameOrig = realpath( $this->testFilesDir . 'webbuilder.schema.xml' );
         $schema = ezcDbSchema::createFromFile( 'xml', $fileNameOrig );
+
         $schema->writeToDb( $this->db );
-        
+
         $newSchema = ezcDbSchema::createFromDb( $this->db );
         $newDDL1 = $newSchema->convertToDDL( $this->db );
 
@@ -117,7 +126,7 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
             array(
                 'badword_id' => new ezcDbSchemaField( 'integer', null, true, null, true ),
                 'word' => new ezcDbSchemaField( 'text', 255, true, 'Hello' ),
-                'substitution' => new ezcDbSchemaField( 'text', 255, true, 'world' ),
+				'substitution' => new ezcDbSchemaField( 'text', 255, true, 'world' ),
             ),
             array(
                 'primary' => new ezcDbSchemaIndex(
@@ -132,8 +141,8 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
     {
         $fileNameOrig = realpath( $this->testFilesDir . 'webbuilder.schema.xml' );
         $schema = ezcDbSchema::createFromFile( 'xml', $fileNameOrig );
-
         $schema->writeToDb( $this->db );
+
         $newSchema = ezcDbSchema::createFromDb( $this->db );
         $tables = $newSchema->getSchema();
 
@@ -233,13 +242,13 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
         {
             $text .= $statement . ";\n";
         }
-        $sql = file_get_contents( $this->testFilesDir . 'bug8900_mysql.sql' );
+        $sql = file_get_contents( $this->testFilesDir . 'bug8900_sqlite.sql' );
         self::assertEquals( $sql, $text );
     }
 
     public static function suite()
     {
-        return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaMySqlTest' );
+        return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaSqliteTest' );
     }
 }
 ?>

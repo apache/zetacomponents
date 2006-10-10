@@ -17,6 +17,10 @@ require_once 'xml_test.php';
 require_once 'xml_diff_test.php';
 require_once 'mysql_test.php';
 require_once 'mysql_diff_test.php';
+require_once 'pgsql_test.php';
+require_once 'pgsql_diff_test.php';
+require_once 'sqlite_test.php';
+require_once 'sqlite_diff_test.php';
 require_once 'validator_test.php';
 require_once 'comparator_test.php';
 require_once 'persistent_test.php';
@@ -27,8 +31,8 @@ require_once 'persistent_test.php';
  */
 class ezcDatabaseSchemaSuite extends PHPUnit_Framework_TestSuite
 {
-	public function __construct()
-	{
+    public function __construct()
+    {
         parent::__construct();
         $this->setName( 'DatabaseSchema' );
 
@@ -41,10 +45,26 @@ class ezcDatabaseSchemaSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDatabaseSchemaPhpArrayDiffTest::suite() );
         $this->addTest( ezcDatabaseSchemaXmlTest::suite() );
         $this->addTest( ezcDatabaseSchemaXmlDiffTest::suite() );
-        $this->addTest( ezcDatabaseSchemaMysqlTest::suite() );
-        $this->addTest( ezcDatabaseSchemaMysqlDiffTest::suite() );
+        
+        $dbType = ezcDbInstance::get()->getName();
+        switch ( $dbType )
+        {
+            case 'mysql':
+                $this->addTest( ezcDatabaseSchemaMysqlTest::suite() );
+                $this->addTest( ezcDatabaseSchemaMysqlDiffTest::suite() );
+            break;
+            case 'pgsql':
+                $this->addTest( ezcDatabaseSchemaPgsqlTest::suite() );
+                $this->addTest( ezcDatabaseSchemaPgsqlDiffTest::suite() );
+            break;
+            case 'sqlite':
+                $this->addTest( ezcDatabaseSchemaSqliteTest::suite() );
+                $this->addTest( ezcDatabaseSchemaSqliteDiffTest::suite() );
+            break;
+        }
+        
         $this->addTest( ezcDatabaseSchemaPersistentTest::suite() );
-	}
+    }
 
     public static function suite()
     {

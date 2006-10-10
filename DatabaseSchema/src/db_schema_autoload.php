@@ -43,6 +43,10 @@ return array(
     'ezcDbSchemaPersistentWriter'       => 'DatabaseSchema/handlers/persistent/writer.php',
     'ezcDbSchemaMysqlReader'            => 'DatabaseSchema/handlers/mysql/reader.php',
     'ezcDbSchemaMysqlWriter'            => 'DatabaseSchema/handlers/mysql/writer.php',
+    'ezcDbSchemaPgsqlReader'            => 'DatabaseSchema/handlers/pgsql/reader.php',
+    'ezcDbSchemaPgsqlWriter'            => 'DatabaseSchema/handlers/pgsql/writer.php',
+    'ezcDbSchemaSqliteReader'            => 'DatabaseSchema/handlers/sqlite/reader.php',
+    'ezcDbSchemaSqliteWriter'            => 'DatabaseSchema/handlers/sqlite/writer.php',
 
     'ezcDbSchemaTable'                  => 'DatabaseSchema/structs/table.php',
     'ezcDbSchemaField'                  => 'DatabaseSchema/structs/field.php',
@@ -56,5 +60,7 @@ return array(
     'ezcDbSchemaInvalidWriterClassException' => 'DatabaseSchema/exceptions/invalid_writer_class.php',
     'ezcDbSchemaInvalidDiffReaderClassException' => 'DatabaseSchema/exceptions/invalid_diff_reader_class.php',
     'ezcDbSchemaInvalidDiffWriterClassException' => 'DatabaseSchema/exceptions/invalid_diff_writer_class.php',
+    'ezcDbSchemaSqliteDropFieldException' => 'DatabaseSchema/exceptions/sqlite_drop_field_exception.php',
+    'ezcDbSchemaDropAllColumnsException'  => 'DatabaseSchema/exceptions/drop_all_columns_exception.php',
 );
 ?>

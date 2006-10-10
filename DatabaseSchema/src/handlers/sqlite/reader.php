@@ -17,7 +17,7 @@
 class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
 {
     /**
-     * Contains a type map from SQLITE native types to generic DbSchema types.
+     * Contains a type map from SQLite native types to generic DbSchema types.
      *
      * @var array
      */
@@ -26,6 +26,8 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
         'real' => 'float',
         'text' => 'text',
         'blob' => 'blob',
+        'clob' => 'clob',
+        'boolean' => 'boolean'
     );
             
             
@@ -65,7 +67,7 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
     {
         $schemaDefinition = array();
 
-        $tables = $this->db->query( "SELECT NAME FROM sqlite_master WHERE type='table' AND name != 'sqlite_sequence'" )->fetchAll();
+        $tables = $this->db->query( "SELECT name FROM sqlite_master WHERE type='table' AND name != 'sqlite_sequence' ORDER BY name" )->fetchAll();
         array_walk( $tables, create_function( '&$item,$key', '$item = $item[0];' ) );
 
         foreach ( $tables as $tableName )
@@ -103,20 +105,20 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
             $fieldType = self::convertToGenericType( $row[2], $fieldLength, $fieldPrecision );
 
             $fieldNotNull = false;
-            if ( $row[2] == '99' )
+            if ( $row[3] == '99' )
             {
                 $fieldNotNull = true;
             }
 
             $fieldDefault = null;
-            if ( $row[3] != '' )
+            if ( $row[4] != '' )
             {
-                $fieldNotNull = $row[3];
+                $fieldDefault = $row[4];
             }
 
             $fieldAutoIncrement = false;
-            $autoIncrementResult = $this->db->query( "SELECT * FROM sqlite_master WHERE tbl_name = '$tableName' AND name LIKE 'sqlite_autoindex_$tableName_%" );
-            if ( count( $autoIncrementResult ) > 0 )
+
+            if ( $row[5] =='1' )
             {
                 $fieldAutoIncrement = true;
             }
@@ -124,14 +126,14 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
             // FIXME: unsigned needs to be implemented
             $fieldUnsigned = false;
 
-            $fields[$row['field']] = new ezcDbSchemaField( $fieldType, $fieldLength, $fieldNotNull, $fieldDefault, $fieldAutoIncrement, $fieldUnsigned );
+            $fields[$row[1]] = new ezcDbSchemaField( $fieldType, $fieldLength, $fieldNotNull, $fieldDefault, $fieldAutoIncrement, $fieldUnsigned );
         }
 
         return $fields;
     }
 
     /**
-     * Converts the native MySQL type in $typeString to a generic DbSchema type.
+     * Converts the native SQLite type in $typeString to a generic DbSchema type.
      *
      * This method converts a string like "float(5,10)" to the generic DbSchema
      * type and uses the by-reference parameters $typeLength and $typePrecision
@@ -144,7 +146,21 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
      */
     static function convertToGenericType( $typeString, &$typeLength, &$typePrecision )
     {
-        $genericType = self::$typeMap[$typeString];
+        preg_match( "@([a-z ]*)(\((\d*)(,(\d+))?\))?@", $typeString, $matches );
+        $genericType = self::$typeMap[$matches[1]];
+
+        if ( in_array( $genericType, array( 'text', 'decimal', 'float' ) ) && isset( $matches[3] ) )
+        {
+            $typeLength = $matches[3];
+            if ( is_numeric( $typeLength ) )
+            {
+                $typeLength = (int) $typeLength;
+            }
+        }
+        if ( in_array( $genericType, array( 'decimal', 'float' ) ) && isset( $matches[5] ) )
+        {
+            $typePrecision = $matches[5];
+        }
 
         return $genericType;
     }
@@ -197,35 +213,45 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
     {
         $indexBuffer = array();
 
-        $resultArray = $this->db->query( "" );
-        
-        foreach ( $resultArray as $row )
+        $indexNamesArray = $this->db->query( "PRAGMA INDEX_LIST ($tableName)" );
+
+        $primaryFound = false;
+
+        foreach ( $indexNamesArray as $row )
         {
-            $keyName = $row['key_name'];
-            if ( $keyName == 'PRIMARY' )
+            $keyName = $row['1'];
+            if ( $keyName == $tableName.'_pri' ) 
             {
                 $keyName = 'primary';
-            }
-
-            $indexBuffer[$keyName]['primary'] = false;
-            $indexBuffer[$keyName]['unique'] = true;
-
-            if ( $keyName == 'primary' )
-            {
                 $indexBuffer[$keyName]['primary'] = true;
                 $indexBuffer[$keyName]['unique'] = true;
+                $primaryFound = true;
             }
             else
             {
-                $indexBuffer[$keyName]['unique'] = $row['non_unique'] ? false : true;
+                $indexBuffer[$keyName]['primary'] = false;
+                $indexBuffer[$keyName]['unique'] = $row[2]?true:false;
             }
 
-            $indexBuffer[$keyName]['fields'][$row['column_name']] = new ezcDbSchemaIndexField();
+            $indexArray = $this->db->query( "PRAGMA INDEX_INFO ({$row[1]})" );
 
-//            if ( $row['sub_part'] )
-//            {
-//                $indexBuffer[$keyName]['options']['limitations'][$row['column_name']] = $row['sub_part'];
-//            }
+            foreach ( $indexArray as $indexColumnRow )
+            {
+                $indexBuffer[$keyName]['fields'][$indexColumnRow[2]] = new ezcDbSchemaIndexField();
+            }
+        }
+
+        //search primary index
+        $fieldArray = $this->db->query( "PRAGMA TABLE_INFO ($tableName)" );
+        foreach ( $fieldArray as $row )
+        {
+            if ( $row[5] == '1' ) 
+            {
+                $keyName = 'primary';
+                $indexBuffer[$keyName]['primary'] = true;
+                $indexBuffer[$keyName]['unique'] = true;
+                $indexBuffer[$keyName]['fields'][$row[1]] = new ezcDbSchemaIndexField();
+            }
         }
 
         $indexes = array();

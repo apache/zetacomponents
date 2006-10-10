@@ -1,6 +1,7 @@
 1.0.3 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Added support for PostgreSQL and SQLite.
 - Added support for default column values in mysql handler.
 - Fixed getting PDOException when executing queries in mysql handler.
 - Fixed bug #8650: No exception is thrown when writing database schema files
