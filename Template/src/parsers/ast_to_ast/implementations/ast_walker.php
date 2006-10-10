@@ -186,11 +186,16 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
         array_unshift( $this->statements, 0);
         array_unshift( $this->offset, 0);
 
-        for( $i = 0; $i < sizeof( $body->statements ); $i++)
+        $b = clone( $body );
+
+        for( $i = 0; $i < sizeof( $b->statements ); $i++)
         {
             $this->statements[0] = $i;
-            $this->acceptAndUpdate( $body->statements[$i] );
+            $this->acceptAndUpdate( $b->statements[$i] );
         }
+
+        // XXX Test this, this may be wrong.
+        //$body = $b;
 
         array_shift( $this->offset );
         array_shift( $this->statements );
@@ -398,6 +403,11 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     public function visitCloneAstNode( ezcTemplateCloneAstNode $node )
     {
     }
+
+    public function visitPhpCodeAstNode( ezcTemplatePhpCodeAstNode $node )
+    {
+    }
+
 
 
     public function visitNopAstNode( ezcTemplateNopAstNode $node )

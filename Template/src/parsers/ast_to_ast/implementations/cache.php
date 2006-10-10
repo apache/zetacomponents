@@ -157,6 +157,8 @@ class ezcTemplateAstToAstCache extends ezcTemplateAstWalker
 
     /**
      * This should be the first node found in the AST-tree.
+     *
+     * Do not replace the &$type because the changes are not visible in the Template.
      */
     public function visitRootAstNode( ezcTemplateRootAstNode &$type )
     {
@@ -204,7 +206,6 @@ class ezcTemplateAstToAstCache extends ezcTemplateAstWalker
         parent::visitRootAstNode( $type );
 
         // Append an additional return $_ezcTemplate_output;  (The previous is gone in the if statements.) 
-        //XXX: Need to copy the previous one.
         $type->statements[] = $this->_returnVariable("_ezcTemplate_output");
     }
 
@@ -226,11 +227,40 @@ class ezcTemplateAstToAstCache extends ezcTemplateAstWalker
         $statements[] = $this->_assignVariable( "total", "_ezcTemplate_output" );
 
         // Insert the statements at the current line.
-        array_splice($this->nodePath[0]->statements, $this->statements[0] + $this->offset[0], 0, $statements );
+        array_splice( $this->nodePath[0]->statements, $this->statements[0] + $this->offset[0], 0, $statements );
+
         $this->offset[0] += sizeof( $statements );
     }
 
+   
+    public function visitIfAstNode( ezcTemplateIfAstNode $node )
+    {
+        $symbolTable = ezcTemplateSymbolTable::getInstance();
 
+        if( $node->tstNode instanceof ezcTemplateDeclarationTstNode )
+        {
+            
+            if ( $symbolTable->retrieve( $node->tstNode->variable->name ) == ezcTemplateSymbolTable::IMPORT )
+            {
+                $offset = $this->statements[0] + $this->offset[0];
+
+                // Remove the declaration of the USE variables.
+                array_splice( $this->nodePath[0]->statements, $offset, 1 ); 
+                $this->offset[0] -= 1; 
+
+                // inserting here is dangerous, because the nodePath will continue processing later.
+                // XXX: 2nd, because the 'if' produces also a nodePath.
+                array_unshift( $this->nodePath[2]->statements, $node );
+
+                //$this->offset[2] += 1; 
+            }
+        }
+
+        parent::visitIfAstNode($node);
+    }
+    
+
+   
     public function visitNopAstNode( ezcTemplateNopAstNode $node )
     {
         // The nop-nodes may contain extra information regarding the {dynamic} blocks.
