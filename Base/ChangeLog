@@ -6,8 +6,11 @@
   components.
 - Added the ezcBaseInit class that assists you by setting up on-demand
   configurations for objects (most notable useful for singleton classes).
-- Implemented FR #8508: display search paths for the autoload files in case of
+- Implemented FR #8508: Display search paths for the autoload files in case of
   a missing class.
+- Implemented FR #8753: Added the 'Base/ezc_bootstrap.php' file which sets up
+  the autoload environment for you to facilitate an easier way of starting to
+  use the eZ components.
 
 
 1.1.1 - Monday 28 August 2006
