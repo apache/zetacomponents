@@ -63,6 +63,7 @@ class RelationTest
     {
         $db = ezcDbInstance::get();
         $db->exec( "DROP TABLE PO_addresses" );
+        $db->exec( "DROP TABLE PO_birthdays" );
         $db->exec( "DROP TABLE PO_employers" );
         $db->exec( "DROP TABLE PO_persons" );
         $db->exec( "DROP TABLE PO_persons_addresses" );

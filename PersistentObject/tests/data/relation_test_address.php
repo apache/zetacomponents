@@ -31,6 +31,16 @@ class RelationTestAddress extends RelationTest
             "type"      => $this->type,
         );
     }
+
+    public static function __set_state( array $state  )
+    {
+        $address = new RelationTestAddress();
+        foreach ( $state as $key => $value )
+        {
+            $address->$key = $value;
+        }
+        return $address;
+    }
 }
 
 ?>

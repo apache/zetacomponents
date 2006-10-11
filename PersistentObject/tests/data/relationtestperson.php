@@ -36,6 +36,11 @@ $def->relations["RelationTestBirthday"]->columnMap     = array(
     new ezcPersistentSingleTableMap( "id", "person_id" ),
 );
 
+$def->relations["RelationTestAddress"]                = new ezcPersistentManyToManyRelation( "PO_persons", "PO_addresses", "PO_persons_addresses" );
+$def->relations["RelationTestAddress"]->columnMap     = array(
+    new ezcPersistentDoubleTableMap( "id", "person_id", "address_id", "id" ),
+);
+
 return $def;
 
 ?>

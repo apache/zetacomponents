@@ -33,7 +33,9 @@ return array(
     'ezcPersistentOneToOneRelation'                    => 'PersistentObject/relations/one_to_one.php',
     'ezcPersistentOneToManyRelation'                    => 'PersistentObject/relations/one_to_many.php',
     'ezcPersistentManyToOneRelation'                    => 'PersistentObject/relations/many_to_one.php',
+    'ezcPersistentManyToManyRelation'                    => 'PersistentObject/relations/many_to_many.php',
     'ezcPersistentSingleTableMap'                       => 'PersistentObject/structs/single_table_map.php',
+    'ezcPersistentDoubleTableMap'                       => 'PersistentObject/structs/double_table_map.php',
     'ezcPersistentRelatedObjectNotFoundException'       => 'PersistentObject/exceptions/related_object_not_found.php',
 
     'ezcPersistentDefinitionManager'                    => 'PersistentObject/interfaces/definition_manager.php',

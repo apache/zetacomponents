@@ -438,6 +438,21 @@ class ezcPersistentSession
                 }
                 break;
             case "ezcPersistentManyToManyRelation":
+                $query->from( $relation->relationTable );
+                foreach ( $relation->columnMap as $map )
+                {
+                    $query->where(
+                        $query->expr->eq(
+                            $this->database->quoteIdentifier( $relation->relationTable ) . "." . $this->database->quoteIdentifier( $map->relationSourceColumn ),
+                            $query->bindValue( $object->{$def->columns[$map->sourceColumn]->propertyName} )
+                        ),
+                        $query->expr->eq(
+                            $this->database->quoteIdentifier( $relation->relationTable ) . "." . $this->database->quoteIdentifier( $map->relationDestinationColumn ),
+                            $this->database->quoteIdentifier( $relation->destinationTable ) . "." . $this->database->quoteIdentifier( $map->destinationColumn )
+                        )
+                    );
+                }
+                break;
             default:
                 throw new Exception( "Still in development phase, " . get_class( $relation ) . " not implemented, yet." );
         }

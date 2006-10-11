@@ -114,4 +114,4 @@ CREATE TABLE `PO_birthdays` (
 
 INSERT INTO `PO_birthdays` (`person_id`, `birthday`) VALUES (1, 327535201);
 INSERT INTO `PO_birthdays` (`person_id`, `birthday`) VALUES (2, -138243599);
-INSERT INTO `PO_birthdays` (`person_di`, `birthday`) VALUES (3, 1138575601);
+INSERT INTO `PO_birthdays` (`person_id`, `birthday`) VALUES (3, 1138575601);
