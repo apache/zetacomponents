@@ -24,7 +24,7 @@ class ezcDbTransactionException extends ezcDbException
      */
     public function __construct( $msg )
     {
-        $message = 'There was a transaction error caused by unmatched beginTransaction()/commit() calls: {$msg}';
+        $message = "There was a transaction error caused by unmatched beginTransaction()/commit() calls: {$msg}";
         parent::__construct( $message );
     }
 }
