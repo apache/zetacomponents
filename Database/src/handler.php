@@ -161,7 +161,7 @@ abstract class ezcDbHandler extends PDO
     {
         if ( $this->transactionNestingLevel <= 0 )
         {
-            $this->level = 0;
+            $this->transactionNestingLevel = 0;
 
             throw new ezcDbTransactionException( "commit() called before beginTransaction()." );
         }
