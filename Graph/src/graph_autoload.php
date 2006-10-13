@@ -46,6 +46,7 @@ return array(
     'ezcGraphDriver'                            => 'Graph/interfaces/driver.php',
     'ezcGraphFontRenderingException'            => 'Graph/exceptions/font_rendering.php',
     'ezcGraphUnknownFontTypeException'          => 'Graph/exceptions/font_type.php',
+    'ezcGraphInvalidFontTypeException'          => 'Graph/exceptions/invalid_font.php',
     'ezcGraphDriverOptions'                     => 'Graph/options/driver.php',
     'ezcGraphGdDriver'                          => 'Graph/driver/gd.php',
     'ezcGraphGdDriverOptions'                   => 'Graph/options/gd_driver.php',
@@ -54,6 +55,10 @@ return array(
     'ezcGraphSvgDriverOptions'                  => 'Graph/options/svg_driver.php',
     'ezcGraphSvgDriverInvalidIdException'       => 'Graph/exceptions/invalid_id.php',
     'ezcGraphVerboseDriver'                     => 'Graph/driver/verbose.php',
+    'ezcGraphMingDriver'                        => 'Graph/driver/ming.php',
+    'ezcGraphMingDriverOptions'                 => 'Graph/options/ming_driver.php',
+    'ezcGraphMingBitmapTypeException'           => 'Graph/exceptions/ming_bitmap_type.php',
+    'ezcGraphMingBitmapBoundingsException'      => 'Graph/exceptions/ming_bitmap_boundings.php',
 
     'ezcGraphPalette'                           => 'Graph/interfaces/palette.php',
     'ezcGraphPaletteTango'                      => 'Graph/palette/tango.php',

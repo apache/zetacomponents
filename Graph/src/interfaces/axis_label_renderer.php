@@ -149,7 +149,6 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
                 ( $aDir->x != 0 ? $bStart->x / $aDir->x : 0 ) +
                 ( $aDir->x != 0 ? $aStart->x / $aDir->x : 0 )
             ) / $denominator;
-
         }
     }
 

@@ -106,6 +106,10 @@ class ezcGraph
      * Font type definition. Used for Postscript Type 1 fonts.
      */
     const PS_FONT = 2;
+    /**
+     * Font type definition. Used for Palm Format Fonts for Ming driver.
+     */
+    const PALM_FONT = 3;
 }
 
 ?>

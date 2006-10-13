@@ -82,7 +82,7 @@ abstract class ezcGraphRenderer
     /**
      * __get 
      * 
-     * @param mixed $propertyName 
+     * @param string $propertyName 
      * @throws ezcBasePropertyNotFoundException
      *          If a the value for the property options is not an instance of
      * @return mixed

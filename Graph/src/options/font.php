@@ -159,6 +159,9 @@ class ezcGraphFontOptions extends ezcBaseOptions
                     $parts = pathinfo( $this->properties['path'] );
                     switch ( strtolower( $parts['extension'] ) )
                     {
+                        case 'fdb':
+                            $this->properties['type'] = ezcGraph::PALM_FONT;
+                            break;
                         case 'pfb':
                             $this->properties['type'] = ezcGraph::PS_FONT;
                             break;
