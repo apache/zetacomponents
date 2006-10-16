@@ -78,11 +78,21 @@ class ezcQueryExpression
      */
     protected function getIdentifier( $alias )
     {
-        if ( $this->aliases !== null &&
-            array_key_exists( $alias, $this->aliases ) )
+        $aliasParts = explode( '.', $alias );
+        $identifiers = array();
+        foreach ( $aliasParts as $singleAliasName )
         {
-            return $this->aliases[$alias];
+            if ( $this->aliases !== null &&
+                array_key_exists( $singleAliasName, $this->aliases ) )
+            {
+                $identifiers[]= $this->aliases[$singleAliasName];
+            }
+            else
+            {
+                $identifiers[]= $singleAliasName;
+            }
         }
+        $alias = join( '.', $identifiers );
         return $alias;
     }
 
@@ -100,10 +110,7 @@ class ezcQueryExpression
         {
             foreach ( $aliasList as $key => $alias )
             {
-                if ( array_key_exists( $alias, $this->aliases ) )
-                {
-                    $aliasList[$key] = $this->aliases[$alias];
-                }
+                $aliasList[$key] = $this->getIdentifier( $alias );
             }
         }
         return $aliasList;

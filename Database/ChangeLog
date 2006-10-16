@@ -6,7 +6,7 @@
 - Added support for SQLite in-memory databases through the DSN:
   "sqlite://:memory" and the dbParams:
   "array( 'handler' => 'sqlite', 'port' => 'memory' );".
-
+- Fixed bug #9159: No alias substitution for 'table.cloumn' syntax.
 
 1.1.3 - Monday 09 October 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

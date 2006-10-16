@@ -1086,5 +1086,18 @@ class ezcQueryExpressionTest extends ezcTestCase
         $this->assertEquals( 'eZ systems rocks!', $stmt->fetchColumn( 0 ) );
     }
 
+    public function testBug9159TableAndColumnAlias()
+    {
+        $reference = 'SELECT * FROM table1, table2 WHERE table1.column < table2.id';
+        
+        $this->q->setAliases( array( 't_alias' => 'table1', 'c_alias' => 'column' ) );
+        
+        $this->q->select( '*' )
+        ->from( 't_alias', 'table2' )
+        ->where( $this->q->expr->lt('t_alias.c_alias', 'table2.id' ) );
+        
+        $this->assertEquals( $reference, $this->q->getQuery() );
+    }
+
 }
 ?>
