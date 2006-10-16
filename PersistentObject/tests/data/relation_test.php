@@ -19,9 +19,9 @@ class RelationTest
         $db->exec( "INSERT INTO `PO_employers` (`name`) VALUES ('Great Web 2.0 company');" );
         $db->exec( "INSERT INTO `PO_employers` (`name`) VALUES ('Oldschool Web 1.x company');" );
 
-        $db->exec( "INSERT INTO `PO_persons` (`firstname`, `surename`, `employer`) VALUES ('Theodor', 'Gopher', 2);" );
-        $db->exec( "INSERT INTO `PO_persons` (`firstname`, `surename`, `employer`) VALUES ('Frederick', 'Ajax', 1);" );
-        $db->exec( "INSERT INTO `PO_persons` (`firstname`, `surename`, `employer`) VALUES ('Raymond', 'Socialweb', 1);" );
+        $db->exec( "INSERT INTO `PO_persons` (`firstname`, `surname`, `employer`) VALUES ('Theodor', 'Gopher', 2);" );
+        $db->exec( "INSERT INTO `PO_persons` (`firstname`, `surname`, `employer`) VALUES ('Frederick', 'Ajax', 1);" );
+        $db->exec( "INSERT INTO `PO_persons` (`firstname`, `surname`, `employer`) VALUES ('Raymond', 'Socialweb', 1);" );
 
         $db->exec( "INSERT INTO `PO_persons_addresses` ( `person_id`, `address_id`) VALUES ( 1, 1);" );
         $db->exec( "INSERT INTO `PO_persons_addresses` ( `person_id`, `address_id`) VALUES ( 1, 2);" );

@@ -176,7 +176,7 @@
            'autoIncrement' => true,
            'unsigned' => false,
         )),
-        'surename' => 
+        'surname' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'text',
            'length' => 100,

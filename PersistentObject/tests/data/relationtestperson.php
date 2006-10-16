@@ -15,10 +15,10 @@ $def->properties['firstname']->columnName     = 'firstname';
 $def->properties['firstname']->propertyName   = 'firstname';
 $def->properties['firstname']->propertyType   = ezcPersistentObjectProperty::PHP_TYPE_STRING;
 
-$def->properties['surename']                 = new ezcPersistentObjectProperty;
-$def->properties['surename']->columnName     = 'surename';
-$def->properties['surename']->propertyName   = 'surename';
-$def->properties['surename']->propertyType   = ezcPersistentObjectProperty::PHP_TYPE_STRING;
+$def->properties['surname']                 = new ezcPersistentObjectProperty;
+$def->properties['surname']->columnName     = 'surname';
+$def->properties['surname']->propertyName   = 'surname';
+$def->properties['surname']->propertyType   = ezcPersistentObjectProperty::PHP_TYPE_STRING;
 
 $def->properties['employer']                 = new ezcPersistentObjectProperty;
 $def->properties['employer']->columnName     = 'employer';

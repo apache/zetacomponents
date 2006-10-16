@@ -27,7 +27,6 @@ return array(
     'ezcPersistentObjectProperty'                       => 'PersistentObject/structs/persistent_object_property.php',
     'ezcPersistentObjectIdProperty'                     => 'PersistentObject/structs/persistent_object_id_property.php',
     'ezcPersistentGeneratorDefinition'                  => 'PersistentObject/structs/generator_definition.php',
-    'ezcPersistentRelationNotFoundException'            => 'PersistentObject/exceptions/relation_not_found.php',
     
     'ezcPersistentRelation'                             => 'PersistentObject/interfaces/relation.php',
     'ezcPersistentOneToOneRelation'                     => 'PersistentObject/relations/one_to_one.php',
@@ -36,6 +35,9 @@ return array(
     'ezcPersistentManyToManyRelation'                   => 'PersistentObject/relations/many_to_many.php',
     'ezcPersistentSingleTableMap'                       => 'PersistentObject/structs/single_table_map.php',
     'ezcPersistentDoubleTableMap'                       => 'PersistentObject/structs/double_table_map.php',
+    'ezcPersistentRelationNotFoundException'            => 'PersistentObject/exceptions/relation_not_found.php',
+    'ezcPersistentRelationInvalidException'            => 'PersistentObject/exceptions/relation_invalid.php',
+    'ezcPersistentRelationOperationNotSupportedException' => 'PersistentObject/exceptions/relation_operation_not_supported.php',
     'ezcPersistentRelatedObjectNotFoundException'       => 'PersistentObject/exceptions/related_object_not_found.php',
 
     'ezcPersistentDefinitionManager'                    => 'PersistentObject/interfaces/definition_manager.php',

@@ -151,6 +151,38 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
             "Related RelationTestPerson objects not fetched correctly."
         );
     }
+    
+    public function testAddRelatedObjectPerson2()
+    {
+        $person  = $this->session->load( "RelationTestPerson",  2 );
+        $address = $this->session->load( "RelationTestAddress", 2 );
+
+        $this->session->addRelatedObject( $person, $address );
+
+        $q = $this->session->database->createSelectQuery();
+        $q->select( "*" )
+          ->from( "PO_persons_addresses" )
+          ->where(
+            $q->expr->eq( "person_id", 2 ),
+            $q->expr->eq( "address_id", 2 )
+          );
+
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        $res =array (
+            'address_id' => '2',
+            0 => '2',
+            'person_id' => '2',
+            1 => '2',
+        );
+
+        $this->assertEquals(
+            $res,
+            $stmt->fetch(),
+            "Relation not established correctly."
+        );
+    }
 }
 
 ?>

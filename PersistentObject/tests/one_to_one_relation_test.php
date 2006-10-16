@@ -105,6 +105,52 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
             "Related RelationTestPerson objects not fetched correctly."
         );
     }
+ 
+    public function testAddRelatedObjectsBirthday2()
+    {
+        $person = $this->session->load( "RelationTestPerson", 3 );
+        
+        $birthday = new RelationTestBirthday();
+        $birthday->setState( array(
+            "birthday"  => 1161019786,
+        ) );
+
+        $this->session->addRelatedObjects( $person, array( $birthday ) );
+        
+        $res = RelationTestBirthday::__set_state( array( 
+            'person' => '3',
+            'birthday' => 1161019786,
+        ));
+
+        $this->assertEquals(
+            $res,
+            $birthday,
+            "Relation not established correctly"
+        );
+    }
+ 
+    public function testAddRelatedObjectBirthday2()
+    {
+        $person = $this->session->load( "RelationTestPerson", 3 );
+        
+        $birthday = new RelationTestBirthday();
+        $birthday->setState( array(
+            "birthday"  => 1161019786,
+        ) );
+
+        $this->session->addRelatedObject( $person, $birthday );
+        
+        $res = RelationTestBirthday::__set_state( array( 
+            'person' => '3',
+            'birthday' => 1161019786,
+        ));
+
+        $this->assertEquals(
+            $res,
+            $birthday,
+            "Relation not established correctly"
+        );
+    }
 }
 
 ?>

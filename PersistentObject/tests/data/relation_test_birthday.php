@@ -21,7 +21,7 @@ class RelationTestBirthday extends RelationTest
     public function getState()
     {
         return array(
-            "person"        => $this->id,
+            "person"        => $this->person,
             "birthday"      => $this->birthday,
         );
     }

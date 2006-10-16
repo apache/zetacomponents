@@ -421,8 +421,7 @@ class ezcPersistentSession
         
         $query = $this->createFindQuery( $relatedClass );
 
-        // @todo: Implement other relations!
-        switch ( get_class( $relation ) )
+        switch ( ( $relationClass = get_class( $relation ) ) )
         {
             case "ezcPersistentOneToManyRelation":
             case "ezcPersistentManyToOneRelation":
@@ -454,9 +453,100 @@ class ezcPersistentSession
                 }
                 break;
             default:
-                throw new Exception( "Still in development phase, " . get_class( $relation ) . " not implemented, yet." );
+                throw new ezcPersistentRelationInvalidException( $relationClass );
         }
         return $query;
+    }
+
+    /**
+     * Create a relation between $object and all objects in $relatedObjects.
+     * This method is used to create a relation between the given source $object
+     * and each object in the $relatedObjects array. The related objects are not
+     * stored in the database automatically, but only the desired properties
+     * are set. An exception are {@ezcPersistentManyToManyRelation}s, where the
+     * relation record is stored.
+     *
+     * @todo Are "many-to-one" relations always reverse? Then we do not need to
+     *       support them here.
+     * 
+     * @param object $object                The object to create relations to.
+     * @param array(object) $relatedObjects The objects to create relations for.
+     *
+     * @throws ezcPersistentRelationOperationNotSupportedException
+     *         if a relation to create is marked as "reverse".
+     * @throws ezcPersistentRelationNotFoundException
+     *         if the deisred relation is not defined.
+     */
+    public function addRelatedObjects( $object, array $relatedObjects )
+    {
+        $class = get_class( $object );
+        $def = $this->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
+        
+        $checkedRelations = array();
+        // Check for all objects if adding a related object is supported
+        // to avoid that some operations succeed and 1 breaks the rest.
+        foreach ( $relatedObjects as $relatedObject )
+        {
+            if ( !isset( $checkedRelations[( $relatedClass = get_class( $relatedObject ) )] ) )
+            {
+                if ( !isset( $def->relations[$relatedClass] ) )
+                {
+                    throw new ezcPersistentRelationNotFoundException( $class, $relatedClass );
+                }
+                if ( isset( $def->relations[$relatedClass]->reverse ) && $def->relations[$relatedClass]->reverse === true )
+                {
+                    throw new ezcPersistentRelationOperationNotSupportedException(
+                        $class,
+                        $relatedClass,
+                        "addRelatedObject",
+                        "Relation is a reverse relation."
+                    );
+                }
+
+                $definitionCache[$relatedClass] = true;
+            }
+        }
+        
+        // Now perform the operations, since configuration seems ok
+        foreach( $relatedObjects as $relatedObject )
+        {
+            $relatedDef = $this->definitionManager->fetchDefinition( get_class( $relatedObject ) );
+            switch( get_class( ( $relation = $def->relations[get_class( $relatedObject )] ) ) )
+            {
+                case "ezcPersistentOneToManyRelation":
+                case "ezcPersistentOneToOneRelation":
+                    foreach ( $relation->columnMap as $map )
+                    {
+                        $relatedObject->{$relatedDef->columns[$map->destinationColumn]->propertyName} = 
+                            $object->{$def->columns[$map->sourceColumn]->propertyName};
+                    }
+                    break;
+                case "ezcPersistentManyToManyRelation":
+                    $q = $this->database->createInsertQuery();
+                    $q->insertInto( $relation->relationTable );
+                    foreach ( $relation->columnMap as $map )
+                    {
+                        $q->set(
+                            $this->database->quoteIdentifier( $map->relationSourceColumn ),
+                            $q->bindValue( $object->{$def->columns[$map->sourceColumn]->propertyName} )
+                        );
+                        $q->set(
+                            $this->database->quoteIdentifier( $map->relationDestinationColumn ),
+                            $q->bindValue( $relatedObject->{$relatedDef->columns[$map->destinationColumn]->propertyName} )
+                        );
+                    }
+                    $stmt = $q->prepare();
+                    $stmt->execute();
+                    break;
+                case "ezcPersistentManyToOneRelation":
+                    throw new Exception( "Still in development, not implemented, yet!" );
+            }
+        }
+    }
+
+    public function addRelatedObject( $object, $relatedObject )
+    {
+        $this->addRelatedObjects( $object, array( $relatedObject ) );
     }
 
     /*

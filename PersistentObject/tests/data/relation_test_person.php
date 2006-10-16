@@ -8,7 +8,7 @@ class RelationTestPerson extends RelationTest
 {
     public $id          = null;
     public $firstname   = null;
-    public $surename    = null;
+    public $surname    = null;
     public $employer    = null;
 
 
@@ -25,7 +25,7 @@ class RelationTestPerson extends RelationTest
         return array(
             "id"            => $this->id,
             "firstname"     => $this->firstname,
-            "surename"      => $this->surename,
+            "surname"      => $this->surname,
             "employer"      => $this->employer,
         );
     }
