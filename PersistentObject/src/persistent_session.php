@@ -357,7 +357,7 @@ class ezcPersistentSession
      */
     public function getRelatedObjects( $object, $relatedClass )
     {
-        $query = $this->createRelationQuery( $object, $relatedClass );
+        $query = $this->createRelationFindQuery( $object, $relatedClass );
         return $this->find( $query, $relatedClass );
     }
     
@@ -388,7 +388,7 @@ class ezcPersistentSession
      */
     public function getRelatedObject( $object, $relatedClass )
     {
-        $query = $this->createRelationQuery( $object, $relatedClass );
+        $query = $this->createRelationFindQuery( $object, $relatedClass );
         // This method only needs to return 1 object
         $query->limit( 1 );
         $resArr = $this->find( $query, $relatedClass );
@@ -410,7 +410,7 @@ class ezcPersistentSession
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
      */
-    private function createRelationQuery( $object, $relatedClass )
+    private function createRelationFindQuery( $object, $relatedClass )
     {
         $def = $this->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
         if ( !isset( $def->relations[$relatedClass] ) )
