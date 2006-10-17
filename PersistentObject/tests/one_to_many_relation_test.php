@@ -7,6 +7,7 @@
  * @package PersistentObject
  * @subpackage Tests
  */
+ezcTestRunner::addFileToFilter( __FILE__ );
 
 require_once dirname( __FILE__ ) . "/data/relation_test_employer.php";
 require_once dirname( __FILE__ ) . "/data/relation_test_person.php";
@@ -186,6 +187,30 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
             $person,
             "Relation not established correctly"
         );
+    }
+
+    public function testAddRelatedObjectAddressFailureNonExsitentRelation()
+    {
+        $employer = $this->session->load( "RelationTestEmployer", 2 );
+        $address = new RelationTestAddress();
+        $address->setState(
+            array(
+                "street" => "Test road",
+                "zip"    => 12345,
+                "city"   => "Testing town",
+                "type"   => "private"
+            )
+        );
+
+        try
+        {
+            $this->session->addRelatedObject( $employer, $address );
+        }
+        catch ( ezcPersistentRelationNotFoundException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on undefined relation." );
     }
 }
 

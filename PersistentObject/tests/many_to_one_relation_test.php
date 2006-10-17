@@ -7,6 +7,7 @@
  * @package PersistentObject
  * @subpackage Tests
  */
+ezcTestRunner::addFileToFilter( __FILE__ );
 
 require_once dirname( __FILE__ ) . "/data/relation_test_employer.php";
 require_once dirname( __FILE__ ) . "/data/relation_test_person.php";
@@ -44,7 +45,7 @@ class ezcPersistentManyToOneRelationTest extends ezcTestCase
 
     public function testGetRelatedObjectsEmployer1()
     {
-        $employer = $this->session->load( "RelationTestPerson", 1 );
+        $person = $this->session->load( "RelationTestPerson", 1 );
         $res = array (
         0 => 
             RelationTestEmployer::__set_state(array(
@@ -55,14 +56,14 @@ class ezcPersistentManyToOneRelationTest extends ezcTestCase
 
         $this->assertEquals(
             $res,
-            $this->session->getRelatedObjects( $employer, "RelationTestEmployer" ),
+            $this->session->getRelatedObjects( $person, "RelationTestEmployer" ),
             "Related RelationTestPerson objects not fetched correctly."
         );
     }
 
     public function testGetRelatedObjectsEmployer2()
     {
-        $employer = $this->session->load( "RelationTestPerson", 2 );
+        $person = $this->session->load( "RelationTestPerson", 2 );
         $res = array (
             0 => RelationTestEmployer::__set_state(array(
                 'id' => '1',
@@ -72,14 +73,14 @@ class ezcPersistentManyToOneRelationTest extends ezcTestCase
 
         $this->assertEquals(
             $res,
-            $this->session->getRelatedObjects( $employer, "RelationTestEmployer" ),
+            $this->session->getRelatedObjects( $person, "RelationTestEmployer" ),
             "Related RelationTestPerson objects not fetched correctly."
         );
     }
 
     public function testGetRelatedObjectEmployer1()
     {
-        $employer = $this->session->load( "RelationTestPerson", 1 );
+        $person = $this->session->load( "RelationTestPerson", 1 );
         $res = RelationTestEmployer::__set_state(array(
                 'id' => '2',
                 'name' => 'Oldschool Web 1.x company',
@@ -87,14 +88,14 @@ class ezcPersistentManyToOneRelationTest extends ezcTestCase
 
         $this->assertEquals(
             $res,
-            $this->session->getRelatedObject( $employer, "RelationTestEmployer" ),
+            $this->session->getRelatedObject( $person, "RelationTestEmployer" ),
             "Related RelationTestPerson objects not fetched correctly."
         );
     }
 
     public function testGetRelatedObjectEmployer2()
     {
-        $employer = $this->session->load( "RelationTestPerson", 2 );
+        $person = $this->session->load( "RelationTestPerson", 2 );
         $res = RelationTestEmployer::__set_state(array(
                 'id' => '1',
                 'name' => 'Great Web 2.0 company',
@@ -102,9 +103,25 @@ class ezcPersistentManyToOneRelationTest extends ezcTestCase
 
         $this->assertEquals(
             $res,
-            $this->session->getRelatedObject( $employer, "RelationTestEmployer" ),
+            $this->session->getRelatedObject( $person, "RelationTestEmployer" ),
             "Related RelationTestPerson objects not fetched correctly."
         );
+    }
+
+    public function testAddRelatedObjectEmployerFailureReverse()
+    {
+        $person = $this->session->load( "RelationTestPerson", 2 );
+        $employer = $this->session->load( "RelationTestEmployer", 2 );
+
+        try
+        {
+            $this->session->addRelatedObject( $person, $employer );
+        }
+        catch ( ezcPersistentRelationOperationNotSupportedException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on adding a new relation that is marked as reverse." );
     }
 }
 

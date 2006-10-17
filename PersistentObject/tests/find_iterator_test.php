@@ -7,6 +7,7 @@
  * @package PersistentObject
  * @subpackage Tests
  */
+ezcTestRunner::addFileToFilter( __FILE__ );
 
 require_once "data/persistent_test_object.php";
 

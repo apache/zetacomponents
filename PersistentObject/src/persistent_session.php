@@ -544,6 +544,14 @@ class ezcPersistentSession
         }
     }
 
+    /**
+     * Create a relation between $object and $relatedObjects.
+     * This is a convenience method to handle single objects easier. For
+     * detailed information please refer to {@see addRelatedObjects()}.
+     * 
+     * @param object $object        Source object.
+     * @param object $relatedObject Related object.
+     */
     public function addRelatedObject( $object, $relatedObject )
     {
         $this->addRelatedObjects( $object, array( $relatedObject ) );

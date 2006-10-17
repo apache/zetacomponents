@@ -7,6 +7,7 @@
  * @package PersistentObject
  * @subpackage Tests
  */
+ezcTestRunner::addFileToFilter( __FILE__ );
 
 /**
  * Test the instance class

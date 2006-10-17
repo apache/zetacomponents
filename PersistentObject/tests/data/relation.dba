@@ -1,4 +1,7 @@
-<?php return array (
+<?php 
+ezcTestRunner::addFileToFilter( __FILE__ );
+
+return array (
   0 => 
   array (
     'PO_addresses' => 
