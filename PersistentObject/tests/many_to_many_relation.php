@@ -43,6 +43,113 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
         RelationTestPerson::cleanup();
     }
 
+    // Tests of the relation definition class
+
+    public function testGetAccessSuccess()
+    {
+        $relation = new ezcPersistentManyToManyRelation( "PO_persons", "PO_addresses", "PO_persons_addresses" );
+
+        $this->assertEquals( "PO_persons", $relation->sourceTable );
+        $this->assertEquals( "PO_addresses", $relation->destinationTable );
+        $this->assertEquals( "PO_persons_addresses", $relation->relationTable );
+        $this->assertEquals( array(), $relation->columnMap );
+        $this->assertEquals( false, $relation->reverse );
+    }
+
+    public function testGetAccessFailure()
+    {
+        $relation = new ezcPersistentManyToManyRelation( "PO_persons", "PO_addresses", "PO_persons_addresses" );
+        try
+        {
+            $foo = $relation->non_existent;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on access of non existent property." );
+    }
+
+    public function testSetAccessSuccess()
+    {
+        $relation = new ezcPersistentManyToManyRelation( "PO_persons", "PO_addresses", "PO_persons_addresses" );
+        $tableMap = new ezcPersistentDoubleTableMap( "other_persons_id", "other_persons_id", "other_addresses_id", "other_addresses_id" );
+
+        $relation->sourceTable = "PO_other_persons";
+        $relation->destinationTable = "PO_other_addresses";
+        $relation->relationTable = "PO_other_persons_other_addresses";
+        $relation->columnMap = array( $tableMap );
+        $relation->reverse = true;
+
+        $this->assertEquals( $relation->sourceTable, "PO_other_persons" );
+        $this->assertEquals( $relation->destinationTable, "PO_other_addresses" );
+        $this->assertEquals( $relation->relationTable, "PO_other_persons_other_addresses" );
+        $this->assertEquals( $relation->columnMap, array( $tableMap ) );
+        $this->assertEquals( $relation->reverse, true );
+    }
+
+    public function testSetAccessFailure()
+    {
+        $relation = new ezcPersistentManyToManyRelation( "PO_persons", "PO_addresses", "PO_persons_addresses" );
+        $tableMap = new ezcPersistentSingleTableMap( "other_persons_id", "other_addresses_id" );
+
+        try
+        {
+            $relation->sourceTable = 23;
+            $this->fail( "Exception not thrown on invalid value for ezcPersistentManyToManyRelation->sourceTable." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+        }
+
+        try
+        {
+            $relation->destinationTable = 42;
+            $this->fail( "Exception not thrown on invalid value for ezcPersistentManyToManyRelation->destinationTable." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+        }
+
+        try
+        {
+            $relation->relationTable = 5;
+            $this->fail( "Exception not thrown on invalid value for ezcPersistentManyToManyRelation->relationTable." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+        }
+
+        try
+        {
+            $relation->columnMap = array( $tableMap );
+            $this->fail( "Exception not thrown on invalid value for ezcPersistentManyToManyRelation->columnMap." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+        }
+        
+        try
+        {
+            $relation->columnMap = array();
+            $this->fail( "Exception not thrown on invalid value for ezcPersistentManyToManyRelation->columnMap." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+        }
+
+        try
+        {
+            $relation->reverse = array();
+            $this->fail( "Exception not thrown on invalid value for ezcPersistentManyToManyRelation->columnMap." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+        }
+    }
+
+    // Tests using the actual relation definition
+
     public function testGetRelatedObjectsPerson1()
     {
         $person = $this->session->load( "RelationTestPerson", 1 );
