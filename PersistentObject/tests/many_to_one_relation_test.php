@@ -42,6 +42,124 @@ class ezcPersistentManyToOneRelationTest extends ezcTestCase
     {
         RelationTestEmployer::cleanup();
     }
+    
+    // Tests of the relation definition class
+
+    public function testGetAccessSuccess()
+    {
+        $relation = new ezcPersistentManyToOneRelation( "PO_persons", "PO_addresses" );
+
+        $this->assertEquals( "PO_persons", $relation->sourceTable );
+        $this->assertEquals( "PO_addresses", $relation->destinationTable );
+        $this->assertEquals( array(), $relation->columnMap );
+        $this->assertEquals( false, $relation->reverse );
+        $this->assertEquals( false, $relation->cascade );
+    }
+
+    public function testGetAccessFailure()
+    {
+        $relation = new ezcPersistentManyToOneRelation( "PO_persons", "PO_addresses" );
+        try
+        {
+            $foo = $relation->non_existent;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on access of non existent property." );
+    }
+    
+    public function testIssetAccessSuccess()
+    {
+        $relation = new ezcPersistentManyToOneRelation( "PO_persons", "PO_addresses" );
+
+        $this->assertTrue( isset( $relation->sourceTable ) );
+        $this->assertTrue( isset( $relation->destinationTable ) );
+        $this->assertTrue( isset( $relation->columnMap ) );
+        $this->assertTrue( isset( $relation->reverse ) );
+        $this->assertTrue( isset( $relation->cascade ) );
+    }
+
+    public function testSetAccessSuccess()
+    {
+        $relation = new ezcPersistentManyToOneRelation( "PO_persons", "PO_addresses" );
+        $tableMap = new ezcPersistentSingleTableMap( "other_persons_id", "other_addresses_id" );
+
+        $relation->sourceTable = "PO_other_persons";
+        $relation->destinationTable = "PO_other_addresses";
+        $relation->columnMap = array( $tableMap );
+        $relation->reverse = true;
+        $relation->cascade = true;
+
+        $this->assertEquals( $relation->sourceTable, "PO_other_persons" );
+        $this->assertEquals( $relation->destinationTable, "PO_other_addresses" );
+        $this->assertEquals( $relation->columnMap, array( $tableMap ) );
+        $this->assertEquals( $relation->reverse, true );
+        $this->assertEquals( $relation->cascade, true );
+    }
+
+    public function testSetAccessFailure()
+    {
+        $relation = new ezcPersistentManyToOneRelation( "PO_persons", "PO_addresses" );
+        $tableMap = new ezcPersistentDoubleTableMap( "other_persons_id", "other_persons_id", "other_addresses_id", "other_addresses_id" );
+
+        try
+        {
+            $relation->sourceTable = 23;
+            $this->fail( "Exception not thrown on invalid value for ezcPersistentManyToOneRelation->sourceTable." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+        }
+
+        try
+        {
+            $relation->destinationTable = 42;
+            $this->fail( "Exception not thrown on invalid value for ezcPersistentManyToOneRelation->destinationTable." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+        }
+
+        try
+        {
+            $relation->columnMap = array( $tableMap );
+            $this->fail( "Exception not thrown on invalid value for ezcPersistentManyToOneRelation->columnMap." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+        }
+        
+        try
+        {
+            $relation->columnMap = array();
+            $this->fail( "Exception not thrown on invalid value for ezcPersistentManyToOneRelation->columnMap." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+        }
+
+        try
+        {
+            $relation->reverse = array();
+            $this->fail( "Exception not thrown on invalid value for ezcPersistentManyToOneRelation->reverse." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+        }
+
+        try
+        {
+            $relation->cascade = array();
+            $this->fail( "Exception not thrown on invalid value for ezcPersistentManyToOneRelation->cascade." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+        }
+    }
+
+    // Tests using the actual relation definition
 
     public function testGetRelatedObjectsEmployer1()
     {

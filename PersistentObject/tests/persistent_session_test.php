@@ -50,9 +50,8 @@ class ezcPersistentSessionTest extends ezcTestCase
         return new PHPUnit_Framework_TestSuite( 'ezcPersistentSessionTest' );
     }
 
-    ///
     // loadIfExists
-     //
+    //
     public function testLoadIfExistsValid()
     {
         $object = $this->session->loadIfExists( 'PersistentTestObject', 1 );
@@ -73,9 +72,7 @@ class ezcPersistentSessionTest extends ezcTestCase
         $this->assertEquals( null, $object );
     }
 
-    //
     // load
-     //
 
     // class name is not a persistent object
     public function testLoadValid()
@@ -108,9 +105,8 @@ class ezcPersistentSessionTest extends ezcTestCase
         }
     }
 
-    //
     // loadIntoObject
-     //
+    
     public function testLoadIntoObjectValid()
     {
         $object = new PersistentTestObject();
@@ -151,9 +147,8 @@ class ezcPersistentSessionTest extends ezcTestCase
         catch ( ezcPersistentObjectException $e ) {}
     }
 
-    //
     // update
-     //
+    
     public function testUpdateValid()
     {
         $object = $this->session->loadIfExists( 'PersistentTestObject', 1 );
@@ -194,9 +189,7 @@ class ezcPersistentSessionTest extends ezcTestCase
         catch ( ezcPersistentObjectException $e ) {}
     }
 
-    //
     // save
-    ///
 
     public function testSaveValid()
     {
@@ -244,9 +237,8 @@ class ezcPersistentSessionTest extends ezcTestCase
         catch ( ezcPersistentObjectException $e ) {}
     }
 
-    //
     // Save or update
-     //
+
     public function testSaveOrUpdateSave()
     {
         $object = new PersistentTestObject();
@@ -293,9 +285,8 @@ class ezcPersistentSessionTest extends ezcTestCase
         catch ( ezcPersistentObjectException $e ) {}
     }
 
-    //
     // refresh
-     //
+
     public function testRefreshValid()
     {
         $object = new PersistentTestObject();
@@ -330,9 +321,8 @@ class ezcPersistentSessionTest extends ezcTestCase
         catch ( ezcPersistentObjectException $e ) {}
     }
 
-    //
     // delete
-     //
+
     public function testDeleteValid()
     {
         $object = new PersistentTestObject();
@@ -374,9 +364,8 @@ class ezcPersistentSessionTest extends ezcTestCase
         catch ( ezcPersistentObjectException $e ) {}
     }
 
-    //
     // find
-     //
+
     public function testFindNoResult()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
@@ -412,9 +401,8 @@ class ezcPersistentSessionTest extends ezcTestCase
         $this->assertEquals( 'Home of the lederhosen!.', $objects[1]->text );
     }
 
-    //
     // findIterator
-     //
+
     public function testFindIteratorNoResult()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
@@ -451,9 +439,9 @@ class ezcPersistentSessionTest extends ezcTestCase
         }
         $this->assertEquals( 2, $i );
     }
-    //
+
     //  deleteFromQuery
-    //
+
     public function testDeleteFromQuery()
     {
         $q = $this->session->createDeleteQuery( 'PersistentTestObject' );
@@ -467,9 +455,8 @@ class ezcPersistentSessionTest extends ezcTestCase
 
     // public funciton testDeleteFrom with forced error
 
-    //
     // updateFromQuery
-    //
+
     public function testUpdateFromQuery()
     {
         $q = $this->session->createUpdateQuery( 'PersistentTestObject' );
@@ -487,9 +474,8 @@ class ezcPersistentSessionTest extends ezcTestCase
 
     // public funciton testDeleteFrom with forced error
 
-    //
     // Test aliases
-    //
+
     public function testFindUsingAliases()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
@@ -529,6 +515,62 @@ class ezcPersistentSessionTest extends ezcTestCase
             $session->definitionManager = $manager;
             $this->fail( "Did not get exception when expected" );
         }catch( ezcBasePropertyPermissionException $e ){
+        }
+    }
+
+    // Overloading
+
+    public function testGetAccessFailure()
+    {
+        $db = ezcDbInstance::get();
+        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
+        $session = new ezcPersistentSession( $db, $manager );
+
+        try
+        {
+            $foo = $session->non_existent;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on get access to non existent property." );
+    }
+    
+    public function testSetAccessFailure()
+    {
+        $db = ezcDbInstance::get();
+        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
+        $session = new ezcPersistentSession( $db, $manager );
+
+        try
+        {
+            $session->database = null;
+            $this->fail( "Exception not thrown on set access to ezcPersistentSession->database." );
+        }
+        catch ( ezcBasePropertyPermissionException $e )
+        {
+            return;
+        }
+
+        try
+        {
+            $session->definitionManager = null;
+            $this->fail( "Exception not thrown on set access to ezcPersistentSession->definitionManager." );
+        }
+        catch ( ezcBasePropertyPermissionException $e )
+        {
+            return;
+        }
+
+        try
+        {
+            $session->non_existent = null;
+            $this->fail( "Exception not thrown on set access to non existent property." );
+        }
+        catch ( ezcBasePropertyPermissionException $e )
+        {
+            return;
         }
     }
 }

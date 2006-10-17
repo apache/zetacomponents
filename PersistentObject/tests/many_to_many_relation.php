@@ -69,6 +69,17 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
         }
         $this->fail( "Exception not thrown on access of non existent property." );
     }
+    
+    public function testIssetAccessSuccess()
+    {
+        $relation = new ezcPersistentManyToManyRelation( "PO_persons", "PO_addresses", "PO_persons_addresses" );
+
+        $this->assertTrue( isset( $relation->sourceTable ) );
+        $this->assertTrue( isset( $relation->destinationTable ) );
+        $this->assertTrue( isset( $relation->relationTable ) );
+        $this->assertTrue( isset( $relation->columnMap ) );
+        $this->assertTrue( isset( $relation->reverse ) );
+    }
 
     public function testSetAccessSuccess()
     {
@@ -141,7 +152,7 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
         try
         {
             $relation->reverse = array();
-            $this->fail( "Exception not thrown on invalid value for ezcPersistentManyToManyRelation->columnMap." );
+            $this->fail( "Exception not thrown on invalid value for ezcPersistentManyToManyRelation->reverse." );
         }
         catch ( ezcBaseValueException $e )
         {
