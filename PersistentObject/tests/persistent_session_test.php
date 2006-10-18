@@ -573,6 +573,44 @@ class ezcPersistentSessionTest extends ezcTestCase
             return;
         }
     }
+
+    // Struct tests
+
+    // http://ez.no/bugs/view/9189
+    // http://ez.no/bugs/view/9187
+    public function testPersistentObjectDefinitionStruct()
+    {
+        $property = new ezcPersistentObjectProperty(
+            "test column",
+            "test property",
+            ezcPersistentObjectProperty::PHP_TYPE_INT
+        );
+
+        $def = new ezcPersistentObjectDefinition(
+            "test table",
+            "test class",
+            array( $property ),
+            array()
+        );
+
+        $res = ezcPersistentObjectDefinition::__set_state(array(
+            'table' => 'test table',
+            'class' => 'test class',
+            'idProperty' => NULL,
+            'properties' => array (
+                0 => 
+                ezcPersistentObjectProperty::__set_state(array(
+                    'columnName' => 'test column',
+                    'propertyName' => 'test property',
+                    'propertyType' => 2,
+                )),
+            ),
+            'columns' => array (),
+            'relations' => array (),
+        ));
+        
+        $this->assertEquals( $res, $def, "ezcPersistentObjectDefinition not deserialized correctly." );
+    }
 }
 
 ?>

@@ -75,9 +75,7 @@ class ezcPersistentObjectDefinition extends ezcBaseStruct
      * @apichange Remove parameters $key and $incrementKey and add idProperty and $properties.
      */
     public function __construct( $table = '',
-                                 $key = '',
                                  $class = '',
-                                 $incrementKey = '',
                                  array $properties = array(),
                                  array $relations = array() )
     {
@@ -103,9 +101,7 @@ class ezcPersistentObjectDefinition extends ezcBaseStruct
     public static function __set_state( array $array )
     {
         return new ezcPersistentObjectDefinition( $array['table'],
-                                                  $array['primaryKey'],
                                                   $array['class'],
-                                                  $array['incrementKey'],
                                                   $array['properties'],
                                                   $array['relations'] );
     }
