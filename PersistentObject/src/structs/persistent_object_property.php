@@ -66,7 +66,7 @@ class ezcPersistentObjectProperty
     {
         return new ezcPersistentObjectProperty( $array['columnName'],
                                                 $array['propertyName'],
-                                                $array['type'] );
+                                                $array['propertyType'] );
     }
     
     /**
