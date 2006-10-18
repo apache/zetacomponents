@@ -156,6 +156,15 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         catch ( ezcBaseValueException $e )
         {
         }
+
+        try
+        {
+            $relation->non_existent = true;
+            $this->fail( "Exception not thrown on set access on non existent property." );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+        }
     }
     
     // Tests using the actual relation definition
