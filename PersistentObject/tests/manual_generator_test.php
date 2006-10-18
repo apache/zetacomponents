@@ -101,6 +101,20 @@ class ezcPersistentManualGeneratorTest extends ezcTestCase
         }catch( Exception $e ){ return; }
         $this->fail( "Did not get exception when saving object twice.." );
     }
+
+    // test struct
+    public function testGeneratorDefinitionStruct()
+    {
+        $generator = new ezcPersistentGeneratorDefinition( "TestClass", array( "param" => true ) );
+        $res = ezcPersistentGeneratorDefinition::__set_state(array(
+            'class' => 'TestClass',
+            'params' => array(
+                'param' => true,
+            ),
+        ));
+
+        $this->assertEquals( $res, $generator );
+    }
 }
 
 ?>
