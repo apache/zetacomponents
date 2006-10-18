@@ -17,10 +17,6 @@
 class ezcTemplateXhtmlContext implements ezcTemplateOutputContext
 {
 
-    public $eolString = array( "\n\r", "\n" );
-
-    public $lineBreakString  = "<br />";
-
     /**
      * Does nothing.
      */

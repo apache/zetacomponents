@@ -23,32 +23,16 @@ class ezcConsoleToolsTableCellTest extends ezcTestCase
 		return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsTableCellTest" );
 	}
 
-    public function testConstructorSuccessDefault()
-    {
-        $cell = new ezcConsoleTableCell();
-        $this->assertEquals( $cell->content, "" );
-        $this->assertEquals( $cell->format, "default" );
-        $this->assertEquals( $cell->align, ezcConsoleTable::ALIGN_DEFAULT );
-    }
-    
-    public function testConstructorSuccessNonDefault()
+    public function testCtorSuccess()
     {
         $cell = new ezcConsoleTableCell( 'test', 'success', ezcConsoleTable::ALIGN_RIGHT );
-        $this->assertEquals(
-            "test",
-             $cell->content
-        );
-        $this->assertEquals(
-            "success",
-            $cell->format
-        );
-        $this->assertEquals(
-            ezcConsoleTable::ALIGN_RIGHT,
-            $cell->align
+        $this->assertTrue( 
+            isset( $cell->content ) && $cell->content === 'test' && isset( $cell->format ) && $cell->format === 'success' && isset( $cell->align ) && $cell->align === ezcConsoleTable::ALIGN_RIGHT,
+            "ezcConsoleTableCell not correctly created."
         );
     }
     
-    public function testConstructorFailure()
+    public function testCtorFailure()
     {
         try
         {
@@ -56,35 +40,10 @@ class ezcConsoleToolsTableCellTest extends ezcTestCase
         }
         catch ( ezcBaseValueException $e )
         {
+            $this->assertTrue(true);
             return;
         }
         $this->fail( "Exception not thrown on invalid align value." );
-    }
-
-    public function testSetAccessSuccess()
-    {
-        $cell = new ezcConsoleTableCell();
-        $cell->content = "aaa";
-        $cell->format = "bbb";
-        $cell->align = ezcConsoleTable::ALIGN_RIGHT;
-
-        $this->assertEquals( $cell->content, "aaa" );
-        $this->assertEquals( $cell->format, "bbb" );
-        $this->assertEquals( $cell->align, ezcConsoleTable::ALIGN_RIGHT );
-    }
-
-    public function testSetAccessFailure()
-    {
-        $cell = new ezcConsoleTableCell();
-        try
-        {
-            $cell->align = "nonExistent";
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            return;
-        }
-        $this->fail( "No exception thrown on invalid value for ezcConsoleTableCell->align." );
     }
     
 }
