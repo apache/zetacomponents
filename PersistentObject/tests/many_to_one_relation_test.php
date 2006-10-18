@@ -52,7 +52,7 @@ class ezcPersistentManyToOneRelationTest extends ezcTestCase
         $this->assertEquals( "PO_persons", $relation->sourceTable );
         $this->assertEquals( "PO_addresses", $relation->destinationTable );
         $this->assertEquals( array(), $relation->columnMap );
-        $this->assertEquals( false, $relation->reverse );
+        $this->assertEquals( true, $relation->reverse );
         $this->assertEquals( false, $relation->cascade );
     }
 
@@ -89,7 +89,6 @@ class ezcPersistentManyToOneRelationTest extends ezcTestCase
         $relation->sourceTable = "PO_other_persons";
         $relation->destinationTable = "PO_other_addresses";
         $relation->columnMap = array( $tableMap );
-        $relation->reverse = true;
         $relation->cascade = true;
 
         $this->assertEquals( $relation->sourceTable, "PO_other_persons" );
@@ -145,7 +144,7 @@ class ezcPersistentManyToOneRelationTest extends ezcTestCase
             $relation->reverse = array();
             $this->fail( "Exception not thrown on invalid value for ezcPersistentManyToOneRelation->reverse." );
         }
-        catch ( ezcBaseValueException $e )
+        catch ( ezcBasePropertyPermissionException $e )
         {
         }
 

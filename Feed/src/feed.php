@@ -56,7 +56,22 @@ class ezcFeed implements Iterator
         {
             throw new ezcBaseFileNotFoundException( $uri );
         }
-        
+        return self::dispatchXml( $xml );
+    }
+
+    static public function parseContent( $content )
+    {
+        $xml = new DomDocument;
+        $retval = @$xml->loadXML( $content );
+        if ( $retval === false )
+        {
+            throw new ezcFeedParseErrorException( "Content is no valid XML." );
+        }
+        return self::dispatchXml( $xml );
+    }
+
+    protected static function dispatchXml( DOMDocument $xml )
+    {
         foreach ( self::$supportedFeedTypes as $feedType => $feedClass )
         {
             $canParse = call_user_func( array( $feedClass, 'canParse' ), $xml );
@@ -67,7 +82,7 @@ class ezcFeed implements Iterator
             }
         }
 
-        throw new ezcFeedCanNotParseException( $uri, 'Feed type not recognised' );
+        throw new ezcFeedCanNotParseException( $xml->documentURI, 'Feed type not recognised' );
     }
 
     static public function getSupportedTypes()

@@ -29,6 +29,7 @@ class ezcPersistentManyToOneRelation extends ezcPersistentRelation
    
     private $properties = array(
         "cascade" => false,
+        "reverse" => true,
     );
 
     /**
@@ -80,6 +81,7 @@ class ezcPersistentManyToOneRelation extends ezcPersistentRelation
         switch ( $propertyName )
         {
             case "cascade":
+            case "reverse":
                 return $this->properties[$propertyName];
             default:
                 return parent::__get( $propertyName );
@@ -114,6 +116,8 @@ class ezcPersistentManyToOneRelation extends ezcPersistentRelation
                 }
                 $this->properties[$propertyName] = $propertyValue;
                 break;
+            case "reverse":
+               throw new ezcBasePropertyPermissionException( $propertyName, ezcBasePropertyPermissionException::READ );
             default:
                 parent::__set( $propertyName, $propertyValue );
                 break;
