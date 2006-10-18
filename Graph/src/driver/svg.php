@@ -697,7 +697,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 // Optionally draw text shadow
                 if ( $text['font']->textShadow === true )
                 {
-                    $textNode = $this->dom->createElement( 'text', $string );
+                    $textNode = $this->dom->createElement( 'text', htmlentities( $string ) );
                     $textNode->setAttribute( 'id', $text['id'] );
                     $textNode->setAttribute( 'x', $position->x + $this->options->graphOffset->x + $text['font']->textShadowOffset );
                     $textNode->setAttribute( 'text-length', $this->getTextWidth( $string, $size ) . 'px' );
@@ -718,7 +718,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 }
                 
                 // Finally draw text
-                $textNode = $this->dom->createElement( 'text', $string );
+                $textNode = $this->dom->createElement( 'text', htmlentities( $string ) );
                 $textNode->setAttribute( 'id', $text['id'] );
                 $textNode->setAttribute( 'x', $position->x + $this->options->graphOffset->x );
                 $textNode->setAttribute( 'text-length', $this->getTextWidth( $string, $size ) . 'px' );
