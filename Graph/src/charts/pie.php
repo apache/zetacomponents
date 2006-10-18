@@ -76,6 +76,10 @@ class ezcGraphPieChart extends ezcGraphChart
         {
             $sum += $value;
         }
+        if ( $this->options->sum !== false )
+        {
+            $sum = max( $sum, $this->options->sum );
+        }
 
         $angle = 0;
         foreach ( $dataset as $label => $value )

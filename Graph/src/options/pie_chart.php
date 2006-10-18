@@ -15,7 +15,10 @@
  *              %$1s    Name of pie
  *              %2$d    Value of pie
  *              %3$.1f  Percentage
- * 
+ * @property float $sum
+ *           Fixed sum of values. This should be used for incomplete pie 
+ *           charts.
+ *
  * @package Graph
  */
 class ezcGraphPieChartOptions extends ezcGraphChartOptions
@@ -30,6 +33,7 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
     public function __construct( array $options = array() )
     {
         $this->properties['label'] = '%1$s: %2$d (%3$.1f%%)';
+        $this->properties['sum'] = false;
 
         parent::__construct( $options );
     }
@@ -50,6 +54,9 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
         {
             case 'label':
                 $this->properties['label'] = (string) $propertyValue;
+                break;
+            case 'sum':
+                $this->properties['sum'] = (float) $propertyValue;
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );
