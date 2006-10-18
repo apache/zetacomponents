@@ -586,27 +586,59 @@ class ezcPersistentSessionTest extends ezcTestCase
             ezcPersistentObjectProperty::PHP_TYPE_INT
         );
 
+        $generator = new ezcPersistentGeneratorDefinition(
+            "test class",
+            array( "param" => 123 )
+        );
+
+        $idProperty = new ezcPersistentObjectIdProperty(
+            "test column",
+            "test property",
+            null,
+            $generator
+        );
+
         $def = new ezcPersistentObjectDefinition(
             "test table",
             "test class",
             array( $property ),
-            array()
+            array(),
+            $idProperty
         );
 
+
         $res = ezcPersistentObjectDefinition::__set_state(array(
-            'table' => 'test table',
-            'class' => 'test class',
-            'idProperty' => NULL,
-            'properties' => array (
-                0 => 
-                ezcPersistentObjectProperty::__set_state(array(
-                    'columnName' => 'test column',
-                    'propertyName' => 'test property',
-                    'propertyType' => 2,
-                )),
-            ),
-            'columns' => array (),
-            'relations' => array (),
+           'table' => 'test table',
+           'class' => 'test class',
+           'idProperty' => 
+          ezcPersistentObjectIdProperty::__set_state(array(
+             'columnName' => 'test column',
+             'propertyName' => 'test property',
+             'visibility' => NULL,
+             'generator' => 
+            ezcPersistentGeneratorDefinition::__set_state(array(
+               'class' => 'test class',
+               'params' => 
+              array (
+                'param' => 123,
+              ),
+            )),
+          )),
+           'properties' => 
+          array (
+            0 => 
+            ezcPersistentObjectProperty::__set_state(array(
+               'columnName' => 'test column',
+               'propertyName' => 'test property',
+               'propertyType' => 2,
+            )),
+          ),
+           'columns' => 
+          array (
+          ),
+           'relations' => 
+          array (
+          ),
         ));
         
         $this->assertEquals( $res, $def, "ezcPersistentObjectDefinition not deserialized correctly." );

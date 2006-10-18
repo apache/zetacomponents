@@ -80,9 +80,10 @@ class ezcPersistentObjectIdProperty extends ezcBaseStruct
      */
     public static function __set_state( array $array )
     {
-        return new ezcPersistentObjectField( $array['columnName'],
-                                             $array['propertyName'],
-                                             $array['visibility'] );
+        return new ezcPersistentObjectIdProperty( $array['columnName'],
+                                                  $array['propertyName'],
+                                                  $array['visibility'],
+                                                  $array['generator'] );
     }
 }
 

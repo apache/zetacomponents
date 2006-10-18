@@ -72,17 +72,20 @@ class ezcPersistentObjectDefinition extends ezcBaseStruct
      * The parameters $key and $incrementKey are not used any more and will be removed
      * next time we can break backwards compatibility.
      *
+     * @todo Remove apichange tag. This was a bug, since __set_state() did not work properly.
      * @apichange Remove parameters $key and $incrementKey and add idProperty and $properties.
      */
     public function __construct( $table = '',
                                  $class = '',
                                  array $properties = array(),
-                                 array $relations = array() )
+                                 array $relations = array(),
+                                 ezcPersistentObjectIdProperty $idProperty = null )
     {
         $this->table = $table;
         $this->class = $class;
         $this->properties = $properties;
         $this->relations = $relations;
+        $this->idProperty = $idProperty;
     }
 
     /**
@@ -103,7 +106,8 @@ class ezcPersistentObjectDefinition extends ezcBaseStruct
         return new ezcPersistentObjectDefinition( $array['table'],
                                                   $array['class'],
                                                   $array['properties'],
-                                                  $array['relations'] );
+                                                  $array['relations'],
+                                                  $array['idProperty']);
     }
 }
 ?>
