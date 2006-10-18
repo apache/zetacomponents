@@ -46,6 +46,14 @@ class ezcPersistentSingleTableMap extends ezcBaseStruct
         $this->sourceColumn         = $sourceColumn;
         $this->destinationColumn    = $destinationColumn;
     }
+
+    public static function __set_state( array $state )
+    {
+        return new ezcPersistentSingleTableMap(
+            $state["sourceColumn"],
+            $state["destinationColumn"]
+        );
+    }
 }
 
 ?>

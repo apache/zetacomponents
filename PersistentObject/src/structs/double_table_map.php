@@ -69,6 +69,16 @@ class ezcPersistentDoubleTableMap extends ezcBaseStruct
 
         $this->destinationColumn            = $destinationColumn;
     }
+
+    public static function __set_state( array $state )
+    {
+        return new ezcPersistentDoubleTableMap(
+            $state["sourceColumn"],
+            $state["relationSourceColumn"],
+            $state["relationDestinationColumn"],
+            $state["destinationColumn"]
+        );
+    }
 }
 
 ?>
