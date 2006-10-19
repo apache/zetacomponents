@@ -10,19 +10,19 @@
 
 /**
  * Provides access to common system variables.
- * 
+ *
  * Variables that not available from PHP directly are fetched using readers
  * specific for each supported system. óorresponding reader automatically
  * detected, attached and forced to scan system info during initialisation.
  * Exception throws if reader can't scan sistem info.
- * 
+ *
  * Available readers are:
  * - {@link ezcSystemInfoLinuxReader} reader
  * - {@link ezcSystemInfoMacReader} reader
  * - {@link ezcSystemInfoFreeBsdReader} reader
  * - {@link ezcSystemInfoWindowsReader} reader
  *
- * Readers for otner systems could be added by 
+ * Readers for otner systems could be added by
  * implementing the {@link ezcSystemInfoReader} interface.
  *
  * The ezcSystemInfo class has the following properties:<br><br>
@@ -31,10 +31,10 @@
  * - String <b>osName</b>, OS name (e.g 'Linux') or null.
  * - String <b>fileSystemType</b>, filesystem type (e.g 'linux') or null.
  * - String <b>lineSeparator</b>, which is used for line separators on the current OS.
- * - String <b>backupFileName</b>, backup filename for this platform, '.bak' for win32 
+ * - String <b>backupFileName</b>, backup filename for this platform, '.bak' for win32
  *   and '~' for unix and mac.
  * - Array <b>phpVersion</b>, with PHP version (e.g. array(5,1,1) )
- * - ezcSystemInfoAccelerator <b>phpAccelerator</b>, structure with PHP accelerator info or null 
+ * - ezcSystemInfoAccelerator <b>phpAccelerator</b>, structure with PHP accelerator info or null
  * {@link ezcSystemInfoAccelerator}.
  * - Bool <b>isShellExecution</b>, flag indicates if the script executed over the web or the shell/command line.
  * <br><br>
@@ -89,7 +89,7 @@ class ezcSystemInfo
      * @var string
      */
     private $osName = null;
-    
+
     /**
      * Contains string with file system type
      * or empty string if OS can't be detected
@@ -97,7 +97,7 @@ class ezcSystemInfo
      * @var string
      */
     private $fileSystemType = null;
-    
+
     /**
      * Contains string with file system type
      * or empty string if OS can't be detected
@@ -113,10 +113,10 @@ class ezcSystemInfo
      * @var string
      */
     private $backupFileName = null;
-    
+
     /**
      * Returns the single instance of the ezcSystemInfo class
-     * 
+     *
      * @throws ezcSystemInfoReaderCantScanOSException
      *         If system variables can't be received from OS.
      * @return ezcSystemInfo
@@ -132,7 +132,7 @@ class ezcSystemInfo
 
     /**
      * Constructs ezcSystemInfo object, init it with correspondent underlaying OS object.
-     * 
+     *
      * @throws ezcSystemInfoReaderCantScanOSException
      *         If system variables can't be received from OS.
      */
@@ -143,7 +143,7 @@ class ezcSystemInfo
 
     /**
      * Detect underlaying system and setup system properties.
-     * 
+     *
      * @throws ezcSystemInfoReaderCantScanOSException
      *         If system variables can't be received from OS.
      * @return void
@@ -155,14 +155,14 @@ class ezcSystemInfo
 
 
     /**
-     * Sets the the systemInfoReader depending of the OS and fills in the system 
+     * Sets the the systemInfoReader depending of the OS and fills in the system
      * information internally.
      * Returns true if it was able to set appropriate systemInfoReader
      * or false if failed.
-     * 
+     *
      * @throws ezcSystemInfoReaderCantScanOSException
      *         If system variables can't be received from OS.
-     * 
+     *
      * @return bool
      */
     private function setSystemInfoReader()
@@ -209,14 +209,14 @@ class ezcSystemInfo
             }
             else
             {
-                $this->systemInfoReader = null; 
+                $this->systemInfoReader = null;
             }
         }
     }
 
     /**
      * Detects if a PHP accelerator running and what type it is if one found.
-     * 
+     *
      * @return ezcSystemInfoAccelerator or null if no PHP accelerator detected
      */
     public static function phpAccelerator()
@@ -245,7 +245,7 @@ class ezcSystemInfo
         if ( extension_loaded( "eAccelerator" ) )
         {
             $phpAcceleratorInfo = new ezcSystemInfoAccelerator(
-                    "eAccelerator",                                     // name            
+                    "eAccelerator",                                     // name
                     "http://sourceforge.net/projects/eaccelerator/",    // url
                     true,                                               // isEnabled
                     false,                                              // version int
@@ -327,9 +327,9 @@ class ezcSystemInfo
     function __get( $property )
     {
         if ( $this->systemInfoReader == null &&
-             ( $property == 'cpuType'  || 
-               $property == 'cpuCount' || 
-               $property == 'cpuSpeed' || 
+             ( $property == 'cpuType'  ||
+               $property == 'cpuCount' ||
+               $property == 'cpuSpeed' ||
                $property == 'memorySize'
              )
            )
@@ -364,7 +364,7 @@ class ezcSystemInfo
             case 'isShellExecution':
                 return $this->isShellExecution();
 
-            default: 
+            default:
                 break;
         }
         throw new ezcBasePropertyNotFoundException( $property );
