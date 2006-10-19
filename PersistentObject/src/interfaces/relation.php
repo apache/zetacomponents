@@ -76,7 +76,7 @@ abstract class ezcPersistentRelation
     {
         if ( isset( $this->$propertyName ) )
         {
-            return $this->properties[$propertyName];
+            return ( is_array( $this->properties[$propertyName] ) ) ? (array) $this->properties[$propertyName] : $this->properties[$propertyName];
         }
         throw new ezcBasePropertyNotFoundException( $propertyName );
     }
