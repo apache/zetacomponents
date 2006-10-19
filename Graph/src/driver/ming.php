@@ -52,6 +52,7 @@ class ezcGraphMingDriver extends ezcGraphDriver
     {
         if ( $this->movie === null )
         {
+            ming_setscale( 1.0 );
             $this->movie = new SWFMovie();
             $this->movie->setDimension( $this->modifyCoordinate( $this->options->width ), $this->modifyCoordinate( $this->options->height ) );
             $this->movie->setRate( 1 );
@@ -63,15 +64,76 @@ class ezcGraphMingDriver extends ezcGraphDriver
 
     protected function setShapeColor( SWFShape $shape, ezcGraphColor $color, $thickness, $filled )
     {
-        // @TODO: respect gradients
-        if ( $filled === false )
+        if ( $filled )
         {
-            $shape->setLine( $this->modifyCoordinate( $thickness ), $color->red, $color->green, $color->blue, 255 - $color->alpha );
+            switch ( true )
+            {
+                case ( $color instanceof ezcGraphLinearGradient ):
+                    $gradient = new SWFGradient();
+                    $gradient->addEntry( 
+                        0, 
+                        $color->startColor->red, 
+                        $color->startColor->green, 
+                        $color->startColor->blue, 
+                        255 - $color->startColor->alpha 
+                    );
+                    $gradient->addEntry( 
+                        1, 
+                        $color->endColor->red, 
+                        $color->endColor->green, 
+                        $color->endColor->blue, 
+                        255 - $color->endColor->alpha 
+                    );
+
+                    $fill = $shape->addFill( $gradient, SWFFILL_LINEAR_GRADIENT );
+
+                    $fill->rotateTo( 
+                        rad2deg( asin( 
+                            ( $color->endPoint->x - $color->startPoint->x ) / 
+                            $length = sqrt( 
+                                pow( $color->endPoint->x - $color->startPoint->x, 2 ) + 
+                                pow( $color->endPoint->y - $color->startPoint->y, 2 ) 
+                            ) 
+                        ) + 180 )
+                    );
+                    $fill->scaleTo( $this->modifyCoordinate( $length ) / 32768 , $this->modifyCoordinate( $length ) / 32768 );
+                    $fill->moveTo( $this->modifyCoordinate( $color->startPoint->x ), $this->modifyCoordinate( $color->startPoint->y ) );
+
+                    $shape->setLeftFill( $fill );
+                    break;
+                case ( $color instanceof ezcGraphRadialGradient ):
+                    $gradient = new SWFGradient();
+                    $gradient->addEntry( 
+                        0, 
+                        $color->startColor->red, 
+                        $color->startColor->green, 
+                        $color->startColor->blue, 
+                        255 - $color->startColor->alpha 
+                    );
+                    $gradient->addEntry( 
+                        1, 
+                        $color->endColor->red, 
+                        $color->endColor->green, 
+                        $color->endColor->blue, 
+                        255 - $color->endColor->alpha 
+                    );
+
+                    $fill = $shape->addFill( $gradient, SWFFILL_RADIAL_GRADIENT );
+
+                    $fill->scaleTo( $this->modifyCoordinate( $color->width ) / 32768, $this->modifyCoordinate( $color->height ) / 32768 );
+                    $fill->moveTo( $this->modifyCoordinate( $color->center->x ), $this->modifyCoordinate( $color->center->y ) );
+
+                    $shape->setLeftFill( $fill );
+                    break;
+                default:
+                    $fill = $shape->addFill( $color->red, $color->green, $color->blue );
+                    $shape->setLeftFill( $fill );
+                    break;
+            }
         }
         else
         {
-            $fill = $shape->addFill( $color->red, $color->green, $color->blue );
-            $shape->setLeftFill( $fill );
+            $shape->setLine( $this->modifyCoordinate( $thickness ), $color->red, $color->green, $color->blue, 255 - $color->alpha );
         }
     }
 

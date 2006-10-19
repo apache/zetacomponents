@@ -25,7 +25,6 @@ class ezcGraphMingDriverTest extends ezcTestCase
 
     protected $testFiles = array(
         'jpeg'           => 'jpeg.jpg',
-        'non_interlaced' => 'jpeg_non_interlaced.jpg',
         'png'            => 'png.png',
         'gif'            => 'gif.gif',
     );
@@ -1162,6 +1161,148 @@ class ezcGraphMingDriverTest extends ezcTestCase
         }
 
         $this->fail( 'Expected ezcGraphFontRenderingException.' );
+    }
+
+    public function testDrawCircleRadialFill()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.swf';
+
+        $return = $this->driver->drawCircle(
+            new ezcGraphCoordinate( 100, 50 ),
+            80,
+            40,
+            new ezcGraphRadialGradient(
+                new ezcGraphCoordinate( 80, 40),
+                80,
+                40,
+                ezcGraphColor::fromHex( '#729FCF' ),
+                ezcGraphColor::fromHex( '#3465A4' )
+            )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
+        );
+        
+        $this->assertEquals(
+            'ezcGraphCircle_1',
+            $return,
+            'Expected flash object id as return value.'
+        );
+    }
+
+    public function testDrawCircleLinearFill()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.swf';
+
+        $return = $this->driver->drawCircle(
+            new ezcGraphCoordinate( 100, 50 ),
+            80,
+            40,
+            new ezcGraphLinearGradient(
+                $start = new ezcGraphCoordinate( 80, 40 ),
+                $end = new ezcGraphCoordinate( 130, 55 ),
+                ezcGraphColor::fromHex( '#82BFFF' ),
+                ezcGraphColor::fromHex( '#3465A4' )
+            )
+        );
+
+        $this->driver->drawCircle(
+            $start,
+            2, 2, ezcGraphColor::fromHex( '#CC0000' )
+        );
+        $this->driver->drawCircle(
+            $end,
+            2, 2, ezcGraphColor::fromHex( '#CC0000' )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
+        );
+        
+        $this->assertEquals(
+            'ezcGraphCircle_1',
+            $return,
+            'Expected flash object id as return value.'
+        );
+    }
+
+    public function testDrawCircleRadialFilledLine()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.swf';
+
+        $return = $this->driver->drawCircle(
+            new ezcGraphCoordinate( 100, 50 ),
+            80,
+            40,
+            new ezcGraphRadialGradient(
+                new ezcGraphCoordinate( 80, 40),
+                80,
+                40,
+                ezcGraphColor::fromHex( '#729FCF' ),
+                ezcGraphColor::fromHex( '#3465A4' )
+            ),
+            false
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
+        );
+        
+        $this->assertEquals(
+            'ezcGraphCircle_1',
+            $return,
+            'Expected flash object id as return value.'
+        );
+    }
+
+    public function testDrawCircleLinearFilledLine()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.swf';
+
+        $return = $this->driver->drawCircle(
+            new ezcGraphCoordinate( 100, 50 ),
+            80,
+            40,
+            new ezcGraphLinearGradient(
+                $start = new ezcGraphCoordinate( 80, 40 ),
+                $end = new ezcGraphCoordinate( 130, 55 ),
+                ezcGraphColor::fromHex( '#82BFFF' ),
+                ezcGraphColor::fromHex( '#3465A4' )
+            ),
+            false
+        );
+
+        $this->driver->drawCircle(
+            $start,
+            2, 2, ezcGraphColor::fromHex( '#CC0000' )
+        );
+        $this->driver->drawCircle(
+            $end,
+            2, 2, ezcGraphColor::fromHex( '#CC0000' )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
+        );
+        
+        $this->assertEquals(
+            'ezcGraphCircle_1',
+            $return,
+            'Expected flash object id as return value.'
+        );
     }
 }
 

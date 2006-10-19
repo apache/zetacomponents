@@ -66,8 +66,7 @@ class ezcGraphSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcGraphAxisCenteredRendererTest::suite() );
         $this->addTest( ezcGraphGdDriverTest::suite() );
         $this->addTest( ezcGraphSvgDriverTest::suite() );
-        // Segfaults
-//      $this->addTest( ezcGraphMingDriverTest::suite() );
+        $this->addTest( ezcGraphMingDriverTest::suite() );
         $this->addTest( ezcGraphFontTest::suite() );
         $this->addTest( ezcGraphTextTest::suite() );
         $this->addTest( ezcGraphPaletteTest::suite() );
