@@ -415,42 +415,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
-
-    public function testRenderLabeledFlashPieChart()
-    {
-        $filename = $this->tempDir . __FUNCTION__ . '.swf';
-
-        $chart = new ezcGraphPieChart();
-        $chart->options->font->path = dirname( __FILE__ ) . '/data/fdb_font.fdb';
-
-        $chart->palette = new ezcGraphPaletteEzBlue();
-        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
-            'Mozilla' => 4375,
-            'IE' => 345,
-            'Opera' => 1204,
-            'wget' => 231,
-            'Safari' => 987,
-        ) );
-
-        $chart->data['sample']->highlight['Safari'] = true;
-
-        $chart->renderer = new ezcGraphRenderer3d();
-
-        $chart->renderer->options->pieChartShadowSize = 10;
-        $chart->renderer->options->pieChartGleam = .5;
-        $chart->renderer->options->dataBorder = false;
-        $chart->renderer->options->pieChartHeight = 16;
-        $chart->renderer->options->legendSymbolGleam = .5;
-
-        $chart->driver = new ezcGraphMingDriver();
-        $chart->render( 500, 200, $filename );
-
-        $this->compare(
-            $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
-        );
-    }
-
+    
     public function testRenderFullShadow()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
