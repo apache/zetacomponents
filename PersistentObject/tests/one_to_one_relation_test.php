@@ -169,7 +169,7 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
     
     // Tests using the actual relation definition
 
-    public function testGetRelatedObjectsBirthday1()
+    public function testGetRelatedBirthdaysFromPerson1()
     {
         $person = $this->session->load( "RelationTestPerson", 1 );
         $res = array (
@@ -186,7 +186,7 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         );
     }
     
-    public function testGetRelatedObjectsBirthday2()
+    public function testGetRelatedBirthdaysFromPerson2()
     {
         $person = $this->session->load( "RelationTestPerson", 2 );
         $res = array(
@@ -203,7 +203,7 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         );
     }
     
-    public function testGetRelatedObjectBirthday1()
+    public function testGetRelatedBirthdayFromPerson1Success()
     {
         $person = $this->session->load( "RelationTestPerson", 1 );
 
@@ -219,7 +219,7 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         );
     }
 
-    public function testGetRelatedObjectBirthday2()
+    public function testGetRelatedBirthdayFromPerson2Success()
     {
         $person = $this->session->load( "RelationTestPerson", 2 );
         $res = RelationTestBirthday::__set_state(array(
@@ -233,7 +233,7 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         );
     }
  
-    public function testAddRelatedObjectsBirthday2()
+    public function testAddRelatedBirthdaysToPerson3Success()
     {
         $person = $this->session->load( "RelationTestPerson", 3 );
         
@@ -256,7 +256,7 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         );
     }
  
-    public function testAddRelatedObjectBirthday2()
+    public function testAddRelatedBirthdayToPerson3Success()
     {
         $person = $this->session->load( "RelationTestPerson", 3 );
         
@@ -277,6 +277,54 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
             $birthday,
             "Relation not established correctly"
         );
+    }
+
+    // Fails currently, since PO thinks the object is already persistent
+    public function testAddRelatedBirthdayToPerson3SaveSuccess()
+    {
+        $person = $this->session->load( "RelationTestPerson", 3 );
+        
+        $birthday = new RelationTestBirthday();
+        $birthday->setState( array(
+            "birthday"  => 1161019786,
+        ) );
+
+        $this->session->addRelatedObject( $person, $birthday );
+        
+        $this->session->save( $birthday );
+
+        
+        $res = RelationTestBirthday::__set_state( array( 
+            'person' => '3',
+            'birthday' => 1161019786,
+        ));
+
+        $this->assertEquals(
+            $res,
+            $birthday,
+            "Relation not established correctly"
+        );
+    }
+ 
+    public function testAddRelatedBirthdayToPerson3UpdateFailure()
+    {
+        $person = $this->session->load( "RelationTestPerson", 3 );
+        
+        $birthday = new RelationTestBirthday();
+        $birthday->setState( array(
+            "birthday"  => 1161019786,
+        ) );
+
+        $this->session->addRelatedObject( $person, $birthday );
+        
+        try
+        {
+            $this->session->update( $birthday );
+            $this->fail( "Birthday object updated although not in database, yet!" );
+        }
+        catch( Exception $e )
+        {
+        }
     }
 }
 

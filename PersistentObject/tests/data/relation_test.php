@@ -33,7 +33,6 @@ class RelationTest
 
         $db->exec( "INSERT INTO `PO_birthdays` (`person_id`, `birthday`) VALUES (1, 327535201);"  );
         $db->exec( "INSERT INTO `PO_birthdays` (`person_id`, `birthday`) VALUES (2, -138243599);" );
-        $db->exec( "INSERT INTO `PO_birthdays` (`person_id`, `birthday`) VALUES (3, 1138575601);" );
     }
 
     /**

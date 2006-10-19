@@ -9,6 +9,7 @@
  */
 ezcTestRunner::addFileToFilter( __FILE__ );
 
+require_once dirname( __FILE__ ) . "/data/relation_test_address.php";
 require_once dirname( __FILE__ ) . "/data/relation_test_employer.php";
 require_once dirname( __FILE__ ) . "/data/relation_test_person.php";
 
@@ -170,7 +171,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
     
     // Tests using the actual relation definition
 
-    public function testGetRelatedObjectsEmployer1()
+    public function testGetRelatedObjectsFromEmployer1Success()
     {
         $employer = $this->session->load( "RelationTestEmployer", 1 );
 
@@ -198,7 +199,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
         );
     }
 
-    public function testGetRelatedObjectsEmployer2()
+    public function testGetRelatedObjectsFromEmployer2Success()
     {
         $employer = $this->session->load( "RelationTestEmployer", 2 );
         $res = array(
@@ -217,7 +218,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
         );
     }
     
-    public function testGetRelatedObjectEmployer1()
+    public function testGetRelatedObjectFromEmployer1Success()
     {
         $employer = $this->session->load( "RelationTestEmployer", 1 );
 
@@ -235,7 +236,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
         );
     }
 
-    public function testGetRelatedObjectEmployer2()
+    public function testGetRelatedObjectFromEmployer2Success()
     {
         $employer = $this->session->load( "RelationTestEmployer", 2 );
         $res = RelationTestPerson::__set_state(array(
@@ -251,7 +252,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
         );
     }
 
-    public function testAddRelatedObjectsEmployer2()
+    public function testAddRelatedPersonsToEmployer2Success()
     {
         $employer = $this->session->load( "RelationTestEmployer", 2 );
         $persons[0] = new RelationTestPerson();
@@ -291,7 +292,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
         );
     }
 
-    public function testAddRelatedObjectEmployer2()
+    public function testAddRelatedPersonToEmployer2Success()
     {
         $employer = $this->session->load( "RelationTestEmployer", 2 );
         $person = new RelationTestPerson();
@@ -304,6 +305,32 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
 
         $res = RelationTestPerson::__set_state(array(
             'id' => null,
+            'firstname' => 'Jan',
+            'surname' => 'Soap',
+            'employer' => 2,
+        ));
+
+        $this->assertEquals(
+            $res,
+            $person,
+            "Relation not established correctly"
+        );
+    }
+
+    public function testAddRelatedPersonToEmployer2SaveSuccess()
+    {
+        $employer = $this->session->load( "RelationTestEmployer", 2 );
+        $person = new RelationTestPerson();
+        $person->setState( array(
+            "firstname" => "Jan",
+            "surname"  => "Soap",
+        ) );
+
+        $this->session->addRelatedObject( $employer, $person );
+        $this->session->save( $person );
+
+        $res = RelationTestPerson::__set_state(array(
+            'id' => 4,
             'firstname' => 'Jan',
             'surname' => 'Soap',
             'employer' => 2,
@@ -338,6 +365,51 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
             return;
         }
         $this->fail( "Exception not thrown on undefined relation." );
+    }
+
+    public function testAddRelatedPersonsToEmployer2SaveSuccess()
+    {
+        $employer = $this->session->load( "RelationTestEmployer", 2 );
+        $persons[0] = new RelationTestPerson();
+        $persons[0]->setState( array(
+            "firstname" => "Tobias",
+            "surname"  => "Preprocess",
+        ) );
+        $persons[1] = new RelationTestPerson();
+        $persons[1]->setState( array(
+            "firstname" => "Jan",
+            "surname"  => "Soap",
+        ) );
+
+        $this->session->addRelatedObjects( $employer, $persons );
+
+        $res = array(
+          0 => 
+          RelationTestPerson::__set_state(array(
+             'id' => 4,
+             'firstname' => 'Tobias',
+             'surname' => 'Preprocess',
+             'employer' => 2,
+          )),
+          1 => 
+          RelationTestPerson::__set_state(array(
+             'id' => 5,
+             'firstname' => 'Jan',
+             'surname' => 'Soap',
+             'employer' => 2,
+          )),
+        );
+
+        foreach ( $persons as $person )
+        {
+            $this->session->save( $person );
+        }
+
+        $this->assertEquals(
+            $res,
+            $persons,
+            "Relation not established correctly"
+        );
     }
 }
 
