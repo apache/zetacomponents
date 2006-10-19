@@ -30,6 +30,13 @@ class ezcGraphMingDriver extends ezcGraphDriver
     protected $id = 1;
 
     /**
+     * Array with strings to draw later
+     * 
+     * @var array
+     */
+    protected $strings = array();
+
+    /**
      * Constructor
      * 
      * @param array $options Default option array
@@ -71,6 +78,11 @@ class ezcGraphMingDriver extends ezcGraphDriver
     protected function modifyCoordinate( $pointValue )
     {
         return $pointValue * 10;
+    }
+
+    protected function deModifyCoordinate( $pointValue )
+    {
+        return $pointValue / 10;
     }
 
     /**
@@ -141,12 +153,11 @@ class ezcGraphMingDriver extends ezcGraphDriver
     protected function getTextBoundings( $size, ezcGraphFontOptions $font, $text )
     {
         $t = new SWFText();
-        $t->addString( $text );
+        $t->setFont( new SWFFont( $font->path ) );
         $t->setHeight( $size );
-        $t->setFont( $font->path );
 
-        $boundings = new ezcGraphBoundings( 0, 0, $t->getWidth(), $size );
-
+        $boundings = new ezcGraphBoundings( 0, 0, $t->getWidth( $text ), $size );
+        
         return $boundings;
     }
 
@@ -175,7 +186,8 @@ class ezcGraphMingDriver extends ezcGraphDriver
     {
         // Tokenize String
         $tokens = preg_split( '/\s+/', $string );
-        
+        $height = $height;
+
         $lines = array( array() );
         $line = 0;
         foreach ( $tokens as $token )
@@ -244,15 +256,18 @@ class ezcGraphMingDriver extends ezcGraphDriver
 
         $padding = $this->options->font->padding + ( $this->options->font->border !== false ? $this->options->font->borderWidth : 0 );
 
-        $width -= $padding * 2;
-        $height -= $padding * 2;
-        $position->x += $padding;
-        $position->y += $padding;
+        $width = $this->modifyCoordinate( $width - $padding * 2 );
+        $height = $this->modifyCoordinate( $height - $padding * 2 );
+        $position = new ezcGraphCoordinate(
+            $this->modifyCoordinate( $position->x + $padding ),
+            $this->modifyCoordinate( $position->y + $padding )
+        );
 
         // Try to get a font size for the text to fit into the box
-        $maxSize = min( $height, $this->options->font->maxFontSize );
+        $maxSize = $this->modifyCoordinate( min( $height, $this->options->font->maxFontSize ) );
+        $minSize = $this->modifyCoordinate( $this->options->font->minFontSize );
         $result = false;
-        for ( $size = $maxSize; $size >= $this->options->font->minFontSize; --$size )
+        for ( $size = $maxSize; $size >= $minSize; $size -= $this->modifyCoordinate( .5 ) )
         {
             $result = $this->testFitStringInTextBox( $string, $position, $width, $height, $size );
             if ( $result !== false )
@@ -263,11 +278,11 @@ class ezcGraphMingDriver extends ezcGraphDriver
 
         if ( is_array( $result ) )
         {
-            $this->options->font->minimalUsedFont = $size;
+            $this->options->font->minimalUsedFont = $this->deModifyCoordinate( $size );
 
             $this->strings[] = array(
                 'text' => $result,
-                'id' => $id = 'ezcGraphText_' . $this->id++,
+                'id' => $id = 'ezcGraphTextBox_' . $this->id++,
                 'position' => $position,
                 'width' => $width,
                 'height' => $height,
@@ -281,6 +296,250 @@ class ezcGraphMingDriver extends ezcGraphDriver
         }
 
         return $id;
+    }
+    
+    /**
+     * Render text depending of font type and available font extensions
+     * 
+     * @param resource $image Image resource
+     * @param string $text Text
+     * @param int $type Font type
+     * @param string $path Font path
+     * @param ezcGraphColor $color Font color
+     * @param ezcGraphCoordinate $position Position
+     * @param float $size Textsize
+     * @param ezcGraphColor $color Textcolor 
+     * @return void
+     */
+    protected function renderText( $id, $text, $chars, $type, $path, ezcGraphColor $color, ezcGraphCoordinate $position, $size )
+    {
+        $movie = $this->getDocument();
+
+        $tb = new SWFTextField( SWFTEXTFIELD_NOEDIT );
+        $tb->setFont( new SWFFont( $path ) );
+        $tb->setHeight( $size );
+        $tb->setColor( $color->red, $color->green, $color->blue, 255 - $color->alpha );
+        $tb->addString( $text );
+        $tb->addChars( $chars );
+
+        $object = $movie->add( $tb );
+        $object->moveTo( $position->x, $position->y - $size * ( 1 + $this->options->lineSpacing ) );
+        $object->setName( $id );
+    }
+
+    /**
+     * Draw all collected texts
+     *
+     * The texts are collected and their maximum possible font size is 
+     * calculated. This function finally draws the texts on the image, this
+     * delayed drawing has two reasons:
+     *
+     * 1) This way the text strings are always on top of the image, what 
+     *    results in better readable texts
+     * 2) The maximum possible font size can be calculated for a set of texts
+     *    with the same font configuration. Strings belonging to one chart 
+     *    element normally have the same font configuration, so that all texts
+     *    belonging to one element will have the same font size.
+     * 
+     * @access protected
+     * @return void
+     */
+    protected function drawAllTexts()
+    {
+        // Iterate over all strings to collect used chars per font
+        $chars = array();
+        foreach ( $this->strings as $text )
+        {
+            $completeString = '';
+            foreach( $text['text'] as $line )
+            {
+                $completeString .= implode( ' ', $line );
+            }
+
+            // Collect chars for each font
+            if ( !isset( $texts['path'] ) )
+            {
+                $chars[$text['font']->path] = $completeString;
+            }
+            else
+            {
+                $chars[$text['font']->path] .= $completeString;
+            }
+        }
+
+        foreach ( $this->strings as $text )
+        {
+            $size = $this->modifyCoordinate( $text['font']->minimalUsedFont );
+
+            $completeHeight = count( $text['text'] ) * $size + ( count( $text['text'] ) - 1 ) * $this->options->lineSpacing;
+
+            // Calculate y offset for vertical alignement
+            switch ( true )
+            {
+                case ( $text['align'] & ezcGraph::BOTTOM ):
+                    $yOffset = $text['height'] - $completeHeight;
+                    break;
+                case ( $text['align'] & ezcGraph::MIDDLE ):
+                    $yOffset = ( $text['height'] - $completeHeight ) / 2;
+                    break;
+                case ( $text['align'] & ezcGraph::TOP ):
+                default:
+                    $yOffset = 0;
+                    break;
+            }
+
+            $padding = $text['font']->padding + $text['font']->borderWidth / 2;
+            if ( $this->options->font->minimizeBorder === true )
+            {
+                // Calculate maximum width of text rows
+                $width = false;
+                foreach ( $text['text'] as $line )
+                {
+                    $string = implode( ' ', $line );
+                    $boundings = $this->getTextBoundings( $size, $text['font'], $string );
+                    if ( ( $width === false) || ( $boundings->width > $width ) )
+                    {
+                        $width = $boundings->width;
+                    }
+                }
+
+                switch ( true )
+                {
+                    case ( $text['align'] & ezcGraph::LEFT ):
+                        $xOffset = 0;
+                        break;
+                    case ( $text['align'] & ezcGraph::CENTER ):
+                        $xOffset = ( $text['width'] - $width ) / 2;
+                        break;
+                    case ( $text['align'] & ezcGraph::RIGHT ):
+                        $xOffset = $text['width'] - $width;
+                        break;
+                }
+
+                $borderPolygonArray = array(
+                    new ezcGraphCoordinate(
+                        $this->deModifyCoordinate( $text['position']->x - $padding + $xOffset ),
+                        $this->deModifyCoordinate( $text['position']->y - $padding + $yOffset )
+                    ),
+                    new ezcGraphCoordinate(
+                        $this->deModifyCoordinate( $text['position']->x + $padding * 2 + $xOffset + $width ),
+                        $this->deModifyCoordinate( $text['position']->y - $padding + $yOffset )
+                    ),
+                    new ezcGraphCoordinate(
+                        $this->deModifyCoordinate( $text['position']->x + $padding * 2 + $xOffset + $width ),
+                        $this->deModifyCoordinate( $text['position']->y + $padding * 2 + $yOffset + $completeHeight )
+                    ),
+                    new ezcGraphCoordinate(
+                        $this->deModifyCoordinate( $text['position']->x - $padding + $xOffset ),
+                        $this->deModifyCoordinate( $text['position']->y + $padding * 2 + $yOffset + $completeHeight )
+                    ),
+                );
+            }
+            else
+            {
+                $borderPolygonArray = array(
+                    new ezcGraphCoordinate(
+                        $this->deModifyCoordinate( $text['position']->x - $padding ),
+                        $this->deModifyCoordinate( $text['position']->y - $padding )
+                    ),
+                    new ezcGraphCoordinate(
+                        $this->deModifyCoordinate( $text['position']->x + $padding * 2 + $text['width'] ),
+                        $this->deModifyCoordinate( $text['position']->y - $padding )
+                    ),
+                    new ezcGraphCoordinate(
+                        $this->deModifyCoordinate( $text['position']->x + $padding * 2 + $text['width'] ),
+                        $this->deModifyCoordinate( $text['position']->y + $padding * 2 + $text['height'] )
+                    ),
+                    new ezcGraphCoordinate(
+                        $this->deModifyCoordinate( $text['position']->x - $padding ),
+                        $this->deModifyCoordinate( $text['position']->y + $padding * 2 + $text['height'] )
+                    ),
+                );
+            }
+
+            if ( $text['font']->background !== false )
+            {
+                $this->drawPolygon( 
+                    $borderPolygonArray, 
+                    $text['font']->background,
+                    true
+                );
+            }
+
+            if ( $text['font']->border !== false )
+            {
+                $this->drawPolygon( 
+                    $borderPolygonArray, 
+                    $text['font']->border,
+                    false,
+                    $text['font']->borderWidth
+                );
+            }
+
+            // Render text with evaluated font size
+            $completeString = '';
+            foreach ( $text['text'] as $line )
+            {
+                $string = implode( ' ', $line );
+                $completeString .= $string;
+                $boundings = $this->getTextBoundings( $size, $text['font'], $string );
+                $text['position']->y += $size;
+
+                switch ( true )
+                {
+                    case ( $text['align'] & ezcGraph::LEFT ):
+                        $position = new ezcGraphCoordinate( 
+                            $text['position']->x, 
+                            $text['position']->y + $yOffset
+                        );
+                        break;
+                    case ( $text['align'] & ezcGraph::RIGHT ):
+                        $position = new ezcGraphCoordinate( 
+                            $text['position']->x + ( $text['width'] - $boundings->width ), 
+                            $text['position']->y + $yOffset
+                        );
+                        break;
+                    case ( $text['align'] & ezcGraph::CENTER ):
+                        $position = new ezcGraphCoordinate( 
+                            $text['position']->x + ( ( $text['width'] - $boundings->width ) / 2 ), 
+                            $text['position']->y + $yOffset
+                        );
+                        break;
+                }
+
+                // Optionally draw text shadow
+                if ( $text['font']->textShadow === true )
+                {
+                    $this->renderText( 
+                        $text['id'],
+                        $string,
+                        $chars[$text['font']->path],
+                        $text['font']->type, 
+                        $text['font']->path, 
+                        $text['font']->textShadowColor,
+                        new ezcGraphCoordinate(
+                            $position->x + $this->modifyCoordinate( $text['font']->textShadowOffset ),
+                            $position->y + $this->modifyCoordinate( $text['font']->textShadowOffset )
+                        ),
+                        $size
+                    );
+                }
+                
+                // Finally draw text
+                $this->renderText( 
+                    $text['id'],
+                    $string,
+                    $chars[$text['font']->path],
+                    $text['font']->type, 
+                    $text['font']->path, 
+                    $text['font']->color, 
+                    $position,
+                    $size
+                );
+
+                $text['position']->y += $size * $this->options->lineSpacing;
+            }
+        }
     }
 
     /**
@@ -485,6 +744,7 @@ class ezcGraphMingDriver extends ezcGraphDriver
      */
     public function render ( $file )
     {
+        $this->drawAllTexts();
         $movie = $this->getDocument();
         $movie->save( $file, $this->options->compression );
     }
