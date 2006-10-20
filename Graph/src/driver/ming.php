@@ -126,7 +126,7 @@ class ezcGraphMingDriver extends ezcGraphDriver
                     $shape->setLeftFill( $fill );
                     break;
                 default:
-                    $fill = $shape->addFill( $color->red, $color->green, $color->blue );
+                    $fill = $shape->addFill( $color->red, $color->green, $color->blue, 255 - $color->alpha );
                     $shape->setLeftFill( $fill );
                     break;
             }
@@ -657,6 +657,70 @@ class ezcGraphMingDriver extends ezcGraphDriver
         return $id;
     }
 
+    protected function simulateCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color, $filled )
+    {
+        $movie = $this->getDocument();
+        $id = 'ezcGraphCircularArc_' . $this->id++;
+
+        for ( 
+            $tmpAngle = min( ceil ( $startAngle / 180 ) * 180, $endAngle ); 
+            $tmpAngle <= $endAngle; 
+            $tmpAngle = min( ceil ( $startAngle / 180 + 1 ) * 180, $endAngle ) )
+        {
+            $shape = new SWFShape();
+            $this->setShapeColor( $shape, $color, 1, $filled );
+
+            $shape->movePenTo( 
+                $this->modifyCoordinate( $center->x + cos( deg2rad( $startAngle ) ) * $width / 2 ), 
+                $this->modifyCoordinate( $center->y + sin( deg2rad( $startAngle ) ) * $height / 2 )
+            );
+
+            // @TODO: Use SWFShape::curveTo
+            for(
+                $angle = $startAngle;
+                $angle <= $tmpAngle;
+                $angle = min( $angle + $this->options->circleResolution, $tmpAngle ) )
+            {
+                $shape->drawLineTo( 
+                    $this->modifyCoordinate( $center->x + cos( deg2rad( $angle ) ) * $width / 2 ), 
+                    $this->modifyCoordinate( $center->y + sin( deg2rad( $angle ) ) * $height / 2 + $size )
+                );
+
+                if ( $angle === $tmpAngle )
+                {
+                    break;
+                }
+            }
+
+            for(
+                $angle = $tmpAngle;
+                $angle >= $startAngle;
+                $angle = max( $angle - $this->options->circleResolution, $startAngle ) )
+            {
+                $shape->drawLineTo( 
+                    $this->modifyCoordinate( $center->x + cos( deg2rad( $angle ) ) * $width / 2 ), 
+                    $this->modifyCoordinate( $center->y + sin( deg2rad( $angle ) ) * $height / 2 )
+                );
+
+                if ( $angle === $startAngle )
+                {
+                    break;
+                }
+            }
+
+            $object = $movie->add( $shape );
+            $object->setName( $id );
+
+            $startAngle = $tmpAngle;
+            if ( $tmpAngle === $endAngle ) 
+            {
+                break;
+            }
+        }
+
+        return $id;
+    }
+
     /**
      * Draws a circular arc
      * 
@@ -678,45 +742,26 @@ class ezcGraphMingDriver extends ezcGraphDriver
             $endAngle = $tmp;
         }
 
-        $movie = $this->getDocument();
+        $id = $this->simulateCircularArc( $center, $width, $height, $size, $startAngle, $endAngle, $color, $filled );
 
-        $shape = new SWFShape();
-        $this->setShapeColor( $shape, $color, 1, $filled );
-
-        $shape->movePenTo( 
-            $this->modifyCoordinate( $center->x + cos( deg2rad( $startAngle ) ) * $width / 2 ), 
-            $this->modifyCoordinate( $center->y + sin( deg2rad( $startAngle ) ) * $height / 2 )
-        );
-
-        // @TODO: User SWFShape::curveTo
-        for ( $angle = $startAngle; $angle <= $endAngle; $angle += $this->options->circleResolution )
+        if ( ( $this->options->shadeCircularArc !== false ) &&
+             $filled )
         {
-            $angle = min(
-                $angle,
-                $endAngle
+            $gradient = new ezcGraphLinearGradient(
+                new ezcGraphCoordinate(
+                    $center->x - $width,
+                    $center->y
+                ),
+                new ezcGraphCoordinate(
+                    $center->x + $width,
+                    $center->y
+                ),
+                ezcGraphColor::fromHex( '#FFFFFF' )->transparent( $this->options->shadeCircularArc * 1.5 ),
+                ezcGraphColor::fromHex( '#000000' )->transparent( $this->options->shadeCircularArc * 1.5 )
             );
-
-            $shape->drawLineTo( 
-                $this->modifyCoordinate( $center->x + cos( deg2rad( $angle ) ) * $width / 2 ), 
-                $this->modifyCoordinate( $center->y + sin( deg2rad( $angle ) ) * $height / 2 + $size )
-            );
+        
+            $this->simulateCircularArc( $center, $width, $height, $size, $startAngle, $endAngle, $gradient, $filled );
         }
-
-        for ( $angle = $endAngle; $angle > $startAngle; $angle -= $this->options->circleResolution )
-        {
-            $angle = max(
-                $angle,
-                $startAngle
-            );
-
-            $shape->drawLineTo( 
-                $this->modifyCoordinate( $center->x + cos( deg2rad( $angle ) ) * $width / 2 ), 
-                $this->modifyCoordinate( $center->y + sin( deg2rad( $angle ) ) * $height / 2 )
-            );
-        }
-
-        $object = $movie->add( $shape );
-        $object->setName( $id = 'ezcGraphCircularArc_' . $this->id++ );
 
         return $id;
     }

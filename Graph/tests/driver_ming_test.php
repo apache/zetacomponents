@@ -36,6 +36,11 @@ class ezcGraphMingDriverTest extends ezcTestCase
 
     protected function setUp()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'ming' ) ) 
+        {
+            $this->markTestSkipped( 'This test needs ext/ming support.' );
+        }
+
         static $i = 0;
         $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
         $this->basePath = dirname( __FILE__ ) . '/data/';
@@ -1312,7 +1317,7 @@ class ezcGraphMingDriverTest extends ezcTestCase
         $chart = new ezcGraphPieChart();
         $chart->options->font->path = dirname( __FILE__ ) . '/data/fdb_font.fdb';
 
-        $chart->palette = new ezcGraphPaletteEzBlue();
+        $chart->palette = new ezcGraphPaletteEz();
         $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
             'IE' => 345,
@@ -1335,6 +1340,76 @@ class ezcGraphMingDriverTest extends ezcTestCase
         $chart->render( 500, 200, $filename );
 
         $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
+        );
+    }
+
+    public function testDrawMultipleFilledTransparentPolygons()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.swf';
+
+        $this->driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 45, 12 ),
+                new ezcGraphCoordinate( 122, 34 ),
+                new ezcGraphCoordinate( 12, 71 ),
+            ),
+            ezcGraphColor::fromHex( '#3465A4DD' ),
+            true
+        );
+        $this->driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 150, 13 ),
+                new ezcGraphCoordinate( 90, 60 ),
+                new ezcGraphCoordinate( 120, 5 ),
+            ),
+            ezcGraphColor::fromHex( '#A40000DD' ),
+            true
+        );
+        $this->driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 170, 78 ),
+                new ezcGraphCoordinate( 60, 24 ),
+                new ezcGraphCoordinate( 140, 50 ),
+            ),
+            ezcGraphColor::fromHex( '#EDD400DD' ),
+            true
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
+        );
+    }
+
+    public function testDrawMultipleCircularArcs()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.swf';
+
+        $angles = array( 10, 25, 45, 75, 110, 55 );
+
+        $startAngle = 0;
+        foreach ( $angles as $angle )
+        {
+            $this->driver->drawCircularArc(
+                new ezcGraphCoordinate( 100, 50 ),
+                80,
+                40,
+                10,
+                $startAngle,
+                $startAngle += $angle,
+                ezcGraphColor::fromHex( '#3465A455' ),
+                false
+            );
+            $startAngle += 5;
+        }
+        
+        $this->driver->render( $filename );
+
+        $this->compare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
