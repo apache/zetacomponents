@@ -266,7 +266,10 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
             "surname"  => "Soap",
         ) );
 
-        $this->session->addRelatedObjects( $employer, $persons );
+        foreach ( $persons as $person )
+        {
+            $this->session->addRelatedObject( $employer, $person );
+        }
 
         $res = array (
             0 => 
@@ -381,7 +384,15 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
             "surname"  => "Soap",
         ) );
 
-        $this->session->addRelatedObjects( $employer, $persons );
+        foreach ( $persons as $person )
+        {
+            $this->session->addRelatedObject( $employer, $person );
+        }
+
+        foreach ( $persons as $person )
+        {
+            $this->session->save( $person );
+        }
 
         $res = array(
           0 => 
@@ -399,11 +410,6 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
              'employer' => 2,
           )),
         );
-
-        foreach ( $persons as $person )
-        {
-            $this->session->save( $person );
-        }
 
         $this->assertEquals(
             $res,

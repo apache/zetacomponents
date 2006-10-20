@@ -233,29 +233,6 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         );
     }
  
-    public function testAddRelatedBirthdaysToPerson3Success()
-    {
-        $person = $this->session->load( "RelationTestPerson", 3 );
-        
-        $birthday = new RelationTestBirthday();
-        $birthday->setState( array(
-            "birthday"  => 1161019786,
-        ) );
-
-        $this->session->addRelatedObjects( $person, array( $birthday ) );
-        
-        $res = RelationTestBirthday::__set_state( array( 
-            'person' => '3',
-            'birthday' => 1161019786,
-        ));
-
-        $this->assertEquals(
-            $res,
-            $birthday,
-            "Relation not established correctly"
-        );
-    }
- 
     public function testAddRelatedBirthdayToPerson3Success()
     {
         $person = $this->session->load( "RelationTestPerson", 3 );
@@ -320,11 +297,12 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         try
         {
             $this->session->update( $birthday );
-            $this->fail( "Birthday object updated although not in database, yet!" );
         }
         catch( Exception $e )
         {
+            return;
         }
+        $this->fail( "Birthday object updated although not in database, yet!" );
     }
 }
 
