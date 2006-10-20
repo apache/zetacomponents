@@ -329,7 +329,7 @@ class ezcGraphMingDriver extends ezcGraphDriver
         $maxSize = $this->modifyCoordinate( min( $height, $this->options->font->maxFontSize ) );
         $minSize = $this->modifyCoordinate( $this->options->font->minFontSize );
         $result = false;
-        for ( $size = $maxSize; $size >= $minSize; $size -= $this->modifyCoordinate( .5 ) )
+        for ( $size = $maxSize; $size >= $minSize; $size -= $this->modifyCoordinate( 1 ) )
         {
             $result = $this->testFitStringInTextBox( $string, $position, $width, $height, $size );
             if ( $result !== false )
@@ -419,7 +419,7 @@ class ezcGraphMingDriver extends ezcGraphDriver
             }
 
             // Collect chars for each font
-            if ( !isset( $texts['path'] ) )
+            if ( !isset( $chars[$text['font']->path] ) )
             {
                 $chars[$text['font']->path] = $completeString;
             }
