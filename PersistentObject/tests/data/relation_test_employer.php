@@ -21,7 +21,7 @@ class RelationTestEmployer extends RelationTest
     {
         return array(
             "id"   => $this->id,
-            "name" => $this->firstname,
+            "name" => $this->name,
         );
     }
 

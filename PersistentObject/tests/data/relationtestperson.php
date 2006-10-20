@@ -31,6 +31,7 @@ $def->relations["RelationTestEmployer"]->columnMap     = array(
 );
 
 $def->relations["RelationTestBirthday"]                = new ezcPersistentOneToOneRelation( "PO_persons", "PO_birthdays" );
+$def->relations["RelationTestBirthday"]->cascade       = true;
 $def->relations["RelationTestBirthday"]->columnMap     = array(
     new ezcPersistentSingleTableMap( "id", "person_id" ),
 );

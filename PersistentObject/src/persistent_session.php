@@ -101,16 +101,27 @@ class ezcPersistentSession
      * After delete() the identifier in $pObject will be reset to null.
      * It is possible to save() $pObject afterwords. The object will then
      * be stored with a new id.
+     * If you defined relations for the given object, these will be checked
+     * to be defined as cascading. If cascading is configured, the related
+     * objects with this relation will be deleted, too.
      *
-     * @throws ezcPersistentDefinitionNotFoundxception if $the object is not recognized as a persistent object.
-     * @throws ezcPersistentObjectNotPersistentException if the object is not persistent already.
-     * @throws ezcPersistentQueryException if the object could not be deleted.
+     * Relations that support cascading are:
+     * - {@see ezcPersistenOneToManyRelation}
+     * - {@see ezcPersistenOneToOne}
+     *
+     * @throws ezcPersistentDefinitionNotFoundxception
+     *         if $the object is not recognized as a persistent object.
+     * @throws ezcPersistentObjectNotPersistentException
+     *         if the object is not persistent already.
+     * @throws ezcPersistentQueryException
+     *         if the object could not be deleted.
      * @param object $pObject
      * @return void
      */
     public function delete( $pObject )
     {
-        $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) ); // propagate exception
+        $class = get_class( $pObject );
+        $def = $this->definitionManager->fetchDefinition( $class ); // propagate exception
         $state = $pObject->getState();
         $idValue = $state[$def->idProperty->propertyName];
 
@@ -119,6 +130,37 @@ class ezcPersistentSession
         {
             $class = get_class( $pObject );
             throw new ezcPersistentObjectNotPersistentException( $class );
+        }
+
+        $this->database->beginTransaction();
+
+        try
+        {
+            // check for cascading relations to follow
+            foreach ( $def->relations as $relatedClass => $relation )
+            {
+                if ( isset( $relation->cascade ) && $relation->cascade === true )
+                {
+                    if ( isset( $relation->reverse ) && $relation->reverse === true )
+                    {
+                        throw new ezcPersistentRelationOperationNotSupported(
+                            $class,
+                            $relatedClass,
+                            "cascade on delete",
+                            "Reverse relations do not support cascading."
+                        );
+                    }
+                    foreach ( $this->getRelatedObjects( $pObject, $relatedClass ) as $relatedObject )
+                    {
+                        $this->delete( $relatedObject );
+                    }
+                }
+            }
+        }
+        catch ( Exception $e )
+        {
+            $this->database->rollback();
+            throw $e;
         }
 
         // create and execute query
@@ -137,8 +179,11 @@ class ezcPersistentSession
         }
         catch ( PDOException $e )
         {
+            $this->database->rollback();
             throw new ezcPersistentQueryException( $e->getMessage() );
         }
+
+        $this->database->commit();
     }
 
     /*

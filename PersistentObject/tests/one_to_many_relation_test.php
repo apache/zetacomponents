@@ -12,6 +12,7 @@ ezcTestRunner::addFileToFilter( __FILE__ );
 require_once dirname( __FILE__ ) . "/data/relation_test_address.php";
 require_once dirname( __FILE__ ) . "/data/relation_test_employer.php";
 require_once dirname( __FILE__ ) . "/data/relation_test_person.php";
+require_once dirname( __FILE__ ) . "/data/relation_test_birthday.php";
 
 /**
  * Tests ezcPersistentOneToManyRelation class.
@@ -456,6 +457,62 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
             $this->session->getRelatedObjects( $employer, "RelationTestPerson" ),
             "Related RelationTestPerson objects not fetched correctly."
         );
+    }
+
+    public function testDeleteEmployer2CascadePersonCascadeBirthdaySuccess()
+    {
+        $employer = $this->session->load( "RelationTestEmployer", 2 );
+        $persons  = $this->session->getRelatedObjects( $employer, "RelationTestPerson" );
+
+        $res = array(
+          0 => 
+          RelationTestPerson::__set_state(array(
+             'id' => 4,
+             'firstname' => 'Tobias',
+             'surname' => 'Preprocess',
+             'employer' => 2,
+          )),
+          1 => 
+          RelationTestPerson::__set_state(array(
+             'id' => 5,
+             'firstname' => 'Jan',
+             'surname' => 'Soap',
+             'employer' => 2,
+          )),
+        );
+
+        $this->session->delete( $employer );
+
+        foreach ( $persons as $person )
+        {
+            $q = $this->session->createFindQuery( "RelationTestPerson" );
+            $q->where(
+                $q->expr->eq(
+                    "id",
+                    $q->bindValue( $person->id )
+                )
+            );
+
+            $this->assertEquals(
+                array(),
+                $this->session->find( $q, "RelationTestPerson" ),
+                "Cascade not performed correctly to RelationTestPerson on delete."
+            );
+            
+            $q = $this->session->createFindQuery( "RelationTestBirthday" );
+            $q->where(
+                $q->expr->eq(
+                    "person_id",
+                    $q->bindValue( $person->id )
+                )
+            );
+
+            $this->assertEquals(
+                array(),
+                $this->session->find( $q, "RelationTestBirthday" ),
+                "Cascade not performed correctly to RelationTestBirthday on delete."
+            );
+        }
     }
 }
 

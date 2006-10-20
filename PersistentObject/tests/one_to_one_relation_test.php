@@ -322,6 +322,28 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
             "Related RelationTestPerson objects not fetched correctly."
         );
     }
+
+    public function testDeletePersonCascadeBirthdaySuccess()
+    {
+        $person   = $this->session->load( "RelationTestPerson", 1 );
+        $birthday = $this->session->getRelatedObject( $person, "RelationTestBirthday" );
+
+        $this->session->delete( $person  );
+
+        $q = $this->session->createFindQuery( "RelationTestBirthday" );
+        $q->where(
+            $q->expr->eq(
+                "person_id",
+                $q->bindValue( $birthday->person )
+            )
+        );
+
+        $this->assertEquals(
+            array(),
+            $this->session->find( $q, "RelationTestBirthday" ),
+            "Cascade not performed correctly on delete."
+        );
+    }
 }
 
 ?>

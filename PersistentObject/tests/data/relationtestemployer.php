@@ -19,6 +19,7 @@ $def->relations["RelationTestPerson"]                = new ezcPersistentOneToMan
 $def->relations["RelationTestPerson"]->columnMap     = array(
     new ezcPersistentSingleTableMap( "id", "employer" ),
 );
+$def->relations["RelationTestPerson"]->cascade      = true;
 
 return $def;
 
