@@ -116,7 +116,9 @@ class ezcPersistentSession
      * @throws ezcPersistentQueryException
      *         if the object could not be deleted.
      * @param object $pObject
-     * @return void
+     *
+     * @todo Also ManyToMany relations do not support cascading, we should
+     *       delete all relation records for the deleted object.
      */
     public function delete( $pObject )
     {
