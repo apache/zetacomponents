@@ -1,0 +1,11 @@
+
+This template is supposed to run twice. 
+It requests a property from the counter.
+
+The first time, it returns 1 and 2. 
+When it runs the second time it should return 1 and 2 again because the values come from the cache.
+
+Called: 1
+Called: 2
+
+Hello World

@@ -104,6 +104,13 @@ class ezcTemplateRegressionTest extends ezcTestCase
             $base = basename( $directory );
 
             $template->configuration = new ezcTemplateConfiguration( $dir, $this->getTempDir() );
+            $template->configuration->cachePath = $this->getTempDir() . "/cached"; 
+
+            if( !is_dir( $template->configuration->cachePath ) )
+            {
+                mkdir( $template->configuration->cachePath);
+            }
+
             $template->configuration->addExtension( "BrainFuck" );
             $template->configuration->addExtension( "TestBlocks" );
             $template->configuration->addExtension( "LinksCustomBlock" );
@@ -132,14 +139,17 @@ class ezcTemplateRegressionTest extends ezcTestCase
             {
                 $out[$counter] = $template->process( $base );
 
-
                 ++$counter;
                 while( file_exists( substr( $directory, 0, -3 ) . ".out" . ($counter + 1) ) )
                 {
+                    if( file_exists( substr( $directory, 0, -3 ). ".send". ($counter + 1) ) )
+                    {
+                        $template->send = include (substr( $directory, 0, -3 ). ".send". ($counter + 1));
+                    }
+
                     $out[$counter] = $template->process( $base );
                     $counter++;
                 } 
-
             } 
             catch (Exception $e )
             {

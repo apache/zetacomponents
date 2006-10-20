@@ -270,23 +270,33 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitCacheTstNode( ezcTemplateCacheTstNode $type )
     {
-        if( $type->type === ezcTemplateCacheTstNode::TYPE_DYNAMIC_OPEN || $type->type === ezcTemplateCacheTstNode::TYPE_DYNAMIC_CLOSE )
-        {
-            //new ezcTemplateVirtualAstNode();
-            $nop = new ezcTemplateNopAstNode();
-            $nop->type = ($type->type === ezcTemplateCacheTstNode::TYPE_DYNAMIC_OPEN ? ezcTemplateNopAstNode::TYPE_DYNAMIC_OPEN : ezcTemplateNopAstNode::TYPE_DYNAMIC_CLOSE);
-            return $nop;
-        }
-        elseif( $type->type == ezcTemplateCacheTstNode::TYPE_TEMPLATE_CACHE )
+        if( $type->type == ezcTemplateCacheTstNode::TYPE_TEMPLATE_CACHE )
         {
             // Modify the root node.
             $this->programNode->cacheTemplate = true;
 
+            foreach( $type->keys as $key )
+            {
+                // Translate the 'old' variableName to the new name.
+                $k = $key->accept($this);
+                $this->programNode->cacheKeys[] = $k->name;
+            }
+
+            // And translate the ttl.
+            if( $type->ttl != null ) 
+            {
+                $this->programNode->ttl = $type->ttl->accept($this);
+            }
+
             return new ezcTemplateNopAstNode();
         }
-
-
     }
+
+    public function visitDynamicBlockTstNode( ezcTemplateDynamicBlockTstNode $type )
+    {
+        return new ezcTemplateDynamicBlockAstNode( $this->createBody( $type->elements ) );
+    }
+
 
     public function visitCycleControlTstNode( ezcTemplateCycleControlTstNode $cycle )
     {

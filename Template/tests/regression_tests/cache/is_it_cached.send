@@ -1,0 +1,19 @@
+<?php
+
+class Counter1
+{
+	private $called = 0;
+
+	public function __get( $name )
+	{
+		if( $name == "called" )
+		{
+			return ++$this->called;
+		}
+	}
+}
+
+$v = new ezcTemplateVariableCollection();
+$v->counter = new Counter1;
+return $v;
+?>

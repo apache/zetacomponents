@@ -55,6 +55,8 @@ class ezcTemplateConfiguration
      private $properties = array( 'context' => false,
                                   'templatePath' => ".",
                                   'compilePath' => ".",
+                                  'cachePath' =>  null,
+                                  'cacheSystem' =>  null,
                                   'checkModifiedTemplates' => true,
                                   'customBlocks' => array(),
                                   'customFunctions' => array(),
@@ -79,6 +81,8 @@ class ezcTemplateConfiguration
             case 'context': 
             case 'templatePath': 
             case 'compilePath': 
+            case 'cachePath':
+            case 'cacheSystem':
             case 'checkModifiedTemplates':
                 return $this->properties[$name];
             case 'customBlocks':
@@ -117,6 +121,8 @@ class ezcTemplateConfiguration
 
             case 'templatePath': 
             case 'compilePath': 
+            case 'cachePath':
+            case 'cacheSystem':
             case 'checkModifiedTemplates': 
             case 'customBlocks': 
             case 'customFunctions': 
@@ -142,6 +148,8 @@ class ezcTemplateConfiguration
 
             case 'templatePath': 
             case 'compilePath':
+            case 'cachePath':
+            case 'cacheSystem':
             case 'checkModifiedTemplates':
                 return isset( $this->properties[$name] );
 
@@ -163,6 +171,9 @@ class ezcTemplateConfiguration
     {
         $this->properties["templatePath"] = $templatePath;
         $this->properties["compilePath"] = $compilePath;
+
+        $this->properties["cachePath"] = "." . DIRECTORY_SEPARATOR . "cache";
+        $this->properties["cacheSystem"] = new ezcTemplateCacheFilesystem( $this );
 
         $this->properties['context'] = ( $context == null ? new ezcTemplateXhtmlContext() : $context );
     }

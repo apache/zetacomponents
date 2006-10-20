@@ -43,10 +43,10 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
                 if (!$cursor->match( "}" ) )
                 {
                     die ("Expected '}'");
-
                 }
 
-                $cacheNode = new ezcTemplateCacheTstNode( $this->parser->source, $this->startCursor, $cursor );
+                $cacheNode = new ezcTemplateDynamicBlockTstNode( $this->parser->source, $this->startCursor, $cursor );
+                //$cacheNode = new ezcTemplateCacheTstNode( $this->parser->source, $this->startCursor, $cursor );
 
                 $cacheNode->isClosingBlock = true;
                 $cacheNode->type = ezcTemplateCacheTstNode::TYPE_DYNAMIC_CLOSE;
@@ -84,9 +84,48 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
             $cacheNode = new ezcTemplateCacheTstNode( $this->parser->source, $this->startCursor, $cursor );
             $cacheNode->type = ezcTemplateCacheTstNode::TYPE_TEMPLATE_CACHE;
 
-            //$cacheNode->isClosingBlock = false;
+            $this->findNextElement( $cursor );
+
+            while( $matches = $cursor->pregMatchComplete( "#^([a-zA-Z_][a-zA-Z0-9_-]*)(?:[^a-zA-Z])#i" ) )
+            {
+                $name = $matches[1][0];
+                $cursor->advance( strlen( $name ) );
+                $this->findNextElement( $cursor );
+
+                if ( $name == "keys" )
+                {
+                    do
+                    {
+                        if ( ! $this->parseOptionalType( "Variable", $this->currentCursor, false ) )
+                        {
+                            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
+                        }
+
+                        $cacheNode->keys[] = $this->lastParser->elements[0];
+                        $this->findNextElement( $cursor );
+                    } 
+                    while( $cursor->match(",") );
+
+                    //$this->parser->template->configuration->cacheSystem->appendCacheKeys( $values );
+                }
+                elseif( $name == "ttl" )
+                {
+                    // The parameter has an expression.
+                    if ( !$this->parseOptionalType( 'Expression', null, false ) )
+                    {
+                        throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
+                    }
+             
+                    // Append the parameter to the "namedParameters" array.
+                    $cacheNode->ttl = $this->lastParser->rootOperator;
+                }
+                else
+                {
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, "Unknown keyword: " . $name );
+                }
+            }
+
             $this->appendElement( $cacheNode);
-            
             $this->findNextElement( $cursor );
 
             if( !$cursor->match( "}" ) ) 
@@ -99,7 +138,8 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
         }
         elseif( $cursor->match( "dynamic" ) )
         {
-            $cacheNode = new ezcTemplateCacheTstNode( $this->parser->source, $this->startCursor, $cursor );
+            $cacheNode = new ezcTemplateDynamicBlockTstNode( $this->parser->source, $this->startCursor, $cursor );
+            //$cacheNode = new ezcTemplateCacheTstNode( $this->parser->source, $this->startCursor, $cursor );
 
             //$cacheNode->isClosingBlock = true;
             $cacheNode->type = ezcTemplateCacheTstNode::TYPE_DYNAMIC_OPEN;
@@ -114,8 +154,6 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
 
             return true;
         }
-
-
 
 
 

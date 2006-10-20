@@ -305,6 +305,12 @@ class ezcTemplateTstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
         $this->text .= $this->outputNode( $node );
     }
 
+    public function visitDynamicBlockTstNode( ezcTemplateDynamicBlockTstNode $node )
+    {
+        $this->text .= $this->outputNode( $node );
+    }
+
+
     /**
      * Extracts position data from the specified node and set in the out parameters.
      * The position is taken from ezcTemplateTstNode::startCursor and ezcTemplateTstNode::endCursor.

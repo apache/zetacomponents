@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateCacheTstNode class
+ * File containing the ezcTemplateDynamicBlockTstNode  class
  *
  * @package Template
  * @version //autogen//
@@ -9,28 +9,18 @@
  * @access private
  */
 /**
- * The cache node contains the possible caching information.
+ * The dynamic block node contains the possible the dynamic block.
  *
  * @package Template
  * @version //autogen//
  * @access private
  */
-class ezcTemplateCacheTstNode extends ezcTemplateExpressionTstNode
+class ezcTemplateDynamicBlockTstNode extends ezcTemplateBlockTstNode
 {
-    const TYPE_NOT_SET = 0;
-    const TYPE_TEMPLATE_CACHE = 1;
-    const TYPE_DYNAMIC_OPEN = 10;
-    const TYPE_DYNAMIC_CLOSE = 11;
+   public $type = 0; 
 
-    public $type = 0; 
+    //public $isClosingBlock = false;
 
-    public $templateCache = false;
-
-    public $isClosingBlock = false;
-
-    public $keys = array();
-
-    public $ttl = null;
 
     /**
      *
@@ -45,7 +35,7 @@ class ezcTemplateCacheTstNode extends ezcTemplateExpressionTstNode
 
     public function getTreeProperties()
     {
-        return array( 'templateCache' => $this->templateCache);
+        return array( );
     }
 }
 ?>

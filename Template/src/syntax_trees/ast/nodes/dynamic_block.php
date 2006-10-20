@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateRootAstNode class
+ * File containing the ezcTemplateDynamicBlockAstNode class
  *
  * @package Template
  * @version //autogen//
@@ -9,24 +9,28 @@
  * @access private
  */
 /**
- * Represents the root node of the AST tree. This node may contain settings of the template.
  *
  * @package Template
  * @version //autogen//
  * @access private
  */
-class ezcTemplateRootAstNode extends ezcTemplateBodyAstNode
+
+class ezcTemplateDynamicBlockAstNode extends ezcTemplateStatementAstNode
 {
-    public $cacheTemplate = false;
-    public $cacheKeys = array();
-    public $ttl = null;
+    public $escapeSingleQuote = false;
+
+    public $body;
 
     /**
      * Initialize with function name code and optional arguments
      */
-    public function __construct( Array $statements = null )
+    public function __construct( ezcTemplateBodyAstNode $body = null )
     {
         parent::__construct();
+
+        $this->body = $body;
     }
+
 }
+
 ?>

@@ -171,6 +171,9 @@ interface ezcTemplateTstNodeVisitor
     public function visitInstanceOfOperatorTstNode( ezcTemplateInstanceOfOperatorTstNode $node );
 
 
+    public function visitDynamicBlockTstNode( ezcTemplateDynamicBlockTstNode $node );
+
+
 
 }
 ?>

@@ -229,6 +229,17 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
         array_shift( $this->nodePath );
     }
 
+
+    public function visitDynamicBlockAstNode( ezcTemplateDynamicBlockAstNode $statement )
+    {
+        array_unshift( $this->nodePath, $statement );
+
+        $this->acceptAndUpdate( $statement->body );
+
+        array_shift( $this->nodePath );
+    }
+
+
     /**
      * Visits a code element containing while control structures.
      *

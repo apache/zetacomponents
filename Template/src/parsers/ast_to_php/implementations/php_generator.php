@@ -67,6 +67,10 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      */
     private $newline;
 
+
+    private $escapeSingleQuote = false;
+
+
     /**
      * @param string $path File path for the file which should be generated.
      * @param int $indentation The default indentation to use when increasing it.
@@ -282,7 +286,8 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         // Output type using var_export
         if ( is_string( $type->value ) )
         {
-            $this->write( '"'. addcslashes( preg_replace( "/\n/", "\\n", $type->value), '"' ) . '"' );
+            $cslashed = addcslashes( preg_replace( "/\n/", "\\n", $type->value), '"' );
+            $this->write( '"'. ($this->escapeSingleQuote ? addcslashes( $cslashed, "'" ) : $cslashed ) . '"' );
         }
         elseif( is_array( $type->value ) )
         {
@@ -645,6 +650,17 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
             $this->write( "}\n" );
         }
     }
+
+    public function visitDynamicBlockAstNode( ezcTemplateDynamicBlockAstNode $statement )
+    {
+        $this->escapeSingleQuote = $statement->escapeSingleQuote;
+
+        // Do not write anything, but call the children.
+        $statement->body->accept( $this );
+
+        $this->escapeSingleQuote = false;
+    }
+ 
 
     /**
      * Visits a code element containing while control structures.

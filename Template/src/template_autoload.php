@@ -34,6 +34,8 @@ return array(
              "ezcTemplateNoContext" => "Template/contexts/no_context.php",
              "ezcTemplateDirectResourceLocator" => "Template/locators/direct_resource_locator.php",
 
+             "ezcTemplateCacheFilesystem" => "Template/cache_filesystem.php",
+             
              "ezcTemplateSourceToTstErrorMessages" => "Template/error_messages.php",
 
 // Global Interfaces:
@@ -124,6 +126,7 @@ return array(
              "ezcTemplateReturnTstNode" => "Template/syntax_trees/tst/nodes/return.php",
              "ezcTemplateIdentifierTstNode" => "Template/syntax_trees/tst/nodes/identifier.php",
              "ezcTemplateCacheTstNode" => "Template/syntax_trees/tst/nodes/cache.php",
+             "ezcTemplateDynamicBlockTstNode" => "Template/syntax_trees/tst/nodes/dynamic_block.php",
 
 
 // Syntax trees / AST
@@ -158,6 +161,7 @@ return array(
              "ezcTemplateParenthesisAstNode" => "Template/syntax_trees/ast/nodes/parenthesis.php",
              "ezcTemplateCurlyBracesAstNode" => "Template/syntax_trees/ast/nodes/curly_braces.php",
              "ezcTemplatePhpCodeAstNode" => "Template/syntax_trees/ast/nodes/php_code.php",
+             "ezcTemplateDynamicBlockAstNode" => "Template/syntax_trees/ast/nodes/dynamic_block.php",
 
              // Control
              "ezcTemplateIfAstNode" => "Template/syntax_trees/ast/nodes/control/if.php",
