@@ -32,7 +32,7 @@ class ezcPersistentRelationOperationNotSupportedException extends ezcPersistentO
     {
         parent::__construct(
             "The relation between <{$class}> and <{$relatedClass}> does not support the operation <{$operation}>." .
-                $reason !== null ? " Reason: <{$reason}>." : ""
+                ( $reason !== null ? " Reason: <{$reason}>." : "" )
         );
     }
 }

@@ -30,6 +30,12 @@ $def->properties['type']->columnName     = 'type';
 $def->properties['type']->propertyName   = 'type';
 $def->properties['type']->propertyType   = ezcPersistentObjectProperty::PHP_TYPE_STRING;
 
+$def->relations["RelationTestPerson"]                = new ezcPersistentManyToManyRelation( "PO_addresses", "PO_persons", "PO_persons_addresses" );
+$def->relations["RelationTestPerson"]->columnMap     = array(
+    new ezcPersistentDoubleTableMap( "id", "address_id", "person_id", "id" ),
+);
+$def->relations["RelationTestPerson"]->reverse       = true;
+
 return $def;
 
 ?>

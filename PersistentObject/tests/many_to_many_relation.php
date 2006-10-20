@@ -279,6 +279,34 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
             "Related RelationTestPerson objects not fetched correctly."
         );
     }
+
+    public function testGetRelatedPersonsFromAddress1()
+    {
+        $address = $this->session->load( "RelationTestAddress", 1 );
+
+        $res = array (
+            0 => 
+            RelationTestPerson::__set_state(array(
+             'id' => '1',
+             'firstname' => 'Theodor',
+             'surname' => 'Gopher',
+             'employer' => '2',
+            )),
+            1 => 
+            RelationTestPerson::__set_state(array(
+             'id' => '2',
+             'firstname' => 'Frederick',
+             'surname' => 'Ajax',
+             'employer' => '1',
+            )),
+        );
+
+        $this->assertEquals(
+            $res,
+            $this->session->getRelatedObjects( $address, "RelationTestPerson" ),
+            "Related RelationTestPerson objects not fetched correctly."
+        );
+    }
     
     public function testAddRelatedObjectToPerson2()
     {
@@ -310,6 +338,27 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
             $stmt->fetch(),
             "Relation not established correctly."
         );
+    }
+    
+    public function testAddRelatedPersonToAddress2Failure()
+    {
+        $person  = $this->session->load( "RelationTestPerson",  2 );
+        $address = $this->session->load( "RelationTestAddress", 2 );
+
+        try
+        {
+            $this->session->addRelatedObject( $address, $person );
+        }
+        catch ( ezcPersistentRelationOperationNotSupportedException $e )
+        {
+            $this->assertEquals(
+                "The relation between <RelationTestAddress> and <RelationTestPerson> does not support the operation <addRelatedObject>. Reason: <Relation is a reverse relation.>.",
+                $e->getMessage(),
+                "Exception message incorrect."
+            );
+            return;
+        }
+        $this->fail( "Exception not thrown on creation of reverse relation." );
     }
     
     public function testRemoveRelatedAddressesFromPerson1()
