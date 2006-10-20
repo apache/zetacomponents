@@ -48,6 +48,11 @@ class ezcGraphMingDriver extends ezcGraphDriver
         $this->options = new ezcGraphMingDriverOptions( $options );
     }
 
+    /**
+     * Returns unique movie object as a parent canvas for all swf objects.
+     * 
+     * @return SWFMovie
+     */
     public function getDocument()
     {
         if ( $this->movie === null )
@@ -62,6 +67,16 @@ class ezcGraphMingDriver extends ezcGraphDriver
         return $this->movie;
     }
 
+    /**
+     * Set the fill and line properties for a SWWFShape according to the 
+     * given parameters.
+     * 
+     * @param SWFShape $shape
+     * @param ezcGraphColor $color 
+     * @param mixed $thickness 
+     * @param mixed $filled 
+     * @return void
+     */
     protected function setShapeColor( SWFShape $shape, ezcGraphColor $color, $thickness, $filled )
     {
         if ( $filled )
@@ -137,11 +152,25 @@ class ezcGraphMingDriver extends ezcGraphDriver
         }
     }
 
+    /**
+     * Modifies a coordinate value, as flash usally uses twips instead of 
+     * pixels for a higher solution, as it only accepts integer values.
+     * 
+     * @param float $pointValue 
+     * @return float
+     */
     protected function modifyCoordinate( $pointValue )
     {
         return $pointValue * 10;
     }
 
+    /**
+     * Demodifies a coordinate value, as flash usally uses twips instead of 
+     * pixels for a higher solution, as it only accepts integer values.
+     * 
+     * @param float $pointValue 
+     * @return float
+     */
     protected function deModifyCoordinate( $pointValue )
     {
         return $pointValue / 10;
@@ -657,6 +686,20 @@ class ezcGraphMingDriver extends ezcGraphDriver
         return $id;
     }
 
+    /**
+     * Draws a circular arc consisting of several minor steps on the bounding 
+     * lines.
+     * 
+     * @param ezcGraphCoordinate $center 
+     * @param mixed $width 
+     * @param mixed $height 
+     * @param mixed $size 
+     * @param mixed $startAngle 
+     * @param mixed $endAngle 
+     * @param ezcGraphColor $color 
+     * @param mixed $filled 
+     * @return string Element id
+     */
     protected function simulateCircularArc( ezcGraphCoordinate $center, $width, $height, $size, $startAngle, $endAngle, ezcGraphColor $color, $filled )
     {
         $movie = $this->getDocument();
