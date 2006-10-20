@@ -304,6 +304,24 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         }
         $this->fail( "Birthday object updated although not in database, yet!" );
     }
+    
+    public function testRemoveRelatedBirthdayFromPerson1Success()
+    {
+        $person   = $this->session->load( "RelationTestPerson", 1 );
+        $birthday = $this->session->getRelatedObject( $person, "RelationTestBirthday" );
+
+        $this->session->removeRelatedObject( $person, $birthday );
+
+        $res = RelationTestBirthday::__set_state(array(
+            'birthday' => '327535201',
+        ));
+
+        $this->assertEquals(
+            $res,
+            $birthday,
+            "Related RelationTestPerson objects not fetched correctly."
+        );
+    }
 }
 
 ?>

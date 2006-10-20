@@ -417,6 +417,46 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
             "Relation not established correctly"
         );
     }
+
+    public function testRemoveRelatedObjectFromEmployer2Success()
+    {
+        $employer = $this->session->load( "RelationTestEmployer", 2 );
+        $person   = $this->session->getRelatedObject( $employer, "RelationTestPerson" );
+
+        $this->session->removeRelatedObject( $employer, $person );
+
+        $res = RelationTestPerson::__set_state(array(
+            'id' => '1',
+            'firstname' => 'Theodor',
+            'surname' => 'Gopher',
+            'employer' => null,
+        ));
+        $this->assertEquals(
+            $res,
+            $person,
+            "Related RelationTestPerson objects not removed correctly."
+        );
+    }
+
+    public function testRemoveRelatedPersonsFromEmployer1StoreSuccess()
+    {
+        $employer = $this->session->load( "RelationTestEmployer", 1 );
+        $persons  = $this->session->getRelatedObjects( $employer, "RelationTestPerson" );
+
+        foreach ( $persons as $person )
+        {
+            $this->session->removeRelatedObject( $employer, $person );
+            $this->session->update( $person );
+        }
+
+        $res = array();
+
+        $this->assertEquals(
+            $res,
+            $this->session->getRelatedObjects( $employer, "RelationTestPerson" ),
+            "Related RelationTestPerson objects not fetched correctly."
+        );
+    }
 }
 
 ?>

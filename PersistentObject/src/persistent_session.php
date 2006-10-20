@@ -528,6 +528,75 @@ class ezcPersistentSession
         }
     }
 
+    /**
+     * Removes the relation between $object and $relatedObject.
+     * This method is used to delete an existing relation between 2 objects. Like
+     * {@see addRelatedObject} this method does not store the related object
+     * after removing its relation properties (unset), except for
+     * {@see ezcPersistentManyToManyRelation}s, for which the relation record
+     * is deleted from the database.
+     * 
+     * @param object $object        Source object of the relation.
+     * @param object $relatedObject Related object.
+     *
+     * @throws ezcPersistentRelationOperationNotSupportedException
+     *         if a relation to create is marked as "reverse".
+     * @throws ezcPersistentRelationNotFoundException
+     *         if the deisred relation is not defined.
+     */
+    public function removeRelatedObject( $object, $relatedObject )
+    {
+        $class = get_class( $object );
+        $def = $this->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
+
+        $relatedClass = get_class( $relatedObject );
+        
+        if ( !isset( $def->relations[$relatedClass] ) )
+        {
+            throw new ezcPersistentRelationNotFoundException( $class, $relatedClass );
+        }
+        if ( isset( $def->relations[$relatedClass]->reverse ) && $def->relations[$relatedClass]->reverse === true )
+        {
+            throw new ezcPersistentRelationOperationNotSupportedException(
+                $class,
+                $relatedClass,
+                "deleteRelation",
+                "Relation is a reverse relation."
+            );
+        }
+        
+        $relatedDef = $this->definitionManager->fetchDefinition( get_class( $relatedObject ) );
+        switch( get_class( ( $relation = $def->relations[get_class( $relatedObject )] ) ) )
+        {
+            case "ezcPersistentOneToManyRelation":
+            case "ezcPersistentOneToOneRelation":
+                foreach ( $relation->columnMap as $map )
+                {
+                    $relatedObject->{$relatedDef->columns[$map->destinationColumn]->propertyName} = null;
+                }
+                break;
+            case "ezcPersistentManyToManyRelation":
+                $q = $this->database->createDeleteQuery();
+                $q->deleteFrom( $relation->relationTable );
+                foreach ( $relation->columnMap as $map )
+                {
+                    $q->where(
+                        $q->expr->eq(
+                            $this->database->quoteIdentifier( $map->relationSourceColumn ),
+                            $q->bindValue( $object->{$def->columns[$map->sourceColumn]->propertyName} )
+                        ),
+                        $q->expr->eq(
+                            $this->database->quoteIdentifier( $map->relationDestinationColumn ),
+                            $q->bindValue( $relatedObject->{$relatedDef->columns[$map->destinationColumn]->propertyName} )
+                        )
+                    );
+                }
+                $stmt = $q->prepare();
+                $stmt->execute();
+                break;
+        }
+    }
+
     /*
      * Returns the result of the query $query as an object iterator.
      *

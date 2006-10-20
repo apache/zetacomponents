@@ -244,7 +244,7 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
         );
     }
     
-    public function testGetRelatedObjectPerson1()
+    public function testGetRelatedObjectFromPerson1()
     {
         $person = $this->session->load( "RelationTestPerson", 1 );
         $res = RelationTestAddress::__set_state(array(
@@ -262,7 +262,7 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
         );
     }
 
-    public function testGetRelatedObjectPerson2()
+    public function testGetRelatedObjectFromPerson2()
     {
         $person = $this->session->load( "RelationTestPerson", 2 );
         $res =  RelationTestAddress::__set_state(array(
@@ -280,7 +280,7 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
         );
     }
     
-    public function testAddRelatedObjectPerson2()
+    public function testAddRelatedObjectToPerson2()
     {
         $person  = $this->session->load( "RelationTestPerson",  2 );
         $address = $this->session->load( "RelationTestAddress", 2 );
@@ -309,6 +309,58 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
             $res,
             $stmt->fetch(),
             "Relation not established correctly."
+        );
+    }
+    
+    public function testRemoveRelatedAddressesFromPerson1()
+    {
+        $person    = $this->session->load( "RelationTestPerson", 1 );
+        $addresses = $this->session->getRelatedObjects( $person, "RelationTestAddress" );
+
+        foreach ( $addresses as $address )
+        {
+            $this->session->removeRelatedObject( $person, $address );
+        }
+
+        $res = array();
+
+        $this->assertEquals(
+            $res,
+            $this->session->getRelatedObjects( $person, "RelationTestAddress" ),
+            "Related RelationTestPerson objects not deleted correctly."
+        );
+    }
+
+    public function testRemoveRelatedObjectFromPerson2()
+    {
+        $person = $this->session->load( "RelationTestPerson", 2 );
+        $address = $this->session->getRelatedObject( $person, "RelationTestAddress" );
+
+        $this->session->removeRelatedObject( $person, $address );
+
+        $res = array (
+            0 => 
+            RelationTestAddress::__set_state(array(
+                'id' => '3',
+                'street' => 'Phpavenue 21',
+                'zip' => '12345',
+                'city' => 'Internettown',
+                'type' => 'private',
+            )),
+            1 => 
+            RelationTestAddress::__set_state(array(
+                'id' => '4',
+                'street' => 'Pythonstreet 13',
+                'zip' => '12345',
+                'city' => 'Internettown',
+                'type' => 'private',
+            )),
+        );
+
+        $this->assertEquals(
+            $res,
+            $this->session->getRelatedObjects( $person, "RelationTestAddress" ),
+            "Related RelationTestPerson objects not deleted correctly."
         );
     }
 }
