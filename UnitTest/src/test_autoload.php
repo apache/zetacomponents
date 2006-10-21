@@ -1,4 +1,6 @@
 <?php
+PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
+
 return array (
 	"ezcTestRunner" => "UnitTest/test/runner.php",
 	"ezcTestCase" => "UnitTest/test/case.php",
