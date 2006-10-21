@@ -6,17 +6,6 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 {
     const SUITE_FILENAME = "tests/suite.php";
 
-    /**
-     * For now, until the Console Tools is finished, we use the following
-     * parameters:
-     *
-     * Arguments:
-     *
-     * [1] => Database DSN
-     * [2] => Database DSN, Suite file.
-     * [3] => Database DSN, file, class name.
-     *
-     */
     public static function main()
     {
         $tr = new ezcTestRunner();
@@ -38,6 +27,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $help->shorthelp = "Show this help";
         $consoleInput->registerOption( $help  );
 
+        // Release option
         $help = new ezcConsoleOption( 'r', 'release', ezcConsoleInput::TYPE_STRING );
         $help->shorthelp = "The release from the svn. Use either 'trunk' or 'stable'.";
         $help->default = 'trunk';
@@ -50,12 +40,12 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $dsn->longhelp  .= "mysql://root@mypass@localhost/unittests";
         $consoleInput->registerOption( $dsn  );
 
-        // coverage report dir
+        // Code Coverage Report directory option
         $report = new ezcConsoleOption( 'c', 'report-dir', ezcConsoleInput::TYPE_STRING );
         $report->shorthelp = "Directory to store test reports and code coverage reports in.";
         $consoleInput->registerOption( $report );
 
-        // xml logfile
+        // XML Logfile option
         $xml = new ezcConsoleOption( 'x', 'log-xml', ezcConsoleInput::TYPE_STRING );
         $xml->shorthelp = "Log test execution in XML format to file.";
         $consoleInput->registerOption( $xml );
@@ -85,7 +75,8 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
     public function runFromArguments()
     {
-        /* The following hack is needed so that we can also test the console tools in the stable branch */
+        /* The following hack is needed so that we can also test the
+           console tools in the stable branch */
         if ( in_array( 'stable', $_SERVER['argv'] ) )
         {
             ezcBase::setWorkingDirectory( getcwd() );
@@ -115,6 +106,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
                 return;
             }
         }
+
         $this->printCredits();
 
         print( '[Preparing tests]:' );
