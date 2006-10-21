@@ -412,6 +412,25 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
             "Related RelationTestPerson objects not deleted correctly."
         );
     }
+
+    public function testDeleteAddress1RelationRecordsSuccess()
+    {
+        $address = $this->session->load( "RelationTestAddress", 1 );
+
+        $this->assertEquals(
+            2,
+            sizeof( $this->session->getRelatedObjects( $address, "RelationTestPerson" ) ),
+            "Number of Addresses related to Person invalid, test pre-condition failed!"
+        );
+
+        $this->session->delete( $address );
+
+        $this->assertEquals(
+            array(),
+            $this->session->getRelatedObjects( $address, "RelationTestPerson" ),
+            "Address relation records not deleted correctly on Person delete."
+        );
+    }
 }
 
 ?>

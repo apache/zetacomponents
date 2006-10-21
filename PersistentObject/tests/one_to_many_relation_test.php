@@ -464,27 +464,11 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
         $employer = $this->session->load( "RelationTestEmployer", 2 );
         $persons  = $this->session->getRelatedObjects( $employer, "RelationTestPerson" );
 
-        $res = array(
-          0 => 
-          RelationTestPerson::__set_state(array(
-             'id' => 4,
-             'firstname' => 'Tobias',
-             'surname' => 'Preprocess',
-             'employer' => 2,
-          )),
-          1 => 
-          RelationTestPerson::__set_state(array(
-             'id' => 5,
-             'firstname' => 'Jan',
-             'surname' => 'Soap',
-             'employer' => 2,
-          )),
-        );
-
         $this->session->delete( $employer );
 
         foreach ( $persons as $person )
         {
+            // Check that the specific person got deleted
             $q = $this->session->createFindQuery( "RelationTestPerson" );
             $q->where(
                 $q->expr->eq(
@@ -499,6 +483,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
                 "Cascade not performed correctly to RelationTestPerson on delete."
             );
             
+            // Check that all birthdays of the persons got deleted
             $q = $this->session->createFindQuery( "RelationTestBirthday" );
             $q->where(
                 $q->expr->eq(
@@ -512,7 +497,74 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
                 $this->session->find( $q, "RelationTestBirthday" ),
                 "Cascade not performed correctly to RelationTestBirthday on delete."
             );
+
+            // Check that all relations to addresses for the person got deleted
+            $q = $this->session->database->createSelectQuery();
+            $q->select( "COUNT(*)" )->from( "PO_persons_addresses" )
+              ->where( $q->expr->eq( "person_id", $q->bindValue( $person->id ) ) );
+
+            $stmt = $q->prepare();
+            $stmt->execute();
+
+            $this->assertEquals(
+                0,
+                $stmt->fetchColumn(),
+                "ManyToMany relations not correctly removed on delete."
+            );
+            unset( $q, $stmt );
         }
+
+        // Check that the other records are untouched
+        $q = $this->session->database->createSelectQuery();
+        $q->select( "COUNT(*)" )->from( "PO_employers" );
+
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        $this->assertEquals(
+            1,
+            $stmt->fetchColumn(),
+            "Employer not correctly deleted directly."
+        );
+        unset( $q, $stmt );
+        
+        $q = $this->session->database->createSelectQuery();
+        $q->select( "COUNT(*)" )->from( "PO_persons" );
+
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        $this->assertEquals(
+            2,
+            $stmt->fetchColumn(),
+            "Persons cascaded from employer not deletec correctly."
+        );
+        unset( $q, $stmt );
+        
+        $q = $this->session->database->createSelectQuery();
+        $q->select( "COUNT(*)" )->from( "PO_persons_addresses" );
+
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        $this->assertEquals(
+            4,
+            $stmt->fetchColumn(),
+            "Relations from person to address not correctly removed."
+        );
+        unset( $q, $stmt );
+        
+        $q = $this->session->database->createSelectQuery();
+        $q->select( "COUNT(*)" )->from( "PO_birthdays" );
+
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        $this->assertEquals(
+            1,
+            $stmt->fetchColumn(),
+            "Birthdays cascaded from persons not correctly delted."
+        );
     }
 }
 

@@ -119,6 +119,9 @@ class ezcPersistentSession
      *
      * @todo Also ManyToMany relations do not support cascading, we should
      *       delete all relation records for the deleted object.
+     * @todo Revise cascading code. So far it sends 1 delete statement per
+     *       object but we can also collect them table wise and send just 1
+     *       for each table.
      */
     public function delete( $pObject )
     {
@@ -134,6 +137,7 @@ class ezcPersistentSession
             throw new ezcPersistentObjectNotPersistentException( $class );
         }
 
+        // Transaction savety for exceptions thrown while cascading
         $this->database->beginTransaction();
 
         try
@@ -141,6 +145,23 @@ class ezcPersistentSession
             // check for cascading relations to follow
             foreach ( $def->relations as $relatedClass => $relation )
             {
+                $this->cascadeDelete( $pObject, $relation );
+                // Remove relation records for ManyToMany relations
+                if ( $relation instanceof ezcPersistentManyToManyRelation )
+                {
+                    foreach ( $this->getRelatedObjects( $pObject, $relatedClass ) as $relatedObject )
+                    {
+                        // Need to determine the correct direction for removal
+                        if ( $relation->reverse === true  )
+                        {
+                            $this->removeRelatedObject( $relatedObject, $pObject );
+                        }
+                        else
+                        {
+                            $this->removeRelatedObject( $pObject, $relatedObject );
+                        }
+                    }
+                }
                 if ( isset( $relation->cascade ) && $relation->cascade === true )
                 {
                     if ( isset( $relation->reverse ) && $relation->reverse === true )
@@ -152,6 +173,7 @@ class ezcPersistentSession
                             "Reverse relations do not support cascading."
                         );
                     }
+                    // @todo {@see delete()}
                     foreach ( $this->getRelatedObjects( $pObject, $relatedClass ) as $relatedObject )
                     {
                         $this->delete( $relatedObject );
@@ -161,6 +183,7 @@ class ezcPersistentSession
         }
         catch ( Exception $e )
         {
+            // Roll back the current transaction on any exception
             $this->database->rollback();
             throw $e;
         }
@@ -181,11 +204,19 @@ class ezcPersistentSession
         }
         catch ( PDOException $e )
         {
+            // Need to rollbak manually here, if we are on the first transaction
+            // level
             $this->database->rollback();
             throw new ezcPersistentQueryException( $e->getMessage() );
         }
-
+        
+        // After recursion of cascades everything should be fine here, or this
+        // final commit call should perform the rollback ordered by a deeper level
         $this->database->commit();
+    }
+
+    private function cascadeDelete( $object, ezcPersistentRelation $relation )
+    {
     }
 
     /*
