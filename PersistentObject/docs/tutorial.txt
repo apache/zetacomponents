@@ -1,5 +1,5 @@
 eZ components - PersistentObject
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
 
@@ -67,7 +67,7 @@ the identifier generator and usually maps to an auto increment column in the
 database.
 For simplicity we have made the name and age members of the Person class
 public. However, this is not required and in a real application you can use 
-any access method you like e.g access methods or properties or even having the 
+any access method you like e.g. access methods or properties or even having the 
 data completely private.
 
 All persistent objects must implement the getState() and setState()
@@ -341,7 +341,7 @@ correct.
 
 
 Extending the definition loader
---------------------------------
+-------------------------------
 
 It is very easy to create your own definition loader. Simply extend the
 ezcPersistentDefinitionManager abstract class and implement the fetchDefinition
@@ -358,6 +358,362 @@ method: ::
 
 The fetchDefinition() method should create the definition structure for the
 requested class or throw an exception
+
+Relations
+=========
+
+Since version 1.2 of PersistentObject, the components is able to deal with
+relations between objects/tables. Relations are defined within the persistence
+mapping. Each object can have a relation, that must be reflected accordingly in
+the database structure.
+
+Relation class overview
+-----------------------
+
+The following definition classes are available to realize object relations:
+
+ezcPersistentOneToManyRelation
+  This class is used to define 1:n relations. For example 1 person can be
+  related to multiple addresses, while only 1 person can live at an address.
+
+ezcPersistentManyToManyRelation
+  Using this class you can define n:m relations, for example a person can be
+  related to multiple addresses, while multiple persons can live at one
+  address.
+
+ezcPersistentOneToOneRelation
+  With this class you can define 1:1 relations, which might be useful for
+  slight de-normalization. For example, if you want to split your users data
+  from the user credentials.
+
+ezcPersistentManyToOneRelation
+  This relation (n:1) does not make sense on its one, but as the reverse
+  connection for a 1:n relation.
+
+All of this classes implement ezcPersistentRelation.
+
+Basics for the following examples
+---------------------------------
+
+For the examples in this section, we will reuse the Person class, define in
+`The persistent class`_. In addition, we will use a class Address, which looks
+as follows: ::
+
+    <?php
+    class Address
+    {
+        public $id      = null;
+        public $street  = null;
+        public $zip     = null;
+        public $city    = null;
+
+        public function setState( array $state )
+        {
+            foreach ( $state as $key => $value )
+            {
+                $this->$key = $value;
+            }
+        }
+
+        public function getState()
+        {
+            return array(
+                "id"        => $this->id,
+                "street"    => $this->street,
+                "zip"       => $this->zip,
+                "city"      => $this->city,
+            );
+        }
+    }
+    ?>
+
+This class will be extended, when needed for a relation to fit. We will handle
+all relations upon this class. The following basic persistence mapping used
+used and extended for each example: ::
+
+    <?php
+    $def = new ezcPersistentObjectDefinition();
+    $def->table = "addresses";
+    $def->class = "Address";
+
+    $def->idProperty                = new ezcPersistentObjectIdProperty;
+    $def->idProperty->columnName    = 'id';
+    $def->idProperty->propertyName  = 'id';
+    $def->idProperty->generator     = new ezcPersistentGeneratorDefinition( 'ezcPersistentSequenceGenerator' );
+
+    $def->properties['street']                 = new ezcPersistentObjectProperty;
+    $def->properties['street']->columnName     = 'street';
+    $def->properties['street']->propertyName   = 'street';
+    $def->properties['street']->propertyType   = ezcPersistentObjectProperty::PHP_TYPE_STRING;
+
+    $def->properties['zip']                 = new ezcPersistentObjectProperty;
+    $def->properties['zip']->columnName     = 'zip';
+    $def->properties['zip']->propertyName   = 'zip';
+    $def->properties['zip']->propertyType   = ezcPersistentObjectProperty::PHP_TYPE_STRING;
+
+    $def->properties['city']                 = new ezcPersistentObjectProperty;
+    $def->properties['city']->columnName     = 'city';
+    $def->properties['city']->propertyName   = 'city';
+    $def->properties['city']->propertyType   = ezcPersistentObjectProperty::PHP_TYPE_STRING;
+    ?>
+
+Defining a simple relation
+--------------------------
+
+The following extensions are necessary to the given class and persistence
+mapping, to realize a simple 1:n relation. Each person will be able to have
+multiple addresses, but 1 address may only refer to 1 person.
+
+The Address class needs to be enhanced as follows, to store the id of the
+Person it is related to. ::
+
+    <?php
+    class Address
+    {
+        // ...
+
+        private $person;
+
+        // ...
+
+        public function getState()
+        {
+            return array(
+                // ...
+                "person"    => $this->person,
+            );
+        }
+    }
+    ?>
+
+Additionally, we need to define the new property $person in the persistence
+mapping of the Address class: ::
+
+    <?php
+    // ...
+
+    $def->properties['person'] = new ezcPersistentObjectProperty;
+    $def->properties['person']->columnName   = 'person_id';
+    $def->properties['person']->propertyName = 'person';
+    $def->properties['person']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+
+    ?>
+
+The relation definition takes place in the persistence mapping of the Person
+class from `The persistent class`_ needs to be extended as follows: ::
+
+    <?php
+    // ...
+
+    $def->relations["Address"] = new ezcPersistentOneToManyRelation(
+        "persons",
+        "addresses"
+    );
+    $def->relations["Address"]->columnMap = array(
+        new ezcPersistentSingleTableMap(
+            "id",
+            "person_id"
+        ),
+    );
+    ?>
+
+A relation to another persistent object is defined in the property
+ezcPersistentObjectDefinition relations, which is an array. Each relation must
+have the name of the persistent object class it refers to as the key in this
+array. An instance of one of the classes shown in `Class overview`_ must be the
+value. In this case, it is ezcPersistentOneToManyRelation. The parameter to its
+constructor are the names of the tables that the relation refers to. The first
+table is the table of the current object, the second one refers to the related
+object.
+
+To define which properties are used to realize the relation mapping, the
+property ezcPersistentOneToManyRelation->columnMap is used. It contains an
+array of (in this case) ezcPersistentSingleTableMap, which maps 1 column of
+each of the tables to 1 column of the other one. If you want to map using
+several columns, you can add more ezcPersistentSingleTableMap instances to the
+columnMap array.
+
+Using a relation
+----------------
+
+To use the previously defined 1:n relation, ezcPersistentSession offers several
+new methods:
+
+ezcPersistentSession->getRelatedObject()
+  This method can be used to retrieve a single related object to a given source
+  object. If no related object can be found, it will throw an exception.
+
+ezcPersistentSession->getRelatedObjects()
+  In contrast to ezcPersistentSession->getRelatedObject() this method returns
+  always an array of all related objects. It will not throw an exception if no
+  related object can be found, but return an empty array.
+
+ezcPersistentSession->addRelatedObject()
+  Using this method you can build a relation between 2 persistent objects. It
+  will set the according properties on the objects, but not store those to the
+  database automatically. (A little exception are
+  ezcPersistentManyToManyRelation objects. Further details below.)
+
+ezcPersistentSession->removeRelatedObject()
+  As the counterpart to ezcPersistentSession->addRelatedObject(), this method
+  is used to remove the relation between 2 objects. It won't store the given
+  objects for you, but only remove the necessary properties. (Again a little
+  exception are ezcPersistentManyToManyRelation objects. Further details
+  below.)
+
+Using this methods, we can now retrieve all addresses which are related to 1
+person: ::
+
+    <?php
+    $person = $session->load( "Person", 1 );
+    $addresses = $session->getRelatedObjects( $person, "Address" );
+    ?>
+
+The variable $addresses will then contain an array of all Address objects found
+for the Person object with ID 1. To make this objects being related to another
+Person object, we can do the following: ::
+
+
+    <?php
+    $personOld = $session->load( "Person", 1 );
+    $personNew = $session->load( "Person", 23 );
+    $addresses = $session->getRelatedObjects( $personOld, "Address" );
+
+    foreach ( $addresses as $address )
+    {
+        $session->removeRelatedObject( $personOld, $address );
+        $session->addRelatedObject( $personNew, $address );
+        $sesssion->update( $address );
+    }
+    ?>
+
+Defining n:m relations
+----------------------
+
+The eczPersistentManyToManyRelation class works in some parts different than
+the other ezcPersistentRelation classes. For this kind of relation, you need an
+extra table in your database, to store the relation records. The next example
+shows the definition of an ezcPersistentManyToManyRelation relation on basis of
+the Person and Address example classes. You need to use the original classes
+for this, hence we do not need to extend those here. The definition of the
+relational mapping for the Person class must be extended as follows: ::
+
+    <?php
+    // ...
+
+    $def->relations["Address"] = new ezcPersistentManyToManyRelation(
+        "persons",
+        "addresses",
+        "persons_addresses"
+    );
+    $def->relations["Address"]->columnMap     = array(
+        new ezcPersistentDoubleTableMap( "id", "person_id", "address_id", "id" ),
+    );
+    ?>
+    
+In contrast to all other implementations of ezcPersistentRelation, the
+ezcPersistentManyToManyRelation constructor expects 3 table names:
+
+- The name of the current objects table.
+- The name of the related objects table.
+- The table name to store the relation records into.
+
+A similar exception applies to the columnMap of this relation definition: It
+consists of ezcPersistentDoubleTableMap instances, which carry 4 column names
+each. The first column is the column to choose from the source table. The
+second column maps the first one to a column of the relation table. Same
+applies to the 3rd and 4th column, which map the second column of the relation
+table to the desired column of the related objects table. As with
+ezcPersistentSingleTableMap instances, you can use multiple mappings in 1
+ezcPersistentManyToManyRelation->columnMap array.
+
+Using n:m relations
+-------------------
+
+As stated earlier, the n:m relations have also some exceptions in the usage
+methods. If you use ezcPersistentSession->addRelatedObject() the desired
+relation record is inserted into the relation table. Same applies to the
+removeRelatedObject() method of ezcPersistentSession, which deletes the specific
+record. This also means, that you do not need to store the affected objects
+explicitly after using one of the named methods.
+
+Beside that, the ezcPersistentSession->delete() method keeps track of the
+relation records. If you delete a record, all it's relation records are deleted
+automatically.
+
+Reverse relations
+-----------------
+
+Since you can always look at a relation from 2 sides, ezcPersistentRelation
+implementations can be configured to be "reverse". A reverse relation
+indicates, that the relation is already defined in the opposite direction and
+that this direction is the mainly used one. For a relation that is marked as
+reverse, it is not possible to use ezcPersistentSession->addRelatedObject() and
+ezcPersistentSession->removeRelatedObject(). Generally the reverse attribute of
+relation definition objects is set to false per default, except for
+ezcPersistentManyToOneRelation relations. This relation type makes only sense as a
+reverse relation for ezcPersistentOneToManyRelations. Therefore the reverse
+attribute is set to false and not publicly accessible for writing.
+
+The following example shows the reverse relation definition for the last
+example: ::
+
+    <?php
+    // ...
+
+    $def->relations["Person"] = new ezcPersistentManyToManyRelation(
+        "addresses",
+        "persons",
+        "persons_addresses"
+    );
+    $def->relations["Address"]->columnMap     = array(
+        new ezcPersistentDoubleTableMap( "id", "address_id", "person_id", "id" ),
+    );
+    $def->relations["Address"]->reverse = true;
+    ?>
+
+With the relation definition shown above, you would still be able to get the
+Person objects related to an Address object, but not to add or remove related
+Person objects to/from an Address.
+
+Cascading deletes
+-----------------
+
+Cascading relations is done through the flag "cascade" of a
+ezcPersistentRelation implementation. All implementations, except the
+ezcPersistentManyToManyRelation class support this flag. It allows you to get
+all related objects for a source object automatically deleted, if the source
+object is deleted.
+
+The following example shows how to add cascading to a relation definition,
+based on the example from `Defining a simple relation`_: ::
+
+    <?php
+    // ...
+
+    $def->relations["Address"] = new ezcPersistentOneToManyRelation(
+        "persons",
+        "addresses"
+    );
+    $def->relations["Address"]->columnMap = array(
+        new ezcPersistentSingleTableMap(
+            "id",
+            "person_id"
+        ),
+    );
+    $def->relations["Address"]->cascade = true;
+    ?>
+
+If you now use ::
+
+    <?php
+    $person = $session->load( "Person", 1 );
+    $session->delete( $person );
+    ?>
+
+The Person object and all related Address objects are deleted. Beware, that
+this does not work with ezcPersistentManyToManyRelation instances.
+
 
 
 ..
