@@ -370,10 +370,10 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             ->method( 'drawPolygon' )
             ->with(
                 $this->equalTo( array( 
-                    new ezcGraphCoordinate( 202.5, 0. ),
-                    new ezcGraphCoordinate( 202.5, 40. ),
-                    new ezcGraphCoordinate( 242.5, 40. ),
-                    new ezcGraphCoordinate( 242.5, 0. ),
+                    new ezcGraphCoordinate( 157.5, 0. ),
+                    new ezcGraphCoordinate( 157.5, 40. ),
+                    new ezcGraphCoordinate( 197.5, 40. ),
+                    new ezcGraphCoordinate( 197.5, 0. ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
                 $this->equalTo( 1 )

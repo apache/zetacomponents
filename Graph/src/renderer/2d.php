@@ -478,7 +478,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         $margin = $stepSize * $this->options->barMargin;
         $padding = $stepSize * $this->options->barPadding;
         $barWidth = ( $stepSize - $margin ) / $dataCount - $padding;
-        $offset = - $stepSize / 2 + $margin / 2 + $dataNumber * ( $padding + $barWidth ) + $padding / 2;
+        $offset = - $stepSize / 2 + $margin / 2 + ( $dataCount - $dataNumber -1 ) * ( $padding + $barWidth ) + $padding / 2;
 
         $barPointArray = array(
             new ezcGraphCoordinate(
