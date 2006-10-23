@@ -67,6 +67,7 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
 
             $cb = new ezcTemplateCustomBlockTstNode( $this->parser->source, $this->startCursor, $cursor );
 
+            $cb->name = $name;
             $cb->isClosingBlock = true;
 
             $this->appendElement( $cb );
@@ -98,6 +99,7 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
 
         $cb = new ezcTemplateCustomBlockTstNode( $this->parser->source, $this->startCursor, $cursor );
         $cb->definition = $def;
+        $cb->name = $name;
         $this->block->isNestingBlock = $cb->isNestingBlock = $def->hasCloseTag;
 
         if( isset( $def->startExpressionName ) && $def->startExpressionName != "" )
