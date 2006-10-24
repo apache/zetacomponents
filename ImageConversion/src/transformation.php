@@ -197,7 +197,7 @@ class ezcImageTransformation
         }
         
         // Start atomic file operation
-        $fileTmp = tempnam( dirname( $fileOut ), '.'.basename( $fileOut ) );
+        $fileTmp = tempnam( dirname( $fileOut ) . DIRECTORY_SEPARATOR, '.'.basename( $fileOut ) );
         copy( $fileIn, $fileTmp );
 
         try
