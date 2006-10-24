@@ -26,6 +26,8 @@
  * }
  * </code>
  *  
+ * @property ezcConsoleProgressMonitorOptions $options
+ *           Contains the options for this class.
  * 
  * @package ConsoleTools
  * @version //autogen//
