@@ -1,4 +1,4 @@
-1.2beta1 - [RELEASEDATE]
+1.2beta1 - Tuesday 24 October 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Added the ezcDbHandler::quoteIdentifier() method that you can use to quote
