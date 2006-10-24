@@ -121,7 +121,7 @@ class ezcConsoleToolsProgressbarTest extends ezcTestCase
         {
             ob_start();
             $bar->advance();
-            // sleep(1);
+//            sleep( 1 );
             $resTmp = ob_get_contents();
             if (trim($resTmp) !== '')
             {
