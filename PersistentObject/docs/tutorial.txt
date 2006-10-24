@@ -362,10 +362,7 @@ requested class or throw an exception
 Relations
 =========
 
-Since version 1.2 of PersistentObject, the components is able to deal with
-relations between objects/tables. Relations are defined within the persistence
-mapping. Each object can have a relation, that must be reflected accordingly in
-the database structure.
+Relations are defined within the persistence mapping.
 
 Relation class overview
 -----------------------
@@ -387,25 +384,25 @@ ezcPersistentOneToOneRelation
   from the user credentials.
 
 ezcPersistentManyToOneRelation
-  This relation (n:1) does not make sense on its one, but as the reverse
+  This relation (n:1) does not make sense on its own, but as the reverse
   connection for a 1:n relation.
 
-All of this classes implement ezcPersistentRelation.
+All of these classes extend the abstract class ezcPersistentRelation.
 
 Basics for the following examples
 ---------------------------------
 
 For the examples in this section, we will reuse the Person class, define in
 `The persistent class`_. In addition, we will use a class Address, which looks
-as follows: ::
+as follows::
 
     <?php
     class Address
     {
-        public $id      = null;
-        public $street  = null;
-        public $zip     = null;
-        public $city    = null;
+        public $id = null;
+        public $street = null;
+        public $zip = null;
+        public $city = null;
 
         public function setState( array $state )
         {
@@ -418,18 +415,17 @@ as follows: ::
         public function getState()
         {
             return array(
-                "id"        => $this->id,
-                "street"    => $this->street,
-                "zip"       => $this->zip,
-                "city"      => $this->city,
+                "id" => $this->id,
+                "street" => $this->street,
+                "zip" => $this->zip,
+                "city" => $this->city,
             );
         }
     }
     ?>
 
-This class will be extended, when needed for a relation to fit. We will handle
-all relations upon this class. The following basic persistence mapping used
-used and extended for each example: ::
+The Address class will be extended later on to include the relation. The
+following basic persistence mapping is used and extended for each example::
 
     <?php
     $def = new ezcPersistentObjectDefinition();
@@ -500,7 +496,7 @@ mapping of the Address class: ::
     ?>
 
 The relation definition takes place in the persistence mapping of the Person
-class from `The persistent class`_ needs to be extended as follows: ::
+class in `The persistent class`_. It needs to be extended as follows::
 
     <?php
     // ...
@@ -518,7 +514,7 @@ class from `The persistent class`_ needs to be extended as follows: ::
     ?>
 
 A relation to another persistent object is defined in the property
-ezcPersistentObjectDefinition relations, which is an array. Each relation must
+ezcPersistentObjectDefinition $relations, which is an array. Each relation must
 have the name of the persistent object class it refers to as the key in this
 array. An instance of one of the classes shown in `Class overview`_ must be the
 value. In this case, it is ezcPersistentOneToManyRelation. The parameter to its
@@ -528,8 +524,8 @@ object.
 
 To define which properties are used to realize the relation mapping, the
 property ezcPersistentOneToManyRelation->columnMap is used. It contains an
-array of (in this case) ezcPersistentSingleTableMap, which maps 1 column of
-each of the tables to 1 column of the other one. If you want to map using
+array of (in this case) ezcPersistentSingleTableMap, which maps one column of
+each of the tables to one column of the other one. If you want to map using
 several columns, you can add more ezcPersistentSingleTableMap instances to the
 columnMap array.
 
@@ -550,8 +546,8 @@ ezcPersistentSession->getRelatedObjects()
 
 ezcPersistentSession->addRelatedObject()
   Using this method you can build a relation between 2 persistent objects. It
-  will set the according properties on the objects, but not store those to the
-  database automatically. (A little exception are
+  will set the defined properties on the objects, but does not store those to
+  the database automatically. (A little exception are
   ezcPersistentManyToManyRelation objects. Further details below.)
 
 ezcPersistentSession->removeRelatedObject()
@@ -561,8 +557,8 @@ ezcPersistentSession->removeRelatedObject()
   exception are ezcPersistentManyToManyRelation objects. Further details
   below.)
 
-Using this methods, we can now retrieve all addresses which are related to 1
-person: ::
+Using these methods, we can now retrieve all addresses which are related to one
+person::
 
     <?php
     $person = $session->load( "Person", 1 );
@@ -571,7 +567,7 @@ person: ::
 
 The variable $addresses will then contain an array of all Address objects found
 for the Person object with ID 1. To make this objects being related to another
-Person object, we can do the following: ::
+Person object, we can do the following::
 
 
     <?php
@@ -583,7 +579,7 @@ Person object, we can do the following: ::
     {
         $session->removeRelatedObject( $personOld, $address );
         $session->addRelatedObject( $personNew, $address );
-        $sesssion->update( $address );
+        $session->update( $address );
     }
     ?>
 
@@ -596,7 +592,7 @@ extra table in your database, to store the relation records. The next example
 shows the definition of an ezcPersistentManyToManyRelation relation on basis of
 the Person and Address example classes. You need to use the original classes
 for this, hence we do not need to extend those here. The definition of the
-relational mapping for the Person class must be extended as follows: ::
+relational mapping for the Person class must be extended as follows::
 
     <?php
     // ...
@@ -606,7 +602,7 @@ relational mapping for the Person class must be extended as follows: ::
         "addresses",
         "persons_addresses"
     );
-    $def->relations["Address"]->columnMap     = array(
+    $def->relations["Address"]->columnMap = array(
         new ezcPersistentDoubleTableMap( "id", "person_id", "address_id", "id" ),
     );
     ?>
@@ -656,7 +652,7 @@ reverse relation for ezcPersistentOneToManyRelations. Therefore the reverse
 attribute is set to false and not publicly accessible for writing.
 
 The following example shows the reverse relation definition for the last
-example: ::
+example::
 
     <?php
     // ...
@@ -666,7 +662,7 @@ example: ::
         "persons",
         "persons_addresses"
     );
-    $def->relations["Address"]->columnMap     = array(
+    $def->relations["Address"]->columnMap = array(
         new ezcPersistentDoubleTableMap( "id", "address_id", "person_id", "id" ),
     );
     $def->relations["Address"]->reverse = true;
@@ -686,7 +682,7 @@ all related objects for a source object automatically deleted, if the source
 object is deleted.
 
 The following example shows how to add cascading to a relation definition,
-based on the example from `Defining a simple relation`_: ::
+based on the example from `Defining a simple relation`_::
 
     <?php
     // ...
