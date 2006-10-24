@@ -27,4 +27,3 @@ var_dump( $urlCfg );
 $url = new ezcUrl( 'http://www.example.com/mydir/index.php/groups/Games/Adventure/Adult/(game)/Larry/7', $urlCfg );
 
 ?>
-

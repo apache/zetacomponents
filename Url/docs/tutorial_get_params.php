@@ -34,4 +34,3 @@ var_dump( $url->getParam( 'game' ) );
 var_dump( $url->buildUrl() );
 
 ?>
-

@@ -30,4 +30,3 @@ $url->setParam( 'game', array( 'Monkey_Island', '3' ) );
 var_dump( $url->buildUrl() );
 
 ?>
-

@@ -16,4 +16,3 @@ var_dump( $urlCfg );
 $url = new ezcUrl( 'http://www.example.com/mydir/index.php/doc/components/view/trunk', $urlCfg );
 
 ?>
-

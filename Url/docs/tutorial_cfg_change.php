@@ -48,4 +48,3 @@ switch ( $url->getParam( 'section' ) )
 }
 
 ?>
-
