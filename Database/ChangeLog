@@ -8,6 +8,15 @@
   "array( 'handler' => 'sqlite', 'port' => 'memory' );".
 - Fixed bug #9159: No alias substitution for 'table.cloumn' syntax.
 
+
+1.1.4 - Tuesday 24 October 2006
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed bug #9220: Wrong attribute used in ezcDbHandler::commit().
+- Fixed bug #9221: ezcDbTransactionException::__construct() does not handle
+  message argument correctly.
+
+
 1.1.3 - Monday 09 October 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
