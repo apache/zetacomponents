@@ -427,7 +427,7 @@ class ezcConsoleOutput
      */
     public function storePos() 
     {
-        echo "\033[s";
+        echo "\0337";
         $this->positionStored = true;
     }
 
@@ -449,7 +449,7 @@ class ezcConsoleOutput
         {
             throw new ezcConsoleNoPositionStoredException();
         }
-        echo "\033[u";
+        echo "\0338";
     }
 
     /**
