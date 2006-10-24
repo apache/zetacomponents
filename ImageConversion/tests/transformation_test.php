@@ -415,7 +415,8 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not generated successfully.",
-            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+            // ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+            20
         );
     }
 
@@ -449,7 +450,8 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not generated successfully.",
-            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+            // ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+            40
         );
     }
 

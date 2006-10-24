@@ -193,7 +193,8 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
              $this->getReferencePath(),
              $dstPath,
             "Applying single filter through handler failed.",
-            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+            // ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+            60
         );
     }
 
@@ -212,7 +213,8 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
              $this->getReferencePath(),
              $dstPath,
             "Applying multiple filter through handler failed.",
-            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+            // ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+            80
         );
     }
 }
