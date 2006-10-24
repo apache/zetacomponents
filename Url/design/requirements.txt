@@ -46,6 +46,9 @@ Provide these functionalities:
 
 - Extract the basedir from the current location.
 
+- Remove the basedir from the current location (eg. from
+  'http://www.example.com/shop/products/10' return 'products/10').
+
 Design goals
 ============
 

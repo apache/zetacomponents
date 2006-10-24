@@ -12,6 +12,7 @@
  * Including the tests
  */
 require_once( "url_test.php" );
+require_once( "url_configuration_test.php" );
 
 /**
  * @package Url
@@ -25,6 +26,7 @@ class ezcUrlSuite extends PHPUnit_Framework_TestSuite
         $this->setName("Url");
 
         $this->addTest( ezcUrlTest::suite() );
+        $this->addTest( ezcUrlConfigurationTest::suite() );
     }
 
     public static function suite()

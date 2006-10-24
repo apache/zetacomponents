@@ -13,36 +13,6 @@
  * ezcUrl stores a URL both absolute and relative and contains methods to
  * retrieve the various parts of the URL and to manipulate them.
  *
- * EXAMPLES HERE!
- *
- * ezcUrl also provides static methods to store prefixes that you can add
- * to your URL's. This is useful when you have some files in special
- * directories and you don't want to hardcode these paths.
- *
- * Example with a dynamic image path location:
- * <code>
- * ezcUrl::registerPrefix( 'images', 'var/images' );
- *
- * $url = new ezcUrl( "http://www.example.com/image.jpg", 'images' );
- * echo $url->toString();
- * </code>
- *
- * This code outputs:
- *
- * <code>
- * http://www.example.com/var/images/image.jpg
- * </code>
- *
- * The same functionality can also be used to prepare relative URLs:
- * <code>
- *  ezcUrl::addPrefix( 'site', '/mysite/' );
- *  ezcUrl::addPrefix( 'image', '/mysite/images/' );
- *
- *  ezcUrl::prepend( 'image', 'icons/arrow.png' ); // returns '/mysite/images/icons/arrow.png'
- *  ezcUrl::prepend( 'image', 'home.png' );        // returns '/mysite/images/home.png'
- *  ezcUrl::prepend( 'site', 'company/about' );    // returns '/mysite/company/about'
- * </code>
- *
  * @property string $host
  *           Hostname or null
  * @property string $path
@@ -52,16 +22,25 @@
  * @property string $pass
  *           Password or null.
  * @property string $port
- *           Port or nul.l
+ *           Port or null.
  * @property string $scheme
  *           Protocol or null.
  * @property string $query
  *           Complete query string as an associative array.
  * @property string $fragment
  *           Anchor or null.
+ * @property string $basedir
+ *           Base directory or null.
+ * @property string $script
+ *           Script name or null.
+ * @property string $params
+ *           Complete ordered parameters as array.
+ * @property string $uparams
+ *           Complete unordered parameters as associative array.
  *
  * @package Url
  * @version //autogen//
+ * @mainclass
  */
 class ezcUrl
 {
@@ -73,88 +52,32 @@ class ezcUrl
     private $properties = array();
 
     /**
-     * Holds the URL prefixes for the URL.
+     * Holds the url configuration for this url.
      *
-     * @var array(string=>mixed)
+     * @var ezcUrlConfiguration
      */
-    private static $prefixes = array();
+    public $urlCfg = null;
 
     /**
-     * Constructs a new ezcUrl object from the URL $url.
+     * Constructs a new ezcUrl object from the string $url.
      *
-     * The url is prefixed with the registered prefix $prefix
-     * if provided.
-     *
-     * @throws ezcUrlNoSuchPrefixException if the prefix does not exist
      * @param string $url
-     * @param string $prefix
+     * @param ezcUrlConfiguration $urlCfg
      */
-    public function __construct( $url = "", $prefix = null )
+    public function __construct( $url = null, $urlCfg = null )
     {
-        $this->properties['host'] = null;
-        $this->properties['path'] = array();
-        $this->properties['user'] = null;
-        $this->properties['pass'] = null;
-        $this->properties['port'] = null;
-        $this->properties['scheme'] = null;
-        $this->properties['fragment'] = null;
-        $this->properties['query'] = array();
-
-        $urlArray = parse_url( $url );
-
-        if ( isset( $urlArray['scheme'] ) )
+        $this->parseUrl( $url );
+        if ( $urlCfg != null )
         {
-            $this->properties['scheme'] =  $urlArray['scheme'];
-        }
-
-        if ( isset( $urlArray['host'] ) )
-        {
-            $this->properties['host'] =  $urlArray['host'];
-        }
-
-        if ( isset( $urlArray['user'] ) )
-        {
-            $this->properties['user'] =  $urlArray['user'];
-        }
-
-        if ( isset( $urlArray['pass'] ) )
-        {
-            $this->properties['pass'] =  $urlArray['pass'];
-        }
-
-        if ( isset( $urlArray['port'] ) )
-        {
-            $this->properties['port'] = $urlArray['port'];
-        }
-
-        // should this be delayed?
-        if ( isset( $urlArray['path'] ) )
-        {
-            $this->properties['path'] = explode( '/', trim( $urlArray['path'], '/' ) );
-        }
-
-        if ( isset( $urlArray['fragment'] ) )
-        {
-            $this->properties['fragment'] = $urlArray['fragment'];
-        }
-
-        if ( isset( $urlArray['query'] ) )
-        {
-            $elements = array();
-            parse_str( $urlArray['query'] , $this->properties['query'] );
-        }
-
-        // add the prefix if applicable
-        if ( $prefix !== null )
-        {
-            $this->prefix( $prefix );
+            $this->applyConfiguration( $urlCfg );
         }
     }
 
     /**
      * Sets the property $name to $value.
      *
-     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property does not exist.
      * @param string $name
      * @param mixed $value
      * @ignore
@@ -164,13 +87,17 @@ class ezcUrl
         switch ( $name )
         {
             case 'host':
-            case 'path':  // as an array
+            case 'path':
             case 'user':
             case 'pass':
             case 'port':
-            case 'scheme': // protocol
-            case 'fragment': // anchor, after the #
-            case 'query':    // after the ? mark as an array
+            case 'scheme':
+            case 'fragment':
+            case 'query':
+            case 'basedir':
+            case 'script':
+            case 'params':
+            case 'uparams':
                 $this->properties[$name] = $value;
                 break;
             default:
@@ -182,7 +109,8 @@ class ezcUrl
     /**
      * Returns the property $name.
      *
-     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property does not exist.
      * @param string $name
      * @return mixed
      * @ignore
@@ -192,13 +120,17 @@ class ezcUrl
         switch ( $name )
         {
             case 'host':
-            case 'path':  // as an array
+            case 'path':
             case 'user':
             case 'pass':
             case 'port':
-            case 'scheme': // protocol
-            case 'fragment': // anchor, after the #
-            case 'query':    // after the ? mark as an array
+            case 'scheme':
+            case 'fragment':
+            case 'query':
+            case 'basedir':
+            case 'script':
+            case 'params':
+            case 'uparams':
                 return $this->properties[$name];
                 break;
             default:
@@ -208,45 +140,212 @@ class ezcUrl
     }
 
     /**
-     * Returns the number of path elements.
+     * Returns this URL as a string by calling {@link buildUrl()}.
      *
-     * @return int
+     * @return string
      */
-    public function getPathElementsCount()
+    public function __toString()
     {
-        return count( $this->path );
+        return $this->buildUrl();
     }
 
     /**
-     * Names a path element.
+     * Parses the string $url and sets the class properties.
      *
-     * The named can be used directly on the path array to both
-     * set and retrieve the path element:
-     * <code>
-     * $url = new ezcUrl( 'http://www.example.com/one/two' );
-     * $url->namePathElement( 0, 'first' );
-     * echo $url->path['first']; // yields 'one'
-     *
-     * $url->path['first'] = 'new_value';
-     * echo $url->path[0]; // yields 'new_value'
-     * </code>
-     *
-     * @param int $index
-     * @param string $name
-     * @return void
+     * @param string $url
      */
-    public function namePathElement( $index, $name )
+    private function parseUrl( $url = null )
     {
-        if ( array_key_exists( $index, $this->path ) )
+        $urlArray = parse_url( $url );
+
+        $this->properties['host'] = isset( $urlArray['host'] ) ? $urlArray['host'] : null;
+        $this->properties['user'] = isset( $urlArray['user'] ) ? $urlArray['user'] : null;
+        $this->properties['pass'] = isset( $urlArray['pass'] ) ? $urlArray['pass'] : null;
+        $this->properties['port'] = isset( $urlArray['port'] ) ? $urlArray['port'] : null;
+        $this->properties['scheme'] = isset( $urlArray['scheme'] ) ? $urlArray['scheme'] : null;
+        $this->properties['fragment'] = isset( $urlArray['fragment'] ) ? $urlArray['fragment'] : null;
+        $this->properties['path'] = isset( $urlArray['path'] ) ? explode( '/', trim( $urlArray['path'], '/' ) ) : array();
+
+        $this->properties['basedir'] = array();
+        $this->properties['script'] = array();
+        $this->properties['params'] = array();
+        $this->properties['uparams'] = array();
+
+        if ( isset( $urlArray['query'] ) )
         {
-            $this->path[$name] =& $this->path[$index];
+            parse_str( $urlArray['query'] , $this->properties['query'] );
+        }
+        else
+        {
+            $this->properties['query'] = array();
         }
     }
 
     /**
-     * Returns true if this URL is relative.
+     * Applies the configuration $urlCfg to the current url.
      *
-     * This method returns false if the URL is absolute.
+     * @param ezcUrlConfiguration $urlCfg
+     */
+    public function applyConfiguration( $urlCfg )
+    {
+        $this->urlCfg = $urlCfg;
+        $this->basedir = $this->parseElement( $urlCfg->basedir, 0 );
+        $this->script = $this->parseElement( $urlCfg->script, count( $this->basedir ) );
+        $this->uparams = $this->parseUnorderedParameters();
+        if ( count( $this->uparams ) != 0 )
+        {
+            $this->params = array_slice( $this->path, count( $this->basedir ) + count( $this->script ), count( $this->path ) - count( $this->uparams, COUNT_RECURSIVE ) );
+        }
+        else
+        {
+            $this->params = array_slice( $this->path, count( $this->basedir ) + count( $this->script ) );
+        }
+    }
+
+    /**
+     * Parses start of $this->path based on the configuration provided.
+     *
+     * Returns the first few elements of $this->path matching $config,
+     * starting from $index.
+     *
+     * @param string $config
+     * @param int $index
+     * @return array
+     */
+    private function parseElement( $config, $index )
+    {
+        $paramParts = explode( '/', $config );
+        $pathElement = array();
+        foreach ( $paramParts as $part )
+        {
+            if ( isset( $this->path[$index] ) && $part == $this->path[$index] )
+            {
+                $pathElement[] = $part;
+            }
+            $index++;
+        }
+        return $pathElement;
+    }
+
+    /**
+     * Parses the $path array.
+     *
+     * @return array(string=>mixed)
+     */
+    private function parseUnorderedParameters()
+    {
+        $result = array();
+        $path = $this->path;
+        $pathCount = count( $path );
+        if ( $pathCount == 0 || ( $pathCount == 1 && trim( $path[0] ) === "" ) )
+        {
+            // special case: a bug? in parse_url() which makes $this->path
+            // be array( "" ) if the provided url is null or empty
+            return $result;
+        }
+        for ( $i = 0; $i < $pathCount; $i++ )
+        {
+            $param = $path[$i];
+            if ( $param{0} == $this->urlCfg->unorderedDelimiters[0] )
+            {
+                $param = trim( trim( $param, $this->urlCfg->unorderedDelimiters[0] ),
+                    $this->urlCfg->unorderedDelimiters[1] );
+                $result[$param] = array();
+                $j = 1;
+                while ( ( $i + $j ) < $pathCount && $path[$i + $j]{0} != $this->urlCfg->unorderedDelimiters[0] )
+                {
+                    $result[$param][] = trim( trim( $path[$i + $j], $this->urlCfg->unorderedDelimiters[0] ),
+                        $this->urlCfg->unorderedDelimiters[1]  );
+                    $j++;
+                }
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Returns this URL as a string.
+     *
+     * The query part of the URL is build with http_build_query() which
+     * encodes the query in a similar way to urlencode().
+     *
+     * @return string
+     */
+    public function buildUrl()
+    {
+        $url = '';
+
+        if ( $this->scheme )
+        {
+            $url .= $this->scheme . '://';
+        }
+
+        if ( $this->host )
+        {
+            if ( $this->user )
+            {
+                $url .= $this->user;
+                if ( $this->pass )
+                {
+                    $url .= ':' . $this->pass;
+                }
+                $url .= '@';
+            }
+
+            $url .= $this->host;
+            if ( $this->port )
+            {
+                $url .= ':' . $this->port;
+            }
+        }
+
+        if ( $this->urlCfg != null )
+        {
+            if ( $this->basedir )
+            {
+                if ( !( count( $this->basedir ) == 0 || trim( $this->basedir[0] ) === "" ) )
+                {
+                    $url .= '/' . implode( '/', $this->basedir );
+                }
+            }
+
+            if ( $this->params && count( $this->params ) != 0 )
+            {
+                $url .= '/' . implode( '/', $this->params );
+            }
+
+            if ( $this->uparams && count( $this->uparams ) != 0 )
+            {
+                foreach ( $this->properties['uparams'] as $key => $values )
+                {
+                    $url .= '/(' . $key . ')/' . implode( '/', $values );
+                }
+            }
+        }
+        else
+        {
+            if ( $this->path )
+            {
+                $url .= '/' . implode( '/', $this->path );
+            }
+        }
+
+        if ( $this->query )
+        {
+            $url .= '?' . http_build_query( $this->query );
+        }
+
+        if ( $this->fragment )
+        {
+            $url .= '#' . $this->fragment;
+        }
+
+        return $url;
+    }
+
+
+    /**
+     * Returns true if this URL is relative and false if the URL is absolute.
      *
      * @return bool
      */
@@ -260,118 +359,121 @@ class ezcUrl
     }
 
     /**
-     * Returns this URL as a string.
+     * Returns the specified parameter from the url based on $urlCfg.
      *
-     * @return string
+     * @throws ezcUrlNoConfigurationException
+     *         if an url configuration was not defined.
+     * @throws ezcUrlInvalidParameterException
+     *         if the specified parameter is not defined in the configuration.
+     * @param string $name
+     * @return mixed
      */
-    public function toString()
+    public function getParam( $name )
     {
-        $url = '';
-
-        if ( $this->scheme )
+        if ( $this->urlCfg != null )
         {
-            $url .= $this->scheme . '://';
-        }
-
-        // hostname with user, password and port if found
-        if ( $this->host )
-        {
-            // user
-            if ( $this->user )
+            if ( !( isset( $this->urlCfg->orderedParameters[$name] ) ||
+                    isset( $this->urlCfg->unorderedParameters[$name] ) ) )
             {
-                $url .= $this->user;
-                // password
-                if ( $this->pass )
+                throw new ezcUrlInvalidParameterException( $name );
+            }
+
+            $params = $this->params;
+            $uparams = $this->uparams;
+            if ( isset( $this->urlCfg->orderedParameters[$name] ) &&
+                 isset( $params[$this->urlCfg->orderedParameters[$name]] ) )
+            {
+                return $params[$this->urlCfg->orderedParameters[$name]];
+            }
+
+            if ( isset( $this->urlCfg->unorderedParameters[$name] ) &&
+                 isset( $uparams[$name] ) )
+            {
+                if ( $this->urlCfg->unorderedParameters[$name] == ezcUrlConfiguration::SINGLE_ARGUMENT )
                 {
-                    $url .= ':' . $this->pass;
+                    if ( count( $uparams[$name] ) > 0 )
+                    {
+                        return $uparams[$name][0];
+                    }
                 }
-                $url .= '@';
+                else
+                {
+                    return $uparams[$name];
+                }
             }
+            return null;
+        }
+        throw new ezcUrlNoConfigurationException( $name );
+    }
 
-            // hostname and port
-            $url .= $this->host;
-            if ( $this->port )
+    /**
+     * Sets the specified parameter in the url based on $urlCfg.
+     *
+     * @throws ezcUrlNoConfigurationException
+     *         if an url configuration was not defined.
+     * @throws ezcUrlInvalidParameterException
+     *         if the specified parameter is not defined in the configuration.
+     * @param string $name
+     * @param string $value
+     */
+    public function setParam( $name, $value )
+    {
+        if ( $this->urlCfg != null )
+        {
+            if ( !( isset( $this->urlCfg->orderedParameters[$name] ) ||
+                    isset( $this->urlCfg->unorderedParameters[$name] ) ) )
             {
-                $url .= ':' . $this->port;
+                throw new ezcUrlInvalidParameterException( $name );
             }
-        }
 
-        // path
-        if ( $this->path )
-        {
-            $url .= '/' . implode( '/', $this->path );
+            if ( isset( $this->urlCfg->orderedParameters[$name] ) )
+            {
+                $this->properties['params'][$this->urlCfg->orderedParameters[$name]] = $value;
+                return;
+            }
+            if ( isset( $this->urlCfg->unorderedParameters[$name] ) )
+            {
+                if ( is_array( $value ) )
+                {
+                    $this->properties['uparams'][$name] = $value;
+                }
+                else
+                {
+                    $this->properties['uparams'][$name] = array( $value );
+                }
+            }
+            return;
         }
-
-        // query
-        if ( $this->query )
-        {
-            $url .= '?' . http_build_query( $this->query );
-        }
-
-        // fragment
-        if ( $this->fragment )
-        {
-            $url .= '#' . $this->fragment;
-        }
-
-        return $url;
+        throw new ezcUrlNoConfigurationException( $name );
     }
 
     /**
-     * Returns this URL as a string by calling toString().
+     * Returns the query elements as an associative array.
      *
-     * @see toString()
-     * @return string
+     * Example:
+     * for 'http://www.example.com/mydir/shop?content=view&products=10'
+     * returns array( 'content' => 'view', 'products' => '10' )
+     *
+     * @return array
      */
-    public function __toString()
+    public function getQuery()
     {
-        return $this->toString();
+        return $this->query;
     }
 
     /**
-     * Registers a path prefix that can be inserted into URL's later.
+     * Set the query elements using the associative array provided.
      *
-     * @param string $name
-     * @param string $prefix
-     * @return void
-     */
-    public static function registerPrefix( $name, $prefix )
-    {
-        self::$prefixes[$name] = $prefix;
-    }
-
-    /**
-     * Returns the pathstring $path prepended with the prefix named $name.
+     * Example:
+     * for 'http://www.example.com/mydir/shop'
+     * and $query = array( 'content' => 'view', 'products' => '10' )
+     * then 'http://www.example.com/mydir/shop?content=view&products=10'
      *
-     * @param string $name
-     * @param string $path
-     * @return string
+     * @param string $query
      */
-    public static function prefixPathString( $name, $path )
+    public function setQuery( $query )
     {
-        if ( !array_key_exists( $name, self::$prefixes ) )
-        {
-            throw new ezcUrlPrefixNotFoundException( $name );
-        }
-        return self::$prefixes[$name] . $path;
-    }
-
-    /**
-     * Prefixes this URL with the prefix named $name.
-     *
-     * @param string $name
-     * @param string $path
-     * @return string
-     */
-    public function prefix( $name )
-    {
-        if ( !array_key_exists( $name, self::$prefixes ) )
-        {
-            throw new ezcUrlPrefixNotFoundException( $name );
-        }
-        $newElements = explode( '/', trim( self::$prefixes[$name], '/' ) );
-        $this->properties['path'] = array_merge( $newElements, $this->properties['path'] );
+        $this->query = $query;
     }
 }
-
 ?>

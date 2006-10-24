@@ -1,0 +1,244 @@
+eZ components - Url
+~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+The Url package provides basic operations to handle urls (parse, build,
+get/set path parameters, get/set query).
+
+Class overview
+==============
+
+ezcUrl
+  The main class of this component. Contains methods for url parsing, url
+  building, get/set parameters, get/set query.
+
+ezcUrlConfiguration
+  This class allows definition of url configurations( basedir, script,
+  ordered parameters, unordered parameters, delimiters for unordered
+  parameters names).
+
+Notes
+=====
+
+Working with path, params and query parts
+-----------------------------------------
+
+Do not work with the path, params and query properties directly, because in
+PHP5.2.0 it will not work (ie. do not set/get $url->query[0], because a notice
+will be thrown: "Notice: Indirect modification of overloaded property
+ezcUrl::$query has no effect"). Instead, use the following methods.
+
+Using url configurations
+------------------------
+
+By using the ezcUrlConfiguration class you can specify a custom configuration
+which can be used to parse urls. The properties you can set in objects of this
+class are the default base directory, default script name (which will be
+hidden when building the url), delimiters for unordered parameter names,
+and names for accepted parameters.
+
+Working with the query part
+===========================
+
+Get the query part
+------------------
+
+Examples of getting the query part of urls:
+
+.. include:: tutorial_get_query.php
+    :literal:
+
+The output will be: ::
+
+    array(1) {
+      ["user"]=>
+      array(3) {
+        ["name"]=>
+        string(9) "Bob Smith"
+        ["age"]=>
+        string(2) "47"
+        ["sex"]=>
+        string(1) "M"
+      }
+    }
+
+Set the query part
+------------------
+
+Examples of setting the query part of urls:
+
+.. include:: tutorial_set_query.php
+    :literal:
+
+The output will be (wrapped for clarity): ::
+
+    string(139) "http://www.example.com/mydir/index.php/content/view/article/
+    42/mode/print?user[name]=Bob+Smith&user[age]=47&user[sex]=M&user[dob]=
+    5/12/1956"
+
+    string(149) "http://www.example.com/mydir/index.php/content/view/article/
+    42/mode/print?user[name]=Bob+Smith&user[age]=47&user[sex]=M&user[dob]=
+    5/12/1956&sort=desc"
+
+    string(139) "http://www.example.com/mydir/index.php/content/view/article/
+    42/mode/print?user[name]=Bob+Smith&user[age]=47&user[sex]=M&user[dob]=
+    5/12/1956"
+
+Working with url configurations
+===============================
+
+Create and use a default url configuration
+------------------------------------------
+
+The following example will create a default url configuration and use it when
+creating a new url object:
+
+.. include:: tutorial_cfg_default.php
+    :literal:
+
+The output will be: ::
+
+    object(ezcUrlConfiguration)#1 (1) {
+      ["properties:private"]=>
+      array(5) {
+        ["basedir"]=>
+        string(5) "mydir"
+        ["script"]=>
+        string(9) "index.php"
+        ["unorderedDelimiters"]=>
+        array(2) {
+          [0]=>
+          string(1) "("
+          [1]=>
+          string(1) ")"
+        }
+        ["orderedParameters"]=>
+        array(4) {
+          ["section"]=>
+          int(0)
+          ["module"]=>
+          int(1)
+          ["view"]=>
+          int(2)
+          ["branch"]=>
+          int(3)
+        }
+        ["unorderedParameters"]=>
+        array(0) {
+        }
+      }
+    }
+
+
+Create and use a custom url configuration
+-----------------------------------------
+
+The following example will create a custom url configuration and use it when
+creating a new url object:
+
+.. include:: tutorial_cfg_create.php
+    :literal:
+
+The output will be: ::
+
+    object(ezcUrlConfiguration)#1 (1) {
+      ["properties:private"]=>
+      array(5) {
+        ["basedir"]=>
+        string(5) "mydir"
+        ["script"]=>
+        string(9) "index.php"
+        ["unorderedDelimiters"]=>
+        array(2) {
+          [0]=>
+          string(1) "("
+          [1]=>
+          string(1) ")"
+        }
+        ["orderedParameters"]=>
+        array(4) {
+          ["section"]=>
+          int(0)
+          ["group"]=>
+          int(1)
+          ["category"]=>
+          int(2)
+          ["subcategory"]=>
+          int(3)
+        }
+        ["unorderedParameters"]=>
+        array(1) {
+          ["game"]=>
+          int(0)
+        }
+      }
+    }
+
+Working with parameters
+=======================
+
+Get parameters using an url configuration
+-----------------------------------------
+
+The following example will use the custom url configuration from before to get
+the parameters from the provided url:
+
+.. include:: tutorial_get_params.php
+    :literal:
+
+The output will be (wrapped for clarity): ::
+
+    string(6) "groups"
+    string(5) "Games"
+    string(9) "Adventure"
+    string(5) "Adult"
+    array(2) {
+      [0]=>
+      string(5) "Larry"
+      [1]=>
+      string(1) "7"
+    }
+    string(72) "http://www.example.com/mydir/groups/Games/Adventure/Adult/
+    (game)/Larry/7"
+
+Set parameters using an url configuration
+-----------------------------------------
+
+The following example will use the custom url configuration from before to set
+the parameters into the provided url:
+
+.. include:: tutorial_set_params.php
+    :literal:
+
+The output will be (wrapped for clarity): ::
+
+    string(72) "http://www.example.com/mydir/groups/Games/Adventure/Adult/
+    (game)/Larry/7"
+
+    string(79) "http://www.example.com/mydir/groups/Games/Adventure/Kids/
+    (game)/Monkey_Island/3"
+
+Change an url configuration dynamically
+---------------------------------------
+
+The following example will use the custom url configuration from before to set
+the parameters into the provided url:
+
+.. include:: tutorial_cfg_change.php
+    :literal:
+
+The output will be: ::
+
+    string(7) "Beatles"
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79

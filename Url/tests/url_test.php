@@ -14,11 +14,332 @@
  */
 class ezcUrlTest extends ezcTestCase
 {
-    protected function setUp()
+    public function testPropertiesGet()
     {
-        if ( version_compare( phpversion(), '5.2.0dev', '>=' ) )
+        $url = new ezcUrl( 'http://user:password@www.example.com:82/index.php/content/view?products=10&mode=print#cat' );
+        $this->assertEquals( 'http', $url->scheme );
+        $this->assertEquals( 'www.example.com', $url->host );
+        $this->assertEquals( 'user', $url->user );
+        $this->assertEquals( 'password', $url->pass );
+        $this->assertEquals( 82, $url->port );
+        $this->assertEquals( array( 'index.php', 'content', 'view' ), $url->path );
+        $this->assertEquals( array( 'products' => '10', 'mode' => 'print' ), $url->query );
+        $this->assertEquals( 'cat', $url->fragment );
+    }
+
+    public function testPropertiesGetInvalid()
+    {
+        $url = new ezcUrl( 'http://www.example.com' );
+        try
         {
-            $this->markTestSkipped( "This test does not work with PHP 5.2 or later." );
+            $url->no_such_property = 'data';
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+        }
+    }
+
+    public function testPropertiesSet()
+    {
+        $url = new ezcUrl();
+        $url->scheme = 'http';
+        $url->user = 'user';
+        $url->pass = 'pass';
+        $url->host = 'www.example.com';
+        $url->port = 82;
+        $url->path = array( 'content', 'view' );
+        $url->query = array( 'products' => 10, 'mode' => 'print' );
+        $url->fragment = 'cat';
+        $expected = "http://user:pass@www.example.com:82/content/view?products=10&mode=print#cat";
+        $this->assertEquals( $expected, $url->buildUrl() );
+    }
+
+    public function testPropertiesSetInvalid()
+    {
+        $url = new ezcUrl( 'http://www.example.com' );
+        try
+        {
+            $data = $url->no_such_property;
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+        }
+    }
+
+    public function testConstructor()
+    {
+        $url = new ezcUrl( 'http://www.example.com/content/view/products/10/mode/print' );
+        $expected = 'http://www.example.com/content/view/products/10/mode/print';
+        $this->assertEquals( $expected, $url->buildUrl() );
+    }
+
+    public function testBuildUrl()
+    {
+        $urlStrings = array();
+        $urlStrings[] = 'http://www.example.com';
+        $urlStrings[] = 'http://www.example.com/mydir/index.php';
+        $urlStrings[] = 'http://www.example.com/mydir/index.php/other/stuff#cat';
+        $urlStrings[] = 'http://www.example.com:82/mydir/index.php/other/stuff#cat';
+        $urlStrings[] = 'http://user:password@www.example.com:82/mydir/index.php/other/stuff#cat';
+        $urlStrings[] = 'http://user:password@www.example.com:82/mydir/index.php/other/stuff?me=you&arr[0]=yes&arr[1]=no#cat';
+
+        foreach( $urlStrings as $urlString )
+        {
+            $url = new ezcUrl( $urlString );
+            $this->assertEquals( $urlString, urldecode( $url->buildUrl() ) );
+            $this->assertEquals( $urlString, urldecode( $url->__toString() ) );
+        }
+    }
+
+    public function testBuildUrlWithBasedir()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->basedir = 'mydir/shop';
+        $urlCfg->script = 'index.php';
+
+        $url = new ezcUrl( 'http://www.example.com/mydir/shop/index.php/doc/components/view/trunk', $urlCfg );
+        $expected = 'http://www.example.com/mydir/shop/doc/components/view/trunk';
+        $this->assertEquals( $expected, $url->buildUrl() );
+    }
+
+    public function testIsRelativeFalse()
+    {
+        $url = new ezcUrl( 'http://www.example.com/blah/index.php' );
+        $this->assertEquals( false, $url->isRelative() );
+    }
+
+    public function testIsRelativeTrue()
+    {
+        $url = new ezcUrl( 'blah/index.php'  );
+        $this->assertEquals( true, $url->isRelative() );
+    }
+
+    public function testGetQuery()
+    {
+        $url = new ezcUrl( 'http://www.example.com/mydir/shop?content=view&products=10&mode=print' );
+        $expected = array( 'content' => 'view', 'products' => '10', 'mode' => 'print' );
+        $this->assertEquals( $expected, $url->getQuery() );
+    }
+
+    public function testGetQueryEmpty()
+    {
+        $url = new ezcUrl( 'http://www.example.com/mydir/shop' );
+        $expected = array();
+        $this->assertEquals( $expected, $url->getQuery() );
+    }
+
+    public function testSetQuery()
+    {
+        $url = new ezcUrl( 'http://www.example.com/mydir/shop' );
+        $url->setQuery( array( 'content' => 'view', 'products' => '10', 'mode' => 'print' ) );
+        $expected = 'http://www.example.com/mydir/shop?content=view&products=10&mode=print';
+        $this->assertEquals( $expected, $url->buildUrl() );
+    }
+
+    public function testGetOrderedParameter()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addOrderedParameter( 'view' );
+        $urlCfg->addOrderedParameter( 'branch' );
+
+        $url = new ezcUrl( 'http://www.example.com/doc/components/view/trunk', $urlCfg );
+        $this->assertEquals( 'doc', $url->getParam( 'section' ) );
+        $this->assertEquals( 'components', $url->getParam( 'module' ) );
+        $this->assertEquals( 'view', $url->getParam( 'view' ) );
+        $this->assertEquals( 'trunk', $url->getParam( 'branch' ) );
+    }
+
+    public function testGetOrderedParameterEmpty()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addOrderedParameter( 'view' );
+        $urlCfg->addOrderedParameter( 'branch' );
+
+        $url = new ezcUrl( 'http://www.example.com', $urlCfg );
+        $this->assertEquals( null, $url->getParam( 'section' ) );
+        $this->assertEquals( null, $url->getParam( 'module' ) );
+        $this->assertEquals( null, $url->getParam( 'view' ) );
+        $this->assertEquals( null, $url->getParam( 'branch' ) );
+    }
+
+    public function testGetOrderedParameterInvalid()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+
+        $url = new ezcUrl( 'http://www.example.com', $urlCfg );
+        try
+        {
+            $url->getParam( 'section' );
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcUrlInvalidParameterException $e )
+        {
+        }
+    }
+
+    public function testGetOrderedParameterNoCfg()
+    {
+        $url = new ezcUrl( 'http://www.example.com' );
+        try
+        {
+            $url->getParam( 'section' );
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcUrlNoConfigurationException $e )
+        {
+        }
+    }
+
+    public function testSetOrderedParameter()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addOrderedParameter( 'view' );
+        $urlCfg->addOrderedParameter( 'branch' );
+
+        $url = new ezcUrl( 'http://www.example.com/doc/components/view/trunk', $urlCfg );
+        $expected = 'http://www.example.com/bugs/components/view/trunk';
+        $url->setParam( 'section', 'bugs' );
+        $this->assertEquals( $expected, $url->buildUrl() );
+    }
+
+    public function testSetOrderedParameterInvalid()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+
+        $url = new ezcUrl( 'http://www.example.com', $urlCfg );
+        try
+        {
+            $url->setParam( 'section', 'value' );
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcUrlInvalidParameterException $e )
+        {
+        }
+    }
+
+    public function testSetOrderedParameterNoCfg()
+    {
+        $url = new ezcUrl( 'http://www.example.com' );
+        try
+        {
+            $url->setParam( 'section', 'doc' );
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcUrlNoConfigurationException $e )
+        {
+        }
+    }
+
+    public function testGetUnorderedParameterSingle()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->addUnorderedParameter( 'file' );
+
+        $url = new ezcUrl( 'http://www.example.com/doc/components/view/trunk/(file)/classtrees_Base.html', $urlCfg );
+        $this->assertEquals( 'classtrees_Base.html', $url->getParam( 'file' ) );
+    }
+
+    public function testGetUnorderedParameterMultiple()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->addUnorderedParameter( 'file', ezcUrlConfiguration::MULTIPLE_ARGUMENTS );
+
+        $url = new ezcUrl( 'http://www.example.com/doc/components/view/trunk/(file)/Base/ezcBase.html', $urlCfg );
+        $this->assertEquals( array( 'Base', 'ezcBase.html' ), $url->getParam( 'file' ) );
+    }
+
+    public function testGetUnorderedParameterEmpty()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->addUnorderedParameter( 'file' );
+
+        $url = new ezcUrl( 'http://www.example.com/doc/components/view/trunk/(file)', $urlCfg );
+        $this->assertEquals( null, $url->getParam( 'file' ) );
+    }
+
+    public function testGetUnorderedParameterInvalid()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+
+        $url = new ezcUrl( 'http://www.example.com', $urlCfg );
+        try
+        {
+            $url->getParam( 'file' );
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcUrlInvalidParameterException $e )
+        {
+        }
+    }
+
+    public function testGetUnorderedParameterNoCfg()
+    {
+        $url = new ezcUrl( 'http://www.example.com' );
+        try
+        {
+            $url->getParam( 'file' );
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcUrlNoConfigurationException $e )
+        {
+        }
+    }
+
+    public function testSetUnorderedParameterSingle()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->addUnorderedParameter( 'file' );
+
+        $url = new ezcUrl( 'http://www.example.com/doc/components/view/trunk', $urlCfg );
+        $expected = 'http://www.example.com/doc/components/view/trunk/(file)/Base';
+        $url->setParam( 'file', 'Base' );
+        $this->assertEquals( $expected, $url->buildUrl() );
+    }
+
+    public function testSetUnorderedParameterMultiple()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->addUnorderedParameter( 'file', ezcUrlConfiguration::MULTIPLE_ARGUMENTS );
+
+        $url = new ezcUrl( 'http://www.example.com/doc/components/view/trunk', $urlCfg );
+        $expected = 'http://www.example.com/doc/components/view/trunk/(file)/Base/ezcBase.html';
+        $url->setParam( 'file', array( 'Base', 'ezcBase.html' ) );
+        $this->assertEquals( $expected, $url->buildUrl() );
+    }
+
+    public function testSetUnorderedParameterInvalid()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+
+        $url = new ezcUrl( 'http://www.example.com', $urlCfg );
+        try
+        {
+            $url->setParam( 'file', array( 'Base', 'ezcBase.html' ) );
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcUrlInvalidParameterException $e )
+        {
+        }
+    }
+
+    public function testSetUnorderedParameterNoCfg()
+    {
+        $url = new ezcUrl( 'http://www.example.com' );
+        try
+        {
+            $url->setParam( 'file', array( 'Base', 'ezcBase.html' ) );
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcUrlNoConfigurationException $e )
+        {
         }
     }
 
@@ -26,128 +347,5 @@ class ezcUrlTest extends ezcTestCase
     {
          return new PHPUnit_Framework_TestSuite( "ezcUrlTest" );
     }
-
-    public function testConstructor()
-    {
-        $url = new ezcUrl( 'http://user:password@www.example.com:82/index.php/other/stuff?me=you&arr[0]=yes&arr[1]=no#cat' );
-        $this->assertEquals( 'http', $url->scheme );
-        $this->assertEquals( 'www.example.com', $url->host );
-        $this->assertEquals( 'user', $url->user );
-        $this->assertEquals( 'password', $url->pass );
-        $this->assertEquals( 82, $url->port );
-        $this->assertEquals( array( 'index.php', 'other', 'stuff' ), $url->path );
-        $this->assertEquals( array( 'me' => 'you', 'arr' => array( 'yes', 'no' ) ), $url->query );
-        $this->assertEquals( 'cat', $url->fragment );
-    }
-
-    public function testBuildUrlFromScratch()
-    {
-        $reference = "http://user:pass@www.example.com:82/first/second?me=you&you=me#cat";
-        $url = new ezcUrl();
-        $url->scheme = 'http';
-        $url->user = 'user';
-        $url->pass = 'pass';
-        $url->host = 'www.example.com';
-        $url->port = '82';
-        $url->path[0] = 'first';
-        $url->path[1] = 'second';
-        $url->query['me'] = 'you';
-        $url->query['you'] = 'me';
-        $url->fragment = 'cat';
-        $this->assertEquals( $reference, $url->toString() );
-    }
-
-    public function testToString()
-    {
-        $urlStrings = array();
-        $urlStrings[] = 'http://www.example.com';
-        $urlStrings[] = 'http://www.example.com/index.php';
-        $urlStrings[] = 'http://www.example.com/index.php/other/stuff#cat';
-        $urlStrings[] = 'http://www.example.com:82/index.php/other/stuff#cat';
-        $urlStrings[] = 'http://user:password@www.example.com:82/index.php/other/stuff#cat';
-        $urlStrings[] = 'http://user:password@www.example.com:82/index.php/other/stuff?me=you&arr[0]=yes&arr[1]=no#cat';
-
-        foreach( $urlStrings as $urlString )
-        {
-            $url = new ezcUrl( $urlString );
-//            echo $url->toString() . "\n";
-            $this->assertEquals( $urlString, $url->toString() );
-        }
-
-    }
-
-    public function testGetPathElementsCount()
-    {
-        $url = new ezcUrl( 'http://www.example.com/one/two/three/four/five/six#anchor' );
-//        var_dump( $url->path );
-//        $url->path[3] = "This works!";
-//        print_r( $url );
-        $this->assertEquals( 6, $url->getPathElementsCount() );
-    }
-
-    public function testPrefixPathStringAbsoluteConstructor()
-    {
-        $reference = 'http://www.example.com/var/images/image.jpg';
-        ezcUrl::registerPrefix( 'images', '/var/images/' );
-        $url = new ezcUrl( 'http://www.example.com/image.jpg', 'images' );
-        $this->assertEquals( $reference, $url->toString() );
-    }
-
-    public function testPrefixPathStringAbsolute()
-    {
-        $reference = 'http://www.example.com/var/images/image.jpg';
-        ezcUrl::registerPrefix( 'images', '/var/images/' );
-        $url = new ezcUrl( 'http://www.example.com/image.jpg' );
-        $url->prefix( 'images' );
-        $this->assertEquals( $reference, $url->toString() );
-    }
-
-    public function testPrefixPathStringRelative()
-    {
-        $reference = '/var/images/image.jpg';
-        ezcUrl::registerPrefix( 'images', '/var/images/' );
-        $this->assertEquals( $reference, ezcUrl::prefixPathString( 'images', 'image.jpg' ) );
-    }
-
-    public function testPrefixPathStringFailure()
-    {
-        try
-        {
-            ezcUrl::prefixPathString( 'no_such_prefix', 'image.jpg' );
-        }catch( ezcUrlPrefixNotFoundException $e ) { return; }
-        $this->fail( "Did not get exception when it was expected" );
-    }
-
-    public function testPrefixPathStringConstructorFailure()
-    {
-        try
-        {
-            $url = new ezcUrl( "http://www.example.com", 'no_such_prefix' );
-        }catch( ezcUrlPrefixNotFoundException $e ) { return; }
-        $this->fail( "Did not get exception when it was expected" );
-    }
-
-    public function testIsRelativeFalse()
-    {
-        $url = new ezcUrl( "http://www.example.com/blah/index.php"  );
-        $this->assertEquals( false, $url->isRelative() );
-    }
-
-    public function testIsRelativeTrue()
-    {
-        $url = new ezcUrl( "blah/index.php"  );
-        $this->assertEquals( true, $url->isRelative() );
-    }
-
-    public function testNamePathElement()
-    {
-        $url = new ezcUrl( "http://www.example.com/one/two/three/index.php"  );
-        $url->namePathElement( 0, 'first' );
-        $this->assertEquals( 'one', $url->path['first'] );
-
-        $url->path['first'] = 'the_one';
-        $this->assertEquals( 'the_one', $url->path[0] );
-    }
 }
-
 ?>
