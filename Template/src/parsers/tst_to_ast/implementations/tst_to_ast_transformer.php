@@ -359,6 +359,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return  new ezcTemplateGenericStatementAstNode( $expression );
     }
 
+    /*
     private function addSlashes( $text, $char )
     {
         $newText = "";
@@ -376,15 +377,19 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $newText .= addslashes( substr( $text, $prevPos ) );
         return $newText;
     }
+     */
  
     public function visitLiteralTstNode( ezcTemplateLiteralTstNode $type )
     {
         if ( $type->quoteType == ezcTemplateLiteralTstNode::SINGLE_QUOTE )
         {
+
             $text = str_replace( "\\\\", "\\", $type->value );
             $text = str_replace( "\\'", "'", $text );
 
-            $text = $this->addSlashes( $text, "'" ); // add slashes except for things with a quote: '.
+            $text = addcslashes( $text, "\\" ); 
+
+            //$text = $this->addSlashes( $text, "'" ); // add slashes except for things with a quote: '.
         }
         elseif( $type->quoteType == ezcTemplateLiteralTstNode::DOUBLE_QUOTE )
         {
