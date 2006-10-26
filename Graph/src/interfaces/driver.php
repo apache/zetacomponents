@@ -103,6 +103,92 @@ abstract class ezcGraphDriver
     abstract public function drawLine( ezcGraphCoordinate $start, ezcGraphCoordinate $end, ezcGraphColor $color, $thickness = 1 );
     
     /**
+     * Returns boundings of text depending on the available font extension
+     * 
+     * @param float $size Textsize
+     * @param ezcGraphFontOptions $font Font
+     * @param string $text Text
+     * @return ezcGraphBoundings Boundings of text
+     */
+    abstract protected function getTextBoundings( $size, ezcGraphFontOptions $font, $text );
+    
+    /**
+     * Test if string fits in a box with given font size
+     *
+     * This method splits the text up into tokens and tries to wrap the text
+     * in an optimal way to fit in the Box defined by width and height.
+     * 
+     * If the text fits into the box an array with lines is returned, which 
+     * can be used to render the text later:
+     *  array(
+     *      // Lines
+     *      array( 'word', 'word', .. ),
+     *  )
+     * Otherwise the function will return false.
+     *
+     * @param string $string Text
+     * @param ezcGraphCoordinate $position Topleft position of the text box
+     * @param float $width Width of textbox
+     * @param float $height Height of textbox
+     * @param int $size Fontsize
+     * @return mixed Array with lines or false on failure
+     */
+    protected function testFitStringInTextBox( $string, ezcGraphCoordinate $position, $width, $height, $size )
+    {
+        // Tokenize String
+        $tokens = preg_split( '/\s+/', $string );
+        $initialHeight = $height;
+
+        $lines = array( array() );
+        $line = 0;
+        foreach ( $tokens as $nr => $token )
+        {
+            // Add token to tested line
+            $selectedLine = $lines[$line];
+            $selectedLine[] = $token;
+
+            $boundings = $this->getTextBoundings( $size, $this->options->font, implode( ' ', $selectedLine ) );
+            // Check if line is too long
+            if ( $boundings->width > $width )
+            {
+                if ( count( $selectedLine ) == 1 )
+                {
+                    // Return false if one single word does not fit into one line
+                    // Scale down font size to fit this word in one line
+                    return $width / $boundings->width;
+                }
+                else
+                {
+                    // Put word in next line instead and reduce available height by used space
+                    $lines[++$line][] = $token;
+                    $height -= $size * ( 1 + $this->options->lineSpacing );
+                }
+            }
+            else
+            {
+                // Everything is ok - put token in this line
+                $lines[$line][] = $token;
+            }
+            
+            // Return false if text exceeds vertical limit
+            if ( $size > $height )
+            {
+                return 1;
+            }
+        }
+
+        // Check width of last line
+        $boundings = $this->getTextBoundings( $size, $this->options->font, implode( ' ', $lines[$line] ) );
+        if ( $boundings->width > $width )
+        {
+            return 1;
+        }
+
+        // It seems to fit - return line array
+        return $lines;
+    }
+
+    /**
      * Writes text in a box of desired size
      * 
      * @param string $string Text

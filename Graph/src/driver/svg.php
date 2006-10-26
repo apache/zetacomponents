@@ -381,84 +381,21 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     }
 
     /**
-     * Test if string fits in a box with given font size
-     *
-     * This method splits the text up into tokens and tries to wrap the text
-     * in an optimal way to fit in the Box defined by width and height. We 
-     * can't really know how big the SVG renderer will display the font, so 
-     * that we can just guess here. Additionally there is no method to 
-     * calculate the text width of a string with the font used by the SVG 
-     * renderer, so that we assume some character width for calculating the 
-     * text width.
+     * Returns boundings of text depending on the available font extension
      * 
-     * If the text fits into the box an array with lines is returned, which 
-     * can be used to render the text later:
-     *  array(
-     *      // Lines
-     *      array( 'word', 'word', .. ),
-     *  )
-     * Otherwise the function will return false.
-     *
-     * @param string $string Text
-     * @param ezcGraphCoordinate $position Topleft position of the text box
-     * @param float $width Width of textbox
-     * @param float $height Height of textbox
-     * @param int $size Fontsize
-     * @return mixed Array with lines or false on failure
+     * @param float $size Textsize
+     * @param ezcGraphFontOptions $font Font
+     * @param string $text Text
+     * @return ezcGraphBoundings Boundings of text
      */
-    protected function testFitStringInTextBox( $string, ezcGraphCoordinate $position, $width, $height, $size )
+    protected function getTextBoundings( $size, ezcGraphFontOptions $font, $text )
     {
-        // Tokenize String
-        $tokens = preg_split( '/\s+/', $string );
-        
-        $lines = array( array() );
-        $line = 0;
-        foreach ( $tokens as $token )
-        {
-            // Add token to tested line
-            $selectedLine = $lines[$line];
-            $selectedLine[] = $token;
-
-            // Assume characters have the same width as height
-            $strWidth = $this->getTextWidth( implode( ' ', $selectedLine ), $size );
-
-            // Check if line is too long
-            if ( $strWidth > $width )
-            {
-                if ( count( $selectedLine ) == 1 )
-                {
-                    // Return false if one single word does not fit into one line
-                    return false;
-                }
-                else
-                {
-                    // Put word in next line instead and reduce available height by used space
-                    $lines[++$line][] = $token;
-                    $height -= $size * ( 1 + $this->options->lineSpacing );
-                }
-            }
-            else
-            {
-                // Everything is ok - put token in this line
-                $lines[$line][] = $token;
-            }
-            
-            // Return false if text exceeds vertical limit
-            if ( $size > $height )
-            {
-                return false;
-            }
-        }
-
-        // Check width of last line
-        $strWidth = $this->getTextWidth( implode( ' ', $selectedLine ), $size );
-        if ( $strWidth > $width )
-        {
-            return false;
-        }
-
-        // It seems to fit - return line array
-        return $lines;
+        return new ezcGraphBoundings(
+            0,
+            0,
+            $this->getTextWidth( $text, $size ),
+            $size
+        );
     }
 
     /**
@@ -477,19 +414,22 @@ class ezcGraphSvgDriver extends ezcGraphDriver
 
         $width -= $padding * 2;
         $height -= $padding * 2;
-        $position->x += $padding;
-        $position->y += $padding;
+        $textPosition = new ezcGraphCoordinate(
+            $position->x + $padding,
+            $position->y + $padding
+        );
 
         // Try to get a font size for the text to fit into the box
         $maxSize = min( $height, $this->options->font->maxFontSize );
         $result = false;
-        for ( $size = $maxSize; $size >= $this->options->font->minFontSize; --$size )
+        for ( $size = $maxSize; $size >= $this->options->font->minFontSize; )
         {
             $result = $this->testFitStringInTextBox( $string, $position, $width, $height, $size );
-            if ( $result !== false )
+            if ( is_array( $result ) )
             {
                 break;
             }
+            $size = ( ( $newsize = $size * ( $result ) ) >= $size ? $size - 1 : floor( $newsize ) );
         }
         
         if ( !is_array( $result ) )
@@ -501,7 +441,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $this->strings[] = array(
             'text' => $result,
             'id' => $id = ( $this->options->idPrefix . 'TextBox_' . ++$this->elementID ),
-            'position' => $position,
+            'position' => $textPosition,
             'width' => $width,
             'height' => $height,
             'align' => $align,
@@ -666,11 +606,13 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 );
             }
 
+            // Bottom line for SVG fonts is lifted a bit
+            $text['position']->y += $size * .85;
+
             // Render text with evaluated font size
             foreach ( $text['text'] as $line )
             {
                 $string = implode( ' ', $line );
-                $text['position']->y += $size;
 
                 switch ( true )
                 {
@@ -737,7 +679,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 );
                 $this->elements->appendChild( $textNode );
 
-                $text['position']->y += $size * $this->options->lineSpacing;
+                $text['position']->y += $size + $size * $this->options->lineSpacing;
             }
         }
     }
@@ -751,7 +693,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
      * @param mixed $startAngle Start angle of circle sector
      * @param mixed $endAngle End angle of circle sector
      * @param ezcGraphColor $color Color
-     * @param mixed $filled Filled
+     * @param mixed $filled Filled;
      * @return void
      */
     public function drawCircleSector( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, ezcGraphColor $color, $filled = true )
