@@ -15,9 +15,9 @@
  * @property float $axisSpace
  *           Percent of the chart space used to display axis labels and 
  *           arrowheads instead of data values.
- * @property ezcGraphColor $majorStep
+ * @property ezcGraphColor $majorGrid
  *           Color of major majorGrid.
- * @property ezcGraphColor $minorStep
+ * @property ezcGraphColor $minorGrid
  *           Color of minor majorGrid.
  * @property mixed $majorStep
  *           Labeled major steps displayed on the axis.

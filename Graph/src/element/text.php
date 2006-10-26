@@ -10,7 +10,7 @@
 /**
  * Chart element to display texts in a chart
  *
- * @property float $height
+ * @property float $maxHeight
  *           Maximum percent of bounding used to display the text.
  *
  * @package Graph

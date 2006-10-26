@@ -1239,6 +1239,232 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
-}
 
+    public function testRenderer3dOptionsPropertySeperateLines()
+    {
+        $options = new ezcGraphRenderer3dOptions();
+
+        $this->assertSame(
+            true,
+            $options->seperateLines,
+            'Wrong default value for property seperateLines in class ezcGraphRenderer3dOptions'
+        );
+
+        $options->seperateLines = false;
+        $this->assertSame(
+            false,
+            $options->seperateLines,
+            'Setting property value did not work for property seperateLines in class ezcGraphRenderer3dOptions'
+        );
+    }
+
+    public function testRenderer3dOptionsPropertyFillAxis()
+    {
+        $options = new ezcGraphRenderer3dOptions();
+
+        $this->assertSame(
+            .8,
+            $options->fillAxis,
+            'Wrong default value for property fillAxis in class ezcGraphRenderer3dOptions'
+        );
+
+        $options->fillAxis = .2;
+        $this->assertSame(
+            .2,
+            $options->fillAxis,
+            'Setting property value did not work for property fillAxis in class ezcGraphRenderer3dOptions'
+        );
+    }
+
+    public function testRenderer3dOptionsPropertyFillGrid()
+    {
+        $options = new ezcGraphRenderer3dOptions();
+
+        $this->assertSame(
+            0,
+            $options->fillGrid,
+            'Wrong default value for property fillGrid in class ezcGraphRenderer3dOptions'
+        );
+
+        $options->fillGrid = .5;
+        $this->assertSame(
+            .5,
+            $options->fillGrid,
+            'Setting property value did not work for property fillGrid in class ezcGraphRenderer3dOptions'
+        );
+    }
+
+    public function testRenderer3dOptionsPropertyDepth()
+    {
+        $options = new ezcGraphRenderer3dOptions();
+
+        $this->assertSame(
+            .1,
+            $options->depth,
+            'Wrong default value for property depth in class ezcGraphRenderer3dOptions'
+        );
+
+        $options->depth = .05;
+        $this->assertSame(
+            .05,
+            $options->depth,
+            'Setting property value did not work for property depth in class ezcGraphRenderer3dOptions'
+        );
+    }
+
+    public function testRenderer3dOptionsPropertyPieChartHeight()
+    {
+        $options = new ezcGraphRenderer3dOptions();
+
+        $this->assertSame(
+            10,
+            $options->pieChartHeight,
+            'Wrong default value for property pieChartHeight in class ezcGraphRenderer3dOptions'
+        );
+
+        $options->pieChartHeight = 20;
+        $this->assertSame(
+            20.,
+            $options->pieChartHeight,
+            'Setting property value did not work for property pieChartHeight in class ezcGraphRenderer3dOptions'
+        );
+    }
+
+    public function testRenderer3dOptionsPropertyPieChartRotation()
+    {
+        $options = new ezcGraphRenderer3dOptions();
+
+        $this->assertSame(
+            0.6,
+            $options->pieChartRotation,
+            'Wrong default value for property pieChartRotation in class ezcGraphRenderer3dOptions'
+        );
+
+        $options->pieChartRotation = .4;
+        $this->assertSame(
+            .4,
+            $options->pieChartRotation,
+            'Setting property value did not work for property pieChartRotation in class ezcGraphRenderer3dOptions'
+        );
+    }
+
+    public function testRenderer3dOptionsPropertyPieChartShadowSize()
+    {
+        $options = new ezcGraphRenderer3dOptions();
+
+        $this->assertSame(
+            0,
+            $options->pieChartShadowSize,
+            'Wrong default value for property pieChartShadowSize in class ezcGraphRenderer3dOptions'
+        );
+
+        $options->pieChartShadowSize = 5;
+        $this->assertSame(
+            5,
+            $options->pieChartShadowSize,
+            'Setting property value did not work for property pieChartShadowSize in class ezcGraphRenderer3dOptions'
+        );
+    }
+
+    public function testRenderer3dOptionsPropertyPieChartShadowTransparency()
+    {
+        $options = new ezcGraphRenderer3dOptions();
+
+        $this->assertSame(
+            .3,
+            $options->pieChartShadowTransparency,
+            'Wrong default value for property pieChartShadowTransparency in class ezcGraphRenderer3dOptions'
+        );
+
+        $options->pieChartShadowTransparency = .5;
+        $this->assertSame(
+            .5,
+            $options->pieChartShadowTransparency,
+            'Setting property value did not work for property pieChartShadowTransparency in class ezcGraphRenderer3dOptions'
+        );
+    }
+
+    public function testRenderer3dOptionsPropertyPieChartShadowColor()
+    {
+        $options = new ezcGraphRenderer3dOptions();
+
+        $this->assertEquals(
+            ezcGraphColor::fromHex( '#000000' ),
+            $options->pieChartShadowColor,
+            'Wrong default value for property pieChartShadowColor in class ezcGraphRenderer3dOptions'
+        );
+
+        $options->pieChartShadowColor = $color = ezcGraphColor::fromHex( '#FFFFFF' );
+        $this->assertSame(
+            $color,
+            $options->pieChartShadowColor,
+            'Setting property value did not work for property pieChartShadowColor in class ezcGraphRenderer3dOptions'
+        );
+
+        try
+        {
+            $options->pieChartShadowColor = false;
+        }
+        catch( ezcGraphUnknownColorDefinitionException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphUnknownColorDefinitionException.' );
+    }
+
+    public function testRenderer3dOptionsPropertyBarDarkenSide()
+    {
+        $options = new ezcGraphRenderer3dOptions();
+
+        $this->assertSame(
+            .2,
+            $options->barDarkenSide,
+            'Wrong default value for property barDarkenSide in class ezcGraphRenderer3dOptions'
+        );
+
+        $options->barDarkenSide = .4;
+        $this->assertSame(
+            .4,
+            $options->barDarkenSide,
+            'Setting property value did not work for property barDarkenSide in class ezcGraphRenderer3dOptions'
+        );
+    }
+
+    public function testRenderer3dOptionsPropertyBarDarkenTop()
+    {
+        $options = new ezcGraphRenderer3dOptions();
+
+        $this->assertSame(
+            .4,
+            $options->barDarkenTop,
+            'Wrong default value for property barDarkenTop in class ezcGraphRenderer3dOptions'
+        );
+
+        $options->barDarkenTop = .8;
+        $this->assertSame(
+            .8,
+            $options->barDarkenTop,
+            'Setting property value did not work for property barDarkenTop in class ezcGraphRenderer3dOptions'
+        );
+    }
+
+    public function testRenderer3dOptionsPropertyBarChartGleam()
+    {
+        $options = new ezcGraphRenderer3dOptions();
+
+        $this->assertSame(
+            false,
+            $options->barChartGleam,
+            'Wrong default value for property barChartGleam in class ezcGraphRenderer3dOptions'
+        );
+
+        $options->barChartGleam = .3;
+        $this->assertSame(
+            .3,
+            $options->barChartGleam,
+            'Setting property value did not work for property barChartGleam in class ezcGraphRenderer3dOptions'
+        );
+    }
+}
 ?>

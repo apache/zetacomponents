@@ -72,6 +72,96 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         }
     }
 
+    public function testPieChartOptionsPropertyLabel()
+    {
+        $options = new ezcGraphPieChartOptions();
+
+        $this->assertSame(
+            '%1$s: %2$d (%3$.1f%%)',
+            $options->label,
+            'Wrong default value for property label in class ezcGraphPieChartOptions'
+        );
+
+        $options->label = '%1$s';
+        $this->assertSame(
+            '%1$s',
+            $options->label,
+            'Setting property value did not work for property label in class ezcGraphPieChartOptions'
+        );
+    }
+
+    public function testPieChartOptionsPropertySum()
+    {
+        $options = new ezcGraphPieChartOptions();
+
+        $this->assertSame(
+            false,
+            $options->sum,
+            'Wrong default value for property sum in class ezcGraphPieChartOptions'
+        );
+
+        $options->sum = 100;
+        $this->assertSame(
+            100.,
+            $options->sum,
+            'Setting property value did not work for property sum in class ezcGraphPieChartOptions'
+        );
+    }
+
+    public function testPieChartOptionsPropertyPercentTreshHold()
+    {
+        $options = new ezcGraphPieChartOptions();
+
+        $this->assertSame(
+            0.,
+            $options->percentTreshHold,
+            'Wrong default value for property percentTreshHold in class ezcGraphPieChartOptions'
+        );
+
+        $options->percentTreshHold = .5;
+        $this->assertSame(
+            .5,
+            $options->percentTreshHold,
+            'Setting property value did not work for property percentTreshHold in class ezcGraphPieChartOptions'
+        );
+    }
+
+    public function testPieChartOptionsPropertyAbsoluteTreshHold()
+    {
+        $options = new ezcGraphPieChartOptions();
+
+        $this->assertSame(
+            0.,
+            $options->absoluteTreshHold,
+            'Wrong default value for property absoluteTreshHold in class ezcGraphPieChartOptions'
+        );
+
+        $options->absoluteTreshHold = 5;
+        $this->assertSame(
+            5.,
+            $options->absoluteTreshHold,
+            'Setting property value did not work for property absoluteTreshHold in class ezcGraphPieChartOptions'
+        );
+    }
+
+    public function testPieChartOptionsPropertySummarizeCaption()
+    {
+        $options = new ezcGraphPieChartOptions();
+
+        $this->assertSame(
+            'Misc',
+            $options->summarizeCaption,
+            'Wrong default value for property summarizeCaption in class ezcGraphPieChartOptions'
+        );
+
+        $options->summarizeCaption = 'Others';
+        $this->assertSame(
+            'Others',
+            $options->summarizeCaption,
+            'Setting property value did not work for property summarizeCaption in class ezcGraphPieChartOptions'
+        );
+    }
+
     public function testElementGenerationLegend()
     {
         $chart = new ezcGraphPieChart();

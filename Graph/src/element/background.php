@@ -99,7 +99,7 @@ class ezcGraphChartElementBackground extends ezcGraphChartElement
                 }
                 else
                 {
-                    throw new ezcBaseValeException( $propertyName, $propertyValue, '0 <= int <= 3' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= int <= 3' );
                 }
                 break;
             case 'position':

@@ -1899,6 +1899,182 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             2000
         );
     }
-}
 
+    public function testGdDriverOptionsPropertyImageFormat()
+    {
+        $options = new ezcGraphGdDriverOptions();
+
+        $this->assertSame(
+            IMG_PNG,
+            $options->imageFormat,
+            'Wrong default value for property imageFormat in class ezcGraphGdDriverOptions'
+        );
+
+        $options->imageFormat = IMG_JPEG;
+        $this->assertSame(
+            IMG_JPEG,
+            $options->imageFormat,
+            'Setting property value did not work for property imageFormat in class ezcGraphGdDriverOptions'
+        );
+
+        try
+        {
+            $options->imageFormat = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testGdDriverOptionsPropertyJpegQuality()
+    {
+        $options = new ezcGraphGdDriverOptions();
+
+        $this->assertSame(
+            70,
+            $options->jpegQuality,
+            'Wrong default value for property jpegQuality in class ezcGraphGdDriverOptions'
+        );
+
+        $options->jpegQuality = 100;
+        $this->assertSame(
+            100,
+            $options->jpegQuality,
+            'Setting property value did not work for property jpegQuality in class ezcGraphGdDriverOptions'
+        );
+    }
+
+    public function testGdDriverOptionsPropertyDetail()
+    {
+        $options = new ezcGraphGdDriverOptions();
+
+        $this->assertSame(
+            1,
+            $options->detail,
+            'Wrong default value for property detail in class ezcGraphGdDriverOptions'
+        );
+
+        $options->detail = 5;
+        $this->assertSame(
+            5,
+            $options->detail,
+            'Setting property value did not work for property detail in class ezcGraphGdDriverOptions'
+        );
+    }
+
+    public function testGdDriverOptionsPropertySupersampling()
+    {
+        $options = new ezcGraphGdDriverOptions();
+
+        $this->assertSame(
+            2,
+            $options->supersampling,
+            'Wrong default value for property supersampling in class ezcGraphGdDriverOptions'
+        );
+
+        $options->supersampling = 4;
+        $this->assertSame(
+            4,
+            $options->supersampling,
+            'Setting property value did not work for property supersampling in class ezcGraphGdDriverOptions'
+        );
+    }
+
+    public function testGdDriverOptionsPropertyBackground()
+    {
+        $options = new ezcGraphGdDriverOptions();
+
+        $this->assertSame(
+            false,
+            $options->background,
+            'Wrong default value for property background in class ezcGraphGdDriverOptions'
+        );
+
+        $options->background = $file = dirname( __FILE__ ) . '/data/jpeg.jpg';
+        $this->assertSame(
+            $file,
+            $options->background,
+            'Setting property value did not work for property background in class ezcGraphGdDriverOptions'
+        );
+
+        try
+        {
+            $options->background = 'foo';
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testGdDriverOptionsPropertyResampleFunction()
+    {
+        $options = new ezcGraphGdDriverOptions();
+
+        $this->assertSame(
+            'imagecopyresampled',
+            $options->resampleFunction,
+            'Wrong default value for property resampleFunction in class ezcGraphGdDriverOptions'
+        );
+
+        $options->resampleFunction = 'imagecopyresized';
+        $this->assertSame(
+            'imagecopyresized',
+            $options->resampleFunction,
+            'Setting property value did not work for property resampleFunction in class ezcGraphGdDriverOptions'
+        );
+
+        try
+        {
+            $options->resampleFunction = 'foo';
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testGdDriverOptionsPropertyForceNativeTTF()
+    {
+        $options = new ezcGraphGdDriverOptions();
+
+        $this->assertSame(
+            false,
+            $options->forceNativeTTF,
+            'Wrong default value for property forceNativeTTF in class ezcGraphGdDriverOptions'
+        );
+
+        $options->forceNativeTTF = true;
+        $this->assertSame(
+            true,
+            $options->forceNativeTTF,
+            'Setting property value did not work for property forceNativeTTF in class ezcGraphGdDriverOptions'
+        );
+    }
+
+    public function testGdDriverOptionsPropertyImageMapResolution()
+    {
+        $options = new ezcGraphGdDriverOptions();
+
+        $this->assertSame(
+            10,
+            $options->imageMapResolution,
+            'Wrong default value for property imageMapResolution in class ezcGraphGdDriverOptions'
+        );
+
+        $options->imageMapResolution = 5;
+        $this->assertSame(
+            5,
+            $options->imageMapResolution,
+            'Setting property value did not work for property imageMapResolution in class ezcGraphGdDriverOptions'
+        );
+    }
+}
 ?>

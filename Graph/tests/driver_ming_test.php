@@ -1414,6 +1414,41 @@ class ezcGraphMingDriverTest extends ezcTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
     }
-}
 
+    public function testMingDriverOptionsPropertyCompression()
+    {
+        $options = new ezcGraphMingDriverOptions();
+
+        $this->assertSame(
+            9,
+            $options->compression,
+            'Wrong default value for property compression in class ezcGraphMingDriverOptions'
+        );
+
+        $options->compression = 4;
+        $this->assertSame(
+            4,
+            $options->compression,
+            'Setting property value did not work for property compression in class ezcGraphMingDriverOptions'
+        );
+    }
+
+    public function testMingDriverOptionsPropertyCircleResolution()
+    {
+        $options = new ezcGraphMingDriverOptions();
+
+        $this->assertSame(
+            2.,
+            $options->circleResolution,
+            'Wrong default value for property circleResolution in class ezcGraphMingDriverOptions'
+        );
+
+        $options->circleResolution = 5.;
+        $this->assertSame(
+            5.,
+            $options->circleResolution,
+            'Setting property value did not work for property circleResolution in class ezcGraphMingDriverOptions'
+        );
+    }
+}
 ?>

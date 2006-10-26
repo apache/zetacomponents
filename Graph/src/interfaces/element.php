@@ -14,8 +14,6 @@
  *           Title of chart element.
  * @property ezcGraphColor $background
  *           Background color of chart element.
- * @property ezcGraphBoundings $boundings
- *           Boundings of this elements.
  * @property ezcGraphColor $border
  *           Border color of chart element.
  * @property int $padding
@@ -36,9 +34,11 @@
  *           position top or bottom.
  * @property ezcGraphFontOptions $font
  *           Font used for this element.
- * @property bool $fontCloned
- *           Indicates if font configuration was already cloned for this 
- *           specific element.
+ * @property-read bool $fontCloned
+ *                Indicates if font configuration was already cloned for this 
+ *                specific element.
+ * @property-read ezcGraphBoundings $boundings
+ *                Boundings of this elements.
  *
  * @package Graph
  */
@@ -157,8 +157,17 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
                     throw new ezcBaseValueException( 'position', $propertyValue, 'integer' );
                 }
                 break;
+            case 'maxTitleHeight':
+                $this->properties['maxTitleHeight'] = max( 0, (int) $propertyValue );
+                break;
+            case 'portraitTitleSize':
+                $this->properties['portraitTitleSize'] = max( 0., min( 1., (float) $propertyValue ) );
+                break;
+            case 'landscapeTitleSize':
+                $this->properties['landscapeTitleSize'] = max( 0., min( 1., (float) $propertyValue ) );
+                break;
             default:
-                throw new ezcGraphNoSuchDataSetException( $propertyName );
+                throw new ezcBasePropertyNotFoundException( $propertyName );
                 break;
         }
     }

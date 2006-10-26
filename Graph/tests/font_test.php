@@ -170,6 +170,348 @@ class ezcGraphFontTest extends ezcTestCase
 
         $this->fail( 'Expected ezcGraphUnknownFontTypeException.' );
     }
-}
 
+    public function testFontOptionsPropertyName()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertSame(
+            'sans-serif',
+            $options->name,
+            'Wrong default value for property name in class ezcGraphFontOptions'
+        );
+
+        $options->name = 'serif';
+        $this->assertSame(
+            'serif',
+            $options->name,
+            'Setting property value did not work for property name in class ezcGraphFontOptions'
+        );
+    }
+
+    public function testFontOptionsPropertyPath()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertSame(
+            dirname( __FILE__ ) . '/data/font.ttf',
+            $options->path,
+            'Wrong default value for property path in class ezcGraphFontOptions'
+        );
+
+        $options->path = $file = dirname( __FILE__ ) . '/data/font2.ttf';
+        $this->assertSame(
+            $file,
+            $options->path,
+            'Setting property value did not work for property path in class ezcGraphFontOptions'
+        );
+
+        try
+        {
+            $options->path = false;
+        }
+        catch( ezcBaseFileNotFoundException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseFileNotFoundException.' );
+    }
+
+    public function testFontOptionsPropertyType()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertSame(
+            ezcGraph::TTF_FONT,
+            $options->type,
+            'Wrong default value for property type in class ezcGraphFontOptions'
+        );
+
+        $options->type = ezcGraph::PS_FONT;
+        $this->assertSame(
+            ezcGraph::PS_FONT,
+            $options->type,
+            'Setting property value did not work for property type in class ezcGraphFontOptions'
+        );
+
+        try
+        {
+            $options->type = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testFontOptionsPropertyMinFontSize()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertSame(
+            6,
+            $options->minFontSize,
+            'Wrong default value for property minFontSize in class ezcGraphFontOptions'
+        );
+
+        $options->minFontSize = 8;
+        $this->assertSame(
+            8.,
+            $options->minFontSize,
+            'Setting property value did not work for property minFontSize in class ezcGraphFontOptions'
+        );
+    }
+
+    public function testFontOptionsPropertyMaxFontSize()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertSame(
+            96,
+            $options->maxFontSize,
+            'Wrong default value for property maxFontSize in class ezcGraphFontOptions'
+        );
+
+        $options->maxFontSize = 12;
+        $this->assertSame(
+            12.,
+            $options->maxFontSize,
+            'Setting property value did not work for property maxFontSize in class ezcGraphFontOptions'
+        );
+    }
+
+    public function testFontOptionsPropertyMinimalUsedFont()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertSame(
+            96,
+            $options->minimalUsedFont,
+            'Wrong default value for property minimalUsedFont in class ezcGraphFontOptions'
+        );
+
+        $options->minimalUsedFont = 24;
+        $this->assertSame(
+            24.,
+            $options->minimalUsedFont,
+            'Setting property value did not work for property minimalUsedFont in class ezcGraphFontOptions'
+        );
+
+        $options->minimalUsedFont = 36.;
+        $this->assertSame(
+            24.,
+            $options->minimalUsedFont,
+            'Setting property value did not work for property minimalUsedFont in class ezcGraphFontOptions'
+        );
+    }
+
+    public function testFontOptionsPropertyColor()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertEquals(
+            ezcGraphColor::fromHex( '#000000' ),
+            $options->color,
+            'Wrong default value for property color in class ezcGraphFontOptions'
+        );
+
+        $options->color = $color = ezcGraphColor::fromHex( '#FFFFFF' );
+        $this->assertSame(
+            $color,
+            $options->color,
+            'Setting property value did not work for property color in class ezcGraphFontOptions'
+        );
+
+        try
+        {
+            $options->color = false;
+        }
+        catch( ezcGraphUnknownColorDefinitionException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphUnknownColorDefinitionException.' );
+    }
+
+    public function testFontOptionsPropertyBackground()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertSame(
+            false,
+            $options->background,
+            'Wrong default value for property background in class ezcGraphFontOptions'
+        );
+
+        $options->background = $color = ezcGraphColor::fromHex( '#FFFFFF' );
+        $this->assertSame(
+            $color,
+            $options->background,
+            'Setting property value did not work for property background in class ezcGraphFontOptions'
+        );
+
+        try
+        {
+            $options->background = false;
+        }
+        catch( ezcGraphUnknownColorDefinitionException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphUnknownColorDefinitionException.' );
+    }
+
+    public function testFontOptionsPropertyBorder()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertSame(
+            false,
+            $options->border,
+            'Wrong default value for property border in class ezcGraphFontOptions'
+        );
+
+        $options->border = $color = ezcGraphColor::fromHex( '#FFFFFF' );
+        $this->assertSame(
+            $color,
+            $options->border,
+            'Setting property value did not work for property border in class ezcGraphFontOptions'
+        );
+
+        try
+        {
+            $options->border = false;
+        }
+        catch( ezcGraphUnknownColorDefinitionException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphUnknownColorDefinitionException.' );
+    }
+
+    public function testFontOptionsPropertyBorderWidth()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertSame(
+            1,
+            $options->borderWidth,
+            'Wrong default value for property borderWidth in class ezcGraphFontOptions'
+        );
+
+        $options->borderWidth = 2;
+        $this->assertSame(
+            2,
+            $options->borderWidth,
+            'Setting property value did not work for property borderWidth in class ezcGraphFontOptions'
+        );
+    }
+
+    public function testFontOptionsPropertyPadding()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertSame(
+            0,
+            $options->padding,
+            'Wrong default value for property padding in class ezcGraphFontOptions'
+        );
+
+        $options->padding = 1;
+        $this->assertSame(
+            1,
+            $options->padding,
+            'Setting property value did not work for property padding in class ezcGraphFontOptions'
+        );
+    }
+
+    public function testFontOptionsPropertyMinimizeBorder()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertSame(
+            true,
+            $options->minimizeBorder,
+            'Wrong default value for property minimizeBorder in class ezcGraphFontOptions'
+        );
+
+        $options->minimizeBorder = false;
+        $this->assertSame(
+            false,
+            $options->minimizeBorder,
+            'Setting property value did not work for property minimizeBorder in class ezcGraphFontOptions'
+        );
+    }
+
+    public function testFontOptionsPropertyTextShadow()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertSame(
+            false,
+            $options->textShadow,
+            'Wrong default value for property textShadow in class ezcGraphFontOptions'
+        );
+
+        $options->textShadow = true;
+        $this->assertSame(
+            true,
+            $options->textShadow,
+            'Setting property value did not work for property textShadow in class ezcGraphFontOptions'
+        );
+    }
+
+    public function testFontOptionsPropertyTextShadowOffset()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertSame(
+            1,
+            $options->textShadowOffset,
+            'Wrong default value for property textShadowOffset in class ezcGraphFontOptions'
+        );
+
+        $options->textShadowOffset = 2;
+        $this->assertSame(
+            2,
+            $options->textShadowOffset,
+            'Setting property value did not work for property textShadowOffset in class ezcGraphFontOptions'
+        );
+    }
+
+    public function testFontOptionsPropertyTextShadowColor()
+    {
+        $options = new ezcGraphFontOptions();
+
+        $this->assertEquals(
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            $options->textShadowColor,
+            'Wrong default value for property textShadowColor in class ezcGraphFontOptions'
+        );
+
+        $options->textShadowColor = $color = ezcGraphColor::fromHex( '#CCCCCC' );
+        $this->assertSame(
+            $color,
+            $options->textShadowColor,
+            'Setting property value did not work for property textShadowColor in class ezcGraphFontOptions'
+        );
+
+        try
+        {
+            $options->textShadowColor = false;
+        }
+        catch( ezcGraphUnknownColorDefinitionException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphUnknownColorDefinitionException.' );
+    }
+}
 ?>

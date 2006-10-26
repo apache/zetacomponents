@@ -83,43 +83,43 @@ class ezcGraphRenderer3dOptions extends ezcGraphRendererOptions
         switch ( $propertyName )
         {
             case 'depth':
-                $this->properties['depth'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['depth'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'seperateLines':
                 $this->properties['seperateLines'] = (bool) $propertyValue;
                 break;
             case 'fillAxis':
-                $this->properties['fillAxis'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['fillAxis'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'fillGrid':
-                $this->properties['fillGrid'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['fillGrid'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'dataBorder':
-                $this->properties['dataBorder'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['dataBorder'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'pieChartHeight':
                 $this->properties['pieChartHeight'] = (float) $propertyValue;
                 break;
             case 'pieChartRotation':
-                $this->properties['pieChartRotation'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['pieChartRotation'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'pieChartShadowSize':
                 $this->properties['pieChartShadowSize'] = max( 0, (int) $propertyValue );
                 break;
             case 'pieChartShadowTransparency':
-                $this->properties['pieChartShadowTransparency'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['pieChartShadowTransparency'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'pieChartShadowColor':
                 $this->properties['pieChartShadowColor'] = ezcGraphColor::create( $propertyValue );
                 break;
             case 'barDarkenSide':
-                $this->properties['barDarkenSide'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['barDarkenSide'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'barDarkenTop':
-                $this->properties['barDarkenTop'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['barDarkenTop'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'barChartGleam':
-                $this->properties['barChartGleam'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['barChartGleam'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );

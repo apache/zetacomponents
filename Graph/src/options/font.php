@@ -27,8 +27,6 @@
  *           The minimal used font size for this element.
  * @property ezcGraphColor $color
  *           Font color.
- * @property float $lineSpacing
- *           Percent of font size used for line spacing
  * @property ezcGraphColor $background
  *           Background color
  * @property ezcGraphColor $border
@@ -70,7 +68,6 @@ class ezcGraphFontOptions extends ezcBaseOptions
         $this->properties['minFontSize'] = 6;
         $this->properties['maxFontSize'] = 96;
         $this->properties['minimalUsedFont'] = 96;
-        $this->properties['lineSpacing'] = .1;
         $this->properties['color'] = ezcGraphColor::fromHex( '#000000' );
 
         $this->properties['background'] = false;
@@ -187,6 +184,7 @@ class ezcGraphFontOptions extends ezcBaseOptions
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'int' );
                 }
+                break;
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
                 break;

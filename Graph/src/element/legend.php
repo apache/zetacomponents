@@ -80,19 +80,22 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
         switch ( $propertyName )
         {
             case 'padding':
-                $this->padding = max( 0, (int) $propertyValue );
+                $this->properties['padding'] = max( 0, (int) $propertyValue );
                 break;
             case 'symbolSize':
-                $this->symbolSize = max( 1, (int) $propertyValue );
+                $this->properties['symbolSize'] = max( 1, (int) $propertyValue );
                 break;
             case 'landscapeSize':
-                $this->landscapeSize = max( 0, min( 1, (float) $propertyValue ) );
+                $this->properties['landscapeSize'] = max( 0, min( 1, (float) $propertyValue ) );
                 break;
             case 'portraitSize':
-                $this->portraitSize = max( 0, min( 1, (float) $propertyValue ) );
+                $this->properties['portraitSize'] = max( 0, min( 1, (float) $propertyValue ) );
+                break;
+            case 'minimumSymbolSize':
+                $this->properties['minimumSymbolSize'] = max( 0, min( 1, (float) $propertyValue ) );
                 break;
             case 'spacing':
-                $this->portraitSize = max( 0, (int) $propertyValue );
+                $this->properties['spacing'] = max( 0, (int) $propertyValue );
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );

@@ -96,7 +96,7 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
                 }
                 else
                 {
-                    throw new ezcBaseValueException( $propertyValue, 'ezcGraphFontOptions' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphFontOptions' );
                 }
                 break;
             case 'highlightSize':

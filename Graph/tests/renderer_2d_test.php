@@ -1943,6 +1943,416 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
-}
 
+    public function testRendererOptionsPropertyMaxLabelHeight()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            .1,
+            $options->maxLabelHeight,
+            'Wrong default value for property maxLabelHeight in class ezcGraphRendererOptions'
+        );
+
+        $options->maxLabelHeight = .2;
+        $this->assertSame(
+            .2,
+            $options->maxLabelHeight,
+            'Setting property value did not work for property maxLabelHeight in class ezcGraphRendererOptions'
+        );
+    }
+
+    public function testRendererOptionsPropertyShowSymbol()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            true,
+            $options->showSymbol,
+            'Wrong default value for property showSymbol in class ezcGraphRendererOptions'
+        );
+
+        $options->showSymbol = false;
+        $this->assertSame(
+            false,
+            $options->showSymbol,
+            'Setting property value did not work for property showSymbol in class ezcGraphRendererOptions'
+        );
+    }
+
+    public function testRendererOptionsPropertySymbolSize()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            6,
+            $options->symbolSize,
+            'Wrong default value for property symbolSize in class ezcGraphRendererOptions'
+        );
+
+        $options->symbolSize = 8;
+        $this->assertSame(
+            8,
+            $options->symbolSize,
+            'Setting property value did not work for property symbolSize in class ezcGraphRendererOptions'
+        );
+    }
+
+    public function testRendererOptionsPropertyMoveOut()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            .1,
+            $options->moveOut,
+            'Wrong default value for property moveOut in class ezcGraphRendererOptions'
+        );
+
+        $options->moveOut = .2;
+        $this->assertSame(
+            .2,
+            $options->moveOut,
+            'Setting property value did not work for property moveOut in class ezcGraphRendererOptions'
+        );
+    }
+
+    public function testRendererOptionsPropertyTitlePosition()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            ezcGraph::TOP,
+            $options->titlePosition,
+            'Wrong default value for property titlePosition in class ezcGraphRendererOptions'
+        );
+
+        $options->titlePosition = ezcGraph::BOTTOM;
+        $this->assertSame(
+            ezcGraph::BOTTOM,
+            $options->titlePosition,
+            'Setting property value did not work for property titlePosition in class ezcGraphRendererOptions'
+        );
+    }
+
+    public function testRendererOptionsPropertyTitleAlignement()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            ezcGraph::MIDDLE | ezcGraph::CENTER,
+            $options->titleAlignement,
+            'Wrong default value for property titleAlignement in class ezcGraphRendererOptions'
+        );
+
+        $options->titleAlignement = ezcGraph::BOTTOM;
+        $this->assertSame(
+            ezcGraph::BOTTOM,
+            $options->titleAlignement,
+            'Setting property value did not work for property titleAlignement in class ezcGraphRendererOptions'
+        );
+    }
+
+    public function testRendererOptionsPropertyDataBorder()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            .5,
+            $options->dataBorder,
+            'Wrong default value for property dataBorder in class ezcGraphRendererOptions'
+        );
+
+        $options->dataBorder = 1.;
+        $this->assertSame(
+            1.,
+            $options->dataBorder,
+            'Setting property value did not work for property dataBorder in class ezcGraphRendererOptions'
+        );
+    }
+
+    public function testRendererOptionsPropertyBarMargin()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            .1,
+            $options->barMargin,
+            'Wrong default value for property barMargin in class ezcGraphRendererOptions'
+        );
+
+        $options->barMargin = .2;
+        $this->assertSame(
+            .2,
+            $options->barMargin,
+            'Setting property value did not work for property barMargin in class ezcGraphRendererOptions'
+        );
+    }
+
+    public function testRendererOptionsPropertyBarPadding()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            .05,
+            $options->barPadding,
+            'Wrong default value for property barPadding in class ezcGraphRendererOptions'
+        );
+
+        $options->barPadding = .1;
+        $this->assertSame(
+            .1,
+            $options->barPadding,
+            'Setting property value did not work for property barPadding in class ezcGraphRendererOptions'
+        );
+    }
+
+    public function testRendererOptionsPropertyPieChartOffset()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            0,
+            $options->pieChartOffset,
+            'Wrong default value for property pieChartOffset in class ezcGraphRendererOptions'
+        );
+
+        $options->pieChartOffset = 1;
+        $this->assertSame(
+            1,
+            $options->pieChartOffset,
+            'Setting property value did not work for property pieChartOffset in class ezcGraphRendererOptions'
+        );
+    }
+
+    public function testRendererOptionsPropertyLegendSymbolGleam()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            false,
+            $options->legendSymbolGleam,
+            'Wrong default value for property legendSymbolGleam in class ezcGraphRendererOptions'
+        );
+
+        $options->legendSymbolGleam = .1;
+        $this->assertSame(
+            .1,
+            $options->legendSymbolGleam,
+            'Setting property value did not work for property legendSymbolGleam in class ezcGraphRendererOptions'
+        );
+    }
+
+    public function testRendererOptionsPropertyLegendSymbolGleamSize()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            .9,
+            $options->legendSymbolGleamSize,
+            'Wrong default value for property legendSymbolGleamSize in class ezcGraphRendererOptions'
+        );
+
+        $options->legendSymbolGleamSize = .8;
+        $this->assertSame(
+            .8,
+            $options->legendSymbolGleamSize,
+            'Setting property value did not work for property legendSymbolGleamSize in class ezcGraphRendererOptions'
+        );
+    }
+
+    public function testRendererOptionsPropertyPieVerticalSize()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            .5,
+            $options->pieVerticalSize,
+            'Wrong default value for property pieVerticalSize in class ezcGraphRendererOptions'
+        );
+
+        $options->pieVerticalSize = .6;
+        $this->assertSame(
+            .6,
+            $options->pieVerticalSize,
+            'Setting property value did not work for property pieVerticalSize in class ezcGraphRendererOptions'
+        );
+    }
+
+    public function testRendererOptionsPropertyPieHorizontalSize()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            .25,
+            $options->pieHorizontalSize,
+            'Wrong default value for property pieHorizontalSize in class ezcGraphRendererOptions'
+        );
+
+        $options->pieHorizontalSize = .5;
+        $this->assertSame(
+            .5,
+            $options->pieHorizontalSize,
+            'Setting property value did not work for property pieHorizontalSize in class ezcGraphRendererOptions'
+        );
+    }
+
+    public function testRendererOptionsPropertyPieChartSymbolColor()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertEquals(
+            ezcGraphColor::fromHex( '#000000' ),
+            $options->pieChartSymbolColor,
+            'Wrong default value for property pieChartSymbolColor in class ezcGraphRendererOptions'
+        );
+
+        $options->pieChartSymbolColor = $color = ezcGraphColor::fromHex( '#FFFFFF' );
+        $this->assertSame(
+            $color,
+            $options->pieChartSymbolColor,
+            'Setting property value did not work for property pieChartSymbolColor in class ezcGraphRendererOptions'
+        );
+
+        try
+        {
+            $options->pieChartSymbolColor = false;
+        }
+        catch( ezcGraphUnknownColorDefinitionException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphUnknownColorDefinitionException.' );
+    }
+
+    public function testRendererOptionsPropertyPieChartGleam()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            false,
+            $options->pieChartGleam,
+            'Wrong default value for property pieChartGleam in class ezcGraphRendererOptions'
+        );
+
+        $options->pieChartGleam = .2;
+        $this->assertSame(
+            .2,
+            $options->pieChartGleam,
+            'Setting property value did not work for property pieChartGleam in class ezcGraphRendererOptions'
+        );
+    }
+
+    public function testRendererOptionsPropertyPieChartGleamColor()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertEquals(
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            $options->pieChartGleamColor,
+            'Wrong default value for property pieChartGleamColor in class ezcGraphRendererOptions'
+        );
+
+        $options->pieChartGleamColor = $color = ezcGraphColor::fromHex( '#000000' );
+        $this->assertSame(
+            $color,
+            $options->pieChartGleamColor,
+            'Setting property value did not work for property pieChartGleamColor in class ezcGraphRendererOptions'
+        );
+
+        try
+        {
+            $options->pieChartGleamColor = false;
+        }
+        catch( ezcGraphUnknownColorDefinitionException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphUnknownColorDefinitionException.' );
+    }
+
+    public function testRendererOptionsPropertyPieChartGleamBorder()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertSame(
+            0,
+            $options->pieChartGleamBorder,
+            'Wrong default value for property pieChartGleamBorder in class ezcGraphRendererOptions'
+        );
+
+        $options->pieChartGleamBorder = 1;
+        $this->assertSame(
+            1,
+            $options->pieChartGleamBorder,
+            'Setting property value did not work for property pieChartGleamBorder in class ezcGraphRendererOptions'
+        );
+    }
+
+    public function testRenderer2dOptionsPropertyPieChartShadowSize()
+    {
+        $options = new ezcGraphRenderer2dOptions();
+
+        $this->assertSame(
+            0,
+            $options->pieChartShadowSize,
+            'Wrong default value for property pieChartShadowSize in class ezcGraphRenderer2dOptions'
+        );
+
+        $options->pieChartShadowSize = 5;
+        $this->assertSame(
+            5,
+            $options->pieChartShadowSize,
+            'Setting property value did not work for property pieChartShadowSize in class ezcGraphRenderer2dOptions'
+        );
+    }
+
+    public function testRenderer2dOptionsPropertyPieChartShadowTransparency()
+    {
+        $options = new ezcGraphRenderer2dOptions();
+
+        $this->assertSame(
+            .3,
+            $options->pieChartShadowTransparency,
+            'Wrong default value for property pieChartShadowTransparency in class ezcGraphRenderer2dOptions'
+        );
+
+        $options->pieChartShadowTransparency = .5;
+        $this->assertSame(
+            .5,
+            $options->pieChartShadowTransparency,
+            'Setting property value did not work for property pieChartShadowTransparency in class ezcGraphRenderer2dOptions'
+        );
+    }
+
+    public function testRenderer2dOptionsPropertyPieChartShadowColor()
+    {
+        $options = new ezcGraphRenderer2dOptions();
+
+        $this->assertEquals(
+            ezcGraphColor::fromHex( '#000000' ),
+            $options->pieChartShadowColor,
+            'Wrong default value for property pieChartShadowColor in class ezcGraphRenderer2dOptions'
+        );
+
+        $options->pieChartShadowColor = $color = ezcGraphColor::fromHex( '#FFFFFF' );
+        $this->assertSame(
+            $color,
+            $options->pieChartShadowColor,
+            'Setting property value did not work for property pieChartShadowColor in class ezcGraphRenderer2dOptions'
+        );
+
+        try
+        {
+            $options->pieChartShadowColor = false;
+        }
+        catch( ezcGraphUnknownColorDefinitionException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphUnknownColorDefinitionException.' );
+    }
+}
 ?>

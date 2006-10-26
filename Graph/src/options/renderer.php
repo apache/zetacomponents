@@ -101,13 +101,13 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
         switch ( $propertyName )
         {
             case 'maxLabelHeight':
-                $this->properties['maxLabelHeight'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['maxLabelHeight'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'symbolSize':
                 $this->properties['symbolSize'] = (int) $propertyValue;
                 break;
             case 'moveOut':
-                $this->properties['moveOut'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['moveOut'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'showSymbol':
                 $this->properties['showSymbol'] = (bool) $propertyValue;
@@ -119,13 +119,13 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
                 $this->properties['titleAlignement'] = (int) $propertyValue;
                 break;
             case 'dataBorder':
-                $this->properties['dataBorder'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['dataBorder'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'barMargin':
-                $this->properties['barMargin'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['barMargin'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'barPadding':
-                $this->properties['barPadding'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['barPadding'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'pieChartOffset':
                 $this->properties['pieChartOffset'] = $propertyValue % 360;
@@ -134,7 +134,7 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
                 $this->properties['pieChartSymbolColor'] = ezcGraphColor::create( $propertyValue );
                 break;
             case 'pieChartGleam':
-                $this->properties['pieChartGleam'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['pieChartGleam'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'pieChartGleamColor':
                 $this->properties['pieChartGleamColor'] = ezcGraphColor::create( $propertyValue );
@@ -143,19 +143,19 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
                 $this->properties['pieChartGleamBorder'] = max( 0, (int) $propertyValue );
                 break;
             case 'legendSymbolGleam':
-                $this->properties['legendSymbolGleam'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['legendSymbolGleam'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'legendSymbolGleamSize':
-                $this->properties['legendSymbolGleamSize'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['legendSymbolGleamSize'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'legendSymbolGleamColor':
                 $this->properties['legendSymbolGleamColor'] = ezcGraphColor::create( $propertyValue );
                 break;
             case 'pieVerticalSize':
-                $this->properties['pieVerticalSize'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['pieVerticalSize'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             case 'pieHorizontalSize':
-                $this->properties['pieHorizontalSize'] = min( 1, max( 0, (float) $propertyValue ) );
+                $this->properties['pieHorizontalSize'] = min( 1., max( .0, (float) $propertyValue ) );
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );

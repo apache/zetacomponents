@@ -31,7 +31,7 @@ class ezcGraphMingDriverOptions extends ezcGraphDriverOptions
     public function __construct( array $options = array() )
     {
         $this->properties['compression'] = 9;
-        $this->properties['circleResolution'] = 2;
+        $this->properties['circleResolution'] = 2.;
 
         parent::__construct( $options );
     }

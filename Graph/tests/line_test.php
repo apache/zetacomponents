@@ -49,6 +49,128 @@ class ezcGraphLineChartTest extends ezcTestCase
         $chart->data['Even more data'] = new ezcGraphArrayDataSet( array( 'sample 1' => 300, 'sample 2' => -30, 'sample 3' => 220, 'sample 4' => 67, 'sample 5' => 450) );
     }
 
+    public function testLineChartOptionsPropertyLineThickness()
+    {
+        $options = new ezcGraphLineChartOptions();
+
+        $this->assertSame(
+            2,
+            $options->lineThickness,
+            'Wrong default value for property lineThickness in class ezcGraphLineChartOptions'
+        );
+
+        $options->lineThickness = 4;
+        $this->assertSame(
+            4,
+            $options->lineThickness,
+            'Setting property value did not work for property lineThickness in class ezcGraphLineChartOptions'
+        );
+    }
+
+    public function testLineChartOptionsPropertyFillLines()
+    {
+        $options = new ezcGraphLineChartOptions();
+
+        $this->assertSame(
+            false,
+            $options->fillLines,
+            'Wrong default value for property fillLines in class ezcGraphLineChartOptions'
+        );
+
+        $options->fillLines = 230;
+        $this->assertSame(
+            230,
+            $options->fillLines,
+            'Setting property value did not work for property fillLines in class ezcGraphLineChartOptions'
+        );
+    }
+
+    public function testLineChartOptionsPropertySymbolSize()
+    {
+        $options = new ezcGraphLineChartOptions();
+
+        $this->assertSame(
+            8,
+            $options->symbolSize,
+            'Wrong default value for property symbolSize in class ezcGraphLineChartOptions'
+        );
+
+        $options->symbolSize = 10;
+        $this->assertSame(
+            10,
+            $options->symbolSize,
+            'Setting property value did not work for property symbolSize in class ezcGraphLineChartOptions'
+        );
+    }
+
+    public function testLineChartOptionsPropertyHighlightFont()
+    {
+        $options = new ezcGraphLineChartOptions();
+
+        $this->assertSame(
+            'ezcGraphFontOptions',
+            get_class( $options->highlightFont ),
+            'Wrong default value for property highlightFont in class ezcGraphLineChartOptions'
+        );
+
+        $fontOptions = new ezcGraphFontOptions();
+        $fontOptions->path = $this->basePath . 'font2.ttf';
+
+        $options->highlightFont = $fontOptions;
+        $this->assertSame(
+            $fontOptions,
+            $options->highlightFont,
+            'Setting property value did not work for property highlightFont in class ezcGraphLineChartOptions'
+        );
+
+        try
+        {
+            $options->highlightFont = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testLineChartOptionsPropertyHighlightSize()
+    {
+        $options = new ezcGraphLineChartOptions();
+
+        $this->assertSame(
+            14,
+            $options->highlightSize,
+            'Wrong default value for property highlightSize in class ezcGraphLineChartOptions'
+        );
+
+        $options->highlightSize = 20;
+        $this->assertSame(
+            20,
+            $options->highlightSize,
+            'Setting property value did not work for property highlightSize in class ezcGraphLineChartOptions'
+        );
+    }
+
+    public function testLineChartOptionsPropertyHighlightLines()
+    {
+        $options = new ezcGraphLineChartOptions();
+
+        $this->assertSame(
+            false,
+            $options->highlightLines,
+            'Wrong default value for property highlightLines in class ezcGraphLineChartOptions'
+        );
+
+        $options->highlightLines = true;
+        $this->assertSame(
+            true,
+            $options->highlightLines,
+            'Setting property value did not work for property highlightLines in class ezcGraphLineChartOptions'
+        );
+    }
+
     public function testElementGenerationLegend()
     {
         $chart = new ezcGraphLineChart();
