@@ -72,7 +72,7 @@ class ezcDebug
 {
     /**
      * Instance of the singleton ezcDebug object.
-     *
+    *
      * Use the getInstance() method to retrieve the instance.
      *
      * @var ezcDebug
@@ -229,10 +229,9 @@ class ezcDebug
     /**
      * Starts the timer with the identifier $name.
      *
-     * Use $source to set the source of the timer and the $group group.
+     * Optionally, a timer group can be given with the $group parameter.
      *
      * @param string name
-     * @param string source
      * @param string group
      * @return void
      */
