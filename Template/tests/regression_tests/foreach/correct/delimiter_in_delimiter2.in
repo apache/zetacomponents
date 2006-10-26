@@ -1,0 +1,33 @@
+{foreach 1..5 as $a}
+   {foreach 'a'..'d' as $b}
+   		{$a} - {$b}
+   {/foreach}
+
+   {delimiter modulo 2}
+   		DELIM
+   {/delimiter}
+{/foreach}
+
+==========================
+
+{foreach 1..5 as $a}
+   {delimiter modulo 2}
+   		DELIM
+   {/delimiter}
+
+   {foreach 'a'..'d' as $b}
+   		{$a} - {$b}
+   {/foreach}
+{/foreach}
+
+==========================
+
+{foreach 1..5 as $a}
+   {foreach 'a'..'d' as $b}
+   		{$a} - {$b}
+
+	   {delimiter modulo 2}
+			DELIM
+	   {/delimiter}
+   {/foreach}
+{/foreach}
