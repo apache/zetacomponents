@@ -115,6 +115,56 @@ class ezcGraphPieChart extends ezcGraphChart
     }
 
     /**
+     * Apply tresh hold
+     *
+     * Iterates over the dataset and applies the configured tresh hold to
+     * the datasets data.
+     * 
+     * @return void
+     */
+    protected function applyTreshHold()
+    {
+        if ( $this->options->percentTreshHold || $this->options->absoluteTreshHold )
+        {
+            $dataset = $this->data->rewind();
+
+            $sum = 0;
+            foreach ( $dataset as $value )
+            {
+                $sum += $value;
+            }
+            if ( $this->options->sum !== false )
+            {
+                $sum = max( $sum, $this->options->sum );
+            }
+
+            $unset = array();
+            foreach ( $dataset as $label => $value )
+            {
+                if ( ( $value <= $this->options->absoluteTreshHold ) ||
+                     ( ( $value / $sum ) <= $this->options->percentTreshHold ) )
+                {
+                    if ( !isset( $dataset[$this->options->summarizeCaption] ) )
+                    {
+                        $dataset[$this->options->summarizeCaption] = $value;
+                    }
+                    else
+                    {
+                        $dataset[$this->options->summarizeCaption] += $value;
+                    }
+                    
+                    $unset[] = $label;
+                }
+            }
+
+            foreach ( $unset as $label )
+            {
+                unset( $dataset[$label] );
+            }
+        }
+    }
+
+    /**
      * Render the pie chart
      *
      * Renders the chart into a file or stream. The width and height are 
@@ -131,6 +181,9 @@ class ezcGraphPieChart extends ezcGraphChart
         // Set image properties in driver
         $this->driver->options->width = $width;
         $this->driver->options->height = $height;
+
+        // Apply tresh hold
+        $this->applyTreshHold();
 
         // Generate legend
         $this->elements['legend']->generateFromDataSet( $this->data->rewind() );

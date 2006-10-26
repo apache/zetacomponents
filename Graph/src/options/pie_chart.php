@@ -18,6 +18,13 @@
  * @property float $sum
  *           Fixed sum of values. This should be used for incomplete pie 
  *           charts.
+ * @property float $percentTreshHold
+ *           Values with a lower percentage value are aggregated.
+ * @property float $absoluteTreshHold
+ *           Values with a lower absolute value are aggregated.
+ * @property string $summarizeCaption
+ *           Caption for values summarized because they are lower then the
+ *           configured tresh hold.
  *
  * @package Graph
  */
@@ -34,6 +41,10 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
     {
         $this->properties['label'] = '%1$s: %2$d (%3$.1f%%)';
         $this->properties['sum'] = false;
+
+        $this->properties['percentTreshHold'] = .0;
+        $this->properties['absoluteTreshHold'] = .0;
+        $this->properties['summarizeCaption'] = 'Misc';
 
         parent::__construct( $options );
     }
@@ -57,6 +68,15 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
                 break;
             case 'sum':
                 $this->properties['sum'] = (float) $propertyValue;
+                break;
+            case 'percentTreshHold':
+                $this->properties['percentTreshHold'] = max( .0, (float) $propertyValue );
+                break;
+            case 'absoluteTreshHold':
+                $this->properties['absoluteTreshHold'] = max( .0, (float) $propertyValue );
+                break;
+            case 'summarizeCaption':
+                $this->properties['summarizeCaption'] = (string) $propertyValue;
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );
