@@ -8,7 +8,7 @@ function __autoload( $className )
 
 // Create the graph
 $graph = new ezcGraphPieChart();
-$graph->palette = new ezcGraphPaletteEzBlue();
+$graph->palette = new ezcGraphPaletteEzGreen();
 $graph->legend = false;
 
 // Use fdb font for ming driver
@@ -16,20 +16,17 @@ $graph->options->font = dirname( __FILE__ ) . '/../../tests/data/fdb_font.fdb';
 
 // Add the data and hilight norwegian data set
 $graph->data['week'] = new ezcGraphArrayDataSet( array(
-    'Claudia Kosny' => 45,
-    'Lukasz Serwatka' => 35,
-    'Kristof Coomans' => 25,
-    'David Jones' => 23,
-    'Xavier Dutoit' => 20,
-    'sangib das' => 14,
-    'Mark Marsiglio' => 10,
-    'mark hayhurst' => 10,
-    'Paul Borgermans' => 10,
-    'Nabil Alimi' => 9,
+    'Lukasz Serwatka' => 1805,
+    'Paul Forsyth' => 1491,
+    'Paul Borgermans' => 1316,
+    'Kristof Coomans' => 956,
+    'Alex Jones' => 942 ,
+    'Bard Farstad' => 941,
+    'Tony Wood' => 900,
 ) );
 
 // Set graph title
-$graph->title = '10 most active users on forum in last week';
+$graph->title = 'Alltime 10 most active users on forum';
 
 // Use 3d renderer, and beautify it
 $graph->renderer = new ezcGraphRenderer3d();
@@ -44,6 +41,6 @@ $graph->renderer->options->pieChartSymbolColor = '#88888888';
 $graph->driver = new ezcGraphMingDriver();
 
 // Output the graph with std SVG driver
-$graph->render( 500, 200, 'forum.swf' );
+$graph->render( 500, 200, 'forum_year.swf' );
 
 ?>
