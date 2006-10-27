@@ -150,7 +150,7 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
     {
         foreach ( $values as $value )
         {
-            if ( is_numeric( $value ) )
+            if ( is_int( $value ) || is_float( $value ) )
             {
                 $value = (int) $value;
             }

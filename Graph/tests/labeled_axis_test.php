@@ -260,6 +260,53 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
             .05
         );
     }
+
+    public function testAutomaticLabelingWithLotsOfLabels()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( 2000 => 1045, 1300, 1012, 1450, 341, 421, 452, 1203, 540, 1104, 1503, 1204, 1402, 652, 972, 230, 1502, 1305, 983, 872, 934, 1423 ) );
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            array(
+                2000,
+                2003,
+                2006,
+                2009,
+                2012,
+                2015,
+                2018,
+                2021,
+            ),
+            $this->getAttribute( $chart->xAxis, 'displayedLabels' )
+        );
+    }
+
+    public function testGetLabel()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( 2000 => 1045, 1300, 1012, 1450 ) );
+        $chart->render( 500, 200 );
+
+        $this->assertSame(
+            '2001',
+            $chart->xAxis->getLabel( 1 ),
+            'Wrong label returned for step.'
+        );
+    }
+
+    public function testGetNonexistantLabel()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( 2000 => 1045, 1300, 1012, 1450 ) );
+        $chart->render( 500, 200 );
+
+        $this->assertSame(
+            false,
+            $chart->xAxis->getLabel( 5 ),
+            'Wrong label returned for nonexisting step.'
+        );
+    }
 }
 
 ?>

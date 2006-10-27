@@ -408,6 +408,43 @@ class ezcGraphDateAxisTest extends ezcTestCase
             .05
         );
     }
+
+    public function testStrToTimeLabelConvertion()
+    {
+        $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 
+            '1.1.2001' => 324,
+            '1.1.2002' => 324,
+            '1.1.2003' => 324,
+            '1.1.2004' => 324,
+        ) );
+
+        try
+        {
+            $this->chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
+
+        $this->assertEquals(
+            'Mon, 01 Jan 2001 01:00:00 +0100',
+            date( 'r', $this->chart->xAxis->startDate ),
+            'Wrong starting date. '
+        );
+
+        $this->assertEquals(
+            'Thu, 01 Jan 2004 01:00:00 +0100',
+            date( 'r', $this->chart->xAxis->endDate ),
+            'Wrong end date. '
+        );
+
+        $this->assertEquals(
+            31536000,
+            $this->chart->xAxis->interval,
+            'Wrong interval. '
+        );
+    }
 }
 
 ?>
