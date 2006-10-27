@@ -221,10 +221,6 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
                 break;
         }
     }
-
-    protected function checkFont( $font )
-    {
-    }
 }
 
 ?>
