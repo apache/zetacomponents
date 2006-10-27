@@ -18,7 +18,6 @@
  *           Percent to darken circular arcs at the sides
  * @property float $lineSpacing
  *           Percent of font size used for line spacing
- *
  * @property int $font
  *           Font used in the graph.
  *

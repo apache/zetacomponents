@@ -64,12 +64,6 @@ class ezcGraphChartElementText extends ezcGraphChartElement
      */
     public function render( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings )
     {
-        if ( empty( $this->properties['title'] ) )
-        {
-            return $boundings;
-        }
-
-
         $height = (int) min( 
             round( $this->properties['maxHeight'] * ( $boundings->y1 - $boundings->y0 ) ),
             $this->properties['font']->maxFontSize + $this->padding * 2 + $this->margin * 2

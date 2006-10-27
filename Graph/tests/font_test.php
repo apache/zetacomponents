@@ -187,6 +187,17 @@ class ezcGraphFontTest extends ezcTestCase
             $options->name,
             'Setting property value did not work for property name in class ezcGraphFontOptions'
         );
+
+        try
+        {
+            $options->name = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testFontOptionsPropertyPath()
@@ -512,6 +523,22 @@ class ezcGraphFontTest extends ezcTestCase
         }
 
         $this->fail( 'Expected ezcGraphUnknownColorDefinitionException.' );
+    }
+
+    public function testPropertyNotFoundException()
+    {
+        $options = new ezcGraphFontOptions();
+
+        try
+        {
+            $options->unknown = 42;
+        }
+        catch( ezcBasePropertyNotFoundException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
     }
 }
 ?>

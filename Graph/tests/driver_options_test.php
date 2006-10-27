@@ -77,6 +77,24 @@ class ezcGraphDriverOptionsTest extends ezcImageTestCase
         );
     }
 
+    public function testDriverOptionsPropertyLineSpacing()
+    {
+        $options = new ezcGraphSvgDriverOptions();
+
+        $this->assertSame(
+            .1,
+            $options->lineSpacing,
+            'Wrong default value for property lineSpacing in class ezcGraphSvgDriverOptions'
+        );
+
+        $options->lineSpacing = .2;
+        $this->assertSame(
+            .2,
+            $options->lineSpacing,
+            'Setting property value did not work for property lineSpacing in class ezcGraphSvgDriverOptions'
+        );
+    }
+
     public function testDriverOptionsPropertyFont()
     {
         $options = new ezcGraphSvgDriverOptions();
@@ -107,6 +125,22 @@ class ezcGraphDriverOptionsTest extends ezcImageTestCase
         }
 
         $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testPropertyNotFoundException()
+    {
+        $options = new ezcGraphSvgDriverOptions();
+
+        try
+        {
+            $options->unknown = 42;
+        }
+        catch( ezcBasePropertyNotFoundException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
     }
 }
 ?>

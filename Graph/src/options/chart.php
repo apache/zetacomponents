@@ -12,7 +12,7 @@
  *
  * @property int $width
  *           Width of the chart.
- * @property int $heigh
+ * @property int $height
  *           Height of the chart.
  * @property int $font
  *           Font used in the graph.
@@ -23,6 +23,8 @@ class ezcGraphChartOptions extends ezcBaseOptions
 {
     public function __construct( array $options = array() )
     {
+        $this->properties['width'] = false;
+        $this->properties['height'] = false;
         $this->properties['font'] = new ezcGraphFontOptions();
 
         parent::__construct( $options );

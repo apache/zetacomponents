@@ -83,6 +83,13 @@ class ezcGraphLineChartTest extends ezcTestCase
             $options->fillLines,
             'Setting property value did not work for property fillLines in class ezcGraphLineChartOptions'
         );
+
+        $options->fillLines = false;
+        $this->assertSame(
+            false,
+            $options->fillLines,
+            'Setting property value did not work for property fillLines in class ezcGraphLineChartOptions'
+        );
     }
 
     public function testLineChartOptionsPropertySymbolSize()
@@ -107,10 +114,17 @@ class ezcGraphLineChartTest extends ezcTestCase
     {
         $options = new ezcGraphLineChartOptions();
 
+        $options->highlightFont = $file = $this->basePath . 'font.ttf';
         $this->assertSame(
-            'ezcGraphFontOptions',
-            get_class( $options->highlightFont ),
-            'Wrong default value for property highlightFont in class ezcGraphLineChartOptions'
+            $file,
+            $options->highlightFont->path,
+            'Setting property value did not work for property highlightFont in class ezcGraphLineChartOptions'
+        );
+
+        $this->assertSame(
+            true,
+            $options->highlightFontCloned,
+            'Font should be cloned now.'
         );
 
         $fontOptions = new ezcGraphFontOptions();
@@ -597,6 +611,62 @@ class ezcGraphLineChartTest extends ezcTestCase
         $chart->renderer = $mockedRenderer;
 
         $chart->render( 500, 200 );
+    }
+
+    public function testLineChartOptionsPropertyXAxis()
+    {
+        $options = new ezcGraphLineChart();
+
+        $this->assertSame(
+            'ezcGraphChartElementLabeledAxis',
+            get_class( $options->xAxis ),
+            'Wrong default value for property xAxis in class ezcGraphLineChart'
+        );
+        $options->xAxis = $axis = new ezcGraphChartElementDateAxis();
+        $this->assertSame(
+            $axis,
+            $options->xAxis,
+            'Setting property value did not work for property xAxis in class ezcGraphLineChart'
+        );
+
+        try
+        {
+            $options->xAxis = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testLineChartOptionsPropertyYAxis()
+    {
+        $options = new ezcGraphLineChart();
+
+        $this->assertSame(
+            'ezcGraphChartElementNumericAxis',
+            get_class( $options->yAxis ),
+            'Wrong default value for property yAxis in class ezcGraphLineChart'
+        );
+        $options->yAxis = $axis = new ezcGraphChartElementDateAxis();
+        $this->assertSame(
+            $axis,
+            $options->yAxis,
+            'Setting property value did not work for property yAxis in class ezcGraphLineChart'
+        );
+
+        try
+        {
+            $options->yAxis = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 }
 ?>

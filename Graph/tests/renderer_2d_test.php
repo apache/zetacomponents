@@ -2160,6 +2160,36 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         );
     }
 
+    public function testRendererOptionsPropertyLegendSymbolGleamColor()
+    {
+        $options = new ezcGraphRendererOptions();
+
+        $this->assertEquals(
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            $options->legendSymbolGleamColor,
+            'Wrong default value for property pieChartSymbolColor in class ezcGraphRendererOptions'
+        );
+
+        $options->legendSymbolGleamColor = $color = ezcGraphColor::fromHex( '#000000' );
+        $this->assertSame(
+            $color,
+            $options->legendSymbolGleamColor,
+            'Setting property value did not work for property pieChartSymbolColor in class ezcGraphRendererOptions'
+        );
+
+        try
+        {
+            $options->legendSymbolGleamColor = false;
+        }
+        catch( ezcGraphUnknownColorDefinitionException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphUnknownColorDefinitionException.' );
+    }
+
+
     public function testRendererOptionsPropertyPieVerticalSize()
     {
         $options = new ezcGraphRendererOptions();
@@ -2353,6 +2383,71 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         }
 
         $this->fail( 'Expected ezcGraphUnknownColorDefinitionException.' );
+    }
+
+    public function testChartOptionsPropertyWidth()
+    {
+        $options = new ezcGraphRenderer2dOptions();
+
+        $this->assertSame(
+            false,
+            $options->width,
+            'Wrong default value for property width in class ezcGraphChartOptions'
+        );
+
+        $options->width = 100;
+        $this->assertSame(
+            100,
+            $options->width,
+            'Setting property value did not work for property width in class ezcGraphChartOptions'
+        );
+    }
+
+    public function testChartOptionsPropertyHeigh()
+    {
+        $options = new ezcGraphChartOptions();
+
+        $this->assertSame(
+            false,
+            $options->height,
+            'Wrong default value for property heigh in class ezcGraphChartOptions'
+        );
+
+        $options->height = 100;
+        $this->assertSame(
+            100,
+            $options->height,
+            'Setting property value did not work for property heigh in class ezcGraphChartOptions'
+        );
+    }
+
+    public function testChartOptionsPropertyFont()
+    {
+        $options = new ezcGraphChartOptions();
+
+        $this->assertSame(
+            'ezcGraphFontOptions',
+            get_class( $options->font ),
+            'Wrong default value for property font in class ezcGraphChartOptions'
+        );
+
+        $options->font = $file = dirname( __FILE__ ) . '/data/font2.ttf';
+        $this->assertSame(
+            $file,
+            $options->font->path,
+            'Setting property value did not work for property font in class ezcGraphChartOptions'
+        );
+
+        try
+        {
+            $options->font = false;
+        }
+        catch( ezcBaseFileNotFoundException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseFileNotFoundException.' );
     }
 }
 ?>

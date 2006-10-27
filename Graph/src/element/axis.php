@@ -33,6 +33,8 @@
  *           Distance between label an axis
  * @property int $maxArrowHeadSize
  *           Maximum Size used to draw arrow heads.
+ * @property ezcGraphAxisLabelRenderer $axisLabelRenderer
+ *           AxisLabelRenderer used to render labels and grid on this axis.
  *
  * @package Graph
  */
@@ -152,7 +154,7 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 }
                 else
                 {
-                    throw new ezcBasePropertyNotFoundException( $propertyName );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphAxisLabelRenderer' );
                 }
                 break;
             default:

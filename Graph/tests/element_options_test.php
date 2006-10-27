@@ -681,6 +681,35 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         );
     }
 
+    public function testChartElementAxisPropertyAxisLabelRenderer()
+    {
+        $options = new ezcGraphChartElementNumericAxis();
+
+        $this->assertSame(
+            'ezcGraphAxisExactLabelRenderer',
+            get_class( $options->axisLabelRenderer ),
+            'Wrong default value for property axisLabelRenderer in class ezcGraphChartElementNumericAxis'
+        );
+
+        $options->axisLabelRenderer = $axisLabelRenderer = new ezcGraphAxisBoxedLabelRenderer();
+        $this->assertSame(
+            $axisLabelRenderer,
+            $options->axisLabelRenderer,
+            'Setting property value did not work for property axisLabelRenderer in class ezcGraphChartElementNumericAxis'
+        );
+
+        try
+        {
+            $options->axisLabelRenderer = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
     public function testChartElementTextPropertyMaxHeight()
     {
         $options = new ezcGraphChartElementText();

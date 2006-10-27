@@ -102,6 +102,108 @@ class ezcGraphColorTest extends ezcTestCase
         $this->assertEquals( $color->alpha, 0, 'Wrong alpha color value' );
     }
 
+    public function testColorPropertyNotFoundException()
+    {
+        try
+        {
+            $color = ezcGraphColor::create( array( .02, .092, .165 ) );
+            $color->black = 23;
+        }
+        catch( ezcBasePropertyNotFoundException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
+    }
+
+    public function testLinearGradientPropertyNotFoundException()
+    {
+        $color = new ezcGraphLinearGradient(
+            new ezcGraphCoordinate( 0, 0 ),
+            new ezcGraphCoordinate( 10, 10 ),
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            ezcGraphColor::fromHex( '#000000' )
+        );
+
+        try
+        {
+            $color->black;
+        }
+        catch( ezcBasePropertyNotFoundException $e )
+        {
+            return true;
+        }
+    }
+
+    public function testLinearGradientPropertyStartPoint()
+    {
+        $color = new ezcGraphLinearGradient(
+            $coord = new ezcGraphCoordinate( 0, 0 ),
+            new ezcGraphCoordinate( 10, 10 ),
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            ezcGraphColor::fromHex( '#000000' )
+        );
+
+        $this->assertSame(
+            $coord,
+            $color->startPoint,
+            'Wrong default value for property startPoint in class ezcGraphRadialGradient'
+        );
+
+        $color->startPoint = $coord = new ezcGraphCoordinate();
+        $this->assertSame(
+            $coord,
+            $color->startPoint,
+            'Setting property value did not work for property startPoint in class ezcGraphRadialGradient'
+        );
+
+        try
+        {
+            $color->startPoint = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testLinearGradientPropertyEndPoint()
+    {
+        $color = new ezcGraphLinearGradient(
+            new ezcGraphCoordinate( 0, 0 ),
+            $coord = new ezcGraphCoordinate( 10, 10 ),
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            ezcGraphColor::fromHex( '#000000' )
+        );
+
+        $this->assertSame(
+            $coord,
+            $color->endPoint,
+            'Wrong default value for property endPoint in class ezcGraphRadialGradient'
+        );
+
+        $color->endPoint = $coord = new ezcGraphCoordinate();
+        $this->assertSame(
+            $coord,
+            $color->endPoint,
+            'Setting property value did not work for property endPoint in class ezcGraphRadialGradient'
+        );
+
+        try
+        {
+            $color->endPoint = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
     public function testLinearGradientColorFallback()
     {
         $color = new ezcGraphLinearGradient(
@@ -147,6 +249,25 @@ class ezcGraphColorTest extends ezcTestCase
         $this->assertEquals( $color->endColor, ezcGraphColor::fromHex( '#00000000' ) );
     }
 
+    public function testRadialGradientPropertyNotFoundException()
+    {
+        $color = new ezcGraphRadialGradient(
+            new ezcGraphCoordinate( 0, 0 ),
+            10, 20,
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            ezcGraphColor::fromHex( '#000000' )
+        );
+
+        try
+        {
+            $color->black;
+        }
+        catch( ezcBasePropertyNotFoundException $e )
+        {
+            return true;
+        }
+    }
+
     public function testRadialGradientProperties()
     {
         $color = new ezcGraphRadialGradient(
@@ -161,6 +282,63 @@ class ezcGraphColorTest extends ezcTestCase
         $this->assertEquals( $color->height, 20 );
         $this->assertEquals( $color->startColor, ezcGraphColor::fromHex( '#FFFFFF' ) );
         $this->assertEquals( $color->endColor, ezcGraphColor::fromHex( '#00000000' ) );
+    }
+
+    public function testRadialGradientPropertyCenter()
+    {
+        $color = new ezcGraphRadialGradient(
+            $coord = new ezcGraphCoordinate( 0, 0 ),
+            10, 20,
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            ezcGraphColor::fromHex( '#000000' )
+        );
+
+        $this->assertSame(
+            $coord,
+            $color->center,
+            'Wrong default value for property center in class ezcGraphRadialGradient'
+        );
+
+        $color->center = $coord = new ezcGraphCoordinate();
+        $this->assertSame(
+            $coord,
+            $color->center,
+            'Setting property value did not work for property center in class ezcGraphRadialGradient'
+        );
+
+        try
+        {
+            $color->center = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testRadialGradientPropertyOffset()
+    {
+        $color = new ezcGraphRadialGradient(
+            new ezcGraphCoordinate( 0, 0 ),
+            10, 20,
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            ezcGraphColor::fromHex( '#000000' )
+        );
+
+        $this->assertSame(
+            0,
+            $color->offset,
+            'Wrong default value for property offset in class ezcGraphRadialGradient'
+        );
+
+        $color->offset = .5;
+        $this->assertSame(
+            .5,
+            $color->offset,
+            'Setting property value did not work for property offset in class ezcGraphRadialGradient'
+        );
     }
 
     public function testLinearGradientSetProperties()

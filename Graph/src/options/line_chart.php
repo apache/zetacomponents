@@ -92,7 +92,7 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
                         $this->properties['highlightFontCloned'] = true;
                     }
 
-                    $this->properties['highlightFont']->font = $propertyValue;
+                    $this->properties['highlightFont']->path = $propertyValue;
                 }
                 else
                 {

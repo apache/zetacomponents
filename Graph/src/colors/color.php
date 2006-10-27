@@ -68,7 +68,7 @@ class ezcGraphColor extends ezcBaseOptions
                 $this->properties[$propertyName] = max( 0, min( 255, (int) $propertyValue ) );
                 break;
             default:
-                throw new ezcGraphNoSuchDataSetException( $propertyName );
+                throw new ezcBasePropertyNotFoundException( $propertyName );
                 break;
         }
     }
@@ -131,7 +131,7 @@ class ezcGraphColor extends ezcBaseOptions
         }
         
         // Set missing values to zero
-        for ( ++$nr; $nr < count( $keys ); ++$nr )
+        for ( $nr; $nr < count( $keys ); ++$nr )
         {
             $key = $keys[$nr];
             $color->$key = 0;
@@ -162,7 +162,7 @@ class ezcGraphColor extends ezcBaseOptions
         }
         
         // Set missing values to zero
-        for ( ++$nr; $nr < count( $keys ); ++$nr )
+        for ( $nr; $nr < count( $keys ); ++$nr )
         {
             $key = $keys[$nr];
             $color->$key = 0;
