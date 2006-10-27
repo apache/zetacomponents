@@ -37,6 +37,7 @@ require_once 'palette_test.php';
 require_once 'matrix_test.php';
 require_once 'boundings_test.php';
 require_once 'polynom_test.php';
+require_once 'struct_test.php';
 require_once 'image_map_test.php';
 
 /**
@@ -77,6 +78,7 @@ class ezcGraphSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcGraphMatrixTest::suite() );
         $this->addTest( ezcGraphBoundingsTest::suite() );
         $this->addTest( ezcGraphPolynomTest::suite() );
+        $this->addTest( ezcGraphStructTest::suite() );
         $this->addTest( ezcGraphImageMapTest::suite() );
     }
 

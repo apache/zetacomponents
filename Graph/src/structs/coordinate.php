@@ -70,8 +70,8 @@ class ezcGraphCoordinate
      */
     public function __set_state( array $properties )
     {
-        $this->x = (float) $properties['x'];
-        $this->y = (float) $properties['y'];
+        $this->x = $properties['x'];
+        $this->y = $properties['y'];
     }
 }
 
