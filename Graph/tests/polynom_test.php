@@ -32,6 +32,18 @@ class ezcGraphPolynomTest extends ezcTestCase
         );
     }
 
+    public function testInitPolynom()
+    {
+        $polynom = new ezcGraphPolynom();
+        $polynom->init( 4 );
+
+        $this->assertEquals(
+            array( 0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0 ),
+            $this->getAttribute( $polynom, 'values' ),
+            'Values array not properly initialized.'
+        );
+    }
+
     public function testCreatePolynom2()
     {
         $polynom = new ezcGraphPolynom( array( 2 => .5, 1 => 3, 0 => -4.5 ) );

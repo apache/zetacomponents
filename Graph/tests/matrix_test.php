@@ -146,6 +146,22 @@ class ezcGraphMatrixTest extends ezcTestCase
         );
     }
 
+    public function testDiffIncopatibleMatrices()
+    {
+        $matrix = new ezcGraphMatrix();
+
+        try
+        {
+            $matrix->diff( new ezcGraphMatrix( 2, 4 ) );
+        }
+        catch (  ezcGraphMatrixInvalidDimensionsException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphMatrixInvalidDimensionsException.' );
+    }
+
     public function testAddIncompatibleMatrices()
     {
         $matrix = new ezcGraphMatrix();
@@ -301,6 +317,21 @@ class ezcGraphMatrixTest extends ezcTestCase
         $this->assertEquals(
             '-0.12 * x^2 + 0.02 * x + 0.35',
             $polynom->__toString()
+        );
+    }
+
+    public function testMatrixToString()
+    {
+        $matrix = new ezcGraphMatrix();
+
+        $this->assertEquals(
+'3 x 3 matrix:
+| 1.00 0.00 0.00 |
+| 0.00 1.00 0.00 |
+| 0.00 0.00 1.00 |
+',
+            (string) $matrix,
+            'Incorrect output for matrix.'
         );
     }
 }

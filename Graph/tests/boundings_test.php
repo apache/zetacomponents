@@ -49,6 +49,22 @@ class ezcGraphBoundingsTest extends ezcTestCase
         $this->assertEquals( $boundings->x1, 10 );
         $this->assertEquals( $boundings->y1, 11 );
     }
+
+    public function testUnknownBoundingsProperty()
+    {
+        $boundings = new ezcGraphBoundings( 10, 11, 0, 1 );
+
+        try
+        {
+            $boundings->unknown;
+        }
+        catch( ezcBasePropertyNotFoundException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
+    }
 }
 
 ?>
