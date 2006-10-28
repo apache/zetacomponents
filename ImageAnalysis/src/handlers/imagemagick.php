@@ -120,7 +120,7 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
         'ras'   => 'image/ras',
         'sgi'   => 'image/sgi',
         'sun'   => 'image/ras',
-        'svg'   => 'image/svg',
+        'svg'   => 'image/svg+xml',
         'svgz'  => 'image/svg',
         'text'  => 'text/plain',
         'tga'   => 'image/tga',

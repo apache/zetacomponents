@@ -28,6 +28,7 @@ class ezcImageAnalysisAnalyzerTest extends ezcTestCase
         'animated_gif'    => 'gif_animated.gif',
         'noanimated_gif'  => 'gif_nonanimated.gif',
         'noanimated_png'  => 'png_nonanimated.png',
+        'svg'             => 'svg.svg',
     );
 
 	public static function suite()
@@ -663,6 +664,17 @@ class ezcImageAnalysisAnalyzerTest extends ezcTestCase
             false,
             $analyzer->data->isAnimated,
             '<isAnimated> not extracted correctly for JPEG.'
+        );
+    }
+
+    public function testSvgMimeType()
+    {
+        $file = $this->basePath . $this->testFiles['svg'];
+        $analyzer = $this->getAnalyzerImageMagickHandler( $file );
+        $this->assertEquals(
+            "image/svg+xml",
+            $analyzer->mime,
+            '<mime> not extracted correctly for SVG.'
         );
     }
 
