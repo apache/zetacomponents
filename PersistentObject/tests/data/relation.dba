@@ -156,7 +156,7 @@ return array (
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
            'length' => 0,
-           'notNull' => true,
+           'notNull' => false,
            'default' => NULL,
            'autoIncrement' => false,
            'unsigned' => false,
