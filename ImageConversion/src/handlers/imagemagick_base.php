@@ -191,6 +191,9 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
      * capable to process.
      *
      * @return void
+     *
+     * @apichange Faulty MIME type "image/svg" will be removed and replaced by
+     *            correct MIME type image/svg+xml.
      */
     private function determineTypes()
     {
@@ -214,6 +217,8 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
             'image/png' => 'PNG',
             'image/ras' => 'RAS',
             'image/sgi' => 'SGI',
+            'image/svg+xml' => 'SVG',
+            // Left over for BC reasons
             'image/svg' => 'SVG',
             'image/tga' => 'TGA',
             'image/tiff' => 'TIF',
