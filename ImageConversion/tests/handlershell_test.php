@@ -95,6 +95,25 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
         }
         $this->fail( "Required exception not thrown on not existing file." );
     }
+    
+    public function testRemoveTempFilesInDtorSuccess()
+    {
+        $filePath = $this->testFiles["jpeg"];
+
+        $ref = $this->handler->load( $filePath );
+
+        $refProp = $this->getReferences();
+        $imageRef = current( $refProp );
+        
+        // Manually destruct handler
+        unset( $this->handler );
+
+        $this->assertFalse(
+            file_exists( $imageRef["resource"] ),
+            "Image reference not closed correctly in dtor."
+        );
+
+    }
 
     public function testApplyFilterSingle()
     {
@@ -135,6 +154,7 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
             // ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
             12000
         );
+        // @ todo: Orphan! Remove!
         $this->removeTempDir();
     }
 }

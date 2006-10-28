@@ -97,6 +97,14 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
         parent::__construct( $settings );
     }
 
+    public function __destruct()
+    {
+        foreach ( $this->references as $id => $data )
+        {
+            $this->close( $id );
+        }
+    }
+
     /**
      * Check wether a specific MIME type is allowed as input for this handler.
      *

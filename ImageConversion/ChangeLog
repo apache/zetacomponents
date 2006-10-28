@@ -2,6 +2,8 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #009012: [ImageConversion] Problems with open_basedir.
+- Fixed issue #008892: [ImageConversion] Handler / Converter destruction should
+  remove all temp files
 
 
 1.1.2 - Monday 09 October 2006
