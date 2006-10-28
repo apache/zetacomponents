@@ -140,7 +140,8 @@ class ezcPersistentFindIterator implements Iterator
             return;
         }
 
-        if ( $row !== false )
+        // SQLite returns empty array on faulty statement!
+        if ( $row !== false && ( is_array( $row ) && sizeof( $row ) != 0 ) && $this->checkDef() )
         {
             if ( $this->object == null ) // no object yet
             {
@@ -153,6 +154,18 @@ class ezcPersistentFindIterator implements Iterator
             $this->object = null;
         }
         return $this->object;
+    }
+
+    /**
+     * Checks if the persistence definition contains data. 
+     * Checks if the persistence defintion contains at least a table and a
+     * class name.
+     *
+     * @return bool
+     */
+    private function checkDef()
+    {
+        return $this->def->class !== null && $this->def->table !== null;
     }
 
     /**
