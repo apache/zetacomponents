@@ -15,20 +15,20 @@ $graph->yAxis->majorGrid = '#888888';
 // Add the data and hilight norwegian data set
 $graph->data['Posts'] = new ezcGraphArrayDataSet( array(
     'May 2006' => 1164,
-    'June 2006' => 965,
-    'July 2006' => 1014,
-    'August 2006' => 1269,
-    'September 2006' => 1269,
-    'October 2006' => 771,
+    'Jun 2006' => 965,
+    'Jul 2006' => 1014,
+    'Aug 2006' => 1269,
+    'Sep 2006' => 1269,
+    'Oct 2006' => 771,
 ) );
 
 $graph->data['per day'] = new ezcGraphArrayDataSet( array(
     'May 2006' => 38,
-    'June 2006' => 32,
-    'July 2006' => 33,
-    'August 2006' => 41,
-    'September 2006' => 34,
-    'October 2006' => 25,
+    'Jun 2006' => 32,
+    'Jul 2006' => 33,
+    'Aug 2006' => 41,
+    'Sep 2006' => 34,
+    'Oct 2006' => 25,
 ) );
 
 // Set graph title

@@ -6,6 +6,9 @@ function __autoload( $className )
         ezcBase::autoload( $className );
 }
 
+// Require custom palette
+require dirname( __FILE__ ) . '/ez_red.php';
+
 // Create the graph
 $graph = new ezcGraphPieChart();
 $graph->palette = new ezcGraphPaletteEzRed();
@@ -35,7 +38,6 @@ $graph->renderer->options->dataBorder = false;
 $graph->renderer->options->pieChartHeight = 16;
 $graph->renderer->options->legendSymbolGleam = .5;
 $graph->renderer->options->pieChartOffset = 100;
-$graph->renderer->options->pieChartSymbolColor = '#88888888';
 
 $graph->driver = new ezcGraphSvgDriver();
 

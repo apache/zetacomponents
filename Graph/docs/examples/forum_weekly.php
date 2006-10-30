@@ -11,9 +11,6 @@ $graph = new ezcGraphPieChart();
 $graph->palette = new ezcGraphPaletteEzBlue();
 $graph->legend = false;
 
-// Use fdb font for ming driver
-$graph->options->font = dirname( __FILE__ ) . '/../../tests/data/fdb_font.fdb';
-
 // Add the data and hilight norwegian data set
 $graph->data['week'] = new ezcGraphArrayDataSet( array(
     'Claudia Kosny' => 45,
@@ -39,7 +36,6 @@ $graph->renderer->options->dataBorder = false;
 $graph->renderer->options->pieChartHeight = 16;
 $graph->renderer->options->legendSymbolGleam = .5;
 $graph->renderer->options->pieChartOffset = 100;
-$graph->renderer->options->pieChartSymbolColor = '#88888888';
 
 $graph->driver = new ezcGraphSvgDriver();
 
