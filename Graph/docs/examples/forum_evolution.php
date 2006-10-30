@@ -12,9 +12,6 @@ $graph->palette = new ezcGraphPaletteEzBlue();
 $graph->xAxis->majorGrid = '#888888';
 $graph->yAxis->majorGrid = '#888888';
 
-// Use fdb font for ming driver
-$graph->options->font = dirname( __FILE__ ) . '/../../tests/data/fdb_font.fdb';
-
 // Add the data and hilight norwegian data set
 $graph->data['Posts'] = new ezcGraphArrayDataSet( array(
     'May 2006' => 1164,
@@ -43,9 +40,9 @@ $graph->renderer = new ezcGraphRenderer3d();
 $graph->renderer->options->barChartGleam = .5;
 $graph->renderer->options->legendSymbolGleam = .5;
 
-$graph->driver = new ezcGraphMingDriver();
+$graph->driver = new ezcGraphSvgDriver();
 
 // Output the graph with std SVG driver
-$graph->render( 500, 200, 'forum_evolution.swf' );
+$graph->render( 500, 200, 'forum_evolution.svg' );
 
 ?>

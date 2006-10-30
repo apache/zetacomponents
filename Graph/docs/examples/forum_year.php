@@ -38,9 +38,9 @@ $graph->renderer->options->legendSymbolGleam = .5;
 $graph->renderer->options->pieChartOffset = 100;
 $graph->renderer->options->pieChartSymbolColor = '#88888888';
 
-$graph->driver = new ezcGraphMingDriver();
+$graph->driver = new ezcGraphSvgDriver();
 
 // Output the graph with std SVG driver
-$graph->render( 500, 200, 'forum_year.swf' );
+$graph->render( 500, 200, 'forum_year.svg' );
 
 ?>
