@@ -829,7 +829,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitArrayFetchOperatorTstNode( ezcTemplateArrayFetchOperatorTstNode $type )
     {
-        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateArrayFetchOperatorAstNode() );
+        return $this->createBinaryOperatorAstNode( $type, new ezcTemplateArrayFetchOperatorAstNode(), false );
     }
 
     public function visitArrayAppendOperatorTstNode( ezcTemplateArrayAppendOperatorTstNode $type )

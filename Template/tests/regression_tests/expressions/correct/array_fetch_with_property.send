@@ -1,0 +1,10 @@
+<?php
+class MyObj848483
+{
+	public $property = "Hello world";
+}
+
+$v = new ezcTemplateVariableCollection();
+$v->myArray = array('key' => new MyObj848483() );
+return $v;
+?>
