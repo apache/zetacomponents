@@ -222,7 +222,7 @@ class ezcTemplate
         $this->properties["stream"] = false;
 
         $this->properties["stream"] = $location;
-        if ( $this->properties["stream"][0] != "/" ) // Is it a relative path?
+        if ( strlen( $this->properties["stream"] ) > 0 && $this->properties["stream"][0] != "/" ) // Is it a relative path?
         {
             $this->properties["stream"] = $config->templatePath ."/". $this->properties["stream"];
         }

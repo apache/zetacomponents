@@ -106,6 +106,20 @@ class ezcTemplateTest extends ezcTestCase
         self::assertEquals( "Hello world", $res2 );
     }
 
+    public function testNoTemplateNameGiven()
+    {
+        $template = new ezcTemplate();
+
+        try
+        {
+            $template->process("");
+            $this->fail( "Expected an ezcTemplateFileNotFoundException");
+        } 
+        catch (ezcTemplateFileNotFoundException $e )
+        {
+        }
+    }
+
 
 
 

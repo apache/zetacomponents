@@ -43,6 +43,7 @@ require_once 'template_test.php';
 
 require_once 'parser_test.php';
 
+require_once 'cache_test.php';
 require_once 'regression_test.php';
 
 /**
@@ -56,6 +57,8 @@ class ezcTemplateSuite extends PHPUnit_Framework_TestSuite
         parent::__construct();
         $this->setName( "Template" );
         $this->addTest( ezcTemplateRegressionTest::suite() );
+
+        $this->addTest( ezcTemplateCacheTest::suite() );
 
         $this->addTest( ezcTemplateParserTest::suite() );
 
@@ -90,6 +93,7 @@ class ezcTemplateSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcTemplateDirectResourceLocatorTest::suite() );
 
         $this->addTest( ezcTemplateConfigurationTest::suite() );
+
 
         $this->addTest( ezcTemplateTest::suite() );
 

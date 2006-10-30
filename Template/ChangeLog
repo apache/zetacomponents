@@ -1,5 +1,6 @@
 
-- Fixed bug #008837: Delimiter doesn't work in nested loops.
+- Fixed bug #8837: Delimiter doesn't work in nested loops.
+- Fixed bug #9279: Accessing properties from a null object.
 
 1.1beta1 - Tuesday 24 October 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

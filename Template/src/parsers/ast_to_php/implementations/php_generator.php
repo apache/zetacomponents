@@ -974,6 +974,15 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $this->write( $code->code );
     }
 
+    public function visitThrowExceptionAstNode( ezcTemplateThrowExceptionAstNode $exception )
+    {
+        $this->write( "throw new ezcTemplateRuntimeException( ");
+        $exception->message->accept( $this );
+        $this->write( ")" );
+    }
+
+
+
 //    public function visitReferenceOperatorAstNode( ezcTemplateReferenceOperatorAstNode $code )
 //    {
 //    }

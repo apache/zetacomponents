@@ -1101,8 +1101,16 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $if = new ezcTemplateIfAstNode();
             $cb = new ezcTemplateConditionBodyAstNode();
             $cb->condition = new ezcTemplateLogicalNegationOperatorAstNode( $call );
-            $expression = $type->expression === null ? new ezcTemplateConstantAstNode( "NULL" ) : $type->expression->accept( $this );
-            $cb->body = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $type->variable->accept( $this ), $expression ) );
+
+            if( $type->expression === null )
+            {
+                $cb->body = new ezcTemplateGenericStatementAstNode( new ezcTemplateThrowExceptionAstNode( new ezcTemplateLiteralAstNode( sprintf( ezcTemplateSourceToTstErrorMessages::RT_IMPORT_VALUE_MISSING, $type->variable->name ) ) ) );
+            }
+            else
+            {
+                $expression = $type->expression->accept( $this );
+                $cb->body = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $type->variable->accept( $this ), $expression ) );
+            }
 
             $if->conditions[] = $cb;
             return $if;

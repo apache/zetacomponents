@@ -61,7 +61,7 @@ class ezcTemplateLiteralSourceToTstParser extends ezcTemplateSourceToTstParser
             // Try parsing the various type types until one is found
             $failedCursor = clone $cursor;
 
-            $types = array( 'Float', 'Integer', 'String', 'Bool', 'Array' );
+            $types = array( 'Float', 'Integer', 'String', 'Bool', 'Array', 'Null' );
             foreach ( $types as $type )
             {
                 if ( $this->parseOptionalType( $type ) )

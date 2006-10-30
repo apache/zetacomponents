@@ -92,6 +92,13 @@ class ezcTemplateSourceToTstErrorMessages
     const LNG_INVALID_NAMESPACE_ROOT_MARKER = "The namespace-root marker (#) was used in the template engine of eZ publish 3.x but it's no longer allowed.";
 
 
+
+    // Runtime errors
+    const RT_IMPORT_VALUE_MISSING               = "The use variable '%s' is not set."; 
+    
+    
+
+
 }
 
 

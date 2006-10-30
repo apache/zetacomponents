@@ -419,6 +419,13 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
     {
     }
 
+    public function visitThrowExceptionAstNode( ezcTemplateThrowExceptionAstNode $node )
+    {
+        array_unshift( $this->nodePath, $node );
+        $this->acceptAndUpdate( $node->message );
+        array_shift( $this->nodePath );
+    }
+
 
 
     public function visitNopAstNode( ezcTemplateNopAstNode $node )

@@ -104,7 +104,7 @@ class ezcTemplateVariableCollection implements Iterator
      */
     public function __isset( $name )
     {
-        return array_key_exists( $name, $this->variables ); 
+        return array_key_exists( $name, $this->variables ) && isset( $this->variables[$name] ); 
     }
 
     /**

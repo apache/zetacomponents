@@ -162,6 +162,7 @@ return array(
              "ezcTemplateCurlyBracesAstNode" => "Template/syntax_trees/ast/nodes/curly_braces.php",
              "ezcTemplatePhpCodeAstNode" => "Template/syntax_trees/ast/nodes/php_code.php",
              "ezcTemplateDynamicBlockAstNode" => "Template/syntax_trees/ast/nodes/dynamic_block.php",
+             "ezcTemplateThrowExceptionAstNode" => "Template/syntax_trees/ast/nodes/throw_exception.php",
 
              // Control
              "ezcTemplateIfAstNode" => "Template/syntax_trees/ast/nodes/control/if.php",
@@ -263,6 +264,7 @@ return array(
              "ezcTemplateFloatSourceToTstParser" => "Template/parsers/source_to_tst/implementations/float.php",
              "ezcTemplateStringSourceToTstParser" => "Template/parsers/source_to_tst/implementations/string.php",
              "ezcTemplateBoolSourceToTstParser" => "Template/parsers/source_to_tst/implementations/bool.php",
+             "ezcTemplateNullSourceToTstParser" => "Template/parsers/source_to_tst/implementations/null.php",
              "ezcTemplateArraySourceToTstParser" => "Template/parsers/source_to_tst/implementations/array.php",
              "ezcTemplateFunctionCallSourceToTstParser" => "Template/parsers/source_to_tst/implementations/function_call.php",
              "ezcTemplateArrayFetchSourceToTstParser" => "Template/parsers/source_to_tst/implementations/array_fetch.php",
@@ -321,6 +323,8 @@ return array(
              "ezcTemplateTstNodeException" => "Template/exceptions/element_exception.php",
              "ezcTemplateParserException" => "Template/exceptions/parser_exception.php",
              "ezcTemplateCustomBlockException" => "Template/exceptions/custom_block_exception.php",
+
+             "ezcTemplateRuntimeException" => "Template/exceptions/runtime_exception.php",
 
 
 

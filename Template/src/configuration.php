@@ -172,7 +172,7 @@ class ezcTemplateConfiguration
         $this->properties["templatePath"] = $templatePath;
         $this->properties["compilePath"] = $compilePath;
 
-        $this->properties["cachePath"] = "." . DIRECTORY_SEPARATOR . "cache";
+        $this->properties["cachePath"] = "." . DIRECTORY_SEPARATOR . "cached_templates";
         $this->properties["cacheSystem"] = new ezcTemplateCacheFilesystem( $this );
 
         $this->properties['context'] = ( $context == null ? new ezcTemplateXhtmlContext() : $context );

@@ -156,16 +156,18 @@ class ezcTemplateAstToAstCache extends ezcTemplateAstWalker
      */
     public function visitRootAstNode( ezcTemplateRootAstNode &$type )
     {
-        $this->cacheSystem->setCacheKeys( $type->cacheKeys );
-        $this->cacheSystem->setTTL( $type->ttl );
-        $this->cacheSystem->setStream( $this->template->stream );
-
         // Should the template be cached?
         if( !$type->cacheTemplate )
         {
             // No, ET phone home
             return;
         }
+
+        $this->cacheSystem->setCacheKeys( $type->cacheKeys );
+        $this->cacheSystem->setTTL( $type->ttl );
+        $this->cacheSystem->setStream( $this->template->stream );
+        $this->cacheSystem->initializeCache();
+
 
         //$cacheFileName = "/tmp/cache/" . str_replace( '/', "-", $this->template->stream ); 
 

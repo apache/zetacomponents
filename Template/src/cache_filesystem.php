@@ -8,29 +8,40 @@ class ezcTemplateCacheFilesystem
     private $ttl = null;
     private $stream = null;
 
+    private $cacheBaseName = null;
+
     public function __construct( ezcTemplateConfiguration $config )
     {
         $this->config = $config; 
     }
 
-
-    protected function createCacheVariable( $stream )
+    protected function getCacheBaseName()
     {
-        $rpTemplate = realpath( $this->config->templatePath );
-        $rpStream = realpath( $stream );
-
-        if( strncmp( $rpTemplate, $rpStream, strlen( $rpTemplate ) ) == 0 )
-        { 
-            $fileName = substr( $rpStream, strlen( $rpTemplate ) );
-        }
-        else
+        if( $this->cacheBaseName === null )
         {
-            $fileName = $rpStream;
+            $rpTemplate = realpath( $this->config->templatePath );
+            $rpStream = realpath( $this->stream );
+
+            if( strncmp( $rpTemplate, $rpStream, strlen( $rpTemplate ) ) == 0 )
+            { 
+                $fileName = substr( $rpStream, strlen( $rpTemplate ) );
+            }
+            else
+            {
+                $fileName = $rpStream;
+            }
+
+            $this->cacheBaseName = $this->config->cachePath . DIRECTORY_SEPARATOR . str_replace( '/', "-", $fileName ); 
         }
 
-        $cacheName = $this->config->cachePath . DIRECTORY_SEPARATOR . str_replace( '/', "-", $fileName ); 
+        return $this->cacheBaseName;
+    }
 
-        $code = '$_ezcTemplateCache = \'' . $cacheName ."'"; 
+
+
+    protected function createCacheVariable()
+    {
+        $code = '$_ezcTemplateCache = \'' . $this->getCacheBaseName() ."'"; 
 
         $st = ezcTemplateSymbolTable::getInstance();
 
@@ -79,7 +90,7 @@ class ezcTemplateCacheFilesystem
     {
         $statements = array();
 
-        $statements[] = $this->createCacheVariable( $this->stream);
+        $statements[] = $this->createCacheVariable();
 
 
         if( $this->ttl !== null )
@@ -109,12 +120,8 @@ class ezcTemplateCacheFilesystem
             $statements[] = $if;
         }
 
-
         return $statements;
     }
-
-
-
 
 
 
@@ -134,6 +141,42 @@ class ezcTemplateCacheFilesystem
     public function setStream( $value )
     {
         $this->stream = $value;
+    }
+
+    protected function deleteOldCache()
+    {
+        $bn = $this->getCacheBaseName();
+
+        $base = basename( $bn );
+        $dir = dirname( $bn); 
+
+        if( is_dir( $dir ) )
+        {
+            $dp = opendir( $dir );
+            while ( false !== ( $file = readdir( $dp ) ) )
+            {
+                if( strncmp( $base, $file, strlen($base ) ) == 0 ) 
+                {
+                    unlink( $dir . DIRECTORY_SEPARATOR . $file );
+                }
+            }
+
+            closedir( $dp );
+        }
+    }
+
+    public function initializeCache()
+    {
+        $dir = $this->config->cachePath;
+
+        if( !file_exists( $dir ) )
+        {
+            mkdir( $dir );
+        }
+        
+        // Create a cache directory, if needed.
+        $this->deleteOldCache();
+
     }
 }
 ?>
