@@ -3,6 +3,8 @@
 - Fixed bug #9279: Accessing properties from a null object.
 - Fixed bug #9286: Parse error in compiled template on accessing properties on
   an object in an array
+- Fixed bug #9293: Template calls exit() for custom template functions without
+  parameters.
 
 1.1beta1 - Tuesday 24 October 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
