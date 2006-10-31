@@ -1,0 +1,6 @@
+{ no_parameters() }
+{ no_parameters() . " append a string" }
+
+{ !no_parameters() + 2 }
+
+{ req_parameter(20) - 10 + 2 }

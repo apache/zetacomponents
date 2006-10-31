@@ -252,6 +252,7 @@ class ezcTemplateFunctions
             }
 
             $a = new ezcTemplateFunctionCallAstNode( $def->class . "::" . $def->method);
+            $a->checkAndSetTypeHint();
 
             foreach( $parameters as $p )
             {
@@ -261,7 +262,6 @@ class ezcTemplateFunctions
             return $a;
            // return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( $def->class . "::" . $def->method, array( $parameters ) ) );
             //return array( "ezcTemplateFunctionCallAstNode", array( $name, array( "_array", $parameters ) ) );
-            
         }
 
         throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_FUNCTION, $functionName ) );
