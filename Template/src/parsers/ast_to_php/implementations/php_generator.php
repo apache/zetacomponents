@@ -530,7 +530,16 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $parameters[0]->accept( $this );
 
         // Generate the operator symbol in between parameters.
-        $this->write( " " . $operator->getOperatorPHPSymbol() . " " );
+
+        if( $operator instanceof ezcTemplateReferenceOperatorAstNode )
+        {
+            // No spaces around the '->'.  PHP cannot handle: $myObj -> class 
+            $this->write( $operator->getOperatorPHPSymbol() );
+        }
+        else
+        {
+            $this->write( " " . $operator->getOperatorPHPSymbol() . " " );
+        }
 
         // Generate code for second operand
         $parameters[1]->accept( $this );

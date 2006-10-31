@@ -5,6 +5,8 @@
   an object in an array
 - Fixed bug #9293: Template calls exit() for custom template functions without
   parameters.
+- Fixed bug #9290: Reserved names may not be used as template variables in 
+  include send statements.
 
 1.1beta1 - Tuesday 24 October 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

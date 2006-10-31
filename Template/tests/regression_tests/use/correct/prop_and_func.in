@@ -1,3 +1,7 @@
 {use $mail}
 {$mail->from->firstName}
 {str_len($mail->from->lastName )}
+
+
+{$mail->class->from->firstName}
+{$mail-> class ->   class -> from->lastName . " is my last name"}
