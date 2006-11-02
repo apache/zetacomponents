@@ -102,6 +102,122 @@ class ezcGraphColorTest extends ezcTestCase
         $this->assertEquals( $color->alpha, 0, 'Wrong alpha color value' );
     }
 
+    public function testColorPropertyRed()
+    {
+        $options = ezcGraphColor::create( '#00000000' );
+
+        $this->assertSame(
+            0,
+            $options->red,
+            'Wrong default value for property red in class ezcGraphColor'
+        );
+
+        $options->red = 1;
+        $this->assertSame(
+            1,
+            $options->red,
+            'Setting property value did not work for property red in class ezcGraphColor'
+        );
+
+        try
+        {
+            $options->red = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testColorPropertyGreen()
+    {
+        $options = ezcGraphColor::create( '#00000000' );
+
+        $this->assertSame(
+            0,
+            $options->green,
+            'Wrong default value for property green in class ezcGraphColor'
+        );
+
+        $options->green = 1;
+        $this->assertSame(
+            1,
+            $options->green,
+            'Setting property value did not work for property green in class ezcGraphColor'
+        );
+
+        try
+        {
+            $options->green = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testColorPropertyBlue()
+    {
+        $options = ezcGraphColor::create( '#00000000' );
+
+        $this->assertSame(
+            0,
+            $options->blue,
+            'Wrong default value for property blue in class ezcGraphColor'
+        );
+
+        $options->blue = 1;
+        $this->assertSame(
+            1,
+            $options->blue,
+            'Setting property value did not work for property blue in class ezcGraphColor'
+        );
+
+        try
+        {
+            $options->blue = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testColorPropertyAlpha()
+    {
+        $options = ezcGraphColor::create( '#00000000' );
+
+        $this->assertSame(
+            0,
+            $options->alpha,
+            'Wrong default value for property alpha in class ezcGraphColor'
+        );
+
+        $options->alpha = 1;
+        $this->assertSame(
+            1,
+            $options->alpha,
+            'Setting property value did not work for property alpha in class ezcGraphColor'
+        );
+
+        try
+        {
+            $options->alpha = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
     public function testColorPropertyNotFoundException()
     {
         try
@@ -318,6 +434,74 @@ class ezcGraphColorTest extends ezcTestCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
+    public function testRadialGradientPropertyWidth()
+    {
+        $color = new ezcGraphRadialGradient(
+            new ezcGraphCoordinate( 0, 0 ),
+            10, 20,
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            ezcGraphColor::fromHex( '#000000' )
+        );
+
+        $this->assertSame(
+            10.,
+            $color->width,
+            'Wrong default value for property width in class ezcGraphRadialGradient'
+        );
+
+        $color->width = 20;
+        $this->assertSame(
+            20.,
+            $color->width,
+            'Setting property value did not work for property width in class ezcGraphRadialGradient'
+        );
+
+        try
+        {
+            $color->width = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testRadialGradientPropertyHeight()
+    {
+        $color = new ezcGraphRadialGradient(
+            new ezcGraphCoordinate( 0, 0 ),
+            10, 20,
+            ezcGraphColor::fromHex( '#FFFFFF' ),
+            ezcGraphColor::fromHex( '#000000' )
+        );
+
+        $this->assertSame(
+            20.,
+            $color->height,
+            'Wrong default value for property height in class ezcGraphRadialGradient'
+        );
+
+        $color->height = 30;
+        $this->assertSame(
+            30.,
+            $color->height,
+            'Setting property value did not work for property height in class ezcGraphRadialGradient'
+        );
+
+        try
+        {
+            $color->height = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
     public function testRadialGradientPropertyOffset()
     {
         $color = new ezcGraphRadialGradient(
@@ -339,6 +523,17 @@ class ezcGraphColorTest extends ezcTestCase
             $color->offset,
             'Setting property value did not work for property offset in class ezcGraphRadialGradient'
         );
+
+        try
+        {
+            $color->offset = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testLinearGradientSetProperties()

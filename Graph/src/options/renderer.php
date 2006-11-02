@@ -103,63 +103,78 @@ class ezcGraphRendererOptions extends ezcGraphChartOptions
     {
         switch ( $propertyName )
         {
+            case 'dataBorder':
+            case 'pieChartGleam':
+            case 'legendSymbolGleam':
+                if ( $propertyValue !== false &&
+                     !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) || 
+                     ( $propertyValue > 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'false OR 0 <= float <= 1' );
+                }
+
+                $this->properties[$propertyName] = ( 
+                    $propertyValue === false
+                    ? false
+                    : (float) $propertyValue );
+                break;
+
             case 'maxLabelHeight':
-                $this->properties['maxLabelHeight'] = min( 1., max( .0, (float) $propertyValue ) );
-                break;
-            case 'symbolSize':
-                $this->properties['symbolSize'] = (int) $propertyValue;
-                break;
             case 'moveOut':
-                $this->properties['moveOut'] = min( 1., max( .0, (float) $propertyValue ) );
+            case 'barMargin':
+            case 'barPadding':
+            case 'legendSymbolGleamSize':
+            case 'pieVerticalSize':
+            case 'pieHorizontalSize':
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) ||
+                     ( $propertyValue > 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= float <= 1' );
+                }
+
+                $this->properties[$propertyName] = (float) $propertyValue;
                 break;
+
+            case 'symbolSize':
+            case 'titlePosition':
+            case 'titleAlignement':
+            case 'pieChartGleamBorder':
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+
+                $this->properties[$propertyName] = (int) $propertyValue;
+                break;
+
             case 'showSymbol':
+                if ( !is_bool( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
+                }
                 $this->properties['showSymbol'] = (bool) $propertyValue;
                 break;
-            case 'titlePosition':
-                $this->properties['titlePosition'] = (int) $propertyValue;
-                break;
-            case 'titleAlignement':
-                $this->properties['titleAlignement'] = (int) $propertyValue;
-                break;
-            case 'dataBorder':
-                $this->properties['dataBorder'] = min( 1., max( .0, (float) $propertyValue ) );
-                break;
-            case 'barMargin':
-                $this->properties['barMargin'] = min( 1., max( .0, (float) $propertyValue ) );
-                break;
-            case 'barPadding':
-                $this->properties['barPadding'] = min( 1., max( .0, (float) $propertyValue ) );
-                break;
+
             case 'pieChartOffset':
-                $this->properties['pieChartOffset'] = $propertyValue % 360;
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) ||
+                     ( $propertyValue > 360 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= float <= 360' );
+                }
+
+                $this->properties[$propertyName] = (float) $propertyValue;
                 break;
+
             case 'pieChartSymbolColor':
-                $this->properties['pieChartSymbolColor'] = ezcGraphColor::create( $propertyValue );
-                break;
-            case 'pieChartGleam':
-                $this->properties['pieChartGleam'] = min( 1., max( .0, (float) $propertyValue ) );
-                break;
             case 'pieChartGleamColor':
-                $this->properties['pieChartGleamColor'] = ezcGraphColor::create( $propertyValue );
-                break;
-            case 'pieChartGleamBorder':
-                $this->properties['pieChartGleamBorder'] = max( 0, (int) $propertyValue );
-                break;
-            case 'legendSymbolGleam':
-                $this->properties['legendSymbolGleam'] = min( 1., max( .0, (float) $propertyValue ) );
-                break;
-            case 'legendSymbolGleamSize':
-                $this->properties['legendSymbolGleamSize'] = min( 1., max( .0, (float) $propertyValue ) );
-                break;
             case 'legendSymbolGleamColor':
-                $this->properties['legendSymbolGleamColor'] = ezcGraphColor::create( $propertyValue );
+                $this->properties[$propertyName] = ezcGraphColor::create( $propertyValue );
                 break;
-            case 'pieVerticalSize':
-                $this->properties['pieVerticalSize'] = min( 1., max( .0, (float) $propertyValue ) );
-                break;
-            case 'pieHorizontalSize':
-                $this->properties['pieHorizontalSize'] = min( 1., max( .0, (float) $propertyValue ) );
-                break;
+
             default:
                 return parent::__set( $propertyName, $propertyValue );
         }

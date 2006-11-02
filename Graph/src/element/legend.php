@@ -80,22 +80,61 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
         switch ( $propertyName )
         {
             case 'padding':
-                $this->properties['padding'] = max( 0, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+
+                $this->properties['padding'] = (int) $propertyValue;
                 break;
             case 'symbolSize':
-                $this->properties['symbolSize'] = max( 1, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 1' );
+                }
+
+                $this->properties['symbolSize'] = (int) $propertyValue;
                 break;
             case 'landscapeSize':
-                $this->properties['landscapeSize'] = max( 0, min( 1, (float) $propertyValue ) );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) ||
+                     ( $propertyValue > 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= int <= 1' );
+                }
+
+                $this->properties['landscapeSize'] = (float) $propertyValue;
                 break;
             case 'portraitSize':
-                $this->properties['portraitSize'] = max( 0, min( 1, (float) $propertyValue ) );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) ||
+                     ( $propertyValue > 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= int <= 1' );
+                }
+
+                $this->properties['portraitSize'] = (float) $propertyValue;
                 break;
             case 'minimumSymbolSize':
-                $this->properties['minimumSymbolSize'] = max( 0, min( 1, (float) $propertyValue ) );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) ||
+                     ( $propertyValue > 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= int <= 1' );
+                }
+
+                $this->properties['minimumSymbolSize'] = (float) $propertyValue;
                 break;
             case 'spacing':
-                $this->properties['spacing'] = max( 0, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+
+                $this->properties['spacing'] = (int) $propertyValue;
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );

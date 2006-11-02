@@ -96,11 +96,23 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
     {
         switch ( $propertyName ) {
             case 'polynomOrder':
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int > 0' );
+                }
+
                 $this->properties['polynomOrder'] = (int) $propertyValue;
                 $this->polynom = false;
                 break;
             case 'resolution':
-                $this->properties['resolution'] = max( 1, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int > 1' );
+                }
+
+                $this->properties['resolution'] = (int) $propertyValue;
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );

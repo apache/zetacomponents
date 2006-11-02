@@ -294,7 +294,7 @@ class ezcGraphDataSetAverageTest extends ezcTestCase
         $this->fail( 'Expected ezcGraphDatasetAverageInvalidKeysException.' );
     }
 
-    public function testPAverageDataSetIsset()
+    public function testAverageDataSetIsset()
     {
         $arrayDataSet = new ezcGraphArrayDataSet( array( -1 => 2, 1 => 2, 3 => 10 ) );
 
@@ -307,6 +307,66 @@ class ezcGraphDataSetAverageTest extends ezcTestCase
             true,
             'Polygon not properly initialized.'
         );
+    }
+
+    public function testDataSetAveragePolynomPropertyPolynomOrder()
+    {
+        $arrayDataSet = new ezcGraphArrayDataSet( array( -1 => 2, 1 => 2, 3 => 10 ) );
+        $dataset = new ezcGraphDataSetAveragePolynom( $arrayDataSet );
+
+        $this->assertSame(
+            3,
+            $dataset->polynomOrder,
+            'Wrong default value for property polynomOrder in class ezcGraphDataSetAveragePolynom'
+        );
+
+        $dataset->polynomOrder = 5;
+        $this->assertSame(
+            5,
+            $dataset->polynomOrder,
+            'Setting property value did not work for property polynomOrder in class ezcGraphDataSetAveragePolynom'
+        );
+
+        try
+        {
+            $dataset->polynomOrder = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testDataSetAveragePolynomPropertyResolution()
+    {
+        $arrayDataSet = new ezcGraphArrayDataSet( array( -1 => 2, 1 => 2, 3 => 10 ) );
+        $dataset = new ezcGraphDataSetAveragePolynom( $arrayDataSet );
+
+        $this->assertSame(
+            100,
+            $dataset->resolution,
+            'Wrong default value for property resolution in class ezcGraphDataSetAveragePolynom'
+        );
+
+        $dataset->resolution = 5;
+        $this->assertSame(
+            5,
+            $dataset->resolution,
+            'Setting property value did not work for property resolution in class ezcGraphDataSetAveragePolynom'
+        );
+
+        try
+        {
+            $dataset->resolution = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 }
 ?>

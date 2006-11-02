@@ -1256,6 +1256,17 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             $options->seperateLines,
             'Setting property value did not work for property seperateLines in class ezcGraphRenderer3dOptions'
         );
+
+        try
+        {
+            $options->seperateLines = 42;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderer3dOptionsPropertyFillAxis()
@@ -1274,6 +1285,17 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             $options->fillAxis,
             'Setting property value did not work for property fillAxis in class ezcGraphRenderer3dOptions'
         );
+
+        try
+        {
+            $options->fillAxis = 42;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderer3dOptionsPropertyFillGrid()
@@ -1292,6 +1314,17 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             $options->fillGrid,
             'Setting property value did not work for property fillGrid in class ezcGraphRenderer3dOptions'
         );
+
+        try
+        {
+            $options->fillGrid = 42;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderer3dOptionsPropertyDepth()
@@ -1310,6 +1343,17 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             $options->depth,
             'Setting property value did not work for property depth in class ezcGraphRenderer3dOptions'
         );
+
+        try
+        {
+            $options->depth = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderer3dOptionsPropertyPieChartHeight()
@@ -1317,7 +1361,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         $options = new ezcGraphRenderer3dOptions();
 
         $this->assertSame(
-            10,
+            10.,
             $options->pieChartHeight,
             'Wrong default value for property pieChartHeight in class ezcGraphRenderer3dOptions'
         );
@@ -1328,6 +1372,17 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             $options->pieChartHeight,
             'Setting property value did not work for property pieChartHeight in class ezcGraphRenderer3dOptions'
         );
+
+        try
+        {
+            $options->pieChartHeight = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderer3dOptionsPropertyPieChartRotation()
@@ -1346,6 +1401,17 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             $options->pieChartRotation,
             'Setting property value did not work for property pieChartRotation in class ezcGraphRenderer3dOptions'
         );
+
+        try
+        {
+            $options->pieChartRotation = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderer3dOptionsPropertyPieChartShadowSize()
@@ -1360,10 +1426,21 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
 
         $options->pieChartShadowSize = 5;
         $this->assertSame(
-            5,
+            5.,
             $options->pieChartShadowSize,
             'Setting property value did not work for property pieChartShadowSize in class ezcGraphRenderer3dOptions'
         );
+
+        try
+        {
+            $options->pieChartShadowSize = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderer3dOptionsPropertyPieChartShadowTransparency()
@@ -1382,6 +1459,17 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             $options->pieChartShadowTransparency,
             'Setting property value did not work for property pieChartShadowTransparency in class ezcGraphRenderer3dOptions'
         );
+
+        try
+        {
+            $options->pieChartShadowTransparency = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderer3dOptionsPropertyPieChartShadowColor()
@@ -1429,6 +1517,17 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             $options->barDarkenSide,
             'Setting property value did not work for property barDarkenSide in class ezcGraphRenderer3dOptions'
         );
+
+        try
+        {
+            $options->barDarkenSide = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderer3dOptionsPropertyBarDarkenTop()
@@ -1447,6 +1546,17 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             $options->barDarkenTop,
             'Setting property value did not work for property barDarkenTop in class ezcGraphRenderer3dOptions'
         );
+
+        try
+        {
+            $options->barDarkenTop = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderer3dOptionsPropertyBarChartGleam()
@@ -1465,6 +1575,17 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
             $options->barChartGleam,
             'Setting property value did not work for property barChartGleam in class ezcGraphRenderer3dOptions'
         );
+
+        try
+        {
+            $options->barChartGleam = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 }
 ?>

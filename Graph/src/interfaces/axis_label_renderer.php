@@ -88,25 +88,75 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
                 }
                 break;
             case 'majorStepCount':
+                if ( ( $propertyValue !== false ) &&
+                     !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+
                 $this->properties['majorStepCount'] = (int) $propertyValue;
                 break;
             case 'minorStepCount':
+                if ( ( $propertyValue !== false ) &&
+                     !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+
                 $this->properties['minorStepCount'] = (int) $propertyValue;
                 break;
             case 'majorStepSize':
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+
                 $this->properties['majorStepSize'] = (int) $propertyValue;
                 break;
             case 'minorStepSize':
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+
                 $this->properties['minorStepSize'] = (int) $propertyValue;
                 break;
             case 'innerStep':
+                if ( !is_bool( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
+                }
+
                 $this->properties['innerStep'] = (bool) $propertyValue;
                 break;
             case 'outerStep':
+                if ( !is_bool( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
+                }
+
                 $this->properties['outerStep'] = (bool) $propertyValue;
                 break;
             case 'outerGrid':
+                if ( !is_bool( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
+                }
+
                 $this->properties['outerGrid'] = (bool) $propertyValue;
+                break;
+            case 'labelPadding':
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+
+                $this->properties['labelPadding'] = (int) $propertyValue;
                 break;
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );

@@ -77,13 +77,32 @@ class ezcGraphRadialGradient extends ezcGraphColor
                 }
                 break;
             case 'width':
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue <= 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'float > 0' );
+                }
+
                 $this->properties['width'] = (float) $propertyValue;
                 break;
             case 'height':
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue <= 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'float > 0' );
+                }
+
                 $this->properties['height'] = (float) $propertyValue;
                 break;
             case 'offset':
-                $this->properties['offset'] = min( 1., max( 0., (float) $propertyValue ) );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) || 
+                     ( $propertyValue > 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= float <= 1' );
+                }
+
+                $this->properties['offset'] = $propertyValue;
                 break;
             case 'startColor':
                 $this->properties['startColor'] = ezcGraphColor::create( $propertyValue );

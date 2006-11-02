@@ -23,8 +23,8 @@ class ezcGraphChartOptions extends ezcBaseOptions
 {
     public function __construct( array $options = array() )
     {
-        $this->properties['width'] = false;
-        $this->properties['height'] = false;
+        $this->properties['width'] = null;
+        $this->properties['height'] = null;
         $this->properties['font'] = new ezcGraphFontOptions();
 
         parent::__construct( $options );
@@ -44,10 +44,22 @@ class ezcGraphChartOptions extends ezcBaseOptions
         switch ( $propertyName )
         {
             case 'width':
-                $this->properties['width'] = max( 1, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 1 ) ) 
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 1' );
+                }
+
+                $this->properties['width'] = (int) $propertyValue;
                 break;
             case 'height':
-                $this->properties['height'] = max( 1, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 1 ) ) 
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 1' );
+                }
+
+                $this->properties['height'] = (int) $propertyValue;
                 break;
             case 'font':
                 $this->properties['font']->path = $propertyValue;

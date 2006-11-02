@@ -1945,6 +1945,17 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $options->jpegQuality,
             'Setting property value did not work for property jpegQuality in class ezcGraphGdDriverOptions'
         );
+
+        try
+        {
+            $options->jpegQuality = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testGdDriverOptionsPropertyDetail()
@@ -1963,6 +1974,17 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $options->detail,
             'Setting property value did not work for property detail in class ezcGraphGdDriverOptions'
         );
+
+        try
+        {
+            $options->detail = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testGdDriverOptionsPropertySupersampling()
@@ -1981,6 +2003,17 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $options->supersampling,
             'Setting property value did not work for property supersampling in class ezcGraphGdDriverOptions'
         );
+
+        try
+        {
+            $options->supersampling = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testGdDriverOptionsPropertyBackground()
@@ -2057,6 +2090,17 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $options->forceNativeTTF,
             'Setting property value did not work for property forceNativeTTF in class ezcGraphGdDriverOptions'
         );
+
+        try
+        {
+            $options->forceNativeTTF = 42;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testGdDriverOptionsPropertyImageMapResolution()
@@ -2075,6 +2119,17 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
             $options->imageMapResolution,
             'Setting property value did not work for property imageMapResolution in class ezcGraphGdDriverOptions'
         );
+
+        try
+        {
+            $options->imageMapResolution = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 }
 ?>

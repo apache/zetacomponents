@@ -274,6 +274,17 @@ class ezcGraphFontTest extends ezcTestCase
             $options->minFontSize,
             'Setting property value did not work for property minFontSize in class ezcGraphFontOptions'
         );
+
+        try
+        {
+            $options->minFontSize = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testFontOptionsPropertyMaxFontSize()
@@ -292,6 +303,17 @@ class ezcGraphFontTest extends ezcTestCase
             $options->maxFontSize,
             'Setting property value did not work for property maxFontSize in class ezcGraphFontOptions'
         );
+
+        try
+        {
+            $options->maxFontSize = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testFontOptionsPropertyMinimalUsedFont()
@@ -422,6 +444,17 @@ class ezcGraphFontTest extends ezcTestCase
             $options->borderWidth,
             'Setting property value did not work for property borderWidth in class ezcGraphFontOptions'
         );
+
+        try
+        {
+            $options->borderWidth = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testFontOptionsPropertyPadding()
@@ -440,6 +473,17 @@ class ezcGraphFontTest extends ezcTestCase
             $options->padding,
             'Setting property value did not work for property padding in class ezcGraphFontOptions'
         );
+
+        try
+        {
+            $options->padding = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testFontOptionsPropertyMinimizeBorder()
@@ -458,6 +502,17 @@ class ezcGraphFontTest extends ezcTestCase
             $options->minimizeBorder,
             'Setting property value did not work for property minimizeBorder in class ezcGraphFontOptions'
         );
+
+        try
+        {
+            $options->minimizeBorder = 42;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testFontOptionsPropertyTextShadow()
@@ -476,6 +531,17 @@ class ezcGraphFontTest extends ezcTestCase
             $options->textShadow,
             'Setting property value did not work for property textShadow in class ezcGraphFontOptions'
         );
+
+        try
+        {
+            $options->textShadow = 42;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testFontOptionsPropertyTextShadowOffset()
@@ -494,6 +560,17 @@ class ezcGraphFontTest extends ezcTestCase
             $options->textShadowOffset,
             'Setting property value did not work for property textShadowOffset in class ezcGraphFontOptions'
         );
+
+        try
+        {
+            $options->textShadowOffset = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testFontOptionsPropertyTextShadowColor()

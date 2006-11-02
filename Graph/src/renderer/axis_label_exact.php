@@ -52,6 +52,11 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
         switch ( $propertyName )
         {
             case 'showLastValue':
+                if ( !is_bool( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
+                }
+
                 $this->properties['showLastValue'] = (bool) $propertyValue;
                 break;
             default:

@@ -91,10 +91,22 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
         switch ( $propertyName )
         {
             case 'assumedNumericCharacterWidth':
-                $this->properties['assumedNumericCharacterWidth'] = min( 1, max( 0, (float) $propertyValue ) );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'float > 0' );
+                }
+
+                $this->properties['assumedNumericCharacterWidth'] = (float) $propertyValue;
                 break;
             case 'assumedTextCharacterWidth':
-                $this->properties['assumedTextCharacterWidth'] = min( 1, max( 0, (float) $propertyValue ) );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'float > 0' );
+                }
+
+                $this->properties['assumedTextCharacterWidth'] = (float) $propertyValue;
                 break;
             case 'strokeLineJoin':
                 $values = array(

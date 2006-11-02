@@ -110,7 +110,14 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 $this->properties['nullPosition'] = (float) $propertyValue;
                 break;
             case 'axisSpace':
-                $this->properties['axisSpace'] = min( 1, max( 0, (float) $propertyValue ) );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) ||
+                     ( $propertyValue > 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= float <= 1' );
+                }
+
+                $this->properties['axisSpace'] = (float) $propertyValue;
                 break;
             case 'majorGrid':
                 $this->properties['majorGrid'] = ezcGraphColor::create( $propertyValue );
@@ -119,17 +126,21 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 $this->properties['minorGrid'] = ezcGraphColor::create( $propertyValue );
                 break;
             case 'majorStep':
-                if ( $propertyValue <= 0 )
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue <= 0 ) )
                 {
-                    throw new ezcBaseValueException( 'majorStep', $propertyValue, 'float > 0' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'float > 0' );
                 }
+                
                 $this->properties['majorStep'] = (float) $propertyValue;
                 break;
             case 'minorStep':
-                if ( $propertyValue <= 0 )
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue <= 0 ) )
                 {
-                    throw new ezcBaseValueException( 'minorStep', $propertyValue, 'float > 0' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'float > 0' );
                 }
+                
                 $this->properties['minorStep'] = (float) $propertyValue;
                 break;
             case 'formatString':
@@ -139,13 +150,31 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 $this->properties['label'] = (string) $propertyValue;
                 break;
             case 'labelSize':
-                $this->properties['labelSize'] = max( 6, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue <= 6 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 6' );
+                }
+                
+                $this->properties['labelSize'] = (int) $propertyValue;
                 break;
             case 'labelMargin':
-                $this->properties['labelMargin'] = max( 0, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue <= 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+                
+                $this->properties['labelMargin'] = (int) $propertyValue;
                 break;
             case 'maxArrowHeadSize':
-                $this->properties['maxArrowHeadSize'] = max( 0, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue <= 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+                
+                $this->properties['maxArrowHeadSize'] = (int) $propertyValue;
                 break;
             case 'axisLabelRenderer':
                 if ( $propertyValue instanceof ezcGraphAxisLabelRenderer )

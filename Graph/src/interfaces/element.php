@@ -112,13 +112,31 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
                 $this->properties['border'] = ezcGraphColor::create( $propertyValue );
                 break;
             case 'padding':
-                $this->properties['padding'] = max( 0, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+
+                $this->properties['padding'] = (int) $propertyValue;
                 break;
             case 'margin':
-                $this->properties['margin'] = max( 0, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+
+                $this->properties['margin'] = (int) $propertyValue;
                 break;
             case 'borderWidth':
-                $this->properties['borderWidth'] = max( 0, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+
+                $this->properties['borderWidth'] = (int) $propertyValue;
                 break;
             case 'font':
                 if ( $propertyValue instanceof ezcGraphFontOptions )
@@ -158,13 +176,33 @@ abstract class ezcGraphChartElement extends ezcBaseOptions
                 }
                 break;
             case 'maxTitleHeight':
-                $this->properties['maxTitleHeight'] = max( 0, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+
+                $this->properties['maxTitleHeight'] = (int) $propertyValue;
                 break;
             case 'portraitTitleSize':
-                $this->properties['portraitTitleSize'] = max( 0., min( 1., (float) $propertyValue ) );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) ||
+                     ( $propertyValue > 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= float <= 1' );
+                }
+
+                $this->properties['portraitTitleSize'] = (float) $propertyValue;
                 break;
             case 'landscapeTitleSize':
-                $this->properties['landscapeTitleSize'] = max( 0., min( 1., (float) $propertyValue ) );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) ||
+                     ( $propertyValue > 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= float <= 1' );
+                }
+
+                $this->properties['landscapeTitleSize'] = (float) $propertyValue;
                 break;
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );

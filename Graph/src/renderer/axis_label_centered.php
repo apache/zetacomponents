@@ -51,6 +51,11 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
         switch ( $propertyName )
         {
             case 'showZeroValue':
+                if ( !is_bool( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
+                }
+
                 $this->properties['showZeroValue'] = (bool) $propertyValue;
                 break;
             default:

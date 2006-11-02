@@ -1212,6 +1212,17 @@ class ezcGraphSvgDriverTest extends ezcTestCase
             $options->assumedNumericCharacterWidth,
             'Setting property value did not work for property assumedNumericCharacterWidth in class ezcGraphSvgDriverOptions'
         );
+
+        try
+        {
+            $options->assumedNumericCharacterWidth = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testSvgDriverOptionsPropertyAssumedTextCharacterWidth()
@@ -1230,6 +1241,17 @@ class ezcGraphSvgDriverTest extends ezcTestCase
             $options->assumedTextCharacterWidth,
             'Setting property value did not work for property assumedTextCharacterWidth in class ezcGraphSvgDriverOptions'
         );
+
+        try
+        {
+            $options->assumedTextCharacterWidth = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testSvgDriverOptionsPropertyStrokeLineCap()

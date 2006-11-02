@@ -97,11 +97,16 @@ class ezcGraphFontOptions extends ezcBaseOptions
         switch ( $propertyName )
         {
             case 'minFontSize':
-                $this->properties['minFontSize'] = max( 1, (float) $propertyValue );
-                break;
             case 'maxFontSize':
-                $this->properties['maxFontSize'] = max( 1, (float) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'float > 1' );
+                }
+
+                $this->properties[$propertyName] = (float) $propertyValue;
                 break;
+
             case 'minimalUsedFont':
                 $propertyValue = (float) $propertyValue;
                 if ( $propertyValue < $this->minimalUsedFont )
@@ -109,34 +114,33 @@ class ezcGraphFontOptions extends ezcBaseOptions
                     $this->properties['minimalUsedFont'] = $propertyValue;
                 }
                 break;
+
             case 'color':
-                $this->properties['color'] = ezcGraphColor::create( $propertyValue );
+            case 'background':
+            case 'border':
+            case 'textShadowColor':
+                $this->properties[$propertyName] = ezcGraphColor::create( $propertyValue );
                 break;
 
-            case 'background':
-                $this->properties['background'] = ezcGraphColor::create( $propertyValue );
-                break;
-            case 'border':
-                $this->properties['border'] = ezcGraphColor::create( $propertyValue );
-                break;
             case 'borderWidth':
-                $this->properties['borderWidth'] = (int) $propertyValue;
-                break;
             case 'padding':
-                $this->properties['padding'] = (int) $propertyValue;
-                break;
-            case 'minimizeBorder':
-                $this->properties['minimizeBorder'] = (bool) $propertyValue;
-                break;
-            
-            case 'textShadow':
-                $this->properties['textShadow'] = (bool) $propertyValue;
-                break;
             case 'textShadowOffset':
-                $this->properties['textShadowOffset'] = max( 0, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+
+                $this->properties[$propertyName] = (int) $propertyValue;
                 break;
-            case 'textShadowColor':
-                $this->properties['textShadowColor'] = ezcGraphColor::create( $propertyValue );
+
+            case 'minimizeBorder':
+            case 'textShadow':
+                if ( !is_bool( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
+                }
+                $this->properties[$propertyName] = (bool) $propertyValue;
                 break;
 
             case 'name':

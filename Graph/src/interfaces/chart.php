@@ -134,6 +134,11 @@ abstract class ezcGraphChart
                 $this->renderElement['title'] = true;
                 break;
             case 'legend':
+                if ( !is_bool( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'boolean' );
+                }
+
                 $this->renderElement['legend'] = (bool) $propertyValue;
                 break;
             case 'renderer':

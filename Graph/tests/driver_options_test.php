@@ -28,7 +28,7 @@ class ezcGraphDriverOptionsTest extends ezcImageTestCase
         $options = new ezcGraphSvgDriverOptions();
 
         $this->assertSame(
-            false,
+            null,
             $options->width,
             'Wrong default value for property width in class ezcGraphSvgDriverOptions'
         );
@@ -39,6 +39,17 @@ class ezcGraphDriverOptionsTest extends ezcImageTestCase
             $options->width,
             'Setting property value did not work for property width in class ezcGraphSvgDriverOptions'
         );
+
+        try
+        {
+            $options->width = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testDriverOptionsPropertyHeight()
@@ -46,7 +57,7 @@ class ezcGraphDriverOptionsTest extends ezcImageTestCase
         $options = new ezcGraphSvgDriverOptions();
 
         $this->assertSame(
-            false,
+            null,
             $options->height,
             'Wrong default value for property height in class ezcGraphSvgDriverOptions'
         );
@@ -57,6 +68,17 @@ class ezcGraphDriverOptionsTest extends ezcImageTestCase
             $options->height,
             'Setting property value did not work for property height in class ezcGraphSvgDriverOptions'
         );
+
+        try
+        {
+            $options->height = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testDriverOptionsPropertyShadeCircularArc()
@@ -75,6 +97,17 @@ class ezcGraphDriverOptionsTest extends ezcImageTestCase
             $options->shadeCircularArc,
             'Setting property value did not work for property shadeCircularArc in class ezcGraphSvgDriverOptions'
         );
+
+        try
+        {
+            $options->shadeCircularArc = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testDriverOptionsPropertyLineSpacing()
@@ -93,6 +126,17 @@ class ezcGraphDriverOptionsTest extends ezcImageTestCase
             $options->lineSpacing,
             'Setting property value did not work for property lineSpacing in class ezcGraphSvgDriverOptions'
         );
+
+        try
+        {
+            $options->lineSpacing = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testDriverOptionsPropertyFont()

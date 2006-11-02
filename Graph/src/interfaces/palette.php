@@ -9,7 +9,7 @@
  */
 /**
  * Abstract class to contain pallet definitions
- *
+ * 
  * @package Graph
  */
 abstract class ezcGraphPalette
@@ -253,7 +253,13 @@ abstract class ezcGraphPalette
             case 'elementBorderWidth':
             case 'padding':
             case 'margin':
-                $this->$propertyName = max( 0, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 0' );
+                }
+
+                $this->$propertyName = (int) $propertyValue;
                 break;
         
             default:

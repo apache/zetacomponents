@@ -480,6 +480,17 @@ class ezcGraphPieChartTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
+
+        try
+        {
+            $chart->options->sum = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderPieChartWithAbsoluteTreshHold()
@@ -496,6 +507,17 @@ class ezcGraphPieChartTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
+
+        try
+        {
+            $chart->options->absoluteTreshHold = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderPieChartWithPercentageTreshHold()
@@ -513,6 +535,17 @@ class ezcGraphPieChartTest extends ezcImageTestCase
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
+
+        try
+        {
+            $chart->options->percentTreshHold = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderPieChartWithPercentageTreshHoldAndCustomSum()

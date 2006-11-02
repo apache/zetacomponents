@@ -51,9 +51,22 @@ class ezcGraphMingDriverOptions extends ezcGraphDriverOptions
         switch ( $propertyName )
         {
             case 'compression':
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) ||
+                     ( $propertyValue > 9 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= int <= 9' );
+                }
+
                 $this->properties['compression'] = max( 0, min( 9, (int) $propertyValue ) );
                 break;
             case 'circleResolution':
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue <= 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'float > 0' );
+                }
+
                 $this->properties['circleResolution'] = (float) $propertyValue;
                 break;
             default:

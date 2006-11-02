@@ -64,20 +64,29 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
         switch ( $propertyName )
         {
             case 'lineThickness':
-                $this->properties['lineThickness'] = max( 1, (int) $propertyValue );
+            case 'symbolSize':
+            case 'highlightSize':
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 1 ) ) 
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 1' );
+                }
+
+                $this->properties[$propertyName] = (int) $propertyValue;
                 break;
             case 'fillLines':
-                if ( $propertyValue === false )
+                if ( ( $propertyValue !== false ) &&
+                     !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) ||
+                     ( $propertyValue > 255 ) )
                 {
-                    $this->properties['fillLines'] = false;
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'false OR 0 <= int <= 255' );
                 }
-                else
-                {
-                    $this->properties['fillLines'] = min( 255, max( 0, (int) $propertyValue ) );
-                }
-                break;
-            case 'symbolSize':
-                $this->properties['symbolSize'] = max( 1, (int) $propertyValue );
+
+                $this->properties[$propertyName] = ( 
+                    $propertyValue === false
+                    ? false
+                    : (int) $propertyValue );
                 break;
             case 'highlightFont':
                 if ( $propertyValue instanceof ezcGraphFontOptions )
@@ -99,11 +108,15 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphFontOptions' );
                 }
                 break;
-            case 'highlightSize':
                 $this->properties['highlightSize'] = max( 1, (int) $propertyValue );
                 break;
             case 'highlightLines':
-                $this->properties['highlightLines'] = (bool) $propertyValue;
+                if ( !is_bool( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
+                }
+
+                $this->properties['highlightLines'] = $propertyValue;
                 break;
             default:
                 return parent::__set( $propertyName, $propertyValue );

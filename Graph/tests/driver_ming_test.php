@@ -1431,6 +1431,17 @@ class ezcGraphMingDriverTest extends ezcTestCase
             $options->compression,
             'Setting property value did not work for property compression in class ezcGraphMingDriverOptions'
         );
+
+        try
+        {
+            $options->compression = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testMingDriverOptionsPropertyCircleResolution()
@@ -1449,6 +1460,17 @@ class ezcGraphMingDriverTest extends ezcTestCase
             $options->circleResolution,
             'Setting property value did not work for property circleResolution in class ezcGraphMingDriverOptions'
         );
+
+        try
+        {
+            $options->circleResolution = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 }
 ?>

@@ -52,10 +52,23 @@ class ezcGraphRenderer2dOptions extends ezcGraphRendererOptions
         switch ( $propertyName )
         {
             case 'pieChartShadowSize':
-                $this->properties['pieChartShadowSize'] = max( 0, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'float >= 0' );
+                }
+
+                $this->properties['pieChartShadowSize'] = (int) $propertyValue;
                 break;
             case 'pieChartShadowTransparency':
-                $this->properties['pieChartShadowTransparency'] = min( 1, max( 0, (float) $propertyValue ) );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) ||
+                     ( $propertyValue > 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= float <= 1' );
+                }
+
+                $this->properties['pieChartShadowTransparency'] = (float) $propertyValue;
                 break;
             case 'pieChartShadowColor':
                 $this->properties['pieChartShadowColor'] = ezcGraphColor::create( $propertyValue );

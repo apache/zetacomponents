@@ -1960,6 +1960,17 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->maxLabelHeight,
             'Setting property value did not work for property maxLabelHeight in class ezcGraphRendererOptions'
         );
+
+        try
+        {
+            $options->maxLabelHeight = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRendererOptionsPropertyShowSymbol()
@@ -1978,6 +1989,17 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->showSymbol,
             'Setting property value did not work for property showSymbol in class ezcGraphRendererOptions'
         );
+
+        try
+        {
+            $options->showSymbol = 42;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRendererOptionsPropertySymbolSize()
@@ -1996,6 +2018,17 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->symbolSize,
             'Setting property value did not work for property symbolSize in class ezcGraphRendererOptions'
         );
+
+        try
+        {
+            $options->symbolSize = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRendererOptionsPropertyMoveOut()
@@ -2014,6 +2047,17 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->moveOut,
             'Setting property value did not work for property moveOut in class ezcGraphRendererOptions'
         );
+
+        try
+        {
+            $options->moveOut = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRendererOptionsPropertyTitlePosition()
@@ -2032,6 +2076,17 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->titlePosition,
             'Setting property value did not work for property titlePosition in class ezcGraphRendererOptions'
         );
+
+        try
+        {
+            $options->titlePosition = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRendererOptionsPropertyTitleAlignement()
@@ -2050,6 +2105,17 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->titleAlignement,
             'Setting property value did not work for property titleAlignement in class ezcGraphRendererOptions'
         );
+
+        try
+        {
+            $options->titleAlignement = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRendererOptionsPropertyDataBorder()
@@ -2068,6 +2134,24 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->dataBorder,
             'Setting property value did not work for property dataBorder in class ezcGraphRendererOptions'
         );
+
+        $options->dataBorder = false;
+        $this->assertSame(
+            false,
+            $options->dataBorder,
+            'Setting property value did not work for property dataBorder in class ezcGraphRendererOptions'
+        );
+
+        try
+        {
+            $options->dataBorder = true;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRendererOptionsPropertyBarMargin()
@@ -2086,6 +2170,17 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->barMargin,
             'Setting property value did not work for property barMargin in class ezcGraphRendererOptions'
         );
+
+        try
+        {
+            $options->barMargin = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRendererOptionsPropertyBarPadding()
@@ -2104,6 +2199,17 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->barPadding,
             'Setting property value did not work for property barPadding in class ezcGraphRendererOptions'
         );
+
+        try
+        {
+            $options->barPadding = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRendererOptionsPropertyPieChartOffset()
@@ -2118,10 +2224,21 @@ class ezcGraphRenderer2dTest extends ezcTestCase
 
         $options->pieChartOffset = 1;
         $this->assertSame(
-            1,
+            1.,
             $options->pieChartOffset,
             'Setting property value did not work for property pieChartOffset in class ezcGraphRendererOptions'
         );
+
+        try
+        {
+            $options->pieChartOffset = 450;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRendererOptionsPropertyLegendSymbolGleam()
@@ -2140,6 +2257,24 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->legendSymbolGleam,
             'Setting property value did not work for property legendSymbolGleam in class ezcGraphRendererOptions'
         );
+
+        $options->legendSymbolGleam = false;
+        $this->assertSame(
+            false,
+            $options->legendSymbolGleam,
+            'Setting property value did not work for property legendSymbolGleam in class ezcGraphRendererOptions'
+        );
+
+        try
+        {
+            $options->legendSymbolGleam = true;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRendererOptionsPropertyLegendSymbolGleamSize()
@@ -2158,6 +2293,17 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->legendSymbolGleamSize,
             'Setting property value did not work for property legendSymbolGleamSize in class ezcGraphRendererOptions'
         );
+
+        try
+        {
+            $options->legendSymbolGleamSize = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRendererOptionsPropertyLegendSymbolGleamColor()
@@ -2206,6 +2352,17 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->pieVerticalSize,
             'Setting property value did not work for property pieVerticalSize in class ezcGraphRendererOptions'
         );
+
+        try
+        {
+            $options->pieVerticalSize = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRendererOptionsPropertyPieHorizontalSize()
@@ -2224,6 +2381,17 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->pieHorizontalSize,
             'Setting property value did not work for property pieHorizontalSize in class ezcGraphRendererOptions'
         );
+
+        try
+        {
+            $options->pieHorizontalSize = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRendererOptionsPropertyPieChartSymbolColor()
@@ -2271,6 +2439,24 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->pieChartGleam,
             'Setting property value did not work for property pieChartGleam in class ezcGraphRendererOptions'
         );
+
+        $options->pieChartGleam = false;
+        $this->assertSame(
+            false,
+            $options->pieChartGleam,
+            'Setting property value did not work for property pieChartGleam in class ezcGraphRendererOptions'
+        );
+
+        try
+        {
+            $options->pieChartGleam = true;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRendererOptionsPropertyPieChartGleamColor()
@@ -2318,6 +2504,17 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->pieChartGleamBorder,
             'Setting property value did not work for property pieChartGleamBorder in class ezcGraphRendererOptions'
         );
+
+        try
+        {
+            $options->pieChartGleamBorder = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderer2dOptionsPropertyPieChartShadowSize()
@@ -2336,6 +2533,17 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->pieChartShadowSize,
             'Setting property value did not work for property pieChartShadowSize in class ezcGraphRenderer2dOptions'
         );
+
+        try
+        {
+            $options->pieChartShadowSize = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderer2dOptionsPropertyPieChartShadowTransparency()
@@ -2354,6 +2562,17 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->pieChartShadowTransparency,
             'Setting property value did not work for property pieChartShadowTransparency in class ezcGraphRenderer2dOptions'
         );
+
+        try
+        {
+            $options->pieChartShadowTransparency = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testRenderer2dOptionsPropertyPieChartShadowColor()
@@ -2390,7 +2609,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         $options = new ezcGraphRenderer2dOptions();
 
         $this->assertSame(
-            false,
+            null,
             $options->width,
             'Wrong default value for property width in class ezcGraphChartOptions'
         );
@@ -2401,6 +2620,17 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->width,
             'Setting property value did not work for property width in class ezcGraphChartOptions'
         );
+
+        try
+        {
+            $options->width = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartOptionsPropertyHeigh()
@@ -2408,7 +2638,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         $options = new ezcGraphChartOptions();
 
         $this->assertSame(
-            false,
+            null,
             $options->height,
             'Wrong default value for property heigh in class ezcGraphChartOptions'
         );
@@ -2419,6 +2649,17 @@ class ezcGraphRenderer2dTest extends ezcTestCase
             $options->height,
             'Setting property value did not work for property heigh in class ezcGraphChartOptions'
         );
+
+        try
+        {
+            $options->height = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartOptionsPropertyFont()

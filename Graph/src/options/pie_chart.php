@@ -82,13 +82,32 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
                 }
                 break;
             case 'sum':
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue <= 0 ) ) 
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'float > 0' );
+                }
+
                 $this->properties['sum'] = (float) $propertyValue;
                 break;
             case 'percentTreshHold':
-                $this->properties['percentTreshHold'] = max( .0, (float) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) || 
+                     ( $propertyValue > 1 ) ) 
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= float <= 1' );
+                }
+
+                $this->properties['percentTreshHold'] = (float) $propertyValue;
                 break;
             case 'absoluteTreshHold':
-                $this->properties['absoluteTreshHold'] = max( .0, (float) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue <= 0 ) ) 
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'float > 0' );
+                }
+
+                $this->properties['absoluteTreshHold'] = (float) $propertyValue;
                 break;
             case 'summarizeCaption':
                 $this->properties['summarizeCaption'] = (string) $propertyValue;

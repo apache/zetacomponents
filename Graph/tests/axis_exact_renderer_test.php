@@ -613,5 +613,266 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
 
         $chart->render( 500, 200 );
     }
+
+    public function testAxisLabelRendererPropertyMajorStepCount()
+    {
+        $axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+
+        $this->assertSame(
+            false,
+            $axisLabelRenderer->majorStepCount,
+            'Wrong default value for property majorStepCount in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        $axisLabelRenderer->majorStepCount = 1;
+        $this->assertSame(
+            1,
+            $axisLabelRenderer->majorStepCount,
+            'Setting property value did not work for property majorStepCount in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        try
+        {
+            $axisLabelRenderer->majorStepCount = true;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testAxisLabelRendererPropertyMinorStepCount()
+    {
+        $axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+
+        $this->assertSame(
+            false,
+            $axisLabelRenderer->minorStepCount,
+            'Wrong default value for property minorStepCount in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        $axisLabelRenderer->minorStepCount = 1;
+        $this->assertSame(
+            1,
+            $axisLabelRenderer->minorStepCount,
+            'Setting property value did not work for property minorStepCount in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        try
+        {
+            $axisLabelRenderer->minorStepCount = true;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testAxisLabelRendererPropertyMajorStepSize()
+    {
+        $axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+
+        $this->assertSame(
+            3,
+            $axisLabelRenderer->majorStepSize,
+            'Wrong default value for property majorStepSize in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        $axisLabelRenderer->majorStepSize = 1;
+        $this->assertSame(
+            1,
+            $axisLabelRenderer->majorStepSize,
+            'Setting property value did not work for property majorStepSize in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        try
+        {
+            $axisLabelRenderer->majorStepSize = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testAxisLabelRendererPropertyMinorStepSize()
+    {
+        $axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+
+        $this->assertSame(
+            1,
+            $axisLabelRenderer->minorStepSize,
+            'Wrong default value for property minorStepSize in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        $axisLabelRenderer->minorStepSize = 2;
+        $this->assertSame(
+            2,
+            $axisLabelRenderer->minorStepSize,
+            'Setting property value did not work for property minorStepSize in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        try
+        {
+            $axisLabelRenderer->minorStepSize = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testAxisLabelRendererPropertyInnerStep()
+    {
+        $axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+
+        $this->assertSame(
+            true,
+            $axisLabelRenderer->innerStep,
+            'Wrong default value for property innerStep in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        $axisLabelRenderer->innerStep = false;
+        $this->assertSame(
+            false,
+            $axisLabelRenderer->innerStep,
+            'Setting property value did not work for property innerStep in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        try
+        {
+            $axisLabelRenderer->innerStep = 42;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testAxisLabelRendererPropertyOuterStep()
+    {
+        $axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+
+        $this->assertSame(
+            false,
+            $axisLabelRenderer->outerStep,
+            'Wrong default value for property outerStep in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        $axisLabelRenderer->outerStep = true;
+        $this->assertSame(
+            true,
+            $axisLabelRenderer->outerStep,
+            'Setting property value did not work for property outerStep in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        try
+        {
+            $axisLabelRenderer->outerStep = 42;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testAxisLabelRendererPropertyOuterGrid()
+    {
+        $axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+
+        $this->assertSame(
+            false,
+            $axisLabelRenderer->outerGrid,
+            'Wrong default value for property outerGrid in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        $axisLabelRenderer->outerGrid = true;
+        $this->assertSame(
+            true,
+            $axisLabelRenderer->outerGrid,
+            'Setting property value did not work for property outerGrid in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        try
+        {
+            $axisLabelRenderer->outerGrid = 42;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testAxisLabelRendererPropertyLabelPadding()
+    {
+        $axisLabelRenderer = new ezcGraphAxisExactLabelRenderer();
+
+        $this->assertSame(
+            2,
+            $axisLabelRenderer->labelPadding,
+            'Wrong default value for property labelPadding in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        $axisLabelRenderer->labelPadding = 1;
+        $this->assertSame(
+            1,
+            $axisLabelRenderer->labelPadding,
+            'Setting property value did not work for property labelPadding in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        try
+        {
+            $axisLabelRenderer->labelPadding = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testAxisExactLabelRendererPropertyShowLastValue()
+    {
+        $options = new ezcGraphAxisExactLabelRenderer();
+
+        $this->assertSame(
+            true,
+            $options->showLastValue,
+            'Wrong default value for property showLastValue in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        $options->showLastValue = false;
+        $this->assertSame(
+            false,
+            $options->showLastValue,
+            'Setting property value did not work for property showLastValue in class ezcGraphAxisExactLabelRenderer'
+        );
+
+        try
+        {
+            $options->showLastValue = 42;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
 }
 ?>

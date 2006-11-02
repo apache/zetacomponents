@@ -34,8 +34,8 @@ abstract class ezcGraphDriverOptions extends ezcBaseOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->properties['width'] = false;
-        $this->properties['height'] = false;
+        $this->properties['width'] = null;
+        $this->properties['height'] = null;
 
         $this->properties['lineSpacing'] = .1;
         $this->properties['shadeCircularArc'] = .5;
@@ -59,16 +59,42 @@ abstract class ezcGraphDriverOptions extends ezcBaseOptions
         switch ( $propertyName )
         {
             case 'width':
-                $this->properties['width'] = max( 1, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 1' );
+                }
+
+                $this->properties['width'] = (int) $propertyValue;
                 break;
             case 'height':
-                $this->properties['height'] = max( 1, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 1' );
+                }
+
+                $this->properties['height'] = (int) $propertyValue;
                 break;
             case 'lineSpacing':
-                $this->properties['lineSpacing'] = max( 0, min( 1, (float) $propertyValue ) );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) || 
+                     ( $propertyValue > 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= float <= 1' );
+                }
+
+                $this->properties['lineSpacing'] = (float) $propertyValue;
                 break;
             case 'shadeCircularArc':
-                $this->properties['shadeCircularArc'] = max( 0, min( 1, (float) $propertyValue ) );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) || 
+                     ( $propertyValue > 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= float <= 1' );
+                }
+
+                $this->properties['shadeCircularArc'] = (float) $propertyValue;
                 break;
             case 'font':
                 if ( $propertyValue instanceof ezcGraphFontOptions )

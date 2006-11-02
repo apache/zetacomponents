@@ -501,5 +501,34 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
 
         $chart->render( 500, 200 );
     }
+
+    public function testAxisCenteredLabelRendererPropertyShowZeroValue()
+    {
+        $options = new ezcGraphAxisCenteredLabelRenderer();
+
+        $this->assertSame(
+            false,
+            $options->showZeroValue,
+            'Wrong default value for property showZeroValue in class ezcGraphAxisCenteredLabelRenderer'
+        );
+
+        $options->showZeroValue = true;
+        $this->assertSame(
+            true,
+            $options->showZeroValue,
+            'Setting property value did not work for property showZeroValue in class ezcGraphAxisCenteredLabelRenderer'
+        );
+
+        try
+        {
+            $options->showZeroValue = 42;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
 }
 ?>

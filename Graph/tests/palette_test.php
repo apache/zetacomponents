@@ -363,19 +363,6 @@ class ezcGraphPaletteTest extends ezcTestCase
         $this->fail( 'expected ezcGraphUnknownColorDefinitionException.' );
     }
 
-    public function testModifyPaletteIntProperty()
-    {
-        $palette = new ezcGraphPaletteTango();
-
-        $palette->chartBorderWidth = 0;
-        $palette->padding = -1;
-        $palette->margin = 3;
-
-        $this->assertSame( $palette->chartBorderWidth, 0 );
-        $this->assertSame( $palette->padding, 0 );
-        $this->assertSame( $palette->margin, 3 );
-    }
-
     public function testModifyPaletteDatasetColorArray()
     {
         $palette = new ezcGraphPaletteTango();
@@ -427,6 +414,121 @@ class ezcGraphPaletteTest extends ezcTestCase
 
         $this->fail( 'expected ezcBaseValueException.' );
     }
-}
 
+    public function testPalettePropertyChartBorderWidth()
+    {
+        $options = new ezcGraphPaletteTango();
+
+        $this->assertSame(
+            0,
+            $options->chartBorderWidth,
+            'Wrong default value for property chartBorderWidth in class ezcGraphPalette'
+        );
+
+        $options->chartBorderWidth = 1;
+        $this->assertSame(
+            1,
+            $options->chartBorderWidth,
+            'Setting property value did not work for property chartBorderWidth in class ezcGraphPalette'
+        );
+
+        try
+        {
+            $options->chartBorderWidth = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testPalettePropertyElementBorderWidth()
+    {
+        $options = new ezcGraphPaletteTango();
+
+        $this->assertSame(
+            0,
+            $options->elementBorderWidth,
+            'Wrong default value for property elementBorderWidth in class ezcGraphPalette'
+        );
+
+        $options->elementBorderWidth = 1;
+        $this->assertSame(
+            1,
+            $options->elementBorderWidth,
+            'Setting property value did not work for property elementBorderWidth in class ezcGraphPalette'
+        );
+
+        try
+        {
+            $options->elementBorderWidth = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testPalettePropertyPadding()
+    {
+        $options = new ezcGraphPaletteTango();
+
+        $this->assertSame(
+            1,
+            $options->padding,
+            'Wrong default value for property padding in class ezcGraphPalette'
+        );
+
+        $options->padding = 2;
+        $this->assertSame(
+            2,
+            $options->padding,
+            'Setting property value did not work for property padding in class ezcGraphPalette'
+        );
+
+        try
+        {
+            $options->padding = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testPalettePropertyMargin()
+    {
+        $options = new ezcGraphPaletteTango();
+
+        $this->assertSame(
+            0,
+            $options->margin,
+            'Wrong default value for property margin in class ezcGraphPalette'
+        );
+
+        $options->margin = 1;
+        $this->assertSame(
+            1,
+            $options->margin,
+            'Setting property value did not work for property margin in class ezcGraphPalette'
+        );
+
+        try
+        {
+            $options->margin = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+}
 ?>

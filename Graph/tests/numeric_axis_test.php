@@ -574,6 +574,63 @@ class ezcGraphNumericAxisTest extends ezcTestCase
             .05
         );
     }
-}
 
+    public function testChartElementNumericAxisPropertyMin()
+    {
+        $options = new ezcGraphChartElementNumericAxis();
+
+        $this->assertSame(
+            null,
+            $options->min,
+            'Wrong default value for property min in class ezcGraphChartElementNumericAxis'
+        );
+
+        $options->min = 1;
+        $this->assertSame(
+            1.,
+            $options->min,
+            'Setting property value did not work for property min in class ezcGraphChartElementNumericAxis'
+        );
+
+        try
+        {
+            $options->min = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testChartElementNumericAxisPropertyMax()
+    {
+        $options = new ezcGraphChartElementNumericAxis();
+
+        $this->assertSame(
+            null,
+            $options->max,
+            'Wrong default value for property max in class ezcGraphChartElementNumericAxis'
+        );
+
+        $options->max = 1;
+        $this->assertSame(
+            1.,
+            $options->max,
+            'Setting property value did not work for property max in class ezcGraphChartElementNumericAxis'
+        );
+
+        try
+        {
+            $options->max = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+}
 ?>

@@ -79,13 +79,32 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
                 }
                 break;
             case 'jpegQuality':
-                $this->properties['jpegQuality'] = max( 0, min( 100, (int) $propertyValue ) );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 0 ) ||
+                     ( $propertyValue > 100 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= int <= 100' );
+                }
+
+                $this->properties['jpegQuality'] = (int) $propertyValue;
                 break;
             case 'detail':
-                $this->properties['detail'] = max( 1, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 1' );
+                }
+
+                $this->properties['detail'] = (int) $propertyValue;
                 break;
             case 'supersampling':
-                $this->properties['supersampling'] = (int) max( 1, $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 1' );
+                }
+
+                $this->properties['supersampling'] = (int) $propertyValue;
                 break;
             case 'background':
                 if ( $propertyValue === false ||
@@ -109,10 +128,21 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
                 }
                 break;
             case 'forceNativeTTF':
+                if ( !is_bool( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
+                }
+
                 $this->properties['forceNativeTTF'] = (bool) $propertyValue;
                 break;
             case 'imageMapResolution':
-                $this->properties['imageMapResolution'] = max( 1, (int) $propertyValue );
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue < 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 1' );
+                }
+
+                $this->properties['imageMapResolution'] = (int) $propertyValue;
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );

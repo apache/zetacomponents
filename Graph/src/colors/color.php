@@ -65,7 +65,14 @@ class ezcGraphColor extends ezcBaseOptions
             case 'green':
             case 'blue':
             case 'alpha':
-                $this->properties[$propertyName] = max( 0, min( 255, (int) $propertyValue ) );
+                if ( !is_numeric( $propertyValue ) || 
+                     ( $propertyValue < 0 ) || 
+                     ( $propertyValue > 255 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= int <= 255' );
+                }
+
+                $this->properties[$propertyName] = (int) $propertyValue;
                 break;
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
@@ -250,9 +257,9 @@ class ezcGraphColor extends ezcBaseOptions
         $color = clone $this;
 
         $value = 1 - $value;
-        $color->red = (int) round( $this->red * $value );
-        $color->green = (int) round( $this->green * $value );
-        $color->blue = (int) round( $this->blue * $value );
+        $color->red = min( 255, max( 0, (int) round( $this->red * $value ) ) );
+        $color->green = min( 255, max( 0, (int) round( $this->green * $value ) ) );
+        $color->blue = min( 255, max( 0, (int) round( $this->blue * $value ) ) );
 
         return $color;
     }

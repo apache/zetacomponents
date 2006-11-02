@@ -65,6 +65,17 @@ class ezcGraphLineChartTest extends ezcTestCase
             $options->lineThickness,
             'Setting property value did not work for property lineThickness in class ezcGraphLineChartOptions'
         );
+
+        try
+        {
+            $options->lineThickness = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testLineChartOptionsPropertyFillLines()
@@ -90,6 +101,17 @@ class ezcGraphLineChartTest extends ezcTestCase
             $options->fillLines,
             'Setting property value did not work for property fillLines in class ezcGraphLineChartOptions'
         );
+
+        try
+        {
+            $options->fillLines = true;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testLineChartOptionsPropertySymbolSize()
@@ -108,6 +130,17 @@ class ezcGraphLineChartTest extends ezcTestCase
             $options->symbolSize,
             'Setting property value did not work for property symbolSize in class ezcGraphLineChartOptions'
         );
+
+        try
+        {
+            $options->symbolSize = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testLineChartOptionsPropertyHighlightFont()
@@ -165,6 +198,17 @@ class ezcGraphLineChartTest extends ezcTestCase
             $options->highlightSize,
             'Setting property value did not work for property highlightSize in class ezcGraphLineChartOptions'
         );
+
+        try
+        {
+            $options->highlightSize = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testLineChartOptionsPropertyHighlightLines()
@@ -183,6 +227,17 @@ class ezcGraphLineChartTest extends ezcTestCase
             $options->highlightLines,
             'Setting property value did not work for property highlightLines in class ezcGraphLineChartOptions'
         );
+
+        try
+        {
+            $options->highlightLines = 42;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testElementGenerationLegend()
@@ -660,6 +715,24 @@ class ezcGraphLineChartTest extends ezcTestCase
         try
         {
             $options->yAxis = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testLineChartOptionsPropertyLegend()
+    {
+        $chart = new ezcGraphLineChart();
+
+        $chart->legend = false;
+
+        try
+        {
+            $chart->legend = 12;
         }
         catch( ezcBaseValueException $e )
         {

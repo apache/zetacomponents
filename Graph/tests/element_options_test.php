@@ -127,6 +127,17 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
             $options->padding,
             'Setting property value did not work for property padding in class ezcGraphChartElementBackground'
         );
+
+        try
+        {
+            $options->padding = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartElementPropertyMargin()
@@ -145,6 +156,17 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
             $options->margin,
             'Setting property value did not work for property margin in class ezcGraphChartElementBackground'
         );
+
+        try
+        {
+            $options->margin = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartElementPropertyBorderWidth()
@@ -163,6 +185,17 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
             $options->borderWidth,
             'Setting property value did not work for property borderWidth in class ezcGraphChartElementBackground'
         );
+
+        try
+        {
+            $options->borderWidth = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartElementPropertyPosition()
@@ -210,6 +243,17 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
             $options->maxTitleHeight,
             'Setting property value did not work for property maxTitleHeight in class ezcGraphChartElementBackground'
         );
+
+        try
+        {
+            $options->maxTitleHeight = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartElementPropertyPortraitTitleSize()
@@ -228,6 +272,17 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
             $options->portraitTitleSize,
             'Setting property value did not work for property portraitTitleSize in class ezcGraphChartElementBackground'
         );
+
+        try
+        {
+            $options->portraitTitleSize = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartElementPropertyLandscapeTitleSize()
@@ -246,6 +301,17 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
             $options->landscapeTitleSize,
             'Setting property value did not work for property landscapeTitleSize in class ezcGraphChartElementBackground'
         );
+
+        try
+        {
+            $options->landscapeTitleSize = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartElementPropertyFont()
@@ -365,6 +431,17 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
             $options->portraitSize,
             'Setting property value did not work for property portraitSize in class ezcGraphChartElementLegend'
         );
+
+        try
+        {
+            $options->portraitSize = 42;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartElementLegendPropertyLandscapeSize()
@@ -383,6 +460,17 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
             $options->landscapeSize,
             'Setting property value did not work for property landscapeSize in class ezcGraphChartElementLegend'
         );
+
+        try
+        {
+            $options->landscapeSize = 42;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartElementLegendPropertySymbolSize()
@@ -401,6 +489,17 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
             $options->symbolSize,
             'Setting property value did not work for property symbolSize in class ezcGraphChartElementLegend'
         );
+
+        try
+        {
+            $options->landscapeSize = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartElementLegendPropertyMinimumSymbolSize()
@@ -419,6 +518,17 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
             $options->minimumSymbolSize,
             'Setting property value did not work for property minimumSymbolSize in class ezcGraphChartElementLegend'
         );
+
+        try
+        {
+            $options->landscapeSize = 42;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartElementLegendPropertySpacing()
@@ -437,6 +547,17 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
             $options->spacing,
             'Setting property value did not work for property spacing in class ezcGraphChartElementLegend'
         );
+
+        try
+        {
+            $options->landscapeSize = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartElementAxisPropertyNullPosition()
@@ -473,6 +594,17 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
             $options->axisSpace,
             'Setting property value did not work for property axisSpace in class ezcGraphChartElementNumericAxis'
         );
+
+        try
+        {
+            $options->axisSpace = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartElementAxisPropertyMajorGrid()
@@ -643,6 +775,17 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
             $options->labelSize,
             'Setting property value did not work for property labelSize in class ezcGraphChartElementNumericAxis'
         );
+
+        try
+        {
+            $options->labelSize = 2;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartElementAxisPropertyLabelMargin()
@@ -661,6 +804,17 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
             $options->labelMargin,
             'Setting property value did not work for property labelMargin in class ezcGraphChartElementNumericAxis'
         );
+
+        try
+        {
+            $options->labelMargin = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartElementAxisPropertyMaxArrowHeadSize()
@@ -679,6 +833,17 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
             $options->maxArrowHeadSize,
             'Setting property value did not work for property maxArrowHeadSize in class ezcGraphChartElementNumericAxis'
         );
+
+        try
+        {
+            $options->labelMargin = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 
     public function testChartElementAxisPropertyAxisLabelRenderer()
@@ -726,6 +891,17 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
             $options->maxHeight,
             'Setting property value did not work for property maxHeight in class ezcGraphChartElementText'
         );
+
+        try
+        {
+            $options->maxHeight = 2;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
     }
 }
 ?>
