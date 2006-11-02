@@ -87,13 +87,17 @@ class ezcGraphPieChart extends ezcGraphChart
             switch ( $dataset->displayType->default )
             {
                 case ezcGraph::PIE:
+                    $displayLabel = ( $this->options->labelCallback !== null
+                        ? call_user_func( $this->options->labelCallback, $label, $value, $value / $sum )
+                        : sprintf( $this->options->label, $label, $value, $value / $sum * 100 ) );
+
                     $renderer->drawPieSegment(
                         $boundings,
                         new ezcGraphContext( $datasetName, $label ),
                         $dataset->color[$label],
                         $angle,
                         $angle += $value / $sum * 360,
-                        sprintf( $this->options->label, $label, $value, $value / $sum * 100 ),
+                        $displayLabel,
                         $dataset->highlight[$label]
                     );
                     break;

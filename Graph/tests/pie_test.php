@@ -90,6 +90,36 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         );
     }
 
+    public function testPieChartOptionsPropertyLabelCallback()
+    {
+        $options = new ezcGraphPieChartOptions();
+
+/* Checking for null values does not work with current ezcBaseOptions class
+        $this->assertSame(
+            null,
+            $options->labelCallback,
+            'Wrong default value for property labelCallback in class ezcGraphPieChartOptions'
+        ); */
+
+        $options->labelCallback = 'printf';
+        $this->assertSame(
+            'printf',
+            $options->labelCallback,
+            'Setting property value did not work for property labelCallback in class ezcGraphPieChartOptions'
+        );
+
+        try
+        {
+            $options->labelCallback = 'undefined_function';
+        }
+        catch ( ezcBasevalueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'ezcBasevalueException expected.' );
+    }
+
     public function testPieChartOptionsPropertySum()
     {
         $options = new ezcGraphPieChartOptions();
@@ -288,6 +318,94 @@ class ezcGraphPieChartTest extends ezcImageTestCase
                 $this->equalTo( 310., 1. ),
                 $this->equalTo( 360., 1. ),
                 $this->equalTo( 'Safari: 987 (13.8%)' ),
+                $this->equalTo( false )
+            );
+
+        $chart->renderer = $mockedRenderer;
+        $chart->render( 400, 200 );
+    }
+
+    public function testPieRenderPieSegmentsWithLabelCallback()
+    {
+        function labelCallbackFormatFunction( $label, $value, $percent ) {
+            return 'Callback: ' . $label;
+        }
+
+        $chart = new ezcGraphPieChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->data['sample']->highlight['wget'] = true;
+
+        $chart->options->labelCallback = 'labelCallbackFormatFunction';
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
+            'drawPieSegment',
+        ) );
+
+        $mockedRenderer
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawPieSegment' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 80, 0, 400, 200 ) ),
+                $this->equalTo( new ezcGraphContext( 'sample', 'Mozilla' ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#4E9A06' ) ),
+                $this->equalTo( 0., 1. ),
+                $this->equalTo( 220.5, .1 ),
+                $this->equalTo( 'Callback: Mozilla' ),
+                $this->equalTo( false )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawPieSegment' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 80, 0, 400, 200 ) ),
+                $this->equalTo( new ezcGraphContext( 'sample', 'IE' ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#CC0000' ) ),
+                $this->equalTo( 220.5, .1 ),
+                $this->equalTo( 238., 1. ),
+                $this->equalTo( 'Callback: IE' ),
+                $this->equalTo( false )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 2 ) )
+            ->method( 'drawPieSegment' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 80, 0, 400, 200 ) ),
+                $this->equalTo( new ezcGraphContext( 'sample', 'Opera' ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#EDD400' ) ),
+                $this->equalTo( 238., 1. ),
+                $this->equalTo( 298.6, 1. ),
+                $this->equalTo( 'Callback: Opera' ),
+                $this->equalTo( false )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 3 ) )
+            ->method( 'drawPieSegment' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 80, 0, 400, 200 ) ),
+                $this->equalTo( new ezcGraphContext( 'sample', 'wget' ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#75505B' ) ),
+                $this->equalTo( 298.6, 1. ),
+                $this->equalTo( 310., 1. ),
+                $this->equalTo( 'Callback: wget' ),
+                $this->equalTo( true )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 4 ) )
+            ->method( 'drawPieSegment' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 80, 0, 400, 200 ) ),
+                $this->equalTo( new ezcGraphContext( 'sample', 'Safari' ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#F57900' ) ),
+                $this->equalTo( 310., 1. ),
+                $this->equalTo( 360., 1. ),
+                $this->equalTo( 'Callback: Safari' ),
                 $this->equalTo( false )
             );
 

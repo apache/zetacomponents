@@ -15,6 +15,10 @@
  *              %$1s    Name of pie
  *              %2$d    Value of pie
  *              %3$.1f  Percentage
+ * @property callback $labelCallback
+ *           Callback function to format pie chart labels.
+ *           Function will receive 3 parameters:
+ *              string function( label, value, percent )
  * @property float $sum
  *           Fixed sum of values. This should be used for incomplete pie 
  *           charts.
@@ -40,6 +44,7 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
     public function __construct( array $options = array() )
     {
         $this->properties['label'] = '%1$s: %2$d (%3$.1f%%)';
+        $this->properties['labelCallback'] = null;
         $this->properties['sum'] = false;
 
         $this->properties['percentTreshHold'] = .0;
@@ -65,6 +70,16 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
         {
             case 'label':
                 $this->properties['label'] = (string) $propertyValue;
+                break;
+            case 'labelCallback':
+                if ( is_string( $propertyValue ) && function_exists( $propertyValue ) )
+                {
+                    $this->properties['labelCallback'] = $propertyValue;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'callback function' );
+                }
                 break;
             case 'sum':
                 $this->properties['sum'] = (float) $propertyValue;
