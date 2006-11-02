@@ -151,7 +151,7 @@ class ezcGraphColorTest extends ezcTestCase
             'Wrong default value for property startPoint in class ezcGraphRadialGradient'
         );
 
-        $color->startPoint = $coord = new ezcGraphCoordinate();
+        $color->startPoint = $coord = new ezcGraphCoordinate( 5, 23 );
         $this->assertSame(
             $coord,
             $color->startPoint,
@@ -185,7 +185,7 @@ class ezcGraphColorTest extends ezcTestCase
             'Wrong default value for property endPoint in class ezcGraphRadialGradient'
         );
 
-        $color->endPoint = $coord = new ezcGraphCoordinate();
+        $color->endPoint = $coord = new ezcGraphCoordinate( 5, 23 );
         $this->assertSame(
             $coord,
             $color->endPoint,
@@ -299,7 +299,7 @@ class ezcGraphColorTest extends ezcTestCase
             'Wrong default value for property center in class ezcGraphRadialGradient'
         );
 
-        $color->center = $coord = new ezcGraphCoordinate();
+        $color->center = $coord = new ezcGraphCoordinate( 5, 23 );
         $this->assertSame(
             $coord,
             $color->center,

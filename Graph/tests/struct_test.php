@@ -175,7 +175,7 @@ class ezcGraphStructTest extends ezcTestCase
 
     public function testCoordinateSetState()
     {
-        $context = new ezcGraphCoordinate();
+        $context = new ezcGraphCoordinate( 0, 0 );
 
         $context->__set_state(
         array(
