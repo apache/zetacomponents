@@ -85,7 +85,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      */
     public function __get( $propertyName )
     {
-        if ( isset( $this->properties[$propertyName] ) )
+        if ( array_key_exists( $propertyName, $this->properties ) )
         {
             return $this->properties[$propertyName];
         }
