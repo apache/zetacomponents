@@ -1,8 +1,6 @@
 {use $user}
 {cache_template}
-
-{$user->name}
-
+[{$user->name}]
 {dynamic}
-	{$user->name}
+	[{$user->name}]
 {/dynamic}

@@ -55,7 +55,8 @@ class ezcTemplateConfiguration
      private $properties = array( 'context' => false,
                                   'templatePath' => ".",
                                   'compilePath' => ".",
-                                  'cachePath' =>  null,
+                                  'cachedTemplatesPath' => null,
+                                  'compiledTemplatesPath' => null,
                                   'cacheSystem' =>  null,
                                   'checkModifiedTemplates' => true,
                                   'customBlocks' => array(),
@@ -81,7 +82,8 @@ class ezcTemplateConfiguration
             case 'context': 
             case 'templatePath': 
             case 'compilePath': 
-            case 'cachePath':
+            case 'cachedTemplatesPath':       // Relative path to the compilePath
+            case 'compiledTemplatesPath':     // Relative path to the compilePath
             case 'cacheSystem':
             case 'checkModifiedTemplates':
                 return $this->properties[$name];
@@ -121,7 +123,8 @@ class ezcTemplateConfiguration
 
             case 'templatePath': 
             case 'compilePath': 
-            case 'cachePath':
+            case 'cachedTemplatesPath':
+            case 'compiledTemplatesPath':
             case 'cacheSystem':
             case 'checkModifiedTemplates': 
             case 'customBlocks': 
@@ -148,7 +151,8 @@ class ezcTemplateConfiguration
 
             case 'templatePath': 
             case 'compilePath':
-            case 'cachePath':
+            case 'cachedTemplatesPath':
+            case 'compiledTemplatesPath':
             case 'cacheSystem':
             case 'checkModifiedTemplates':
                 return isset( $this->properties[$name] );
@@ -172,7 +176,9 @@ class ezcTemplateConfiguration
         $this->properties["templatePath"] = $templatePath;
         $this->properties["compilePath"] = $compilePath;
 
-        $this->properties["cachePath"] = "." . DIRECTORY_SEPARATOR . "cached_templates";
+        $this->properties["cachedTemplatesPath"] =   "cached_templates";
+        $this->properties["compiledTemplatesPath"] =  "compiled_templates";
+
         $this->properties["cacheSystem"] = new ezcTemplateCacheFilesystem( $this );
 
         $this->properties['context'] = ( $context == null ? new ezcTemplateXhtmlContext() : $context );

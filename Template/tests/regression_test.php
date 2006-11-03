@@ -104,13 +104,15 @@ class ezcTemplateRegressionTest extends ezcTestCase
             $base = basename( $directory );
 
             $template->configuration = new ezcTemplateConfiguration( $dir, $this->getTempDir() );
-            $template->configuration->cachePath = $this->getTempDir() . "/cached"; 
+            //$template->configuration->cachePath = $this->getTempDir() . "/cached"; 
             //$template->configuration->cachePath = "/tmp/cache";
 
+            /*
             if( !is_dir( $template->configuration->cachePath ) )
             {
                 mkdir( $template->configuration->cachePath);
             }
+             */
 
             $template->configuration->addExtension( "BrainFuck" );
             $template->configuration->addExtension( "TestBlocks" );

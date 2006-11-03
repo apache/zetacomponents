@@ -31,7 +31,7 @@ class ezcTemplateCacheFilesystem
                 $fileName = $rpStream;
             }
 
-            $this->cacheBaseName = $this->config->cachePath . DIRECTORY_SEPARATOR . str_replace( '/', "-", $fileName ); 
+            $this->cacheBaseName = $this->config->compilePath . DIRECTORY_SEPARATOR . $this->config->cachedTemplatesPath . DIRECTORY_SEPARATOR . str_replace( '/', "-", $fileName ); 
         }
 
         return $this->cacheBaseName;
@@ -167,7 +167,8 @@ class ezcTemplateCacheFilesystem
 
     public function initializeCache()
     {
-        $dir = $this->config->cachePath;
+
+        $dir = $this->config->compilePath . DIRECTORY_SEPARATOR . $this->config->cachedTemplatesPath;
 
         if( !file_exists( $dir ) )
         {

@@ -7,6 +7,8 @@
   parameters.
 - Fixed bug #9290: Reserved names may not be used as template variables in 
   include send statements.
+- Compiled templates are now stored in the sub directory 'compiled_templates' of 
+  the $compilePath. 
 
 1.1beta1 - Tuesday 24 October 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

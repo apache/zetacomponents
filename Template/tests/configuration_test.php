@@ -31,7 +31,7 @@ class ezcTemplateConfigurationTest extends ezcTestCase
         $conf = new ezcTemplateConfiguration();
 
         $this->assertSame( '.', $conf->templatePath );
-        $this->assertSame( '.', $conf->compilePath );
+        $this->assertSame( './compiled_templates', $conf->compilePath . DIRECTORY_SEPARATOR . $conf->compiledTemplatesPath);
     }
 
     public function testInit()
@@ -39,7 +39,7 @@ class ezcTemplateConfigurationTest extends ezcTestCase
         $conf = new ezcTemplateConfiguration( 'templates', 'compiled' );
 
         $this->assertSame( 'templates', $conf->templatePath );
-        $this->assertSame( 'compiled', $conf->compilePath );
+        $this->assertSame( 'compiled/compiled_templates', $conf->compilePath . DIRECTORY_SEPARATOR . $conf->compiledTemplatesPath );
     }
 
     public function testInvalidProperties()

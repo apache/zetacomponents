@@ -15,6 +15,10 @@
 
 class ezcTemplateCacheTest extends ezcTestCase
 {
+    private $tempDir;
+    private $basePath;
+    private $templatePath;
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
@@ -22,35 +26,67 @@ class ezcTemplateCacheTest extends ezcTestCase
 
     protected function setUp()
     {
-       /* 
-        $this->basePath = $this->createTempDir( "ezcTemplate_" );
-        //$this->templatePath = $this->basePath . "/templates";
-        $this->templatePath = "Template/tests/templates";
-        $this->compilePath = $this->basePath . "/compiled";
-
-        echo ( $this->templatePath );
-
-        //mkdir ( $this->templatePath );
-        mkdir ( $this->compilePath );
+        $this->basePath = realpath( dirname( __FILE__ ) ) . '/';
 
         $config = ezcTemplateConfiguration::getInstance();
-        $config->templatePath = $this->templatePath;
-        $config->compilePath = $this->compilePath;
-        */
-    }
+        $config->compilePath = $this->createTempDir( "ezcTemplate_" );
+        $config->templatePath = $this->basePath . 'templates/';
+   }
 
     protected function tearDown()
     {
     }
 
+    public function testCacheDirCreation()
+    {
+        $config = ezcTemplateConfiguration::getInstance();
+
+        $cacheDir = $config->compilePath . DIRECTORY_SEPARATOR . "cached_templates";
+
+        if (file_exists( $cacheDir ) )
+        {
+            $this->fail( "Did not expect this directory to exists: " . $cacheDir );
+        }
+
+        $t = new ezcTemplate();
+        $t->send->user = new TestUser( "Bernard", "Black" );
+        $t->process( "cache_dynamic.tpl");
+
+        if (!file_exists( $config->compilePath . DIRECTORY_SEPARATOR . "cached_templates" ) )
+        {
+            $this->fail( "Expected the directory to exists: " . $cacheDir );
+        }
+    }
+
+
     public function testDynamicBlock()
     {
-/*        $t = new ezcTemplate();
-        $t->process ("cache_dynamic.tpl");
+        $t = new ezcTemplate( );
+        $t->send->user = new TestUser( "Bernard", "Black" );
+
+        $out = $t->process( "cache_dynamic.tpl");
+        $this->assertEquals( "\n[Bernard Black]\n[Bernard Black]\n", $out );
+
+        // Change the user. The first name is cached. The second name should change.
+        $t->send->user = new TestUser( "Guybrush", "Threepwood" );
+        $out = $t->process( "cache_dynamic.tpl");
+        $this->assertEquals( "\n[Bernard Black]\n[Guybrush Threepwood]\n", $out );
+    }
 
 
-        var_dump( $t->output );
- */
+}
+
+class TestUser
+{
+    public $firstName;
+    public $lastName;
+    public $name;
+
+    public function __construct($firstName, $lastName )
+    {
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->name = $firstName . " " . $lastName;
     }
 }
 

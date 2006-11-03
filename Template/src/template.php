@@ -220,11 +220,11 @@ class ezcTemplate
         $this->properties["tstTree"] = false;
         $this->properties["astTree"] = false;
         $this->properties["stream"] = false;
-
         $this->properties["stream"] = $location;
+
         if ( strlen( $this->properties["stream"] ) > 0 && $this->properties["stream"][0] != "/" ) // Is it a relative path?
         {
-            $this->properties["stream"] = $config->templatePath ."/". $this->properties["stream"];
+            $this->properties["stream"] = $config->templatePath . DIRECTORY_SEPARATOR . $this->properties["stream"];
         }
 
         // lookup compiled code here

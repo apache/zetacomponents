@@ -219,7 +219,8 @@ class ezcTemplateCompiledCode
                    false /*(bool)$template->compiledDebugEnabled*/ . ')';
         $identifier = md5( 'ezcTemplateCompiledCode(' . $location . ')' );
         $name = basename( $location, '.ezt' );
-        $path = $template->configuration->compilePath . '/' .
+
+        $path = $template->configuration->compilePath . DIRECTORY_SEPARATOR . $template->configuration->compiledTemplatesPath . DIRECTORY_SEPARATOR .
                 $context->identifier() . '-' .
                 $template->generateOptionHash() . '/' .
                 $name . '-' . $identifier . ".php";
