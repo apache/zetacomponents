@@ -399,6 +399,7 @@ class ezcGraphLogarithmicalAxisTest extends ezcTestCase
 
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteEz();
+        $chart->title = 'Function x^2 with logarithmical axis scaling';
         $chart->legend = false;
         
         $chart->xAxis = new ezcGraphChartElementNumericAxis();
