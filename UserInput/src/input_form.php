@@ -208,7 +208,7 @@ class ezcInputForm
 
         foreach ( $this->definition as $elementName => $inputElement )
         {
-            $hasVariable = input_has_variable( $this->inputSource, $elementName );
+            $hasVariable = filter_has_var( $this->inputSource, $elementName );
             if ( ! $hasVariable )
             {
                 if ( $inputElement->type == ezcInputFormDefinitionElement::REQUIRED )
@@ -224,11 +224,11 @@ class ezcInputForm
 
             if ( isset( $inputElement->parameters ) )
             {
-                $value = input_get( $this->inputSource, $elementName, input_name_to_filter( $inputElement->filterName ), $inputElement->parameters );
+                $value = filter_input( $this->inputSource, $elementName, filter_id( $inputElement->filterName ), array( 'options' => $inputElement->parameters ) );
             }
             else
             {
-                $value = input_get( $this->inputSource, $elementName, input_name_to_filter( $inputElement->filterName ) );
+                $value = filter_input( $this->inputSource, $elementName, filter_id( $inputElement->filterName ), FILTER_NULL_ON_FAILURE );
             }
 
             if ( $value !== null )
@@ -313,9 +313,9 @@ class ezcInputForm
             }
 
             // The filter should be an existing filter
-            if ( !in_array( $element->filterName, input_filters_list() ) )
+            if ( !in_array( $element->filterName, filter_list() ) )
             {
-                $filters = join( ', ', input_filters_list() );
+                $filters = join( ', ', filter_list() );
                 return array( ezcInputForm::DEF_UNSUPPORTED_FILTER, "The filter <{$element->filterName}> for element <{$name}> does not exist. Pick one of: $filters" );
             }
 
@@ -456,9 +456,9 @@ class ezcInputForm
             }
             else
             {
-                if ( input_has_variable ( $this->inputSource, $fieldName ) )
+                if ( filter_has_var( $this->inputSource, $fieldName ) )
                 {
-                    return input_get( $this->inputSource, $fieldName, FILTER_UNSAFE_RAW );
+                    return filter_input( $this->inputSource, $fieldName, FILTER_UNSAFE_RAW );
                 }
                 else
                 {

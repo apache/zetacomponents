@@ -13,7 +13,8 @@
 <head><title>Test 4</title></head>
 <body>
 <?php
-require_once 'Base/trunk/src/base.php';
+ini_set( 'include_path', '/home/httpd/ezcomponents/trunk:.' );
+require_once 'Base/src/base.php';
 
 function __autoload( $className )
 {
@@ -49,8 +50,8 @@ if ( count( $_POST ) )
 <?php
     $def = array(
         'test1' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::REQUIRED, 'string', FILTER_FLAG_STRIP_HIGH ),
-        'test2' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'max_range' => 42 ) ),
-        'test3' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'max_range' => 42 ) ),
+        'test2' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 42 ) ),
+        'test3' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 42 ) ),
     );
     $form = new ezcInputForm( INPUT_POST, $def );
 
