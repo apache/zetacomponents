@@ -11,6 +11,7 @@
  * Extension of the basic Driver package to utilize the SVGlib.
  *
  * @package Graph
+ * @access private
  */
 
 class ezcGraphVerboseDriver extends ezcGraphDriver
