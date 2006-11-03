@@ -86,12 +86,13 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
         $this->majorStepCount = $axis->getMajorStepCount();
         $this->minorStepCount = $axis->getMinorStepCount();
         $minorStepsPerMajorStepCount = $this->minorStepCount / $this->majorStepCount - 1;
-
+        
         // Determine normalized axis direction
         $direction = new ezcGraphCoordinate(
             $start->x - $end->x,
             $start->y - $end->y
         );
+        
         $length = sqrt( pow( $direction->x, 2) + pow( $direction->y, 2 ) );
         $direction->x /= $length;
         $direction->y /= $length;

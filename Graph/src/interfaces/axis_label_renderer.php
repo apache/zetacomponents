@@ -165,10 +165,10 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
 
     public function determineLineCuttingPoint( ezcGraphCoordinate $aStart, ezcGraphCoordinate $aDir, ezcGraphCoordinate $bStart, ezcGraphCoordinate $bDir )
     {
-        // Check if line are parallel
+        // Check if lines are parallel
         if ( ( ( $aDir->x == 0 ) && ( $bDir->x == 0 ) ) ||
              ( ( $aDir->y == 0 ) && ( $bDir->y == 0 ) ) || 
-             ( ( ( $aDir->x * $bDir->x * $aDir->y * $bDir->y ) != 0 ) && 
+             ( ( $aDir->x * $bDir->x * $aDir->y * $bDir->y != 0 ) && 
                ( ( $aDir->x / $aDir->y ) == ( $bDir->x / $bDir->y ) ) 
              )
            )

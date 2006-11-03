@@ -78,6 +78,8 @@ return array(
     'ezcGraphChartElementDateAxis'              => 'Graph/axis/date.php',
     'ezcGraphChartElementNumericAxis'           => 'Graph/axis/numeric.php',
     'ezcGraphChartElementLabeledAxis'           => 'Graph/axis/labeled.php',
+    'ezcGraphChartElementLogarithmicalAxis'     => 'Graph/axis/logarithmic.php',
+    'ezcGraphOutOfLogithmicalBoundingsException' => 'Graph/exceptions/out_of_logarithmical_boundings.php',
 
     'ezcGraphDataSet'                           => 'Graph/datasets/base.php',
     'ezcGraphArrayDataSet'                      => 'Graph/datasets/array.php',

@@ -22,6 +22,13 @@ class ezcGraphPaletteEz extends ezcGraphPalette
     protected $axisColor = '#1E1E1E';
 
     /**
+     * Color of grid lines
+     * 
+     * @var ezcGraphColor
+     */
+    protected $majorGridColor = '#D3D7DF';
+
+    /**
      * Array with colors for datasets
      * 
      * @var array
