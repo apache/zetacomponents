@@ -708,6 +708,11 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             $endAngle = $tmp;
         }
         
+        if ( ( $endAngle - $startAngle ) >= 360 )
+        {
+            return $this->drawCircle( $center, $width, $height, $color, $filled );
+        }
+
         // We need the radius
         $width /= 2;
         $height /= 2;

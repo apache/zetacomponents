@@ -565,5 +565,36 @@ class ezcGraphPieChartTest extends ezcImageTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
+
+    public function testRenderPieChartWithOneDataPoint()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10 ) );
+
+        $chart->render( 500, 300, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testRender3dPieChartWithOneDataPoint()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10 ) );
+
+        $chart->renderer = new ezcGraphRenderer3d();
+        $chart->render( 500, 300, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
 }
 ?>
