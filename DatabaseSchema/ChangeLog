@@ -8,7 +8,7 @@
   to non-writable directories.
 - Implemented FR #8744: Changed the ezcDbSchema::getSchema() method 
   return the schema as a reference, so that it can be modified properly.
-
+- Fixed bug #009322: pgsql and sqlite handlers issues.
 
 1.0.2 - Monday 28 August 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

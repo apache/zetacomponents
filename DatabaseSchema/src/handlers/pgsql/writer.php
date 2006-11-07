@@ -272,7 +272,7 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
         }
         else
         {
-            $this->queries[] = "ALTER TABLE $tableName ALTER $fieldName TYPE".$fieldType;
+            $this->queries[] = "ALTER TABLE $tableName ALTER $fieldName TYPE".$fieldType." USING CAST($fieldName AS $fieldType)";
         }
     }
 

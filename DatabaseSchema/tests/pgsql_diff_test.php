@@ -134,7 +134,7 @@ class ezcDatabaseSchemaPgSqlDiffTest extends ezcTestCase
             0 => "DROP INDEX tertiary",
             1 => "ALTER TABLE bugdb_change DROP CONSTRAINT bugdb_change_pkey",
             2 => 'ALTER TABLE bugdb_change DROP integerfield1',
-            3 => 'ALTER TABLE bugdb_change ALTER integerfield3 TYPE varchar(64)',
+            3 => 'ALTER TABLE bugdb_change ALTER integerfield3 TYPE varchar(64) USING CAST(integerfield3 AS  varchar(64))',
             4 => 'ALTER TABLE bugdb_change ADD integerfield2 bigint NOT NULL',
             5 => 'ALTER TABLE bugdb_change ADD CONSTRAINT bugdb_change_pkey PRIMARY KEY ( integerfield2 )',
             6 => 'CREATE UNIQUE INDEX secondary ON bugdb_change ( integerfield3 )',

@@ -246,6 +246,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
             {
                 //will recreate changed field with new definition
                 $fieldsDefinitions[] = "$changeFieldNewName $changeFieldNewDefinition";
+                $fieldsList[] = $fieldSql[0];
                 continue; 
             }
 
@@ -282,10 +283,10 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
             if ( count($fieldsList)>0 ) 
             {
                 $db->exec( $tmpTableCreateSql );
-                $db->exec( "INSERT INTO $tmpTableName SELECT ". join(' ', $fieldsList )." FROM $tableName;" );
+                $db->exec( "INSERT INTO $tmpTableName SELECT ". join(', ', $fieldsList )." FROM $tableName;" );
                 $db->exec( "DROP TABLE $tableName;" );
                 $db->exec( $newTableCreateSql );
-                $db->exec( "INSERT INTO $tableName SELECT ". join(' ', $fieldsList )." FROM $tmpTableName;" );
+                $db->exec( "INSERT INTO $tableName SELECT ". join(', ', $fieldsList )." FROM $tmpTableName;" );
                 $db->exec( "DROP TABLE $tmpTableName;" );
             }
             else
@@ -352,14 +353,14 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
 
         $fields = join( ', ', $fieldsDefinitions );
         $tmpTableCreateSql = "CREATE TEMPORARY TABLE $tmpTableName( $fields  );";
-        $newTableCreateSql = "CREATE TABLE $tableName( ".join(' ', $fieldsList )." )" ;
+        $newTableCreateSql = "CREATE TABLE $tableName( $fields )" ;
         if ( count($fieldsList)>0 ) 
         {
             $db->exec( $tmpTableCreateSql );
-            $db->exec( "INSERT INTO $tmpTableName SELECT ". join(' ', $fieldsList )." FROM $tableName;" );
+            $db->exec( "INSERT INTO $tmpTableName SELECT ". join(', ', $fieldsList )." FROM $tableName;" );
             $db->exec( "DROP TABLE $tableName;" );
             $db->exec( $newTableCreateSql );
-            $db->exec( "INSERT INTO $tableName SELECT ". join(' ', $fieldsList )." FROM $tmpTableName;" );
+            $db->exec( "INSERT INTO $tableName SELECT ". join(', ', $fieldsList )." FROM $tmpTableName;" );
             $db->exec( "DROP TABLE $tmpTableName;" );
         }
         else

@@ -39,6 +39,7 @@ class ezcDbSchemaPgsqlReader implements ezcDbSchemaDbReader
         'date' => 'date',
         'datetime' => 'timestamp',
         'timestamp' => 'timestamp',
+        'timestamp without time zone' => 'timestamp',
         'time' => 'time',
         'year' => 'integer',
        
@@ -278,7 +279,7 @@ class ezcDbSchemaPgsqlReader implements ezcDbSchemaDbReader
         //fetching index info from PostgreSQL
         $getIndexSQL = "SELECT relname, pg_index.indisunique, pg_index.indisprimary, 
                                pg_index.indkey, pg_index.indrelid 
-                         FROM pg_class 
+                         FROM pg_class, pg_index
                          WHERE oid IN ( 
                                 SELECT indexrelid 
                                 FROM pg_index, pg_class 
