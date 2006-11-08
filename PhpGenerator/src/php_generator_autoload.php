@@ -1,6 +1,6 @@
 <?php
 /**
- * Autoloader definition for the Mail component.
+ * Autoloader definition for the PhpGenerator component.
  *
  * @package PhpGenerator
  * @version //autogen//
