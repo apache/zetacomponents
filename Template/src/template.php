@@ -231,9 +231,11 @@ class ezcTemplate
         $compiled = ezcTemplateCompiledCode::findCompiled( $this->properties["stream"], $config->context, $this );
         $this->properties["compiledTemplatePath"] = $compiled->path;
 
+        
         if ( !file_exists( $compiled->path ) || (
             $config->checkModifiedTemplates &&
-            file_exists( $this->properties["stream"] ) && filemtime( $this->properties["stream"] ) >= filemtime( $compiled->path ) )
+            // Do not recompile when the modification times are the same. This messes up the caching tests. 
+            file_exists( $this->properties["stream"] ) && filemtime( $this->properties["stream"] ) > filemtime( $compiled->path ) )
         )
         {
             $this->createDirectory( dirname( $compiled->path ) );

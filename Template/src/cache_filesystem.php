@@ -47,7 +47,9 @@ class ezcTemplateCacheFilesystem
 
         foreach( $this->keys as $key )
         {
-            $code .=  '.\'-\'. md5( var_export( $'.  $key . ', true ) ) ';
+            // md5( var_export( is_object( $key ) && method_exists( $key,  "cacheKey" )  ? $key->cacheKey() : $key ) )
+
+            $code .=  '.\'-\'. md5( var_export( is_object( $'.$key.' ) && method_exists( $'.$key.', "cacheKey" ) ? $'.$key.'->cacheKey() : $'.  $key . ', true ) ) ';
         }
 
         $code .= ";\n";
@@ -177,7 +179,6 @@ class ezcTemplateCacheFilesystem
         
         // Create a cache directory, if needed.
         $this->deleteOldCache();
-
     }
 }
 ?>

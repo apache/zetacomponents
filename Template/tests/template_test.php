@@ -82,6 +82,7 @@ class ezcTemplateTest extends ezcTestCase
         $res = $template->process( "reexecute_template.ezt" );
 
         // Change the template
+        sleep(1);
         file_put_contents( $this->templatePath . "/reexecute_template.ezt", "Goodbye cruel world" );
 
         $res2 = $template->process( "reexecute_template.ezt" );

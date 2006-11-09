@@ -189,12 +189,17 @@ class ezcTemplateAstToAstCache extends ezcTemplateAstWalker
         $if->conditions[] = $else = new ezcTemplateConditionBodyAstNode();
         $else->body = new ezcTemplateBodyAstNode();
         $else->body->statements = array();
+
         $else->body->statements[] =  $this->_includeCache();
 
         $type->statements = array();
 
         $type->statements = array_merge( $type->statements, $this->cacheSystem->checkTTL() );
         
+
+        $type->statements[] = new ezcTemplatePhpCodeAstNode("clearstatcache();\n");
+
+
         // The current statements are already moved to the if node, Don't need them here.
         $type->statements = array_merge( $type->statements, $cacheExists );
 
@@ -203,7 +208,6 @@ class ezcTemplateAstToAstCache extends ezcTemplateAstWalker
 
         // Create the statements that belong (on top) inside the if-body.
         $statements = array();
-
 
         $statements[] = $this->_fopenCacheFileWriteMode();                              // $fp = fopen( $this->cache, "w" ); 
 
