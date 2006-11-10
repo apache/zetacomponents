@@ -17,6 +17,7 @@ require_once( 'managers/multi_manager_test.php' );
 require_once( 'persistent_session_test.php' );
 require_once( 'find_iterator_test.php' );
 require_once( 'manual_generator_test.php' );
+require_once( 'native_generator_test.php' );
 require_once( 'persistent_session_instance_test.php' );
 require_once( 'one_to_many_relation_test.php' );
 require_once( 'many_to_one_relation_test.php' );
@@ -39,6 +40,7 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentSessionTest::suite() );
         $this->addTest( ezcPersistentFindIteratorTest::suite() );
         $this->addTest( ezcPersistentManualGeneratorTest::suite() );
+        $this->addTest( ezcPersistentNativeGeneratorTest::suite() );
         $this->addTest( ezcPersistentSessionInstanceTest::suite() );
         $this->addTest( ezcPersistentOneToManyRelationTest::suite() );
         $this->addTest( ezcPersistentOneToOneRelationTest::suite() );

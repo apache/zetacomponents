@@ -21,6 +21,7 @@ return array(
     'ezcPersistentIdentifierGenerator'                  => 'PersistentObject/interfaces/identifier_generator.php',
     'ezcPersistentSequenceGenerator'                    => 'PersistentObject/generators/sequence_generator.php',
     'ezcPersistentManualGenerator'                      => 'PersistentObject/generators/manual_generator.php',
+    'ezcPersistentNativeGenerator'                      => 'PersistentObject/generators/native_generator.php',
     'ezcPersistentIdentifierGenerationException'        => 'PersistentObject/exceptions/identifier_generation.php',
 
     'ezcPersistentObjectDefinition'                     => 'PersistentObject/structs/persistent_object_definition.php',

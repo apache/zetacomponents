@@ -1,7 +1,11 @@
 1.2beta2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue #009248: SQLite driver throws wierd exception.
+- Fixed issue #9248: SQLite driver throws wierd exception.
+- Fixed issue #8962: "Sequence Generator" incorrect name for MySQL. MySQL
+  should use the new "ezcPersistentNativeGenerator" from now, with
+  auto_increment. "ezcPersistentSequenceGenerator" dispatches to this for BC
+  reasons.
 
 
 1.2beta1 - Tuesday 24 October 2006
