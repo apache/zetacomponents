@@ -1,6 +1,6 @@
 <?php
 /**
- * File contaning the class for image comparision
+ * File contaning the image comparision constraint.
  *
  * @package Graph
  * @version //autogentag//
@@ -11,75 +11,83 @@
 ezcTestRunner::addFileToFilter( __FILE__ );
 
 /**
- * Class to test if images are similar
+ * Constraint for image comparison.
  *
  * @package Unittest
  */
-class ezcTestConstraintSimilarImage implements PHPUnit_Framework_Constraint
+class ezcTestConstraintSimilarImage extends PHPUnit_Framework_Constraint
 {
-
     /**
-     * Contains the filename of image to compare with
+     * Filename of the image to compare against.
      * 
      * @var string
      */
-    protected $value;
+    protected $filename;
 
     /**
-     * Maximum difference between images
+     * Maximum delta between images.
      * 
      * @var int
      */
     protected $delta;
 
     /**
-     * Difference between images
+     * Difference between images.
      * 
      * @var int
      */
     protected $difference;
 
     /**
-     * Constructor
+     * Constructor.
      * 
-     * @param string $value Filename of the image to compare with
-     * @param int $delta Maximum difference between images
+     * @param string $filename Filename of the image to compare against.
+     * @param int $delta Maximum delta between images.
      * @return ezcConstraintSimilarImage
      */
-    public function __construct( $value, $delta = 0 )
+    public function __construct( $filename, $delta = 0 )
     {
-        if ( is_file( $value )  &&
-             is_readable( $value ) )
+        if ( is_string( $filename ) &&
+             is_file( $filename ) &&
+             is_readable( $filename ) )
         {
-            $this->value = $value;
+            $this->filename = $filename;
         }
         else
         {
-            throw new ezcBaseFileNotFoundException( $value );
+            throw new ezcBaseFileNotFoundException( $filename );
         }
 
         $this->delta = (int) $delta;
     }
 
     /**
-     * Compares an image
+     * Evaluates the constraint for parameter $other. Returns TRUE if the
+     * constraint is met, FALSE otherwise.
      *
-     * Compares an image with another one and returns true if the difference
-     * is lower then the defined delta.
-     * 
-     * @param string $other Filename of the other image
-     * @return bool Wheather image is similar enough
+     * @param mixed $other Filename of the image to compare.
+     * @return bool
+     * @abstract
      */
     public function evaluate( $other )
     {
-        if ( !is_file( $other )  ||
+        if ( !is_string( $other ) ||
+             !is_file( $other ) ||
              !is_readable( $other ) )
         {
             throw new ezcBaseFileNotFoundException( $other );
         }
 
-        $return = shell_exec( 'compare -metric MAE ' . escapeshellarg( $this->value ) . ' ' . escapeshellarg( $other ) . ' null:' );
-        if ( preg_match( '/([\d.,e]+)\s+dB/', $return, $match ) )
+        $result = shell_exec(
+          sprintf(
+            'compare -metric MAE %s %s null:',
+
+            escapeshellarg( $this->filename ),
+            escapeshellarg( $other )
+          )
+        );
+
+        if ( preg_match( '/([\d.,e]+)\s+dB/', $result, $match ) )
         {
             $this->difference = (int) $match[1];
             return ( $this->difference <= $this->delta );
@@ -89,19 +97,46 @@ class ezcTestConstraintSimilarImage implements PHPUnit_Framework_Constraint
     }
 
     /**
-     * Throws failed exception
-     * 
-     * @param string $other Filename of compared image
-     * @param string $description Description of failure
-     * @throw PHPUnit_Framework_ExpectationFailedException
-     * @return void
+     * Creates the appropriate exception for the constraint which can be caught
+     * by the unit test system. This can be called if a call to evaluate() fails.
+     *
+     * @param   mixed   $other The value passed to evaluate() which failed the
+     *                         constraint check.
+     * @param   string  $description A string with extra description of what was
+     *                               going on while the evaluation failed.
+     * @param   boolean $not Flag to indicate negation.
+     * @throws  PHPUnit_Framework_ExpectationFailedException
      */
-    public function fail( $other, $description )
+    public function fail( $other, $description, $not = false )
     {
-        throw new PHPUnit_Framework_ExpectationFailedException(
-            $description,
-            PHPUnit_Framework_ComparisonFailure::diffEqual( $this->delta, $this->difference )
+        $failureDescription = sprintf(
+          'Failed asserting that image "%s" is similar to image "%s".',
+
+           $other,
+           $this->filename
         );
+
+        if ($not) {
+            $failureDescription = self::negate($failureDescription);
+        }
+
+        if (!empty($description)) {
+            $failureDescription = $description . "\n" . $failureDescription;
+        }
+
+        if (!$not) {
+            throw new PHPUnit_Framework_ExpectationFailedException(
+              $failureDescription,
+              PHPUnit_Framework_ComparisonFailure::diffEqual(
+                $this->delta,
+                $this->difference
+              )
+            );
+        } else {
+            throw new PHPUnit_Framework_ExpectationFailedException(
+              $failureDescription
+            );
+        }
     }
 
     /**
@@ -111,10 +146,10 @@ class ezcTestConstraintSimilarImage implements PHPUnit_Framework_Constraint
      */
     public function toString()
     {
-        return sprintf( 'is similar to <%s>', 
-            $this->value
+        return sprintf(
+          'is similar to "%s"', 
+          $this->filename
         );
     }
 }
-
 ?>
