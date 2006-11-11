@@ -40,9 +40,10 @@ class ezcImageTransformationException extends ezcImageException
      * exception to it. The ezcImageTransformationException is just the catch-
      * all container. The parent is stored for logging/debugging purpose.
      * 
-     * @param Exception $e 
+     * @param ezcBaseException $e Any exception that may occur during
+     *                            transformation.
      */
-    public function __construct( ezcImageException $e )
+    public function __construct( ezcBaseException $e )
     {
         $this->parent = $e;
         $message = $e->getMessage();

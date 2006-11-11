@@ -420,6 +420,26 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
         );
     }
 
+    public function testTransformFailureText()
+    {
+        $trans = new ezcImageTransformation(
+            $this->converter,
+            "test",
+            $this->testFiltersSuccess[0],
+            array( "image/jpeg", "image/png" )
+        );
+
+        try
+        {
+            $trans->transform( $this->testFiles["text"], $this->getTempPath() );
+        }
+        catch ( ezcImageTransformationException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on invalid image input." );
+    }
+
     public function testTransformSuccessPng_2()
     {
         $trans = new ezcImageTransformation(

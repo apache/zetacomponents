@@ -1,11 +1,13 @@
 1.2beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue #009012: [ImageConversion] Problems with open_basedir.
-- Fixed issue #008892: [ImageConversion] Handler / Converter destruction should
-  remove all temp files
-- Fixed issue #009013: [ImageConversion] SVG not detected in
+- Fixed issue #9012: Problems with open_basedir.
+- Fixed issue #8892: Handler / Converter destruction should remove all temp
+  files.
+- Fixed issue #9013: SVG not detected in
   ezcImageImagemagickBaseHandler::determineTypes().
+- Fixed issue #9014: ezcImageTransformationException doesn't accept
+  ezcImageAnalyzerException as argument.
 
 
 1.1.2 - Monday 09 October 2006
