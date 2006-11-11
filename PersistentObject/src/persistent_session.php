@@ -499,6 +499,8 @@ class ezcPersistentSession
         
         $query = $this->createFindQuery( $relatedClass );
 
+        $objectState = $object->getState();
+
         switch ( ( $relationClass = get_class( $relation ) ) )
         {
             case "ezcPersistentOneToManyRelation":
@@ -509,7 +511,7 @@ class ezcPersistentSession
                     $query->where(
                         $query->expr->eq(
                             $this->database->quoteIdentifier( "{$map->destinationColumn}" ),
-                            $query->bindValue( $object->{$def->columns[$map->sourceColumn]->propertyName} )
+                            $query->bindValue( $objectState[$def->columns[$map->sourceColumn]->propertyName] )
                         )
                     );
                 }
@@ -521,7 +523,7 @@ class ezcPersistentSession
                     $query->where(
                         $query->expr->eq(
                             $this->database->quoteIdentifier( $relation->relationTable ) . "." . $this->database->quoteIdentifier( $map->relationSourceColumn ),
-                            $query->bindValue( $object->{$def->columns[$map->sourceColumn]->propertyName} )
+                            $query->bindValue( $objectState[$def->columns[$map->sourceColumn]->propertyName] )
                         ),
                         $query->expr->eq(
                             $this->database->quoteIdentifier( $relation->relationTable ) . "." . $this->database->quoteIdentifier( $map->relationDestinationColumn ),
@@ -558,6 +560,9 @@ class ezcPersistentSession
         $def = $this->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
 
         $relatedClass = get_class( $relatedObject );
+
+        $objectState = $object->getState();
+        $relatedObjectState = $relatedObject->getState();
         
         if ( !isset( $def->relations[$relatedClass] ) )
         {
@@ -580,8 +585,8 @@ class ezcPersistentSession
             case "ezcPersistentOneToOneRelation":
                 foreach ( $relation->columnMap as $map )
                 {
-                    $relatedObject->{$relatedDef->columns[$map->destinationColumn]->propertyName} = 
-                        $object->{$def->columns[$map->sourceColumn]->propertyName};
+                    $relatedObjectState[$relatedDef->columns[$map->destinationColumn]->propertyName] = 
+                        $objectState[$def->columns[$map->sourceColumn]->propertyName];
                 }
                 break;
             case "ezcPersistentManyToManyRelation":
@@ -591,11 +596,11 @@ class ezcPersistentSession
                 {
                     $q->set(
                         $this->database->quoteIdentifier( $map->relationSourceColumn ),
-                        $q->bindValue( $object->{$def->columns[$map->sourceColumn]->propertyName} )
+                        $q->bindValue( $objectState[$def->columns[$map->sourceColumn]->propertyName] )
                     );
                     $q->set(
                         $this->database->quoteIdentifier( $map->relationDestinationColumn ),
-                        $q->bindValue( $relatedObject->{$relatedDef->columns[$map->destinationColumn]->propertyName} )
+                        $q->bindValue( $relatedObjectState[$relatedDef->columns[$map->destinationColumn]->propertyName] )
                     );
                 }
                 $stmt = $q->prepare();
@@ -604,6 +609,8 @@ class ezcPersistentSession
             case "ezcPersistentManyToOneRelation":
                 throw new Exception( "Still in development, not implemented, yet!" );
         }
+
+        $relatedObject->setState( $relatedObjectState );
     }
 
     /**
@@ -642,6 +649,9 @@ class ezcPersistentSession
                 "Relation is a reverse relation."
             );
         }
+
+        $objectState = $object->getState();
+        $relatedObjectState = $relatedObject->getState();
         
         $relatedDef = $this->definitionManager->fetchDefinition( get_class( $relatedObject ) );
         switch( get_class( ( $relation = $def->relations[get_class( $relatedObject )] ) ) )
@@ -650,7 +660,7 @@ class ezcPersistentSession
             case "ezcPersistentOneToOneRelation":
                 foreach ( $relation->columnMap as $map )
                 {
-                    $relatedObject->{$relatedDef->columns[$map->destinationColumn]->propertyName} = null;
+                    $relatedObjectState[$relatedDef->columns[$map->destinationColumn]->propertyName] = null;
                 }
                 break;
             case "ezcPersistentManyToManyRelation":
@@ -661,11 +671,11 @@ class ezcPersistentSession
                     $q->where(
                         $q->expr->eq(
                             $this->database->quoteIdentifier( $map->relationSourceColumn ),
-                            $q->bindValue( $object->{$def->columns[$map->sourceColumn]->propertyName} )
+                            $q->bindValue( $objectState[$def->columns[$map->sourceColumn]->propertyName] )
                         ),
                         $q->expr->eq(
                             $this->database->quoteIdentifier( $map->relationDestinationColumn ),
-                            $q->bindValue( $relatedObject->{$relatedDef->columns[$map->destinationColumn]->propertyName} )
+                            $q->bindValue( $relatedObjectState[$relatedDef->columns[$map->destinationColumn]->propertyName] )
                         )
                     );
                 }
@@ -673,6 +683,8 @@ class ezcPersistentSession
                 $stmt->execute();
                 break;
         }
+
+        $relatedObject->setState( $relatedObjectState );
     }
 
     /*
