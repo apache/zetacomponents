@@ -46,23 +46,30 @@ class ezcDatabaseSchemaSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDatabaseSchemaXmlTest::suite() );
         $this->addTest( ezcDatabaseSchemaXmlDiffTest::suite() );
         
-        $dbType = ezcDbInstance::get()->getName();
-        switch ( $dbType )
+        try
         {
-            case 'mysql':
-                $this->addTest( ezcDatabaseSchemaMysqlTest::suite() );
-                $this->addTest( ezcDatabaseSchemaMysqlDiffTest::suite() );
-            break;
-            case 'pgsql':
-                $this->addTest( ezcDatabaseSchemaPgsqlTest::suite() );
-                $this->addTest( ezcDatabaseSchemaPgsqlDiffTest::suite() );
-            break;
-            case 'sqlite':
-                $this->addTest( ezcDatabaseSchemaSqliteTest::suite() );
-                $this->addTest( ezcDatabaseSchemaSqliteDiffTest::suite() );
-            break;
+            $dbType = ezcDbInstance::get()->getName();
+
+            switch ( $dbType )
+            {
+                case 'mysql':
+                    $this->addTest( ezcDatabaseSchemaMysqlTest::suite() );
+                    $this->addTest( ezcDatabaseSchemaMysqlDiffTest::suite() );
+                break;
+                case 'pgsql':
+                    $this->addTest( ezcDatabaseSchemaPgsqlTest::suite() );
+                    $this->addTest( ezcDatabaseSchemaPgsqlDiffTest::suite() );
+                break;
+                case 'sqlite':
+                    $this->addTest( ezcDatabaseSchemaSqliteTest::suite() );
+                    $this->addTest( ezcDatabaseSchemaSqliteDiffTest::suite() );
+                break;
+            }
         }
-        
+        catch ( ezcDbHandlerNotFoundException $e )
+        {
+        }
+
         $this->addTest( ezcDatabaseSchemaPersistentTest::suite() );
     }
 
