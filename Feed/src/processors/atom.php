@@ -24,6 +24,14 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     {
     }
 
+    public function getFeedElement( $element )
+    {
+    }
+
+    public function getFeedItemElement( $item, $element )
+    {
+    }
+
     public function generate()
     {
     }
@@ -31,6 +39,14 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     public static function canParse( DomDocument $xml )
     {
         return false;
+    }
+
+    public function parseItem( ezcFeed $feed, DomElement $item )
+    {
+    }
+ 
+    public function parse( DomDocument $xml )
+    {
     }
 }
 ?>
