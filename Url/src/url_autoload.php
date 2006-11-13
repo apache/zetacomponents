@@ -10,6 +10,7 @@
 return array(
     'ezcUrl'                => 'Url/url.php',
     'ezcUrlConfiguration'   => 'Url/url_configuration.php',
+    'ezcUrlCreator'         => 'Url/url_creator.php',
 
     'ezcUrlException'                 => 'Url/exceptions/url_exception.php',
     'ezcUrlNotRegisteredException'    => 'Url/exceptions/url_not_registered_exception.php',

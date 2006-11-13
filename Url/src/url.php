@@ -10,7 +10,7 @@
  */
 
 /**
- * ezcUrl stores a URL both absolute and relative and contains methods to
+ * ezcUrl stores an URL both absolute and relative and contains methods to
  * retrieve the various parts of the URL and to manipulate them.
  *
  * @property string $host
@@ -56,7 +56,7 @@ class ezcUrl
      *
      * @var ezcUrlConfiguration
      */
-    public $urlCfg = null;
+    private $urlCfg = null;
 
     /**
      * Constructs a new ezcUrl object from the string $url.
@@ -77,7 +77,7 @@ class ezcUrl
      * Sets the property $name to $value.
      *
      * @throws ezcBasePropertyNotFoundException
-     *         if the property does not exist.
+     *         if the property does not exist
      * @param string $name
      * @param mixed $value
      * @ignore
@@ -100,6 +100,7 @@ class ezcUrl
             case 'uparams':
                 $this->properties[$name] = $value;
                 break;
+
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
                 break;
@@ -110,7 +111,7 @@ class ezcUrl
      * Returns the property $name.
      *
      * @throws ezcBasePropertyNotFoundException
-     *         if the property does not exist.
+     *         if the property does not exist
      * @param string $name
      * @return mixed
      * @ignore
@@ -132,10 +133,39 @@ class ezcUrl
             case 'params':
             case 'uparams':
                 return $this->properties[$name];
-                break;
+
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
-                break;
+        }
+    }
+
+    /**
+     * Returns true if the property $name is set, otherwise false.
+     *
+     * @param $name
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        switch ( $name )
+        {
+            case 'host':
+            case 'path':
+            case 'user':
+            case 'pass':
+            case 'port':
+            case 'scheme':
+            case 'fragment':
+            case 'query':
+            case 'basedir':
+            case 'script':
+            case 'params':
+            case 'uparams':
+                return isset( $this->properties[$name] );
+
+            default:
+                return false;
         }
     }
 
@@ -184,35 +214,31 @@ class ezcUrl
     /**
      * Applies the configuration $urlCfg to the current url.
      *
+     * It fills the arrays $basedir, $script, $params and $uparams with values
+     * from $path.
+     *
      * @param ezcUrlConfiguration $urlCfg
      */
     public function applyConfiguration( $urlCfg )
     {
         $this->urlCfg = $urlCfg;
-        $this->basedir = $this->parseElement( $urlCfg->basedir, 0 );
-        $this->script = $this->parseElement( $urlCfg->script, count( $this->basedir ) );
-        $this->uparams = $this->parseUnorderedParameters();
-        if ( count( $this->uparams ) != 0 )
-        {
-            $this->params = array_slice( $this->path, count( $this->basedir ) + count( $this->script ), count( $this->path ) - count( $this->uparams, COUNT_RECURSIVE ) );
-        }
-        else
-        {
-            $this->params = array_slice( $this->path, count( $this->basedir ) + count( $this->script ) );
-        }
+        $this->basedir = $this->parsePathElement( $urlCfg->basedir, 0 );
+        $this->script = $this->parsePathElement( $urlCfg->script, count( $this->basedir ) );
+        $this->params = $this->parseOrderedParameters( $urlCfg->orderedParameters, count( $this->basedir ) + count( $this->script ) );
+        $this->uparams = $this->parseUnorderedParameters( $urlCfg->unorderedParameters, count( $this->basedir ) + count( $this->script ) + count( $this->params ) );
     }
 
     /**
-     * Parses start of $this->path based on the configuration provided.
+     * Parses $path based on the configuration $config, starting from $index.
      *
      * Returns the first few elements of $this->path matching $config,
      * starting from $index.
      *
      * @param string $config
      * @param int $index
-     * @return array
+     * @return array(string=>mixed)
      */
-    private function parseElement( $config, $index )
+    private function parsePathElement( $config, $index )
     {
         $paramParts = explode( '/', $config );
         $pathElement = array();
@@ -228,34 +254,58 @@ class ezcUrl
     }
 
     /**
-     * Parses the $path array.
+     * Returns ordered parameters from the $path array.
      *
+     * @param array(int=>string) $config
+     * @param int $index
      * @return array(string=>mixed)
      */
-    private function parseUnorderedParameters()
+    public function parseOrderedParameters( $config, $index )
     {
         $result = array();
-        $path = $this->path;
-        $pathCount = count( $path );
-        if ( $pathCount == 0 || ( $pathCount == 1 && trim( $path[0] ) === "" ) )
+        $pathCount = count( $this->path );
+        for ( $i = 0; $i < count( $config ); $i++ )
+        {
+            if ( isset( $this->path[$index + $i] ) )
+            {
+                $result[] = $this->path[$index + $i];
+            }
+            else
+            {
+                $result[] = null;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Returns unordered parameters from the $path array.
+     *
+     * @param array(int=>string) $config
+     * @param int $index
+     * @return array(string=>mixed)
+     */
+    public function parseUnorderedParameters( $config, $index )
+    {
+        $result = array();
+        $pathCount = count( $this->path );
+        if ( $pathCount == 0 || ( $pathCount == 1 && trim( $this->path[0] ) === "" ) )
         {
             // special case: a bug? in parse_url() which makes $this->path
             // be array( "" ) if the provided url is null or empty
             return $result;
         }
-        for ( $i = 0; $i < $pathCount; $i++ )
+        for ( $i = $index; $i < $pathCount; $i++ )
         {
-            $param = $path[$i];
+            $param = $this->path[$i];
             if ( $param{0} == $this->urlCfg->unorderedDelimiters[0] )
             {
-                $param = trim( trim( $param, $this->urlCfg->unorderedDelimiters[0] ),
-                    $this->urlCfg->unorderedDelimiters[1] );
+                $param = trim( trim( $param, $this->urlCfg->unorderedDelimiters[0] ), $this->urlCfg->unorderedDelimiters[1] );
                 $result[$param] = array();
                 $j = 1;
-                while ( ( $i + $j ) < $pathCount && $path[$i + $j]{0} != $this->urlCfg->unorderedDelimiters[0] )
+                while ( ( $i + $j ) < $pathCount && $this->path[$i + $j]{0} != $this->urlCfg->unorderedDelimiters[0] )
                 {
-                    $result[$param][] = trim( trim( $path[$i + $j], $this->urlCfg->unorderedDelimiters[0] ),
-                        $this->urlCfg->unorderedDelimiters[1]  );
+                    $result[$param][] = trim( trim( $this->path[$i + $j], $this->urlCfg->unorderedDelimiters[0] ), $this->urlCfg->unorderedDelimiters[1] );
                     $j++;
                 }
             }
@@ -362,9 +412,9 @@ class ezcUrl
      * Returns the specified parameter from the url based on $urlCfg.
      *
      * @throws ezcUrlNoConfigurationException
-     *         if an url configuration was not defined.
+     *         if an $urlCfg is not defined
      * @throws ezcUrlInvalidParameterException
-     *         if the specified parameter is not defined in the configuration.
+     *         if the specified parameter is not defined in $urlCfg
      * @param string $name
      * @return mixed
      */
@@ -410,9 +460,9 @@ class ezcUrl
      * Sets the specified parameter in the url based on $urlCfg.
      *
      * @throws ezcUrlNoConfigurationException
-     *         if an url configuration was not defined.
+     *         if an $urlCfg is not defined
      * @throws ezcUrlInvalidParameterException
-     *         if the specified parameter is not defined in the configuration.
+     *         if the specified parameter is not defined in $urlCfg
      * @param string $name
      * @param string $value
      */
@@ -454,7 +504,7 @@ class ezcUrl
      * for 'http://www.example.com/mydir/shop?content=view&products=10'
      * returns array( 'content' => 'view', 'products' => '10' )
      *
-     * @return array
+     * @return array(string=>mixed)
      */
     public function getQuery()
     {

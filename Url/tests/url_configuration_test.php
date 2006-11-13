@@ -46,6 +46,8 @@ class ezcUrlConfigurationTest extends ezcTestCase
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
+            $expected = 'No such property name <no_such_property>.';
+            $this->assertEquals( $expected, $e->getMessage() );
         }
     }
 
@@ -64,7 +66,7 @@ class ezcUrlConfigurationTest extends ezcTestCase
         $this->assertEquals( '/mydir/shop', $urlCfg->basedir );
         $this->assertEquals( 'index.php', $urlCfg->script );
         $this->assertEquals( array( 'section' => 0, 'module' => 1, 'view' => 2, 'branch' => 3 ),
-            $urlCfg->orderedParameters );
+                             $urlCfg->orderedParameters );
         $this->assertEquals( array( 'file' => 1 ), $urlCfg->unorderedParameters );
         $this->assertEquals( array( '_', '_' ), $urlCfg->unorderedDelimiters );
     }
@@ -79,6 +81,8 @@ class ezcUrlConfigurationTest extends ezcTestCase
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
+            $expected = 'No such property name <no_such_property>.';
+            $this->assertEquals( $expected, $e->getMessage() );
         }
     }
 

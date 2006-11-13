@@ -37,6 +37,8 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
+            $expected = 'No such property name <no_such_property>.';
+            $this->assertEquals( $expected, $e->getMessage() );
         }
     }
 
@@ -65,6 +67,8 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
+            $expected = 'No such property name <no_such_property>.';
+            $this->assertEquals( $expected, $e->getMessage() );
         }
     }
 
@@ -98,6 +102,10 @@ class ezcUrlTest extends ezcTestCase
         $urlCfg = new ezcUrlConfiguration();
         $urlCfg->basedir = 'mydir/shop';
         $urlCfg->script = 'index.php';
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addOrderedParameter( 'view' );
+        $urlCfg->addOrderedParameter( 'content' );
 
         $url = new ezcUrl( 'http://www.example.com/mydir/shop/index.php/doc/components/view/trunk', $urlCfg );
         $expected = 'http://www.example.com/mydir/shop/doc/components/view/trunk';
@@ -180,6 +188,8 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcUrlInvalidParameterException $e )
         {
+            $expected = 'The parameter <section> could not be set/get because it is not defined in the configuration.';
+            $this->assertEquals( $expected, $e->getMessage() );
         }
     }
 
@@ -193,6 +203,8 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcUrlNoConfigurationException $e )
         {
+            $expected = 'The parameter <section> could not be set/get because the url doesn\'t have a configuration defined.';
+            $this->assertEquals( $expected, $e->getMessage() );
         }
     }
 
@@ -222,6 +234,8 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcUrlInvalidParameterException $e )
         {
+            $expected = 'The parameter <section> could not be set/get because it is not defined in the configuration.';
+            $this->assertEquals( $expected, $e->getMessage() );
         }
     }
 
@@ -235,6 +249,8 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcUrlNoConfigurationException $e )
         {
+            $expected = 'The parameter <section> could not be set/get because the url doesn\'t have a configuration defined.';
+            $this->assertEquals( $expected, $e->getMessage() );
         }
     }
 
@@ -277,6 +293,8 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcUrlInvalidParameterException $e )
         {
+            $expected = 'The parameter <file> could not be set/get because it is not defined in the configuration.';
+            $this->assertEquals( $expected, $e->getMessage() );
         }
     }
 
@@ -290,6 +308,8 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcUrlNoConfigurationException $e )
         {
+            $expected = 'The parameter <file> could not be set/get because the url doesn\'t have a configuration defined.';
+            $this->assertEquals( $expected, $e->getMessage() );
         }
     }
 
@@ -297,6 +317,10 @@ class ezcUrlTest extends ezcTestCase
     {
         $urlCfg = new ezcUrlConfiguration();
         $urlCfg->addUnorderedParameter( 'file' );
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addOrderedParameter( 'view' );
+        $urlCfg->addOrderedParameter( 'content' );
 
         $url = new ezcUrl( 'http://www.example.com/doc/components/view/trunk', $urlCfg );
         $expected = 'http://www.example.com/doc/components/view/trunk/(file)/Base';
@@ -308,6 +332,10 @@ class ezcUrlTest extends ezcTestCase
     {
         $urlCfg = new ezcUrlConfiguration();
         $urlCfg->addUnorderedParameter( 'file', ezcUrlConfiguration::MULTIPLE_ARGUMENTS );
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addOrderedParameter( 'view' );
+        $urlCfg->addOrderedParameter( 'content' );
 
         $url = new ezcUrl( 'http://www.example.com/doc/components/view/trunk', $urlCfg );
         $expected = 'http://www.example.com/doc/components/view/trunk/(file)/Base/ezcBase.html';
@@ -327,6 +355,8 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcUrlInvalidParameterException $e )
         {
+            $expected = 'The parameter <file> could not be set/get because it is not defined in the configuration.';
+            $this->assertEquals( $expected, $e->getMessage() );
         }
     }
 
@@ -340,7 +370,27 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcUrlNoConfigurationException $e )
         {
+            $expected = 'The parameter <file> could not be set/get because the url doesn\'t have a configuration defined.';
+            $this->assertEquals( $expected, $e->getMessage() );
         }
+    }
+
+    public function testIsSet()
+    {
+        $url = new ezcUrl( 'http://www.example.com' );
+        $this->assertEquals( true, isset( $url->host ) );
+        $this->assertEquals( false, isset( $url->user ) );
+        $this->assertEquals( false, isset( $url->pass ) );
+        $this->assertEquals( false, isset( $url->port ) );
+        $this->assertEquals( true, isset( $url->scheme ) );
+        $this->assertEquals( false, isset( $url->fragment ) );
+        $this->assertEquals( true, isset( $url->path ) );
+        $this->assertEquals( true, isset( $url->basedir ) );
+        $this->assertEquals( true, isset( $url->script ) );
+        $this->assertEquals( true, isset( $url->params ) );
+        $this->assertEquals( true, isset( $url->uparams ) );
+        $this->assertEquals( true, isset( $url->query ) );
+        $this->assertEquals( false, isset( $url->no_such_property ) );
     }
 
     public static function suite()

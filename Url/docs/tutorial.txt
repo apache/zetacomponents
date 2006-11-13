@@ -7,7 +7,7 @@ Introduction
 ============
 
 The Url package provides basic operations to handle urls (parse, build,
-get/set path parameters, get/set query).
+get/set path parameters, get/set query, create formatted urls).
 
 Class overview
 ==============
@@ -17,9 +17,14 @@ ezcUrl
   building, get/set parameters, get/set query.
 
 ezcUrlConfiguration
-  This class allows definition of url configurations( basedir, script,
+  This class allows definition of url configurations (basedir, script,
   ordered parameters, unordered parameters, delimiters for unordered
   parameters names).
+
+ezcUrlCreator
+  This class allows registering an url under a alias, and then using that
+  alias to generate another url suffixed with a value, or to create urls
+  formatted using the syntax of the PHP function sprintf().
 
 Notes
 =====
@@ -234,6 +239,41 @@ the parameters into the provided url:
 The output will be: ::
 
     string(7) "Beatles"
+
+Using the url creator
+=====================
+
+Append a suffix to an url
+-------------------------
+
+With the url creator you can register an url under an alias, and then use that
+alias when you want to prepend the url to a filename.
+
+.. include:: tutorial_url_creator.php
+    :literal:
+
+The output will be: ::
+
+    string(53) "/images/geo/map_norway.gif?xsize=450&ysize=450&zoom=4"
+
+    string(53) "/images/geo/map_sweden.gif?xsize=450&ysize=450&zoom=4"
+
+    string(38) "/images/geo?xsize=450&ysize=450&zoom=4"
+
+Use formatting for an url
+-------------------------
+
+With the url creator you can register an url under an alias, and then use that
+alias when you want to apply formating to an url.
+
+.. include:: tutorial_url_creator_params.php
+    :literal:
+
+The output will be: ::
+
+    string(53) "/images/geo/map_norway.gif?xsize=450&ysize=450&zoom=4"
+
+    string(53) "/images/geo/map_sweden.gif?xsize=450&ysize=450&zoom=4"
 
 
 ..

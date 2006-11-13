@@ -9,7 +9,7 @@
  */
 /**
  * ezcUrlNoConfigurationException is thrown whenever you try to use a url
- * that is not registered.
+ * configuration that is not defined.
  *
  * @package Url
  * @version //autogen//
@@ -23,7 +23,7 @@ class ezcUrlNoConfigurationException extends ezcUrlException
      */
     public function __construct( $param )
     {
-        $message = "The parameter {$param} could not be set/get because the url doesn't have a configuration defined.";
+        $message = "The parameter <{$param}> could not be set/get because the url doesn't have a configuration defined.";
         parent::__construct( $message, 0 );
     }
 }
