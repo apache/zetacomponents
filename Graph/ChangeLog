@@ -1,6 +1,7 @@
 1.0beta2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed bug #9403: Element references do not work with Gleam in SVG
 - Implemented issue #9304: Possibility to format labels via callback
 
 1.0beta1 - Monday 25 September 2006
