@@ -250,14 +250,16 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                     $this->options->pieChartGleamColor->transparent( $this->options->pieChartGleam )
                 );
 
-                $this->driver->drawCircleSector(
-                    $circleSector['center'],
-                    $circleSector['width'] - $this->options->pieChartGleamBorder * 2,
-                    $circleSector['height'] - $this->options->pieChartGleamBorder * 2,
-                    $circleSector['start'],
-                    $circleSector['end'],
-                    $gradient,
-                    true
+                $this->addElementReference( $circleSector['context'],
+                    $this->driver->drawCircleSector(
+                        $circleSector['center'],
+                        $circleSector['width'] - $this->options->pieChartGleamBorder * 2,
+                        $circleSector['height'] - $this->options->pieChartGleamBorder * 2,
+                        $circleSector['start'],
+                        $circleSector['end'],
+                        $gradient,
+                        true
+                    )
                 );
 
                 $gradient = new ezcGraphLinearGradient(
@@ -273,14 +275,16 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                     $this->options->pieChartGleamColor->transparent( $this->options->pieChartGleam )
                 );
 
-                $this->driver->drawCircleSector(
-                    $circleSector['center'],
-                    $circleSector['width'] - $this->options->pieChartGleamBorder * 2,
-                    $circleSector['height'] - $this->options->pieChartGleamBorder * 2,
-                    $circleSector['start'],
-                    $circleSector['end'],
-                    $gradient,
-                    true
+                $this->addElementReference( $circleSector['context'],
+                    $this->driver->drawCircleSector(
+                        $circleSector['center'],
+                        $circleSector['width'] - $this->options->pieChartGleamBorder * 2,
+                        $circleSector['height'] - $this->options->pieChartGleamBorder * 2,
+                        $circleSector['start'],
+                        $circleSector['end'],
+                        $gradient,
+                        true
+                    )
                 );
             }
         }
