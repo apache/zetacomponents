@@ -1,7 +1,0 @@
-Missing features:
- - Support for rotated texts
- - Datasets from PDO Statements
- - Logarithmical scaled axis
- - Radar charts
-   http://www.aditus.nu/jpgraph/img/gallery/radarlogex1.png
- - Cairo driver
