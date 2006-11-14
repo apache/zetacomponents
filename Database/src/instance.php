@@ -97,6 +97,16 @@ class ezcDbInstance
     }
 
     /**
+     * Returns the identifiers of the registered database instances.
+     *
+     * @return array(string)
+     */
+    public static function getIdentifiers()
+    {
+        return array_keys( self::$Instances );
+    }
+
+    /**
      * Adds the database handler $db to the list of known instances.
      *
      * If $identifier is specified the database instance can be
