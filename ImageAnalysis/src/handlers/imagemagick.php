@@ -11,13 +11,13 @@
 
 /**
  * Class to retrieve information about a given image file.
- * This is an ezcImageAnalyzerHandler that utilizes ImageMagick to analyze 
- * image files. 
+ * This is an ezcImageAnalyzerHandler that utilizes ImageMagick to analyze
+ * image files.
  *
  * This ezcImageAnalyzerHandler can be configured using the
  * Option 'binary', which must be set to the full path of the ImageMagick
  * "identify" binary. If this option is not submitted to the
- * {@link ezcImageAnalyzerHandler::__construct()} method, the handler will 
+ * {@link ezcImageAnalyzerHandler::__construct()} method, the handler will
  * use just the name of the binary ("identify" on Unix, "identify.exe" on
  * Windows).
  *
@@ -25,23 +25,25 @@
  * the {@link ezcImageAnalyzer::setHandlerClasses()}.
  *
  * @package ImageAnalysis
+ * @version //autogentag//
  */
 class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
 {
-
     /**
      * The ImageMagick binary to utilize.
-     * This variable is set during call to 
+     *
+     * This variable is set during call to
      * {@link ezcImageAnalyzerImagemagickHandler::checkImagemagick()}.
-     * 
+     *
      * @var string
      */
     protected $binary;
 
     /**
      * Indicates if this handler is available.
-     * The first call to 
-     * {@link ezcImageAnalyzerImagemagickHandler::isAvailable()} 
+     *
+     * The first call to
+     * {@link ezcImageAnalyzerImagemagickHandler::isAvailable()}
      * determines this variable, which is then used as a cache for the call to
      * {@link ezcImageAnalyzerImagemagickHandler::checkImagemagick()}.
      *
@@ -51,17 +53,18 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
 
     /**
      * Mapping between ImageMagick identification strings and MIME types.
-     * ImageMagick's "identify" command returns an identification string to 
+     *
+     * ImageMagick's "identify" command returns an identification string to
      * indicate the file type examined.
      *
-     * This map has been handcrafted, because ImageMagick misses the 
+     * This map has been handcrafted, because ImageMagick misses the
      * possibility to determine MIME types. It misses some identification
      * strings (mostly for file types which are absolutely rare in use
      * or which ImageMagick is only capable to read or write, but not both.).
-     * 
+     *
      * @var array(string=>string)
      */
-    protected $mimeMap = array( 
+    protected $mimeMap = array(
         'bmp'   => 'image/bmp',
         'bmp2'  => 'image/bmp',
         'bmp3'  => 'image/bmp',
@@ -139,14 +142,15 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
 
     /**
      * MIME types this handler is capable to read.
-     * This array holds an extract of the 
-     * {@link ezcImageAnalyzerHandler::$mimeMap}, listing all MIME types this 
-     * handler is capable to analyze. The map is indexed by the MIME type, 
+     *
+     * This array holds an extract of the
+     * {@link ezcImageAnalyzerHandler::$mimeMap}, listing all MIME types this
+     * handler is capable to analyze. The map is indexed by the MIME type,
      * assigned to boolean true, to speed up hash lookups.
-     * 
+     *
      * @var array(string=>bool)
      */
-    protected $mimeTypes = array( 
+    protected $mimeTypes = array(
         'application/pcl' => true,
         'application/pdf' => true,
         'application/postscript' => true,
@@ -195,7 +199,7 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
     /**
      * Analyzes the image type.
      * This method analyzes image data to determine the MIME type. This method
-     * returns the MIME type of the file to analyze in lowercase letters (e.g. 
+     * returns the MIME type of the file to analyze in lowercase letters (e.g.
      * "image/jpeg") or false, if the images MIME type could not be determined.
      *
      * For a list of image types this handler will be able to analyze, see
@@ -222,24 +226,24 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
 
     /**
      * Analyze the image for detailed information.
+     *
      * This may return various information about the image, depending on it's
-     * type. All information is collected in the struct 
+     * type. All information is collected in the struct
      * {@link ezcImageAnalyzerData}. At least the
      * {@link ezcImageAnalyzerData::$mime} attribute is always available, if the
-     * image type can be analyzed at all. Additionally this handler will always 
+     * image type can be analyzed at all. Additionally this handler will always
      * set the {@link ezcImageAnalyzerData::$width},
-     * {@link ezcImageAnalyzerData::$height} and 
-     * {@link ezcImageAnalyzerData::$size} attributes. For detailes information 
+     * {@link ezcImageAnalyzerData::$height} and
+     * {@link ezcImageAnalyzerData::$size} attributes. For detailes information
      * on the additional data returned, see {@link ezcImageAnalyzerImagemagickHandler}.
-     *
-     * @param string $file The file to analyze.
-     * @return ezcImageAnalyzerData
-     *
-     * @throws ezcImageAnalyzerFileNotProcessableException 
-     *         If image file can not be processed.
      *
      * @todo Why does ImageMagick return the wrong file size on TIFF with comments?
      * @todo Check for translucent transparency.
+     *
+     * @throws ezcImageAnalyzerFileNotProcessableException 
+     *         If image file can not be processed.
+     * @param string $file The file to analyze.
+     * @return ezcImageAnalyzerData
      */
     public function analyzeImage( $file )
     {
@@ -292,9 +296,9 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
 
             $dataStruct->width    = max( (int) $parsedData[2], $dataStruct->width );
             $dataStruct->height   = max( (int) $parsedData[3], $dataStruct->height );
-            
+
             $dataStruct->isColor  = $parsedData[4] > 2 ? true : false;
-            
+
             $dataStruct->transparencyType = self::TRANSPARENCY_OPAQUE;
             if ( strpos( $parsedData[5], 'RGBMatte' ) !== FALSE )
             {
@@ -324,15 +328,15 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
 
     /**
      * Analyze Exif data contained in JPEG and TIFF images.
-     * This method analyzes the Exif data contained in JPEG and TIFF images, 
+     *
+     * This method analyzes the Exif data contained in JPEG and TIFF images,
      * using ImageMagick's "identify" binary.
      *
      * This method tries to provide the EXIF data in a format as close as
      * possible to the format returned by ext/EXIF {@link http://php.net/exif}.
-     * 
+     *
      * @param ezcImageAnalyzerData $data The data object to fill.
      * @param string $file               The file to analyze.
-     * @return void
      */
     protected function analyzeExif( ezcImageAnalyzerData $data, $file )
     {
@@ -369,8 +373,8 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
                 "LightSource",
                 "Flash",
                 "FocalLength",
-// ImageMagick does not grab this correct, therefore not supported
-//                "SubjectLocation",
+            // ImageMagick does not grab this correct, therefore not supported
+            //  "SubjectLocation",
                 "MakerNote",
                 "UserComment",
                 "FlashPixVersion",
@@ -464,7 +468,7 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
 
         // Retreive additional data for computation
         $imageData = getimagesize( $file );
-       
+
         $colorCount = 0;
         $command = '-format ' . escapeshellarg( '%k' ) . ' ' . escapeshellarg( $file );
         $return = $this->runCommand( $command, $colorCount, $errorString );
@@ -472,7 +476,7 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
         {
             throw new ezcImageAnalyzerFileNotProcessableException( $file, "ImageMagick error: <{$errorString}>." );
         }
-    
+
         // Compute additional section ext/EXIF provides
         $additionsArr = array();
         $addtionsArr["FILE"]["FileName"]               =  basename( $file );
@@ -480,10 +484,10 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
         $addtionsArr["FILE"]["FileSize"]               =  filesize( $file );
         $addtionsArr["FILE"]["FileType"]               =  $imageData[2];
         $addtionsArr["FILE"]["MimeType"]               =  $data->mime;
-        $addtionsArr["FILE"]["SectionsFound"]          =  
-                ( isset( $exifArr["EXIF"] ) || isset( $exifArr["IFD0"] ) ? "ANY_TAG, " : "" ) 
+        $addtionsArr["FILE"]["SectionsFound"]          =
+                ( isset( $exifArr["EXIF"] ) || isset( $exifArr["IFD0"] ) ? "ANY_TAG, " : "" )
                 . implode( ", ", array_keys( $exifArr ) );
-        
+
         $addtionsArr["COMPUTED"]["html"]               =  "width=\"{$data->width}\" height=\"{$data->height}\"";
         $addtionsArr["COMPUTED"]["Height"]             =  $data->height;
         $addtionsArr["COMPUTED"]["Width"]              =  $data->width;
@@ -491,7 +495,7 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
 
         // @todo Implement if possible!
         // $addtionsArr["COMPUTED"]["ByteOrderMotorola"]  =  null;
-        
+
         $fNumberParts = isset( $exifArr["EXIF"]["FNumber"] ) ? explode( "/", $exifArr["EXIF"]["FNumber"] ) : null;
         if ( sizeof( $fNumberParts ) === 2 )
         {
@@ -504,22 +508,23 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
             // @todo Maybe we can determine that somehow?
             // $addtionsArr["COMPUTED"]["UserCommentEncoding"] =  "UNDEFINED";
         }
-                     
+
         // Not available through ImageMagick
         // $addtionsArr["COMPUTED"]["Thumbnail.FileType"]  =  null
         // $addtionsArr["COMPUTED"]["Thumbnail.MimeType"]  =  null
-       
+
         // Merge arrays (done here, to have consistent key order)
         $data->exif = array_merge( $addtionsArr, $exifArr );
     }
 
     /**
      * Returns if the handler can analyze a given MIME type.
+     *
      * This method returns if the driver is capable of analyzing a given MIME
      * type. This method should be called before trying to actually analyze an
-     * image using the drivers {@link ezcImageAnalyzerHandler::analyzeImage()} 
+     * image using the drivers {@link ezcImageAnalyzerHandler::analyzeImage()}
      * method.
-     * 
+     *
      * @param string $mime The MIME type to check for.
      * @return bool True if the handler is able to analyze the MIME type.
      */
@@ -529,9 +534,10 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
     }
 
     /**
-     * Checks wether the GD handler is available on the system. 
+     * Checks wether the GD handler is available on the system.
+     *
      * Returns if PHP's {@link getimagesize()} function is available.
-     * 
+     *
      * @return bool True is the handler is available.
      */
     public function isAvailable()
@@ -571,24 +577,17 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
             $this->binary = $this->options['binary'];
         }
 
-        // Run "identify" binary without any parameters
-        $return = $this->runCommand( '', $outputString, $errorString );
-
-        // Process potential errors
-        if ( $return != 0 || strlen( $errorString ) > 0 || strpos( $outputString, 'ImageMagick' ) === false )
-        {
-            return false;
-        }
-        return true;
+        return ezcBaseFeatures::hasImageIdentify();
     }
 
     /**
      * Run the binary registered in ezcImageAnalyzerImagemagickHandler::$binary.
-     * This method executes the ImageMagick binary using the applied parameter 
-     * string. It returns the return value of the command. The output printed 
-     * to STDOUT and ERROUT is available through the $stdOut and $errOut 
+     *
+     * This method executes the ImageMagick binary using the applied parameter
+     * string. It returns the return value of the command. The output printed
+     * to STDOUT and ERROUT is available through the $stdOut and $errOut
      * parameters.
-     * 
+     *
      * @param string $parameters    The parameters for the binary to execute.
      * @param string $stdOut        The standard output.
      * @param string $errOut        The error output.
@@ -599,7 +598,7 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
     {
         $command = escapeshellcmd( $this->binary ) . ( $parameters !== '' ?  ' ' . $parameters : '' );
         // Prepare to run ImageMagick command
-        $descriptors = array( 
+        $descriptors = array(
             array( 'pipe', 'r' ),
             array( 'pipe', 'w' ),
             array( 'pipe', 'w' ),
@@ -611,16 +610,16 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
         // Close STDIN pipe
         fclose( $pipes[0] );
 
-        // Read STDOUT 
+        // Read STDOUT
         $stdOut = '';
-        do 
+        do
         {
             $stdOut .= ( $stripNewlines === true ) ? rtrim( fgets( $pipes[1], 1024), "\n" ) : fgets( $pipes[1], 1024);
         } while ( !feof( $pipes[1] ) );
 
-        // Read STDERR 
+        // Read STDERR
         $errOut = '';
-        do 
+        do
         {
             $errOut .= rtrim( fgets( $pipes[2], 1024), "\n" );
         } while ( !feof( $pipes[2] ) );

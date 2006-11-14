@@ -30,19 +30,20 @@
  * @see ezcImageAnalyzerHandler
  *
  * @package ImageAnalysis
+ * @version //autogentag//
  */
 class ezcImageAnalyzerData extends ezcBaseStruct
 {
-
     /**
      * Detected MIME type for the image.
      *
      * @var string
      */
     public $mime;
-    
+
     /**
      * EXIF information retrieved from image.
+     *
      * This will only be filled in for images which supports EXIF entries,
      * currently they are:
      * - image/jpeg
@@ -50,7 +51,7 @@ class ezcImageAnalyzerData extends ezcBaseStruct
      *
      * @link http://php.net/manual/en/function.exif-read-data.php
      *
-     * @var array
+     * @var array(string=>string)
      */
     public $exif = array();
 
@@ -77,6 +78,7 @@ class ezcImageAnalyzerData extends ezcBaseStruct
 
     /**
      * The image mode.
+     *
      * Can be one of:
      * - ezcImageAnalyzerHandler::MODE_INDEXED   - Image is built with a palette and consists of
      *                          indexed values per pixel.
@@ -88,6 +90,7 @@ class ezcImageAnalyzerData extends ezcBaseStruct
 
     /**
      * Type of transparency in image.
+     *
      * Can be one of:
      * - ezcImageAnalyzerHandler::TRANSPARENCY_OPAQUE      - No parts of image is transparent.
      * - ezcImageAnalyzerHandler::TRANSPARENCY_TRANSPARENT - Selected palette entries are
@@ -123,7 +126,7 @@ class ezcImageAnalyzerData extends ezcBaseStruct
     /**
      * List of inline comments for the image.
      *
-     * @var array
+     * @var array(string)
      */
     public $commentList = array();
 
@@ -157,6 +160,7 @@ class ezcImageAnalyzerData extends ezcBaseStruct
 
     /**
      * Create a new instance of ezcImageAnalyzerData.
+     *
      * Create a new instance of ezcImageAnalyzerData to be used with
      * {@link ezcImageAnalyzer} objects.
      *
@@ -179,7 +183,7 @@ class ezcImageAnalyzerData extends ezcBaseStruct
      * @param bool $hasThumbnail {@link ezcImageAnalyzerData::$hasThumbnail}
      * @param bool $isAnimated {@link ezcImageAnalyzerData::$isAnimated}
      */
-    public function __construct( 
+    public function __construct(
         $mime = null,
         $exif = array(),
         $width = 0,

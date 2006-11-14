@@ -11,8 +11,8 @@
 
 /**
  * Class to retrieve information about a given image file.
- * This handler implements image analyzation using direct PHP functionality, 
- * mainly the {@link getimagesize()} function and, if available, the EXIF 
+ * This handler implements image analyzation using direct PHP functionality,
+ * mainly the {@link getimagesize()} function and, if available, the EXIF
  * extension {@link exif_read_data()}. The driver is capable of determining
  * the type the following file formats:
  *
@@ -32,15 +32,15 @@
  * - XBM
  * - WBMP
  *
- * The driver determines the MIME type of these images (using the 
- * {@link ezcImageAnalyzerPhpHandler::analyzeType()} method). The width, 
- * height and size of the given image are always available after analyzing a 
- * file, if the file in general can be analyzed 
+ * The driver determines the MIME type of these images (using the
+ * {@link ezcImageAnalyzerPhpHandler::analyzeType()} method). The width,
+ * height and size of the given image are always available after analyzing a
+ * file, if the file in general can be analyzed
  * {@link ezcImageAnalyzerPhpHandler::canAnalyze()}.
  *
- * For JPEG and TIFF images this driver will try to read in information using 
+ * For JPEG and TIFF images this driver will try to read in information using
  * the EXIF extension in PHP and fills in the following properties of the
- * {@link ezcImageAnalyzerData} struct, returned by the 
+ * {@link ezcImageAnalyzerData} struct, returned by the
  * {@link ezcImageAnalyzerPhpHandler::analyzeImage()} method:
  * - exif
  * - isColor
@@ -50,9 +50,9 @@
  * - hasThumbnail
  * - isAnimated
  *
- * For GIF (also animated) it finds information by scanning the file manually 
+ * For GIF (also animated) it finds information by scanning the file manually
  * and fills in the following properties of the
- * {@link ezcImageAnalyzerData} struct, returned by the 
+ * {@link ezcImageAnalyzerData} struct, returned by the
  * {@link ezcImageAnalyzerPhpHandler::analyzeImage()} method:
  * - mode
  * - transparencyType
@@ -62,14 +62,15 @@
  * - isAnimated
  *
  * @package ImageAnalysis
+ * @version //autogentag//
  */
 class ezcImageAnalyzerPhpHandler extends ezcImageAnalyzerHandler
 {
-
     /**
      * Analyzes the image type.
+     *
      * This method analyzes image data to determine the MIME type. This method
-     * returns the MIME type of the file to analyze in lowercase letters (e.g. 
+     * returns the MIME type of the file to analyze in lowercase letters (e.g.
      * "image/jpeg") or false, if the images MIME type could not be determined.
      *
      * For a list of image types this handler will be able to analyze, see
@@ -90,21 +91,21 @@ class ezcImageAnalyzerPhpHandler extends ezcImageAnalyzerHandler
 
     /**
      * Analyze the image for detailed information.
+     *
      * This may return various information about the image, depending on it's
-     * type. All information is collected in the struct 
+     * type. All information is collected in the struct
      * {@link ezcImageAnalyzerData}. At least the
      * {@link ezcImageAnalyzerData::$mime} attribute is always available, if the
-     * image type can be analyzed at all. Additionally this handler will always 
+     * image type can be analyzed at all. Additionally this handler will always
      * set the {@link ezcImageAnalyzerData::$width},
-     * {@link ezcImageAnalyzerData::$height} and 
-     * {@link ezcImageAnalyzerData::$size} attributes. For detailes information 
+     * {@link ezcImageAnalyzerData::$height} and
+     * {@link ezcImageAnalyzerData::$size} attributes. For detailes information
      * on the additional data returned, see {@link ezcImageAnalyzerPhpHandler}.
      *
+     * @throws ezcImageAnalyzerFileNotProcessableException
+     *         If image file can not be processed.
      * @param string $file The file to analyze.
      * @return ezcImageAnalyzerData
-     *
-     * @throws ezcImageAnalyzerFileNotProcessableException 
-     *         If image file can not be processed.
      */
     public function analyzeImage( $file )
     {
@@ -113,15 +114,15 @@ class ezcImageAnalyzerPhpHandler extends ezcImageAnalyzerHandler
         {
             throw new ezcImageAnalyzerFileNotProcessableException( $file, 'getimagesize() returned false.' );
         }
-        
+
         $dataStruct = new ezcImageAnalyzerData();
         $dataStruct->width = $data[0];
         $dataStruct->height = $data[1];
         $dataStruct->mime = image_type_to_mime_type( $data[2] );
         $dataStruct->size = filesize( $file );
-        
+
         if ( ( $dataStruct->mime === 'image/jpeg' || $dataStruct->mime === 'image/tiff' )
-             && function_exists( 'exif_read_data') 
+             && ezcBaseFeatures::hasFunction( 'exif_read_data')
            )
         {
             $this->analyzeExif( $file, $dataStruct );
@@ -130,16 +131,17 @@ class ezcImageAnalyzerPhpHandler extends ezcImageAnalyzerHandler
         {
             $this->analyzeGif( $file, $dataStruct );
         }
-        
+
         return $dataStruct;
     }
 
     /**
      * Returns if the handler can analyze a given MIME type.
+     *
      * This method returns if the driver is capable of analyzing a given MIME
      * type. This method should be called before trying to actually analyze an
      * image using the drivers {@link self::analyzeImage()} method.
-     * 
+     *
      * @param string $mime The MIME type to check for.
      * @return bool True if the handler is able to analyze the MIME type.
      */
@@ -165,18 +167,20 @@ class ezcImageAnalyzerPhpHandler extends ezcImageAnalyzerHandler
     }
 
     /**
-     * Checks wether the GD handler is available on the system. 
+     * Checks wether the GD handler is available on the system.
+     *
      * Returns if PHP's {@link getimagesize()} function is available.
-     * 
+     *
      * @return bool True is the handler is available.
      */
     public function isAvailable()
     {
-        return function_exists( 'getimagesize' );
+        return ezcBaseFeatures::hasFunction( 'getimagesize' );
     }
-    
+
     /**
      * Analyze EXIF enabled file format for EXIF data entries.
+     *
      * The image file is analyzed by calling exif_read_data and placing the
      * result in self::exif. In addition it fills in extra properties from
      * the EXIF data for easy and uniform access.
@@ -227,22 +231,22 @@ class ezcImageAnalyzerPhpHandler extends ezcImageAnalyzerHandler
 
         return $dataStruct;
     }
-    
+
     /**
      * Analyze GIF files for detailed information.
+     *
      * The GIF file is analyzed by scanning for frame entries, if more than one
      * is found it is assumed to be animated.
      * It also extracts other information such as image width and height, color
      * count, image mode, transparency type and comments.
      *
+     * @throws ezcBaseFileIoException
+     *         If image file could not be read.
+     * @throws ezcImageAnalyzerFileNotProcessableException
+     *         If image file can not be processed.
      * @param string $file         The file to analyze.
      * @param ezcImageAnalyzerData The data struct to fill.
      * @return ezcImageAnalyzerData The filled data struct.
-     * 
-     * @throws ezcBaseFileIoException 
-     *         If image file could not be read.
-     * @throws ezcImageAnalyzerFileNotProcessableException 
-     *         If image file can not be processed.
      */
     private function analyzeGif( $file, ezcImageAnalyzerData $dataStruct )
     {
@@ -257,7 +261,7 @@ class ezcImageAnalyzerPhpHandler extends ezcImageAnalyzerHandler
         if ( $magic != 'GIF87a' &&
              $magic != 'GIF89a' )
         {
-            throw new ezcImageAnalyzerFileNotProcessableException( $file, 'Not a valid GIF image file' ); 
+            throw new ezcImageAnalyzerFileNotProcessableException( $file, 'Not a valid GIF image file' );
         }
 
         $info = array();
@@ -450,6 +454,5 @@ class ezcImageAnalyzerPhpHandler extends ezcImageAnalyzerHandler
 
         return $dataStruct;
     }
-
 }
 ?>

@@ -92,6 +92,7 @@
  *                Extended data about the image.
  *
  * @package ImageAnalysis
+ * @version //autogentag//
  */
 class ezcImageAnalyzer
 {
@@ -119,10 +120,10 @@ class ezcImageAnalyzer
 
     /**
      * Collection of known handler classes. Classes are ordered by priority.
-     * 
-     * @var array(int=>string)
+     *
+     * @var array(string=>mixed)
      */
-    protected static $knownHandlers = array( 
+    protected static $knownHandlers = array(
         'ezcImageAnalyzerPhpHandler' => array(),
         'ezcImageAnalyzerImagemagickHandler' => array(),
     );
@@ -132,14 +133,13 @@ class ezcImageAnalyzer
     /**
      * Create an image analyzer for the specified file.
      *
-     * @param string $file The file to analyze.
-     *
-     * @throws ezcBaseFilePermissionException 
+     * @throws ezcBaseFilePermissionException
      *         If image file is not readable.
      * @throws ezcBaseFileNotFoundException
      *         If image file does not exist.
      * @throws ezcImageAnalyzerFileNotProcessableException
      *         If the file could not be processed.
+     * @param string $file The file to analyze.
      */
     public function __construct( $file )
     {
@@ -161,14 +161,13 @@ class ezcImageAnalyzer
 
     /**
      * Check all known handlers for availability.
+     *
      * This method checks all registered handler classes for if the they are
      * available (using {@link ezcImageAnalyzerHandler::isAvailable()}).
      * 
-     * @return void
-     *
      * @throws ezcImageAnalyzerInvalidHandlerException
-     *         If a registered handler class does not exist or does not
-     *         inherit from {@link ezcImageAnalyzerHandler}.
+     *         If a registered handler class does not exist
+     *         or does not inherit from {@link ezcImageAnalyzerHandler}.
      */
     protected function checkHandlers()
     {
@@ -193,10 +192,11 @@ class ezcImageAnalyzer
 
     /**
      * Returns an array of known handler classes.
-     * This method returns an array of available handler classes. The array is 
-     * indexed by the handler names, which are assigned to an array of options 
+     *
+     * This method returns an array of available handler classes. The array is
+     * indexed by the handler names, which are assigned to an array of options
      * set for this handler.
-     * 
+     *
      * @return array(string=>array(string=>string)) Handlers and options.
      */
     public static function getHandlerClasses()
@@ -206,15 +206,15 @@ class ezcImageAnalyzer
 
     /**
      * Set the array of known handlers.
+     *
      * Sets the available handlers. The array submitted must be indexed by
      * the handler classes names (attention: handler classes must extend
-     * ezcImageAnalyzerHandler), assigned to an array of options for this 
+     * ezcImageAnalyzerHandler), assigned to an array of options for this
      * handler. Most handlers don't have any options. Which options a handler
      * may accept depends on the handler implementation.
-     * 
-     * @param array(string=>array(string=>string)) $handlerClasses Handlers 
+     *
+     * @param array(string=>array(string=>string)) $handlerClasses Handlers
      *                                                             and options.
-     * @return void
      */
     public static function setHandlerClasses( array $handlerClasses )
     {
@@ -225,14 +225,12 @@ class ezcImageAnalyzer
     /**
      * Sets the property $name to $value.
      *
+     * @throws ezcBasePropertyNotFoundException
+     *         If the property does not exist.
+     * @throws ezcBasePropertyPermissionException
+     *         If the property cannot be modified.
      * @param string $name
      * @param mixed $value
-     * @return void
-     *
-     * @throws ezcBasePropertyNotFoundException 
-     *         If the property does not exist.
-     * @throws ezcBasePropertyPermissionException 
-     *         If the property cannot be modified.
      * @ignore
      */
     public function __set( $name, $value )
@@ -250,11 +248,10 @@ class ezcImageAnalyzer
     /**
      * Returns the property $name.
      *
+     * @throws ezcBasePropertyNotFoundException
+     *         If the property does not exist.
      * @param string $name Name of the property to access.
      * @return mixed Value of the desired property.
-     *
-     * @throws ezcBasePropertyNotFoundException 
-     *         If the property does not exist.
      * @ignore
      */
     public function __get( $name )
@@ -296,8 +293,6 @@ class ezcImageAnalyzer
     /**
      * Analyze the image file's MIME type.
      * This method triggers a handler to analyze the MIME type of the given image file.
-     * 
-     * @return void
      *
      * @throws ezcImageAnalyzerFileNotProcessableException
      *         If the no handler is capable to analyze the given image file.
@@ -321,13 +316,12 @@ class ezcImageAnalyzer
 
     /**
      * Analyze the image file.
+     *
      * This method triggers a handler to analyze the given image file for more data.
      * 
-     * @return void
-     *
      * @throws ezcImageAnalyzerFileNotProcessableException
      *         If the no handler is capable to analyze the given image file.
-     * @throws ezcBaseFileIoException 
+     * @throws ezcBaseFileIoException
      *         If an error occurs while the file is read.
      */
     public function analyzeImage()

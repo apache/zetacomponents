@@ -38,7 +38,7 @@ class ezcImageAnalysisAnalyzerTest extends ezcTestCase
 
     protected function setUp()
     {
-        if ( !extension_loaded( 'exif' ) )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'exif' ) )
         {
             $this->markTestSkipped( 'ext/exif is required to run this test.' );
         }
@@ -694,6 +694,125 @@ class ezcImageAnalysisAnalyzerTest extends ezcTestCase
         ezcImageAnalyzer::setHandlerClasses( array( 'ezcImageAnalyzerImagemagickHandler' => array() ) );
         return new ezcImageAnalyzer( $file );
     }
-    
+
+    public function testPropertiesGetInvalid()
+    {
+        $file = $this->basePath . $this->testFiles['svg'];
+        $analyzer = $this->getAnalyzerImageMagickHandler( $file );
+        try
+        {
+            $analyzer->no_such_property;
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $expected = 'No such property name <no_such_property>.';
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testPropertiesSetDenied()
+    {
+        $file = $this->basePath . $this->testFiles['svg'];
+        $analyzer = $this->getAnalyzerImageMagickHandler( $file );
+        try
+        {
+            $analyzer->mime = 'some value';
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcBasePropertyPermissionException $e )
+        {
+            $expected = 'The property <mime> is read-only.';
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testPropertiesSetInvalid()
+    {
+        $file = $this->basePath . $this->testFiles['svg'];
+        $analyzer = $this->getAnalyzerImageMagickHandler( $file );
+        try
+        {
+            $analyzer->no_such_property = 'some value';
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $expected = 'No such property name <no_such_property>.';
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testImagemagickHandlerNonExistentFile()
+    {
+        $fileName = $this->basePath . "no_such_file.svg";
+        try
+        {
+            $analyzer = $this->getAnalyzerImageMagickHandler( $fileName );
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcBaseFileNotFoundException $e )
+        {
+            $expected = "The file <{$fileName}> could not be found.";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testImagemagickHandlerUnreadableFile()
+    {
+        $tempDir = $this->createTempDir( 'ezcImageAnalysisAnalyzerTest' );
+        $fileName = $tempDir . "/test-unreadable.svg";
+        $fileHandle = fopen( $fileName, "wb" );
+        fwrite( $fileHandle, "some contents" );
+        fclose( $fileHandle );
+        chmod( $fileName, 0 );
+
+        try
+        {
+            $analyzer = $this->getAnalyzerImageMagickHandler( $fileName );
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcBaseFilePermissionException $e )
+        {
+            $this->removeTempDir();
+            $expected = "The file <{$fileName}> can not be opened for reading.";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testImagemagickHandlerNotProcessableFile()
+    {
+        $tempDir = $this->createTempDir( 'ezcImageAnalysisAnalyzerTest' );
+        $fileName = $tempDir . "/test-unreadable.svg";
+        $fileHandle = fopen( $fileName, "wb" );
+        fwrite( $fileHandle, "some contents" );
+        fclose( $fileHandle );
+
+        try
+        {
+            $analyzer = $this->getAnalyzerImageMagickHandler( $fileName );
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcImageAnalyzerFileNotProcessableException $e )
+        {
+            $this->removeTempDir();
+            $expected = "Could not process file <{$fileName}>. Reason: Could not determine MIME type of file..";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testGetHandlerClasses()
+    {
+        ezcImageAnalyzer::getHandlerClasses();
+    }
+
+    public function testIsSet()
+    {
+        $file = $this->basePath . $this->testFiles['svg'];
+        $analyzer = $this->getAnalyzerImageMagickHandler( $file );
+        $this->assertEquals( true, isset( $analyzer->mime ) );
+        $this->assertEquals( true, isset( $analyzer->data ) );
+        $this->assertEquals( false, isset( $analyzer->no_such_property ) );
+    }
 }
 ?>
