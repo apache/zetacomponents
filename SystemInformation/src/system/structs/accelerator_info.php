@@ -13,11 +13,11 @@
  * A container to store information about a PHP accelerator.
  *
  * This structure used to represent information about a PHP accelerator parameters
- * {@link self::name name} 
- * {@link self::url url } 
- * {@link self::isEnabled isEnabled } 
- * {@link self::versionInt versionInt } 
- * {@link self::versionString versionString } 
+ * {@link self::name name}
+ * {@link self::url url}
+ * {@link self::isEnabled isEnabled}
+ * {@link self::versionInt versionInt}
+ * {@link self::versionString versionString}
  *
  * @see ezcSystemInfo
  *
@@ -38,21 +38,21 @@ class ezcSystemInfoAccelerator extends ezcBaseStruct
      * @var string
      */
     public $url;
-    
+
     /**
      * Flag that informs if PHP accelerator enabled or not.
      *
      * @var bool
      */
     public $isEnabled;
-    
+
     /**
      * PHP accelerator version number.
      *
      * @var int
      */
     public $versionInt;
-    
+
     /**
      * PHP accelerator version number as a string.
      *

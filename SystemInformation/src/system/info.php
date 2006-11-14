@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcSystemInfo class
+ * File containing the ezcSystemInfo class.
  *
  * @package SystemInformation
  * @version //autogen//
@@ -12,9 +12,9 @@
  * Provides access to common system variables.
  *
  * Variables that not available from PHP directly are fetched using readers
- * specific for each supported system. óorresponding reader automatically
- * detected, attached and forced to scan system info during initialisation.
- * Exception throws if reader can't scan sistem info.
+ * specific for each supported system. Corresponding reader is automatically
+ * detected, attached and forced to scan system info during initialization.
+ * Exception is thrown if reader can't scan system info.
  *
  * Available readers are:
  * - {@link ezcSystemInfoLinuxReader} reader
@@ -22,11 +22,11 @@
  * - {@link ezcSystemInfoFreeBsdReader} reader
  * - {@link ezcSystemInfoWindowsReader} reader
  *
- * Readers for otner systems could be added by
+ * Readers for other systems can be added by
  * implementing the {@link ezcSystemInfoReader} interface.
  *
  * The ezcSystemInfo class has the following properties:<br><br>
- * Reader independent, these properties are availiable even if system reader was not initialized.
+ * Reader independent, these properties are available even if system reader was not initialized.
  * - String <b>osType</b>, OS type (e.g 'unix') or null.
  * - String <b>osName</b>, OS name (e.g 'Linux') or null.
  * - String <b>fileSystemType</b>, filesystem type (e.g 'linux') or null.
@@ -38,7 +38,7 @@
  * {@link ezcSystemInfoAccelerator}.
  * - Bool <b>isShellExecution</b>, flag indicates if the script executed over the web or the shell/command line.
  * <br><br>
- * Reader dependent, these properties are not availiable if reader was not intnialized and didn't scan OS:
+ * Reader dependent, these properties are not available if reader was not initialized and didn't scan OS:
  * - Integer <b>cpuCount</b> amount of CPUs in system or null .
  * - String <b>cpuType</b> CPU type string (e.g 'AMD Sempron(tm) Processor 3000+') or null.
  * - Float <b>cpuSpeed</b> CPU speed as float (e.g 1808.743) or null.
@@ -57,7 +57,6 @@
  */
 class ezcSystemInfo
 {
-
     /**
      * Instance of the singleton ezcSystemInfo object.
      *
@@ -68,7 +67,7 @@ class ezcSystemInfo
     private static $instance = null;
 
     /**
-     * Contains object that provide info about underlaying OS
+     * Contains object that provide info about underlaying OS.
      *
      * @var ezcSystemInfoReader
      */
@@ -76,7 +75,7 @@ class ezcSystemInfo
 
     /**
      * Contains string with type of underlaying OS
-     * or empty string if OS can't be detected
+     * or empty string if OS can't be detected.
      *
      * @var string
      */
@@ -84,7 +83,7 @@ class ezcSystemInfo
 
     /**
      * Contains string with name of underlaying OS
-     * or empty string if OS can't be detected
+     * or empty string if OS can't be detected.
      *
      * @var string
      */
@@ -92,7 +91,7 @@ class ezcSystemInfo
 
     /**
      * Contains string with file system type
-     * or empty string if OS can't be detected
+     * or empty string if OS can't be detected.
      *
      * @var string
      */
@@ -100,7 +99,7 @@ class ezcSystemInfo
 
     /**
      * Contains string with file system type
-     * or empty string if OS can't be detected
+     * or empty string if OS can't be detected.
      *
      * @var string
      */
@@ -108,14 +107,14 @@ class ezcSystemInfo
 
     /**
      * Contains string with file system type
-     * or empty string if OS can't be detected
+     * or empty string if OS can't be detected.
      *
      * @var string
      */
     private $backupFileName = null;
 
     /**
-     * Returns the single instance of the ezcSystemInfo class
+     * Returns the single instance of the ezcSystemInfo class.
      *
      * @throws ezcSystemInfoReaderCantScanOSException
      *         If system variables can't be received from OS.
@@ -146,7 +145,6 @@ class ezcSystemInfo
      *
      * @throws ezcSystemInfoReaderCantScanOSException
      *         If system variables can't be received from OS.
-     * @return void
      */
     private function init()
     {
@@ -157,12 +155,12 @@ class ezcSystemInfo
     /**
      * Sets the the systemInfoReader depending of the OS and fills in the system
      * information internally.
+     *
      * Returns true if it was able to set appropriate systemInfoReader
      * or false if failed.
      *
      * @throws ezcSystemInfoReaderCantScanOSException
      *         If system variables can't be received from OS.
-     *
      * @return bool
      */
     private function setSystemInfoReader()
@@ -232,7 +230,7 @@ class ezcSystemInfo
                     $GLOBALS['_PHPA']['VERSION']        // version string
                 );
         }
-        if ( extension_loaded( "Turck MMCache" ) )
+        if ( ezcBaseFeatures::hasExtensionSupport( "Turck MMCache" ) )
         {
             $phpAcceleratorInfo = new ezcSystemInfoAccelerator(
                     "Turck MMCache",                        // name
@@ -242,7 +240,7 @@ class ezcSystemInfo
                     false                                   // version string
                 );
         }
-        if ( extension_loaded( "eAccelerator" ) )
+        if ( ezcBaseFeatures::hasExtensionSupport( "eAccelerator" ) )
         {
             $phpAcceleratorInfo = new ezcSystemInfoAccelerator(
                     "eAccelerator",                                     // name
@@ -252,7 +250,7 @@ class ezcSystemInfo
                     phpversion( 'eAccelerator' )                        // version string
                 );
         }
-        if ( extension_loaded( "apc" ) )
+        if ( ezcBaseFeatures::hasExtensionSupport( "apc" ) )
         {
             $phpAcceleratorInfo = new ezcSystemInfoAccelerator(
                     "APC",                                  // name
@@ -262,7 +260,7 @@ class ezcSystemInfo
                     phpversion( 'apc' )                     // version string
                 );
         }
-        if ( extension_loaded( "Zend Performance Suite" ) )
+        if ( ezcBaseFeatures::hasExtensionSupport( "Zend Performance Suite" ) )
         {
             $phpAcceleratorInfo = new ezcSystemInfoAccelerator(
                     "Zend WinEnabler (Zend Performance Suite)",                // name
@@ -308,7 +306,7 @@ class ezcSystemInfo
     /**
      * Returns the PHP version as an array with the version elements.
      *
-     * @return array
+     * @return array(int=>string)
      */
     public static function phpVersion()
     {
@@ -318,11 +316,11 @@ class ezcSystemInfo
     /**
      * Property read access.
      *
-     * @param string $property Name of the property.
-     * @return mixed Value of the property or null.
-     *
      * @throws ezcBasePropertyNotFoundException
      *         If the the desired property is not found.
+     * @param string $property Name of the property.
+     * @return mixed Value of the property or null.
+     * @ignore
      */
     function __get( $property )
     {
@@ -370,5 +368,4 @@ class ezcSystemInfo
         throw new ezcBasePropertyNotFoundException( $property );
     }
 }
-
 ?>
