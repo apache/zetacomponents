@@ -31,7 +31,7 @@ class ezcTemplateCacheTest extends ezcTestCase
         $config = ezcTemplateConfiguration::getInstance();
         $this->tempDir = $config->compilePath =  $this->createTempDir( "ezcTemplate_" );
         $config->templatePath = $this->basePath . 'templates/';
-   }
+    }
 
     protected function tearDown()
     {
@@ -166,7 +166,41 @@ class ezcTemplateCacheTest extends ezcTestCase
         $this->assertEquals( "\n[Guybrush Threepwood]\n", $out );
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // Test TTL
 
+    public function testTimeToLive()
+    {
+        $timerAtStart = time();
+
+        $t = new ezcTemplate();
+        $t->send->username = "Bernard";
+        $out = $t->process( "cache_ttl.tpl");
+        $this->assertEquals( "\n[Bernard]\n", $out );
+ 
+        // Rerun.
+        $t->send->username = "Guybrush";
+        $out = $t->process( "cache_ttl.tpl");
+
+        $timerAfterRerun = time();
+
+        while (time() - $timerAtStart < 2 )
+        {
+            $this->assertEquals( "\n[Bernard]\n", $out );
+            usleep( 300000 ); // 300 ms.
+            $out = $t->process( "cache_ttl.tpl");
+        }
+
+        // Check whether the template is removed after the TTL exceeded.
+        $out = $t->process( "cache_ttl.tpl");
+        $this->assertEquals( "\n[Guybrush]\n", $out );
+    }
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // General
     public function testChangeTemplateThenRenewCache()
     {
         $t = new ezcTemplate();
@@ -181,7 +215,6 @@ class ezcTemplateCacheTest extends ezcTestCase
 [{$name}]
 ' );
 
-
         $out = $t->process( "blarp.tpl");
         $this->assertEquals( "\n[Bernard]\n", $out );
 
@@ -189,7 +222,9 @@ class ezcTemplateCacheTest extends ezcTestCase
         $t->send->name = "Guybrush";
         $out = $t->process( "blarp.tpl");
         $this->assertEquals( "\n[Bernard]\n", $out );
-/*
+
+        sleep(1); // Make sure that the mtime is changed.
+
         // Update the contents
         file_put_contents( $this->tempDir . DIRECTORY_SEPARATOR . "blarp.tpl", '
 {use $name}
@@ -200,9 +235,97 @@ class ezcTemplateCacheTest extends ezcTestCase
         $t->send->name = "Guybrush";
         $out = $t->process( "blarp.tpl");
         $this->assertEquals( "\n[[[[[[Guybrush]]]]]]\n", $out );
-        */
     }
 
+
+    public function testReturnStatementsInCache()
+    {
+        $t = new ezcTemplate();
+        $t->send->number = 0;
+
+        $t->receive->x = null;
+        $t->process( "cache_return.tpl");
+        $this->assertEquals( "\n[0]\n", $t->output);
+        $this->assertEquals( "Zero", $t->receive->x);
+
+        $t->receive->x = null;
+        $t->send->number = 1;
+        $t->process( "cache_return.tpl");
+        $this->assertEquals( "\n[0]\n", $t->output);
+        $this->assertEquals( "Zero", $t->receive->x);
+    }
+
+    public function testDynamicReturnStatementsInCache()
+    {
+        $t = new ezcTemplate();
+        $t->send->number = 0;
+
+        $t->receive->x = null;
+        $t->process( "cache_dynamic_return.tpl");
+        $this->assertEquals( "\n[0]\n", $t->output);
+        $this->assertEquals( "Zero", $t->receive->x);
+
+        $t->receive->x = null;
+        $t->send->number = 1;
+        $t->process( "cache_dynamic_return.tpl");
+        $this->assertEquals( "\n[0]\n", $t->output);
+        $this->assertEquals( "One", $t->receive->x);
+    }
+
+    public function testDynamicReturnStatementInCache2()
+    {
+        $t = new ezcTemplate();
+        $t->send->number = 2;
+
+        // Call the non dynamic part.
+        $t->process( "cache_dynamic_return2.tpl");
+        $this->assertEquals( "\n[2]\n\n\n", $t->output);
+        $this->assertEquals( "Not one", $t->receive->numberStr);
+        $this->assertEquals( "4", $t->receive->calc);
+        $this->assertEquals( "I am rubber, you are glue.", $t->receive->quote);
+        
+        $t->receive->quote = null;
+        $t->receive->calc = null;
+        $t->receive->numberStr = null;
+
+        // Everything should still be cached.
+        $t->send->number = 3;
+        $t->process( "cache_dynamic_return2.tpl");
+        $this->assertEquals( "\n[2]\n\n\n", $t->output);
+        $this->assertEquals( "Not one", $t->receive->numberStr);
+        $this->assertEquals( "4", $t->receive->calc);
+        $this->assertEquals( "I am rubber, you are glue.", $t->receive->quote);
+
+        $t->receive->quote = null;
+        $t->receive->calc = null;
+        $t->receive->numberStr = null;
+
+        // Partly cached, partly dynamic. 
+        $t->send->number = 1;
+        $t->process( "cache_dynamic_return2.tpl");
+        $this->assertEquals( "\n[2]\n\n", $t->output); // Cached.
+        $this->assertEquals( "One", $t->receive->numberStr);
+        $this->assertEquals( 2, $t->receive->calc);
+        $this->assertEquals( "You fight like a drairy farmer.", $t->receive->quote);
+    }
+
+/*
+    public function testDynamicIncludeStatementInCache()
+    {
+        echo $this->tempDir;
+        $t = new ezcTemplate();
+        $t->send->a = 2;
+        $t->send->b = 10;
+
+        // Call the non dynamic part.
+        echo $t->process( "cache_dynamic_include.tpl");
+        
+        //$this->assertEquals( "\n[2]\n\n\n", $t->output);
+        //$this->assertEquals( "Not one", $t->receive->numberStr);
+        //$this->assertEquals( "4", $t->receive->calc);
+        //$this->assertEquals( "I am rubber, you are glue.", $t->receive->quote);
+    }
+ */
 
 
 

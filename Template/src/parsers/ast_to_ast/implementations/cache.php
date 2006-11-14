@@ -22,6 +22,8 @@ class ezcTemplateAstToAstCache extends ezcTemplateAstWalker
 
     private $cacheSystem = null;
 
+    private $isInDynamicBlock = false;
+
     public function __construct( $template )
     {
         $this->template = $template;
@@ -225,22 +227,86 @@ class ezcTemplateAstToAstCache extends ezcTemplateAstWalker
         $type->statements[] = $this->_returnVariable("_ezcTemplate_output");
     }
 
+    private function isReceiveVariable( $ast )
+    {
+        if( $ast instanceof ezcTemplateReferenceOperatorAstNode )
+        {
+            if( $ast->parameters[0] instanceof ezcTemplateVariableAstNode )
+            {
+                if( $ast->parameters[1]  instanceof ezcTemplateIdentifierAstNode )
+                {
+                    var_dump ($ast->parameters[1]->name );
+                    if( $ast->parameters[1]->name == "receive" && ( $ast->parameters[0]->name == "this" || $ast->parameters[0]->name == "_ezc_t" ) )
+                    {
+                        return array( $ast->parameters[0]->name, "receive" );
+                    }
+                }
+            }
+        }
+        else
+        {
+            if( $ast instanceof ezcTemplateVariableAstNode )
+            {
+                if( strncmp( $ast->name, "this->receive->", 15 ) == 0 ) return array( "this", "receive");
+                elseif( strncmp( $ast->name, "_ezc_t->receive->", 16 ) == 0 ) return array( "_ezc_t", "receive");
+            }
+        }
+
+        return false;
+    }
+
+    public function visitGenericStatementAstNode( ezcTemplateGenericStatementAstNode $gs )
+    {
+        parent::visitGenericStatementAstNode( $gs );
+
+        if( !$this->isInDynamicBlock ) // XXX TEMP.
+        {
+            if( $gs->expression instanceof ezcTemplateAssignmentOperatorAstNode )
+            {
+                /* XXX Remove this.
+                // this->receive->c = c      :  used when return is used.
+                // c = ezc_t->receive->c     :  used when include is used. 
+                if( $this->isReceiveVariable( $gs->expression->parameters[0] ) )
+                {
+                   die ("WHOOT FOUND IT");
+                }
+*/
+
+                if(strncmp( $gs->expression->parameters[0]->name, "this->receive->", 15 ) == 0 )
+                {
+                    $statements = array();
+                    $statements[] = $this->_fwriteVarExportVariable( $gs->expression->parameters[0]->name , false, false );
+
+                    array_splice( $this->nodePath[0]->statements, $this->statements[0] + $this->offset[0] + 1, 0, $statements );
+                    $this->offset[0] += sizeof( $statements );
+                }
+            }
+        }
+
+    } 
+
+
     public function visitReturnAstNode( ezcTemplateReturnAstNode $return )
     {
         // These statements should be added above the return-statement.
         $statements = array();
         
-        //fwrite( $fp, "\\\$_ezcTemplate_output .= " . var_export( $ezcTemplate_output, true) . ";" ); 
-        $statements[] = $this->_fwriteVarExportVariable( "_ezcTemplate_output", "true", true);
+        if( !$this->isInDynamicBlock ) // XXX Just a test.
+        {
 
-        // $total .= $_ezcTemplate_output;
-        $statements[] = $this->_concatAssignVariable( "_ezcTemplate_output", "total");
-            
-        // fclose($fp);  
-        $statements[] = $this->_fclose();
+            //fwrite( $fp, "\\\$_ezcTemplate_output .= " . var_export( $ezcTemplate_output, true) . ";" ); 
+            $statements[] = $this->_fwriteVarExportVariable( "_ezcTemplate_output", true, true);
 
-        // $_ezcTemplate_output = $total;
-        $statements[] = $this->_assignVariable( "total", "_ezcTemplate_output" );
+            // $total .= $_ezcTemplate_output;
+            $statements[] = $this->_concatAssignVariable( "_ezcTemplate_output", "total");
+                
+            // fclose($fp);  
+            $statements[] = $this->_fclose();
+
+            // $_ezcTemplate_output = $total;
+            $statements[] = $this->_assignVariable( "total", "_ezcTemplate_output" );
+
+        }
 
         // Insert the statements at the current line.
         array_splice( $this->nodePath[0]->statements, $this->statements[0] + $this->offset[0], 0, $statements );
@@ -309,6 +375,7 @@ class ezcTemplateAstToAstCache extends ezcTemplateAstWalker
         array_splice($this->nodePath[0]->statements, $this->statements[0] + $this->offset[0], 0, $newStatement);
         $this->offset[0] += sizeof( $newStatement );
 
+        $this->isInDynamicBlock = true;
 
         // Process the information within the dynamic block. 
         $this->acceptAndUpdate( $node->body );
@@ -337,6 +404,9 @@ class ezcTemplateAstToAstCache extends ezcTemplateAstWalker
 
         array_splice($this->nodePath[0]->statements, $this->statements[0] + $this->offset[0] + 1, 0, $newStatement);
         $this->offset[0] += sizeof($newStatement);
+
+
+        $this->isInDynamicBlock = false;
     }
  
 /*   

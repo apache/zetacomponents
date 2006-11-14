@@ -4,6 +4,9 @@ TODO
 Caching
 -------
 
+- Fix: {dynamic} {return $x} {/dynamic}
+- Test: {dynamic}{include "myTemplate"} {/dynamic}
+
 
 Rename variable names to prevent interference
 ---------------------------------------------
