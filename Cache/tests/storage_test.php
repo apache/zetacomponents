@@ -147,7 +147,7 @@ abstract class ezcCacheStorageTest extends ezcTestCase
     public function testConstructorErrorLocationNotWriteable()
     {
         // If running as root you can always write, so this test should be skipped when running as root.
-        if ( !function_exists("posix_getuid") || posix_getuid() == 0 )
+        if ( !ezcBaseFeatures::hasFunction("posix_getuid") || posix_getuid() == 0 )
         {
             return;
         }
