@@ -11,10 +11,10 @@
 /**
  * Provides access to common system variables.
  *
- * Variables that not available from PHP directly are fetched using readers
+ * Variables not available from PHP directly are fetched using readers
  * specific for each supported system. Corresponding reader is automatically
  * detected, attached and forced to scan system info during initialization.
- * Exception is thrown if reader can't scan system info.
+ * An exception is thrown if the reader can't scan the system info.
  *
  * Available readers are:
  * - {@link ezcSystemInfoLinuxReader} reader
@@ -25,7 +25,8 @@
  * Readers for other systems can be added by
  * implementing the {@link ezcSystemInfoReader} interface.
  *
- * The ezcSystemInfo class has the following properties:<br><br>
+ * The ezcSystemInfo class has the following properties:
+ *
  * Reader independent, these properties are available even if system reader was not initialized.
  * - String <b>osType</b>, OS type (e.g 'unix') or null.
  * - String <b>osName</b>, OS name (e.g 'Linux') or null.
@@ -33,17 +34,17 @@
  * - String <b>lineSeparator</b>, which is used for line separators on the current OS.
  * - String <b>backupFileName</b>, backup filename for this platform, '.bak' for win32
  *   and '~' for unix and mac.
- * - Array <b>phpVersion</b>, with PHP version (e.g. array(5,1,1) )
+ * - Array <b>phpVersion</b>, with PHP version (e.g. array(5,1,1) ).
  * - ezcSystemInfoAccelerator <b>phpAccelerator</b>, structure with PHP accelerator info or null
  * {@link ezcSystemInfoAccelerator}.
- * - Bool <b>isShellExecution</b>, flag indicates if the script executed over the web or the shell/command line.
- * <br><br>
+ * - Bool <b>isShellExecution</b>, flag which indicates if the script was executed over the web or the shell/command line.
+ *
  * Reader dependent, these properties are not available if reader was not initialized and didn't scan OS:
- * - Integer <b>cpuCount</b> amount of CPUs in system or null .
+ * - Integer <b>cpuCount</b> number of CPUs in system or null.
  * - String <b>cpuType</b> CPU type string (e.g 'AMD Sempron(tm) Processor 3000+') or null.
  * - Float <b>cpuSpeed</b> CPU speed as float (e.g 1808.743) or null.
  * - Integer <b>memorySize</b> Memory Size in bytes int (e.g. 528424960) or null.
- * Example:<br>
+ * Example:
  *  <code>
  *  $info = ezcSystemInfo::getInstance();
  *  echo 'Processors: ', $info->cpuCount, "\n";
@@ -67,14 +68,14 @@ class ezcSystemInfo
     private static $instance = null;
 
     /**
-     * Contains object that provide info about underlaying OS.
+     * Contains object that provide info about the underlying OS.
      *
      * @var ezcSystemInfoReader
      */
     private $systemInfoReader = null;
 
     /**
-     * Contains string with type of underlaying OS
+     * Contains string with the type of the underlying OS
      * or empty string if OS can't be detected.
      *
      * @var string
@@ -82,7 +83,7 @@ class ezcSystemInfo
     private $osType = null;
 
     /**
-     * Contains string with name of underlaying OS
+     * Contains string with the name of the underlying OS
      * or empty string if OS can't be detected.
      *
      * @var string
@@ -90,7 +91,7 @@ class ezcSystemInfo
     private $osName = null;
 
     /**
-     * Contains string with file system type
+     * Contains string with the filesystem type of the underlying OS
      * or empty string if OS can't be detected.
      *
      * @var string
@@ -98,7 +99,7 @@ class ezcSystemInfo
     private $fileSystemType = null;
 
     /**
-     * Contains string with file system type
+     * Contains string with the line separator of the underlying OS
      * or empty string if OS can't be detected.
      *
      * @var string
@@ -106,7 +107,7 @@ class ezcSystemInfo
     private $lineSeparator = null;
 
     /**
-     * Contains string with file system type
+     * Contains string with the backup file name of the underlying OS
      * or empty string if OS can't be detected.
      *
      * @var string
@@ -130,7 +131,7 @@ class ezcSystemInfo
     }
 
     /**
-     * Constructs ezcSystemInfo object, init it with correspondent underlaying OS object.
+     * Constructs ezcSystemInfo object, inits it with corresponding underlying OS data.
      *
      * @throws ezcSystemInfoReaderCantScanOSException
      *         If system variables can't be received from OS.
@@ -141,7 +142,7 @@ class ezcSystemInfo
     }
 
     /**
-     * Detect underlaying system and setup system properties.
+     * Detects underlying system and sets system properties.
      *
      * @throws ezcSystemInfoReaderCantScanOSException
      *         If system variables can't be received from OS.
@@ -151,9 +152,8 @@ class ezcSystemInfo
         $this->setSystemInfoReader();
     }
 
-
     /**
-     * Sets the the systemInfoReader depending of the OS and fills in the system
+     * Sets the systemInfoReader depending on the OS and fills in the system
      * information internally.
      *
      * Returns true if it was able to set appropriate systemInfoReader
@@ -208,12 +208,14 @@ class ezcSystemInfo
             else
             {
                 $this->systemInfoReader = null;
+                return false;
             }
         }
+        return true;
     }
 
     /**
-     * Detects if a PHP accelerator running and what type it is if one found.
+     * Detects if a PHP accelerator is running and what type it is.
      *
      * @return ezcSystemInfoAccelerator or null if no PHP accelerator detected
      */
@@ -274,7 +276,7 @@ class ezcSystemInfo
     }
 
     /**
-     * Determins if the script got executed over the web or the shell/command line.
+     * Determines if the script was executed over the web or the shell/command line.
      *
      * @return bool
      */
@@ -306,7 +308,7 @@ class ezcSystemInfo
     /**
      * Returns the PHP version as an array with the version elements.
      *
-     * @return array(int=>string)
+     * @return array(string)
      */
     public static function phpVersion()
     {
@@ -322,7 +324,7 @@ class ezcSystemInfo
      * @return mixed Value of the property or null.
      * @ignore
      */
-    function __get( $property )
+    public function __get( $property )
     {
         if ( $this->systemInfoReader == null &&
              ( $property == 'cpuType'  ||
