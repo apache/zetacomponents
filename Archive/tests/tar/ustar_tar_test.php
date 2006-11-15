@@ -119,7 +119,7 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
         $dir = $this->getTempDir();
 
         // Can we create a character device?
-        if (!function_exists('posix_mknod') ||
+        if (!ezcBaseFeatures::hasFunction('posix_mknod') ||
             !posix_mknod( "$dir/can_create_character_device", POSIX_S_IFCHR | 0777, 5, 1 )) 
         {
             // Failed, skip the test.
@@ -209,7 +209,7 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
     public function testAppendToCurrentFifo()
     {
         if ( !$this->canWrite ) return;
-        if ( !function_exists('posix_mknod') ) return;
+        if ( !ezcBaseFeatures::hasFunction('posix_mknod') ) return;
 
         $dir = $this->getTempDir();
 

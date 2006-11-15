@@ -234,7 +234,7 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
         //  337   | 8          | Minor device number.
         //  345   | 155        | Filename prefix.
         //  500   | 12         | NUL.
-        if ( function_exists( 'posix_getpwuid' ) )
+        if ( ezcBaseFeatures::hasFunction( 'posix_getpwuid' ) )
         {
             $posixName = ( posix_getpwuid( $this->userId ) );
             $posixGroup = ( posix_getgrgid( $this->groupId ) );

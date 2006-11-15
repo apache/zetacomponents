@@ -112,7 +112,7 @@ class ezcArchiveTest extends ezcArchiveTestCase
 
     public function testReadBzippedTar()
     {
-        if ( !extension_loaded( 'bz2' ) )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'bz2' ) )
         {
             $this->markTestSkipped();
         }
@@ -134,7 +134,7 @@ class ezcArchiveTest extends ezcArchiveTestCase
 
     public function testReadBzippedTarAuto()
     {
-        if ( !extension_loaded( 'bz2' ) )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'bz2' ) )
         {
             $this->markTestSkipped();
         }
@@ -188,7 +188,7 @@ class ezcArchiveTest extends ezcArchiveTestCase
 
     public function testWriteBzippedTar()
     {
-        if ( !extension_loaded( 'bz2' ) )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'bz2' ) )
         {
             $this->markTestSkipped();
         }

@@ -32,7 +32,7 @@ class ezcArchiveBzip2Test extends ezcArchiveTestCase
  */
     public function testCreateBzip2Tar()
     {
-        if ( !extension_loaded( 'bz2' ) )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'bz2' ) )
         {
             $this->markTestSkipped();
         }
@@ -51,7 +51,7 @@ class ezcArchiveBzip2Test extends ezcArchiveTestCase
 
     public function testCreateBzip2TarWithTwoFiles()
     {
-        if ( !extension_loaded( 'bz2' ) )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'bz2' ) )
         {
             $this->markTestSkipped();
         }
@@ -74,7 +74,7 @@ class ezcArchiveBzip2Test extends ezcArchiveTestCase
 /*
     public function testWriteToExistingGzippedTar()
     {
-        if ( !extension_loaded( 'zlib' ) )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'zlib' ) )
         {
             $this->markTestSkipped();
         }
@@ -103,7 +103,7 @@ class ezcArchiveBzip2Test extends ezcArchiveTestCase
   
     public function testCreateNewGzippedTarArchiveTogetherWithReadingEntries()
     {
-        if ( !extension_loaded( 'zlib' ) )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'zlib' ) )
         {
             $this->markTestSkipped();
         }
@@ -153,7 +153,7 @@ class ezcArchiveBzip2Test extends ezcArchiveTestCase
 
     public function testAppendToCurrentException()
     {
-        if ( !extension_loaded( 'zlib' ) )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'zlib' ) )
         {
             $this->markTestSkipped();
         }
@@ -174,7 +174,7 @@ class ezcArchiveBzip2Test extends ezcArchiveTestCase
 
     public function testCloseException()
     {
-        if ( !extension_loaded( 'zlib' ) )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'zlib' ) )
         {
             $this->markTestSkipped();
         }
@@ -197,7 +197,7 @@ class ezcArchiveBzip2Test extends ezcArchiveTestCase
 
     public function testListing()
     {
-        if ( !extension_loaded( 'zlib' ) )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'zlib' ) )
         {
             $this->markTestSkipped();
         }

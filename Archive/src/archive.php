@@ -457,7 +457,7 @@ abstract class ezcArchive implements Iterator
                 switch ( $type )
                 {
                     case ezcArchiveEntry::IS_CHARACTER_DEVICE:  
-                        if ( function_exists( 'posix_mknod' ) ) 
+                        if ( ezcBaseFeatures::hasFunction( 'posix_mknod' ) ) 
                         {
                             posix_mknod( $fileName, POSIX_S_IFCHR, $entry->getMajor(), $entry->getMinor() );
                         }
@@ -467,7 +467,7 @@ abstract class ezcArchive implements Iterator
                         }
                         break;
                     case ezcArchiveEntry::IS_BLOCK_DEVICE:
-                        if ( function_exists( 'posix_mknod' ) )
+                        if ( ezcBaseFeatures::hasFunction( 'posix_mknod' ) )
                         {
                             posix_mknod( $fileName, POSIX_S_IFBLK, $entry->getMajor(), $entry->getMinor() ); 
                         }
@@ -477,7 +477,7 @@ abstract class ezcArchive implements Iterator
                         }
                         break;
                     case ezcArchiveEntry::IS_FIFO:              
-                        if ( function_exists( 'posix_mknod' ) ) 
+                        if ( ezcBaseFeatures::hasFunction( 'posix_mknod' ) ) 
                         {
                             posix_mknod( $fileName, POSIX_S_IFIFO );
                         }
