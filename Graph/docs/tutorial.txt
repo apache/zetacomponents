@@ -13,9 +13,9 @@ chart, and the available renderers make the chart output customizeable from
 simple two dimensional charts up to beautiful three dimensional data
 projections. 
 
-ezcGraph seperates different parts of the graph in chart elements, which
+ezcGraph separates different parts of the graph in chart elements, which
 display one part of a graph, like the title, the legend or one axis, which are
-all idenpendently configurable. This design not only allows you to use
+all independently configurable. This design not only allows you to use
 different colors or fonts for each chart element, but also define their
 position and size. The main chart elements are the same for all chart types.
 For easy definition of a overall layout for your graph you can use palettes,
@@ -39,23 +39,23 @@ ezcGraphChart
 
 ezcGraphDataSet
   All data sets extend this abstract class to provide the data in a general
-  form, accessable by the chart.
+  form, accessible by the chart.
 
 ezcGraphChartElement
   All chart element store configuration values defining their layout. A
   elements layout definition contains background, border, margin, padding and
-  fonf cofiguration. This class is extended by classes for Legend, Text, 
+  font configuration. This class is extended by classes for Legend, Text, 
   Background and the different axis types.
 
 ezcGraphChartElementAxis
   Extends ezcGraphChartElement and is the base class for all axis. There are
   different axis types for different data to be displayed, like numeric axis,
-  string labeld axis or the date axis.
+  string labeled axis or the date axis.
 
 ezcGraphAxisLabelRenderer
   Defines the rendering algorithm for labels and grid on axis. The distinction
   is necessary, because bar charts expect their labels placed directly below
-  the datapoint, but numerical data in line charts should be placed next to
+  the data point, but numerical data in line charts should be placed next to
   grid.
 
 ezcGraphPalette
@@ -87,7 +87,7 @@ You just create a new chart object, optionally set a title for the chart
 assign the data and render it. To assign data you access the dataset container
 like an array to define an identifier for your new created dataset. The
 dataset in this example is created from an array, where the keys are used as
-the indetifiers for the datapoints.
+the identifiers for the data points.
 
 Pie charts accept only one dataset, and the data point identifier are used to
 create the legend. To generate the output the default SVG renderer is used
@@ -119,10 +119,10 @@ a Post Script Type 1 font in this case, which can be used with ezcGraph, if
 ext/gd was compiled with --with-t1lib.
 
 In line 25 and 26 we change properties of the dataset, which influence how the
-data will be displayed. You can set properties on single datapoints, like the
-highlighted datapoint in line 25, or for complete datasets, like the changed
+data will be displayed. You can set properties on single data points, like the
+highlighted data point in line 25, or for complete datasets, like the changed
 symbol in line 26. Furthermore we change the label, used for the pie chart,
-because with the legend we don't need to display the datapoints name again in
+because with the legend we don't need to display the data points name again in
 the pie chart.
 
 Finally advice the renderer to add some shadow and render the image.
@@ -202,16 +202,90 @@ sometimes makes sense to use the date or numeric axis for both, x and y, axis.
 .. include:: tutorial_example_06.php
    :literal:
 
-From the random data generated in the lines 10 to 13 a polynom is generated in
+From the random data generated in the lines 10 to 13 a polynomials generated in
 line 17 which interpolates the existing data. The second parameter in the
-ezcGraphDataSetAveragePolynom contructor defines the maximum order of the used
+ezcGraphDataSetAveragePolynom constructor defines the maximum order of the used
 polygon. The interpolation uses the least squares method.
 
 In line 20 the x axis is defined as a numeric axis, too, so that the negative
-values display nicely and the output is like expected for methematical data.
+values display nicely and the output is like expected for mathematical data.
 
 .. image:: img/tutorial_example_06.svg.png
    :alt:   Some random statistical data
+
+Element references
+==================
+
+Description
+-----------
+
+Element references describe a mechanism to later modify and reference certain
+chart elements to add links, menus or other interactive features in your 
+application. The type of the references depend on the driver you use to render
+chart. The GD driver will return points describing polygons, so that you can
+generate image maps from the data, while the SVG driver will return the IDs of
+the according XML elements.
+
+The element references are created in the renderer, where the renderer known
+about the context of the chart element and the driver returns the data the
+renderer should reference. This way it is also possible to reference legend
+symbols and text, data labels and of course the actual data elements.
+
+SVG example
+-----------
+
+.. include:: tutorial_example_07.php
+   :literal:
+
+After creating a very simple chart like in the first example we start
+modifying the document using PHPs DOM extension. First we load the document
+and create a xpath query object on it. 
+
+The array returned by ezcGraphRenderer::getElementReferences() contains two
+arrays, one for the legend elements and one for the datasets. The data array
+itself contains all datasets with all data points, which contain all valid
+references depending on driver and chart type. In a svg document with a 2d
+renderer you will receive one ezcGraphCircleSector_[0-9]+ and one 
+ezcGraphTextBox_[0-9]+ element, but this may change with other rendering 
+options.
+
+In the loop we now receive the element for the id using xpath, to modify its
+attributes. $dom->getElementByID() does not work here, because these elements
+are not indexed by default for non HTML documents. We only modify the style
+attribute a bit, to change the cursor to a pointer, like expected for links
+and add a JavaScript onclick event handler to link to specified address. You
+get a resulting `SVG image`__ where you can click on the chart and legend
+elements.
+
+__ img/tutorial_example_07.svg
+
+GD example
+----------
+
+In the case of GD we want to generate an image map instead of modifying the
+generated image. The driver returns polygons described by their edge
+coordinates, which you can use to generate an image map.
+
+.. include:: tutorial_example_08.php
+   :literal:
+
+For the sake of a short example we only link the legend elements here. After
+generating the basic image, we request the element references from the
+renderer and use the to create the image map starting in line 30. we just
+iterate over the legend elements, which all may contain more then one
+polygon. In this case we receive one polygon for the symbol in the legend and
+another one for the legend text.
+
+In the lines 35 to 39 we build the coordinate string image map expects from
+the coordinate pairs we receive from the gd driver. The coordinate array
+consists of ezcGraphCoordinate objects, which are a simple structure containing
+two public properties, the x and the y coordinate as float values. We use this
+coordinate string create the polygon area elements in line 41.
+
+After assigning the image map to the image you got a `linked legend in your
+generated bitmap`__.
+
+__ img/tutorial_example_08.html
 
 More Information
 ================
