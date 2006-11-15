@@ -25,20 +25,20 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         // Help option
         $help = new ezcConsoleOption( '', 'help', ezcConsoleInput::TYPE_NONE );
         $help->shorthelp = "Show this help";
-        $consoleInput->registerOption( $help  );
+        $consoleInput->registerOption( $help );
 
         // Release option
         $help = new ezcConsoleOption( 'r', 'release', ezcConsoleInput::TYPE_STRING );
         $help->shorthelp = "The release from the svn. Use either 'trunk' or 'stable'.";
         $help->default = 'trunk';
-        $consoleInput->registerOption( $help  );
+        $consoleInput->registerOption( $help );
 
         // DSN option
         $dsn = new ezcConsoleOption( 'D', 'dsn', ezcConsoleInput::TYPE_STRING );
         $dsn->shorthelp = "Use the database specified with a DSN: type://user:password@host/database.";
         $dsn->longhelp   = "An example to connect with the local MySQL database is:\n";
         $dsn->longhelp  .= "mysql://root@mypass@localhost/unittests";
-        $consoleInput->registerOption( $dsn  );
+        $consoleInput->registerOption( $dsn );
 
         // Code Coverage Report directory option
         $report = new ezcConsoleOption( 'c', 'report-dir', ezcConsoleInput::TYPE_STRING );
@@ -53,7 +53,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         // Verbose option
         $verbose = new ezcConsoleOption( 'v', 'verbose', ezcConsoleInput::TYPE_NONE );
         $verbose->shorthelp = "Output more verbose information.";
-        $consoleInput->registerOption( $verbose  );
+        $consoleInput->registerOption( $verbose );
     }
 
     protected static function processConsoleArguments( $consoleInput )
