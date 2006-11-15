@@ -118,7 +118,7 @@ class ezcGraphGdDriverOptions extends ezcGraphDriverOptions
                 }
                 break;
             case 'resampleFunction':
-                if ( function_exists( $propertyValue ) )
+                if ( ezcBaseFeatures::hasFunction( $propertyValue ) )
                 {
                     $this->properties['resampleFunction'] = $propertyValue;
                 }

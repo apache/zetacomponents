@@ -72,7 +72,7 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
                 $this->properties['label'] = (string) $propertyValue;
                 break;
             case 'labelCallback':
-                if ( is_string( $propertyValue ) && function_exists( $propertyValue ) )
+                if ( is_string( $propertyValue ) && ezcBaseFeatures::hasFunction( $propertyValue ) )
                 {
                     $this->properties['labelCallback'] = $propertyValue;
                 }
