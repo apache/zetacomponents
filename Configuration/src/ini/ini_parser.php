@@ -342,7 +342,7 @@ class ezcConfigurationIniParser implements Iterator
             }
 
             /*** COMMENT DETECTION ******************************************/
-            else if ( preg_match( '@^#(.*)@', $line, $matches ) )
+            else if ( preg_match( '@^[#;](.*)@', $line, $matches ) )
             {
                 /* We found a comment, process it */
                 $this->storeComment( $matches[1] );

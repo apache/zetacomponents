@@ -330,6 +330,34 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
         $this->assertEquals( $expected, $return );
     }
 
+    public function test3DSemiColonComment()
+    {
+        $backend = new ezcConfigurationIniReader( 'Configuration/tests/files/multi-dim3.ini' );
+        $return = $backend->load();
+
+        $settings = array(
+            '3D' => array(
+                'Decimal' => array( 42, 0 ),
+                'Array' =>  array(
+                    'Decimal' => array( 'a' => 42, 'b' => 0 ),
+                    'Mixed' => array( 'b' => false, 2 => "Derick \"Tiger\" Rethans" ),
+                ),
+                'Quote' => array( "quo\nted" => 'string' ),
+            ),
+        );
+        $comments = array(
+            '3D' => array(
+                'Decimal' => array( " One with a comment", " Second one with a comment" ),
+                'Array' => array(
+                    'Mixed' => array( 2 => " One with a comment\n multiple lines" ),
+                ),
+                'Quote' => array( "quo\nted" => ' One with a quoted hash key' ),
+            ),
+        );
+        $expected = new ezcConfiguration( $settings, $comments );
+        $this->assertEquals( $expected, $return );
+    }
+
     public function testTimestamp()
     {
         $backend = new ezcConfigurationIniReader( 'Configuration/tests/files/empty.ini' );
