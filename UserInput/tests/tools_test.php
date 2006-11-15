@@ -17,7 +17,7 @@ class ezcInputFilterDefinitionTest extends ezcTestCase
      */
     protected function setUp()
     {
-        if ( !extension_loaded( 'filter' ) )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'filter' ) )
         {
             $this->markTestSkipped( 'ext/filter is required to run this test.' );
         }

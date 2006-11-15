@@ -375,6 +375,7 @@ class ezcInputForm
      *
      * @param string $propertyName
      * @return bool  Whether the $propertyName exists or not.
+     * @ignore
      */
     public function __isset( $propertyName )
     {
