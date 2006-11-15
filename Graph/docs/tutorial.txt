@@ -71,8 +71,8 @@ ezcGraphDriver
   The driver actually renders image primitives to an image. The default driver
   will output a SVG, but you can also render JPEGs or PNGs using ext/gd.
 
-Usage
-=====
+Chart types
+===========
 
 Creating pie charts
 -------------------
@@ -213,6 +213,32 @@ values display nicely and the output is like expected for mathematical data.
 .. image:: img/tutorial_example_06.svg.png
    :alt:   Some random statistical data
 
+Background images
+-----------------
+
+With all drivers except the ming (flash) driver you can set background images
+with the option to repeat them in some way, like you cando in CSS.
+
+.. include:: tutorial_example_09.php
+   :literal:
+
+In line 18 we set a background image, and define it's position in line 19. You
+can use every combination of bottom / center / top with left / middle / right
+here, and it defaults to center | middle. In line 20 you finally set the type
+of repetition of the background image. This can be ezcGraph::NO_REPEAT or a
+combination of ezcGraph::HORIZONTAL and ezcGraph::VERTICAL. In this case we
+just want a logo to be placed at the bottom right corner of the image.
+
+In the SVG the image is in lined using a data URL with the base64 encoded
+content of the binary image file, so that you do not need to worry about the
+locations of your referenced images, when you are using the SVG output driver.
+
+In the GD driver supersampling is not applied to the images, because the would
+look blurred, what you certainly do not want for included bitmap images.
+
+.. image:: img/tutorial_example_09.svg.png
+   :alt:   Pie chart with logo in background
+
 Element references
 ==================
 
@@ -286,6 +312,95 @@ After assigning the image map to the image you got a `linked legend in your
 generated bitmap`__.
 
 __ img/tutorial_example_08.html
+
+Drivers
+=======
+
+There are some driver specific options, you can learn about in the API
+documentation of each driver, and which are described in this section of the
+tutorial.
+
+SVG driver
+----------
+
+The default driver generates SVG_ images, a standardized XML vector graphic 
+format, which most of the modern browsers can display natively, except the 
+Internet Explorer. But even for the Internet Explorer there are several 
+plugins available, from Corel [1]_, or Adobe [2]_, which enable the browser to 
+render SVGs. There are several advantages using the SVG driver. The XML 
+documents can easily be modified later, and compressed effectively. The driver 
+is very fast, and all shapes are displayed exactly and anti aliased. You may 
+define templates, an existing VSG document, where the generated chart is
+added into a dedicated group, and configure all rendering options of the SVG
+document. The example below shows such a template created with Inkscape_ and a
+simple pie chart rendered into this template.
+
+.. include:: tutorial_example_10.php
+   :literal:
+
+.. image:: img/tutorial_example_10.svg.png
+   :alt:   SVG driver example with template
+
+.. _SVG: http://www.w3.org/TR/SVG/
+.. _Inkscape: http://inkscape.org
+
+The only drawback of SVG is, that it is impossible to determine or define the 
+exact width of text strings, so that the driver can only estimate the size of 
+text in the resulting image, which will sometimes fail slightly.
+
+.. [1] Abobe SVG plugin: http://www.adobe.com/svg/viewer/install/main.html
+.. [2] Corel SVG plugin: http://www.corel.com/servlet/Satellite?pagename=CorelCom/Layout&c=Content_C1&cid=1152796555406&lc=en
+
+GD driver
+---------
+
+The GD driver is for now the choice to generate bitmap images. It does support
+different font types, if available on your PHP installation, like True Type
+Fonts, using the FreeType 2 library or the native TTF support, and PostScript 
+Type 1 fonts. We use supersampling to enable basic antialiasing in the gd
+driver, what means, that the image is rendered twice as big with default
+settings and resized later back to requested size. This is used for all image
+primitives except texts and images.
+
+But there are some drawbacks in the GD library we cannot work around with
+reasonable effort:
+
+- Transparent pie segments look very strange with GD
+- There is no native support for gradients in GD
+- Font antialiasing depends on the used font extension. Use the FreeType 2
+  library if available, what also is the default behavior.
+
+There are some special configuration options for the GD driver. You can
+specify the supersampling rate used, and use different output formats if
+available with your bundled GD extension, like in the lines 13 to 15 in the
+following example.
+
+.. include:: tutorial_example_11.php
+   :literal:
+
+.. image:: img/tutorial_example_11.jpg
+   :alt:   GD driver example jpeg
+
+Ming/Flash driver
+-----------------
+
+ezcGraph can use ext/ming to generate flash swf files. This driver only
+supports Palm Format Fonts (.fdb) and can only handle a very small subset of
+JPEGs as images for the chart background. On the other hand Flash is a vector
+graphic format too, so that the images are pretty small and can be compressed
+effectively. The font size estimation is exact and it support gradients and
+all types of used shapes. Since ming only supports flash in version 4, it is
+not possible to use transparent backgrounds.
+
+.. include:: tutorial_example_12.php
+   :literal:
+
+The ming driver does not have a lot of available options. You need to take
+care of a valid font file, like you can see in line 10, and you can set the
+compression rate used by the ming driver to compress the resulting swf. As a
+result you get a `beautiful flash image`__.
+
+__ img/tutorial_example_12.swf
 
 More Information
 ================

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="450"
+   height="250"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.44.1"
+   version="1.0"
+   sodipodi:docbase="/home/kore/devel/ezcomponents/trunk/Graph/docs"
+   sodipodi:docname="template.svg">
+  <defs
+     id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient16118">
+      <stop
+         style="stop-color:white;stop-opacity:1;"
+         offset="0"
+         id="stop16120" />
+      <stop
+         style="stop-color:white;stop-opacity:0;"
+         offset="1"
+         id="stop16122" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3647">
+      <stop
+         style="stop-color:#204a8f;stop-opacity:0.94117647;"
+         offset="0"
+         id="stop3649" />
+      <stop
+         style="stop-color:#729fcf;stop-opacity:1;"
+         offset="1"
+         id="stop3651" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3647"
+       id="linearGradient3653"
+       x1="449.50012"
+       y1="249.5"
+       x2="0.49999967"
+       y2="0.5000025"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.002227,0,0,1.004016,-0.501113,-0.502011)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient16118"
+       id="linearGradient16116"
+       x1="104.98172"
+       y1="-14.882813"
+       x2="104.98172"
+       y2="-31.496094"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(336.4453,-2.121318)" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="225"
+     inkscape:cy="125"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     width="450px"
+     height="250px"
+     inkscape:window-width="1024"
+     inkscape:window-height="699"
+     inkscape:window-x="0"
+     inkscape:window-y="24" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="opacity:1;fill:url(#linearGradient3653);fill-opacity:1;stroke:none;stroke-width:0.99999988;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect2760"
+       width="450"
+       height="250"
+       x="0"
+       y="-1.7763568e-15" />
+    <rect
+       style="opacity:1;fill:white;fill-opacity:0.58823532;stroke:white;stroke-width:0.99999994;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1872"
+       width="399"
+       height="199"
+       x="25.5"
+       y="40.5"
+       rx="0"
+       ry="0" />
+    <path
+       style="opacity:0.5;fill:white;fill-opacity:1;stroke:none;stroke-width:0.99999988;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 50.46875 0 L 74.625 8.21875 L 0 55.5625 L 0 61.53125 L 80.75 10.3125 L 141.03125 30.84375 L 73.5 89.03125 L 0 67.75 L 0 73 L 69 92.9375 L 0 152.40625 L 0 159.03125 L 74.71875 94.625 L 157.25 118.5 L 101.0625 186.40625 L 0 161.6875 L 0 166.8125 L 97.53125 190.6875 L 48.46875 250 L 54.9375 250 L 102.9375 192 L 206.375 217.3125 L 188.28125 250 L 193.96875 250 L 211.375 218.53125 L 312.5625 243.28125 L 310.25 250 L 315.53125 250 L 317.4375 244.46875 L 340.03125 250 L 361 250 L 319.09375 239.75 L 342.53125 172.09375 L 436.0625 199.15625 L 429.6875 250 L 434.75 250 L 440.9375 200.5625 L 450 203.1875 L 450 198 L 441.5625 195.5625 L 449.0625 135.6875 L 450 136 L 450 130.71875 L 449.6875 130.625 L 450 128.125 L 450 87.71875 L 444.84375 128.96875 L 366.6875 102.34375 L 384.8125 49.96875 L 450 73.34375 L 450 68.03125 L 386.46875 45.25 L 400.8125 3.8125 L 450 23.21875 L 450 17.84375 L 404.78125 0 L 391.15625 0 L 396.15625 1.96875 L 381.75 43.5625 L 320.375 21.53125 L 332.28125 0 L 326.5625 0 L 315.59375 19.84375 L 261.4375 0.40625 L 261.78125 0 L 245.4375 0 L 253.03125 2.71875 L 213.6875 50.25 L 150.96875 28.90625 L 184.5 0 L 176.8125 0 L 145.4375 27.03125 L 86.1875 6.84375 L 96.96875 0 L 87.59375 0 L 80.0625 4.78125 L 66.03125 0 L 50.46875 0 z M 258.03125 4.53125 L 313.125 24.28125 L 285.28125 74.625 L 218.75 52 L 258.03125 4.53125 z M 317.90625 26 L 380.125 48.28125 L 361.9375 100.75 L 290.09375 76.28125 L 317.90625 26 z M 146.5625 32.71875 L 210.25 54.40625 L 160.71875 114.28125 L 79.25 90.71875 L 146.5625 32.71875 z M 215.34375 56.125 L 282.8125 79.09375 L 249.1875 139.875 L 165.96875 115.8125 L 215.34375 56.125 z M 287.625 80.75 L 360.3125 105.46875 L 339.34375 165.96875 L 254.125 141.3125 L 287.625 80.75 z M 365.03125 107.09375 L 444.21875 134.0625 L 436.6875 194.15625 L 344.15625 167.375 L 365.03125 107.09375 z M 162.5 120 L 246.71875 144.375 L 208.875 212.78125 L 106.46875 187.71875 L 162.5 120 z M 251.625 145.78125 L 337.71875 170.6875 L 314.21875 238.5625 L 213.875 214 L 251.625 145.78125 z "
+       id="rect5461" />
+    <rect
+       ry="0"
+       rx="0"
+       y="36.5"
+       x="29.5"
+       height="199"
+       width="399"
+       id="rect7236"
+       style="opacity:0.8;fill:none;fill-opacity:1;stroke:white;stroke-width:0.99999994;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       style="opacity:0.6;fill:none;fill-opacity:1;stroke:white;stroke-width:0.99999994;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect7238"
+       width="399"
+       height="199"
+       x="33.5"
+       y="32.5"
+       rx="0"
+       ry="0" />
+    <rect
+       ry="0"
+       rx="0"
+       y="28.5"
+       x="37.5"
+       height="199"
+       width="399"
+       id="rect7240"
+       style="opacity:0.4;fill:none;fill-opacity:1;stroke:white;stroke-width:0.99999994;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       style="opacity:0.2;fill:none;fill-opacity:1;stroke:white;stroke-width:0.99999994;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect9014"
+       width="399"
+       height="199"
+       x="41.5"
+       y="24.5"
+       rx="0"
+       ry="0" />
+    <rect
+       ry="0"
+       rx="0"
+       y="20.5"
+       x="45.5"
+       height="199"
+       width="399"
+       id="rect9016"
+       style="opacity:0.1;fill:none;fill-opacity:1;stroke:white;stroke-width:0.99999994;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       xml:space="preserve"
+       style="font-size:17.16649818px;font-style:normal;font-weight:normal;fill:white;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="361.1604"
+       y="20.04665"
+       id="text14332"><tspan
+         sodipodi:role="line"
+         id="tspan14334"
+         x="361.1604"
+         y="20.04665">ezcGraph</tspan></text>
+    <text
+       id="text15221"
+       y="-20.574902"
+       x="361.1604"
+       style="font-size:17.16649818px;font-style:normal;font-weight:normal;opacity:0.67307691;fill:url(#linearGradient16116);fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       xml:space="preserve"
+       transform="scale(1,-1)"><tspan
+         y="-20.574902"
+         x="361.1604"
+         id="tspan15223"
+         sodipodi:role="line"
+         style="fill:url(#linearGradient16116);fill-opacity:1">ezcGraph</tspan></text>
+    <g id="ezcGraph" />
+  </g>
+</svg>
