@@ -42,7 +42,7 @@ class ezcImageGdBaseHandler extends ezcImageMethodcallHandler
      */
     public function __construct( ezcImageHandlerSettings $settings )
     {
-        if ( !extension_loaded( 'gd' ) )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'gd' ) )
         {
             throw new ezcImageHandlerNotAvailableException( 'ezcImageGdHandler', 'PHP extension <GD> not available.' );
         }
@@ -75,7 +75,7 @@ class ezcImageGdBaseHandler extends ezcImageMethodcallHandler
         $this->checkFileName( $file );
         $ref = $this->loadCommon( $file, isset( $mime ) ? $mime : null );
         $loadFunction = $this->getLoadFunction( $this->getReferenceData( $ref, 'mime' ) );
-        if ( !function_exists( $loadFunction ) || ( $handle = @$loadFunction( $file ) ) === '' )
+        if ( !ezcBaseFeatures::hasFunction( $loadFunction ) || ( $handle = @$loadFunction( $file ) ) === '' )
         {
             throw new ezcImageFileNotProcessableException( $file, "File could not be opened using $loadFunction." );
         }
@@ -111,7 +111,7 @@ class ezcImageGdBaseHandler extends ezcImageMethodcallHandler
         }
         $this->saveCommon( $image, isset( $newFile ) ? $newFile : null, isset( $mime ) ? $mime : null );
         $saveFunction = $this->getSaveFunction( $this->getReferenceData( $image, 'mime' ) );
-        if ( !function_exists( $saveFunction ) ||
+        if ( !ezcBaseFeatures::hasFunction( $saveFunction ) ||
             $saveFunction( $this->getReferenceData( $image, 'resource' ), $this->getReferenceData( $image, 'file' ) ) === false )
         {
             throw new ezcImageFileNotProcessableException( $file, "Unable to save file <{$file}> of type <{$mime}>." );

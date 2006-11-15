@@ -45,7 +45,7 @@ class ezcImageConversionTestCase extends ezcImageTestCase
 
     protected function setUp()
     {
-        if ( !extension_loaded( 'gd' ) )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'gd' ) )
         {
             $this->markTestSkipped( 'ext/gd is required to run this test.' );
         }
