@@ -94,7 +94,7 @@ class ezcPersistentObjectSchemaGenerator
                 null,       // default
                 false,      // multiple
                 "DatabaseSchema source to use.",
-                "The DatabaseSchema to use for the generation of the PersistentObject definition.",
+                "The DatabaseSchema to use for the generation of the PersistentObject definition. Or the DSN to the database to grab the schema from.",
                 array(),    // dependencies
                 array(),    // exclusions
                 true,       // arguments
@@ -176,12 +176,25 @@ class ezcPersistentObjectSchemaGenerator
 
         $destination = $args[0];
 
+        $schema = null;
         try
         {
-            $schema = ezcDbSchema::createFromFile(
-                $this->input->getOption( 'format' )->value,
-                $this->input->getOption( 'source' )->value
-            ); 
+            $readerClass = ezcDbSchemaHandlerManager::getReaderByFormat( $this->input->getOption( "format" )->value );
+            $reader = new $readerClass();
+
+            switch ( true )
+            {
+                case ( $reader instanceof ezcDbSchemaDbReader ):
+                    $db = ezcDbFactory::create( $this->input->getOption( "source" )->value );
+                    $schema = ezcDbSchema::createFromDb( $db );
+                    break;
+                case ( $reader instanceof ezcDbSchemaFileReader ):
+                    $schema = ezcDbSchema::createFromFile( $this->input->getOption( "format" )->value, $this->input->getOption( "source" )->value );
+                    break;
+                default:
+                    $this->raiseError( "Reader class not supported: <{$readerClass}>." );
+                    break;
+            }
         }
         catch ( ezcBaseException $e )
         {

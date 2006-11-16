@@ -91,7 +91,11 @@ $res['testInvalidDestination'] = '[34;1meZ components PersistentObject definiti
 [0m';
 
 
-$res['testValid'] = '[34;1meZ components PersistentObject definition generator[0m[m
+$res['testValidFromFile'] = '[34;1meZ components PersistentObject definition generator[0m[m
+[0m[0m[0m[m
+[0m[34;1mPersistentObject definition successfully written to';
+
+$res['testValidFromDb'] = '[34;1meZ components PersistentObject definition generator[0m[m
 [0m[0m[0m[m
 [0m[34;1mPersistentObject definition successfully written to';
 

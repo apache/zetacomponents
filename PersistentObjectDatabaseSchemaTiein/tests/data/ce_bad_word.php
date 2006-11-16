@@ -5,10 +5,10 @@ $def = new ezcPersistentObjectDefinition();
 $def->table = 'ce_bad_word';
 $def->class = 'ce_bad_word';
 
-$def->properties['badword_id']               = new ezcPersistentObjectProperty();
-$def->properties['badword_id']->columnName   = 'badword_id';
-$def->properties['badword_id']->propertyName = 'badword_id';
-$def->properties['badword_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+$def->idProperty               = new ezcPersistentObjectIdProperty();
+$def->idProperty->columnName   = 'badword_id';
+$def->idProperty->propertyName = 'badword_id';
+$def->idProperty->generator    = new ezcPersistentGeneratorDefinition( 'ezcPersistentSequenceGenerator' );
 
 
 $def->properties['substitution']               = new ezcPersistentObjectProperty();

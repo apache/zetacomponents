@@ -27,6 +27,14 @@
         <notnull>true</notnull>
         <default> </default>
       </field>
+      <index>
+        <name>primary</name>
+        <primary>true</primary>
+        <field>
+          <name>badword_id</name>
+          <sorting>ascending</sorting>
+        </field>
+      </index>
     </declaration>
   </table>
   <table>

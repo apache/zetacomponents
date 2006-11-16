@@ -83,13 +83,54 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
         $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
     }
 
-    public function testValid()
+    public function testValidFromFile()
     {
         $source = dirname( __FILE__ ) . "/data/webbuilder.schema.xml";
         $destination = $this->createTempDir( "PersObjDatSchem" );
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f xml -s $source $destination`;
         // file_put_contents( __FUNCTION__, $res );
 
+        // Sanitize because of temp dir name
+        $res = explode( "\n", $res );
+        unset( $res[3], $res[4] );
+        $res = implode( "\n", $res );
+        
+        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+
+        foreach ( glob( dirname( __FILE__ ) . "/data/*.php" ) as $file )
+        {
+            $this->assertEquals(
+                file_get_contents( $file ),
+                file_get_contents( $destination . "/" . basename( $file ) ),
+                "Geneator generated an invalid persistent object definition file."
+            );
+        }
+
+        $this->removeTempDir();
+    }
+
+    public function testValidFromDb()
+    {
+        $type = ezcTestSettings::getInstance()->db->phptype;
+        $dsn = ezcTestSettings::getInstance()->db->dsn;
+
+        if ( $dsn === null || $type === null )
+        {
+            $this->markTestSkipped( "DSN or database type not set" );
+        }
+
+        // setup this test
+        $destination = $this->createTempDir( "PersObjDatSchem" );
+        
+        $db = ezcDbFactory::create( $dsn );
+        $fileSource = dirname( __FILE__ ) . "/data/webbuilder.schema.xml";
+
+        $schema = ezcDbSchema::createFromFile( "xml", $fileSource );
+        $schema->writeToDb( $db );
+        
+        // real test
+        $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f "$type" -s "$dsn" "$destination"`;
+        
         // Sanitize because of temp dir name
         $res = explode( "\n", $res );
         unset( $res[3], $res[4] );
