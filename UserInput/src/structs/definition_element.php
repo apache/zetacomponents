@@ -47,31 +47,40 @@ class ezcInputFormDefinitionElement extends ezcBaseStruct
     public $filterName = 'string';
 
     /**
-     * The extra parameters to this filter.
+     * The extra options to this filter.
      *
      * @var mixed
      */
-    public $parameters = false;
+    public $options = false;
+
+    /**
+     * The extra flags to this filter.
+     *
+     * @var mixed
+     */
+    public $flags = false;
 
     /**
      * Constructs a definition item.
      *
-     * Constructs the definition item with all it's parameters.
+     * Constructs the definition item with all its options and flags.
      *
      * @param int $type
      * @param string $filterName
-     * @param mixed $parameters
+     * @param mixed $options
+     * @param int $flags
      */
-    public function __construct( $type = ezcInputFormDefinitionElement::OPTIONAL, $filterName = 'string', $parameters = null )
+    public function __construct( $type = ezcInputFormDefinitionElement::OPTIONAL, $filterName = 'string', $options = null, $flags = null )
     {
         $this->type = $type;
         $this->filterName = $filterName;
-        $this->parameters = $parameters;
+        $this->options = $options;
+        $this->flags = $flags;
     }
 
     public static function __set_state( array $array )
     {
-        return new ezcInputFormDefinitionElement( $array['type'], $array['filterName'], $array['parameters'] );
+        return new ezcInputFormDefinitionElement( $array['type'], $array['filterName'], $array['options'], $array['flags'] );
     }
 }
 ?>

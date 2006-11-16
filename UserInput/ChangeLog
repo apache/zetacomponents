@@ -1,7 +1,8 @@
-1.0.2 - [RELEASEDATE]
+1.1beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- PHP 5.2 compatibility.
+- Fixed bug #9289: Adjust component for latest version of the filter
+  extension, which API is now frozen.
 
 
 1.0.1 - Monday 28 August 2006

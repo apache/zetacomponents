@@ -222,14 +222,8 @@ class ezcInputForm
                 }
             }
 
-            if ( isset( $inputElement->parameters ) )
-            {
-                $value = filter_input( $this->inputSource, $elementName, filter_id( $inputElement->filterName ), array( 'options' => $inputElement->parameters ) );
-            }
-            else
-            {
-                $value = filter_input( $this->inputSource, $elementName, filter_id( $inputElement->filterName ), FILTER_NULL_ON_FAILURE );
-            }
+            $flags = FILTER_NULL_ON_FAILURE | $inputElement->flags;
+            $value = filter_input( $this->inputSource, $elementName, filter_id( $inputElement->filterName ), array( 'options' => $inputElement->options, 'flags' => $flags ) );
 
             if ( $value !== null )
             {
@@ -282,33 +276,42 @@ class ezcInputForm
                 return array( ezcInputForm::DEF_NOT_REQUIRED_OR_OPTIONAL, "The first element definition for element <{$name}> is not ezcInputFormDefinitionElement::OPTIONAL or ezcInputFormDefinitionElement::REQUIRED" );
             }
 
-            // The parameters should either be an array, a string, or an int
-            if ( $element->parameters !== null )
+            // The options should either be an array, a string, or an int
+            if ( $element->options !== null )
             {
-                $filterFlagsType = gettype( $element->parameters );
-                if ( !in_array( $filterFlagsType, array( 'integer', 'string', 'array' ) ) )
+                $filterOptionsType = gettype( $element->options );
+                if ( !in_array( $filterOptionsType, array( 'integer', 'string', 'array' ) ) )
                 {
-                    return array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The flags to the definition for element <{$name}> is not of type integer, string or array" );
+                    return array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The options to the definition for element <{$name}> is not of type integer, string or array" );
                 }
 
                 // A callback filter should have the form "string" or "array(string, string)"
                 if ( $element->filterName == 'callback' )
                 {
-                    if ( $filterFlagsType == 'integer' )
+                    if ( $filterOptionsType == 'integer' )
                     {
                         return array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The callback filter for element <{$name}> should not be an integer" );
                     }
-                    if ( $filterFlagsType == 'array' )
+                    if ( $filterOptionsType == 'array' )
                     {
-                        if ( count( $element->parameters ) != 2 )
+                        if ( count( $element->options ) != 2 )
                         {
                             return array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The array parameter for the callback filter for element <{$name}> should have exactly two elements" );
                         }
-                        if ( gettype( $element->parameters[0] ) != 'string' || gettype( $element->parameters[1] ) != 'string' )
+                        if ( gettype( $element->options[0] ) != 'string' || gettype( $element->options[1] ) != 'string' )
                         {
                             return array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The array elements for the callback filter for element <{$name}> should both be a string" );
                         }
                     }
+                }
+            }
+
+            // The options should either be an int
+            if ( $element->flags !== null )
+            {
+                if ( gettype( $element->flags ) !== 'integer' )
+                {
+                    return array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The flags to the definition for element <{$name}> is not of type integer, string or array" );
                 }
             }
 

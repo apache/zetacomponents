@@ -63,7 +63,7 @@ class ezcInputFilterDefinitionTest extends ezcTestCase
         self::assertEquals( array( ezcInputForm::DEF_NOT_REQUIRED_OR_OPTIONAL, "The first element definition for element <test> is not ezcInputFormDefinitionElement::OPTIONAL or ezcInputFormDefinitionElement::REQUIRED" ), ezcInputForm::validateDefinition( $def ) );
     }
 
-    public function testValidateDefinitionFlagsType()
+    public function testValidateDefinitionOptionsType()
     {
         // The type for the 3rd value should either be an array, a string or a long (integer)
         $def = array( 'test' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'string', FILTER_FLAG_STRIP_LOW ) );
@@ -73,10 +73,22 @@ class ezcInputFilterDefinitionTest extends ezcTestCase
         self::assertEquals( true, ezcInputForm::validateDefinition( $def ) );
         
         $def = array( 'test' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'boolean', false ) );
-        self::assertEquals( array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The flags to the definition for element <test> is not of type integer, string or array" ), ezcInputForm::validateDefinition( $def ) );
+        self::assertEquals( array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The options to the definition for element <test> is not of type integer, string or array" ), ezcInputForm::validateDefinition( $def ) );
 
         $def = array( 'test' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'callback', 'astring' ) );
         self::assertEquals( true, ezcInputForm::validateDefinition( $def ) );
+    }
+
+    public function testValidateDefinitionFlagsType()
+    {
+        // The type for the 4th value should be an integer
+        $def = array( 'test' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'string', null, FILTER_REQUIRE_ARRAY ) );
+        $val = ezcInputForm::validateDefinition( $def );
+        self::assertEquals( true, $val );
+
+        $def = array( 'test' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'boolean', null, false ) );
+        $val = ezcInputForm::validateDefinition( $def );
+        self::assertEquals( array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The flags to the definition for element <test> is not of type integer, string or array" ), $val );
     }
 
     public function testValidateDefinitionCallback()
