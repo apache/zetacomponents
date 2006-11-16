@@ -1,4 +1,6 @@
 
+- Fixed bug #9441: Declared variables cannot be used as a 'received' variable
+  in the include block.
 - Fixed bug #8837: Delimiter doesn't work in nested loops.
 - Fixed bug #9279: Accessing properties from a null object.
 - Fixed bug #9286: Parse error in compiled template on accessing properties on
@@ -7,8 +9,8 @@
   parameters.
 - Fixed bug #9290: Reserved names may not be used as template variables in 
   include send statements.
-- Compiled templates are now stored in the sub directory 'compiled_templates' of 
-  the $compilePath. 
+- Compiled templates are now stored in the sub directory 'compiled_templates'
+  of the $compilePath. 
 
 1.1beta1 - Tuesday 24 October 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
