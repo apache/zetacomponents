@@ -8,6 +8,7 @@
   ezcImageImagemagickBaseHandler::determineTypes().
 - Fixed issue #9014: ezcImageTransformationException doesn't accept
   ezcImageAnalyzerException as argument.
+- Fixed issue #9440: GD scale/crop filters loose transparency.
 
 
 1.1.2 - Monday 09 October 2006

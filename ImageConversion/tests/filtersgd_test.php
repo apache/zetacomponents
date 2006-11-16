@@ -447,6 +447,19 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
         );
     }
 
+    public function testScaleTransparent()
+    {
+        $ref = $this->handler->load( dirname( __FILE__ ) . "/data/watermark.png" );
+        $this->handler->scale( 80, 80 );
+        $this->handler->save( $ref, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
+
     public function testCrop_1()
     {
         $this->handler->crop( 50, 38, 50, 37 );
@@ -487,6 +500,19 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
     {
         $this->handler->crop( 0, 0, 10, 10 );
         $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
+
+    public function testCropTransparent()
+    {
+        $ref = $this->handler->load( dirname( __FILE__ ) . "/data/watermark.png" );
+        $this->handler->crop( 20, 0, 10, 5 );
+        $this->handler->save( $ref, $this->getTempPath() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),

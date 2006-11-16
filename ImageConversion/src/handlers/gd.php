@@ -377,6 +377,13 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
         {
             $newResource = imagecreate( $width, $height );
         }
+        
+        // Save transparency, if image has it
+        $bgColor = imagecolorallocatealpha(  $newResource, 255, 255, 255, 127 );
+        imagealphablending(  $newResource, true );
+        imagesavealpha(  $newResource, true );
+        imagefill(  $newResource, 1, 1, $bgColor );
+        
         $res = imagecopyresampled(
             $newResource,           // destination resource 
             $oldResource,           // source resource
@@ -651,6 +658,13 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
         {
             $newResource = imagecreate( $dimensions['x'], $dimensions['y'] );
         }
+   
+        // Save transparency, if image has it
+        $bgColor = imagecolorallocatealpha(  $newResource, 255, 255, 255, 127 );
+        imagealphablending(  $newResource, true );
+        imagesavealpha(  $newResource, true );
+        imagefill(  $newResource, 1, 1, $bgColor );
+
         $res = imagecopyresampled(
             $newResource,
             $oldResource,
