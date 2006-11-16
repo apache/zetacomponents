@@ -1,0 +1,14 @@
+{var $a = 1}
+
+{$a}
+{include "receive2.inc" send $a receive $a}
+{$a}
+
+
+{var $b = 2}
+{include "receive2.inc" send $b as $a receive $a}
+{$a}
+
+{$b = 3}
+{include "receive2.inc" send $b as $a receive $a as $b}
+{$b}

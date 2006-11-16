@@ -1,0 +1,5 @@
+{var $a = 1}
+
+{$a}
+{include "receive_declared.inc" send $a as $b receive $b}
+{$b}

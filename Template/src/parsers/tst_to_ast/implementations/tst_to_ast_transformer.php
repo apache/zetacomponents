@@ -31,7 +31,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     // Ast nodes
     private $outputVar;
 
-    private $outputVariable;
+    protected $outputVariable;
 
 
     // Stuff used as parameters
@@ -147,7 +147,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return $this->assignToOutput( $astNode );
     }
 
-    private function createBody( array $elements )
+    protected function createBody( array $elements )
     {
         $body = new ezcTemplateBodyAstNode();
 
@@ -1074,7 +1074,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         throw new Exception( "The visitBlockTstNode is called, however this node shouldn't be in the TST tree." );
     }
 
-    public function visitDeclarationTstNode( ezcTemplateBlockTstNode $type ) 
+    public function visitDeclarationTstNode( ezcTemplateDeclarationTstNode $type ) 
     {
         if ( $this->parser->symbolTable->retrieve( $type->variable->name ) == ezcTemplateSymbolTable::CYCLE ) 
         {
@@ -1219,7 +1219,11 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $r = new ezcTemplateReferenceOperatorAstNode( $t, new ezcTemplateIdentifierAstNode( "receive" ) );
         foreach ( $type->receive as $oldName => $name )
         {
-            if ( is_numeric( $oldName ) ) $oldName = $name;
+            if ( is_numeric( $oldName ) )
+            {
+                $oldName = $name;
+            }
+
             $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
                         new ezcTemplateVariableAstNode( $name ),
                         new ezcTemplateReferenceOperatorAstNode( $r, new ezcTemplateIdentifierAstNode( $oldName ) ) ) );
@@ -1241,7 +1245,14 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
             if ( $expr === null )
             {
-                $assign->appendParameter( new ezcTemplateVariableAstNode( $var ) );
+               if( $this->parser->symbolTable->retrieve( $var ) == ezcTemplateSymbolTable::IMPORT )
+               {
+                    $assign->appendParameter( new ezcTemplateVariableAstNode( "this->send->".$var ) );
+               }
+               else
+               {
+                    $assign->appendParameter( new ezcTemplateVariableAstNode( $var ) );
+               }
             }
             else
             {

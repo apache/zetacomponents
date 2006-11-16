@@ -174,6 +174,24 @@ interface ezcTemplateTstNodeVisitor
     public function visitDynamicBlockTstNode( ezcTemplateDynamicBlockTstNode $node );
 
 
+    public function visitCacheTstNode( ezcTemplateCacheTstNode $node);
+
+    public function visitDeclarationTstNode( ezcTemplateDeclarationTstNode $node );
+
+    public function visitCycleControlTstNode( ezcTemplateCycleControlTstNode $node );
+
+    public function visitIncludeTstNode( ezcTemplateIncludeTstNode $node );
+
+    public function visitReturnTstNode( ezcTemplateReturnTstNode $node );
+
+    public function visitSwitchTstNode( ezcTemplateSwitchTstNode $node );
+
+    public function visitCaseTstNode( ezcTemplateCaseTstNode $node );
+
+    public function visitLiteralArrayTstNode( ezcTemplateLiteralArrayTstNode $node );
+
+    public function visitArrayRangeOperatorTstNode( ezcTemplateArrayRangeOperatorTstNode $node );
+
 
 }
 ?>

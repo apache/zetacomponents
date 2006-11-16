@@ -177,9 +177,10 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
             }
             else
             {
-                if ( !$this->parser->symbolTable->enter( $this->lastParser->element->name, ezcTemplateSymbolTable::VARIABLE ) )
+                // Do not overwrite the type of the existing variable.
+                if( $this->parser->symbolTable->retrieve( $this->lastParser->element->name ) === false )
                 {
-                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, $this->parser->symbolTable->getErrormessage() );
+                    $this->parser->symbolTable->enter( $this->lastParser->element->name, ezcTemplateSymbolTable::VARIABLE );
                 }
             }
 
@@ -195,11 +196,11 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
                 }
 
-                if ( !$this->parser->symbolTable->enter( $this->lastParser->element->name, ezcTemplateSymbolTable::VARIABLE ) )
+                if( $this->parser->symbolTable->retrieve( $this->lastParser->element->name ) === false )
                 {
-                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor,  $this->parser->symbolTable->getErrormessage() );
+                    $this->parser->symbolTable->enter( $this->lastParser->element->name, ezcTemplateSymbolTable::VARIABLE );
                 }
-  
+ 
                 $variables[ $oldName ] = $this->lastParser->element->name;
             }
             else

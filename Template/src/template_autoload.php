@@ -284,11 +284,17 @@ return array(
              "ezcTemplateTreeOutput"       => "Template/parsers/interfaces/tree_output.php",
 
 // Parsers / tst_to_tst implementations
+             "ezcTemplateTstWalker"               => "Template/parsers/tst_to_tst/implementations/tst_walker.php",
+             "ezcTemplateCachePreparation"        => "Template/parsers/tst_to_tst/implementations/cache_preparation.php",
+
+             "ezcTemplateFetchCacheInformation"   => "Template/parsers/tst_to_tst/implementations/cache_information.php",
              "ezcTemplateWhitespaceRemoval" => "Template/parsers/tst_to_tst/implementations/whitespace_removal.php",
              "ezcTemplateTstTreeOutput"       => "Template/parsers/tst/implementations/tst_tree_output.php",
 
 // Parsers / tst_to_ast implementations
              "ezcTemplateTstToAstTransformer" => "Template/parsers/tst_to_ast/implementations/tst_to_ast_transformer.php",
+             "ezcTemplateTstToAstCachedTransformer" => "Template/parsers/tst_to_ast/implementations/tst_to_ast_cached_transformer.php",
+
              "ezcTemplateOutputVariableManager" => "Template/parsers/tst_to_ast/implementations/output_variable_manager.php",
 
 // Parsers / ast_to_ast implementations

@@ -4,8 +4,6 @@
 [{$a}]
 [{$b}]
 
-{var $number, $t}
-{dynamic}
 {include "tmp_included.tpl" 
 	send 
 		  $a, 
@@ -15,9 +13,6 @@
 
 	receive $number, $t
 }
-[{$number}]
-[{$t}]
-{/dynamic}
 
 [{$number}]
 [{$t}]
