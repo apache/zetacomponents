@@ -299,7 +299,8 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
         $dirArr = glob( $directory . "*", GLOB_ONLYDIR );
         foreach ( $dirArr as $dirEntry )
         {
-            $itemArr += $this->searchRecursive( $pattern, "$dirEntry/" );
+            $result = $this->searchRecursive( $pattern, "$dirEntry/" );
+            $itemArr = array_merge( $itemArr, $result );
         }
         return $itemArr;
     }

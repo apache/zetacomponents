@@ -111,6 +111,35 @@ class ezcCacheStorageFileTest extends ezcTestCase
         $this->assertNotEquals( false, $cache->restore( 0 ) );
     }
 
+    public function testDeleteRecursive()
+    {
+        $tempDir = $this->createTempDir( 'ezcCacheStorageFileTest' );
+        $cache = new ezcCacheStorageFileArray( $tempDir, array( 'extension' => '.c' ) );
+        $data = array( 
+            "foo" => array( 
+                'attributes' => array( 'lang' => 'en', 'section' => 'articles' ),
+                'content'    => array( 'lang' => 'en', 'section' => 'articles' ),
+            ),
+            "foo/bar" => array( 
+                'attributes' => array( 'lang' => 'de', 'section' => 'articles' ),
+                'content'    => array( 'lang' => 'de', 'section' => 'articles' ),
+            ),
+            "foo/baz" => array( 
+                'attributes' => array( 'lang' => 'no', 'section' => 'articles' ),
+                'content'    => array( 'lang' => 'no', 'section' => 'articles' ),
+            )
+        );
+
+        foreach ( $data as $id => $dataArr )
+        {
+            $cache->store( $id, $dataArr['content'], $dataArr['attributes'] );
+        }
+
+        $cache->delete( null, array( "section" => "articles" ) );
+
+        $this->removeTempDir();
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcCacheStorageFileTest" );
