@@ -454,6 +454,112 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
         }
 
     }
+    
+    /**
+     * Watermark filter.
+     * Places a watermark on the image. The file to use as the watermark image
+     * is given as $image. The $posX, $posY and $size values are given in
+     * percent, related to the destination image. A $size value of 10 will make
+     * the watermark appear in 10% of the destination image size.
+     * $posX = $posY = 10 will make the watermark appear in the top left corner
+     * of the destination image, 10% of its size away from its borders. If
+     * $size is ommitted, the watermark image will not be resized.
+     *
+     * @param string $image The image file to use as the watermark
+     * @param int $posX     X position in the destination image in percent.
+     * @param int $posY     Y position in the destination image in percent.
+     * @param int $size     Percentage size of the watermark.
+     * @return void
+     *
+     * @throws ezcImageInvalidReferenceException
+     *         If no valid resource for the active reference could be found.
+     * @throws ezcImageFilterFailedException
+     *         If the operation performed by the the filter failed.
+     * @throws ezcBaseValueException
+     *         If a submitted parameter was out of range or type.
+     */
+    public function watermarkPercent( $image, $posX, $posY, $size = false )
+    {
+
+    }
+
+    /**
+     * Watermark filter.
+     * Places a watermark on the image. The file to use as the watermark image
+     * is given as $image. The $posX, $posY and $size values are given in
+     * pixel. The watermark appear at $posX, $posY in the destination image
+     * with a size of $size pixel. If $size is ommitted, the watermark image
+     * will not be resized.
+     *
+     * @param string $image The image file to use as the watermark
+     * @param int $posX     X position in the destination image in pixel.
+     * @param int $posY     Y position in the destination image in pixel.
+     * @param int $size     Pixel size of the watermark.
+     * @return void
+     *
+     * @throws ezcImageInvalidReferenceException
+     *         If no valid resource for the active reference could be found.
+     * @throws ezcImageFilterFailedException
+     *         If the operation performed by the the filter failed.
+     * @throws ezcBaseValueException
+     *         If a submitted parameter was out of range or type.
+     * @throws ezcImageFileNotProcessableException
+     *         If the given watermark image could not be loaded.
+     */
+    public function watermarkAbsolute( $image, $posX, $posY, $width = false, $height = false )
+    {
+        switch ( true )
+        {
+            case ( !is_string( $image ) || !file_exists( $image ) || !is_readable( $image ) ):
+                throw new ezcBaseValueException( 'image', $image, 'string, path to an image file' );
+            case ( !is_int( $posX ) ):
+                throw new ezcBaseValueException( 'posX', $posX, 'int' );
+            case ( !is_int( $posY ) ):
+                throw new ezcBaseValueException( 'posY', $posY, 'int' );
+            case ( !is_int( $width ) && !is_bool( $width ) ):
+                throw new ezcBaseValueException( 'width', $width, 'int/bool' );
+            case ( !is_int( $height ) && !is_bool( $height ) ):
+                throw new ezcBaseValueException( 'height', $height, 'int/bool' );
+        }
+        
+        // Backup original image reference
+        $originalRef = $this->getActiveReference();
+
+        $watermarkRef = $this->load( $image );
+        if ( $width !== false && $height !== false && ( imagesx( $this->getActiveResource() ) !== $width || imagesy( $this->getActiveResource() ) !== $height ) )
+        {
+            $this->scale( $width, $height, ezcImageGeometryFilters::SCALE_BOTH );
+        }
+        $this->placeWatermark( $originalRef, $watermarkRef, $posX, $posY );
+
+        $this->close( $watermarkRef );
+        
+        // Restore original image reference
+        $this->setActiveReference( $originalRef );
+    }
+
+    /**
+     * Place the actual watermark 
+     * 
+     * @param mixed $imageRef      The reference to the image to place on.
+     * @param mixed $watermarkRef  The reference to the watermark image.
+     * @param mixed $posX          X position in pixel to place the watermark.
+     * @param mixed $posY          Y position in pixel to place the watermark.
+     * @return void
+     */
+    protected function placeWatermark( $imageRef, $watermarkRef, $posX, $posY )
+    {
+        imagecopy(
+            $this->getReferenceData( $imageRef, "resource" ),                   // resource $dst_im
+            $this->getReferenceData( $watermarkRef, "resource" ),               // resource $src_im
+            $posX,                                                              // int $dst_x
+            $posY,                                                              // int $dst_y
+            0,                                                                  // int $src_x
+            0,                                                                  // int $src_y
+            imagesx( $this->getReferenceData( $watermarkRef, "resource" ) ),    // int $src_w
+            imagesy( $this->getReferenceData( $watermarkRef, "resource" ) )     // int $src_h
+        );
+    }
 
     // private
 
