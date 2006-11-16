@@ -44,7 +44,7 @@ interface ezcImageWatermarkFilters
      * @throws ezcBaseValueException
      *         If a submitted parameter was out of range or type.
      */
-    function watermarkPercent( $image, $posX, $posY, $size = false );
+    public function watermarkPercent( $image, $posX, $posY, $size = false );
 
     /**
      * Watermark filter.
@@ -67,6 +67,6 @@ interface ezcImageWatermarkFilters
      * @throws ezcBaseValueException
      *         If a submitted parameter was out of range or type.
      */
-    function watermarkAbsolute( $image, $posX, $posY, $width = false, $height = false );
+    public function watermarkAbsolute( $image, $posX, $posY, $width = false, $height = false );
 }
 ?>
