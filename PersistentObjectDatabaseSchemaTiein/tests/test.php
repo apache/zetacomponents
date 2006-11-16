@@ -33,6 +33,18 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
     {
         $this->results = require dirname( __FILE__ ) . "/data.php";
     }
+    
+    public function testUnusualCall()
+    {
+        $dir = realpath( dirname( __FILE__ ) . "/../../" );
+        $oldDir = realpath( getcwd() );
+        
+        chdir( "/" );
+        $res = `php {$dir}/PersistentObjectDatabaseSchemaTiein/src/rungenerator.php`;
+        chdir( $oldDir );
+
+        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+    }
 
     public function testNoParameters()
     {

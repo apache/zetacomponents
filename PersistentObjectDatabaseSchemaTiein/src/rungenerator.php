@@ -12,10 +12,10 @@
  * Require the base class
  */
 // Silenced warning here, will be handeled below, if second include fails.
-if ( ( @include 'Base/src/base.php' ) === false )
+if ( ( @include dirname( __FILE__ ) . '/../../Base/src/base.php' ) === false )
 {
     // Silenced warning here, will be handeled below, if second include fails.
-    if ( ( @include 'Base/base.php' ) === false )
+    if ( ( @include dirname( __FILE__ ) . '/../Base/base.php' ) === false )
     {
         echo <<<EOT
 eZ components environment not setup correctly. Could neither include eZ Base
