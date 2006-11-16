@@ -47,9 +47,7 @@ abstract class ezcImageTestCase extends ezcTestCase
     {
         $constraint = new ezcTestConstraintSimilarImage( $expectedImage, $maxDifference );
 
-        if ( ! $constraint->evaluate( $image ) ) {
-            self::failConstraint( $constraint, $image, $message );
-        }
+        self::assertThat( $image, $constraint, $message );
     }
 }
 ?>
