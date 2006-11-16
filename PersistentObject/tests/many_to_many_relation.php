@@ -30,6 +30,14 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
 
     public function setup()
     {
+        try
+        {
+            $this->db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped( 'There was no database configured' );
+        }
         RelationTestPerson::setupTables();
         RelationTestPerson::insertData();
         $this->session = new ezcPersistentSession(

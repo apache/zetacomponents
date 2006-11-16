@@ -32,6 +32,14 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
 
     public function setup()
     {
+        try
+        {
+            $this->db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped( 'There was no database configured' );
+        }
         RelationTestEmployer::setupTables();
         RelationTestEmployer::insertData();
         $this->session = new ezcPersistentSession(
