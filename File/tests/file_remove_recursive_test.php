@@ -4,7 +4,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package UserInput
+ * @package File
  * @subpackage Tests
  */
 
