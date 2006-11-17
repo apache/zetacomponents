@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPropertyNotFoundException class
+ * File containing the ezcBasePropertyNotFoundException class
  *
  * @package Base
  * @version //autogen//
@@ -17,7 +17,7 @@
 class ezcBasePropertyNotFoundException extends ezcBaseException
 {
     /**
-     * Constructs a new ezcPropertyNotFoundException for the property
+     * Constructs a new ezcBasePropertyNotFoundException for the property
      * $name.
      */
     function __construct( $name )
