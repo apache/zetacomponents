@@ -1,3 +1,13 @@
+1.2beta2 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed issue #9390: Classes in external repositories that map to the same
+  autoload filename of an internal component where added to the external
+  autoload cache array as well.
+- Fixed issue #8507: Two autoload directories with the same basepath don't
+  work.
+
+
 1.2beta1 - Tuesday 24 October 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

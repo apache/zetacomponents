@@ -53,6 +53,18 @@ class ezcBaseTest extends ezcTestCase
         }
     }
 
+    public function testConfigExceptionOutOfRange3()
+    {
+        try
+        {
+            throw new ezcBaseSettingValueException( 'broken', array(1, 1, 3, 4, 5), 'int' );
+        }
+        catch ( ezcBaseSettingValueException $e )
+        {
+            $this->assertEquals( "The value <a:5:{i:0;i:1;i:1;i:1;i:2;i:3;i:3;i:4;i:4;i:5;}> that you were trying to assign to setting <broken> is invalid. Allowed values are: int", $e->getMessage() );
+        }
+    }
+
     public function testFileIoException1()
     {
         try
@@ -185,6 +197,18 @@ class ezcBaseTest extends ezcTestCase
         }
     }
 
+    public function testFilePermissionException6()
+    {
+        try
+        {
+            throw new ezcBaseFilePermissionException( 'testfile.php', ezcBaseFilePermissionException::REMOVE, "Extra extra" );
+        }
+        catch ( ezcBaseException $e )
+        {
+            $this->assertEquals( "The file <testfile.php> can not be removed. (Extra extra)", $e->getMessage() );
+        }
+    }
+
     public function testPropertyNotFoundException()
     {
         try
@@ -280,18 +304,18 @@ class ezcBaseTest extends ezcTestCase
             $this->fail( "Duplicating or missing extra autoload dirs while adding." );
         }
 
-        $packageDir = realpath( dirname( __FILE__ ) . '/../..' );
-        if ( !isset( $resultArray[$packageDir] ) ) 
+        if ( !isset( $resultArray['ezc'] ) ) 
         {
            $this->fail( "No packageDir found in result of getRepositoryDirectories()" );
         }
 
-        if ( !isset( $resultArray['.'] ) || $resultArray['.'][1] != './autoload' )
+        if ( !isset( $resultArray[0] ) || $resultArray[0][1] != './autoload' )
         {
             $this->fail( "Extra autoload dir <{$resultArray['.'][1]}> is added incorrectly" );
         }
     }
 
+    // this test is sorta obsolete, but we keep it around for good measure
     public function testBaseAddAndGetAutoloadDirs2()
     {
         ezcBase::addClassRepository( '.', './autoload' );
@@ -299,35 +323,87 @@ class ezcBaseTest extends ezcTestCase
         ezcBase::addClassRepository( './Base/tests/test_repository', './Base/tests/test_repository/autoload_files' );
         $resultArray = ezcBase::getRepositoryDirectories();
 
-        if ( count( $resultArray ) != 3 ) 
+        if ( count( $resultArray ) != 5 ) 
         {
             $this->fail( "Duplicating or missing extra autoload dirs while adding." );
         }
 
-        $packageDir = realpath( dirname( __FILE__ ) . '/../..' );
-        if ( !isset( $resultArray[$packageDir] ) ) 
+        if ( !isset( $resultArray['ezc'] ) ) 
         {
            $this->fail( "No packageDir found in result of getRepositoryDirectories()" );
         }
 
-        if ( !isset( $resultArray['./Base/tests/test_repository'] ) || $resultArray['./Base/tests/test_repository'][1] != './Base/tests/test_repository/autoload_files' )
+        if ( !isset( $resultArray[2] ) || $resultArray[2][1] != './Base/tests/test_repository/autoload_files' )
         {
-            $this->fail( "Extra autoload dir <{$resultArray['./Base/tests/test_repository'][1]}> is added incorrectly" );
+            $this->fail( "Extra autoload dir <{$resultArray[2][1]}> is added incorrectly" );
         }
 
         self::assertEquals( true, class_exists( 'trBasetestClass', true ) );
         self::assertEquals( true, class_exists( 'trBasetestClass2', true ) );
         self::assertEquals( false, @class_exists( 'trBasetestClass3', true ) );
+        self::assertEquals( true, class_exists( 'trBasetestLongClass', true ) );
+
+        try
+        {
+            class_exists( 'trBasetestClass4', true );
+            self::fail( 'The expected exception was not thrown.' );
+        }
+        catch ( ezcBaseFileNotFoundException $e )
+        {
+            self::assertEquals( 'The file <./Base/tests/test_repository/TestClasses/base_test_class_number_four.php> could not be found.', $e->getMessage() );
+        }
+    }
+
+    public function testBaseAddAndGetAutoloadDirs3()
+    {
+        ezcBase::addClassRepository( './Base/tests/extra_repository', null, 'ext' );
+
+        $resultArray = ezcBase::getRepositoryDirectories();
+        self::assertEquals( true, array_key_exists( 'ezc', $resultArray ) );
+        self::assertEquals( true, array_key_exists( 'ext', $resultArray ) );
+
+        self::assertEquals( true, class_exists( 'extTranslationTest', true ) );
+        self::assertEquals( true, class_exists( 'ezcTranslationTsBackend', true ) );
+    }
+
+    public function testBaseAddAndGetAutoloadDirs4()
+    {
+        ezcBase::addClassRepository( './Base/tests/test_repository', './Base/tests/test_repository/autoload_files', 'tr' );
+
+        try
+        {
+            ezcBase::addClassRepository( './Base/tests/test_repository', './Base/tests/test_repository/autoload_files', 'tr' );
+        }
+        catch ( ezcBaseDoubleClassRepositoryPrefix $e )
+        {
+            self::assertEquals( 'The class repository in <./Base/tests/test_repository> (with autoload dir <./Base/tests/test_repository/autoload_files>) can not be added because another class repository already uses the prefix <tr>.', $e->getMessage() );
+        }
+
+        $resultArray = ezcBase::getRepositoryDirectories();
+        self::assertEquals( 7, count( $resultArray ) );
+
+        self::assertEquals( true, array_key_exists( 'ezc', $resultArray ) );
+        self::assertEquals( true, array_key_exists( 'tr', $resultArray ) );
     }
 
     public function testNoPrefixAutoload()
     {
         ezcBase::addClassRepository( './Base/tests/test_repository', './Base/tests/test_repository/autoload_files' );
         __autoload( 'Object' );
-        if( !class_exists( 'Object' ) )
+        if ( !class_exists( 'Object' ) )
         {
             $this->fail( "Autoload does not handle classes with no prefix" );
         }
+    }
+
+    public function testCheckDependencyExtension()
+    {
+        ezcBase::checkDependency( 'Tester', ezcBase::DEP_PHP_EXTENSION, 'standard' );
+    }
+
+    public function testCheckDependencyVersion()
+    {
+        ezcBase::checkDependency( 'Tester', ezcBase::DEP_PHP_VERSION, '5.1.1' );
     }
 
     public function testInvalidClass()
@@ -351,7 +427,7 @@ class ezcBaseTest extends ezcTestCase
     {
         $this->errorMessage = $errstr;
     }
-    
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite("ezcBaseTest");
