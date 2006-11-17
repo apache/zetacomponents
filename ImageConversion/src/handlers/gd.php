@@ -480,16 +480,21 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
      */
     public function watermarkPercent( $image, $posX, $posY, $size = false )
     {
-        switch ( true )
+        if ( !is_string( $image ) || !file_exists( $image ) || !is_readable( $image ) ) 
         {
-            case ( !is_string( $image ) || !file_exists( $image ) || !is_readable( $image ) ):
-                throw new ezcBaseValueException( 'image', $image, 'string, path to an image file' );
-            case ( !is_int( $posX ) || $posX < 0 || $posX > 100 ):
-                throw new ezcBaseValueException( 'posX', $posX, 'int percentage value' );
-            case ( !is_int( $posY ) || $posY < 0 || $posY > 100 ):
-                throw new ezcBaseValueException( 'posY', $posY, 'int percentage value' );
-            case ( !is_bool( $size ) && ( !is_int( $size ) || $size < 0 || $size > 100 ) ):
-                throw new ezcBaseValueException( 'size', $size, 'int percentage value / bool' );
+            throw new ezcBaseValueException( 'image', $image, 'string, path to an image file' );
+        }
+        if ( !is_int( $posX ) || $posX < 0 || $posX > 100 )
+        {
+            throw new ezcBaseValueException( 'posX', $posX, 'int percentage value' );
+        }
+        if ( !is_int( $posY ) || $posY < 0 || $posY > 100 )
+        {
+            throw new ezcBaseValueException( 'posY', $posY, 'int percentage value' );
+        }
+        if ( !is_bool( $size ) && ( !is_int( $size ) || $size < 0 || $size > 100 ) )
+        {
+            throw new ezcBaseValueException( 'size', $size, 'int percentage value / bool' );
         }
         
         $imgWidth = imagesx( $this->getActiveResource() );
@@ -534,18 +539,25 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
      */
     public function watermarkAbsolute( $image, $posX, $posY, $width = false, $height = false )
     {
-        switch ( true )
+        if ( !is_string( $image ) || !file_exists( $image ) || !is_readable( $image ) )
         {
-            case ( !is_string( $image ) || !file_exists( $image ) || !is_readable( $image ) ):
-                throw new ezcBaseValueException( 'image', $image, 'string, path to an image file' );
-            case ( !is_int( $posX ) ):
-                throw new ezcBaseValueException( 'posX', $posX, 'int' );
-            case ( !is_int( $posY ) ):
-                throw new ezcBaseValueException( 'posY', $posY, 'int' );
-            case ( !is_int( $width ) && !is_bool( $width ) ):
-                throw new ezcBaseValueException( 'width', $width, 'int/bool' );
-            case ( !is_int( $height ) && !is_bool( $height ) ):
-                throw new ezcBaseValueException( 'height', $height, 'int/bool' );
+            throw new ezcBaseValueException( 'image', $image, 'string, path to an image file' );
+        }
+        if ( !is_int( $posX ) )
+        {
+            throw new ezcBaseValueException( 'posX', $posX, 'int' );
+        }
+        if ( !is_int( $posY ) )
+        {
+            throw new ezcBaseValueException( 'posY', $posY, 'int' );
+        }
+        if ( !is_int( $width ) && !is_bool( $width ) )
+        {
+            throw new ezcBaseValueException( 'width', $width, 'int/bool' );
+        }
+        if ( !is_int( $height ) && !is_bool( $height ) )
+        {
+            throw new ezcBaseValueException( 'height', $height, 'int/bool' );
         }
         
         // Backup original image reference
