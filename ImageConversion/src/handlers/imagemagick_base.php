@@ -121,8 +121,8 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         
         // Prepare ImageMagick command
         $command = $this->binary . ' ' .
-            escapeshellarg( $this->getReferenceData( $image, 'resource' ) ) . ' ' .
             ( isset( $this->filterOptions[$image] ) ? implode( ' ', $this->filterOptions[$image] ) : '' ) . ' ' .
+            escapeshellarg( $this->getReferenceData( $image, 'resource' ) ) . ' ' .
             escapeshellarg( $this->tagMap[$this->getReferenceData( $image, 'mime' )] . ':' . $this->getReferenceData( $image, 'resource' ) );
         
         // Prepare to run ImageMagick command
