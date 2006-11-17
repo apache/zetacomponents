@@ -472,6 +472,128 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler implemen
             $width
         );
     }
+    
+    /**
+     * Watermark filter.
+     * Places a watermark on the image. The file to use as the watermark image
+     * is given as $image. The $posX, $posY and $size values are given in
+     * percent, related to the destination image. A $size value of 10 will make
+     * the watermark appear in 10% of the destination image size.
+     * $posX = $posY = 10 will make the watermark appear in the top left corner
+     * of the destination image, 10% of its size away from its borders. If
+     * $size is ommitted, the watermark image will not be resized.
+     *
+     * @param string $image The image file to use as the watermark
+     * @param int $posX     X position in the destination image in percent.
+     * @param int $posY     Y position in the destination image in percent.
+     * @param int $size     Percentage size of the watermark.
+     * @return void
+     *
+     * @throws ezcImageInvalidReferenceException
+     *         If no valid resource for the active reference could be found.
+     * @throws ezcImageFilterFailedException
+     *         If the operation performed by the the filter failed.
+     * @throws ezcBaseValueException
+     *         If a submitted parameter was out of range or type.
+     */
+    public function watermarkPercent( $image, $posX, $posY, $size = false )
+    {
+        if ( !is_string( $image ) || !file_exists( $image ) || !is_readable( $image ) ) 
+        {
+            throw new ezcBaseValueException( 'image', $image, 'string, path to an image file' );
+        }
+        if ( !is_int( $posX ) || $posX < 0 || $posX > 100 )
+        {
+            throw new ezcBaseValueException( 'posX', $posX, 'int percentage value' );
+        }
+        if ( !is_int( $posY ) || $posY < 0 || $posY > 100 )
+        {
+            throw new ezcBaseValueException( 'posY', $posY, 'int percentage value' );
+        }
+        if ( !is_bool( $size ) && ( !is_int( $size ) || $size < 0 || $size > 100 ) )
+        {
+            throw new ezcBaseValueException( 'size', $size, 'int percentage value / bool' );
+        }
+
+        $data = getimagesize( $this->getReferenceData( $this->getActiveReference(), "resource" ) );
+
+        $originalWidth = $data[0];
+        $originalHeight = $data[1];
+
+        $watermarkWidth = false;
+        $watermarkHeight = false;
+        
+        if ( $size !== false )
+        {
+            $watermarkWidth = (int) round( $originalWidth * $size / 100 );
+            $watermarkHeight = (int) round( $originalHeight * $size / 100 );
+        }
+
+        $watermarkPosX = (int) round( $originalWidth * $posX / 100 );
+        $watermarkPosY = (int) round( $originalHeight * $posY / 100 );
+
+        $this->watermarkAbsolute( $image, $watermarkPosX, $watermarkPosY, $watermarkWidth, $watermarkHeight );
+
+    }
+
+    /**
+     * Watermark filter.
+     * Places a watermark on the image. The file to use as the watermark image
+     * is given as $image. The $posX, $posY and $size values are given in
+     * pixel. The watermark appear at $posX, $posY in the destination image
+     * with a size of $size pixel. If $size is ommitted, the watermark image
+     * will not be resized.
+     *
+     * @param string $image The image file to use as the watermark
+     * @param int $posX     X position in the destination image in pixel.
+     * @param int $posY     Y position in the destination image in pixel.
+     * @param int $size     Pixel size of the watermark.
+     * @return void
+     *
+     * @throws ezcImageInvalidReferenceException
+     *         If no valid resource for the active reference could be found.
+     * @throws ezcImageFilterFailedException
+     *         If the operation performed by the the filter failed.
+     * @throws ezcBaseValueException
+     *         If a submitted parameter was out of range or type.
+     */
+    public function watermarkAbsolute( $image, $posX, $posY, $width = false, $height = false )
+    {
+        if ( !is_string( $image ) || !file_exists( $image ) || !is_readable( $image ) )
+        {
+            throw new ezcBaseValueException( 'image', $image, 'string, path to an image file' );
+        }
+        if ( !is_int( $posX ) )
+        {
+            throw new ezcBaseValueException( 'posX', $posX, 'int' );
+        }
+        if ( !is_int( $posY ) )
+        {
+            throw new ezcBaseValueException( 'posY', $posY, 'int' );
+        }
+        if ( !is_int( $width ) && !is_bool( $width ) )
+        {
+            throw new ezcBaseValueException( 'width', $width, 'int/bool' );
+        }
+        if ( !is_int( $height ) && !is_bool( $height ) )
+        {
+            throw new ezcBaseValueException( 'height', $height, 'int/bool' );
+        }
+
+        $this->addFilterOption(
+            $this->getActiveReference(),
+            '-composite',
+            '' 
+        );
+
+        $this->addFilterOption(
+            $this->getActiveReference(),
+            '-geometry',
+            ( $width !== false ? $width : "" ) . ( $height !== false ? "x$height" : "" ) . "+$posX+$posY"
+        );
+
+        $this->addCompositeImage( $this->getActiveReference(), $image );
+    }
 
     /**
      * Returns the ImageMagick direction modifier for a direction constant.

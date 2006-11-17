@@ -538,5 +538,53 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
     }
+    
+    public function testWatermarkAbsoluteNoScale()
+    {
+        $this->handler->watermarkAbsolute( dirname( __FILE__ ) . "/data/watermark.png", 100, 80 );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
+    
+    public function testWatermarkAbsoluteScale()
+    {
+        $this->handler->watermarkAbsolute( dirname( __FILE__ ) . "/data/watermark.png", 10, 10, 130, 93 );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
+    
+    public function testWatermarkPercentNoScale()
+    {
+        $this->handler->watermarkPercent( dirname( __FILE__ ) . "/data/watermark.png", 10, 20 );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
+    
+    public function testWatermarkPercentScale()
+    {
+        $this->handler->watermarkPercent( dirname( __FILE__ ) . "/data/watermark.png", 20, 20, 60, 60 );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
 }
 ?>

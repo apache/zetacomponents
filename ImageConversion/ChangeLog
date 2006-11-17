@@ -1,6 +1,8 @@
 1.2beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Implemented issue #9236: Add watermark functionality. 2 new watermark
+  filters are available.
 - Fixed issue #9012: Problems with open_basedir.
 - Fixed issue #8892: Handler / Converter destruction should remove all temp
   files.

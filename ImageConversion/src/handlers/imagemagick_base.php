@@ -35,6 +35,8 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
 
     private $filterOptions = array();
 
+    private $compositeImages = array();
+
     /**
      * Create a new image handler.
      * Creates an image handler. This should never be done directly,
@@ -123,6 +125,7 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         $command = $this->binary . ' ' .
             ( isset( $this->filterOptions[$image] ) ? implode( ' ', $this->filterOptions[$image] ) : '' ) . ' ' .
             escapeshellarg( $this->getReferenceData( $image, 'resource' ) ) . ' ' .
+            ( isset( $this->compositeImages[$image] ) ? implode( ' ', $this->compositeImages[$image] ) : '' ) . ' ' .
             escapeshellarg( $this->tagMap[$this->getReferenceData( $image, 'mime' )] . ':' . $this->getReferenceData( $image, 'resource' ) );
         
         // Prepare to run ImageMagick command
@@ -183,6 +186,18 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
     protected function addFilterOption( $reference, $name, $parameter )
     {
         $this->filterOptions[$reference][] = $name . ' ' . escapeshellarg( $parameter );
+    }
+
+    /**
+     * Add an image to composite with the given reference. 
+     * 
+     * @param string $reference The reference to add an image to
+     * @param string $file      The file to composite with the image.
+     * @return void
+     */
+    protected function addCompositeImage( $reference, $file )
+    {
+        $this->compositeImages[$reference][] = $file;
     }
 
     /**
