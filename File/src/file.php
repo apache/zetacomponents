@@ -166,5 +166,48 @@ class ezcFile
         $d->close();
         rmdir( $sourceDir );
     }
+
+    /**
+     * Calculates the relative path of the file/directory '$path' to a given
+     * $base path.
+     * This method does not touch the filesystem.
+     *
+     * @param string $path
+     * @param string $base
+     * @return string
+     */
+    static public function calculateRelativePath( $path, $base )
+    {
+        // Sanitize the paths to use the correct directory separator for the platform
+        $path = strtr( $path, '\\/', DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR );
+        $base = strtr( $base, '\\/', DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR );
+
+        $base = explode( DIRECTORY_SEPARATOR, $base );
+        $path = explode( DIRECTORY_SEPARATOR, $path );
+
+        $result = '';
+
+        $pathPart = array_shift( $path );
+        $basePart = array_shift( $base );
+        while ( $pathPart == $basePart )
+        {
+            $pathPart = array_shift( $path );
+            $basePart = array_shift( $base );
+        }
+
+        if ( $pathPart != null )
+        {
+            array_unshift( $path, $pathPart );
+        }
+        if ( $basePart != null ) 
+        {
+            array_unshift( $base, $basePart );
+        }
+
+        $result = str_repeat( '..' . DIRECTORY_SEPARATOR, count( $base ) );
+        $result .= join( DIRECTORY_SEPARATOR, $path );
+
+        return $result;
+    }
 }
 ?>

@@ -1,3 +1,11 @@
+1.1beta1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Implemented FR #9134: Added the ezcFile::calculateRelativePath() method
+  which calculates the relative path of the file/directory to a given base
+  path.
+
+
 1.0.1 - Monday 09 October 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

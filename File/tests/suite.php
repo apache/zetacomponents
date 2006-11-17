@@ -13,6 +13,7 @@
  */
 require_once 'file_find_recursive_test.php';
 require_once 'file_remove_recursive_test.php';
+require_once 'file_calculate_relative_path_test.php';
 
 /**
  * @package File
@@ -27,6 +28,7 @@ class ezcFileSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcFileFindRecursiveTest::suite() );
         $this->addTest( ezcFileRemoveRecursiveTest::suite() );
+        $this->addTest( ezcFileCalculateRelativePathTest::suite() );
     }
 
     public static function suite()
