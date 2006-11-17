@@ -1,5 +1,11 @@
 1.0beta2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+- Added logarithmical scaled numeric axis
+- Added tresh hold for pie charts
+- Added custom maximum value for pie charts
+- Added ming driver for flash output
+- Added text shadow, background and border to font options
+- Added gleam to 2d pie charts
 
 - Fixed bug #9403: Element references do not work with Gleam in SVG
 - Implemented issue #9304: Possibility to format labels via callback
