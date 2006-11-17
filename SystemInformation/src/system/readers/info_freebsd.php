@@ -87,7 +87,7 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
      */
     public function __construct()
     {
-        if ( !$this->getOsInfo() )
+        if ( !$this->init() )
         {
             throw new ezcSystemInfoReaderCantScanOSException( "<{$this->readerName}>: can't scan OS for system values." );
         }
@@ -95,10 +95,12 @@ class ezcSystemInfoFreeBsdReader extends ezcSystemInfoReader
 
     /**
      * Scans the OS and fills in the information internally.
+     *
+     * @return bool     
      */
     private function init()
     {
-        $this->getOsInfo();
+        return $this->getOsInfo();
     }
 
     /**
