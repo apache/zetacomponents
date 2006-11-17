@@ -580,5 +580,29 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
     }
+    
+    public function testWatermarkPercentNoScale()
+    {
+        $this->handler->watermarkPercent( dirname( __FILE__ ) . "/data/watermark.png", 10, 20 );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
+    
+    public function testWatermarkPercentScale()
+    {
+        $this->handler->watermarkPercent( dirname( __FILE__ ) . "/data/watermark.png", 20, 20, 60, 60 );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
 }
 ?>

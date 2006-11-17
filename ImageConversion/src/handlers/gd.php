@@ -480,7 +480,33 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
      */
     public function watermarkPercent( $image, $posX, $posY, $size = false )
     {
+        switch ( true )
+        {
+            case ( !is_string( $image ) || !file_exists( $image ) || !is_readable( $image ) ):
+                throw new ezcBaseValueException( 'image', $image, 'string, path to an image file' );
+            case ( !is_int( $posX ) || $posX < 0 || $posX > 100 ):
+                throw new ezcBaseValueException( 'posX', $posX, 'int percentage value' );
+            case ( !is_int( $posY ) || $posY < 0 || $posY > 100 ):
+                throw new ezcBaseValueException( 'posY', $posY, 'int percentage value' );
+            case ( !is_bool( $size ) && ( !is_int( $size ) || $size < 0 || $size > 100 ) ):
+                throw new ezcBaseValueException( 'size', $size, 'int percentage value / bool' );
+        }
+        
+        $imgWidth = imagesx( $this->getActiveResource() );
+        $imgHeight = imagesy( $this->getActiveResource() );
 
+        $watermarkWidth = false;
+        $watermarkHeight = false;
+        if ( $size !== false )
+        {
+            $watermarkWidth = (int) round( $imgWidth * $size / 100 );
+            $watermarkHeight = (int) round( $imgHeight * $size / 100 );
+        }
+
+        $watermarkPosX = (int) round( $imgWidth * $posX / 100 );
+        $watermarkPosY = (int) round( $imgWidth * $posY / 100 );
+
+        $this->watermarkAbsolute( $image, $watermarkPosX, $watermarkPosY, $watermarkWidth, $watermarkHeight );
     }
 
     /**
@@ -530,27 +556,9 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
         {
             $this->scale( $width, $height, ezcImageGeometryFilters::SCALE_BOTH );
         }
-        $this->placeWatermark( $originalRef, $watermarkRef, $posX, $posY );
 
-        $this->close( $watermarkRef );
-        
-        // Restore original image reference
-        $this->setActiveReference( $originalRef );
-    }
-
-    /**
-     * Place the actual watermark 
-     * 
-     * @param mixed $imageRef      The reference to the image to place on.
-     * @param mixed $watermarkRef  The reference to the watermark image.
-     * @param mixed $posX          X position in pixel to place the watermark.
-     * @param mixed $posY          Y position in pixel to place the watermark.
-     * @return void
-     */
-    protected function placeWatermark( $imageRef, $watermarkRef, $posX, $posY )
-    {
         imagecopy(
-            $this->getReferenceData( $imageRef, "resource" ),                   // resource $dst_im
+            $this->getReferenceData( $originalRef, "resource" ),                   // resource $dst_im
             $this->getReferenceData( $watermarkRef, "resource" ),               // resource $src_im
             $posX,                                                              // int $dst_x
             $posY,                                                              // int $dst_y
@@ -559,6 +567,11 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
             imagesx( $this->getReferenceData( $watermarkRef, "resource" ) ),    // int $src_w
             imagesy( $this->getReferenceData( $watermarkRef, "resource" ) )     // int $src_h
         );
+
+        $this->close( $watermarkRef );
+        
+        // Restore original image reference
+        $this->setActiveReference( $originalRef );
     }
 
     // private
