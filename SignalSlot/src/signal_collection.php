@@ -44,6 +44,13 @@ class ezcSignalCollection
     private $priorityConnections = array();
 
     /**
+     * If set this object will be used to fetch static connections instead of ezcSignalStaticConnections.
+     *
+     * @var ezcSignalStaticConnectionsBase
+     */
+    private static $staticConnectionsHolder = NULL;
+
+    /**
      * Constructs a new signal collection with the identifier $identifier.
      *
      * The identifier can be used to connect to signals statically using
@@ -55,6 +62,26 @@ class ezcSignalCollection
     {
         $this->properties['identifier'] = $identifier;
         $this->signalsBlocked = false;
+    }
+
+    /**
+     * If set, $holder will be used to fetch static connections instead of ezcSignalStaticConnections.
+     *
+     * @param ezcSignalStaticConnectionsBase
+     */
+    public static function setStaticConnectionsHolder( ezcSignalStaticConnectionsBase $holder )
+    {
+        self::$staticConnectionsHolder = $holder;
+    }
+
+    /**
+     * Returns the current provider of static connections or NULL if there is none.
+     *
+     * @return ezcSignalStaticConnectionsBase
+     */
+    public static function getStaticConnectionsHolder()
+    {
+        return self::$staticConnectionsHolder;
     }
 
    /**
@@ -125,7 +152,16 @@ class ezcSignalCollection
         $parameters = array_slice( func_get_args(), 1 );
 
         // check if there are any static connections
-        $priStaticConnections = ezcSignalStaticConnections::getInstance()->getConnections( $this->identifier, $signal );
+        $priStaticConnections = array();
+        if( self::$staticConnectionsHolder == NULL )
+        {
+            $priStaticConnections = ezcSignalStaticConnections::getInstance()->getConnections( $this->identifier, $signal );
+        }
+        else
+        {
+            $priStaticConnections = self::$staticConnectionsHolder->getConnections( $this->identifier, $signal );
+        }
+
         $hasPriStaticConnections = false;
         if ( count( $priStaticConnections ) > ( isset( $priStaticConnections[1000] ) ? 1 : 0) )
         {

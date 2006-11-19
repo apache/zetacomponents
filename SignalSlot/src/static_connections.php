@@ -29,7 +29,7 @@
  * @mainclass
  * @package SignalSlot
  */
-class ezcSignalStaticConnections
+class ezcSignalStaticConnections implements ezcSignalStaticConnectionsBase
 {
     /**
      * Holds the properties of this class.
@@ -116,7 +116,7 @@ class ezcSignalStaticConnections
      *
      * @param string $identifier
      * @param string $signal
-     * @return array(int=>callback)
+     * @return array(int=>array(callback))
      */
     public function getConnections( $identifier, $signal )
     {

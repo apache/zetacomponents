@@ -13,6 +13,7 @@
  */
 require_once( "signal_collection_test.php" );
 require_once( "static_connections_test.php" );
+require_once( "static_connections_base_test.php" );
 
 /**
  * @package PhpGenerator
@@ -27,6 +28,7 @@ class ezcSignalSlotSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcSignalCollectionTest::suite() );
         $this->addTest( ezcSignalStaticConnectionsTest::suite() );
+        $this->addTest( ezcSignalStaticConnectionsBaseTest::suite() );
     }
 
     public static function suite()

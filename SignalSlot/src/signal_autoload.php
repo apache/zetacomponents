@@ -10,7 +10,8 @@
 return array(
     'ezcSignalCollection' => 'SignalSlot/signal_collection.php',
     'ezcSignalStaticConnections' => 'SignalSlot/static_connections.php',
-    'ezcSignalCallbackComparer' => 'SignalSlot/internal/callback_comparer.php'
+    'ezcSignalCallbackComparer' => 'SignalSlot/internal/callback_comparer.php',
+    'ezcSignalStaticConnectionsBase' => 'SignalSlot/interfaces/static_connections_base.php'
 );
 
 ?>
