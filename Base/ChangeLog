@@ -1,4 +1,4 @@
-1.2beta2 - [RELEASEDATE]
+1.2beta2 - Monday 20 November 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #8507: Two autoload directories with the same basepath don't
