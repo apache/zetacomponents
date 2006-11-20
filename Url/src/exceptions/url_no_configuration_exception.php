@@ -24,7 +24,7 @@ class ezcUrlNoConfigurationException extends ezcUrlException
     public function __construct( $param )
     {
         $message = "The parameter <{$param}> could not be set/get because the url doesn't have a configuration defined.";
-        parent::__construct( $message, 0 );
+        parent::__construct( $message );
     }
 }
 ?>

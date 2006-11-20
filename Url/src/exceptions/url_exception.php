@@ -20,11 +20,10 @@ class ezcUrlException extends ezcBaseException
      * Constructs a new ezcUrlException with error message $message.
      *
      * @param string $message
-     * @param int $code
      */
-    public function __construct( $message, $code = 0 )
+    public function __construct( $message )
     {
-        parent::__construct( $message, $code );
+        parent::__construct( $message );
     }
 }
 ?>
