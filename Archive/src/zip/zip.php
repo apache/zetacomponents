@@ -230,7 +230,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         switch ( $header->compressionMethod )
         {
             case 8:  $this->file->appendStreamFilter( "zlib.inflate" ); break;   
-            case 12: $this->file->appendStreamFilter( "zlib.decompress" ); break; 
+            case 12: $this->file->appendStreamFilter( "bzip2.decompress" ); break; 
         }
         */
         
