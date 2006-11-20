@@ -54,3 +54,5 @@ $elements = $graph->renderer->getElementReferences();
             usemap="#ezcGraphPieChartMap"
     </body>
 </html>
+<?php
+?>
