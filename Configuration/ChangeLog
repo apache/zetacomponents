@@ -1,7 +1,7 @@
 1.1beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Implemented FR #9169: Ini files can also have comments that start with an ;
+- Added feature #9169: Ini files can also have comments that start with an ;
   now - instead of only using # as comment marker.
 
 

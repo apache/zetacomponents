@@ -1,16 +1,19 @@
+1.1beta2 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed bug #9441: Declared variables cannot be used as a 'received' variable
-  in the include block.
-- Fixed bug #8837: Delimiter doesn't work in nested loops.
-- Fixed bug #9279: Accessing properties from a null object.
-- Fixed bug #9286: Parse error in compiled template on accessing properties on
-  an object in an array
-- Fixed bug #9293: Template calls exit() for custom template functions without
-  parameters.
-- Fixed bug #9290: Reserved names may not be used as template variables in 
+- Changed the location where compiled templates are stored. They will now be
+  written to the sub directory 'compiled_templates' of the $compilePath. 
+- Fixed issue #8837: Delimiter doesn't work in nested loops.
+- Fixed issue #9279: Accessing properties from a null object.
+- Fixed issue #9286: Parse error in compiled template on accessing properties
+  on an object in an array
+- Fixed issue #9290: Reserved names may not be used as template variables in 
   include send statements.
-- Compiled templates are now stored in the sub directory 'compiled_templates'
-  of the $compilePath. 
+- Fixed issue #9293: Template calls exit() for custom template functions
+  without parameters.
+- Fixed issue #9441: Declared variables cannot be used as a 'received'
+  variable in the include block.
+
 
 1.1beta1 - Tuesday 24 October 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

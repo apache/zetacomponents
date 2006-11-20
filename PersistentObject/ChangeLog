@@ -1,12 +1,12 @@
 1.2beta2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue #9248: SQLite driver throws wierd exception.
 - Fixed issue #8962: "Sequence Generator" incorrect name for MySQL. MySQL
   should use the new "ezcPersistentNativeGenerator" from now, with
   auto_increment. "ezcPersistentSequenceGenerator" dispatches to this for BC
   reasons.
-- Fixed issue #9335: PersistensSession should use object->getState() in all
+- Fixed issue #9248: SQLite driver throws wierd exception.
+- Fixed issue #9335: PersistentSession should use object->getState() in all
   methods rather than accessing objects properties directly.
 
 

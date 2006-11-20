@@ -1,7 +1,7 @@
-1.2beta2 - [RELEASEDATE]
+1.0beta2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Implemented feature request #9240: added ezcUrlCreator class to allow
+- Implemented feature #9240: Added ezcUrlCreator class to allow
   working with predefined locations (eg. images, design);
 
 

@@ -2,13 +2,14 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Added support for PostgreSQL and SQLite.
-- Added support for default column values in mysql handler.
-- Fixed getting PDOException when executing queries in mysql handler.
-- Fixed bug #8650: No exception is thrown when writing database schema files
-  to non-writable directories.
-- Implemented FR #8744: Changed the ezcDbSchema::getSchema() method 
+- Added support for default column values in the MySQL handler.
+- Added feature #8744: Changed the ezcDbSchema::getSchema() method to
   return the schema as a reference, so that it can be modified properly.
-- Fixed bug #9322: pgsql and sqlite handlers issues.
+- Fixed getting a PDOException when executing queries in the MySQL handler.
+- Fixed issue #8650: No exception is thrown when writing database schema files
+  to non-writable directories.
+- Fixed issue #9322: PostgreSQL and SQLite handler issues.
+
 
 1.0.2 - Monday 28 August 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

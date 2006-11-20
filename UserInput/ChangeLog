@@ -1,7 +1,7 @@
 1.1beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed bug #9289: Adjust component for latest version of the filter
+- Fixed issue #9289: Adjust component for latest version of the filter
   extension, which API is now frozen.
 
 

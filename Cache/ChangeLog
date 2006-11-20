@@ -1,8 +1,9 @@
 1.1.3 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue #9443: [Cache] ezcCacheStorageFile::delete on removes the first
+- Fixed issue #9443: ezcCacheStorageFile::delete() only removes the first
   cache file found.
+
 
 1.1.2 - Monday 28 August 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

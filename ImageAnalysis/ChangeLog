@@ -1,7 +1,7 @@
 1.1beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue #009013: [ImageConversion] SVG not detected in
+- Fixed issue #9013: SVG not detected in
   ezcImageImagemagickBaseHandler::determineTypes().
 
 

@@ -1,9 +1,11 @@
 1.1beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- Implemented issue #9437: Make PersistentObjectDatabaseSchemaTiein work
+
+- Implemented feature #9437: Make PersistentObjectDatabaseSchemaTiein work
   with databases directly.
 - Fixed issue #8401: PersistentObjectDatabaseSchemaTieIn error if
   environment is not correct.
+
 
 1.0 - Monday 12 June 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
