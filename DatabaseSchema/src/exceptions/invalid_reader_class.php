@@ -22,7 +22,7 @@ class ezcDbSchemaInvalidReaderClassException extends ezcDbSchemaException
      */
     function __construct( $readerClass )
     {
-        parent::__construct( "Class <{$readerClass}> does not exist, or does not implement the <ezcDbSchemaReader> interface." );
+        parent::__construct( "Class '{$readerClass}' does not exist, or does not implement the 'ezcDbSchemaReader' interface." );
     }
 }
 ?>

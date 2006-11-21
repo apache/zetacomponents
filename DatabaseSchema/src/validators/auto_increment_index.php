@@ -51,7 +51,7 @@ class ezcDbSchemaAutoIncrementIndexValidator
 
                     if ( !$found )
                     {
-                        $errors[] = "Field <$tableName:$fieldName> is auto increment but there is no primary index defined.";
+                        $errors[] = "Field '$tableName:$fieldName' is auto increment but there is no primary index defined.";
                     }
 
                 }

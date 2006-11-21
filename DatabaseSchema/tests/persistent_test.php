@@ -45,12 +45,12 @@ class ezcDatabaseSchemaPersistentTest extends ezcTestCase
             }
             if ( !file_exists( $this->tempDir . '/' . $entry ) )
             {
-                $this->fail( "PersistentObject definition <{$entry}> not created!" );
+                $this->fail( "PersistentObject definition '{$entry}' not created!" );
             }
             $this->assertEquals( 
                 file_get_contents( $this->testFilesDir . '/persistent/' . $entry ),
                 file_get_contents( $this->tempDir . '/' . $entry ),
-                "PersistentObject definition for file <$entry> differs"
+                "PersistentObject definition for file '{$entry}' differs"
             );
         }
     }

@@ -64,7 +64,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         }
         catch ( ezcDbSchemaUnknownFormatException $e )
         {
-            self::assertEquals( 'There is no <read> handler available for the <bogus> format.', $e->getMessage() );
+            self::assertEquals( "There is no 'read' handler available for the 'bogus' format.", $e->getMessage() );
         }
     }
 
@@ -77,7 +77,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         }
         catch ( ezcDbSchemaUnknownFormatException $e )
         {
-            self::assertEquals( 'There is no <write> handler available for the <bogus> format.', $e->getMessage() );
+            self::assertEquals( "There is no 'write' handler available for the 'bogus' format.", $e->getMessage() );
         }
     }
 
@@ -90,7 +90,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         }
         catch ( ezcDbSchemaUnknownFormatException $e )
         {
-            self::assertEquals( 'There is no <difference read> handler available for the <bogus> format.', $e->getMessage() );
+            self::assertEquals( "There is no 'difference read' handler available for the 'bogus' format.", $e->getMessage() );
         }
     }
 
@@ -103,7 +103,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         }
         catch ( ezcDbSchemaUnknownFormatException $e )
         {
-            self::assertEquals( 'There is no <difference write> handler available for the <bogus> format.', $e->getMessage() );
+            self::assertEquals( "There is no 'difference write' handler available for the 'bogus' format.", $e->getMessage() );
         }
     }
 
@@ -172,7 +172,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         }
         catch ( ezcDbSchemaInvalidReaderClassException $e )
         {
-            $this->assertEquals( "Class <fooBar> does not exist, or does not implement the <ezcDbSchemaReader> interface.", $e->getMessage() );
+            $this->assertEquals( "Class 'fooBar' does not exist, or does not implement the 'ezcDbSchemaReader' interface.", $e->getMessage() );
         }
     }
 
@@ -185,7 +185,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         }
         catch ( ezcDbSchemaInvalidReaderClassException $e )
         {
-            $this->assertEquals( "Class <stdClass> does not exist, or does not implement the <ezcDbSchemaReader> interface.", $e->getMessage() );
+            $this->assertEquals( "Class 'stdClass' does not exist, or does not implement the 'ezcDbSchemaReader' interface.", $e->getMessage() );
         }
     }
 
@@ -198,7 +198,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         }
         catch ( ezcDbSchemaInvalidWriterClassException $e )
         {
-            $this->assertEquals( "Class <fooBar> does not exist, or does not implement the <ezcDbSchemaWriter> interface.", $e->getMessage() );
+            $this->assertEquals( "Class 'fooBar' does not exist, or does not implement the 'ezcDbSchemaWriter' interface.", $e->getMessage() );
         }
     }
 
@@ -211,7 +211,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         }
         catch ( ezcDbSchemaInvalidWriterClassException $e )
         {
-            $this->assertEquals( "Class <stdClass> does not exist, or does not implement the <ezcDbSchemaWriter> interface.", $e->getMessage() );
+            $this->assertEquals( "Class 'stdClass' does not exist, or does not implement the 'ezcDbSchemaWriter' interface.", $e->getMessage() );
         }
     }
 
@@ -224,7 +224,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         }
         catch ( ezcDbSchemaInvalidDiffReaderClassException $e )
         {
-            $this->assertEquals( "Class <fooBar> does not exist, or does not implement the <ezcDbSchemaDiffReader> interface.", $e->getMessage() );
+            $this->assertEquals( "Class 'fooBar' does not exist, or does not implement the 'ezcDbSchemaDiffReader' interface.", $e->getMessage() );
         }
     }
 
@@ -237,7 +237,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         }
         catch ( ezcDbSchemaInvalidDiffReaderClassException $e )
         {
-            $this->assertEquals( "Class <stdClass> does not exist, or does not implement the <ezcDbSchemaDiffReader> interface.", $e->getMessage() );
+            $this->assertEquals( "Class 'stdClass' does not exist, or does not implement the 'ezcDbSchemaDiffReader' interface.", $e->getMessage() );
         }
     }
 
@@ -250,7 +250,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         }
         catch ( ezcDbSchemaInvalidDiffWriterClassException $e )
         {
-            $this->assertEquals( "Class <fooBar> does not exist, or does not implement the <ezcDbSchemaDiffWriter> interface.", $e->getMessage() );
+            $this->assertEquals( "Class 'fooBar' does not exist, or does not implement the 'ezcDbSchemaDiffWriter' interface.", $e->getMessage() );
         }
     }
 
@@ -263,7 +263,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         }
         catch ( ezcDbSchemaInvalidDiffWriterClassException $e )
         {
-            $this->assertEquals( "Class <stdClass> does not exist, or does not implement the <ezcDbSchemaDiffWriter> interface.", $e->getMessage() );
+            $this->assertEquals( "Class 'stdClass' does not exist, or does not implement the 'ezcDbSchemaDiffWriter' interface.", $e->getMessage() );
         }
     }
 

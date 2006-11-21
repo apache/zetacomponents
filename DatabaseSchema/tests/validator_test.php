@@ -49,8 +49,8 @@ class ezcDatabaseSchemaValidatorTest extends ezcTestCase
         );
 
         $expected = array(
-            "Index <bugdb:index2> references unknown field name <bugdb:field3>.",
-            "Index <bugdb:index3> references unknown field name <bugdb:field3>.",
+            "Index 'bugdb:index2' references unknown field name 'bugdb:field3'.",
+            "Index 'bugdb:index3' references unknown field name 'bugdb:field3'.",
         );
         self::assertEquals( $expected, ezcDbSchemaValidator::validate( $schema ) );
     }
@@ -81,12 +81,12 @@ class ezcDatabaseSchemaValidatorTest extends ezcTestCase
         ) );
 
         $expected = array(
-            "Field <bugdb:booleanfield2> uses the unsupported type <bool>.",
-            "Field <bugdb:decimalfield2> uses the unsupported type <numeric>.",
-            "Field <bugdb:floatfield2> uses the unsupported type <double>.",
-            "Field <bugdb:integerfield2> uses the unsupported type <int>.",
-            "Field <bugdb:textfield2> uses the unsupported type <char>.",
-            "Field <bugdb:textfield3> uses the unsupported type <varchar>."
+            "Field 'bugdb:booleanfield2' uses the unsupported type 'bool'.",
+            "Field 'bugdb:decimalfield2' uses the unsupported type 'numeric'.",
+            "Field 'bugdb:floatfield2' uses the unsupported type 'double'.",
+            "Field 'bugdb:integerfield2' uses the unsupported type 'int'.",
+            "Field 'bugdb:textfield2' uses the unsupported type 'char'.",
+            "Field 'bugdb:textfield3' uses the unsupported type 'varchar'."
         );
         self::assertEquals( $expected, ezcDbSchemaValidator::validate( $schema ) );
     }
@@ -111,7 +111,7 @@ class ezcDatabaseSchemaValidatorTest extends ezcTestCase
             )
         );
         $expected = array(
-            "Field <bugdb:id> is auto increment but there is no primary index defined.",
+            "Field 'bugdb:id' is auto increment but there is no primary index defined.",
         );
         self::assertEquals( $expected, ezcDbSchemaValidator::validate( $schema ) );
     }

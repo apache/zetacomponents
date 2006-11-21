@@ -29,6 +29,11 @@ class ezcDatabaseSchemaMySqlTest extends ezcTestCase
             $this->markTestSkipped( "We are not testing with MySQL" );
         }
 
+        if ( !( $this->db instanceof ezcDbHandlerMysql ) )
+        {
+            $this->markTestSkipped();
+        }
+
         $this->testFilesDir = dirname( __FILE__ ) . '/testfiles/';
         $this->tempDir = $this->createTempDir( 'ezcDatabaseMySqlTest' );
 

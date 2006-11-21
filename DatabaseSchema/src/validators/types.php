@@ -38,7 +38,7 @@ class ezcDbSchemaTypesValidator
             {
                 if ( !in_array( $field->type, ezcDbSchema::$supportedTypes ) )
                 {
-                    $errors[] = "Field <$tableName:$fieldName> uses the unsupported type <{$field->type}>.";
+                    $errors[] = "Field '$tableName:$fieldName' uses the unsupported type '{$field->type}'.";
                 }
             }
         }

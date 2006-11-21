@@ -44,7 +44,7 @@ class ezcDbSchemaIndexFieldsValidator
                 {
                     if ( !in_array( $indexFieldName, $fields ) )
                     {
-                        $errors[] = "Index <$tableName:$indexName> references unknown field name <$tableName:$indexFieldName>.";
+                        $errors[] = "Index '$tableName:$indexName' references unknown field name '$tableName:$indexFieldName'.";
                     }
                 }
             }

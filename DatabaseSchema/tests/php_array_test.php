@@ -80,7 +80,7 @@ class ezcDatabaseSchemaPhpArrayTest extends ezcTestCase
         }
         catch ( Exception $e )
         {
-            self::assertEquals( "The schema file <testfiles/isnt-here.php> could not be found.", $e->getMessage() );
+            self::assertEquals( "The schema file 'testfiles/isnt-here.php' could not be found.", $e->getMessage() );
         }
     }
 
@@ -104,7 +104,7 @@ class ezcDatabaseSchemaPhpArrayTest extends ezcTestCase
         }
         catch ( ezcBaseFilePermissionException $e )
         {
-            $this->assertEquals( "The file <{$fileName}> can not be opened for writing.", $e->getMessage() );
+            $this->assertEquals( "The file '{$fileName}' can not be opened for writing.", $e->getMessage() );
         }
     }
 

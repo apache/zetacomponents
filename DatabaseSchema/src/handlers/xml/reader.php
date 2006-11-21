@@ -251,7 +251,7 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
         $xml = @simplexml_load_file( $file );
         if ( !$xml )
         {
-            throw new ezcDbSchemaInvalidSchemaException( "The schema file <{$file}> is not valid XML." );
+            throw new ezcDbSchemaInvalidSchemaException( "The schema file '{$file}' is not valid XML." );
         }
 
         return $xml;

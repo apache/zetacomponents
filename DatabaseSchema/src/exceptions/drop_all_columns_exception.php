@@ -22,7 +22,7 @@ class ezcDbSchemaDropAllColumnsException extends ezcDbSchemaException
      */
     function __construct( $message )
     {
-        parent::__construct( "Couldn't drop all columns in table. $message" );
+        parent::__construct( "Couldn't drop all columns in table. {$message}" );
     }
 }
 ?>

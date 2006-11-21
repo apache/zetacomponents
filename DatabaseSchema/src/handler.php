@@ -211,7 +211,7 @@ abstract class ezcDbSchemaHandler
         if ( ( $handle = @fopen( $fileName, 'wb' ) ) === false )
             throw new ezcDbSchemaException(
                 ezcDbSchemaException::GENERIC_ERROR,
-                "cannot write to $fileName: $php_errormsg" );
+                "cannot write to '$fileName: $php_errormsg'" );
 
         ini_set( 'track_errors', $savedTrackErrorsFlag );
 
