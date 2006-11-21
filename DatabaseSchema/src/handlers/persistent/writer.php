@@ -167,10 +167,21 @@ class ezcDbschemaPersistentWriter implements ezcDbSchemaFileWriter
      * @param string $dir  The diretory to open the file in.
      * @param string $name The table name.
      * @return resource(file) The file resource used for writing.
+     *
+     * @throws ezcBaseFileIoException 
+     *         if the file to write to already exists.
+     * @throws ezcBaseFilePermissionException
+     *         if the file could not be opened for writing.
      */
     private function openFile( $dir, $name )
     {
-        $file = @fopen( $dir . DIRECTORY_SEPARATOR . $name . '.php', 'w' );
+        $filename = $dir . DIRECTORY_SEPARATOR . $name . '.php';
+        // We do not want to overwrite files
+        if ( file_exists( $filename ) )
+        {
+            throw new ezcBaseFileIoException( $filename, ezcBaseFileException::WRITE, "File already exists." );
+        }
+        $file = @fopen( $filename, 'w' );
         if ( $file === false )
         {
             throw new ezcBaseFilePermissionException( $file, ezcBaseFileException::WRITE );
