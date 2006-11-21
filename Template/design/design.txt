@@ -132,7 +132,7 @@ The operator precedence is as follows (some are missing):
 ===============  ====================
 Associativity    Operators
 ===============  ====================
-right            [ .(left)
+right            [ ->(left)
 non-associative  ++ --
 non-associative  ! - instanceof
 left             \* / %
@@ -264,7 +264,7 @@ Equal                  $ol == $or
 Identical              $ol === $or
 Not equal              $ol != $or
 Not identical          $ol !== $or
-Property lookup        $ol.$or
+Property lookup        $ol->or
 =====================  ===========
 
 Modifiers
