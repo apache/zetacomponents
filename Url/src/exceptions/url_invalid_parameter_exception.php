@@ -23,7 +23,7 @@ class ezcUrlInvalidParameterException extends ezcUrlException
      */
     public function __construct( $param )
     {
-        $message = "The parameter <{$param}> could not be set/get because it is not defined in the configuration.";
+        $message = "The parameter '{$param}' could not be set/get because it is not defined in the configuration.";
         parent::__construct( $message );
     }
 }

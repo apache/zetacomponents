@@ -30,7 +30,7 @@ class ezcUrlCreatorTest extends ezcTestCase
         }
         catch ( ezcUrlNotRegisteredException $e )
         {
-            $expected = 'The url <not registered url> is not registered.';
+            $expected = "The url 'not registered url' is not registered.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -58,7 +58,7 @@ class ezcUrlCreatorTest extends ezcTestCase
         }
         catch ( ezcUrlNotRegisteredException $e )
         {
-            $expected = 'The url <not registered url> is not registered.';
+            $expected = "The url 'not registered url' is not registered.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }

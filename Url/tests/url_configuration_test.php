@@ -46,7 +46,7 @@ class ezcUrlConfigurationTest extends ezcTestCase
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
-            $expected = 'No such property name <no_such_property>.';
+            $expected = "No such property name 'no_such_property'.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -81,7 +81,7 @@ class ezcUrlConfigurationTest extends ezcTestCase
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
-            $expected = 'No such property name <no_such_property>.';
+            $expected = "No such property name 'no_such_property'.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }

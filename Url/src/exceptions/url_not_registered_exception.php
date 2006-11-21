@@ -23,7 +23,7 @@ class ezcUrlNotRegisteredException extends ezcUrlException
      */
     public function __construct( $name )
     {
-        $message = "The url <{$name}> is not registered.";
+        $message = "The url '{$name}' is not registered.";
         parent::__construct( $message );
     }
 }

@@ -37,7 +37,7 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
-            $expected = 'No such property name <no_such_property>.';
+            $expected = "No such property name 'no_such_property'.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -67,7 +67,7 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
-            $expected = 'No such property name <no_such_property>.';
+            $expected = "No such property name 'no_such_property'.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -188,7 +188,7 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcUrlInvalidParameterException $e )
         {
-            $expected = 'The parameter <section> could not be set/get because it is not defined in the configuration.';
+            $expected = "The parameter 'section' could not be set/get because it is not defined in the configuration.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -203,7 +203,7 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcUrlNoConfigurationException $e )
         {
-            $expected = 'The parameter <section> could not be set/get because the url doesn\'t have a configuration defined.';
+            $expected = "The parameter 'section' could not be set/get because the url doesn't have a configuration defined.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -234,7 +234,7 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcUrlInvalidParameterException $e )
         {
-            $expected = 'The parameter <section> could not be set/get because it is not defined in the configuration.';
+            $expected = "The parameter 'section' could not be set/get because it is not defined in the configuration.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -249,7 +249,7 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcUrlNoConfigurationException $e )
         {
-            $expected = 'The parameter <section> could not be set/get because the url doesn\'t have a configuration defined.';
+            $expected = "The parameter 'section' could not be set/get because the url doesn't have a configuration defined.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -293,7 +293,7 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcUrlInvalidParameterException $e )
         {
-            $expected = 'The parameter <file> could not be set/get because it is not defined in the configuration.';
+            $expected = "The parameter 'file' could not be set/get because it is not defined in the configuration.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -308,7 +308,7 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcUrlNoConfigurationException $e )
         {
-            $expected = 'The parameter <file> could not be set/get because the url doesn\'t have a configuration defined.';
+            $expected = "The parameter 'file' could not be set/get because the url doesn't have a configuration defined.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -355,7 +355,7 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcUrlInvalidParameterException $e )
         {
-            $expected = 'The parameter <file> could not be set/get because it is not defined in the configuration.';
+            $expected = "The parameter 'file' could not be set/get because it is not defined in the configuration.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -370,7 +370,7 @@ class ezcUrlTest extends ezcTestCase
         }
         catch ( ezcUrlNoConfigurationException $e )
         {
-            $expected = 'The parameter <file> could not be set/get because the url doesn\'t have a configuration defined.';
+            $expected = "The parameter 'file' could not be set/get because the url doesn't have a configuration defined.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
