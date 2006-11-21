@@ -19,7 +19,7 @@
  * @package ImageConversion
  * @access private
  */
-class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler implements ezcImageGeometryFilters, ezcImageColorspaceFilters, ezcImageEffectFilters
+class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler implements ezcImageGeometryFilters, ezcImageColorspaceFilters, ezcImageEffectFilters, ezcImageWatermarkFilters
 {
 
     /**

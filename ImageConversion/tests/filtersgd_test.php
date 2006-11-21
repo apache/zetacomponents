@@ -456,7 +456,7 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
-            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+            50
         );
     }
 
@@ -577,7 +577,7 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
-            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+            60
         );
     }
     
@@ -601,7 +601,7 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
-            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+            20
         );
     }
 }
