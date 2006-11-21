@@ -25,7 +25,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseSettingNotFoundException $e )
         {
-            $this->assertEquals( "The setting <broken> is not a valid configuration setting.", $e->getMessage() );
+            $this->assertEquals( "The setting 'broken' is not a valid configuration setting.", $e->getMessage() );
         }
     }
 
@@ -37,7 +37,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseSettingValueException $e )
         {
-            $this->assertEquals( "The value <42> that you were trying to assign to setting <broken> is invalid.", $e->getMessage() );
+            $this->assertEquals( "The value '42' that you were trying to assign to setting 'broken' is invalid.", $e->getMessage() );
         }
     }
 
@@ -49,7 +49,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseSettingValueException $e )
         {
-            $this->assertEquals( "The value <42> that you were trying to assign to setting <broken> is invalid. Allowed values are: int, 40 - 48", $e->getMessage() );
+            $this->assertEquals( "The value '42' that you were trying to assign to setting 'broken' is invalid. Allowed values are: int, 40 - 48", $e->getMessage() );
         }
     }
 
@@ -61,7 +61,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseSettingValueException $e )
         {
-            $this->assertEquals( "The value <a:5:{i:0;i:1;i:1;i:1;i:2;i:3;i:3;i:4;i:4;i:5;}> that you were trying to assign to setting <broken> is invalid. Allowed values are: int", $e->getMessage() );
+            $this->assertEquals( "The value 'a:5:{i:0;i:1;i:1;i:1;i:2;i:3;i:3;i:4;i:4;i:5;}' that you were trying to assign to setting 'broken' is invalid. Allowed values are: int", $e->getMessage() );
         }
     }
 
@@ -73,7 +73,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseFileIoException $e )
         {
-            $this->assertEquals( "An error occurred while reading from <testfile.php>.", $e->getMessage() );
+            $this->assertEquals( "An error occurred while reading from 'testfile.php'.", $e->getMessage() );
         }
     }
 
@@ -85,7 +85,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseFileIoException $e )
         {
-            $this->assertEquals( "An error occurred while writing to <testfile.php>.", $e->getMessage() );
+            $this->assertEquals( "An error occurred while writing to 'testfile.php'.", $e->getMessage() );
         }
     }
 
@@ -97,7 +97,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseFileIoException $e )
         {
-            $this->assertEquals( "An error occurred while writing to <testfile.php>. (Extra extra)", $e->getMessage() );
+            $this->assertEquals( "An error occurred while writing to 'testfile.php'. (Extra extra)", $e->getMessage() );
         }
     }
 
@@ -109,7 +109,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            $this->assertEquals( "The file <testfile.php> could not be found.", $e->getMessage() );
+            $this->assertEquals( "The file 'testfile.php' could not be found.", $e->getMessage() );
         }
     }
 
@@ -121,7 +121,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            $this->assertEquals( "The INI file <testfile.php> could not be found.", $e->getMessage() );
+            $this->assertEquals( "The INI file 'testfile.php' could not be found.", $e->getMessage() );
         }
     }
 
@@ -133,7 +133,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            $this->assertEquals( "The INI file <testfile.php> could not be found. (Extra extra)", $e->getMessage() );
+            $this->assertEquals( "The INI file 'testfile.php' could not be found. (Extra extra)", $e->getMessage() );
         }
     }
 
@@ -145,7 +145,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseFilePermissionException $e )
         {
-            $this->assertEquals( "The file <testfile.php> can not be opened for reading.", $e->getMessage() );
+            $this->assertEquals( "The file 'testfile.php' can not be opened for reading.", $e->getMessage() );
         }
     }
 
@@ -157,7 +157,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseFileException $e )
         {
-            $this->assertEquals( "The file <testfile.php> can not be opened for writing.", $e->getMessage() );
+            $this->assertEquals( "The file 'testfile.php' can not be opened for writing.", $e->getMessage() );
         }
     }
 
@@ -169,7 +169,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseException $e )
         {
-            $this->assertEquals( "The file <testfile.php> can not be executed.", $e->getMessage() );
+            $this->assertEquals( "The file 'testfile.php' can not be executed.", $e->getMessage() );
         }
     }
 
@@ -181,7 +181,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseException $e )
         {
-            $this->assertEquals( "The permissions for <testfile.php> can not be changed. (Extra extra)", $e->getMessage() );
+            $this->assertEquals( "The permissions for 'testfile.php' can not be changed. (Extra extra)", $e->getMessage() );
         }
     }
 
@@ -193,7 +193,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseException $e )
         {
-            $this->assertEquals( "The file <testfile.php> can not be opened for reading and writing. (Extra extra)", $e->getMessage() );
+            $this->assertEquals( "The file 'testfile.php' can not be opened for reading and writing. (Extra extra)", $e->getMessage() );
         }
     }
 
@@ -205,7 +205,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseException $e )
         {
-            $this->assertEquals( "The file <testfile.php> can not be removed. (Extra extra)", $e->getMessage() );
+            $this->assertEquals( "The file 'testfile.php' can not be removed. (Extra extra)", $e->getMessage() );
         }
     }
 
@@ -217,7 +217,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
-            $this->assertEquals( "No such property name <broken>.", $e->getMessage() );
+            $this->assertEquals( "No such property name 'broken'.", $e->getMessage() );
         }
     }
 
@@ -229,7 +229,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseException $e )
         {
-            $this->assertEquals( "The property <broken> is read-only.", $e->getMessage() );
+            $this->assertEquals( "The property 'broken' is read-only.", $e->getMessage() );
         }
     }
 
@@ -241,7 +241,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseException $e )
         {
-            $this->assertEquals( "The property <broken> is write-only.", $e->getMessage() );
+            $this->assertEquals( "The property 'broken' is write-only.", $e->getMessage() );
         }
     }
 
@@ -253,7 +253,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseValueException $e )
         {
-            $this->assertEquals( "The value <a:1:{i:0;i:42;}> that you were trying to assign to setting <broken> is invalid.", $e->getMessage() );
+            $this->assertEquals( "The value 'a:1:{i:0;i:42;}' that you were trying to assign to setting 'broken' is invalid.", $e->getMessage() );
         }
     }
 
@@ -265,8 +265,8 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseValueException $e )
         {
-            $this->assertEquals( "The value <string> that you were trying to assign to setting <broken> is invalid. Allowed values are: strings.", $e->getMessage() );
-            $this->assertEquals( "The value <string> that you were trying to assign to setting <broken> is invalid. Allowed values are: strings.", $e->originalMessage );
+            $this->assertEquals( "The value 'string' that you were trying to assign to setting 'broken' is invalid. Allowed values are: strings.", $e->getMessage() );
+            $this->assertEquals( "The value 'string' that you were trying to assign to setting 'broken' is invalid. Allowed values are: strings.", $e->originalMessage );
         }
     }
 
@@ -278,7 +278,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            $this->assertEquals( "The base directory file <wrongDir> could not be found.", $e->getMessage() );
+            $this->assertEquals( "The base directory file 'wrongDir' could not be found.", $e->getMessage() );
         }
     }
 
@@ -290,7 +290,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            $this->assertEquals( "The autoload directory file <./wrongAutoloadDir> could not be found.", $e->getMessage() );
+            $this->assertEquals( "The autoload directory file './wrongAutoloadDir' could not be found.", $e->getMessage() );
         }
     }
     
@@ -311,7 +311,7 @@ class ezcBaseTest extends ezcTestCase
 
         if ( !isset( $resultArray[0] ) || $resultArray[0][1] != './autoload' )
         {
-            $this->fail( "Extra autoload dir <{$resultArray['.'][1]}> is added incorrectly" );
+            $this->fail( "Extra autoload dir '{$resultArray['.'][1]}' is added incorrectly" );
         }
     }
 
@@ -335,7 +335,7 @@ class ezcBaseTest extends ezcTestCase
 
         if ( !isset( $resultArray[2] ) || $resultArray[2][1] != './Base/tests/test_repository/autoload_files' )
         {
-            $this->fail( "Extra autoload dir <{$resultArray[2][1]}> is added incorrectly" );
+            $this->fail( "Extra autoload dir '{$resultArray[2][1]}' is added incorrectly" );
         }
 
         self::assertEquals( true, class_exists( 'trBasetestClass', true ) );
@@ -350,7 +350,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            self::assertEquals( 'The file <./Base/tests/test_repository/TestClasses/base_test_class_number_four.php> could not be found.', $e->getMessage() );
+            self::assertEquals( "The file './Base/tests/test_repository/TestClasses/base_test_class_number_four.php' could not be found.", $e->getMessage() );
         }
     }
 
@@ -376,7 +376,7 @@ class ezcBaseTest extends ezcTestCase
         }
         catch ( ezcBaseDoubleClassRepositoryPrefix $e )
         {
-            self::assertEquals( 'The class repository in <./Base/tests/test_repository> (with autoload dir <./Base/tests/test_repository/autoload_files>) can not be added because another class repository already uses the prefix <tr>.', $e->getMessage() );
+            self::assertEquals( "The class repository in './Base/tests/test_repository' (with autoload dir './Base/tests/test_repository/autoload_files') can not be added because another class repository already uses the prefix 'tr'.", $e->getMessage() );
         }
 
         $resultArray = ezcBase::getRepositoryDirectories();

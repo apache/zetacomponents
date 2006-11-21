@@ -7,9 +7,10 @@
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
  * Provides methods needed to check for features.
- * 
+ *
  * Example:
  * <code>
  * <?php
@@ -99,10 +100,10 @@ class ezcBaseFeatures
 
     /**
      * Returns the path to the ImageMagick convert utility.
-     * 
+     *
      * On Linux, Unix,... it will return something like: /usr/bin/convert
      * On Windows it will return something like: C:\Windows\System32\convert.exe
-     * 
+     *
      * @return string
      */
     public static function getImageConvertExecutable()
@@ -126,10 +127,10 @@ class ezcBaseFeatures
 
     /**
      * Returns the path to the ImageMagick identify utility.
-     * 
+     *
      * On Linux, Unix,... it will return something like: /usr/bin/identify
      * On Windows it will return something like: C:\Windows\System32\identify.exe
-     * 
+     *
      * @return string
      */
     public static function getImageIdentifyExecutable()
@@ -143,24 +144,23 @@ class ezcBaseFeatures
 
     /**
      * Determines if the specified extension is loaded.
-     * 
+     *
      * If $version is specified, the specified extension will be tested also
      * against the version of the loaded extension.
-     * 
+     *
      * Examples:
      * <code>
      * hasExtensionSupport( 'gzip' );
      * </code>
      * will return true if gzip extension is loaded.
-     * 
+     *
      * <code>
      * hasExtensionSupport( 'pdo_mysql', '1.0.2' );
      * </code>
      * will return true if pdo_mysql extension is loaded and its version is at least 1.0.2.
-     * 
+     *
      * @param string $extension
      * @param string $version
-     * 
      * @return bool
      */
     public static function hasExtensionSupport( $extension, $version = null )
@@ -174,15 +174,15 @@ class ezcBaseFeatures
 
     /**
      * Determines if the specified function is available.
-     * 
+     *
      * Examples:
      * <code>
      * ezcBaseFeatures::hasFunction( 'imagepstext' );
      * </code>
      * will return true if support for Type 1 fonts is available with your GD
      * extension.
-     * 
-     * @param string $functionName Name of function
+     *
+     * @param string $functionName
      * @return bool
      */
     public static function hasFunction( $functionName )
@@ -192,7 +192,7 @@ class ezcBaseFeatures
 
     /**
      * Returns the operating system on which php is running.
-     * 
+     *
      * @return string
      */
     private static function os()
@@ -226,11 +226,11 @@ class ezcBaseFeatures
 
     /**
      * Returns the path to the specified filename based on the os.
-     * 
+     *
      * It scans the PATH enviroment variable based on the os to find the $fileName.
      * For Windows, the path is with \, not /.
      * If $fileName is not found, it returns null.
-     * 
+     *
      * @param string $fileName
      * @return string
      */

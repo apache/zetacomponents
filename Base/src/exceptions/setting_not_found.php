@@ -22,7 +22,7 @@ class ezcBaseSettingNotFoundException extends ezcBaseException
      */
     function __construct( $settingName )
     {
-        parent::__construct( "The setting <{$settingName}> is not a valid configuration setting." );
+        parent::__construct( "The setting '{$settingName}' is not a valid configuration setting." );
     }
 }
 ?>

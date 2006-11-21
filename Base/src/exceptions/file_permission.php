@@ -32,22 +32,22 @@ class ezcBaseFilePermissionException extends ezcBaseFileException
         switch ( $mode )
         {
             case ezcBaseFileException::READ:
-                $operation = "The file <{$path}> can not be opened for reading";
+                $operation = "The file '{$path}' can not be opened for reading";
                 break;
             case ezcBaseFileException::WRITE:
-                $operation = "The file <{$path}> can not be opened for writing";
+                $operation = "The file '{$path}' can not be opened for writing";
                 break;
             case ezcBaseFileException::EXECUTE:
-                $operation = "The file <{$path}> can not be executed";
+                $operation = "The file '{$path}' can not be executed";
                 break;
             case ezcBaseFileException::CHANGE:
-                $operation = "The permissions for <{$path}> can not be changed";
+                $operation = "The permissions for '{$path}' can not be changed";
                 break;
             case ezcBaseFileException::REMOVE:
-                $operation = "The file <{$path}> can not be removed";
+                $operation = "The file '{$path}' can not be removed";
                 break;
             case ( ezcBaseFileException::READ || ezcBaseFileException::WRITE ):
-                $operation = "The file <{$path}> can not be opened for reading and writing";
+                $operation = "The file '{$path}' can not be opened for reading and writing";
                 break;
         }
 

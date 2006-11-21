@@ -39,7 +39,7 @@ class ezcBaseInitTest extends ezcTestCase
         }
         catch ( ezcBaseInitCallbackConfiguredException $e )
         {
-            $this->assertEquals( "The <testBaseInit> is already configured with callback class <testBaseInitCallback>.", $e->getMessage() );
+            $this->assertEquals( "The 'testBaseInit' is already configured with callback class 'testBaseInitCallback'.", $e->getMessage() );
         }
     }
 

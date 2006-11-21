@@ -34,7 +34,7 @@ class ezcBasePropertyPermissionException extends ezcBaseException
      */
     function __construct( $name, $mode )
     {
-        parent::__construct( "The property <{$name}> is " .
+        parent::__construct( "The property '{$name}' is " .
             ( $mode == self::READ ? "read" : "write" ) .
             "-only." );
     }

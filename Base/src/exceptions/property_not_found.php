@@ -22,7 +22,7 @@ class ezcBasePropertyNotFoundException extends ezcBaseException
      */
     function __construct( $name )
     {
-        parent::__construct( "No such property name <{$name}>." );
+        parent::__construct( "No such property name '{$name}'." );
     }
 }
 ?>

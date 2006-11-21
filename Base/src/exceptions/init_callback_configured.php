@@ -25,7 +25,7 @@ class ezcBaseInitCallbackConfiguredException extends ezcBaseException
      */
     function __construct( $identifier, $originalCallbackClassName )
     {
-        parent::__construct( "The <{$identifier}> is already configured with callback class <{$originalCallbackClassName}>." );
+        parent::__construct( "The '{$identifier}' is already configured with callback class '{$originalCallbackClassName}'." );
     }
 }
 ?>

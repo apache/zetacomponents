@@ -31,10 +31,10 @@ class ezcBaseFileIoException extends ezcBaseFileException
         switch ( $mode )
         {
             case ezcBaseFileException::READ:
-                $operation = "An error occurred while reading from <{$path}>";
+                $operation = "An error occurred while reading from '{$path}'";
                 break;
             case ezcBaseFileException::WRITE:
-                $operation = "An error occurred while writing to <{$path}>";
+                $operation = "An error occurred while writing to '{$path}'";
                 break;
         }
 

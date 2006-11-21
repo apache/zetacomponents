@@ -31,7 +31,7 @@ class ezcBaseValueException extends ezcBaseException
         {
             $value = serialize( $value );
         }
-        $msg = "The value <{$value}> that you were trying to assign to setting <{$settingName}> is invalid.";
+        $msg = "The value '{$value}' that you were trying to assign to setting '{$settingName}' is invalid.";
         if ( $expectedValue )
         {
             $msg .= " Allowed values are: " . $expectedValue . '.';
