@@ -18,7 +18,7 @@ class ezcGraphMingBitmapBoundingsException extends ezcGraphException
 {
     public function __construct( $imageWidth, $imageHeight, $reqWidth, $reqHeight )
     {
-        parent::__construct( "Ming does not support bitmap scaling, so that it is up to you to scale the image <$imageWidth> * <$imageHeight> to <$reqWidth> * <$reqHeight>." );
+        parent::__construct( "Ming does not support bitmap scaling, so that it is up to you to scale the image '$imageWidth' * '$imageHeight' to '$reqWidth' * '$reqHeight'." );
     }
 }
 

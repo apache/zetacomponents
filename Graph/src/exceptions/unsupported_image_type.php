@@ -47,7 +47,7 @@ class ezcGraphGdDriverUnsupportedImageTypeException extends ezcGraphException
             $type = 'Unknown';
         }
 
-        parent::__construct( "Unsupported image format <{$type}>." );
+        parent::__construct( "Unsupported image format '{$type}'." );
     }
 }
 

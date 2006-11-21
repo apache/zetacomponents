@@ -18,7 +18,7 @@ class ezcGraphMatrixOutOfBoundingsException extends ezcGraphException
 {
     public function __construct( $rows, $columns, $rPos, $cPos )
     {
-        parent::__construct( "Position <{$rPos}, {$cPos}> is out of the matrix boundings <{$rows}, {$columns}>." );
+        parent::__construct( "Position '{$rPos}, {$cPos}' is out of the matrix boundings '{$rows}, {$columns}'." );
     }
 }
 

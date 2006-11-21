@@ -17,7 +17,7 @@ class ezcGraphNoSuchElementException extends ezcGraphException
 {
     public function __construct( $name )
     {
-        parent::__construct( "No chart element with name <{$name}> found." );
+        parent::__construct( "No chart element with name '{$name}' found." );
     }
 }
 

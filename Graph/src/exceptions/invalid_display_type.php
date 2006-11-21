@@ -32,7 +32,7 @@ class ezcGraphInvalidDisplayTypeException extends ezcGraphException
             $chartTypeName = 'Unknown';
         }
 
-        parent::__construct( "Invalid data set display type <$type> (<$chartTypeName>) for current chart." );
+        parent::__construct( "Invalid data set display type '$type' ('$chartTypeName') for current chart." );
     }
 }
 

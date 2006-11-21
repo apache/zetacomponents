@@ -17,7 +17,7 @@ class ezcGraphNoSuchDataException extends ezcGraphException
 {
     public function __construct( $name )
     {
-        parent::__construct( "No data with name <{$name}> found." );
+        parent::__construct( "No data with name '{$name}' found." );
     }
 }
 

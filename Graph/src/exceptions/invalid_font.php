@@ -28,7 +28,7 @@ class ezcGraphInvalidFontTypeException extends ezcGraphException
             : 'Unknown'
         );
 
-        parent::__construct( "Font type <{$fontName}> cannot be used with <{$driver}>." );
+        parent::__construct( "Font type '{$fontName}' cannot be used with '{$driver}'." );
     }
 }
 

@@ -18,7 +18,7 @@ class ezcGraphFontRenderingException extends ezcGraphException
 {
     public function __construct( $string, $size, $width, $height )
     {
-        parent::__construct( "Could not fit string <{$string}> with font size <{$size}> in box <{$width} * {$height}>.
+        parent::__construct( "Could not fit string '{$string}' with font size '{$size}' in box '{$width} * {$height}'.
 Possible solutions to solve this problem:
     - Decrease the amount of steps on the axis.
     - Increase the size of the chart.
