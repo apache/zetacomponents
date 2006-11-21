@@ -334,7 +334,7 @@ class ezcPhpGenerator
 
             if ( rename( $this->tmpFilename, $this->resultFilename ) === false )
             {
-                throw new ezcPhpGeneratorException( "ezcPhpGenerator could not open the file <{$fileName}> for writing.",
+                throw new ezcPhpGeneratorException( "ezcPhpGenerator could not open the file '{$fileName}' for writing.",
                                                     ezcPhpGeneratorException::FILE_RENAME_FAILED );
             }
         }

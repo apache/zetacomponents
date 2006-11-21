@@ -23,7 +23,7 @@ class ezcPhpGeneratorFlowException extends ezcPhpGeneratorException
      */
     function __construct( $expectedFlow, $calledFlow )
     {
-        parent::__construct( "Expected end of {$expectedFlow} but got end of {$calledFlow}" );
+        parent::__construct( "Expected end of '{$expectedFlow}' but got end of '{$calledFlow}'" );
     }
 }
 

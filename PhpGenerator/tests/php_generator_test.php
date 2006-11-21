@@ -530,7 +530,7 @@ class ezcPhpGeneratorTest extends ezcTestCase
         // if this test fails, make sure the file is not left over by some other test first!
         if ( $this->countFiles( dirname( __FILE__ ) . '/data/', 'generator_test.php' ) != 0 )
         {
-            $this->fail( 'There were left over files in <'. dirname( __FILE__ ) .'/data/> after the operation completed' );
+            $this->fail( "There were left over files in '". dirname( __FILE__ ) ."/data/' after the operation completed" );
         }
     }
 
