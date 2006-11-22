@@ -18,9 +18,15 @@ include_once ("custom_blocks/cblock.php");
 
 class ezcTemplateRegressionTest extends ezcTestCase
 {
-    public $requestRegeneration = true;
+    public $interactiveMode = false;
+
+    public $requestRegeneration = false;
 
     public $showTreesOnFailure = false;
+
+    public $directories = array();
+
+    public $regressionDir = '';
 
     private $stdin = null;
 
@@ -28,8 +34,24 @@ class ezcTemplateRegressionTest extends ezcTestCase
     {
         parent::__construct();
 
+        $this->regressionDir = dirname(__FILE__) . "/regression_tests";
+        $this->createTempDir( "regression_compiled_" );
+
+        $directories = array();
+        $this->readDirRecursively( $this->regressionDir, $directories, "in" );
+
+        // Sort it, than the file a.in will be processed first. Handy for development.
+        natsort( $directories );
+
+        $this->directories = $directories;
+
+        // Turn of generation if interactivity is not allowed
+        if ( !$this->interactiveMode )
+            $this->requestRegeneration = false;
+
         if( $this->requestRegeneration )
-        {        
+        {
+            // Create stdin handle for asking questions to user
             $this->stdin = fopen("php://stdin","r");
         }
     }
@@ -40,6 +62,45 @@ class ezcTemplateRegressionTest extends ezcTestCase
         {
             fclose( $this->stdin );
         }
+    }
+
+    public function count()
+    {
+        // We return 1 here since we have startTest/endTest for each .in file
+        return 1;
+    }
+
+    // This method overrides the default run() in PHPUnit to allowed data-driven testing.
+    public function run(PHPUnit_Framework_TestResult $result = NULL)
+    {
+        if ($result === NULL) {
+            $result = new PHPUnit_Framework_TestResult;
+        }
+
+        $this->setUp();
+
+        foreach ( $this->directories as $directory )
+        {
+            $result->startTest($this);
+
+            try {
+                $this->testRunRegression( $directory );
+            }
+
+            catch (PHPUnit_Framework_AssertionFailedError $e) {
+                $result->addFailure($this, $e, time() );
+            }
+
+            catch (Exception $e) {
+                $result->addError($this, $e, time() );
+            }
+
+            $result->endTest($this, time());
+        }
+
+        $this->removeTempDir();
+
+        return $result;
     }
 
     protected function setUp()
@@ -85,19 +146,8 @@ class ezcTemplateRegressionTest extends ezcTestCase
         }
     }
 
-    public function testRunRegression()
+    public function testRunRegression( $directory )
     {
-        $regressionDir = dirname(__FILE__) . "/regression_tests";
-        $this->createTempDir( "regression_compiled_" );
-
-        $directories = array();
-        $this->readDirRecursively( $regressionDir, $directories, "in" );
-
-        // Sort it, than the file a.in will be processed first. Handy for development.
-        natsort( $directories );
-
-        foreach( $directories as $directory )
-        {
             $template = new ezcTemplate();
             $dir = dirname( $directory );
             $base = basename( $directory );
@@ -165,6 +215,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
             }
 
             $expected = substr( $directory, 0, -3 ) . ".out";
+
             if( !file_exists( $expected ) ) 
             {
                 $help = "The file: <$expected> could not be found.";
@@ -181,15 +232,26 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     {
                         file_put_contents( $expected, $out[$counter] );
                     }
+                    return; // No more testing to be done now since the file is generated
                 }
                 else
                 {
-                    $this->fail( $help );
+                    throw new Exception( $help );
                 }
             }
-            else if ( file_get_contents( $expected ) != $out[0] )
+
+            $expectedText = file_get_contents( $expected );
+            $actualText = $out[0];
+
+            try
             {
-                $help  = "The evaluated template <".$regressionDir . "/current.tmp> differs ";
+                $this->assertEquals( $expectedText, $actualText, "In:  <$expected>\nOut: <$directory>" );
+            }
+            catch ( PHPUnit_Framework_ExpectationFailedException $e )
+            {
+                if ( $this->interactiveMode )
+                {
+                $help  = "The evaluated template <".$this->regressionDir . "/current.tmp> differs ";
                 $help .= "from the expected output: <$expected>.\n\n";
 
                 $help .= "The original template <$directory>:\n";
@@ -238,14 +300,17 @@ class ezcTemplateRegressionTest extends ezcTestCase
                         file_put_contents( $expected, $out[0] );
                     }
                 }
+                // Rethrow with new and more detailed message
+                throw new PHPUnit_Framework_ExpectationFailedException( $help, $e->getComparisonFailure() );
+                }
                 else
                 {
-                    $this->fail( $help );
+                    throw $e;
                 }
-
-                $this->fail( $help );
             }
-            elseif( sizeof( $out ) > 1 )
+
+/* This code will be removed soon
+            if( sizeof( $out ) > 1 )
             {
                 for( $i = 1; $i < sizeof( $out ); $i++ )
                 {
@@ -266,26 +331,15 @@ class ezcTemplateRegressionTest extends ezcTestCase
                         die ( $help );
                     }
                 }
-            }
-            else
-            {
+            }*/
                 // check the receive variables.
                 $receive = substr( $directory, 0, -3 ) . ".receive";
                 if( file_exists( $receive ) )
                 {
                     $expectedVar = serialize( include( $receive ) );
                     $foundVar = serialize( $template->receive );
-                    if( $expectedVar != $foundVar )
-                    {
-                        echo ("Expected:\n". $expectedVar . "\n\n Found:\n $foundVar\n" );
-                    }
+                    $this->assertEquals( $expectedVar, $foundVar, "Received variables does not match" );
                 }
-
-                echo "*";
-            }
-        }
-
-        $this->removeTempDir();
     }
 }
 
