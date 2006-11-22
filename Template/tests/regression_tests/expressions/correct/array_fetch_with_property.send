@@ -1,4 +1,6 @@
 <?php
+ezcTestRunner::addFileToFilter( __FILE__ );
+
 class MyObj848483
 {
 	public $property = "Hello world";
