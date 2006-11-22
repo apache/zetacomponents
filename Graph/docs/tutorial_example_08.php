@@ -1,58 +1,22 @@
 <?php
 
 require_once 'tutorial_autoload.php';
+require_once 'tutorial_custom_palette.php';
+$wikidata = include 'tutorial_wikipedia_data.php';
 
-$graph = new ezcGraphPieChart();
-$graph->palette = new ezcGraphPaletteEzGreen();
-$graph->title = 'Access statistics';
+$graph = new ezcGraphBarChart();
+$graph->palette = new tutorialCustomPalette();
+$graph->title = 'Wikipedia articles';
 
-$graph->driver = new ezcGraphGdDriver();
-$graph->options->font = 'tutorial_font.ttf';
+// Add data
+foreach ( $wikidata as $language => $data )
+{
+    $graph->data[$language] = new ezcGraphArrayDataSet( $data );
+}
+$graph->data['German']->displayType = ezcGraph::LINE;
 
-$graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
-    'Mozilla' => 19113,
-    'Explorer' => 10917,
-    'Opera' => 1464,
-    'Safari' => 652,
-    'Konqueror' => 474,
-) );
+$graph->options->fillLines = 210;
 
-$graph->render( 400, 200, 'tutorial_example_08.png' );
+$graph->render( 400, 150, 'tutorial_example_08.svg' );
 
-$elements = $graph->renderer->getElementReferences();
-
-?>
-<html>
-    <head><title>Image map example</title></head>
-    <body>
-        <map 
-            name="ezcGraphPieChartMap">
-<?php
-    foreach ( $elements['legend'] as $objectName => $polygones )
-    {
-        foreach ( $polygones as $shape => $polygone )
-        {
-            $coordinateString = '';
-            foreach( $polygone as $coordinate )
-            {
-                $coordinateString .= sprintf( '%d,%d,', $coordinate->x, $coordinate->y );
-            }
-
-            printf( "<area shape=\"poly\" coords=\"%s\" href=\"/detailedData.php?browser=%s\" alt=\"%s: %s\" title=\"%s: %s\" />\n",
-                substr( $coordinateString, 0, -1 ),
-                $objectName,
-                $shape, $objectName,
-                $shape, $objectName
-            );
-        }
-    }
-?>
-        </map>
-        <img
-            src="tutorial_example_08.png"
-            width="400" height="200"
-            usemap="#ezcGraphPieChartMap"
-    </body>
-</html>
-<?php
 ?>

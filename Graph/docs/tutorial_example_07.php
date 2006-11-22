@@ -1,55 +1,21 @@
 <?php
 
 require_once 'tutorial_autoload.php';
+$wikidata = include 'tutorial_wikipedia_data.php';
 
-$graph = new ezcGraphPieChart();
-$graph->palette = new ezcGraphPaletteEz();
-$graph->title = 'Access statistics';
+$graph = new ezcGraphBarChart();
+$graph->palette = new ezcGraphPaletteBlack();
+$graph->title = 'Wikipedia articles';
 
-$graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
-    'Mozilla' => 19113,
-    'Explorer' => 10917,
-    'Opera' => 1464,
-    'Safari' => 652,
-    'Konqueror' => 474,
-) );
-
-$graph->render( 400, 200, 'tutorial_example_07.svg' );
-
-// Get element references from renderer
-$elements = $graph->renderer->getElementReferences();
-
-// Add links to charts
-$dom = new DOMDocument();
-$dom->load( 'tutorial_example_07.svg' );
-$xpath = new DomXPath( $dom );
-
-// Link chart elements
-foreach( $elements['data']['Access statistics'] as $objectName => $ids )
+// Add data
+foreach ( $wikidata as $language => $data )
 {
-    foreach( $ids as $id )
-    {
-        echo "Link: $id\n";
-        $element = $xpath->query( '//*[@id = \'' . $id . '\']' )->item( 0 );
-
-        $element->setAttribute( 'style', $element->getAttribute( 'style' ) . ' cursor: pointer;' );
-        $element->setAttribute( 'onclick', 'top.location = \'/detailedData.php?browser=' . $objectName . '\'' );
-    }
+    $graph->data[$language] = new ezcGraphArrayDataSet( $data );
 }
+$graph->data['German']->displayType = ezcGraph::LINE;
 
-// Link legend elements
-foreach( $elements['legend'] as $objectName => $ids )
-{
-    foreach( $ids as $id )
-    {
-        echo "Link: $id\n";
-        $element = $xpath->query( '//*[@id = \'' . $id . '\']' )->item( 0 );
+$graph->options->fillLines = 210;
 
-        $element->setAttribute( 'style', $element->getAttribute( 'style' ) . ' cursor: pointer;' );
-        $element->setAttribute( 'onclick', 'top.location = \'/detailedData.php?browser=' . $objectName . '\'' );
-    }
-}
-
-$dom->save( 'tutorial_example_07.svg' );
+$graph->render( 400, 150, 'tutorial_example_07.svg' );
 
 ?>

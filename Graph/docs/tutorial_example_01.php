@@ -12,7 +12,8 @@ $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
     'Safari' => 652,
     'Konqueror' => 474,
 ) );
+$graph->data['Access statistics']->highlight['Opera'] = true;
 
-$graph->render( 400, 200, 'tutorial_example_01.svg' );
+$graph->render( 400, 150, 'tutorial_example_01.svg' );
 
 ?>

@@ -3,7 +3,7 @@
 require_once 'tutorial_autoload.php';
 
 $graph = new ezcGraphPieChart();
-$graph->palette = new ezcGraphPaletteEzRed();
+$graph->palette = new ezcGraphPaletteEz();
 $graph->title = 'Access statistics';
 
 $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
@@ -14,10 +14,10 @@ $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
     'Konqueror' => 474,
 ) );
 
-$graph->background->image = 'ez.png';
-$graph->background->position = ezcGraph::BOTTOM | ezcGraph::RIGHT;
-$graph->background->repeat = ezcGraph::NO_REPEAT;
+$graph->legend->position = ezcGraph::BOTTOM;
+$graph->legend->landscapeSize = .3;
+$graph->legend->title = 'Legend';
 
-$graph->render( 400, 150, 'tutorial_example_11.svg' );
+$graph->render( 400, 150, 'tutorial_example_13.svg' );
 
 ?>

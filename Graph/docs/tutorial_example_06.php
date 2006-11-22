@@ -3,23 +3,26 @@
 require_once 'tutorial_autoload.php';
 $wikidata = include 'tutorial_wikipedia_data.php';
 
-$graph = new ezcGraphLineChart();
-$graph->title = 'Some random statistical data';
+$graph = new ezcGraphBarChart();
+$graph->title = 'Wikipedia articles';
 
-// Generate and add random data
-for ( $x = -5; $x <= 10; ++$x )
+// Add data
+foreach ( $wikidata as $language => $data )
 {
-    $data[$x] = mt_rand( -10, 10 );
+    $graph->data[$language] = new ezcGraphArrayDataSet( $data );
 }
-$graph->data['Random data'] = new ezcGraphArrayDataSet( $data );
-$graph->data['Random data']->symbol = ezcGraph::DIAMOND;
+$graph->data['German']->displayType = ezcGraph::LINE;
+$graph->data['German']->highlight = true;
+$graph->data['German']->highlight['Mar 2006'] = false;
 
-$graph->data['Average'] = new ezcGraphDataSetAveragePolynom( $graph->data['Random data'], 3 );
+$graph->options->fillLines = 210;
 
-// Configure axis
-$graph->xAxis = new ezcGraphChartElementNumericAxis();
+$graph->options->highlightSize = 12;
 
-// Render image
-$graph->render( 500, 200, 'tutorial_example_06.svg' );
+$graph->options->highlightFont->background = '#EEEEEC88';
+$graph->options->highlightFont->border = '#000000';
+$graph->options->highlightFont->borderWidth = 1;
+
+$graph->render( 400, 150, 'tutorial_example_06.svg' );
 
 ?>

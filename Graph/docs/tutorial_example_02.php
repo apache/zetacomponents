@@ -3,35 +3,23 @@
 require_once 'tutorial_autoload.php';
 
 $graph = new ezcGraphPieChart();
+$graph->title = 'Elections 2005 Germany';
 
-// Configure Graph
-$graph->palette = new ezcGraphPaletteEzBlue();
-$graph->legend->position = ezcGraph::BOTTOM;
-
-$graph->driver = new ezcGraphGdDriver();
-$graph->options->font = 'tutorial_font.ttf';
-
-$graph->title = 'Access statistics';
-$graph->title->font = 'tutorial_font.pfb';
-
-// Add data
-$graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
-    'Mozilla' => 19113,
-    'Explorer' => 10917,
-    'Opera' => 1464,
-    'Safari' => 652,
-    'Konqueror' => 474,
+$graph->data['2005'] = new ezcGraphArrayDataSet( array(
+    'CDU' => 35.2,
+    'SPD' => 34.2,
+    'FDP' => 9.8,
+    'Die Gruenen' => 8.1,
+    'PDS' => 8.7,
+    'NDP' => 1.6,
+    'REP' => 0.6,
 ) );
-$graph->data['Access statistics']->highlight['Opera'] = true;
-$graph->data['Access statistics']->symbol = ezcGraph::NO_SYMBOL;
 
-$graph->options->label = '%2$d (%3$.1f%%)';
+$graph->options->label = '%3$.1f%%';
+$graph->options->sum = 100;
+$graph->options->percentTreshHold = 0.02;
+$graph->options->summarizeCaption = 'Others';
 
-// Configure renderer options
-$graph->renderer->options->pieChartShadowSize = 5;
-$graph->renderer->options->pieChartShadowColor = '#DDDDDD';
-
-// Render image
-$graph->render( 400, 200, 'tutorial_example_02.png' );
+$graph->render( 400, 150, 'tutorial_example_02.svg' );
 
 ?>
