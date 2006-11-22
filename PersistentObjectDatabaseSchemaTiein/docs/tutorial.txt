@@ -7,9 +7,13 @@ Introduction
 ============
 
 The PersistentObjectDatabaseSchemaTiein component allows you to generate 
-template PersistentObject definition files for a database structure from a
+template PersistentObject definition files from a database structure or a
 DatabaseSchema schema file. Most likely you have to adjust the
 PersistentObject definitions afterwards.
+
+For more information regarding PersistentObject definition files, please refer
+to ezcPersistentObjectDefinition. Details on DatabaseSchema files can be found
+in the docs for ezcDbSchema.
 
 Synopsis
 ========

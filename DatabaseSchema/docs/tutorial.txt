@@ -11,6 +11,10 @@ structure of relational databases. DatabaseSchema can read and write these
 structure from and to several databases (like MySQL, SQLite, Oracle,...) and
 also read and write it to disc in several formats (XML, PHP,...).
 
+Beside that, DatabaseSchema allows you to generate PersistentObject definition
+files. For further information, please refer to the documentation of
+ezcPersistentObjectDefinition and ezcPersistentObjectSchemaGenerator.
+
 Class overview
 ==============
 

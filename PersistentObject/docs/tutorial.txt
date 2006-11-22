@@ -12,6 +12,11 @@ inheritance structure to work.
 Persistent Object is built to be fast and flexible allowing you to build your
 persistent classes in the same way as any other class in your application. 
 
+The PersistentObjectDatabaseSchemaTiein allows you to automatically generate
+the definition files needed by PersistentObject from a database schema or the
+structure of your database. For more information, please refer to
+ezcPersistentObjectSchemaGenerator.
+
 Class overview
 ==============
 
