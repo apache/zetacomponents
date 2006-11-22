@@ -11,6 +11,11 @@
 /**
  * @package Template
  * @subpackage Tests
+ *
+ * @note To turn on interactive mode set the environment variable
+ *       EZC_TEST_INTERACTIVE to 1 (0 is off)
+ * @note To turn on verbose error messagesset the environment variable
+ *       EZC_TEST_VERBOSE to 1 (0 is off)
  */
 include_once ("custom_blocks/testblocks.php");
 include_once ("custom_blocks/links.php");
@@ -20,7 +25,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 {
     public $interactiveMode = false;
 
-    public $requestRegeneration = false;
+    public $verboseErrors = false;
 
     public $showTreesOnFailure = false;
 
@@ -45,11 +50,14 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
         $this->directories = $directories;
 
-        // Turn of generation if interactivity is not allowed
-        if ( !$this->interactiveMode )
-            $this->requestRegeneration = false;
+        // Check for environment variables which turns on special features
+        if ( isset( $_ENV['EZC_TEST_INTERACTIVE'] ) )
+            $this->interactiveMode = (bool)$_ENV['EZC_TEST_INTERACTIVE'];
 
-        if( $this->requestRegeneration )
+        if ( isset( $_ENV['EZC_TEST_VERBOSE'] ) )
+            $this->verboseErrors = (bool)$_ENV['EZC_TEST_VERBOSE'];
+
+        if( $this->interactiveMode )
         {
             // Create stdin handle for asking questions to user
             $this->stdin = fopen("php://stdin","r");
@@ -220,9 +228,9 @@ class ezcTemplateRegressionTest extends ezcTestCase
             {
                 $help = "The out file: <$expected> could not be found.";
 
-                if( $this->requestRegeneration )
+                if( $this->interactiveMode )
                 {
-                    echo $help;
+                    echo "\n", $help, "\n";
 
                     echo "Do you want to create this file? (y/n)";
 
@@ -249,7 +257,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
             }
             catch ( PHPUnit_Framework_ExpectationFailedException $e )
             {
-                if ( $this->interactiveMode )
+                if ( $this->verboseErrors )
                 {
                 $help  = "The evaluated template <".$this->regressionDir . "/current.tmp> differs ";
                 $help .= "from the expected output: <$expected>.\n\n";
@@ -287,10 +295,15 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     $help .= "----------\n" . ezcTemplateAstTreeOutput::output( $template->astTree )  . "----------\n";
                     $help .= "\n";
                 }
-
-                if( $this->requestRegeneration )
+                }
+                else
                 {
-                    echo $help;
+                    $help = $e->toString() . "\n" . $e->getComparisonFailure()->toString();
+                }
+
+                if( $this->interactiveMode )
+                {
+                    echo "\n", $help, "\n";
                     echo "Do you want to set the new file output? ";
 
                     $char = fgetc( $this->stdin );
@@ -298,15 +311,12 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     if ($char == "y" || $char == "Y" )
                     {
                         file_put_contents( $expected, $out[0] );
+                        return; // No more testing to be done now since the file is generated
                     }
                 }
+
                 // Rethrow with new and more detailed message
                 throw new PHPUnit_Framework_ExpectationFailedException( $help, $e->getComparisonFailure() );
-                }
-                else
-                {
-                    throw $e;
-                }
             }
 
 /* This code will be removed soon
