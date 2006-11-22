@@ -218,7 +218,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
             if( !file_exists( $expected ) ) 
             {
-                $help = "The file: <$expected> could not be found.";
+                $help = "The out file: <$expected> could not be found.";
 
                 if( $this->requestRegeneration )
                 {
@@ -236,7 +236,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 }
                 else
                 {
-                    throw new Exception( $help );
+                    throw new PHPUnit_Framework_ExpectationFailedException( $help );
                 }
             }
 
@@ -336,8 +336,8 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 $receive = substr( $directory, 0, -3 ) . ".receive";
                 if( file_exists( $receive ) )
                 {
-                    $expectedVar = serialize( include( $receive ) );
-                    $foundVar = serialize( $template->receive );
+                    $expectedVar = include( $receive );
+                    $foundVar = $template->receive;
                     $this->assertEquals( $expectedVar, $foundVar, "Received variables does not match" );
                 }
     }
