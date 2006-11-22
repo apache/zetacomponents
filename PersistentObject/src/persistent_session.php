@@ -695,6 +695,9 @@ class ezcPersistentSession
      * to loop over the objects and just need them one at the time.
      * Because you only instantiate one object is is faster than find().
      *
+     * Note that if you do not loop over the complete result set you must
+     * call flush() on the iterator before issuing another query.
+     *
      * @throws ezcPersistentDefinitionNotFoundException if there is no such persistent class.
      * @throws ezcPersistentQueryException if the find query failed
      * @param ezcQuerySelect $query
