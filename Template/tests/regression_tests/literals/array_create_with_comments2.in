@@ -1,0 +1,320 @@
+{debug_dump( array(0) )}
+{debug_dump( array(0 	) )}
+{debug_dump( array(0
+) )}
+{debug_dump( array(0/*c*/) )}
+{debug_dump( array(0//c
+) )}
+{debug_dump( array( 	0) )}
+{debug_dump( array( 	0 	) )}
+{debug_dump( array( 	0
+) )}
+{debug_dump( array( 	0/*c*/) )}
+{debug_dump( array( 	0//c
+) )}
+{debug_dump( array(
+0) )}
+{debug_dump( array(
+0 	) )}
+{debug_dump( array(
+0
+) )}
+{debug_dump( array(
+0/*c*/) )}
+{debug_dump( array(
+0//c
+) )}
+{debug_dump( array(/*c*/0) )}
+{debug_dump( array(/*c*/0 	) )}
+{debug_dump( array(/*c*/0
+) )}
+{debug_dump( array(/*c*/0/*c*/) )}
+{debug_dump( array(/*c*/0//c
+) )}
+{debug_dump( array(//c
+0) )}
+{debug_dump( array(//c
+0 	) )}
+{debug_dump( array(//c
+0
+) )}
+{debug_dump( array(//c
+0/*c*/) )}
+{debug_dump( array(//c
+0//c
+) )}
+{debug_dump( array(0,) )}
+{debug_dump( array(0, 	) )}
+{debug_dump( array(0,
+) )}
+{debug_dump( array(0,/*c*/) )}
+{debug_dump( array(0,//c
+) )}
+{debug_dump( array(0 	,) )}
+{debug_dump( array(0 	, 	) )}
+{debug_dump( array(0 	,
+) )}
+{debug_dump( array(0 	,/*c*/) )}
+{debug_dump( array(0 	,//c
+) )}
+{debug_dump( array(0
+,) )}
+{debug_dump( array(0
+, 	) )}
+{debug_dump( array(0
+,
+) )}
+{debug_dump( array(0
+,/*c*/) )}
+{debug_dump( array(0
+,//c
+) )}
+{debug_dump( array(0/*c*/,) )}
+{debug_dump( array(0/*c*/, 	) )}
+{debug_dump( array(0/*c*/,
+) )}
+{debug_dump( array(0/*c*/,/*c*/) )}
+{debug_dump( array(0/*c*/,//c
+) )}
+{debug_dump( array(0//c
+,) )}
+{debug_dump( array(0//c
+, 	) )}
+{debug_dump( array(0//c
+,
+) )}
+{debug_dump( array(0//c
+,/*c*/) )}
+{debug_dump( array(0//c
+,//c
+) )}
+{debug_dump( array( 	0,) )}
+{debug_dump( array( 	0, 	) )}
+{debug_dump( array( 	0,
+) )}
+{debug_dump( array( 	0,/*c*/) )}
+{debug_dump( array( 	0,//c
+) )}
+{debug_dump( array( 	0 	,) )}
+{debug_dump( array( 	0 	, 	) )}
+{debug_dump( array( 	0 	,
+) )}
+{debug_dump( array( 	0 	,/*c*/) )}
+{debug_dump( array( 	0 	,//c
+) )}
+{debug_dump( array( 	0
+,) )}
+{debug_dump( array( 	0
+, 	) )}
+{debug_dump( array( 	0
+,
+) )}
+{debug_dump( array( 	0
+,/*c*/) )}
+{debug_dump( array( 	0
+,//c
+) )}
+{debug_dump( array( 	0/*c*/,) )}
+{debug_dump( array( 	0/*c*/, 	) )}
+{debug_dump( array( 	0/*c*/,
+) )}
+{debug_dump( array( 	0/*c*/,/*c*/) )}
+{debug_dump( array( 	0/*c*/,//c
+) )}
+{debug_dump( array( 	0//c
+,) )}
+{debug_dump( array( 	0//c
+, 	) )}
+{debug_dump( array( 	0//c
+,
+) )}
+{debug_dump( array( 	0//c
+,/*c*/) )}
+{debug_dump( array( 	0//c
+,//c
+) )}
+{debug_dump( array(
+0,) )}
+{debug_dump( array(
+0, 	) )}
+{debug_dump( array(
+0,
+) )}
+{debug_dump( array(
+0,/*c*/) )}
+{debug_dump( array(
+0,//c
+) )}
+{debug_dump( array(
+0 	,) )}
+{debug_dump( array(
+0 	, 	) )}
+{debug_dump( array(
+0 	,
+) )}
+{debug_dump( array(
+0 	,/*c*/) )}
+{debug_dump( array(
+0 	,//c
+) )}
+{debug_dump( array(
+0
+,) )}
+{debug_dump( array(
+0
+, 	) )}
+{debug_dump( array(
+0
+,
+) )}
+{debug_dump( array(
+0
+,/*c*/) )}
+{debug_dump( array(
+0
+,//c
+) )}
+{debug_dump( array(
+0/*c*/,) )}
+{debug_dump( array(
+0/*c*/, 	) )}
+{debug_dump( array(
+0/*c*/,
+) )}
+{debug_dump( array(
+0/*c*/,/*c*/) )}
+{debug_dump( array(
+0/*c*/,//c
+) )}
+{debug_dump( array(
+0//c
+,) )}
+{debug_dump( array(
+0//c
+, 	) )}
+{debug_dump( array(
+0//c
+,
+) )}
+{debug_dump( array(
+0//c
+,/*c*/) )}
+{debug_dump( array(
+0//c
+,//c
+) )}
+{debug_dump( array(/*c*/0,) )}
+{debug_dump( array(/*c*/0, 	) )}
+{debug_dump( array(/*c*/0,
+) )}
+{debug_dump( array(/*c*/0,/*c*/) )}
+{debug_dump( array(/*c*/0,//c
+) )}
+{debug_dump( array(/*c*/0 	,) )}
+{debug_dump( array(/*c*/0 	, 	) )}
+{debug_dump( array(/*c*/0 	,
+) )}
+{debug_dump( array(/*c*/0 	,/*c*/) )}
+{debug_dump( array(/*c*/0 	,//c
+) )}
+{debug_dump( array(/*c*/0
+,) )}
+{debug_dump( array(/*c*/0
+, 	) )}
+{debug_dump( array(/*c*/0
+,
+) )}
+{debug_dump( array(/*c*/0
+,/*c*/) )}
+{debug_dump( array(/*c*/0
+,//c
+) )}
+{debug_dump( array(/*c*/0/*c*/,) )}
+{debug_dump( array(/*c*/0/*c*/, 	) )}
+{debug_dump( array(/*c*/0/*c*/,
+) )}
+{debug_dump( array(/*c*/0/*c*/,/*c*/) )}
+{debug_dump( array(/*c*/0/*c*/,//c
+) )}
+{debug_dump( array(/*c*/0//c
+,) )}
+{debug_dump( array(/*c*/0//c
+, 	) )}
+{debug_dump( array(/*c*/0//c
+,
+) )}
+{debug_dump( array(/*c*/0//c
+,/*c*/) )}
+{debug_dump( array(/*c*/0//c
+,//c
+) )}
+{debug_dump( array(//c
+0,) )}
+{debug_dump( array(//c
+0, 	) )}
+{debug_dump( array(//c
+0,
+) )}
+{debug_dump( array(//c
+0,/*c*/) )}
+{debug_dump( array(//c
+0,//c
+) )}
+{debug_dump( array(//c
+0 	,) )}
+{debug_dump( array(//c
+0 	, 	) )}
+{debug_dump( array(//c
+0 	,
+) )}
+{debug_dump( array(//c
+0 	,/*c*/) )}
+{debug_dump( array(//c
+0 	,//c
+) )}
+{debug_dump( array(//c
+0
+,) )}
+{debug_dump( array(//c
+0
+, 	) )}
+{debug_dump( array(//c
+0
+,
+) )}
+{debug_dump( array(//c
+0
+,/*c*/) )}
+{debug_dump( array(//c
+0
+,//c
+) )}
+{debug_dump( array(//c
+0/*c*/,) )}
+{debug_dump( array(//c
+0/*c*/, 	) )}
+{debug_dump( array(//c
+0/*c*/,
+) )}
+{debug_dump( array(//c
+0/*c*/,/*c*/) )}
+{debug_dump( array(//c
+0/*c*/,//c
+) )}
+{debug_dump( array(//c
+0//c
+,) )}
+{debug_dump( array(//c
+0//c
+, 	) )}
+{debug_dump( array(//c
+0//c
+,
+) )}
+{debug_dump( array(//c
+0//c
+,/*c*/) )}
+{debug_dump( array(//c
+0//c
+,//c
+) )}
