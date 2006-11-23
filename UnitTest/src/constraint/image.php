@@ -87,7 +87,8 @@ class ezcTestConstraintSimilarImage extends PHPUnit_Framework_Constraint
           )
         );
 
-        if ( preg_match( '/([\d.,e]+)\s+dB/', $result, $match ) )
+        // Different versuions of ImageMagick seem to output "dB" or not
+        if ( preg_match( '/([\d.,e]+)(\s+dB)?/', $result, $match ) )
         {
             $this->difference = (int) $match[1];
             return ( $this->difference <= $this->delta );
