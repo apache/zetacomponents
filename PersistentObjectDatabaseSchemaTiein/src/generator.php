@@ -120,22 +120,6 @@ class ezcPersistentObjectSchemaGenerator
 
         $this->input->registerOption(
             new ezcConsoleOption(
-                "e",        // short
-                "empty",   // long
-                ezcConsoleInput::TYPE_NONE,
-                null,       // default
-                false,      // multiple
-                "Empty directory before writing.",
-                "Delete all files from the destination directory before writing the definition files.",
-                array(),    // dependencies
-                array(),    // exclusions
-                true,       // arguments
-                false        // mandatory
-            )
-        );
-
-        $this->input->registerOption(
-            new ezcConsoleOption(
                 "h",        // short
                 "help",     // long
                 ezcConsoleInput::TYPE_NONE,
@@ -215,17 +199,6 @@ class ezcPersistentObjectSchemaGenerator
         catch ( ezcBaseException $e )
         {
             $this->raiseError( "Error reading schema: {$e->getMessage()}" );
-        }
-
-        if ( $this->input->getOption( "empty" )->value === true )
-        {
-            foreach ( glob( "$destination/*.php" ) as $file )
-            {
-                if ( unlink( $file ) === false )
-                {
-                    $this->raiseError( "Could not delete '$file'." );
-                }
-            }
         }
 
         try
