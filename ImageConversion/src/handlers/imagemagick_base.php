@@ -154,7 +154,7 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         if ( $return != 0 || strlen( $errorString ) > 0 )
         {
             // If this code is reached we have a bug in this component or in ImageMagick itself.
-            throw new Exception( "The command <{$command}> resulted in an error: <{$errorString}>." );
+            throw new Exception( "The command '{$command}' resulted in an error: '{$errorString}'." );
         }
         // Finish atomic file operation
         copy( $this->getReferenceData( $image, 'resource' ), $this->getReferenceData( $image, 'file' ) );
@@ -294,7 +294,7 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
                     $this->binary = 'convert.exe';
                     break;
                 default:
-                    throw new ezcImageHandlerNotAvailableException( $this->name, 'System <'.PHP_OS.'> not supported by handler <'.$this->name.'>.' );
+                    throw new ezcImageHandlerNotAvailableException( $this->name, "System '" . PHP_OS . "' not supported by handler '{$this->name}'." );
                     break;
             }
         }

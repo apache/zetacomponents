@@ -19,7 +19,7 @@ if ( ( @include dirname( __FILE__ ) . '/../../Base/src/base.php' ) === false )
     {
         echo <<<EOT
 eZ components environment not setup correctly. Could neither include eZ Base
-component from <Base/src/base.php>, nor from <Base/base.php>. Please check your
+component from 'Base/src/base.php', nor from 'Base/base.php'. Please check your
 include path!
 
 EOT;

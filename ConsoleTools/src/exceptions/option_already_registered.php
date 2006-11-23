@@ -18,7 +18,7 @@ class ezcConsoleOptionAlreadyRegisteredException extends ezcConsoleException
 {
     function __construct( $name )
     {
-        parent::__construct( "An option with the name <{$name}> is already registered." );
+        parent::__construct( "An option with the name '{$name}' is already registered." );
     }
 }
 

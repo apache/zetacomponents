@@ -19,7 +19,7 @@ class ezcConsoleInvalidOptionNameException extends ezcConsoleException
 {
     function __construct( $name )
     {
-        parent::__construct( "The option name <{$name}> is invalid." );
+        parent::__construct( "The option name '{$name}' is invalid." );
     }
 }
 

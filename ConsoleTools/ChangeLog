@@ -1,3 +1,11 @@
+1.2 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed issue #9493: Convert < and > in exception messages to ' and ' for
+  Cache, ConsoleTools, ImageAnalysis, ImageConversion, PersistentObject,
+  PersistentObjectDatabaseSchemaTiein.
+
+
 1.2beta2 - Monday 20 November 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

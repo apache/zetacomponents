@@ -18,7 +18,7 @@ class ezcImageFilterNotAvailableException extends ezcImageException
 {
     function __construct( $filterName )
     {
-        parent::__construct( "Filter <{$filterName}> does not exist." );
+        parent::__construct( "Filter '{$filterName}> does not exist." );
     }
 }
 

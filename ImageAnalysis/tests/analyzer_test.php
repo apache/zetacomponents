@@ -706,7 +706,7 @@ class ezcImageAnalysisAnalyzerTest extends ezcTestCase
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
-            $expected = 'No such property name <no_such_property>.';
+            $expected = "No such property name 'no_such_property'.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -722,7 +722,7 @@ class ezcImageAnalysisAnalyzerTest extends ezcTestCase
         }
         catch ( ezcBasePropertyPermissionException $e )
         {
-            $expected = 'The property <mime> is read-only.';
+            $expected = "The property 'mime' is read-only.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -738,7 +738,7 @@ class ezcImageAnalysisAnalyzerTest extends ezcTestCase
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
-            $expected = 'No such property name <no_such_property>.';
+            $expected = "No such property name 'no_such_property'.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -753,7 +753,7 @@ class ezcImageAnalysisAnalyzerTest extends ezcTestCase
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            $expected = "The file <{$fileName}> could not be found.";
+            $expected = "The file '{$fileName}' could not be found.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -775,7 +775,7 @@ class ezcImageAnalysisAnalyzerTest extends ezcTestCase
         catch ( ezcBaseFilePermissionException $e )
         {
             $this->removeTempDir();
-            $expected = "The file <{$fileName}> can not be opened for reading.";
+            $expected = "The file '{$fileName}' can not be opened for reading.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -796,7 +796,7 @@ class ezcImageAnalysisAnalyzerTest extends ezcTestCase
         catch ( ezcImageAnalyzerFileNotProcessableException $e )
         {
             $this->removeTempDir();
-            $expected = "Could not process file <{$fileName}>. Reason: Could not determine MIME type of file..";
+            $expected = "Could not process file '{$fileName}'. Reason: Could not determine MIME type of file..";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }

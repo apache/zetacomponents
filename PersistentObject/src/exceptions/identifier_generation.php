@@ -25,7 +25,7 @@ class ezcPersistentIdentifierGenerationException extends ezcPersistentObjectExce
      */
     public function __construct( $class, $msg = null )
     {
-        $info = "Could not create an identifier for the object of type <$class>.";
+        $info = "Could not create an identifier for the object of type '$class'.";
         if ( $info != null )
         {
             $info .= " $msg";

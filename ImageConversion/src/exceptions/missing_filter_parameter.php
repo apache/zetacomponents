@@ -18,7 +18,7 @@ class ezcImageMissingFilterParameterException extends ezcImageException
 {
     function __construct( $filterName, $parameterName )
     {
-        parent::__construct( "The filter <{$filterName}> expects a parameter called <{$parameterName}> which was not submitted." );
+        parent::__construct( "The filter '{$filterName}' expects a parameter called '{$parameterName}' which was not submitted." );
     }
 }
 

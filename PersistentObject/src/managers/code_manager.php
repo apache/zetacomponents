@@ -76,7 +76,7 @@ class ezcPersistentCodeManager extends ezcPersistentDefinitionManager
         if ( !( $definition instanceof ezcPersistentObjectDefinition ) )
         {
             throw new ezcPersistentDefinitionNotFoundException( $class,
-                                                                "Searched for <" . realpath( dirname( $path ) ) . "/" . basename( $path ) . ">." );
+                                                                "Searched for '" . realpath( dirname( $path ) ) . "/" . basename( $path ) . "'." );
         }
         $definition = $this->setupReversePropertyDefinition( $definition );
         return $definition;

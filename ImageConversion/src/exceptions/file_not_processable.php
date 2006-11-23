@@ -23,7 +23,7 @@ class ezcImageFileNotProcessableException extends ezcImageException
         {
             $reasonPart = " $reason";
         }
-        parent::__construct( "Handler class <{$handlerClass}> not found.{$reasonPart}" );
+        parent::__construct( "Handler class '{$handlerClass}> not found.{$reasonPart}" );
     }
 }
 

@@ -23,7 +23,7 @@ class ezcCacheUsedLocationException extends ezcCacheException
 {
     function __construct( $location, $cacheId )
     {
-        parent::__construct( "Location <{$location}> is already in use by cache with ID <{$cacheId}>." );
+        parent::__construct( "Location '{$location}' is already in use by cache with ID '{$cacheId}'." );
     }
 }
 ?>

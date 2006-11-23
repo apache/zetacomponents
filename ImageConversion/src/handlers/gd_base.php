@@ -44,7 +44,7 @@ class ezcImageGdBaseHandler extends ezcImageMethodcallHandler
     {
         if ( !ezcBaseFeatures::hasExtensionSupport( 'gd' ) )
         {
-            throw new ezcImageHandlerNotAvailableException( 'ezcImageGdHandler', 'PHP extension <GD> not available.' );
+            throw new ezcImageHandlerNotAvailableException( "ezcImageGdHandler", "PHP extension 'GD' not available." );
         }
         $this->determineTypes();
         parent::__construct( $settings );
@@ -114,7 +114,7 @@ class ezcImageGdBaseHandler extends ezcImageMethodcallHandler
         if ( !ezcBaseFeatures::hasFunction( $saveFunction ) ||
             $saveFunction( $this->getReferenceData( $image, 'resource' ), $this->getReferenceData( $image, 'file' ) ) === false )
         {
-            throw new ezcImageFileNotProcessableException( $file, "Unable to save file <{$file}> of type <{$mime}>." );
+            throw new ezcImageFileNotProcessableException( $file, "Unable to save file '{$file}' of type '{$mime}'." );
         }
     }
 

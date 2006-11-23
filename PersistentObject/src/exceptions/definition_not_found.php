@@ -28,7 +28,7 @@ class ezcPersistentDefinitionNotFoundException extends ezcPersistentObjectExcept
      */
     public function __construct( $class, $message = null )
     {
-        $info = "Could not fetch the persistent object definition for the class <$class>.";
+        $info = "Could not fetch the persistent object definition for the class '$class'.";
         if ( $message !== null )
         {
             $info .= " {$message}";

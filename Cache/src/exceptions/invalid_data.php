@@ -28,7 +28,7 @@ class ezcCacheInvalidDataException extends ezcCacheException
 {
     function __construct( $actualType, array $expectedTypes )
     {
-        parent::__construct( "The given data was of type <{$actualType}>, which can not be stored. Expecting: <" . implode( ', ', $expectedTypes ) . ">." );
+        parent::__construct( "The given data was of type '{$actualType}', which can not be stored. Expecting: '" . implode( ', ', $expectedTypes ) . "'." );
     }
 }
 ?>

@@ -18,7 +18,7 @@ class ezcConsoleOptionNoAliasException extends ezcConsoleException
 {
     function __construct( $name )
     {
-        parent::__construct( "The option name <{$name}> refers to a real parameter, not to an alias." );
+        parent::__construct( "The option name '{$name}' refers to a real parameter, not to an alias." );
     }
 }
 

@@ -3,7 +3,7 @@ ezcTestRunner::addFileToFilter( __FILE__ );
 
 $res["testUnusualCall"] = '[34;1meZ components PersistentObject definition generator[0m[m
 [0m[0m[0m[m
-[0m[31;1mError while processing your options: Option with long name <source> is mandatory
+[0m[31;1mError while processing your options: Option with long name \'source\' is mandatory
 but was not submitted.[0m[m
 [0m[0m[0m[m
 [0m[34mUsage: $
@@ -21,7 +21,7 @@ provided as an argument.
 
 $res["testNoParameters"] = '[34;1meZ components PersistentObject definition generator[0m[m
 [0m[0m[0m[m
-[0m[31;1mError while processing your options: Option with long name <source> is mandatory
+[0m[31;1mError while processing your options: Option with long name \'source\' is mandatory
 but was not submitted.[0m[m
 [0m[0m[0m[m
 [0m[34mUsage: $ PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -s <string> -f
@@ -39,7 +39,7 @@ provided as an argument.
 
 $res['testOnlySourceParameter'] = '[34;1meZ components PersistentObject definition generator[0m[m
 [0m[0m[0m[m
-[0m[31;1mError while processing your options: Option with long name <format> is mandatory
+[0m[31;1mError while processing your options: Option with long name \'format\' is mandatory
 but was not submitted.[0m[m
 [0m[0m[0m[m
 [0m[34mUsage: $ PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -s <string> -f
@@ -57,7 +57,7 @@ provided as an argument.
 
 $res['testOnlyFormatParameter'] = '[34;1meZ components PersistentObject definition generator[0m[m
 [0m[0m[0m[m
-[0m[31;1mError while processing your options: Option with long name <source> is mandatory
+[0m[31;1mError while processing your options: Option with long name \'source\' is mandatory
 but was not submitted.[0m[m
 [0m[0m[0m[m
 [0m[34mUsage: $ PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -s <string> -f
@@ -93,7 +93,7 @@ provided as an argument.
 
 $res['testInvalidFormat'] = '[34;1meZ components PersistentObject definition generator[0m[m
 [0m[0m[0m[m
-[0m[31;1mError reading schema: There is no <read> handler available for the <test>
+[0m[31;1mError reading schema: There is no \'read\' handler available for the \'test\'
 format.[0m[m
 [0m[0m[0m[m
 [0m';
@@ -101,14 +101,14 @@ format.[0m[m
 
 $res['testInvalidSource'] = '[34;1meZ components PersistentObject definition generator[0m[m
 [0m[0m[0m[m
-[0m[31;1mError reading schema: The schema file <test> could not be found.[0m[m
+[0m[31;1mError reading schema: The schema file \'test\' could not be found.[0m[m
 [0m[0m[0m[m
 [0m';
 
 
 $res['testInvalidDestination'] = '[34;1meZ components PersistentObject definition generator[0m[m
 [0m[0m[0m[m
-[0m[31;1mError writing schema: The directory file <test> could not be found.[0m[m
+[0m[31;1mError writing schema: The directory file \'test\' could not be found.[0m[m
 [0m[0m[0m[m
 [0m';
 

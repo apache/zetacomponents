@@ -32,7 +32,7 @@ class ezcConsoleOptionTypeViolationException extends ezcConsoleOptionException
                 $typeName = 'string';
                 break;
         }
-        parent::__construct( "The option <{$option->long}> expects a value of type <{$typeName}>, but received the value <{$value}>." );
+        parent::__construct( "The option '{$option->long}' expects a value of type '{$typeName}', but received the value '{$value}'." );
     }
 }
 ?>

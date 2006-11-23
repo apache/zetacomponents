@@ -269,7 +269,7 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
         $return = $this->runCommand( $command, $outputString, $errorString );
         if ( $return !== 0 || $errorString !== '' )
         {
-            throw new ezcImageAnalyzerFileNotProcessableException( $file, "ImageMagick error: <{$errorString}>." );
+            throw new ezcImageAnalyzerFileNotProcessableException( $file, "ImageMagick error: '{$errorString}'." );
         }
 
         $dataStruct = new ezcImageAnalyzerData();
@@ -407,7 +407,7 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
         $return = $this->runCommand( $command, $outputString, $errorString, false );
         if ( $return !== 0 || $errorString !== '' )
         {
-            throw new ezcImageAnalyzerFileNotProcessableException( $file, "ImageMagick error: <{$errorString}>." );
+            throw new ezcImageAnalyzerFileNotProcessableException( $file, "ImageMagick error: '{$errorString}'." );
         }
 
         // The following is done in 2 steps to ensure the same array order as ext/exif provides.
@@ -474,7 +474,7 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
         $return = $this->runCommand( $command, $colorCount, $errorString );
         if ( $return !== 0 || $errorString !== '' )
         {
-            throw new ezcImageAnalyzerFileNotProcessableException( $file, "ImageMagick error: <{$errorString}>." );
+            throw new ezcImageAnalyzerFileNotProcessableException( $file, "ImageMagick error: '{$errorString}'." );
         }
 
         // Compute additional section ext/EXIF provides

@@ -764,7 +764,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
         {
             return $res;
         }
-        throw new ezcImageFilterFailedException( 'colorspace', "Color allocation failed for color r:<{$r}>, g:<{$g}>, b:<{$b}>." );
+        throw new ezcImageFilterFailedException( 'colorspace', "Color allocation failed for color r: '{$r}', g: '{$g}', b: '{$b}'." );
     }
 
     /**

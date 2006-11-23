@@ -19,7 +19,7 @@ class ezcConsoleOptionNotExistsException extends ezcConsoleOptionException
 {
     function __construct( $name )
     {
-        parent::__construct( "The referenced parameter <{$name}> is not registered." );
+        parent::__construct( "The referenced parameter '{$name}' is not registered." );
     }
 }
 ?>

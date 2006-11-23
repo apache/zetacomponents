@@ -7,7 +7,7 @@ class ezcImageConversionTestCase extends ezcImageTestCase
     const REGENERATION_MODE = false;
 
     // Set this to false to keep the temporary test dirs
-    const REMOVE_TEMP_DIRS = true;
+    const REMOVE_TEMP_DIRS = false;
 
     const DEFAULT_SIMILARITY_GAP = 10;
 

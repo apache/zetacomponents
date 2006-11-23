@@ -360,7 +360,7 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
         catch ( ezcPersistentRelationOperationNotSupportedException $e )
         {
             $this->assertEquals(
-                "The relation between <RelationTestAddress> and <RelationTestPerson> does not support the operation <addRelatedObject>. Reason: <Relation is a reverse relation.>.",
+                "The relation between 'RelationTestAddress' and 'RelationTestPerson' does not support the operation 'addRelatedObject'. Reason: 'Relation is a reverse relation.'.",
                 $e->getMessage(),
                 "Exception message incorrect."
             );

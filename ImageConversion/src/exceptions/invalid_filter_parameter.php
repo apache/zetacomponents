@@ -19,10 +19,10 @@ class ezcImageInvalidFilterParameterException extends ezcImageException
     function __construct( $filterName, $parameterName, $actualValue, $expectedRange = null )
     {
         $actualValue = var_export( $actualValue, true );
-        $message = "Wrong value <{$actualValue}> submitted for parameter <{$parameterName}> of filter <{$filterName}>.";
+        $message = "Wrong value '{$actualValue}' submitted for parameter '{$parameterName}' of filter '{$filterName}'.";
         if ( $expectedRange !== null )
         {
-            $message .= " Expected parameter to be in range <{$expectedRange}>.";
+            $message .= " Expected parameter to be in range '{$expectedRange}'.";
         }
         parent::__construct( $message );
     }

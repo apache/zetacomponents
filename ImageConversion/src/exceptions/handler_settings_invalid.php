@@ -19,7 +19,7 @@ class ezcImageHandlerSettingsInvalidException extends ezcImageException
 {
     function __construct( $name )
     {
-        parent::__construct( "Transformation <{$name}> does not exists." );
+        parent::__construct( "Transformation '{$name}' does not exists." );
     }
 }
 

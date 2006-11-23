@@ -18,7 +18,7 @@ class ezcImageAnalyzerInvalidHandlerException extends ezcImageAnalyzerException
 {
     function __construct( $handlerClass )
     {
-        parent::__construct( "The registered handler class <{$handlerClass}> does not exist or does not inherit from ezcImageAnalyzerHandler." );
+        parent::__construct( "The registered handler class '{$handlerClass}' does not exist or does not inherit from ezcImageAnalyzerHandler." );
     }
 }
 

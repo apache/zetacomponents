@@ -21,7 +21,7 @@ class ezcCacheInvalidIdException extends ezcCacheException
 {
     function __construct( $id )
     {
-        parent::__construct( "No cache or cache configuration known with ID <{$id}>." );
+        parent::__construct( "No cache or cache configuration known with ID '{$id}'." );
     }
 }
 ?>

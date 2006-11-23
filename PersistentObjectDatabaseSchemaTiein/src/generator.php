@@ -208,7 +208,7 @@ class ezcPersistentObjectSchemaGenerator
                     $schema = ezcDbSchema::createFromFile( $this->input->getOption( "format" )->value, $this->input->getOption( "source" )->value );
                     break;
                 default:
-                    $this->raiseError( "Reader class not supported: <{$readerClass}>." );
+                    $this->raiseError( "Reader class not supported: '{$readerClass}'." );
                     break;
             }
         }

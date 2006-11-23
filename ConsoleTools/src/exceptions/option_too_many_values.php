@@ -19,7 +19,7 @@ class ezcConsoleOptionTooManyValuesException extends ezcConsoleOptionException
 {
     function __construct( ezcConsoleOption $option )
     {
-        parent::__construct( "The option <{$option->long}> expects a single value, but multiple were submitted." );
+        parent::__construct( "The option '{$option->long}' expects a single value, but multiple were submitted." );
     }
 }
 

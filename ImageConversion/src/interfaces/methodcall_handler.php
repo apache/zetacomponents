@@ -284,7 +284,7 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
         $ref = $this->getActiveReference();
         if ( ( $resource = $this->getReferenceData( $ref, 'resource' ) ) === false )
         {
-            throw new ezcImageInvalidReferenceException( "No resource found for the active reference <{$ref}>." );
+            throw new ezcImageInvalidReferenceException( "No resource found for the active reference '{$ref}'." );
         }
         return $resource;
     }
@@ -384,7 +384,7 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
     {
         if ( !isset( $this->references[$reference] ) )
         {
-            throw new ezcImageInvalidReferenceException( "Inavlid image reference given: <{$reference}>." );
+            throw new ezcImageInvalidReferenceException( "Inavlid image reference given: '{$reference}'." );
         }
         if ( isset( $detail ) )
         {
@@ -414,7 +414,7 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
     {
         if ( !isset( $this->references[$reference] ) )
         {
-            throw new ezcImage( "Invalid image reference given: <{$reference}>." );
+            throw new ezcImage( "Invalid image reference given: '{$reference}'." );
         }
         if ( isset( $detail ) )
         {

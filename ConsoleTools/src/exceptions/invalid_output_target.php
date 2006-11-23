@@ -19,7 +19,7 @@ class ezcConsoleInvalidOutputTargetException extends ezcConsoleException
     
     public function __construct( $target )
     {
-        parent::__construct( "The target <{$target}> could not be opened for writing." );
+        parent::__construct( "The target '{$target}' could not be opened for writing." );
     }
 
 }

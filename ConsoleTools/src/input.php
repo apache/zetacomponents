@@ -78,7 +78,7 @@
  * }
  * else
  * {
- *      echo "Parameter -{$file->short}/--{$file->long} was submitted with value <".var_export($file->value, true).">.\n";
+ *      echo "Parameter -{$file->short}/--{$file->long} was submitted with value '".var_export($file->value, true)."'.\n";
  * }
  * 
  * // Process all parameters at once:
@@ -93,10 +93,10 @@
  *              echo "Parameter $paramShort was submitted without a value.\n";
  *              break;
  *          case is_array( $val ):
- *              echo "Parameter $paramShort was submitted multiple times with value: <".implode(', ', $val).">.\n";
+ *              echo "Parameter $paramShort was submitted multiple times with value: '".implode(', ', $val)."'.\n";
  *              break;
  *          default:
- *              echo "Parameter $paramShort was submitted with value: <$val>.\n";
+ *              echo "Parameter $paramShort was submitted with value: '$val'.\n";
  *              break;
  *      }
  * }
@@ -287,7 +287,7 @@ class ezcConsoleInput
                 $option = null;
                 if ( empty( $matches[4][$id] )  ) 
                 {
-                    throw new ezcConsoleOptionStringNotWellformedException( "Missing long parameter name for short parameter <-{$short}>" );
+                    throw new ezcConsoleOptionStringNotWellformedException( "Missing long parameter name for short parameter '-{$short}'" );
                 }
                 $option = new ezcConsoleOption( $short, $matches[4][$id] );
                 if ( !empty( $matches[2][$id] ) || !empty( $matches[5][$id] ) )

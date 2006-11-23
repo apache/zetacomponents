@@ -27,7 +27,7 @@ class ezcPersistentRelatedObjectNotFoundException extends ezcPersistentObjectExc
      */
     public function __construct( $object, $relatedClass )
     {
-        parent::__construct( "No related object found with class <{$relatedClass}> for object of class <" . get_class( $object ) . ">." );
+        parent::__construct( "No related object found with class '{$relatedClass}' for object of class '" . get_class( $object ) . "'." );
     }
 }
 ?>

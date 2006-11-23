@@ -19,10 +19,10 @@ class ezcConsoleOptionExclusionViolationException extends ezcConsoleOptionExcept
 {
     function __construct( ezcConsoleOption $excludingOption, ezcConsoleOption $excludedOption, $valueRange = null )
     {
-        $message = "The option <{$excludingOption->long}> excludes the option <{$excludedOption->long}>" ;
+        $message = "The option '{$excludingOption->long}' excludes the option '{$excludedOption->long}'" ;
         if ( $valueRange !== null )
         {
-            $message .= "to have a value in <{$valueRange}> ";
+            $message .= "to have a value in '{$valueRange}' ";
         }
         $message .= "but this one was submitted.";
         parent::__construct( $message );
