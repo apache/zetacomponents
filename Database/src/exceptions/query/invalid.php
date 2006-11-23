@@ -29,7 +29,7 @@ class ezcQueryInvalidException extends ezcQueryException
      */
     public function __construct( $type, $message )
     {
-        $info = "The {$type} query could not be built. {$message}";
+        $info = "The '{$type}' query could not be built. {$message}";
         parent::__construct( $message );
     }
 }

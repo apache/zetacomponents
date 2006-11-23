@@ -57,7 +57,7 @@ class ezcDatabaseFactoryTest extends ezcTestCase
 
     public function testSqliteDSN1()
     {
-        if ( !extension_loaded( 'pdo_sqlite') )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'pdo_sqlite') )
         {
             $this->markTestSkipped();
             return;
@@ -71,7 +71,7 @@ class ezcDatabaseFactoryTest extends ezcTestCase
 
     public function testSqliteDSN2()
     {
-        if ( !extension_loaded( 'pdo_sqlite') )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'pdo_sqlite') )
         {
             $this->markTestSkipped();
             return;
@@ -89,7 +89,7 @@ class ezcDatabaseFactoryTest extends ezcTestCase
 
     public function testSqliteDSN3()
     {
-        if ( !extension_loaded( 'pdo_sqlite') )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'pdo_sqlite') )
         {
             $this->markTestSkipped();
             return;
@@ -101,13 +101,13 @@ class ezcDatabaseFactoryTest extends ezcTestCase
         }
         catch ( ezcDbMissingParameterException $e )
         {
-            $this->assertEquals( "The option <database> is required in the parameter <dbParams>.", $e->getMessage() );
+            $this->assertEquals( "The option 'database' is required in the parameter 'dbParams'.", $e->getMessage() );
         }
     }
 
     public function testParamsSqliteDatabase1()
     {
-        if ( !extension_loaded( 'pdo_sqlite') )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'pdo_sqlite') )
         {
             $this->markTestSkipped();
             return;
@@ -119,13 +119,13 @@ class ezcDatabaseFactoryTest extends ezcTestCase
         }
         catch ( ezcDbMissingParameterException $e )
         {
-            $this->assertEquals( "The option <database> is required in the parameter <dbParams>.", $e->getMessage() );
+            $this->assertEquals( "The option 'database' is required in the parameter 'dbParams'.", $e->getMessage() );
         }
     }
 
     public function testParamsSqliteDatabase2()
     {
-        if ( !extension_loaded( 'pdo_sqlite') )
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'pdo_sqlite') )
         {
             $this->markTestSkipped();
             return;

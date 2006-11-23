@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcQueryException class.
+ * File containing the ezcQueryVariableParameterException class.
  *
  * @package Database
  * @version //autogentag//
@@ -9,22 +9,23 @@
  */
 
 /**
- * Base class for exceptions related to the SQL abstraction.
+ * Exception thrown when a method does not receive the variables it requires.
  *
  * @package Database
  */
 class ezcQueryVariableParameterException extends ezcQueryException
 {
     /**
-     * Constructs a QueryInvalid exception with the type $type and the
-     * additional information $message.
+     * Constructs an ezcQueryVariableParameterException with the method $method
+     * and the arguments $numProvided and $numExpected.
      *
-     * @param string $type
-     * @param string $additionalInfo
+     * @param string $method
+     * @param int $numProvided
+     * @param int $numExpected
      */
     public function __construct( $method, $numProvided, $numExpected )
     {
-        $expectedString ="$numExpected parameter";
+        $expectedString ="{$numExpected} parameter";
         if ( $numExpected > 1 )
         {
             $expectedString .= 's';
@@ -37,9 +38,9 @@ class ezcQueryVariableParameterException extends ezcQueryException
         }
         else if ( $numProvided > 1 )
         {
-            $providedString = "only $numProvided was provided";
+            $providedString = "only {$numProvided} was provided";
         }
-        $info = "The method $method expected at least {$expectedString} but {$providedString}.";
+        $info = "The method '{$method}' expected at least {$expectedString} but {$providedString}.";
         parent::__construct( $info );
     }
 }

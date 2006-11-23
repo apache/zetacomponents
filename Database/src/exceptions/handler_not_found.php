@@ -27,7 +27,7 @@ class ezcDbHandlerNotFoundException extends ezcDbException
         {
             $name = 'no name provided';
         }
-        $message = "Could not find the database handler: {$name}.";
+        $message = "Could not find the database handler: '{$name}'.";
 
         if ( count( $known ) > 0 )
         {

@@ -56,7 +56,7 @@ class ezcDatabaseHandlerTest extends ezcTestCase
                 break;
                 
             default:
-                $this->markTestSkipped( "No quoting test defined for handler class <{" . get_class( $db ) . "}>" );
+                $this->markTestSkipped( "No quoting test defined for handler class '{" . get_class( $db ) . "}'" );
         }
 
         $this->assertEquals(
@@ -80,7 +80,7 @@ class ezcDatabaseHandlerTest extends ezcTestCase
                 break;
                 
             default:
-                $this->markTestSkipped( "No quoting test defined for handler class <{" . get_class( $db ) . "}>" );
+                $this->markTestSkipped( "No quoting test defined for handler class '{" . get_class( $db ) . "}'" );
         }
 
         $this->assertEquals(
