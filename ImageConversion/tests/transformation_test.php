@@ -88,6 +88,16 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
                             )
                         ),
                     ),
+                // Optional parameter dismissed
+                3 => array(
+                    0 => new ezcImageFilter(
+                        "scale",
+                        array(
+                            "width"     => 50,
+                            "height"    => 50,
+                            )
+                        ),
+                    ),
                 );
             $this->testFiltersFailure = array(
                 // Nonexistant filter
@@ -472,6 +482,24 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             "Image not generated successfully.",
             // ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
             40
+        );
+    }
+
+    public function testTransformSuccessPng_4()
+    {
+        $trans = new ezcImageTransformation(
+            $this->converter,
+            "test",
+            $this->testFiltersSuccess[3],
+            array( "image/jpeg", "image/png" )
+        );
+        $trans->transform( $this->testFiles["png"], $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not generated successfully.",
+            // ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+            20
         );
     }
 

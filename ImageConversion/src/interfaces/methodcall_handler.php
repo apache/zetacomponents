@@ -226,11 +226,14 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
         foreach ( $reflectParameters as $id => $parameter )
         {
             $paramName = $parameter->getName();
-            if ( !isset( $filter->options[$paramName] ) )
+            if ( isset( $filter->options[$paramName] ) )
+            {
+                $parameters[] = $filter->options[$paramName];
+            }
+            else if ( $parameter->isOptional() === false )
             {
                 throw new ezcImageMissingFilterParameterException( $filter->name, $paramName );
             }
-            $parameters[] = $filter->options[$paramName];
         }
         // Backup last active reference
         $oldRef = $this->getActiveReference();
