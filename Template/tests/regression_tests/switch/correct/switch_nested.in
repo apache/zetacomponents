@@ -1,0 +1,295 @@
+{var $_num_1 = 1, $_num_2 = 2, $_num_3 = 3, $_num_4 = 4}
+{switch $_num_1}
+{/switch}
+
+{switch $_num_1}
+{case 1}
+    {"{case '1'}"}
+{/case}
+{/switch}
+
+{switch $_num_1}
+{case 1,2}
+    {"{case '1,2'}"}
+{/case}
+{/switch}
+
+{switch $_num_2}
+{case 1}
+    {"{case '1'}"}
+{/case}
+{case 2}
+    {"{case '2'}"}
+{/case}
+{/switch}
+
+{switch $_num_2}
+{case 1}
+    {"{case '1'}"}
+{/case}
+{case 2,3}
+    {"{case '2,3'}"}
+{/case}
+{/switch}
+
+{switch $_num_2}
+{case 1,3}
+    {"{case '1,3'}"}
+{/case}
+{case 2}
+    {"{case '2'}"}
+{/case}
+{/switch}
+
+{switch $_num_2}
+{case 1,3}
+    {"{case '1,3'}"}
+{/case}
+{case 2,3}
+    {"{case '2,3'}"}
+{/case}
+{/switch}
+
+{switch $_num_4}
+{case 1}
+    {"{case '1'}"}
+{/case}
+{case 2}
+    {"{case '2'}"}
+{/case}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+
+{switch $_num_4}
+{case 1}
+    {"{case '1'}"}
+{/case}
+{case 2,3}
+    {"{case '2,3'}"}
+{/case}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+
+{switch $_num_4}
+{case 1,3}
+    {"{case '1,3'}"}
+{/case}
+{case 2}
+    {"{case '2'}"}
+{/case}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+
+{switch $_num_4}
+{case 1,3}
+    {"{case '1,3'}"}
+{/case}
+{case 2,3}
+    {"{case '2,3'}"}
+{/case}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+
+{switch $_num_3}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+
+{switch $_num_1}
+{case '1'}
+    {switch $_num_1}
+    {/switch}
+{/case}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+
+{switch $_num_1}
+{case '1'}
+    {switch $_num_1}
+    {case 1}
+        {"{case '1'}"}
+    {/case}
+    {/switch}
+{/case}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+
+{switch $_num_1}
+{case '1'}
+    {switch $_num_1}
+    {case 1,2}
+        {"{case '1,2'}"}
+    {/case}
+    {/switch}
+{/case}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+
+{switch $_num_1}
+{case '1'}
+    {switch $_num_2}
+    {case 1}
+        {"{case '1'}"}
+    {/case}
+    {case 2}
+        {"{case '2'}"}
+    {/case}
+    {/switch}
+{/case}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+
+{switch $_num_1}
+{case '1'}
+    {switch $_num_2}
+    {case 1}
+        {"{case '1'}"}
+    {/case}
+    {case 2,3}
+        {"{case '2,3'}"}
+    {/case}
+    {/switch}
+{/case}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+
+{switch $_num_1}
+{case '1'}
+    {switch $_num_2}
+    {case 1,3}
+        {"{case '1,3'}"}
+    {/case}
+    {case 2}
+        {"{case '2'}"}
+    {/case}
+    {/switch}
+{/case}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+
+{switch $_num_1}
+{case '1'}
+    {switch $_num_2}
+    {case 1,3}
+        {"{case '1,3'}"}
+    {/case}
+    {case 2,3}
+        {"{case '2,3'}"}
+    {/case}
+    {/switch}
+{/case}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+
+{switch $_num_1}
+{case '1'}
+    {switch $_num_4}
+    {case 1}
+        {"{case '1'}"}
+    {/case}
+    {case 2}
+        {"{case '2'}"}
+    {/case}
+    {default}
+        {"{default}"}
+    {/default}
+    {/switch}
+{/case}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+
+{switch $_num_1}
+{case '1'}
+    {switch $_num_4}
+    {case 1}
+        {"{case '1'}"}
+    {/case}
+    {case 2,3}
+        {"{case '2,3'}"}
+    {/case}
+    {default}
+        {"{default}"}
+    {/default}
+    {/switch}
+{/case}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+
+{switch $_num_1}
+{case '1'}
+    {switch $_num_4}
+    {case 1,3}
+        {"{case '1,3'}"}
+    {/case}
+    {case 2}
+        {"{case '2'}"}
+    {/case}
+    {default}
+        {"{default}"}
+    {/default}
+    {/switch}
+{/case}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+
+{switch $_num_1}
+{case '1'}
+    {switch $_num_4}
+    {case 1,3}
+        {"{case '1,3'}"}
+    {/case}
+    {case 2,3}
+        {"{case '2,3'}"}
+    {/case}
+    {default}
+        {"{default}"}
+    {/default}
+    {/switch}
+{/case}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+
+{switch $_num_1}
+{case '1'}
+    {switch $_num_3}
+    {default}
+        {"{default}"}
+    {/default}
+    {/switch}
+{/case}
+{default}
+    {"{default}"}
+{/default}
+{/switch}
+

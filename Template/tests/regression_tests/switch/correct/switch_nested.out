@@ -1,0 +1,45 @@
+
+{case '1'}
+
+{case '1,2'}
+
+{case '2'}
+
+{case '2,3'}
+
+{case '2'}
+
+{case '2,3'}
+
+{default}
+
+{default}
+
+{default}
+
+{default}
+
+{default}
+
+
+{case '1'}
+
+{case '1,2'}
+
+{case '2'}
+
+{case '2,3'}
+
+{case '2'}
+
+{case '2,3'}
+
+{default}
+
+{default}
+
+{default}
+
+{default}
+
+{default}
