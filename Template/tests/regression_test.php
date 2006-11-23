@@ -232,15 +232,43 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 {
                     echo "\n", $help, "\n";
 
-                    echo "Do you want to create this file? (y/n)";
-
-                    $char = fgetc( $this->stdin );
-
-                    if ($char == "y" || $char == "Y" )
+                    while ( true )
                     {
-                        file_put_contents( $expected, $out[$counter] );
+                        echo "Do you want to create this file? (y/n/v)";
+
+                        $char = false;
+                        while ( strpos( "ynv", $char ) === false )
+                            $char = strtolower( fgetc( $this->stdin ) );
+
+                        if ($char == "y" )
+                        {
+                            file_put_contents( $expected, $out[$counter] );
+                        }
+                        elseif ($char == "v" )
+                        {
+                            if ( PHP_OS == 'Linux' )
+                            {
+                                // Pipe the text to less
+                                $l = popen( "less", "w" );
+                                fwrite( $l, $out[$counter] );
+                                pclose( $l );
+                                continue;
+                            }
+                            else
+                            {
+                                echo $out[$counter], "\n";
+                            }
+                        }
+                        elseif ( $char == 'n' )
+                        {
+                            throw new PHPUnit_Framework_ExpectationFailedException( $help );
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                        return; // No more testing to be done now since the file is generated
                     }
-                    return; // No more testing to be done now since the file is generated
                 }
                 else
                 {
