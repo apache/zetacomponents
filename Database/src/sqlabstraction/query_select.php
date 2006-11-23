@@ -80,19 +80,26 @@ class ezcQuerySelect extends ezcQuery
     protected $whereString = null;
 
     /**
-     * Stores the ORDER BY part of the SQL.
-     *
-     * @var string
-     */
-    protected $orderString = null;
-
-    /**
      * Stores the GROUP BY part of the SQL.
      *
      * @var string
      */
     protected $groupString = null;
 
+    /**
+     * Stores the HAVING part of SQL
+     * 
+     * @var string
+     */    
+    protected $havingString = null;
+
+    /**
+     * Stores the ORDER BY part of the SQL.
+     *
+     * @var string
+     */
+    protected $orderString = null;
+        
     /**
      * Stores the LIMIT part of the SQL.
      *
@@ -103,7 +110,7 @@ class ezcQuerySelect extends ezcQuery
     /**
      * Stores the name of last invoked SQL clause method.
      *
-     * Could be 'select', 'from', 'where', 'order', 'group', 'limit'
+     * Could be 'select', 'from', 'where', 'group', 'having', 'order', 'limit'
      * @var string
      */
     protected $lastInvokedMethod = null;
@@ -128,8 +135,9 @@ class ezcQuerySelect extends ezcQuery
         $this->selectString = null;
         $this->fromString = null;
         $this->whereString = null;
-        $this->orderString = null;
         $this->groupString = null;
+        $this->havingString = null;
+        $this->orderString = null;
         $this->limitString = null;
         $this->lastInvokedClauseMethod = null;
 
@@ -208,6 +216,8 @@ class ezcQuerySelect extends ezcQuery
      *   ->from( $q->alias( 'users', 'employees' ) );
      * </code>
      *
+     * @param string $name
+     * @param string $alias
      * @return string the query string "columnname as targetname"
      */
     public function alias( $name, $alias )
@@ -234,7 +244,7 @@ class ezcQuerySelect extends ezcQuery
      *
      * @throws ezcQueryVariableParameterException if called with no parameters.
      * @param string|array(string) Either a string with a table name or an array of table names.
-     * @return a pointer to $this
+     * @return ezcQuery a pointer to $this
      */
     public function from()
     {
@@ -264,6 +274,9 @@ class ezcQuerySelect extends ezcQuery
 
     /**
      * Returns the SQL for a inner join or prepares $fromString for a inner join.
+     * 
+     * @throws ezcQueryInvalidException if called with incosistent parameters or if
+     *         invoked without preceding call to from().
      *
      * This method could be used in three forms:
      * - innerJoin( 't1', 't2', 't1.id', 't2.id' ) takes 4 string arguments and return SQL string
@@ -372,6 +385,9 @@ class ezcQuerySelect extends ezcQuery
 
     /**
      * Returns the SQL for a left join or prepares $fromString for a left join.
+     * 
+     * @throws ezcQueryInvalidException if called with incosistent parameters or if
+     *         invoked without preceding call to from().
      *
      * This method could be used in three forms:
      * - leftJoin( 't1', 't2', 't1.id', 't2.id' ) takes 4 string arguments and return SQL string
@@ -480,6 +496,9 @@ class ezcQuerySelect extends ezcQuery
 
     /**
      * Returns the SQL for a right join or prepares $fromString for a right join.
+     * 
+     * @throws ezcQueryInvalidException if called with incosistent parameters or if
+     *         invoked without preceding call to from().
      * 
      * This method could be used in three forms:
      * - rightJoin( 't1', 't2', 't1.id', 't2.id' ) takes 4 string arguments and return SQL string
@@ -713,7 +732,7 @@ class ezcQuerySelect extends ezcQuery
      *
      * You can call groupBy multiple times. Each call will add a
      * column to group by.
-
+     *
      * Example:
      * <code>
      * $q->select( '*' )->from( 'table' )
@@ -746,6 +765,57 @@ class ezcQuerySelect extends ezcQuery
 
         $this->lastInvokedMethod = 'group';
 
+        return $this;
+    }
+
+    /**
+     * Returns SQL that set having by a given expression.
+     *
+     * You can call having multiple times. Each call will add an
+     * expression with a logical and.
+     *
+     * Example:
+     * <code>
+     * $q->select( '*' )->from( 'table' )->groupBy( 'id' )
+     *                  ->having( $q->expr->eq('id',1) );
+     * </code>
+     *
+     * @throws ezcQueryInvalidException
+     *         if invoked without preceding call to groupBy().
+     * @throws ezcQueryVariableParameterException
+     *         if called with no parameters.
+     * @param string|array(string) Either a string with a logical expression name
+     *                             or an array with logical expressions.
+     * @return ezcQuery a pointer to $this
+     */    
+    public function having()
+    {
+        // using groupBy()->having() syntax assumed, so check if last call was to groupBy()
+        if ( $this->lastInvokedMethod != 'group' && $this->lastInvokedMethod != 'having' )
+        {
+            throw new ezcQueryInvalidException( 'SELECT', 'Invoking having() not immediately after groupBy().' );
+        }
+
+        $args = func_get_args();
+        $expressions = self::arrayFlatten( $args );
+        if ( count( $expressions ) < 1 )
+        {
+            throw new ezcQueryVariableParameterException( 'having', count( $args ), 1 );
+        }
+
+        if ( $this->havingString == null )
+        {
+            $this->havingString = 'HAVING ';
+        }
+
+        // will add "AND expression" in subsequent calls to having()
+        if ( $this->havingString != 'HAVING ' )
+        {
+            $this->havingString .= ' AND ';
+        }
+
+        $this->havingString .= join( ' AND ', $expressions );
+        $this->lastInvokedMethod = 'having';
         return $this;
     }
 
@@ -797,6 +867,10 @@ class ezcQuerySelect extends ezcQuery
         if ( $this->groupString != null )
         {
             $query = "{$query} {$this->groupString}";
+        }
+        if ( $this->havingString != null )
+        {
+            $query = "{$query} {$this->havingString}";
         }
         if ( $this->orderString != null )
         {

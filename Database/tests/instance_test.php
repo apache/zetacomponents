@@ -66,6 +66,11 @@ class ezcDatabaseInstanceTest extends ezcTestCase
         catch ( ezcDbHandlerNotFoundException $e ) {}
     }
 
+    public function testGetIdentifiers()
+    {
+        $this->assertTrue( count( ezcDbInstance::getIdentifiers() ) >= 1 );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcDatabaseInstanceTest" );

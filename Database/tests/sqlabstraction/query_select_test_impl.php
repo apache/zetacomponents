@@ -183,6 +183,59 @@ class ezcQuerySelectTestImpl extends ezcTestCase
         $this->assertEquals( 1, $rows );
     }
 
+    public function testBuildFromWhereGroupHaving()
+    {
+       $this->q->select( 'company', 'SUM(employees)' )->from( 'query_test' )
+            ->where( $this->e->eq( 1, 1 ) )
+            ->groupBy( 'company' )
+            ->having( $this->e->gt( 'SUM(employees)', 100 ) );
+
+        $stmt = $this->db->query( $this->q->getQuery() );
+        $rows = 0;
+        foreach ( $stmt as $row )
+        {
+            $rows++;
+        }
+
+        $this->assertEquals( 1, $rows );
+    }
+
+    public function testBuildFromWhereGroupHavingMulti()
+    {
+       $this->q->select( 'company', 'SUM(employees)' )->from( 'query_test' )
+            ->where( $this->e->eq( 1, 1 ) )
+            ->groupBy( 'company' )
+            ->having( $this->e->gte( 'SUM(employees)', 10 ) )
+            ->having( $this->e->lte( 'SUM(employees)', 500 ) );
+
+        $stmt = $this->db->query( $this->q->getQuery() );
+        $rows = 0;
+        foreach ( $stmt as $row )
+        {
+            $rows++;
+        }
+
+        $this->assertEquals( 2, $rows );
+    }
+
+    public function testBuildFromWhereGroupHavingBind()
+    {
+       $this->q->select( '*' )->from( 'query_test' )
+            ->where( $this->e->eq( 1, 1 ) )
+            ->groupBy( 'id' )
+            ->having( $this->e->eq( 'company', $this->q->bindValue( 'eZ systems' ) ) );
+
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $rows = 0;
+        foreach ( $stmt as $row )
+        {
+            $rows++;
+        }
+
+        $this->assertEquals( 2, $rows );
+    }
+
     public function testBuildFromWhereOrderLimitOffset()
     {
         $this->q->select( '*' )->from( 'query_test' )

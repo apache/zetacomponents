@@ -38,6 +38,11 @@ class TestSelect extends ezcQuerySelect
         return $this->groupString;
     }
 
+    public function buildHaving()
+    {
+        return $this->havingString;
+    }
+    
     public function buildLimit()
     {
         return $this->limitString;
@@ -145,10 +150,38 @@ class ezcQuerySelectTest extends ezcTestCase
         $this->assertEquals( $reference, $this->q->buildFrom() );
     }
 
+    public function testFromInvalid()
+    {
+        try
+        {
+            $this->q->select( '*' )->from();
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcQueryVariableParameterException $e )
+        {
+            $expected = "The method 'from' expected at least 1 parameter but none were provided.";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
     public function testInnerJoin()
     {
         $reference = "FROM table1 INNER JOIN table2 ON table1.id = table2.id";
         $this->q->from( $this->q->innerJoin( 'table1', 'table2', 'table1.id', 'table2.id' ) );
+        $this->assertEquals( $reference, $this->q->buildFrom() );
+    }
+
+    public function testInnerJoinExpressionParameter()
+    {
+        $reference = "FROM table1 INNER JOIN table2 ON table1.id = table2.id";
+        $this->q->from( 'table1' )->innerJoin( 'table2', $this->e->eq( 'table1.id', 'table2.id' ) );
+        $this->assertEquals( $reference, $this->q->buildFrom() );
+    }
+
+    public function testInnerJoinOtherForm()
+    {
+        $reference = "FROM table1 INNER JOIN table2 ON table1.id = table2.id";
+        $this->q->from( 'table1' )->innerJoin( 'table2', 'table1.id', 'table2.id' );
         $this->assertEquals( $reference, $this->q->buildFrom() );
     }
 
@@ -159,11 +192,168 @@ class ezcQuerySelectTest extends ezcTestCase
         $this->assertEquals( $reference, $this->q->buildFrom() );
     }
 
+    public function testRightJoinExpressionParameter()
+    {
+        $reference = "FROM table1 RIGHT JOIN table2 ON table1.id = table2.id";
+        $this->q->from( 'table1' )->rightJoin( 'table2', $this->e->eq( 'table1.id', 'table2.id' ) );
+        $this->assertEquals( $reference, $this->q->buildFrom() );
+    }
+
+    public function testRightJoinOtherForm()
+    {
+        $reference = "FROM table1 RIGHT JOIN table2 ON table1.id = table2.id";
+        $this->q->from( 'table1' )->rightJoin( 'table2', 'table1.id', 'table2.id' );
+        $this->assertEquals( $reference, $this->q->buildFrom() );
+    }
+
     public function testLeftJoin()
     {
         $reference = "FROM table1 LEFT JOIN table2 ON table1.id = table2.id";
         $this->q->from( $this->q->leftJoin( 'table1', 'table2', 'table1.id', 'table2.id' ) );
         $this->assertEquals( $reference, $this->q->buildFrom() );
+    }
+
+    public function testLeftJoinExpressionParameter()
+    {
+        $reference = "FROM table1 LEFT JOIN table2 ON table1.id = table2.id";
+        $this->q->from( 'table1' )->leftJoin( 'table2', $this->e->eq( 'table1.id', 'table2.id' ) );
+        $this->assertEquals( $reference, $this->q->buildFrom() );
+    }
+
+    public function testLeftJoinOtherForm()
+    {
+        $reference = "FROM table1 LEFT JOIN table2 ON table1.id = table2.id";
+        $this->q->from( 'table1' )->leftJoin( 'table2', 'table1.id', 'table2.id' );
+        $this->assertEquals( $reference, $this->q->buildFrom() );
+    }
+
+    public function testInvalidInnerJoin()
+    {
+        try
+        {
+            $this->q->innerJoin( 'table1', 'table1.id', 'table2.id' );
+        }
+        catch ( ezcQueryInvalidException $e )
+        {
+            return;
+        }
+        $this->fail( "Got no exception when an exception was expected" );
+    }
+
+    public function testInnerJoinInvalidArgumentsTypes()
+    {
+        try
+        {
+            $this->q->select( '*' )->from( 'table1' )
+                 ->innerJoin( 'table1', 'table2', 'table1.id', array( 'table2.id' ) );
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcQueryInvalidException $e )
+        {
+            $expected = "Inconsistent types of arguments passed to innerJoin().";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testInnerJoinInvalidArgumentsNumber()
+    {
+        try
+        {
+            $this->q->select( '*' )->from( 'table1' )
+                 ->innerJoin( 'table2' );
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcQueryInvalidException $e )
+        {
+            $expected = "Wrong count of arguments passed to innerJoin():1";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testInvalidRightJoin()
+    {
+        try
+        {
+            $this->q->rightJoin( 'table1', 'table1.id', 'table2.id' );
+        }
+        catch ( ezcQueryInvalidException $e )
+        {
+            return;
+        }
+        $this->fail( "Got no exception when an exception was expected" );
+    }
+
+    public function testRightJoinInvalidArgumentsTypes()
+    {
+        try
+        {
+            $this->q->select( '*' )->from( 'table1' )
+                 ->rightJoin( 'table1', 'table2', 'table1.id', array( 'table2.id' ) );
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcQueryInvalidException $e )
+        {
+            $expected = "Inconsistent types of arguments passed to rightJoin().";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testRightJoinInvalidArgumentsNumber()
+    {
+        try
+        {
+            $this->q->select( '*' )->from( 'table1' )
+                 ->rightJoin( 'table2' );
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcQueryInvalidException $e )
+        {
+            $expected = "Wrong count of arguments passed to rightJoin():1";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testInvalidLeftJoin()
+    {
+        try
+        {
+            $this->q->leftJoin( 'table1', 'table1.id', 'table2.id' );
+        }
+        catch ( ezcQueryInvalidException $e )
+        {
+            return;
+        }
+        $this->fail( "Got no exception when an exception was expected" );
+    }
+
+    public function testLeftJoinInvalidArgumentsTypes()
+    {
+        try
+        {
+            $this->q->select( '*' )->from( 'table1' )
+                 ->leftJoin( 'table1', 'table2', 'table1.id', array( 'table2.id' ) );
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcQueryInvalidException $e )
+        {
+            $expected = "Inconsistent types of arguments passed to leftJoin().";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testLeftJoinInvalidArgumentsNumber()
+    {
+        try
+        {
+            $this->q->select( '*' )->from( 'table1' )
+                 ->leftJoin( 'table2' );
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcQueryInvalidException $e )
+        {
+            $expected = "Wrong count of arguments passed to leftJoin():1";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
     }
 
     public function testWhereSingle()
@@ -241,6 +431,58 @@ class ezcQuerySelectTest extends ezcTestCase
         $this->assertEquals( $reference, $this->q->buildGroup() );
     }
 
+    public function testHavingSingle()
+    {
+        $reference = 'HAVING id > 1';
+        $this->q->groupBy( 'id' )->having( $this->e->gt( 'id', 1 ) );
+        $this->assertEquals( $reference, $this->q->buildHaving() );
+    }
+
+    public function testHavingInvalid()
+    {
+        try
+        {
+            $this->q->having( $this->e->gt( 'id', 1 ) );
+            $this->fail( "Expected exception was not thrown" );
+        }
+        catch ( ezcQueryInvalidException $e )
+        {
+            $expected = "Invoking having() not immediately after groupBy().";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testHavingInvalidParameters()
+    {
+        try
+        {
+            $this->q->select( '*' )->from( 'table1' )
+                 ->groupBy( 'id' )
+                 ->having();
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcQueryVariableParameterException $e )
+        {
+            $expected = "The method 'having' expected at least 1 parameter but none were provided.";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testHavingMulti()
+    {
+        $reference = 'HAVING id > 1 AND name = John';
+        $this->q->groupBy( 'id' )->having( $this->e->gt( 'id', 1 ) )
+                                 ->having( $this->e->eq( 'name', 'John' ) );
+        $this->assertEquals( $reference, $this->q->buildHaving() );
+    }
+
+    public function testHavingMultiSingleCall()
+    {
+        $reference = 'HAVING id > 1 AND name = John';
+        $this->q->groupBy( 'id' )->having( $this->e->gt( 'id', 1 ), $this->e->eq( 'name', 'John' ) );
+        $this->assertEquals( $reference, $this->q->buildHaving() );
+    }
+
     // here follows the testing of the build methods
     public function testBuildFrom()
     {
@@ -306,12 +548,37 @@ class ezcQuerySelectTest extends ezcTestCase
         $this->assertEquals( $reference, $this->q->getQuery() );
     }
 
+    public function testBuildFromWhereGroupHavingLimit()
+    {
+        $reference = 'SELECT * FROM table WHERE true GROUP BY id HAVING id > 1 LIMIT 1';
+        $this->q->select( '*' )->from( 'table' )
+                ->where( 'true' )
+                ->groupBy( 'id' )
+                ->having( $this->e->gt( 'id', 1 ) )
+                ->limit( 1 );
+        $this->assertEquals( $reference, $this->q->getQuery() );
+    }
+
     public function testBuildFromLimit()
     {
         $reference = 'SELECT * FROM table LIMIT 1';
         $this->q->select( '*' )->from( 'table' )
                 ->limit( 1 );
         $this->assertEquals( $reference, $this->q->getQuery() );
+    }
+
+    public function testGetQueryInvalid()
+    {
+        try
+        {
+            $this->q->getQuery();
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcQueryInvalidException $e )
+        {
+            $expected = "select() was not called before getQuery().";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
     }
 
     public static function suite()
