@@ -198,8 +198,8 @@ abstract class ezcCacheStorage
     * This method determines if cache data described by the given ID and/or
     * attributes exists. It returns the number of cache data items found.
     *
-     * @param string $id                        The item ID.
-     * @param array(string=>string) $attributes Attributes that describe the 
+    * @param string $id                        The item ID.
+    * @param array(string=>string) $attributes Attributes that describe the 
     * @return int The number of cache data items found matching the criteria. 
     */
     abstract public function countDataItems( $id = null, $attributes = array() );
@@ -212,7 +212,7 @@ abstract class ezcCacheStorage
      * @param string $id                        The item ID.
      * @param array(string=>string) $attributes Attributes that describe the 
      * @access public
-     * @return int The remaining lifetime ( 0 if nonexists or oudated ).
+     * @return int The remaining lifetime ( 0 if nonexists or outdated ).
      */
     abstract public function getRemainingLifetime( $id, $attributes = array() );
 

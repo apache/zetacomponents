@@ -18,7 +18,7 @@
  * The use of ezcCacheManager is not required, but recommended. If you only
  * need a few (or maybe just 1) cache instance, you can use and instantiate
  * a {@link ezcCacheStorage} class directly.
- * 
+ *
  * Usage example for ezcCacheManager:
  * <code>
  * // Some pre-work, needed by the example
@@ -27,36 +27,36 @@
  * {
  *     return 'This is a unique ID';
  * }
- * 
+ *
  * // Central creation and configuration of the caches
- * // The ezcCacheManager just stores the configuration right now and 
- * // performs sanity checks. The {@link ezcCacheStorage} instances
+ * // The ezcCacheManager just stores the configuration right now and
+ * // performs sanity checks. The ezcCacheStorage instances
  * // will be created on demand, when you use them for the first time
- * 
- * // Configuration options for a cache {@link ezcCacheStorage}
+ *
+ * // Configuration options for a cache (see ezcCacheStorage)
  * $options = array(
  *     'ttl'   => 60*60*24*2,     // Default would be 1 day, here 2 days
  * );
- * 
+ *
  * // Create a cache named "content", that resides in /var/cache/content
- * // The cache instance will use the {@link ezcCacheStorageFileArray} class
+ * // The cache instance will use the ezcCacheStorageFileArray class
  * // to store the cache data. The time-to-live for cache items is set as 
  * // defined above.
  * ezcCacheManager::createCache( 'content', $basePath.'/content', 'ezcCacheStorageFileArray', $options );
- * 
+ *
  * // Create another cache, called "template" in /var/cache/templates.
- * // This cache will use the {@link ezcCacheStorageFilePlain} class to store
+ * // This cache will use the ezcCacheStorageFilePlain class to store
  * // cache data. It has the same TTL as the cache defined above.
  * ezcCacheManager::createCache( 'template', $basePath.'/templates', 'ezcCacheStorageFilePlain', $options );
- * 
+ *
  * // Somewhere in the application you can access the caches
- *  
+ *
  * // Get the instance of the cache called "content"
- * // Now the instance of {@link ezcCacheStorageFileArray is created and
+ * // Now the instance of ezcCacheStorageFileArray is created and
  * // returned to be used. Next time you access this cache, the created
  * // instance will be reused.
  * $cache = ezcCacheManager::getCache( 'content' );
- * 
+ *
  * // Specify any number of attributes to identify the cache item you want
  * // to store. This attributes can be used later to perform operations
  * // on a set of cache items, that share a common attribute.
@@ -64,39 +64,40 @@
  * // This function is not part of the Cache package. You have to define
  * // unique IDs for your cache items yourself.
  * $id = getUniqueId();
- * 
+ *
  * // Initialize the data variable you want to restore
  * $data = '';
  * // Check if data is available in the cache. The restore method returns
  * // the cached data, if available, or bool false.
  * if ( ( $data = $cache->restore( $id, $attributes ) ) === false )
  * {
- *    // The cache item we tried to restore does not exist, so we have to
- *    // generate the data.
- *    $data = array( 'This is some data', 'and some more data.' );
- *    // For testing we echo something here...
- *    echo "No cache data found. Generated some.\n".var_export( $data, true )."\n";
- *    // Now we store the data in the cache. It will be available through 
- *    // restore, next time the code is reached
- *    $cache->store( $id, $data, $attributes );
+ *     // The cache item we tried to restore does not exist, so we have to
+ *     // generate the data.
+ *     $data = array( 'This is some data', 'and some more data.' );
+ *     // For testing we echo something here...
+ *     echo "No cache data found. Generated some.\n".var_export( $data, true )."\n";
+ *     // Now we store the data in the cache. It will be available through
+ *     // restore, next time the code is reached
+ *     $cache->store( $id, $data, $attributes );
  * }
  * else
  * {
  *     // We found cache data. Let's echo the information.
- *    echo "Cache data found.\n".var_export( $data, true )."\n";
+ *     echo "Cache data found.\n".var_export( $data, true )."\n";
  * }
- * 
+ *
  * // In some other place you can access the second defined cache.
  * $cache = ezcCacheManager::getCache( 'template' );
- * 
+ *
  * // Here we are removing cache items. We do not specify an ID (which would
  * // have meant to delete 1 specific cache item), but only an array of 
  * // attributes. This will result in all cache items to be deleted, that
  * // have this attribute assigned.
  * $cache->delete( null, array( 'node' => 5 ) );
  * </code>
- * 
+ *
  * @package Cache
+ * @version //autogentag//
  * @mainclass
  */
 class ezcCacheManager 
@@ -249,8 +250,8 @@ class ezcCacheManager
      *         exception is thrown, your cache location has been corrupted 
      *         after the cache was configured.
      * @throws ezcBaseSettingNotFoundException
-     *         If you tried to set a non-existent option value. The accpeted 
-     *         options depend on th ezcCacheStorage implementation and my 
+     *         If you tried to set a non-existent option value. The accepted 
+     *         options depend on the ezcCacheStorage implementation and my 
      *         vary.
      */
     public static function getCache( $id ) 
