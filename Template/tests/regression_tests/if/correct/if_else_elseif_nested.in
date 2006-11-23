@@ -1,0 +1,128 @@
+{var $_false = false,
+     $_true = true}
+if(0)
+{if $_true}
+    ok(0)
+{/if}/if(0)
+
+if(1)
+{if $_false}
+    fail(1)
+{/if}ok(1)
+/if(1)
+
+if(2)
+{if $_true}
+    ok(2)
+{else}
+    fail(2)
+{/if}/if(2)
+
+if(3)
+{if $_false}
+    fail(3)
+{else}
+    ok(3)
+{/if}/if(3)
+
+if(4)
+{if $_true}
+    ok(4)
+{elseif $_false}
+    fail(4)
+{/if}/if(4)
+
+if(5)
+{if $_false}
+    fail(5)
+{elseif $_true}
+    ok(5)
+{/if}/if(5)
+
+if(6)
+{if $_false}
+    fail(6)
+{elseif $_false}
+    fail(6)
+{/if}ok(6)
+/if(6)
+
+if(7)
+{if $_true}
+    ok(7)
+{elseif $_false}
+    fail(7)
+{else}
+    fail(7)
+{/if}/if(7)
+
+if(8)
+{if $_false}
+    fail(8)
+{elseif $_true}
+    ok(8)
+{else}
+    fail(8)
+{/if}/if(8)
+
+if(9)
+{if $_false}
+    fail(9)
+{elseif $_false}
+    fail(9)
+{else}
+    ok(9)
+{/if}/if(9)
+
+if(10)
+{if $_true}
+    if(10)
+    {if $_true}
+        ok(10)
+    {/if}/if(10)
+{/if}/if(10)
+
+if(11)
+{if $_true}
+    if(11)
+    {if $_true}
+        ok(11)
+    {else}
+        fail(11)
+    {/if}/if(11)
+{/if}/if(11)
+
+if(12)
+{if $_true}
+    if(12)
+    {if $_true}
+        ok(12)
+    {elseif $_false}
+        fail(12)
+    {/if}/if(12)
+{/if}/if(12)
+
+if(13)
+{if $_true}
+    if(13)
+    {if $_true}
+        ok(13)
+    {elseif $_false}
+        fail(13)
+    {else}
+        fail(13)
+    {/if}/if(13)
+{/if}/if(13)
+
+if(14)
+{if $_true}
+    if(14)
+    {if $_false}
+        fail(14)
+    {elseif $_true}
+        ok(14)
+    {else}
+        fail(14)
+    {/if}/if(14)
+{/if}/if(14)
+
