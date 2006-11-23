@@ -1,0 +1,415 @@
+{var $_foo = "foo",
+     $_bar = "bar",
+     $_false = false,
+     $_true = true}
+{if $_foo}
+    {$_foo}
+{/if}
+{if $_false}
+    {$_foo}
+{else}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{elseif $_false}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_foo}
+===>{if $_foo}
+===>    {$_foo}
+===>{/if}
+{/if}
+{if $_foo}
+    {$_foo}
+{/if}
+{if $_false}
+    {$_foo}
+{else}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{elseif $_false}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_foo}
+===>{if $_false}
+===>    {$_foo}
+===>{else}
+===>    {$_bar}
+===>{/if}
+{/if}
+{if $_foo}
+    {$_foo}
+{/if}
+{if $_false}
+    {$_foo}
+{else}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{elseif $_false}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_foo}
+===>{if $_false}
+===>    {$_foo}
+===>{elseif $_true}
+===>    {$_bar}
+===>{/if}
+{/if}
+{if $_foo}
+    {$_foo}
+{/if}
+{if $_false}
+    {$_foo}
+{else}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{elseif $_false}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_foo}
+===>{if $_false}
+===>    {$_foo}
+===>{elseif $_true}
+===>    {$_bar}
+===>{else}
+===>    {$_false}
+===>{/if}
+{/if}
+{if $_foo}
+    {$_foo}
+{/if}
+{if $_false}
+    {$_foo}
+{else}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{elseif $_false}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_foo}
+===>{if $_false}
+===>    {$_foo}
+===>{elseif $_true}
+===>    {$_bar}
+===>{elseif $_false}
+===>    {$_bar}
+===>{else}
+===>    {$_false}
+===>{/if}
+{/if}
+{if $_foo}
+    {$_foo}
+{/if}
+{if $_false}
+    {$_foo}
+{else}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{elseif $_false}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_foo}
+===>{if $_foo}
+===>{/if}
+{/if}
+{if $_foo}
+    {$_foo}
+{/if}
+{if $_false}
+    {$_foo}
+{else}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{elseif $_false}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_foo}
+===>{if $_foo}
+===>--->{if $_foo}
+===>--->    {$_foo}
+===>--->{/if}
+===>{/if}
+{/if}
+{if $_foo}
+    {$_foo}
+{/if}
+{if $_false}
+    {$_foo}
+{else}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{elseif $_false}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_foo}
+===>{if $_foo}
+===>--->{if $_false}
+===>--->    {$_foo}
+===>--->{else}
+===>--->    {$_bar}
+===>--->{/if}
+===>{/if}
+{/if}
+{if $_foo}
+    {$_foo}
+{/if}
+{if $_false}
+    {$_foo}
+{else}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{elseif $_false}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_foo}
+===>{if $_foo}
+===>--->{if $_false}
+===>--->    {$_foo}
+===>--->{elseif $_true}
+===>--->    {$_bar}
+===>--->{/if}
+===>{/if}
+{/if}
+{if $_foo}
+    {$_foo}
+{/if}
+{if $_false}
+    {$_foo}
+{else}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{elseif $_false}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_foo}
+===>{if $_foo}
+===>--->{if $_false}
+===>--->    {$_foo}
+===>--->{elseif $_true}
+===>--->    {$_bar}
+===>--->{else}
+===>--->    {$_false}
+===>--->{/if}
+===>{/if}
+{/if}
+{if $_foo}
+    {$_foo}
+{/if}
+{if $_false}
+    {$_foo}
+{else}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_false}
+    {$_foo}
+{elseif $_true}
+    {$_bar}
+{elseif $_false}
+    {$_bar}
+{else}
+    {$_false}
+{/if}
+{if $_foo}
+===>{if $_foo}
+===>--->{if $_false}
+===>--->    {$_foo}
+===>--->{elseif $_true}
+===>--->    {$_bar}
+===>--->{elseif $_false}
+===>--->    {$_bar}
+===>--->{else}
+===>--->    {$_false}
+===>--->{/if}
+===>{/if}
+{/if}
