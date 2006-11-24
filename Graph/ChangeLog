@@ -1,4 +1,4 @@
-1.0 - [date]
+1.0 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #9583: Data typecasting should only be done in axis
