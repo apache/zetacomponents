@@ -51,16 +51,16 @@ class ezcInputFilterDefinitionTest extends ezcTestCase
         $def = array( 'test' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'float' ) );
         self::assertEquals( true, ezcInputForm::validateDefinition( $def ) );
         $def = array( 'test' => 42 );
-        self::assertEquals( array( ezcInputForm::DEF_ELEMENT_NO_DEFINITION_ELEMENT, "The definition for element <test> is not an ezcInputFormDefinitionElement" ), ezcInputForm::validateDefinition( $def ) );
+        self::assertEquals( array( ezcInputForm::DEF_ELEMENT_NO_DEFINITION_ELEMENT, "The definition for element 'test' is not an ezcInputFormDefinitionElement" ), ezcInputForm::validateDefinition( $def ) );
     }
 
     public function testValidateDefinitionRequiredOrOptional()
     {
         // The first value in an element should be REQUIRED or OPTIONAL
         $def = array( 'test' => new ezcInputFormDefinitionElement( -1, 'number_int' ) );
-        self::assertEquals( array( ezcInputForm::DEF_NOT_REQUIRED_OR_OPTIONAL, "The first element definition for element <test> is not ezcInputFormDefinitionElement::OPTIONAL or ezcInputFormDefinitionElement::REQUIRED" ), ezcInputForm::validateDefinition( $def ) );
+        self::assertEquals( array( ezcInputForm::DEF_NOT_REQUIRED_OR_OPTIONAL, "The first element definition for element 'test' is not ezcInputFormDefinitionElement::OPTIONAL or ezcInputFormDefinitionElement::REQUIRED" ), ezcInputForm::validateDefinition( $def ) );
         $def = array( 'test' => new ezcInputFormDefinitionElement( 2, 'number_int' ) );
-        self::assertEquals( array( ezcInputForm::DEF_NOT_REQUIRED_OR_OPTIONAL, "The first element definition for element <test> is not ezcInputFormDefinitionElement::OPTIONAL or ezcInputFormDefinitionElement::REQUIRED" ), ezcInputForm::validateDefinition( $def ) );
+        self::assertEquals( array( ezcInputForm::DEF_NOT_REQUIRED_OR_OPTIONAL, "The first element definition for element 'test' is not ezcInputFormDefinitionElement::OPTIONAL or ezcInputFormDefinitionElement::REQUIRED" ), ezcInputForm::validateDefinition( $def ) );
     }
 
     public function testValidateDefinitionOptionsType()
@@ -73,7 +73,7 @@ class ezcInputFilterDefinitionTest extends ezcTestCase
         self::assertEquals( true, ezcInputForm::validateDefinition( $def ) );
         
         $def = array( 'test' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'boolean', false ) );
-        self::assertEquals( array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The options to the definition for element <test> is not of type integer, string or array" ), ezcInputForm::validateDefinition( $def ) );
+        self::assertEquals( array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The options to the definition for element 'test' is not of type integer, string or array" ), ezcInputForm::validateDefinition( $def ) );
 
         $def = array( 'test' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'callback', 'astring' ) );
         self::assertEquals( true, ezcInputForm::validateDefinition( $def ) );
@@ -88,7 +88,7 @@ class ezcInputFilterDefinitionTest extends ezcTestCase
 
         $def = array( 'test' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::OPTIONAL, 'boolean', null, false ) );
         $val = ezcInputForm::validateDefinition( $def );
-        self::assertEquals( array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The flags to the definition for element <test> is not of type integer, string or array" ), $val );
+        self::assertEquals( array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The flags to the definition for element 'test' is not of type integer, string or array" ), $val );
     }
 
     public function testValidateDefinitionCallback()
@@ -98,23 +98,23 @@ class ezcInputFilterDefinitionTest extends ezcTestCase
         self::assertEquals( true, ezcInputForm::validateDefinition( $def ) );
         
         $def = array( 'test' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::REQUIRED, 'callback', 42 ) );
-        self::assertEquals( array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The callback filter for element <test> should not be an integer" ), ezcInputForm::validateDefinition( $def ) );
+        self::assertEquals( array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The callback filter for element 'test' should not be an integer" ), ezcInputForm::validateDefinition( $def ) );
         
         $def = array( 'test' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::REQUIRED, 'callback', array( 'filterclass', 'filterFunction' ) ) );
         self::assertEquals( true, ezcInputForm::validateDefinition( $def ) );
         
         $def = array( 'test' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::REQUIRED, 'callback', array( 42, 'filterFunction' ) ) );
-        self::assertEquals( array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The array elements for the callback filter for element <test> should both be a string" ), ezcInputForm::validateDefinition( $def ) );
+        self::assertEquals( array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The array elements for the callback filter for element 'test' should both be a string" ), ezcInputForm::validateDefinition( $def ) );
                 
         $def = array( 'test' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::REQUIRED, 'callback', array( 'filterclass', 42 ) ) );
-        self::assertEquals( array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The array elements for the callback filter for element <test> should both be a string" ), ezcInputForm::validateDefinition( $def ) );
+        self::assertEquals( array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The array elements for the callback filter for element 'test' should both be a string" ), ezcInputForm::validateDefinition( $def ) );
     }
 
     public function testValidateDefinitionValidFilter()
     {
         // The filter should be an existing filter
         $def = array( 'test' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::REQUIRED, 'foobar' ) );
-        self::assertEquals( array( ezcInputForm::DEF_UNSUPPORTED_FILTER, "The filter <foobar> for element <test> does not exist. Pick one of: int, boolean, float, validate_regexp, validate_url, validate_email, validate_ip, string, stripped, encoded, special_chars, unsafe_raw, email, url, number_int, number_float, magic_quotes, callback" ), ezcInputForm::validateDefinition( $def ) );
+        self::assertEquals( array( ezcInputForm::DEF_UNSUPPORTED_FILTER, "The filter 'foobar' for element 'test' does not exist. Pick one of: int, boolean, float, validate_regexp, validate_url, validate_email, validate_ip, string, stripped, encoded, special_chars, unsafe_raw, email, url, number_int, number_float, magic_quotes, callback" ), ezcInputForm::validateDefinition( $def ) );
     }
 
     public function testValidateDefinitionFieldName()
@@ -124,10 +124,10 @@ class ezcInputFilterDefinitionTest extends ezcTestCase
         self::assertEquals( true, ezcInputForm::validateDefinition( $def ) );
         
         $def = array( '' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::REQUIRED, 'int' ) );
-        self::assertEquals( array( ezcInputForm::DEF_FIELD_NAME_BROKEN, "The element name <> has an unsupported format. It should start with an a-z and followed by a-z0-9_" ), ezcInputForm::validateDefinition( $def ) );
+        self::assertEquals( array( ezcInputForm::DEF_FIELD_NAME_BROKEN, "The element name '' has an unsupported format. It should start with an a-z and followed by a-z0-9_" ), ezcInputForm::validateDefinition( $def ) );
         
         $def = array( '^*(68769' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::REQUIRED, 'int' ) );
-        self::assertEquals( array( ezcInputForm::DEF_FIELD_NAME_BROKEN, "The element name <^*(68769> has an unsupported format. It should start with an a-z and followed by a-z0-9_" ), ezcInputForm::validateDefinition( $def ) );
+        self::assertEquals( array( ezcInputForm::DEF_FIELD_NAME_BROKEN, "The element name '^*(68769' has an unsupported format. It should start with an a-z and followed by a-z0-9_" ), ezcInputForm::validateDefinition( $def ) );
         
         $def = array( 'foobar_42' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::REQUIRED, 'int' ) );
         self::assertEquals( true, ezcInputForm::validateDefinition( $def ) );
@@ -143,7 +143,7 @@ class ezcInputFilterDefinitionTest extends ezcTestCase
         }
         catch ( ezcInputFormInvalidDefinitionException $e )
         {
-            self::assertEquals( "Invalid definition array: The element name <^*(68769> has an unsupported format. It should start with an a-z and followed by a-z0-9_.", $e->getMessage() );
+            self::assertEquals( "Invalid definition array: The element name '^*(68769' has an unsupported format. It should start with an a-z and followed by a-z0-9_.", $e->getMessage() );
         }
     }
 
@@ -158,7 +158,7 @@ class ezcInputFilterDefinitionTest extends ezcTestCase
         }
         catch ( ezcBasePropertyPermissionException $e )
         {
-            self::assertEquals( "The property <dummy> is read-only.", $e->getMessage() );
+            self::assertEquals( "The property 'dummy' is read-only.", $e->getMessage() );
         }
     }
 
@@ -177,7 +177,7 @@ class ezcInputFilterDefinitionTest extends ezcTestCase
         }
         catch ( ezcInputFormVariableMissingException $e )
         {
-            self::assertEquals( "Required input field <test1> missing.", $e->getMessage() );
+            self::assertEquals( "Required input field 'test1' missing.", $e->getMessage() );
         }
     }
 
@@ -218,7 +218,7 @@ class ezcInputFilterDefinitionTest extends ezcTestCase
         }
         catch ( ezcInputFormUnknownFieldException $e )
         {
-            self::assertEquals( "The field <test1> is not defined.", $e->getMessage() );
+            self::assertEquals( "The field 'test1' is not defined.", $e->getMessage() );
         }
     }
 
@@ -236,7 +236,7 @@ class ezcInputFilterDefinitionTest extends ezcTestCase
         }
         catch ( ezcInputFormFieldNotFoundException $e )
         {
-            self::assertEquals( "The field <test2> could not be found in the input source.", $e->getMessage() );
+            self::assertEquals( "The field 'test2' could not be found in the input source.", $e->getMessage() );
         }
     }
 

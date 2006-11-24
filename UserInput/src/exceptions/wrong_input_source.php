@@ -16,7 +16,7 @@ class ezcInputFormWrongInputSourceException extends ezcInputFormException
 {
     function __construct( $inputSource )
     {
-        parent::__construct( "Wrong input source <{$inputSource}>." );
+        parent::__construct( "Wrong input source '{$inputSource}'." );
     }
 }
 ?>

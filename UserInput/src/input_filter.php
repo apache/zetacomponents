@@ -6,6 +6,7 @@
  * @filesource
  * @package UserInput
  */
+
 /**
  * Provides a set of standard filters.
  *
@@ -23,6 +24,7 @@
  * </code>
  *
  * @package UserInput
+ * @version //autogentag//
  */
 class ezcInputFilter
 {

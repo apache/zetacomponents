@@ -6,6 +6,7 @@
  * @filesource
  * @package UserInput
  */
+
 /**
  * Provides access to form variables.
  *
@@ -267,13 +268,13 @@ class ezcInputForm
             // Each element should be an ezcInputFormDefinitionElement
             if ( !$element instanceof ezcInputFormDefinitionElement )
             {
-                return array( ezcInputForm::DEF_ELEMENT_NO_DEFINITION_ELEMENT, "The definition for element <{$name}> is not an ezcInputFormDefinitionElement" );
+                return array( ezcInputForm::DEF_ELEMENT_NO_DEFINITION_ELEMENT, "The definition for element '{$name}' is not an ezcInputFormDefinitionElement" );
             }
 
             // The first value in an element should be REQUIRED or OPTIONAL
             if ( !in_array( $element->type, array( ezcInputFormDefinitionElement::OPTIONAL, ezcInputFormDefinitionElement::REQUIRED ), true ) )
             {
-                return array( ezcInputForm::DEF_NOT_REQUIRED_OR_OPTIONAL, "The first element definition for element <{$name}> is not ezcInputFormDefinitionElement::OPTIONAL or ezcInputFormDefinitionElement::REQUIRED" );
+                return array( ezcInputForm::DEF_NOT_REQUIRED_OR_OPTIONAL, "The first element definition for element '{$name}' is not ezcInputFormDefinitionElement::OPTIONAL or ezcInputFormDefinitionElement::REQUIRED" );
             }
 
             // The options should either be an array, a string, or an int
@@ -282,7 +283,7 @@ class ezcInputForm
                 $filterOptionsType = gettype( $element->options );
                 if ( !in_array( $filterOptionsType, array( 'integer', 'string', 'array' ) ) )
                 {
-                    return array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The options to the definition for element <{$name}> is not of type integer, string or array" );
+                    return array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The options to the definition for element '{$name}' is not of type integer, string or array" );
                 }
 
                 // A callback filter should have the form "string" or "array(string, string)"
@@ -290,17 +291,17 @@ class ezcInputForm
                 {
                     if ( $filterOptionsType == 'integer' )
                     {
-                        return array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The callback filter for element <{$name}> should not be an integer" );
+                        return array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The callback filter for element '{$name}' should not be an integer" );
                     }
                     if ( $filterOptionsType == 'array' )
                     {
                         if ( count( $element->options ) != 2 )
                         {
-                            return array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The array parameter for the callback filter for element <{$name}> should have exactly two elements" );
+                            return array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The array parameter for the callback filter for element '{$name}' should have exactly two elements" );
                         }
                         if ( gettype( $element->options[0] ) != 'string' || gettype( $element->options[1] ) != 'string' )
                         {
-                            return array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The array elements for the callback filter for element <{$name}> should both be a string" );
+                            return array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The array elements for the callback filter for element '{$name}' should both be a string" );
                         }
                     }
                 }
@@ -311,7 +312,7 @@ class ezcInputForm
             {
                 if ( gettype( $element->flags ) !== 'integer' )
                 {
-                    return array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The flags to the definition for element <{$name}> is not of type integer, string or array" );
+                    return array( ezcInputForm::DEF_WRONG_FLAGS_TYPE, "The flags to the definition for element '{$name}' is not of type integer, string or array" );
                 }
             }
 
@@ -319,17 +320,17 @@ class ezcInputForm
             if ( !in_array( $element->filterName, filter_list() ) )
             {
                 $filters = join( ', ', filter_list() );
-                return array( ezcInputForm::DEF_UNSUPPORTED_FILTER, "The filter <{$element->filterName}> for element <{$name}> does not exist. Pick one of: $filters" );
+                return array( ezcInputForm::DEF_UNSUPPORTED_FILTER, "The filter '{$element->filterName}' for element '{$name}' does not exist. Pick one of: $filters" );
             }
 
             // The input field name should have a sane format
             if ( gettype( $name ) != 'string' )
             {
-                return array( ezcInputForm::DEF_FIELD_NAME_BROKEN, "The element name <{$name}> is not a string" );
+                return array( ezcInputForm::DEF_FIELD_NAME_BROKEN, "The element name '{$name}' is not a string" );
             }
             if (! preg_match( '@^[a-z][a-z0-9_]*$@i', $name ) )
             {
-                return array( ezcInputForm::DEF_FIELD_NAME_BROKEN, "The element name <{$name}> has an unsupported format. It should start with an a-z and followed by a-z0-9_" );
+                return array( ezcInputForm::DEF_FIELD_NAME_BROKEN, "The element name '{$name}' has an unsupported format. It should start with an a-z and followed by a-z0-9_" );
             }
 
         }

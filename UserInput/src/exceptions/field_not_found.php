@@ -16,7 +16,7 @@ class ezcInputFormFieldNotFoundException extends ezcInputFormException
 {
     function __construct( $fieldName )
     {
-        parent::__construct( "The field <{$fieldName}> could not be found in the input source." );
+        parent::__construct( "The field '{$fieldName}' could not be found in the input source." );
     }
 }
 ?>
