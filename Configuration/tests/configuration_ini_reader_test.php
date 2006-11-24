@@ -31,7 +31,7 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
         }
         catch ( ezcBaseSettingValueException $e )
         {
-            self::assertEquals( "The value <tests/translations> that you were trying to assign to setting <useComments> is invalid. Allowed values are: bool", $e->getMessage() );
+            self::assertEquals( "The value 'tests/translations' that you were trying to assign to setting 'useComments' is invalid. Allowed values are: bool", $e->getMessage() );
         }
     }
 
@@ -52,7 +52,7 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
         }
         catch ( ezcBaseSettingNotFoundException $e )
         {
-            self::assertEquals( "The setting <lOcAtIOn> is not a valid configuration setting.", $e->getMessage() );
+            self::assertEquals( "The setting 'lOcAtIOn' is not a valid configuration setting.", $e->getMessage() );
         }
     }
 
@@ -79,7 +79,7 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
         }
         catch ( ezcConfigurationInvalidSuffixException $e )
         {
-            $this->assertEquals( "The path <files.foo/basic.f> has an invalid suffix (should be <.ini>).", $e->getMessage() );
+            $this->assertEquals( "The path 'files.foo/basic.f' has an invalid suffix (should be '.ini').", $e->getMessage() );
         }
     }
 
@@ -141,7 +141,7 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            $this->assertEquals( "The file <Configuration/tests/files/non-existent.ini> could not be found.", $e->getMessage() );
+            $this->assertEquals( "The file 'Configuration/tests/files/non-existent.ini' could not be found.", $e->getMessage() );
         }
     }
 
@@ -383,7 +383,7 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
         }
         catch ( ezcConfigurationParseErrorException $e )
         {
-            $this->assertEquals( "Invalid data: <c8756*&%&^%&%$&C%$%C*@%C*$> in <Configuration/tests/files/simple-errors.ini>, line <8>.", $e->getMessage() );
+            $this->assertEquals( "Invalid data: 'c8756*&%&^%&%$&C%$%C*@%C*$' in 'Configuration/tests/files/simple-errors.ini', line '8'.", $e->getMessage() );
         }
     }
 
@@ -417,7 +417,7 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
 
         $expected = new ezcConfigurationValidationResult( $backend->getLocation(), $backend->getName(), $path );
         $expected->isValid = false;
-        $item = new ezcConfigurationValidationItem( ezcConfigurationValidationItem::ERROR, $path, 8, false, "Invalid data: <c8756*&%&^%&%$&C%$%C*@%C*$>", "Invalid data: <c8756*&%&^%&%$&C%$%C*@%C*$>" );
+        $item = new ezcConfigurationValidationItem( ezcConfigurationValidationItem::ERROR, $path, 8, false, "Invalid data: 'c8756*&%&^%&%$&C%$%C*@%C*$'", "Invalid data: 'c8756*&%&^%&%$&C%$%C*@%C*$'" );
         $expected->appendItem( $item );
 
         $this->assertEquals( $expected, $return );
@@ -430,7 +430,7 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
         $return = $backend->validate( false );
         $resultList = $return->getResultList();
 
-        $expected = array( new ezcConfigurationValidationItem( ezcConfigurationValidationItem::ERROR, $path, 8, false, "Invalid data: <c8756*&%&^%&%$&C%$%C*@%C*$>", "Invalid data: <c8756*&%&^%&%$&C%$%C*@%C*$>" ) );
+        $expected = array( new ezcConfigurationValidationItem( ezcConfigurationValidationItem::ERROR, $path, 8, false, "Invalid data: 'c8756*&%&^%&%$&C%$%C*@%C*$'", "Invalid data: 'c8756*&%&^%&%$&C%$%C*@%C*$'" ) );
         $this->assertEquals( $expected, $resultList );
     }
 
@@ -442,8 +442,8 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
         $resultList = $return->getResultList();
 
         $expected = array(
-            new ezcConfigurationValidationItem( ezcConfigurationValidationItem::ERROR, $path, 2, false, "Group ID <Error Chars> has invalid characters", "Group ID <Error Chars> has invalid characters" ),
-            new ezcConfigurationValidationItem( ezcConfigurationValidationItem::ERROR, $path, 3, false, "Invalid data: <c8756*&%&^%&%$&C%$%C*@%C*$>", "Invalid data: <c8756*&%&^%&%$&C%$%C*@%C*$>" ),
+            new ezcConfigurationValidationItem( ezcConfigurationValidationItem::ERROR, $path, 2, false, "Group ID 'Error Chars' has invalid characters", "Group ID 'Error Chars' has invalid characters" ),
+            new ezcConfigurationValidationItem( ezcConfigurationValidationItem::ERROR, $path, 3, false, "Invalid data: 'c8756*&%&^%&%$&C%$%C*@%C*$'", "Invalid data: 'c8756*&%&^%&%$&C%$%C*@%C*$'" ),
         );
         $this->assertEquals( $expected, $resultList );
     }
@@ -475,7 +475,7 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
 
         $expected = new ezcConfigurationValidationResult( $backend->getLocation(), $backend->getName(), $path );
         $expected->isValid = false;
-        $item = new ezcConfigurationValidationItem( ezcConfigurationValidationItem::ERROR, $path, 8, false, "Invalid data: <c8756*&%&^%&%$&C%$%C*@%C*$>", "Invalid data: <c8756*&%&^%&%$&C%$%C*@%C*$>" );
+        $item = new ezcConfigurationValidationItem( ezcConfigurationValidationItem::ERROR, $path, 8, false, "Invalid data: 'c8756*&%&^%&%$&C%$%C*@%C*$'", "Invalid data: 'c8756*&%&^%&%$&C%$%C*@%C*$'" );
         $expected->appendItem( $item );
 
         $this->assertEquals( $expected, $return );
@@ -488,7 +488,7 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
         $return = $backend->validate( true );
         $resultList = $return->getResultList();
 
-        $expected = array( new ezcConfigurationValidationItem( ezcConfigurationValidationItem::ERROR, $path, 8, false, "Invalid data: <c8756*&%&^%&%$&C%$%C*@%C*$>", "Invalid data: <c8756*&%&^%&%$&C%$%C*@%C*$>" ) );
+        $expected = array( new ezcConfigurationValidationItem( ezcConfigurationValidationItem::ERROR, $path, 8, false, "Invalid data: 'c8756*&%&^%&%$&C%$%C*@%C*$'", "Invalid data: 'c8756*&%&^%&%$&C%$%C*@%C*$'" ) );
         $this->assertEquals( $expected, $resultList );
     }
 
@@ -500,8 +500,8 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
         $resultList = $return->getResultList();
 
         $expected = array(
-            new ezcConfigurationValidationItem( ezcConfigurationValidationItem::ERROR, $path, 2, false, "Group ID <Error Chars> has invalid characters", "Group ID <Error Chars> has invalid characters" ),
-            new ezcConfigurationValidationItem( ezcConfigurationValidationItem::ERROR, $path, 3, false, "Invalid data: <c8756*&%&^%&%$&C%$%C*@%C*$>", "Invalid data: <c8756*&%&^%&%$&C%$%C*@%C*$>" ),
+            new ezcConfigurationValidationItem( ezcConfigurationValidationItem::ERROR, $path, 2, false, "Group ID 'Error Chars' has invalid characters", "Group ID 'Error Chars' has invalid characters" ),
+            new ezcConfigurationValidationItem( ezcConfigurationValidationItem::ERROR, $path, 3, false, "Invalid data: 'c8756*&%&^%&%$&C%$%C*@%C*$'", "Invalid data: 'c8756*&%&^%&%$&C%$%C*@%C*$'" ),
         );
         $this->assertEquals( $expected, $resultList );
     }

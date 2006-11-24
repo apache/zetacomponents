@@ -7,6 +7,7 @@
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
  * Exception that is thrown if the name of a setting is not a string.
  *
@@ -18,7 +19,7 @@ class ezcConfigurationSettingnameNotStringException extends ezcConfigurationExce
     function __construct( $settingName )
     {
         $settingNameType = gettype( $settingName );
-        parent::__construct( "The setting name that was passed is not a string, but an <{$settingNameType}>." );
+        parent::__construct( "The setting name that was passed is not a string, but an '{$settingNameType}'." );
     }
 }
 ?>

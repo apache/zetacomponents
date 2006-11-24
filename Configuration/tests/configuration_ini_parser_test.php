@@ -23,7 +23,7 @@ class ezcConfigurationIniParserTest extends ezcTestCase
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            $this->assertEquals( 'The file <Configuration/tests/files/not-here.ini> could not be found.', $e->getMessage() );
+            $this->assertEquals( "The file 'Configuration/tests/files/not-here.ini' could not be found.", $e->getMessage() );
         }
     }
 

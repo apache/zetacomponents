@@ -23,7 +23,7 @@ function showSettings()
 
     list( $dbHost, $dbUser, $dbPassword ) =
         ezcConfigurationManager::getInstance()->getSettingsAsList( 'settings', 'db', array( 'host', 'user', 'password' ) );
-    print "Connecting to database at <{$dbHost}> with user <{$dbUser}> and password <{$dbPassword}>.\n";
+    print "Connecting to database at '{$dbHost}' with user '{$dbUser}' and password '{$dbPassword}'.\n";
 
     if ( ezcConfigurationManager::getInstance()->hasSetting( 'settings', 'db', 'socket' ) )
     {

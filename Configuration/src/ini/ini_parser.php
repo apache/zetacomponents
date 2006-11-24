@@ -7,6 +7,7 @@
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
  * This class provides functionality for parsing INI files
  *
@@ -336,7 +337,7 @@ class ezcConfigurationIniParser implements Iterator
                 }
                 else
                 {
-                    $this->raiseError( "Group ID <$groupID> has invalid characters" );
+                    $this->raiseError( "Group ID '{$groupID}' has invalid characters" );
                     return;
                 }
             }
@@ -360,7 +361,7 @@ class ezcConfigurationIniParser implements Iterator
                  * filter this out already.:
                 if ( !preg_match( '@'. self::ID_REGEXP . '@', $settingID ) )
                 {
-                    $this->raiseError( "Setting ID <$settingID> has invalid characters" );
+                    $this->raiseError( "Setting ID '{$settingID}' has invalid characters" );
                     return;
                 } */
 
@@ -381,7 +382,7 @@ class ezcConfigurationIniParser implements Iterator
             /*** CATCH ALL *************************************************/
             else
             {
-                $this->raiseError( "Invalid data: <$line>" );
+                $this->raiseError( "Invalid data: '{$line}'" );
                 return;
             }
         }

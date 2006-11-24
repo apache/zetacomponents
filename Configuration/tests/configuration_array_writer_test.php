@@ -43,7 +43,7 @@ class ezcConfigurationArrayWriterTest extends ezcTestCase
         }
         catch ( ezcBaseSettingValueException $e )
         {
-            self::assertEquals( "The value <tests/translations> that you were trying to assign to setting <useComments> is invalid. Allowed values are: bool", $e->getMessage() );
+            self::assertEquals( "The value 'tests/translations' that you were trying to assign to setting 'useComments' is invalid. Allowed values are: bool", $e->getMessage() );
         }
     }
 
@@ -63,7 +63,7 @@ class ezcConfigurationArrayWriterTest extends ezcTestCase
         }
         catch ( ezcBaseSettingValueException $e )
         {
-            self::assertEquals( "The value <tests/translations> that you were trying to assign to setting <permissions> is invalid. Allowed values are: int, 0 - 0777", $e->getMessage() );
+            self::assertEquals( "The value 'tests/translations' that you were trying to assign to setting 'permissions' is invalid. Allowed values are: int, 0 - 0777", $e->getMessage() );
         }
     }
 
@@ -77,7 +77,7 @@ class ezcConfigurationArrayWriterTest extends ezcTestCase
         }
         catch ( ezcBaseSettingValueException $e )
         {
-            self::assertEquals( "The value <-1> that you were trying to assign to setting <permissions> is invalid. Allowed values are: int, 0 - 0777", $e->getMessage() );
+            self::assertEquals( "The value '-1' that you were trying to assign to setting 'permissions' is invalid. Allowed values are: int, 0 - 0777", $e->getMessage() );
         }
     }
 
@@ -91,7 +91,7 @@ class ezcConfigurationArrayWriterTest extends ezcTestCase
         }
         catch ( ezcBaseSettingValueException $e )
         {
-            self::assertEquals( "The value <512> that you were trying to assign to setting <permissions> is invalid. Allowed values are: int, 0 - 0777", $e->getMessage() );
+            self::assertEquals( "The value '512' that you were trying to assign to setting 'permissions' is invalid. Allowed values are: int, 0 - 0777", $e->getMessage() );
         }
     }
 
@@ -112,7 +112,7 @@ class ezcConfigurationArrayWriterTest extends ezcTestCase
         }
         catch ( ezcBaseSettingNotFoundException $e )
         {
-            self::assertEquals( "The setting <lOcAtIOn> is not a valid configuration setting.", $e->getMessage() );
+            self::assertEquals( "The setting 'lOcAtIOn' is not a valid configuration setting.", $e->getMessage() );
         }
     }
 
@@ -141,7 +141,7 @@ class ezcConfigurationArrayWriterTest extends ezcTestCase
         }
         catch ( ezcConfigurationInvalidSuffixException $e )
         {
-            $this->assertEquals( "The path <files.foo/basic.f> has an invalid suffix (should be <.php>).", $e->getMessage() );
+            $this->assertEquals( "The path 'files.foo/basic.f' has an invalid suffix (should be '.php').", $e->getMessage() );
         }
     }
 

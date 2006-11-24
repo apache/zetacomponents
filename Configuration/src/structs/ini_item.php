@@ -6,6 +6,7 @@
  * @filesource
  * @package Configuration
  */
+
 /**
  * A container to store one INI settings item
  *

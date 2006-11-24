@@ -51,7 +51,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
         }
         catch ( ezcConfigurationInvalidReaderClassException $e )
         {
-            $this->assertEquals( "Class <stdClass> does not exist, or does not implement the <ezcConfigurationReader> interface.", $e->getMessage() );
+            $this->assertEquals( "Class 'stdClass' does not exist, or does not implement the 'ezcConfigurationReader' interface.", $e->getMessage() );
         }
     }
 
@@ -65,7 +65,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
         }
         catch ( ezcConfigurationInvalidReaderClassException $e )
         {
-            $this->assertEquals( "Class <DoesNotExist> does not exist, or does not implement the <ezcConfigurationReader> interface.", $e->getMessage() );
+            $this->assertEquals( "Class 'DoesNotExist' does not exist, or does not implement the 'ezcConfigurationReader' interface.", $e->getMessage() );
         }
     }
 
@@ -104,7 +104,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownConfigException $e )
         {
-            $this->assertEquals( "The configuration <not-there> does not exist.", $e->getMessage() );
+            $this->assertEquals( "The configuration 'not-there' does not exist.", $e->getMessage() );
         }
     }
 
@@ -120,7 +120,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownConfigException $e )
         {
-            $this->assertEquals( "The configuration <not-there> does not exist.", $e->getMessage() );
+            $this->assertEquals( "The configuration 'not-there' does not exist.", $e->getMessage() );
         }
     }
 
@@ -187,7 +187,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
         }
         catch ( ezcConfigurationSettingWrongTypeException $e )
         {
-            $this->assertEquals( "The expected type for the setting <Types>, <Bool> is <double or integer>. The setting was of type <boolean>.", $e->getMessage() );
+            $this->assertEquals( "The expected type for the setting 'Types', 'Bool' is 'double or integer'. The setting was of type 'boolean'.", $e->getMessage() );
         }
 
         try
@@ -197,7 +197,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
         }
         catch ( ezcConfigurationSettingWrongTypeException $e )
         {
-            $this->assertEquals( "The expected type for the setting <Types>, <Float> is <boolean>. The setting was of type <double>.", $e->getMessage() );
+            $this->assertEquals( "The expected type for the setting 'Types', 'Float' is 'boolean'. The setting was of type 'double'.", $e->getMessage() );
         }
 
         try
@@ -207,7 +207,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
         }
         catch ( ezcConfigurationSettingWrongTypeException $e )
         {
-            $this->assertEquals( "The expected type for the setting <Types>, <Int> is <string>. The setting was of type <integer>.", $e->getMessage() );
+            $this->assertEquals( "The expected type for the setting 'Types', 'Int' is 'string'. The setting was of type 'integer'.", $e->getMessage() );
         }
 
         try
@@ -217,7 +217,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
         }
         catch ( ezcConfigurationSettingWrongTypeException $e )
         {
-            $this->assertEquals( "The expected type for the setting <Types>, <String> is <array>. The setting was of type <string>.", $e->getMessage() );
+            $this->assertEquals( "The expected type for the setting 'Types', 'String' is 'array'. The setting was of type 'string'.", $e->getMessage() );
         }
 
         try
@@ -227,7 +227,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
         }
         catch ( ezcConfigurationSettingWrongTypeException $e )
         {
-            $this->assertEquals( "The expected type for the setting <Types>, <Array> is <double or integer>. The setting was of type <array>.", $e->getMessage() );
+            $this->assertEquals( "The expected type for the setting 'Types', 'Array' is 'double or integer'. The setting was of type 'array'.", $e->getMessage() );
         }
     }
 
@@ -243,7 +243,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownGroupException $e )
         {
-            $this->assertEquals( "The settings group <NonExistingGroup> does not exist.", $e->getMessage() );
+            $this->assertEquals( "The settings group 'NonExistingGroup' does not exist.", $e->getMessage() );
         }
     }
 

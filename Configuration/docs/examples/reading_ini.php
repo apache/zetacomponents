@@ -21,7 +21,7 @@ try
     print "Title is $title\n";
 
     $settings = $conf->getSettings( 'db', array( 'host', 'user', 'password' ) );
-    print "Connecting to database at <{$settings['host']}> with user <{$settings['user']}> and password <{$settings['password']}>\n";
+    print "Connecting to database at '{$settings['host']}' with user '{$settings['user']}' and password '{$settings['password']}'\n";
 
     if ( $conf->hasSetting( 'db', 'socket' ) )
         print 'Socket: ' . $conf->getSetting( 'db', 'socket' ) . "\n";

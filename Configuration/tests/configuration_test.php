@@ -121,7 +121,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationSettingnameNotStringException $e )
         {
-            $this->assertEquals( 'The setting name that was passed is not a string, but an <array>.', $e->getMessage() );
+            $this->assertEquals( "The setting name that was passed is not a string, but an 'array'.", $e->getMessage() );
         }
     }
 
@@ -159,7 +159,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownGroupException $e )
         {
-            $this->assertEquals( "The settings group <NonExistingGroup> does not exist.", $e->getMessage() );
+            $this->assertEquals( "The settings group 'NonExistingGroup' does not exist.", $e->getMessage() );
         }
     }
 
@@ -180,7 +180,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownSettingException $e )
         {
-            $this->assertEquals( "The setting <TheOnlyGroup>, <NonExistent> does not exist.", $e->getMessage() );
+            $this->assertEquals( "The setting 'TheOnlyGroup', 'NonExistent' does not exist.", $e->getMessage() );
         }
     }
 
@@ -211,7 +211,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationSettingWrongTypeException $e )
         {
-            $this->assertEquals( "The expected type for the setting <Types>, <Float> is <boolean>. The setting was of type <double>.", $e->getMessage() );
+            $this->assertEquals( "The expected type for the setting 'Types', 'Float' is 'boolean'. The setting was of type 'double'.", $e->getMessage() );
         }
     }
 
@@ -242,7 +242,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationSettingWrongTypeException $e )
         {
-            $this->assertEquals( "The expected type for the setting <Types>, <Bool> is <double or integer>. The setting was of type <boolean>.", $e->getMessage() );
+            $this->assertEquals( "The expected type for the setting 'Types', 'Bool' is 'double or integer'. The setting was of type 'boolean'.", $e->getMessage() );
         }
     }
 
@@ -273,7 +273,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationSettingWrongTypeException $e )
         {
-            $this->assertEquals( "The expected type for the setting <Types>, <String> is <double or integer>. The setting was of type <string>.", $e->getMessage() );
+            $this->assertEquals( "The expected type for the setting 'Types', 'String' is 'double or integer'. The setting was of type 'string'.", $e->getMessage() );
         }
     }
 
@@ -304,7 +304,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationSettingWrongTypeException $e )
         {
-            $this->assertEquals( "The expected type for the setting <Types>, <Array> is <string>. The setting was of type <array>.", $e->getMessage() );
+            $this->assertEquals( "The expected type for the setting 'Types', 'Array' is 'string'. The setting was of type 'array'.", $e->getMessage() );
         }
     }
 
@@ -335,7 +335,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationSettingWrongTypeException $e )
         {
-            $this->assertEquals( "The expected type for the setting <Types>, <Bool> is <array>. The setting was of type <boolean>.", $e->getMessage() );
+            $this->assertEquals( "The expected type for the setting 'Types', 'Bool' is 'array'. The setting was of type 'boolean'.", $e->getMessage() );
         }
     }
 
@@ -374,7 +374,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownGroupException $e )
         {
-            $this->assertEquals( "The settings group <NonExistingGroup> does not exist.", $e->getMessage() );
+            $this->assertEquals( "The settings group 'NonExistingGroup' does not exist.", $e->getMessage() );
         }
     }
 
@@ -395,7 +395,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownSettingException $e )
         {
-            $this->assertEquals( "The setting <TheOnlyGroup>, <NonExistent> does not exist.", $e->getMessage() );
+            $this->assertEquals( "The setting 'TheOnlyGroup', 'NonExistent' does not exist.", $e->getMessage() );
         }
     }
 
@@ -476,7 +476,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownGroupException $e )
         {
-            $this->assertEquals( "The settings group <NonExistingGroup> does not exist.", $e->getMessage() );
+            $this->assertEquals( "The settings group 'NonExistingGroup' does not exist.", $e->getMessage() );
         }
     }
 
@@ -497,7 +497,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownSettingException $e )
         {
-            $this->assertEquals( "The setting <TheOnlyGroup>, <NonExistent> does not exist.", $e->getMessage() );
+            $this->assertEquals( "The setting 'TheOnlyGroup', 'NonExistent' does not exist.", $e->getMessage() );
         }
     }
 
@@ -608,7 +608,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownSettingException $e )
         {
-            $this->assertEquals( "The setting <TheOnlyGroup>, <Setting2> does not exist.", $e->getMessage() );
+            $this->assertEquals( "The setting 'TheOnlyGroup', 'Setting2' does not exist.", $e->getMessage() );
         }
     }
 
@@ -627,7 +627,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownGroupException $e )
         {
-            $this->assertEquals( "The settings group <TheOnlyGroup> does not exist.", $e->getMessage() );
+            $this->assertEquals( "The settings group 'TheOnlyGroup' does not exist.", $e->getMessage() );
         }
     }
 
@@ -672,7 +672,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownSettingException $e )
         {
-            $this->assertEquals( "The setting <TheOnlyGroup>, <Setting2> does not exist.", $e->getMessage() );
+            $this->assertEquals( "The setting 'TheOnlyGroup', 'Setting2' does not exist.", $e->getMessage() );
         }
     }
 
@@ -691,7 +691,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownGroupException $e )
         {
-            $this->assertEquals( "The settings group <TheOnlyGroup> does not exist.", $e->getMessage() );
+            $this->assertEquals( "The settings group 'TheOnlyGroup' does not exist.", $e->getMessage() );
         }
     }
 
@@ -777,7 +777,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownGroupException $e )
         {
-            $this->assertEquals( "The settings group <TheOnlyGroup> does not exist.", $e->getMessage() );
+            $this->assertEquals( "The settings group 'TheOnlyGroup' does not exist.", $e->getMessage() );
         }
     }
 
@@ -829,7 +829,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownGroupException $e )
         {
-            $this->assertSame( "The settings group <NotExistingGroup> does not exist.", $e->getMessage() );
+            $this->assertSame( "The settings group 'NotExistingGroup' does not exist.", $e->getMessage() );
         }
 
         try
@@ -838,7 +838,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownSettingException $e )
         {
-            $this->assertSame( "The setting <TheOnlyGroup>, <NonExisting> does not exist.", $e->getMessage() );
+            $this->assertSame( "The setting 'TheOnlyGroup', 'NonExisting' does not exist.", $e->getMessage() );
         }
     }
 
@@ -873,7 +873,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationGroupExistsAlreadyException $e )
         {
-            $this->assertEquals( "The settings group <TheOnlyGroup> exists already.", $e->getMessage() );
+            $this->assertEquals( "The settings group 'TheOnlyGroup' exists already.", $e->getMessage() );
         }
     }
 
@@ -909,7 +909,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownGroupException $e )
         {
-            $this->assertEquals( "The settings group <TheOnlyGroup> does not exist.", $e->getMessage() );
+            $this->assertEquals( "The settings group 'TheOnlyGroup' does not exist.", $e->getMessage() );
         }
     }
 
@@ -944,7 +944,7 @@ class ezcConfigurationTest extends ezcTestCase
         }
         catch ( ezcConfigurationUnknownGroupException $e )
         {
-            $this->assertEquals( "The settings group <TheOnlyGroup> does not exist.", $e->getMessage() );
+            $this->assertEquals( "The settings group 'TheOnlyGroup' does not exist.", $e->getMessage() );
         }
     }
 

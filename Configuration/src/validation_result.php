@@ -7,6 +7,7 @@
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
  * Provides the result of an ezcConfigurationFileReader::validate() operation.
  *
@@ -37,7 +38,7 @@
  * echo "Errors:   ", $result->getErrorCount(), "\n";
  * foreach ( $result->getResultList() as $item )
  * {
- *     printf( "In <%s> on line <%d>, position: <%d>: %s\n",
+ *     printf( "In '%s' on line '%d', position: '%d': %s\n",
  *         $item->file, $item->line, $item->column, $item->details
  *     );
  * }
