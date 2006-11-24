@@ -206,7 +206,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
             if ( !$cursor->match( ')' ) )
             {
-                exit( "Expected an closing ')' " );
+                throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ROUND_BRACKET_CLOSE );
             }
 
             $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->block );

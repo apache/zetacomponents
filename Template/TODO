@@ -1,6 +1,55 @@
 TODO
 ====
 
+Tests
+-----
+
+* We don't know what we test.
+  -> Test plan.  Search internet. 
+
+
+
+
+Expression:
+
+Incorrect:
+
+	Properties:
+
+	Array: 
+		
+		- creating: 
+			array()
+			array( 1)     -> testIfile.txt
+			array( 1)
+			array( 12 )
+			array( , )
+			array( , )
+
+
+
+Correct: 
+
+	Properties:
+
+	Array: 
+		
+:		- creating: 
+			array()
+			array( 1)
+			array( 1, 2)
+			array( 1, 2 )
+			array( , )
+			array( , )
+
+	
+
+
+	
+
+
+
+
 Caching
 -------
 
@@ -30,17 +79,6 @@ Do we need a version number?
 To differentiate between other template engines, we rely on the path and template extension.
 Newer versions of this template engine should be compatible with the older templates. 
 
-
-
-Reducing the amount of private variables in tst_to_ast_transformer.php
-----------------------------------------------------------------------
-
-TstToAstTransformer is a visitor pattern. In some cases information needs to be 
-shared among several nodes (functions in the visitor pattern). Private variables
-are used in that case. 
-
-Maybe it is possible to reduce this amount of parameters. Having some kind of history of the previous
-nodes will help.
 
 
 
