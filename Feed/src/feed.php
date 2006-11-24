@@ -6,9 +6,10 @@
  * @filesource
  * @package Feed
  */
+
 /**
  * @property-read array(int=>ezcFeedItem) $items The items belonging to the feed.
- * @package Translation
+ * @package Feed
  * @version //autogentag//
  */
 class ezcFeed implements Iterator
@@ -67,7 +68,7 @@ class ezcFeed implements Iterator
             }
         }
 
-        throw new ezcFeedCanNotParseException( $uri, 'Feed type not recognised' );
+        throw new ezcFeedCanNotParseException( $uri, 'Feed type not recognized' );
     }
 
     static public function getSupportedTypes()
@@ -171,7 +172,7 @@ class ezcFeed implements Iterator
             case 'items':
                 return (array) $this->feedProcessor->getItems();
         }
-        throw new Exception( "OH OH: $propertyName" );
+        throw new Exception( "OH OH: {$propertyName}" );
     }
 
     /**

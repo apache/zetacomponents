@@ -4,7 +4,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package Translation
+ * @package Feed
  * @subpackage Tests
  */
 
@@ -36,7 +36,7 @@ class ezcFeedTest extends ezcTestCase
         }
         catch ( ezcFeedUnsupportedTypeException $e )
         {
-            self::assertEquals( "The feed type <molecule> is not supported.", $e->getMessage() );
+            self::assertEquals( "The feed type 'molecule' is not supported.", $e->getMessage() );
         }
     }
 
@@ -55,7 +55,7 @@ class ezcFeedTest extends ezcTestCase
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            self::assertEquals( "The file <not-here.xml> could not be found.", $e->getMessage() );
+            self::assertEquals( "The file 'not-here.xml' could not be found.", $e->getMessage() );
         }
     }
 
@@ -68,7 +68,7 @@ class ezcFeedTest extends ezcTestCase
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            self::assertEquals( "The file <http://ez.no/not-here.xml> could not be found.", $e->getMessage() );
+            self::assertEquals( "The file 'http://ez.no/not-here.xml' could not be found.", $e->getMessage() );
         }
     }
 

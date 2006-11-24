@@ -4,7 +4,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package Translation
+ * @package Feed
  * @subpackage Tests
  */
 
@@ -58,7 +58,7 @@ class ezcFeedRss2Test extends ezcTestCase
         }
         catch ( ezcFeedRequiredMetaDataMissingException $e )
         {
-            self::assertEquals( "There was no data submitted for required channel attribute <description>.", $e->getMessage() );
+            self::assertEquals( "There was no data submitted for required channel attribute 'description'.", $e->getMessage() );
         }
     }
 
@@ -73,7 +73,7 @@ class ezcFeedRss2Test extends ezcTestCase
         }
         catch ( ezcFeedRequiredMetaDataMissingException $e )
         {
-            self::assertEquals( "There was no data submitted for required channel attribute <title>.", $e->getMessage() );
+            self::assertEquals( "There was no data submitted for required channel attribute 'title'.", $e->getMessage() );
         }
     }
 

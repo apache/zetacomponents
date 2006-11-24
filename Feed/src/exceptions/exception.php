@@ -6,6 +6,7 @@
  * @filesource
  * @package Feed
  */
+
 /**
  * The general exception class as used by the Feed Classes.
  *

@@ -6,6 +6,7 @@
  * @filesource
  * @package Feed
  */
+
 /**
  * Thrown when some data is missing for a feed item.
  *
@@ -16,7 +17,7 @@ class ezcFeedRequiredItemDataMissingException extends ezcFeedException
 {
     function __construct( $attribute )
     {
-        parent::__construct( "There was no data submitted for required attribute <{$attribute}>." );
+        parent::__construct( "There was no data submitted for required attribute '{$attribute}'." );
     }
 }
 ?>

@@ -6,8 +6,9 @@
  * @filesource
  * @package Feed
  */
+
 /**
- * @package Translation
+ * @package Feed
  * @version //autogentag//
  */
 class ezcFeedItem

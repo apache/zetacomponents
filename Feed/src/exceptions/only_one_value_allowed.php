@@ -6,6 +6,7 @@
  * @filesource
  * @package Feed
  */
+
 /**
  * Thrown when some elements value is not a single value but an array.
  *
@@ -16,7 +17,7 @@ class ezcFeedOnlyOneValueAllowedException extends ezcFeedException
 {
     function __construct( $attribute )
     {
-        parent::__construct( "The attribute <{$attribute}> supports only singular values." );
+        parent::__construct( "The attribute '{$attribute}' supports only singular values." );
     }
 }
 ?>

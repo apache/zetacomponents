@@ -6,6 +6,7 @@
  * @filesource
  * @package Feed
  */
+
 /**
  * Thrown when an unsupported feed is created.
  *
@@ -16,7 +17,7 @@ class ezcFeedUnsupportedTypeException extends ezcFeedException
 {
     function __construct( $type )
     {
-        parent::__construct( "The feed type <{$type}> is not supported." );
+        parent::__construct( "The feed type '{$type}' is not supported." );
     }
 }
 ?>

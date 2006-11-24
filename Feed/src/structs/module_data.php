@@ -6,6 +6,7 @@
  * @filesource
  * @package Feed
  */
+
 /**
  * Container for module data
  *

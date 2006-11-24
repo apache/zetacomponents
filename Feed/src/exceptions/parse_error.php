@@ -6,6 +6,7 @@
  * @filesource
  * @package Feed
  */
+
 /**
  * Thrown when a feed can not be parsed at all.
  *
@@ -16,7 +17,7 @@ class ezcFeedParseErrorException extends ezcFeedException
 {
     function __construct( $extraData )
     {
-        parent::__construct( "Parse error while parsing feed: $extraData." );
+        parent::__construct( "Parse error while parsing feed: {$extraData}." );
     }
 }
 ?>

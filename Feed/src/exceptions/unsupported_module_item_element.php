@@ -6,6 +6,7 @@
  * @filesource
  * @package Feed
  */
+
 /**
  * Thrown when an unsupported element of an item is being set.
  *
@@ -16,7 +17,7 @@ class ezcFeedUnsupportedModuleItemElementException extends ezcFeedException
 {
     function __construct( $module, $element )
     {
-        parent::__construct( "The feed item element <{$element}> does not exist for the module <{$module}>." );
+        parent::__construct( "The feed item element '{$element}' does not exist for the module '{$module}'." );
     }
 }
 ?>

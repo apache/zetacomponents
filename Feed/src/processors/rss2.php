@@ -7,6 +7,7 @@
  * @package Feed
  * @access private
  */
+
 /**
  * @package Feed
  * @version //autogentag//

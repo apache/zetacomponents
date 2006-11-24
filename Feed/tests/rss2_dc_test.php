@@ -4,7 +4,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package Translation
+ * @package Feed
  * @subpackage Tests
  */
 
@@ -43,7 +43,7 @@ class ezcFeedRss2DCTest extends ezcTestCase
         }
         catch ( ezcFeedUnsupportedModuleElementException $e )
         {
-            self::assertEquals( 'The element <bullshit> does not exist for the module <DublinCore>.', $e->getMessage() );
+            self::assertEquals( "The element 'bullshit' does not exist for the module 'DublinCore'.", $e->getMessage() );
         }
     }
 
@@ -56,7 +56,7 @@ class ezcFeedRss2DCTest extends ezcTestCase
         }
         catch ( ezcFeedUnsupportedModuleItemElementException $e )
         {
-            self::assertEquals( 'The feed item element <bullshit> does not exist for the module <DublinCore>.', $e->getMessage() );
+            self::assertEquals( "The feed item element 'bullshit' does not exist for the module 'DublinCore'.", $e->getMessage() );
         }
     }
 
