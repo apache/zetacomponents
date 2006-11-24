@@ -1,0 +1,4 @@
+mock:2:12: Expecting a closing curly bracket: '}'
+
+{delimiter % 2}
+           ^

@@ -89,8 +89,7 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
             if ( !$this->parentParser->atEnd( $cursor, null, false ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
-                    $canBeArrow ?  ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARROW_OR_CLOSE_CURLY_BRACKET :
-                                   ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE  );
+                    ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
             }
 
             $cursor->advance();
