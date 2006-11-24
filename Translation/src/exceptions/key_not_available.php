@@ -6,16 +6,18 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * Thrown by the getTranslation() method when a requested key doesn't exist.
  *
  * @package Translation
+ * @version //autogentag//
  */
 class ezcTranslationKeyNotAvailableException extends ezcTranslationException
 {
     function __construct( $keyName )
     {
-        parent::__construct( "The key <{$keyName}> does not exist in the translation map." );
+        parent::__construct( "The key '{$keyName}' does not exist in the translation map." );
     }
 }
 ?>

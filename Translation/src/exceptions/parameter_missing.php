@@ -6,17 +6,19 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * Thrown by the getTranslation() method when a paramater was missing
  * to a parameterized translation string.
  *
  * @package Translation
+ * @version //autogentag//
  */
 class ezcTranslationParameterMissingException extends ezcTranslationException
 {
     function __construct( $parameterName )
     {
-        parent::__construct( "The parameter <%{$parameterName}> does not exist." );
+        parent::__construct( "The parameter '%{$parameterName}' does not exist." );
     }
 }
 ?>

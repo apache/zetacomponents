@@ -6,16 +6,18 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * Thrown by the getContext() method when a requested context doesn't exist.
  *
  * @package Translation
+ * @version //autogentag//
  */
 class ezcTranslationContextNotAvailableException extends ezcTranslationException
 {
     function __construct( $contextName )
     {
-        parent::__construct( "The context <{$contextName}> does not exist." );
+        parent::__construct( "The context '{$contextName}' does not exist." );
     }
 }
 ?>

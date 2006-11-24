@@ -6,11 +6,13 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * Thrown when methods are called that require a ContextReader to be
  * initialized.
  *
  * @package Translation
+ * @version //autogentag//
  */
 class ezcTranslationReaderNotInitializedException extends ezcTranslationException
 {

@@ -6,6 +6,7 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * A container to store one translatable string.
  *
@@ -13,6 +14,7 @@
  * translatable string.
  *
  * @package Translation
+ * @version //autogentag//
  */
 class ezcTranslationData extends ezcBaseStruct
 {

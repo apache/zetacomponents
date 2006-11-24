@@ -40,7 +40,7 @@ class ezcTranslationTest extends ezcTestCase
         }
         catch ( ezcTranslationKeyNotAvailableException $e )
         {
-            self::assertEquals( "The key <Unknown string> does not exist in the translation map.", $e->getMessage() );
+            self::assertEquals( "The key 'Unknown string' does not exist in the translation map.", $e->getMessage() );
         }
     }
 
@@ -61,7 +61,7 @@ class ezcTranslationTest extends ezcTestCase
         }
         catch ( ezcTranslationParameterMissingException $e )
         {
-            self::assertEquals( "The parameter <%Pears> does not exist.", $e->getMessage() );
+            self::assertEquals( "The parameter '%Pears' does not exist.", $e->getMessage() );
         }
     }
 
@@ -82,7 +82,7 @@ class ezcTranslationTest extends ezcTestCase
         }
         catch ( ezcTranslationParameterMissingException $e )
         {
-            self::assertEquals( "The parameter <%2> does not exist.", $e->getMessage() );
+            self::assertEquals( "The parameter '%2' does not exist.", $e->getMessage() );
         }
     }
 

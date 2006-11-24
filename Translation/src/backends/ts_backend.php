@@ -6,6 +6,7 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * Translation backend that reads Qt's Linguist TS files.
  *
@@ -471,7 +472,6 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
      *
      * @throws ezcBasePropertyNotFoundException 
      *         If the the desired property is not found.
-     * 
      * @param string $propertyName Name of the property.
      * @return mixed Value of the property or null.
      * @ignore
@@ -491,12 +491,13 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
     /**
      * Property write access.
      * 
-     * @param string $propertyName Name of the property.
-     * @param mixed $val  The value for the property.
-     *
      * @throws ezcBaseValueException 
      *         If a the value for the property options is not an instance of 
-     *         ezcConsoleOutputOptions. 
+     *         ezcTranslationTsBackendOptions. 
+     * @throws ezcBasePropertyNotFoundException 
+     *         If the the desired property is not found.
+     * @param string $propertyName Name of the property.
+     * @param mixed $val  The value for the property.
      * @ignore
      */
     public function __set( $propertyName, $val )

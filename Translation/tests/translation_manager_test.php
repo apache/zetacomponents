@@ -124,7 +124,7 @@ class ezcTranslationManagerTest extends ezcTestCase
         }
         catch ( ezcTranslationContextNotAvailableException $e )
         {
-            self::assertEquals( "The context <design/admin/collaboration/admin/view/summary> does not exist.", $e->getMessage() );
+            self::assertEquals( "The context 'design/admin/collaboration/admin/view/summary' does not exist.", $e->getMessage() );
         }
 
     }

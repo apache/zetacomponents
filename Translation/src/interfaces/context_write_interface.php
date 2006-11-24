@@ -6,6 +6,7 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * Common interface for all context writers.
  *
@@ -15,6 +16,7 @@
  * @see ezcTranslationCacheBackend for an example.
  *
  * @package Translation
+ * @version //autogentag//
  */
 interface ezcTranslationContextWrite
 {

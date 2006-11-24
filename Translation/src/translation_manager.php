@@ -6,6 +6,7 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * ezcTranslationManager handles a specific translation file and provides
  * functionality to apply filters and retrieve contexts and translations.

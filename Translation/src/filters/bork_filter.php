@@ -6,6 +6,7 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * Implements the Bork translation filter.
  *
@@ -13,6 +14,7 @@
  * obvious which text is translatable, but not yet translated.
  *
  * @package Translation
+ * @version //autogentag//
  */
 class ezcTranslationBorkFilter implements ezcTranslationFilter
 {

@@ -6,16 +6,18 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * Thrown when the translation file does not exist.
  *
  * @package Translation
+ * @version //autogentag//
  */
 class ezcTranslationMissingTranslationFileException extends ezcTranslationException
 {
     function __construct( $fileName )
     {
-        parent::__construct( "The translation file <{$fileName}> does not exist." );
+        parent::__construct( "The translation file '{$fileName}' does not exist." );
     }
 }
 ?>

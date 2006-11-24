@@ -6,6 +6,7 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * Implements the ComplementEmpty translation filter.
  *

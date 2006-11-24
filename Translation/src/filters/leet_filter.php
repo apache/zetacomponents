@@ -6,12 +6,14 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * Implements the Leet translation filter.
  *
  * The leet filter mangles translations to old skool 1337 73x7.
  *
  * @package Translation
+ * @version //autogentag//
  */
 class ezcTranslationLeetFilter implements ezcTranslationFilter
 {

@@ -6,6 +6,7 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * ezcTranslationFilter defines the common interface for all translation filters.
  *
@@ -13,6 +14,7 @@
  * @see ezcTranslationFilterBork::runFilter().
  *
  * @package Translation
+ * @version //autogentag//
  */
 interface ezcTranslationFilter
 {

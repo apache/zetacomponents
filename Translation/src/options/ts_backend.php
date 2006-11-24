@@ -2,7 +2,7 @@
 /**
  * File containing the ezcTranslationTsBackendOptions class.
  *
- * @package ConsoleTools
+ * @package Translation
  * @version //autogentag//
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
@@ -25,7 +25,7 @@
  *           "translations/nl_NL.xml" if the nl_NL locale is
  *           requested.
  * 
- * @package ConsoleTools
+ * @package Translation
  * @version //autogentag//
  * @mainclass
  */

@@ -6,6 +6,7 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * ezcTranslation is a container that holds the translated strings for a
  * specific context.

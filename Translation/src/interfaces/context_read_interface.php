@@ -6,6 +6,7 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * Common interface for all context readers.
  *
@@ -30,6 +31,7 @@
  * </code>
  *
  * @package Translation
+ * @version //autogentag//
  */
 interface ezcTranslationContextRead extends Iterator
 {

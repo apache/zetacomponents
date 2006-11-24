@@ -6,6 +6,7 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * Interface for Translation backends.
  *
@@ -16,6 +17,7 @@
  * @see ezcTranslationTsBackend for an example.
  *
  * @package Translation
+ * @version //autogentag//
  */
 interface ezcTranslationBackend
 {

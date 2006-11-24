@@ -6,10 +6,12 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * The general exception class as used by the Translator Classes.
  *
  * @package Translation
+ * @version //autogentag//
  */
 abstract class ezcTranslationException extends ezcBaseException
 {

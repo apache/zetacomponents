@@ -23,7 +23,7 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         }
         catch ( ezcTranslationNotConfiguredException $e )
         {
-            self::assertSame( 'Location <> is invalid.', $e->getMessage() );
+            self::assertSame( "Location '' is invalid.", $e->getMessage() );
         }
     }
 
@@ -76,7 +76,7 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
-            self::assertSame( 'No such property name <broken>.', $e->getMessage() );
+            self::assertSame( "No such property name 'broken'.", $e->getMessage() );
         }
     }
 
@@ -90,7 +90,7 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
-            self::assertSame( 'No such property name <broken>.', $e->getMessage() );
+            self::assertSame( "No such property name 'broken'.", $e->getMessage() );
         }
     }
 
@@ -104,7 +104,7 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         }
         catch ( ezcBaseValueException $e )
         {
-            self::assertSame( 'The value <broken> that you were trying to assign to setting <options> is invalid. Allowed values are: instance of ezcTranslationTsBackendOptions.', $e->getMessage() );
+            self::assertSame( "The value 'broken' that you were trying to assign to setting 'options' is invalid. Allowed values are: instance of ezcTranslationTsBackendOptions.", $e->getMessage() );
         }
     }
 
@@ -118,7 +118,7 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         }
         catch ( ezcBaseSettingNotFoundException $e )
         {
-            self::assertEquals( "The setting <lOcAtIOn> is not a valid configuration setting.", $e->getMessage() );
+            self::assertEquals( "The setting 'lOcAtIOn' is not a valid configuration setting.", $e->getMessage() );
         }
     }
 
@@ -132,7 +132,7 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         }
         catch ( ezcBaseValueException $e )
         {
-            self::assertSame( 'The value <broken> that you were trying to assign to setting <options> is invalid. Allowed values are: instance of ezcTranslationTsBackendOptions.', $e->getMessage() );
+            self::assertSame( "The value 'broken' that you were trying to assign to setting 'options' is invalid. Allowed values are: instance of ezcTranslationTsBackendOptions.", $e->getMessage() );
         }
     }
 
@@ -177,7 +177,7 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         }
         catch ( ezcTranslationMissingTranslationFileException $e )
         {
-            self::assertEquals( "The translation file </files/nl-nl.xml> does not exist.", str_replace( $currentDir, '', $e->getMessage() ) );
+            self::assertEquals( "The translation file '/files/nl-nl.xml' does not exist.", str_replace( $currentDir, '', $e->getMessage() ) );
         }
     }
 
@@ -228,7 +228,7 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         }
         catch ( ezcTranslationContextNotAvailableException $e )
         {
-            self::assertEquals( "The context <does/not/exist> does not exist.", $e->getMessage() );
+            self::assertEquals( "The context 'does/not/exist' does not exist.", $e->getMessage() );
         }
     }
 

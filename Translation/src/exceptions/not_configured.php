@@ -6,16 +6,18 @@
  * @filesource
  * @package Translation
  */
+
 /**
  * Thrown when a required configuration setting was not made for a backend.
  *
  * @package Translation
+ * @version //autogentag//
  */
 class ezcTranslationNotConfiguredException extends ezcTranslationException
 {
     function __construct( $location )
     {
-        parent::__construct( "Location <{$location}> is invalid." );
+        parent::__construct( "Location '{$location}' is invalid." );
     }
 }
 ?>
