@@ -8,6 +8,10 @@
  * @subpackage Tests
  */
 
+/**
+ * @package File
+ * @subpackage Tests
+ */
 class ezcFileFindRecursiveTest extends ezcTestCase
 {
     public function testRecursive1()
@@ -103,7 +107,7 @@ class ezcFileFindRecursiveTest extends ezcTestCase
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            self::assertEquals( 'The directory file <NotHere> could not be found.', $e->getMessage() );
+            self::assertEquals( "The directory file 'NotHere' could not be found.", $e->getMessage() );
         }
     }
 

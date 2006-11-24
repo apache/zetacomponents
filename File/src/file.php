@@ -6,6 +6,7 @@
  * @filesource
  * @package File
  */
+
 /**
  * Provides a selection of static independent methods to provide functionality
  * for file and file system handling.

@@ -8,6 +8,10 @@
  * @subpackage Tests
  */
 
+/**
+ * @package File
+ * @subpackage Tests
+ */
 class ezcFileCalculateRelativePathTest extends ezcTestCase
 {
     public function testRelative1()

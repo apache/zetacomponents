@@ -8,6 +8,10 @@
  * @subpackage Tests
  */
 
+/**
+ * @package File
+ * @subpackage Tests
+ */
 class ezcFileRemoveRecursiveTest extends ezcTestCase
 {
     protected function setUp()
@@ -65,7 +69,7 @@ class ezcFileRemoveRecursiveTest extends ezcTestCase
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            self::assertEquals( "The directory file <{$this->tempDir}/dir3> could not be found.", $e->getMessage() );
+            self::assertEquals( "The directory file '{$this->tempDir}/dir3' could not be found.", $e->getMessage() );
         }
         self::assertEquals( 12, count( ezcFile::findRecursive( $this->tempDir ) ) );
     }
@@ -79,7 +83,7 @@ class ezcFileRemoveRecursiveTest extends ezcTestCase
         }
         catch ( ezcBaseFilePermissionException $e )
         {
-            self::assertEquals( "The file <{$this->tempDir}/dir5> can not be opened for reading.", $e->getMessage() );
+            self::assertEquals( "The file '{$this->tempDir}/dir5' can not be opened for reading.", $e->getMessage() );
         }
         self::assertEquals( 10, count( ezcFile::findRecursive( $this->tempDir ) ) );
     }
@@ -93,7 +97,7 @@ class ezcFileRemoveRecursiveTest extends ezcTestCase
         }
         catch ( ezcBaseFilePermissionException $e )
         {
-            self::assertEquals( "The file <{$this->tempDir}/dir5> can not be opened for reading.", $e->getMessage() );
+            self::assertEquals( "The file '{$this->tempDir}/dir5' can not be opened for reading.", $e->getMessage() );
         }
         self::assertEquals( 12, count( ezcFile::findRecursive( $this->tempDir ) ) );
     }
@@ -107,7 +111,7 @@ class ezcFileRemoveRecursiveTest extends ezcTestCase
         }
         catch ( ezcBaseFilePermissionException $e )
         {
-            self::assertEquals( "The file <{$this->tempDir}/dir6/file1.txt> can not be removed.", $e->getMessage() );
+            self::assertEquals( "The file '{$this->tempDir}/dir6/file1.txt' can not be removed.", $e->getMessage() );
         }
         self::assertEquals( 12, count( ezcFile::findRecursive( $this->tempDir ) ) );
     }
