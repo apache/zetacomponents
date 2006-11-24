@@ -120,6 +120,7 @@ class ezcTranslationCacheBackend implements ezcTranslationBackend, ezcTranslatio
             throw new ezcBaseSettingNotFoundException( $name );
         }
     }
+
     /**
      * Returns a array containing the translation map for the specified
      * $locale and $context.

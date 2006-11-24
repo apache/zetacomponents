@@ -57,7 +57,7 @@ class ezcTranslationCacheBackendTest extends ezcTestCase
         }
         catch ( ezcBaseSettingNotFoundException $e )
         {
-            self::assertEquals( "The setting <lOcAtIOn> is not a valid configuration setting.", $e->getMessage() );
+            self::assertEquals( "The setting 'lOcAtIOn' is not a valid configuration setting.", $e->getMessage() );
         }
     }
 
@@ -103,7 +103,7 @@ class ezcTranslationCacheBackendTest extends ezcTestCase
         }
         catch ( ezcTranslationContextNotAvailableException $e )
         {
-            self::assertEquals( "The context <does/not/exist> does not exist.", $e->getMessage() );
+            self::assertEquals( "The context 'does/not/exist' does not exist.", $e->getMessage() );
         }
     }
 
