@@ -583,6 +583,11 @@ to the data sets polynom, when we add the data set to the graph.
 .. image:: img/tutorial_example_17.svg.png
    :alt:   Average polynom example
 
+For the computation of the polynom a equatation has to be solved where the
+size of the matrix is equal to the point count of the used dataset. Be
+careful with data sets with large point count. Because this could mean that
+ezcGraph will consume a lot of memory and processing power.
+
 PDO dataset
 -----------
 
