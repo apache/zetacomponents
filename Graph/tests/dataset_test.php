@@ -53,11 +53,28 @@ class ezcGraphDataSetTest extends ezcTestCase
         $data = $this->getAttribute( $chart->data['example'], 'data' );
 
         $this->assertSame( 
-            54.,
+            54,
             $data['monkey']
         );
         $this->assertSame( 
-            37.,
+            37,
+            $data['2001']
+        );
+    }
+
+    public function testDataSetStringContent()
+    {
+        $chart = new ezcGraphPieChart();
+        $chart->data['example'] = new ezcGraphArrayDataSet( array( 'monkey' => 'alive', 2001 => 'year' ) );
+
+        $data = $this->getAttribute( $chart->data['example'], 'data' );
+
+        $this->assertSame( 
+            'alive',
+            $data['monkey']
+        );
+        $this->assertSame( 
+            'year',
             $data['2001']
         );
     }

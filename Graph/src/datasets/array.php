@@ -38,7 +38,7 @@ class ezcGraphArrayDataSet extends ezcGraphDataSet
     {
         foreach ( $data as $key => $value )
         {
-            $this->data[$key] = (float) $value;
+            $this->data[$key] = $value;
         }
     }
 }
