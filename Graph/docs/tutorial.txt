@@ -443,17 +443,155 @@ manually set it like in line 19.
 Axis
 ----
 
+The axis defines the unit scale in line and bar charts. There are always two
+axis - the x-axis and the y-axis, which value ranges are automatically 
+received from the datasets and are automatically scaled to display adequate
+values.
+
+There are different types of values to display - for both, the x-axis and the
+y-axis. ezcGraph supports different axis types for different data you give the
+graph to render. For normal string keys usually the standard labeled axis is
+the right choice. The numeric axis is predestinated to display numeric data,
+and the date time axis for data associated to dates or times. All of the axis 
+types can be assigned to each axis.
+
 Labeled Axis
 ~~~~~~~~~~~~
+
+The labeled axis is default for the x-axis in both - bar and line charts. It
+is written to display string labels of datasets and uses the centered label
+renderer as default. You saw it already in all the earlier examples with bar
+and line charts, but of course it can be used for both axis, too.
+
+.. include:: tutorial_example_14.php
+   :literal:
+
+You could argue, if such a chart is really useful - but it works. Instead of
+using numeric values colors are assigned, when creating the data set. The
+labeled axis uses the values in the order they are assigned. In line 11 it is
+the first time we actually touch the axis label renderer. The axis label 
+renderer describe how the labels are placed on the axis - the labeled axis 
+uses the centered axis label renderer by default, which places the labels 
+centered next to the steps on the axis. The setting in line 11 forces the 
+renderer to show the zero value, even though it interferes with the axis.
+
+.. image:: img/tutorial_example_14.svg.png
+   :alt:   Two labeled axis
 
 Numeric Axis
 ~~~~~~~~~~~~
 
+The numeric axis is the default for the y axis. It was build to display
+numeric data and find automatically a good scaling for all values you may
+assign. Of course you can configure all scaling parameters manually.
+
+.. include:: tutorial_example_15.php
+   :literal:
+
+In this example we force both axis to be a numeric axis in line 10 of the
+example. In the lines 12 to 15 we manually set the scaling options for the x
+axis. We don't set a minorStep size here, so it will be automatically
+calculated from the other values, as all the values are automatically
+calculated for the y axis. The we create some random data and create two
+datasets from it as usual.
+
+.. image:: img/tutorial_example_15.svg.png
+   :alt:   Two numeric axis with random data
+
+The example shows one advantage of numeric axis over labeled axis for numeric
+data. The axis are moved away from the charts border to display the negative
+values below / left of the axis.
+
 Date time axis
 ~~~~~~~~~~~~~~
 
-Axis lable renderer
+Earlier in this tutorial we used a labeled axis for date time data on the x
+axis in the wikipedia examples. This works fine for evenly distributed
+timespans. For other data you should use the date time axis.
+
+.. include:: tutorial_example_16.php
+   :literal:
+
+You can use timestamps or date time strings as data set keys. The strings will
+be converted using PHPs strtotime() function. 
+
+.. image:: img/tutorial_example_15.svg.png
+   :alt:   Date axis example
+
+Axis label renderer
 ~~~~~~~~~~~~~~~~~~~
+
+As metioned earlier in this tutorial the axis label renderer defines where a
+label is drawn relatively to the  step on the axis. You already saw examples 
+for all available axis label renderers, but I want to mention them again:
+
+- ezcGraphAxisExactLabelRenderer
+
+  This is the default renderer for the numeric axis. The labels are drawn
+  directly below the axis step. This may look strange some times, because it
+  is of course not possible to always draw all labels of one axis on one side
+  of the step, because the last or first label would exceed the available 
+  space for the axis, so that it is rendered on the other side.
+
+- ezcGraphAxisCenteredLabelRenderer
+
+  This renderer is default for the labeled axis in line charts and draws the
+  label centered next to the step. Therefor this renderer omits the label for
+  initil step on the axis (0, 0), but this can be forced as shown in example
+  14. The label is omitted, because it would interfere with the axis or the
+  labels of the other axis, and probably not really readable.
+
+- ezcGraphAxisBoxedLabelRenderer
+
+  This is the default renderer for the labeled axis in bar charts. The steps
+  on the axis and the grid is not drawn at the position of the label, but
+  between two labels. This helps to recognize whichs bars belongs together.
+  The label is rendered centered between two of those steps on the axis.
+
+Data sets
+=========
+
+The data sets receive the data from the user and offer a defined interface for
+ezcGraph to access the users data.
+
+Array data
+----------
+
+The array data set was used for all examples until now, because it is the
+simplest way to provide data for ezcGraph.
+
+Average polynom dataset
+-----------------------
+
+The average dataset uses an existing dataset with numeric keys and build a
+polynom which interpolates the data points in the given data set using the
+least squares algorithm.
+
+.. include:: tutorial_example_17.php
+   :literal:
+
+We use again two numeric axis, because we only display numeric data in this
+example. First we create a normal array dataset from some random generated
+data in line 14. We assign this data set to the chart , to see how well the 
+polnom fits the random datapoints.
+
+In line 20 we create a ezcGraphDataSetAveragePolynom from the random data with
+a maximum degree of the polynom of 3 (which is also the fefault value). You
+can directly access the polynom, what we use to set the name of the data set
+to the data sets polynom, when we add the data set to the graph.
+
+.. image:: img/tutorial_example_17.svg.png
+   :alt:   Average polynom example
+
+PDO dataset
+-----------
+
+Will be implemented in version 1.1.
+
+Numeric dataset
+---------------
+
+Will be implemented in version 1.1.
 
 Renderer
 ========
