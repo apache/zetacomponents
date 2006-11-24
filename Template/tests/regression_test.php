@@ -191,34 +191,21 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 $template->send = include ($send);
             }
 
-            $out = array();
-            $counter = 0;
+            $out = "";
 
             try
             {
-                $out[$counter] = $template->process( $base );
-
-                ++$counter;
-                while( file_exists( substr( $directory, 0, -3 ) . ".out" . ($counter + 1) ) )
-                {
-                    if( file_exists( substr( $directory, 0, -3 ). ".send". ($counter + 1) ) )
-                    {
-                        $template->send = include (substr( $directory, 0, -3 ). ".send". ($counter + 1));
-                    }
-
-                    $out[$counter] = $template->process( $base );
-                    $counter++;
-                } 
+                $out = $template->process( $base );
             } 
             catch (Exception $e )
             {
-                $out[$counter] = $e->getMessage();
+                $out = $e->getMessage();
 
                 // Begin of the error message contains the full path. We replace this with 'mock' so that the 
                 // tests work on other systems as well.
-                if( strncmp( $out[$counter], $directory, strlen( $directory ) ) == 0 )
+                if( strncmp( $out, $directory, strlen( $directory ) ) == 0 )
                 {
-                    $out[$counter] = "mock" . substr( $out[$counter], strlen( $directory ) );
+                    $out = "mock" . substr( $out, strlen( $directory ) );
                 }
             }
 
@@ -226,7 +213,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
             if( !file_exists( $expected ) ) 
             {
-                $help = "The out file: <$expected> could not be found.";
+                $help = "The out file: '$expected' could not be found.";
 
                 if( $this->interactiveMode )
                 {
@@ -242,7 +229,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
                         if ($char == "y" )
                         {
-                            file_put_contents( $expected, $out[$counter] );
+                            file_put_contents( $expected, $out );
                         }
                         elseif ($char == "v" )
                         {
@@ -250,13 +237,13 @@ class ezcTemplateRegressionTest extends ezcTestCase
                             {
                                 // Pipe the text to less
                                 $l = popen( "less", "w" );
-                                fwrite( $l, $out[$counter] );
+                                fwrite( $l, $out );
                                 pclose( $l );
                                 continue;
                             }
                             else
                             {
-                                echo $out[$counter], "\n";
+                                echo $out, "\n";
                             }
                         }
                         elseif ( $char == 'n' )
@@ -277,11 +264,10 @@ class ezcTemplateRegressionTest extends ezcTestCase
             }
 
             $expectedText = file_get_contents( $expected );
-            $actualText = $out[0];
 
             try
             {
-                $this->assertEquals( $expectedText, $actualText, "In:  <$expected>\nOut: <$directory>" );
+                $this->assertEquals( $expectedText, $out, "In:  <$expected>\nOut: <$directory>" );
             }
             catch ( PHPUnit_Framework_ExpectationFailedException $e )
             {
@@ -303,7 +289,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 $help .= "\n";
 
                 $help .= "The eval'ed output:\n";
-                $help .= "----------\n".$out[0]."----------\n";
+                $help .= "----------\n".$out."----------\n";
                 $help .= "\n";
 
                 $help .= "The expected output:\n";
@@ -338,7 +324,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
                     if ($char == "y" || $char == "Y" )
                     {
-                        file_put_contents( $expected, $out[0] );
+                        file_put_contents( $expected, $out );
                         return; // No more testing to be done now since the file is generated
                     }
                 }
