@@ -6,6 +6,7 @@
  * @filesource
  * @package Execution
  */
+
 /**
  * Class for handling fatal errors
  *

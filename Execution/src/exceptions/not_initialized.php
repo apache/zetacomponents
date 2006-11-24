@@ -16,7 +16,7 @@ class ezcExecutionNotInitializedException extends ezcExecutionException
 {
     function __construct()
     {
-        parent::__construct( "The Execution mechanism was not initalized." );
+        parent::__construct( "The Execution mechanism was not initialized." );
     }
 }
 ?>

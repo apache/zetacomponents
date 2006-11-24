@@ -29,7 +29,7 @@ class ezcExecutionInitDefinition extends ezcTestCase
         }
         catch ( ezcExecutionNotInitializedException $e )
         {
-            $this->assertEquals( "The Execution mechanism was not initalized.", $e->getMessage() );
+            $this->assertEquals( "The Execution mechanism was not initialized.", $e->getMessage() );
         }
     }
 
@@ -43,7 +43,7 @@ class ezcExecutionInitDefinition extends ezcTestCase
         }
         catch ( ezcExecutionInvalidCallbackException $e )
         {
-            $this->assertEquals( "Class <ezcExecutionDoesNotExist> does not exist.", $e->getMessage() );
+            $this->assertEquals( "Class 'ezcExecutionDoesNotExist' does not exist.", $e->getMessage() );
         }
     }
 
@@ -58,7 +58,7 @@ class ezcExecutionInitDefinition extends ezcTestCase
         }
         catch ( ezcExecutionAlreadyInitializedException $e )
         {
-            $this->assertEquals( "The Execution mechanism is already initalized.", $e->getMessage() );
+            $this->assertEquals( "The Execution mechanism is already initialized.", $e->getMessage() );
         }
     }
 
@@ -80,7 +80,7 @@ class ezcExecutionInitDefinition extends ezcTestCase
         }
         catch ( ezcExecutionWrongClassException $e )
         {
-            $this->assertEquals( "The class <ExecutionTest1> does not implement the <ezcExecutionErrorHandler> interface.", $e->getMessage() );
+            $this->assertEquals( "The class 'ExecutionTest1' does not implement the 'ezcExecutionErrorHandler' interface.", $e->getMessage() );
         }
     }
 

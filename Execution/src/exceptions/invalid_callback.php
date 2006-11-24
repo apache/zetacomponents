@@ -15,7 +15,7 @@ class ezcExecutionInvalidCallbackException extends ezcExecutionException
 {
     function __construct( $callbackClassName )
     {
-        parent::__construct( "Class <{$callbackClassName}> does not exist." );
+        parent::__construct( "Class '{$callbackClassName}' does not exist." );
     }
 }
 ?>

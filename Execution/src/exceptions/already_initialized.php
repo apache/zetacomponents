@@ -15,7 +15,7 @@ class ezcExecutionAlreadyInitializedException extends ezcExecutionException
 {
     function __construct()
     {
-        parent::__construct( "The Execution mechanism is already initalized." );
+        parent::__construct( "The Execution mechanism is already initialized." );
     }
 }
 ?>
