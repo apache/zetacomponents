@@ -1,0 +1,7 @@
+{var $x = array() }
+
+{if is_set( $x["bla"] )}
+Yes
+{else}
+No
+{/if}
