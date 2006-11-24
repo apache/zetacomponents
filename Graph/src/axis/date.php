@@ -141,6 +141,29 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
     }
 
     /**
+     * Ensure proper timestamp
+     *
+     * Takes a mixed value from datasets, like timestamps, or strings 
+     * describing some time and converts it to a timestamp.
+     * 
+     * @param mixed $value 
+     * @return int
+     */
+    protected static function ensureTimestamp( $value )
+    {
+        if ( is_int( $value ) || is_float( $value ) )
+        {
+            $value = (int) $value;
+        }
+        elseif ( ( $value = strtotime( $value ) ) === false )
+        {
+            throw new ezcGraphErrorParsingDateException( $value );
+        }
+
+        return $value;
+    }
+
+    /**
      * Add data for this axis
      * 
      * @param mixed $value Value which will be displayed on this axis
@@ -148,16 +171,9 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
      */
     public function addData( array $values )
     {
-        foreach ( $values as $value )
+        foreach ( $values as $nr => $value )
         {
-            if ( is_int( $value ) || is_float( $value ) )
-            {
-                $value = (int) $value;
-            }
-            elseif ( ( $value = strtotime( $value ) ) === false )
-            {
-                throw new ezcGraphErrorParsingDateException( $value );
-            }
+            $value = self::ensureTimestamp( $value );
 
             if ( $this->minValue === false ||
                  $value < $this->minValue )
@@ -342,10 +358,10 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
     public function getCoordinate( $value )
     {
         // Force typecast, because ( false < -100 ) results in (bool) true
-        $floatValue = (float) $value;
+        $intValue = ( $value === false ? false : self::ensureTimestamp( $value ) );
 
         if ( ( $value === false ) &&
-             ( ( $floatValue < $this->properties['startDate'] ) || ( $floatValue > $this->endDate ) ) )
+             ( ( $intValue < $this->startDate ) || ( $intValue > $this->endDate ) ) )
         {
             switch ( $this->position )
             {
@@ -363,10 +379,10 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
             {
                 case ezcGraph::LEFT:
                 case ezcGraph::TOP:
-                    return ( $value - $this->properties['startDate'] ) / ( $this->endDate - $this->startDate );
+                    return ( $intValue - $this->startDate ) / ( $this->endDate - $this->startDate );
                 case ezcGraph::RIGHT:
                 case ezcGraph::BOTTOM:
-                    return 1 - ( $value - $this->properties['startDate'] ) / ( $this->endDate - $this->startDate );
+                    return 1 - ( $intValue - $this->startDate ) / ( $this->endDate - $this->startDate );
             }
         }
     }

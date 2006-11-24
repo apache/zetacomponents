@@ -17,6 +17,10 @@
  */
 class ezcGraphDateAxisTest extends ezcTestCase
 {
+    protected $basePath;
+
+    protected $tempDir;
+
     protected $chart;
 
 	public static function suite()
@@ -28,13 +32,49 @@ class ezcGraphDateAxisTest extends ezcTestCase
     {
         date_default_timezone_set( 'Europe/Berlin' );
 
+        static $i = 0;
+        $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
+        $this->basePath = dirname( __FILE__ ) . '/data/';
+
         $this->chart = new ezcGraphLineChart();
         $this->chart->xAxis = new ezcGraphChartElementDateAxis();
     }
 
     protected function tearDown()
     {
+        if ( !$this->hasFailed() )
+        {
+            $this->removeTempDir();
+        }
+
         unset( $this->chart );
+    }
+
+    /**
+     * Compares a generated image with a stored file
+     * 
+     * @param string $generated Filename of generated image
+     * @param string $compare Filename of stored image
+     * @return void
+     */
+    protected function compare( $generated, $compare )
+    {
+        $this->assertTrue(
+            file_exists( $generated ),
+            'No image file has been created.'
+        );
+
+        $this->assertTrue(
+            file_exists( $compare ),
+            'Comparision image does not exist.'
+        );
+
+        if ( md5_file( $generated ) !== md5_file( $compare ) )
+        {
+            // Adding a diff makes no sense here, because created XML uses
+            // only two lines
+            $this->fail( 'Rendered image is not correct.');
+        }
     }
 
     public function testManualScaling()
@@ -443,6 +483,27 @@ class ezcGraphDateAxisTest extends ezcTestCase
             31536000,
             $this->chart->xAxis->interval,
             'Wrong interval. '
+        );
+    }
+
+    public function testStrToTimeLabelConvertionRendering()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+        $chart->data['some data'] = new ezcGraphArrayDataSet( array( 
+            '1.1.2001' => 12,
+            '1.1.2002' => 324,
+            '1.1.2003' => 238,
+            '1.1.2004' => 123,
+        ) );
+        $chart->data['some data']->symbol = ezcGraph::DIAMOND;
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 }
