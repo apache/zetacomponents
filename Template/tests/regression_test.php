@@ -27,8 +27,6 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
     public $verboseErrors = false;
 
-    public $showTreesOnFailure = false;
-
     public $directories = array();
 
     public $regressionDir = '';
@@ -154,6 +152,141 @@ class ezcTemplateRegressionTest extends ezcTestCase
         }
     }
 
+    public function interact( $template, $tplSource, $expected, $actual, $expectedFile, $help )
+    {
+        while ( true )
+        {
+            echo "Action (g/s/o/e/st/sp/tt/at/d/a/?): ";
+
+            $reply = strtolower( trim( fgets( $this->stdin ) ) );
+
+            if ( $reply == "g" )
+            {
+                file_put_contents( $expectedFile, $actual );
+                return;
+            }
+            elseif ( $reply == "o" || $reply == "e" || $reply == "st" || $reply == "sp" || $reply == "at" || $reply == "tt" || $reply == "d" || $reply == "a" )
+            {
+                $displayText = false;
+                if ( $reply == "o" || $reply == "a" )
+                {
+                    if ( $reply == "a" )
+                    {
+                        $displayText .= "------Generated output------\n";
+                    }
+                    $displayText .= $actual;
+                }
+                if ( $reply == "e" || $reply == "a" )
+                {
+                    if ( $reply == "a" )
+                    {
+                        if ( file_exists( $expectedFile ) )
+                        {
+                            $displayText .= "------Expected output------\n";
+                        }
+                        else
+                        {
+                            $displayText .= "------Expected output (file missing)------\n";
+                        }
+                    }
+                    $displayText .= $expected;
+                }
+                if ( $reply == "d" || $reply == "a" )
+                {
+                    if ( $reply == "a" )
+                    {
+                        $displayText .= "------Diff of output------\n";
+                    }
+                    if ( PHP_OS == 'Linux' )
+                    {
+                        $expectedTmp = $this->getTempDir() . "/expected.tmp";
+                        $actualTmp = $this->getTempDir() . "/actual.tmp";
+                        file_put_contents( $expectedTmp, $expected );
+                        file_put_contents( $actualTmp, $actual );
+                        $displayText .= shell_exec( "diff -U3 '$expectedTmp' '$actualTmp'" );
+                        unlink( $expectedTmp );
+                        unlink( $actualTmp );
+                    }
+                    else
+                    {
+                    }
+                }
+                if ( $reply == "st" || $reply == "a" )
+                {
+                    if ( $reply == "a" )
+                    {
+                        $displayText .= "------Source template------\n";
+                    }
+                    $displayText .= file_get_contents( $tplSource );
+                }
+                if ( $reply == "sp" || $reply == "a" )
+                {
+                    if ( $reply == "a" )
+                    {
+                        $displayText .= "------Compiled PHP code------\n";
+                    }
+                    $code = file_get_contents( $template->compiledTemplatePath );
+                    $code = str_replace( "<"."?php", "", $code );
+                    $displayText .= str_replace( "?" . ">", "", $code ); 
+                }
+                if ( $reply == "at" || $reply == "a" )
+                {
+                    if ( $reply == "a" )
+                    {
+                        $displayText .= "------AST------\n";
+                    }
+                    $displayText .= ezcTemplateAstTreeOutput::output( $template->astTree );
+                }
+                if ( $reply == "tt" )
+                {
+                    // NOTE: This currently fails due to missing implementations in the Tst class.
+                    if ( $reply == "a" )
+                    {
+                        $displayText .= "------TST------\n";
+                    }
+                    $displayText .= ezcTemplateTstTreeOutput::output( $template->tstTree );
+                }
+
+                if ( PHP_OS == 'Linux' )
+                {
+                    // Pipe the text to less
+                    $l = popen( "less", "w" );
+                    fwrite( $l, $displayText );
+                    pclose( $l );
+                    continue;
+                }
+                else
+                {
+                    echo $displayText, "\n";
+                }
+            }
+            elseif ( $reply == 's' )
+            {
+                throw new PHPUnit_Framework_ExpectationFailedException( $help );
+            }
+            elseif ( $reply == '?' )
+            {
+                echo "The actions are:\n",
+                    "g  - Generate output file (Implies success of test)\n",
+                    "s  - Skip this test (Implies failure of test)\n",
+                    "o  - Display the generated output\n",
+                    "e  - Display the expected output\n",
+                    "st - Display source template\n",
+                    "sp - Display generated/compiled PHP code\n",
+                    "at - Display the AST tree\n",
+                    "tt - Display the TST tree\n",
+                    "d  - Display difference between generated output and expected output\n",
+                    "a  - Display all of the above (o,e,st,sp,at,tt,d)\n";
+                continue;
+            }
+            else
+            {
+                continue;
+            }
+            return; // No more testing to be done now since the file is generated
+        }
+    }
+
     public function testRunRegression( $directory )
     {
             $template = new ezcTemplate();
@@ -219,43 +352,8 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 {
                     echo "\n", $help, "\n";
 
-                    while ( true )
-                    {
-                        echo "Do you want to create this file? (y/n/v)";
-
-                        $char = false;
-                        while ( strpos( "ynv", $char ) === false )
-                            $char = strtolower( fgetc( $this->stdin ) );
-
-                        if ($char == "y" )
-                        {
-                            file_put_contents( $expected, $out );
-                        }
-                        elseif ($char == "v" )
-                        {
-                            if ( PHP_OS == 'Linux' )
-                            {
-                                // Pipe the text to less
-                                $l = popen( "less", "w" );
-                                fwrite( $l, $out );
-                                pclose( $l );
-                                continue;
-                            }
-                            else
-                            {
-                                echo $out, "\n";
-                            }
-                        }
-                        elseif ( $char == 'n' )
-                        {
-                            throw new PHPUnit_Framework_ExpectationFailedException( $help );
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                        return; // No more testing to be done now since the file is generated
-                    }
+                    self::interact( $template, $directory, false, $out, $expected, $help );
+                    return;
                 }
                 else
                 {
@@ -271,91 +369,19 @@ class ezcTemplateRegressionTest extends ezcTestCase
             }
             catch ( PHPUnit_Framework_ExpectationFailedException $e )
             {
-                if ( $this->verboseErrors )
-                {
                 $help  = "The evaluated template <".$this->regressionDir . "/current.tmp> differs ";
-                $help .= "from the expected output: <$expected>.\n\n";
-
-                $help .= "The original template <$directory>:\n";
-                $help .= "----------\n".file_get_contents( $directory ) . "----------\n";
-                $help .= "\n";
-
-                $cont = file_get_contents( $template->compiledTemplatePath );
-                $cont = str_replace( "<"."?php", "", $cont );
-                $cont = str_replace( "?" . ">", "", $cont ); 
-
-                $help .= "The compiled template:\n";
-                $help .= "----------\n".$cont."----------\n";
-                $help .= "\n";
-
-                $help .= "The eval'ed output:\n";
-                $help .= "----------\n".$out."----------\n";
-                $help .= "\n";
-
-                $help .= "The expected output:\n";
-                $help .= "----------\n" . file_get_contents( $expected ) . "----------\n";
-                $help .= "\n";
-
-                if( $this->showTreesOnFailure && $template->tstTree !== false )
-                {
-                    $help .= "The TST tree:\n";
-                    $help .= "----------\n" . ezcTemplateTstTreeOutput::output( $template->tstTree )  . "----------\n";
-                    $help .= "\n";
-                }
-
-                if( $this->showTreesOnFailure && $template->astTree !== false )
-                {
-                    $help .= "The AST tree:\n";
-                    $help .= "----------\n" . ezcTemplateAstTreeOutput::output( $template->astTree )  . "----------\n";
-                    $help .= "\n";
-                }
-                }
-                else
-                {
-                    $help = $e->toString() . "\n" . $e->getComparisonFailure()->toString();
-                }
-
+                $help .= "from the expected output: <$expected>.";
                 if( $this->interactiveMode )
                 {
                     echo "\n", $help, "\n";
-                    echo "Do you want to set the new file output? ";
-
-                    $char = fgetc( $this->stdin );
-
-                    if ($char == "y" || $char == "Y" )
-                    {
-                        file_put_contents( $expected, $out );
-                        return; // No more testing to be done now since the file is generated
-                    }
+                    self::interact( $template, $directory, file_get_contents( $expected ), $out, $expected, $help );
+                    return;
                 }
 
                 // Rethrow with new and more detailed message
                 throw new PHPUnit_Framework_ExpectationFailedException( $help, $e->getComparisonFailure() );
             }
 
-/* This code will be removed soon
-            if( sizeof( $out ) > 1 )
-            {
-                for( $i = 1; $i < sizeof( $out ); $i++ )
-                {
-                    $file = substr( $directory, 0, -3 ) . ".out" . ($i + 1);
-                    if( file_get_contents( $file ) != $out[$i] )
-                    {
-                        $help =  "\nRun ". ($i + 1) . " returns a different value than expected.\n";
-                        $help .= "file: $file \n\n";
-
-                        $help .= "The eval'ed output:\n";
-                        $help .= "----------\n".$out[$i]."----------\n";
-                        $help .= "\n";
-
-                        $help .= "The expected output:\n";
-                        $help .= "----------\n" . file_get_contents( substr( $directory, 0, -3 ) . ".out" . ($i + 1)  ) . "----------\n";
-                        $help .= "\n";
-
-                        die ( $help );
-                    }
-                }
-            }*/
                 // check the receive variables.
                 $receive = substr( $directory, 0, -3 ) . ".receive";
                 if( file_exists( $receive ) )
