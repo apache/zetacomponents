@@ -1,4 +1,4 @@
-mock:5:7: Found closing block {case/} which does not match previous block {foreach}
+mock:5:8: Open and close block do not match: {foreach} and {/case}
 
 {/case}
        ^

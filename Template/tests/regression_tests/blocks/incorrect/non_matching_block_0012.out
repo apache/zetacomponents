@@ -1,4 +1,4 @@
-mock:5:13: Found closing block {/delimiter} which does not match previous block {foreach}
+mock:5:13: Open and close block do not match: {foreach} and {/delimiter}
 
 {/delimiter}
             ^

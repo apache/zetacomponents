@@ -1,0 +1,4 @@
+mock:5:11: Open and close block do not match: {while} and {/foreach}
+
+{/foreach}
+          ^

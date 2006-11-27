@@ -171,7 +171,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
 
 
             throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor,
-                                                 "Incorrect nesting in code, the block {" . $this->lastBlock->name . "} was not correctly terminated." );
+                                                 "Incorrect nesting in code, close block {/" . $this->lastBlock->name . "} expected." );
         }
 
         // Get rid of whitespace for the block line of the program element
@@ -233,7 +233,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
         if ( $this->lastBlock->name != $element->name )
         {
             throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
-                "The closing block {/".$element->name. "} does not match the opening block {". $this->lastBlockName->name ."}" );
+                "Open and close block do not match: {". $this->lastBlock->name ."} and {/".$element->name. "}" );
         }
 
         // Sanity check

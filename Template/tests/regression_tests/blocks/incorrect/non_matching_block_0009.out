@@ -1,4 +1,4 @@
-mock:7:1: Incorrect nesting in code, the block {foreach} was not correctly terminated.
+mock:7:1: Incorrect nesting in code, close block {/foreach} expected.
 
     {$foo}
 

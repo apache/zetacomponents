@@ -53,6 +53,7 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
                 //$this->findNextElement();
 
                 $sw = new ezcTemplateCaseTstNode( $this->parser->source, $this->startCursor, $cursor );
+                $sw->name = $name; // Set the name to either 'case' or 'default'.
             }
             // $el->name = 'switch';
             $sw->isClosingBlock = true;
