@@ -251,7 +251,7 @@ class ezcTemplateFunctions
                 throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_TOO_MANY_PARAMETERS, $functionName  ) );
             }
 
-            $a = new ezcTemplateFunctionCallAstNode( $def->class . "::" . $def->method);
+            $a = new ezcTemplateFunctionCallAstNode( ( $def->class ? ( $def->class . "::" ) : "" ) . $def->method);
             $a->checkAndSetTypeHint();
 
             foreach( $parameters as $p )

@@ -1,0 +1,7 @@
+<?php
+
+$v = new ezcTemplateVariableCollection();
+$v->text = "Text for SHA1";
+
+return $v;
+?>
