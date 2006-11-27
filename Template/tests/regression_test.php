@@ -154,13 +154,32 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
     public function interact( $template, $tplSource, $expected, $actual, $expectedFile, $help )
     {
+
         while ( true )
         {
-            echo "Action (g/s/o/e/st/sp/tt/at/d/a/?): ";
+            echo "Action (g/s/o/e/st/sp/tt/at/d/a/v/q/?): ";
 
             $reply = strtolower( trim( fgets( $this->stdin ) ) );
 
-            if ( $reply == "g" )
+            if ( $reply == "q" )
+            {
+                exit(0);
+            }
+            elseif( $reply == "v" )
+            {
+                echo ( "\n" );
+                echo ( str_pad( "Compile path: ", 17) . $template->configuration->compilePath . "\n" );
+                echo ( str_pad( "Template path: ", 17 ) . $template->configuration->templatePath . "\n" );
+                echo ( str_pad( "Source path: ", 17 ) . $tplSource . " \n" );
+                echo ( str_pad( "Expected output: ", 17 ) . $expectedFile . " \n" );
+                echo ( "\n" );
+                echo (  str_pad( "Context: ", 17 ) . get_class( $template->configuration->context ) );
+
+                echo( "\n" );
+
+                continue;
+            }
+            elseif ( $reply == "g" )
             {
                 file_put_contents( $expectedFile, $actual );
                 return;
@@ -276,13 +295,16 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     "at - Display the AST tree\n",
                     "tt - Display the TST tree\n",
                     "d  - Display difference between generated output and expected output\n",
-                    "a  - Display all of the above (o,e,st,sp,at,tt,d)\n";
+                    "a  - Display all of the above (o,e,st,sp,at,tt,d)\n",
+                    "v  - Display verbose template information\n",
+                    "q  - Quit\n";
                 continue;
             }
             else
             {
                 continue;
             }
+
             return; // No more testing to be done now since the file is generated
         }
     }
