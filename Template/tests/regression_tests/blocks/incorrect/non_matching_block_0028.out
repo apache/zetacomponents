@@ -1,0 +1,4 @@
+mock:3:11: Delimiter can only be used inside a foreach block.
+
+{delimiter}
+          ^
