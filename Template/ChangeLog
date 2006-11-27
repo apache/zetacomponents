@@ -1,4 +1,5 @@
 - Fixed issue #9601: wrong __isset implementation in Template/template.php
+- Fixed an issue that the space before 'array append' threw an exception.
 
 
 1.1beta2 - Monday 20 November 2006

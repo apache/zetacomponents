@@ -171,6 +171,8 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
             $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );
 
+            $this->findNextElement();
+
             if ( $this->parseArrayFetch( $cursor, $allowArrayAppend ) )
             {
                 $this->findNextElement();
