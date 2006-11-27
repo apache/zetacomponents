@@ -51,10 +51,10 @@ class ezcTemplateTest extends ezcTestCase
     {
         $template = new ezcTemplate();
 
-        self::assertTrue( isset( $template->configuration ),
-                          'Property <configuration> is missing' );
+        self::assertFalse( isset( $template->configuration ), "Property 'configuration' is already set, but it should be set only after it has been 'get' before." );
         self::assertSame( 'ezcTemplateConfiguration', get_class( $template->configuration ),
                           'Property <configuration>' );
+        self::assertTrue( isset( $template->configuration ), "Property 'configuration' is not set, even after requesting it." );
     }
 
     public function testReExecuteTemplate()

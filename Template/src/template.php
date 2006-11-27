@@ -136,7 +136,7 @@ class ezcTemplate
             case 'astTree':
             case 'stream':
             case 'output':
-                return isset( $name );
+                return isset( $this->properties[$name] );
             default:
                 return false;
         }
