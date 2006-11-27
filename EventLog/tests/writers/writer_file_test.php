@@ -18,6 +18,25 @@ class ezcLogFileWriterTest extends ezcTestCase
         $this->removeTempDir();
     }
     
+/*
+    // This test was used to check for bug #9603, and it is commented out because
+    // the code throws warnings for fwrite() and fclose()
+    public function testWriteNotDefault()
+    {
+        $log = ezcLog::getInstance();
+        $writer = new TempImplementation2($this->getTempDir(), 'broken.log');
+        try
+        {
+            $writer->writeLogMessage( 'xxx', 'c', 'd', '' );
+            //$log->log( null, ezcLog::INFO, array() );
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcLogWriterException $e )
+        {
+        }
+    }
+*/
+
     // Check if can be written to the temporary file.
     public function testSelf()
     {
@@ -208,7 +227,24 @@ class TempImplementation extends ezcLogFileWriter
         $this->write( $type, $source, $category, $res );
     }
 }
-        
 
+class TempImplementation2 extends ezcLogFileWriter
+{
+    public function __construct($dir, $file = null, $maxSize = 1, $maxFiles = 1 )
+    {
+        parent::__construct($dir, $file, $maxSize, $maxFiles);
+        // close the open files in order to see if an exception is thrown
+        foreach ( $this->openFiles as $fh )
+        {
+            fclose( $fh );
+        }
+    }
+
+    public function writeLogMessage( $message, $type, $source, $category, $extraInfo = array() )
+    {
+        $res = print_r( array( "message" => $message, "type" => $type, "source" => $source, "category" => $category ), true );
+        $this->write( $type, $source, $category, $res );
+    }
+}
 
 ?>
