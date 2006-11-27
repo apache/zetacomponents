@@ -224,7 +224,8 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
         // Check for closing blocks that do not belong to an opening block.
         if ( $this->lastBlock->parentBlock === null && $element->isClosingBlock )
         {
-            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, "Found the block pair: {". $element->name."} .. {/". $element->name."} that cannot have a open and close block." );
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
+                "Found closing block {/". $element->name."} without an opening block." ); 
         }
          
         // The name of the previous element must match the closing block,
@@ -232,7 +233,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
         if ( $this->lastBlock->name != $element->name )
         {
             throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
-                "Found closing block {/" . $element->name . "} which does not match previous block {" . $this->lastBlock->name . "}"  );
+                "The closing block {/".$element->name. "} does not match the opening block {". $this->lastBlockName->name ."}" );
         }
 
         // Sanity check

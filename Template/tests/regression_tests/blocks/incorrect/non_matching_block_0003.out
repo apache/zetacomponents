@@ -1,0 +1,4 @@
+mock:5:9: Found closing block {/while} without an opening block.
+
+{/while}
+        ^

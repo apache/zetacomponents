@@ -31,6 +31,7 @@ class ezcTemplateSwitchTstNode extends ezcTemplateBlockTstNode
     {
         parent::__construct( $source, $start, $end );
         $this->condition = null;
+        $this->name = "switch";
     }
 
     public function getTreeProperties()
