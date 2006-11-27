@@ -1,0 +1,4 @@
+mock:5:10: Found closing block {default/} which does not match previous block {foreach}
+
+{/default}
+          ^

@@ -1,0 +1,7 @@
+mock:7:1: Incorrect nesting in code, the block {foreach} was not correctly terminated.
+
+    {$foo}
+
+
+
+^

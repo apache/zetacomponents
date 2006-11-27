@@ -1,0 +1,4 @@
+mock:5:10: Found closing block {switch/} which does not match previous block {foreach}
+
+{/switch}
+         ^
