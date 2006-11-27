@@ -1,0 +1,4 @@
+mock:5:10: Found closing block {/switch} without an opening block.
+
+{/switch}
+         ^
