@@ -1,4 +1,4 @@
-mock:2:24: Found the block pair: {inline_opt_parameter} .. {/inline_opt_parameter} that cannot have a open and close block.
+mock:2:24: The custom block: {inline_opt_parameter} should not have a closing block. Check the custom block definition. 
 
 {/inline_opt_parameter}
                        ^

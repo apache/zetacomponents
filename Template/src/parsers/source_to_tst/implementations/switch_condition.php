@@ -80,7 +80,6 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
             //$this->findNextElement();
 
             $sw = new ezcTemplateSwitchTstNode( $this->parser->source, $this->startCursor, $cursor );
-
             $sw->condition = $this->lastParser->rootOperator;
             $this->appendElement( $sw );
 
@@ -89,6 +88,7 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
         elseif( $name == 'case' )
         {
             $case = new ezcTemplateCaseTstNode( $this->parser->source, $this->startCursor, $cursor );
+            $case->name = $name; // Set the name to 'case'
 
             do
             {
@@ -122,6 +122,7 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
         elseif( $name == 'default' )
         {
             $case = new ezcTemplateCaseTstNode( $this->parser->source, $this->startCursor, $cursor );
+            $case->name = $name; // Set the name to 'default'
             $case->conditions = null;
             $this->findNextElement();
 

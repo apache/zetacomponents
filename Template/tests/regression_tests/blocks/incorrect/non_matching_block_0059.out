@@ -1,0 +1,4 @@
+mock:4:5: Expecting an case block.
+
+    {$foo}
+    ^

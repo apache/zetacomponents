@@ -244,6 +244,12 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
             throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_BREAK_OR_CONTINUE );
         }
 
+        if ( $element instanceof ezcTemplateConditionBodyTstNode )
+        {
+            throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, 
+                sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_BLOCK, $element->name ) );
+        }
+
         $this->children[] = $element;
 
         // temporary compatability

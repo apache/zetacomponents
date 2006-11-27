@@ -1,0 +1,4 @@
+mock:3:8: Unexpected block {elseif} at this position. Some blocks can only be used inside other blocks.
+
+{elseif $foo}
+       ^

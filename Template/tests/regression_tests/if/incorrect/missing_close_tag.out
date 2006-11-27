@@ -1,4 +1,4 @@
-mock:4:1: Incorrect nesting in code, the block {if} was not correctly terminated.
+mock:4:1: Incorrect nesting in code, close block {/if} expected.
 
 {if true}
 

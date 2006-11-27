@@ -198,6 +198,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
 
                 if ( $element instanceof ezcTemplateBlockTstNode && $element->isNestingBlock)
                 {
+
                     // No special handling required so we check if the element
                     // is a nesting block and should start a new nesting level
 
@@ -224,8 +225,16 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
         // Check for closing blocks that do not belong to an opening block.
         if ( $this->lastBlock->parentBlock === null && $element->isClosingBlock )
         {
-            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->startCursor, 
-                "Found closing block {/". $element->name."} without an opening block." ); 
+            if( $element instanceof ezcTemplateCustomBlockTstNode )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->startCursor, 
+                    "The custom block: {".$element->name."} should not have a closing block. Check the custom block definition. " );
+             }
+            else
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->startCursor, 
+                    "Found closing block {/". $element->name."} without an opening block." ); 
+            }
         }
          
         // The name of the previous element must match the closing block,

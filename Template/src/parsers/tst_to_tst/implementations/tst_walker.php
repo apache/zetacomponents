@@ -137,7 +137,6 @@ class ezcTemplateTstWalker implements ezcTemplateTstNodeVisitor
     {
     }
 
-
     public function visitLoopTstNode( ezcTemplateLoopTstNode $node )
     {
     }
@@ -348,6 +347,10 @@ class ezcTemplateTstWalker implements ezcTemplateTstNodeVisitor
     }
 
     public function visitArrayAppendOperatorTstNode( ezcTemplateArrayAppendOperatorTstNode $node )
+    {
+    }
+
+    public function visitConditionBodyTstNode( ezcTemplateConditionBodyTstNode $node )
     {
     }
 

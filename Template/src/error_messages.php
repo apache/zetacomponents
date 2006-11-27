@@ -78,6 +78,8 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_EXPECT_PARAMETER                  = "Function call: '%s' has not enough parameters. Need an additional '%s' parameter.";
     const MSG_TOO_MANY_PARAMETERS               = "Function call: '%s' has too many parameters.";
 
+    const MSG_UNEXPECTED_BLOCK                   = "Unexpected block {%s} at this position. Some blocks can only be used inside other blocks.";
+
     const MSG_OBJECT_FUNCTION_CALL_NOT_ALLOWED  = "Calling a method from an imported object is not allowed.";
 
     const MSG_MISSING_CUSTOM_BLOCK_PARAMETER     = "Missing the required custom block parameter <%s>."; 

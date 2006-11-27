@@ -1,0 +1,4 @@
+mock:3:6: Unexpected block {else} at this position. Some blocks can only be used inside other blocks.
+
+{else}
+     ^
