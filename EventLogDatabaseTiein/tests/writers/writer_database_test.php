@@ -13,7 +13,7 @@ class ezcLogDatabaseWriterTest extends ezcTestCase
             $this->markTestSkipped();
         }
 
-        $this->writer = new ezcLogDatabaseWriter( $db, "log");
+        $this->writer = new ezcLogDatabaseWriter( $db, "log" );
 
         $this->assertNotNull( $db, 'Database instance is not initialized.' );
 
@@ -36,6 +36,23 @@ class ezcLogDatabaseWriterTest extends ezcTestCase
         $db->exec("DROP TABLE `log`");
     }
 
+
+    public function testWriteNotDefault()
+    {
+        $db = ezcDbInstance::get();
+        $writer = new ezcLogDatabaseWriter( $db, "logtable" );
+        $log = ezcLog::getInstance();
+        $log->getMapper()->appendRule( new ezcLogFilterRule( new ezcLogFilter, $writer, true ) );
+        try
+        {
+            $log->log( 'Adding category', ezcLog::INFO, array( 'source' => 'mail' ) );
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcLogWriterException $e )
+        {
+            $this->assertEquals( "SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ezc.logtable' doesn't exist", $e->getMessage() );
+        }
+    }
 
     public function testWriteDefaultEntries()
     {

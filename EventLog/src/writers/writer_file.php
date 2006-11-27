@@ -154,7 +154,7 @@ abstract class ezcLogFileWriter implements ezcLogWriter
             $failure = false;
             foreach ( $fileHandles as $filename => $fh )
             {
-                if ( fwrite( $fh, $string ) === false)
+                if ( fwrite( $fh, $string ) === false )
                 {
                     $failure = $filename;
                 }
@@ -162,7 +162,7 @@ abstract class ezcLogFileWriter implements ezcLogWriter
 
             if ( $failure )
             {
-                throw ezcLogWriterException( new ezcBaseFileIoException( $failure, ezcBaseFileIoException::WRITE ) );
+                throw new ezcLogWriterException( new ezcBaseFileIoException( $failure, ezcBaseFileIoException::WRITE ) );
             }
 
         }
@@ -172,7 +172,7 @@ abstract class ezcLogFileWriter implements ezcLogWriter
             {
                 if ( fwrite( $this->openFiles[$this->defaultFile], $string ) === false )
                 {
-                    throw ezcLogWriterException( new ezcBaseFileIoException( $this->defaultFile, ezcBaseFileIoException::WRITE ) );
+                    throw new ezcLogWriterException( new ezcBaseFileIoException( $this->defaultFile, ezcBaseFileIoException::WRITE ) );
                 }
             }
         }
@@ -193,17 +193,16 @@ abstract class ezcLogFileWriter implements ezcLogWriter
         }
 
         clearstatcache();
-        if ( file_exists( $this->logDirectory . "/". $fileName ) &&
-            ( filesize( $this->logDirectory . "/". $fileName ) >= $this->maxSize ) )
+        $path = $this->logDirectory . "/". $fileName;
+        if ( file_exists( $path ) &&
+            ( filesize( $path ) >= $this->maxSize ) )
         {
             $this->rotateLog( $fileName );
         }
 
-        $fh = @fopen( $this->logDirectory ."/".  $fileName, "a" );
+        $fh = @fopen( $path, "a" );
         if ( $fh === false )
         {
-            $path = $this->logDirectory ."/". $fileName;
-
             if ( !file_exists( $path ) )
             {
                 throw new ezcBaseFileNotFoundException( $path, "log" ); 

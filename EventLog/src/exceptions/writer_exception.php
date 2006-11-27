@@ -17,7 +17,7 @@
  * @package EventLog
  * @version //autogen//
  */
-class ezcLogWriterException extends Exception
+class ezcLogWriterException extends ezcBaseException
 {
     public $exception; 
 
@@ -29,6 +29,7 @@ class ezcLogWriterException extends Exception
     public function __construct( Exception $e )
     {
         $this->exception = $e;
+        parent::__construct( $e->getMessage() );
     }
 }
 ?>
