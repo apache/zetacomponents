@@ -252,30 +252,76 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 }
                 if ( $reply == "sp" || $reply == "a" )
                 {
-                    if ( $reply == "a" )
+                    if ( file_exists( $template->compiledTemplatePath ) )
                     {
-                        $displayText .= "------Compiled PHP code------\n";
+                        if ( $reply == "a" )
+                        {
+                            $displayText .= "------Compiled PHP code------\n";
+                        }
+                        $code = file_get_contents( $template->compiledTemplatePath );
+                        $code = str_replace( "<"."?php", "", $code );
+                        $displayText .= str_replace( "?" . ">", "", $code );
                     }
-                    $code = file_get_contents( $template->compiledTemplatePath );
-                    $code = str_replace( "<"."?php", "", $code );
-                    $displayText .= str_replace( "?" . ">", "", $code ); 
+                    else
+                    {
+                        if ( $reply == "a" )
+                        {
+                            $displayText .= "------Compiled PHP code not found------\n";
+                        }
+                        else
+                        {
+                            echo "The compiled file <" . $template->compiledTemplatePath . "> was not found\n";
+                            echo "This usually means the template file contained syntax errors\n";
+                            continue;
+                        }
+                    }
                 }
                 if ( $reply == "at" || $reply == "a" )
                 {
-                    if ( $reply == "a" )
+                    if ( $template->astTree instanceof ezcTemplateAstNode )
                     {
-                        $displayText .= "------AST------\n";
+                        if ( $reply == "a" )
+                        {
+                            $displayText .= "------AST------\n";
+                        }
+                        $displayText .= ezcTemplateAstTreeOutput::output( $template->astTree );
                     }
-                    $displayText .= ezcTemplateAstTreeOutput::output( $template->astTree );
+                    else
+                    {
+                        if ( $reply == "a" )
+                        {
+                            $displayText .= "------AST tree not available------\n";
+                        }
+                        else
+                        {
+                            echo "The AST tree is not available\n";
+                            continue;
+                        }
+                    }
                 }
                 if ( $reply == "tt" )
                 {
                     // NOTE: This currently fails due to missing implementations in the Tst class.
-                    if ( $reply == "a" )
+                    if ( $template->tstTree instanceof ezcTemplateTstNode )
                     {
-                        $displayText .= "------TST------\n";
+                        if ( $reply == "a" )
+                        {
+                            $displayText .= "------TST------\n";
+                        }
+                        $displayText .= ezcTemplateTstTreeOutput::output( $template->tstTree );
                     }
-                    $displayText .= ezcTemplateTstTreeOutput::output( $template->tstTree );
+                    else
+                    {
+                        if ( $reply == "a" )
+                        {
+                            $displayText .= "------TST tree not available------\n";
+                        }
+                        else
+                        {
+                            echo "The TST tree is not available\n";
+                            continue;
+                        }
+                    }
                 }
 
                 if ( PHP_OS == 'Linux' )
@@ -300,6 +346,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 echo "The actions are:\n",
                     "g  - Generate output file (Implies success of test)\n",
                     "s  - Skip this test (Implies failure of test)\n",
+                    "r  - Retry the test\n",
                     "o  - Display the generated output\n",
                     "e  - Display the expected output\n",
                     "st - Display source template\n",
