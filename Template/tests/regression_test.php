@@ -31,6 +31,8 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
     public $regressionDir = '';
 
+    private $retryTest = false;
+
     private $stdin = null;
 
     public function __construct()
@@ -89,16 +91,21 @@ class ezcTemplateRegressionTest extends ezcTestCase
         {
             $result->startTest($this);
 
-            try {
-                $this->testRunRegression( $directory );
-            }
+            $this->retryTest = true;
+            while ( $this->retryTest )
+            {
+                try {
+                    $this->retryTest = false;
+                    $this->testRunRegression( $directory );
+                }
 
-            catch (PHPUnit_Framework_AssertionFailedError $e) {
-                $result->addFailure($this, $e, time() );
-            }
+                catch (PHPUnit_Framework_AssertionFailedError $e) {
+                    $result->addFailure($this, $e, time() );
+                }
 
-            catch (Exception $e) {
-                $result->addError($this, $e, time() );
+                catch (Exception $e) {
+                    $result->addError($this, $e, time() );
+                }
             }
 
             $result->endTest($this, time());
@@ -157,7 +164,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
         while ( true )
         {
-            echo "Action (g/s/o/e/st/sp/tt/at/d/a/v/q/?): ";
+            echo "Action (g/s/r/o/e/st/sp/tt/at/d/a/v/q/?): ";
 
             $reply = strtolower( trim( fgets( $this->stdin ) ) );
 
@@ -178,6 +185,11 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 echo( "\n" );
 
                 continue;
+            }
+            elseif ( $reply == "r" )
+            {
+                $this->retryTest = true;
+                return;
             }
             elseif ( $reply == "g" )
             {
