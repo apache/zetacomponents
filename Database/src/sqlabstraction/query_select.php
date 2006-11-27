@@ -704,7 +704,7 @@ class ezcQuerySelect extends ezcQuery
      *
      * @param string $column a column name in the result set
      * @param string $type if the column should be sorted ascending or descending.
-     *        you can specify this using ezcQuery::ASC or ezcQuery::DESC
+     *        you can specify this using ezcQuerySelect::ASC or ezcQuerySelect::DESC
      * @return ezcQuery a pointer to $this
      */
     public function orderBy( $column, $type = self::ASC )
