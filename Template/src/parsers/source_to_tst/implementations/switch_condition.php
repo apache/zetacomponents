@@ -50,7 +50,7 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
             else
             {
                 // Tricky: Skip the spaces and new lines. Next element should be an case, or default.
-                $this->findNextElement();
+                //$this->findNextElement();
 
                 $sw = new ezcTemplateCaseTstNode( $this->parser->source, $this->startCursor, $cursor );
             }
@@ -76,7 +76,7 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
             }
 
             // Tricky: Skip the spaces and new lines. Next element should be an case, or default.
-            $this->findNextElement();
+            //$this->findNextElement();
 
             $sw = new ezcTemplateSwitchTstNode( $this->parser->source, $this->startCursor, $cursor );
 

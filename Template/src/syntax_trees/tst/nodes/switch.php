@@ -75,6 +75,11 @@ class ezcTemplateSwitchTstNode extends ezcTemplateBlockTstNode
                     // It's okay, but ignore it.
                     return;
                 }
+                else
+                {
+                    $trimmedLength = strlen( ltrim( $element->text ) );
+                    $element->startCursor->advance( strlen($element->text) - $trimmedLength );
+                }
             }
 
             throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CASE_STATEMENT );

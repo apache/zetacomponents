@@ -34,6 +34,7 @@ class ezcTemplateCaseTstNode extends ezcTemplateBlockTstNode
     {
         parent::__construct( $source, $start, $end );
         $this->conditions = array();
+        $this->name = "case";
 
         $this->isNestingBlock = true;
     }
