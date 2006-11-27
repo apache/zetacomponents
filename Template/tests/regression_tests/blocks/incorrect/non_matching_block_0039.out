@@ -1,0 +1,4 @@
+mock:5:8: Open and close block do not match: {if} and {/case}
+
+{/case}
+       ^

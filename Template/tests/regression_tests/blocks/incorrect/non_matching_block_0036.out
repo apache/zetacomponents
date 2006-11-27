@@ -1,0 +1,4 @@
+mock:5:13: Open and close block do not match: {if} and {/delimiter}
+
+{/delimiter}
+            ^

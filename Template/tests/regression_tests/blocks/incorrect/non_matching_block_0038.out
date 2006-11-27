@@ -1,0 +1,4 @@
+mock:5:10: Open and close block do not match: {if} and {/switch}
+
+{/switch}
+         ^

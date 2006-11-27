@@ -1,0 +1,4 @@
+mock:5:9: Open and close block do not match: {if} and {/while}
+
+{/while}
+        ^
