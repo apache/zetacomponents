@@ -356,7 +356,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         {
             // Try the special array fetch operator
             $operator = null;
-            if ( $cursor->match( '[' ) )
+            while ( $cursor->match( '[' ) )
             {
                 $this->findNextElement();
                 
@@ -392,10 +392,9 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
                 $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
                 $this->lastCursor = clone $cursor;
-                return true;
             }
 
-            return false;
+            return ($operator !== null); 
         }
 
 
