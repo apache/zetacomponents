@@ -69,25 +69,40 @@ abstract class ezcTemplatePermutation
         $lines = preg_split( "#(\r\n|\r|\n)#", $text, -1, PREG_SPLIT_DELIM_CAPTURE );
         for ( $i = 0; $i < count( $lines ); $i += 2 )
         {
-            if ( $i == count( $lines ) - 1 )
+            if ( $i == count( $lines ) - 1 &&
+                 strlen( $lines[$i] ) == 0 )
                 continue;
             $lines[$i] = $indentation . $lines[$i];
         }
         return implode( "", $lines );
     }
+
+    static function column( $text )
+    {
+        $lines = preg_split( "#(\r\n|\r|\n)#", $text, -1, PREG_SPLIT_DELIM_CAPTURE );
+        for ( $i = 0; $i < count( $lines ); $i += 2 )
+        {
+            if ( $i == count( $lines ) - 1 )
+                break;
+        }
+        $c = strlen( $lines[$i] );
+        return $c;
+    }
 }
 
 class ezcTemplatePermutationList extends ezcTemplatePermutation
 {
-    public function __construct( $list = null )
+    public function __construct( $list = null, $indentation = '' )
     {
         parent::__construct();
         $this->list = $list;
+        $this->indentation = $indentation;
     }
 
     public function generate()
     {
-        return self::generateString( $this->list );
+        return self::indentBlock( self::generateString( $this->list ),
+                                  $this->indentation );
     }
 
     public function increase()
@@ -272,6 +287,20 @@ class ezcTemplatePermutationApp
             echo $content;
         }
     }
+
+    public function close()
+    {
+        if ( $this->outputToFile )
+        {
+            if ( $this->fd === false )
+            {
+                throw new Exception( "File has not yet been opened" );
+            }
+            echo "Writing to ", $this->dir . "/" . $this->file, "\n";
+            fclose( $this->fd );
+            $this->fd = false;
+        }
+    }
 }
 
 function app( $file, $args, $dir = false )
@@ -283,6 +312,13 @@ function perm()
 {
     $args = func_get_args();
     return new ezcTemplatePermutationList( $args );
+}
+
+function permI()
+{
+    $args = func_get_args();
+    $indent = array_shift( $args );
+    return new ezcTemplatePermutationList( $args, $indent );
 }
 
 function alt()

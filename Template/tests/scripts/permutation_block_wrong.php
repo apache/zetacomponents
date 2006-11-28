@@ -261,6 +261,28 @@ do
                            $outFile );
                 ++$outCount;
             }
+            // Special case 3
+            elseif ( $start == 'elseif' ||
+                     $start == 'else' )
+            {
+                $len = strlen( $start ) + 1 + 1 + 4; // 4 is for the identation
+                $a->store( "mock:3:{$len}: Unexpected block {{$start}} at this position. Some blocks can only be used inside other blocks.\n" .
+                           "\n" .
+                           "    {$startText}\n" .
+                           str_repeat( " ", $len - 1 ) . "^\n",
+                           $outFile );
+                ++$outCount;
+            }
+            // Special case 4
+            elseif ( $start == 'switch' )
+            {
+                $a->store( "mock:5:9: Expecting an case block.\n" .
+                           "\n" .
+                           "        {\$foo}\n" .
+                           "        ^\n",
+                           $outFile );
+                ++$outCount;
+            }
             elseif ( $start == '' )
             {
                 $len = strlen( $endText ) + 4 + 1; // 4 is for the indentation
