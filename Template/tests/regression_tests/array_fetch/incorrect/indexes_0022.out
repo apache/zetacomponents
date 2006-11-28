@@ -1,0 +1,4 @@
+mock:4:5: Unexpected array append '[]'. Did you forget an expresssion between the brackets?
+
+[][2]}
+    ^

@@ -1,0 +1,4 @@
+mock:4:10: Unexpected array append '[]'. Did you forget an expresssion between the brackets?
+
+[]/*c*/[2]}
+         ^

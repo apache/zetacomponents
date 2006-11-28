@@ -1,0 +1,4 @@
+mock:3:16: Unexpected array append '[]'. Did you forget an expresssion between the brackets?
+
+{$a[0][1] [] [2]}
+               ^

@@ -1,0 +1,4 @@
+{* file: indexes_0022.in *}
+{var $a = array( 0 => array( 1 => array( 2 => 'foo' ) ) )}
+{$a[0][1]
+[][2]}
