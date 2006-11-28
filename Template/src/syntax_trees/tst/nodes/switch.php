@@ -59,7 +59,12 @@ class ezcTemplateSwitchTstNode extends ezcTemplateBlockTstNode
                 throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_DEFAULT_LAST );
             }
 
-            parent::handleElement( $element );
+            $this->children[] = $element;
+            $this->elements = $this->children;
+            return true;
+
+
+            //parent::handleElement( $element );
         }
         elseif( $element instanceof ezcTemplateDocCommentTstNode )
         {
