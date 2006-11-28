@@ -729,20 +729,48 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitWhileLoopTstNode( ezcTemplateWhileLoopTstNode $type )
     {
-        if ( $type->name == "do" )
+        $delimVar = new ezcTemplateVariableAstNode( $this->getUniqueVariableName( "delim" ) ); 
+        $delimOut = new ezcTemplateVariableAstNode(  $this->getUniqueVariableName( "delimOut" ) );
+        array_unshift( $this->delimiterStack, array("counter" => $delimVar, "output" => $delimOut, "found" => false) );
+
+        $astNode = array();
+        $body = $this->createBody( $type->elements );
+
+        $i = 0;
+        if ( $this->delimiterStack[0]["found"] )
         {
-            $astNode = new ezcTemplateDoWhileAstNode();
+            // Assign the delimiter variable to 0 (above foreach).
+            // $_ezcTemplate_delimiterCounter = 0
+            $astNode[$i++] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
+                              $this->delimiterStack[0]["counter"], new ezcTemplateLiteralAstNode( 0 ) ) );
+
+            // Assign delimiter output to "" (above foreach)
+            // $_ezcTemplate_delimiterOut = ""
+            $astNode[$i++] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
+                              $this->delimiterStack[0]["output"], new ezcTemplateLiteralAstNode( "" ) ) );
+
+            array_unshift( $body->statements, new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $this->delimiterStack[0]["output"], new ezcTemplateLiteralAstNode( "" ) ) ) );
+
+            $inc = new ezcTemplateIncrementOperatorAstNode( true );
+            $inc->appendParameter( $this->delimiterStack[0]["counter"] );
+            
+            array_unshift( $body->statements, new ezcTemplateGenericStatementAstNode( $inc ) );
+
+            // output delimiter output (in foreach).
+            // $_ezcTemplate_output .= $_ezcTemplate_delimiterOut;
+            array_unshift( $body->statements, new ezcTemplateGenericStatementAstNode( new ezcTemplateConcatAssignmentOperatorAstNode( 
+                 $this->outputVariable->getAst() , $this->delimiterStack[0]["output"] ) ) );
+  
         }
-        else
-        {
-            $astNode = new ezcTemplateWhileAstNode();
-        }
+
+        $astNode[$i] = new ezcTemplateWhileAstNode();
 
         $cb = new ezcTemplateConditionBodyAstNode();
         $cb->condition = $type->condition->accept( $this );
-        $cb->body = $this->createBody( $type->elements );
+        $cb->body = $body;
 
-        $astNode->conditionBody = $cb; 
+        $astNode[$i]->conditionBody = $cb; 
+
 
         return $astNode;
     }

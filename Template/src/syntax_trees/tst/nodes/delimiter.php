@@ -48,5 +48,26 @@ class ezcTemplateDelimiterTstNode extends ezcTemplateBlockTstNode
         parent::handleElement( $element );
     }
 
+    public function canAttachToParent( $parentElement )
+    {
+        // Process the lot.
+        // Must at least have one parent with foreach or while.
+
+        $p = $parentElement;
+
+        while( !$p instanceof ezcTemplateProgramTstNode )
+        {
+            if( $p instanceof ezcTemplateForeachLoopTstNode || $p instanceof ezcTemplateWhileLoopTstNode )
+            {
+                return; // Perfect, we are inside a loop.
+            }
+
+            $p = $p->parentBlock;
+        }
+
+
+        throw new ezcTemplateParserException( $this->source, $this->startCursor, $this->startCursor, 
+            "{" . $this->name . "} can only be a child of an {foreach} or a {while} block." );
+    }
 }
 ?>

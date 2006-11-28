@@ -194,19 +194,19 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
                 // This method throws an exception if the node cannot be attached.
                 $element->canAttachToParent( $this->lastBlock );
 
-                    $this->lastBlock->handleElement( $element );
+                $this->lastBlock->handleElement( $element );
 
-                    if ( $element instanceof ezcTemplateBlockTstNode && $element->isNestingBlock)
-                    {
+                if ( $element instanceof ezcTemplateBlockTstNode && $element->isNestingBlock)
+                {
 
-                        // No special handling required so we check if the element
-                        // is a nesting block and should start a new nesting level
+                    // No special handling required so we check if the element
+                    // is a nesting block and should start a new nesting level
 
-                        $element->parentBlock = $this->lastBlock;
-                        $this->lastBlock = $element;
+                    $element->parentBlock = $this->lastBlock;
+                    $this->lastBlock = $element;
 
-                        $this->parser->symbolTable->increaseScope();
-                    }
+                    $this->parser->symbolTable->increaseScope();
+                }
             }
         }
     }

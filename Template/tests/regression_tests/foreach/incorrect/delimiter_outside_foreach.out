@@ -1,4 +1,4 @@
-mock:1:11: Delimiter can only be used inside a foreach block.
+mock:1:11: {delimiter} can only be a child of an {foreach} or a {while} block.
 
 {delimiter modulo 2}
           ^
