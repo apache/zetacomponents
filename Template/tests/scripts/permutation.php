@@ -228,11 +228,6 @@ class ezcTemplatePermutationApp
                     $this->outputToFile = true;
             }
         }
-
-        if ( $this->outputToFile && !file_exists( $dir ) )
-        {
-            mkdir( $dir, 0777, true );
-        }
     }
 
     public function store( $content, $file = false )
@@ -242,6 +237,11 @@ class ezcTemplatePermutationApp
 
         if ( $this->outputToFile )
         {
+            if ( !file_exists( dirname( $file ) ) )
+            {
+                mkdir( dirname( $file ), 0777, true );
+            }
+
             echo "Writing to ", $file, "\n";
             file_put_contents( $file, $content );
         }
@@ -258,7 +258,12 @@ class ezcTemplatePermutationApp
         {
             if ( $this->fd === false )
             {
-                $this->fd = fopen( $this->dir . '/' . $this->file, "w" );
+                $file = $this->dir . '/' . $this->file;
+                if ( !file_exists( dirname( $file ) ) )
+                {
+                    mkdir( dirname( $file ), 0777, true );
+                }
+                $this->fd = fopen( $file, "w" );
             }
             fwrite( $this->fd, $content );
         }
