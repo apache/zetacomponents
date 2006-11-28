@@ -642,6 +642,52 @@ Beside that, the ezcPersistentSession->delete() method keeps track of the
 relation records. If you delete a record, all it's relation records are deleted
 automatically.
 
+Special 1:1 relations
+---------------------
+
+If you desire to use 1:1 relations, where 2 tables share a common primary key,
+you need to define 1 table to generate the key and the other table to use the
+ezcPersistentManualGenerator. For our example, if one person may only have one
+address, this could look like that: ::
+
+    <?php
+    $def = new ezcPersistentObjectDefinition();
+    $def->table = "addresses";
+    $def->class = "Address";
+
+    $def->idProperty                = new ezcPersistentObjectIdProperty;
+    $def->idProperty->columnName    = 'id';
+    $def->idProperty->propertyName  = 'id';
+    $def->idProperty->generator     = new ezcPersistentGeneratorDefinition( 'ezcPersistentManualGenerator' );
+
+    // ...
+    ?>
+
+And for the relation (defined in the definition file of the Person): ::
+
+    <?php
+    // ...
+
+    $def->relations["Address"] = new ezcPersistentOneToOneRelation(
+        "persons",
+        "addresses"
+    );
+    $def->relations["Address"]->columnMap = array(
+        new ezcPersistentSingleTableMap(
+            "id",
+            "person_id"
+        ),
+    );
+    ?>
+
+If you let both tables use an ezcPersistentSequenceGenerator for the same key,
+ezcPersistentSession will fail to save a related object, since the ID will
+already be set by the ezcPersistentSession::addRelatedObject() method.
+
+Another way to make this working is, to not use the same primary key for both
+tables, but to make the Address object have its own ID and only use the Persons
+ID as a foreign key.
+
 Reverse relations
 -----------------
 

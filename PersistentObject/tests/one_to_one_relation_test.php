@@ -264,7 +264,7 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         );
     }
 
-    // Fails currently, since PO thinks the object is already persistent
+    // Works now, using manual generator
     public function testAddRelatedBirthdayToPerson3SaveSuccess()
     {
         $person = $this->session->load( "RelationTestPerson", 3 );
@@ -291,7 +291,7 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         );
     }
  
-    public function testAddRelatedBirthdayToPerson3UpdateFailure()
+    public function testAddRelatedBirthdayToPerson3UpdateSuccess()
     {
         $person = $this->session->load( "RelationTestPerson", 3 );
         
@@ -302,11 +302,14 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
 
         $this->session->addRelatedObject( $person, $birthday );
         
+        $this->session->update( $birthday );
+        
         try
         {
-            $this->session->update( $birthday );
+            // The birthday record should not exist
+            $birthday = $this->session->load( "RelationTestBirthday", 3 );
         }
-        catch( Exception $e )
+        catch ( Exception $e )
         {
             return;
         }

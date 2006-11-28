@@ -8,7 +8,7 @@ $def->class = "RelationTestBirthday";
 $def->idProperty                = new ezcPersistentObjectIdProperty;
 $def->idProperty->columnName    = 'person_id';
 $def->idProperty->propertyName  = 'person';
-$def->idProperty->generator     = new ezcPersistentGeneratorDefinition( 'ezcPersistentSequenceGenerator' );
+$def->idProperty->generator     = new ezcPersistentGeneratorDefinition( 'ezcPersistentManualGenerator' );
 
 $def->properties['birthday']                 = new ezcPersistentObjectProperty;
 $def->properties['birthday']->columnName     = 'birthday';

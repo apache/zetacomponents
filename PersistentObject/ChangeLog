@@ -8,6 +8,8 @@
   PersistentObjectDatabaseSchemaTiein.
 - Fixed issue #9591: persistentsession attempts to throw non existing
   exception (typo).
+- Fixed issue #9249: Save/update objects with 1:1 relations that share the
+  same ID does not work.
 
 
 1.2beta2 - Monday 20 November 2006
