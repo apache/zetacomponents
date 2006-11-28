@@ -1,4 +1,4 @@
-mock:3:7: Expecting a literal value.
+mock:3:6: Unexpected block {case} at this position. Some blocks can only be used inside other blocks.
 
-{case $foo}
-      ^
+{case 5}
+     ^
