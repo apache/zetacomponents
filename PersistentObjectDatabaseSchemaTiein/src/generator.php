@@ -196,7 +196,7 @@ class ezcPersistentObjectSchemaGenerator
                     break;
             }
         }
-        catch ( ezcBaseException $e )
+        catch ( Exception $e )
         {
             $this->raiseError( "Error reading schema: {$e->getMessage()}" );
         }

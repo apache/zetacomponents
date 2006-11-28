@@ -179,5 +179,29 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
 
         $this->removeTempDir();
     }
+
+    public function testInvalidFromDb()
+    {
+        $type = ezcTestSettings::getInstance()->db->phptype;
+        $dsn = ezcTestSettings::getInstance()->db->dsn;
+
+        if ( $dsn === null || $type === null )
+        {
+            $this->markTestSkipped( "DSN or database type not set" );
+        }
+
+        // manipulate DSN
+        $dsn = preg_replace( "@/[^/]*$@", "/db_not_exists", $dsn );
+
+        // setup this test
+        $destination = $this->createTempDir( "PersObjDatSchem" );
+        
+        // real test
+        $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f "$type" -s "$dsn" "$destination"`;
+        
+        $this->assertEquals( $this->results[__FUNCTION__], substr( $res, 0, 115 ), "Error output incorrect with no parameters." );
+
+        $this->removeTempDir();
+    }
 }
 ?>

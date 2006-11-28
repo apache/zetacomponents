@@ -113,6 +113,10 @@ $res['testValidFromDb'] = '[34;1meZ components PersistentObject definition gene
 [0m[0m[0m[m
 [0m[34;1mPersistentObject definition successfully written to';
 
+$res['testInvalidFromDb'] = '[34;1meZ components PersistentObject definition generator[0m[m
+[0m[0m[0m[m
+[0m[31;1mError reading schema: ';
+
 return $res;
 
 ?>
