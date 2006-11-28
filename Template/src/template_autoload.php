@@ -331,6 +331,7 @@ return array(
              "ezcTemplateCustomBlockException" => "Template/exceptions/custom_block_exception.php",
 
              "ezcTemplateRuntimeException" => "Template/exceptions/runtime_exception.php",
+             "ezcTemplateInternalException" => "Template/exceptions/internal_exception.php",
 
 
 

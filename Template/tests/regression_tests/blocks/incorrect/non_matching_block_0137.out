@@ -1,4 +1,4 @@
-mock:7:11: Open and close block do not match: {switch} and {/foreach}
+mock:5:9: Expecting an case block.
 
-{/foreach}
-          ^
+        {$foo}
+        ^

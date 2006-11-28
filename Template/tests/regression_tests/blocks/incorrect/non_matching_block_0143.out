@@ -1,4 +1,4 @@
-mock:6:12: Open and close block do not match: {switch} and {/case}
+mock:5:9: Expecting an case block.
 
-    {/case}
-           ^
+        {$foo}
+        ^

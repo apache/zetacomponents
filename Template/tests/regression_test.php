@@ -28,6 +28,8 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
     public $verboseErrors = false;
 
+    public $skipMissingTests = false;
+
     public $directories = array();
 
     public $regressionDir = '';
@@ -342,11 +344,30 @@ class ezcTemplateRegressionTest extends ezcTestCase
             {
                 throw new PHPUnit_Framework_ExpectationFailedException( $help );
             }
+            elseif ( $reply == 'sm' )
+            {
+                $this->skipMissingTests = true;
+                throw new PHPUnit_Framework_ExpectationFailedException( $help );
+            }
+            elseif ($reply == "ren" )
+            {
+                if( file_exists( $tplSource.".tmp" ) )
+                {
+                    echo "Cannot rename the file to: {$tplSource}.tmp because the file already exists\n";
+                    continue;
+                }
+
+                echo ( "renaming: " .  $tplSource . " to: " . $tplSource.".tmp\n"   );
+                rename ( $tplSource, $tplSource.".tmp" );
+
+                throw new PHPUnit_Framework_ExpectationFailedException( $help );
+            }
             elseif ( $reply == '?' )
             {
                 echo "The actions are:\n",
                     "g  - Generate output file (Implies success of test)\n",
                     "s  - Skip this test (Implies failure of test)\n",
+                    "sm - Skip all missing tests\n",
                     "r  - Retry the test\n",
                     "o  - Display the generated output\n",
                     "e  - Display the expected output\n",
@@ -357,6 +378,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     "d  - Display difference between generated output and expected output\n",
                     "a  - Display all of the above (o,e,st,sp,at,tt,d)\n",
                     "v  - Display verbose template information\n",
+                    "ren- Rename a input test from *.in to *.in.tmp\n",
                     "q  - Quit\n";
                 continue;
             }
@@ -431,7 +453,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
             {
                 $help = "The out file: '$expected' could not be found.";
 
-                if( $this->interactiveMode )
+                if( !$this->skipMissingTests && $this->interactiveMode )
                 {
                     echo "\n", $help, "\n";
 

@@ -1,4 +1,4 @@
-mock:1:17: Expecting a literal
+mock:1:17: Expecting a literal value.
 
 {var $a = array(}
                 ^

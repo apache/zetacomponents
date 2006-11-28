@@ -158,12 +158,27 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             {
                 foreach ( $astNode as $ast )
                 {
-                    $body->appendStatement( $ast );
+                    if( $ast instanceof ezcTemplateStatementAstNode )
+                    {
+                        $body->appendStatement( $ast );
+                    }
+                    else
+                    {
+                        throw new ezcTemplateInternalException ("Expected an ezcTemplateStatementAstNode: " . __FILE__ . ":" . __LINE__ );
+                    }
+
                 }
             }
             else
             {
-                $body->appendStatement( $astNode );
+                if( $astNode instanceof ezcTemplateStatementAstNode )
+                {
+                    $body->appendStatement( $astNode );
+                }
+                else
+                {
+                    throw new ezcTemplateInternalException ("Expected an ezcTemplateStatementAstNode: " . __FILE__ . ":" . __LINE__ );
+                }
             }
         }
 
@@ -255,12 +270,27 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
                 {
                     foreach ( $astNode as $ast )
                     {
-                        $this->programNode->appendStatement( $ast );
+                        if( $ast instanceof ezcTemplateStatementAstNode )
+                        {
+                            $this->programNode->appendStatement( $ast );
+                        }
+                        else
+                        {
+                            throw new ezcTemplateInternalException ("Expected an ezcTemplateStatementAstNode: ". __FILE__ . ":" . __LINE__ );
+
+                        }
                     }
                 }
                 else
                 {
-                    $this->programNode->appendStatement( $astNode );
+                    if( $astNode instanceof ezcTemplateStatementAstNode )
+                    {
+                        $this->programNode->appendStatement( $astNode );
+                    }
+                    else
+                    {
+                        throw new ezcTemplateInternalException ("Expected an ezcTemplateStatementAstNode: ". __FILE__ . ":" . __LINE__  );
+                    }
                 }
             }
 
