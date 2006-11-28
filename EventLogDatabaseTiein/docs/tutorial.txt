@@ -1,0 +1,106 @@
+eZ components - EventLogDatabaseTieIn
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+The EventLogDatabaseTieIn component provides an API to log events and audit
+trails using a database connection. See EventLog_ and Database_ for more
+information about the components for which this package is a tie-in.
+
+The available log writers are:
+
+- ezcLogDatabaseWriter, which writes log messages to the database.
+
+To write log messages to the database, the Database_ component is used. The
+table to which the log is written should already exist.
+
+
+Class overview
+==============
+
+The following classes are most important to use, customize, or extend:
+
+ezcLogDatabaseWriter
+  The ezcLogDatabaseWriter writes the log message to a database.
+ 
+For more information about these classes, see the class documentation.
+
+
+Examples
+========
+
+Writing to a database
+---------------------
+
+In this example, an MySQL database is used for writing log messages. The database
+"app" and the table "log" should already exist. The table should at least contain
+the columns: time, message, severity, source, category.
+
+.. include:: tutorial_database.php
+   :literal:
+
+An example sql query to create the table::
+
+    CREATE TABLE log (
+        category varchar(255) NOT NULL,
+        file varchar(255),
+        id bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        line bigint,
+        message varchar(255) NOT NULL,
+        severity varchar(255) NOT NULL,
+        source varchar(255) NOT NULL,
+        time timestamp NOT NULL
+    );
+
+The log table will have rows similar to::
+
+    array(16) {
+      ["category"]=>
+      string(6) "Design"
+      [0]=>
+      string(6) "Design"
+      ["file"]=>
+      NULL
+      [1]=>
+      NULL
+      ["id"]=>
+      string(1) "1"
+      [2]=>
+      string(1) "1"
+      ["line"]=>
+      NULL
+      [3]=>
+      NULL
+      ["message"]=>
+      string(41) "File '/images/spacer.gif' does not exist."
+      [4]=>
+      string(41) "File '/images/spacer.gif' does not exist."
+      ["severity"]=>
+      string(7) "Warning"
+      [5]=>
+      string(7) "Warning"
+      ["source"]=>
+      string(11) "Application"
+      [6]=>
+      string(11) "Application"
+      ["time"]=>
+      string(19) "2006-11-28 14:21:32"
+      [7]=>
+      string(19) "2006-11-28 14:21:32"
+    }
+
+
+.. _EventLog: http://ez.no/doc/components/view/trunk/(file)/introduction_EventLog.html
+.. _Database: http://ez.no/doc/components/view/trunk/(file)/introduction_Database.html
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79

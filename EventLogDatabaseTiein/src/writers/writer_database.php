@@ -16,6 +16,9 @@
  *     // Get the database instance
  *     $db = ezcDbInstance::get();
  *
+ *     // Get the log instance
+ *     $log = ezcLog::getInstance();
+ *
  *     // Create a new ezcLogDatabaseWriter object based on the database instance
  *     // and with the default table name "log".
  *     // The "log" table must exist already in the database, and must have a compatible structure,
@@ -33,13 +36,19 @@
  *     //   source varchar(255) NOT NULL,
  *     //   time timestamp NOT NULL
  *     // );
- *     $log = new ezcLogDatabaseWriter( $db, "log" );
+ *     $writer = new ezcLogDatabaseWriter( $db, "log" );
+ *
+ *     // Specify that log messages will be written to the database
+ *     $log->getMapper()->appendRule( new ezcLogFilterRule( new ezcLogFilter, $writer, true ) );
  *
  *     // Write a log entry ( message, severity, source, category )
- *     $log->writeLogMessage( "File /images/spacer.gif does not exist.", ezcLog::WARNING, "Application", "Design" );
+ *     $log->log( "File '/images/spacer.gif' does not exist.", ezcLog::WARNING,
+ *          array( "source" => "Application", "category" => "Design" ) );
  *
  *     // Write a log entry ( message, severity, source, category, file, line )
- *     $log->writeLogMessage( "File /images/spacer.gif does not exist.", ezcLog::WARNING, "Application", "Design", array( "file" => "/index.php", "line" => 123 ) );
+ *     $log->log( "File '/images/spacer.gif' does not exist.", ezcLog::WARNING,
+ *          array( "source" => "Application", "category" => "Design" ),
+ *          array( "file" => "/index.php", "line" => 123 ) );
  * </code>
  *
  * @property string $table
