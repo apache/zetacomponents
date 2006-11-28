@@ -1,0 +1,6 @@
+mock:9:1: Incorrect nesting in code, close block {/foreach} expected.
+
+{/foreach}
+
+
+^

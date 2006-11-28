@@ -1,0 +1,4 @@
+mock:7:11: Found closing block {/foreach} without an opening block.
+
+{/foreach}
+          ^

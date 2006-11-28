@@ -1,0 +1,4 @@
+mock:6:12: Open and close block do not match: {foreach} and {/case}
+
+    {/case}
+           ^
