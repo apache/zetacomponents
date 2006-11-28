@@ -18,6 +18,7 @@ class RelationTest
 
         $db->exec( "INSERT INTO `PO_employers` (`name`) VALUES ('Great Web 2.0 company');" );
         $db->exec( "INSERT INTO `PO_employers` (`name`) VALUES ('Oldschool Web 1.x company');" );
+        $db->exec( "INSERT INTO `PO_employers` (`name`) VALUES ('Very oldschool print media company');" );
 
         $db->exec( "INSERT INTO `PO_persons` (`firstname`, `surname`, `employer`) VALUES ('Theodor', 'Gopher', 2);" );
         $db->exec( "INSERT INTO `PO_persons` (`firstname`, `surname`, `employer`) VALUES ('Frederick', 'Ajax', 1);" );

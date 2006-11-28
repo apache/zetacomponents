@@ -71,6 +71,7 @@ CREATE TABLE `PO_employers` (
 
 INSERT INTO `PO_employers` (`id`, `name`) VALUES (1, 'Great Web 2.0 company');
 INSERT INTO `PO_employers` (`id`, `name`) VALUES (2, 'Oldschool Web 1.x company');
+INSERT INTO `PO_employers` (`id`, `name`) VALUES (3, 'Very oldschool print media company');
 
 -- --------------------------------------------------------
 

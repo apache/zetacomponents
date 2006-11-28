@@ -530,7 +530,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
         $stmt->execute();
 
         $this->assertEquals(
-            1,
+            2,
             $stmt->fetchColumn(),
             "Employer not correctly deleted directly."
         );
