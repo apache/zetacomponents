@@ -1,0 +1,4 @@
+mock:3:7: Expecting a literal value.
+
+{case $foo}
+      ^

@@ -96,7 +96,7 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
 
                 if ( !$this->parseRequiredType( 'Literal', null, false ) )
                 {
-                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_LITERAL );
                 }
 
                 $case->conditions[] = $this->lastParser->element;
