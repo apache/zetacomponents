@@ -11,7 +11,7 @@
 
 /**
  * This interface has to implemented by ezcImageFilters classes to
- * support useless filters.
+ * support effect filters.
  *
  * @see ezcImageHandler
  * @see ezcImageTransformation
