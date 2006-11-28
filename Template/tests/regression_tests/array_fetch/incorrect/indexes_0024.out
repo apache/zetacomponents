@@ -1,4 +1,4 @@
-mock:5:3: Unexpected array append '[]'. Did you forget an expresssion between the brackets?
+mock:5:3: Unexpected array append '[]'. Did you forget an expression between the brackets?
 
 [2]}
   ^

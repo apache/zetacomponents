@@ -1,4 +1,4 @@
-mock:2:13: Unexpected array append '[]'. Did you forget an expresssion between the brackets?
+mock:2:13: Unexpected array append '[]'. Did you forget an expression between the brackets?
 
 {var $b = $a[] + 2}
             ^
