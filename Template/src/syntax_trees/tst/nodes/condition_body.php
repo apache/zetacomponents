@@ -43,5 +43,22 @@ class ezcTemplateConditionBodyTstNode extends ezcTemplateBlockTstNode
         return array( 'condition' => $this->condition,
                       'children'  => $this->children );
     }
+
+    public function canAttachToParent( $parentElement )
+    {
+        if( !$parentElement instanceof ezcTemplateIfConditionTstNode )
+        {
+            if ( $parentElement instanceof ezcTemplateProgramTstNode )
+            {
+               throw new ezcTemplateParserException( $this->source, $this->startCursor, $this->startCursor, 
+                   "{" . $this->name . "} can only be a child of an {if} block." );
+            } 
+
+            throw new ezcTemplateParserException( $this->source, $this->startCursor, $this->startCursor, 
+               "The block {" . $this->name . "} cannot be a sub-block of {".$parentElement->name."}. {".$this->name."} can only be a child of an {if} block." );
+        }
+    }
+
+
 }
 ?>

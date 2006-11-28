@@ -213,6 +213,11 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
         return false;
     }
 
+    public function canAttachToParent( $parentElement )
+    {
+        //echo ("Checking whether ". get_class( $this ) . " can be attached to: " . get_class( $parentElement ) . "\n" );
+    }
+
     /**
      * Passes control of $element to the current block for special handling.
      *

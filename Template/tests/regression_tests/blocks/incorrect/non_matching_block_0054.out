@@ -1,4 +1,4 @@
-mock:3:6: Unexpected block {else} at this position. Some blocks can only be used inside other blocks.
+mock:3:6: {else} can only be a child of an {if} block.
 
 {else}
      ^

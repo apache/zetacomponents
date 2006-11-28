@@ -1,4 +1,4 @@
-mock:6:10: Open and close block do not match: {else} and {/if}
+mock:4:10: The block {else} cannot be a sub-block of {foreach}. {else} can only be a child of an {if} block.
 
-    {/if}
+    {else}
          ^

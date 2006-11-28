@@ -1,0 +1,8 @@
+{* file: non_matching_block_0129.in *}
+{var $foo = 1, $_false = false, $array = array( 1, 2 )}
+{foreach $array as $bar}
+    {else}
+        {$foo}
+    
+{/foreach}
+

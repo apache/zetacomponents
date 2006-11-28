@@ -148,6 +148,10 @@ abstract class ezcTemplateTstNode
         return false;
     }
 
+    public function canAttachToParent( $parentElement )
+    {
+    }
+
 
     /**
      * The accept part for the visitor.

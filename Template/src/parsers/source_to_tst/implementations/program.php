@@ -77,7 +77,6 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
             $this->lastCursor->copy( $cursor );
             if ( !$this->parseRequiredType( 'Block', $this->startCursor, false ) )
             {
-                // This will cause handleSuccessfulResult() to be called
                 return false;
             }
             $this->startCursor->copy( $cursor );
@@ -182,7 +181,6 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
     {
         foreach ( $elements as $element )
         {
-            
             if ( $element instanceof ezcTemplateBlockTstNode && $element->isClosingBlock ) 
             {
                 // Check for closing of current block
@@ -193,20 +191,22 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
             }
             else 
             {
+                // This method throws an exception if the node cannot be attached.
+                $element->canAttachToParent( $this->lastBlock );
 
-                $this->lastBlock->handleElement( $element );
+                    $this->lastBlock->handleElement( $element );
 
-                if ( $element instanceof ezcTemplateBlockTstNode && $element->isNestingBlock)
-                {
+                    if ( $element instanceof ezcTemplateBlockTstNode && $element->isNestingBlock)
+                    {
 
-                    // No special handling required so we check if the element
-                    // is a nesting block and should start a new nesting level
+                        // No special handling required so we check if the element
+                        // is a nesting block and should start a new nesting level
 
-                    $element->parentBlock = $this->lastBlock;
-                    $this->lastBlock = $element;
+                        $element->parentBlock = $this->lastBlock;
+                        $this->lastBlock = $element;
 
-                    $this->parser->symbolTable->increaseScope();
-                }
+                        $this->parser->symbolTable->increaseScope();
+                    }
             }
         }
     }
