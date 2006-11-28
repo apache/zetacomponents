@@ -305,8 +305,8 @@ ezcPersistentSequenceGenerator
 The sequence generator relies on the PDO::lastInsertId() method to retrieve the
 IDs for newly created persistent objects.
 
-It is recommended to use auto_increment id columns for databases supporting
-it. This includes MySQL and SQLite. Other databases need to use a sequence. E.g
+For databases supporting auto_increment (like MySQL and SQLite) the usage of
+ezcPersistentNativeGenerator. Other databases need to use a sequence. E.g
 for PostgreSQL the person table definition should look like: ::
 
   CREATE TABLE persons
@@ -325,6 +325,28 @@ provided to the ezcPersistentSequenceGenerator in the mapping definition. ::
     $def->idProperty->generator = new ezcPersistentGeneratorDefinition(
         'ezcPersistentSequenceGenerator',
         array( 'sequence' => 'person_sequence' )
+    );
+    ?>
+
+ezcPersistentNativeGenerator
+----------------------------
+
+The native generator relies on auto_increment, which is supported by e.g. MySQL
+and SQLite. A table definition for this looks like that: ::
+
+    CREATE TABLE persons
+    (
+        id integer unsigned not null auto_increment,
+        full_name varchar(255),
+        age integer,
+        PRIMARY KEY (id)
+    );
+
+The according generator definition: ::
+
+    <?php
+    $def->idProperty->generator = new ezcPersistentGeneratorDefinition(
+        'ezcPersistentNativeGenerator'
     );
     ?>
 
