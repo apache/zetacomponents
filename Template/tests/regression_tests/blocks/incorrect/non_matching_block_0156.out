@@ -1,0 +1,4 @@
+mock:6:17: Open and close block do not match: {default} and {/delimiter}
+
+    {/delimiter}
+                ^

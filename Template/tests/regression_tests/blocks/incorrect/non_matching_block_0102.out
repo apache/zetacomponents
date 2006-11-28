@@ -1,0 +1,4 @@
+mock:6:14: Open and close block do not match: {while} and {/switch}
+
+    {/switch}
+             ^

@@ -1,0 +1,4 @@
+mock:6:13: Open and close block do not match: {case} and {/while}
+
+    {/while}
+            ^
