@@ -10,7 +10,7 @@
 */
 
 /**
- * This interface has to implemented by ezcImageFilters classes to
+ * This interface has to be implemented by ezcImageFilters classes to
  * support effect filters.
  *
  * @see ezcImageHandler
