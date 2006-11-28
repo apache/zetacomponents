@@ -328,6 +328,45 @@ provided to the ezcPersistentSequenceGenerator in the mapping definition. ::
     );
     ?>
 
+ezcPersistentManualGenerator
+----------------------------
+
+If you do not rely on a database mechanism to generate values for a primary
+key column, you have to use the ezcPersistentManualGenerator class. You can
+then set the value of the ID property by hand and save the object afterwards.
+
+For example: ::
+    
+    CREATE TABLE persons
+    (
+        login varchar(25),
+        full_name varchar(255),
+        age integer,
+        PRIMARY KEY (login)
+    );
+
+In this table you use a string value as the primary key and therefore have to
+generate ID values manually. Use the following definition: ::
+
+    <?php
+    $def->idProperty->generator = new ezcPersistentGeneratorDefinition(
+        'ezcPersistentManualGenerator'
+    );
+    ?>
+
+And for saving a new instance the following code: ::
+    
+    <?php
+    $object = new Person();
+
+    // Manually set the ID
+    $object->login = "guybrush";
+
+    $object->name = "Guybrush Threepwood";
+    $object->age = 31;
+
+    $session->save( $object );
+    ?>
 
 Definition loaders
 ===================
