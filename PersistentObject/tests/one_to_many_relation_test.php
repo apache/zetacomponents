@@ -261,6 +261,20 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
         );
     }
 
+    public function testGetRelatedObjectFromEmployer3Failure()
+    {
+        $employer = $this->session->load( "RelationTestEmployer", 3 );
+        try
+        {
+            $this->session->getRelatedObject( $employer, "RelationTestPerson" );
+        }
+        catch ( ezcPersistentRelatedObjectNotFoundException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown when getRelatedObject() does not find a record." );
+    }
+
     public function testAddRelatedPersonsToEmployer2Success()
     {
         $employer = $this->session->load( "RelationTestEmployer", 2 );

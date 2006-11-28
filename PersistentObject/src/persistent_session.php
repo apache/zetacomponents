@@ -472,7 +472,7 @@ class ezcPersistentSession
         $resArr = $this->find( $query, $relatedClass );
         if ( sizeof( $resArr ) < 1 )
         {
-            throw new ezcPersistentRelatedObjectNotFound( $object, $relatedClass );
+            throw new ezcPersistentRelatedObjectNotFoundException( $object, $relatedClass );
         }
         return $resArr[0];
     }

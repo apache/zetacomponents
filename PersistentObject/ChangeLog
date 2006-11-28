@@ -6,6 +6,8 @@
 - Fixed issue #9493: Convert < and > in exception messages to ' and ' for
   Cache, ConsoleTools, ImageAnalysis, ImageConversion, PersistentObject,
   PersistentObjectDatabaseSchemaTiein.
+- Fixed issue #9591: persistentsession attempts to throw non existing
+  exception (typo).
 
 
 1.2beta2 - Monday 20 November 2006
