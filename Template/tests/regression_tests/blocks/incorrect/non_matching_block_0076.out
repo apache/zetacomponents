@@ -1,4 +1,4 @@
-mock:5:13: Open and close block do not match: {default} and {/delimiter}
+mock:3:9: Unexpected block {default} at this position. Some blocks can only be used inside other blocks.
 
-{/delimiter}
-            ^
+{default}
+        ^

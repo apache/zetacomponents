@@ -250,6 +250,14 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
                 sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_BLOCK, $element->name ) );
         }
 
+        if ( $element instanceof ezcTemplateCaseTstNode )
+        {
+            throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, 
+                sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_BLOCK, $element->name ) );
+        }
+
+
+
         $this->children[] = $element;
 
         // temporary compatability
