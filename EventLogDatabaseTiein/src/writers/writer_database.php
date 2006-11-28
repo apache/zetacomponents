@@ -11,23 +11,60 @@
 /**
  * The ezcLogDatabaseWriter provides an implementation to write log messages to the database.
  *
- * table
- * message
- * datetime
- * severity
- * source
- * category
+ * Example to use the ezcLogDatabaseWriter:
+ * <code>
+ *     // Get the database instance
+ *     $db = ezcDbInstance::get();
  *
+ *     // Create a new ezcLogDatabaseWriter object based on the database instance
+ *     // and with the default table name "log".
+ *     // The "log" table must exist already in the database, and must have a compatible structure,
+ *     // with any additional fields that you may require, eg. you can use this example schema,
+ *     // where the default fields are: id, category, message, severity, source, time
+ *     // and the additional fields are: file, line
+ *     // DROP TABLE IF EXISTS log;
+ *     // CREATE TABLE log (
+ *     //   category varchar(255) NOT NULL,
+ *     //   file varchar(255),
+ *     //   id bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ *     //   line bigint,
+ *     //   message varchar(255) NOT NULL,
+ *     //   severity varchar(255) NOT NULL,
+ *     //   source varchar(255) NOT NULL,
+ *     //   time timestamp NOT NULL
+ *     // );
+ *     $log = new ezcLogDatabaseWriter( $db, "log" );
+ *
+ *     // Write a log entry ( message, severity, source, category )
+ *     $log->writeLogMessage( "File /images/spacer.gif does not exist.", ezcLog::WARNING, "Application", "Design" );
+ *
+ *     // Write a log entry ( message, severity, source, category, file, line )
+ *     $log->writeLogMessage( "File /images/spacer.gif does not exist.", ezcLog::WARNING, "Application", "Design", array( "file" => "/index.php", "line" => 123 ) );
+ * </code>
+ *
+ * @property string $table
+ *                  The table name.
+ * @property string $message
+ *                  The name of the column message.
+ * @property string $datetime
+ *                  The name of the column datetime.
+ * @property string $severity
+ *                  The name of the column severity.
+ * @property string $source
+ *                  The name of the column source.
+ * @property string $category
+ *                  The name of the column category.
  *
  * @package EventLogDatabaseTiein
  * @version //autogentag//
+ * @mainclass
  */
 class ezcLogDatabaseWriter implements ezcLogWriter
 {
-    /** 
-     * Instance to the database handler.
+    /**
+     * Holds the instance to the database handler.
      *
-     * @var ezcDBHandler 
+     * @var ezcDBHandler
      */
     private $db = null;
 
@@ -38,10 +75,32 @@ class ezcLogDatabaseWriter implements ezcLogWriter
      */
     private $properties = array();
 
+    /**
+     * Holds the default column names in the log tables.
+     *
+     * @var array(string=>mixed)
+     */
     private $defaultColumns = array();
+
+    /**
+     * Holds additional column names in the log tables.
+     *
+     * @var array(string=>mixed)
+     */
     private $additionalColumns = array();
 
+    /**
+     * Maps tables to ezcLogFilter messages.
+     *
+     * @var ezcLogFilterSet
+     */
     private $map;
+
+    /**
+     * Holds the default table name.
+     *
+     * @var string
+     */
     private $defaultTable = false;
 
     /**
@@ -52,8 +111,8 @@ class ezcLogDatabaseWriter implements ezcLogWriter
      *
      * This constructor is a tie-in.
      *
-     * @param string $defaultTable
      * @param ezcDbHandler $databaseInstance
+     * @param string $defaultTable
      */
     public function __construct( ezcDbHandler $databaseInstance, $defaultTable = false )
     {
@@ -72,18 +131,18 @@ class ezcLogDatabaseWriter implements ezcLogWriter
     /**
      * Sets the property $name to $value.
      *
-     * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @param mixed $value
-     * @return void
+     * @ignore
      */
     public function __set( $name, $value )
     {
         switch ( $name )
         {
             case 'table':
-                $this->properties['table'] = $value;
+                $this->properties[$name] = $value;
                 break;
+
             case 'message':
             case 'datetime':
             case 'severity':
@@ -91,6 +150,7 @@ class ezcLogDatabaseWriter implements ezcLogWriter
             case 'category':
                 $this->defaultColumns[$name] = $value;
                 break;
+
             default:
                 $this->additionalColumns[$name] = $value;
                 break;
@@ -100,28 +160,60 @@ class ezcLogDatabaseWriter implements ezcLogWriter
     /**
      * Returns the property $name.
      *
-     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @throws ezcBasePropertyNotFoundException
+     *         If the property $name does not exist
      * @param string $name
      * @return mixed
+     * @ignore
      */
     public function __get( $name )
     {
         switch ( $name )
         {
             case 'table':
-                return $this->properties['table'];
-                break;
+                return $this->properties[$name];
+
             case 'message':
             case 'datetime':
             case 'severity':
             case 'source':
             case 'category':
                 return $this->defaultColumns[$name];
-                break;
 
             default:
-                return $this->additionalColumns[$name];
-                break;
+                if ( isset( $this->additionalColumns[$name] ) )
+                {
+                    return $this->additionalColumns[$name];
+                }
+                else
+                {
+                    throw new ezcBasePropertyNotFoundException( $name );
+                }
+        }
+    }
+
+    /**
+     * Returns true if the property $name is set, otherwise false.
+     *
+     * @param string $name
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        switch ( $name )
+        {
+            case 'table':
+                return isset( $this->properties[$name] );
+            case 'message':
+            case 'datetime':
+            case 'severity':
+            case 'source':
+            case 'category':
+                return isset( $this->defaultColumns[$name] );
+
+            default:
+                return isset( $this->additionalColumns[$name] );
         }
     }
 
@@ -135,44 +227,41 @@ class ezcLogDatabaseWriter implements ezcLogWriter
      * $optional may contain extra information that can be added to the log. For example:
      * line numbers, file names, usernames, etc.
      *
-     * @throws ezcLogWriterException when the log writer was unable to write the log message.
+     * @throws ezcLogWriterException
+     *         If the log writer was unable to write the log message
      * @param string $message
      * @param int $severity
      *        ezcLog:: DEBUG, SUCCES_AUDIT, FAILED_AUDIT, INFO, NOTICE, WARNING, ERROR or FATAL.
-     *
      * $param string $source
      * @param string $category
      * @param array(string=>string) $optional
-     * @return void
      */
     public function writeLogMessage( $message, $severity, $source, $category, $optional = array() )
     {
         $severityName = ezcLog::translateSeverityName( $severity );
-
-        $colStr = "";
-        $valStr = "";
-
-        if ( is_array( $optional ) )
-        {
-            foreach ( $optional as $key => $val )
-            {
-                $colStr .= ", " . ( isset( $this->additionalColumns[$key] ) ? $this->additionalColumns[$key] : $key );
-                $valStr .= ", " . $this->db->quote( $val );
-            }
-        }
-
         $tables = $this->map->get( $severity, $source, $category );
-
         $query = $this->db->createSelectQuery();
-        if ( count( $tables ) > 0)
+
+        if ( count( $tables ) > 0 )
         {
             foreach ( $tables as $t )
             {
                 try
                 {
-                    $this->db->exec( "INSERT INTO `{$t}` ( {$this->message}, {$this->severity}, {$this->source}, {$this->category}, {$this->datetime} $colStr ) ".
-                        "VALUES( ".$this->db->quote( $message ).", ".$this->db->quote( $severityName ).", ".$this->db->quote( $source ).", ".
-                        $this->db->quote( $category ).", ".$query->expr->now()." $valStr )" );
+                    $q = $this->db->createInsertQuery();
+                    $q->insertInto( $t )
+                           ->set( $this->message, $q->bindValue( $message ) )
+                           ->set( $this->severity, $q->bindValue( $severityName ) )
+                           ->set( $this->source, $q->bindValue( $source ) )
+                           ->set( $this->category, $q->bindValue( $category ) )
+                           ->set( $this->datetime, $query->expr->now() );
+                    foreach ( $optional as $key => $val )
+                    {
+                        $q->set( ( isset( $this->additionalColumns[$key] ) ? $this->additionalColumns[$key] : $key ), $q->bindValue( $val ) );
+                    }
+                    $stmt = $q->prepare();
+                    $stmt->execute();
+
                 }
                 catch ( PDOException $e )
                 {
@@ -186,9 +275,19 @@ class ezcLogDatabaseWriter implements ezcLogWriter
             {
                 try
                 {
-                    $this->db->exec( "INSERT INTO `{$this->defaultTable}` ( {$this->message}, {$this->severity}, {$this->source}, {$this->category}, {$this->datetime} $colStr ) ".
-                        "VALUES( ".$this->db->quote( $message ).", ".$this->db->quote( $severityName ).", ".$this->db->quote( $source ).", ".
-                        $this->db->quote( $category ).", ".$query->expr->now()." $valStr )" );
+                    $q = $this->db->createInsertQuery();
+                    $q->insertInto( $this->defaultTable )
+                           ->set( $this->message, $q->bindValue( $message ) )
+                           ->set( $this->severity, $q->bindValue( $severityName ) )
+                           ->set( $this->source, $q->bindValue( $source ) )
+                           ->set( $this->category, $q->bindValue( $category ) )
+                           ->set( $this->datetime, $query->expr->now() );
+                    foreach ( $optional as $key => $val )
+                    {
+                        $q->set( ( isset( $this->additionalColumns[$key] ) ? $this->additionalColumns[$key] : $key ), $q->bindValue( $val ) );
+                    }
+                    $stmt = $q->prepare();
+                    $stmt->execute();
                 }
                 catch ( PDOException $e )
                 {
@@ -209,7 +308,6 @@ class ezcLogDatabaseWriter implements ezcLogWriter
         return array_merge( $this->defaultColumns, $this->additionalColumns );
     }
 
-
     /**
      * Maps the table $tableName to the messages specified by the {@link ezcLogFilter} $logFilter.
      *
@@ -218,27 +316,10 @@ class ezcLogDatabaseWriter implements ezcLogWriter
      *
      * @param ezcLogFilter $logFilter 
      * @param string $tableName
-     * @return void
      */
     public function setTable( ezcLogFilter $logFilter, $tableName )
     {
         $this->map->appendRule( new ezcLogFilterRule( $logFilter, $tableName, true ) );
     }
-
-    /**
-     * Unmaps the table $tableName from the messages specified by the {@link ezcLogFilter} $logFilter.
-     *
-     * Log messages that matches with the filter are no longer written to the table $tableName. 
-     * This method works the same as {@link ezclog::unmap()}.
-     *
-     * @param ezcLogFilter $logFilter 
-     * @param string $fileName
-     * @return void
-     */
-    public function unmap( ezcLogFilter $logFilter, $tableName )
-    {
-        $this->map->unmap( $logFilter->severity, $logFilter->source, $logFilter->category, $tableName );
-    }
 }
-
 ?>
