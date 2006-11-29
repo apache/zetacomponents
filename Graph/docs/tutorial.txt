@@ -601,29 +601,159 @@ Will be implemented in version 1.1.
 Renderer
 ========
 
+The renderer transform chart primitives into image primitives, that means that
+things like a pie segment including labels, highlight etc. will be transformed
+into some text strings, circel sectors and symbols to link the text to the
+according circle sector.
+
+ezcGraph comes with the default 2D renderer used in all of the above examples
+and a 3D renderer which renders the chart elements in a pseudo 3D isometric
+manner.
+
 2D renderer
 -----------
 
-Options
-~~~~~~~
+All examples until now used the default 2D renderer. But there are several
+renderer specific options, which were not yet shown.
+
+Bar chart rendering options
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+All the options specially available for bar charts are available for all
+current renderers.
+
+.. include:: tutorial_example_18.php
+   :literal:
+
+As the 2d renderer is the default renderer we do not need to force this
+renderer. In the lines 28 and 29 we configure the width used fr the bars. The
+option barMargin defines the distance between the sets of bars associated to
+one value. The barPadding in line 29 defines the distance between bars in one
+block.
+
+The option dataBorder in line 31 is available for all chart types in all
+renderers and defines the transparency used to draw darkened borders around
+bars or pie segments. In this case we do not draw any border.
+
+.. image:: img/tutorial_example_18.svg.png
+   :alt:   Bar chart rendering options
+
+Pie chart rendering options
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: tutorial_example_19.php
+   :literal:
+
+One of the pie chart specifiv options is moveOut in line 21, which defines how
+much space of the pie chart is used to move the pie chart segments out the
+center on highlight. The pieChartOffset in line 23 defines the initial angle
+for the pie chart segments, which enables you to rotate the pie chart.
+
+In the lines 25 to 27 a gleam on the pie chart is defined, with a transparency
+value in line 25, which disables the gleam, when set to 0, a color in line 26
+and the distance from the outer border of the pie chart in line 27.
+
+In line 29 and 30 a shadow with custom offset and color is added to the pie
+chart.
+
+.. image:: img/tutorial_example_19.svg.png
+   :alt:   Pie chart rendering options
+
+Pimp my chart
+~~~~~~~~~~~~~
+
+.. include:: tutorial_example_20.php
+   :literal:
+
+Besides the gleam added in the last example, you can additionally define a
+gleam for the legend symbols. In line 32 the transparency of the gleam is
+defined, and then the size of the gleam. The gleam works for all symbol types
+- except the circle, where gleam does not make sense, and the size defines the 
+procetual size of the gleam compared to the symbol size. In the last step in
+line 34 the gleam color is defined.
+
+.. image:: img/tutorial_example_20.svg.png
+   :alt:   Pimped 2D pie chart
 
 3D renderer
 -----------
 
+The three dimensional renderer can renderer all charts renderer with the 2d
+renderer, and use all the drivers used with the 2d renderer. The only
+difference is that it generates isometric three dimensional views on the data
+instead of simple two dimensional views.
+
+.. include:: tutorial_example_21.php
+   :literal:
+
+This examples uses the same code like the first example with only one
+modification, the changed renderer in line 17. You can use the 3d renderer
+with all the above examples by adding this single line.
+
+.. image:: img/tutorial_example_21.svg.png
+   :alt:   Simple 3d pie chart
+
 3D Pie charts
 ~~~~~~~~~~~~~
+
+The options in the 2d renderer example still work, so that we reuse the above
+example, using the 3d renderer and extend it with some more 3d renderer
+specific options.
+
+.. include:: tutorial_example_22.php
+   :literal:
+
+The pieChartGleamBorder option was removed, because it looks a bt strange on
+3d pie charts, but it of course works, too. In the lines 37 and 38 there are
+two new options, which configure the 3d effect of the pie chart. The first one
+defines the height of the pie and the second one defines the procentual
+shrinkage compared to the maximum possible vertical size of a pie chart.
+
+.. image:: img/tutorial_example_22.svg.png
+   :alt:   Pimped 3D pie chart
 
 3D Bar charts
 ~~~~~~~~~~~~~
 
+3d bar charts use the symbol of the dataset as the basic shape for the
+rendered bar, so that you can renderer cylinders or cuboids in your charts
+with ezcGraph.
+
+.. include:: tutorial_example_23.php
+   :literal:
+
+The symbols for this examples are set as described earlier in this tutorial.
+Two single options are set to improve the displayed image. The
+legendSybolGleam is activated with the default color, and barChartGleam is
+activated to get more beautiful bars. You could also set the factor the top
+and sides of the bars are darkened, using the options barDarkenSide and
+barDarkenTop, but leaving them as the default value is just fine.
+
+.. image:: img/tutorial_example_23.svg.png
+   :alt:   Pimped 3D bar chart
+
 3D Line charts
 ~~~~~~~~~~~~~~
 
-Options
-~~~~~~~
+The line chart example with 3d renderer is again quite simple. It reuses the
+example with the statiscal data and the approximation polygon.
+
+.. include:: tutorial_example_24.php
+   :literal:
+
+Again the only thing which is changed compared to the example above is the use
+of the 3D renderer, and the fillLines options, which simply shows, that this
+options works here, too.
+
+.. image:: img/tutorial_example_24.svg.png
+   :alt: 3D line chart example
 
 Drivers
 =======
+
+The driver gets the image primitives from the renderer and creates the final
+image from the image primitives. Different drivers can be used depending on
+the available extensions and the wanted output format.
 
 There are some driver specific options, you can learn about in the API
 documentation of each driver, and which are described in this section of the
@@ -644,10 +774,10 @@ added into a dedicated group, and configure all rendering options of the SVG
 document. The example below shows such a template created with Inkscape_ and a
 simple pie chart rendered into this template.
 
-.. include:: tutorial_example_24.php
+.. include:: tutorial_example_25.php
    :literal:
 
-.. image:: img/tutorial_example_24.svg.png
+.. image:: img/tutorial_example_25.svg.png
    :alt:   SVG driver example with template
 
 .. _SVG: http://www.w3.org/TR/SVG/
@@ -684,10 +814,10 @@ specify the supersampling rate used, and use different output formats if
 available with your bundled GD extension, like in the lines 13 to 15 in the
 following example.
 
-.. include:: tutorial_example_25.php
+.. include:: tutorial_example_26.php
    :literal:
 
-.. image:: img/tutorial_example_25.jpg
+.. image:: img/tutorial_example_26.jpg
    :alt:   GD driver example jpeg
 
 Ming/Flash driver
@@ -701,7 +831,7 @@ effectively. The font size estimation is exact and it support gradients and
 all types of used shapes. Since ming only supports flash in version 4, it is
 not possible to use transparent backgrounds.
 
-.. include:: tutorial_example_26.php
+.. include:: tutorial_example_27.php
    :literal:
 
 The ming driver does not have a lot of available options. You need to take
@@ -709,7 +839,7 @@ care of a valid font file, like you can see in line 10, and you can set the
 compression rate used by the ming driver to compress the resulting swf. As a
 result you get a `beautiful flash image`__.
 
-__ img/tutorial_example_26.swf
+__ img/tutorial_example_27.swf
 
 Element references
 ==================
@@ -732,7 +862,7 @@ symbols and text, data labels and of course the actual data elements.
 SVG example
 -----------
 
-.. include:: tutorial_example_27.php
+.. include:: tutorial_example_28.php
    :literal:
 
 After creating a very simple chart like in the first example we start
@@ -755,7 +885,7 @@ and add a JavaScript onclick event handler to link to specified address. You
 get a resulting `SVG image`__ where you can click on the chart and legend
 elements.
 
-__ img/tutorial_example_27.svg
+__ img/tutorial_example_28.svg
 
 GD example
 ----------
@@ -764,7 +894,7 @@ In the case of GD we want to generate an image map instead of modifying the
 generated image. The driver returns polygons described by their edge
 coordinates, which you can use to generate an image map.
 
-.. include:: tutorial_example_28.php
+.. include:: tutorial_example_29.php
    :literal:
 
 For the sake of a short example we only link the legend elements here. After
@@ -783,7 +913,7 @@ coordinate string create the polygon area elements in line 41.
 After assigning the image map to the image you got a `linked legend in your
 generated bitmap`__.
 
-__ img/tutorial_example_28.html
+__ img/tutorial_example_29.html
 
 More Information
 ================
