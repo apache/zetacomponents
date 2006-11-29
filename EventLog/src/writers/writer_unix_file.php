@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcLogWriterUnix class.
+ * File containing the ezcLogUnixFileWriter class.
  *
  * @package EventLog
  * @version //autogentag//

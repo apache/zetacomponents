@@ -1,5 +1,4 @@
 <?php
-
 /**
  * File containing the ezcLogFilter class.
  *
@@ -42,7 +41,6 @@ class ezcLogFilter extends ezcBaseStruct
     */
    public $severity;
 
-
    /**
     * The source of the log message.
     *
@@ -61,7 +59,6 @@ class ezcLogFilter extends ezcBaseStruct
     */
    public $category;
 
-
    /**
     * Empty constructor
     */
@@ -72,7 +69,4 @@ class ezcLogFilter extends ezcBaseStruct
        $this->category = $category;
    }
 }
-
-
-
 ?>

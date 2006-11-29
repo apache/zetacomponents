@@ -1,5 +1,17 @@
 <?php
+/**
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogentag//
+ * @filesource
+ * @package EventLog
+ * @subpackage Tests
+ */
 
+/**
+ * @package EventLog
+ * @subpackage Tests
+ */
 class ezcLogMessageTest extends ezcTestCase
 {
     protected $tm;
@@ -75,8 +87,42 @@ class ezcLogMessageTest extends ezcTestCase
         $msg = new ezcLogMessage($this->tm->getMessage(1, true, true), E_USER_NOTICE, false, false );
         $this->assertEquals( ezcLog::NOTICE, $msg->severity );
     }
-}
 
+    public function testProperties()
+    {
+        $msg = new ezcLogMessage( $this->tm->getMessage( 1, true, true ), E_USER_WARNING, false, false );
+        try
+        {
+            $val = $msg->no_such_property;
+            $this->fail( "Expected exception was not thrown" );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
+        }
+        try
+        {
+            $msg->no_such_property = "xxx";
+            $this->fail( "Expected exception was not thrown" );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
+        }
+        $msg = new ezcLogMessage( $this->tm->getMessage( 1, true, true ), false, false, false );
+        $this->assertEquals( false, $msg->severity );
+    }
+
+    public function testIsSet()
+    {
+        $msg = new ezcLogMessage( $this->tm->getMessage( 1, true, true ), E_USER_WARNING, false, false );
+        $this->assertEquals( true, isset( $msg->message ) );
+        $this->assertEquals( true, isset( $msg->source ) );
+        $this->assertEquals( true, isset( $msg->category ) );
+        $this->assertEquals( true, isset( $msg->severity ) );
+        $this->assertEquals( false, isset( $msg->no_such_property ) );
+    }
+}
 
 class TestMessages
 {

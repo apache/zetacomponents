@@ -1,5 +1,17 @@
 <?php
+/**
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogentag//
+ * @filesource
+ * @package EventLog
+ * @subpackage Tests
+ */
 
+/**
+ * @package EventLog
+ * @subpackage Tests
+ */
 class ezcLogFileWriterTest extends ezcTestCase
 {
     protected $logFile;
@@ -138,7 +150,6 @@ class ezcLogFileWriterTest extends ezcTestCase
         $this->assertEquals(print_r($msg2, true), file_get_contents( $this->getTempDir() . "/default.log") );
         $this->assertEquals(print_r($msg, true), file_get_contents( $this->getTempDir() . "/default.log.1") );
     }
-   
 
     public function testMaxLogFiles()
     {

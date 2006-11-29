@@ -1,5 +1,17 @@
 <?php
+/**
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogentag//
+ * @filesource
+ * @package EventLog
+ * @subpackage Tests
+ */
 
+/**
+ * @package EventLog
+ * @subpackage Tests
+ */
 class ezcLogUnixFileWriterTest extends ezcTestCase
 {
     protected $writer;
@@ -37,8 +49,19 @@ class ezcLogUnixFileWriterTest extends ezcTestCase
         $this->assertRegExp( $regExp, file_get_contents( $this->getTempDir() ."/default.log" ), 
                                 "Content of default.log doesn't match with the regular expression.");
     }
-    
-	public static function suite()
+
+    public function testCategoryEmpty()
+    {
+        $m = array("message" => "Alien alert.", "type" => 1, "source" => "UFO report", "category" => false);
+        $extra = array ("Line" => 42);
+        $regExp = "/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d+ \d+:\d+:\d+ \[Debug\] \[UFO report\] Alien alert. \(Line: 42\)/";
+
+        $this->writer->writeLogMessage( $m["message"], $m["type"], $m["source"], $m["category"], $extra );
+        $this->assertRegExp( $regExp, file_get_contents( $this->getTempDir() ."/default.log" ), 
+                                "Content of default.log doesn't match with the regular expression.");
+    }
+
+    public static function suite()
 	{
 		return new PHPUnit_Framework_TestSuite("ezcLogUnixFileWriterTest");
 	}

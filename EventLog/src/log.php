@@ -247,10 +247,11 @@ class ezcLog
     /**
      * Sets the property $name to $value.
      *
-     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @throws ezcBasePropertyNotFoundException
+     *         If the property $name does not exist
      * @param string $name
      * @param mixed $value
-     * @return void
+     * @ignore
      */
     public function __set( $name, $value )
     {
@@ -265,12 +266,14 @@ class ezcLog
         throw new ezcBasePropertyNotFoundException( $name );
     }
 
-   /**
+    /**
      * Returns the property $name.
      *
-     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @throws ezcBasePropertyNotFoundException
+     *         If the property $name does not exist
      * @param string $name
      * @return mixed
+     * @ignore
      */
     public function __get( $name )
     {
@@ -285,12 +288,30 @@ class ezcLog
     }
 
     /**
+     * Returns true if the property $name is set, otherwise false.
+     *
+     * @param string $name
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        switch ( $name )
+        {
+            case 'source':
+            case 'category':
+                return isset( $this->properties[$name] );
+
+            default:
+                return false;
+        }
+    }
+
+    /**
      * Resets the log instance to its initial state.
      *
      * All sourceAttributes, severityAttributes, and writers will be removed.
      * The default source and category are also reset.
-     *
-     * @return void
      */
     public function reset()
     {
@@ -307,7 +328,6 @@ class ezcLog
      * ezcLogMapper can be replaced with this method.
      *
      * @param ezcLogMapper $mapper
-     * @return void
      */
     public function setMapper( ezcLogMapper $mapper )
     {
@@ -326,8 +346,6 @@ class ezcLog
 
     /**
      * Sets the source and category defaults to "default".
-     *
-     * @return void
      */
     protected function setDefaults()
     {
@@ -344,7 +362,6 @@ class ezcLog
      * the log file. For these setups you can disable writer exceptions.
      *
      * @param bool $enable
-     * @return void
      */
     public function throwWriterExceptions( $enable )
     {
@@ -360,7 +377,7 @@ class ezcLog
      * - $severity: the severity of the log message.
      * - $attributes[ "source" ]: the source from where the log message comes.
      * - $attributes[ "category" ]: the category of the log message.
-     * 
+     *
      * See for more information about filter matching the classes {@link ezcLog} and 
      * {@link ezcLogFilter}. 
      *
@@ -382,7 +399,7 @@ class ezcLog
      *   done by a user.
      * - FAILED_AUDIT: Informative logging about an action from a module
      *   with a negative result. A failed login will most likely added to this severity.
-     * 
+     *
      * The attributes array $attributes can have one or multiple attributes that will
      * be added to the log. If source and category are given, they will override the default
      * source or category given as property to this object. Further more it is up to the 
@@ -410,7 +427,6 @@ class ezcLog
      * @param int $severity  One of the following severity constants: 
      *                       DEBUG, SUCCES_AUDIT, FAIL_AUDIT, INFO, NOTICE, WARNING, ERROR, or FATAL.
      * @param array(string=>string) $attributes
-     * @return void
      */
     public function log( $message, $severity, array $attributes = array() )
     {
@@ -459,7 +475,6 @@ class ezcLog
      *
      * @param integer $severityMask Multiple severities are specified with a logic-or. 
      * @param array(string=>string) $attributes
-     * @return void
      */
     public function setSeverityAttributes( $severityMask, $attributes )
     {
@@ -485,7 +500,6 @@ class ezcLog
      *
      * @param array(string) $sources
      * @param array(string => string) $attributes
-     * @return void
      */
     public function setSourceAttributes ( $sources, $attributes )
     {
@@ -549,13 +563,12 @@ class ezcLog
      *
      * </code>
      * 
-     * Notice that the ezcLog component is not loaded at all when the logging is disabled. 
+     * Notice that the ezcLog component is not loaded at all when the logging is disabled.
      *
      * @param int $errno
      * @param int $erstr
      * @param string $errfile
      * @param int $errline
-     * @return void
      */
      public static function logHandler( $errno, $errstr, $errfile, $errline )
      {

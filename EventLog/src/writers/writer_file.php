@@ -35,7 +35,7 @@
  *        // And call the parent class
  *        $this->write( $type, $source, $category, $res );
  *    }
- *}
+ * }
  * </code>
  *
  * @package EventLog
@@ -50,7 +50,6 @@ abstract class ezcLogFileWriter implements ezcLogWriter
      * @var array(resource)
      */
     protected $openFiles = array();
-
 
     /**
      * Keeps track of which group of messages should be stored
@@ -83,7 +82,6 @@ abstract class ezcLogFileWriter implements ezcLogWriter
      * @var int
      */
     protected $maxFiles;
-
 
     /**
      * Constructs an ezcLogFileWriter.
@@ -131,7 +129,6 @@ abstract class ezcLogFileWriter implements ezcLogWriter
         }
     }
 
-
     /**
      * This method writes the $string to a file.
      *
@@ -143,7 +140,6 @@ abstract class ezcLogFileWriter implements ezcLogWriter
      * @param string $eventSource
      * @param string $eventCategory
      * @param string $string
-     * @return void
      */
     protected function write( $eventType, $eventSource, $eventCategory, $string )
     {
@@ -251,7 +247,6 @@ abstract class ezcLogFileWriter implements ezcLogWriter
         return false;
     }
 
-
     /**
      * Maps the filename $fileName to the messages specified by the {@link ezcLogFilter} $logFilter.
      *
@@ -259,7 +254,6 @@ abstract class ezcLogFileWriter implements ezcLogWriter
      *
      * @param ezcLogFilter $logFilter 
      * @param string $fileName
-     * @return void
      */
     public function setFile( ezcLogFilter $logFilter, $fileName )
     {
@@ -275,7 +269,6 @@ abstract class ezcLogFileWriter implements ezcLogWriter
 //     *
 //     * @param ezcLogFilter $logFilter 
 //     * @param string $fileName
-//     * @return void
 //     */
 //    public function unmap( $logFilter, $fileName )
 //    {

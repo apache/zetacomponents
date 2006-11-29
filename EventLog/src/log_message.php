@@ -48,67 +48,7 @@ class ezcLogMessage
      *
      * @var array(string=>mixed)
      */
-     protected $properties = array( "message" => "", "source" => "", "category" => "", "severity" => "" );
-
-
-    /**
-     * Sets the property $name to $value.
-     *
-     * @throws ezcBasePropertyNotFoundException if the property does not exist.
-     * @param string $name
-     * @param mixed $value
-     * @return void
-     */
-    public function __set( $name, $value )
-    {
-        switch ( $name )
-        {
-            case 'message':
-                $this->properties['message'] = $value;
-                break;
-            case 'source':
-                $this->properties['source'] = $value;
-                break;
-            case 'category':
-                $this->properties['category'] = $value;
-                break;
-            case 'severity':
-                $this->properties['severity'] = $value;
-                break;
-
-            default: 
-                throw new ezcBasePropertyNotFoundException( $name );
-        }
-
-    }
-
-    /**
-     * Returns the property $name.
-     *
-     * @throws ezcBasePropertyNotFoundException if the property does not exist.
-     * @param string $name
-     * @return mixed
-     */
-    public function __get( $name )
-    {
-        switch ( $name )
-        {
-            case 'message':
-                return $this->properties['message'];
-                break;
-            case 'source':
-                return $this->properties['source'];
-                break;
-            case 'category':
-                return $this->properties['category'];
-                break;
-            case 'severity':
-                return $this->properties['severity'];
-                break;
-        }
-
-        throw new ezcBasePropertyNotFoundException( $name );
-    }
+    protected $properties = array( "message" => "", "source" => "", "category" => "", "severity" => "" );
 
     /**
      * Constructs the ezcLogMessage from the $message, $severity, $defaultSource and $defaultCategory.
@@ -126,6 +66,75 @@ class ezcLogMessage
     }
 
     /**
+     * Sets the property $name to $value.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If the property $name does not exist
+     * @param string $name
+     * @param mixed $value
+     * @ignore
+     */
+    public function __set( $name, $value )
+    {
+        switch ( $name )
+        {
+            case 'message':
+            case 'source':
+            case 'category':
+            case 'severity':
+                $this->properties[$name] = $value;
+                return;
+        }
+
+        throw new ezcBasePropertyNotFoundException( $name );
+    }
+
+    /**
+     * Returns the property $name.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If the property $name does not exist
+     * @param string $name
+     * @return mixed
+     * @ignore
+     */
+    public function __get( $name )
+    {
+        switch ( $name )
+        {
+            case 'message':
+            case 'source':
+            case 'category':
+            case 'severity':
+                return $this->properties[$name];
+        }
+
+        throw new ezcBasePropertyNotFoundException( $name );
+    }
+
+    /**
+     * Returns true if the property $name is set, otherwise false.
+     *
+     * @param string $name
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        switch ( $name )
+        {
+            case 'message':
+            case 'source':
+            case 'category':
+            case 'severity':
+                return isset( $this->properties[$name] );
+
+            default:
+                return false;
+        }
+    }
+
+    /**
      * Parses the message $message and sets the properties. 
      *
      * See the general class documentation for message format. 
@@ -138,7 +147,6 @@ class ezcLogMessage
      * @param int $severity
      * @param string $defaultSource 
      * @param string $defaultCategory
-     * @return void
      */
     public function parseMessage( $message, $severity, $defaultSource, $defaultCategory )
     {

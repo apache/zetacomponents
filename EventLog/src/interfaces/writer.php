@@ -29,7 +29,8 @@ interface ezcLogWriter
      * The array $optional contains extra information that can be added to the log. For example:
      * line numbers, file names, usernames, etc.
      *
-     * @throws ezcLogWriterException when the log writer was unable to write the log message.
+     * @throws ezcLogWriterException
+     *         If the log writer was unable to write the log message
      *
      * @param string $message
      * @param int $severity
@@ -38,7 +39,6 @@ interface ezcLogWriter
      * $param string $source
      * @param string $category
      * @param array(string=>string) $optional
-     * @return void
      */
     public function writeLogMessage( $message, $severity, $source, $category, $optional = array() );
 }

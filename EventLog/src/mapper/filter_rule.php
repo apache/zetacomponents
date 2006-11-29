@@ -19,6 +19,7 @@
  * 
  * @package EventLog
  * @version //autogentag//
+ * @access private
  */
 class ezcLogFilterRule
 {
@@ -82,7 +83,6 @@ class ezcLogFilterRule
      * @param ezcLogFilter $filter
      * @param mixed $container
      * @param bool $continueProcessing
-     * @return void
      */
     public function __construct( ezcLogFilter $filter, $container, $continueProcessing )
     {
@@ -114,8 +114,6 @@ class ezcLogFilterRule
     /**
      * Creates an internal structure, to quickly lookup the combination of severity, source, and 
      * categories. 
-     *
-     * @return void
      */
     protected function createStructure()
     {
@@ -210,7 +208,5 @@ class ezcLogFilterRule
 
         return $result;
     }
-
 }
-
 ?>

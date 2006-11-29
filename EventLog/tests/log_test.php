@@ -1,5 +1,17 @@
 <?php
+/**
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogentag//
+ * @filesource
+ * @package EventLog
+ * @subpackage Tests
+ */
 
+/**
+ * @package EventLog
+ * @subpackage Tests
+ */
 class ezcLogTest extends ezcTestCase
 {
     protected $log;
@@ -9,7 +21,7 @@ class ezcLogTest extends ezcTestCase
         parent::__construct($string);
 
         // These instances yield for all these tests.
-        $this->log = ezcLog::getInstance();
+        //$this->log = ezcLog::getInstance();
 
         date_default_timezone_set("UTC");
    }
@@ -202,7 +214,8 @@ class ezcLogTest extends ezcTestCase
 //    public function testTriggerError()
 //    {
 //        $this->log->reset();
-//        $this->log->map(new ezcLogFilter(), $writer = new ezcLogUnixFileWriter( $this->getTempDir(), "default.log" ));
+//        //$this->log->map(new ezcLogFilter(), $writer = new ezcLogUnixFileWriter( $this->getTempDir(), "default.log" ));
+//        $this->log->getMapper()->appendRule( new ezcLogFilterRule(new ezcLogFilter(), $a = new ezcLogUnixFileWriter( $this->getTempDir(), "default.log" ), true ) );
 //        trigger_error("Bernard, looking at all the quarters that fell out of the vending machine he broke with the crowbar.", E_USER_WARNING);
 //
 //        $regExp = "|\[Warning\] \[default\] \[default\] Bern.* \(file: .*/log_test.php, line: \d+\)|";
@@ -351,7 +364,6 @@ class ezcLogTest extends ezcTestCase
         {
             return;
         }
-                
         $this->fail("Expected an ezcLogWriterException.");
     }
 
@@ -497,13 +509,64 @@ class ezcLogTest extends ezcTestCase
         $this->assertRegExp("/service: Paynet Terminal/", $lines[2]);
     }
 
+    public function testOtherSeverities()
+    {
+        $dir = $this->getTempDir();
+        $file = "default.log";
+
+        $log = ezcLog::getInstance();
+        $writer = new ezcLogUnixFileWriter( "$dir", "$file" );
+        $log->getMapper()->appendRule( new ezcLogFilterRule( new ezcLogFilter, $writer, true ) );
+
+        $username = "John Doe";
+        $service = "Paynet Terminal";
+        // Add automatically the username to the log message, when the log message is FATAL.
+        $log->setSeverityAttributes( ezcLog::FATAL, array( "username" => $username ) );
+        $log->log( "Hackers have breached the security!", ezcLog::FATAL, array( "source" => "security", "category" => "login" ) );
+        $log->log( "Something unknown happened...", false, array( "source" => "security", "category" => "login" ) );
+
+        $lines = file( "$dir/$file" );
+        $this->assertRegExp("/username: John Doe/", $lines[0]);
+    }
+
+    public function testProperties()
+    {
+        $log = ezcLog::getInstance();
+        $log->source = "Payment";
+        $log->category = "Corporate";
+        $this->assertEquals( "Payment", $log->source );
+        $this->assertEquals( "Corporate", $log->category );
+        try
+        {
+            $val = $log->no_such_property;
+            $this->fail( "Expected exception was not thrown" );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
+        }
+        try
+        {
+            $log->no_such_property = "xxx";;
+            $this->fail( "Expected exception was not thrown" );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
+        }
+    }
+
+    public function testIsSet()
+    {
+        $log = ezcLog::getInstance();
+        $this->assertEquals( true, isset( $log->source ) );
+        $this->assertEquals( true, isset( $log->category ) );
+        $this->assertEquals( false, isset( $log->no_such_property ) );
+    }
 
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite("ezcLogTest");
     }
 }
-
-
-
 ?>

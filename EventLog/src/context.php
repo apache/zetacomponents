@@ -18,7 +18,6 @@
  */
 class ezcLogContext
 {
-
     /**
      * Stores the contexts for the severities.
      *
@@ -33,11 +32,8 @@ class ezcLogContext
      */
     protected $sourceMap;
 
-
     /**
      * Resets this object to its initial state by removing all context mappings.
-     *
-     * @return void
      */
     public function reset()
     {
@@ -57,7 +53,6 @@ class ezcLogContext
      *        Bitmask that specifies all the event types that share the given
      *        context.
      * @param array(string=>string) $context
-     * @return void
      */
     public function setSeverityContext( $severityMask, $context )
     {
@@ -86,7 +81,6 @@ class ezcLogContext
      * their context.
      *
      * @param int $severityMask
-     * @return void
      */
     public function unsetSeverityContext( $severityMask )
     {
@@ -114,7 +108,6 @@ class ezcLogContext
      * @param array(string=>string) $context
      *        Specifies the keys and values that should be stored into this
      *        context object.
-     * @return void
      */
     public function setSourceContext( array $eventSources, $context )
     {
@@ -133,7 +126,6 @@ class ezcLogContext
      * Remove the contexts for the given $eventSources.
      *
      * @param array(string) $eventSources
-     * @return void
      */
     public function unsetSourceContext( array $eventSources )
     {
@@ -148,12 +140,11 @@ class ezcLogContext
      *
      * If there is no context available this method will return an empty array.
      *
-     *
      * @param int $eventType   The integer that specifies the event type.
      *                             The range of this integer is 2^(N+):
      *                             ( 1, 2, 4, 8, ... )
      * @param string $eventSource
-     * @return array
+     * @return array(string=>string)
      */
     public function getContext( $eventType, $eventSource )
     {
@@ -162,6 +153,5 @@ class ezcLogContext
         return array_merge( $a, $b );
         // return array_merge( (array) $this->severityMap[$eventType], (array) $this->sourceMap[$eventSource] );
     }
-
 }
 ?>

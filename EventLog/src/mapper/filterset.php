@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcLogMap class.
+ * File containing the ezcLogFilterSet class.
  *
  * @package EventLog
  * @version //autogentag//
@@ -19,9 +19,10 @@
  * Each rule determines whether the log message matches with the filter rule. If the
  * log message matches, it calls the writer and decide whether the filter set
  * stops processing.
- * 
+ *
  * @package EventLog
  * @version //autogentag//
+ * @access private
  */
 class ezcLogFilterSet implements ezcLogMapper
 {
@@ -40,10 +41,9 @@ class ezcLogFilterSet implements ezcLogMapper
     private $cache = array();
 
     /**
-     * Appends a rule to the end of the filter set. 
-     * 
+     * Appends a rule to the end of the filter set.
+     *
      * @param ezcLogFilter $filter
-     * @return void
      */
     public function appendRule( $filter )
     {
@@ -52,10 +52,10 @@ class ezcLogFilterSet implements ezcLogMapper
     }
 
     /**
-     * Deletes the the last rule from the filter set. 
+     * Deletes the last rule from the filter set.
      *
      * Returns false if the filter set is empty, otherwise true.
-     * 
+     *
      * @return bool
      */
     public function deleteLastRule()
@@ -69,7 +69,6 @@ class ezcLogFilterSet implements ezcLogMapper
 
         return false;
     }
-    
 
     /**
      * Returns the variable assigned to the combination of a severity $severity, source $source, 
@@ -111,8 +110,6 @@ class ezcLogFilterSet implements ezcLogMapper
 
     /**
      * Clears the cache.
-     * 
-     * return void
      */
     protected function clearCache()
     {
