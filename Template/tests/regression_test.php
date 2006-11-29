@@ -167,7 +167,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
         while ( true )
         {
-            echo "Action (g/s/r/o/e/st/sp/tt/at/d/a/v/q/?): ";
+            echo "Action (g/c/r/d/do/de/ds/dc/dta/dtt/dd/ge/ee/es/v/q/?): ";
 
             $reply = strtolower( trim( fgets( $this->stdin ) ) );
 
@@ -199,20 +199,20 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 file_put_contents( $expectedFile, $actual );
                 return;
             }
-            elseif ( $reply == "o" || $reply == "e" || $reply == "st" || $reply == "sp" || $reply == "at" || $reply == "tt" || $reply == "d" || $reply == "a" )
+            elseif ( $reply == "do" || $reply == "de" || $reply == "ds" || $reply == "dc" || $reply == "dta" || $reply == "dtt" || $reply == "dd" || $reply == "d" )
             {
                 $displayText = false;
-                if ( $reply == "o" || $reply == "a" )
+                if ( $reply == "do" || $reply == "d" )
                 {
-                    if ( $reply == "a" )
+                    if ( $reply == "d" )
                     {
                         $displayText .= "------Generated output------\n";
                     }
                     $displayText .= $actual;
                 }
-                if ( $reply == "e" || $reply == "a" )
+                if ( $reply == "de" || $reply == "d" )
                 {
-                    if ( $reply == "a" )
+                    if ( $reply == "d" )
                     {
                         if ( file_exists( $expectedFile ) )
                         {
@@ -225,9 +225,9 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     }
                     $displayText .= $expected;
                 }
-                if ( $reply == "d" || $reply == "a" )
+                if ( $reply == "dd" || $reply == "d" )
                 {
-                    if ( $reply == "a" )
+                    if ( $reply == "d" )
                     {
                         $displayText .= "------Diff of output------\n";
                     }
@@ -245,19 +245,19 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     {
                     }
                 }
-                if ( $reply == "st" || $reply == "a" )
+                if ( $reply == "ds" || $reply == "d" )
                 {
-                    if ( $reply == "a" )
+                    if ( $reply == "d" )
                     {
                         $displayText .= "------Source template------\n";
                     }
                     $displayText .= file_get_contents( $tplSource );
                 }
-                if ( $reply == "sp" || $reply == "a" )
+                if ( $reply == "dc" || $reply == "d" )
                 {
                     if ( file_exists( $template->compiledTemplatePath ) )
                     {
-                        if ( $reply == "a" )
+                        if ( $reply == "d" )
                         {
                             $displayText .= "------Compiled PHP code------\n";
                         }
@@ -267,7 +267,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     }
                     else
                     {
-                        if ( $reply == "a" )
+                        if ( $reply == "d" )
                         {
                             $displayText .= "------Compiled PHP code not found------\n";
                         }
@@ -279,11 +279,11 @@ class ezcTemplateRegressionTest extends ezcTestCase
                         }
                     }
                 }
-                if ( $reply == "at" || $reply == "a" )
+                if ( $reply == "dta" || $reply == "d" )
                 {
                     if ( $template->astTree instanceof ezcTemplateAstNode )
                     {
-                        if ( $reply == "a" )
+                        if ( $reply == "d" )
                         {
                             $displayText .= "------AST------\n";
                         }
@@ -291,7 +291,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     }
                     else
                     {
-                        if ( $reply == "a" )
+                        if ( $reply == "d" )
                         {
                             $displayText .= "------AST tree not available------\n";
                         }
@@ -302,12 +302,12 @@ class ezcTemplateRegressionTest extends ezcTestCase
                         }
                     }
                 }
-                if ( $reply == "tt" )
+                if ( $reply == "dtt" )
                 {
                     // NOTE: This currently fails due to missing implementations in the Tst class.
                     if ( $template->tstTree instanceof ezcTemplateTstNode )
                     {
-                        if ( $reply == "a" )
+                        if ( $reply == "d" )
                         {
                             $displayText .= "------TST------\n";
                         }
@@ -315,7 +315,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     }
                     else
                     {
-                        if ( $reply == "a" )
+                        if ( $reply == "d" )
                         {
                             $displayText .= "------TST tree not available------\n";
                         }
@@ -340,16 +340,16 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     echo $displayText, "\n";
                 }
             }
-            elseif ( $reply == 's' )
+            elseif ( $reply == 'c' )
             {
                 throw new PHPUnit_Framework_ExpectationFailedException( $help );
             }
-            elseif ( $reply == 'sm' )
+            elseif ( $reply == 'c!' )
             {
                 $this->skipMissingTests = true;
                 throw new PHPUnit_Framework_ExpectationFailedException( $help );
             }
-            elseif ($reply == "ren" )
+            elseif ($reply == "ir" )
             {
                 if( file_exists( $tplSource.".tmp" ) )
                 {
@@ -362,13 +362,65 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
                 throw new PHPUnit_Framework_ExpectationFailedException( $help );
             }
+            elseif ( $reply == "ge" || $reply == "ee" )
+            {
+                if( isset($_ENV["EDITOR"] ) && $_ENV["EDITOR"] != "" )
+                {
+                    $editor = ( isset($_ENV["EDITOR"] ) && $_ENV["EDITOR"] != "" ) ? $_ENV["EDITOR"] : "vi";
+                }
+
+                if( $reply == "ge" )
+                {
+                    file_put_contents( $expectedFile, $actual );
+                }
+
+                passthru( $editor . " " . escapeshellcmd( $expectedFile ) );
+                continue;
+            }
+            elseif ( $reply == "es" )
+            {
+                if( isset($_ENV["EDITOR"] ) && $_ENV["EDITOR"] != "" )
+                {
+                    $editor = ( isset($_ENV["EDITOR"] ) && $_ENV["EDITOR"] != "" ) ? $_ENV["EDITOR"] : "vi";
+                }
+
+                passthru( $editor . " " . escapeshellcmd( $tplSource ) );
+                continue;
+            }
             elseif ( $reply == '?' )
             {
                 echo "The actions are:\n",
                     "g  - Generate output file (Implies success of test)\n",
+                    "c  - Continue, Skip the current test (Implies failure of test)\n",
+                    "c! - Continue, Skip all test with a missing out file.\n",
+                    "r  - Retry the test\n",
+
+                    "do  - Display the generated output\n",
+                    "de  - Display the expected output\n",
+                    "ds - Display source template\n",
+                    "dc - Display generated/compiled PHP code\n",
+                    "d - Display all\n",
+
+                    "dta - Display the AST tree\n",
+                    "dtt - Display the TST tree\n",
+
+                    "dd  - Display difference between generated output and expected output\n",
+                    
+                    "v  - Display verbose template information\n",
+                    "q  - Quit\n",
+
+                    "ir - Input Rename. Rename the input file so that it won't be available in the next run.\n",
+
+                    "ge - Generate and edit the expected output file.\n";
+                    "ee - Edit the expected output file.\n";
+                    "es - Edit the source file.\n";
+
+/*
+                    "g  - Generate output file (Implies success of test)\n",
                     "s  - Skip this test (Implies failure of test)\n",
                     "sm - Skip all missing tests\n",
                     "r  - Retry the test\n",
+
                     "o  - Display the generated output\n",
                     "e  - Display the expected output\n",
                     "st - Display source template\n",
@@ -380,6 +432,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     "v  - Display verbose template information\n",
                     "ren- Rename a input test from *.in to *.in.tmp\n",
                     "q  - Quit\n";
+ */
                 continue;
             }
             else
