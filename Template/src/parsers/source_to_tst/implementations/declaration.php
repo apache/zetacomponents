@@ -37,12 +37,15 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
         $this->findNextElement();
         $symbolType = null;
 
-        if ( $this->currentCursor->match( "var" ) )       $symbolType = ezcTemplateSymbolTable::VARIABLE;
-        elseif ( $this->currentCursor->match( "cycle" ) ) $symbolType = ezcTemplateSymbolTable::CYCLE;
-        elseif ( $this->currentCursor->match( "use" ) )   $symbolType = ezcTemplateSymbolTable::IMPORT;
+        $matches = $this->currentCursor->pregMatchComplete( "#^(var|cycle|use)(?:[^a-zA-Z0-9_])#" );
+        $name = $matches[1][0];
+        if ( $name == "var" )       $symbolType = ezcTemplateSymbolTable::VARIABLE;
+        elseif ( $name == "cycle" ) $symbolType = ezcTemplateSymbolTable::CYCLE;
+        elseif ( $name == "use" )   $symbolType = ezcTemplateSymbolTable::IMPORT;
 
         if ( $symbolType !== null )
         {
+            $this->currentCursor->advance( strlen( $name ) );
             $this->findNextElement();
 
             // $var
