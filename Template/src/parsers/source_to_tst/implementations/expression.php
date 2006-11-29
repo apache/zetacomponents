@@ -555,6 +555,8 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     return $operatorName;
                 }
 
+                $this->checkForValidOperator( $this->currentOperator, $operator, $operatorStartCursor );
+
                 $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
 
                 $this->parser->reportElementCursor( $operator->startCursor, $operator->endCursor, $operator );
@@ -570,6 +572,28 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             }
 
             return false;
+        }
+
+        /**
+         *  Check whether the given operand can be the left hand side of the $operator.
+         *  For example: 4 = 5; is not allowed. But $a = 5 , and $a[0][0]->bla  is.
+         */
+        private function checkForValidOperator( $lhs, $op, $cursor )
+        {
+            if( $op instanceof ezcTemplateAssignmentOperatorTstNode )
+            {
+                if( !( $lhs instanceof ezcTemplateVariableTstNode ||
+                    $lhs instanceof ezcTemplateArrayFetchOperatorTstNode ||
+                    $lhs instanceof ezcTemplateArrayAppendOperatorTstNode ||
+                    $lhs instanceof ezcTemplatePropertyFetchOperatorTstNode ) )
+                {
+                    throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
+                          ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_ASSIGNMENT );
+                }
+
+            }
+
+            return true;
         }
 }
 
