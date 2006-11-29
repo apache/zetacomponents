@@ -3,13 +3,16 @@
 require_once 'tutorial_autoload.php';
 
 $graph = new ezcGraphPieChart();
+$graph->palette = new ezcGraphPaletteEzGreen();
 $graph->title = 'Access statistics';
 $graph->legend = false;
 
-$graph->driver = new ezcGraphMingDriver();
-$graph->options->font = 'tutorial_font.fdb';
+$graph->driver = new ezcGraphGdDriver();
+$graph->options->font = 'tutorial_font.ttf';
 
-$graph->driver->options->compression = 7;
+$graph->driver->options->supersampling = 1;
+$graph->driver->options->jpegQuality = 100;
+$graph->driver->options->imageFormat = IMG_JPEG;
 
 $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
     'Mozilla' => 19113,
@@ -19,13 +22,6 @@ $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
     'Konqueror' => 474,
 ) );
 
-$graph->renderer = new ezcGraphRenderer3d();
-$graph->renderer->options->pieChartShadowSize = 10;
-$graph->renderer->options->pieChartGleam = .5;
-$graph->renderer->options->dataBorder = false;
-$graph->renderer->options->pieChartHeight = 16;
-$graph->renderer->options->legendSymbolGleam = .5;
-
-$graph->render( 400, 200, 'tutorial_example_26.swf' );
+$graph->render( 400, 200, 'tutorial_example_25.jpg' );
 
 ?>

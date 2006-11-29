@@ -3,11 +3,8 @@
 require_once 'tutorial_autoload.php';
 
 $graph = new ezcGraphPieChart();
-$graph->palette = new ezcGraphPaletteEzGreen();
+$graph->palette = new ezcGraphPaletteEz();
 $graph->title = 'Access statistics';
-
-$graph->driver = new ezcGraphGdDriver();
-$graph->options->font = 'tutorial_font.ttf';
 
 $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
     'Mozilla' => 19113,
@@ -17,42 +14,42 @@ $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
     'Konqueror' => 474,
 ) );
 
-$graph->render( 400, 200, 'tutorial_example_28.png' );
+$graph->render( 400, 200, 'tutorial_example_27.svg' );
 
+// Get element references from renderer
 $elements = $graph->renderer->getElementReferences();
 
-?>
-<html>
-    <head><title>Image map example</title></head>
-    <body>
-        <map 
-            name="ezcGraphPieChartMap">
-<?php
-    foreach ( $elements['legend'] as $objectName => $polygones )
-    {
-        foreach ( $polygones as $shape => $polygone )
-        {
-            $coordinateString = '';
-            foreach( $polygone as $coordinate )
-            {
-                $coordinateString .= sprintf( '%d,%d,', $coordinate->x, $coordinate->y );
-            }
+// Add links to charts
+$dom = new DOMDocument();
+$dom->load( 'tutorial_example_27.svg' );
+$xpath = new DomXPath( $dom );
 
-            printf( "<area shape=\"poly\" coords=\"%s\" href=\"/detailedData.php?browser=%s\" alt=\"%s: %s\" title=\"%s: %s\" />\n",
-                substr( $coordinateString, 0, -1 ),
-                $objectName,
-                $shape, $objectName,
-                $shape, $objectName
-            );
-        }
+// Link chart elements
+foreach( $elements['data']['Access statistics'] as $objectName => $ids )
+{
+    foreach( $ids as $id )
+    {
+        echo "Link: $id\n";
+        $element = $xpath->query( '//*[@id = \'' . $id . '\']' )->item( 0 );
+
+        $element->setAttribute( 'style', $element->getAttribute( 'style' ) . ' cursor: pointer;' );
+        $element->setAttribute( 'onclick', 'top.location = \'/detailedData.php?browser=' . $objectName . '\'' );
     }
-?>
-        </map>
-        <img
-            src="tutorial_example_28.png"
-            width="400" height="200"
-            usemap="#ezcGraphPieChartMap"
-    </body>
-</html>
-<?php
+}
+
+// Link legend elements
+foreach( $elements['legend'] as $objectName => $ids )
+{
+    foreach( $ids as $id )
+    {
+        echo "Link: $id\n";
+        $element = $xpath->query( '//*[@id = \'' . $id . '\']' )->item( 0 );
+
+        $element->setAttribute( 'style', $element->getAttribute( 'style' ) . ' cursor: pointer;' );
+        $element->setAttribute( 'onclick', 'top.location = \'/detailedData.php?browser=' . $objectName . '\'' );
+    }
+}
+
+$dom->save( 'tutorial_example_27.svg' );
+
 ?>
