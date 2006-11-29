@@ -13,7 +13,25 @@ $blockNames = alt( "var",
                    "increment",
                    "decrement",
                    "reset",
-                   "return"
+                   "return",
+                   "break",
+                   "skip",
+                   "continue",
+                   "foreach",
+                   "while",
+                   "if",
+                   "elseif",
+                   "switch",
+                   "case",
+                   "default",
+                   "include",
+                   "delimiter",
+                   "literal",
+                   "ldelim",
+                   "rdelim",
+                   "true",
+                   "false",
+                   "array"
                    );
 
 /*$blocksStartEnd = perm( $blocksStart,
@@ -39,7 +57,6 @@ $prePostList = perm( clone $preText,
                      clone $blockNames,
                      clone $preText
                      );
-
 /*
 mock:2:2: Unknown block <var_>.
 
