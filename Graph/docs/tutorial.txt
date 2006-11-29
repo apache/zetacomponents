@@ -72,15 +72,6 @@ ezcGraphDriver
   The driver actually renders image primitives to an image. The default driver
   will output a SVG, but you can also render JPEGs or PNGs using ext/gd.
 
-Driver
-- GD
-- SVG
-- Ming
-Element references (Image maps)
-- GD
-- SVG
-
-
 Chart types
 ===========
 
@@ -101,14 +92,14 @@ the identifiers for the data points.
 
 Pie charts accept only one dataset, and the data point identifiers are used to
 create the legend. To generate the output the default SVG renderer is used
-with the default 2d renderer. For the automatic colorization colors are
+with the default 2D renderer. For the automatic colorization colors are
 applied from the default Tango palette, which uses colors defined by the Tango
 Desktop Project: http://tango.freedesktop.org/Tango_Desktop_Project
 
-There are several oprations on the data sets and data points which will be
-mentioned during this tutorial, one thing you can do is hilighting one special
+There are several preparations on the data sets and data points which will be
+mentioned during this tutorial, one thing you can do is highlighting one special
 data set or point. In line 15 the data point Opera is highlighted which means
-in case of pie charts, that it is moved out of the center by a user 
+in case of pie charts, that it is moved out of the centre by a user 
 configurable value. See the renderer options class ezcGraphRendererOptions for 
 details.
 
@@ -119,7 +110,7 @@ Pie chart options
 ~~~~~~~~~~~~~~~~~
 
 There are several pie chart specific configuration options available. In the
-ezcomponents options are always accessed via public properties. For a full
+eZ components options are always accessed via public properties. For a full
 list of all available options have a look at the ezcGraphPieChartOption class.
 
 .. include:: tutorial_example_02.php
@@ -131,9 +122,9 @@ function which takes care of the label formatting.
 
 In this example we set a custom sum to force the pie chart to show the
 complete 100%. The percentTreshHold lets the chart collect all data which has
-less percent to be agregated in one data point. We also could define a absolute
-tresh hold, so that all data below a certain value would be agregated in one
-datapoint, and the summarizeCaption defines the caption for this agregated
+less percent to be aggregated in one data point. We also could define a absolute
+threshold, so that all data below a certain value would be aggregated in one
+data point, and the summarizeCaption defines the caption for this aggregated
 dataset.
 
 .. image:: img/tutorial_example_02.svg.png
@@ -219,9 +210,9 @@ how the highlighting of data sets is applied to this chart type.
 
 In line 20 the size of the highlight boxes is configured and the lines 22 to
 24 change the font configuration for the highlight boxes. The highlighting
-basicaly works the same way as for pie charts, but in line and bar charts it
+basically works the same way as for pie charts, but in line and bar charts it
 makes sense to highlight a complete data set and not only one single data
-point, due to the fact that there usally more then one data set in line and
+point, due to the fact that there usually more then one data set in line and
 bar charts.
 
 .. image:: img/tutorial_example_06.svg.png
@@ -249,7 +240,7 @@ Using a predefined palette
 --------------------------
 
 You can assign each class class extending ezcGraphPalette to the palette
-property of your graph. You should do this before addig datasets, because the
+property of your graph. You should do this before adding data sets, because the
 datasets request there colors from the palette. If you set the palette after
 creating the data sets, the data sets will still use the colors from the 
 default palette.
@@ -260,7 +251,7 @@ default palette.
 The generated output differs quite a lot from the output using the default
 tango palette. The palette of course changes the colors of background, data
 sets and fonts. Additionally it sets a color for the major and minor grid, and
-defines a broder width and color for the charts elements, defaults to a serif
+defines a border width and color for the charts elements, defaults to a serif
 font and increases the margin between the chart elements.
 
 .. image:: img/tutorial_example_07.svg.png
@@ -295,7 +286,7 @@ default data set symbol in the default palette.
 Create a custom palette
 -----------------------
 
-To fit the graphs easily in your coorporate identity the easiest way will be
+To fit the graphs easily in your corporate identity the easiest way will be
 to create your own palette and use it for the graphs you create. To create a
 custom palette you can either extend one of the predefined palettes and
 overwrite the properties or extend the abstract palette class.
@@ -332,7 +323,7 @@ the following elements:
 
 The palette defines the default formatting of the elements. But you cannot
 only set foreground and background colors for all the elements, but also
-define their position in the chart, or prevent them from beeing rendered at
+define their position in the chart, or prevent them from being rendered at
 all.
 
 Font configuration
@@ -396,7 +387,7 @@ encoded content of the binary image file, so that you do not need to worry
 about the locations of your referenced images, when you are using the SVG 
 output driver.
 
-In the GD driver supersampling is not applied to the images, because they 
+In the GD driver super sampling is not applied to the images, because they 
 would look blurred, what you certainly do not want for included bitmap 
 images.
 
@@ -433,7 +424,7 @@ To place the legend at another position of the graph you may set the position
 property of the legend like in line 17. If the legend is placed on top or
 bottom it will automatically use a landscape format. The space consumed by the
 legend is configured by the landscapeSize for the legends in landscape format
-and and portraitSize otheerwise. The assigned value is the percent of space of
+and and portraitSize otherwise. The assigned value is the percent of space of
 the graph size consumed by the legend. The legend only displays a title if you
 manually set it like in line 19.
 
@@ -451,7 +442,7 @@ values.
 There are different types of values to display - for both, the x-axis and the
 y-axis. ezcGraph supports different axis types for different data you give the
 graph to render. For normal string keys usually the standard labeled axis is
-the right choice. The numeric axis is predestinated to display numeric data,
+the right choice. The numeric axis is predestined to display numeric data,
 and the date time axis for data associated to dates or times. All of the axis 
 types can be assigned to each axis.
 
@@ -507,7 +498,7 @@ Date time axis
 
 Earlier in this tutorial we used a labeled axis for date time data on the x
 axis in the wikipedia examples. This works fine for evenly distributed
-timespans. For other data you should use the date time axis.
+time spans. For other data you should use the date time axis.
 
 .. include:: tutorial_example_16.php
    :literal:
@@ -521,7 +512,7 @@ be converted using PHPs strtotime() function.
 Axis label renderer
 ~~~~~~~~~~~~~~~~~~~
 
-As metioned earlier in this tutorial the axis label renderer defines where a
+As mentioned earlier in this tutorial the axis label renderer defines where a
 label is drawn relatively to the  step on the axis. You already saw examples 
 for all available axis label renderers, but I want to mention them again:
 
@@ -537,7 +528,7 @@ for all available axis label renderers, but I want to mention them again:
 
   This renderer is default for the labeled axis in line charts and draws the
   label centered next to the step. Therefor this renderer omits the label for
-  initil step on the axis (0, 0), but this can be forced as shown in example
+  initial step on the axis (0, 0), but this can be forced as shown in example
   14. The label is omitted, because it would interfere with the axis or the
   labels of the other axis, and probably not really readable.
 
@@ -545,7 +536,7 @@ for all available axis label renderers, but I want to mention them again:
 
   This is the default renderer for the labeled axis in bar charts. The steps
   on the axis and the grid is not drawn at the position of the label, but
-  between two labels. This helps to recognize whichs bars belongs together.
+  between two labels. This helps to recognize which bars belongs together.
   The label is rendered centered between two of those steps on the axis.
 
 Data sets
@@ -560,11 +551,11 @@ Array data
 The array data set was used for all examples until now, because it is the
 simplest way to provide data for ezcGraph.
 
-Average polynom dataset
+Average polynomial dataset
 -----------------------
 
 The average dataset uses an existing dataset with numeric keys and build a
-polynom which interpolates the data points in the given data set using the
+polynomial which interpolates the data points in the given data set using the
 least squares algorithm.
 
 .. include:: tutorial_example_17.php
@@ -573,17 +564,17 @@ least squares algorithm.
 We use again two numeric axis, because we only display numeric data in this
 example. First we create a normal array dataset from some random generated
 data in line 14. We assign this data set to the chart , to see how well the 
-polnom fits the random datapoints.
+polynomial fits the random data points.
 
 In line 20 we create a ezcGraphDataSetAveragePolynom from the random data with
-a maximum degree of the polynom of 3 (which is also the fefault value). You
-can directly access the polynom, what we use to set the name of the data set
-to the data sets polynom, when we add the data set to the graph.
+a maximum degree of the polynomial of 3 (which is also the default value). You
+can directly access the polynomial, what we use to set the name of the data set
+to the data sets polynomial, when we add the data set to the graph.
 
 .. image:: img/tutorial_example_17.svg.png
-   :alt:   Average polynom example
+   :alt:   Average polynomial example
 
-For the computation of the polynom a equatation has to be solved where the
+For the computation of the polynomial a equitation has to be solved where the
 size of the matrix is equal to the point count of the used dataset. Be
 careful with data sets with large point count. Because this could mean that
 ezcGraph will consume a lot of memory and processing power.
@@ -603,7 +594,7 @@ Renderer
 
 The renderer transform chart primitives into image primitives, that means that
 things like a pie segment including labels, highlight etc. will be transformed
-into some text strings, circel sectors and symbols to link the text to the
+into some text strings, circle sectors and symbols to link the text to the
 according circle sector.
 
 ezcGraph comes with the default 2D renderer used in all of the above examples
@@ -644,7 +635,7 @@ Pie chart rendering options
 .. include:: tutorial_example_19.php
    :literal:
 
-One of the pie chart specifiv options is moveOut in line 21, which defines how
+One of the pie chart specific options is moveOut in line 21, which defines how
 much space of the pie chart is used to move the pie chart segments out the
 center on highlight. The pieChartOffset in line 23 defines the initial angle
 for the pie chart segments, which enables you to rotate the pie chart.
@@ -669,7 +660,7 @@ Besides the gleam added in the last example, you can additionally define a
 gleam for the legend symbols. In line 32 the transparency of the gleam is
 defined, and then the size of the gleam. The gleam works for all symbol types
 - except the circle, where gleam does not make sense, and the size defines the 
-procetual size of the gleam compared to the symbol size. In the last step in
+percent of size of the gleam compared to the symbol size. In the last step in
 line 34 the gleam color is defined.
 
 .. image:: img/tutorial_example_20.svg.png
@@ -706,7 +697,7 @@ specific options.
 The pieChartGleamBorder option was removed, because it looks a bt strange on
 3d pie charts, but it of course works, too. In the lines 37 and 38 there are
 two new options, which configure the 3d effect of the pie chart. The first one
-defines the height of the pie and the second one defines the procentual
+defines the height of the pie and the second one defines the percent of
 shrinkage compared to the maximum possible vertical size of a pie chart.
 
 .. image:: img/tutorial_example_22.svg.png
@@ -736,7 +727,7 @@ barDarkenTop, but leaving them as the default value is just fine.
 ~~~~~~~~~~~~~~
 
 The line chart example with 3d renderer is again quite simple. It reuses the
-example with the statiscal data and the approximation polygon.
+example with the statistical data and the approximation polygon.
 
 .. include:: tutorial_example_24.php
    :literal:
@@ -796,7 +787,7 @@ GD driver
 The GD driver is for now the choice to generate bitmap images. It does support
 different font types, if available on your PHP installation, like True Type
 Fonts, using the FreeType 2 library or the native TTF support, and PostScript 
-Type 1 fonts. We use supersampling to enable basic antialiasing in the gd
+Type 1 fonts. We use super sampling to enable basic anti aliasing in the gd
 driver, what means, that the image is rendered twice as big with default
 settings and resized later back to requested size. This is used for all image
 primitives except texts and images.
@@ -806,11 +797,11 @@ reasonable effort:
 
 - Transparent pie segments look very strange with GD
 - There is no native support for gradients in GD
-- Font antialiasing depends on the used font extension. Use the FreeType 2
+- Font anti aliasing depends on the used font extension. Use the FreeType 2
   library if available, what also is the default behavior.
 
 There are some special configuration options for the GD driver. You can
-specify the supersampling rate used, and use different output formats if
+specify the super sampling rate used, and use different output formats if
 available with your bundled GD extension, like in the lines 13 to 15 in the
 following example.
 
@@ -867,7 +858,7 @@ SVG example
 
 After creating a very simple chart like in the first example we start
 modifying the document using PHPs DOM extension. First we load the document
-and create a xpath query object on it. 
+and create a XPath query object on it. 
 
 The array returned by ezcGraphRenderer::getElementReferences() contains two
 arrays, one for the legend elements and one for the datasets. The data array
@@ -877,7 +868,7 @@ renderer you will receive one ezcGraphCircleSector_[0-9]+ and one
 ezcGraphTextBox_[0-9]+ element, but this may change with other rendering 
 options.
 
-In the loop we now receive the element for the id using xpath, to modify its
+In the loop we now receive the element for the id using XPath, to modify its
 attributes. $dom->getElementByID() does not work here, because these elements
 are not indexed by default for non HTML documents. We only modify the style
 attribute a bit, to change the cursor to a pointer, like expected for links
