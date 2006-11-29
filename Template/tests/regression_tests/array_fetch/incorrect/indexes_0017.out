@@ -1,4 +1,4 @@
-mock:3:15: Unexpected array append '[]'. Did you forget an expression between the brackets?
+mock:3:13: Expecting an assignment '=' after an array append '[]'.
 
 {$a[0][1] [][2]}
-              ^
+            ^

@@ -42,6 +42,9 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
     public $rootOperator;
 
 
+    public $foundArrayAppend = false;
+
+
     /**
      * Passes control to parent.
      * @param int $minPrecedence The minimum precedence level which is allowed
@@ -74,10 +77,15 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
         $this->findNextElement();
 
+        $canDoAssignment = true;
+        $this->foundArrayAppend = false;
+
         // If it has a preOperator, it must have an operand.
         $match = "";
-        if ( $this->parsePreModifyingOperator( $cursor, $match ) )
+        $type = "";
+        if ( $this->parsePreModifyingOperator( $cursor, $match ) ) // Parse: --, ++
         {
+            $canDoAssignment = false;
             if ( !$this->parseOperand( $cursor, array( "Variable" ), false ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
@@ -85,8 +93,9 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             
             return true;
         }
-        elseif( $this->parsePreOperator( $cursor, $match ) )
+        elseif( $this->parsePreOperator( $cursor, $match ) ) // Parse: -, +, !
         {
+            $canDoAssignment = false;
             if ( !$this->parseOperand( $cursor, array(), false ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_OPERAND );
@@ -111,20 +120,40 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             //  Operator check.
             $this->findNextElement();
 
-            if ( !$this->parseOperator( $cursor ) )
+            if( $this->foundArrayAppend ) 
             {
-                return true;
+                // After an array append follows an assignment.
+                if( !$this->parseAssignmentOperator( $cursor ) )
+                {
+                    throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
+                       ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY_APPEND_ASSIGNMENT );
+                }
+            }
+            else
+            {
+                $operator = $this->parseOperator( $cursor, $canDoAssignment );
+                if ( !$operator )
+                {
+                    return true;
+                }
+
+                if( $type != "Variable" || $operator != "AssignmentOperator" ) 
+                {
+                    $canDoAssignment = false;
+                }
             }
 
             // An operand is mandantory.
             $failedCursor = clone $cursor;
             $this->findNextElement();
 
-            // Modifying operators are not allowed anymore.
+            $this->foundArrayAppend = false;
 
+            // Modifying operators are not allowed anymore.
             $this->parsePreOperator( $cursor, $match );
 
-            if ( !$this->parseOperand( $cursor, array(), false ) ) 
+            $type = $this->parseOperand( $cursor, array(), false );
+            if ( !$type ) 
             {
                 throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_NON_MODIFYING_OPERAND );
             }
@@ -365,6 +394,12 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 if ( $allowArrayAppend && $cursor->match( "]" ) )
                 {
                     $operator = new ezcTemplateArrayAppendOperatorTstNode( $this->parser->source, $this->startCursor, $cursor );
+                    $this->foundArrayAppend = true;
+
+                    $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
+                    $this->lastCursor = clone $cursor;
+
+                    return true;
                 }
                 else
                 {
@@ -401,8 +436,24 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             return ($operator !== null); 
         }
 
+        protected function parseAssignmentOperator( $cursor )
+        {
+            if( $cursor->match( "=" ) )
+            {
+                //$cursor->advance( 1 );
+                $function = "ezcTemplateAssignmentOperatorTstNode";
+                $operator = new $function( $this->parser->source, clone $this->lastCursor, $cursor );
 
-        protected function parseOperator( $cursor )
+                $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
+                $this->parser->reportElementCursor( $operator->startCursor, $operator->endCursor, $operator );
+
+                return true;
+            }
+
+            return false;
+        }
+
+        protected function parseOperator( $cursor, $canDoAssignment = true )
         {
             // Try som generic operators
             $operator = null;
@@ -424,8 +475,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             array( 1,
             array( '+', '-', '.',
             '*', '/', '%',
-            '<', '>',
-            '=' ) ) );
+            '<', '>', '=' ) ) );
             foreach ( $operatorSymbols as $symbolEntry )
             {
                 $chars = $cursor->current( $symbolEntry[0] );
@@ -441,10 +491,18 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 return false;
             }
 
+            // Cannot do an assignment right now.
+            if( $operatorName == "=" && !$canDoAssignment)
+            {
+                return false;
+            }
+
+
             if ( $operatorName !== false )
             {
                 $operatorStartCursor = clone $cursor;
                 $cursor->advance( strlen( $operatorName ) );
+
                 $operatorMap = array( '+' => 'PlusOperator',
                 '-' => 'MinusOperator',
                 '.' => 'ConcatOperator',
@@ -494,7 +552,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 $operator->precedence < $this->minPrecedence )
                 {
                     $cursor->copy( $operatorStartCursor );
-                    return true;
+                    return $operatorName;
                 }
 
                 $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
@@ -508,7 +566,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     $this->allowIdentifier = true;
                 }
 
-                return true;
+                return $operatorName;
             }
 
             return false;

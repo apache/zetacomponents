@@ -999,19 +999,35 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitAssignmentOperatorTstNode( ezcTemplateAssignmentOperatorTstNode $type )
     {
-        $this->isCycle = false;
-        $astNode = new ezcTemplateAssignmentOperatorAstNode(); 
-        $this->previousType = $astNode;
+        //var_dump ( $type->parameters );
+        //exit();
 
         $this->allowArrayAppend = true;
+        $this->isCycle = false;
+
+        $astNode = new ezcTemplateAssignmentOperatorAstNode(); 
+        $this->previousType = $astNode; // TODO , can be removed???
+
+        $parameters = sizeof( $type->parameters );
+
         $astNode->appendParameter( $type->parameters[0]->accept( $this ) ); // Set cycle, if it's a cycle.
+
+        for ($i = 1; $i < $parameters - 1; $i++ )
+        {
+            $astNode->appendParameter( $type->parameters[$i]->accept( $this ) ); // Set cycle, if it's a cycle.
+            $tmp = new ezcTemplateAssignmentOperatorAstNode(); 
+            $tmp->appendParameter( $astNode );
+            $astNode = $tmp;
+        }
+
         $this->allowArrayAppend = false;
-        $assignment = $type->parameters[1]->accept( $this );
+
+        $assignment = $type->parameters[$i]->accept( $this );
 
         if ( $this->isCycle && !( $assignment->typeHint & ezcTemplateAstNode::TYPE_ARRAY ) )
         {
-            throw new ezcTemplateParserException( $type->source, $type->parameters[1]->startCursor, 
-                $type->parameters[1]->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
+            throw new ezcTemplateParserException( $type->source, $type->parameters[$i]->startCursor, 
+                $type->parameters[$i]->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
         }
 
         $astNode->appendParameter( $assignment );
