@@ -588,17 +588,20 @@ class ezcGraphFlashDriver extends ezcGraphDriver
         $shape->movePenTo( $this->modifyCoordinate( $center->x ), $this->modifyCoordinate( $center->y ) );
 
         // @TODO: User SWFShape::curveTo
-        for ( $angle = $startAngle; $angle <= $endAngle; $angle += $this->options->circleResolution )
+        for(
+            $angle = $startAngle;
+            $angle <= $endAngle;
+            $angle = min( $angle + $this->options->circleResolution, $endAngle ) )
         {
-            $angle = min(
-                $angle,
-                $endAngle
-            );
-
             $shape->drawLineTo( 
                 $this->modifyCoordinate( $center->x + cos( deg2rad( $angle ) ) * $width / 2 ), 
                 $this->modifyCoordinate( $center->y + sin( deg2rad( $angle ) ) * $height / 2 )
             );
+
+            if ( $angle === $endAngle )
+            {
+                break;
+            }
         }
 
         $shape->drawLineTo( 
