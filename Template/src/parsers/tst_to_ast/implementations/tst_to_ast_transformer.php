@@ -772,6 +772,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $astNode[$i]->conditionBody = $cb; 
 
 
+        array_shift( $this->delimiterStack );
         return $astNode;
     }
 
