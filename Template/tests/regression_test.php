@@ -202,6 +202,15 @@ class ezcTemplateRegressionTest extends ezcTestCase
             elseif ( $reply == "do" || $reply == "de" || $reply == "ds" || $reply == "dc" || $reply == "dta" || $reply == "dtt" || $reply == "dd" || $reply == "d" )
             {
                 $displayText = false;
+
+                if ( $reply == "ds" || $reply == "d" )
+                {
+                    if ( $reply == "d" )
+                    {
+                        $displayText .= "------Source template------\n";
+                    }
+                    $displayText .= file_get_contents( $tplSource );
+                }
                 if ( $reply == "do" || $reply == "d" )
                 {
                     if ( $reply == "d" )
@@ -244,14 +253,6 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     else
                     {
                     }
-                }
-                if ( $reply == "ds" || $reply == "d" )
-                {
-                    if ( $reply == "d" )
-                    {
-                        $displayText .= "------Source template------\n";
-                    }
-                    $displayText .= file_get_contents( $tplSource );
                 }
                 if ( $reply == "dc" || $reply == "d" )
                 {
