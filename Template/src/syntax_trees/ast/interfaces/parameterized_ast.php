@@ -93,7 +93,7 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
         {
             if ( $parameter->typeHint == null )
             {
-                exit( "The typehint of the class ". get_class( $parameter ) . " is null" ); 
+                throw new ezcTemplateInternalException( "The typehint of the class ". get_class( $parameter ) . " is null." );
             }
 
             if ( $first )
