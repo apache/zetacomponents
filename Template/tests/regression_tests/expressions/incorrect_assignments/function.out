@@ -1,0 +1,4 @@
+mock:3:22: The given parameter is not allowed to modify a variable.
+
+{str_len( $a = "bla" )}
+                     ^

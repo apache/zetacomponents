@@ -182,6 +182,11 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
             $rootOperator = $rootOperator->getRoot();
         }
 
+        if ( $rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+        {
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor,  sprintf( ezcTemplateSourceToTstErrorMessages::MSG_PARAMETER_CANNOT_BE_MODIFYING_BLOCK, $this->parameterCount ) );
+        }
+
         $this->functionCall->appendParameter( $rootOperator );
 
         $this->readingParameter = false;

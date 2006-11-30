@@ -1,0 +1,4 @@
+mock:3:10: Unexpected operand or expression. The operand or expression modifies a variable, which is not allowed.
+
+{($a = 2) + 2}
+         ^

@@ -1,0 +1,3 @@
+{var $a}
+
+{str_len( $a = "bla" )}

@@ -82,6 +82,12 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_TOO_MANY_PARAMETERS               = "Function call: '%s' has too many parameters.";
 
     const MSG_UNEXPECTED_BLOCK                   = "Unexpected block {%s} at this position. Some blocks can only be used inside other blocks.";
+    const MSG_OPERATOR_LHS_IS_MODIFYING_BLOCK   = "Unexpected operator. The left side of this expression is not allowed to modify a variable.";
+    const MSG_OPERATOR_RHS_IS_MODIFYING_BLOCK   = "Unexpected operand or expression. An operand or expression that modifies a variable cannot be used in combination with the '%s' operator.";
+    const MSG_OPERATOR_IS_MODIFYING_BLOCK       = "Unexpected operand or expression. The operand or expression modifies a variable, which is not allowed.";
+
+    const MSG_PARAMETER_CANNOT_BE_MODIFYING_BLOCK = "The given parameter is not allowed to modify a variable.";
+
 
     const MSG_OBJECT_FUNCTION_CALL_NOT_ALLOWED  = "Calling a method from an imported object is not allowed.";
 

@@ -187,6 +187,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         $parsedType = false;
         if ( $this->canParseType( 'Literal', $allowedTypes ) )
         {
+            $this->operatorRhsCheck( $this->currentOperator, $this->lastParser->element, $cursor );
             $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );
             $parsedType = "Literal";
         }
@@ -198,6 +199,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->startCursor, $this->parser->symbolTable->getErrorMessage() );
             }
 
+            $this->operatorRhsCheck( $this->currentOperator, $this->lastParser->element, $cursor );
             $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );
 
             $this->findNextElement();
@@ -211,11 +213,15 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         }
         elseif ( $this->canParseType( 'FunctionCall', $allowedTypes ) )
         {
+            $this->operatorRhsCheck( $this->currentOperator, $this->lastParser->functionCall, $cursor );
+
             $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->functionCall );
             $parsedType = "FunctionCall";
         }
         elseif ( $this->allowIdentifier && $this->parseOptionalType( 'Identifier' ) )
         {
+            $this->operatorRhsCheck( $this->currentOperator, $this->lastParser->element, $cursor );
+ 
             // Try parsing an identifier since it is allowed
             $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );
 
@@ -240,8 +246,8 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ROUND_BRACKET_CLOSE );
             }
 
+            $this->operatorRhsCheck( $this->currentOperator, $this->lastParser->block, $cursor );
             $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->block );
-
             $parsedType = "Parenthesis";
         }
 
@@ -440,9 +446,10 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         {
             if( $cursor->match( "=" ) )
             {
-                //$cursor->advance( 1 );
                 $function = "ezcTemplateAssignmentOperatorTstNode";
                 $operator = new $function( $this->parser->source, clone $this->lastCursor, $cursor );
+
+                $this->checkForValidOperator( $this->currentOperator, $operator, $cursor );
 
                 $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
                 $this->parser->reportElementCursor( $operator->startCursor, $operator->endCursor, $operator );
@@ -585,16 +592,43 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 if( !( $lhs instanceof ezcTemplateVariableTstNode ||
                     $lhs instanceof ezcTemplateArrayFetchOperatorTstNode ||
                     $lhs instanceof ezcTemplateArrayAppendOperatorTstNode ||
-                    $lhs instanceof ezcTemplatePropertyFetchOperatorTstNode ) )
+                    $lhs instanceof ezcTemplatePropertyFetchOperatorTstNode ||
+                    $lhs instanceof ezcTemplateAssignmentOperatorTstNode ) )
                 {
                     throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
                           ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_ASSIGNMENT );
                 }
 
+                return;
             }
 
-            return true;
+            if( $lhs instanceof ezcTemplateModifyingBlockTstNode )
+            {
+                    throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
+                          ezcTemplateSourceToTstErrorMessages::MSG_OPERATOR_LHS_IS_MODIFYING_BLOCK );
+            }
+
+            return;
         }
+
+        private function operatorRhsCheck( $op, $rhs, $cursor )
+        {
+            if( $rhs instanceof ezcTemplateModifyingBlockTstNode )
+            {
+                if( $op instanceof ezcTemplateOperatorTstNode )
+                {
+                    throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
+                        sprintf( ezcTemplateSourceToTstErrorMessages::MSG_OPERATOR_RHS_IS_MODIFYING_BLOCK, $op->symbol ));
+                }
+                else
+                {
+                    throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
+                        ezcTemplateSourceToTstErrorMessages::MSG_OPERATOR_IS_MODIFYING_BLOCK );
+                }
+            }
+        }
+
+ 
 }
 
 ?>
