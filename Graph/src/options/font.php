@@ -62,7 +62,8 @@ class ezcGraphFontOptions extends ezcBaseOptions
     public function __construct( array $options = array() )
     {
         $this->properties['name'] = 'sans-serif';
-        $this->properties['path'] = 'Graph/tests/data/font.ttf';
+//        $this->properties['path'] = 'Graph/tests/data/font.ttf';
+        $this->properties['path'] = '';
         $this->properties['type'] = ezcGraph::TTF_FONT;
 
         $this->properties['minFontSize'] = 6;

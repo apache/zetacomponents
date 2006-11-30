@@ -140,6 +140,7 @@ class ezcGraphImageMapTest extends ezcTestCase
 
         $chart = new ezcGraphLineChart();
         $chart->driver = new ezcGraphGdDriver();
+        $chart->options->font->path = dirname( __FILE__ ) . '/data/font.ttf';
         $chart->palette = new ezcGraphPaletteBlack();
 
         $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );

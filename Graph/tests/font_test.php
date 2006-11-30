@@ -204,11 +204,26 @@ class ezcGraphFontTest extends ezcTestCase
     {
         $options = new ezcGraphFontOptions();
 
-        $this->assertSame(
-            dirname( __FILE__ ) . '/data/font.ttf',
-            $options->path,
-            'Wrong default value for property path in class ezcGraphFontOptions'
-        );
+        try
+        {
+            $catched = false;
+            $options->path;
+        }
+        catch( ezcBaseFileNotFoundException $e )
+        {
+            $catched = true;
+
+            $this->assertEquals(
+                $e->getMessage(),
+                'The font file \'\' could not be found.',
+                'Wrong default content mentioned in exception.'
+            );
+        }
+
+        if ( !$catched )
+        {
+            $this->fail( 'Expected ezcBaseFileNotFoundException.' );
+        }
 
         $options->path = $file = dirname( __FILE__ ) . '/data/font2.ttf';
         $this->assertSame(
