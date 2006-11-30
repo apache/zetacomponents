@@ -252,6 +252,28 @@ abstract class ezcGraphDriver
     abstract public function drawImage( $file, ezcGraphCoordinate $position, $width, $height );
 
     /**
+     * Return mime type for current image format
+     * 
+     * @return string
+     */
+    abstract public function getMimeType();
+
+    /**
+     * Render image directly to output
+     *
+     * The method renders the image directly to the standard output. You 
+     * normally do not want to use this function, because it makes it harder 
+     * to proper cache the generated graphs.
+     * 
+     * @return void
+     */
+    public function renderToOutput()
+    {
+        header( 'Content-Type: ' . $this->getMimeType() );
+        $this->render( 'php://output' );
+    }
+
+    /**
      * Finally save image
      * 
      * @param string $file Destination filename

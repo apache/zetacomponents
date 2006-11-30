@@ -813,6 +813,16 @@ class ezcGraphFlashDriver extends ezcGraphDriver
     }
 
     /**
+     * Return mime type for current image format
+     * 
+     * @return string
+     */
+    public function getMimeType()
+    {
+        return 'application/x-shockwave-flash';
+    }
+
+    /**
      * Finally save image
      * 
      * @param string $file Destination filename

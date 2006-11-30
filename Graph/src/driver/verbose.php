@@ -186,6 +186,16 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
     }
 
     /**
+     * Return mime type for current image format
+     * 
+     * @return string
+     */
+    public function getMimeType()
+    {
+        return 'text/plain';
+    }
+
+    /**
      * Finally save image
      * 
      * @param mixed $file 

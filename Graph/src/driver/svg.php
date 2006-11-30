@@ -982,6 +982,16 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     }
 
     /**
+     * Return mime type for current image format
+     * 
+     * @return string
+     */
+    public function getMimeType()
+    {
+        return 'image/svg+xml';
+    }
+
+    /**
      * Finally save image
      * 
      * @param string $file Destination filename

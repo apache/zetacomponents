@@ -981,6 +981,37 @@ class ezcGraphGdDriver extends ezcGraphDriver
     }
 
     /**
+     * Return mime type for current image format
+     * 
+     * @return string
+     */
+    public function getMimeType()
+    {
+        switch ( $this->options->imageFormat )
+        {
+            case IMG_PNG:
+                return 'image/png';
+            case IMG_JPEG:
+                return 'image/jpeg';
+        }
+    }
+
+    /**
+     * Render image directly to output
+     *
+     * The method renders the image directly to the standard output. You 
+     * normally do not want to use this function, because it makes it harder 
+     * to proper cache the generated graphs.
+     * 
+     * @return void
+     */
+    public function renderToOutput()
+    {
+        header( 'Content-Type: ' . $this->getMimeType() );
+        $this->render( null );
+    }
+
+    /**
      * Finally save image
      * 
      * @param string $file Destination filename

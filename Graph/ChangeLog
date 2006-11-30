@@ -5,6 +5,7 @@
 - Renamed pie chart options percentTreshHold to percentThreshold and
   absoluteTreshHold to absoluteThreshold
 
+- Added feature #9647: Add render to output method
 - Fixed issue #9612: Element links for SVG image in the legend require you to
   click on exactly the text.
 - Fixed issue #9586: No data rendered with string keys on date axis.

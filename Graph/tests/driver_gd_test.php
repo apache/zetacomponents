@@ -62,6 +62,65 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         }
     }
 
+    public function testRenderPngToOutput()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $this->driver->options->imageFormat = IMG_PNG;
+        $this->driver->drawLine(
+            new ezcGraphCoordinate( 12, 45 ),
+            new ezcGraphCoordinate( 134, 12 ),
+            ezcGraphColor::fromHex( '#3465A4' )
+        );
+
+        $this->assertEquals(
+            $this->driver->getMimeType(),
+            'image/png',
+            'Wrong mime type returned.'
+        );
+
+        ob_start();
+        // Suppress header already sent warning
+        @$this->driver->renderToOutput();
+        file_put_contents( $filename, ob_get_clean() );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
+    public function testRenderJpegToOutput() {
+        $filename = $this->tempDir . __FUNCTION__ . '.jpeg';
+
+        $this->driver->options->imageFormat = IMG_JPEG;
+        $this->driver->drawLine(
+            new ezcGraphCoordinate( 12, 45 ),
+            new ezcGraphCoordinate( 134, 12 ),
+            ezcGraphColor::fromHex( '#3465A4' )
+        );
+
+        $this->assertEquals(
+            $this->driver->getMimeType(),
+            'image/jpeg',
+            'Wrong mime type returned.'
+        );
+
+        ob_start();
+        // Suppress header already sent warning
+        @$this->driver->renderToOutput();
+        file_put_contents( $filename, ob_get_clean() );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.jpeg',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
     public function testDrawLine()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.png';

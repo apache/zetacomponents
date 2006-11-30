@@ -81,6 +81,33 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         }
     }
 
+    public function testRenderToOutput()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->drawLine(
+            new ezcGraphCoordinate( 12, 45 ),
+            new ezcGraphCoordinate( 134, 12 ),
+            ezcGraphColor::fromHex( '#3465A4' )
+        );
+
+        $this->assertEquals(
+            $this->driver->getMimeType(),
+            'image/svg+xml',
+            'Wrong mime type returned.'
+        );
+
+        ob_start();
+        // Suppress header already sent warning
+        @$this->driver->renderToOutput();
+        file_put_contents( $filename, ob_get_clean() );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testDrawLine()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
