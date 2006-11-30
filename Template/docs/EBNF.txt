@@ -224,7 +224,7 @@ Lexicon
 
   BooleanOperator     ::= '&&' | '||'
 
-  StringOperator      ::= '.'  | '.='
+  StringOperator      ::= '.'
 
   UnaryOperator       ::= '+'  | '-'   | '!'
 
