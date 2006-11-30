@@ -1,0 +1,6 @@
+{0066
+0:[if]$bar is false[/if]
+0:0:[switch]default()[/switch]
+0:0:====delim====
+0:1:[switch]default(foo)[/switch]
+}

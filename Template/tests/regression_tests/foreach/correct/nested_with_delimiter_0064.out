@@ -1,0 +1,5 @@
+{0064
+0:[if]$bar is false[/if]
+0:0:~~delim~~
+0:0:====delim====
+}

@@ -1,0 +1,4 @@
+{0072
+0:[if]$bar is false[/if]
+0:0:[switch]default(0)[/switch]
+}

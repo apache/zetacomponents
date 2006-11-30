@@ -1,0 +1,13 @@
+{0003
+0:0:[switch]default()[/switch]
+0:0:====delim====
+0:1:[switch]default(foo)[/switch]
+0:~~~~delim~~~~
+1:0:[switch]default()[/switch]
+1:0:====delim====
+1:1:[switch]default(foo)[/switch]
+1:~~~~delim~~~~
+2:0:[switch]default()[/switch]
+2:0:====delim====
+2:1:[switch]default(foo)[/switch]
+}

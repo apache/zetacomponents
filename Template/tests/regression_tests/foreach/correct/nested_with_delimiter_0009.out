@@ -1,0 +1,10 @@
+{0009
+0:0:[switch]default(0)[/switch]
+0:~~~~delim~~~~
+0:0:====delim====
+1:0:[switch]default(0)[/switch]
+1:~~~~delim~~~~
+1:0:====delim====
+1:0:____delim____
+2:0:[switch]default(0)[/switch]
+}

@@ -1,0 +1,10 @@
+{0035
+0:0:[if]$bar2 is false[/if]
+0:~~~~delim~~~~
+0:0:====delim====
+1:0:[if]$bar2 is false[/if]
+1:~~~~delim~~~~
+1:0:====delim====
+1:0:____delim____
+2:0:[if]$bar2 is false[/if]
+}

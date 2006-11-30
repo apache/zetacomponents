@@ -1,0 +1,5 @@
+{0057
+0:0:[switch]default()[/switch]
+0:0:====delim====
+0:1:[switch]default(foo)[/switch]
+}

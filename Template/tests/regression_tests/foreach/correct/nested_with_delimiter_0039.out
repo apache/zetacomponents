@@ -1,0 +1,14 @@
+{0039
+0:[if]$bar is false[/if]
+0:0:[switch]default()[/switch]
+0:0:====delim====
+0:1:[switch]default(foo)[/switch]
+1:[if]$bar is true[/if]
+1:0:[switch]default()[/switch]
+1:0:====delim====
+1:1:[switch]default(foo)[/switch]
+2:[if]$bar is true[/if]
+2:0:[switch]default()[/switch]
+2:0:====delim====
+2:1:[switch]default(foo)[/switch]
+}

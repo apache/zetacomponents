@@ -1,0 +1,4 @@
+{0071
+0:[if]$bar is false[/if]
+0:0:[if]$bar2 is false[/if]
+}
