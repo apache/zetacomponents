@@ -339,6 +339,7 @@ class ezcGraphMatrix
     {
         // Build complete equatation
         $equatation = new ezcGraphMatrix( $this->rows, $columns = ( $this->columns + 1 ) );
+
         for ( $i = 0; $i < $this->rows; ++$i ) 
         {
             for ( $j = 0; $j < $this->columns; ++$j ) 
@@ -357,7 +358,7 @@ class ezcGraphMatrix
                 {
                     if ( $equatation->get( $j, $i ) == 0 )
                     {
-                        $factor = 0;
+                        continue;
                     }
                     else
                     {

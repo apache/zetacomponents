@@ -120,6 +120,44 @@ class ezcGraphDataSetAverageTest extends ezcTestCase
         );
     }
 
+    public function testCreateDatasetFromDataset4()
+    {
+        $points = array();
+        for ( $x = -1; $x <= 5; ++$x )
+        {
+            $points[$x] = pow( $x - 2, 3 ) - .21 * pow( $x - 2, 2 ) + .2 * ( $x - 2 ) - 2.45;
+        }
+
+        $arrayDataSet = new ezcGraphArrayDataSet( $points );
+        
+        $averageDataSet = new ezcGraphDataSetAveragePolynom( $arrayDataSet, 3 );
+        $polynom = $averageDataSet->getPolynom();
+
+        $this->assertEquals(
+            '1.00 * x^3 + -6.21 * x^2 + 13.04 * x + -11.69',
+            $polynom->__toString()
+        );
+    }
+
+    public function testCreateDatasetFromDataset5()
+    {
+        $points = array();
+        for ( $x = -3; $x <= 3; ++$x )
+        {
+            $points[$x] = pow( $x, 3 ) - .21 * pow( $x, 2 ) + .2 * $x - 2.45;
+        }
+
+        $arrayDataSet = new ezcGraphArrayDataSet( $points );
+        
+        $averageDataSet = new ezcGraphDataSetAveragePolynom( $arrayDataSet, 3 );
+        $polynom = $averageDataSet->getPolynom();
+
+        $this->assertEquals(
+            'x^3 + -0.21 * x^2 + 0.20 * x + -2.45',
+            $polynom->__toString()
+        );
+    }
+
     public function testCreateDatasetFromDatasetLowOrder()
     {
         $arrayDataSet = new ezcGraphArrayDataSet( array( -1 => 2, 1 => 2, 3 => 10 ) );
