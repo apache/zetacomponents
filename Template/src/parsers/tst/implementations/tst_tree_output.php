@@ -310,7 +310,51 @@ class ezcTemplateTstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
         $this->text .= $this->outputNode( $node );
     }
 
+    public function visitCacheTstNode( ezcTemplateCacheTstNode $node )
+    {
+        $this->text .= $this->outputNode( $node );
+    }
 
+    public function visitDeclarationTstNode( ezcTemplateDeclarationTstNode $node )
+    {
+        $this->text .= $this->outputNode( $node );
+    }
+
+    public function visitCycleControlTstNode( ezcTemplateCycleControlTstNode $node )
+    {
+        $this->text .= $this->outputNode( $node );
+    }
+
+    public function visitIncludeTstNode( ezcTemplateIncludeTstNode $node )
+    {
+        $this->text .= $this->outputNode( $node );
+    }
+
+    public function visitReturnTstNode( ezcTemplateReturnTstNode $node )
+    {
+        $this->text .= $this->outputNode( $node );
+    }
+ 
+    public function visitSwitchTstNode( ezcTemplateSwitchTstNode $node )
+    {
+        $this->text .= $this->outputNode( $node );
+    }
+ 
+    public function visitCaseTstNode( ezcTemplateCaseTstNode $node )
+    {
+        $this->text .= $this->outputNode( $node );
+    }
+ 
+    public function visitLiteralArrayTstNode( ezcTemplateLiteralArrayTstNode $node )
+    {
+        $this->text .= $this->outputNode( $node );
+    }
+
+    public function visitArrayRangeOperatorTstNode( ezcTemplateArrayRangeOperatorTstNode $node )
+    {
+        $this->text .= $this->outputNode( $node );
+    }
+  
     /**
      * Extracts position data from the specified node and set in the out parameters.
      * The position is taken from ezcTemplateTstNode::startCursor and ezcTemplateTstNode::endCursor.

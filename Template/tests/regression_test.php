@@ -279,6 +279,33 @@ class ezcTemplateRegressionTest extends ezcTestCase
                         }
                     }
                 }
+
+                if ( $reply == "dtt" || $reply == "d" )
+                {
+                    // NOTE: This currently fails due to missing implementations in the Tst class.
+                    if ( $template->tstTree instanceof ezcTemplateTstNode )
+                    {
+                        if ( $reply == "d" )
+                        {
+                            $displayText .= "------TST------\n";
+                        }
+
+                        $displayText .= ezcTemplateTstTreeOutput::output( $template->tstTree );
+                        $displayText .= "\n";
+                    }
+                    else
+                    {
+                        if ( $reply == "d" )
+                        {
+                            $displayText .= "------TST tree not available------\n";
+                        }
+                        else
+                        {
+                            echo "The TST tree is not available\n";
+                            continue;
+                        }
+                    }
+                }
                 if ( $reply == "dta" || $reply == "d" )
                 {
                     if ( $template->astTree instanceof ezcTemplateAstNode )
@@ -302,31 +329,6 @@ class ezcTemplateRegressionTest extends ezcTestCase
                         }
                     }
                 }
-                if ( $reply == "dtt" )
-                {
-                    // NOTE: This currently fails due to missing implementations in the Tst class.
-                    if ( $template->tstTree instanceof ezcTemplateTstNode )
-                    {
-                        if ( $reply == "d" )
-                        {
-                            $displayText .= "------TST------\n";
-                        }
-                        $displayText .= ezcTemplateTstTreeOutput::output( $template->tstTree );
-                    }
-                    else
-                    {
-                        if ( $reply == "d" )
-                        {
-                            $displayText .= "------TST tree not available------\n";
-                        }
-                        else
-                        {
-                            echo "The TST tree is not available\n";
-                            continue;
-                        }
-                    }
-                }
-
                 if ( PHP_OS == 'Linux' )
                 {
                     // Pipe the text to less
