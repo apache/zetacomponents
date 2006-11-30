@@ -22,6 +22,8 @@ abstract class ezcTemplatePermutation
         $this->index = 0;
     }
 
+    abstract public function replace( $from , $to );
+
     abstract public function generate();
 
     abstract public function increase();
@@ -88,6 +90,21 @@ abstract class ezcTemplatePermutation
         $c = strlen( $lines[$i] );
         return $c;
     }
+
+    static public function replaceList( &$list, $from, $to )
+    {
+        foreach ( $list as $i => $item )
+        {
+            if ( is_object( $item ) )
+            {
+                $item->replace( $from, $to );
+            }
+            else
+            {
+                $list[$i] = str_replace( $from, $to, $item );
+            }
+        }
+    }
 }
 
 class ezcTemplatePermutationList extends ezcTemplatePermutation
@@ -97,6 +114,21 @@ class ezcTemplatePermutationList extends ezcTemplatePermutation
         parent::__construct();
         $this->list = $list;
         $this->indentation = $indentation;
+    }
+
+    public function removeIndex( $index )
+    {
+        if ( $index < 0 || $index >= count( $this->list ) )
+        {
+            throw new Exception( "Index $index is out of range [0->" . count( $this->list ) . "]" );
+        }
+        unset( $this->list[$index] );
+        $this->list = array_values( $this->list );
+    }
+
+    public function replace( $from , $to )
+    {
+        self::replaceList( $this->list, $from, $to );
     }
 
     public function generate()
@@ -129,6 +161,21 @@ class ezcTemplatePermutationAlternative extends ezcTemplatePermutation
                 $this->list[$i] = clone $v;
             }
         }
+    }
+
+    public function removeIndex( $index )
+    {
+        if ( $index < 0 || $index >= count( $this->list ) )
+        {
+            throw new Exception( "Index $index is out of range [0->" . count( $this->list ) . "]" );
+        }
+        unset( $this->list[$index] );
+        $this->list = array_values( $this->list );
+    }
+
+    public function replace( $from , $to )
+    {
+        self::replaceList( $this->list, $from, $to );
     }
 
     public function generate()
@@ -208,6 +255,10 @@ class ezcTemplatePermutationNumber extends ezcTemplatePermutation
         $this->max = $max;
     }
 
+    public function replace( $from , $to )
+    {
+    }
+
     public function generate()
     {
         return $this->min + $this->index;
@@ -217,6 +268,251 @@ class ezcTemplatePermutationNumber extends ezcTemplatePermutation
     {
         $this->index++;
         return $this->index <= ( $this->max - $this->min );
+    }
+}
+
+class ezcTemplatePermutationIndentChild extends ezcTemplatePermutation
+{
+    public function __construct( ezcTemplatePermutation $child, $indentation )
+    {
+        parent::__construct();
+        $this->child = $child;
+        $this->indentation = $indentation;
+    }
+
+    public function replace( $from , $to )
+    {
+        $this->child->replace( $from, $to );
+    }
+
+    public function generate()
+    {
+        $p = $this->child;
+        if ( is_object( $p ) )
+        {
+            $text = $p->generate();
+        }
+        else
+        {
+            $text = $p;
+        }
+        return self::indentBlock( $text,
+                                  $this->indentation );
+    }
+
+    public function increase()
+    {
+        $p = $this->child;
+        if ( is_object( $p ) )
+        {
+            return $p->increase();
+        }
+        return false;
+    }
+
+    public function reset()
+    {
+        $p = $this->child;
+        if ( is_object( $p ) )
+        {
+            $p->reset();
+        }
+    }
+}
+
+class ezcTemplatePermutationAlternativeMaster extends ezcTemplatePermutation
+{
+    public function __construct( array $slaves )
+    {
+        parent::__construct();
+        $this->slaves = $slaves;
+        $this->slaveIndex = count( $this->slaves ) - 1;
+        if ( count( $this->slaves ) == 0 )
+        {
+            throw new Exception( "Slave list cannot be empty" );
+        }
+        foreach ( $this->slaves as $i => $slave )
+        {
+            if ( !$slave instanceof ezcTemplatePermutationAlternativeSlave )
+            {
+                throw new Exception( "Slave entry {$i} is not an instance of ezcTemplatePermutationAlternativeSlave" );
+            }
+        }
+    }
+
+    public function removeIndex( $index )
+    {
+        if ( $index < 0 || $index >= count( $this->slaves ) )
+        {
+            throw new Exception( "Index $index is out of range [0->" . count( $this->slaves ) . "]" );
+        }
+        unset( $this->slaves[$index] );
+        $this->slaves = array_values( $this->slaves );
+    }
+
+    public function __clone()
+    {
+        foreach ( $this->slaves as $i => $v )
+        {
+            if ( is_object( $v ) )
+            {
+                $this->slaves[$i] = clone $v;
+            }
+        }
+    }
+
+    public function replace( $from , $to )
+    {
+        self::replaceList( $this->slaves, $from, $to );
+    }
+
+    public function generate()
+    {
+//        echo "master::generate(): si: {$this->slaveIndex}, sc: " . count( $this->slaves ) . "\n";
+        $p = $this->slaves[0];
+        if ( is_object( $p ) )
+        {
+            return $p->generate();
+        }
+        return $p;
+    }
+
+    public function increase()
+    {
+//        echo "master::increase(): si: {$this->slaveIndex}, sc: " . count( $this->slaves ) . "\n";
+
+        for ( $i = count( $this->slaves ) - 1; $i >= 0; --$i )
+        {
+            $p = $this->slaves[$i];
+            if ( is_object( $p ) )
+            {
+                if ( $p->increaseSlave() )
+                {
+//                    echo "master::increase(): increaseSlave() is true\n";
+                    return true;
+                }
+//                echo "master::increase(): increaseSlave() is false\n";
+                $p->resetSlave();
+            }
+        }
+
+        foreach ( $this->slaves as $slave )
+        {
+            $slave->index++;
+        }
+        $ret = $this->slaves[0]->index < count( $this->slaves[0]->list );
+//        echo "master::increase()#3: ret: '$ret', si: {$this->slaveIndex}, sc: " . count( $this->slaves ) . "\n";
+        return $ret;
+
+    }
+
+    public function reset()
+    {
+        foreach ( $this->slaves as $slave )
+        {
+            $slave->resetSlaves();
+        }
+    }
+}
+
+class ezcTemplatePermutationAlternativeSlave extends ezcTemplatePermutation
+{
+    public function __construct( $list )
+    {
+        parent::__construct();
+        $this->list = $list;
+        $this->index = 0;
+    }
+
+    public function __clone()
+    {
+        foreach ( $this->list as $i => $v )
+        {
+            if ( is_object( $v ) )
+            {
+                $this->list[$i] = clone $v;
+            }
+        }
+    }
+
+    public function removeIndex( $index )
+    {
+        if ( $index < 0 || $index >= count( $this->list ) )
+        {
+            throw new Exception( "Index $index is out of range [0->" . count( $this->list ) . "]" );
+        }
+        unset( $this->list[$index] );
+        $this->list = array_values( $this->list );
+    }
+
+    public function replace( $from , $to )
+    {
+        self::replaceList( $this->list, $from, $to );
+    }
+
+    public function generate()
+    {
+        $p = $this->list[$this->index];
+        if ( is_object( $p ) )
+        {
+            return $p->generate();
+        }
+        return $p;
+    }
+
+    public function increaseSlave()
+    {
+//        echo "slave::increaseSlave(): i: {$this->index}\n";
+        $p = $this->list[$this->index];
+        if ( is_object( $p ) )
+        {
+            return $p->increase();
+        }
+        return false;
+    }
+
+    public function increase()
+    {
+        // Slaves do not control the increase(), this is up to the master.
+//        echo "slave::increase(): i: {$this->index}\n";
+        return false;
+    }
+
+    public function setIndex( $index )
+    {
+//        echo "slave::setIndex( $index )\n";
+        if ( $index >= count( $this->list ) )
+        {
+            throw new Exception( "New index {$index} is out of bounds (" . count( $this->list ) . ")" );
+        }
+        $this->index = $index;
+    }
+
+    public function resetSlave()
+    {
+        $p = $this->list[$this->index];
+        if ( is_object( $p ) )
+        {
+            return $p->reset();
+        }
+    }
+
+    public function resetSlaves()
+    {
+        foreach ( $this->list as $p )
+        {
+            if ( is_object( $p ) )
+            {
+                return $p->reset();
+            }
+        }
+        $this->index = 0;
+    }
+
+    public function reset()
+    {
+        // Slaves do not control the reset(), this is up to the master.
+        return false;
     }
 }
 
@@ -334,9 +630,26 @@ function altI()
     return new ezcTemplatePermutationAlternative( $args, $indent );
 }
 
+function indent( $child, $indentation )
+{
+    return new ezcTemplatePermutationIndentChild( $child, $indentation );
+}
+
 function num( $min = false, $max = false )
 {
     return new ezcTemplatePermutationNumber( $min, $max );
+}
+
+function altMaster()
+{
+    $slaves = func_get_args();
+    return new ezcTemplatePermutationAlternativeMaster( $slaves );
+}
+
+function altSlave()
+{
+    $list = func_get_args();
+    return new ezcTemplatePermutationAlternativeSlave( $list );
 }
 
 ?>
