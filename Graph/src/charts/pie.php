@@ -126,9 +126,9 @@ class ezcGraphPieChart extends ezcGraphChart
      * 
      * @return void
      */
-    protected function applyTreshHold()
+    protected function applyThreshold()
     {
-        if ( $this->options->percentTreshHold || $this->options->absoluteTreshHold )
+        if ( $this->options->percentThreshold || $this->options->absoluteThreshold )
         {
             $dataset = $this->data->rewind();
 
@@ -145,8 +145,8 @@ class ezcGraphPieChart extends ezcGraphChart
             $unset = array();
             foreach ( $dataset as $label => $value )
             {
-                if ( ( $value <= $this->options->absoluteTreshHold ) ||
-                     ( ( $value / $sum ) <= $this->options->percentTreshHold ) )
+                if ( ( $value <= $this->options->absoluteThreshold ) ||
+                     ( ( $value / $sum ) <= $this->options->percentThreshold ) )
                 {
                     if ( !isset( $dataset[$this->options->summarizeCaption] ) )
                     {
@@ -187,7 +187,7 @@ class ezcGraphPieChart extends ezcGraphChart
         $this->driver->options->height = $height;
 
         // Apply tresh hold
-        $this->applyTreshHold();
+        $this->applyThreshold();
 
         // Generate legend
         $this->elements['legend']->generateFromDataSet( $this->data->rewind() );

@@ -2,6 +2,8 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Renamed ezcGraphMingDriver to ezcGraphFlashDriver
+- Renamed pie chart options percentTreshHold to percentThreshold and
+  absoluteTreshHold to absoluteThreshold
 
 - Fixed issue #9583: Data typecasting should only be done in axis
 - Fixed issue #9586: No data rendered with string keys on date axis.

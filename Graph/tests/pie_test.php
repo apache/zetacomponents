@@ -138,39 +138,39 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         );
     }
 
-    public function testPieChartOptionsPropertyPercentTreshHold()
+    public function testPieChartOptionsPropertyPercentThreshold()
     {
         $options = new ezcGraphPieChartOptions();
 
         $this->assertSame(
             0.,
-            $options->percentTreshHold,
-            'Wrong default value for property percentTreshHold in class ezcGraphPieChartOptions'
+            $options->percentThreshold,
+            'Wrong default value for property percentThreshold in class ezcGraphPieChartOptions'
         );
 
-        $options->percentTreshHold = .5;
+        $options->percentThreshold = .5;
         $this->assertSame(
             .5,
-            $options->percentTreshHold,
-            'Setting property value did not work for property percentTreshHold in class ezcGraphPieChartOptions'
+            $options->percentThreshold,
+            'Setting property value did not work for property percentThreshold in class ezcGraphPieChartOptions'
         );
     }
 
-    public function testPieChartOptionsPropertyAbsoluteTreshHold()
+    public function testPieChartOptionsPropertyAbsoluteThreshold()
     {
         $options = new ezcGraphPieChartOptions();
 
         $this->assertSame(
             0.,
-            $options->absoluteTreshHold,
-            'Wrong default value for property absoluteTreshHold in class ezcGraphPieChartOptions'
+            $options->absoluteThreshold,
+            'Wrong default value for property absoluteThreshold in class ezcGraphPieChartOptions'
         );
 
-        $options->absoluteTreshHold = 5;
+        $options->absoluteThreshold = 5;
         $this->assertSame(
             5.,
-            $options->absoluteTreshHold,
-            'Setting property value did not work for property absoluteTreshHold in class ezcGraphPieChartOptions'
+            $options->absoluteThreshold,
+            'Setting property value did not work for property absoluteThreshold in class ezcGraphPieChartOptions'
         );
     }
 
@@ -493,12 +493,12 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
-    public function testRenderPieChartWithAbsoluteTreshHold()
+    public function testRenderPieChartWithAbsoluteThreshold()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
-        $chart->options->absoluteTreshHold = 1;
+        $chart->options->absoluteThreshold = 1;
         $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 ) );
 
         $chart->render( 500, 300, $filename );
@@ -510,7 +510,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
 
         try
         {
-            $chart->options->absoluteTreshHold = false;
+            $chart->options->absoluteThreshold = false;
         }
         catch( ezcBaseValueException $e )
         {
@@ -520,12 +520,12 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
-    public function testRenderPieChartWithPercentageTreshHold()
+    public function testRenderPieChartWithPercentageThreshold()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
-        $chart->options->percentTreshHold = .05;
+        $chart->options->percentThreshold = .05;
         $chart->options->summarizeCaption = 'Others';
         $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 ) );
 
@@ -538,7 +538,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
 
         try
         {
-            $chart->options->percentTreshHold = false;
+            $chart->options->percentThreshold = false;
         }
         catch( ezcBaseValueException $e )
         {
@@ -548,13 +548,13 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
-    public function testRenderPieChartWithPercentageTreshHoldAndCustomSum()
+    public function testRenderPieChartWithPercentageThresholdAndCustomSum()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
 
         $chart = new ezcGraphPieChart();
         $chart->options->sum = 30;
-        $chart->options->percentTreshHold = .05;
+        $chart->options->percentThreshold = .05;
         $chart->options->summarizeCaption = 'Others';
         $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 ) );
 

@@ -22,9 +22,9 @@
  * @property float $sum
  *           Fixed sum of values. This should be used for incomplete pie 
  *           charts.
- * @property float $percentTreshHold
+ * @property float $percentThreshold
  *           Values with a lower percentage value are aggregated.
- * @property float $absoluteTreshHold
+ * @property float $absoluteThreshold
  *           Values with a lower absolute value are aggregated.
  * @property string $summarizeCaption
  *           Caption for values summarized because they are lower then the
@@ -47,8 +47,8 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
         $this->properties['labelCallback'] = null;
         $this->properties['sum'] = false;
 
-        $this->properties['percentTreshHold'] = .0;
-        $this->properties['absoluteTreshHold'] = .0;
+        $this->properties['percentThreshold'] = .0;
+        $this->properties['absoluteThreshold'] = .0;
         $this->properties['summarizeCaption'] = 'Misc';
 
         parent::__construct( $options );
@@ -90,7 +90,7 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
 
                 $this->properties['sum'] = (float) $propertyValue;
                 break;
-            case 'percentTreshHold':
+            case 'percentThreshold':
                 if ( !is_numeric( $propertyValue ) ||
                      ( $propertyValue < 0 ) || 
                      ( $propertyValue > 1 ) ) 
@@ -98,16 +98,16 @@ class ezcGraphPieChartOptions extends ezcGraphChartOptions
                     throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= float <= 1' );
                 }
 
-                $this->properties['percentTreshHold'] = (float) $propertyValue;
+                $this->properties['percentThreshold'] = (float) $propertyValue;
                 break;
-            case 'absoluteTreshHold':
+            case 'absoluteThreshold':
                 if ( !is_numeric( $propertyValue ) ||
                      ( $propertyValue <= 0 ) ) 
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'float > 0' );
                 }
 
-                $this->properties['absoluteTreshHold'] = (float) $propertyValue;
+                $this->properties['absoluteThreshold'] = (float) $propertyValue;
                 break;
             case 'summarizeCaption':
                 $this->properties['summarizeCaption'] = (string) $propertyValue;
