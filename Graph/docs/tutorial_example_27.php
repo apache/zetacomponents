@@ -6,7 +6,7 @@ $graph = new ezcGraphPieChart();
 $graph->title = 'Access statistics';
 $graph->legend = false;
 
-$graph->driver = new ezcGraphMingDriver();
+$graph->driver = new ezcGraphFlashDriver();
 $graph->options->font = 'tutorial_font.fdb';
 
 $graph->driver->options->compression = 7;
