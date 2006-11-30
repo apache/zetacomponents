@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcGraphMingDriver class
+ * File containing the ezcGraphFlashDriver class
  *
  * @package Graph
  * @version //autogentag//
@@ -13,7 +13,7 @@
  * @package Graph
  */
 
-class ezcGraphMingDriver extends ezcGraphDriver
+class ezcGraphFlashDriver extends ezcGraphDriver
 {
     /**
      * Flash movie
@@ -45,7 +45,7 @@ class ezcGraphMingDriver extends ezcGraphDriver
      */
     public function __construct( array $options = array() )
     {
-        $this->options = new ezcGraphMingDriverOptions( $options );
+        $this->options = new ezcGraphFlashDriverOptions( $options );
     }
 
     /**
@@ -792,12 +792,12 @@ class ezcGraphMingDriver extends ezcGraphDriver
         $imageData = getimagesize( $file );
         if ( $imageData[0] !== $width || $imageData[1] !== $height )
         {
-            throw new ezcGraphMingBitmapBoundingsException( $imageData[0], $imageData[1], $width, $height );
+            throw new ezcGraphFlashBitmapBoundingsException( $imageData[0], $imageData[1], $width, $height );
         }
 
         if ( $imageData[2] !== 2 )
         {
-            throw new ezcGraphMingBitmapTypeException( $imageData[2] );
+            throw new ezcGraphFlashBitmapTypeException( $imageData[2] );
         }
 
         $image = new SWFBitmap( file_get_contents( 'http://kore.phpugdo.de/jpg.jpeg' ) );

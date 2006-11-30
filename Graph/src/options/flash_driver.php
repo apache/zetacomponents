@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcGraphMingDriverOption class
+ * File containing the ezcGraphFlashDriverOption class
  *
  * @package Graph
  * @version //autogentag//
@@ -19,7 +19,7 @@
  * 
  * @package Graph
  */
-class ezcGraphMingDriverOptions extends ezcGraphDriverOptions
+class ezcGraphFlashDriverOptions extends ezcGraphDriverOptions
 {
     /**
      * Constructor

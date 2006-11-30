@@ -32,7 +32,7 @@ require_once 'axis_centered_renderer_test.php';
 require_once 'driver_options_test.php';
 require_once 'driver_gd_test.php';
 require_once 'driver_svg_test.php';
-require_once 'driver_ming_test.php';
+require_once 'driver_flash_test.php';
 require_once 'font_test.php';
 require_once 'palette_test.php';
 require_once 'matrix_test.php';
@@ -73,7 +73,7 @@ class ezcGraphSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcGraphDriverOptionsTest::suite() );
         $this->addTest( ezcGraphGdDriverTest::suite() );
         $this->addTest( ezcGraphSvgDriverTest::suite() );
-        $this->addTest( ezcGraphMingDriverTest::suite() );
+        $this->addTest( ezcGraphFlashDriverTest::suite() );
         $this->addTest( ezcGraphFontTest::suite() );
         $this->addTest( ezcGraphTextTest::suite() );
         $this->addTest( ezcGraphPaletteTest::suite() );

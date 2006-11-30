@@ -1,6 +1,8 @@
 1.0 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Renamed ezcGraphMingDriver to ezcGraphFlashDriver
+
 - Fixed issue #9583: Data typecasting should only be done in axis
 - Fixed issue #9586: No data rendered with string keys on date axis.
 

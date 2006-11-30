@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcGraphMingDriverTest 
+ * ezcGraphFlashDriverTest 
  * 
  * @package Graph
  * @version //autogen//
@@ -15,7 +15,7 @@
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphMingDriverTest extends ezcTestCase
+class ezcGraphFlashDriverTest extends ezcTestCase
 {
     protected $driver;
 
@@ -31,7 +31,7 @@ class ezcGraphMingDriverTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( "ezcGraphMingDriverTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcGraphFlashDriverTest" );
 	}
 
     protected function setUp()
@@ -45,7 +45,7 @@ class ezcGraphMingDriverTest extends ezcTestCase
         $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
         $this->basePath = dirname( __FILE__ ) . '/data/';
 
-        $this->driver = new ezcGraphMingDriver();
+        $this->driver = new ezcGraphFlashDriver();
         $this->driver->options->width = 200;
         $this->driver->options->height = 100;
 
@@ -480,12 +480,12 @@ class ezcGraphMingDriverTest extends ezcTestCase
                 50
             );
         } 
-        catch ( ezcGraphMingBitmapBoundingsException $e )
+        catch ( ezcGraphFlashBitmapBoundingsException $e )
         {
             return true;
         }
 
-        $this->fail( 'Expected ezcGraphMingBitmapBoundingsException.' );
+        $this->fail( 'Expected ezcGraphFlashBitmapBoundingsException.' );
     }
 
     public function testDrawImageGif()
@@ -501,12 +501,12 @@ class ezcGraphMingDriverTest extends ezcTestCase
                 100
             );
         } 
-        catch ( ezcGraphMingBitmapTypeException $e )
+        catch ( ezcGraphFlashBitmapTypeException $e )
         {
             return true;
         }
 
-        $this->fail( 'Expected ezcGraphMingBitmapTypeException.' );
+        $this->fail( 'Expected ezcGraphFlashBitmapTypeException.' );
     }
 
     public function testDrawImagePng()
@@ -522,12 +522,12 @@ class ezcGraphMingDriverTest extends ezcTestCase
                 100
             );
         } 
-        catch ( ezcGraphMingBitmapTypeException $e )
+        catch ( ezcGraphFlashBitmapTypeException $e )
         {
             return true;
         }
 
-        $this->fail( 'Expected ezcGraphMingBitmapBoundingsException.' );
+        $this->fail( 'Expected ezcGraphFlashBitmapBoundingsException.' );
     }
 
     public function testDrawImageJpeg()
@@ -1336,7 +1336,7 @@ class ezcGraphMingDriverTest extends ezcTestCase
         $chart->renderer->options->pieChartHeight = 16;
         $chart->renderer->options->legendSymbolGleam = .5;
 
-        $chart->driver = new ezcGraphMingDriver();
+        $chart->driver = new ezcGraphFlashDriver();
         $chart->render( 500, 200, $filename );
 
         $this->compare(
@@ -1415,21 +1415,21 @@ class ezcGraphMingDriverTest extends ezcTestCase
         );
     }
 
-    public function testMingDriverOptionsPropertyCompression()
+    public function testFlashDriverOptionsPropertyCompression()
     {
-        $options = new ezcGraphMingDriverOptions();
+        $options = new ezcGraphFlashDriverOptions();
 
         $this->assertSame(
             9,
             $options->compression,
-            'Wrong default value for property compression in class ezcGraphMingDriverOptions'
+            'Wrong default value for property compression in class ezcGraphFlashDriverOptions'
         );
 
         $options->compression = 4;
         $this->assertSame(
             4,
             $options->compression,
-            'Setting property value did not work for property compression in class ezcGraphMingDriverOptions'
+            'Setting property value did not work for property compression in class ezcGraphFlashDriverOptions'
         );
 
         try
@@ -1444,21 +1444,21 @@ class ezcGraphMingDriverTest extends ezcTestCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
-    public function testMingDriverOptionsPropertyCircleResolution()
+    public function testFlashDriverOptionsPropertyCircleResolution()
     {
-        $options = new ezcGraphMingDriverOptions();
+        $options = new ezcGraphFlashDriverOptions();
 
         $this->assertSame(
             2.,
             $options->circleResolution,
-            'Wrong default value for property circleResolution in class ezcGraphMingDriverOptions'
+            'Wrong default value for property circleResolution in class ezcGraphFlashDriverOptions'
         );
 
         $options->circleResolution = 5.;
         $this->assertSame(
             5.,
             $options->circleResolution,
-            'Setting property value did not work for property circleResolution in class ezcGraphMingDriverOptions'
+            'Setting property value did not work for property circleResolution in class ezcGraphFlashDriverOptions'
         );
 
         try

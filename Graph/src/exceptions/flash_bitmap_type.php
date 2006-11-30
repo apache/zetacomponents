@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcGraphMingBitmapTypeException class
+ * File containing the ezcGraphFlashBitmapTypeException class
  *
  * @package Graph
  * @version //autogen//
@@ -8,17 +8,17 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Ming can only read non interlaced bitmaps. This exception is thrown for 
+ * Flash can only read non interlaced bitmaps. This exception is thrown for 
  * all other image types.
  *
  * @package Graph
  * @version //autogen//
  */
-class ezcGraphMingBitmapTypeException extends ezcGraphException
+class ezcGraphFlashBitmapTypeException extends ezcGraphException
 {
     public function __construct( $type )
     {
-        parent::__construct( "Ming can only read non interlaced JPEGs." );
+        parent::__construct( "Flash can only read non interlaced JPEGs." );
     }
 }
 
