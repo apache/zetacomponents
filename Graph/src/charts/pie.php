@@ -145,6 +145,11 @@ class ezcGraphPieChart extends ezcGraphChart
             $unset = array();
             foreach ( $dataset as $label => $value )
             {
+                if ( $label === $this->options->summarizeCaption )
+                {
+                    continue;
+                }
+
                 if ( ( $value <= $this->options->absoluteThreshold ) ||
                      ( ( $value / $sum ) <= $this->options->percentThreshold ) )
                 {

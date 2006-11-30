@@ -12,6 +12,8 @@
 - Fixed issue #9568: Devision by zero warning
 - Fixed issue #9655: pieChartOffset and highlight do not work together in 2d
   renderer
+- Fixed issue #9545: pie chart tresh hold does not work if agregated data
+  stays below tresh hold
 
 1.0beta2 - Monday 20 November 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

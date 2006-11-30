@@ -548,6 +548,61 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
+    public function testRenderPieChartWithLowAbsoluteThreshold()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->options->absoluteThreshold = 1;
+        $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1 ) );
+
+        $chart->render( 500, 300, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+
+        try
+        {
+            $chart->options->absoluteThreshold = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testRenderPieChartWithLowPercentageThreshold()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->options->percentThreshold = .06;
+        $chart->options->summarizeCaption = 'Others';
+        $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1 ) );
+
+        $chart->render( 500, 300, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+
+        try
+        {
+            $chart->options->percentThreshold = false;
+        }
+        catch( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
     public function testRenderPieChartWithPercentageThresholdAndCustomSum()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
