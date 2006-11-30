@@ -182,6 +182,11 @@ class ezcGraphPieChart extends ezcGraphChart
      */
     public function render( $width, $height, $file = null )
     {
+        if ( !count( $this->data ) )
+        {
+            throw new ezcGraphNoDataException();
+        }
+
         // Set image properties in driver
         $this->driver->options->width = $width;
         $this->driver->options->height = $height;

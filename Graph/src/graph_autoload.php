@@ -70,6 +70,7 @@ return array(
 
     'ezcGraphChartElement'                      => 'Graph/interfaces/element.php',
     'ezcGraphNoSuchElementException'            => 'Graph/exceptions/no_such_element.php',
+    'ezcGraphNoDataException'                   => 'Graph/exceptions/no_data.php',
     'ezcGraphFontOptions'                       => 'Graph/options/font.php',
     'ezcGraphChartElementText'                  => 'Graph/element/text.php',
     'ezcGraphChartElementLegend'                => 'Graph/element/legend.php',

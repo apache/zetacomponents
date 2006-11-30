@@ -5,6 +5,7 @@
 - Renamed pie chart options percentTreshHold to percentThreshold and
   absoluteTreshHold to absoluteThreshold
 
+- Fixed issue #9568: Devision by zero warning
 - Fixed issue #9655: pieChartOffset and highlight do not work together in 2d
   renderer
 - Fixed issue #9586: No data rendered with string keys on date axis.

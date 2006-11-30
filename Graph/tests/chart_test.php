@@ -182,5 +182,31 @@ class ezcGraphChartTest extends ezcTestCase
 
         $this->fail( 'Expected ezcGraphInvalidDriverException' );
     }
+
+    public function testPieChartWithoutData()
+    {
+        try
+        {
+            $pieChart = new ezcGraphPieChart();
+            $pieChart->render( 400, 200 );
+        }
+        catch ( ezcGraphNoDataException $e )
+        {
+            return true;
+        }
+    }
+
+    public function testBarChartWithoutData()
+    {
+        try
+        {
+            $pieChart = new ezcGraphPieChart();
+            $pieChart->render( 400, 200 );
+        }
+        catch ( ezcGraphNoDataException $e )
+        {
+            return true;
+        }
+    }
 }
 ?>
