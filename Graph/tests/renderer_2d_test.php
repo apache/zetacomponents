@@ -1687,6 +1687,32 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         );
     }
 
+    public function testRenderPieChartWithHighlightAndOffset()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->data['sample']->highlight['Safari'] = true;
+
+        $chart->renderer->options->pieChartOffset = 76;
+
+        $chart->driver = new ezcGraphSvgDriver();
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testRenderPieChartWithBackgroundBottomRight()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';

@@ -120,6 +120,10 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         $label = false,
         $moveOut = false )
     {
+        // Apply offset
+        $startAngle += $this->options->pieChartOffset;
+        $endAngle += $this->options->pieChartOffset;
+
         // Calculate position and size of pie
         $center = new ezcGraphCoordinate(
             $boundings->x0 + ( $boundings->width ) / 2,
@@ -135,7 +139,7 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         // Move pie segment out of the center
         if ( $moveOut )
         {
-            $direction = $startAngle + ( $endAngle - $startAngle ) / 2;
+            $direction = ( $endAngle + $startAngle ) / 2;
 
             $center = new ezcGraphCoordinate(
                 $center->x + $this->options->moveOut * $radius * cos( deg2rad( $direction ) ),
@@ -149,15 +153,15 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
             'context' =>    $context,
             'width' =>      $radius * 2 * ( 1 - $this->options->moveOut ),
             'height' =>     $radius * 2 * ( 1 - $this->options->moveOut ),
-            'start' =>      $startAngle + $this->options->pieChartOffset,
-            'end' =>        $endAngle + $this->options->pieChartOffset,
+            'start' =>      $startAngle,
+            'end' =>        $endAngle,
             'color' =>      $color,
         );
 
         if ( $label )
         {
             // Determine position of label
-            $direction = $startAngle + ( $endAngle - $startAngle ) / 2 + $this->options->pieChartOffset;
+            $direction = ( $endAngle + $startAngle ) / 2;
             $pieSegmentCenter = new ezcGraphCoordinate(
                 $center->x + cos( deg2rad( $direction ) ) * $radius,
                 $center->y + sin( deg2rad( $direction ) ) * $radius
