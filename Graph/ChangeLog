@@ -5,11 +5,13 @@
 - Renamed pie chart options percentTreshHold to percentThreshold and
   absoluteTreshHold to absoluteThreshold
 
+- Fixed issue #9612: Element links for SVG image in the legend require you to
+  click on exactly the text.
+- Fixed issue #9586: No data rendered with string keys on date axis.
+- Fixed issue #9583: Data typecasting should only be done in axis
 - Fixed issue #9568: Devision by zero warning
 - Fixed issue #9655: pieChartOffset and highlight do not work together in 2d
   renderer
-- Fixed issue #9586: No data rendered with string keys on date axis.
-- Fixed issue #9583: Data typecasting should only be done in axis
 
 1.0beta2 - Monday 20 November 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -497,8 +497,15 @@ class ezcGraphSvgDriver extends ezcGraphDriver
      */
     protected function drawAllTexts()
     {
+        $elementsRoot = $this->elements;
+
         foreach ( $this->strings as $text )
         {
+            // Add all text elements into one group
+            $this->elements = $this->dom->createElement( 'g' );
+            $this->elements->setAttribute( 'id', $text['id'] );
+            $this->elements = $elementsRoot->appendChild( $this->elements );
+
             $size = $text['font']->minimalUsedFont;
             $font = $text['font']->name;
 
@@ -595,6 +602,17 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                     true
                 );
             }
+            else
+            {
+                // Always draw full tranparent background polygon as fallback, 
+                // to be able to click on complete font space, not only on 
+                // the text
+                $this->drawPolygon( 
+                    $borderPolygonArray, 
+                    ezcGraphColor::fromHex( '#FFFFFFFF' ),
+                    true
+                );
+            }
 
             if ( $text['font']->border !== false )
             {
@@ -640,7 +658,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 if ( $text['font']->textShadow === true )
                 {
                     $textNode = $this->dom->createElement( 'text', htmlspecialchars( $string ) );
-                    $textNode->setAttribute( 'id', $text['id'] );
+                    $textNode->setAttribute( 'id', $text['id'] . '_shadow' );
                     $textNode->setAttribute( 'x', $position->x + $this->options->graphOffset->x + $text['font']->textShadowOffset );
                     $textNode->setAttribute( 'text-length', $this->getTextWidth( $string, $size ) . 'px' );
                     $textNode->setAttribute( 'y', $position->y + $this->options->graphOffset->y + $text['font']->textShadowOffset );
@@ -661,7 +679,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 
                 // Finally draw text
                 $textNode = $this->dom->createElement( 'text', htmlspecialchars( $string ) );
-                $textNode->setAttribute( 'id', $text['id'] );
+                $textNode->setAttribute( 'id', $text['id'] . '_text' );
                 $textNode->setAttribute( 'x', $position->x + $this->options->graphOffset->x );
                 $textNode->setAttribute( 'text-length', $this->getTextWidth( $string, $size ) . 'px' );
                 $textNode->setAttribute( 'y', $position->y + $this->options->graphOffset->y );
@@ -682,6 +700,8 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 $text['position']->y += $size + $size * $this->options->lineSpacing;
             }
         }
+
+        $this->elements = $elementsRoot;
     }
 
     /**
