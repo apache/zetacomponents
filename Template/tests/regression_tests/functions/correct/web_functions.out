@@ -2,5 +2,5 @@
 4. some string / for & an % URL
 5. foo=bar&baz=foo
 6. ez_0=foo&ez_1=bar&ez_2=baz
-7. http://user:pass@ez.no/test/index.php?index=1#target
+7. 'http://user:pass@ez.no/test/index.php?index=1#target'
 8. http ez.no user pass /test/index.php index=1 target

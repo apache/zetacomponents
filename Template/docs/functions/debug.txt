@@ -12,11 +12,10 @@ of your templates. The next example shows the contents of a variable::
 
 Outputs::
 
-    Array
-    (
-        [Bernard] => Black
-        [0] => Manny
-        [1] => 42
+    array (
+      'Bernard' => 'Black',
+      0 => 'Manny',
+      1 => 42,
     )
 
 
