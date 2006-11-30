@@ -59,6 +59,11 @@ class ezcTemplateArrayFetchSourceToTstParser extends ezcTemplateSourceToTstParse
             throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
         }
 
+        if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+        {
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
+        }
+
         $this->fetch->endCursor = clone $this->lastParser->currentOperator->endCursor;
         $this->fetch->appendParameter( $this->lastParser->currentOperator );
         $this->parser->reportElementCursor( $this->fetch->startCursor, $this->fetch->endCursor, $this->fetch );

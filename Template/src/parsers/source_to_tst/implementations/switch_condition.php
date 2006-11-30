@@ -70,6 +70,12 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
             }
 
+            if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
+            }
+
+
             $this->findNextElement();
             if ( !$cursor->match( '}' ) )
             {

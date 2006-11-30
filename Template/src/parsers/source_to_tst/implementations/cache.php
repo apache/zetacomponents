@@ -117,6 +117,11 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
                     {
                         throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
                     }
+
+                    if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+                    {
+                        throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
+                    }
              
                     // Append the parameter to the "namedParameters" array.
                     $cacheNode->ttl = $this->lastParser->rootOperator;
@@ -205,6 +210,11 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
             }
             else
             {
+                if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+                {
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
+                }
+
                 $cb->namedParameters[ $def->startExpressionName ] = $this->lastParser->rootOperator;
                 $this->findNextElement( $cursor );
             }
@@ -244,6 +254,12 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
             }
+
+            if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
+            }
+
      
             // Append the parameter to the "namedParameters" array.
             $cb->namedParameters[ $match ] = $this->lastParser->rootOperator;

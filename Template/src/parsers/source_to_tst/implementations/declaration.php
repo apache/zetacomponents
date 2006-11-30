@@ -127,6 +127,11 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
                     }
                 }
 
+                if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+                {
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
+                }
+
                 $declaration->expression = $this->lastParser->rootOperator;
             }
 

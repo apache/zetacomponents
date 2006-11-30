@@ -66,6 +66,11 @@ class ezcTemplateIfConditionSourceToTstParser extends ezcTemplateSourceToTstPars
             }
 
             $condition = $this->lastParser->rootOperator;
+            if( $condition instanceof ezcTemplateModifyingOperatorTstNode )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
+            }
+
             $this->findNextElement();
         }
 

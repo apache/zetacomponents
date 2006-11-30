@@ -62,6 +62,11 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
                     throw new ezcTemplateSourceToTstParserException( $this, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
                 }
 
+                if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+                {
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
+                }
+
                 $delimiter->modulo = $this->lastParser->rootOperator;
 
                 if ( $this->currentCursor->match( "is" ) )
@@ -72,6 +77,11 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
                         throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
                     }
                         
+                    if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+                    {
+                        throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
+                    }
+
                     $delimiter->rest = $this->lastParser->rootOperator;
                     $this->findNextElement();
                 }

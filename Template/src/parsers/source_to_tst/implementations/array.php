@@ -128,6 +128,12 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
                 $elementNumber++;
             }
 
+            if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
+            }
+
+
             $this->findNextElement();
 
             // We allow a comma after the key/value even if there are no more

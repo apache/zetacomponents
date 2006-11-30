@@ -54,6 +54,12 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
         {
            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
         }
+
+        if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+        {
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
+        }
+
  
         $include = new ezcTemplateIncludeTstNode( $this->parser->source, $this->startCursor, $this->currentCursor );
         $include->file = $this->lastParser->rootOperator;
@@ -105,6 +111,11 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
 
             if ( $this->parseOptionalType( "Expression", null, false ) )
             {
+                if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+                {
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
+                }
+
                 if ( $this->lastParser->rootOperator instanceof ezcTemplateVariableTstNode )
                 {
                     $asOptional = true;
@@ -265,6 +276,11 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
                     {
                         throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
                     }
+                }
+
+                if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+                {
+                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
                 }
 
                 $declaration->expression = $this->lastParser->rootOperator;

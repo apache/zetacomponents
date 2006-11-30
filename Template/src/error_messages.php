@@ -87,6 +87,7 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_OPERATOR_IS_MODIFYING_BLOCK       = "Unexpected operand or expression. The operand or expression modifies a variable, which is not allowed.";
 
     const MSG_PARAMETER_CANNOT_BE_MODIFYING_BLOCK = "The given parameter is not allowed to modify a variable.";
+    const MSG_MODIFYING_EXPRESSION_NOT_ALLOWED   = "An expression that modifies a variable is not allowed.";
 
 
     const MSG_OBJECT_FUNCTION_CALL_NOT_ALLOWED  = "Calling a method from an imported object is not allowed.";
