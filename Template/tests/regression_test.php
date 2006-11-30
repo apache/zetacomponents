@@ -364,10 +364,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
             }
             elseif ( $reply == "ge" || $reply == "ee" )
             {
-                if( isset($_ENV["EDITOR"] ) && $_ENV["EDITOR"] != "" )
-                {
-                    $editor = ( isset($_ENV["EDITOR"] ) && $_ENV["EDITOR"] != "" ) ? $_ENV["EDITOR"] : "vi";
-                }
+                $editor = ( isset($_ENV["EDITOR"] ) && $_ENV["EDITOR"] != "" ) ? $_ENV["EDITOR"] : "vi";
 
                 if( $reply == "ge" )
                 {
@@ -379,10 +376,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
             }
             elseif ( $reply == "es" )
             {
-                if( isset($_ENV["EDITOR"] ) && $_ENV["EDITOR"] != "" )
-                {
-                    $editor = ( isset($_ENV["EDITOR"] ) && $_ENV["EDITOR"] != "" ) ? $_ENV["EDITOR"] : "vi";
-                }
+                $editor = ( isset($_ENV["EDITOR"] ) && $_ENV["EDITOR"] != "" ) ? $_ENV["EDITOR"] : "vi";
 
                 passthru( $editor . " " . escapeshellcmd( $tplSource ) );
                 continue;
