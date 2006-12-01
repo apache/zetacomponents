@@ -17,26 +17,26 @@
 class ezcTemplateXhtmlContext implements ezcTemplateOutputContext
 {
 
-    /**
-     * Does nothing.
-     */
-    public function cleanupWhitespace()
-    {
-    }
-
-    /**
-     * Does nothing.
-     */
-    public function cleanupEol()
-    {
-    }
-
-    /**
-     * Does nothing.
-     */
-    public function indent()
-    {
-    }
+//  /**
+//   * Does nothing.
+//   */
+//  public function cleanupWhitespace()
+//  {
+//  }
+//
+//  /**
+//   * Does nothing.
+//   */
+//  public function cleanupEol()
+//  {
+//  }
+//
+//  /**
+//   * Does nothing.
+//   */
+//  public function indent()
+//  {
+//  }
 
     /**
      * Escapes special HTML characters in the output. 

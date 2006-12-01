@@ -18,26 +18,26 @@
 
 class ezcTemplateNoContext implements ezcTemplateOutputContext
 {
-    /**
-     * Does nothing.
-     */
-    public function cleanupWhitespace() 
-    { 
-    }
-
-    /**
-     * Does nothing.
-     */
-    public function cleanupEol() 
-    { 
-    }
-
-    /**
-     * Does nothing.
-     */
-    public function indent() 
-    { 
-    }
+//    /**
+//     * Does nothing.
+//     */
+//    public function cleanupWhitespace() 
+//    { 
+//    }
+//
+//    /**
+//     * Does nothing.
+//     */
+//    public function cleanupEol() 
+//    { 
+//    }
+//
+//    /**
+//     * Does nothing.
+//     */
+//    public function indent() 
+//    { 
+//    }
 
     /**
      *  Doesn't change the output, and returns exactly the same node.

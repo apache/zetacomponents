@@ -31,17 +31,17 @@ interface ezcTemplateOutputContext
     /**
      *
      */
-    public function cleanupWhitespace();
+//  public function cleanupWhitespace();
 
     /**
      *
      */
-    public function cleanupEol();
+//  public function cleanupEol();
 
     /**
      *
      */
-    public function indent();
+//  public function indent();
 
     /**
      * Transforms an expressions so it can be displayed in the current output context
