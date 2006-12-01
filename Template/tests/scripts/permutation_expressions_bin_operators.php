@@ -23,6 +23,9 @@ $binOperators = alt( "+",
                      "||",
 
                      "." );
+$binOperators2 = clone $binOperators;
+$binOperators3 = clone $binOperators;
+$binOperators4 = clone $binOperators;
 
 $objectOperators = alt( "->" );
 
@@ -32,7 +35,7 @@ $constValues = alt( "5",
 
 $bin = perm( clone $constValues,
              " ",
-             clone $binOperators,
+             $binOperators2,
              " ",
              clone $constValues );
 
@@ -49,7 +52,7 @@ $array = perm( "\$arr['foo']"
 $bin2 = perm( //clone $constValues,
               "\$foo",
               " ",
-              clone $binOperators,
+              $binOperators3,
               " ",
 //              clone $constValues
               5
@@ -63,7 +66,7 @@ $binCombination = perm( alt( "( ",
                              "!( " ),
                         $comboLeft,
                         " ) ",
-                        clone $binOperators,
+                        $binOperators4,
                         " ",
                         clone $constValues
 //                     clone $bin2
@@ -134,11 +137,31 @@ do
     $num = sprintf( "%04d", $i );
     $str = $list->generate();
     $str = str_replace( "%num%", $num, $str );
+    $willBeFloat = false;
+    if ( $binOperators2->index == 3 ||
+         $binOperators3->index == 3 ||
+         $binOperators4->index == 3 )
+    {
+        $willBeFloat = true;
+    }
+    if ( $willBeFloat )
+    {
+        $str = str_replace( "debug_dump(", "str_number(", $str );
+        $str = str_replace( ")}", ", 2, ',', '' )}", $str );
+    }
     $a->output( $str );
     if ( $main->index == 0 )
     {
         $phpCode[$block] .= ( "\$x = " . $bins->generate() . ";\n" .
-                              "echo '$num:[', var_export( \$x, true ), \"]\\n\";\n" );
+                              "echo '$num:[', " );
+        if ( $willBeFloat )
+        {
+            $phpCode[$block] .= "number_format( \$x, 2, ',', '' ), \"]\\n\";\n";
+        }
+        else
+        {
+            $phpCode[$block] .= "var_export( \$x, true ), \"]\\n\";\n";
+        }
     }
     ++$i;
 } while( $list->increase() );
