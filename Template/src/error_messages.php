@@ -67,6 +67,8 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_TYPEHINT_FAILURE                  = "The types (array or value) are not correctly used with this operator.";
 
     const MSG_UNEXPECTED_ASSIGNMENT             = "Unexpected assignment '='. The left hand side must be variable.";
+    const MSG_LHS_IS_NOT_VARIABLE               = "Unexpected operator '%s'. The left hand side must be variable.";
+    const MSG_LHS_IS_NOT_VARIABLE_NO_SYMBOL     = "The left hand side must be variable.";
 
     const MSG_EXPECT_ARRAY                      = "Expecting an array.";
     const MSG_EXPECT_VALUE_NOT_ARRAY            = "Expecting a value and not an array.";

@@ -587,7 +587,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
          */
         private function checkForValidOperator( $lhs, $op, $cursor )
         {
-            if( $op instanceof ezcTemplateAssignmentOperatorTstNode )
+            if( $op instanceof ezcTemplateAssignmentOperatorTstNode)
             {
                 if( !( $lhs instanceof ezcTemplateVariableTstNode ||
                     $lhs instanceof ezcTemplateArrayFetchOperatorTstNode ||
@@ -595,8 +595,48 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     $lhs instanceof ezcTemplatePropertyFetchOperatorTstNode ||
                     $lhs instanceof ezcTemplateAssignmentOperatorTstNode ) )
                 {
-                    throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
-                          ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_ASSIGNMENT );
+
+                    if( $op instanceof ezcTemplateOperatorTstNode )
+                    {
+                        throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
+                            sprintf( ezcTemplateSourceToTstErrorMessages::MSG_LHS_IS_NOT_VARIABLE, "=" ));
+                    }
+                    else
+                    {
+                        throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
+                            ezcTemplateSourceToTstErrorMessages::MSG_LHS_IS_NOT_VARIABLE_NO_SYMBOL );
+                    }
+                }
+
+                if( $lhs instanceof ezcTemplateAssignmentOperatorTstNode )
+                {
+                    $this->checkForValidOperator( $lhs->parameters[1], $op, $cursor);
+                }
+
+                return;
+            } 
+            elseif( $op instanceof ezcTemplateModifyingOperatorTstNode)
+            {
+                if( !( $lhs instanceof ezcTemplateVariableTstNode ||
+                    $lhs instanceof ezcTemplateArrayAppendOperatorTstNode ||
+                    $lhs instanceof ezcTemplatePropertyFetchOperatorTstNode ||
+                    $lhs instanceof ezcTemplateModifyingOperatorTstNode ) )
+                {
+                    if( $op instanceof ezcTemplateOperatorTstNode )
+                    {
+                        throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
+                            sprintf( ezcTemplateSourceToTstErrorMessages::MSG_LHS_IS_NOT_VARIABLE, $op->symbol ));
+                    }
+                    else
+                    {
+                        throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
+                            ezcTemplateSourceToTstErrorMessages::MSG_LHS_IS_NOT_VARIABLE_NO_SYMBOL );
+                    }
+                }
+
+                if( $lhs instanceof ezcTemplateModifyingOperatorTstNode )
+                {
+                    $this->checkForValidOperator( $lhs->parameters[1], $op, $cursor);
                 }
 
                 return;
