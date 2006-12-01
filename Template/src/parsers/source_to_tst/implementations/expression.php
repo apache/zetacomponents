@@ -131,7 +131,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             }
             else
             {
-                $operator = $this->parseOperator( $cursor, $canDoAssignment );
+                $operator = $this->parseOperator( $cursor, true /*$canDoAssignment*/ );
                 if ( !$operator )
                 {
                     return true;
@@ -587,35 +587,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
          */
         private function checkForValidOperator( $lhs, $op, $cursor )
         {
-            if( $op instanceof ezcTemplateAssignmentOperatorTstNode)
-            {
-                if( !( $lhs instanceof ezcTemplateVariableTstNode ||
-                    $lhs instanceof ezcTemplateArrayFetchOperatorTstNode ||
-                    $lhs instanceof ezcTemplateArrayAppendOperatorTstNode ||
-                    $lhs instanceof ezcTemplatePropertyFetchOperatorTstNode ||
-                    $lhs instanceof ezcTemplateAssignmentOperatorTstNode ) )
-                {
-
-                    if( $op instanceof ezcTemplateOperatorTstNode )
-                    {
-                        throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
-                            sprintf( ezcTemplateSourceToTstErrorMessages::MSG_LHS_IS_NOT_VARIABLE, "=" ));
-                    }
-                    else
-                    {
-                        throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
-                            ezcTemplateSourceToTstErrorMessages::MSG_LHS_IS_NOT_VARIABLE_NO_SYMBOL );
-                    }
-                }
-
-                if( $lhs instanceof ezcTemplateAssignmentOperatorTstNode )
-                {
-                    $this->checkForValidOperator( $lhs->parameters[1], $op, $cursor);
-                }
-
-                return;
-            } 
-            elseif( $op instanceof ezcTemplateModifyingOperatorTstNode)
+            if( $op instanceof ezcTemplateModifyingOperatorTstNode)
             {
                 if( !( $lhs instanceof ezcTemplateVariableTstNode ||
                     $lhs instanceof ezcTemplateArrayAppendOperatorTstNode ||
