@@ -1,0 +1,14 @@
+<?php
+if ( !class_exists( 'ezcTemplateTestBinOpMyClass', false ) )
+{
+  class ezcTemplateTestBinOpMyClass
+  {
+    public $foo = 301;
+  }
+}
+$obj = new ezcTemplateTestBinOpMyClass();
+$v = new ezcTemplateVariableCollection();
+$v->obj = $obj;
+return $v;
+
+?>
