@@ -231,11 +231,15 @@ class ezcBaseFeatures
      * For Windows, the path is with \, not /.
      * If $fileName is not found, it returns null.
      *
+     * @todo: consider using getenv( 'PATH' ) instead of $_ENV['PATH']
+     *        (but that won't work under IIS)
+     *
      * @param string $fileName
      * @return string
      */
     private static function getPath( $fileName )
     {
+        $envPath = $_ENV['PATH'];
         switch ( self::os() )
         {
             case 'Unix':
@@ -244,23 +248,37 @@ class ezcBaseFeatures
             case 'MacOS':
             case 'Darwin':
             case 'Linux':
-                $dirs = explode( ':', $_ENV['PATH'] );
-                foreach ( $dirs as $dir )
+                if ( isset( $envPath ) && strlen( trim( $envPath ) ) > 0 )
                 {
-                    if ( file_exists( "{$dir}/{$fileName}" ) )
+                    $dirs = explode( ':', $envPath );
+                    foreach ( $dirs as $dir )
                     {
-                        return "{$dir}/{$fileName}";
+                        if ( file_exists( "{$dir}/{$fileName}" ) )
+                        {
+                            return "{$dir}/{$fileName}";
+                        }
                     }
+                }
+                elseif ( file_exists( "./{$fileName}" ) )
+                {
+                    return $fileName;
                 }
                 break;
             case 'Windows':
-                $dirs = explode( ';', $_ENV['PATH'] );
-                foreach ( $dirs as $dir )
+                if ( isset( $envPath ) && strlen( trim( $envPath ) ) > 0 )
                 {
-                    if ( file_exists( "{$dir}\\{$fileName}.exe" ) )
+                    $dirs = explode( ';', $envPath );
+                    foreach ( $dirs as $dir )
                     {
-                        return "{$dir}\\{$fileName}";
+                        if ( file_exists( "{$dir}\\{$fileName}.exe" ) )
+                        {
+                            return "{$dir}\\{$fileName}";
+                        }
                     }
+                }
+                elseif ( file_exists( "{$fileName}.exe" ) )
+                {
+                    return $fileName;
                 }
                 break;
         }
