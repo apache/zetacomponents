@@ -20,12 +20,19 @@ $constValues = alt( "5",
 $modify = perm( "\$bar",
                 " ",
                 $modifyingOperators,
-                alt( "",
-                     perm( " \$bar2 ",
-                           clone $modifyingOperators ) ),
-                " ",
+                alt( perm( alt( "",
+                                perm( " \$bar2 ",
+                                      clone $modifyingOperators )
+                                ),
+                           " ",
 //                clone $constValues
-                5
+                           5
+                           )/*,
+                     alt( " ++\$bar2",
+                          " --\$bar2",
+                          " \$bar2++",
+                          " \$bar2--" )*/
+                     )
                 );
 
 $modifiers = alt( $modify );
