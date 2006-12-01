@@ -555,11 +555,13 @@ class ezcTemplatePermutationApp
 
             echo "Writing to ", $file, "\n";
             file_put_contents( $file, $content );
+            return $file;
         }
         else
         {
             echo basename( $file ), "\n";
             echo $content, "\n";
+            return false;
         }
     }
 
