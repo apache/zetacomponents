@@ -60,7 +60,7 @@ $objCode = ( "if ( !class_exists( 'ezcTemplateTestModOpMyClass', false ) )\n" .
 
 
 $i = 1;
-$top = "{use \$obj}\n{var \$foo = 42, \$bar = 101, \$bar2 = 201, \$arr = array( 'foo' => 401 )}\n";
+$top = "{var \$foo = 42, \$bar = 101, \$bar2 = 201, \$arr = array( 'foo' => 401 )}\n";
 $topPHP = "\$foo = 42; \$bar = 101; \$bar2 = 201; \$arr = array( 'foo' => 401 );\n";
 $phpCode = '';
 
