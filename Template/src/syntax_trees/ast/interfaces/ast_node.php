@@ -22,8 +22,6 @@ abstract class ezcTemplateAstNode
 
     public $typeHint = null;
 
-    public $tstNode = null;
-
     /**
      */
     public function __construct()

@@ -167,22 +167,6 @@ abstract class ezcTemplateTstNode
         $visit = "visit" . substr( $class, 11 );
 
         $res = $visitor->$visit( $this );
-       
-        if( !is_null( $res ) )
-        {
-            if( is_array( $res ) )
-            {
-                foreach( $res as $r )
-                {
-                    $r->tstNode = $this;
-                }
-            }
-            elseif( is_object( $res ) )
-            {
-                $res->tstNode = $this;
-            }
-        }
-
         return $res;
     }
 }
