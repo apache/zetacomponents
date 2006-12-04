@@ -21,29 +21,27 @@ include_once ("custom_blocks/testblocks.php");
 include_once ("custom_blocks/links.php");
 include_once ("custom_blocks/cblock.php");
 include_once ("custom_blocks/sha1.php");
+include_once ("regression_suite.php");
 
 class ezcTemplateRegressionTest extends ezcTestCase
 {
     public $interactiveMode = false;
 
-    public $verboseErrors = false;
-
-    public $skipMissingTests = false;
+    static $skipMissingTests = false;
 
     public $directories = array();
+
+    public $currentFile = false;
 
     public $regressionDir = '';
 
     private $retryTest = false;
-
-    private $stdin = null;
 
     public function __construct()
     {
         parent::__construct();
 
         $this->regressionDir = dirname(__FILE__) . "/regression_tests";
-        $this->createTempDir( "regression_compiled_" );
 
         $directories = array();
         $this->readDirRecursively( $this->regressionDir, $directories, "in" );
@@ -55,24 +53,13 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
         // Check for environment variables which turns on special features
         if ( isset( $_ENV['EZC_TEST_INTERACTIVE'] ) )
-            $this->interactiveMode = (bool)$_ENV['EZC_TEST_INTERACTIVE'];
-
-        if ( isset( $_ENV['EZC_TEST_VERBOSE'] ) )
-            $this->verboseErrors = (bool)$_ENV['EZC_TEST_VERBOSE'];
-
-        if( $this->interactiveMode )
         {
-            // Create stdin handle for asking questions to user
-            $this->stdin = fopen("php://stdin","r");
+            $this->interactiveMode = (bool)$_ENV['EZC_TEST_INTERACTIVE'];
         }
     }
 
     public function __destruct()
     {
-        if( $this->stdin !== null)
-        {
-            fclose( $this->stdin );
-        }
     }
 
     public function count()
@@ -81,72 +68,48 @@ class ezcTemplateRegressionTest extends ezcTestCase
         return 1;
     }
 
-    // This method overrides the default run() in PHPUnit to allowed data-driven testing.
-    public function run(PHPUnit_Framework_TestResult $result = NULL)
+    public function getFiles()
     {
-        if ($result === NULL) {
-            $result = $this->createResult();/*new PHPUnit_Framework_TestResult;*/
-        }
+        return $this->directories;
+    }
 
-        $this->setUp();
+    public function setCurrentFile( $file )
+    {
+        $this->currentFile = $file;
+    }
 
-        $useXdebug = false;
-//        $useXdebug = (extension_loaded('xdebug') /*&& $result->collectCodeCoverageInformation)*/;
-
-        foreach ( $this->directories as $directory )
+    // This method overrides the default run() in PHPUnit to allowed data-driven testing.
+    public function runTest()
+    {
+        if ( $this->currentFile === false )
         {
-            $result->startTest($this);
+            throw new PHPUnit_Framework_ExpectationFailedException( "No currentFile set for test " . __CLASS__ );
+        }
 
-            if ($useXdebug && !defined('PHPUnit_INSIDE_OWN_TESTSUITE')) {
-                xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);
-            }
-
-/*            PHPUnit_Util_Timer::start();*/
-
-            $this->retryTest = true;
-            while ( $this->retryTest )
+        $exception = null;
+        $this->retryTest = true;
+        while ( $this->retryTest )
+        {
+            try
             {
-                try {
-                    $this->retryTest = false;
-                    $this->testRunRegression( $directory );
-                }
-
-                catch (PHPUnit_Framework_AssertionFailedError $e) {
-                    $result->addFailure($this, $e, time() );
-                }
-
-                catch (Exception $e) {
-                    $result->addError($this, $e, time() );
-                }
+                $this->retryTest = false;
+                $this->testRunRegression( $this->currentFile );
             }
-
-            $time = time();
-/*            $time = PHPUnit_Util_Timer::stop();
-            $result->time += $time;*/
-            $result->endTest( $this, $time );
-        }
-
-
-        if ($useXdebug) {
-            $result->codeCoverageInformation[] = array(
-              'test'  => $this,
-              'files' => xdebug_get_code_coverage()
-            );
-
-            xdebug_stop_code_coverage();
-
-            if (defined('PHPUnit_INSIDE_OWN_TESTSUITE')) {
-                xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);
+            catch (Exception $e)
+            {
+                $exception = $e;
             }
         }
 
-        $this->tearDown();
-
-        return $result;
+        if ( $exception !== null )
+        {
+            throw $exception;
+        }
     }
 
     protected function setUp()
     {
+        $this->createTempDir( "regression_compiled_" );
         date_default_timezone_set( "UTC" );
     }
 
@@ -157,7 +120,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
     public static function suite()
     {
-         return new PHPUnit_Framework_TestSuite( __CLASS__ );
+         return new ezcTemplateTestRegressionSuite( __CLASS__ );
     }
 
     private function removeTags( $str )
@@ -200,7 +163,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
         {
             echo "Action (g/c/r/d/do/de/ds/dc/dta/dtt/dd/ge/ee/es/v/q/?): ";
 
-            $reply = strtolower( trim( fgets( $this->stdin ) ) );
+            $reply = strtolower( trim( fgets( STDIN ) ) );
 
             if ( $reply == "q" )
             {
@@ -380,7 +343,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
             }
             elseif ( $reply == 'c!' )
             {
-                $this->skipMissingTests = true;
+                self::$skipMissingTests = true;
                 throw new PHPUnit_Framework_ExpectationFailedException( $help );
             }
             elseif ($reply == "ir" )
@@ -433,7 +396,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     "dtt - Display the TST tree\n",
 
                     "dd  - Display difference between generated output and expected output\n",
-                    
+
                     "v  - Display verbose template information\n",
                     "q  - Quit\n",
 
@@ -442,25 +405,6 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     "ge - Generate and edit the expected output file.\n";
                     "ee - Edit the expected output file.\n";
                     "es - Edit the source file.\n";
-
-/*
-                    "g  - Generate output file (Implies success of test)\n",
-                    "s  - Skip this test (Implies failure of test)\n",
-                    "sm - Skip all missing tests\n",
-                    "r  - Retry the test\n",
-
-                    "o  - Display the generated output\n",
-                    "e  - Display the expected output\n",
-                    "st - Display source template\n",
-                    "sp - Display generated/compiled PHP code\n",
-                    "at - Display the AST tree\n",
-                    "tt - Display the TST tree\n",
-                    "d  - Display difference between generated output and expected output\n",
-                    "a  - Display all of the above (o,e,st,sp,at,tt,d)\n",
-                    "v  - Display verbose template information\n",
-                    "ren- Rename a input test from *.in to *.in.tmp\n",
-                    "q  - Quit\n";
- */
                 continue;
             }
             else
@@ -514,13 +458,14 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
             try
             {
+                echo $base, "\n";
                 $out = $template->process( $base );
-            } 
-            catch (Exception $e )
+            }
+            catch ( Exception $e )
             {
                 $out = $e->getMessage();
 
-                // Begin of the error message contains the full path. We replace this with 'mock' so that the 
+                // Begin of the error message contains the full path. We replace this with 'mock' so that the
                 // tests work on other systems as well.
                 if( strncmp( $out, $directory, strlen( $directory ) ) == 0 )
                 {
@@ -530,11 +475,11 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
             $expected = substr( $directory, 0, -3 ) . ".out";
 
-            if( !file_exists( $expected ) ) 
+            if( !file_exists( $expected ) )
             {
                 $help = "The out file: '$expected' could not be found.";
 
-                if( !$this->skipMissingTests && $this->interactiveMode )
+                if( !self::$skipMissingTests && $this->interactiveMode )
                 {
                     echo "\n", $help, "\n";
 
