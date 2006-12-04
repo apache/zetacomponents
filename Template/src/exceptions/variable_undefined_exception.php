@@ -22,7 +22,7 @@ class ezcTemplateVariableUndefinedException extends Exception
      */
     public function __construct( $name )
     {
-        parent::__construct( "Undefined variable: <{$name}>" );
+        parent::__construct( "Undefined variable: '{$name}'" );
     }
 
 }

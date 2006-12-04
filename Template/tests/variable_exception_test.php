@@ -26,7 +26,7 @@ class ezcTemplateVariableExceptionTest extends ezcTestCase
     {
         $e = new ezcTemplateVariableUndefinedException( 'Zathras' );
 
-        self::assertSame( "Undefined variable: <Zathras>", $e->getMessage(),
+        self::assertSame( "Undefined variable: 'Zathras'", $e->getMessage(),
                           'Exception message is not correct' );
     }
 
@@ -37,7 +37,7 @@ class ezcTemplateVariableExceptionTest extends ezcTestCase
     {
         $e = new ezcTemplateVariableWrongTypeException( 'Kosh', 'string', 'int' );
 
-        self::assertSame( "Wrong type for variable: <Kosh>, expected: <string>, got: <int>", $e->getMessage(),
+        self::assertSame( "Wrong type for variable: 'Kosh', expected: 'string', got: 'int'", $e->getMessage(),
                           'Exception message is not correct' );
     }
 
@@ -59,7 +59,7 @@ class ezcTemplateVariableExceptionTest extends ezcTestCase
                   as $dir )
         {
             self::assertSame( 'UNKNOWN', ezcTemplateVariableWrongDirectionException::directionName( $dir ),
-                              'Generated direction text is not correct for invalid value <' . gettype( $dir ) . ':' . $dir . '>' );
+                              'Generated direction text is not correct for invalid value \'' . gettype( $dir ) . ':' . $dir . '\'' );
         }
     }
 
@@ -70,7 +70,7 @@ class ezcTemplateVariableExceptionTest extends ezcTestCase
     {
         $e = new ezcTemplateVariableWrongDirectionException( 'Morden', ezcTemplateVariable::DIR_IN, ezcTemplateVariable::DIR_NONE );
 
-        self::assertSame( "Wrong direction for variable: <Morden>, expected: <DIR_IN(1)>, got: <DIR_NONE(3)>", $e->getMessage(),
+        self::assertSame( "Wrong direction for variable: 'Morden', expected: 'DIR_IN(1)', got: 'DIR_NONE(3)'", $e->getMessage(),
                           'Exception message is not correct' );
     }
 

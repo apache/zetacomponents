@@ -24,7 +24,7 @@ class ezcTemplateFileNotReadableException extends Exception
      */
     public function __construct( $stream )
     {
-        parent::__construct( "The requested template file <$stream> is not readable." );
+        parent::__construct( "The requested template file '$stream' is not readable." );
     }
 
 }

@@ -24,7 +24,7 @@ class ezcTemplateFileFailedUnlinkException extends Exception
      */
     public function __construct( $stream )
     {
-        parent::__construct( "Unlinking template file <$stream> failed." );
+        parent::__construct( "Unlinking template file '$stream' failed." );
     }
 
 }

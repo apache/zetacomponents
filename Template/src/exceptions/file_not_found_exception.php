@@ -24,7 +24,7 @@ class ezcTemplateFileNotFoundException extends Exception
      */
     public function __construct( $stream )
     {
-        parent::__construct( "The requested template file <{$stream}> does not exist." );
+        parent::__construct( "The requested template file '{$stream}' does not exist." );
     }
 
 }

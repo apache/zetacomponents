@@ -25,7 +25,7 @@ class ezcTemplateNoOutputContextException extends Exception
      */
     public function __construct( $class, $property )
     {
-        parent::__construct( "The class <{$class}> and property <{$property}> does not contain a template output context which is required." );
+        parent::__construct( "The class '{$class}' and property '{$property}' does not contain a template output context which is required." );
     }
 
 }

@@ -24,7 +24,7 @@ class ezcTemplateFileFailedRenameException extends Exception
      */
     public function __construct( $from, $to )
     {
-        parent::__construct( "Renaming template file from <$from> to <$to> failed." );
+        parent::__construct( "Renaming template file from '$from' to '$to' failed." );
     }
 
 }

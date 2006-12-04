@@ -25,7 +25,7 @@ class ezcTemplateLocatorNotFoundException extends Exception
      */
     public function __construct( ezcTemplateLocation $location )
     {
-        parent::__construct( "The requested template location <{$location->locationString()}> could not be processed, the locator <{$location->locator}> was not found in the manager." );
+        parent::__construct( "The requested template location '{$location->locationString()}' could not be processed, the locator '{$location->locator}' was not found in the manager." );
     }
 
 }

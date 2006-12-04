@@ -27,7 +27,7 @@ class ezcTemplateFileExceptionTest extends ezcTestCase
     {
         $e = new ezcTemplateFileNotFoundException( 'packages/templates/pagelayout.tpl' );
 
-        self::assertSame( "The requested template file <packages/templates/pagelayout.tpl> does not exist.", $e->getMessage(),
+        self::assertSame( "The requested template file 'packages/templates/pagelayout.tpl' does not exist.", $e->getMessage(),
                           'Exception message is not correct' );
     }
 
@@ -38,7 +38,7 @@ class ezcTemplateFileExceptionTest extends ezcTestCase
     {
         $e = new ezcTemplateFileNotReadableException( '/dev/nvram' );
 
-        self::assertSame( "The requested template file </dev/nvram> is not readable.", $e->getMessage(),
+        self::assertSame( "The requested template file '/dev/nvram' is not readable.", $e->getMessage(),
                           'Exception message is not correct' );
     }
 
@@ -49,7 +49,7 @@ class ezcTemplateFileExceptionTest extends ezcTestCase
     {
         $e = new ezcTemplateFileNotWriteableException( '/dev/cdrom' );
 
-        self::assertSame( "The requested template file </dev/cdrom> is not writeable.", $e->getMessage(),
+        self::assertSame( "The requested template file '/dev/cdrom' is not writeable.", $e->getMessage(),
                           'Exception message is not correct' );
     }
 
@@ -60,7 +60,7 @@ class ezcTemplateFileExceptionTest extends ezcTestCase
     {
         $e = new ezcTemplateFileFailedUnlinkException( 'index.php' );
 
-        self::assertSame( "Unlinking template file <index.php> failed.", $e->getMessage(),
+        self::assertSame( "Unlinking template file 'index.php' failed.", $e->getMessage(),
                           'Exception message is not correct' );
     }
 
@@ -71,7 +71,7 @@ class ezcTemplateFileExceptionTest extends ezcTestCase
     {
         $e = new ezcTemplateFileFailedRenameException( 'index.php~', 'index.php' );
 
-        self::assertSame( "Renaming template file from <index.php~> to <index.php> failed.", $e->getMessage(),
+        self::assertSame( "Renaming template file from 'index.php~' to 'index.php' failed.", $e->getMessage(),
                           'Exception message is not correct' );
     }
 }

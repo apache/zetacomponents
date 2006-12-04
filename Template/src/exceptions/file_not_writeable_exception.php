@@ -22,7 +22,7 @@ class ezcTemplateFileNotWriteableException extends Exception
      */
     public function __construct( $stream, $type = "template file" )
     {
-        parent::__construct( "The requested {$type} <{$stream}> is not writeable." );
+        parent::__construct( "The requested {$type} '{$stream}' is not writeable." );
     }
 }
 ?>

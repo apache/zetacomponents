@@ -24,7 +24,7 @@ class ezcTemplateVariableWrongTypeException extends Exception
      */
     public function __construct( $name, $expected, $actual )
     {
-        parent::__construct( "Wrong type for variable: <{$name}>, expected: <${expected}>, got: <${actual}>" );
+        parent::__construct( "Wrong type for variable: '{$name}', expected: '${expected}', got: '${actual}'" );
     }
 
 }

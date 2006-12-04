@@ -39,7 +39,7 @@ class ezcTemplateParseException extends Exception
                 $message = "No source code found in the source object, cannot parse it.";
                 break;
             case self::INVALID_PROGRAM_ELEMENT:
-                $message = "The element <{$comment}> passed to the program parser is not valid at the program context.\nIf the element is meant to be handled at the program level it must make sure it inherits ezcTemplateBlockTstNode,\n if not it is most likely an incorrect type passed from an element parser.";
+                $message = "The element '{$comment}' passed to the program parser is not valid at the program context.\nIf the element is meant to be handled at the program level it must make sure it inherits ezcTemplateBlockTstNode,\n if not it is most likely an incorrect type passed from an element parser.";
                 break;
         }
         parent::__construct( $message );

@@ -26,7 +26,7 @@ class ezcTemplateVariableWrongDirectionException extends Exception
     {
         $expectedText = self::directionName( $expected );
         $actualText = self::directionName( $actual );
-        parent::__construct( "Wrong direction for variable: <{$name}>, expected: <${expectedText}(${expected})>, got: <${actualText}(${actual})>" );
+        parent::__construct( "Wrong direction for variable: '{$name}', expected: '${expectedText}(${expected})', got: '${actualText}(${actual})'" );
     }
 
     public static function directionName( $dir )

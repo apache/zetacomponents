@@ -27,11 +27,11 @@ class ezcTemplateInvalidCompiledFileException extends Exception
     {
         if ( !file_exists( $path ) )
         {
-            parent::__construct( "The compiled template file <{$path}> does not exist." );
+            parent::__construct( "The compiled template file '{$path}' does not exist." );
         }
         elseif ( !is_readable( $path ) )
         {
-            parent::__construct( "The compiled template file <{$path}> cannot be read." );
+            parent::__construct( "The compiled template file '{$path}' cannot be read." );
         }
     }
 

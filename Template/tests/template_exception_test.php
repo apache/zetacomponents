@@ -27,7 +27,7 @@ class ezcTemplateExceptionTest extends ezcTestCase
     {
         $e = new ezcTemplateLocatorNotFoundException( new ezcTemplateLocation( 'design', 'some/place/nice.tpl' ) );
 
-        self::assertSame( "The requested template location <design:some/place/nice.tpl> could not be processed, the locator <design> was not found in the manager.", $e->getMessage(),
+        self::assertSame( "The requested template location 'design:some/place/nice.tpl' could not be processed, the locator 'design' was not found in the manager.", $e->getMessage(),
                           'Exception message is not correct' );
     }
 }
