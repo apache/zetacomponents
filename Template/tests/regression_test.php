@@ -458,7 +458,6 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
             try
             {
-                echo $base, "\n";
                 $out = $template->process( $base );
             }
             catch ( Exception $e )
