@@ -85,14 +85,23 @@ class ezcTemplateRegressionTest extends ezcTestCase
     public function run(PHPUnit_Framework_TestResult $result = NULL)
     {
         if ($result === NULL) {
-            $result = new PHPUnit_Framework_TestResult;
+            $result = $this->createResult();/*new PHPUnit_Framework_TestResult;*/
         }
 
         $this->setUp();
 
+        $useXdebug = false;
+//        $useXdebug = (extension_loaded('xdebug') /*&& $result->collectCodeCoverageInformation)*/;
+
         foreach ( $this->directories as $directory )
         {
             $result->startTest($this);
+
+            if ($useXdebug && !defined('PHPUnit_INSIDE_OWN_TESTSUITE')) {
+                xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);
+            }
+
+/*            PHPUnit_Util_Timer::start();*/
 
             $this->retryTest = true;
             while ( $this->retryTest )
@@ -111,10 +120,27 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 }
             }
 
-            $result->endTest($this, time());
+            $time = time();
+/*            $time = PHPUnit_Util_Timer::stop();
+            $result->time += $time;*/
+            $result->endTest( $this, $time );
         }
 
-        $this->removeTempDir();
+
+        if ($useXdebug) {
+            $result->codeCoverageInformation[] = array(
+              'test'  => $this,
+              'files' => xdebug_get_code_coverage()
+            );
+
+            xdebug_stop_code_coverage();
+
+            if (defined('PHPUnit_INSIDE_OWN_TESTSUITE')) {
+                xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);
+            }
+        }
+
+        $this->tearDown();
 
         return $result;
     }
@@ -122,6 +148,11 @@ class ezcTemplateRegressionTest extends ezcTestCase
     protected function setUp()
     {
         date_default_timezone_set( "UTC" );
+    }
+
+    protected function tearDown()
+    {
+        $this->removeTempDir();
     }
 
     public static function suite()
