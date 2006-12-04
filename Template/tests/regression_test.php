@@ -324,18 +324,22 @@ class ezcTemplateRegressionTest extends ezcTestCase
                         }
                     }
                 }
+
                 if ( PHP_OS == 'Linux' )
                 {
                     // Pipe the text to less
                     $l = popen( "less", "w" );
-                    fwrite( $l, $displayText );
-                    pclose( $l );
-                    continue;
+
+                    if( $l )
+                    {
+                        fwrite( $l, $displayText );
+                        pclose( $l );
+                        continue;
+                    }
                 }
-                else
-                {
-                    echo $displayText, "\n";
-                }
+
+                echo $displayText, "\n";
+                continue;
             }
             elseif ( $reply == 'c' )
             {
