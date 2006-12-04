@@ -1,0 +1,4 @@
+mock:3:27: Expecting an operand without a pre- or post operator.
+
+0045:{if ( $foo +  $bar-- )}this should never appear{/if
+                          ^

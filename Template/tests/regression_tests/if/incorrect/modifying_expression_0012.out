@@ -1,0 +1,4 @@
+mock:3:31: Unexpected operand or expression. An operand or expression that modifies a variable cannot be used in combination with the '+' operator.
+
+0012:{if $foo +  ( $bar /= 5 )}this should never appear{/if}
+                              ^

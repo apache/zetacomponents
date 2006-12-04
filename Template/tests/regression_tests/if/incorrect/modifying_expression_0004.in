@@ -1,0 +1,3 @@
+{* file: if/incorrect/modifying_expression_0004.in *}
+{var $foo = 42, $bar = 101}
+0004:{if $foo *= 5}this should never appear{/if}

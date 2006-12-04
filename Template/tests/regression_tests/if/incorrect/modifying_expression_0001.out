@@ -1,0 +1,4 @@
+mock:3:18: An expression that modifies a variable is not allowed.
+
+0001:{if $foo = 5}this should never appear{/if}
+                 ^
