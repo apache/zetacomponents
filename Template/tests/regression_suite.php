@@ -103,12 +103,13 @@ class ezcTemplateTestRegressionSuite extends PHPUnit_Framework_TestSuite
             $this->addRegressionTestFile( $file, $mainTest );
         }
 
-        if ( empty( $this->tests ) )
+        $tests = $this->tests();
+        if ( empty( $tests ) )
         {
             $this->addTest(
                 new PHPUnit_Framework_Warning(
                     sprintf(
-                        'No tests found in class "%s".',
+                        'No regression tests found in class "%s".',
                         $theClass->getName()
                         )
                     )
