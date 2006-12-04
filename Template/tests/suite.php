@@ -8,7 +8,6 @@
  * @subpackage Tests
  */
 
-require_once 'variable_exception_test.php';
 require_once 'file_exception_test.php';
 
 require_once 'variable_test.php';
@@ -62,7 +61,6 @@ class ezcTemplateSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcTemplateParserTest::suite() );
 
-        $this->addTest( ezcTemplateVariableExceptionTest::suite() );
         $this->addTest( ezcTemplateFileExceptionTest::suite() );
 
         $this->addTest( ezcTemplateVariableTest::suite() );

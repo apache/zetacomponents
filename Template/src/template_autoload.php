@@ -310,9 +310,6 @@ return array(
              "ezcTemplateAstTreeOutput"       => "Template/parsers/ast/implementations/ast_tree_output.php",
 
 // Exceptions
-             "ezcTemplateVariableUndefinedException" => "Template/exceptions/variable_undefined_exception.php",
-             "ezcTemplateVariableWrongTypeException" => "Template/exceptions/variable_wrong_type_exception.php",
-             "ezcTemplateVariableWrongDirectionException" => "Template/exceptions/variable_wrong_direction_exception.php",
              "ezcTemplateLocatorNotFoundException" => "Template/exceptions/locator_not_found_exception.php",
              "ezcTemplateNoManagerException" => "Template/exceptions/no_manager_exception.php",
              "ezcTemplateNoOutputContextException" => "Template/exceptions/no_output_context_exception.php",
