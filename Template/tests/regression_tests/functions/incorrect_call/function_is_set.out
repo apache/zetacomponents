@@ -1,0 +1,4 @@
+mock:1:2: The function 'is_set' expects parameter 1 to be a variable.
+
+{is_set( 2 * 2 )}
+ ^

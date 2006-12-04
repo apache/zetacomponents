@@ -76,8 +76,8 @@ class ezcTemplateTypeFunctions extends ezcTemplateFunctions
 
             // is_set( $v )::
             // is_set( $v )
-            case "is_set": return array( array( "%var" ), 
-                    self::functionCall( "isset", array( "%var" ) ) );
+            case "is_set": return array( array( "%var:Variable" ), 
+                    self::functionCall( "isset", array( "%var:Variable" ) ) );
 
             // is_constant( $const )::
             // return defined( $const )

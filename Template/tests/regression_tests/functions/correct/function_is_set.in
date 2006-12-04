@@ -1,7 +1,23 @@
+{use $obj}
 {var $x = array() }
+
 
 {if is_set( $x["bla"] )}
 Yes
 {else}
 No
 {/if}
+
+{if is_set( $obj->prop )}
+Yes
+{else}
+No
+{/if}
+
+{if is_set( $obj->blaaaaa )}
+Yes
+{else}
+No
+{/if}
+
+{is_set( $obj )}

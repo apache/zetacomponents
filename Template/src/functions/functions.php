@@ -72,6 +72,32 @@ class ezcTemplateFunctions
         return $total;
     }
 
+    protected static function isVariable( $tst )
+    {
+        if( $tst instanceof ezcTemplateVariableAstNode ||
+            $tst instanceof ezcTemplateReferenceOperatorAstNode  ||
+            $tst instanceof ezcTemplateArrayFetchOperatorAstNode )
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected static function checkType( $defined, $givenTst, $functionName, $parameterNumber )
+    {
+        $s = split( ":", $defined );
+        $type = sizeof( $s ) > 1 ? $s[1] : null;
+
+        if( $type !== null && $type == "Variable" )
+        {
+            if( !self::isVariable( $givenTst ) )
+            {
+                throw new Exception( "The function '$functionName' expects parameter ". ($parameterNumber + 1)." to be a variable." );
+            }   
+        }
+    } 
+
     protected function createObject( $className, $functionParameters )
     {
         if ( $className == "_array" )
@@ -96,7 +122,7 @@ class ezcTemplateFunctions
             {
                 if ( self::isSubstitution( $pIn ) )
                 {
-                    // Skip the optional parameter is the value is NULL.
+                    // Skip the optional parameter if the value is NULL.
                     if ( $parameterMap[$pIn] !== null )
                     {
                         $pOut[] = $parameterMap[ $pIn ];
@@ -144,7 +170,14 @@ class ezcTemplateFunctions
             }
             else
             {
-                $parameterMap[$p] = isset( $processedParameters[$i] ) ? $processedParameters[$i] : null;
+                $parameterMap[$p] = null;
+
+                if( isset( $processedParameters[$i] ) )
+                {
+                    $parameterMap[$p] = $processedParameters[$i];
+                    self::checkType( $p, $processedParameters[$i], $functionName, $i );
+                }
+
                 $i++;
             }
         }
@@ -219,8 +252,6 @@ class ezcTemplateFunctions
         }
 
         // Try the custom template functions.
-//        $def = ezcTemplateCustomFunctionManager::getInstance()->getDefinition( $functionName );
-
         $def = $this->getCustomFunction( $functionName );
         
         if( $def !== false )
@@ -238,7 +269,8 @@ class ezcTemplateFunctions
                 {
                     $requiredParameters++;
                 }
-            }
+
+           }
 
             if( $givenParameters < $requiredParameters )
             {
@@ -254,6 +286,7 @@ class ezcTemplateFunctions
             $a = new ezcTemplateFunctionCallAstNode( ( $def->class ? ( $def->class . "::" ) : "" ) . $def->method);
             $a->checkAndSetTypeHint();
 
+
             foreach( $parameters as $p )
             {
                 $a->appendParameter( $p );
@@ -265,16 +298,6 @@ class ezcTemplateFunctions
         }
 
         throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_FUNCTION, $functionName ) );
-
-            // Try to find a manual function.
-
-            // Return the AST nodes.
-            // return $this->createAstNodes( $f, $parameters );
-
-/*        
-            // Reorder parameters if needed.
-            $params = $this->fixParameters( $parameters, $f[1], isset( $f[2] ) ? $f[2] : null );
-*/
     }
 
     public function getErrorMessage()
