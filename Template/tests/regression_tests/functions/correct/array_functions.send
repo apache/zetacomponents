@@ -1,0 +1,26 @@
+<?php
+ezcTestRunner::addFileToFilter( __FILE__ );
+
+$v = new ezcTemplateVariableCollection();
+
+
+$users = array();
+
+$users[] = new User10101( "Bernard" );
+$users[] = new User10101( "Manny" );
+$users[] = new User10101( "Fran" );
+
+$v->users = $users;
+
+return $v;
+
+class User10101 
+{
+	public $name;
+
+	public function __construct( $name )
+	{
+		$this->name = $name;
+	}
+}
+?>

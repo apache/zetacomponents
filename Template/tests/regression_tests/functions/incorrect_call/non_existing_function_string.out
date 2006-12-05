@@ -1,0 +1,4 @@
+mock:1:2: Unknown function call: 'string_bla'
+
+{string_bla()}
+ ^

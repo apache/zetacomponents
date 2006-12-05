@@ -1,6 +1,13 @@
 <?php
 $v = new ezcTemplateVariableCollection();
 $v->myTstStdObject = new StdClass();
+$v->user = new RaysBeautifulClass;
 
 return $v;
+
+class RaysBeautifulClass
+{
+	public $name = "Bernard";
+}
+
 ?>

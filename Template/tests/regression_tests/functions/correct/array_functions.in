@@ -1,3 +1,4 @@
+{use $users}
 {var $a, $arr}
 array_count:
 { array_count(array('a', 'b', 'c') )}
@@ -81,6 +82,10 @@ array_fill_range:
 array_sum:
 {array_sum( array( 1,2,3) )}
 
+array_extract_by_properties:
+{$a = array_extract_by_properties( $users, array( "name" ) )}
+{debug_dump($a)}
+
 array_repeat:
 { $a = array_repeat( array('a', 'b'), 2 ) }{$a[0]}{$a[1]}{$a[2]}{$a[3]}
 
@@ -97,10 +102,12 @@ hash_sort_reverse:
 {$a = hash_sort_reverse( array('x' => 'b', 'y' => 'a', 'z' => 'c') )}
 
 hash_sort_keys:
-{$a = hash_sort_reverse( array('x' => 'b', 'y' => 'a', 'z' => 'c') )}
+{$a = hash_sort_keys( array('x' => 'b', 'y' => 'a', 'z' => 'c') )}
+{debug_dump($a)}
 
 hash_sort_keys_reverse:
-{$a = hash_sort_reverse( array('x' => 'b', 'y' => 'a', 'z' => 'c') )}
+{$a = hash_sort_keys_reverse( array('x' => 'b', 'y' => 'a', 'z' => 'c') )}
+{debug_dump($a)}
 
 hash_diff:
 {$a = hash_diff( array( 'x' => 'b', 'y' => 'c' ), array( 'x' => 'c' ) )}
@@ -121,3 +128,7 @@ hash_keys:
 
 hash_values:
 {$a = hash_values( array( 'x' => 'b', 'y' => 'c' ) )}
+
+hash_flip:
+{$a = hash_flip( array ( 'x' => 'b', 'y' => 'c' ) )}
+{debug_dump ($a)}

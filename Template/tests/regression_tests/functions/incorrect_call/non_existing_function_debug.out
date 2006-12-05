@@ -1,0 +1,4 @@
+mock:1:2: Unknown function call: 'debug_bla'
+
+{debug_bla()}
+ ^

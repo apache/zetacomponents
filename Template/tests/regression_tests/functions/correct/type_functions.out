@@ -19,6 +19,10 @@ is_numeric:
 is_object:
 1
 
+is_class:
+
+1
+
 is_scalar:
 1
 

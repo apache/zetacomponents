@@ -47,6 +47,7 @@ math_is_infinite:
 {!math_is_infinite( 3 )}
 
 math_is_nan:
+{math_is_nan( 3 )}
 
 math_bin_to_dec:
 {math_bin_to_dec( "0101" )}

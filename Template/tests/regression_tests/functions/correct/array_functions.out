@@ -80,6 +80,13 @@ array_fill_range:
 array_sum:
 6
 
+array_extract_by_properties:
+array (
+  0 => 'Bernard',
+  1 => 'Manny',
+  2 => 'Fran',
+)
+
 array_repeat:
 abab
 
@@ -94,8 +101,18 @@ hash_sort:
 hash_sort_reverse:
 
 hash_sort_keys:
+array (
+  'x' => 'b',
+  'y' => 'a',
+  'z' => 'c',
+)
 
 hash_sort_keys_reverse:
+array (
+  'z' => 'c',
+  'y' => 'a',
+  'x' => 'b',
+)
 
 hash_diff:
 
@@ -114,3 +131,9 @@ array (
 hash_keys:
 
 hash_values:
+
+hash_flip:
+array (
+  'b' => 'x',
+  'c' => 'y',
+)

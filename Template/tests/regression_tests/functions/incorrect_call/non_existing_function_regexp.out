@@ -1,0 +1,4 @@
+mock:1:2: Unknown function call: 'preg_bla'
+
+{preg_bla()}
+ ^

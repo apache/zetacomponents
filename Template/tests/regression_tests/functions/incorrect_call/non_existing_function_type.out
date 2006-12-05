@@ -1,0 +1,4 @@
+mock:1:2: Unknown function call: 'is_blarp'
+
+{is_blarp("bla")}
+ ^

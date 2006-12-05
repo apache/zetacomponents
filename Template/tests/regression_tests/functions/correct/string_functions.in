@@ -45,3 +45,6 @@ two paragraphs")}
 36. {str_wrap("abcdefghijklmnop", 4, "\n", true)}{str_wrap("qrst asdf asdf", 5, "\n")} 
 37. {str_base64_encode( "I don't want to be encoded!" )}
 38. {str_base64_decode( "SSBkb24ndCB3YW50IHRvIGJlIGVuY29kZWQh" )}
+39. {str_ord( 65 )}
+40. {str_char_count( "hello" )}
+41. {str_index_of( "Hello", "l")}

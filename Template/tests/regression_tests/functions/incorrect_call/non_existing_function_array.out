@@ -1,0 +1,4 @@
+mock:1:2: Unknown function call: 'array_hello'
+
+{array_hello(1,2)}
+ ^
