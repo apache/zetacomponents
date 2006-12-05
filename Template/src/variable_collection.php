@@ -91,6 +91,14 @@ class ezcTemplateVariableCollection implements Iterator
 
     /**
      * Sets the value $value to the variable $name.
+     *
+     * NOTE: If you want to assign an array be VERY careful. Do NOT write:
+     * <code>
+     * $v->myProp = array();
+     * $v->myProp[] = "Hello";
+     * </code>
+     *
+     * Because 'myProp' will still be an empty array. (Stupid PHP)
      */
     public function __set( $name, $value )
     {
