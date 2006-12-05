@@ -467,8 +467,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             // This will contain the name of the operator if it is found.
             $operatorName = false;
 
-            $operatorSymbols = array( array( 10,
-            array( 'instanceof' ) ),
+            $operatorSymbols = array( 
             array( 3,
             array( '===', '!==' ) ),
             array( 2,
@@ -543,9 +542,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 '.=' => 'ConcatAssignmentOperator',
                 '%=' => 'ModuloAssignmentOperator',
 
-                '..' => 'ArrayRangeOperator',
-
-                'instanceof' => 'InstanceOfOperator', );
+                '..' => 'ArrayRangeOperator', );
 
                 $requestedName = $operatorName;
                 $operatorName = $operatorMap[$operatorName];
@@ -569,8 +566,8 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 $this->parser->reportElementCursor( $operator->startCursor, $operator->endCursor, $operator );
                 $this->lastCursor->copy( $cursor );
 
-                // instanceof operator can have an identifier as the next operand
-                if ( $requestedName == 'instanceof' || $requestedName == '->' )
+                // -> operator can have an identifier as the next operand
+                if ( $requestedName == '->' )
                 {
                     $this->allowIdentifier = true;
                 }

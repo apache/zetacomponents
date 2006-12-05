@@ -73,6 +73,14 @@ Returns true if the given *$val* is the class *$class*, otherwise false::
     {is_class( $myObject, "MyClass" )}
 
 
+bool _`is_instance` ( mixed *$val*, string *$class* )
+`````````````````````````````````````````````````````
+Returns true if the given *$val* is an instance of class *$class*, otherwise false::
+
+    {use $myObject}
+    {is_instance( $myObject, "MyClass" )}
+
+
 bool _`is_scalar` ( mixed *$val* )
 ``````````````````````````````````
 Returns true if the given *$val* is a scalar; thus containing an integer,

@@ -24,6 +24,10 @@ is_class:
 {is_class( $user, "RaysClass" )}
 {is_class( $user, "RaysBeautifulClass" )}
 
+is_instance:
+{is_instance( $user, "RaysClass" )}
+{is_instance( $user, "RaysBeautifulClass" )}
+
 is_scalar:
 {is_scalar( 2 )}
 

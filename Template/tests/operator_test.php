@@ -37,7 +37,6 @@ class ezcTemplateOperatorTest extends ezcTestCase
 
         $this->operators[] = new ezcTemplateNegateOperatorTstNode( $source, $start, $end );
         $this->operators[] = new ezcTemplateLogicalNegateOperatorTstNode( $source, $start, $end );
-        $this->operators[] = new ezcTemplateInstanceOfOperatorTstNode( $source, $start, $end );
 
         $this->operators[] = new ezcTemplateMultiplicationOperatorTstNode( $source, $start, $end );
         $this->operators[] = new ezcTemplateDivisionOperatorTstNode( $source, $start, $end );

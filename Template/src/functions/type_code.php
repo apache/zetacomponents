@@ -26,6 +26,12 @@ class ezcTemplateType
     {
         return empty( $var );
     }
+
+    public static function is_instance( $var, $class )
+    {
+        return ($var instanceof $class);
+    }
+
 }
 
 

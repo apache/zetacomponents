@@ -57,15 +57,21 @@ class ezcTemplateTypeFunctions extends ezcTemplateFunctions
 
             // is_class( $v, $class )::
             // getclass( $v ) == $class
-            // TODO, needs to be tested.
             case "is_class": return array( 
-                ezcTemplateAstnode::TYPE_VALUE,
+                ezcTemplateAstNode::TYPE_VALUE,
                 array( "%var", "%class" ), 
 
                 array( "ezcTemplateIdenticalOperatorAstNode", array( 
                     self::functionCall( "get_class", array( "%var" ) ),
                     "%class" )
                 ) );
+
+            // instanceof.
+            case "is_instance": return array( 
+                ezcTemplateAstnode::TYPE_VALUE,
+                array( "%var", "%class" ), 
+                self::functionCall( "ezcTemplateType::is_instance", array( "%var", "%class" ) ) );
+
 
             // is_scalar( $v )::
             // is_scalar( $v )
