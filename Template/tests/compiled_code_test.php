@@ -152,6 +152,30 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
         }
     }
 
+    public function testCannotReadCompiled()
+    {
+        $temp = $this->createTempDir( "ezcTemplate" );
+        file_put_contents( $temp . "/myFile" , "bla" );
+
+        chmod( $temp . "/myFile", 0200 ); // Write only for the owner of the file.
+
+        $conf = new ezcTemplateCompiledCode( '8efb', $temp . "/myFile" ); 
+        $conf->template = new ezcTemplate();
+        $conf->context = new ezcTemplateXhtmlContext();
+
+        try
+        {
+            $conf->execute( );
+            self::fail( "No exception thrown" );
+        }
+        catch( ezcTemplateInvalidCompiledFileException $e )
+        {
+        }
+
+        $this->removeTempDir();
+    }
+
+
     public function testExecute()
     {
         $conf = new ezcTemplateCompiledCode( '14862b79ceaf01443626bd5d564c53e2',
