@@ -49,7 +49,7 @@ class ezcTemplateCycle
             return $res;
         }
 
-        return "Invalid cycle";
+        throw new ezcTemplateInternalException("Invalid cycle: " . $name );
     }
 
     public function increment()
