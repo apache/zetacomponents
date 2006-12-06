@@ -168,9 +168,6 @@ interface ezcTemplateTstNodeVisitor
     public function visitLogicalNegateOperatorTstNode( ezcTemplateLogicalNegateOperatorTstNode $node );
 
 
-    public function visitInstanceOfOperatorTstNode( ezcTemplateInstanceOfOperatorTstNode $node );
-
-
     public function visitDynamicBlockTstNode( ezcTemplateDynamicBlockTstNode $node );
 
 

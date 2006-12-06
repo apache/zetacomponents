@@ -1154,11 +1154,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return $this->createUnaryOperatorAstNode( $type, new ezcTemplateLogicalNegationOperatorAstNode(), true );
     }
 
-    public function visitInstanceOfOperatorTstNode( ezcTemplateInstanceOfOperatorTstNode $type )
-    {
-        throw new Exception( "visitInstanceOfOperatorTstNode" );
-    }
-
     public function visitBlockCommentTstNode( ezcTemplateBlockCommentTstNode $type )
     {
         throw new Exception( "The visitBlockCommentTstNode is called, however this node shouldn't be in the TST tree. It's used for testing purposes." );
