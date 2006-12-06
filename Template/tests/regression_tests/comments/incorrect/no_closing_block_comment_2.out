@@ -1,0 +1,4 @@
+mock:1:2: Could not find the closing block comment '*}' that belongs to this opening block comment.
+
+{* This script tests the closin
+ ^

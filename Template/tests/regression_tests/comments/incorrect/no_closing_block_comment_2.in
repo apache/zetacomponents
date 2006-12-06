@@ -1,0 +1,9 @@
+{* This script tests the closing block comments */
+*/
+
+*  }
+
+{var $a = 2}
+* }
+
+{$a}

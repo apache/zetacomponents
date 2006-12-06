@@ -624,6 +624,8 @@ abstract class ezcTemplateSourceToTstParser
             if ( !$subParser->parse() )
             {
                 $this->subParser = $subParser;
+
+                throw new ezcTemplateParserException( $this->parser->source, $this->currentCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CLOSING_MULTILINE_COMMENT );
                 return false;
             }
 
