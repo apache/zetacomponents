@@ -49,7 +49,12 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
              $cursor->current() == '*' )
         {
             // got a doc comment block
-            return $this->parseRequiredType( 'DocComment', $this->startCursor );
+            if( !$this->parseRequiredType( 'DocComment', $this->startCursor ) )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CLOSING_BLOCK_COMMENT );
+            }
+
+            return true;
         }
 
 

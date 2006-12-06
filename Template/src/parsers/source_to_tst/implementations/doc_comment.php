@@ -51,8 +51,10 @@ class ezcTemplateDocCommentSourceToTstParser extends ezcTemplateSourceToTstParse
 
         $endPosition = $cursor->findPosition( '*}' );
         if ( $endPosition === false )
+        {
             return false;
-
+        }
+        
         // If we found an end for an inline comment we need to check if there
         // is an end for an inline comment
         if ( $checkInlineComment )

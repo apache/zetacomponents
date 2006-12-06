@@ -100,6 +100,8 @@ class ezcTemplateSourceToTstErrorMessages
     // Custom block specific error messages
     const MSG_EXPECT_REQUIRED_OR_OPTIONAL_PARAMETER_DEFINITION_IN_CUSTOM_BLOCK = "The custom block definition specifies the startExpressionName <%s> but this name could not be found in either the optionalParameters or the requiredParameters array.";
 
+    const MSG_EXPECT_CLOSING_BLOCK_COMMENT       = "Could not find the closing block comment '*}' that belongs to this opening block comment.";
+
     // Inconsistencies with eZ publish 3.
     const LNG_INVALID_NAMESPACE_MARKER          = "The namespace marker (:) was used in template engine in eZ publish 3.x but is no longer allowed.";
     const LNG_INVALID_NAMESPACE_ROOT_MARKER = "The namespace-root marker (#) was used in the template engine of eZ publish 3.x but it's no longer allowed.";
