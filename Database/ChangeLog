@@ -1,7 +1,8 @@
 1.2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 - Fixed bug #9219: Added sql HAVING condition. Patch by Christian Michel.
-
+- Fixed bug #9567: query->bindValue() sets value in query->boundParameters
+	
 
 1.2beta2 - Monday 20 November 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -162,6 +162,50 @@ class ezcQueryInsertTest extends ezcTestCase
 
     }
 
+    public function testSeveralInsertsWithValueBind()
+    {
+        $q = $this->q;
+        $company = 'eZ systems';
+        $section = 'Norway';
+        $q->insertInto( 'query_test' )
+            ->set( 'id', 1 )
+            ->set( 'company', $q->bindValue( $company ) )
+            ->set( 'section', $q->bindValue( $section ) )
+            ->set( 'employees', 20 );
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        $q->insertInto( 'query_test' );
+        $q->set( 'id', 2 );
+        $q->set( 'employees', 70 );
+        $company = 'trolltech'; // This should be ignored
+        $section = 'Norway';
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        // check that it was actually correctly set
+        $db = ezcDbInstance::get();
+        $q = $db->createSelectQuery(); // get select query
+        $q->select( '*' )->from( 'query_test' )
+            ->where( $q->expr->eq( 'id', 1 ) );
+        $stmt = $q->prepare();
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        $this->assertEquals( 1, (int)$result[0][0] );
+        $this->assertEquals( 'eZ systems', $result[0][1] );
+
+        // check that it was actually correctly set
+        $db = ezcDbInstance::get();
+        $q = $db->createSelectQuery(); // get select query
+        $q->select( '*' )->from( 'query_test' )
+            ->where( $q->expr->eq( 'id', 2 ) );
+        $stmt = $q->prepare();
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        $this->assertEquals( 2, (int)$result[0][0] );
+        $this->assertEquals( 'eZ systems', $result[0][1] );
+    }
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( 'ezcQueryInsertTest' );

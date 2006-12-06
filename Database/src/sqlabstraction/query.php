@@ -221,7 +221,7 @@ abstract class ezcQuery
             $this->boundCounter++;
             $placeHolder = ":ezcValue{$this->boundCounter}";
         }
-        $this->boundParameters[$placeHolder] = $value;
+        $this->boundValues[$placeHolder] = $value;
         return $placeHolder;
     }
 
