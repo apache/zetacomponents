@@ -83,7 +83,7 @@ class ezcTemplateTestRegressionSuite extends PHPUnit_Framework_TestSuite
 
         $names = array();
 
-        if ( !$theClass->isSubclassOf( 'ezcTemplateRegressionTest' ) )
+        if ( $theClass->getName() != 'ezcTemplateRegressionTest' && !$theClass->isSubclassOf( 'ezcTemplateRegressionTest' ) )
         {
             $this->addTest(
                 new PHPUnit_Framework_Warning(
