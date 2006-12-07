@@ -98,9 +98,9 @@ class ezcTemplateTestRegressionSuite extends PHPUnit_Framework_TestSuite
         $mainTest = $theClass->newInstance();
         $files = $mainTest->getFiles();
 
-        foreach ( $files as $file )
+        foreach ( $files as $fileEntry )
         {
-            $this->addRegressionTestFile( $file, $mainTest );
+            $this->addRegressionTestFile( $fileEntry['file'], $mainTest );
         }
 
         $tests = $this->tests();

@@ -46,8 +46,19 @@ class ezcTemplateRegressionTest extends ezcTestCase
         $directories = array();
         $this->readDirRecursively( $this->regressionDir, $directories, "in" );
 
-        // Sort it, than the file a.in will be processed first. Handy for development.
-        natsort( $directories );
+        if ( isset( $_ENV['EZC_TEST_TEMPLATE_SORT'] ) &&
+             $_ENV['EZC_TEST_TEMPLATE_SORT'] == 'mtime' )
+        {
+            // Sort by modification time to get updated tests first
+            usort( $directories,
+                   array( $this, 'sortTestsByMtime' ) );
+        }
+        else
+        {
+            // Sort it, than the file a.in will be processed first. Handy for development.
+            usort( $directories,
+                   array( $this, 'sortTestsByName' ) );
+        }
 
         $this->directories = $directories;
 
@@ -56,6 +67,20 @@ class ezcTemplateRegressionTest extends ezcTestCase
         {
             $this->interactiveMode = (bool)$_ENV['EZC_TEST_INTERACTIVE'];
         }
+    }
+
+    public function sortTestsByMtime( $a, $b )
+    {
+        if ( $a['mtime'] != $b['mtime'] )
+        {
+            return $a['mtime'] < $b['mtime'] ? 1 : -1;
+        }
+        return strnatcmp( $a['file'], $b['file'] );
+    }
+
+    public function sortTestsByName( $a, $b )
+    {
+        return strnatcmp( $a['file'], $b['file'] );
     }
 
     public function __destruct()
@@ -145,7 +170,8 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 {
                     if( !$onlyWithExtension || substr( $file,  -$extensionLength - 1 ) == ".$onlyWithExtension" )
                     {
-                         $total[] = $new;
+                        $total[] = array( 'file' => $new,
+                                          'mtime' => filemtime( $new ) );
                     }
                 }
                 elseif( is_dir( $new ) )
