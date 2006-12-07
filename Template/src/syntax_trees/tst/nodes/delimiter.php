@@ -40,7 +40,8 @@ class ezcTemplateDelimiterTstNode extends ezcTemplateBlockTstNode
                       'isClosingBlock'   => $this->isClosingBlock,
                       'isNestingBlock'   => $this->isNestingBlock,
                       'modulo'           => $this->modulo,
-                      'rest'             => $this->rest );
+                      'rest'             => $this->rest,
+                      'children'         => $this->children );
     }
 
     public function handleElement( ezcTemplateTstNode $element )

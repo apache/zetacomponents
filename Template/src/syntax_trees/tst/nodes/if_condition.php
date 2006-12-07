@@ -80,13 +80,12 @@ class ezcTemplateIfConditionTstNode extends ezcTemplateBlockTstNode
                 {
                     $removal->trimBlockLine( $this, $child->children[0] );
                 }
+                // Tell the removal object to trim text blocks after the current block
+                // and after all sub-blocks.
+                $removal->trimBlockLines( $this, $child->children );
             }
 
         }
-        
-        // Tell the removal object to trim text blocks after the current block
-        // and after all sub-blocks.
-        $removal->trimBlockLines( $this, $this->children );
     }
 
 
