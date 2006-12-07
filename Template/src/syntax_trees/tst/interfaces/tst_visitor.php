@@ -66,10 +66,16 @@ interface ezcTemplateTstNodeVisitor
     public function visitForeachLoopTstNode( ezcTemplateForeachLoopTstNode $node );
 
 
+    public function visitDelimiterTstNode( ezcTemplateDelimiterTstNode $node );
+
+
     public function visitWhileLoopTstNode( ezcTemplateWhileLoopTstNode $node );
 
 
     public function visitIfConditionTstNode( ezcTemplateIfConditionTstNode $node );
+
+
+    public function visitConditionBodyTstNode( ezcTemplateConditionBodyTstNode $node );
 
 
     public function visitLoopTstNode( ezcTemplateLoopTstNode $node );

@@ -128,6 +128,11 @@ class ezcTemplateTstWalker implements ezcTemplateTstNodeVisitor
     }
 
 
+    public function visitDelimiterTstNode( ezcTemplateDelimiterTstNode $node )
+    {
+    }
+
+
     public function visitWhileLoopTstNode( ezcTemplateWhileLoopTstNode $node )
     {
     }

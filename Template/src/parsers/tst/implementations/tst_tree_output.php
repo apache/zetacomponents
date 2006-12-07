@@ -115,12 +115,22 @@ class ezcTemplateTstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
         $this->text .= $this->outputNode( $node );
     }
 
+    public function visitDelimiterTstNode( ezcTemplateDelimiterTstNode $node )
+    {
+        $this->text .= $this->outputNode( $node );
+    }
+
     public function visitWhileLoopTstNode( ezcTemplateWhileLoopTstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
     public function visitIfConditionTstNode( ezcTemplateIfConditionTstNode $node )
+    {
+        $this->text .= $this->outputNode( $node );
+    }
+
+    public function visitConditionBodyTstNode( ezcTemplateConditionBodyTstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
