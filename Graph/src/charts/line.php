@@ -37,6 +37,7 @@
  * </code>
  *
  * @package Graph
+ * @mainclass
  */
 class ezcGraphLineChart extends ezcGraphChart
 {

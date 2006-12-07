@@ -17,6 +17,7 @@
  *           label.
  *
  * @package Graph
+ * @mainclass
  */
 class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
 {

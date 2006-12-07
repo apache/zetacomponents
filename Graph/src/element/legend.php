@@ -25,6 +25,7 @@
  *           Space between labels elements in pixel.
  *
  * @package Graph
+ * @mainclass
  */
 class ezcGraphChartElementLegend extends ezcGraphChartElement
 {

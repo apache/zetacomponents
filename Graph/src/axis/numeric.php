@@ -25,6 +25,7 @@
  *                Maximum value to display on this axis.
  *           
  * @package Graph
+ * @mainclass
  */
 class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
 {

@@ -11,8 +11,8 @@
  * Driver to create Flash4 (SWF) files as graph output.
  *
  * @package Graph
+ * @mainclass
  */
-
 class ezcGraphFlashDriver extends ezcGraphDriver
 {
     /**

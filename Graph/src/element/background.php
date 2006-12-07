@@ -35,6 +35,7 @@
  *           Defines how the background image gets repeated
  *
  * @package Graph
+ * @mainclass
  */
 class ezcGraphChartElementBackground extends ezcGraphChartElement
 {

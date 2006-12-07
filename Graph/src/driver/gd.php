@@ -17,6 +17,7 @@
  * fonts.
  *
  * @package Graph
+ * @mainclass
  */
 class ezcGraphGdDriver extends ezcGraphDriver
 {

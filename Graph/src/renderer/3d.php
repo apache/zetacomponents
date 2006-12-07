@@ -12,6 +12,7 @@
  * Class to transform chart primitives into image primitives
  *
  * @package Graph
+ * @mainclass
  */
 class ezcGraphRenderer3d extends ezcGraphRenderer
 {

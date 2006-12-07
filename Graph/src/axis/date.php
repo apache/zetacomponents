@@ -27,6 +27,7 @@
  *           Like http://php.net/date
  *
  * @package Graph
+ * @mainclass
  */
 class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
 {

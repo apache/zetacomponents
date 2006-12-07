@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcGraphChartElementLogarithmicalAxis class
+ * File containing the ezcGraphChartElementLogarithmicalAxis class
  *
  * @package Graph
  * @version //autogentag//
@@ -31,6 +31,7 @@
  *                Maximum value to display on this axis.
  *           
  * @package Graph
+ * @mainclass
  */
 class ezcGraphChartElementLogarithmicalAxis extends ezcGraphChartElementAxis
 {

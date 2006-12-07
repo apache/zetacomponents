@@ -12,6 +12,7 @@
  * strings and used in the given order.
  *
  * @package Graph
+ * @mainclass
  */
 class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
 {

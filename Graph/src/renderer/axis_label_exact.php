@@ -17,6 +17,7 @@
  *           the axis.
  *
  * @package Graph
+ * @mainclass
  */
 class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
 {

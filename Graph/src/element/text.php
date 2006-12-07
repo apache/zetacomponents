@@ -14,6 +14,7 @@
  *           Maximum percent of bounding used to display the text.
  *
  * @package Graph
+ * @mainclass
  */
 class ezcGraphChartElementText extends ezcGraphChartElement
 {

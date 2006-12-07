@@ -11,6 +11,7 @@
  * Abstract class to contain pallet definitions
  * 
  * @package Graph
+ * @mainclass
  */
 abstract class ezcGraphPalette
 {

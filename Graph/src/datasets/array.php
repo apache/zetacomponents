@@ -11,6 +11,7 @@
  * Dataset class which receives arrays and use them as a base for datasets.
  *
  * @package Graph
+ * @mainclass
  */
 class ezcGraphArrayDataSet extends ezcGraphDataSet
 {

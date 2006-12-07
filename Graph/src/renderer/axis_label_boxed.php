@@ -13,6 +13,7 @@
  * bar charts.
  *
  * @package Graph
+ * @mainclass
  */
 class ezcGraphAxisBoxedLabelRenderer extends ezcGraphAxisLabelRenderer
 {

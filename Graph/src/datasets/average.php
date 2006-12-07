@@ -17,6 +17,7 @@
  *           Resolution used to draw line in graph
  *
  * @package Graph
+ * @mainclass
  */
 class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet 
 {
