@@ -515,7 +515,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             case 'utf-16':
                 return $string;
             default:
-                // Manual escaping of ANSII characters, because ext/DOM fails here
+                // Manual escaping of non ANSII characters, because ext/DOM fails here
                 return preg_replace( '/[\\x80-\\xFF]/e', 'sprintf( \'&#x%02x;\', ord( \'\\0\') )', $string );
         }
     }
