@@ -19,10 +19,6 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- *
- * @todo ManyToOne relations are only reverse versions of OneToMany one. Should
- *       they therefore be marked "reverse" by default and this be made a
- *       read-only property?
  */
 class ezcPersistentManyToOneRelation extends ezcPersistentRelation
 {
