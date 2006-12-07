@@ -14,8 +14,8 @@
  *
  * @note To turn on interactive mode set the environment variable
  *       EZC_TEST_INTERACTIVE to 1 (0 is off)
- * @note To turn on verbose error messagesset the environment variable
- *       EZC_TEST_VERBOSE to 1 (0 is off)
+ * @note To control sorting of .in files set the environment variable
+ *       EZC_TEST_TEMPLATE_SORT to: 'mtime', ''
  */
 include_once ("custom_blocks/testblocks.php");
 include_once ("custom_blocks/links.php");
@@ -150,31 +150,32 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
     private function removeTags( $str )
     {
-        $str=str_replace('<'.'?php','<'.'?',$str);
-        $str= '?'.'>'. trim($str). '<'.'?';
+        $str = str_replace( '<' . '?php', '<' . '?', $str );
+        $str= '?' . '>' . trim( $str ) . '<' . '?';
         return $str;
     }
 
-    private function readDirRecursively( $dir, &$total, $onlyWithExtension = false) 
+    private function readDirRecursively( $dir, &$total, $onlyWithExtension = false)
     {
         $extensionLength = strlen( $onlyWithExtension );
         $path = opendir( $dir );
 
-        while( false !== ( $file = readdir( $path ) ) ) 
+        while( false !== ( $file = readdir( $path ) ) )
         {
-            if( $file != "." && $file != ".." ) 
+            if ( $file != "." && $file != ".." )
             {
                 $new = $dir . "/" . $file;
 
-                if( is_file( $new ) )
+                if ( is_file( $new ) )
                 {
-                    if( !$onlyWithExtension || substr( $file,  -$extensionLength - 1 ) == ".$onlyWithExtension" )
+                    if ( !$onlyWithExtension ||
+                         substr( $file,  -$extensionLength - 1 ) == ".$onlyWithExtension" )
                     {
                         $total[] = array( 'file' => $new,
                                           'mtime' => filemtime( $new ) );
                     }
                 }
-                elseif( is_dir( $new ) )
+                elseif ( is_dir( $new ) )
                 {
                     $this->readDirRecursively( $new, $total, $onlyWithExtension );
                 }
@@ -448,108 +449,108 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
     public function testRunRegression( $directory )
     {
-            $template = new ezcTemplate();
-            $dir = dirname( $directory );
-            $base = basename( $directory );
+        $template = new ezcTemplate();
+        $dir = dirname( $directory );
+        $base = basename( $directory );
 
-            $template->configuration = new ezcTemplateConfiguration( $dir, $this->getTempDir() );
-            //$template->configuration->cachePath = $this->getTempDir() . "/cached"; 
-            //$template->configuration->cachePath = "/tmp/cache";
+        $template->configuration = new ezcTemplateConfiguration( $dir, $this->getTempDir() );
+        //$template->configuration->cachePath = $this->getTempDir() . "/cached"; 
+        //$template->configuration->cachePath = "/tmp/cache";
 
-            /*
+        /*
             if( !is_dir( $template->configuration->cachePath ) )
             {
                 mkdir( $template->configuration->cachePath);
             }
-             */
+        */
 
-            $template->configuration->addExtension( "TestBlocks" );
-            $template->configuration->addExtension( "LinksCustomBlock" );
-            $template->configuration->addExtension( "cblockTemplateExtension" );
-            $template->configuration->addExtension( "Sha1CustomBlock" );
+        $template->configuration->addExtension( "TestBlocks" );
+        $template->configuration->addExtension( "LinksCustomBlock" );
+        $template->configuration->addExtension( "cblockTemplateExtension" );
+        $template->configuration->addExtension( "Sha1CustomBlock" );
 
-            if( preg_match("#^(\w+)@(\w+)\..*$#", $base, $match ) )
+        if ( preg_match("#^(\w+)@(\w+)\..*$#", $base, $match ) )
+        {
+            $contextClass = "ezcTemplate". ucfirst( strtolower( $match[2] ) ) . "Context";
+            $template->configuration->context = new $contextClass();
+        }
+        else
+        {
+            $template->configuration->context = new ezcTemplateNoContext();
+        }
+
+        $send = substr( $directory, 0, -3 ) . ".send";
+        if ( file_exists( $send ) )
+        {
+            $template->send = include ($send);
+        }
+
+        $out = "";
+
+        try
+        {
+            $out = $template->process( $base );
+        }
+        catch ( Exception $e )
+        {
+            $out = $e->getMessage();
+
+            // Begin of the error message contains the full path. We replace this with 'mock' so that the
+            // tests work on other systems as well.
+            if ( strncmp( $out, $directory, strlen( $directory ) ) == 0 )
             {
-                $contextClass = "ezcTemplate". ucfirst( strtolower( $match[2] ) ) . "Context";
-                $template->configuration->context = new $contextClass();
+                $out = "mock" . substr( $out, strlen( $directory ) );
+            }
+        }
+
+        $expected = substr( $directory, 0, -3 ) . ".out";
+
+        if ( !file_exists( $expected ) )
+        {
+            $help = "The out file: '$expected' could not be found.";
+
+            if ( !self::$skipMissingTests && $this->interactiveMode )
+            {
+                echo "\n", $help, "\n";
+
+                self::interact( $template, $directory, false, $out, $expected, $help );
+                return;
             }
             else
             {
-                $template->configuration->context = new ezcTemplateNoContext();
+                throw new PHPUnit_Framework_ExpectationFailedException( $help );
             }
+        }
 
-            $send = substr( $directory, 0, -3 ) . ".send";
-            if( file_exists( $send ) )
+        $expectedText = file_get_contents( $expected );
+
+        try
+        {
+            $this->assertEquals( $expectedText, $out, "In:  <$expected>\nOut: <$directory>" );
+        }
+        catch ( PHPUnit_Framework_ExpectationFailedException $e )
+        {
+            $help  = "The evaluated template <".$this->regressionDir . "/current.tmp> differs ";
+            $help .= "from the expected output: <$expected>.";
+            if ( $this->interactiveMode )
             {
-                $template->send = include ($send);
+                echo "\n", $help, "\n";
+                self::interact( $template, $directory, file_get_contents( $expected ), $out, $expected, $help );
+                return;
             }
 
-            $out = "";
+            // Rethrow with new and more detailed message
+            throw new PHPUnit_Framework_ExpectationFailedException( $help, $e->getComparisonFailure() );
+        }
 
-            try
-            {
-                $out = $template->process( $base );
-            }
-            catch ( Exception $e )
-            {
-                $out = $e->getMessage();
-
-                // Begin of the error message contains the full path. We replace this with 'mock' so that the
-                // tests work on other systems as well.
-                if( strncmp( $out, $directory, strlen( $directory ) ) == 0 )
-                {
-                    $out = "mock" . substr( $out, strlen( $directory ) );
-                }
-            }
-
-            $expected = substr( $directory, 0, -3 ) . ".out";
-
-            if( !file_exists( $expected ) )
-            {
-                $help = "The out file: '$expected' could not be found.";
-
-                if( !self::$skipMissingTests && $this->interactiveMode )
-                {
-                    echo "\n", $help, "\n";
-
-                    self::interact( $template, $directory, false, $out, $expected, $help );
-                    return;
-                }
-                else
-                {
-                    throw new PHPUnit_Framework_ExpectationFailedException( $help );
-                }
-            }
-
-            $expectedText = file_get_contents( $expected );
-
-            try
-            {
-                $this->assertEquals( $expectedText, $out, "In:  <$expected>\nOut: <$directory>" );
-            }
-            catch ( PHPUnit_Framework_ExpectationFailedException $e )
-            {
-                $help  = "The evaluated template <".$this->regressionDir . "/current.tmp> differs ";
-                $help .= "from the expected output: <$expected>.";
-                if( $this->interactiveMode )
-                {
-                    echo "\n", $help, "\n";
-                    self::interact( $template, $directory, file_get_contents( $expected ), $out, $expected, $help );
-                    return;
-                }
-
-                // Rethrow with new and more detailed message
-                throw new PHPUnit_Framework_ExpectationFailedException( $help, $e->getComparisonFailure() );
-            }
-
-                // check the receive variables.
-                $receive = substr( $directory, 0, -3 ) . ".receive";
-                if( file_exists( $receive ) )
-                {
-                    $expectedVar = include( $receive );
-                    $foundVar = $template->receive;
-                    $this->assertEquals( $expectedVar, $foundVar, "Received variables does not match" );
-                }
+        // check the receive variables.
+        $receive = substr( $directory, 0, -3 ) . ".receive";
+        if ( file_exists( $receive ) )
+        {
+            $expectedVar = include( $receive );
+            $foundVar = $template->receive;
+            $this->assertEquals( $expectedVar, $foundVar, "Received variables does not match" );
+        }
     }
 }
 
