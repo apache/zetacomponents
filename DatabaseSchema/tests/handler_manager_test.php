@@ -25,6 +25,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         self::assertEquals( 'ezcDbSchemaMysqlReader', ezcDbSchemaHandlerManager::getReaderByFormat( 'mysql' ) );
         self::assertEquals( 'ezcDbSchemaPgsqlReader', ezcDbSchemaHandlerManager::getReaderByFormat( 'pgsql' ) );
         self::assertEquals( 'ezcDbSchemaSqliteReader', ezcDbSchemaHandlerManager::getReaderByFormat( 'sqlite' ) );
+        self::assertEquals( 'ezcDbSchemaOracleReader', ezcDbSchemaHandlerManager::getReaderByFormat( 'oracle' ) );
         self::assertEquals( 'ezcDbSchemaXmlReader', ezcDbSchemaHandlerManager::getReaderByFormat( 'xml' ) );
     }
 
@@ -34,6 +35,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         self::assertEquals( 'ezcDbSchemaMysqlWriter', ezcDbSchemaHandlerManager::getWriterByFormat( 'mysql' ) );
         self::assertEquals( 'ezcDbSchemaPgsqlWriter', ezcDbSchemaHandlerManager::getWriterByFormat( 'pgsql' ) );
         self::assertEquals( 'ezcDbSchemaSqliteWriter', ezcDbSchemaHandlerManager::getWriterByFormat( 'sqlite' ) );
+        self::assertEquals( 'ezcDbSchemaOracleWriter', ezcDbSchemaHandlerManager::getWriterByFormat( 'oracle' ) );
         self::assertEquals( 'ezcDbSchemaXmlWriter', ezcDbSchemaHandlerManager::getWriterByFormat( 'xml' ) );
     }
 
@@ -43,6 +45,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         self::assertEquals( 'ezcDbSchemaMysqlReader', ezcDbSchemaHandlerManager::getReaderByFormat( 'mysql' ) );
         self::assertEquals( 'ezcDbSchemaPgsqlReader', ezcDbSchemaHandlerManager::getReaderByFormat( 'pgsql' ) );        
         self::assertEquals( 'ezcDbSchemaSqliteReader', ezcDbSchemaHandlerManager::getReaderByFormat( 'sqlite' ) );
+        self::assertEquals( 'ezcDbSchemaOracleReader', ezcDbSchemaHandlerManager::getReaderByFormat( 'oracle' ) );
         self::assertEquals( 'ezcDbSchemaXmlReader', ezcDbSchemaHandlerManager::getReaderByFormat( 'xml' ) );
     }
 
@@ -52,6 +55,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         self::assertEquals( 'ezcDbSchemaMysqlWriter', ezcDbSchemaHandlerManager::getWriterByFormat( 'mysql' ) );
         self::assertEquals( 'ezcDbSchemaPgsqlWriter', ezcDbSchemaHandlerManager::getWriterByFormat( 'pgsql' ) );
         self::assertEquals( 'ezcDbSchemaSqliteWriter', ezcDbSchemaHandlerManager::getWriterByFormat( 'sqlite' ) );        
+        self::assertEquals( 'ezcDbSchemaOracleWriter', ezcDbSchemaHandlerManager::getWriterByFormat( 'oracle' ) );
         self::assertEquals( 'ezcDbSchemaXmlWriter', ezcDbSchemaHandlerManager::getWriterByFormat( 'xml' ) );
     }
 
@@ -110,21 +114,21 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
     public function testSupportedFormats1()
     {
         $formats = ezcDbSchemaHandlerManager::getSupportedFormats();
-        self::assertEquals( array( 'array', 'mysql', 'pgsql', 'sqlite', 'xml', 'persistent' ), $formats );
+        self::assertEquals( array( 'array', 'mysql', 'oracle', 'pgsql', 'sqlite', 'xml', 'persistent' ), $formats );
     }
 
     public function testSupportedFormats2()
     {
         ezcDbSchemaHandlerManager::addReader( 'test1', 'TestSchemaReaderImplementation' );
         $formats = ezcDbSchemaHandlerManager::getSupportedFormats();
-        self::assertEquals( array( 'array', 'mysql', 'pgsql', 'sqlite', 'xml', 'test1', 'persistent' ), $formats );
+        self::assertEquals( array( 'array', 'mysql', 'oracle', 'pgsql', 'sqlite', 'xml', 'test1', 'persistent' ), $formats );
     }
 
     public function testSupportedFormats3()
     {
         ezcDbSchemaHandlerManager::addWriter( 'test1', 'TestSchemaWriterImplementation' );
         $formats = ezcDbSchemaHandlerManager::getSupportedFormats();
-        self::assertEquals( array( 'array', 'mysql', 'pgsql', 'sqlite', 'xml', 'test1', 'persistent' ), $formats );
+        self::assertEquals( array( 'array', 'mysql', 'oracle', 'pgsql', 'sqlite', 'xml', 'test1', 'persistent' ), $formats );
     }
 
     public function testSupportedFormats4()
@@ -132,27 +136,27 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         ezcDbSchemaHandlerManager::addReader( 'test1', 'TestSchemaReaderImplementation' );
         ezcDbSchemaHandlerManager::addWriter( 'test1', 'TestSchemaWriterImplementation' );
         $formats = ezcDbSchemaHandlerManager::getSupportedFormats();
-        self::assertEquals( array( 'array', 'mysql', 'pgsql', 'sqlite', 'xml', 'test1', 'persistent' ), $formats );
+        self::assertEquals( array( 'array', 'mysql', 'oracle', 'pgsql', 'sqlite', 'xml', 'test1', 'persistent' ), $formats );
     }
 
     public function testSupportedDiffFormats1()
     {
         $formats = ezcDbSchemaHandlerManager::getSupportedDiffFormats();
-        self::assertEquals( array( 'array', 'xml', 'mysql', 'pgsql', 'sqlite' ), $formats );
+        self::assertEquals( array( 'array', 'xml', 'mysql', 'oracle', 'pgsql', 'sqlite' ), $formats );
     }
 
     public function testSupportedDiffFormats2()
     {
         ezcDbSchemaHandlerManager::addDiffReader( 'test1', 'TestSchemaDiffReaderImplementation' );
         $formats = ezcDbSchemaHandlerManager::getSupportedDiffFormats();
-        self::assertEquals( array( 'array', 'xml', 'test1', 'mysql', 'pgsql', 'sqlite' ), $formats );
+        self::assertEquals( array( 'array', 'xml', 'test1', 'mysql', 'oracle', 'pgsql', 'sqlite' ), $formats );
     }
 
     public function testSupportedDiffFormats3()
     {
         ezcDbSchemaHandlerManager::addDiffWriter( 'test1', 'TestSchemaDiffWriterImplementation' );
         $formats = ezcDbSchemaHandlerManager::getSupportedDiffFormats();
-        self::assertEquals( array( 'array', 'xml', 'test1', 'mysql', 'pgsql', 'sqlite' ), $formats );
+        self::assertEquals( array( 'array', 'xml', 'test1', 'mysql', 'oracle', 'pgsql', 'sqlite' ), $formats );
     }
 
     public function testSupportedDiffFormats4()
@@ -160,7 +164,7 @@ class ezcDatabaseSchemaHandlerManagerTest extends ezcTestCase
         ezcDbSchemaHandlerManager::addDiffReader( 'test1', 'TestSchemaDiffReaderImplementation' );
         ezcDbSchemaHandlerManager::addDiffWriter( 'test1', 'TestSchemaDiffWriterImplementation' );
         $formats = ezcDbSchemaHandlerManager::getSupportedDiffFormats();
-        self::assertEquals( array( 'array', 'xml', 'test1', 'mysql', 'pgsql', 'sqlite' ), $formats );
+        self::assertEquals( array( 'array', 'xml', 'test1', 'mysql', 'oracle', 'pgsql', 'sqlite' ), $formats );
     }
 
     public function testWrongReaderClass1()

@@ -6,7 +6,7 @@
 - Fixed issue #9541: Tutorial introduction incorrect.
 - Fixed issue #9489: Check whether the PersistentObject and
   PersistentObjectDatabaseSchemaTiein tutorials are interlinked.
-
+- Added support for Oracle.
 
 1.1beta1 - Monday 20 November 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

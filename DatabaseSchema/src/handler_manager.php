@@ -30,7 +30,7 @@ class ezcDbSchemaHandlerManager
     static public $readHandlers = array(
         'array' => 'ezcDbSchemaPhpArrayReader',
         'mysql' => 'ezcDbSchemaMysqlReader',
-//        'oracle' => 'ezcDbSchemaOracleReader',
+        'oracle' => 'ezcDbSchemaOracleReader',
         'pgsql' => 'ezcDbSchemaPgsqlReader',
         'sqlite' => 'ezcDbSchemaSqliteReader',
         'xml' => 'ezcDbSchemaXmlReader',
@@ -47,7 +47,7 @@ class ezcDbSchemaHandlerManager
     static public $writeHandlers = array(
         'array' => 'ezcDbSchemaPhpArrayWriter',
         'mysql' => 'ezcDbSchemaMysqlWriter',
-//        'oracle' => 'ezcDbSchemaOracleWriter',
+        'oracle' => 'ezcDbSchemaOracleWriter',
         'pgsql' => 'ezcDbSchemaPgsqlWriter',
         'sqlite' => 'ezcDbSchemaSqliteWriter',
         'xml' => 'ezcDbSchemaXmlWriter',
@@ -78,7 +78,7 @@ class ezcDbSchemaHandlerManager
     static public $diffWriteHandlers = array(
         'array' => 'ezcDbSchemaPhpArrayWriter',
         'mysql' => 'ezcDbSchemaMysqlWriter',
-//        'oracle' => 'ezcDbSchemaOracleWriter',
+        'oracle' => 'ezcDbSchemaOracleWriter',
         'pgsql' => 'ezcDbSchemaPgsqlWriter',
         'sqlite' => 'ezcDbSchemaSqliteWriter',
         'xml' => 'ezcDbSchemaXmlWriter',

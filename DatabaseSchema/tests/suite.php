@@ -21,6 +21,8 @@ require_once 'pgsql_test.php';
 require_once 'pgsql_diff_test.php';
 require_once 'sqlite_test.php';
 require_once 'sqlite_diff_test.php';
+require_once 'oracle_test.php';
+require_once 'oracle_diff_test.php';
 require_once 'validator_test.php';
 require_once 'comparator_test.php';
 require_once 'persistent_test.php';
@@ -64,6 +66,10 @@ class ezcDatabaseSchemaSuite extends PHPUnit_Framework_TestSuite
                     $this->addTest( ezcDatabaseSchemaSqliteTest::suite() );
                     $this->addTest( ezcDatabaseSchemaSqliteDiffTest::suite() );
                 break;
+                case 'oracle':
+                    $this->addTest( ezcDatabaseSchemaOracleTest::suite() );
+                    $this->addTest( ezcDatabaseSchemaOracleDiffTest::suite() );
+                break;                
             }
         }
         catch ( ezcDbHandlerNotFoundException $e )
