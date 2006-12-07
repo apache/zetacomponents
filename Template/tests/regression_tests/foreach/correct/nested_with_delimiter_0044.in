@@ -1,0 +1,31 @@
+{* file: nested_with_delimiter_0044.in *}
+{var $foo = array( 0, 1, 3 ), $foo2 = array( '', 'foo' ), $bar = 0, $bar2 = 0, $num = 0, $num2 = 0, $i = 0, $j = 0}
+\{0044
+{foreach 1..1 as $blackhole}
+    {$num = 0}{$i = 0}
+    {while $num<3}
+    {$bar = $num}
+    {$num++}
+        {if $bar}
+            {$i}:[if]$bar is true[/if]
+        {else}
+            {$i}:[if]$bar is false[/if]
+        {/if}
+        {$j = 0}
+        {if $foo2[1]}
+            {if $bar2}
+                {$i}:{$j}:[if]$bar2 is true[/if]
+            {else}
+                {$i}:{$j}:[if]$bar2 is false[/if]
+            {/if}
+            {delimiter}
+                {$i}:{$j}:====delim====
+            {/delimiter}
+            {delimiter modulo 2}
+                {$i}:{$j}:____delim____
+            {/delimiter}
+        {/if}
+    {++$i}
+    {/while}
+{/foreach}
+\}
