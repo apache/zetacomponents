@@ -40,7 +40,7 @@ $modifiers = alt( $modify );
 $main = alt( perm( "[{\$bar = 101}{\$bar2 = 201}{",
                    $modifiers,
                    "}",
-                   "{debug_dump( \$bar )},{debug_dump( \$bar2 )}]\n"
+                   "{str_number( \$bar, 5, ',', '' )},{str_number( \$bar2, 5, ',', '' )}]\n"
                    )
              );
 
@@ -86,7 +86,7 @@ do
     {
         $phpCode .= ( "\$bar = 101; \$bar2 = 201;\n" .
                       $modifiers->generate() . ";\n" .
-                      "echo '$num:[', var_export( \$bar, true ), ',', var_export( \$bar2, true ), \"]\\n\";\n" );
+                      "echo '$num:[', number_format( \$bar, 5, ',', '' ), ',', number_format( \$bar2, 5, ',', '' ), \"]\\n\";\n" );
     }
     ++$i;
 } while( $list->increase() );
