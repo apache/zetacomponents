@@ -86,9 +86,18 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     {
         if ( $this->dom === null )
         {
+            // Create encoding based dom document
+            if ( $this->options->encoding !== null )
+            {
+                $this->dom = new DOMDocument( '1.0', $this->options->encoding );
+            }
+            else
+            {
+                $this->dom = new DOMDocument( '1.0' );
+            }
+
             if ( $this->options->templateDocument !== false )
             {
-                $this->dom = new DOMDocument();
 // @TODO: Add                $this->dom->format
                 $this->dom->load( $this->options->templateDocument );
 
@@ -97,7 +106,6 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             }
             else
             {
-                $this->dom = new DOMDocument();
                 $svg = $this->dom->createElementNS( 'http://www.w3.org/2000/svg', 'svg' );
                 $this->dom->appendChild( $svg );
 
@@ -468,6 +476,15 @@ class ezcGraphSvgDriver extends ezcGraphDriver
      */
     protected function getTextWidth( $string, $size )
     {
+        switch ( strtolower( $this->options->encoding ) )
+        {
+            case '':
+            case 'utf-8':
+            case 'utf-16':
+                $string = utf8_decode( $string );
+            break;
+        }
+
         if ( is_numeric( $string ) )
         {
             return $size * strlen( $string ) * $this->options->assumedNumericCharacterWidth;
@@ -475,6 +492,31 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         else
         {
             return $size * strlen( $string ) * $this->options->assumedTextCharacterWidth;
+        }
+    }
+
+    /**
+     * Encodes non-utf-8 strings
+     *
+     * Transforms non-utf-8 strings to their hex entities, because ext/DOM 
+     * fails here with conversion errors.
+     * 
+     * @param string $string 
+     * @return string
+     */
+    protected function encode( $string )
+    {
+        $string = htmlspecialchars( $string );
+
+        switch ( strtolower( $this->options->encoding ) )
+        {
+            case '':
+            case 'utf-8':
+            case 'utf-16':
+                return $string;
+            default:
+                // Manual escaping of ANSII characters, because ext/DOM fails here
+                return preg_replace( '/[\\x80-\\xFF]/e', 'sprintf( \'&#x%02x;\', ord( \'\\0\') )', $string );
         }
     }
 
@@ -657,7 +699,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 // Optionally draw text shadow
                 if ( $text['font']->textShadow === true )
                 {
-                    $textNode = $this->dom->createElement( 'text', htmlspecialchars( $string ) );
+                    $textNode = $this->dom->createElement( 'text', $this->encode( $string ) );
                     $textNode->setAttribute( 'id', $text['id'] . '_shadow' );
                     $textNode->setAttribute( 'x', $position->x + $this->options->graphOffset->x + $text['font']->textShadowOffset );
                     $textNode->setAttribute( 'text-length', $this->getTextWidth( $string, $size ) . 'px' );
@@ -678,7 +720,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 }
                 
                 // Finally draw text
-                $textNode = $this->dom->createElement( 'text', htmlspecialchars( $string ) );
+                $textNode = $this->dom->createElement( 'text', $this->encode( $string ) );
                 $textNode->setAttribute( 'id', $text['id'] . '_text' );
                 $textNode->setAttribute( 'x', $position->x + $this->options->graphOffset->x );
                 $textNode->setAttribute( 'text-length', $this->getTextWidth( $string, $size ) . 'px' );

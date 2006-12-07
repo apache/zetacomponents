@@ -10,6 +10,8 @@
 /**
  * Class containing the basic options for charts
  *
+ * @property string $encoding
+ *           Encoding of the SVG XML document
  * @property float $assumedNumericCharacterWidth
  *           Assumed percentual average width of chars in numeric strings with 
  *           the used font.
@@ -61,6 +63,7 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
      */
     public function __construct( array $options = array() )
     {
+        $this->properties['encoding'] = null;
         $this->properties['assumedNumericCharacterWidth'] = .62;
         $this->properties['assumedTextCharacterWidth'] = .53;
         $this->properties['strokeLineJoin'] = 'round';
@@ -227,6 +230,9 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
                 break;
             case 'idPrefix':
                 $this->properties['idPrefix'] = (string) $propertyValue;
+                break;
+            case 'encoding':
+                $this->properties['encoding'] = (string) $propertyValue;
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );

@@ -1530,5 +1530,23 @@ class ezcGraphSvgDriverTest extends ezcTestCase
             'Setting property value did not work for property idPrefix in class ezcGraphSvgDriverOptions'
         );
     }
+
+    public function testSvgDriverOptionsPropertyEncoding()
+    {
+        $options = new ezcGraphSvgDriverOptions();
+
+        $this->assertSame(
+            null,
+            $options->encoding,
+            'Wrong default value for property idPrefix in class ezcGraphSvgDriverOptions'
+        );
+
+        $options->encoding = 'ISO-8859-15';
+        $this->assertSame(
+            'ISO-8859-15',
+            $options->encoding,
+            'Setting property value did not work for property idPrefix in class ezcGraphSvgDriverOptions'
+        );
+    }
 }
 ?>

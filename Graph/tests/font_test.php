@@ -15,8 +15,10 @@
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphFontTest extends ezcTestCase
+class ezcGraphFontTest extends ezcImageTestCase
 {
+    protected $tempDir;
+
     protected $basePath;
 
 	public static function suite()
@@ -26,7 +28,45 @@ class ezcGraphFontTest extends ezcTestCase
 
     protected function setUp()
     {
+        static $i = 0;
+        $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
         $this->basePath = dirname( __FILE__ ) . '/data/';
+    }
+
+    protected function tearDown()
+    {
+        unset( $this->driver );
+        if ( !$this->hasFailed() )
+        {
+            $this->removeTempDir();
+        }
+    }
+
+    /**
+     * Compares a generated image with a stored file
+     * 
+     * @param string $generated Filename of generated image
+     * @param string $compare Filename of stored image
+     * @return void
+     */
+    protected function compare( $generated, $compare )
+    {
+        $this->assertTrue(
+            file_exists( $generated ),
+            'No image file has been created.'
+        );
+
+        $this->assertTrue(
+            file_exists( $compare ),
+            'Comparision image does not exist.'
+        );
+
+        if ( md5_file( $generated ) !== md5_file( $compare ) )
+        {
+            // Adding a diff makes no sense here, because created XML uses
+            // only two lines
+            $this->fail( 'Rendered image is not correct.');
+        }
     }
 
     public function testSetGeneralFont()
@@ -631,6 +671,220 @@ class ezcGraphFontTest extends ezcTestCase
         }
 
         $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
+    }
+
+    public function testUTF8SpecialCharsSVG()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $driver = new ezcGraphSvgDriver();
+        $driver->options->width = 200;
+        $driver->options->height = 100;
+
+        $driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 10, 10 ),
+                new ezcGraphCoordinate( 160, 10 ),
+                new ezcGraphCoordinate( 160, 80 ),
+                new ezcGraphCoordinate( 10, 80 ),
+            ),
+            ezcGraphColor::fromHex( '#eeeeec' ),
+            true
+        );
+        $driver->drawTextBox(
+            'öäüÖÄÜß',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT
+        );
+
+        $driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testISO_8859_15SpecialCharsSVG()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $driver = new ezcGraphSvgDriver();
+        $driver->options->width = 200;
+        $driver->options->height = 100;
+        $driver->options->encoding = 'ISO-8859-15';
+
+        $driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 10, 10 ),
+                new ezcGraphCoordinate( 160, 10 ),
+                new ezcGraphCoordinate( 160, 80 ),
+                new ezcGraphCoordinate( 10, 80 ),
+            ),
+            ezcGraphColor::fromHex( '#eeeeec' ),
+            true
+        );
+        $driver->drawTextBox(
+            mb_convert_encoding( 'öäüÖÄÜß', 'ISO-8859-15', 'UTF-8' ),
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT
+        );
+
+        $driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testUTF8SpecialCharsGD()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $driver = new ezcGraphGdDriver();
+        $driver->options->font->path = $this->basePath . 'font.ttf';
+        $driver->options->width = 200;
+        $driver->options->height = 100;
+
+        $driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 10, 10 ),
+                new ezcGraphCoordinate( 160, 10 ),
+                new ezcGraphCoordinate( 160, 80 ),
+                new ezcGraphCoordinate( 10, 80 ),
+            ),
+            ezcGraphColor::fromHex( '#eeeeec' ),
+            true
+        );
+        $return = $driver->drawTextBox(
+            'öäüÖÄÜß',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT
+        );
+
+        $driver->render( $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
+    public function testISO_8859_15SpecialCharsGD()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        $driver = new ezcGraphGdDriver();
+        $driver->options->font->path = $this->basePath . 'font.ttf';
+        $driver->options->width = 200;
+        $driver->options->height = 100;
+
+        $driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 10, 10 ),
+                new ezcGraphCoordinate( 160, 10 ),
+                new ezcGraphCoordinate( 160, 80 ),
+                new ezcGraphCoordinate( 10, 80 ),
+            ),
+            ezcGraphColor::fromHex( '#eeeeec' ),
+            true
+        );
+        $return = $driver->drawTextBox(
+            mb_convert_encoding( 'öäüÖÄÜß', 'ISO-8859-15', 'UTF-8' ),
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT
+        );
+
+        $driver->render( $filename );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
+        );
+    }
+
+    public function testUTF8SpecialCharsFlash()
+    {
+        $this->fail( 'No support for UTF-8 chars in SWFTextField. SWFText is not usable by driver for other reasons.' );
+        $filename = $this->tempDir . __FUNCTION__ . '.swf';
+
+        $driver = new ezcGraphFlashDriver();
+        $driver->options->font->path = $this->basePath . 'fdb_font.fdb';
+        $driver->options->width = 200;
+        $driver->options->height = 100;
+
+        $driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 10, 10 ),
+                new ezcGraphCoordinate( 160, 10 ),
+                new ezcGraphCoordinate( 160, 80 ),
+                new ezcGraphCoordinate( 10, 80 ),
+            ),
+            ezcGraphColor::fromHex( '#eeeeec' ),
+            true
+        );
+        $driver->drawTextBox(
+            'öäüÖÄÜß',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT
+        );
+
+        $driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
+        );
+    }
+
+    public function testISO_8859_15SpecialCharsFlash()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.swf';
+
+        $driver = new ezcGraphFlashDriver();
+        $driver->options->font->path = $this->basePath . 'fdb_font.fdb';
+        $driver->options->width = 200;
+        $driver->options->height = 100;
+
+        $driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 10, 10 ),
+                new ezcGraphCoordinate( 160, 10 ),
+                new ezcGraphCoordinate( 160, 80 ),
+                new ezcGraphCoordinate( 10, 80 ),
+            ),
+            ezcGraphColor::fromHex( '#eeeeec' ),
+            true
+        );
+        $driver->drawTextBox(
+            mb_convert_encoding( 'öäüÖÄÜß', 'ISO-8859-15', 'UTF-8' ),
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT
+        );
+
+        $driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
+        );
     }
 }
 ?>
