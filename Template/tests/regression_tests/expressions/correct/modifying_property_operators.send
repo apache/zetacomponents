@@ -1,0 +1,26 @@
+<?php
+if ( !class_exists( 'ezcTemplateTestModObjOpMySubClass', false ) )
+{
+  class ezcTemplateTestModObjOpMySubClass
+  {
+    public $prop2 = 501;
+  }
+}
+if ( !class_exists( 'ezcTemplateTestModObjOpMyClass', false ) )
+{
+  class ezcTemplateTestModObjOpMyClass
+  {
+    public $prop1 = 401;
+    public $subprop;
+    public function __construct()
+    {
+      $this->subprop = new ezcTemplateTestModObjOpMySubClass();
+    }
+  }
+}
+$obj = new ezcTemplateTestModObjOpMyClass();
+$v = new ezcTemplateVariableCollection();
+$v->obj = $obj;
+return $v;
+
+?>
