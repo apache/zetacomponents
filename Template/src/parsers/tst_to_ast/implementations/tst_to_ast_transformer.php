@@ -428,16 +428,27 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         if ( $type->quoteType == ezcTemplateLiteralTstNode::SINGLE_QUOTE )
         {
 
+            // Replace: \\ with \.
             $text = str_replace( "\\\\", "\\", $type->value );
+            
+            // Replace: \' with '.
             $text = str_replace( "\\'", "'", $text );
 
-            $text = addcslashes( $text, "\\" ); 
+            // Add slashes for every slash and dollar.
+            $text = addcslashes( $text, "\\\$" ); 
 
             //$text = $this->addSlashes( $text, "'" ); // add slashes except for things with a quote: '.
         }
         elseif( $type->quoteType == ezcTemplateLiteralTstNode::DOUBLE_QUOTE )
         {
             $text = str_replace( '\\"', '"', $type->value );
+
+            $text = str_replace( "\\\\", "\\", $text );
+            $text = addcslashes( $text, "\\\$" ); 
+
+            $text = str_replace( "\\\\n", "\\n", $text );
+            $text = str_replace( "\\\\t", "\\t", $text );
+            $text = str_replace( "\\\\r", "\\r", $text );
         }
         else
         {

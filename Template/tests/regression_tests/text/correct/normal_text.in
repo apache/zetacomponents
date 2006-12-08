@@ -12,4 +12,4 @@ Hello $world$
 \\\\\{$e = "NOT SET!"}
 
 $a, $c
-{"$a, $b, $c, $d, $e "}
+{$a}, {$b}, {$c}, {$d}, {$e}

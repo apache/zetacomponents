@@ -275,21 +275,20 @@ strings are:
 +-------------+-------------------+
 | \\t         | <tab>             |
 +-------------+-------------------+
-| \\$         | $                 |
+| $           | $                 |
 +-------------+-------------------+
 | \\r         | <carriage return> |
 +-------------+-------------------+
 
 
-The next example inserts newlines and uses variables in the string::
+The next example inserts newlines in the string::
 
-  {var $w = "world"}
-  {"Hello $w\nHello earth"}
+  {"Hello\nHello"}
 
 The output of the template above is::
 
-  Hello world
-  Hello earth
+  Hello
+  Hello
 
 Some other examples of using single and double quoted strings::
 

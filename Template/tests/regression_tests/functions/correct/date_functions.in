@@ -2,5 +2,5 @@
 1. {date_format_timestamp( "Y-m-d", 1147362767 )}
 2. {date_format_timestamp( "Y-m-d H:m:i", 1147362767 )}
 {var $cur = date_current_timestamp()}
-3. {if ( $cur >= $timestamp && $cur <= $timestamp + 3 )}correct
-{/if}
+3. {if $cur >= $timestamp} correct {/if}
+   {if $timestamp <= date_current_timestamp()} correct {/if}

@@ -7,7 +7,7 @@
         {delimiter modulo 4}
             inner
         {/delimiter}
-        {"$i : $k"}
+        {$i} : {$k}
     {/foreach}
 {/foreach}
 

@@ -1,60 +1,17 @@
 TODO
 ====
 
+- Check_variables.
+
+- "hello $this bla" 
+
 Tests
 -----
-
-* We don't know what we test.
-  -> Test plan.  Search internet. 
-
-
-
-
-Expression:
-
-Incorrect:
-
-	Properties:
-
-	Array: 
-		
-		- creating: 
-			array()
-			array( 1)     -> testIfile.txt
-			array( 1)
-			array( 12 )
-			array( , )
-			array( , )
-
-
-
-Correct: 
-
-	Properties:
-
-	Array: 
-		
-:		- creating: 
-			array()
-			array( 1)
-			array( 1, 2)
-			array( 1, 2 )
-			array( , )
-			array( , )
-
-	
-
-
-	
-
 
 
 
 Caching
 -------
-
-- Fix: {dynamic} {return $x} {/dynamic}
-- Test: {dynamic}{include "myTemplate"} {/dynamic}
 
 
 Rename variable names to prevent interference
