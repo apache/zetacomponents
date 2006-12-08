@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-class ezcGraphContext
+class ezcGraphContext extends ezcBaseStruct
 {
     /**
      * Name of dataset
@@ -40,26 +40,6 @@ class ezcGraphContext
     {
         $this->dataset = $dataset;
         $this->datapoint = $datapoint;
-    }
-
-    /**
-     * Throws a BasePropertyNotFound exception.
-     *
-     * @ignore
-     */
-    public function __set( $name, $value )
-    {
-        throw new ezcBasePropertyNotFoundException( $name );
-    }
-
-    /**
-     * Throws a BasePropertyNotFound exception.
-     *
-     * @ignore
-     */
-    public function __get( $name )
-    {
-        throw new ezcBasePropertyNotFoundException( $name );
     }
 
     /**

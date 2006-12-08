@@ -12,7 +12,7 @@
  *
  * @package Graph
  */
-class ezcGraphCoordinate
+class ezcGraphCoordinate extends ezcBaseStruct
 {
     /**
      * x coordinate
@@ -39,26 +39,6 @@ class ezcGraphCoordinate
     {
         $this->x = $x;
         $this->y = $y;
-    }
-
-    /**
-     * Throws a BasePropertyNotFound exception.
-     *
-     * @ignore
-     */
-    public function __set( $name, $value )
-    {
-        throw new ezcBasePropertyNotFoundException( $name );
-    }
-
-    /**
-     * Throws a BasePropertyNotFound exception.
-     *
-     * @ignore
-     */
-    public function __get( $name )
-    {
-        throw new ezcBasePropertyNotFoundException( $name );
     }
 
     /**
