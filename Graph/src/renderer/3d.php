@@ -446,9 +446,9 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
 
             $darkenedColor = $circleSector['color']->darken( $this->options->dataBorder );
 
-            $zBuffer[
-                (int) ( $circleSector['center']->y + sin( deg2rad( $circleSector['start'] + ( $circleSector['end'] - $circleSector['start'] ) / 2 ) ) * $circleSector['height'] / 2 )
-            ][] = array(
+            $center = (int) ( $circleSector['center']->y + sin( deg2rad( $circleSector['start'] + ( $circleSector['end'] - $circleSector['start'] ) / 2 ) ) * $circleSector['height'] / 2 + $this->options->pieChartHeight / 2 + 1 );
+
+            $zBuffer[$center][] = array(
                 'method' => 'drawCircularArc',
                 'paramenters' => array(
                     $circleSector['center'],

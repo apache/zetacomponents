@@ -644,6 +644,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10 ) );
 
         $chart->renderer = new ezcGraphRenderer3d();
+        $chart->renderer->options->dataBorder = false;
         $chart->render( 500, 300, $filename );
 
         $this->compare(
