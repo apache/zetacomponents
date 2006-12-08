@@ -4,6 +4,7 @@
 - Fixed bug #9219: Added sql HAVING condition. Patch by Christian Michel.
 - Fixed bug #9567: query->bindValue() sets value in query->boundParameters
 - Fixed bug #9466: Oracle limit does not return $this.
+- Fixed ezcQueryExpressionOracle, corrected processing subString() in Oracle.
 
 
 1.2beta2 - Monday 20 November 2006

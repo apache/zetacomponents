@@ -47,5 +47,29 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
         $cols = $this->getIdentifiers( $cols );
         return join( ' || ' , $cols );
     }
+
+    /**
+     * Returns part of a string.
+     *
+     * Note: Not SQL92, but common functionality.
+     *
+     * @param string $value the target $value the string or the string column.
+     * @param int $from extract from this characeter.
+     * @param int $len extract this amount of characters.
+     * @return string sql that extracts part of a string.
+     */
+    public function subString( $value, $from, $len = null )
+    {
+        $value = $this->getIdentifier( $value );
+        if ( $len === null )
+        {
+            return "substr( {$value}, {$from} )";
+        }
+        else
+        {
+            $len = $this->getIdentifier( $len );
+            return "substr( {$value}, {$from}, {$len} )";
+        }
+    }
 }
 ?>
