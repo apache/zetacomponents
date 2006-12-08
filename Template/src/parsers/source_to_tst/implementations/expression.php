@@ -588,6 +588,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             {
                 if( !( $lhs instanceof ezcTemplateVariableTstNode ||
                     $lhs instanceof ezcTemplateArrayAppendOperatorTstNode ||
+                    $lhs instanceof ezcTemplateArrayFetchOperatorTstNode ||
                     $lhs instanceof ezcTemplatePropertyFetchOperatorTstNode ||
                     $lhs instanceof ezcTemplateModifyingOperatorTstNode ) )
                 {
