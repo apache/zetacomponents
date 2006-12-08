@@ -179,7 +179,7 @@ The innerJoin(), rightJoin() and leftJoin() method can be used in three forms:
 
 1. The first form takes two string arguments (table name and join condition) 
    and returns an ezcQuery object. Each invocation joins one table. You can
-   invoke the \*Join() methods multiple times.
+   invoke the \*Join() methods several times.
    
 .. include:: tutorial_example_07a.php
    :literal:
