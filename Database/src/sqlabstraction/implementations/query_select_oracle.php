@@ -97,13 +97,14 @@ class ezcQuerySelectOracle extends ezcQuerySelect
      *
      * @param $limit integer expression
      * @param $offset integer expression
-     * @return string logical expression
+     * @return ezcQuerySelect
      */
     public function limit( $limit, $offset = 0 )
     {
         $this->hasLimit = true;
         $this->limit = $limit;
         $this->offset = $offset;
+        return $this;
     }
 
 

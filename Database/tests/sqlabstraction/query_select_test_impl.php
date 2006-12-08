@@ -153,6 +153,24 @@ class ezcQuerySelectTestImpl extends ezcTestCase
         $this->assertEquals( 1, $rows );
     }
 
+    // bug #9466
+    public function testBuildFromWhereGroupOrderLimit2()
+    {
+        $stmt = $this->q->select( 'company', 'SUM(employees)' )->from( 'query_test' )
+                ->where( $this->e->eq( 1, 1 ) )
+                ->groupBy( 'company' )
+                ->orderBy( 'company', ezcQuerySelect::DESC )
+                ->limit( 1 )
+                ->prepare();
+        $stmt->execute();
+        $rows = 0;
+        foreach ( $stmt as $row )
+        {
+            $rows++;
+        }
+        $this->assertEquals( 1, $rows );
+    }
+
     public function testBuildFromWhereOrderLimit()
     {
         $this->q->select( '*' )->from( 'query_test' )
@@ -220,9 +238,9 @@ class ezcQuerySelectTestImpl extends ezcTestCase
 
     public function testBuildFromWhereGroupHavingBind()
     {
-       $this->q->select( '*' )->from( 'query_test' )
+       $this->q->select( 'company', 'SUM(employees)' )->from( 'query_test' )
             ->where( $this->e->eq( 1, 1 ) )
-            ->groupBy( 'id' )
+            ->groupBy( 'company' )
             ->having( $this->e->eq( 'company', $this->q->bindValue( 'eZ systems' ) ) );
 
         $stmt = $this->q->prepare();
@@ -233,7 +251,7 @@ class ezcQuerySelectTestImpl extends ezcTestCase
             $rows++;
         }
 
-        $this->assertEquals( 2, $rows );
+        $this->assertEquals( 1, $rows );
     }
 
     public function testBuildFromWhereOrderLimitOffset()

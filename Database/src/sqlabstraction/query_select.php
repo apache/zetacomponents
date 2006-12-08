@@ -673,7 +673,7 @@ class ezcQuerySelect extends ezcQuery
      *
      * @param $limit integer expression
      * @param $offset integer expression
-     * @return string logical expression
+     * @return ezcQuerySelect
      */
     public function limit( $limit, $offset = 0 )
     {
