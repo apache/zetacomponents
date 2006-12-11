@@ -547,7 +547,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         // XXX: Check also for the used variables.
         foreach( $symbols as $symbol )
         {
-            $newStatement[] = $this->_fwriteVarExportVariable( $symbol, false, false );
+            $newStatement[] = $this->_fwriteVarExportVariable( "_ezc_".$symbol, false, false );
         }
         
         $newStatement[] = $this->_comment(" ---> start {dynamic}");
@@ -611,7 +611,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
 
     }
-    
+   /* 
     public function visitDynamicBlockAstNode( ezcTemplateDynamicBlockAstNode $node )
     {
         // Write the variables introduced in the static part to the cache.
@@ -682,6 +682,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
         $this->isInDynamicBlock = false;
     }
+    */
 
 }
 

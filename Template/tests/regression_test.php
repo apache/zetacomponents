@@ -526,6 +526,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
 
         try
         {
+
             $this->assertEquals( $expectedText, $out, "In:  <$expected>\nOut: <$directory>" );
         }
         catch ( PHPUnit_Framework_ExpectationFailedException $e )
@@ -534,6 +535,12 @@ class ezcTemplateRegressionTest extends ezcTestCase
             $help .= "from the expected output: <$expected>.";
             if ( $this->interactiveMode )
             {
+                // Touch the file. It will be run first, next time.
+                if ( isset( $_ENV['EZC_TEST_TEMPLATE_SORT'] ) && $_ENV['EZC_TEST_TEMPLATE_SORT'] == 'mtime' )
+                {
+                    touch( $directory );
+                }
+
                 echo "\n", $help, "\n";
                 self::interact( $template, $directory, file_get_contents( $expected ), $out, $expected, $help );
                 return;
