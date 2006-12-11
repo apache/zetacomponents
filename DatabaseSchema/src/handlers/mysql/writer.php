@@ -157,7 +157,7 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
     protected function convertFromGenericType( ezcDbSchemaField $fieldDefinition )
     {
         $typeAddition = '';
-        if ( in_array( $fieldDefinition->type, array( 'numeric', 'text' ) ) )
+        if ( in_array( $fieldDefinition->type, array( 'decimal', 'text' ) ) )
         {
             if ( $fieldDefinition->length !== false && $fieldDefinition->length !== 0 )
             {

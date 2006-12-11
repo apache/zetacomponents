@@ -249,6 +249,21 @@ class ezcDatabaseSchemaOracleTest extends ezcTestCase
         self::assertEquals( $sql, $text );
     }
 
+    public function testDatatypes()
+    {
+        $fileNameOrig = realpath( $this->testFilesDir . 'DataTypesTest.xml' );
+        $schema = ezcDbSchema::createFromFile( 'xml', $fileNameOrig );
+        $schema->writeToDb( $this->db );
+    
+        $schema = ezcDbSchema::createFromDb( $this->db );
+        $schema->writeToFile( 'xml', $this->getTempDir() . '/' . 'DataTypesTest.dump.xml' );
+    
+        $file_orig = file_get_contents( $fileNameOrig );
+        $file_dump = file_get_contents(  $this->getTempDir() . '/' . 'DataTypesTest.dump.xml' );
+        self::assertEquals( $file_orig, $file_dump );
+    }
+
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaOracleTest' );

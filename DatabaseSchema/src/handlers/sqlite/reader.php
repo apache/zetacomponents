@@ -27,7 +27,11 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
         'text' => 'text',
         'blob' => 'blob',
         'clob' => 'clob',
-        'boolean' => 'boolean'
+        'boolean' => 'boolean',
+        'numeric' => 'decimal',
+        'date' => 'date',
+        'datetime' => 'timestamp',
+        'timestamp' => 'timestamp'
     );
             
             

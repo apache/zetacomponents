@@ -23,8 +23,9 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
     private $typeMap = array(
         'integer' => 'number',
         'boolean' => 'char',
-        'float' => 'number',
+        'float' => 'float',
         'decimal' => 'number',
+        'date' => 'date',
         'timestamp' => 'timestamp',
         'text' => 'varchar2',
         'blob' => 'blob',
@@ -275,17 +276,24 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
     protected function convertFromGenericType( ezcDbSchemaField &$fieldDefinition )
     {
         $typeAddition = '';
-        if ( in_array( $fieldDefinition->type, array( 'text' ) ) )
+        if ( in_array( $fieldDefinition->type, array( 'decimal', 'text' ) ) )
         {
             if ( $fieldDefinition->length !== false && $fieldDefinition->length !== 0 )
             {
                 $typeAddition = "({$fieldDefinition->length})";
+            } 
+            else
+            {
+                $typeAddition = "(4000)"; //default length for varchar2 in Oracle
             }
         }
         if ( $fieldDefinition->type == 'boolean' )
         {
             $typeAddition = "(1)";
-            $fieldDefinition->default = ( $fieldDefinition->default ) ? '0': '1';
+            if ( $fieldDefinition->default )
+            {
+                $fieldDefinition->default = ( $fieldDefinition->default == 'true' ) ? '1': '0';
+            }
         }
 
         $type = $this->typeMap[$fieldDefinition->type];
@@ -464,9 +472,6 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
             case 'float':
             case 'decimal':
                 return (float) $value;
-
-            case 'timestamp':
-                return (int) $value;
 
             default:
                 return "'$value'";

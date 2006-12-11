@@ -233,7 +233,7 @@ class ezcDatabaseSchemaSqliteTest extends ezcTestCase
     }
 
     // bug #8900
-    public function testMysqlTwoTablesPrimaryKey()
+    public function testTwoTablesPrimaryKey()
     {
         $fileNameOrig = realpath( $this->testFilesDir . 'bug8900.xml' );
         $schema = ezcDbSchema::createFromFile( 'xml', $fileNameOrig );
@@ -244,6 +244,20 @@ class ezcDatabaseSchemaSqliteTest extends ezcTestCase
         }
         $sql = file_get_contents( $this->testFilesDir . 'bug8900_sqlite.sql' );
         self::assertEquals( $sql, $text );
+    }
+
+    public function testDatatypes()
+    {
+        $fileNameOrig = realpath( $this->testFilesDir . 'DataTypesTest.xml' );
+        $schema = ezcDbSchema::createFromFile( 'xml', $fileNameOrig );
+        $schema->writeToDb( $this->db );
+        
+        $schema = ezcDbSchema::createFromDb( $this->db );
+        $schema->writeToFile( 'xml', $this->getTempDir() . '/' . 'DataTypesTest.dump.xml' );
+        
+        $file_orig = file_get_contents( $fileNameOrig );
+        $file_dump = file_get_contents(  $this->getTempDir() . '/' . 'DataTypesTest.dump.xml' );
+        self::assertEquals( $file_orig, $file_dump );
     }
 
     public static function suite()

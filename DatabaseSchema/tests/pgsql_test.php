@@ -115,7 +115,7 @@ class ezcDatabaseSchemaPgSqlTest extends ezcTestCase
             array(
                 'badword_id' => new ezcDbSchemaField( 'integer', null, true, null, true ),
                 'word' => new ezcDbSchemaField( 'text', 255, true, 'Hello' ),
-				'substitution' => new ezcDbSchemaField( 'text', 255, true, 'world' ),
+                'substitution' => new ezcDbSchemaField( 'text', 255, true, 'world' ),
             ),
             array(
                 'primary' => new ezcDbSchemaIndex(
@@ -233,6 +233,20 @@ class ezcDatabaseSchemaPgSqlTest extends ezcTestCase
         }
         $sql = file_get_contents( $this->testFilesDir . 'bug8900_pgsql.sql' );
         self::assertEquals( $sql, $text );
+    }
+
+    public function testDatatypes()
+    {
+        $fileNameOrig = realpath( $this->testFilesDir . 'DataTypesTest.xml' );
+        $schema = ezcDbSchema::createFromFile( 'xml', $fileNameOrig );
+        $schema->writeToDb( $this->db );
+        
+        $schema = ezcDbSchema::createFromDb( $this->db );
+        $schema->writeToFile( 'xml', $this->getTempDir() . '/' . 'DataTypesTest.dump.xml' );
+        
+        $file_orig = file_get_contents( $fileNameOrig );
+        $file_dump = file_get_contents(  $this->getTempDir() . '/' . 'DataTypesTest.dump.xml' );
+        self::assertEquals( $file_orig, $file_dump );
     }
 
     public static function suite()

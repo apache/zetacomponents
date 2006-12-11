@@ -144,7 +144,7 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
             }
 
             $fieldNotNull = false;
-            if ( strlen( $row['null'] ) == 0 || $row['null'][0] != 'Y' )
+            if ( strlen( $row['null'] ) == 0 || $row['null'][0] != 'Y' || $fieldType == 'timestamp' )
             {
                 $fieldNotNull = true;
             }
@@ -157,7 +157,7 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
                 {
                     $fieldDefault = ($row['default']=='0')?'false':'true';
                 }
-                else
+                else if ( $fieldType != 'timestamp' ) 
                 {
                     $fieldDefault = $row['default'];
                 }

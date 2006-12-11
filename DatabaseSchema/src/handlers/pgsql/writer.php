@@ -23,12 +23,12 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
     private $typeMap = array(
         'integer' => 'bigint',
         'boolean' => 'boolean',
-        'float' => 'double',
+        'float' => 'double precision',
         'decimal' => 'numeric',
         'date' => 'date',
         'timestamp' => 'timestamp',
         'text' => 'varchar',
-        'blob' => 'longblob',
+        'blob' => 'bytea',
         'clob' => 'text'
     );
 
@@ -194,7 +194,7 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
     protected function convertFromGenericType( ezcDbSchemaField $fieldDefinition )
     {
         $typeAddition = '';
-        if ( in_array( $fieldDefinition->type, array( 'numeric', 'text' ) ) )
+        if ( in_array( $fieldDefinition->type, array( 'decimal', 'text' ) ) )
         {
             if ( $fieldDefinition->length !== false && $fieldDefinition->length !== 0 )
             {
@@ -212,7 +212,8 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
     }
 
     /**
-     * Adds a "create table" query for the table $tableName with definition $tableDefinition to the internal list of queries.
+     * Adds a "create table" query for the table $tableName with 
+     * definition $tableDefinition to the internal list of queries.
      *
      * @param string           $tableName
      * @param ezcDbSchemaTable $tableDefinition

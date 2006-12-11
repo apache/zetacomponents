@@ -1,12 +1,13 @@
 1.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Added support for Oracle.
 - Fixed issue #8499: PersistentObjectDatabaseSchemaTiein rungenerator.php
   overwrite files without warning.
 - Fixed issue #9541: Tutorial introduction incorrect.
 - Fixed issue #9489: Check whether the PersistentObject and
   PersistentObjectDatabaseSchemaTiein tutorials are interlinked.
-- Added support for Oracle.
+- Fixed issue #9465: Data type mapping. Based on patch by: Friedel Hill.
 
 1.1beta1 - Monday 20 November 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

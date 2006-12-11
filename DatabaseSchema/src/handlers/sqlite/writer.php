@@ -25,8 +25,8 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         'boolean' => 'boolean',
         'float' => 'real',
         'decimal' => 'numeric',
-        'date' => 'integer',
-        'timestamp' => 'integer',
+        'date' => 'date',
+        'timestamp' => 'timestamp',
         'text' => 'text',
         'blob' => 'blob',
         'clob' => 'clob'
@@ -228,7 +228,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
      * @param string          $changeFieldNewType
      *
      */
-    private function changeField( $db, $tableName, $changeFieldName, $changeFieldNewName, $changeFieldNewDefinition )
+    private function changeField( ezcDbHandler $db, $tableName, $changeFieldName, $changeFieldNewName, $changeFieldNewDefinition )
     {
         $tmpTableName = $tableName.'_ezcbackup';
 
@@ -412,7 +412,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
     protected function convertFromGenericType( ezcDbSchemaField $fieldDefinition )
     {
         $typeAddition = '';
-        if ( in_array( $fieldDefinition->type, array( 'numeric', 'text' ) ) )
+        if ( in_array( $fieldDefinition->type, array( 'decimal', 'text' ) ) )
         {
             if ( $fieldDefinition->length !== false && $fieldDefinition->length !== 0 )
             {

@@ -27,9 +27,11 @@ class ezcDbSchemaOracleReader implements ezcDbSchemaDbReader
         'CHAR'      => 'text', // or 'boolean' for char(1)
         'VARCHAR'   => 'text',
         'VARCHAR2'  => 'text',
+        'DATE'      => 'date',        
         'BLOB'      => 'blob',
         'CLOB'      => 'clob',       
         'TIMESTAMP' => 'timestamp',
+        'TIMESTAMP(6)' => 'timestamp'
     );
             
             
@@ -127,7 +129,7 @@ class ezcDbSchemaOracleReader implements ezcDbSchemaDbReader
             $fieldLength = $row['length'];
             $fieldPrecision = null;
             $fieldType = self::convertToGenericType( $row['type'], &$fieldLength, $fieldPrecision );
-            if ( $fieldType == 'clob' )
+            if ( in_array( $fieldType, array( 'clob', 'blob', 'date', 'float', 'timestamp' ) ) )
             {
                     $fieldLength = false;
             }
@@ -136,6 +138,7 @@ class ezcDbSchemaOracleReader implements ezcDbSchemaDbReader
                 if ( $row['precision']!= '' )
                 {
                     $fieldType = 'decimal';
+                    $fieldLength = $row['precision'];
                 } 
                 else if ( $fieldLength == 22 ) //22 is the default length for NUMBER in Oracle, so don't include length
                 {
@@ -152,7 +155,7 @@ class ezcDbSchemaOracleReader implements ezcDbSchemaDbReader
                 $row['default_val'] = rtrim( $row['default_val'] );
                 if ( $fieldType == 'boolean' )
                 {
-                    ( $row['default_val'] == '1' )? $fieldDefault = 'true': $fieldDefault = 'false';
+                    ( $row['default_val'] == '1' ) ? $fieldDefault = 'true': $fieldDefault = 'false';
                 } 
                 else if ( $fieldType == 'text' ) 
                 {

@@ -50,7 +50,7 @@ class ezcDbSchemaPgsqlReader implements ezcDbSchemaDbReader
         'tinyblob' => 'blob',
         'blob' => 'blob',
         'mediumblob' => 'blob',
-        'longblob' => 'blob',
+        'bytea' => 'blob',
         'tinytext' => 'clob',
         'text' => 'clob',
         'mediumtext' => 'clob',
