@@ -37,7 +37,7 @@ class ezcDatabaseSchemaPgSqlDiffTest extends ezcTestCase
         }
 
         $this->testFilesDir = dirname( __FILE__ ) . '/testfiles/';
-        $this->tempDir = $this->createTempDir( 'ezcDatabaseMySqlTest' );
+        $this->tempDir = $this->createTempDir( 'ezcDatabasePgSqlTest' );
         $this->resetDb();
     }
 
@@ -156,7 +156,7 @@ class ezcDatabaseSchemaPgSqlDiffTest extends ezcTestCase
     }
 
     // bug #8900
-    public function testMysqlTwoTablesPrimaryKey()
+    public function testTwoTablesPrimaryKey()
     {
         $fileNameWithout = realpath( $this->testFilesDir . 'bug8900-without-index.xml' );
         $schemaWithout = ezcDbSchema::createFromFile( 'xml', $fileNameWithout );

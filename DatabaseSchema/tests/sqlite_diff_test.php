@@ -168,7 +168,7 @@ class ezcDatabaseSchemaSqliteDiffTest extends ezcTestCase
     }
 
     // bug #8900
-    public function testMysqlTwoTablesPrimaryKey()
+    public function testTwoTablesPrimaryKey()
     {
         $fileNameWithout = realpath( $this->testFilesDir . 'bug8900-without-index.xml' );
         $schemaWithout = ezcDbSchema::createFromFile( 'xml', $fileNameWithout );
