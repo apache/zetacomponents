@@ -542,8 +542,8 @@ class ezcPersistentSession
      * Create a relation between $object and $relatedObject.
      * This method is used to create a relation between the given source $object
      * and the desired $relatedObject. The related object is not stored in the 
-     * database automatically, but only the desired properties are set. An 
-     * exception are {@ezcPersistentManyToManyRelation}s, where the
+     * database automatically, only the desired properties are set. An 
+     * exception is {@ezcPersistentManyToManyRelation}s, where the
      * relation record is stored automatically.
      * 
      * @param object $object        The object to create a relation from.
