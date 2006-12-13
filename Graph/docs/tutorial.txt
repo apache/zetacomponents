@@ -552,7 +552,7 @@ The array data set was used for all examples until now, because it is the
 simplest way to provide data for ezcGraph.
 
 Average polynomial dataset
------------------------
+--------------------------
 
 The average dataset uses an existing dataset with numeric keys and build a
 polynomial which interpolates the data points in the given data set using the
