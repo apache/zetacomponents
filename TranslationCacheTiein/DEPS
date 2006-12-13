@@ -1,2 +1,2 @@
-Translation: 1.0
-Cache: 1.0
+Translation: 1.1.2
+Cache: 1.1.4

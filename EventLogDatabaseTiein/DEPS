@@ -1,2 +1,2 @@
-EventLog: 1.0
-Database: 1.0
+EventLog: 1.0.3
+Database: 1.2
