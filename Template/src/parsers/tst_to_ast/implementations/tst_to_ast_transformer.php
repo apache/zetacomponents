@@ -366,11 +366,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitLiteralBlockTstNode( ezcTemplateLiteralBlockTstNode $type )
     {
-        $in = array( "\\", "\$" );
-        $out = array( "\\\\", "\\\$" );
-        $text = str_replace( $in, $out, $type->text );
-
-        return $this->assignToOutput( new ezcTemplateLiteralAstNode( $text ) );
+        return $this->assignToOutput( new ezcTemplateLiteralAstNode( $type->text ) );
     }
 
     public function visitEmptyBlockTstNode( ezcTemplateEmptyBlockTstNode $type )
@@ -407,52 +403,29 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return  new ezcTemplateGenericStatementAstNode( $expression );
     }
 
-    /*
-    private function addSlashes( $text, $char )
-    {
-        $newText = "";
-        $prevPos = $pos = 0;
-
-        while ( ( $pos = strpos( $text, $char, $prevPos ) ) !== false )
-        {
-            $newText .= addslashes( substr( $text, $prevPos, $pos - $prevPos ) );
-            $newText .= $text[$pos];
-
-            $pos++;
-            $prevPos = $pos;
-        }
-
-        $newText .= addslashes( substr( $text, $prevPos ) );
-        return $newText;
-    }
-     */
- 
     public function visitLiteralTstNode( ezcTemplateLiteralTstNode $type )
     {
+        // TODO: The handling of escape characters should be done in the
+        //       parser and not here. Like the text/literal blocks.
         if ( $type->quoteType == ezcTemplateLiteralTstNode::SINGLE_QUOTE )
         {
-
-            // Replace: \\ with \.
-            $text = str_replace( "\\\\", "\\", $type->value );
-            
-            // Replace: \' with '.
-            $text = str_replace( "\\'", "'", $text );
-
-            // Add slashes for every slash and dollar.
-            $text = addcslashes( $text, "\\\$" ); 
-
-            //$text = $this->addSlashes( $text, "'" ); // add slashes except for things with a quote: '.
+            // \\ => \
+            // \' => '
+            $text = preg_replace_callback( '#(?:\\\\([\'\\\\]))#',
+                                           array( __CLASS__, "singleQuotedEscape" ),
+                                           $type->value );
         }
         elseif( $type->quoteType == ezcTemplateLiteralTstNode::DOUBLE_QUOTE )
         {
-            $text = str_replace( '\\"', '"', $type->value );
+            // \n => 0x0a
+            // \r => 0x0c
+            // \t => 0x09
+            // \\ => \
+            // \" => "
 
-            $text = str_replace( "\\\\", "\\", $text );
-            $text = addcslashes( $text, "\\\$" ); 
-
-            $text = str_replace( "\\\\n", "\\n", $text );
-            $text = str_replace( "\\\\t", "\\t", $text );
-            $text = str_replace( "\\\\r", "\\r", $text );
+            $text = preg_replace_callback( '#(?:\\\\([nrt"\\\\]))#',
+                                           array( __CLASS__, "doubleQuotedEscape" ),
+                                           $type->value );
         }
         else
         {
@@ -461,6 +434,42 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         }
 
         return new ezcTemplateLiteralAstNode( $text );
+    }
+
+    public static function doubleQuotedEscape( $matches )
+    {
+        if ( isset( $matches[1] ) &&
+             $matches[1] != "" )
+        {
+            switch( $matches[1] )
+            {
+                case "n":
+                    return "\n";
+                case "r":
+                    return "\r";
+                case "t":
+                    return "\t";
+                case "\"":
+                    return "\"";
+                case "\\":
+                    return "\\";
+            }
+        }
+    }
+
+    public static function singleQuotedEscape( $matches )
+    {
+        if ( isset( $matches[1] ) &&
+             $matches[1] != "" )
+        {
+            switch( $matches[1] )
+            {
+                case "'":
+                    return "'";
+                case "\\":
+                    return "\\";
+            }
+        }
     }
 
     public function visitLiteralArrayTstNode( ezcTemplateLiteralArrayTstNode $type )
@@ -516,38 +525,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitTextBlockTstNode( ezcTemplateTextBlockTstNode $type )
     {
-        // Add an extra slash if an odd amount of slashes is found.
-        $text = $type->text;
-        $newText = "";
-
-        $pos = 0;
-        $oldPos = $pos;
-
-        while ( ( $pos = strpos( $text, "\\", $pos ) ) !== false )
-        {
-                $odd = 0;
-                while ( $pos < strlen( $text ) && $text[$pos] == "\\" )
-                {
-                    $odd = 1 - $odd; 
-                    $pos++;
-                }
-
-                $newText .= substr( $text, $oldPos, ( $pos - $oldPos ) );
-
-                if ( $odd )
-                {
-                    $newText .= "\\";
-                }
-
-                $oldPos = $pos;
-        }
-
-        $newText .= substr( $text, $oldPos );
-
-        // Also replace the $ for the \$
-        $newText = str_replace( "\$", "\\\$", $newText );
-
-        return $this->assignToOutput( new ezcTemplateLiteralAstNode( $newText ) );
+        return $this->assignToOutput( new ezcTemplateLiteralAstNode( $type->text ) );
     }
 
     public function visitFunctionCallTstNode( ezcTemplateFunctionCallTstNode $type )
