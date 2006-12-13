@@ -3,6 +3,8 @@
 
 - Fixed issue #9658: Checking if $_ENV['PATH'] is set before using it in
   ezcBaseFeatures.
+- Fixed issue #9780: ezcBaseFeatures throws notice about non-existing array
+  key "PATH".
 
 
 1.2beta2 - Monday 20 November 2006

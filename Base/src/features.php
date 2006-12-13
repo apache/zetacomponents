@@ -239,7 +239,18 @@ class ezcBaseFeatures
      */
     private static function getPath( $fileName )
     {
-        $envPath = $_ENV['PATH'];
+        if ( array_key_exists( 'PATH', $_ENV ) )
+        {
+            $envPath = $_ENV['PATH'];
+            if ( strlen( trim( $envPath ) ) == 0 )
+            {
+                $envPath = false;
+            }
+        }
+        else
+        {
+            $envPath = false;
+        }
         switch ( self::os() )
         {
             case 'Unix':
@@ -248,7 +259,7 @@ class ezcBaseFeatures
             case 'MacOS':
             case 'Darwin':
             case 'Linux':
-                if ( isset( $envPath ) && strlen( trim( $envPath ) ) > 0 )
+                if ( $envPath )
                 {
                     $dirs = explode( ':', $envPath );
                     foreach ( $dirs as $dir )
@@ -265,7 +276,7 @@ class ezcBaseFeatures
                 }
                 break;
             case 'Windows':
-                if ( isset( $envPath ) && strlen( trim( $envPath ) ) > 0 )
+                if ( $envPath )
                 {
                     $dirs = explode( ';', $envPath );
                     foreach ( $dirs as $dir )
