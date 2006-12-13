@@ -506,7 +506,7 @@ time spans. For other data you should use the date time axis.
 You can use timestamps or date time strings as data set keys. The strings will
 be converted using PHPs strtotime() function. 
 
-.. image:: img/tutorial_example_15.svg.png
+.. image:: img/tutorial_example_16.svg.png
    :alt:   Date axis example
 
 Axis label renderer
