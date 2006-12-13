@@ -14,14 +14,14 @@ $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
     'Konqueror' => 474,
 ) );
 
-$graph->render( 400, 200, 'tutorial_example_27.svg' );
+$graph->render( 400, 200, 'tutorial_example_28.svg' );
 
 // Get element references from renderer
 $elements = $graph->renderer->getElementReferences();
 
 // Add links to charts
 $dom = new DOMDocument();
-$dom->load( 'tutorial_example_27.svg' );
+$dom->load( 'tutorial_example_28.svg' );
 $xpath = new DomXPath( $dom );
 
 // Link chart elements
@@ -50,6 +50,6 @@ foreach( $elements['legend'] as $objectName => $ids )
     }
 }
 
-$dom->save( 'tutorial_example_27.svg' );
+$dom->save( 'tutorial_example_28.svg' );
 
 ?>
