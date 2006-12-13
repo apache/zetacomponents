@@ -126,17 +126,9 @@ class ezcQuerySelectOracle extends ezcQuerySelect
         $query = parent::getQuery();
         if ( $this->hasLimit )
         {
+            $min = $this->offset + 1;
             $max = $this->offset + $this->limit;
-
-            if ($this->offset > 0) 
-            {
-                $min = $this->offset + 1;
-                $query = "SELECT * FROM (SELECT a.*, ROWNUM rn FROM ( {$query} ) a WHERE rownum <= {$max} ) WHERE rn >= {$min}";
-            }
-            else 
-            {
-                $query = "SELECT a.* FROM ( {$query} ) a WHERE ROWNUM <= {$max}";
-            }
+            $query = "SELECT * FROM( SELECT a.*, ROWNUM rn FROM( {$query} ) a WHERE rownum <= {$max} ) WHERE rn >= {$min}";
         }
         return $query;
     }

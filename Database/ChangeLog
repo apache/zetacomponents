@@ -5,7 +5,6 @@
 - Fixed bug #9567: query->bindValue() sets value in query->boundParameters
 - Fixed bug #9466: Oracle limit does not return $this.
 - Fixed ezcQueryExpressionOracle, corrected processing subString() in Oracle.
-- Implemented enhancement #8473: Oracle Limit/Offset optimization.
 
 
 1.2beta2 - Monday 20 November 2006
