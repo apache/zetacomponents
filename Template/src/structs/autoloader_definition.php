@@ -8,6 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @access private
  */
+
 /**
  * Contains the definition of an autoloader.
  *
@@ -17,13 +18,13 @@
  *
  * The definition will be turned into a class which implements the
  * ezcTemplateTemplateAutoloader class.
+ *
  * @package Template
  * @version //autogen//
  * @access private
  */
 class ezcTemplateAutoloaderDefinition extends ezcBaseStruct
 {
-
     /**
      * The path to the PHP file which contains the autoloader class.
      */
