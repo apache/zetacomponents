@@ -2,57 +2,44 @@ Array
 =====
 
 int _`array_count` ( array *$a* )
-```````````````````````````````````
-
+`````````````````````````````````
 Returns the count of elements contained in an array::
 
     {array_count( array( 1, 2, 3, 4 ) )}
 
 returns the value 4.
 
-bool _`array_contains` ( array *$a*, mixed *$v* )
-``````````````````````````````````````````````````
 
+bool _`array_is_empty` ( array *$a* )
+`````````````````````````````````````
+Returns true if an array contains an element::
+
+    {array_is_empty( array( 1, 2, 3 ) )}
+
+will evaluate to false, while::
+
+    {array_is_empty( array() )}
+
+gives true.
+
+
+bool _`array_contains` ( array *$a*, mixed *$v* )
+`````````````````````````````````````````````````
 Returns true if the value *$v* exists in the array *$a*::
 
     {array_contains( array( 1, 2, 3 ), 2 )}
 
 will evaluate to true, while::
-    
+
     {array_contains( array( 1, 2, 3 ), 4 )}
 
 gives false.
 
-bool _`array_is_empty` ( array *$a* )
-``````````````````````````````````````
+See also array_index_of_ (), array_find_ (), array_index_exists_ ().
 
-Returns true if an array contains an element.
-    
-    {array_is_empty( array( 1, 2, 3 ) )}
-
-will evaluate to false, while::
-    
-    {array_is_empty( array() )}
-
-gives true.
-
-mixed _`array_index_of` ( array *$a*, mixed *$v* )
-``````````````````````````````````````````````````
-
-Returns the index of a specific element value (*$v*) in the array or boolean false, when the
-element is not contained in the array::
-
-    {array_index_of( array( "a" => "b", "c" => "d" ), "b" )}
-
-will return "a", while::
-    
-    {array_index_of( array( "a" => "b", "c" => "d" ), "c" )}
-
-will return false, since "c" is not an element contained in the array.
 
 bool _`array_index_exists` ( array *$a*, mixed *$index* )
-``````````````````````````````````````````````````````````
-
+`````````````````````````````````````````````````````````
 Returns whether an *$index* exists in an array::
 
     {array_index_exists( array( 1, 2, 3 ), 1 )}
@@ -63,9 +50,27 @@ will return true, while::
 
 returns false.
 
+See also array_index_of_ (), array_contains_ (), array_find_ ().
+
+
+mixed _`array_index_of` ( array *$a*, mixed *$v* )
+``````````````````````````````````````````````````
+Returns the index of a specific element value (*$v*) in the array or boolean false, when the
+element is not contained in the array::
+
+    {array_index_of( array( "a" => "b", "c" => "d" ), "b" )}
+
+will return "a", while::
+
+    {array_index_of( array( "a" => "b", "c" => "d" ), "c" )}
+
+will return false, since "c" is not an element contained in the array.
+
+See also array_find_ (), array_contains_ (), array_index_exists_ ().
+
+
 array _`array_left` ( array *$a*, int *$len* )
 ``````````````````````````````````````````````
-
 Returns the left part of an array with the specified length (*$len*)::
 
     {array_left( array( 1, 2, 3, 4 ), 2 )}
@@ -74,9 +79,11 @@ returns the following array: ::
 
     array( 1, 2 )
 
+See also array_right_ (), array_mid_ ().
+
+
 array _`array_right` ( array *$a*, int *$len* )
 ```````````````````````````````````````````````
-
 Returns the right part of an array with the specified length (*$len*)::
 
     {array_right( array( 1, 2, 3, 4 ), 2 )}
@@ -85,9 +92,11 @@ returns the following array: ::
 
     array( 3, 4 )
 
+See also array_left_ (), array_mid_ ().
+
+
 array _`array_mid` ( array *$a*, int *$index*, int *$len* )
 ```````````````````````````````````````````````````````````
-
 Returns a part from the middle of an array, that starts at a specific *$index*
 with the specified length (*$len*)::
 
@@ -97,12 +106,13 @@ returns the following array: ::
 
     array( 2, 3 )
 
-array _`array_insert` ( array *$a*, int *$index*, mixed *$v1* [, mixed *$v2* ...] )
-`````````````````````````````````````````````````````````````````````````````````````
+See also array_left_ (), array_right_ ().
 
+
+array _`array_insert` ( array *$a*, int *$index*, mixed *$v1* [, mixed *$v2* ...] )
+```````````````````````````````````````````````````````````````````````````````````
 Returns an array, where the additional elements *$v1*, *$v2*, ... have been
-inserted into the source array (*$a*) have been inserted starting from
-*$index*::
+inserted into the source array (*$a*) starting from *$index*::
 
     {array_insert( array( 1, 2, 3 ), 1, "a", "b" )}
 
@@ -110,9 +120,11 @@ returns the following array::
 
     array( 1, "a", "b", 2, 3 )
 
+See also array_prepend_ (), array_append_ (), array_pad_ ().
+
+
 array _`array_append` ( array *$a*, mixed *$v1* [, mixed *$v2* ...] )
 `````````````````````````````````````````````````````````````````````
-
 Returns an array with the additional values *$v1*, *$v2*, ... appended to the
 original array (*$a*)::
 
@@ -122,131 +134,26 @@ returns the following array::
 
     array( 1, 2, 3, 4, 5 )
 
+See also array_prepend_ (), array_insert_ (), array_pad_ ().
+
+
 array _`array_prepend` ( array *$a*, mixed *$v1* [, mixed *$v2* ...] )
 ``````````````````````````````````````````````````````````````````````
-
 Returns an array with the additional values *$v1*, *$v2*, ... prepended to the
 original array (*$a*)::
 
-    {array_append( array( 1, 2, 3 ), 4, 5 )}
+    {array_prepend( array( 1, 2, 3 ), 4, 5 )}
 
 returns the following array::
 
     array( 4, 5, 1, 2, 3 )
 
-array _`array_merge` ( array *$a1*, array *$a2* [, array *$a3* ..] )
-````````````````````````````````````````````````````````````````````
+See also array_append_ (), array_insert_ (), array_pad_ ().
 
-Returns 2 or more arrays merged into 1 single array::
-
-    {array_merge( array( "a" => "a", "b" => "b", "c" => "c" ), array( "a" => 1, "c" => 2) )}
-
-returns the following array::
-
-    array( "a" => 1, "b" => "b", "c" => 2 )
-
-array _`array_remove` ( array *$a*, mixed *$index* [, int *$len*] )
-```````````````````````````````````````````````````````````````````
-
-Returns an array which results from the given array, where the portion starting
-at *$index*, with the length *$len* has been removed::
-
-    {array_remove( array( 1, 2, 3, 4, 5 ), 1, 2 )}
-
-returns the following array::
-
-    array( 1, 4, 5 )
-
-array _`array_remove_first` ( array *$a* [, int *$len*] )
-`````````````````````````````````````````````````````````
-
-Returns an array with the first part with the specified length *$len* of the 
-original array (*$a*) removed. If *$len* is omitted, 1 is assumed and the first
-element is removed::
-
-    {array_remove_first( array( 1, 2, 3, 4 ), 2 )}
-
-returns the following array::
-
-    array( 3, 4 )
-
-array _`array_remove_last` ( array *$a* [, int *$len*] )
-````````````````````````````````````````````````````````
-
-Returns an array with the last part with the specified length *$len* of the 
-original array (*$a*) removed. If *$len* is omitted, 1 is assumed and the first
-element is removed::
-
-    {array_remove_first( array( 1, 2, 3, 4 ), 2 )}
-
-returns the following array::
-
-    array( 1, 2 )
-
-array _`array_replace` ( array *$a*, mixed *index*, int *$len* = 1, mixed *$v1* [, mixed*$v2* ...] )
-````````````````````````````````````````````````````````````````````````````````````````````````````
-
-Returns an array, where a given part in the original array has been
-replaced. The part to replace starts with *$index* and is *$len* elements
-long. The defined portion is replaced with the given values *$v1*, *$v2*,... ::
-
-    {array_replace( array( 1, 2, 3, 4 ), 1, 2, "a", "b", "c" )}
-
-returns the following array::
-
-    array( 1, "a", "b", "c", 4 )
-
-array _`array_swap` ( array *$a*, mixed *$index1*, mixed *$index2* )
-````````````````````````````````````````````````````````````````````
-
-Returns an array where the 2 indices *$index1* and *$index2* are swapped::
-
-    {array_swap( array( 1, 2, 3, 4 ), 1, 3 )}
-
-returns the following array::
-
-    array( 1, 4, 3, 2 )
-
-array _`array_reverse` ( array *$a* )
-`````````````````````````````````````
-
-Returns an array where the elements are in reverse order as for the original
-array::
-
-    {array_reverse( array( 1, 2, 3 ) )}
-
-returns the following array::
-
-    array( 3, 2, 1 )
-
-array _`array_diff` ( array *$a1*, array *$a2* [, array *$a3* ...] )
-````````````````````````````````````````````````````````````````````
-
-Returns an array containing all the values of *$a1* that are not present in
-any of the other arguments (*$a2*, *$a3*,...)::
-    
-    {array_diff( array( 1, 2, 3, 4 ), array( 2, 4 ), array( 5 ) )}
-
-returns the following array::
-
-    array( 1, 3 )
-
-array _`array_intersect` ( array *$a1*, array *$a2* [, array *$a3* ...] )
-`````````````````````````````````````````````````````````````````````````
-
-Returns an array containing all the values of *$a1*  that are present in all
-the other arguments (*$a2*, *$a3*,...)::
-
-    {array_intersect( array( 1, 2, 3, 4 ), array( 2 ), array( 4 ) )}
-
-returns the following array::
-
-    array( 2, 4 )
 
 array _`array_pad` ( [array *$a* = array(),] int *$len*, mixed *$fill* )
 ````````````````````````````````````````````````````````````````````````
-
-Fills an array *$a* with the given fill value *$fill* to a specific length. If
+Fills an array *$a* with the given fill value *$fill* up to the length *len*. If
 the submitted array already contains values, those will not be overwritten::
 
     {array_pad( array( 1, 2, 3 ), 5, "a" )}
@@ -255,42 +162,11 @@ returns the following array::
 
     array( 1, 2, 3, "a", "a" )
 
-array _`array_unique` ( array *$a* )
-````````````````````````````````````
+See also array_append_ (), array_insert_ (), array_prepend_ (), array_fill_range_ ().
 
-Returns the submitted array without any duplicate values::
-
-    {array_unique( array( 1, 2, 2, 3, 2, 4, 2, 2 ) )}
-
-returns the following array::
-
-    array( 1, 2, 3, 4 )
-
-mixed _`array_find` ( array *$a*, mixed *$v* )
-``````````````````````````````````````````````
-
-Returns the key of the submitted value *$v* in the submitted array *$a*. If the
-value is not found, this function returns boolean false::
-
-    {array_find( array( 1, 2, 3, 4 ), 3 )}
-
-returns the key 2.
-
-array _`array_find_replace` ( array *$a*, mixed *$v*, mixed *$vNew* )
-`````````````````````````````````````````````````````````````````````
-
-Returns an array where a specific value *$v1* from the original array *$a* has
-been replaced with the new value *$vNew*::
-
-    {array_find_replace( array( 1, 2, 3 ), 2, "a" )}
-
-returns the following array::
-
-    array( 1, "a", 3 )
 
 array _`array_fill_range` ( int *$low*, int *$high* [, int *$step*] )
 `````````````````````````````````````````````````````````````````````
-
 Returns an array of elements *$from* low to *$high*, inclusive. If *$low* >
 *$high*, the sequence will be from *$high* to *$low*. If a *$step* value is given,
 it will be used as the increment between elements in the sequence. *$step* should
@@ -302,19 +178,192 @@ returns the following array::
 
     array( 0, 2, 4, 6, 8, 10 )
 
+See also array_pad_ ().
+
+
+array _`array_repeat` ( array *$a*, int *$len* )
+````````````````````````````````````````````````
+Returns a multidimensional array, which has *$len* elements, which all contain
+the array *$a*::
+
+    {array_repeat( array( 1, 2 ), 2 )}
+
+returns an array::
+
+    array( array( 1, 2 ), array( 1, 2 ) )
+
+
+array _`array_remove` ( array *$a*, mixed *$index* [, int *$len*] )
+```````````````````````````````````````````````````````````````````
+Returns an array which results from the given array, where the portion starting
+at *$index* and with the length *$len* has been removed::
+
+    {array_remove( array( 1, 2, 3, 4, 5 ), 1, 2 )}
+
+returns the following array::
+
+    array( 1, 4, 5 )
+
+See also array_remove_first_ (), array_remove_last_ ().
+
+
+array _`array_remove_first` ( array *$a* [, int *$len*] )
+`````````````````````````````````````````````````````````
+Returns an array with the first part with the specified length *$len* of the 
+original array (*$a*) removed. If *$len* is omitted, 1 is assumed and the first
+element is removed::
+
+    {array_remove_first( array( 1, 2, 3, 4 ), 2 )}
+
+returns the following array::
+
+    array( 3, 4 )
+
+See also array_remove_last_ (), array_remove_ ().
+
+
+array _`array_remove_last` ( array *$a* [, int *$len*] )
+````````````````````````````````````````````````````````
+Returns an array with the last part with the specified length *$len* of the 
+original array (*$a*) removed. If *$len* is omitted, 1 is assumed and the last
+element is removed::
+
+    {array_remove_last( array( 1, 2, 3, 4 ), 2 )}
+
+returns the following array::
+
+    array( 1, 2 )
+
+See also array_remove_first_ (), array_remove_ ().
+
+
+mixed _`array_find` ( array *$a*, mixed *$v* )
+``````````````````````````````````````````````
+Returns the key of the submitted value *$v* in the submitted array *$a*. If the
+value is not found, this function returns boolean false::
+
+    {array_find( array( 1, 2, 3, 4 ), 3 )}
+
+returns the key 2.
+
+See also array_index_of_ (), array_contains_ (), array_index_exists_ (), array_find_replace_ ().
+
+
+array _`array_find_replace` ( array *$a*, mixed *$v*, mixed *$vNew* )
+`````````````````````````````````````````````````````````````````````
+Returns an array where a specific value *$v1* from the original array *$a* has
+been replaced with the new value *$vNew*::
+
+    {array_find_replace( array( 1, 2, 3 ), 2, "a" )}
+
+returns the following array::
+
+    array( 1, "a", 3 )
+
+See also array_replace_ (), array_find_ ().
+
+
+array _`array_replace` ( array *$a*, mixed *index*, int *$len* = 1, mixed *$v1* [, mixed*$v2* ...] )
+````````````````````````````````````````````````````````````````````````````````````````````````````
+Returns an array, where a given part in the original array has been
+replaced. The part to replace starts with *$index* and is *$len* elements
+long. The defined portion is replaced with the given values *$v1*, *$v2*,... ::
+
+    {array_replace( array( 1, 2, 3, 4 ), 1, 2, "a", "b", "c" )}
+
+returns the following array::
+
+    array( 1, "a", "b", "c", 4 )
+
+See also array_find_replace_ ().
+
+
+array _`array_swap` ( array *$a*, mixed *$index1*, mixed *$index2* )
+````````````````````````````````````````````````````````````````````
+Returns an array where the 2 indices *$index1* and *$index2* are swapped::
+
+    {array_swap( array( 1, 2, 3, 4 ), 1, 3 )}
+
+returns the following array::
+
+    array( 1, 4, 3, 2 )
+
+
+array _`array_reverse` ( array *$a* )
+`````````````````````````````````````
+Returns an array where the elements are in reverse order as for the original
+array::
+
+    {array_reverse( array( 1, 2, 3 ) )}
+
+returns the following array::
+
+    array( 3, 2, 1 )
+
+
+array _`array_merge` ( array *$a1*, array *$a2* [, array *$a3* ..] )
+````````````````````````````````````````````````````````````````````
+Returns 2 or more arrays merged into 1 single array::
+
+    {array_merge( array( "a" => "a", "b" => "b", "c" => "c" ), array( "a" => 1, "c" => 2 ) )}
+
+returns the following array::
+
+    array( "a" => 1, "b" => "b", "c" => 2 )
+
+See also array_intersect_ (), array_diff_ ().
+
+
+array _`array_diff` ( array *$a1*, array *$a2* [, array *$a3* ...] )
+````````````````````````````````````````````````````````````````````
+Returns an array containing all the values of *$a1* that are not present in
+any of the other arguments (*$a2*, *$a3*,...)::
+    
+    {array_diff( array( 1, 2, 3, 4 ), array( 2, 4 ), array( 5 ) )}
+
+returns the following array::
+
+    array( 1, 3 )
+
+See also array_intersect_ (), array_merge_ ().
+
+
+array _`array_intersect` ( array *$a1*, array *$a2* [, array *$a3* ...] )
+`````````````````````````````````````````````````````````````````````````
+Returns an array containing all the values of *$a1*  that are present in all
+the other arguments (*$a2*, *$a3*,...)::
+
+    {array_intersect( array( 1, 2, 3, 4 ), array( 2 ), array( 4 ) )}
+
+returns the following array::
+
+    array( 2, 4 )
+
+See also array_merge_ (), array_diff_ ().
+
+
+array _`array_unique` ( array *$a* )
+````````````````````````````````````
+Returns the submitted array without any duplicate values::
+
+    {array_unique( array( 1, 2, 2, 3, 2, 4, 2, 2 ) )}
+
+returns the following array::
+
+    array( 1, 2, 3, 4 )
+
 
 array _`array_sum` ( array *$a* )
 `````````````````````````````````
-
 Returns the sum of the elements in the given array::
 
     {array_sum( array( 5, 5, 10, 20 ) )}
 
 returns 40.
 
+
 array _`array_extract_by_properties` ( array *$a*, array *$pList* )
 ```````````````````````````````````````````````````````````````````
-
 Returns an array of extracted properties from an array of objects. The
 properties named in the *$pList* array. Each property becomes a new value in
 the resulting array::
@@ -326,13 +375,13 @@ the resulting array::
 The first line of the code above imports an array with product objects. A
 product object has at least one property *price*. Meaning that::
 
-    {$productArray[0]->price} 
+    {$productArray[0]->price}
 
-returns the price of the first product in the array. The function 
+returns the price of the first product in the array. The function
 *array_extract_by_properties* goes through the whole array of products and
 stores the price in the array. The output can be something like::
 
-    array 
+    array
     (
         [0] => 200
         [1] => 199.24
@@ -342,7 +391,6 @@ stores the price in the array. The output can be something like::
 
 array _`hash_diff` ( array *$a1*, array *$a2* [, array *$a3* ...] )
 ```````````````````````````````````````````````````````````````````
-
 Returns an array containing all the values of *$a1*  that are not present in
 any of the other arguments (*$a2*, *$a3*,...). With this function (in contrast
 to array_diff_) the keys are considered, too::
@@ -353,24 +401,28 @@ returns the following array::
 
     array( "b" => "b" )
 
+See also hash_diff_key_ (), hash_intersect_ (), hash_intersect_key_ ().
+
+
 array _`hash_diff_key` ( array *$a1*, array *$a2* [, array *$a3* ...] )
 ```````````````````````````````````````````````````````````````````````
-
 Returns an array containing all the values of *$a1*  that are not present in
-any of the other arguments (*$a2*, *$a3*,...). This function (in contrast
+any of the other arguments (*$a2*, *$a3*,...). With this function (in contrast
 to array_diff_) the keys are used for comparison::
 
-    {hash_diff( array( "a" => "a", "b" => "b" ), array( "a" => "a", "c" => "b" ) )}
+    {hash_diff_key( array( "a" => "a", "b" => "b" ), array( "a" => "a", "c" => "b" ) )}
 
 returns the following array::
 
     array( "b" => "b" )
 
+See also hash_diff_ (), hash_intersect_ (), hash_intersect_key_ ().
+
+
 array _`hash_intersect` ( array *$a1*, array *$a2* [, array *$a3* ...] )
 ````````````````````````````````````````````````````````````````````````
-
 Returns an array containing all the values of *$a1*  that are present in all
-the other arguments (*$a2*, *$a3*,...). In contrast to array_intersect this
+the other arguments (*$a2*, *$a3*,...). In contrast to array_intersect_ this
 function performs additional key checks::
 
     {hash_intersect( array( "a" => "a", "b" => "b" ), array( "a" => "a", "b" => "c" ) )}
@@ -379,11 +431,13 @@ returns the following array::
 
     array( "a" => "a" )
 
+See also hash_intersect_key_ (), hash_diff_key_ (), hash_diff_ ().
+
+
 array _`hash_intersect_key` ( array *$a1*, array *$a2* [, array *$a3* ...] )
 ````````````````````````````````````````````````````````````````````````````
-
 Returns an array containing all the values of *$a1*  that are present in all
-the other arguments (*$a2*, *$a3*,...). In contrast to array_intersect this
+the other arguments (*$a2*, *$a3*,...). In contrast to array_intersect_ this
 function checks the keys instead of the values::
 
     {hash_intersect_key( array( "a" => "a", "b" => "b" ), array( "a" => "a", "b" => "c" ) )}
@@ -392,55 +446,49 @@ returns the following array::
 
     array( "a" => "a", "b" => "c" )
 
+See also hash_intersect_ (), hash_diff_ (), hash_diff_key_ ().
+
+
 array _`hash_keys` ( array *$a* )
 `````````````````````````````````
-
 Returns the keys of the provided array as an array::
-    
+
     {hash_keys( array( "a" => 1, "b" => 2 ) )}
 
 returns the following array::
 
     array( "a", "b" )
 
+See also hash_values_ ().
+
+
 array _`hash_values` ( array *$a* )
 ```````````````````````````````````
-
 Returns the values of the provided array as an array::
-    
+
     {hash_values( array( "a" => 1, "b" => 2 ) )}
 
 returns the following array::
 
     array( 1, 2 )
 
+See also hash_keys_ ().
+
+
 array _`hash_flip` ( array *$a* )
 `````````````````````````````````
-
 Returns an array, which has the values of the original array *$a* as the keys,
 which are assigned to the keys of the original array::
 
     {hash_flip( array( "a" => "apple", "b" => "banana", "c" => "banana" ) )}
 
 returns the following array::
-    
+
     array( "apple" => "a", "banana" => "c" )
 
-array _`array_repeat` ( array *$a*, int *$len* )
-```````````````````````````````````````````````````
-
-Returns a multidimensional array, which has *$len* elements, which all contain
-the array *$a*::
-
-    {array_repeat( array( 1, 2 ), 2 )}
-
-returns an array::
-
-    array( array( 1, 2 ), array( 1, 2 ) )
 
 array _`array_sort` ( array *$a* )
 ``````````````````````````````````
-
 Returns a sorted version of the array::
 
     {array_sort( array( 1, 3, 2, 5, 4 ) )}
@@ -449,9 +497,11 @@ returns the following array::
 
     array( 1, 2, 3, 4, 5 )
 
+See also hash_sort_ (), hash_sort_keys_ (), array_sort_reverse_ ().
+
+
 array _`array_sort_reverse` ( array *$a* )
 ``````````````````````````````````````````
-
 Returns a sorted version of the array, but in reverse order::
 
     {array_sort_reverse( array( 1, 3, 2, 5, 4 ) )}
@@ -460,10 +510,12 @@ returns the following array::
 
     array( 5, 4, 3, 2, 1 )
 
+See also hash_sort_ (), hash_sort_keys_ (), array_sort_ ().
+
+
 array _`hash_sort` ( array *$a* )
 `````````````````````````````````
-
-Returns a sorted version of the array, but maintains the key => value
+Returns a sorted version of the array, maintaining the key => value
 association::
 
     {hash_sort( array( "a" => "banana", "b" => "apple" ) )}
@@ -472,38 +524,50 @@ returns the following array::
 
     array( "b" => "apple", "a" => "banana" )
 
+See also array_sort_ (), hash_sort_keys_ (), hash_sort_reverse_ ().
+
+
 array _`hash_sort_reverse` ( array *$a* )
 `````````````````````````````````````````
+Returns a reverse sorted version of the array, maintaining the key => value
+association::
 
-Returns a reverse sorted version of the array::
-
-    {hash_sort( array( "a" => "banana", "b" => "apple" ) )}
-
-returns the following array::
-
-    array( "apple", "banana" )
-
-array _`hash_sort_keys` ( array *$a* )
-``````````````````````````````````````
-
-Returns a sorted version of the array, sorted by the keys of the array::
-
-    {hash_sort( array( "a" => "banana", "b" => "apple" ) )}
+    {hash_sort_reverse( array( "a" => "banana", "b" => "apple" ) )}
 
 returns the following array::
 
     array( "a" => "banana", "b" => "apple" )
 
+See also hash_sort_ (), hash_sort_keys_ (), array_sort_ ().
+
+
+array _`hash_sort_keys` ( array *$a* )
+``````````````````````````````````````
+Returns a sorted version of the array, sorted by the keys of the array,
+maintaining the key => value association::
+
+    {hash_sort_keys( array( "a" => "banana", "b" => "apple" ) )}
+
+returns the following array::
+
+    array( "a" => "banana", "b" => "apple" )
+
+See also hash_sort_ (), array_sort_ (), hash_sort_keys_reverse_ ().
+
+
 array _`hash_sort_keys_reverse` ( array *$a* )
 ``````````````````````````````````````````````
 Returns a sorted version of the array, sorted by the keys of the array in
-reverse order::
+reverse order, maintaining the key => value association::
 
-    {hash_sort( array( "a" => "banana", "b" => "apple" ) )}
+    {hash_sort_keys_reverse( array( "a" => "banana", "b" => "apple" ) )}
 
 returns the following array::
 
     array( "b" => "apple", "a" => "banana" )
+
+See also hash_sort_keys_ (), hash_sort_ (), array_sort_ ().
+
 
 
 ..

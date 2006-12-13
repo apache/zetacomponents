@@ -8,7 +8,7 @@ The syntax of the pattern is described here_.
 
 .. _here: http://www.php.net/manual/en/reference.pcre.pattern.syntax.php
 
-The next example returns true because the pattenr matches the subject::
+The next example returns true because the pattern matches the subject::
 
     {preg_has_match( "Bernard Black", "/^B.*/" )}
 
@@ -20,7 +20,7 @@ The syntax of the pattern is described here_.
 
 .. _here: http://www.php.net/manual/en/reference.pcre.pattern.syntax.php
 
-The next example returns true because the pattenr matches the subject::
+The next example returns true because the pattern matches the subject::
 
     {var $matches = preg_match( "Bernard Black", "/^B.*/" )}
     {debug_dump( $matches )}
@@ -38,7 +38,6 @@ string _`preg_replace` ( string *$subject*, string *$pattern*, string *$replace*
 Replaces the matching regular expression *$pattern* in the source *$subject* with the value *$replace*.
 The amount of replacements is limited to the optional given *$limit*. The replaced string is returned::
 
-
     {preg_replace( "Bernard Black", "/^B.*\s/", "Manny " )}
 
 Outputs::
@@ -54,9 +53,8 @@ Returns the quoted string of the *$str*. Every character that is a part of the r
 will be prepended with an addition slash. If the *$delim* string is given then those characters will
 also be escaped in the *$str*::
 
-    {preg_quote( "^Bernard/Black")}
-    {preg_quote( "^Bernard/Black", "/")}
-
+    {preg_quote( "^Bernard/Black" )}
+    {preg_quote( "^Bernard/Black", "/" )}
 
 Outputs::
 
@@ -70,7 +68,7 @@ Returns an array that contains the substrings of the split elements. The element
 the regular expression *$pattern* in the source *$subject*::
 
     {var $a = preg_split( "These|are|my|elements", "/\|/" )}
-    {debug_dump ($a)}
+    {debug_dump( $a )}
 
 Outputs::
 
@@ -81,14 +79,14 @@ Outputs::
         [2] => my
         [3] => elements
     )
-        
+
 
 array _`preg_grep` ( array *$subject*, string *$pattern* )
 ``````````````````````````````````````````````````````````
 Returns the array alements from the *subject* that matches the *$pattern*::
 
-    {var $a = preg_grep( array( "Manny", "Bernard", "Fram"), "/^B/")}
-    {debug_dump ($a)}
+    {var $a = preg_grep( array( "Manny", "Bernard", "Fram" ), "/^B/" )}
+    {debug_dump( $a )}
 
 Outputs::
 

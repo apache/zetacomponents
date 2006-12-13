@@ -1,8 +1,8 @@
 String manipulation
 ===================
 
-string _`str_replace` ( string *$before*, int *$index*, int *$length*, string *$replace*)
-`````````````````````````````````````````````````````````````````````````````````````````
+string _`str_replace` ( string *$before*, int *$index*, int *$length*, string *$replace* )
+``````````````````````````````````````````````````````````````````````````````````````````
 Replaces the part between *$index* and *$index* + *$length* from the string
 *$before* with *$replace*::
 
@@ -12,45 +12,69 @@ Outputs::
 
        Hello earth!
 
-See also: str_find_replace_.
+See also: str_find_replace_ ().
 
-string _`str_remove` ( string *$before*, int *$index*, int *$length*)
+
+string _`str_find_replace` ( string *$source*, string *$find*, string *$replace* [, int *$count*] )
+```````````````````````````````````````````````````````````````````````````````````````````````````
+Searches for the string *find* in the string *source*. The first occurence will
+be replaced with the string *replace*. If the last parameter *count* is given,
+the amount of replacements is limited to this number::
+
+     {str_find_replace( "Hello world!", "world", "earth" )}
+
+Outputs::
+
+       Hello earth!
+
+See also: str_replace_ ().
+
+
+string _`str_remove` ( string *$before*, int *$index*, int *$length* )
 ``````````````````````````````````````````````````````````````````````
 Removes the part between *index* and *index* + *length* from the string
 *before*::
 
-     {str_remove( "Hello world!", 6, 5)}
+     {str_remove( "Hello world!", 6, 5 )}
 
 Outputs::
 
        Hello!
 
-string _`str_chop` ( string *$before*, int *$number*)
-`````````````````````````````````````````````````````
+See also: str_chop_ (), str_chop_front_ ().
+
+
+string _`str_chop` ( string *$before*, int *$number* )
+``````````````````````````````````````````````````````
 Removes the *number* amount of characters from the end of the string::
 
-     {str_chop( "Hello world!", 7)}
+     {str_chop( "Hello world!", 7 )}
 
 Outputs::
 
        Hello
 
+See also: str_chop_front_ (), str_remove_ ().
+
+
 string _`str_chop_front` ( string *$before*, string *$number* )
 ```````````````````````````````````````````````````````````````
 Removes the *$number* amount of characters from the beginning of the string::
 
-     {str_chop_front( "Hello world!", 6)}
+     {str_chop_front( "Hello world!", 6 )}
 
 Outputs::
 
        world!
+
+See also: str_chop_ (), str_remove_ ().
 
 
 string _`str_append` ( string *$s1*, string *$s2* )
 ```````````````````````````````````````````````````
 Appends the string *$s2* to the string *$s1*::
 
-    {str_append( "Hello", " world!")}
+    {str_append( "Hello", " world!" )}
 
 Outputs::
 
@@ -58,14 +82,14 @@ Outputs::
 
 Note that this function is the same as using the dot operator.
 
-See also `str_prepend`_ ().
+See also str_prepend_ (), str_pad_right_ (), str_pad_left_ (), str_fill_ ().
 
 
 string _`str_prepend` ( string *$s1*, string *$s2* )
 ````````````````````````````````````````````````````
 Prepends the string *$s2* to the string *$s1*::
 
-    {str_prepend( "Hello", " world!")}
+    {str_prepend( "Hello", " world!" )}
 
 Outputs::
 
@@ -73,7 +97,48 @@ Outputs::
 
 Note that this function is the same as using the dot operator with switched arguments.
 
-See also `str_append`_ ().
+See also str_append_ (), str_pad_left_ (), str_pad_right_ (), str_fill_ ().
+
+
+string _`str_pad_left` ( string *$str*, int *$length*, string *$fill* )
+```````````````````````````````````````````````````````````````````````
+Pads the string *$str* to the length *$length* with the string *$fill*. 
+The padding will be prepended to the string *$str*::
+
+    {str_pad_left( " You got the BFG", 20, "-" )}
+
+Outputs::
+
+    ---- You got the BFG
+
+See also str_pad_right_ (), str_prepend_ (), str_append_ (), str_fill_ ().
+
+
+string _`str_pad_right` ( string *$str*, int *$length*, string *$fill* )
+````````````````````````````````````````````````````````````````````````
+Pads the string *$str* to the length *$length* with the string *$fill*.
+The padding will be appended to the string *$str*::
+
+    {str_pad_right( "You got the BFG ", 20, "-" )}
+
+Outputs::
+
+    You got the BFG ----
+
+See also str_pad_left_ (), str_append_ (), str_prepend_ (), str_fill_ ().
+
+
+string _`str_fill` ( string *$str*, int *$repeat* )
+```````````````````````````````````````````````````
+Repeats the string *$str* for *$repeat* times and returns it::
+
+    {str_fill( "-", 5 )}
+
+Outputs::
+    
+    -----
+
+See also str_pad_left_ (), str_pad_right_ (), str_prepend_ (), str_append_ ().
 
 
 int _`str_compare` ( string *$s1*, string *$s2* )
@@ -86,19 +151,19 @@ returns a negative value if *$s1* is smaller than *$s2* and returns a positive v
     {str_compare( "Bernard", "Fran" )   // > 0 }
     {str_compare( "Fran", "Bernard" )   // < 0 }
 
-See also `str_nat_compare`_ ().
+See also str_nat_compare_ ().
 
 
 int _`str_nat_compare` ( string *$sl*, string *$s2* )
-````````````````````````````````````````````````````````
+`````````````````````````````````````````````````````
 Compares string *$s1* with *$s2* with a 'natural order' algorithm. This function returns 0 if
 both strings are equal. A negative value is returned if *$s1* is smaller than *$s2* and a positive
 value is returned if *$s1* is greater than *$s2*.
 
-The difference between str_nat_compare() and str_compare_ () is how numbers are compared:: 
+The difference between str_nat_compare_() and str_compare_ () is how numbers are compared::
 
-    { str_compare( "img1.png", "img10.png" )  // > 0 }  
-    { str_nat_compare( "img1.png", "img10.png" ) // < 0 }
+    {str_compare( "img1.png", "img10.png" )  // > 0 }  
+    {str_nat_compare( "img1.png", "img10.png" ) // < 0 }
 
 The first function sorts pure alphabetically. The second functions recognizes the number 
 and therefore says that 'img10' comes after (has a higher number) than 'img1'.
@@ -106,103 +171,105 @@ and therefore says that 'img10' comes after (has a higher number) than 'img1'.
 See also str_compare_ ().
 
 
-bool _`str_contains` ( string *$source*, string *$find* )
-`````````````````````````````````````````````````````````
-Returns true if the substring *$find* is found in the source string *$source*, 
-otherwise this function returns false::
-
-    { str_contains( "Don't you dare use the word 'party' as a verb in this shop!", "party" ) }  
-
-Returns true.
-
-See also str_index_of_ (), str_last_index_ ().
-
-
 int _`str_len` ( string *$str* )
 ````````````````````````````````
 Returns the string length, the amount of characters of the string *$str*::
 
-    { str_len( "Bernard" )}
+    {str_len( "Bernard" )}
 
 Outputs::
-    
+
     7
 
+This method is the same as str_char_count_ ().
+See also str_word_count_ (), str_paragraph_count_ ().
 
-string _`str_left` ( string *$str*, int *$length* )
-```````````````````````````````````````````````````
-Returns the 'left' *$length* characters of the string *$str*::
 
-    {str_left( "Bernard Black" , 7)}
+int _`str_char_count` ( string *$str* )
+```````````````````````````````````````
+Returns the number of characters in the given string *$str*::
+
+    {str_char_count( "Hello" )}
 
 Outputs::
-    
-    Bernard
 
-See also str_right_ (), str_mid_ ().
+    5
+
+This method is the same as str_len_ ().
+See also str_word_count_ (), str_paragraph_count_ ().
+
+
+int _`str_word_count` ( string *$str* [, *$word_sep* ] )
+````````````````````````````````````````````````````````
+Returns the number of words in the given string *$str*. If no
+word separator *$word_sep* is given, the default word seperator
+is a whitespace::
+
+    {str_word_count( "Just a random sentence" )}
+
+Outputs::
+
+    4
+
+See also str_char_count_ (), str_paragraph_count_ ().
+
+
+int _`str_paragraph_count` ( string *$str* )
+````````````````````````````````````````````
+Returns the number of paragraphs in the given string *$str*. Each
+paragraph is supposed to be split a blank line::
+
+    {str_paragraph_count(
+        "The first paragraph
+
+        The second paragraph" )}
+
+Outputs::
+
+    2
+
+See also str_char_count_ (), str_word_count_ ().
+
+
+bool _`str_is_empty` ( string *$str* )
+``````````````````````````````````````
+Returns true if the given string *$str* is empty, otherwise it returns false::
+
+    {str_is_empty( "" ) // true }
+
+
+bool _`str_contains` ( string *$source*, string *$find* )
+`````````````````````````````````````````````````````````
+Returns true if the substring *$find* is found in the source string *$source*,
+otherwise this function returns false::
+
+    {str_contains( "Don't you dare use the word 'party' as a verb in this shop!", "party" )}
+
+Returns true.
+
+See also str_starts_with_ (), str_ends_with_ (), str_index_of_ (), str_last_index_ ().
 
 
 bool _`str_starts_with` ( string *$s1*, string *$s2* )
 ``````````````````````````````````````````````````````
 Returns true if the string *$s1* starts with *$s2*::
 
-   {str_starts_with( "Bernard Black" , "Bernard")}
+   {str_starts_with( "Bernard Black" , "Bernard" )}
 
-See also str_ends_with_ ().
+Returns true.
+
+See also str_ends_with_ (), str_contains_ (), str_index_of_ (), str_last_index_ ().
 
 
-string _`str_right` ( string *$str*, int *$length* )
+bool _`str_ends_with` ( string *$s1*, string *$s2* )
 ````````````````````````````````````````````````````
-Returns the 'right' *$length* characters of the string *$str*::
-
-    {str_right( "Bernard Black" , 5)}
-
-Outputs::
-    
-    Black
-
-See also str_left_ (), str_mid_ ().
-
-
-string _`str_ends_with` ( string *$s1*, string *$s2* )
-``````````````````````````````````````````````````````
 Returns true if the string *$s1* ends with *$s2*::
 
-   {str_ends_with( "Bernard Black" , "Black")}
+   {str_ends_with( "Bernard Black" , "Black" )}
 
-See also str_starts_with_ ().
+Returns true.
 
-
-
-string _`str_mid` ( string *$str*, int *$index*, int *$length* )
-````````````````````````````````````````````````````````````````
-Returns the sub-string between  *$index* and *$index* + *$length* from the string *$str*::
-
-    { str_mid( "Bernard Ludwig Black", 8, 6)
-
-Outputs::
-    
-    Ludwig
-
-
-string _`str_at` ( string *$str*, int *$pos* )
-``````````````````````````````````````````````
-Returns the character that is at position *$pos* in the string *$str*::
-
-    {str_at( "Bernard", 2 )}
-
-Outputs the character 'r'.
-    
-
-string _`str_fill` ( string *$str*, int *$repeat* )
-```````````````````````````````````````````````````
-Repeats the string *$str* for *$repeat* times and returns it::
-
-    {str_fill( "-", 5 )}
-
-Outputs::
-    
-    -----
+See also str_starts_with_ (), str_contains_ (), str_index_of_ (), str_last_index_ ().
 
 
 int _`str_index_of` ( string *$source*, string *$search* [, int *$offset* ] )
@@ -211,82 +278,115 @@ Searches the string *$search* in *$source* and returns the begin position of the
 occurrence. If an *$offset* is given, the searching starts at this position. This 
 function returns false if the *$search* string couldn't be found in the *$source*::
 
-    {str_index_of( "Don't you dare use the word 'party' as a verb in this shop!", "party" ) }  
-    {str_index_of( "Don't you dare use the word 'party' as a verb in this shop!", "a" ) }  
-    {str_index_of( "Don't you dare use the word 'party' as a verb in this shop!", "a", 12 ) }  
+    {str_index_of( "Don't you dare use the word 'party' as a verb in this shop!", "party" )}
+    {str_index_of( "Don't you dare use the word 'party' as a verb in this shop!", "a" )}
+    {str_index_of( "Don't you dare use the word 'party' as a verb in this shop!", "a", 12 )}
 
 Outputs::
-    
+
     29
     11
     30
 
-See also str_contains_ (), str_last_index_ ().
+See also str_last_index_ (), str_contains_ (), str_starts_with_ (), str_ends_with_ ().
 
 
 string _`str_last_index` ( string $s1, string $s2 [, int $offset] )
 ```````````````````````````````````````````````````````````````````
-Does a reverse search the string *$search* in *$source* and returns the begin position of the first 
-occurrence. If an *$offset* is given, the searching starts at this position. This 
+Does a reverse search the string *$search* in *$source* and returns the begin position of the first
+occurrence. If an *$offset* is given, the searching starts at this position. This
 function returns false if the *$search* string couldn't be found in the *$source*::
 
-    {str_index_of( "Don't you dare use the word 'party' as a verb in this shop!", "party" ) }  
-    {str_index_of( "Don't you dare use the word 'party' as a verb in this shop!", "a" ) }  
-    {str_index_of( "Don't you dare use the word 'party' as a verb in this shop!", "a", 38 ) }  
+    {str_last_index( "Don't you dare use the word 'party' as a verb in this shop!", "party" )}
+    {str_last_index( "Don't you dare use the word 'party' as a verb in this shop!", "a" )}
+    {str_last_index( "Don't you dare use the word 'party' as a verb in this shop!", "a", 38 )}
 
 Outputs::
-    
+
     29
     39
     36
 
-See also str_contains_ (), str_last_index_ ().
+See also str_index_of_ (), str_contains_ (), str_starts_with_ (), str_ends_with_ ().
 
 
-bool _`str_is_empty` ( string *$str* )
-``````````````````````````````````````
-Returns true if the given string *$str* is empty, otherwise it returns false::
+string _`str_left` ( string *$str*, int *$length* )
+```````````````````````````````````````````````````
+Returns the 'left' *$length* characters of the string *$str*::
 
-    {str_is_empty( "" ) // true}
+    {str_left( "Bernard Black" , 7 )}
+
+Outputs::
+
+    Bernard
+
+See also str_right_ (), str_mid_ (), str_at_ ().
 
 
-string _`str_pad_left` ( string *$str*, int *$length*, string *$fill* )
-```````````````````````````````````````````````````````````````````````
-Pads the string *$str* to the length *$length* with the string *$fill*. 
-The padding will be prepended to the string *$str*::
+string _`str_right` ( string *$str*, int *$length* )
+````````````````````````````````````````````````````
+Returns the 'right' *$length* characters of the string *$str*::
 
-    {str_pad_left( " You got the BFG", 20, "-" )}
+    {str_right( "Bernard Black" , 5 )}
+
+Outputs::
+
+    Black
+
+See also str_left_ (), str_mid_ (), str_at_ ().
+
+
+string _`str_mid` ( string *$str*, int *$index*, int *$length* )
+````````````````````````````````````````````````````````````````
+Returns the sub-string between  *$index* and *$index* + *$length* from the string *$str*::
+
+    {str_mid( "Bernard Ludwig Black", 8, 6 )}
 
 Outputs::
     
-    ---- You got the BFG
+    Ludwig
+
+See also str_left_ (), str_right_ (), str_at_ ().
 
 
-string _`str_pad_right` ( string *$str*, int *$length*, string *$fill* )
-````````````````````````````````````````````````````````````````````````
-Pads the string *$str* to the length *$length* with the string *$fill*. 
-The padding will be appended to the string *$str*::
+string _`str_at` ( string *$str*, int *$pos* )
+``````````````````````````````````````````````
+Returns the character that is at position *$pos* in the string *$str*::
 
-    {str_pad_right( "You got the BFG ", 20, "-" )}
+    {str_at( "Bernard", 2 )}
 
 Outputs::
-    
-    You got the BFG ---- 
+
+    r
+
+See also str_left_ (), str_mid_ (), str_right_ ().
+
+
+string _`str_ord` ( int *$char* )
+`````````````````````````````````
+Returns one character string with the ASCII value *$char*::
+
+    {str_ord( 65 )}
+
+Outputs::
+
+    A
+
 
 string _`str_number` ( float *$number*, int *$decimals*, string *$decimal_sep*, string *$thousands_sep* )
 `````````````````````````````````````````````````````````````````````````````````````````````````````````
 Formats the number *$number* with the given amount of decimals *$decimals*, separated with the 
-*$decimal_sep* character. Thousands are separated with the *$thousands_sep* character:: 
+*$decimal_sep* character. Thousands are separated with the *$thousands_sep* character::
 
-    {number_format( 30000.141234, 2, ".", "," )}
+    {str_number( 30000.141234", 2, ".", "," )}
 
 Outputs::
-    
-    3,000.14 
+
+    3,000.14
 
 
 string _`str_trim` ( string *$str*, string *$charlist* = false )
-```````````````````````````````````````````````````````````````````
+````````````````````````````````````````````````````````````````
 Removes whitespace characters or other characters from the beginning and end of the string.
 If no *$charlist* is given, the following characters will be removed:
 
@@ -298,22 +398,21 @@ If no *$charlist* is given, the following characters will be removed:
 
 If a *$charlist* is given, then the characters in that string will be stripped instead::
 
-    
     { str_trim( "  ...Whoohooo..  " )}
     { str_trim( "  ...Whoohooo..  ", "." )}
     { str_trim( "  ...Whoohooo..  ", " ." )}
 
 Outputs::
-    
+
     ...Whoohooo..
       ...Whoohooo..  
     Whoohooo
 
-See also str_trim_left (), str_trim_right ().
+See also str_trim_left_ (), str_trim_right_ (), str_simplify_ ().
 
 
 string _`str_trim_left` ( string $str, string *$charlist* = false )
-``````````````````````````````````````````````````````````````````````
+```````````````````````````````````````````````````````````````````
 Removes whitespace characters or other characters from the beginning of the string.
 This function works the same as str_trim_ (), except that the characters on the right side are not trimmed::
 
@@ -322,30 +421,30 @@ This function works the same as str_trim_ (), except that the characters on the 
     { str_trim_left( "  ...Whoohooo..  ", " ." )}
 
 Outputs::
-    
+
     ...Whoohooo..  
       ...Whoohooo..  
     Whoohooo..
 
+See also str_trim_ (), str_trim_right_ (), str_simplify_ ().
 
-See also str_trim_ (), str_trim_right ().
 
 string _`str_trim_right` ( string $str, string *$charlist* = false )
-```````````````````````````````````````````````````````````````````````
+````````````````````````````````````````````````````````````````````
 Removes whitespace characters or other characters from the end of the string.
 This function works the same as str_trim_ (), except that the characters on the left side are not trimmed::
 
-    { str_trim_left( "  ...Whoohooo..  " )}
-    { str_trim_left( "  ...Whoohooo..  ", "." )}
-    { str_trim_left( "  ...Whoohooo..  ", " ." )}
+    { str_trim_right( "  ...Whoohooo..  " )}
+    { str_trim_right( "  ...Whoohooo..  ", "." )}
+    { str_trim_right( "  ...Whoohooo..  ", " ." )}
 
 Outputs::
-    
+
       ...Whoohooo
       ...Whoohooo..   
       ...Whoohooo
 
-See also str_trim_ (), str_trim_left ().
+See also str_trim_ (), str_trim_left_ (), str_simplify_ ().
 
 
 string _`str_simplify` ( string *$str* )
@@ -353,11 +452,13 @@ string _`str_simplify` ( string *$str* )
 Substitutes newlines, tabs, and multiple spaces from the string *$str* and replaces it with a single blank.
 Whitespace in the beginning and at the end of the *$str* are removed::
 
-    { str_simplify( "   my\t   \n string \n ") }
+    {str_simplify( "   my\t   \n string \n " )}
 
 Outputs::
-    
+
     my string
+
+See also str_trim_ (), str_trim_left_ (), str_trim_right_ ().
 
 
 array _`str_split` ( string *$str*, string *$separator* [, int *$max*] )
@@ -368,7 +469,7 @@ return array will consist of maximum *$max* elements::
     {str_split( "Bernard-Ludwig-Black", "-" )}
 
 Will return an array with the elements::
-    
+
     [0] => "Bernard",
     [1] => "Ludwig",
     [2] => "Black".
@@ -381,47 +482,39 @@ string _`str_join` ( array *$array*, string *$separator* )
 Joins an array with strings, *$array* together. Between each element a separator is 
 inserted::
 
-    {join( array( "Bernard", "Ludwig", "Black" ) , "-" }
+    {str_join( array( "Bernard", "Ludwig", "Black" ) , "-"}
 
 Outputs::
 
     Bernard-Ludwig-Black
 
+See also str_split_ ().
 
-string _`str_ord` ( int *$char* )
-`````````````````````````````````
-Returns one character string with the ASCII value *$char*::
-
-    {str_ord( 65 )}
-
-Outputs::
-        
-    A
 
 string _`str_upper` ( string *$str* )
 `````````````````````````````````````
 Returns a string with only upper case characters of the source string *$str*::
 
-    { str_upper( "hEllO worLD" ) }
+    { str_upper( "hEllO worLD" )}
 
 Outputs::
-    
+
     HELLO WORLD
 
-See also str_lower_ ().
+See also str_lower_ (), str_capitalize_ ().
 
 
 string _`str_lower` ( string *$str* )
 `````````````````````````````````````
 Returns a string with only lower case characters of the source string *$str*::
 
-    { str_lower( "hEllO worLD" ) }
+    { str_lower( "hEllO worLD" )}
 
 Outputs::
-    
+
     hello world
 
-See also str_upper_ ().
+See also str_upper_ (), str_capitalize_ ().
 
 
 string _`str_capitalize` ( string *$str* )
@@ -429,23 +522,13 @@ string _`str_capitalize` ( string *$str* )
 Returns a string of which the first character is capitalized. Other characters
 remain unchanged::
 
-    {str_capitalize( "hello WORLD")}
+    {str_capitalize( "hello WORLD" )}
 
 Outputs::
-    
+
     Hello WORLD
 
-string _`str_find_replace` ( string *$source*, string *$find*, string *$replace* [, int *$count*] )
-````````````````````````````````````````````````````````````````````````````````````````````````````
-Searches for the string *find* in the string *source*. The first occurence will
-be replaced with the string *replace*. If the last parameter *count* is given,
-the amount of replacements is limited to this number::
-
-     {str_find_replace( "Hello world!", "world", "earth")}
-
-Outputs::
-
-       Hello earth!
+See also str_lower_ (), str_upper_ ().
 
 
 string _`str_reverse` ( string *$str* )
@@ -459,80 +542,39 @@ Outputs::
     dlrow olleH
 
 
-int _`str_char_count` ( string *$str* )
-```````````````````````````````````````
-Returns the number of characters in the given string *$str*::
-
-    {str_char_count("Hello")}
-
-Outputs::
-    
-    5
-
-This method is the same as str_len_ ().
-See also str_word_count_ (), str_paragraph_count ().
-
-
-
-int _`str_word_count` ( string *$str* [, *$word_sep* ] )
-````````````````````````````````````````````````````````
-Returns the number of words in the given string *$str*. If no 
-word separator *$word_sep* is given, the default word seperator
-is a whitespace::
-
-    {str_word_count("Just a random sentence")}
-
-Outputs::
-
-    4
-
-See also str_char_count_ (), str_paragraph_count ().
-
-
-int _`str_paragraph_count` ( string *$str* )
-````````````````````````````````````````````
-Returns the number of paragraphs in the given string *$str*. Each
-paragraph is supposed to be split a blank line::
-
-    {str_paragraph_count( 
-        "The first paragraph
-
-        The second paragraph" )}
-
-Outputs::
-
-    2
-
 string _`str_wrap` ( string *$str*, int *$width*, string *$break* [, bool *$cut_word*] )
 ````````````````````````````````````````````````````````````````````````````````````````
 Returns a wrapped string of the source string *$str*. The *$width* specifies after how
-the *$break* character should be inserted. If *$cut_word* is given and 
+the *$break* character should be inserted. If *$cut_word* is given and
 set to true, it will directly insert the *$break* in the word. Otherwise the word will be
 finished and the *$break* will be inserted after the word::
 
-    {str_wrap("Don't you dare use the word 'party' as a verb in this shop!", 20, "<br/>\n") }  
+    {str_wrap("Don't you dare use the word 'party' as a verb in this shop!", 20, "<br/>\n" )}
 
-    {str_wrap("Don't you dare use the word 'party' as a verb in this shop!", 20, "\n", true) }  
+    {str_wrap("Don't you dare use the word 'party' as a verb in this shop!", 20, "\n", true )}
 
 Outputs::
 
    Don't you dare use the <br/>
    word 'party' as a verb <br/>
-   in this shop! 
+   in this shop!
 
    Don't you dare use t
    he word 'party' as a
    verb in this shop!
+
 
 string _`str_base64_encode` ( string *$str* )
 `````````````````````````````````````````````
 Returns a MIME base64 encoded string from the *$str*::
 
     {str_base64_encode( "I don't want to be encoded!" )}
-    
+
 Outputs::
 
     SSBkb24ndCB3YW50IHRvIGJlIGVuY29kZWQh
+
+See also str_base64_decode_ ().
 
 
 string _`str_base64_decode` ( string *$str* )
@@ -540,12 +582,12 @@ string _`str_base64_decode` ( string *$str* )
 Decodes the given MIME base64 *$str* and returns the original data::
 
     {str_base64_decode( "SSBkb24ndCB3YW50IHRvIGJlIGVuY29kZWQh" )}
-    
+
 Outputs::
 
     I don't want to be encoded!
 
-
+See also str_base64_encode_ ().
 
 
 

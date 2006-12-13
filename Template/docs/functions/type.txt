@@ -5,7 +5,7 @@ bool _`is_empty` ( mixed *$val* )
 `````````````````````````````````
 Returns true if the given *$val* is empty, otherwise false. The following
 examples would return true::
-    
+
     {is_empty( "" )}
     {is_empty( 0 )}
     {is_empty( "0" )}
@@ -17,14 +17,14 @@ And the rest returns false::
     {is_empty( "I am empty" )}
 
 Trying to out smart the template engine by saying that string is empty ("I am
-empty"), does not work :-).  
+empty"), does not work :-).
 
 
 bool _`is_array` ( mixed *$val* )
 `````````````````````````````````
 Returns true if the given *$val* is an array, otherwise false::
 
-    {is_array( array(1) )}
+    {is_array( array( 1 ) )}
 
 Returns obviously true.
 
@@ -104,7 +104,7 @@ bool _`is_set` ( mixed *$val* )
 ```````````````````````````````
 Returns true if the given *$val* is set, otherwise false::
 
-    {var $a} 
+    {var $a}
     {is_set( $a )}
 
 Return false, but::
@@ -123,8 +123,6 @@ Returns the class name of the given object::
     {get_class( $obj ) }
 
 Outputs the class name.
-    
-
 
 
 

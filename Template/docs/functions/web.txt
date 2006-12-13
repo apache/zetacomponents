@@ -5,7 +5,7 @@ string _`url_encode` ( string *$url* )
 ``````````````````````````````````````
 Returns an encoded string of which the URL specfic characters are written that they can be inserted in an URL::
 
-    {url_encode("myName=Bernard Black"}
+    {url_encode( "myName=Bernard Black" )}
 
 Outputs::
 
@@ -13,24 +13,23 @@ Outputs::
 
 The URL encode function is handy to create hyperlinks::
 
-    <a href="www.ez.no/{url_encode("myName=Bernard Black"}">MyLink</a>
+    <a href="www.ez.no/{url_encode( "myName=Bernard Black" )}">MyLink</a>
 
 
-See also: url_decode_ ()
+See also: url_decode_ ().
+
 
 string _`url_decode` ( string *$str* )
 ``````````````````````````````````````
 Decodes and returns an url encoded string::
 
-    {url_decode("MyName%3DBernard+Black"}
+    {url_decode( "MyName%3DBernard+Black" )}
 
 Outputs::
 
     myName=Bernard Black
 
-  
-See also: url_encode_ ()
-
+See also: url_encode_ ().
 
 
 array _`url_parse` ( string *$url* )
@@ -38,7 +37,7 @@ array _`url_parse` ( string *$url* )
 Parses an URL and returns an array that contains the various components of the given URL *$url*::
 
     {var $a = url_parse( "http://username:password@hostname/path?arg=value#anchor" )}
-    {debug_dump ($a)}
+    {debug_dump( $a )}
 
 Outputs::
 
@@ -55,11 +54,12 @@ Outputs::
 
 See also url_build_ ().
 
+
 string _`url_parameters_build` ( array *$params*, string *$prefix* )
 ````````````````````````````````````````````````````````````````````
 Builds an URL query string from the given *$params* and returns it as a string::
 
-    {url_parameters_build( array("key" => "val", "firstname" => "Bernard", "lastname" => "Black" ) ) }
+    {url_parameters_build( array( "key" => "val", "firstname" => "Bernard", "lastname" => "Black" ) )}
 
 Outputs::
 
@@ -78,9 +78,9 @@ as the url_parse_ () function::
         "pass" => "password",
         "path" => "/path",
         "query" => "arg=value",
-        "fragment" => "anchor") }
+        "fragment" => "anchor" )}
 
-    {url_build( $a)}
+    {url_build( $a )}
 
 Outputs::
 

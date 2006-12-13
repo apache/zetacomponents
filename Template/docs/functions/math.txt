@@ -1,80 +1,82 @@
 Math
 ====
 
-
 int _`math_max` ( float *$val1* , float *$val2* [, ...] )
 `````````````````````````````````````````````````````````
-Returns the maximum number of the given values:: 
+Returns the maximum number of the given values::
 
-    {math_max( 5, 3.14, 22.1)} 
+    {math_max( 5, 3.14, 22.1 )}
 
 Outputs::
-    
+
     22.1
 
 
 int _`math_min` ( float *$val1* , float *$val2* [, ...] )
 `````````````````````````````````````````````````````````
-Returns the minimum number of the given values:: 
+Returns the minimum number of the given values::
 
-    {math_min( 5, 3.14, 22.1)} 
+    {math_min( 5, 3.14, 22.1 )}
 
 Outputs::
-    
+
     3.14
+
 
 float _`math_abs` ( float *$val* )
 ``````````````````````````````````
-Returns the absolute number the given value *$val*:: 
+Returns the absolute number the given value *$val*::
 
-    {math_abs( -5.2 )} 
-    {math_abs( 3.14 )} 
+    {math_abs( -5.2 )}
+    {math_abs( 3.14 )}
 
 Outputs::
-    
+
     5.2
     3.14
 
 
 int _`math_ceil` ( float *$val* )
 `````````````````````````````````
-Returns an upwards rounded number of the value *$val*.
+Returns an upwards rounded number of the value *$val*.::
 
-    {math_ceil( 3.14 )} 
-    {math_ceil( -5.2 )} 
+    {math_ceil( 3.14 )}
+    {math_ceil( -5.2 )}
 
 Outputs::
-    
+
     4
     -5
 
 
 int _`math_floor` ( float *$val* )
 ``````````````````````````````````
-Returns a downwards rounded number of the value *$val*.
+Returns a downwards rounded number of the value *$val*.::
 
-    {math_floor( 3.14 )} 
-    {math_floor( -5.2 )} 
+    {math_floor( 3.14 )}
+    {math_floor( -5.2 )}
 
 Outputs::
-    
+
     3
     -6
+
 
 int _`math_round` ( float *$val* )
 ``````````````````````````````````
 Returns a rounded number of the value *$val*. The fractions from 0 until 4 are
 rounded downwards, fractions from 5 until 9 are rounded upwards::
 
-    {math_round( 3.5 )} 
-    {math_round( 4.5 )} 
-    {math_round( 5.49999 )} 
+    {math_round( 3.5 )}
+    {math_round( 4.5 )}
+    {math_round( 5.49999 )}
 
 Outputs::
-    
+
      4
      5
      5
+
 
 float _`math_sqrt` ( float *$val* )
 ```````````````````````````````````
@@ -112,6 +114,7 @@ Outputs::
 
     16
 
+
 float _`math_log` ( int *$arg*, int *$base*  )
 ``````````````````````````````````````````````
 Returns the logarith of Log *$base* *$arg*::
@@ -120,7 +123,7 @@ Returns the logarith of Log *$base* *$arg*::
 
 Outputs::
 
-    4 
+    4
 
 
 float _`math_log10` ( int *$arg* )
@@ -133,11 +136,12 @@ Outputs::
 
     4
 
+
 float _`math_float_mod` ( float *$x*, float *$y* )
 ``````````````````````````````````````````````````
 Returns the floating point remainder of a devision of the arguments. It
 checks how many times the value *$y* 'fits in' the value *$x*. A The remainder
-is returned:: 
+is returned::
 
     {math_float_mod( 3.7, 1.1 )}
 
@@ -156,12 +160,12 @@ int _`math_rand` ( int *$min*, int *$max* )
 ```````````````````````````````````````````
 Returns a random integer value between *$min* and *$max*::
 
-    {math_rand( 2, 7)}
+    {math_rand( 2, 7 )}
 
 
 float _`math_pi` ()
 ```````````````````
-Returns the number Pi:
+Returns the number Pi::
 
     {math_pi()}
 
@@ -183,7 +187,7 @@ bool _`math_is_infinite` ( *$val* )
 ```````````````````````````````````
 Returns true if *$val* is infinite, otherwise false::
 
-    {math_is_infinite( math_log(0, 2.7) )}
+    {math_is_infinite( math_log(0, 2.7 ) )}
 
 This example would return true.
 
@@ -195,7 +199,7 @@ Returns the decimal integer value of the binary string *$str*::
     {math_bin_to_dec( "01011" )}
 
 Outputs::
-    
+
     11
 
 string _`math_dec_to_bin` ( int *$val* )
@@ -205,9 +209,8 @@ Returns the binary string of the value *$val*::
     {math_dec_to_bin( 11 )}
 
 Outputs::
-    
-    1011 
 
+    1011
 
 
 int _`math_hex_to_dec` ( string *$str* )
@@ -218,9 +221,10 @@ Returns the decimal integer value of the hexadecimal string *$str*::
     {math_hex_to_dec( "a" )}
 
 Outputs::
-    
+
     16
     10
+
 
 string _`math_dec_to_hex` ( int *$val* )
 ````````````````````````````````````````
@@ -230,9 +234,10 @@ Returns the hexidecimal string of the value *$val*::
     {math_dec_to_hex( 10 )}
 
 Outputs::
-    
+
     10
     a
+
 
 int _`math_oct_to_dec` ( string *$str* )
 ````````````````````````````````````````
@@ -241,8 +246,9 @@ Returns the decimal integer value of the octal string *$str*::
     {math_oct_to_dec( "12" )}
 
 Outputs::
-    
+
     10
+
 
 string _`math_dec_to_oct` ( int *$val* )
 ````````````````````````````````````````
@@ -251,9 +257,8 @@ Returns the octal string of the value *$val*::
     {math_dec_to_oct( 10 )}
 
 Outputs::
-    
-    12
 
+    12
 
 
 
