@@ -143,19 +143,18 @@ renderer again in this example.
 There are only two differences compared to the last example. In line we
 instantiate an ezcGraphLineChart object instead of a PieChart and beginning in
 line 10 we assign multiple datasets from an array we included earlier in the
-script. The array in the file tutorial_wikipedia_data.php is build like this:
+script. The array in the file tutorial_wikipedia_data.php is build like this::
 
-..
-	<?php
-  	return array(
-		'English' => array(
-			'Jan 2006' => 965,
-			'Feb 2006' => 1000,
-			...
-		), 
-		...
-  	);
-  	?>
+    <?php
+    return array(
+        'English' => array(
+            'Jan 2006' => 965,
+            'Feb 2006' => 1000,
+            ...
+        ), 
+        ...
+    );
+    ?>
 
 The result is the simple default line chart.
 
