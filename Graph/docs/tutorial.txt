@@ -578,16 +578,6 @@ size of the matrix is equal to the point count of the used dataset. Be
 careful with data sets with large point count. Because this could mean that
 ezcGraph will consume a lot of memory and processing power.
 
-PDO dataset
------------
-
-Will be implemented in version 1.1.
-
-Numeric dataset
----------------
-
-Will be implemented in version 1.1.
-
 Renderer
 ========
 
