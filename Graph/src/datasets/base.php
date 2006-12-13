@@ -14,7 +14,7 @@
  * @package Graph
  * @access private
  */
-abstract class ezcGraphDataSet implements ArrayAccess, Iterator
+abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
 {
 
     /**

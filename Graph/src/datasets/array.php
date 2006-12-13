@@ -42,6 +42,16 @@ class ezcGraphArrayDataSet extends ezcGraphDataSet
             $this->data[$key] = $value;
         }
     }
+
+    /**
+     * Returns the number of elements in this dataset
+     * 
+     * @return int
+     */
+    public function count()
+    {
+        return count( $this->data );
+    }
 }
 
 ?>

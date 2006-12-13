@@ -211,10 +211,16 @@ class ezcGraphLineChart extends ezcGraphChart
                     }
                     break;
                 case ezcGraph::BAR:
+                    $barCount = ( 
+                        ( count ( $data ) - 1 ) > $this->elements['xAxis']->getMajorStepCount() ? 
+                        ( $this->elements['xAxis']->getMajorStepCount() + 1 ) * ( $this->elements['xAxis']->getMinorStepCount() - 1 ) : 
+                        $this->elements['xAxis']->getMajorStepCount() 
+                    );
+
                     $width = $this->elements['xAxis']->axisLabelRenderer->modifyChartDataPosition( 
                         $this->elements['yAxis']->axisLabelRenderer->modifyChartDataPosition(
                             new ezcGraphCoordinate(
-                                ( $boundings->x1 - $boundings->x0 ) / $this->elements['xAxis']->getMajorStepCount(), 
+                                ( $boundings->x1 - $boundings->x0 ) / $barCount,
                                 0 
                             )
                         )

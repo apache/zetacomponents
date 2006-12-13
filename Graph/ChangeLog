@@ -6,6 +6,8 @@
   absoluteTreshHold to absoluteThreshold
 
 - Added feature #9647: Add render to output method
+- Fixed issue #9795: Interferring bars, when bars count is higher then major
+  step count
 - Fixed issue #9764: 3D Pie chart segment side polygon in front of circular
   arc
 - Fixed issue #9762: Structs don't extend ezcBaseStruct

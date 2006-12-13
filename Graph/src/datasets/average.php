@@ -341,5 +341,15 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
     {
         $this->position = 0;
     }
+
+    /**
+     * Returns the number of elements in this dataset
+     * 
+     * @return int
+     */
+    public function count()
+    {
+        return $this->resolution;
+    }
 }
 ?>

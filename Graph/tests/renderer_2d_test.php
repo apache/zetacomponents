@@ -1594,6 +1594,27 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         );
     }
 
+    public function testRenderBarChartWithMoreBarsThenMajorSteps()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphBarChart();
+        $chart->legend = false;
+
+        $chart->xAxis = new ezcGraphChartElementNumericAxis();
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisBoxedLabelRenderer();
+
+        $chart->data['dataset'] = new ezcGraphArrayDataSet( array( 12, 43, 324, 12, 43, 125, 120, 123 , 543,  12, 45, 76, 87 , 99, 834, 34, 453 ) );
+        $chart->data['dataset']->color = '#3465A47F';
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testRenderFilledLineBarChart()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
