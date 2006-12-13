@@ -83,7 +83,7 @@ class ezcQueryInsert extends ezcQuery
     /**
      * The insert query will set the column $column to the value $expression.
      *
-     * insertInto() returns a pointer to $this.
+     * set() returns a pointer to $this.
      *
      * @param string $column
      * @param string $expression
