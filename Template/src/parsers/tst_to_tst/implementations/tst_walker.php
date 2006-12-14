@@ -74,7 +74,7 @@ class ezcTemplateTstWalker implements ezcTemplateTstNodeVisitor
 
     public function visitOutputBlockTstNode( ezcTemplateOutputBlockTstNode $node )
     {
-        if( $node->expressionRoot !== null)
+        if ( $node->expressionRoot !== null)
         {
             $this->acceptAndUpdate( $node->expressionRoot );
         }

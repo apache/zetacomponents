@@ -93,7 +93,7 @@ do
     }
     $a->output( $str );
     ++$i;
-} while( $list->increase() );
+} while ( $list->increase() );
 $a->output( "\"}\n" );
 $a->close();
 $a->store( $out . "\n",

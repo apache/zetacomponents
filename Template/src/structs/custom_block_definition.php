@@ -38,7 +38,7 @@
  *     public static function link( $parameters )
  *     {
  *         $title = "";
- *         if( isset( $parameters['title'] ) )
+ *         if ( isset( $parameters['title'] ) )
  *         {
  *             $title = "title=\"{$parameters['title']}\"";
  *         }

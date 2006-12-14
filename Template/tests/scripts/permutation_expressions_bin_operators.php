@@ -49,7 +49,7 @@ $object = perm( "\$obj",
 $array = perm( "\$arr['foo']"
                );
 
-$bin2 = perm( //clone $constValues,
+$bin2 = perm( // clone $constValues,
               "\$foo",
               " ",
               $binOperators3,
@@ -164,7 +164,7 @@ do
         }
     }
     ++$i;
-} while( $list->increase() );
+} while ( $list->increase() );
 $a->close();
 
 if ( $a->outputToFile )
@@ -179,7 +179,7 @@ if ( $a->outputToFile )
 
         if ( $sendMap[$blockIndex] )
         {
-            //$comboLeft
+            // $comboLeft
             $a->store( "<?php\n" .
                        $objCodeSend . "\n?>",
                        $fileSend );

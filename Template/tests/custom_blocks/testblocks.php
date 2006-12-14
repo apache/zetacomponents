@@ -5,7 +5,7 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
 {
     public static function getCustomFunctionDefinition( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case "no_parameters": 
                 $def = new ezcTemplateCustomFunctionDefinition();
@@ -48,7 +48,7 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
   
     public static function getCustomBlockDefinition( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case "nesting_opt_parameter": 
                 $def = new ezcTemplateCustomBlockDefinition();

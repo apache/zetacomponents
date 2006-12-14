@@ -97,7 +97,7 @@ do
         $phpCode[$block] .= "\$x, \"]\\n\";\n";
     }
     ++$i;
-} while( $list->increase() );
+} while ( $list->increase() );
 $a->close();
 
 if ( $a->outputToFile )

@@ -40,7 +40,7 @@ class ezcTemplateResourceLocatorTest extends ezcTestCase
                             new ezcTemplateLocation( 'design', 'layout:page.tpl' ),
                             new ezcTemplateLocation( 'design', 'zlib:pagelayout.tpl.gzip' ),
                             new ezcTemplateLocation( 'design', 'templates/pagelayout.tpl' ) );
-        foreach( $resources as $key => $resource )
+        foreach ( $resources as $key => $resource )
         {
             $location = ezcTemplateResourceLocator::parseLocationString( $resource );
             self::assertSame( 'ezcTemplateLocation', get_class( $location ),

@@ -533,7 +533,7 @@ class ezcTemplatePermutationApp
 
         if ( is_array( $args ) )
         {
-            foreach( $args as $arg )
+            foreach ( $args as $arg )
             {
                 if ( $arg == '--generate-file' )
                     $this->outputToFile = true;

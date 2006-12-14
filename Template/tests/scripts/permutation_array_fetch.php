@@ -70,7 +70,7 @@ do
     }
     $out .= $map[$entry1->index];
     ++$i;
-} while( $list->increase() );
+} while ( $list->increase() );
 $a->close();
 $a->store( $out,
            $a->dir . "/array_fetch/correct/indexes.out" );

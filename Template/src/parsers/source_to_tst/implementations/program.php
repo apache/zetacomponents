@@ -225,7 +225,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
         // Check for closing blocks that do not belong to an opening block.
         if ( $this->lastBlock->parentBlock === null && $element->isClosingBlock )
         {
-            if( $element instanceof ezcTemplateCustomBlockTstNode )
+            if ( $element instanceof ezcTemplateCustomBlockTstNode )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->startCursor, 
                     "The custom block: {".$element->name."} should not have a closing block. Check the custom block definition. " );

@@ -23,10 +23,10 @@ class ezcTemplateParserTest extends ezcTestCase
 
     protected function setUp()
     {
-        //// required because of Reflection autoload bug
+        // // required because of Reflection autoload bug
         class_exists( 'ezcTemplateSourceCode' );
         $this->manager = new ezcTemplate();
-        //ezcMock::generate( 'ezcTemplateParser', array( "reportElementCursor" ), 'MockElement_ezcTemplateParser' );
+        // ezcMock::generate( 'ezcTemplateParser', array( "reportElementCursor" ), 'MockElement_ezcTemplateParser' );
 
         $this->basePath = realpath( dirname( __FILE__ ) ) . '/';
         $this->templatePath = $this->basePath . 'templates/';
@@ -62,7 +62,7 @@ class ezcTemplateParserTest extends ezcTestCase
 
 
  
-        //$cb = new ezcTemplateAstBuilder();
+        // $cb = new ezcTemplateAstBuilder();
 
         $echo = new ezcTemplateEchoAstNode( array( new ezcTemplateLiteralAstNode( "Hello\n world" ) ) );
         $body = new ezcTemplateBodyAstNode();
@@ -73,7 +73,7 @@ class ezcTemplateParserTest extends ezcTestCase
 
        
 
-        //echo $program->getFirstChild()->text;
+        // echo $program->getFirstChild()->text;
 
     }
 

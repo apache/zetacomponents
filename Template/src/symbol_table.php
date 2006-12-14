@@ -123,7 +123,7 @@ class ezcTemplateSymbolTable
     {
         $total = array();
 
-        foreach( $typeArray as $type )
+        foreach ( $typeArray as $type )
         {
             // Search for all the keys in the array, and merge it. 
             $total = array_merge($total, array_keys( $this->symbols, $type ) );

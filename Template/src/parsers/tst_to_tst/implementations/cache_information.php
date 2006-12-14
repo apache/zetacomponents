@@ -20,7 +20,7 @@ class ezcTemplateFetchCacheInformation extends ezcTemplateTstWalker
         $this->cacheTemplate = true;
         $this->cacheTst = $node;
 
-        foreach( $node->keys as $key )
+        foreach ( $node->keys as $key )
         {
             // XXX cannot translate.
             // Translate the 'old' variableName to the new name.
@@ -29,14 +29,14 @@ class ezcTemplateFetchCacheInformation extends ezcTemplateTstWalker
         }
 
         // And translate the ttl.
-        if( $node->ttl != null ) 
+        if ( $node->ttl != null ) 
         {
             $this->hasTTL = true;
             // XXX cannot translate.
-            //$this->programNode->ttl = $type->ttl->accept($this);
+            // $this->programNode->ttl = $type->ttl->accept($this);
         }
 
-        //return new ezcTemplateNopAstNode();
+        // return new ezcTemplateNopAstNode();
     }
 
  

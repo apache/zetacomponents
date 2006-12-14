@@ -29,11 +29,11 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
 
     function getCustomBlockDefinition( $name )
     {
-        foreach( $this->parser->template->configuration->customBlocks as $class )
+        foreach ( $this->parser->template->configuration->customBlocks as $class )
         {
             $def = call_user_func( array( $class, "getCustomBlockDefinition" ),  $name );
 
-            if( $def instanceof ezcTemplateCustomBlockDefinition )
+            if ( $def instanceof ezcTemplateCustomBlockDefinition )
             {
                 return $def;
             }
@@ -67,7 +67,7 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
             $cursor->advance( strlen( $name ) );
             $this->findNextElement( $cursor );
 
-            if( !$cursor->match( "}" ) )
+            if ( !$cursor->match( "}" ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
             }
@@ -95,11 +95,11 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
         $cursor->advance( strlen( $name ) );
         $this->findNextElement( $cursor );
 
-        //$def = ezcTemplateCustomBlockManager::getInstance()->getDefinition( $name );
+        // $def = ezcTemplateCustomBlockManager::getInstance()->getDefinition( $name );
 
         $def = $this->getCustomBlockDefinition( $name );
 
-        if( $def === false )
+        if ( $def === false )
         {
             return false;
         }
@@ -109,9 +109,9 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
         $cb->name = $name;
         $this->block->isNestingBlock = $cb->isNestingBlock = $def->hasCloseTag;
 
-        if( isset( $def->startExpressionName ) && $def->startExpressionName != "" )
+        if ( isset( $def->startExpressionName ) && $def->startExpressionName != "" )
         {
-            if( !in_array( $def->startExpressionName, $def->optionalParameters ) && !in_array( $def->startExpressionName, $def->requiredParameters ) )
+            if ( !in_array( $def->startExpressionName, $def->optionalParameters ) && !in_array( $def->startExpressionName, $def->requiredParameters ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
                     sprintf( ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_REQUIRED_OR_OPTIONAL_PARAMETER_DEFINITION_IN_CUSTOM_BLOCK, $def->startExpressionName ) );
@@ -119,14 +119,14 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
 
             if ( !$this->parseOptionalType( 'Expression', null, false ) )
             {
-                if( in_array( $def->startExpressionName, $def->requiredParameters ) )
+                if ( in_array( $def->startExpressionName, $def->requiredParameters ) )
                 {
                     throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
                 }
             }
             else
             {
-                if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+                if ( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
                 {
                     throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
                 }
@@ -136,17 +136,17 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
             }
         }
 
-        while( !$cursor->match( "}" ) )
+        while ( !$cursor->match( "}" ) )
         {
             $match = $cursor->pregMatch( "#^[a-zA-Z_][a-zA-Z0-9_-]*#");
-            if( !$match )
+            if ( !$match )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
                    sprintf(  ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_TOKEN, $cursor->current( 1 ) ) );
  
             }
 
-            if( !in_array( $match, $def->optionalParameters ) && !in_array( $match, $def->requiredParameters ) )
+            if ( !in_array( $match, $def->optionalParameters ) && !in_array( $match, $def->requiredParameters ) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
                     sprintf(  ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_CUSTOM_BLOCK_PARAMETER, $match) );
@@ -160,7 +160,7 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
 
             $this->findNextElement( $cursor );
             // The '=' is optional.
-            if( $cursor->match( "=" ) )
+            if ( $cursor->match( "=" ) )
             {
                 $this->findNextElement( $cursor );
             }
@@ -171,7 +171,7 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
             }
 
-            if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+            if ( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
             }
@@ -182,9 +182,9 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
         }
 
         // Check if all requiredParameters are set.
-        foreach( $def->requiredParameters as  $val )
+        foreach ( $def->requiredParameters as  $val )
         {
-            if( !array_key_exists( $val, $cb->namedParameters) )
+            if ( !array_key_exists( $val, $cb->namedParameters) )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
                     sprintf(  ezcTemplateSourceToTstErrorMessages::MSG_MISSING_CUSTOM_BLOCK_PARAMETER, $val ) );

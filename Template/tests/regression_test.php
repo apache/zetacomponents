@@ -160,7 +160,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
         $extensionLength = strlen( $onlyWithExtension );
         $path = opendir( $dir );
 
-        while( false !== ( $file = readdir( $path ) ) )
+        while ( false !== ( $file = readdir( $path ) ) )
         {
             if ( $file != "." && $file != ".." )
             {
@@ -357,7 +357,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     // Pipe the text to less
                     $l = popen( "less", "w" );
 
-                    if( $l )
+                    if ( $l )
                     {
                         fwrite( $l, $displayText );
                         pclose( $l );
@@ -379,7 +379,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
             }
             elseif ($reply == "ir" )
             {
-                if( file_exists( $tplSource.".tmp" ) )
+                if ( file_exists( $tplSource.".tmp" ) )
                 {
                     echo "Cannot rename the file to: {$tplSource}.tmp because the file already exists\n";
                     continue;
@@ -394,7 +394,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
             {
                 $editor = ( isset($_ENV["EDITOR"] ) && $_ENV["EDITOR"] != "" ) ? $_ENV["EDITOR"] : "vi";
 
-                if( $reply == "ge" )
+                if ( $reply == "ge" )
                 {
                     file_put_contents( $expectedFile, $actual );
                 }
@@ -454,11 +454,11 @@ class ezcTemplateRegressionTest extends ezcTestCase
         $base = basename( $directory );
 
         $template->configuration = new ezcTemplateConfiguration( $dir, $this->getTempDir() );
-        //$template->configuration->cachePath = $this->getTempDir() . "/cached"; 
-        //$template->configuration->cachePath = "/tmp/cache";
+        // $template->configuration->cachePath = $this->getTempDir() . "/cached"; 
+        // $template->configuration->cachePath = "/tmp/cache";
 
         /*
-            if( !is_dir( $template->configuration->cachePath ) )
+            if ( !is_dir( $template->configuration->cachePath ) )
             {
                 mkdir( $template->configuration->cachePath);
             }

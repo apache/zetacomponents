@@ -333,7 +333,7 @@ class ezcTemplateTest extends ezcTestCase
  //        $manager->configuration = new ezcTemplateConfiguration( $this->templatePath, $this->templateCompiledPath );
 
  //        $inputVariables = new ezcTemplateVariableCollection();
- //        //$manager->setVariable( "a", 42 );
+ //        // $manager->setVariable( "a", 42 );
  //        $result = $manager->process( $this->templatePath . "ordinary_text.tpl" );
 
  //        self::assertEquals ( $result->output, "Hello world\n");

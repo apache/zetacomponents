@@ -212,7 +212,7 @@ class ezcTemplateConfiguration
      */
     public function addExtension( $customClass )
     {
-        if( !is_string( $customClass ) )
+        if ( !is_string( $customClass ) )
         {
             throw new ezcTemplateCustomBlockException( "Could not add the extension $customClass, because the given value is not a string." );
         }
@@ -220,19 +220,19 @@ class ezcTemplateConfiguration
         $implements = class_implements( $customClass );
 
         $added = false;
-        if( in_array( "ezcTemplateCustomBlock", $implements ) )
+        if ( in_array( "ezcTemplateCustomBlock", $implements ) )
         {
             $this->properties["customBlocks"][$customClass] = $customClass;
             $added = true;
         }
 
-        if( in_array( "ezcTemplateCustomFunction", $implements ) )
+        if ( in_array( "ezcTemplateCustomFunction", $implements ) )
         {
             $this->properties["customFunctions"][$customClass] = $customClass;
             $added = true;
         }
 
-        if( !$added)
+        if ( !$added)
         {
             throw new ezcTemplateCustomBlockException( "Could not add the extension $customClass. Does it implement ezcTemplateCustomBlock or ezcTemplateCustomFunction?" );
         }

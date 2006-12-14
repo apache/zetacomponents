@@ -20,7 +20,7 @@ class BrainFuck implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
 {
     public static function getCustomBlockDefinition( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case "brainfuck": 
                 $def = new ezcTemplateCustomBlockDefinition();
@@ -47,7 +47,7 @@ class BrainFuck implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
 
     public static function getCustomFunctionDefinition( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case "brainfuck": 
                 $def = new ezcTemplateCustomFunctionDefinition();
@@ -66,14 +66,14 @@ class BrainFuck implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
 
     public static function emulate( $parameters, $code )
     {
-        if( !isset( $parameters["buffer_size"] ) ) $parameters["buffer_size"] = 1000;
+        if ( !isset( $parameters["buffer_size"] ) ) $parameters["buffer_size"] = 1000;
 
         return eval( self::compile( $code, "",  $parameters["buffer_size"] ) );
     }
 
     public static function emulate_inline( $parameters)
     {
-        if( !isset( $parameters["buffer_size"] ) ) $parameters["buffer_size"] = 1000;
+        if ( !isset( $parameters["buffer_size"] ) ) $parameters["buffer_size"] = 1000;
 
         return eval( self::compile( $parameters["code"], "",  $parameters["buffer_size"] ) );
     }
@@ -93,7 +93,7 @@ ENDL;
 
         for ( $ip = 0; $ip < strlen( $code ); $ip++ )
         {
-            switch( $code[ $ip ] )
+            switch ( $code[ $ip ] )
             {
                 case '<':   $phpcode .= '$pointer++; $pointer = ( $pointer % $bufsize ); ' ."\n"; break;
                 case '>':   $phpcode .= '$pointer = ( $pointer > 1 ? $pointer-1 : $pointer+$bufsize-1 );' ."\n"; break;
@@ -103,7 +103,7 @@ ENDL;
                 case ',':   $phpcode .= '$data[$pointer]= ( $inputcounter < strlen( $input) ? ord( $input[$inputcounter] ) : 0 ); $inputcounter++;' ."\n"; break;
                 case '[':   $phpcode .= 'while ($data[$pointer]) {' ."\n"; break;
                 case ']':   $phpcode .= '}' ."\n"; break;
-                default: //echo "unknown instruction $code[$ip]\n";
+                default: // echo "unknown instruction $code[$ip]\n";
             }
         }
         $phpcode .= 'return $result;';

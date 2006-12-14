@@ -87,6 +87,6 @@ do
     $a->store( "{* file: " . "if/incorrect/modifying_expression_" . $num . ".in" . " *}\n" . $top . $str,
                $fileIn );
     ++$i;
-} while( $list->increase() );
+} while ( $list->increase() );
 
 ?>

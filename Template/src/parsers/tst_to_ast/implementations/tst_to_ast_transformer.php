@@ -173,7 +173,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             {
                 foreach ( $astNode as $ast )
                 {
-                    if( $ast instanceof ezcTemplateStatementAstNode )
+                    if ( $ast instanceof ezcTemplateStatementAstNode )
                     {
                         $body->appendStatement( $ast );
                     }
@@ -186,7 +186,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             }
             else
             {
-                if( $astNode instanceof ezcTemplateStatementAstNode )
+                if ( $astNode instanceof ezcTemplateStatementAstNode )
                 {
                     $body->appendStatement( $astNode );
                 }
@@ -215,13 +215,13 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $def = $type->definition;
 
         $params = new ezcTemplateLiteralArrayAstNode();
-        foreach( $type->namedParameters as $key => $value )
+        foreach ( $type->namedParameters as $key => $value )
         {
             $params->keys[] = new ezcTemplateLiteralAstNode( $key );
             $params->value[] = $value->accept($this);
         }
 
-        if( $def->hasCloseTag )
+        if ( $def->hasCloseTag )
         {
             $result = array(); // Will contain an array with AST nodes.
 
@@ -232,12 +232,12 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $result[] = $this->outputVariable->getInitializationAst();
 
             // execute all the 'children' in the custom block.
-            foreach( $type->elements as $element )
+            foreach ( $type->elements as $element )
             {
                 $r = $element->accept( $this );
                 // It could be an array :-(. Should change this one time to a pseudo node.
 
-                if( is_array( $r ) )
+                if ( is_array( $r ) )
                 {
                     foreach ($r as $a ) 
                     {
@@ -285,7 +285,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
                 {
                     foreach ( $astNode as $ast )
                     {
-                        if( $ast instanceof ezcTemplateStatementAstNode )
+                        if ( $ast instanceof ezcTemplateStatementAstNode )
                         {
                             $this->programNode->appendStatement( $ast );
                         }
@@ -298,7 +298,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
                 }
                 else
                 {
-                    if( $astNode instanceof ezcTemplateStatementAstNode )
+                    if ( $astNode instanceof ezcTemplateStatementAstNode )
                     {
                         $this->programNode->appendStatement( $astNode );
                     }
@@ -316,12 +316,12 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     /*
     public function visitCacheTstNode( ezcTemplateCacheTstNode $type )
     {
-        if( $type->type == ezcTemplateCacheTstNode::TYPE_TEMPLATE_CACHE )
+        if ( $type->type == ezcTemplateCacheTstNode::TYPE_TEMPLATE_CACHE )
         {
             // Modify the root node.
             $this->programNode->cacheTemplate = true;
 
-            foreach( $type->keys as $key )
+            foreach ( $type->keys as $key )
             {
                 // Translate the 'old' variableName to the new name.
                 $k = $key->accept($this);
@@ -329,7 +329,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             }
 
             // And translate the ttl.
-            if( $type->ttl != null ) 
+            if ( $type->ttl != null ) 
             {
                 $this->programNode->ttl = $type->ttl->accept($this);
             }
@@ -451,7 +451,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         if ( isset( $matches[1] ) &&
              $matches[1] != "" )
         {
-            switch( $matches[1] )
+            switch ( $matches[1] )
             {
                 case "n":
                     return "\n";
@@ -472,7 +472,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         if ( isset( $matches[1] ) &&
              $matches[1] != "" )
         {
-            switch( $matches[1] )
+            switch ( $matches[1] )
             {
                 case "'":
                     return "'";
@@ -707,7 +707,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
                 $astNode[$i]->body->statements[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateReferenceOperatorAstNode( new ezcTemplateVariableAstNode( $var->name, true ), $fc ) );
 
-            //$astNode[$i]->body->statements[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$".$var->name . "->decrement", array() ) ); 
+            // $astNode[$i]->body->statements[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$".$var->name . "->decrement", array() ) ); 
         }
 
         array_shift( $this->delimiterStack );
@@ -1212,7 +1212,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $cb = new ezcTemplateConditionBodyAstNode();
             $cb->condition = new ezcTemplateLogicalNegationOperatorAstNode( $call );
 
-            if( $type->expression === null )
+            if ( $type->expression === null )
             {
                 $cb->body = new ezcTemplateGenericStatementAstNode( new ezcTemplateThrowExceptionAstNode( new ezcTemplateLiteralAstNode( sprintf( ezcTemplateSourceToTstErrorMessages::RT_IMPORT_VALUE_MISSING, $type->variable->name ) ) ) );
             }
@@ -1370,7 +1370,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             if ( $expr === null )
             {
                $symType = $this->parser->symbolTable->retrieve( $var );
-               if( $symType == ezcTemplateSymbolTable::IMPORT )
+               if ( $symType == ezcTemplateSymbolTable::IMPORT )
                {
                     $assign->appendParameter( new ezcTemplateVariableAstNode( "this->send->".$var ) );
                }

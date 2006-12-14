@@ -40,7 +40,7 @@ class ezcTemplateVariableCollectionTest extends ezcTestCase
 
         $a = array();
 
-        foreach( $send as $name => $value )
+        foreach ( $send as $name => $value )
         {
             $a[$name] = $value;
         }

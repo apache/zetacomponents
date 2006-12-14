@@ -33,9 +33,9 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
 
     protected function setUp()
     {
-        //// required because of Reflection autoload bug
+        // // required because of Reflection autoload bug
         class_exists( 'ezcTemplateSourceCode' );
-        //class_exists( 'ezcTemplateManager' );
+        // class_exists( 'ezcTemplateManager' );
         $this->manager = new ezcTemplateManager();
         PHPUnit_Extensions_MockObject_Mock::generate( 'ezcTemplateParser', array( "reportElementCursor" ), 'MockElement_ezcTemplateParser' );
 
@@ -84,7 +84,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
             $program = $parser->parseIntoNodeTree();
             self::fail( "No parse exception thrown" );
         }
-        catch( ezcTemplateSourceToTstParserException $e )
+        catch ( ezcTemplateSourceToTstParserException $e )
         {
         }
 
@@ -99,7 +99,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         self::assertThat( $this->templatePath . "comments_test.tpl", self::existsOnDisk() );
 
         $text = file_get_contents( $this->templatePath . "comments_test.tpl" );
-        //$text = "abc def \n{show /*inside comment*/widget\n$w //eol comment\n}";
+        // $text = "abc def \n{show /*inside comment*/widget\n$w // eol comment\n}";
         $source = new ezcTemplateSourceCode( 'mock', 'mock', $text );
         $parser = new MockElement_ezcTemplateParser( $source, $this->manager );
 
@@ -143,7 +143,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         self::assertThat( $this->templatePath . "expression_types_test.tpl", self::existsOnDisk() );
 
         $text = file_get_contents( $this->templatePath . "expression_types_test.tpl" );
-        //echo "\nexpression_types_test.tpl\n";
+        // echo "\nexpression_types_test.tpl\n";
         $source = new ezcTemplateSourceCode( 'mock', 'mock', $text );
         $parser = new MockElement_ezcTemplateParser( $source, $this->manager );
 
@@ -445,7 +445,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         self::assertThat( $this->templatePath . "sub_expressions_test.tpl", self::existsOnDisk() );
 
         $text = file_get_contents( $this->templatePath . "sub_expressions_test.tpl" );
-        //echo "\nsub_expressions_test.tpl\n";
+        // echo "\nsub_expressions_test.tpl\n";
         $source = new ezcTemplateSourceCode( 'mock', 'mock', $text );
         $parser = new MockElement_ezcTemplateParser( $source, $this->manager );
 
@@ -811,7 +811,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                 if ( $parser->debug )
                     echo "\n\n", ezcTemplateTstTreeOutput::output( $program ), "\n";
             }
-            catch( Exception $e )
+            catch ( Exception $e )
             {
                 $nFailures++;
             }
@@ -838,7 +838,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         $text = file_get_contents( $this->templatePath . "while_test.tpl" );
         $source = new ezcTemplateSourceCode( 'while_test.tpl', 'mock:while_test.tpl', $text );
         $parser = new MockElement_ezcTemplateParser( $source, $this->manager );
-        //$parser->debug = true;
+        // $parser->debug = true;
 
         if ( $parser->debug )
             echo "\nwhile_test.tpl\n";
@@ -874,7 +874,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
                 if ( $parser->debug )
                     echo "\n\n", ezcTemplateTstTreeOutput::output( $program ), "\n";
             }
-            catch( Exception $e )
+            catch ( Exception $e )
             {
                 $nFailures++;
             }
@@ -901,7 +901,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
         $source = new ezcTemplateSourceCode( 'if_test.tpl', 'mock:if_test.tpl', $text );
         $parser = new MockElement_ezcTemplateParser( $source, $this->manager );
 
-        //$parser->debug = true;
+        // $parser->debug = true;
 
         if ( $parser->debug )
             echo "\nforeach_test.tpl\n";
@@ -922,7 +922,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
     public function setupExpectedElements( $parser, $text, $source, $items )
     {
         $index = 0;
-        foreach( $items as $item )
+        foreach ( $items as $item )
         {
             $class = 'ezcTemplate' . $item[0];
             if ( substr( $class, -15 ) != 'OperatorTstNode' )
@@ -958,7 +958,7 @@ class ezcTemplateSourceToTstParserTest extends ezcTestCase
     public function setupExpectedPositions( $parser, $text, $source, $items )
     {
         $index = 0;
-        foreach( $items as $item )
+        foreach ( $items as $item )
         {
             $startCursor = new ezcTemplateCursor( $text, $item[0], $item[1], $item[2] );
             $endCursor = new ezcTemplateCursor( $text, $item[3], $item[4], $item[5] );

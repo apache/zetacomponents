@@ -26,7 +26,7 @@ do
 {
     $str = $list->generate();
     $a->output( "{" . $str . "}\n" );
-} while( $list->increase() );
+} while ( $list->increase() );
 $a->output( "{debug_dump( \$a )}\n" );
 
 ?>

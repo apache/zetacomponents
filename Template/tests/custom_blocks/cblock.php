@@ -5,7 +5,7 @@ class cblockTemplateExtension implements ezcTemplateCustomBlock
 {
     public static function getCustomBlockDefinition( $name )
     {
-        switch( $name )
+        switch ( $name )
         {
             case 'cblock':
             {

@@ -52,7 +52,7 @@ class ezcTemplateConfigurationTest extends ezcTestCase
             $invalid = $conf->invalid;
             self::fail( 'Property invalid does not throw not-found exception' );
         }
-        catch( ezcBasePropertyNotFoundException $e )
+        catch ( ezcBasePropertyNotFoundException $e )
         {
         }
     }

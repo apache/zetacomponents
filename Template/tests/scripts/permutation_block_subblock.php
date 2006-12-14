@@ -119,6 +119,6 @@ do
                $fileOut );*/
 //    $a->output( $str );
     ++$i;
-} while( $list->increase() );
+} while ( $list->increase() );
 
 ?>

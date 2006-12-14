@@ -89,7 +89,7 @@ do
                       "echo '$num:[', number_format( \$arr['foo'], 5, ',', '' ), ',', number_format( \$arr2['foo']['bar'], 5, ',', '' ), \"]\\n\";\n" );
     }
     ++$i;
-} while( $list->increase() );
+} while ( $list->increase() );
 $a->close();
 
 if ( $a->outputToFile )

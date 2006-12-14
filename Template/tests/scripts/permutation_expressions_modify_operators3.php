@@ -106,7 +106,7 @@ do
                       "echo '$num:[', number_format( \$obj->prop1, 5, ',', '' ), ',', number_format( \$obj->subprop->prop2, 5, ',', '' ), \"]\\n\";\n" );
     }
     ++$i;
-} while( $list->increase() );
+} while ( $list->increase() );
 $a->close();
 
 if ( $a->outputToFile )

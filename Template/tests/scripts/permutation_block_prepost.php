@@ -91,6 +91,6 @@ do
                " ^\n",
                $fileOut );
     ++$i;
-} while( $list->increase() );
+} while ( $list->increase() );
 
 ?>

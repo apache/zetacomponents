@@ -70,7 +70,7 @@ class ezcTemplateVariableCollection implements Iterator
      */
     public function __get( $name )
     {
-        if( isset( $this->variables[$name] ) ) 
+        if ( isset( $this->variables[$name] ) ) 
         {
             $value = $this->variables[$name];
             if ( is_array( $value ) )

@@ -64,7 +64,7 @@ class ezcTemplateSwitchTstNode extends ezcTemplateBlockTstNode
             return true;
 
 
-            //parent::handleElement( $element );
+            // parent::handleElement( $element );
         }
         elseif( $element instanceof ezcTemplateDocCommentTstNode )
         {

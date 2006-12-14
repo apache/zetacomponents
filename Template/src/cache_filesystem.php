@@ -17,12 +17,12 @@ class ezcTemplateCacheFilesystem
 
     protected function getCacheBaseName()
     {
-        if( $this->cacheBaseName === null )
+        if ( $this->cacheBaseName === null )
         {
             $rpTemplate = realpath( $this->config->templatePath );
             $rpStream = realpath( $this->stream );
 
-            if( strncmp( $rpTemplate, $rpStream, strlen( $rpTemplate ) ) == 0 )
+            if ( strncmp( $rpTemplate, $rpStream, strlen( $rpTemplate ) ) == 0 )
             { 
                 $fileName = substr( $rpStream, strlen( $rpTemplate ) );
             }
@@ -45,7 +45,7 @@ class ezcTemplateCacheFilesystem
 
         $st = ezcTemplateSymbolTable::getInstance();
 
-        foreach( $this->keys as $key )
+        foreach ( $this->keys as $key )
         {
             // md5( var_export( is_object( $key ) && method_exists( $key,  "cacheKey" )  ? $key->cacheKey() : $key ) )
 
@@ -95,7 +95,7 @@ class ezcTemplateCacheFilesystem
         $statements[] = $this->createCacheVariable();
 
 
-        if( $this->ttl !== null )
+        if ( $this->ttl !== null )
         {
             // Create the if statement that checks whether the cache file exists.
             $if = new ezcTemplateIfAstNode();
@@ -105,10 +105,10 @@ class ezcTemplateCacheFilesystem
             $time = new ezcTemplateFunctionCallAstNode( "time", array() );
             $time->checkAndSetTypeHint();
             
-            // if( file_exists( \$_ezcTemplateCache ) && filemtime( \$_ezcTemplateCache ) + ( /*[ TTL ]*/ ) < time() )
+            // if ( file_exists( \$_ezcTemplateCache ) && filemtime( \$_ezcTemplateCache ) + ( /*[ TTL ]*/ ) < time() )
             // {
             //     echo 'REMOVE THE FILE';
-            //     //unlink( [FILE] )
+            //     // unlink( [FILE] )
             // }\n" );
 
             $cb->condition = new ezcTemplateLogicalAndOperatorAstNode( new ezcTemplateFunctionCallAstNode( "file_exists", array( $this->getCacheFileName() ) ), new ezcTemplateLessThanOperatorAstNode( new ezcTemplateAdditionOperatorAstNode( new ezcTemplateFunctionCallAstNode( "filemtime", array( $this->getCacheFileName() )),  new ezcTemplateParenthesisAstNode( $this->ttl )  ) , $time ) );
@@ -152,12 +152,12 @@ class ezcTemplateCacheFilesystem
         $base = basename( $bn );
         $dir = dirname( $bn); 
 
-        if( is_dir( $dir ) )
+        if ( is_dir( $dir ) )
         {
             $dp = opendir( $dir );
             while ( false !== ( $file = readdir( $dp ) ) )
             {
-                if( strncmp( $base, $file, strlen($base ) ) == 0 ) 
+                if ( strncmp( $base, $file, strlen($base ) ) == 0 ) 
                 {
                     unlink( $dir . DIRECTORY_SEPARATOR . $file );
                 }
@@ -172,7 +172,7 @@ class ezcTemplateCacheFilesystem
 
         $dir = $this->config->compilePath . DIRECTORY_SEPARATOR . $this->config->cachedTemplatesPath;
 
-        if( !file_exists( $dir ) )
+        if ( !file_exists( $dir ) )
         {
             mkdir( $dir );
         }

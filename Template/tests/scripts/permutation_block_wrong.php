@@ -316,7 +316,7 @@ do
         }
     }
     ++$i;
-} while( $list->increase() );
+} while ( $list->increase() );
 
 if ( $inCount != $outCount )
 {

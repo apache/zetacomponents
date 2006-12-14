@@ -32,8 +32,8 @@ class ezcTemplateCachePreparation extends ezcTemplateTstWalker
         {
             // Move to the top of the program.
             
-            //var_dump ($this->statements );
-            //var_dump ($this->nodePath[0] );
+            // var_dump ($this->statements );
+            // var_dump ($this->nodePath[0] );
 
            
             // Remove the "USE".
@@ -43,8 +43,8 @@ class ezcTemplateCachePreparation extends ezcTemplateTstWalker
             array_splice( $this->nodePath[0]->elements, $this->statements[0], 1);
 
             // Insert the "USE".
-            //array_splice( $this->nodePath[0]->elements, 0, 0, array($tmp));
-            //
+            // array_splice( $this->nodePath[0]->elements, 0, 0, array($tmp));
+            // 
 
             $this->useVariableTst[] = $tmp;
 
@@ -58,13 +58,13 @@ class ezcTemplateCachePreparation extends ezcTemplateTstWalker
 
             // XXX: 2nd, because the 'if' produces also a nodePath.
             array_unshift( $this->nodePath[2]->statements, $node );
-            //$this->offset[2] += 1; 
+            // $this->offset[2] += 1; 
             */
         }
 
         $this->acceptAndUpdate( $node->variable );
 
-        if( $node->expression !== null ) 
+        if ( $node->expression !== null ) 
         {
             $this->acceptAndUpdate( $node->expression );
         }

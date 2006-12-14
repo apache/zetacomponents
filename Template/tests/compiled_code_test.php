@@ -116,7 +116,7 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
             $conf->execute();
             self::fail( "No exception thrown when template is missing" );
         }
-        catch( ezcTemplateNoManagerException $e )
+        catch ( ezcTemplateNoManagerException $e )
         {
         }
     }
@@ -131,7 +131,7 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
             $conf->execute( );
             self::fail( "No exception thrown when context is missing" );
         }
-        catch( ezcTemplateNoOutputContextException $e )
+        catch ( ezcTemplateNoOutputContextException $e )
         {
         }
     }
@@ -147,7 +147,7 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
             $conf->execute( );
             self::fail( "No exception thrown when context is missing" );
         }
-        catch( ezcTemplateInvalidCompiledFileException $e )
+        catch ( ezcTemplateInvalidCompiledFileException $e )
         {
         }
     }
@@ -168,7 +168,7 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
             $conf->execute( );
             self::fail( "No exception thrown" );
         }
-        catch( ezcTemplateInvalidCompiledFileException $e )
+        catch ( ezcTemplateInvalidCompiledFileException $e )
         {
         }
 

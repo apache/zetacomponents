@@ -55,7 +55,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
         }
 
-        if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+        if ( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
         {
             throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
         }
@@ -111,7 +111,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
 
             if ( $this->parseOptionalType( "Expression", null, false ) )
             {
-                if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+                if ( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
                 {
                     throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
                 }
@@ -189,7 +189,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
             else
             {
                 // Do not overwrite the type of the existing variable.
-                if( $this->parser->symbolTable->retrieve( $this->lastParser->element->name ) === false )
+                if ( $this->parser->symbolTable->retrieve( $this->lastParser->element->name ) === false )
                 {
                     $this->parser->symbolTable->enter( $this->lastParser->element->name, ezcTemplateSymbolTable::VARIABLE );
                 }
@@ -207,7 +207,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
                    throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
                 }
 
-                if( $this->parser->symbolTable->retrieve( $this->lastParser->element->name ) === false )
+                if ( $this->parser->symbolTable->retrieve( $this->lastParser->element->name ) === false )
                 {
                     $this->parser->symbolTable->enter( $this->lastParser->element->name, ezcTemplateSymbolTable::VARIABLE );
                 }
@@ -278,7 +278,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
                     }
                 }
 
-                if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+                if ( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
                 {
                     throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
                 }

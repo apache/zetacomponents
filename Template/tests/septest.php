@@ -22,15 +22,15 @@ function __autoload( $className )
         $extensionLength = strlen( $onlyWithExtension );
         $path = opendir( $dir );
 
-        while( false !== ( $file = readdir( $path ) ) ) 
+        while ( false !== ( $file = readdir( $path ) ) ) 
         {
-            if( $file != "." && $file != ".." ) 
+            if ( $file != "." && $file != ".." ) 
             {
                 $new = $dir . "/" . $file;
 
-                if( is_file( $new ) )
+                if ( is_file( $new ) )
                 {
-                    if( !$onlyWithExtension || substr( $file,  -$extensionLength - 1 ) == ".$onlyWithExtension" )
+                    if ( !$onlyWithExtension || substr( $file,  -$extensionLength - 1 ) == ".$onlyWithExtension" )
                     {
                          $total[] = $new;
                     }
@@ -48,7 +48,7 @@ function __autoload( $className )
    readDirRecursively( $regressionDir, $directories, "in" );
 
 
-   foreach( $directories as $directory )
+   foreach ( $directories as $directory )
    {
         $template = new ezcTemplate();
         $dir = dirname( $directory );
@@ -62,7 +62,7 @@ function __autoload( $className )
         $template->configuration->addExtension( "Sha1CustomBlock" );
 
 
-        if( preg_match("#^(\w+)@(\w+)\..*$#", $base, $match ) )
+        if ( preg_match("#^(\w+)@(\w+)\..*$#", $base, $match ) )
         {
             $contextClass = "ezcTemplate". ucfirst( strtolower( $match[2] ) ) . "Context";
             $template->configuration->context = new $contextClass();
@@ -73,7 +73,7 @@ function __autoload( $className )
         }
 
         $send = substr( $directory, 0, -3 ) . ".send";
-        if( file_exists( $send ) )
+        if ( file_exists( $send ) )
         {
             $template->send = include ($send);
         }
@@ -90,7 +90,7 @@ function __autoload( $className )
 
             // Begin of the error message contains the full path. We replace this with 'mock' so that the
             // tests work on other systems as well.
-            if( strncmp( $out, $directory, strlen( $directory ) ) == 0 )
+            if ( strncmp( $out, $directory, strlen( $directory ) ) == 0 )
             {
                 $out = "mock" . substr( $out, strlen( $directory ) );
             }

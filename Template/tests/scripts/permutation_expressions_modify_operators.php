@@ -89,7 +89,7 @@ do
                       "echo '$num:[', number_format( \$bar, 5, ',', '' ), ',', number_format( \$bar2, 5, ',', '' ), \"]\\n\";\n" );
     }
     ++$i;
-} while( $list->increase() );
+} while ( $list->increase() );
 $a->close();
 
 if ( $a->outputToFile )

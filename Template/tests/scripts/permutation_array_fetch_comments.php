@@ -26,7 +26,7 @@ do
     $str = $list->generate();
     $a->output( $str );
     ++$i;
-} while( $list->increase() );
+} while ( $list->increase() );
 $a->close();
 $a->store( str_repeat( "foo\n", $i ),
            $a->dir . "/array_fetch/correct/comments.out" );

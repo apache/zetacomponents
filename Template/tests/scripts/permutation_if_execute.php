@@ -116,6 +116,6 @@ do
     $str = $list->generate();
     $a->output( str_replace( "%cnt%", $i, $str ) . "\n" );
     ++$i;
-} while( $list->increase() );
+} while ( $list->increase() );
 
 ?>

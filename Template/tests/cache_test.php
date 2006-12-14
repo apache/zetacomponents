@@ -58,7 +58,7 @@ class ezcTemplateCacheTest extends ezcTestCase
         }
     }
     
-    ///////////////////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////////////////
     // Cache block is not implemented, and should give an exception.
 
     public function testCacheBlock()
@@ -78,7 +78,7 @@ class ezcTemplateCacheTest extends ezcTestCase
 
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////////////////
     // Test the dynamic block.
     // Tested in the regression_test:
     // - Variable declaration in the dynamic block.
@@ -169,7 +169,7 @@ class ezcTemplateCacheTest extends ezcTestCase
 
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////////////////////////
     // Test the cache keys.
 
     public function testCacheKeyNonObject()
@@ -238,7 +238,7 @@ class ezcTemplateCacheTest extends ezcTestCase
         $this->assertEquals( "\n[Guybrush Threepwood]\n", $out );
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////////////////////////
     // Test TTL
 
     public function testTimeToLive()
@@ -258,9 +258,9 @@ class ezcTemplateCacheTest extends ezcTestCase
 
         while (time() - $timerAfterRerun < 2 )
         {
-            //$this->assertEquals( "\n[Bernard]\n", $out );
+            // $this->assertEquals( "\n[Bernard]\n", $out );
             usleep( 300000 ); // 300 ms.
-            //$out = $t->process( "cache_ttl.tpl");
+            // $out = $t->process( "cache_ttl.tpl");
         }
 
         // Check whether the template is removed after the TTL exceeded.
@@ -270,7 +270,7 @@ class ezcTemplateCacheTest extends ezcTestCase
 
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////////////////////////
     // General
     public function testChangeTemplateThenRenewCache()
     {
@@ -415,10 +415,10 @@ class ezcTemplateCacheTest extends ezcTestCase
         $this->assertEquals( "\n\n[2]\n[10]\n\n<3>\n<11>\n<Hello>\n<World>\n[Included template]\n[42]\n[13]\n\n[42]\n[12]\n", $t->output );
 
         
-        //$this->assertEquals( "\n[2]\n\n\n", $t->output);
-        //$this->assertEquals( "Not one", $t->receive->numberStr);
-        //$this->assertEquals( "4", $t->receive->calc);
-        //$this->assertEquals( "I am rubber, you are glue.", $t->receive->quote);
+        // $this->assertEquals( "\n[2]\n\n\n", $t->output);
+        // $this->assertEquals( "Not one", $t->receive->numberStr);
+        // $this->assertEquals( "4", $t->receive->calc);
+        // $this->assertEquals( "I am rubber, you are glue.", $t->receive->quote);
     }
 
 }

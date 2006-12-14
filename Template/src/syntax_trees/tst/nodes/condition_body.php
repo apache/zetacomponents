@@ -46,7 +46,7 @@ class ezcTemplateConditionBodyTstNode extends ezcTemplateBlockTstNode
 
     public function canAttachToParent( $parentElement )
     {
-        if( !$parentElement instanceof ezcTemplateIfConditionTstNode )
+        if ( !$parentElement instanceof ezcTemplateIfConditionTstNode )
         {
             if ( $parentElement instanceof ezcTemplateProgramTstNode )
             {

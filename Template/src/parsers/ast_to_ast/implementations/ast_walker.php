@@ -195,7 +195,7 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
         }
 
         // XXX Test this, this may be wrong.
-        //$body = $b;
+        // $body = $b;
 
         array_shift( $this->offset );
         array_shift( $this->statements );

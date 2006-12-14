@@ -50,7 +50,7 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
             else
             {
                 // Tricky: Skip the spaces and new lines. Next element should be an case, or default.
-                //$this->findNextElement();
+                // $this->findNextElement();
 
                 $sw = new ezcTemplateCaseTstNode( $this->parser->source, $this->startCursor, $cursor );
                 $sw->name = $name; // Set the name to either 'case' or 'default'.
@@ -70,7 +70,7 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_EXPRESSION );
             }
 
-            if( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
+            if ( $this->lastParser->rootOperator instanceof ezcTemplateModifyingOperatorTstNode )
             {
                 throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_MODIFYING_EXPRESSION_NOT_ALLOWED );
             }
@@ -83,7 +83,7 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
             }
 
             // Tricky: Skip the spaces and new lines. Next element should be an case, or default.
-            //$this->findNextElement();
+            // $this->findNextElement();
 
             $sw = new ezcTemplateSwitchTstNode( $this->parser->source, $this->startCursor, $cursor );
             $sw->condition = $this->lastParser->rootOperator;

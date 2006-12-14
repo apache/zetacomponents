@@ -34,7 +34,7 @@ class ezcTemplateDirectResourceLocatorTest extends ezcTestCase
                             new ezcTemplateSourceCode( 'zlib:pagelayout.tpl.gzip', 'zlib:pagelayout.tpl.gzip' ),
                             new ezcTemplateSourceCode( 'templates/pagelayout.tpl', 'templates/pagelayout.tpl' ) );
         $locator = new ezcTemplateDirectResourceLocator();
-        foreach( $resources as $key => $resource )
+        foreach ( $resources as $key => $resource )
         {
             $source = $locator->findSource( $resource );
             $source->resource = $resource;

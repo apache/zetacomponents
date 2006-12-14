@@ -35,7 +35,7 @@ class ezcTemplateNullSourceToTstParser extends ezcTemplateLiteralSourceToTstPars
     {
         if ( !$cursor->atEnd() )
         {
-            if( $cursor->match( "null" ) )
+            if ( $cursor->match( "null" ) )
             {
                 $literal = new ezcTemplateLiteralTstNode( $this->parser->source, $this->startCursor, $cursor );
                 $literal->value = null;

@@ -250,11 +250,11 @@ class ezcTemplate
             $fetchCacheInfo = new ezcTemplateFetchCacheInformation(); 
             $this->properties["tstTree"]->accept( $fetchCacheInfo );
 
-            //$tstTreeWalker = new ezcTemplateTstWalker();
-            //$this->properties["tstTree"]->accept( $tstTreeWalker );
+            // $tstTreeWalker = new ezcTemplateTstWalker();
+            // $this->properties["tstTree"]->accept( $tstTreeWalker );
 
             // Check if caching is needed.
-            if( $fetchCacheInfo->cacheTst !== null )
+            if ( $fetchCacheInfo->cacheTst !== null )
             {
                 $cachePreparation = new ezcTemplateCachePreparation();
                 $this->properties["tstTree"]->accept( $cachePreparation );
@@ -267,7 +267,7 @@ class ezcTemplate
             }
 
 
-            //$tstToAst = new ezcTemplateTstToAstTransformer( $parser );
+            // $tstToAst = new ezcTemplateTstToAstTransformer( $parser );
             $this->properties["tstTree"]->accept( $tstToAst );
 
             $this->properties["astTree"] = $tstToAst->programNode;
@@ -280,8 +280,8 @@ class ezcTemplate
             $tstToAst->programNode->accept( $astToAst );
 
             // Run the cacher.
-            //$astToAst = new ezcTemplateAstToAstCache( $this );
-            //$tstToAst->programNode->accept( $astToAst );
+            // $astToAst = new ezcTemplateAstToAstCache( $this );
+            // $tstToAst->programNode->accept( $astToAst );
 
             $g = new ezcTemplateAstToPhpGenerator( $compiled->path ); // Write to the file.
             $tstToAst->programNode->accept( $g );

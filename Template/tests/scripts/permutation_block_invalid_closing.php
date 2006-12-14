@@ -117,6 +117,6 @@ do
 {/foreach}
           ^*/
     ++$i;
-} while( $list->increase() );
+} while ( $list->increase() );
 
 ?>

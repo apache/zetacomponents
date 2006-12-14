@@ -56,9 +56,9 @@ class ezcTemplateDelimiterTstNode extends ezcTemplateBlockTstNode
 
         $p = $parentElement;
 
-        while( !$p instanceof ezcTemplateProgramTstNode )
+        while ( !$p instanceof ezcTemplateProgramTstNode )
         {
-            if( $p instanceof ezcTemplateForeachLoopTstNode || $p instanceof ezcTemplateWhileLoopTstNode )
+            if ( $p instanceof ezcTemplateForeachLoopTstNode || $p instanceof ezcTemplateWhileLoopTstNode )
             {
                 return; // Perfect, we are inside a loop.
             }

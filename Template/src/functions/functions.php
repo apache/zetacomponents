@@ -74,7 +74,7 @@ class ezcTemplateFunctions
 
     protected static function isVariable( $tst )
     {
-        if( $tst instanceof ezcTemplateVariableAstNode ||
+        if ( $tst instanceof ezcTemplateVariableAstNode ||
             $tst instanceof ezcTemplateReferenceOperatorAstNode  ||
             $tst instanceof ezcTemplateArrayFetchOperatorAstNode )
         {
@@ -89,9 +89,9 @@ class ezcTemplateFunctions
         $s = split( ":", $defined );
         $type = sizeof( $s ) > 1 ? $s[1] : null;
 
-        if( $type !== null && $type == "Variable" )
+        if ( $type !== null && $type == "Variable" )
         {
-            if( !self::isVariable( $givenTst ) )
+            if ( !self::isVariable( $givenTst ) )
             {
                 throw new Exception( "The function '$functionName' expects parameter ". ($parameterNumber + 1)." to be a variable." );
             }   
@@ -172,7 +172,7 @@ class ezcTemplateFunctions
             {
                 $parameterMap[$p] = null;
 
-                if( isset( $processedParameters[$i] ) )
+                if ( isset( $processedParameters[$i] ) )
                 {
                     $parameterMap[$p] = $processedParameters[$i];
                     self::checkType( $p, $processedParameters[$i], $functionName, $i );
@@ -226,11 +226,11 @@ class ezcTemplateFunctions
 
     public function getCustomFunction( $name )
     {
-        foreach( $this->parser->template->configuration->customFunctions as $class )
+        foreach ( $this->parser->template->configuration->customFunctions as $class )
         {
             $def = call_user_func( array( $class, "getCustomFunctionDefinition" ),  $name );
 
-            if( $def instanceof ezcTemplateCustomFunctionDefinition )
+            if ( $def instanceof ezcTemplateCustomFunctionDefinition )
             {
                 return $def;
             }
@@ -254,12 +254,12 @@ class ezcTemplateFunctions
         // Try the custom template functions.
         $def = $this->getCustomFunction( $functionName );
         
-        if( $def !== false )
+        if ( $def !== false )
         {
             $givenParameters = sizeof( $parameters);
             $requiredParameters = 0; 
             $optionalParameters = 0; 
-            foreach( $def->parameters as $p )
+            foreach ( $def->parameters as $p )
             {
                 if ( $p[0] == "[" )
                 {
@@ -272,13 +272,13 @@ class ezcTemplateFunctions
 
            }
 
-            if( $givenParameters < $requiredParameters )
+            if ( $givenParameters < $requiredParameters )
             {
                 // Works only when $requiredParameters are specified before the optionalParameters.
                 throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_PARAMETER, $functionName, $def->parameters[$givenParameters] ) );
             }
 
-            if( $givenParameters > sizeof( $def->parameters ) )
+            if ( $givenParameters > sizeof( $def->parameters ) )
             {
                 throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_TOO_MANY_PARAMETERS, $functionName  ) );
             }
@@ -287,14 +287,14 @@ class ezcTemplateFunctions
             $a->checkAndSetTypeHint();
 
 
-            foreach( $parameters as $p )
+            foreach ( $parameters as $p )
             {
                 $a->appendParameter( $p );
             }
 
             return $a;
            // return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( $def->class . "::" . $def->method, array( $parameters ) ) );
-            //return array( "ezcTemplateFunctionCallAstNode", array( $name, array( "_array", $parameters ) ) );
+            // return array( "ezcTemplateFunctionCallAstNode", array( $name, array( "_array", $parameters ) ) );
         }
 
         throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_FUNCTION, $functionName ) );

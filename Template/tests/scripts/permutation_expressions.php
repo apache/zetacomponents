@@ -67,7 +67,7 @@ $object = perm( "\$obj",
 $array = perm( "\$arr['foo']"
                );
 
-$bin2 = perm( //clone $constValues,
+$bin2 = perm( // clone $constValues,
               "\$foo",
               " ",
               clone $binOperators,
@@ -76,7 +76,7 @@ $bin2 = perm( //clone $constValues,
               5
               );
 
-$instanceOf = perm( //clone $constValues,
+$instanceOf = perm( // clone $constValues,
                     "\$foo",
                     " ",
                     "instanceof",
@@ -190,7 +190,7 @@ do
                       "echo '$num:[', var_export( \$bar, true ), ',', var_export( \$bar2, true ), \"]\\n\";\n" );
     }
     ++$i;
-} while( $list->increase() );
+} while ( $list->increase() );
 $a->close();
 
 if ( $a->outputToFile )

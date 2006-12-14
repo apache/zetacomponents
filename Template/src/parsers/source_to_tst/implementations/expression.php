@@ -120,10 +120,10 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             //  Operator check.
             $this->findNextElement();
 
-            if( $this->foundArrayAppend ) 
+            if ( $this->foundArrayAppend ) 
             {
                 // After an array append follows an assignment.
-                if( !$this->parseAssignmentOperator( $cursor ) )
+                if ( !$this->parseAssignmentOperator( $cursor ) )
                 {
                     throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
                        ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY_APPEND_ASSIGNMENT );
@@ -137,7 +137,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     return true;
                 }
 
-                if( $type != "Variable" || $operator != "AssignmentOperator" ) 
+                if ( $type != "Variable" || $operator != "AssignmentOperator" ) 
                 {
                     $canDoAssignment = false;
                 }
@@ -444,7 +444,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
         protected function parseAssignmentOperator( $cursor )
         {
-            if( $cursor->match( "=" ) )
+            if ( $cursor->match( "=" ) )
             {
                 $function = "ezcTemplateAssignmentOperatorTstNode";
                 $operator = new $function( $this->parser->source, clone $this->lastCursor, $cursor );
@@ -498,7 +498,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             }
 
             // Cannot do an assignment right now.
-            if( $operatorName == "=" && !$canDoAssignment)
+            if ( $operatorName == "=" && !$canDoAssignment)
             {
                 return false;
             }
@@ -584,15 +584,15 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
          */
         private function checkForValidOperator( $lhs, $op, $cursor )
         {
-            if( $op instanceof ezcTemplateModifyingOperatorTstNode)
+            if ( $op instanceof ezcTemplateModifyingOperatorTstNode)
             {
-                if( !( $lhs instanceof ezcTemplateVariableTstNode ||
+                if ( !( $lhs instanceof ezcTemplateVariableTstNode ||
                     $lhs instanceof ezcTemplateArrayAppendOperatorTstNode ||
                     $lhs instanceof ezcTemplateArrayFetchOperatorTstNode ||
                     $lhs instanceof ezcTemplatePropertyFetchOperatorTstNode ||
                     $lhs instanceof ezcTemplateModifyingOperatorTstNode ) )
                 {
-                    if( $op instanceof ezcTemplateOperatorTstNode )
+                    if ( $op instanceof ezcTemplateOperatorTstNode )
                     {
                         throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
                             sprintf( ezcTemplateSourceToTstErrorMessages::MSG_LHS_IS_NOT_VARIABLE, $op->symbol ));
@@ -604,7 +604,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     }
                 }
 
-                if( $lhs instanceof ezcTemplateModifyingOperatorTstNode )
+                if ( $lhs instanceof ezcTemplateModifyingOperatorTstNode )
                 {
                     $this->checkForValidOperator( $lhs->parameters[1], $op, $cursor);
                 }
@@ -612,7 +612,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 return;
             }
 
-            if( $lhs instanceof ezcTemplateModifyingBlockTstNode )
+            if ( $lhs instanceof ezcTemplateModifyingBlockTstNode )
             {
                     throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
                           ezcTemplateSourceToTstErrorMessages::MSG_OPERATOR_LHS_IS_MODIFYING_BLOCK );
@@ -623,9 +623,9 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
         private function operatorRhsCheck( $op, $rhs, $cursor )
         {
-            if( $rhs instanceof ezcTemplateModifyingBlockTstNode )
+            if ( $rhs instanceof ezcTemplateModifyingBlockTstNode )
             {
-                if( $op instanceof ezcTemplateOperatorTstNode )
+                if ( $op instanceof ezcTemplateOperatorTstNode )
                 {
                     throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
                         sprintf( ezcTemplateSourceToTstErrorMessages::MSG_OPERATOR_RHS_IS_MODIFYING_BLOCK, $op->symbol ));
