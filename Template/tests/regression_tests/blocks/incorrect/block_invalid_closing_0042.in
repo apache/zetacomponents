@@ -1,0 +1,4 @@
+{* file: block_invalid_closing_0042.in *}
+{var $foo = "T42p"}
+{/default $foo}
+

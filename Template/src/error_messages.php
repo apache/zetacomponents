@@ -97,6 +97,8 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_UNKNOWN_CUSTOM_BLOCK_PARAMETER     = "Unknown custom block parameter <%s>."; 
     const MSG_REASSIGNMENT_CUSTOM_BLOCK_PARAMETER = "The custom block parameter <%s> is already assigned."; 
 
+    const MSG_CLOSING_BLOCK_NOW_ALLOWED = "This block cannot be closed.";
+
     // Custom block specific error messages
     const MSG_EXPECT_REQUIRED_OR_OPTIONAL_PARAMETER_DEFINITION_IN_CUSTOM_BLOCK = "The custom block definition specifies the startExpressionName <%s> but this name could not be found in either the optionalParameters or the requiredParameters array.";
 

@@ -1,0 +1,4 @@
+mock:3:13: Found closing block {/delimiter} without an opening block.
+
+{/delimiter}
+            ^

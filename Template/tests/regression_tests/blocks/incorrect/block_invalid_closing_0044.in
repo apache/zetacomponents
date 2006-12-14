@@ -1,0 +1,4 @@
+{* file: block_invalid_closing_0044.in *}
+{var $foo = "T42p"}
+{/delimiter $foo}
+

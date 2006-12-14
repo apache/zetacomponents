@@ -1,0 +1,4 @@
+mock:3:11: Found closing block {/default} without an opening block.
+
+{/default}
+          ^

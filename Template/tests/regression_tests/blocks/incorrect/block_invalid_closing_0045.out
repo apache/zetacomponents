@@ -1,0 +1,4 @@
+mock:3:11: Found closing block {/literal} without an opening block.
+
+{/literal}
+          ^

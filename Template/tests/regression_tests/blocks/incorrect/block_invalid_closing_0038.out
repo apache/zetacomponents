@@ -1,0 +1,4 @@
+mock:3:10: Expecting a closing curly bracket: '}'
+
+{/switch $foo}
+         ^

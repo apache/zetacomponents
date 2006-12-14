@@ -1,0 +1,4 @@
+{* file: block_invalid_closing_0028.in *}
+{var $foo = "T42p"}
+{/ldelim $foo}
+

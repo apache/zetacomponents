@@ -68,6 +68,18 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
     public $parentBlock;
 
     /**
+     * The starting point for the closing marker (the slash) specified with a cursor
+     *
+     * <code>
+     * {/foreach}
+     *  ^
+     * </code>
+     *
+     * @var ezcTemplateCursor
+     */
+    public $closingCursor;
+
+    /**
      */
     public function __construct( ezcTemplateSourceCode $source, /*ezcTemplateCursor*/ $start, /*ezcTemplateCursor*/ $end )
     {
@@ -76,6 +88,7 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
         $this->elements = array();
         $this->isClosingBlock = false;
         $this->parentBlock = null;
+        $this->closingCursor = null;
         // Most blocks use nesting
         $this->isNestingBlock = true;
         $this->minimumWhitespace = null;

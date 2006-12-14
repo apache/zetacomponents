@@ -1,0 +1,4 @@
+mock:3:8: Found closing block {/case} without an opening block.
+
+{/case}
+       ^

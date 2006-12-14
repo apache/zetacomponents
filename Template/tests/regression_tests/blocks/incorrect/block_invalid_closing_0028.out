@@ -1,0 +1,4 @@
+mock:3:2: This block cannot be closed.
+
+{/ldelim $foo}
+ ^

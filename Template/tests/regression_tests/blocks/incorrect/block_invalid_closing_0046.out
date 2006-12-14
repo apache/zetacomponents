@@ -1,0 +1,4 @@
+mock:3:11: Expecting a closing curly bracket: '}'
+
+{/literal $foo}
+          ^

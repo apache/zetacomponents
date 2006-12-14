@@ -1,0 +1,4 @@
+mock:3:9: Expecting a closing curly bracket: '}'
+
+{/while $foo}
+        ^

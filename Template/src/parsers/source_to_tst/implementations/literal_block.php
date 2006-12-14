@@ -49,10 +49,20 @@ class ezcTemplateLiteralBlockSourceToTstParser extends ezcTemplateSourceToTstPar
             return false;
         }
 
-        if( !$cursor->match( "literal" ) )
+        $hasClosingMarker = $cursor->current() == '/';
+        if ( $hasClosingMarker )
+        {
+            $closingCursor = clone $cursor;
+            $cursor->advance();
+            $this->findNextElement();
+        }
+
+        $matches = $cursor->pregMatchComplete( "#^(literal)(?:[^a-zA-Z0-9_])#" );
+        if ( $matches === false )
         {
             return false;
         }
+        $cursor->advance( strlen( $matches[1][0] ) );
 
         // skip whitespace and comments
         if ( !$this->findNextElement() )
@@ -61,7 +71,13 @@ class ezcTemplateLiteralBlockSourceToTstParser extends ezcTemplateSourceToTstPar
         // Assume end of first {literal} block
         if ( !$cursor->match("}") )
         {
-            return false;
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
+        }
+
+        if ( $hasClosingMarker )
+        {
+            throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $cursor,
+                                                  "Found closing block {/literal} without an opening block." );
         }
 
         $literalTextCursor = clone $cursor;

@@ -57,12 +57,19 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
                 return false;
 
             $name = $matches[1][0];
+            // If the custom block is not defined we have to return false.
+            $def = $this->getCustomBlockDefinition( $name );
+            if ( $def === false )
+            {
+                return false;
+            }
+
             $cursor->advance( strlen( $name ) );
             $this->findNextElement( $cursor );
 
             if( !$cursor->match( "}" ) )
             {
-                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACE_CLOSE );
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_CURLY_BRACKET_CLOSE );
             }
 
             $cb = new ezcTemplateCustomBlockTstNode( $this->parser->source, $this->startCursor, $cursor );

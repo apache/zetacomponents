@@ -68,9 +68,20 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
             // got a closing block marker
             $this->block->isClosingBlock = true;
             $closingCursor = clone $cursor;
+            $this->block->closingCursor = $closingCursor;
             $cursor->advance( 1 );
 
             $this->findNextElement();
+
+            // Check for internal blocks which are known to not support closing markers.
+            // foreach|while|if|switch|case|default|delimiter|literal|dynamic|cache_template
+            $matches = $cursor->pregMatchComplete( "#^(elseif|else|include|return|break|continue|skip|increment|decrement|reset|once|var|use|cycle|ldelim|rdelim)(?:[^a-zA-Z0-9_])#" );
+            if ( $matches !== false )
+            {
+                throw new ezcTemplateParserException( $this->parser->source,
+                                                      $this->block->closingCursor, $this->block->closingCursor,
+                                                      ezcTemplateSourceToTstErrorMessages::MSG_CLOSING_BLOCK_NOW_ALLOWED );
+            }
         }
 
 

@@ -1,0 +1,4 @@
+mock:3:6: Expecting a closing curly bracket: '}'
+
+{/if $foo}
+     ^
