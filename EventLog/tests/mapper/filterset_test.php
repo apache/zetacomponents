@@ -29,7 +29,7 @@ class ezcLogFilterSetTest extends ezcTestCase
 
         $rule = new ezcLogFilterRule( new ezcLogFilter( 1, array( "C" ), array( "C1") ), "result2", true );
         $this->map->appendRule( $rule );
-        //$this->map->map(1, array("C"), array("C1"), "result2");
+        // $this->map->map(1, array("C"), array("C1"), "result2");
         $this->assertEquals(array("result2"), $this->map->get(1, "C", "C1") );
         $this->assertEquals(array(), $this->map->get(2, "C", "C1") );
     }
@@ -39,8 +39,8 @@ class ezcLogFilterSetTest extends ezcTestCase
         $this->map->appendRule( new ezcLogFilterRule( new ezcLogFilter( 1 | 2, array("A", "B"), array("C1") ), "result1", true ) );
         $this->map->appendRule( new ezcLogFilterRule( new ezcLogFilter( 1, array("B"), array("C1") ), "result2", true ) );
 
-        //$this->map->map(1 | 2, array("A", "B"), array("C1"), "result1");
-        //$this->map->map(1, array("B"), array("C1"), "result2");
+        // $this->map->map(1 | 2, array("A", "B"), array("C1"), "result1");
+        // $this->map->map(1, array("B"), array("C1"), "result2");
 
         $this->assertEquals(array("result1", "result2"), $this->map->get(1, "B", "C1") );
 

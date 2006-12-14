@@ -40,7 +40,7 @@ class ezcLogFileWriterTest extends ezcTestCase
         try
         {
             $writer->writeLogMessage( 'xxx', 'c', 'd', '' );
-            //$log->log( null, ezcLog::INFO, array() );
+            // $log->log( null, ezcLog::INFO, array() );
             $this->fail( 'Expected exception was not thrown' );
         }
         catch ( ezcLogWriterException $e )

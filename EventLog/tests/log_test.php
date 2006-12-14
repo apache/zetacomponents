@@ -21,14 +21,14 @@ class ezcLogTest extends ezcTestCase
         parent::__construct($string);
 
         // These instances yield for all these tests.
-        //$this->log = ezcLog::getInstance();
+        // $this->log = ezcLog::getInstance();
 
         date_default_timezone_set("UTC");
    }
 
     public function __destruct()
     {
-        //$this->removeTempDir();
+        // $this->removeTempDir();
     }
 
     protected function setUp()
@@ -41,7 +41,7 @@ class ezcLogTest extends ezcTestCase
 
     protected function tearDown()
     {
-        //$this->cleanTempDir();
+        // $this->cleanTempDir();
         $this->removeTempDir();
         restore_error_handler();
     }
@@ -214,7 +214,7 @@ class ezcLogTest extends ezcTestCase
 //    public function testTriggerError()
 //    {
 //        $this->log->reset();
-//        //$this->log->map(new ezcLogFilter(), $writer = new ezcLogUnixFileWriter( $this->getTempDir(), "default.log" ));
+//        // $this->log->map(new ezcLogFilter(), $writer = new ezcLogUnixFileWriter( $this->getTempDir(), "default.log" ));
 //        $this->log->getMapper()->appendRule( new ezcLogFilterRule(new ezcLogFilter(), $a = new ezcLogUnixFileWriter( $this->getTempDir(), "default.log" ), true ) );
 //        trigger_error("Bernard, looking at all the quarters that fell out of the vending machine he broke with the crowbar.", E_USER_WARNING);
 //
@@ -426,7 +426,7 @@ class ezcLogTest extends ezcTestCase
         $this->log->map($filter, $dbWriter = new ezcLogDatabaseWriter( $db, "audits"));
         $this->log->map(new ezcLogFilter, $fileWriter = new ezcLogUnixFileWriter( $this->getTempDir(), "default.log" ) );
         $this->log->unmap($filter, $fileWriter);
-        ////////////
+        // //////////
 
         $this->log->log("Hoagie logged in.", ezcLog::SUCCESS_AUDIT, array( "source" => "administration interface",  "category" => "security", "name" => "Hoagie"));
 

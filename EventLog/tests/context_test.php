@@ -74,7 +74,7 @@ class ezcLogContextTest extends ezcTestCase
         $this->assertEquals( array(), $this->context->getContext( 32, "anything" ) );
     }
      
-   ////////////////// Same tests but now for the event source ///////////////////////// 
+   // //////////////// Same tests but now for the event source // /////////////////////// 
 
     public function testEventSourceGetSet()
     {
@@ -144,7 +144,7 @@ class ezcLogContextTest extends ezcTestCase
         $this->assertEquals( array( "A" => "a" ), $this->context->getContext( 2, "using `quotes` and 'stuff' like \"that\"" ) );
     }
  
-   ////////////////// Testing both  //////////////////////// 
+   // //////////////// Testing both  // ////////////////////// 
 
    public function testCombination()
    {
