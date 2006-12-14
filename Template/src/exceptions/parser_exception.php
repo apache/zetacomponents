@@ -7,6 +7,7 @@
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
  * Exception for failed element parsers.
  * The exception will display the exact location(s) where the error occured
@@ -15,28 +16,32 @@
  * @package Template
  * @version //autogen//
  */
-class ezcTemplateParserException extends Exception
+class ezcTemplateParserException extends ezcTemplateException
 {
-
     /**
      * The source code object which caused the error.
+     *
      * @var ezcTemplateSource
      */
     public $source;
 
     /**
      * Cursor of the parsed line.
+     *
+     * @var ezcTemplateCursor
      */
     public $startCursor;
 
     /**
      * Cursor where the error occured.
+     *
+     * @var ezcTemplateCursor
      */
     public $errorCursor;
 
-
     /**
      * The one-liner error message.
+     *
      * @var string
      */
     public $errorMessage;
@@ -44,10 +49,10 @@ class ezcTemplateParserException extends Exception
     /**
      * A more detailed error message which can for instance give hints to the
      * end-user why it failed.
+     *
      * @var string
      */
     public $errorDetails;
-
 
     /**
      * Initialises the exception with the failing elements, parser, source code
@@ -61,7 +66,6 @@ class ezcTemplateParserException extends Exception
      * @param string $errorMessage The error message.
      * @param string $errorDetails Extra details for error.
      */
-     
     public function __construct( 
                                  $source,
                                  ezcTemplateCursor $startCursor,
@@ -76,12 +80,12 @@ class ezcTemplateParserException extends Exception
         $this->errorMessage = $errorMessage;
         $this->errorDetails = $errorDetails;
 
-
         parent::__construct( $this->getErrorMessage() );
     }
 
     /**
      * Generates the error message from member variables and returns it.
+     *
      * @return string
      */
     public function getErrorMessage()
@@ -90,7 +94,10 @@ class ezcTemplateParserException extends Exception
         $code = $this->getAstNodeFailure( $this->startCursor, $this->errorCursor, $this->errorCursor );
         $details = $this->errorDetails;
 
-        if ( strlen( $details ) > 0 ) $details = "\n" . $details;
+        if ( strlen( $details ) > 0 )
+        {
+            $details = "\n" . $details;
+        }
 
         $locationMessage = "{$this->source->stream}:{$this->errorCursor->line}:" . ($this->errorCursor->column + 1). ":";
         $message = $locationMessage . " " . $this->errorMessage . "\n\n" . $code . $details . "\n"; 
@@ -123,18 +130,18 @@ class ezcTemplateParserException extends Exception
 
         $eolPos = strpos( $extraAstNode, "\n" );
         if ( $eolPos !== false )
+        {
             $extraAstNode = substr( $extraAstNode, 0, $eolPos );
+        }
 
         $code .= $extraAstNode;
         $code .= "\n";
         if ( $errorCursor->column > 0 )
+        {
             $code .= str_repeat( " ", $errorCursor->column );
+        }
         $code .= "^";
         return $code;
     }
-
-
 }
-
-
 ?>

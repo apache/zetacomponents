@@ -13,14 +13,14 @@
  * @package Template
  * @version //autogen//
  */
-class ezcTemplateRuntimeException extends Exception
+class ezcTemplateRuntimeException extends ezcTemplateException
 {
     /**
+     * Constructs a template runtime exception with message $msg.
      */
     public function __construct( $msg )
     {
         parent::__construct( $msg );
     }
 }
-
 ?>

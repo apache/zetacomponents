@@ -7,15 +7,15 @@
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
  * Exception for for missing managers in classes.
  *
  * @package Template
  * @version //autogen//
  */
-class ezcTemplateNoManagerException extends Exception
+class ezcTemplateNoManagerException extends ezcTemplateException
 {
-
     /**
      * Initialises the exception with the location object $location which
      * contains the locator which is missing.
@@ -27,6 +27,5 @@ class ezcTemplateNoManagerException extends Exception
     {
         parent::__construct( "The class '{$class}' and property '{$property}' does not contain a template manager which is required." );
     }
-
 }
 ?>

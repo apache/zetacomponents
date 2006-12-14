@@ -310,6 +310,7 @@ return array(
              "ezcTemplateAstTreeOutput"       => "Template/parsers/ast/implementations/ast_tree_output.php",
 
 // Exceptions
+             "ezcTemplateException" => "Template/exceptions/template_exception.php",
              "ezcTemplateLocatorNotFoundException" => "Template/exceptions/locator_not_found_exception.php",
              "ezcTemplateNoManagerException" => "Template/exceptions/no_manager_exception.php",
              "ezcTemplateNoOutputContextException" => "Template/exceptions/no_output_context_exception.php",

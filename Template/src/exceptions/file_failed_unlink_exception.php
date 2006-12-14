@@ -7,15 +7,15 @@
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
  * Exception for problems when unlinking template files.
  *
  * @package Template
  * @version //autogen//
  */
-class ezcTemplateFileFailedUnlinkException extends Exception
+class ezcTemplateFileFailedUnlinkException extends ezcTemplateException
 {
-
     /**
      * Initialises the exception with the template file path.
      *
@@ -26,6 +26,5 @@ class ezcTemplateFileFailedUnlinkException extends Exception
     {
         parent::__construct( "Unlinking template file '$stream' failed." );
     }
-
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateRuntimeException class
+ * File containing the ezcTemplateInternalException class
  *
  * @package Template
  * @version //autogen//
@@ -13,14 +13,14 @@
  * @package Template
  * @version //autogen//
  */
-class ezcTemplateInternalException extends Exception
+class ezcTemplateInternalException extends ezcTemplateException
 {
     /**
+     * Creates a template internal exception.
      */
     public function __construct( $msg )
     {
         parent::__construct( "Internal error: $msg" );
     }
 }
-
 ?>

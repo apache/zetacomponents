@@ -7,6 +7,7 @@
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
  * Exception for failed element parsers.
  * The exception will display the exact location(s) where the error occured
@@ -15,24 +16,26 @@
  * @package Template
  * @version //autogen//
  */
-class ezcTemplateSourceToTstParserException extends Exception
+class ezcTemplateSourceToTstParserException extends ezcTemplateException
 {
-
     /**
      * Array of elements which should be used to extract failed code.
      * Each element needs to have the property $startCursor and $endCursor.
+     *
      * @var array
      */
     public $elements;
 
     /**
      * The source code object which caused the error.
+     *
      * @var ezcTemplateSource
      */
     public $source;
 
     /**
      * The one-liner error message.
+     *
      * @var string
      */
     public $errorMessage;
@@ -40,6 +43,7 @@ class ezcTemplateSourceToTstParserException extends Exception
     /**
      * A more detailed error message which can for instance give hints to the
      * end-user why it failed.
+     *
      * @var string
      */
     public $errorDetails;
@@ -71,7 +75,6 @@ class ezcTemplateSourceToTstParserException extends Exception
 
         $this->errorMessage = $errorMessage;
         $this->errorDetails = $errorDetails;
-
 
         parent::__construct( $this->getErrorMessage() );
     }
@@ -124,7 +127,9 @@ class ezcTemplateSourceToTstParserException extends Exception
 
         $details = $this->errorDetails;
         if ( strlen( $details ) > 0 )
+        {
             $details = "\n" . $details;
+        }
         $locationMessage = "{$this->source->stream}:{$lastEndCursor->line}:{$lastEndCursor->column}:";
         $message = $locationMessage . " " . $this->errorMessage . "\n\n" . $code . $details . "\n\nfailed in:\n" . $parsers;
 
@@ -156,18 +161,18 @@ class ezcTemplateSourceToTstParserException extends Exception
 
         $eolPos = strpos( $extraAstNode, "\n" );
         if ( $eolPos !== false )
+        {
             $extraAstNode = substr( $extraAstNode, 0, $eolPos );
+        }
 
         $code .= $extraAstNode;
         $code .= "\n";
         if ( $markCursor->column > 0 )
+        {
             $code .= str_repeat( " ", $markCursor->column );
+        }
         $code .= "^";
         return $code;
     }
-
-
 }
-
-
 ?>

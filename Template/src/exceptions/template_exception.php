@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateCustomBlockException class
+ * File containing the ezcTemplateException class
  *
  * @package Template
  * @version //autogen//
@@ -9,18 +9,20 @@
  */
 
 /**
+ * ezcTemplateExceptions are thrown when an exceptional state
+ * occurs in the Template package.
  *
  * @package Template
  * @version //autogen//
  */
-class ezcTemplateCustomBlockException extends ezcTemplateException
+class ezcTemplateException extends ezcBaseException
 {
     /**
-     * Initialises the CustomBlock exception with the given message.
+     * Constructs a new ezcTemplateException with error message $message.
      *
      * @param string $message
      */
-    public function __construct( $message  )
+    public function __construct( $message )
     {
         parent::__construct( $message );
     }

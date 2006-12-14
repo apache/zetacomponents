@@ -7,6 +7,7 @@
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
  * Exception for problems in parser element code.
  *
@@ -18,7 +19,7 @@
  * @package Template
  * @version //autogen//
  */
-class ezcTemplateTypeHintException extends Exception
+class ezcTemplateTypeHintException extends ezcTemplateException
 {
     /**
      * This exception should be caught, and rethrown. The message is not important.
@@ -28,6 +29,5 @@ class ezcTemplateTypeHintException extends Exception
         $message = "Typehint failure";
         parent::__construct( $message );
     }
-
 }
 ?>

@@ -33,6 +33,8 @@
   ezcTemplateException (and not Exception)
 - Fixed problem with correct whitespace trimming of elements inside {if}
   block.
+- Fixed issue #9806: Added the ezcTemplateException class from which all
+  exception classes in Template inherit.
 
 
 1.1beta2 - Monday 20 November 2006

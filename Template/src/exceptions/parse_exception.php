@@ -7,13 +7,14 @@
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
  * Exception for problems when renaming template files.
  *
  * @package Template
  * @version //autogen//
  */
-class ezcTemplateParseException extends Exception
+class ezcTemplateParseException extends ezcTemplateException
 {
     /**
      * No source code was found in source object.
@@ -44,6 +45,5 @@ class ezcTemplateParseException extends Exception
         }
         parent::__construct( $message );
     }
-
 }
 ?>

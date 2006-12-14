@@ -7,15 +7,15 @@
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
  * Exception for problems when reading from template files.
  *
  * @package Template
  * @version //autogen//
  */
-class ezcTemplateFileNotReadableException extends Exception
+class ezcTemplateFileNotReadableException extends ezcTemplateException
 {
-
     /**
      * Initialises the exception with the template file path.
      *
@@ -26,6 +26,5 @@ class ezcTemplateFileNotReadableException extends Exception
     {
         parent::__construct( "The requested template file '$stream' is not readable." );
     }
-
 }
 ?>

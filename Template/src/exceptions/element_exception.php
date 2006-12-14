@@ -7,6 +7,7 @@
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
  * Exception for problems in parser element code.
  *
@@ -18,7 +19,7 @@
  * @package Template
  * @version //autogen//
  */
-class ezcTemplateTstNodeException extends Exception
+class ezcTemplateTstNodeException extends ezcTemplateException
 {
     /**
      * Element has no children, cannot get first child.
@@ -49,6 +50,5 @@ class ezcTemplateTstNodeException extends Exception
         }
         parent::__construct( $message );
     }
-
 }
 ?>
