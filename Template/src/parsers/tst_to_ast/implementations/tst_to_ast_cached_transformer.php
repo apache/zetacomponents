@@ -64,7 +64,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
      */
     protected function _fwritePhpOpen()
     {
-        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( new ezcTemplateVariableAstNode("fp"),  new ezcTemplateConcatOperatorAstNode( new ezcTemplateLiteralAstNode('<'), new ezcTemplateLiteralAstNode('?php\\n' ) ) ) ) );
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( new ezcTemplateVariableAstNode("fp"),  new ezcTemplateConcatOperatorAstNode( new ezcTemplateLiteralAstNode('<'), new ezcTemplateLiteralAstNode("?php\n" ) ) ) ) );
     }
 
     /**
@@ -128,7 +128,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
      */
     protected function _fwriteVarExportVariable( $variableName, $concat, $fwritePhpClose = false )
     {
-        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array(new ezcTemplateVariableAstNode("fp"),  new ezcTemplateConcatOperatorAstNode( new ezcTemplateLiteralAstNode("\\\$".$variableName." ". ($concat ? ".=" : "=") ." "), new ezcTemplateConcatOperatorAstNode( new ezcTemplateFunctionCallAstNode(  "var_export", array( new ezcTemplateVariableAstNode("$variableName"), new ezcTemplateLiteralAstNode(true) ) ), new ezcTemplateLiteralAstNode(";\\n" . ($fwritePhpClose ? " ?>" : "" )) ) ) ) ) );
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array(new ezcTemplateVariableAstNode("fp"),  new ezcTemplateConcatOperatorAstNode( new ezcTemplateLiteralAstNode("\$".$variableName." ". ($concat ? ".=" : "=") ." "), new ezcTemplateConcatOperatorAstNode( new ezcTemplateFunctionCallAstNode(  "var_export", array( new ezcTemplateVariableAstNode("$variableName"), new ezcTemplateLiteralAstNode(true) ) ), new ezcTemplateLiteralAstNode(";\n" . ($fwritePhpClose ? " ?>" : "" )) ) ) ) ) );
     }
 
     /**
@@ -201,7 +201,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
         $cb->body->appendStatement( $this->_fwritePhpOpen() );                 // fwrite( $fp, "<" . "?php\n" );
         $cb->body->appendStatement( $this->_assignEmptyString("total") );      // $total = ""
-        $cb->body->appendStatement( $this->_fwriteLiteral("\\\$_ezcTemplate_output = '';\\n") );      // fwrite( $fp, "\\\$_ezcTemplate_output = '';\\n" );
+        $cb->body->appendStatement( $this->_fwriteLiteral("\$_ezcTemplate_output = '';\n") );      // fwrite( $fp, "\\\$_ezcTemplate_output = '';\\n" );
 
 
 

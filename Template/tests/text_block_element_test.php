@@ -27,7 +27,7 @@ class ezcTemplateTextBlockElementTest extends ezcTestCase
         $textList = array( array( "simple text",
                                   "simple text" ),
                            array( "text with \\{ \\\\escaped// \\} braces",
-                                  "text with { \\\\escaped// } braces" ) );
+                                  "text with { \\escaped// } braces" ) );
         foreach ( $textList as $text )
         {
             $source = new ezcTemplateSourceCode( '', '', $text[0] );

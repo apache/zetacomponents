@@ -286,19 +286,27 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         // Output type using var_export
         if ( is_string( $type->value ) )
         {
-            $valueText = str_replace( array( "\\",
-                                             "\"",
-                                             "\$",
-                                             "\t",
-                                             "\r",
-                                             "\n" ),
-                                      array( "\\\\",
-                                             "\\\"",
-                                             "\\$",
-                                             "\\t",
-                                             "\\r",
-                                             "\\n" ),
-                                      $type->value );
+            $search = array( "\\",
+                             "\"",
+                             "\$",
+                             "\t",
+                             "\r",
+                             "\n" );
+
+            $replace = array( "\\\\",
+                              "\\\"",
+                              "\\$",
+                              "\\t",
+                              "\\r",
+                              "\\n" );
+
+            if( $this->escapeSingleQuote ) 
+            {
+                $search[] = "'";
+                $replace[] = "\\'";
+            }
+
+            $valueText = str_replace( $search, $replace, $type->value );
             $text = "\"$valueText\"";
             $this->write( $text );
         }
