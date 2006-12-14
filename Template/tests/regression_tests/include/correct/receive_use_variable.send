@@ -1,0 +1,7 @@
+<?php
+$v = new ezcTemplateVariableCollection();
+$v->number = 22;
+
+return $v;
+
+?>

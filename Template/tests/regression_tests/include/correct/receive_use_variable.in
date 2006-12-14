@@ -1,0 +1,7 @@
+{use $number}
+
+{include "receive_use_variable.inc" 
+	send 1 as $a, 2 as $b, 3 as $p, 4 as $q
+	receive $number}
+
+{$number}

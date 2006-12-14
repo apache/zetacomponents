@@ -1328,6 +1328,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             /*$this->outputVar*/ $this->outputVariable->getAst(), new ezcTemplateReferenceOperatorAstNode( $t , new ezcTemplateFunctionCallAstNode( "process", array( $type->file->accept( $this ) ) ) ) ) );
 
         $r = new ezcTemplateReferenceOperatorAstNode( $t, new ezcTemplateIdentifierAstNode( "receive" ) );
+
+
+        // Receive parameters
         foreach ( $type->receive as $oldName => $name )
         {
             if ( is_numeric( $oldName ) )
@@ -1335,8 +1338,18 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
                 $oldName = $name;
             }
 
+            $symType = $this->parser->symbolTable->retrieve( $name );
+            if ( $symType == ezcTemplateSymbolTable::IMPORT) 
+            {
+                $varAst = new ezcTemplateVariableAstNode( "this->send->".$name );
+            }
+            else
+            {
+                $varAst = new ezcTemplateVariableAstNode( $name, true );
+            }
+      
             $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
-                        new ezcTemplateVariableAstNode( $name, true ),
+                        $varAst,
                         new ezcTemplateReferenceOperatorAstNode( $r, new ezcTemplateIdentifierAstNode( $oldName ) ) ) );
         }
 
