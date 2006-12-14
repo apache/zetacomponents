@@ -304,6 +304,15 @@ In this week\'s newsletter, we bring you news about the beta 2 version of eZ com
         self::assertEquals( "Copyright only.", $feed->items[1]->DublinCore->rights );
     }
 
+    public function testParseComplexWithModuleFromVariable()
+    {
+        $feed = ezcFeed::parseContent( file_get_contents( dirname( __FILE__ ) . "/data/rss2-09.xml" ) );
+        self::assertEquals( "<p>This is a richer <i>description</i> supported by dublin code.</p>", $feed->DublinCore->description );
+        self::assertEquals( "CreativeCommons", $feed->items[0]->DublinCore->rights );
+        self::assertEquals( "This is the second item", $feed->items[1]->description );
+        self::assertEquals( "Copyright only.", $feed->items[1]->DublinCore->rights );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcFeedRss2Test" );

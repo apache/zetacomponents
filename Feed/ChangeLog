@@ -1,3 +1,10 @@
+1.0beta1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Added the ezcFeed::parseContent() method that parses a feed contained in a
+  variable.
+
+
 1.0alpha1 - Tuesday 24 October 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
