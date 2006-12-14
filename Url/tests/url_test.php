@@ -89,7 +89,7 @@ class ezcUrlTest extends ezcTestCase
         $urlStrings[] = 'http://user:password@www.example.com:82/mydir/index.php/other/stuff#cat';
         $urlStrings[] = 'http://user:password@www.example.com:82/mydir/index.php/other/stuff?me=you&arr[0]=yes&arr[1]=no#cat';
 
-        foreach( $urlStrings as $urlString )
+        foreach ( $urlStrings as $urlString )
         {
             $url = new ezcUrl( $urlString );
             $this->assertEquals( $urlString, urldecode( $url->buildUrl() ) );
