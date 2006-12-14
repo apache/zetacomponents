@@ -151,19 +151,10 @@ class ezcBase
             // environment has not been set-up correctly. 
             trigger_error( "Couldn't find autoload directory '$path'", E_USER_ERROR );
         }
-        /* FIXME: this should go away - only for development */
-        if ( self::$libraryMode == 'devel' || self::$libraryMode == 'custom' )
-        {
-            $dirs = self::getRepositoryDirectories();
-            $message = "Could not find a '{$className}' class to file mapping. Searched for " . implode( ' and ', $fileNames ) . " in: ";
-            $paths = array();
-            foreach ( $dirs as $dir )
-            {
-                $paths[] = realpath( $dir[1] );
-            }
-            $message .= implode( ', ', $paths );
-            trigger_error( $message, E_USER_WARNING );
-        }
+
+        $dirs = self::getRepositoryDirectories();
+        throw new ezcBaseAutoloadException( $className, $fileNames, $dirs );
+
         return false;
     }
 
@@ -509,7 +500,7 @@ class ezcBase
         {
             if ( array_key_exists( $prefix, ezcBase::$repositoryDirs ) )
             {
-                throw new ezcBaseDoubleClassRepositoryPrefix( $prefix, $basePath, $autoloadDirPath );
+                throw new ezcBaseDoubleClassRepositoryPrefixException( $prefix, $basePath, $autoloadDirPath );
             }
  
             // add info to the list of extra dirs, and use the prefix to identify the new repository.

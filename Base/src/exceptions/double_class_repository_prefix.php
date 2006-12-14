@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcBaseDoubleClassRepositoryPrefix class
+ * File containing the ezcBaseDoubleClassRepositoryPrefixException class
  *
  * @package Base
  * @version //autogen//
@@ -8,17 +8,19 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * ezcBaseDoubleClassRepositoryPrefix is thrown whenever you try to register a
- * class repository with a prefix that has already been added before.
+ * ezcBaseDoubleClassRepositoryPrefixException is thrown whenever you try to
+ * register a class repository with a prefix that has already been added
+ * before.
  *
  * @package Base
  * @version //autogen//
  */
-class ezcBaseDoubleClassRepositoryPrefix extends ezcBaseException
+class ezcBaseDoubleClassRepositoryPrefixException extends ezcBaseException
 {
     /**
-     * Constructs a new ezcBaseDoubleClassRepositoryPrefix for the $prefix that
-     * points to $basePath with autoload directory $autoloadDirPath.
+     * Constructs a new ezcBaseDoubleClassRepositoryPrefixException for the
+     * $prefix that points to $basePath with autoload directory
+     * $autoloadDirPath.
      */
     function __construct( $prefix, $basePath, $autoloadDirPath )
     {

@@ -17,7 +17,8 @@ return array(
     'ezcBaseException'                     => 'Base/exceptions/exception.php',
     'ezcBaseFileException'                 => 'Base/exceptions/file_exception.php',
 
-    'ezcBaseDoubleClassRepositoryPrefix'   => 'Base/exceptions/double_class_repository_prefix.php',
+    'ezcBaseAutoloadException'             => 'Base/exceptions/autoload.php',
+    'ezcBaseDoubleClassRepositoryPrefixException' => 'Base/exceptions/double_class_repository_prefix.php',
     'ezcBaseFileNotFoundException'         => 'Base/exceptions/file_not_found.php',
     'ezcBaseFileIoException'               => 'Base/exceptions/file_io.php',
     'ezcBaseFilePermissionException'       => 'Base/exceptions/file_permission.php',

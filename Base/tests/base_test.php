@@ -340,7 +340,18 @@ class ezcBaseTest extends ezcTestCase
 
         self::assertEquals( true, class_exists( 'trBasetestClass', true ) );
         self::assertEquals( true, class_exists( 'trBasetestClass2', true ) );
-        self::assertEquals( false, @class_exists( 'trBasetestClass3', true ) );
+
+        try
+        {
+            self::assertEquals( false, class_exists( 'trBasetestClass3', true ) );
+            self::fail( 'The expected exception was not thrown.' );
+        }
+        catch ( ezcBaseAutoloadException $e )
+        {
+            $cwd = getcwd();
+            self::assertEquals( "Could not find a class to file mapping for 'trBasetestClass3'. Searched for basetest_class3_autoload.php and basetest_autoload.php in: $cwd/autoload, $cwd/autoload, $cwd/autoload, $cwd/Base/tests/test_repository/autoload_files, $cwd/Base/tests/test_repository/autoload_files", $e->getMessage() );
+        }
+
         self::assertEquals( true, class_exists( 'trBasetestLongClass', true ) );
 
         try
@@ -374,7 +385,7 @@ class ezcBaseTest extends ezcTestCase
         {
             ezcBase::addClassRepository( './Base/tests/test_repository', './Base/tests/test_repository/autoload_files', 'tr' );
         }
-        catch ( ezcBaseDoubleClassRepositoryPrefix $e )
+        catch ( ezcBaseDoubleClassRepositoryPrefixException $e )
         {
             self::assertEquals( "The class repository in './Base/tests/test_repository' (with autoload dir './Base/tests/test_repository/autoload_files') can not be added because another class repository already uses the prefix 'tr'.", $e->getMessage() );
         }
@@ -408,24 +419,16 @@ class ezcBaseTest extends ezcTestCase
 
     public function testInvalidClass()
     {
-        set_error_handler( array( $this, "ErrorHandlerTest" ) );
-        self::assertEquals( false, @class_exists( 'ezcNoSuchClass', true ) );
-        $dirs = ezcBase::getRepositoryDirectories();
-        $paths = array();
-        foreach ( $dirs as $dir )
+        try
         {
-            $paths[] = realpath( $dir[1] );
+            self::assertEquals( false, class_exists( 'ezcNoSuchClass', true ) );
+            self::fail( 'The expected exception was not thrown.' );
         }
-        $expectedErrorMessage = "Could not find a 'ezcNoSuchClass' class to file mapping. Searched for no_such_autoload.php and no_autoload.php in: ";
-        $expectedErrorMessage .= implode( ', ', $paths );
-        self::assertEquals( $expectedErrorMessage, $this->errorMessage );
-        restore_error_handler();
-    }
-
-    // For trigger_error test from testInvalidClass().
-    public function ErrorHandlerTest( $errno, $errstr, $errfile, $errline )
-    {
-        $this->errorMessage = $errstr;
+        catch ( ezcBaseAutoloadException $e )
+        {
+            $cwd = getcwd();
+            self::assertEquals( "Could not find a class to file mapping for 'ezcNoSuchClass'. Searched for no_such_autoload.php and no_autoload.php in: $cwd/autoload, $cwd/autoload, $cwd/autoload, $cwd/Base/tests/test_repository/autoload_files, $cwd/Base/tests/test_repository/autoload_files, $cwd/Base/tests/extra_repository/autoload, $cwd/Base/tests/test_repository/autoload_files, $cwd/Base/tests/test_repository/autoload_files", $e->getMessage() );
+        }
     }
 
     public static function suite()

@@ -5,6 +5,11 @@
   ezcBaseFeatures.
 - Fixed issue #9780: ezcBaseFeatures throws notice about non-existing array
   key "PATH".
+- Fixed the exception name for 'ezcBaseDoubleClassRepositoryPrefix' - it was
+  missing "Exception".
+- Implemented issue $9811: If a file for a class can not be found through
+  autoloading, we now throw the ezcBaseAutoloadException which makes debugging
+  easier.
 
 
 1.2beta2 - Monday 20 November 2006
