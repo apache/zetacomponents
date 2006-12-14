@@ -64,6 +64,13 @@ class ezcTemplateModifyingBlockTstNode extends ezcTemplateBlockTstNode
         $this->expressionRoot = null;
 
         $this->isNestingBlock = false;
+   }
+
+    public function getTreeProperties()
+    {
+        return array( 'startBracket'   => $this->startBracket,
+                      'endBracket'     => $this->endBracket,
+                      'expressionRoot' => $this->expressionRoot );
     }
 
     /**
