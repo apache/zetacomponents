@@ -869,7 +869,7 @@ class ezcPersistentSession
 
         // fetch the id generator
         $idGenerator = null;
-        if ( class_exists( $def->idProperty->generator->class ) )
+        if ( ezcBaseFeatures::classExists( $def->idProperty->generator->class ) )
         {
             $idGenerator = new $def->idProperty->generator->class;
             if ( !( $idGenerator instanceof ezcPersistentIdentifierGenerator ) )

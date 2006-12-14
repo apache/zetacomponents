@@ -6,6 +6,8 @@
   PersistentObjectDatabaseSchemaTiein.
 - Fixed issue #9563: watermarkAbsolute filters requires width and height options.
 - Fixed issue #9520: ImageConversion test fails.
+- Fixed issue #9819: Let all components deal the ezcBaseAutoloadException
+  properly.
 
 
 1.2beta1 - Monday 20 November 2006

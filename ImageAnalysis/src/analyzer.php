@@ -178,7 +178,7 @@ class ezcImageAnalyzer
         ezcImageAnalyzer::$availableHandlers = array();
         foreach ( ezcImageAnalyzer::$knownHandlers as $handlerClass => $options )
         {
-            if ( !class_exists( $handlerClass ) || !is_subclass_of( $handlerClass, 'ezcImageAnalyzerHandler' ) )
+            if ( !ezcBaseFeatures::classExists( $handlerClass ) || !is_subclass_of( $handlerClass, 'ezcImageAnalyzerHandler' ) )
             {
                 throw new ezcImageAnalyzerInvalidHandlerException( $handlerClass );
             }

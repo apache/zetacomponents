@@ -288,7 +288,7 @@ abstract class ezcTemplateSourceToTstParser
         if ( is_string( $type ) )
         {
             $className = 'ezcTemplate' . $type . 'SourceToTstParser';
-            if ( !class_exists( $className ) )
+            if ( !ezcBaseFeatures::classExists( $className ) )
                 throw new ezcTemplateInternalException( "Could instantiate sub-parser for type <$type>, the class <$className> does not exist" );
 
             $this->subParser = new $className( $this->parser, $this, $startCursor );
@@ -331,7 +331,7 @@ abstract class ezcTemplateSourceToTstParser
         if ( is_string( $type ) )
         {
             $className = 'ezcTemplate' . $type . 'SourceToTstParser';
-            if ( !class_exists( $className ) )
+            if ( !ezcBaseFeatures::classExists( $className ) )
                 throw new ezcTemplateInternalException( "Could instantiate sub-parser for type <$type>, the class <$className> does not exist" );
 
             $this->subParser = new $className( $this->parser, $this, $startCursor );

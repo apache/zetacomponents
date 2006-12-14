@@ -206,7 +206,7 @@ class ezcCacheManager
             }
         }
         // Sanity check storage class. Used @ to avoid nasty warning on non-existant classes.
-        if ( !@class_exists( $storageClass ) || !is_subclass_of( $storageClass, 'ezcCacheStorage' ) )
+        if ( !@ezcBaseFeatures::classExists( $storageClass ) || !is_subclass_of( $storageClass, 'ezcCacheStorage' ) )
         {
             throw new ezcCacheInvalidStorageClassException( $storageClass );
         }

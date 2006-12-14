@@ -97,13 +97,13 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
         $parser = 'ezcTemplate' . $csMap[$name] . 'SourceToTstParser';
 
         // tmp
-        if ( !class_exists( $parser ) )
+        if ( !ezcBaseFeatures::classExists( $parser ) )
         {
             return false;
         }
 
         // @todo Fix exception class
-        if ( !class_exists( $parser ) )
+        if ( !ezcBaseFeatures::classExists( $parser ) )
         {
             throw new ezcTemplateInternalException( "Requested parser class <{$parser}> does not exist" );
         }

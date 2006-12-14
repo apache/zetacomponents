@@ -4,6 +4,8 @@
 - Fixed issue #9493: Convert < and > in exception messages to ' and ' for
   Cache, ConsoleTools, ImageAnalysis, ImageConversion, PersistentObject,
   PersistentObjectDatabaseSchemaTiein.
+- Fixed issue #9819: Let all components deal the ezcBaseAutoloadException
+  properly.
 
 
 1.1.3 - Monday 20 November 2006

@@ -182,7 +182,7 @@ class ezcDbSchemaHandlerManager
     static public function addReader( $type, $readerClass )
     {
         // Check if the passed classname actually exists
-        if ( !class_exists( $readerClass, true ) )
+        if ( !ezcBaseFeatures::classExists( $readerClass, true ) )
         {
             throw new ezcDbSchemaInvalidReaderClassException( $readerClass );
         }
@@ -210,7 +210,7 @@ class ezcDbSchemaHandlerManager
     static public function addWriter( $type, $writerClass )
     {
         // Check if the passed classname actually exists
-        if ( !class_exists( $writerClass, true ) )
+        if ( !ezcBaseFeatures::classExists( $writerClass, true ) )
         {
             throw new ezcDbSchemaInvalidWriterClassException( $writerClass );
         }
@@ -238,7 +238,7 @@ class ezcDbSchemaHandlerManager
     static public function addDiffReader( $type, $readerClass )
     {
         // Check if the passed classname actually exists
-        if ( !class_exists( $readerClass, true ) )
+        if ( !ezcBaseFeatures::classExists( $readerClass, true ) )
         {
             throw new ezcDbSchemaInvalidDiffReaderClassException( $readerClass );
         }
@@ -266,7 +266,7 @@ class ezcDbSchemaHandlerManager
     static public function addDiffWriter( $type, $writerClass )
     {
         // Check if the passed classname actually exists
-        if ( !class_exists( $writerClass, true ) )
+        if ( !ezcBaseFeatures::classExists( $writerClass, true ) )
         {
             throw new ezcDbSchemaInvalidDiffWriterClassException( $writerClass );
         }

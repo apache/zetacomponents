@@ -220,15 +220,8 @@ class ezcImageConverter
                 throw new ezcImageHandlerSettingsInvalidException();
             }
             $handlerClass = $handlerSettings->className;
-            // Silence stupid warning from class_exists()
-            try
-            {
-                if ( !class_exists( $handlerClass ) )
-                {
-                    throw new ezcImageHandlerNotAvailableException( $handlerClass );
-                }
-            }
-            catch ( ezcBaseAutoloadException $e )
+            // Silence stupid warning from ezcBaseFeatures::classExists)
+            if ( !ezcBaseFeatures::classExists( $handlerClass ) )
             {
                 throw new ezcImageHandlerNotAvailableException( $handlerClass );
             }

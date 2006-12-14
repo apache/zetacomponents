@@ -1,3 +1,5 @@
+1.1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 - Fixed issue #9601: wrong __isset implementation in Template/template.php
 - Fixed an issue that the space before 'array append' threw an exception.
 - Fixed in several parser error messages the text and cursor position.
@@ -33,6 +35,8 @@
   block.
 - Fixed issue #9806: Added the ezcTemplateException class from which all
   exception classes in Template inherit.
+- Fixed issue #9819: Let all components deal the ezcBaseAutoloadException
+  properly.
 
 
 1.1beta2 - Monday 20 November 2006

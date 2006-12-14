@@ -95,7 +95,7 @@ class ezcExecution
     static public function init( $callbackClassName )
     {
         // Check if the passed classname actually exists
-        if ( !class_exists( $callbackClassName, true ) )
+        if ( !ezcBaseFeatures::classExists( $callbackClassName, true ) )
         {
             throw new ezcExecutionInvalidCallbackException( $callbackClassName );
         }

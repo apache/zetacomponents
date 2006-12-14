@@ -127,7 +127,7 @@ class ezcConfigurationManager
     public function init( $readerClass, $location, array $options = array() )
     {
         // Check if the passed classname actually exists
-        if ( !class_exists( $readerClass, true ) )
+        if ( !ezcBaseFeatures::classExists( $readerClass, true ) )
         {
             throw new ezcConfigurationInvalidReaderClassException( $readerClass );
         }
