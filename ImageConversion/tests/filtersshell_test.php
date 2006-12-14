@@ -360,7 +360,7 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
-            150
+            300
         );
     }
 
