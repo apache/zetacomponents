@@ -72,10 +72,10 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
         $name2 = 'company';
         $q = new ezcQuerySelect( ezcDbInstance::get() );
 
-        //subselect
+        // subselect
         $q2 = $q->subSelect();
 
-        //bind values
+        // bind values
         $q2->select('company')
                 ->from( 'query_test' )
                     ->where( $q2->expr->eq( 'company', "'IBM'" ), ' id > 2 ' );
@@ -99,10 +99,10 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
         $name2 = 'company';
         $q = new ezcQuerySelect( ezcDbInstance::get() );
 
-        //subselect
+        // subselect
         $q2 = $q->subSelect();
 
-        //bind values
+        // bind values
         $q2->select('company')
                 ->from( 'query_test' )
                     ->where( $q2->expr->eq( 'company', $q2->bindParam( $name ) ), ' id > 2 ' );
@@ -126,16 +126,16 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
         $name2 = 'company';
         $q = new ezcQuerySelect( ezcDbInstance::get() );
 
-        //subselect
+        // subselect
         $q2 = $q->subSelect();
 
-        //sub subselect
+        // sub subselect
         $q3 = $q2->subSelect();
         $q3->select('*')
             ->from( 'query_test2' )
                 ->where( $q3->expr->in( 'company', 'IBM', 'eZ systems' ) );
 
-        //bind values
+        // bind values
         $q2->select('company')
                 ->from( 'query_test' )
                     ->where( $q2->expr->eq( 'company', $q2->bindParam( $name ) ), ' id > 2 ' );

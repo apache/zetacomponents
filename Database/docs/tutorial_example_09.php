@@ -9,9 +9,9 @@ $q2 = $q->subSelect();
 // $q2 will build the subquery "SELECT company FROM query_test WHERE
 // company = :ezcValue1 AND id > 2". This query will be used inside the SQL for
 // $q.
-$q2->select('company')
-        ->from( 'query_test' )
-            ->where( $q2->expr->eq( 'company', $q2->bindParam( $name ) ), 'id > 2' );
+$q2->select( 'company' )
+   ->from( 'query_test' )
+   ->where( $q2->expr->eq( 'company', $q2->bindParam( $name ) ), 'id > 2' );
 
 // $q the resulting query. It produces the following SQL:
 // SELECT * FROM query_test

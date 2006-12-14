@@ -171,7 +171,7 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
         {
             $this->q->select( '*' )->innerJoin( 'table1', 'column1', 'column2' );
         }
-        catch( ezcQueryException $e )
+        catch ( ezcQueryException $e )
         {
             return;
         }
@@ -258,7 +258,7 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
         {
             $this->q->select( '*' )->leftJoin( 'table1', 'column1', 'column2' );
         }
-        catch( ezcQueryException $e )
+        catch ( ezcQueryException $e )
         {
             return;
         }
@@ -314,7 +314,7 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
 
         $stmt = $this->db->query( $this->q->getQuery() );
 
-        if ( $this->db->getName() == 'sqlite' ) //right joins for SQLite are emulated by left joins for the tables in reverse order
+        if ( $this->db->getName() == 'sqlite' ) // right joins for SQLite are emulated by left joins for the tables in reverse order
         {
            $reference = 'SELECT employees.name, orders.product, in_use.amount '.
                             'FROM in_use LEFT JOIN orders ON in_use.product_id = orders.id '.
@@ -348,7 +348,7 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
                  ->where( $this->q->expr->gt( 'in_use.amount', '2' ) );
         $stmt = $this->db->query( $this->q->getQuery() );
 
-        if ( $this->db->getName() == 'sqlite' ) //right joins for SQLite are emulated by left joins for the tables in reverse order
+        if ( $this->db->getName() == 'sqlite' ) // right joins for SQLite are emulated by left joins for the tables in reverse order
         {
            $reference = 'SELECT employees.name, orders.product, in_use.amount '.
                             'FROM in_use LEFT JOIN orders ON in_use.product_id = orders.id '.
@@ -386,7 +386,7 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
                     ->rightJoin( 'employees', 'employees.id', 'orders.employee_id' )
                  ->where( $this->q->expr->gt( 'in_use.amount', '2' ) );
 
-        if ( $this->db->getName() == 'sqlite' ) //right joins for SQLite are emulated by left joins for the tables in reverse order
+        if ( $this->db->getName() == 'sqlite' ) // right joins for SQLite are emulated by left joins for the tables in reverse order
         {
            $reference = 'SELECT employees.name, orders.product, in_use.amount '.
                             'FROM in_use LEFT JOIN orders ON in_use.product_id = orders.id '.
@@ -413,7 +413,7 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
         {
             $this->q->select( '*' )->rightJoin( 'table1', 'column1', 'column2' );
         }
-        catch( ezcQueryException $e )
+        catch ( ezcQueryException $e )
         {
             return;
         }

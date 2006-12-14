@@ -38,7 +38,7 @@ class ezcDatabaseHandlerTest extends ezcTestCase
             $db = new $className( array() );
             $this->fail( "Instantiating a handler with no database name should not be successful" );
         }
-        catch( ezcDbMissingParameterException $e ) {}
+        catch ( ezcDbMissingParameterException $e ) {}
     }
 
     public function testIdentifierQuotingNoEscape()

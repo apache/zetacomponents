@@ -69,7 +69,7 @@ class ezcQueryExpressionTest extends ezcTestCase
             $this->e->lOr();
             $this->fail( "Expected exception" );
         }
-        catch( ezcQueryVariableParameterException $e ) {}
+        catch ( ezcQueryVariableParameterException $e ) {}
     }
 
     public function testlOrSingle()
@@ -91,7 +91,7 @@ class ezcQueryExpressionTest extends ezcTestCase
             $this->e->lAnd();
             $this->fail( "Expected exception" );
         }
-        catch( ezcQueryVariableParameterException $e ) {}
+        catch ( ezcQueryVariableParameterException $e ) {}
     }
 
     public function testlAndSingle()
@@ -119,7 +119,7 @@ class ezcQueryExpressionTest extends ezcTestCase
             $this->e->add();
             $this->fail( "Expected exception" );
         }
-        catch( ezcQueryVariableParameterException $e ) {}
+        catch ( ezcQueryVariableParameterException $e ) {}
     }
 
     public function testAddSingle()
@@ -141,7 +141,7 @@ class ezcQueryExpressionTest extends ezcTestCase
             $this->e->sub();
             $this->fail( "Expected exception" );
         }
-        catch( ezcQueryVariableParameterException $e ) {}
+        catch ( ezcQueryVariableParameterException $e ) {}
     }
 
     public function testSubtractSingle()
@@ -163,7 +163,7 @@ class ezcQueryExpressionTest extends ezcTestCase
             $this->e->mul();
             $this->fail( "Expected exception" );
         }
-        catch( ezcQueryVariableParameterException $e ) {}
+        catch ( ezcQueryVariableParameterException $e ) {}
     }
 
     public function testMultiplySingle()
@@ -185,7 +185,7 @@ class ezcQueryExpressionTest extends ezcTestCase
             $this->e->div();
             $this->fail( "Expected exception" );
         }
-        catch( ezcQueryVariableParameterException $e ) {}
+        catch ( ezcQueryVariableParameterException $e ) {}
     }
 
     public function testDivideSingle()
@@ -243,7 +243,7 @@ class ezcQueryExpressionTest extends ezcTestCase
             $this->e->in( 'id' );
             $this->fail( "Expected exception" );
         }
-        catch( ezcQueryVariableParameterException $e ) {}
+        catch ( ezcQueryVariableParameterException $e ) {}
     }
 
     public function testInSingle()
@@ -343,7 +343,7 @@ class ezcQueryExpressionTest extends ezcTestCase
             $this->e->concat();
             $this->fail( "Expected exception" );
         }
-        catch( ezcQueryVariableParameterException $e ) {}
+        catch ( ezcQueryVariableParameterException $e ) {}
     }
 
     /**
