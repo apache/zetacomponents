@@ -142,7 +142,6 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
 
         return true;
    }
-
 }
 
 ?>

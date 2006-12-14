@@ -279,8 +279,6 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             $this->programNode->appendStatement( new ezcTemplateReturnAstNode( $this->outputVariable->getAst()) );
 
         }
-
-        //parent::visitProgramTstNode( $type );
     }
 
     public function visitReturnTstNode( ezcTemplateReturnTstNode $node )
@@ -347,12 +345,12 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         $symbols = $symbolTable->retrieveSymbolsWithType( array( ezcTemplateSymbolTable::VARIABLE, ezcTemplateSymbolTable::CYCLE ) );
 
         $newStatement = array();
-
-        // Initialize the values.
-        // XXX: Check also for the used variables.
-        foreach( $symbols as $symbol )
+        foreach( $symbols as $s )
         {
-            $newStatement[] = $this->_fwriteVarExportVariable( "_ezc_".$symbol, false, false );
+            if (array_key_exists( $s, $this->declaredVariables ) )
+            {
+                $newStatement[] = $this->_fwriteVarExportVariable( "_ezc_".$s, false, false );
+            }
         }
         
         $newStatement[] = $this->_comment(" ---> start {dynamic}");
@@ -399,6 +397,38 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
         return $newStatement;
     }
+
+    public function visitCacheTstNode( ezcTemplateCacheTstNode $type )
+    {
+        if( $type->type == ezcTemplateCacheTstNode::TYPE_CACHE_TEMPLATE )
+        {
+            // Modify the root node.
+            $this->programNode->cacheTemplate = true;
+
+            foreach( $type->keys as $key )
+            {
+                // Translate the 'old' variableName to the new name.
+                $k = $key->accept($this);
+                $this->programNode->cacheKeys[] = $k->name;
+            }
+
+            // And translate the ttl.
+            if( $type->ttl != null ) 
+            {
+                $this->programNode->ttl = $type->ttl->accept($this);
+            }
+
+            return new ezcTemplateNopAstNode();
+        }
+        else
+        {
+            var_dump ($type );
+            $cb = new ezcTemplateCacheBlockAstNode( $type->elements->accept($this) );
+            
+            return $cb;
+        }
+    }
+
 }
 
 ?>

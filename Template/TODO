@@ -1,31 +1,16 @@
 TODO
 ====
 
-- Check_variables.
+- Document CustomBlockDefinition and CustomFunctionDefinition.
 
-- "hello $this bla" 
 
 Tests
 -----
 
 
-
 Caching
 -------
-
-
-Rename variable names to prevent interference
----------------------------------------------
-
-Using the variable name: {$this} in the template code is dangerous. 
-The template is called via the include method, in the class: <ezcTemplateCompiledCode>.
-{$this} represents the current object, and can be overwritten. 
-
-Renaming the (critical) variables used in the template can be a solution. 
-(For example prepend the variable name with _ezc_.) The problem with this
-solution is that a variable can be used in a literal string: 
-{"My name is $name"}. Therefore the literals should be scanned for variable names, and
-translated accordingly.
+- Check {custom_block}
 
 
 Version number
@@ -35,8 +20,6 @@ Do we need a version number?
 
 To differentiate between other template engines, we rely on the path and template extension.
 Newer versions of this template engine should be compatible with the older templates. 
-
-
 
 
 Function typehints

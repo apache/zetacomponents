@@ -57,6 +57,26 @@ class ezcTemplateCacheTest extends ezcTestCase
             $this->fail( "Expected the directory to exists: " . $cacheDir );
         }
     }
+    
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    // Cache block is not implemented, and should give an exception.
+
+    public function testCacheBlock()
+    {
+        $t = new ezcTemplate( );
+        $t->send->user = new TestUser( "Bernard", "Black" );
+
+        try
+        {
+            $out = $t->process( "cache_block.tpl");
+            $this->fail( "{cache_block} should throw an exception");
+        }
+        catch ( ezcTemplateParserException $e )
+        {
+        }
+    }
+
+
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Test the dynamic block.
@@ -111,8 +131,43 @@ class ezcTemplateCacheTest extends ezcTestCase
         $out = $t->process( "cache_dynamic_single_quote.tpl");
 
         $this->assertEquals( "\n'Bernard'\n'Guybrush' \\'\n", $out );
+    }
+
+    // Declare a variable under the first dynamic block.
+    public function testDynamicBlockVariableDeclaration()
+    {
+        $t = new ezcTemplate( );
+        $t->send->number = 22; 
+        $t->process( "cache_dynamic_var_declare.tpl");
+
+       /* 
+        $this->assertEquals( "\n[2]\n[Bernard Black]\n[Nr 2]\n[Bernard Black]\n[Nr 3]\n[4]\n[Bernard Black]\n", $out );
+
+        $t->send->user = new TestUser( "Guybrush", "Threepwood", 10 );
+        $out = $t->process( "cache_dynamic_advanced.tpl");
+
+        $this->assertEquals( "\n[2]\n[Bernard Black]\n[Nr 2]\n[Guybrush Threepwood]\n[Nr 3]\n[13]\n[Guybrush Threepwood]\n", $out );
+        */
+    }
+
+    // Declare a variable under the first dynamic block.
+    public function testDynamicBlockImplicitVariableDeclaration()
+    {
+        $t = new ezcTemplate( );
+        $t->send->number = 22; 
+        $t->process( "cache_dynamic_implicit_declaration.tpl");
+
+ //       $this->assertEquals( "\n22\n5\n6\n", $t->output );
+
+//        $t->send->number = 23; 
+  //      $t->process( "cache_dynamic_implicit_declaration.tpl");
+
+   //     $this->assertEquals( "\n23\n5\n6\n", $t->output );
 
     }
+
+
+
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     // Test the cache keys.
@@ -365,7 +420,6 @@ class ezcTemplateCacheTest extends ezcTestCase
         //$this->assertEquals( "4", $t->receive->calc);
         //$this->assertEquals( "I am rubber, you are glue.", $t->receive->quote);
     }
-
 
 }
 

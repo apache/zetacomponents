@@ -161,6 +161,7 @@ return array(
              "ezcTemplateCurlyBracesAstNode" => "Template/syntax_trees/ast/nodes/curly_braces.php",
              "ezcTemplatePhpCodeAstNode" => "Template/syntax_trees/ast/nodes/php_code.php",
              "ezcTemplateDynamicBlockAstNode" => "Template/syntax_trees/ast/nodes/dynamic_block.php",
+             "ezcTemplateCacheBlockAstNode" => "Template/syntax_trees/ast/nodes/cache_block.php",
              "ezcTemplateThrowExceptionAstNode" => "Template/syntax_trees/ast/nodes/throw_exception.php",
 
              // Control

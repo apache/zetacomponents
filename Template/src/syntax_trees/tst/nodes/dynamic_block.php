@@ -17,11 +17,6 @@
  */
 class ezcTemplateDynamicBlockTstNode extends ezcTemplateBlockTstNode
 {
-   public $type = 0; 
-
-    //public $isClosingBlock = false;
-
-
     /**
      *
      * @param ezcTemplateSource $source

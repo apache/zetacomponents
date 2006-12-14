@@ -17,10 +17,8 @@
  */
 class ezcTemplateCacheTstNode extends ezcTemplateExpressionTstNode
 {
-    const TYPE_NOT_SET = 0;
-    const TYPE_TEMPLATE_CACHE = 1;
-    const TYPE_DYNAMIC_OPEN = 10;
-    const TYPE_DYNAMIC_CLOSE = 11;
+    const TYPE_CACHE_TEMPLATE = 1;
+    const TYPE_CACHE_BLOCK = 2;
 
     public $type = 0; 
 

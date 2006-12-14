@@ -47,6 +47,8 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     private $isFunctionFromObject = false;
     private $allowArrayAppend = false;
 
+    protected $declaredVariables = array();
+
     public function __construct( $parser )
     {
         $this->functions = new ezcTemplateFunctions( $parser );
@@ -311,6 +313,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         }
     }
 
+    /*
     public function visitCacheTstNode( ezcTemplateCacheTstNode $type )
     {
         if( $type->type == ezcTemplateCacheTstNode::TYPE_TEMPLATE_CACHE )
@@ -334,10 +337,17 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             return new ezcTemplateNopAstNode();
         }
     }
+     */
 
+    public function visitCacheTstNode( ezcTemplateCacheTstNode $type )
+    {
+        throw new ezcTemplateInternalException( "visitCacheTstNode is handled in the (wrong) tst_to_ast_transformer" );
+    }
+
+    
     public function visitDynamicBlockTstNode( ezcTemplateDynamicBlockTstNode $type )
     {
-        return new ezcTemplateDynamicBlockAstNode( $this->createBody( $type->elements ) );
+        throw new ezcTemplateInternalException( "visitDynamicTstNode is handled in the (wrong) tst_to_ast_transformer" );
     }
 
 
@@ -649,9 +659,11 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         if ( $type->keyVariableName  !== null )
         {
             $astNode[$i]->keyVariable = new ezcTemplateVariableAstNode( $type->keyVariableName, true );
+            $this->declaredVariables[$type->keyVariableName] = true;
         }
 
         $astNode[$i]->valueVariable = new ezcTemplateVariableAstNode( $type->itemVariableName, true );
+        $this->declaredVariables[$type->itemVariableName] = true;
 
         $astNode[$i]->body = $body; 
        
@@ -1172,6 +1184,8 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitDeclarationTstNode( ezcTemplateDeclarationTstNode $type ) 
     {
+        $this->declaredVariables[ $type->variable->name ] = true;
+
         if ( $this->parser->symbolTable->retrieve( $type->variable->name ) == ezcTemplateSymbolTable::CYCLE ) 
         {
             $this->noProperty = true;
@@ -1186,7 +1200,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
                 throw new ezcTemplateParserException( $type->source, $type->expression->startCursor, $type->expression->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_ARRAY );
             }
 
-            $b =  new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $type->variable->accept( $this ), $expression ) );
+            $b = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode(  $type->variable->accept( $this ), $expression ) );
 
             return array( $a, $b );
         }
