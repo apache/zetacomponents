@@ -94,7 +94,7 @@ class ezcArchiveV7Tar extends ezcArchive
         $this->hasNullBlocks = $this->file->isNew() ?  false : true;
         $this->addedBlocks = 0;
 
-        if( $this->file->getFileAccess() !== ezcArchiveFile::WRITE_ONLY) $this->readCurrentFromArchive();
+        if ( $this->file->getFileAccess() !== ezcArchiveFile::WRITE_ONLY) $this->readCurrentFromArchive();
     }
 
     public function __destruct()
@@ -224,9 +224,9 @@ class ezcArchiveV7Tar extends ezcArchive
     // Documentation is inherited.
     public function truncate( $fileNumber = 0)
     {
-        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+        if ( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
 
-        if ($this->file->getFileAccess() === ezcArchiveFile::READ_ONLY || !$this->algorithmCanWrite())
+        if ( $this->file->getFileAccess() === ezcArchiveFile::READ_ONLY || !$this->algorithmCanWrite() )
         {
             throw new ezcBaseFilePermissionException( $this->file->getFileName(), ezcBaseFilePermissionException::WRITE, "Archive is read-only" );
         }
@@ -254,10 +254,10 @@ class ezcArchiveV7Tar extends ezcArchive
                 return false;
             }
 
-            if( !$this->file->truncate ( $endBlockNumber + 1 ) )
+            if ( !$this->file->truncate ( $endBlockNumber + 1 ) )
             {
-                throw new ezcArchiveException( "The archive cannot be truncated to " . ($endBlockNumber + 1) . " block(s). ".
-                                               "This happens with write-only files or stream (e.g. compress.zlib) ");
+                throw new ezcArchiveException( "The archive cannot be truncated to " . ( $endBlockNumber + 1 ) . " block(s). ".
+                                               "This happens with write-only files or stream (e.g. compress.zlib) " );
             }
 
             $this->entriesRead = $fileNumber;
@@ -271,19 +271,19 @@ class ezcArchiveV7Tar extends ezcArchive
     // Documentation is inherited.
     public function appendToCurrent( $files, $prefix )
     {
-        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+        if ( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
         
-        if ($this->file->getFileAccess() !== ezcArchiveFile::READ_WRITE )
+        if ( $this->file->getFileAccess() !== ezcArchiveFile::READ_WRITE )
         {
             throw new ezcArchiveException( "Cannot appendToCurrent when writing to a read-only, write-only stream (e.g. compress.zlib)." );
         }
 
-        if ($this->file->getFileAccess() === ezcArchiveFile::READ_ONLY || !$this->algorithmCanWrite())
+        if ( $this->file->getFileAccess() === ezcArchiveFile::READ_ONLY || !$this->algorithmCanWrite() )
         {
             throw new ezcBaseFilePermissionException( $this->file->getFileName(),  ezcBaseFilePermissionException::WRITE );
         }
 
-        $entries = $this->getEntries( $files, $prefix);
+        $entries = $this->getEntries( $files, $prefix );
         $originalFileNumber = $this->fileNumber;
 
         for( $i = 0; $i < sizeof( $files ); $i++)
@@ -312,25 +312,25 @@ class ezcArchiveV7Tar extends ezcArchive
      */
     public function append( $files, $prefix)
     {
-        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+        if ( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
 
-        if ($this->file->getFileAccess() === ezcArchiveFile::READ_ONLY || !$this->algorithmCanWrite())
+        if ( $this->file->getFileAccess() === ezcArchiveFile::READ_ONLY || !$this->algorithmCanWrite() )
         {
             throw new ezcArchiveException( "Archive is read-only" );
         }
 
         // Appending to an existing archive with a compressed stream does not work because we have to remove the NULL-blocks. 
-        if( $this->hasNullBlocks && $this->file->getFileAccess() !== ezcArchiveFile::READ_WRITE )
+        if ( $this->hasNullBlocks && $this->file->getFileAccess() !== ezcArchiveFile::READ_WRITE )
         {
             throw new ezcArchiveException( "Cannot append to this archive" );
         }
 
         // Existing files need to be read, because we don't know if it contains NULL-blocks at the end of the archive.
-        if( $this->file->getFileAccess() !== ezcArchiveFile::WRITE_ONLY )
+        if ( $this->file->getFileAccess() !== ezcArchiveFile::WRITE_ONLY )
             $this->seek( 0, SEEK_END );
 
         // Do the same as in appendToCurrent(). But we know that it's possible.
-        $entries = $this->getEntries( $files, $prefix);
+        $entries = $this->getEntries( $files, $prefix );
         $originalFileNumber = $this->fileNumber;
 
         for( $i = 0; $i < sizeof( $files ); $i++)
@@ -346,7 +346,7 @@ class ezcArchiveV7Tar extends ezcArchive
 
     public function close()
     {
-        if( $this->file !== null )
+        if ( $this->file !== null )
         {
             $this->writeEnd();
 
@@ -357,13 +357,13 @@ class ezcArchiveV7Tar extends ezcArchive
 
     public function writeEnd()
     {
-        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+        if ( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
 
-        if( $this->file->isModified() )
+        if ( $this->file->isModified() )
         {
-            if( !$this->hasNullBlocks )
+            if ( !$this->hasNullBlocks )
             {
-                if( $this->addedBlocksNotReliable )
+                if ( $this->addedBlocksNotReliable )
                 {
                     $this->appendNullBlocks();
                 }
@@ -375,7 +375,7 @@ class ezcArchiveV7Tar extends ezcArchive
                     // 19            - 1
                     // 20            - 0
                     // 21            - 19
-                    $nullBlocks = ($this->blockFactor - ($this->addedBlocks % $this->blockFactor ) ) % $this->blockFactor;
+                    $nullBlocks = ( $this->blockFactor - ( $this->addedBlocks % $this->blockFactor ) ) % $this->blockFactor;
                     $this->file->appendNullBlock( $nullBlocks );
                 }
 
@@ -428,7 +428,7 @@ class ezcArchiveV7Tar extends ezcArchive
             $this->addedBlocks += $this->file->appendFile( $entry->getPath() );
         }
 
-        if(!( $this->file->isNew() && $this->file->getFileAccess() === ezcArchiveFile::WRITE_ONLY  ))
+        if ( !( $this->file->isNew() && $this->file->getFileAccess() === ezcArchiveFile::WRITE_ONLY ) )
         {
             $this->addedBlocksNotReliable = true;
         }
@@ -451,14 +451,14 @@ class ezcArchiveV7Tar extends ezcArchive
     protected function appendNullBlocks()
     {
         $last = 0;
-        if( $this->file->getLastBlockNumber() == -1 )
+        if ( $this->file->getLastBlockNumber() == -1 )
         {
-            if( !$this->file->valid() )
+            if ( !$this->file->valid() )
             {
                 $this->file->rewind();
             }
      
-            while( $this->file->valid() )
+            while ( $this->file->valid() )
             {
                 $last = $this->file->key();
                 $this->file->next();
@@ -475,10 +475,10 @@ class ezcArchiveV7Tar extends ezcArchive
         /*
          */
        
-        //echo ("Last block: " . $this->file->getLastBlockNumber() );
+        // echo ("Last block: " . $this->file->getLastBlockNumber() );
 
         // Need a ftell in the seek. 
-        //$this->file->seek( 0, SEEK_END );
+        // $this->file->seek( 0, SEEK_END );
         
             $blockNumber =  $last;
 

@@ -29,7 +29,7 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
      *
      * @var string  
      */
-    private $character; //FIXME.
+    private $character; // FIXME.
 
     /**
      * The current character position

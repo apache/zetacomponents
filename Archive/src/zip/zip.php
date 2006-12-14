@@ -455,7 +455,7 @@ Part: 2/2
      */
     public function isWritable()
     {
-        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+        if ( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
 
         return ( !$this->file->isReadOnly() && $this->algorithmCanWrite() );
     }

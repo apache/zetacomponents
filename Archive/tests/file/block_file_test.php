@@ -47,7 +47,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
     public function testCompressedStream()
     {
         $dir = $this->createTempDir("ezcArchive_");
-        //$file =   $dir . "/blockfile";
+        // $file =   $dir . "/blockfile";
         $file =  "compress.zlib://" . $dir . "/blockfile";
 
         // Create the file. 
@@ -80,7 +80,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
             $bf->append("ZZ");
             $this->fail( "Expected an exception that the block could not be appended in the middle" );
         }
-        catch( ezcArchiveException $e ) { }
+        catch ( ezcArchiveException $e ) { }
 
         $bf->next();
         $bf->append("ZZ");
@@ -577,7 +577,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
         $tmpFile = $this->createTempFile("tar_ustar_2_textfiles.tar");
         $blockFile = new ezcArchiveBlockFile( $tmpFile );
 
-        $blockFile->next(); //Block number: 1.
+        $blockFile->next(); // Block number: 1.
         $this->assertEquals(1, $blockFile->key() );
 
         $blockFile->seek( 0, SEEK_CUR ); // Stay at the same block
@@ -608,7 +608,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
 //
 //        $this->assertEquals( -1, $blockFile->getLastBlockNumber(), "Last blocknumber supposed to be unknown" );
 //
-//        while( $blockFile->next() );
+//        while ( $blockFile->next() );
 //
 //        $this->assertEquals( 19, $blockFile->getLastBlockNumber(), "Last blocknumber supposed to be 19. (0 .. 19)" );
 //
@@ -641,7 +641,7 @@ class ezcArchiveBlockFileTest extends ezcTestCase
 //
 //
 //        /*
-//        $blockFile->next(); //Block number: 1.
+//        $blockFile->next(); // Block number: 1.
 //        $this->assertEquals(1, $blockFile->key() );
 //
 //        $blockFile->seek( 0, SEEK_CUR ); // Stay at the same block

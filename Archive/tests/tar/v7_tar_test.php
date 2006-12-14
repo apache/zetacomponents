@@ -415,8 +415,8 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
 
     public function testExtractOneSymbolicLink()
     {
-        //this test a bit different in Windows as symlinks
-        //simulated by copying
+        // this test a bit different in Windows as symlinks
+        // simulated by copying
         if ( $this->isWindows() ) 
         {
             // The directory should be created automatically.
@@ -424,11 +424,11 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
             // and there are both the same file.
             $targetDir = $this->getTempDir();
             
-            //extract target
+            // extract target
             $this->complexArchive->seek( 4 ); 
             $this->complexArchive->extractCurrent( $targetDir );
 
-            //"extract" link i.e. copy target
+            // "extract" link i.e. copy target
             $this->complexArchive->seek( 7 ); 
             $this->complexArchive->extractCurrent( $targetDir );
         }
@@ -825,7 +825,7 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
 
         // Append the files again.
         $archive->appendToCurrent( $dir . "/file1.txt", $dir );
-        //$this->assertTrue( $this->archive->next() !== false );
+        // $this->assertTrue( $this->archive->next() !== false );
         $archive->appendToCurrent( $dir . "/file2.txt", $dir );
         $archive->close();
 
@@ -869,7 +869,7 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
     public function testAppendToCurrentSymbolicLink()
     {
         if ( !$this->canWrite ) return;
-        if ( $this->isWindows() ) return; //there is no sense to test it in Windows as its the same as appending file.
+        if ( $this->isWindows() ) return; // there is no sense to test it in Windows as its the same as appending file.
 
         $dir = $this->getTempDir();
         $this->complexArchive->seek(7);

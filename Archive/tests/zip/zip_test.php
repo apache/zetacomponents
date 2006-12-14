@@ -45,7 +45,7 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
 
         if ( $this->isWindows() )
         {
-            return; //avoid warning
+            return; // avoid warning
         }
 
         unlink( 'does_not_exist' );
@@ -193,7 +193,7 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
     {
         if ( $this->isWindows() ) 
         {
-            return; //symlinks extracted as files in Windows, so there is no sence to call is_link()
+            return; // symlinks extracted as files in Windows, so there is no sence to call is_link()
         }
 
         $dir = $this->getTempDir();
@@ -340,7 +340,7 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
     }
 
 
-    //FIXME.. file is written, instead of a link.
+    // FIXME.. file is written, instead of a link.
     public function testExtractOneSymbolicLink()
     {
         // The directory should be created automatically.
@@ -476,7 +476,7 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         $archive = $this->td->getArchive( "2_textfiles" );
         $file = $this->td->getFileName( "2_textfiles" );
 
-        //copy( "$dir/$file", "$dir/done_with_infozip.zip" );
+        // copy( "$dir/$file", "$dir/done_with_infozip.zip" );
         
         $archive->extractCurrent( $dir );
         $archive->truncate();

@@ -500,7 +500,7 @@ class ezcArchiveLocalFileHeader
     {
         // Fixme, for now only decompressed.
         $this->compressionMethod = $compressionMethod; // FIXME
-        $this->compressedSize = $compressedSize; //FIXME 
+        $this->compressedSize = $compressedSize; // FIXME 
         
     }
 
@@ -535,7 +535,7 @@ class ezcArchiveLocalFileHeader
      */
     public function setHeaderFromArchiveEntry( ezcArchiveEntry $entry )
     {
-        $this->version = 10; //FIXME
+        $this->version = 10; // FIXME
         $this->bitFlag = 0; // FIXME
 
         $this->atime = $entry->getAccessTime();

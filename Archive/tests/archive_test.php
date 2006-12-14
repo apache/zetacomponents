@@ -122,7 +122,7 @@ class ezcArchiveTest extends ezcArchiveTestCase
         
         exec( "bzip2 $dir/mytar.tar" );
         $archive = ezcArchive::open( "compress.bzip2://$dir/mytar.tar.bz2" );
-        //echo ( $archive );
+        // echo ( $archive );
 
         $archive->extract( $dir );
         $archive->rewind();
@@ -398,7 +398,7 @@ class ezcArchiveTest extends ezcArchiveTestCase
         }
         catch ( ezcArchiveEntryPrefixException $e )
         {
-            //$this->assertEquals( ezcArchiveException::INVALID_PREFIX, $e->getCode() );
+            // $this->assertEquals( ezcArchiveException::INVALID_PREFIX, $e->getCode() );
         }
     }
 

@@ -422,7 +422,7 @@ abstract class ezcArchive implements Iterator
      */
     public function extractCurrent( $target, $keepExisting = false )
     {
-        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+        if ( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
 
         if ( !$this->valid() )
         {
@@ -489,8 +489,8 @@ abstract class ezcArchive implements Iterator
                     case ezcArchiveEntry::IS_SYMBOLIC_LINK:
                         if ( $isWindows )
                         {
-                            //FIXME.. need to be sure that target file 
-                            //already extracted before copying it to link destination.
+                            // FIXME.. need to be sure that target file 
+                            // already extracted before copying it to link destination.
                             $sourcePath = dirname( $fileName ).'/'.$entry->getLink();
                             $fileName = str_replace( '/', '\\', $fileName );
                             copy( $sourcePath, $fileName );
@@ -558,7 +558,7 @@ abstract class ezcArchive implements Iterator
      */
     public function seek( $offset, $whence = SEEK_SET )
     {
-        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+        if ( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
         
         // Cannot trust the current position if the current position is invalid.
         if ( $whence == SEEK_CUR && $this->valid() == false ) 
@@ -689,7 +689,7 @@ abstract class ezcArchive implements Iterator
      */
     public function getListing()
     {
-        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+        if ( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
 
         $result = array();
         $this->rewind();
@@ -711,7 +711,7 @@ abstract class ezcArchive implements Iterator
      */
     public function __toString()
     {
-        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+        if ( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
 
         $result = "";
         $this->rewind();
@@ -743,7 +743,7 @@ abstract class ezcArchive implements Iterator
      */
     public function extract( $target, $keepExisting = false )
     {
-        if( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
+        if ( $this->file === null ) throw new ezcArchiveException( "The archive is closed" );
 
         $this->rewind();
         if ( !$this->valid() ) 

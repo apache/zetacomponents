@@ -54,7 +54,7 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
 
         if ( $this->isWindows() )
         {
-            $pathItemLen = 50;  //long but not looong path. Windows max path = 255.
+            $pathItemLen = 50;  // long but not looong path. Windows max path = 255.
         }
         else
         {

@@ -60,7 +60,7 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
             $archive->append( "$dir/a.txt", $dir);
             $this->fail( "Expected a 'cannot-append' exception");
         } 
-        catch( ezcArchiveException $e )
+        catch ( ezcArchiveException $e )
         {
 
         }
@@ -105,7 +105,7 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
             $archive->append( "$dir/a.txt", $dir);
             $this->fail( "Expected a 'cannot-append' exception");
         } 
-        catch( ezcArchiveException $e )
+        catch ( ezcArchiveException $e )
         {
 
         }
@@ -123,7 +123,7 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
             $archive->appendToCurrent( "$dir/a.txt", $dir);
             $this->fail( "Except an exception that the file couldn't be appended.");
         }
-        catch( ezcArchiveException $e )
+        catch ( ezcArchiveException $e )
         {
         }
     }
@@ -141,7 +141,7 @@ class ezcArchiveZlibTest extends ezcArchiveTestCase
             $archive->append( "$dir/a.txt", $dir );
             $this->fail( "Except an exception that the file couldn't be appended.");
         }
-        catch( ezcArchiveException $e )
+        catch ( ezcArchiveException $e )
         {
         }
     }

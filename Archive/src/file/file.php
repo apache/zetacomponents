@@ -107,11 +107,11 @@ abstract class ezcArchiveFile implements Iterator
 
     protected function openFile( $fileName, $createIfNotExist )
     {
-        if( $createIfNotExist && !self::fileExists( $fileName ) )
+        if ( $createIfNotExist && !self::fileExists( $fileName ) )
         {
             $this->isNew = true;
             $this->isEmpty = true;
-            if( !self::touch( $fileName ) )
+            if ( !self::touch( $fileName ) )
             {
                 throw new ezcBaseFilePermissionException( self::getPureFileName( $fileName ), ezcBaseFilePermissionException::WRITE );
             }
@@ -136,7 +136,7 @@ abstract class ezcArchiveFile implements Iterator
             // Check if we opened the file. 
             if ( !$this->fp )
             {
-                if( !self::fileExists( $fileName ) )
+                if ( !self::fileExists( $fileName ) )
                 {
                     throw new ezcBaseFileNotFoundException( $fileName );
                 }
@@ -156,13 +156,13 @@ abstract class ezcArchiveFile implements Iterator
         }
 
         // Why is it read only?
-        if( $this->fileAccess == self::READ_ONLY )
+        if ( $this->fileAccess == self::READ_ONLY )
         {
-            if( $this->fileMetaData["wrapper_type"] == "ZLIB" || $this->fileMetaData["wrapper_type"] == "BZip2" ) 
+            if ( $this->fileMetaData["wrapper_type"] == "ZLIB" || $this->fileMetaData["wrapper_type"] == "BZip2" ) 
             {
                 // Append mode available?
                 $b = @fopen( $fileName, "ab" );
-                if( $b !== false )
+                if ( $b !== false )
                 {
                     // We have also a write-only mode.
                     fclose( $b );
@@ -176,10 +176,10 @@ abstract class ezcArchiveFile implements Iterator
                     // Maybe we should write only to the archive.
                     // Test this only, when the archive is new. 
 
-                    if( $this->isNew )
+                    if ( $this->isNew )
                     {
                         $b = @fopen( $fileName, "wb" );
-                        if( $b !== false )
+                        if ( $b !== false )
                         {
                             // XXX Clean up.
                             $this->fp = $b;
@@ -198,7 +198,7 @@ abstract class ezcArchiveFile implements Iterator
         }
 
         // Check if the archive is empty.
-        if( fgetc( $this->fp ) === false )
+        if ( fgetc( $this->fp ) === false )
         {
             $this->isEmpty = true;
         }
@@ -228,13 +228,13 @@ abstract class ezcArchiveFile implements Iterator
     public function switchWriteMode()
     {
         // Switch only when we are in read (only) mode.
-        if( $this->fileAccess == self::READ_APPEND && $this->readAppendSwitch == self::SWITCH_READ )
+        if ( $this->fileAccess == self::READ_APPEND && $this->readAppendSwitch == self::SWITCH_READ )
         {
             fclose( $this->fp );
             $this->fp = @fopen( $this->fileName, "ab" );
-            if ($this->fp === false )
+            if ( $this->fp === false )
             {
-                throw new ezcBaseFilePermissionException( self::getPureFileName( $this->fileName ), ezcBaseFilePermissionException::WRITE, "Cannot switch to write mode");
+                throw new ezcBaseFilePermissionException( self::getPureFileName( $this->fileName ), ezcBaseFilePermissionException::WRITE, "Cannot switch to write mode" );
             }
             $this->readAppendSwitch = self::SWITCH_APPEND;
         }
@@ -243,26 +243,26 @@ abstract class ezcArchiveFile implements Iterator
     public function switchReadMode( $pos = 0)
     {
         // Switch only when we are in write (only) mode.
-        if( $this->fileAccess == self::READ_APPEND && $this->readAppendSwitch == self::SWITCH_APPEND )
+        if ( $this->fileAccess == self::READ_APPEND && $this->readAppendSwitch == self::SWITCH_APPEND )
         {
             fclose( $this->fp );
 
             $this->fp = fopen( $this->fileName, "rb" );
 
-            //echo ("Switch read mode should seek to the end of the file ");
+            // echo ("Switch read mode should seek to the end of the file ");
 
-            if ($this->fp === false )
+            if ( $this->fp === false )
             {
-                throw new ezcBaseFilePermissionException( self::getPureFileName( $this->fileName ), ezcBaseFilePermissionException::READ, "Cannot switch back to read mode");
+                throw new ezcBaseFilePermissionException( self::getPureFileName( $this->fileName ), ezcBaseFilePermissionException::READ, "Cannot switch back to read mode" );
             }
             $this->readAppendSwitch = self::SWITCH_READ;
 
-            //$this->positionSeek( $pos );
+            // $this->positionSeek( $pos );
             $this->positionSeek( 0, SEEK_END );
 
             // XXX DOESN'T Make sense, Seek-end should be at the end!
-            //echo ("nonsense function called");
-            while( fgetc( $this->fp ) !== false);
+            // echo ("nonsense function called");
+            while ( fgetc( $this->fp ) !== false );
         }
     }
 
@@ -295,12 +295,12 @@ abstract class ezcArchiveFile implements Iterator
         // TODO: Multistream goes wrong.
         if ( strncmp( $fileName, "compress.zlib://", 16 ) == 0 )
         {
-            return substr( $fileName, 16);
+            return substr( $fileName, 16 );
         }
         
         if ( strncmp( $fileName, "compress.bzip2://", 17 ) == 0 )
         {
-            return substr( $fileName, 17);
+            return substr( $fileName, 17 );
         }
 
         return $fileName;
@@ -337,7 +337,7 @@ abstract class ezcArchiveFile implements Iterator
     protected function positionSeek( $pos, $whence = SEEK_SET)
     {
         // Seek the end of the file in a write only file always succeeds.
-        if( $this->fileAccess == self::WRITE_ONLY && $pos == 0 && $whence == SEEK_END ) return true; 
+        if ( $this->fileAccess == self::WRITE_ONLY && $pos == 0 && $whence == SEEK_END ) return true; 
 
         if ( $this->fileMetaData["seekable"] )
         {
@@ -400,7 +400,7 @@ abstract class ezcArchiveFile implements Iterator
 
     public function close()
     {
-        if( is_resource( $this->fp ) ) 
+        if ( is_resource( $this->fp ) ) 
         {
             fclose( $this->fp );
             $this->fp = null;
