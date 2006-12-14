@@ -190,20 +190,10 @@ abstract class ezcTemplateSourceToTstParser
             }
             $this->currentCursor = clone $this->lastCursor;
             $this->endCursor = clone $this->currentCursor;
-            if ( $parser->debug )
-            {
-                echo "starting ", get_class( $this ), " at ";
-                echo $this->startCursor->position, ",";
-                echo $this->lastCursor->position, ",";
-                echo $this->currentCursor->position, ",";
-                echo $this->endCursor->position, "\n";
-            }
         }
         else
         {
             // Set cursors to null, they must now be initialized with setAllCursors().
-            if ( $parser->debug )
-                echo "starting ", get_class( $this ), " at nowhere\n";
             $this->startCursor = null;
             $this->lastCursor = null;
             $this->currentCursor = null;
@@ -239,7 +229,7 @@ abstract class ezcTemplateSourceToTstParser
             // The $finalize flag is not automatically sent to parent
             return $this->parentParser->atEnd( $cursor, $operator, false );
         // @todo Use specific exception
-        throw new Exception( "atEnd() called on parser <" . get_class( $this ) . "> which has not implemented it properly." );
+        throw new ezcTemplateInternalException( "atEnd() called on parser <" . get_class( $this ) . "> which has not implemented it properly." );
     }
 
     /*!
@@ -299,7 +289,7 @@ abstract class ezcTemplateSourceToTstParser
         {
             $className = 'ezcTemplate' . $type . 'SourceToTstParser';
             if ( !class_exists( $className ) )
-                throw new Exception( "Could instantiate sub-parser for type <$type>, the class <$className> does not exist" );
+                throw new ezcTemplateInternalException( "Could instantiate sub-parser for type <$type>, the class <$className> does not exist" );
 
             $this->subParser = new $className( $this->parser, $this, $startCursor );
         }
@@ -310,16 +300,12 @@ abstract class ezcTemplateSourceToTstParser
         }
         else
         {
-            throw new Exception( "Cannot use <" . gettype( $type ) . "> as parser in ezcTemplateSourceToTstParser::parseOptionalType()" );
+            throw new ezcTemplateInternalException( "Cannot use <" . gettype( $type ) . "> as parser in ezcTemplateSourceToTstParser::parseOptionalType()" );
         }
         $this->lastParser = $this->subParser;
         $this->subParser->parse();
         if ( $this->subParser->status == self::PARSE_SUCCESS )
         {
-            if ( $this->parser->debug )
-                echo "sub-parser ", get_class( $this->subParser ), " was successful from ",
-                    $this->subParser->startCursor->position, " to ",
-                    $this->subParser->endCursor->position, ", returning true\n";
             $this->currentCursor->copy( $this->subParser->endCursor );
             $this->lastCursor->copy( $this->currentCursor );
             if ( $mergeElements )
@@ -330,20 +316,9 @@ abstract class ezcTemplateSourceToTstParser
         elseif ( $this->subParser->status === self::PARSE_PARTIAL_SUCCESS )
         {
             $this->status = $this->subParser->status;
-            if ( $this->parser->debug )
-            {
-                echo "sub-parser ", get_class( $this->subParser ), " failed partially from ",
-                    $this->subParser->startCursor->position, " to ",
-                    $this->subParser->endCursor->position;
-                echo ", returning true\n";
-            }
             return true;
         }
 
-        if ( $this->parser->debug )
-            echo "sub-parser ", get_class( $this->subParser ), " failed from ",
-                $this->subParser->startCursor->position, " to ",
-                $this->subParser->endCursor->position, ", returning false\n";
         $this->subParser = null;
         return false;
     }
@@ -357,7 +332,7 @@ abstract class ezcTemplateSourceToTstParser
         {
             $className = 'ezcTemplate' . $type . 'SourceToTstParser';
             if ( !class_exists( $className ) )
-                throw new Exception( "Could instantiate sub-parser for type <$type>, the class <$className> does not exist" );
+                throw new ezcTemplateInternalException( "Could instantiate sub-parser for type <$type>, the class <$className> does not exist" );
 
             $this->subParser = new $className( $this->parser, $this, $startCursor );
         }
@@ -368,16 +343,12 @@ abstract class ezcTemplateSourceToTstParser
         }
         else
         {
-            throw new Exception( "Cannot use <" . gettype( $type ) . "> as parser in ezcTemplateSourceToTstParser::parseRequiredType()" );
+            throw new ezcTemplateInternalException( "Cannot use <" . gettype( $type ) . "> as parser in ezcTemplateSourceToTstParser::parseRequiredType()" );
         }
         $this->lastParser = $this->subParser;
         $this->subParser->parse();
         if ( $this->subParser->status == self::PARSE_SUCCESS )
         {
-            if ( $this->parser->debug )
-                echo "sub-parser ", get_class( $this->subParser ), " was successful from ",
-                    $this->subParser->startCursor->position, " to ",
-                    $this->subParser->endCursor->position, ", returning true\n";
             $this->currentCursor->copy( $this->subParser->endCursor );
             $this->lastCursor->copy( $this->currentCursor );
             if ( $mergeElements )
@@ -388,20 +359,9 @@ abstract class ezcTemplateSourceToTstParser
         elseif ( $this->subParser->status === self::PARSE_PARTIAL_SUCCESS )
         {
             $this->status = $this->subParser->status;
-            if ( $this->parser->debug )
-            {
-                echo "sub-parser ", get_class( $this->subParser ), " failed partially from ",
-                    $this->subParser->startCursor->position, " to ",
-                    $this->subParser->endCursor->position;
-                echo ", returning true\n";
-            }
             return false;
         }
 
-        if ( $this->parser->debug )
-            echo "sub-parser ", get_class( $this->subParser ), " failed from ",
-                $this->subParser->startCursor->position, " to ",
-                $this->subParser->endCursor->position, ", returning false\n";
         return false;
     }
 
@@ -426,11 +386,6 @@ abstract class ezcTemplateSourceToTstParser
 
         if ( $this->parseCurrent( $this->currentCursor ) )
         {
-            if ( $this->parser->debug )
-            {
-                echo "parser ", get_class( $this ), " was successful at ", $this->startCursor->position, "->", $this->currentCursor->position, "\n";
-                echo "<", $this->startCursor->subString( $this->currentCursor->position ), ">\n";
-            }
             $this->status = self::PARSE_SUCCESS;
         }
 
@@ -444,15 +399,8 @@ abstract class ezcTemplateSourceToTstParser
         }
         elseif ( $this->status == self::PARSE_PARTIAL_SUCCESS )
         {
-            if ( $this->parser->debug )
-                echo "parser ", get_class( $this ), " was partially successful at ", $this->currentCursor->position, "\n";
             // Set end position to the current position.
             $this->endCursor->copy( $this->currentCursor );
-        }
-        else
-        {
-            if ( $this->parser->debug )
-                echo "parser ", get_class( $this ), " failed at ", $this->currentCursor->position, "\n";
         }
         return false;
     }
@@ -542,7 +490,7 @@ abstract class ezcTemplateSourceToTstParser
         $error = $this->generateErrorMessage();
 
         if ( !is_string( $error ) )
-            throw new Exception( "No error message was returned from " . get_class( $this ) . "::generateErrorMessage" );
+            throw new ezcTemplateInternalException( "No error message was returned from " . get_class( $this ) . "::generateErrorMessage" );
         return $error;
     }
 
@@ -765,7 +713,7 @@ abstract class ezcTemplateSourceToTstParser
                 }
                 else
                 {
-                    throw new Exception( "Invalid compound type <" . $item['compound'] . ">" );
+                    throw new ezcTemplateInternalException( "Invalid compound type <" . $item['compound'] . ">" );
                 }
             }
 

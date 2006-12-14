@@ -1168,18 +1168,18 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitBlockCommentTstNode( ezcTemplateBlockCommentTstNode $type )
     {
-        throw new Exception( "The visitBlockCommentTstNode is called, however this node shouldn't be in the TST tree. It's used for testing purposes." );
+        throw new ezcTemplateInternalException( "The visitBlockCommentTstNode is called, however this node shouldn't be in the TST tree. It's used for testing purposes." );
     }
 
     public function visitEolCommentTstNode( ezcTemplateEolCommentTstNode $type )
     {
-        throw new Exception( "The visitEolCommentTstNode is called, however this node shouldn't be in the TST tree. It's used for testing purposes." );
+        throw new ezcTemplateInternalException( "The visitEolCommentTstNode is called, however this node shouldn't be in the TST tree. It's used for testing purposes." );
     }
 
     public function visitBlockTstNode( ezcTemplateBlockTstNode $type ) 
     {
         // Used abstract, but is parsed. Unknown.
-        throw new Exception( "The visitBlockTstNode is called, however this node shouldn't be in the TST tree." );
+        throw new ezcTemplateInternalException( "The visitBlockTstNode is called, however this node shouldn't be in the TST tree." );
     }
 
     public function visitDeclarationTstNode( ezcTemplateDeclarationTstNode $type ) 

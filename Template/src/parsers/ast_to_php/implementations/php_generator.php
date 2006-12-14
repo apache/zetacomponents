@@ -208,7 +208,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     {
         if ( count( $this->indentationStack ) == 0 )
         {
-            throw new Exception( "Indentation stack is empty, cannot restore last indentation." );
+            throw new ezcTemplateInternalException( "Indentation stack is empty, cannot restore last indentation." );
         }
 
         $this->currentIndentation = array_pop( $this->indentationStack );
@@ -482,7 +482,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $count = count( $parameters );
         if ( $count < $operator->minParameterCount )
         {
-            throw new Exception( "The operator <" . get_class( $operator ) . " contains only " . count( $parameters ) . " parameters but should at least have {$operator->minParameterCount} parameters." );
+            throw new ezcTemplateInternalException( "The operator <" . get_class( $operator ) . " contains only " . count( $parameters ) . " parameters but should at least have {$operator->minParameterCount} parameters." );
         }
 
         // Generate code for first operand
@@ -512,7 +512,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $parameters = $operator->getParameters();
         if ( count( $parameters ) < $operator->minParameterCount )
         {
-            throw new Exception( "The operator <" . get_class( $operator ) . " contains only " . count( $parameters ) . " parameters but should at least have {$operator->minParameterCount} parameters." );
+            throw new ezcTemplateInternalException( "The operator <" . get_class( $operator ) . " contains only " . count( $parameters ) . " parameters but should at least have {$operator->minParameterCount} parameters." );
         }
 
         if ( $operator->preOperator )
@@ -544,7 +544,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $parameters = $operator->getParameters();
         if ( count( $parameters ) < $operator->minParameterCount )
         {
-            throw new Exception( "The operator <" . get_class( $operator ) . " contains only " . count( $parameters ) . " parameters but should at least have {$operator->minParameterCount} parameters." );
+            throw new ezcTemplateInternalException( "The operator <" . get_class( $operator ) . " contains only " . count( $parameters ) . " parameters but should at least have {$operator->minParameterCount} parameters." );
         }
 
         // Generate code for first operand

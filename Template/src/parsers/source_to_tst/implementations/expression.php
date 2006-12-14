@@ -287,10 +287,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                     $cursor->advance( strlen( $operatorName ) );
                     $this->findNextElement();
 
-                    if ( $this->parser->debug )
-                    {
-                        echo "pre-operator {$operatorName} <", $this->lastCursor->subString( $cursor->position ), ">\n";
-                    }
                     $operatorMap = array( '-' => 'NegateOperator',
                                           '!' => 'LogicalNegateOperator' );
                     $operatorName = $operatorMap[$operatorName];

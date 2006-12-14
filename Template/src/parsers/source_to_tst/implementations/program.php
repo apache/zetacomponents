@@ -94,7 +94,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
                     for ( $i = $offset + 1; $i < $count; ++$i )
                     {
                         if ( $element === $elements[$i] )
-                            throw new Exception( "Received element list with duplicate objects from parser " . get_class( $this->lastParser ) );
+                            throw new ezcTemplateInternalException( "Received element list with duplicate objects from parser " . get_class( $this->lastParser ) );
                     }
                     ++$offset;
                 }
@@ -127,7 +127,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
 
         if ( $this->lastBlock === null )
         {
-            throw new Exception( "lastBlock is null, should have been a parser element object." );
+            throw new ezcTemplateInternalException( "lastBlock is null, should have been a parser element object." );
         }
 
         if ( !$this->lastBlock instanceof ezcTemplateProgramTstNode )
@@ -142,7 +142,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
             {
                 if ( $block === $block->parentBlock )
                 {
-                    throw new Exception( "Infinite recursion found in parser element " . get_class( $block ) );
+                    throw new ezcTemplateInternalException( "Infinite recursion found in parser element " . get_class( $block ) );
                 }
 
                 ++$level;
@@ -157,7 +157,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
             {
                 if ( $block === $block->parentBlock )
                 {
-                    throw new Exception( "Infinite recursion found in parser element " . get_class( $block ) );
+                    throw new ezcTemplateInternalException( "Infinite recursion found in parser element " . get_class( $block ) );
                 }
 
                 $block = $block->parentBlock;
@@ -248,7 +248,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
         // Sanity check
         if ( $this->lastBlock->parentBlock === null )
         {
-            throw new Exception( "Parent block of last block <" . get_class( $this->lastBlock ) . "> is null, should not happen." );
+            throw new ezcTemplateInternalException( "Parent block of last block <" . get_class( $this->lastBlock ) . "> is null, should not happen." );
         }
 
         // Call the closing element with the block element it closes,

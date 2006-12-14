@@ -80,7 +80,7 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
 
     public function visitDynamicStringAstNode( ezcTemplateDynamicStringAstNode $dynamic )
     {
-        throw new Exception( "TODO: dynamicstring Ast node , tree walker" );
+        throw new ezcTemplateInternalException( "TODO: dynamicstring Ast node , tree walker" );
 
         array_unshift( $this->nodePath, $dynamic );
         foreach ( $parameters as $parameter )
@@ -110,7 +110,7 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
         $parameters = $operator->getParameters();
         if ( count( $parameters ) < $operator->minParameterCount )
         {
-            throw new Exception( "The operator <" . get_class( $operator ) . " contains only " . count( $parameters ) . " parameters but should at least have {$operator->minParameterCount} parameters." );
+            throw new ezcTemplateInternalException( "The operator <" . get_class( $operator ) . " contains only " . count( $parameters ) . " parameters but should at least have {$operator->minParameterCount} parameters." );
         }
 
         array_unshift( $this->nodePath, $operator );
@@ -126,7 +126,7 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
         $parameters = $operator->getParameters();
         if ( count( $parameters ) < $operator->minParameterCount )
         {
-            throw new Exception( "The operator <" . get_class( $operator ) . " contains only " . count( $parameters ) . " parameters but should at least have {$operator->minParameterCount} parameters." );
+            throw new ezcTemplateInternalException( "The operator <" . get_class( $operator ) . " contains only " . count( $parameters ) . " parameters but should at least have {$operator->minParameterCount} parameters." );
         }
 
         array_unshift( $this->nodePath, $operator );

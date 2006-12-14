@@ -7,10 +7,6 @@ TODO
 Cleanup
 -------
 
-Remove unimplemented entries in control_structure.php.
-
-Remove $debug sections in source_to_tst parsers.
-
 Change all use of Exception to ezcTemplateInternalException.
 
 Remove all use of 'elements' in the parsers, use only 'children' not

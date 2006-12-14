@@ -54,13 +54,10 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
-        if ( $this->parser->debug )
-            echo "Starting control structure\n";
-
         // Check if any control structure names are used.
         // Note: The code inside the (?:) brace ensures that the next character
         // is not an alphabetical character ie. a word boundary
-        $matches = $cursor->pregMatchComplete( "#^(foreach|while|if|elseif|else|switch|case|default|include|return|break|continue|skip|delimiter|increment|decrement|reset|once)(?:[^a-zA-Z0-9_])#" );
+        $matches = $cursor->pregMatchComplete( "#^(foreach|while|if|elseif|else|switch|case|default|include|return|break|continue|skip|delimiter|increment|decrement|reset)(?:[^a-zA-Z0-9_])#" );
 
         if ( $matches === false )
         {
@@ -83,7 +80,6 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
         $csMap['default'] = 'SwitchCondition';
         $csMap['include'] = 'Include';
         $csMap['return'] = 'Include';
-        $csMap['embed'] = 'Include';
         $csMap['break'] = 'Loop';
         $csMap['continue'] = 'Loop';
         $csMap['skip'] = 'Delimiter';
@@ -91,8 +87,6 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
         $csMap['increment'] = 'Cycle';
         $csMap['decrement'] = 'Cycle';
         $csMap['reset'] = 'Cycle';
-        $csMap['once'] = 'Once';
-        $csMap['def'] = 'Def';
 
         // tmp
         if ( !isset( $csMap[$name] ) )
@@ -111,7 +105,7 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
         // @todo Fix exception class
         if ( !class_exists( $parser ) )
         {
-            throw new Exception( "Requested parser class <{$parser}> does not exist" );
+            throw new ezcTemplateInternalException( "Requested parser class <{$parser}> does not exist" );
         }
 
 
