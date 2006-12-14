@@ -259,7 +259,7 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
         // --------------------------------
         // GIF (Animated):
         // string(168) "[GIF|4100|80|50|8|38|PseudoClassRGB|]*[GIF|4100|80|50|8|21|PseudoClassRGB|]*[GIF|4100|80|50|8|17|PseudoClassRGB|Copyright 1996 DeMorgan Industries Corp.
-        //
+        // 
         // Animated Cog]*"
         // --------------------------------
 
