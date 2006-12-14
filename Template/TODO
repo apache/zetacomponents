@@ -15,17 +15,6 @@ both.
 Minor features
 --------------
 
-Allow the escaping of the newline character (0x0a etc.), which will
-ignore the character when stripping::
-
-  a \
-  b
-
-becomes::
-
-  a b
-
-
 Maybe support automatic string concat for constant strings::
 
   "abc\n"

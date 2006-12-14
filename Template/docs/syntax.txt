@@ -43,19 +43,24 @@ A character can be escaped with a backslash (\\). In the text are three
 characters available that can be escaped. Those are the: 
 
 - Opening curly brace  '{' , 
-- Closing curly brace '}', and 
+- Closing curly brace '}',
+- Newlines, and
 - The escape character, backslash itself '\\'.  
 
 The next example shows how to escape those characters::
 
   Draw line: \{ (4, 10), (3, 5) \}
   Game path: C:\\Program files\\games\\
+  Multiple \
+  lines \
+  becomes one
 
 The output of the template is without the backslash and the characters appear
 normally::
 
   Draw line: { (4, 10), (3, 5) }
   Game path: C:\Program files\games\
+  Multiple lines becomes one
 
 
 {ldelim} and {rdelim} blocks

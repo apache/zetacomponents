@@ -64,8 +64,8 @@ class ezcTemplateTextBlockTstNode extends ezcTemplateTextTstNode
      */
     static public function stripText( $text )
     {
-        $text = str_replace( array( "\\{", "\\}", "\\\\" ),
-                             array( "{", "}", "\\" ),
+        $text = str_replace( array( "\\{", "\\}", "\\\\", "\\\r\n", "\\\n", "\\\r" ),
+                             array( "{",   "}",   "\\",   "",       "",     ""     ),
                              $text );
         return $text;
     }
