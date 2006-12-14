@@ -254,7 +254,7 @@ class ezcBase
             }
         }
 
-        //Nothing found :-(.
+        // Nothing found :-(.
         return false;
     }
 
