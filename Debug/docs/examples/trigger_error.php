@@ -55,7 +55,7 @@ function errorHandler( $code, $msg, $file, $line )
 // Set the errorHandler.
 set_error_handler( "errorHandler" );
 
-////////////// Possible Debug Log messages: //////////////////////////////////
+////////////// Possible Debug Log messages: // ////////////////////////////////
 
 // [ Log, source, category ] Verbosity: Msg
 trigger_error( "[Log, Paynet, Templates ] 1: Loading header template." );
@@ -88,7 +88,7 @@ trigger_error( "[ TIMER_STOP ] Loading header template." );
 
 
 
-////////////// Log messages: //////////////////////////////////
+////////////// Log messages: // ////////////////////////////////
 
 // Warnings and Errors are the same as Debug, except for the severity:
 // [ Src, Category ] msg
@@ -98,7 +98,7 @@ trigger_error( "[paynet, template] Couldn't load the template: Header", E_USER_W
 trigger_error( "[template] Couldn't produce any output", E_USER_ERROR ); 
 
 
-////////////// Audit trails: //////////////////////////////////
+////////////// Audit trails: // ////////////////////////////////
 
 ezcLog::getInstance()->log( "Added new user: $user", ezcLog::SUCCES_AUDIT, "paynet", "users" );
 
@@ -106,7 +106,7 @@ ezcLog::getInstance()->log( "Couldn't delete user: $user", ezcLog::FAILED_AUDIT,
 
 
 
-////////////// Print debug output: //////////////////////////////////
+////////////// Print debug output: // ////////////////////////////////
 
 print ( ezcDebug::getInstance()->getOutput() );
 ?>

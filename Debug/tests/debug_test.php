@@ -104,7 +104,7 @@ class ezcDebugTest extends ezcTestCase
 
         // Changing the default source from the log.
         $dbg->getEventLog()->source = "bla"; 
-        //ezcLog::getInstance()->source ="bla";
+        // ezcLog::getInstance()->source ="bla";
 
         $dbg->log("bla", 1);
         $struct = $dbg->generateOutput();
