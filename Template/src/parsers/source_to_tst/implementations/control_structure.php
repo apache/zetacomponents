@@ -94,8 +94,6 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
         $csMap['once'] = 'Once';
         $csMap['def'] = 'Def';
 
-//        $invalidCloseBlocks = array( 'elseif', 'else', 'include', 'return', 'embed', 'break', 'continue', 'skip', 'increment', 'decrement', 'reset', 'once', 'def' );
-//
         // tmp
         if ( !isset( $csMap[$name] ) )
         {
@@ -109,15 +107,6 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
         {
             return false;
         }
-
-/*        // Check for closing blocks of elements which does not allow it
-        if ( $this->block->isClosingBlock &&
-             in_array( $name, $invalidCloseBlocks ) )
-        {
-            throw new ezcTemplateParserException( $this->parser->source,
-                                                  $this->block->closingCursor, $this->block->closingCursor,
-                                                  sprintf( ezcTemplateSourceToTstErrorMessages::MSG_CLOSING_BLOCK_NOW_ALLOWED, $name ) );
-        }*/
 
         // @todo Fix exception class
         if ( !class_exists( $parser ) )
