@@ -99,7 +99,7 @@ class ezcDbSchemaOracleReader implements ezcDbSchemaDbReader
     {
         $fields = array();
 
-        //will detect autoincrement field by presence of sequence tableName_fieldPos_seq
+        // will detect autoincrement field by presence of sequence tableName_fieldPos_seq
         $sequencesQuery = $this->db->query( "SELECT * FROM user_sequences" );   
         $sequencesQuery->setFetchMode( PDO::FETCH_ASSOC );
         $sequences = array();
@@ -108,7 +108,7 @@ class ezcDbSchemaOracleReader implements ezcDbSchemaDbReader
             $sequences[] = $seq['sequence_name'];
         }
 
-        //fetching fields info from Oracle
+        // fetching fields info from Oracle
         $resultArray = $this->db->query( "SELECT   a.column_name AS field, " .    
                                          "         a.column_id AS field_pos, " .
                                          "         DECODE (a.nullable, 'N', 1, 'Y', 0) AS notnull, " .
@@ -140,7 +140,7 @@ class ezcDbSchemaOracleReader implements ezcDbSchemaDbReader
                     $fieldType = 'decimal';
                     $fieldLength = $row['precision'];
                 } 
-                else if ( $fieldLength == 22 ) //22 is the default length for NUMBER in Oracle, so don't include length
+                else if ( $fieldLength == 22 ) // 22 is the default length for NUMBER in Oracle, so don't include length
                 {
                     $fieldLength = false;
                 }
@@ -159,11 +159,11 @@ class ezcDbSchemaOracleReader implements ezcDbSchemaDbReader
                 } 
                 else if ( $fieldType == 'text' ) 
                 {
-                    $fieldDefault = substr( $row['default_val'], 1, -1); //avoid quotes for text
+                    $fieldDefault = substr( $row['default_val'], 1, -1 ); // avoid quotes for text
                 }
                 else 
                 {
-                    $fieldDefault = $row['default_val']; //have a number value
+                    $fieldDefault = $row['default_val']; // have a number value
                 }
             }
 
@@ -261,7 +261,7 @@ class ezcDbSchemaOracleReader implements ezcDbSchemaDbReader
         $indexBuffer = array();
         $indexesArray = array();
 
-        //fetching index info from Oracle
+        // fetching index info from Oracle
         $getIndexSQL = "SELECT uind.index_name AS name, " .
                  "       uind.index_type AS type, " .
                  "       decode( uind.uniqueness, 'NONUNIQUE', 0, 'UNIQUE', 1 ) AS is_unique, " .
@@ -274,7 +274,7 @@ class ezcDbSchemaOracleReader implements ezcDbSchemaDbReader
 
         $primaryFound = false;
 
-        //getting columns to which each index related.
+        // getting columns to which each index related.
         foreach ( $indexesArray as $row )
         {
             $keyName = $row['name'];

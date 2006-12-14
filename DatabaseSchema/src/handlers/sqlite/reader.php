@@ -245,7 +245,7 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
             }
         }
 
-        //search primary index
+        // search primary index
         $fieldArray = $this->db->query( "PRAGMA TABLE_INFO ($tableName)" );
         foreach ( $fieldArray as $row )
         {

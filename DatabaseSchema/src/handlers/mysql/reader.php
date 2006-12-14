@@ -129,8 +129,8 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
         {
             $fieldLength = false;
 
-            //bool and boolean is synonyms for TINYINT(1) in MySQL
-            if( $row['type'] == 'tinyint(1)' ) 
+            // bool and boolean is synonyms for TINYINT(1) in MySQL
+            if ( $row['type'] == 'tinyint(1)' ) 
             {
                 $fieldType = 'boolean';
             }
@@ -151,11 +151,11 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
 
             $fieldDefault = null;
 
-            if( strlen( $row['default'] ) != 0 )
+            if ( strlen( $row['default'] ) != 0 )
             {
-                if( $fieldType == 'boolean' )
+                if ( $fieldType == 'boolean' )
                 {
-                    $fieldDefault = ($row['default']=='0')?'false':'true';
+                    $fieldDefault = ( $row['default'] == '0' ) ? 'false' : 'true';
                 }
                 else if ( $fieldType != 'timestamp' ) 
                 {

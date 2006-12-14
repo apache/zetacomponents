@@ -83,14 +83,14 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
      */
     private function isQueryAllowed( ezcDbHandler $db, $query )
     {
-        if ( strstr($query, 'AUTO_INCREMENT') ) //detect AUTO_INCREMENT and return imediately. Will process later.
+        if ( strstr( $query, 'AUTO_INCREMENT' ) ) // detect AUTO_INCREMENT and return imediately. Will process later.
         {
             return false;
         }
 
-        if ( substr($query, 0, 10) == 'DROP TABLE' )
+        if ( substr( $query, 0, 10 ) == 'DROP TABLE' )
         {
-            $tableName = substr($query, strlen( 'DROP TABLE "' ), -1 ); //get table name without quotes
+            $tableName = substr($query, strlen( 'DROP TABLE "' ), -1 ); // get table name without quotes
 
             $result = $db->query( "SELECT count( table_name ) AS count FROM user_tables WHERE table_name='$tableName'" )->fetchAll();
             if ( $result[0]['count'] == 1 )
@@ -99,7 +99,7 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
                 array_walk( $sequences, create_function( '&$item,$key', '$item = $item[0];' ) );
                 foreach ( $sequences as $sequenceName )
                 {
-                    //try to drop sequences related to dropped table.
+                    // try to drop sequences related to dropped table.
                     if ( substr( $sequenceName, 0, strlen($tableName) ) == $tableName )
                     {
                         $db->query( "DROP SEQUENCE \"{$sequenceName}\"" );
@@ -170,7 +170,7 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
             }
             else
             {
-                if ( strstr($query, 'AUTO_INCREMENT') ) //detect AUTO_INCREMENT and emulate it by adding sequence and trigger
+                if ( strstr($query, 'AUTO_INCREMENT') ) // detect AUTO_INCREMENT and emulate it by adding sequence and trigger
                 {
                     $db->commit();
                     $db->beginTransaction();
@@ -200,7 +200,7 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
     */
     private function addAutoIncrementField( $db, $tableName, $autoIncrementFieldName, $autoIncrementFieldType )
     {
-        //fetching field info from Oracle, getting column position of autoincrement field
+        // fetching field info from Oracle, getting column position of autoincrement field
         $resultArray = $this->db->query( "SELECT   a.column_name AS field, " .    
                                          "         a.column_id AS field_pos " .
                                          "FROM     user_tab_columns a " .
@@ -208,16 +208,16 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
                                          "ORDER BY a.column_id" );
         $resultArray->setFetchMode( PDO::FETCH_ASSOC );
 
-        if ( count ($resultArray) != 1 )
+        if ( count( $resultArray) != 1 )
         {
             return;
         }
 
         $fieldPos = $resultArray[0]['field_pos'];
 
-        //emulation of autoincrement through adding sequence, trigger and constraint
+        // emulation of autoincrement through adding sequence, trigger and constraint
         $sequence = $this->db->query( "SELECT sequence_name FROM user_sequences WHERE sequence_name = '{$tableName}_{$fieldPos}_seq'" )->fetchAll();
-        if ( count ($sequence) > 0  )
+        if ( count( $sequence) > 0  )
         {
             $db->query( "DROP SEQUENCE \"{$sequenceName}\"" );
         }
@@ -230,7 +230,7 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
                                   "end;" );
 
         $constraint = $this->db->query( "SELECT constraint_name FROM user_cons_columns WHERE constraint_name = '{$tableName}_pkey'" )->fetchAll();
-        if ( count ($constraint) > 0  )
+        if ( count( $constraint) > 0  )
         {
             $db->query( "ALTER TABLE \"$tableName\" DROP CONSTRAINT \"{$tableName}_pkey\"" );
         }
@@ -284,7 +284,7 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
             } 
             else
             {
-                $typeAddition = "(4000)"; //default length for varchar2 in Oracle
+                $typeAddition = "(4000)"; // default length for varchar2 in Oracle
             }
         }
         if ( $fieldDefinition->type == 'boolean' )
@@ -345,7 +345,7 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
 
         $this->queries[] = $sql;
 
-        if ( count( $autoincrementSQL ) > 0 ) //adding autoincrement emulation queries if exists
+        if ( count( $autoincrementSQL ) > 0 ) // adding autoincrement emulation queries if exists
         {
             $this->queries = array_merge( $this->queries, $autoincrementSQL );
         }
@@ -526,7 +526,7 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
      */
     protected function generateDropIndexSql( $tableName, $indexName )
     {
-        if ( $indexName == 'primary' ) //handling primary indexes
+        if ( $indexName == 'primary' ) // handling primary indexes
         {
             $this->queries[] = "ALTER TABLE \"$tableName\" DROP CONSTRAINT \"{$tableName}_pkey\"";
         }

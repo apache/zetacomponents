@@ -46,8 +46,8 @@ class ezcDatabaseSchemaSqliteDiffTest extends ezcTestCase
 
         foreach ( $tables as $tableName )
         {
-            if ($tableName == 'sqlite_sequence') //clear sqlite_sequence table as it 
-                                                 //automatically created by SQLite and couldn't be droped
+            if ($tableName == 'sqlite_sequence') // clear sqlite_sequence table as it 
+                                                 // automatically created by SQLite and couldn't be droped
             {
                 $this->db->query( "DELETE FROM sqlite_sequence" );
             }

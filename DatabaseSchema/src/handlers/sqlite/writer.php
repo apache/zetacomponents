@@ -83,14 +83,14 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
      */
     private function isQueryAllowed( ezcDbHandler $db, $query )
     {
-        if ( strstr($query, 'DROP COLUMN') || strstr($query, 'CHANGE') ) //detecting DROP COLUMN clause or field CHANGE clause 
+        if ( strstr($query, 'DROP COLUMN') || strstr($query, 'CHANGE') ) // detecting DROP COLUMN clause or field CHANGE clause 
         {
             return false;
         }
 
-        if ( substr($query, 0, 10) == 'DROP TABLE' )
+        if ( substr( $query, 0, 10 ) == 'DROP TABLE' )
         {
-            $tableName = substr($query, strlen( 'DROP TABLE ' ) );
+            $tableName = substr( $query, strlen( 'DROP TABLE ' ) );
             $result = $db->query( "SELECT count(*) AS count FROM 
                                     (SELECT * FROM sqlite_master UNION ALL 
                                      SELECT * FROM sqlite_temp_master)
@@ -163,9 +163,9 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
             }
             else
             {
-                //SQLite don't support SQL clause for removing columns
-                //perform emulation for this
-                if ( strstr($query, 'DROP COLUMN') ) 
+                // SQLite don't support SQL clause for removing columns
+                // perform emulation for this
+                if ( strstr( $query, 'DROP COLUMN' ) ) 
                 {
                     $db->commit();
                     $db->beginTransaction();
@@ -183,21 +183,21 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
 
                         $this->dropField( $db, $tableName , $dropFieldName );
                     }
-                    catch( ezcDbSchemaSqliteDropFieldException $e )
+                    catch ( ezcDbSchemaSqliteDropFieldException $e )
                     {
                     }
                     $db->commit();
                     $db->beginTransaction();
                 }
-                else if ( strstr($query, 'CHANGE') ) //SQLite don't support SQL clause for changing columns 
-                                                     //perform emulation for this
+                else if ( strstr( $query, 'CHANGE' ) ) // SQLite don't support SQL clause for changing columns 
+                                                       // perform emulation for this
 
                 {
                     $db->commit();
                     $db->beginTransaction();
                     try
                     {
-                        preg_match ( "/ALTER TABLE (.*) CHANGE (.*) (.*) (.*)/" , $query, $matches );
+                        preg_match( "/ALTER TABLE (.*) CHANGE (.*) (.*) (.*)/" , $query, $matches );
                         $tableName = $matches[1];
                         $changeFieldName = $matches[2];
                         $changeFieldNewName = $matches[3];
@@ -205,7 +205,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
                         $this->changeField( $db, $tableName, $changeFieldName, $changeFieldNewName, $changeFieldNewType );
 
                     }
-                    catch( ezcDbSchemaSqliteDropFieldException $e )
+                    catch ( ezcDbSchemaSqliteDropFieldException $e )
                     {
                     }
                     $db->commit();
@@ -244,13 +244,13 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
             $fieldSql[] = $row[1]; // name
             if ( $row[1] == $changeFieldName )
             {
-                //will recreate changed field with new definition
+                // will recreate changed field with new definition
                 $fieldsDefinitions[] = "$changeFieldNewName $changeFieldNewDefinition";
                 $fieldsList[] = $fieldSql[0];
                 continue; 
             }
 
-            $fieldSql[] = $row[2]; //type
+            $fieldSql[] = $row[2]; // type
 
             if ( $row[3] == '99' )
             {
@@ -275,7 +275,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
             $fieldsList[] = $fieldSql[0];
         }
 
-        if ( count($fieldsDefinitions) > 0 )
+        if ( count( $fieldsDefinitions ) > 0 )
         {
             $fields = join( ', ', $fieldsDefinitions );
             $tmpTableCreateSql = "CREATE TEMPORARY TABLE $tmpTableName( $fields  );";
@@ -283,15 +283,15 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
             if ( count($fieldsList)>0 ) 
             {
                 $db->exec( $tmpTableCreateSql );
-                $db->exec( "INSERT INTO $tmpTableName SELECT ". join(', ', $fieldsList )." FROM $tableName;" );
+                $db->exec( "INSERT INTO $tmpTableName SELECT ". join( ', ', $fieldsList )." FROM $tableName;" );
                 $db->exec( "DROP TABLE $tableName;" );
                 $db->exec( $newTableCreateSql );
-                $db->exec( "INSERT INTO $tableName SELECT ". join(', ', $fieldsList )." FROM $tmpTableName;" );
+                $db->exec( "INSERT INTO $tableName SELECT ". join( ', ', $fieldsList )." FROM $tmpTableName;" );
                 $db->exec( "DROP TABLE $tmpTableName;" );
             }
             else
             {
-                //we had table with one column will drop table and recreate with changed column.
+                // we had table with one column will drop table and recreate with changed column.
                 $db->exec( "DROP TABLE $tableName;" );
                 $newTableCreateSql = "CREATE TABLE $tableName( $changeFieldNewName $changeFieldNewDefinition )" ;
                 $db->exec( $newTableCreateSql );
@@ -320,13 +320,13 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         foreach ( $resultArray as $row )
         {
             $fieldSql = array();
-            $fieldSql[] = $row[1]; //name
+            $fieldSql[] = $row[1]; // name
             if ( $row[1] == $dropFieldName )
             {
-                continue; //don't include droped fileld in temporary table
+                continue; // don't include droped fileld in temporary table
             }
 
-            $fieldSql[] = $row[2]; //type
+            $fieldSql[] = $row[2]; // type
 
             if ( $row[3] == '99' )
             {
@@ -354,13 +354,13 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         $fields = join( ', ', $fieldsDefinitions );
         $tmpTableCreateSql = "CREATE TEMPORARY TABLE $tmpTableName( $fields  );";
         $newTableCreateSql = "CREATE TABLE $tableName( $fields )" ;
-        if ( count($fieldsList)>0 ) 
+        if ( count( $fieldsList ) > 0 ) 
         {
             $db->exec( $tmpTableCreateSql );
-            $db->exec( "INSERT INTO $tmpTableName SELECT ". join(', ', $fieldsList )." FROM $tableName;" );
+            $db->exec( "INSERT INTO $tmpTableName SELECT ". join( ', ', $fieldsList )." FROM $tableName;" );
             $db->exec( "DROP TABLE $tableName;" );
             $db->exec( $newTableCreateSql );
-            $db->exec( "INSERT INTO $tableName SELECT ". join(', ', $fieldsList )." FROM $tmpTableName;" );
+            $db->exec( "INSERT INTO $tableName SELECT ". join( ', ', $fieldsList )." FROM $tmpTableName;" );
             $db->exec( "DROP TABLE $tmpTableName;" );
         }
         else
@@ -399,7 +399,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
      */
     protected function generateDropTableSql( $tableName )
     {
-        //use DROP TABLE and isQueryAllowed() workaround to emulate DROP TABLE IF EXISTS.
+        // use DROP TABLE and isQueryAllowed() workaround to emulate DROP TABLE IF EXISTS.
         $this->queries[] = "DROP TABLE $tableName";
     }
 

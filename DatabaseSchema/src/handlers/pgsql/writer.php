@@ -84,9 +84,9 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     private function isQueryAllowed( ezcDbHandler $db, $query )
     {
-        if ( substr($query, 0, 10) == 'DROP TABLE' )
+        if ( substr( $query, 0, 10 ) == 'DROP TABLE' )
         {
-            $tableName = substr($query, strlen( 'DROP TABLE ' ) );
+            $tableName = substr( $query, strlen( 'DROP TABLE ' ) );
             $result = $db->query( "SELECT count(*) FROM pg_tables WHERE tablename='$tableName'" )->fetchAll();
             if ( $result[0]['count'] == 1 )
             {
@@ -382,7 +382,7 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     protected function generateDropIndexSql( $tableName, $indexName )
     {
-        if ( $indexName == 'primary' ) //handling primary indexes
+        if ( $indexName == 'primary' ) // handling primary indexes
         {
             $this->queries[] = "ALTER TABLE $tableName DROP CONSTRAINT {$tableName}_pkey";
         }

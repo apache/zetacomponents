@@ -126,7 +126,7 @@ class ezcDbSchemaPgsqlReader implements ezcDbSchemaDbReader
     {
         $fields = array();
 
-        //fetching fields info from PostgreSQL
+        // fetching fields info from PostgreSQL
         $resultArray = $this->db->query( 
             "SELECT a.attnum, a.attname AS field, t.typname AS type,
                      format_type(a.atttypid, a.atttypmod) AS fulltype,
@@ -158,19 +158,19 @@ class ezcDbSchemaPgsqlReader implements ezcDbSchemaDbReader
 
             $fieldAutoIncrement = false;
 
-            if ($row['default'] != '' ) 
+            if ( $row['default'] != '' ) 
             {
-                //detecting autoincrement field by string like "nextval('public.TableName_FieldName_seq'::text)" 
-                //in "default"
-                if( strstr( $row['default'], $row['field'].'_seq' ) != false ) 
+                // detecting autoincrement field by string like "nextval('public.TableName_FieldName_seq'::text)" 
+                // in "default"
+                if ( strstr( $row['default'], $row['field'].'_seq' ) != false ) 
                 {
                     $fieldAutoIncrement = true;
                 }
                 else
                 {
-                    //try to cut off single quotes and "::Typename" that postgreSQL
-                    //adds to default value string for some types.
-                    //we should do it to get clean value for default clause.
+                    // try to cut off single quotes and "::Typename" that postgreSQL
+                    // adds to default value string for some types.
+                    // we should do it to get clean value for default clause.
                     if ( preg_match( "@'(.*)('::[a-z ]*)$@", $row['default'], $matches ) == 1 )
                     {
                         $fieldDefault = $matches[1];
@@ -276,7 +276,7 @@ class ezcDbSchemaPgsqlReader implements ezcDbSchemaDbReader
         $indexBuffer = array();
         $resultArray = array();
 
-        //fetching index info from PostgreSQL
+        // fetching index info from PostgreSQL
         $getIndexSQL = "SELECT relname, pg_index.indisunique, pg_index.indisprimary, 
                                pg_index.indkey, pg_index.indrelid 
                          FROM pg_class, pg_index
@@ -288,13 +288,13 @@ class ezcDbSchemaPgsqlReader implements ezcDbSchemaDbReader
                       AND pg_index.indexrelid = oid";
         $indexesArray = $this->db->query( $getIndexSQL )->fetchAll();
 
-        //getting columns to which each index related.
+        // getting columns to which each index related.
         foreach ( $indexesArray as $row )
         {
             $myIndex[]=$row['relname'];
 
-            $colNumbers = explode(' ', $row['indkey']);
-            $colNumbersSQL = 'IN ('.join(' ,', $colNumbers ).' )';
+            $colNumbers = explode( ' ', $row['indkey'] );
+            $colNumbersSQL = 'IN (' . join( ' ,', $colNumbers ) . ' )';
             $indexColumns = $this->db->query( "SELECT attname 
                                                FROM pg_attribute 
                                                WHERE attrelid={$row['indrelid']} 
