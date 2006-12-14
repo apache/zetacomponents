@@ -8,6 +8,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once dirname( __FILE__ ) . "/test_case.php";
+
 /**
  * Test suite for ImageConverter class.
  *
@@ -138,7 +140,7 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
             "image/wbmp" => "image/jpeg",
         );
         $settings = new ezcImageConverterSettings( 
-            array( new ezcImageHandlerSettings( "Toby", "ezcImageHandlerToby" ) ),
+            array( new ezcImageHandlerSettings( "Toby", "fooImageHandlerToby" ) ),
             $conversionsIn
         );
         try

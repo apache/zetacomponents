@@ -1,4 +1,7 @@
 <?php
+
+require_once dirname( __FILE__ ) . "/test_case.php";
+
 ezcTestRunner::addFileToFilter( __FILE__ );
 
 class ezcImageConversionTestCase extends ezcImageTestCase

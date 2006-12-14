@@ -8,6 +8,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once dirname( __FILE__ ) . "/test_case.php";
+
 /**
  * Test suite for ImageFiltersGd class.
  *
