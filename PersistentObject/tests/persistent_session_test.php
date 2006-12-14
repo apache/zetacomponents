@@ -51,7 +51,7 @@ class ezcPersistentSessionTest extends ezcTestCase
     }
 
     // loadIfExists
-    //
+    // 
     public function testLoadIfExistsValid()
     {
         $object = $this->session->loadIfExists( 'PersistentTestObject', 1 );

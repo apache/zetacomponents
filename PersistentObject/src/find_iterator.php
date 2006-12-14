@@ -27,9 +27,9 @@
  *    ->limit( 10 );
  *  $objects = $session->findIterator( $q, 'Person' );
  *
- *  foreach( $objects as $object )
+ *  foreach ( $objects as $object )
  *  {
- *     if( ... )
+ *     if ( ... )
  *     {
  *        $objects->flush();
  *        break;

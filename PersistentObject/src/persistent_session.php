@@ -579,7 +579,7 @@ class ezcPersistentSession
         }
         
         $relatedDef = $this->definitionManager->fetchDefinition( get_class( $relatedObject ) );
-        switch( get_class( ( $relation = $def->relations[get_class( $relatedObject )] ) ) )
+        switch ( get_class( ( $relation = $def->relations[get_class( $relatedObject )] ) ) )
         {
             case "ezcPersistentOneToManyRelation":
             case "ezcPersistentOneToOneRelation":
@@ -654,7 +654,7 @@ class ezcPersistentSession
         $relatedObjectState = $relatedObject->getState();
         
         $relatedDef = $this->definitionManager->fetchDefinition( get_class( $relatedObject ) );
-        switch( get_class( ( $relation = $def->relations[get_class( $relatedObject )] ) ) )
+        switch ( get_class( ( $relation = $def->relations[get_class( $relatedObject )] ) ) )
         {
             case "ezcPersistentOneToManyRelation":
             case "ezcPersistentOneToOneRelation":
@@ -1069,20 +1069,20 @@ class ezcPersistentSession
         $typedState = array();
         foreach ( $state as $name => $value )
         {
-            if( $name == $def->idProperty->propertyName )
+            if ( $name == $def->idProperty->propertyName )
             {
-                if( $value !== null )
+                if ( $value !== null )
                 {
                     $typedState[$name] = (int) $value;
                     continue;
                 }
             }
-            else if( !isset( $def->properties[$name] ) )
+            else if ( !isset( $def->properties[$name] ) )
             {
                 continue;
             }
 
-            if( !is_null( $value ) )
+            if ( !is_null( $value ) )
             {
                 switch ( $def->properties[$name]->propertyType )
                 {

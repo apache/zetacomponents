@@ -61,18 +61,18 @@ class ezcPersistentMultiManager extends ezcPersistentDefinitionManager
     {
         $def = null;
         $errors = "";
-        foreach( $this->managers as $man )
+        foreach ( $this->managers as $man )
         {
             try
             {
                 $def = $man->fetchDefinition( $class );
             }
-            catch(ezcPersistentDefinitionNotFoundException $e)
+            catch (ezcPersistentDefinitionNotFoundException $e)
             {
                 $errors = $e->getMessage() . "\n";
             }
 
-            if( $def !== null )
+            if ( $def !== null )
             {
                 return $def;
             }

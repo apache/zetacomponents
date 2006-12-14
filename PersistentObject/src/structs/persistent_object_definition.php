@@ -104,7 +104,7 @@ class ezcPersistentObjectDefinition extends ezcBaseStruct
                                                   $array['class'],
                                                   $array['properties'],
                                                   $array['relations'],
-                                                  $array['idProperty']);
+                                                  $array['idProperty'] );
     }
 }
 ?>
