@@ -122,11 +122,25 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         $this->saveCommon( $image, isset( $newFile ) ? $newFile : null, isset( $mime ) ? $mime : null );
         
         // Prepare ImageMagick command
-        $command = $this->binary . ' ' .
-            ( isset( $this->filterOptions[$image] ) ? implode( ' ', $this->filterOptions[$image] ) : '' ) . ' ' .
-            escapeshellarg( $this->getReferenceData( $image, 'resource' ) ) . ' ' .
-            ( isset( $this->compositeImages[$image] ) ? implode( ' ', $this->compositeImages[$image] ) : '' ) . ' ' .
-            escapeshellarg( $this->tagMap[$this->getReferenceData( $image, 'mime' )] . ':' . $this->getReferenceData( $image, 'resource' ) );
+        // Here we need a work around, because older ImageMagick versions do not
+        // support this option order
+
+        if ( isset( $this->compositeImages[$image] ) )
+        {
+            $command = $this->binary . ' ' .
+                ( isset( $this->filterOptions[$image] ) ? implode( ' ', $this->filterOptions[$image] ) : '' ) . ' ' .
+                escapeshellarg( $this->getReferenceData( $image, 'resource' ) ) . ' ' .
+                implode( ' ', $this->compositeImages[$image] ) . ' ' .
+                escapeshellarg( $this->tagMap[$this->getReferenceData( $image, 'mime' )] . ':' . $this->getReferenceData( $image, 'resource' ) );
+        }
+        else
+        {
+            $command = $this->binary . ' ' .
+                escapeshellarg( $this->getReferenceData( $image, 'resource' ) ) . ' ' .
+                ( isset( $this->filterOptions[$image] ) ? implode( ' ', $this->filterOptions[$image] ) : '' ) . ' ' .
+                escapeshellarg( $this->tagMap[$this->getReferenceData( $image, 'mime' )] . ':' . $this->getReferenceData( $image, 'resource' ) );
+        }
+
         
         // Prepare to run ImageMagick command
         $descriptors = array( 
