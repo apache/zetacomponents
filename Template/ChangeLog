@@ -29,8 +29,6 @@
   variables.
 - Fixed an issue that the return value from a template include was not 
   assigned to {use} variable.
-- All exceptions used in the Template component inherit from 
-  ezcTemplateException (and not Exception)
 - Fixed problem with correct whitespace trimming of elements inside {if}
   block.
 - Fixed issue #9806: Added the ezcTemplateException class from which all
