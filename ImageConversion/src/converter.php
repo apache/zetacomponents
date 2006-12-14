@@ -221,7 +221,14 @@ class ezcImageConverter
             }
             $handlerClass = $handlerSettings->className;
             // Silence stupid warning from class_exists()
-            if ( !@class_exists( $handlerClass ) )
+            try
+            {
+                if ( !class_exists( $handlerClass ) )
+                {
+                    throw new ezcImageHandlerNotAvailableException( $handlerClass );
+                }
+            }
+            catch ( ezcBaseAutoloadException $e )
             {
                 throw new ezcImageHandlerNotAvailableException( $handlerClass );
             }
