@@ -854,6 +854,11 @@ class ezcGraphFontTest extends ezcImageTestCase
 
     public function testISO_8859_15SpecialCharsFlash()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( "ming" ) )
+        {
+            $this->markTestSkipped( "ext/ming not found" );
+        }
+
         $filename = $this->tempDir . __FUNCTION__ . '.swf';
 
         $driver = new ezcGraphFlashDriver();
