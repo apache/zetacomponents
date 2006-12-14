@@ -11,7 +11,7 @@ class DataObject
 
     public function signals()
     {
-        if( $this->signals == null ) $this->signals = new ezcSignalCollection( __CLASS__ );
+        if ( $this->signals == null ) $this->signals = new ezcSignalCollection( __CLASS__ );
         return $this->signals;
     }
 

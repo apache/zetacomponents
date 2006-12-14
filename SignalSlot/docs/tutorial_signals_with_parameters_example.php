@@ -5,7 +5,7 @@ class Data
 
     public function signals()
     {
-        if( $this->signals == null ) $this->signals = new ezcSignalCollection();
+        if ( $this->signals == null ) $this->signals = new ezcSignalCollection();
         return $this->signals;
     }
 

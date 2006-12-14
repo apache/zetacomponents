@@ -16,7 +16,7 @@ class TheGiver
 
     public function __construct( $signalID = null )
     {
-        if( $signalID === null )
+        if ( $signalID === null )
         {
             $this->signals = new ezcSignalCollection( __CLASS__ );
         }

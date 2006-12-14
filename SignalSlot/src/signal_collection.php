@@ -153,7 +153,7 @@ class ezcSignalCollection
 
         // check if there are any static connections
         $priStaticConnections = array();
-        if( self::$staticConnectionsHolder == NULL )
+        if ( self::$staticConnectionsHolder == NULL )
         {
             $priStaticConnections = ezcSignalStaticConnections::getInstance()->getConnections( $this->identifier, $signal );
         }
