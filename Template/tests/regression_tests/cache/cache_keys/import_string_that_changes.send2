@@ -1,7 +1,0 @@
-<?php
-ezcTestRunner::addFileToFilter( __FILE__ );
-
-$v = new ezcTemplateVariableCollection();
-$v->impressive_title = "Dirctor of spelling erorrs";
-return $v;
-?>

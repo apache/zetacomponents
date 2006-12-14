@@ -1,7 +1,0 @@
-<?php
-ezcTestRunner::addFileToFilter( __FILE__ );
-
-$v = new ezcTemplateVariableCollection();
-$v->counter = new Counter1;
-return $v;
-?>

@@ -1,4 +1,0 @@
-{use $impressive_title}
-{cache_template keys $impressive_title}
-
-{$impressive_title}

@@ -1,4 +1,0 @@
-mock:4:9: The variable <$a> is cannot be declared in a subblock: while, foreach, if, etc
-
-	{var $a}
-        ^

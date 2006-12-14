@@ -1,5 +1,0 @@
-{cache_template}
-
-{dynamic}
-	{var $a}
-{/dynamic}

@@ -1,4 +1,0 @@
-{use $user}
-{cache_template keys $user}
-
-My name is: {$user->firstName} {$user->lastName}
