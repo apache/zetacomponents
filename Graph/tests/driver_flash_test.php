@@ -1436,7 +1436,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
         {
             $options->compression = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1465,7 +1465,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
         {
             $options->circleResolution = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }

@@ -523,7 +523,7 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
         {
             $options->showZeroValue = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }

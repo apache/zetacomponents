@@ -27,7 +27,7 @@ $xpath = new DomXPath( $dom );
 // Link chart elements
 foreach( $elements['data']['Access statistics'] as $objectName => $ids )
 {
-    foreach( $ids as $id )
+    foreach ( $ids as $id )
     {
         echo "Link: $id\n";
         $element = $xpath->query( '//*[@id = \'' . $id . '\']' )->item( 0 );
@@ -40,7 +40,7 @@ foreach( $elements['data']['Access statistics'] as $objectName => $ids )
 // Link legend elements
 foreach( $elements['legend'] as $objectName => $ids )
 {
-    foreach( $ids as $id )
+    foreach ( $ids as $id )
     {
         echo "Link: $id\n";
         $element = $xpath->query( '//*[@id = \'' . $id . '\']' )->item( 0 );

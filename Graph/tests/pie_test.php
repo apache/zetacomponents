@@ -485,7 +485,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         {
             $chart->options->sum = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -512,7 +512,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         {
             $chart->options->absoluteThreshold = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -540,7 +540,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         {
             $chart->options->percentThreshold = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -567,7 +567,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         {
             $chart->options->absoluteThreshold = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -595,7 +595,7 @@ class ezcGraphPieChartTest extends ezcImageTestCase
         {
             $chart->options->percentThreshold = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }

@@ -33,7 +33,7 @@ $elements = $graph->renderer->getElementReferences();
         foreach ( $polygones as $shape => $polygone )
         {
             $coordinateString = '';
-            foreach( $polygone as $coordinate )
+            foreach ( $polygone as $coordinate )
             {
                 $coordinateString .= sprintf( '%d,%d,', $coordinate->x, $coordinate->y );
             }

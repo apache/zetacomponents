@@ -596,7 +596,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         {
             $options->min = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -625,7 +625,7 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         {
             $options->max = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }

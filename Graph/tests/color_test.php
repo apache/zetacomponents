@@ -123,7 +123,7 @@ class ezcGraphColorTest extends ezcTestCase
         {
             $options->red = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -152,7 +152,7 @@ class ezcGraphColorTest extends ezcTestCase
         {
             $options->green = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -181,7 +181,7 @@ class ezcGraphColorTest extends ezcTestCase
         {
             $options->blue = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -210,7 +210,7 @@ class ezcGraphColorTest extends ezcTestCase
         {
             $options->alpha = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -225,7 +225,7 @@ class ezcGraphColorTest extends ezcTestCase
             $color = ezcGraphColor::create( array( .02, .092, .165 ) );
             $color->black = 23;
         }
-        catch( ezcBasePropertyNotFoundException $e )
+        catch ( ezcBasePropertyNotFoundException $e )
         {
             return true;
         }
@@ -246,7 +246,7 @@ class ezcGraphColorTest extends ezcTestCase
         {
             $color->black;
         }
-        catch( ezcBasePropertyNotFoundException $e )
+        catch ( ezcBasePropertyNotFoundException $e )
         {
             return true;
         }
@@ -278,7 +278,7 @@ class ezcGraphColorTest extends ezcTestCase
         {
             $color->startPoint = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -312,7 +312,7 @@ class ezcGraphColorTest extends ezcTestCase
         {
             $color->endPoint = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -378,7 +378,7 @@ class ezcGraphColorTest extends ezcTestCase
         {
             $color->black;
         }
-        catch( ezcBasePropertyNotFoundException $e )
+        catch ( ezcBasePropertyNotFoundException $e )
         {
             return true;
         }
@@ -426,7 +426,7 @@ class ezcGraphColorTest extends ezcTestCase
         {
             $color->center = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -460,7 +460,7 @@ class ezcGraphColorTest extends ezcTestCase
         {
             $color->width = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -494,7 +494,7 @@ class ezcGraphColorTest extends ezcTestCase
         {
             $color->height = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -528,7 +528,7 @@ class ezcGraphColorTest extends ezcTestCase
         {
             $color->offset = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }

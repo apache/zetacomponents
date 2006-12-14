@@ -232,7 +232,7 @@ class ezcGraphFontTest extends ezcImageTestCase
         {
             $options->name = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -249,7 +249,7 @@ class ezcGraphFontTest extends ezcImageTestCase
             $catched = false;
             $options->path;
         }
-        catch( ezcBaseFileNotFoundException $e )
+        catch ( ezcBaseFileNotFoundException $e )
         {
             $catched = true;
 
@@ -276,7 +276,7 @@ class ezcGraphFontTest extends ezcImageTestCase
         {
             $options->path = false;
         }
-        catch( ezcBaseFileNotFoundException $e )
+        catch ( ezcBaseFileNotFoundException $e )
         {
             return true;
         }
@@ -305,7 +305,7 @@ class ezcGraphFontTest extends ezcImageTestCase
         {
             $options->type = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -334,7 +334,7 @@ class ezcGraphFontTest extends ezcImageTestCase
         {
             $options->minFontSize = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -363,7 +363,7 @@ class ezcGraphFontTest extends ezcImageTestCase
         {
             $options->maxFontSize = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -417,7 +417,7 @@ class ezcGraphFontTest extends ezcImageTestCase
         {
             $options->color = false;
         }
-        catch( ezcGraphUnknownColorDefinitionException $e )
+        catch ( ezcGraphUnknownColorDefinitionException $e )
         {
             return true;
         }
@@ -446,7 +446,7 @@ class ezcGraphFontTest extends ezcImageTestCase
         {
             $options->background = false;
         }
-        catch( ezcGraphUnknownColorDefinitionException $e )
+        catch ( ezcGraphUnknownColorDefinitionException $e )
         {
             return true;
         }
@@ -475,7 +475,7 @@ class ezcGraphFontTest extends ezcImageTestCase
         {
             $options->border = false;
         }
-        catch( ezcGraphUnknownColorDefinitionException $e )
+        catch ( ezcGraphUnknownColorDefinitionException $e )
         {
             return true;
         }
@@ -504,7 +504,7 @@ class ezcGraphFontTest extends ezcImageTestCase
         {
             $options->borderWidth = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -533,7 +533,7 @@ class ezcGraphFontTest extends ezcImageTestCase
         {
             $options->padding = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -562,7 +562,7 @@ class ezcGraphFontTest extends ezcImageTestCase
         {
             $options->minimizeBorder = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -591,7 +591,7 @@ class ezcGraphFontTest extends ezcImageTestCase
         {
             $options->textShadow = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -620,7 +620,7 @@ class ezcGraphFontTest extends ezcImageTestCase
         {
             $options->textShadowOffset = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -649,7 +649,7 @@ class ezcGraphFontTest extends ezcImageTestCase
         {
             $options->textShadowColor = false;
         }
-        catch( ezcGraphUnknownColorDefinitionException $e )
+        catch ( ezcGraphUnknownColorDefinitionException $e )
         {
             return true;
         }
@@ -665,7 +665,7 @@ class ezcGraphFontTest extends ezcImageTestCase
         {
             $options->unknown = 42;
         }
-        catch( ezcBasePropertyNotFoundException $e )
+        catch ( ezcBasePropertyNotFoundException $e )
         {
             return true;
         }

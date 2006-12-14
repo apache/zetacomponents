@@ -41,7 +41,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
 
     protected function tearDown()
     {
-        if( !$this->hasFailed() )
+        if ( !$this->hasFailed() )
         {
             $this->removeTempDir();
         }
@@ -1261,7 +1261,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         {
             $options->seperateLines = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1290,7 +1290,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         {
             $options->fillAxis = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1319,7 +1319,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         {
             $options->fillGrid = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1348,7 +1348,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         {
             $options->depth = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1377,7 +1377,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         {
             $options->pieChartHeight = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1406,7 +1406,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         {
             $options->pieChartRotation = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1435,7 +1435,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         {
             $options->pieChartShadowSize = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1464,7 +1464,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         {
             $options->pieChartShadowTransparency = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1493,7 +1493,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         {
             $options->pieChartShadowColor = false;
         }
-        catch( ezcGraphUnknownColorDefinitionException $e )
+        catch ( ezcGraphUnknownColorDefinitionException $e )
         {
             return true;
         }
@@ -1522,7 +1522,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         {
             $options->barDarkenSide = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1551,7 +1551,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         {
             $options->barDarkenTop = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1580,7 +1580,7 @@ class ezcGraphRenderer3dTest extends ezcImageTestCase
         {
             $options->barChartGleam = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }

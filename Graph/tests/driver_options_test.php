@@ -44,7 +44,7 @@ class ezcGraphDriverOptionsTest extends ezcImageTestCase
         {
             $options->width = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -73,7 +73,7 @@ class ezcGraphDriverOptionsTest extends ezcImageTestCase
         {
             $options->height = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -102,7 +102,7 @@ class ezcGraphDriverOptionsTest extends ezcImageTestCase
         {
             $options->shadeCircularArc = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -131,7 +131,7 @@ class ezcGraphDriverOptionsTest extends ezcImageTestCase
         {
             $options->lineSpacing = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -163,7 +163,7 @@ class ezcGraphDriverOptionsTest extends ezcImageTestCase
         {
             $options->font = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -179,7 +179,7 @@ class ezcGraphDriverOptionsTest extends ezcImageTestCase
         {
             $options->unknown = 42;
         }
-        catch( ezcBasePropertyNotFoundException $e )
+        catch ( ezcBasePropertyNotFoundException $e )
         {
             return true;
         }

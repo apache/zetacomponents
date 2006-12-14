@@ -1244,7 +1244,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         {
             $options->assumedNumericCharacterWidth = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1273,7 +1273,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         {
             $options->assumedTextCharacterWidth = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1302,7 +1302,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         {
             $options->strokeLineCap = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1331,7 +1331,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         {
             $options->strokeLineJoin = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1360,7 +1360,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         {
             $options->shapeRendering = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1389,7 +1389,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         {
             $options->colorRendering = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1418,7 +1418,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         {
             $options->textRendering = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1447,7 +1447,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         {
             $options->templateDocument = false;
         }
-        catch( ezcBaseFileNotFoundException $e )
+        catch ( ezcBaseFileNotFoundException $e )
         {
             return true;
         }
@@ -1476,7 +1476,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         {
             $options->insertIntoGroup = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -1505,7 +1505,7 @@ class ezcGraphSvgDriverTest extends ezcTestCase
         {
             $options->graphOffset = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }

@@ -70,7 +70,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         {
             $options->lineThickness = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -106,7 +106,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         {
             $options->fillLines = true;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -135,7 +135,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         {
             $options->symbolSize = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -174,7 +174,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         {
             $options->highlightFont = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -203,7 +203,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         {
             $options->highlightSize = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -232,7 +232,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         {
             $options->highlightLines = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -688,7 +688,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         {
             $options->xAxis = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -716,7 +716,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         {
             $options->yAxis = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -734,7 +734,7 @@ class ezcGraphLineChartTest extends ezcTestCase
         {
             $chart->legend = 12;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }

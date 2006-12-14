@@ -248,7 +248,7 @@ class ezcGraphMatrixTest extends ezcTestCase
         {
             $a->multiply( $b );
         }
-        catch( ezcGraphMatrixInvalidDimensionsException $e )
+        catch ( ezcGraphMatrixInvalidDimensionsException $e )
         {
             return true;
         }

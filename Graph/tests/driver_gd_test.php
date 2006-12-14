@@ -1980,7 +1980,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         {
             $options->imageFormat = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2009,7 +2009,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         {
             $options->jpegQuality = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2038,7 +2038,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         {
             $options->detail = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2067,7 +2067,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         {
             $options->supersampling = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2096,7 +2096,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         {
             $options->background = 'foo';
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2125,7 +2125,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         {
             $options->resampleFunction = 'foo';
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2154,7 +2154,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         {
             $options->forceNativeTTF = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2183,7 +2183,7 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
         {
             $options->imageMapResolution = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }

@@ -63,7 +63,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->background = false;
         }
-        catch( ezcGraphUnknownColorDefinitionException $e )
+        catch ( ezcGraphUnknownColorDefinitionException $e )
         {
             return true;
         }
@@ -103,7 +103,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->border = false;
         }
-        catch( ezcGraphUnknownColorDefinitionException $e )
+        catch ( ezcGraphUnknownColorDefinitionException $e )
         {
             return true;
         }
@@ -132,7 +132,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->padding = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -161,7 +161,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->margin = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -190,7 +190,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->borderWidth = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -219,7 +219,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->position = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -248,7 +248,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->maxTitleHeight = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -277,7 +277,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->portraitTitleSize = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -306,7 +306,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->landscapeTitleSize = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -338,7 +338,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->font = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -378,7 +378,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->image = false;
         }
-        catch( ezcBaseFileNotFoundException $e )
+        catch ( ezcBaseFileNotFoundException $e )
         {
             return true;
         }
@@ -407,7 +407,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->repeat = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -436,7 +436,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->portraitSize = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -465,7 +465,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->landscapeSize = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -494,7 +494,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->landscapeSize = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -523,7 +523,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->landscapeSize = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -552,7 +552,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->landscapeSize = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -599,7 +599,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->axisSpace = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -628,7 +628,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->majorGrid = false;
         }
-        catch( ezcGraphUnknownColorDefinitionException $e )
+        catch ( ezcGraphUnknownColorDefinitionException $e )
         {
             return true;
         }
@@ -657,7 +657,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->minorGrid = false;
         }
-        catch( ezcGraphUnknownColorDefinitionException $e )
+        catch ( ezcGraphUnknownColorDefinitionException $e )
         {
             return true;
         }
@@ -686,7 +686,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->majorStep = -1.;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -715,7 +715,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->minorStep = -1.;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -780,7 +780,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->labelSize = 2;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -809,7 +809,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->labelMargin = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -838,7 +838,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->labelMargin = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -867,7 +867,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->axisLabelRenderer = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -896,7 +896,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         {
             $options->maxHeight = 2;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }

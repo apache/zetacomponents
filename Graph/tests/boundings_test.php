@@ -58,7 +58,7 @@ class ezcGraphBoundingsTest extends ezcTestCase
         {
             $boundings->unknown;
         }
-        catch( ezcBasePropertyNotFoundException $e )
+        catch ( ezcBasePropertyNotFoundException $e )
         {
             return true;
         }

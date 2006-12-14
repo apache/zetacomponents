@@ -89,7 +89,7 @@ class ezcGraphLogarithmicalAxisTest extends ezcTestCase
         {
             $options->min = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -118,7 +118,7 @@ class ezcGraphLogarithmicalAxisTest extends ezcTestCase
         {
             $options->max = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -147,7 +147,7 @@ class ezcGraphLogarithmicalAxisTest extends ezcTestCase
         {
             $options->base = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }

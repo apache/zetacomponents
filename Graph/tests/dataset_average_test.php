@@ -35,7 +35,7 @@ class ezcGraphDataSetAverageTest extends ezcTestCase
 
     protected function tearDown()
     {
-        if( !$this->hasFailed() )
+        if ( !$this->hasFailed() )
         {
             $this->removeTempDir();
         }
@@ -369,7 +369,7 @@ class ezcGraphDataSetAverageTest extends ezcTestCase
         {
             $dataset->polynomOrder = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -399,7 +399,7 @@ class ezcGraphDataSetAverageTest extends ezcTestCase
         {
             $dataset->resolution = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }

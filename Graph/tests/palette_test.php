@@ -436,7 +436,7 @@ class ezcGraphPaletteTest extends ezcTestCase
         {
             $options->chartBorderWidth = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -465,7 +465,7 @@ class ezcGraphPaletteTest extends ezcTestCase
         {
             $options->elementBorderWidth = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -494,7 +494,7 @@ class ezcGraphPaletteTest extends ezcTestCase
         {
             $options->padding = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -523,7 +523,7 @@ class ezcGraphPaletteTest extends ezcTestCase
         {
             $options->margin = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }

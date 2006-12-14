@@ -635,7 +635,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
         {
             $axisLabelRenderer->majorStepCount = true;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -664,7 +664,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
         {
             $axisLabelRenderer->minorStepCount = true;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -693,7 +693,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
         {
             $axisLabelRenderer->majorStepSize = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -722,7 +722,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
         {
             $axisLabelRenderer->minorStepSize = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -751,7 +751,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
         {
             $axisLabelRenderer->innerStep = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -780,7 +780,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
         {
             $axisLabelRenderer->outerStep = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -809,7 +809,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
         {
             $axisLabelRenderer->outerGrid = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -838,7 +838,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
         {
             $axisLabelRenderer->labelPadding = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -867,7 +867,7 @@ class ezcGraphAxisExactRendererTest extends ezcTestCase
         {
             $options->showLastValue = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }

@@ -2012,7 +2012,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->maxLabelHeight = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2041,7 +2041,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->showSymbol = 42;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2070,7 +2070,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->symbolSize = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2099,7 +2099,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->moveOut = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2128,7 +2128,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->titlePosition = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2157,7 +2157,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->titleAlignement = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2193,7 +2193,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->dataBorder = true;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2222,7 +2222,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->barMargin = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2251,7 +2251,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->barPadding = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2280,7 +2280,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->pieChartOffset = 450;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2316,7 +2316,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->legendSymbolGleam = true;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2345,7 +2345,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->legendSymbolGleamSize = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2374,7 +2374,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->legendSymbolGleamColor = false;
         }
-        catch( ezcGraphUnknownColorDefinitionException $e )
+        catch ( ezcGraphUnknownColorDefinitionException $e )
         {
             return true;
         }
@@ -2404,7 +2404,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->pieVerticalSize = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2433,7 +2433,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->pieHorizontalSize = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2462,7 +2462,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->pieChartSymbolColor = false;
         }
-        catch( ezcGraphUnknownColorDefinitionException $e )
+        catch ( ezcGraphUnknownColorDefinitionException $e )
         {
             return true;
         }
@@ -2498,7 +2498,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->pieChartGleam = true;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2527,7 +2527,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->pieChartGleamColor = false;
         }
-        catch( ezcGraphUnknownColorDefinitionException $e )
+        catch ( ezcGraphUnknownColorDefinitionException $e )
         {
             return true;
         }
@@ -2556,7 +2556,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->pieChartGleamBorder = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2585,7 +2585,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->pieChartShadowSize = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2614,7 +2614,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->pieChartShadowTransparency = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2643,7 +2643,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->pieChartShadowColor = false;
         }
-        catch( ezcGraphUnknownColorDefinitionException $e )
+        catch ( ezcGraphUnknownColorDefinitionException $e )
         {
             return true;
         }
@@ -2672,7 +2672,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->width = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2701,7 +2701,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->height = false;
         }
-        catch( ezcBaseValueException $e )
+        catch ( ezcBaseValueException $e )
         {
             return true;
         }
@@ -2730,7 +2730,7 @@ class ezcGraphRenderer2dTest extends ezcTestCase
         {
             $options->font = false;
         }
-        catch( ezcBaseFileNotFoundException $e )
+        catch ( ezcBaseFileNotFoundException $e )
         {
             return true;
         }

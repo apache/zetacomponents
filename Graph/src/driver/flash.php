@@ -196,7 +196,7 @@ class ezcGraphFlashDriver extends ezcGraphDriver
         $lastPoint = end( $points );
         $shape->movePenTo( $this->modifyCoordinate( $lastPoint->x ), $this->modifyCoordinate( $lastPoint->y ) );
 
-        foreach( $points as $point )
+        foreach ( $points as $point )
         {
             $shape->drawLineTo( $this->modifyCoordinate( $point->x ), $this->modifyCoordinate( $point->y ) );
         }
@@ -368,7 +368,7 @@ class ezcGraphFlashDriver extends ezcGraphDriver
         foreach ( $this->strings as $text )
         {
             $completeString = '';
-            foreach( $text['text'] as $line )
+            foreach ( $text['text'] as $line )
             {
                 $completeString .= implode( ' ', $line );
             }
