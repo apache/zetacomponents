@@ -25,6 +25,14 @@
 - All binary operators can be used repeatedly. Eg: {3 === 4 === 5}
 - The angle brackets are replaced with single quotes within the exceptions.
 - Variables cannot be used inside a string.
+- Fixed issues with some variables (e.g. $this) conflicts with the internal
+  variables.
+- Fixed an issue that the return value from a template include was not 
+  assigned to {use} variable.
+- All exceptions used in the Template component inherit from 
+  ezcTemplateException (and not Exception)
+- Fixed problem with correct whitespace trimming of elements inside {if}
+  block.
 
 
 1.1beta2 - Monday 20 November 2006
