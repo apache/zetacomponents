@@ -922,7 +922,7 @@ class ezcGraphFontTest extends ezcImageTestCase
 
         $driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
