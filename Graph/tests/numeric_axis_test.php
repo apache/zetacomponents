@@ -378,6 +378,70 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         );
     }
 
+    public function testMixedAutomagicAndManualScaling5()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( 4.5 ) );
+        $chart->yAxis->majorStep = .5;
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            4.,
+            $chart->yAxis->min,
+            'As value for: min; '
+        );
+
+        $this->assertEquals(
+            5.,
+            $chart->yAxis->max,
+            'As value for: max; '
+        );
+
+        $this->assertEquals(
+            .5,
+            $chart->yAxis->majorStep,
+            'As value for: majorStep; '
+        );
+
+        $this->assertEquals(
+            .1,
+            $chart->yAxis->minorStep,
+            'As value for: minorStep; '
+        );
+    }
+
+    public function testMixedAutomagicAndManualScaling6()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( 113.5 ) );
+        $chart->yAxis->majorStep = .5;
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            113.,
+            $chart->yAxis->min,
+            'As value for: min; '
+        );
+
+        $this->assertEquals(
+            114.,
+            $chart->yAxis->max,
+            'As value for: max; '
+        );
+
+        $this->assertEquals(
+            .5,
+            $chart->yAxis->majorStep,
+            'As value for: majorStep; '
+        );
+
+        $this->assertEquals(
+            .1,
+            $chart->yAxis->minorStep,
+            'As value for: minorStep; '
+        );
+    }
+
     public function testPositionLeft()
     {
         $chart = new ezcGraphLineChart();

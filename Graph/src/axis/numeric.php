@@ -235,8 +235,16 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
             }
             else
             {
-                $this->properties['minValue'] -= ( $this->properties['minValue'] * .1 );
-                $this->properties['maxValue'] += ( $this->properties['maxValue'] * .1 );
+                if ( $this->properties['majorStep'] !== null )
+                {
+                    $this->properties['minValue'] -= $this->properties['majorStep'];
+                    $this->properties['maxValue'] += $this->properties['majorStep'];
+                }
+                else
+                {
+                    $this->properties['minValue'] -= ( $this->properties['minValue'] * .1 );
+                    $this->properties['maxValue'] += ( $this->properties['maxValue'] * .1 );
+                }
             }
         }
 

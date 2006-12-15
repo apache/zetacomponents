@@ -6,6 +6,8 @@
   absoluteTreshHold to absoluteThreshold
 
 - Added feature #9647: Add render to output method
+- Fixed issue #9827: Use majorStep size for min/max estimating on numeric axis
+  with only one value
 - Fixed issue #9823: Failing tests with PHP 5.1, because of different
   parameter handling in imagepng, and (string) not calling __toString method
 - Fixed issue #9795: Interferring bars, when bars count is higher then major

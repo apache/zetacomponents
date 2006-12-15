@@ -176,10 +176,24 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
             {
                 case ezcGraph::LEFT:
                 case ezcGraph::TOP:
-                    return (float) $key / ( count ( $this->labels ) - 1 );
+                    if ( count( $this->labels ) > 1 )
+                    {
+                        return (float) $key / ( count ( $this->labels ) - 1 );
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 case ezcGraph::BOTTOM:
                 case ezcGraph::RIGHT:
-                    return (float) 1 - $key / ( count ( $this->labels ) - 1 );
+                    if ( count( $this->labels ) > 1 )
+                    {
+                        return (float) 1 - $key / ( count ( $this->labels ) - 1 );
+                    }
+                    else
+                    {
+                        return 1;
+                    }
             }
         }
     }
@@ -201,7 +215,7 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
      */
     public function getMajorStepCount()
     {
-        return count( $this->displayedLabels ) - 1;
+        return max( count( $this->displayedLabels ) - 1, 1 );
     }
 
     /**
