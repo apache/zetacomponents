@@ -159,7 +159,8 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         do 
         {
             $errorString .= rtrim( fgets( $pipes[2], 1024) , "\n" );
-        } while ( !feof( $pipes[2] ) );
+        }
+        while ( !feof( $pipes[2] ) );
         
         // Wait for process to terminate and store return value
         $return = proc_close( $imageProcess );
