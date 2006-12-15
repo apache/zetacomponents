@@ -379,18 +379,19 @@ class ezcLogTest extends ezcTestCase
         }
 
         $this->log->reset();
-        $this->log->getMapper()->appendRule( new ezcLogFilterRule( new ezcLogFilter, $writer = new ezcLogDatabaseWriter( $db, "log"), true ) );
-        $this->log->throwWriterExceptions(false);
+        $this->log->getMapper()->appendRule( new ezcLogFilterRule( new ezcLogFilter, $writer = new ezcLogDatabaseWriter( $db, "log" ), true ) );
+        $this->log->throwWriterExceptions( false );
 
         try
         {
-            $this->log->log("msg", ezcLog::WARNING, array("source" => "src", "category" => "cat") );
-            return;
+            $this->log->log( "msg", ezcLog::WARNING, array( "source" => "src", "category" => "cat" ) );
         } 
-        catch (ezcLogWriterException $e)
+        catch ( ezcLogWriterException $e )
         {
-            $this->fail("Didn't expect an ezcLogWriterException.");
+            $this->fail( "Didn't expect an ezcLogWriterException." );
         }
+        // re-enable writer exceptions
+        $this->log->throwWriterExceptions( true );
     }
 
     /*

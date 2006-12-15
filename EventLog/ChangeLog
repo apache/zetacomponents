@@ -3,6 +3,8 @@
 
 - Fixed bug #9603: The exception message in ezcLogWriterException is now
   passed to the parent exception.
+- Fixed bug #9824: Broken test that caused another test in
+  EventLogDatabaseTiein to fail.
 
 
 1.0.2 - Monday 28 August 2006
