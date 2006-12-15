@@ -34,6 +34,7 @@ return array( "ezcArchive"               =>  "Archive/archive.php",
               "ezcArchiveChecksumException"     =>  "Archive/exceptions/archive_checksum.php",
               "ezcArchiveBlockSizeException"     =>  "Archive/exceptions/archive_block_size.php",
               "ezcArchiveIoException"     =>  "Archive/exceptions/archive_io.php",
+              "ezcArchiveInternalException"     =>  "Archive/exceptions/archive_internal_exception.php",
  
               "ezcArchiveLocalFileHeader"            =>  "Archive/zip/headers/zip_local_file.php",
               "ezcArchiveCentralDirectoryHeader"     =>  "Archive/zip/headers/zip_central_directory.php",
