@@ -52,7 +52,6 @@ class ezcTemplateLiteralAstNode extends ezcTemplateAstNode
 
     /**
      * @param mixed $value The value of PHP type to be stored in code element.
-     * @todo Fix exception class + doc for it
      */
     public function __construct( $value )
     {
@@ -61,14 +60,14 @@ class ezcTemplateLiteralAstNode extends ezcTemplateAstNode
         $this->value = $value;
         if ( is_resource( $value ) )
         {
-            throw new Exception( "Cannot use resource for type codes, resources cannot be exported as text strings" );
+            throw new ezcTemplateInternalException( "Cannot use resource for type codes, resources cannot be exported as text strings" );
         }
 
         // Check if the __set_state magic method is implemented
         if ( is_object( $value ) &&
              !method_exists( $value, "__set_state" ) )
         {
-            throw new Exception( "The magic method __set_state is not implemented for passed object, the type code cannot create a representation of the object without it." );
+            throw new ezcTemplateInternalException( "The magic method __set_state is not implemented for passed object, the type code cannot create a representation of the object without it." );
         }
 
         $this->checkAndSetTypeHint();

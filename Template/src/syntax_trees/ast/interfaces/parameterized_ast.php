@@ -52,13 +52,13 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
         if ( !is_int( $minParameterCount ) &&
              $minParameterCount !== false )
         {
-            throw new Exception( "The parameter \$minParameterCount needs be an integer." );
+            throw new ezcTemplateInternalException( "The parameter \$minParameterCount needs be an integer." );
         }
 
         if ( !is_int( $maxParameterCount ) &&
              $maxParameterCount !== false )
         {
-            throw new Exception( "The parameter \$maxParameterCount needs be an integer." );
+            throw new ezcTemplateInternalException( "The parameter \$maxParameterCount needs be an integer." );
         }
 
         $this->minParameterCount = $minParameterCount;
@@ -75,7 +75,7 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
     {
         if ( $this->maxParameterCount !== false &&
              count( $this->parameters ) >= $this->maxParameterCount )
-            throw new Exception( "Parameter count {$this->maxParameterCount} exceeded." );
+            throw new ezcTemplateInternalException( "Parameter count {$this->maxParameterCount} exceeded." );
 
         $this->parameters[] = $code;
 
@@ -136,12 +136,12 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
     {
         if ( $this->maxParameterCount !== false && count( $this->parameters ) > $this->maxParameterCount )
         {
-            throw new Exception( "Too many parameters for class <" . get_class( $this ) . ">, needs at most {$this->maxParameterCount} but got <" . count( $this->parameters ) . ">." );
+            throw new ezcTemplateInternalException( "Too many parameters for class <" . get_class( $this ) . ">, needs at most {$this->maxParameterCount} but got <" . count( $this->parameters ) . ">." );
         }
 
         if ( $this->minParameterCount !== false && count( $this->parameters ) < $this->minParameterCount )
         {
-            throw new Exception( "Too few parameters for class <" . get_class( $this ) . ">, needs at least {$this->minParameterCount} but got <" . count( $this->parameters ) . ">." );
+            throw new ezcTemplateInternalException( "Too few parameters for class <" . get_class( $this ) . ">, needs at least {$this->minParameterCount} but got <" . count( $this->parameters ) . ">." );
         }
     }
 }

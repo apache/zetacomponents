@@ -59,14 +59,13 @@ class ezcTemplateEchoAstNode extends ezcTemplateStatementAstNode
     /**
      * Validates the output parameters against their constraints.
      *
-     * @throws Exception if the constraints are not met.
-     * @todo Fix exception class
+     * @throws ezcTemplateInternalException if the constraints are not met.
      */
     public function validate()
     {
         if ( count( $this->outputList ) == 0 )
         {
-            throw new Exception( "Too few output parameters for class <" . get_class( $this ) . ">, needs at least 1 but got 0." );
+            throw new ezcTemplateInternalException( "Too few output parameters for class <" . get_class( $this ) . ">, needs at least 1 but got 0." );
         }
     }
 }

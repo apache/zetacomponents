@@ -189,7 +189,7 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
     public function prependParameter( $element )
     {
         if ( !is_object( $element ) )
-            throw new Exception( "Non-object <" . gettype( $element ) . "> add as parameter to <" . get_class( $this ) . ">" );
+            throw new ezcTemplateInternalException( "Non-object <" . gettype( $element ) . "> add as parameter to <" . get_class( $this ) . ">" );
         $this->parameters = array_merge( array( $element ),
                                          $this->parameters );
     }
@@ -201,7 +201,7 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
     public function appendParameter( $element )
     {
         if ( !is_object( $element ) )
-            throw new Exception( "Non-object <" . gettype( $element ) . "> add as parameter to <" . get_class( $this ) . ">" );
+            throw new ezcTemplateInternalException( "Non-object <" . gettype( $element ) . "> add as parameter to <" . get_class( $this ) . ">" );
         $this->parameters[] = $element;
     }
 

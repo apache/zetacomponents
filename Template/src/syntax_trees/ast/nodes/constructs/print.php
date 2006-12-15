@@ -35,14 +35,13 @@ class ezcTemplatePrintAstNode extends ezcTemplateStatementAstNode
     /**
      * Validates the expression against its constraints.
      *
-     * @throws Exception if the constraints are not met.
-     * @todo Fix exception class
+     * @throws ezcTemplateInternalException if the constraints are not met.
      */
     public function validate()
     {
         if ( $this->expression === null )
         {
-            throw new Exception( "Missing expression for class <" . get_class( $this ) . ">." );
+            throw new ezcTemplateInternalException( "Missing expression for class <" . get_class( $this ) . ">." );
         }
     }
 }

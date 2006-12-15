@@ -66,14 +66,13 @@ class ezcTemplateUnsetAstNode extends ezcTemplateStatementAstNode
     /**
      * Validates the expressions against their constraints.
      *
-     * @throws Exception if the constraints are not met.
-     * @todo Fix exception class
+     * @throws ezcTemplateInternalException if the constraints are not met.
      */
     public function validate()
     {
         if ( count( $this->expressions ) == 0 )
         {
-            throw new Exception( "Too few expressions for class <" . get_class( $this ) . ">, needs at least 1 but got 0." );
+            throw new ezcTemplateInternalException( "Too few expressions for class <" . get_class( $this ) . ">, needs at least 1 but got 0." );
         }
     }
 }

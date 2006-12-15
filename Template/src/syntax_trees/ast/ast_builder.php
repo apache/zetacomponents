@@ -242,13 +242,13 @@ class ezcTemplateAstBuilder
         $if = $this->currentBody->getLastStatement();
         if ( !$if instanceof ezcTemplateIfAstNode )
         {
-            throw new Exception( "An 'elseif' control structure can only be appended right after an 'if', last statement was <" . get_class( $if ) . ">" );
+            throw new ezcTemplateInternalException( "An 'elseif' control structure can only be appended right after an 'if', last statement was <" . get_class( $if ) . ">" );
         }
         $lastCondition = $if->getLastCondition();
         if ( $lastCondition !== null &&
              $lastCondition->condition === null )
         {
-            throw new Exception( "An 'elseif' control structure can only be appended right after an 'if', tried placing it after an 'else' control structure." );
+            throw new ezcTemplateInternalException( "An 'elseif' control structure can only be appended right after an 'if', tried placing it after an 'else' control structure." );
         }
 
         if ( !is_object( $expression ) ||
@@ -298,13 +298,13 @@ class ezcTemplateAstBuilder
         $if = $this->currentBody->getLastStatement();
         if ( !$if instanceof ezcTemplateIfAstNode )
         {
-            throw new Exception( "An 'else' control structure can only be appended right after an 'if' or 'elseif', last statement was <" . get_class( $if ) . ">" );
+            throw new ezcTemplateInternalException( "An 'else' control structure can only be appended right after an 'if' or 'elseif', last statement was <" . get_class( $if ) . ">" );
         }
         $lastCondition = $if->getLastCondition();
         if ( $lastCondition !== null &&
              $lastCondition->condition === null )
         {
-            throw new Exception( "An 'else' control structure can only be appended right after an 'if' or 'elseif', tried placing it after an 'else' control structure." );
+            throw new ezcTemplateInternalException( "An 'else' control structure can only be appended right after an 'if' or 'elseif', tried placing it after an 'else' control structure." );
         }
 
         if ( $body instanceof ezcTemplateAstBuilder )

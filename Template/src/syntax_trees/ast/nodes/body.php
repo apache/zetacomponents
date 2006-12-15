@@ -37,7 +37,7 @@ class ezcTemplateBodyAstNode extends ezcTemplateAstNode
             {
                 if ( !$statement instanceof ezcTemplateStatementAstNode )
                 {
-                    throw new Exception( "Body code element can only use objects of instance ezcTemplateStatementAstNode as statements" );
+                    throw new ezcTemplateInternalException( "Body code element can only use objects of instance ezcTemplateStatementAstNode as statements" );
                 }
             }
             $this->statements = $statements;

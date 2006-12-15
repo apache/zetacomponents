@@ -26,7 +26,7 @@ abstract class ezcTemplateBinaryOperatorAstNode extends ezcTemplateOperatorAstNo
         }
         elseif( $parameter1 != null )
         {
-            throw new Exception( "The binary operator expects zero or two parameters." );
+            throw new ezcTemplateInternalException( "The binary operator expects zero or two parameters." );
         }
     }
 }

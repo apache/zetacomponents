@@ -108,7 +108,7 @@ abstract class ezcTemplateOperatorAstNode extends ezcTemplateParameterizedAstNod
         }
         else
         {
-            throw new Exception( "Operator can only have 1, 2 or 3 operands but this has {$count}" );
+            throw new ezcTemplateInternalException( "Operator can only have 1, 2 or 3 operands but this has {$count}" );
         }
     }
 

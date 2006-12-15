@@ -112,8 +112,7 @@ class ezcTemplateParser
     {
         if ( $currentOperator === null )
         {
-            // @todo Fix exception class
-            throw new Exception( "No current operator/operand has been set" );
+            throw new ezcTemplateInternalException( "No current operator/operand has been set" );
         }
 
         if ( !( $currentOperator instanceof ezcTemplateOperatorTstNode ) )
@@ -284,7 +283,7 @@ class ezcTemplateParser
             // *** DEBUG END ***
         }
 
-        throw new Exception( "Should not reach this place." );
+        throw new ezcTemplateInternalException( "Should not reach this place." );
     }
 
     /**

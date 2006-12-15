@@ -249,7 +249,7 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
         // Sub-classes need to implement the special handling here
         if ( $this === $element )
         {
-            throw new Exception( "Detected invalid recursion creation in parser element " . get_class( $this ) );
+            throw new ezcTemplateInternalException( "Detected invalid recursion creation in parser element " . get_class( $this ) );
         }
 
         if ( $element instanceof ezcTemplateLoopTstNode )

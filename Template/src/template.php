@@ -112,7 +112,7 @@ class ezcTemplate
                        $this->properties[$name] = ezcTemplateConfiguration::getInstance();
                         if ( get_class( $this->properties[$name] ) != 'ezcTemplateConfiguration' )
                         {
-                            throw new Exception( "Static method ezcTemplateConfiguration::getInstance() did not return an object of class ezcTemplateConfiguration" );
+                            throw new ezcTemplateInternalException( "Static method ezcTemplateConfiguration::getInstance() did not return an object of class ezcTemplateConfiguration" );
                         }
                 }
                 return $this->properties[$name];

@@ -53,13 +53,13 @@ class ezcTemplateSwitchAstNode extends ezcTemplateStatementAstNode
             {
                 if ( !$case instanceof ezcTemplateCaseAstNode )
                 {
-                    throw new Exception( "Array in case list \$cases must consist of object which are instances of ezcTemplateCaseAstNode, not <" . get_class( $case ) . ">." );
+                    throw new ezcTemplateInternalException( "Array in case list \$cases must consist of object which are instances of ezcTemplateCaseAstNode, not <" . get_class( $case ) . ">." );
                 }
                 if ( $case instanceof ezcTemplateDefaultAstNode )
                 {
                     if ( $hasDefault )
                     {
-                        throw new Exception( "The default case is already present as a case entry." );
+                        throw new ezcTemplateInternalException( "The default case is already present as a case entry." );
                     }
                     $hasDefault = true;
                 }
