@@ -9,13 +9,15 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once dirname( __FILE__ ) . '/test_case.php';
+
 /**
  * Tests for ezcGraph class.
  * 
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphDateAxisTest extends ezcTestCase
+class ezcGraphDateAxisTest extends ezcGraphTestCase
 {
     protected $basePath;
 
@@ -48,33 +50,6 @@ class ezcGraphDateAxisTest extends ezcTestCase
         }
 
         unset( $this->chart );
-    }
-
-    /**
-     * Compares a generated image with a stored file
-     * 
-     * @param string $generated Filename of generated image
-     * @param string $compare Filename of stored image
-     * @return void
-     */
-    protected function compare( $generated, $compare )
-    {
-        $this->assertTrue(
-            file_exists( $generated ),
-            'No image file has been created.'
-        );
-
-        $this->assertTrue(
-            file_exists( $compare ),
-            'Comparision image does not exist.'
-        );
-
-        if ( md5_file( $generated ) !== md5_file( $compare ) )
-        {
-            // Adding a diff makes no sense here, because created XML uses
-            // only two lines
-            $this->fail( 'Rendered image is not correct.');
-        }
     }
 
     public function testManualScaling()

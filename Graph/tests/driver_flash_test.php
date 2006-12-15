@@ -9,13 +9,15 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once dirname( __FILE__ ) . '/test_case.php';
+
 /**
  * Tests for ezcGraph class.
  * 
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphFlashDriverTest extends ezcTestCase
+class ezcGraphFlashDriverTest extends ezcGraphTestCase
 {
     protected $driver;
 
@@ -59,42 +61,6 @@ class ezcGraphFlashDriverTest extends ezcTestCase
         {
             $this->removeTempDir();
         }
-    }
-
-    /**
-     * Compares to flash files comparing the output of `swftophp`
-     * 
-     * @param string $generated Filename of generated image
-     * @param string $compare Filename of stored image
-     * @return void
-     */
-    protected function swfCompare( $generated, $compare )
-    {
-        $this->assertTrue(
-            file_exists( $generated ),
-            'No image file has been created.'
-        );
-
-        $this->assertTrue(
-            file_exists( $compare ),
-            'Comparision image does not exist.'
-        );
-
-        $executeable = ezcBaseFeatures::findExecutableInPath( 'swftophp' );
-
-        if ( !$executeable )
-        {
-            $this->markTestSkipped( 'Could not find swftophp executeable to compare flash files. Please check your $PATH.' );
-        }
-
-        $generatedCode = shell_exec( $executeable . ' ' . escapeshellarg( $generated ) );
-        $compareCode = shell_exec( $executeable . ' ' . escapeshellarg( $compare ) );
-
-        $this->assertEquals(
-            $generatedCode,
-            $compareCode,
-            'Rendered image is not correct.'
-        );
     }
 
     public function testDrawLine()
