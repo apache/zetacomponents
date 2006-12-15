@@ -591,9 +591,35 @@ object.
 To define which properties are used to realize the relation mapping, the
 property ezcPersistentOneToManyRelation->columnMap is used. It contains an
 array of (in this case) ezcPersistentSingleTableMap, which maps one column of
-each of the tables to one column of the other one. If you want to map using
-several columns, you can add more ezcPersistentSingleTableMap instances to the
-columnMap array.
+each of the tables to one column of the other one. In the above case, the
+database column "id" from the table "persons" would be mapped to the column
+"person_id" in the table "addresses". In general, this means, that "id" is the
+primary key from the "persons" table and "person_id" is the foreign key in the
+"addresses" table, that refers to the "persons" table.
+
+If you want to map using several columns, you can add more
+ezcPersistentSingleTableMap instances to the columnMap array. For example, if
+you are using a persons first and last name as the primary key for the
+"persons" table, you could define the relation like this: ::
+
+    <?php
+    // ...
+
+    $def->relations["Address"] = new ezcPersistentOneToManyRelation(
+        "persons",
+        "addresses"
+    );
+    $def->relations["Address"]->columnMap = array(
+        new ezcPersistentSingleTableMap(
+            "firstname",
+            "person_firstname"
+        ),
+        new ezcPersistentSingleTableMap(
+            "lastname",
+            "person_lastname"
+        ),
+    );
+    ?>
 
 Using a relation
 ----------------
@@ -684,12 +710,34 @@ ezcPersistentManyToManyRelation constructor expects 3 table names:
 
 A similar exception applies to the columnMap of this relation definition: It
 consists of ezcPersistentDoubleTableMap instances, which carry 4 column names
-each. The first column is the column to choose from the source table. The
-second column maps the first one to a column of the relation table. Same
-applies to the 3rd and 4th column, which map the second column of the relation
-table to the desired column of the related objects table. As with
-ezcPersistentSingleTableMap instances, you can use multiple mappings in one
-ezcPersistentManyToManyRelation->columnMap array.
+each. The first column is the column to choose from the source table (usually
+its primary key). The second column defines the column in your relation table,
+which maps to the first column. In our example, the column "id" from the
+"persons" table maps to the column "person_id" from the relation table
+"persons_addresses". The same applies to the 3rd and 4th column. The third
+column defines the column of the relation table, which maps to the 4th column
+given. The latter one defines the column of your destination table to use for
+mapping. So in our example, the relation table "persons_addresses" has a column
+"address_id", which is a foreign key, referring to the column "id" in the table
+"addresses".
+
+As with ezcPersistentSingleTableMap instances, you can use multiple
+mappings in one ezcPersistentManyToManyRelation->columnMap array. Again the
+example, of using a persons first and last name for the mapping: ::
+
+    <?php
+    // ...
+
+    $def->relations["Address"] = new ezcPersistentManyToManyRelation(
+        "persons",
+        "addresses",
+        "persons_addresses"
+    );
+    $def->relations["Address"]->columnMap = array(
+        new ezcPersistentDoubleTableMap( "firstname", "person_firstname", "address_id", "id" ),
+        new ezcPersistentDoubleTableMap( "lastname", "person_lastname", "address_id", "id" ),
+    );
+    ?>
 
 Using n:m relations
 -------------------
@@ -758,13 +806,19 @@ Reverse relations
 Since you can always look at a relation from two sides, ezcPersistentRelation
 implementations can be configured to be "reverse". A reverse relation
 indicates, that the relation is already defined in the opposite direction and
-that this direction is the mainly used one. For a relation that is marked as
+that the original direction is the main used one. This implied, that the one
+marked as "reverse" is a secondary one, for consistency reasons. For a relation that is marked as
 reverse, it is not possible to use ezcPersistentSession->addRelatedObject() and
-ezcPersistentSession->removeRelatedObject(). Generally the reverse attribute of
-relation definition objects is set to false per default, except for
-ezcPersistentManyToOneRelation relations. This relation type only makes sense as a
-reverse relation for ezcPersistentOneToManyRelations. Therefore the reverse
-attribute is set to false and not publicly accessible for writing.
+ezcPersistentSession->removeRelatedObject(). You can still you
+ezcPersistentSession->getRelatedObjects() for relations that are flagged
+"reverse".
+
+For most relation types the reverse attribute of the relation definition object
+is per default set to false. You can manually set it. An exception are
+ezcPersistentManyToOneRelation relations. This relation type only makes sense
+as a reverse relation for a ezcPersistentOneToManyRelation. Therefore the
+reverse attribute is set to false for ezcPersistentManyToOneRelation and is not
+publicly accessible for writing.
 
 The following example shows the reverse relation definition for the n:m relations
 example::
@@ -785,7 +839,35 @@ example::
 
 With the relation definition shown above, you would still be able to get the
 Person objects related to an Address object, but not to add or remove related
-Person objects to/from an Address.
+Person objects to/from an Address. In other words, the following code still
+works: ::
+
+    <?php
+    $address = $session->load( "Address", 23 );
+    $persons = $session->getRelatedObjects( $address, "Person" );
+    // ...
+    ?>
+
+While the following won't work: ::
+
+    <?php
+    // ...
+    foreach ( $persons as $person )
+    {
+        $session->removeRelatedObject( $address, $person );
+    }
+    ?>
+
+Instead, only the other direction works, because this one is the main
+direction. ::
+
+    <?php
+    // ...
+    foreach ( $persons as $person )
+    {
+        $session->removeRelatedObject( $person, $address );
+    }
+    ?>
 
 Cascading deletes
 -----------------
@@ -823,7 +905,8 @@ If you now use ::
     ?>
 
 The Person object and all related Address objects are deleted. Beware, that
-this does not work with ezcPersistentManyToManyRelation instances.
+this does not work with ezcPersistentManyToManyRelation instances, because it
+could cause serious inconsistency of your data.
 
 
 
