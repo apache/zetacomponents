@@ -670,7 +670,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         $options = new ezcGraphChartElementNumericAxis();
 
         $this->assertSame(
-            false,
+            null,
             $options->majorStep,
             'Wrong default value for property majorStep in class ezcGraphChartElementNumericAxis'
         );
@@ -699,7 +699,7 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         $options = new ezcGraphChartElementNumericAxis();
 
         $this->assertSame(
-            false,
+            null,
             $options->minorStep,
             'Wrong default value for property minorStep in class ezcGraphChartElementNumericAxis'
         );

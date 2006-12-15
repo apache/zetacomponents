@@ -60,8 +60,8 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         $this->properties['axisSpace'] = .1;
         $this->properties['majorGrid'] = false;
         $this->properties['minorGrid'] = false;
-        $this->properties['majorStep'] = false;
-        $this->properties['minorStep'] = false;
+        $this->properties['majorStep'] = null;
+        $this->properties['minorStep'] = null;
         $this->properties['formatString'] = '%s';
         $this->properties['label'] = false;
         $this->properties['labelSize'] = 14;

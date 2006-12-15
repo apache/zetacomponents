@@ -260,12 +260,12 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
         }
 
         // Calculate "nice" values for scaling parameters
-        if ( $this->properties['majorStep'] === false )
+        if ( $this->properties['majorStep'] === null )
         {
             $this->calculateMajorStep( $this->properties['minValue'], $this->properties['maxValue'] );
         }
 
-        if ( $this->properties['minorStep'] === false )
+        if ( $this->properties['minorStep'] === null )
         {
             $this->calculateMinorStep( $this->properties['minValue'], $this->properties['maxValue'] );
         }
