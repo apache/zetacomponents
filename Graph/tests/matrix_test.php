@@ -322,6 +322,11 @@ class ezcGraphMatrixTest extends ezcTestCase
 
     public function testMatrixToString()
     {
+        if ( version_compare( phpversion(), '5.2', '<' ) )
+        {
+            $this->markTestSkipped( "This test requires PHP 5.2 or later." );
+        }
+
         $matrix = new ezcGraphMatrix();
 
         $this->assertEquals(

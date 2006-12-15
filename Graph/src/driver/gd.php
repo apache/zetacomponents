@@ -1077,7 +1077,14 @@ class ezcGraphGdDriver extends ezcGraphDriver
         switch ( $this->options->imageFormat )
         {
             case IMG_PNG:
-                imagepng( $image, $file );
+                if ( $file === null )
+                {
+                    imagepng( $image );
+                }
+                else
+                {
+                    imagepng( $image, $file );
+                }
                 break;
             case IMG_JPEG:
                 imagejpeg( $image, $file, $this->options->jpegQuality );

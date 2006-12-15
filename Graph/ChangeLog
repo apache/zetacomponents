@@ -6,6 +6,7 @@
   absoluteTreshHold to absoluteThreshold
 
 - Added feature #9647: Add render to output method
+- Fixed issue #9823: Failing tests with PHP 5.1
 - Fixed issue #9795: Interferring bars, when bars count is higher then major
   step count
 - Fixed issue #9764: 3D Pie chart segment side polygon in front of circular
