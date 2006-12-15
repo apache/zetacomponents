@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcFileWriterException class
+ * File containing the ezcArchiveInternalException class
  * 
  * @package Archive
  * @version //autogen//
@@ -11,7 +11,6 @@
  * General exception class for the Archive package.
  * 
  * @package Archive
- * @author
  * @version //autogen//
  */
 class ezcArchiveInternalException extends ezcArchiveException
