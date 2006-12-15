@@ -145,6 +145,7 @@ class ezcBase
 
         $path = ezcBase::$packageDir . 'autoload/';
         $realPath = realpath( $path );
+
         if ( $realPath == '' )
         {
             // Can not be tested, because if this happens, then the autoload
@@ -266,7 +267,6 @@ class ezcBase
      */
     protected static function loadFile( $file )
     {
-        $originalFile = $file;
         switch ( ezcBase::$libraryMode )
         {
             case "devel":
