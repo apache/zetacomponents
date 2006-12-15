@@ -19,7 +19,7 @@ class ezcArchiveBlockSizeException extends ezcArchiveException
 {
     function __construct( $archiveName, $msg = null )
     {
-        $default = "The archive <$archiveName> has an invalid block size.";
+        $default = "The archive '$archiveName' has an invalid block size.";
 
         if ( $msg !== null )
         {

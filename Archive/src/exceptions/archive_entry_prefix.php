@@ -18,7 +18,7 @@ class ezcArchiveEntryPrefixException extends ezcArchiveException
 {
     function __construct( $prefix, $fileName )
     {
-        parent::__construct( "The prefix <$prefix> from the file entry <$fileName> is invalid." );
+        parent::__construct( "The prefix '$prefix' from the file entry '$fileName' is invalid." );
     }
 }
 ?>

@@ -30,7 +30,7 @@ class ezcArchiveValueException extends ezcArchiveException
             $value = serialize( $value );
         }
         
-        $msg = "The value <$value> is incorrect.";
+        $msg = "The value '$value' is incorrect.";
         if ( $expectedValue )
         {
             $msg .= " Allowed values are: " . $expectedValue . '.';

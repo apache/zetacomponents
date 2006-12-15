@@ -19,7 +19,7 @@ class ezcArchiveChecksumException extends ezcArchiveException
 {
     function __construct( $file )
     {
-        parent::__construct( "The checksum of the file <$file> is invalid." );
+        parent::__construct( "The checksum of the file '$file' is invalid." );
     }
 }
 ?>

@@ -19,7 +19,7 @@ class ezcArchiveUnknownTypeException extends ezcArchiveException
 {
     function __construct( $archiveName )
     {
-        parent::__construct( "The type of the archive <$archiveName> cannot be determined." );
+        parent::__construct( "The type of the archive '$archiveName' cannot be determined." );
     }
 }
 ?>
