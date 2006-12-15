@@ -62,13 +62,13 @@ class ezcGraphFlashDriverTest extends ezcTestCase
     }
 
     /**
-     * Compares a generated image with a stored file
+     * Compares to flash files comparing the output of `swftophp`
      * 
      * @param string $generated Filename of generated image
      * @param string $compare Filename of stored image
      * @return void
      */
-    protected function compare( $generated, $compare )
+    protected function swfCompare( $generated, $compare )
     {
         $this->assertTrue(
             file_exists( $generated ),
@@ -80,12 +80,21 @@ class ezcGraphFlashDriverTest extends ezcTestCase
             'Comparision image does not exist.'
         );
 
-        if ( md5_file( $generated ) !== md5_file( $compare ) )
+        $executeable = ezcBaseFeatures::findExecutableInPath( 'swftophp' );
+
+        if ( !$executeable )
         {
-            // Adding a diff makes no sense here, because created XML uses
-            // only two lines
-            $this->fail( 'Rendered image is not correct.');
+            $this->markTestSkipped( 'Could not find swftophp executeable to compare flash files. Please check your $PATH.' );
         }
+
+        $generatedCode = shell_exec( $executeable . ' ' . escapeshellarg( $generated ) );
+        $compareCode = shell_exec( $executeable . ' ' . escapeshellarg( $compare ) );
+
+        $this->assertEquals(
+            $generatedCode,
+            $compareCode,
+            'Rendered image is not correct.'
+        );
     }
 
     public function testDrawLine()
@@ -100,7 +109,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -122,7 +131,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -150,7 +159,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -174,7 +183,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -195,7 +204,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -229,7 +238,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
         
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -257,7 +266,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
         
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -279,7 +288,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -300,7 +309,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -321,7 +330,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -343,7 +352,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -372,7 +381,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -394,7 +403,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -416,7 +425,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -435,7 +444,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -461,7 +470,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -544,7 +553,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
         );
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -574,7 +583,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -610,7 +619,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -640,7 +649,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -670,7 +679,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -700,7 +709,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -730,7 +739,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -760,7 +769,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -790,7 +799,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -820,7 +829,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -850,7 +859,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -880,7 +889,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -910,7 +919,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -940,7 +949,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -970,7 +979,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -993,7 +1002,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -1017,7 +1026,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -1040,7 +1049,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -1063,7 +1072,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -1088,7 +1097,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -1113,7 +1122,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -1138,7 +1147,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -1187,7 +1196,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -1226,7 +1235,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -1258,7 +1267,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -1298,7 +1307,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -1339,7 +1348,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
         $chart->driver = new ezcGraphFlashDriver();
         $chart->render( 500, 200, $filename );
 
-        $this->compare(
+        $this->swfCompare(
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -1379,7 +1388,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
 
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -1409,7 +1418,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
         
         $this->driver->render( $filename );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
@@ -1494,7 +1503,7 @@ class ezcGraphFlashDriverTest extends ezcTestCase
         @$this->driver->renderToOutput();
         file_put_contents( $filename, ob_get_clean() );
 
-        $this->compare( 
+        $this->swfCompare( 
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
         );
