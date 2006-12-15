@@ -93,7 +93,7 @@ class ezcTemplateFunctions
         {
             if ( !self::isVariable( $givenTst ) )
             {
-                throw new Exception( "The function '$functionName' expects parameter ". ($parameterNumber + 1)." to be a variable." );
+                throw new ezcTemplateException( "The function '$functionName' expects parameter ". ($parameterNumber + 1)." to be a variable." );
             }   
         }
     } 
@@ -138,7 +138,7 @@ class ezcTemplateFunctions
                     }
                     elseif( !self::isOptional( $pIn ) )
                     {
-                        throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_PARAMETER, $functionName, $pIn ) );
+                        throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_PARAMETER, $functionName, $pIn ) );
                     }
                 }
                 else 
@@ -195,7 +195,7 @@ class ezcTemplateFunctions
 
         if ( $hasRest && !$usedRest )
         {
-            throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_TOO_MANY_PARAMETERS, $functionName ) );
+            throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_TOO_MANY_PARAMETERS, $functionName ) );
         }
 
 
@@ -275,12 +275,12 @@ class ezcTemplateFunctions
             if ( $givenParameters < $requiredParameters )
             {
                 // Works only when $requiredParameters are specified before the optionalParameters.
-                throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_PARAMETER, $functionName, $def->parameters[$givenParameters] ) );
+                throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_PARAMETER, $functionName, $def->parameters[$givenParameters] ) );
             }
 
             if ( $givenParameters > sizeof( $def->parameters ) )
             {
-                throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_TOO_MANY_PARAMETERS, $functionName  ) );
+                throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_TOO_MANY_PARAMETERS, $functionName  ) );
             }
 
             $a = new ezcTemplateFunctionCallAstNode( ( $def->class ? ( $def->class . "::" ) : "" ) . $def->method);
@@ -297,7 +297,7 @@ class ezcTemplateFunctions
             // return array( "ezcTemplateFunctionCallAstNode", array( $name, array( "_array", $parameters ) ) );
         }
 
-        throw new Exception( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_FUNCTION, $functionName ) );
+        throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_FUNCTION, $functionName ) );
     }
 
     public function getErrorMessage()
