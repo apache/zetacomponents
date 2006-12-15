@@ -78,17 +78,42 @@ class ezcTestConstraintSimilarImage extends PHPUnit_Framework_Constraint
             throw new ezcBaseFileNotFoundException( $other );
         }
 
-        $result = shell_exec(
-          sprintf(
+        $descriptors = array( 
+            array( 'pipe', 'r' ),
+            array( 'pipe', 'w' ),
+            array( 'pipe', 'w' ),
+        );
+        $command = sprintf(
             'compare -metric MAE %s %s null:',
-
             escapeshellarg( $this->filename ),
             escapeshellarg( $other )
-          )
         );
 
+        $imageProcess = proc_open( $command, $descriptors, $pipes );
+        
+        // Close STDIN pipe
+        fclose( $pipes[0] );
+        
+        $errorString = '';
+        // Read STDERR 
+        do 
+        {
+            $errorString .= rtrim( fgets( $pipes[2], 1024) , "\n" );
+        } while ( !feof( $pipes[2] ) );
+        
+        $resultString = '';
+        // Read STDOUT 
+        do 
+        {
+            $resultString .= rtrim( fgets( $pipes[1], 1024) , "\n" );
+        }
+        while ( !feof( $pipes[1] ) );
+        
+        // Wait for process to terminate and store return value
+        $return = proc_close( $imageProcess );
+
         // Different versuions of ImageMagick seem to output "dB" or not
-        if ( preg_match( '/([\d.,e]+)(\s+dB)?/', $result, $match ) )
+        if ( preg_match( '/([\d.,e]+)(\s+dB)?/', $resultString, $match ) )
         {
             $this->difference = (int) $match[1];
             return ( $this->difference <= $this->delta );
