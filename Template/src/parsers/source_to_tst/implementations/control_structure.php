@@ -102,7 +102,6 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
             return false;
         }
 
-        // @todo Fix exception class
         if ( !ezcBaseFeatures::classExists( $parser ) )
         {
             throw new ezcTemplateInternalException( "Requested parser class <{$parser}> does not exist" );

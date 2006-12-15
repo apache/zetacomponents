@@ -202,7 +202,6 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Restores the old indentation value from the stack.
      *
      * @throws Exception if the stack is empty.
-     * @todo fix exception class
      */
     public function restoreIndentation()
     {

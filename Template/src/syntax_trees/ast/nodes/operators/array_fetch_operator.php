@@ -14,7 +14,6 @@
  * @package Template
  * @version //autogen//
  * @access private
- * @todo ezcTemplateArrayAccessOperatorAstNode is probably a more correct name.
  */
 class ezcTemplateArrayFetchOperatorAstNode extends ezcTemplateOperatorAstNode
 {

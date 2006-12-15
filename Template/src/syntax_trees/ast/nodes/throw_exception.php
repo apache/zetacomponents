@@ -23,7 +23,6 @@ class ezcTemplateThrowExceptionAstNode extends ezcTemplateStatementAstNode
 
     /**
      * @param mixed $value The value of PHP type to be stored in code element.
-     * @todo Fix exception class + doc for it
      */
     public function __construct( $message )
     {

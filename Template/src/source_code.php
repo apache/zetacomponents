@@ -177,10 +177,8 @@ class ezcTemplateSourceCode
      *                                    run-time behaviour, a value of null
      *                                    means to use the current context in
      *                                    the template manager.
-     *
-     * @todo Uncomment typehint when null values are fixed in PHP
      */
-    public function __construct( $stream, $resource = false, $code = false, /*ezcTemplateContext*/ $context = null )
+    public function __construct( $stream, $resource = false, $code = false, ezcTemplateContext $context = null )
     {
         $this->stream = $stream;
         $this->resource = $resource;

@@ -90,8 +90,6 @@
  * block line, this ensures that critical newlines are kept for the {$item} 
  * code and that the {if} block do not add extra newlines
  *
- * @todo Implement block-eol and indent whitespace removal.
- *
  * @package Template
  * @version //autogen//
  * @access private

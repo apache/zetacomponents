@@ -15,8 +15,6 @@
  * parsed using type parsers and operator parsers. The end of the expression
  * is determined by calling atEnd() on the parent element parser.
  *
- * @todo The ! operator does not work the same way as in PHP, must be fixed.
- *
  * @package Template
  * @version //autogen//
  * @access private

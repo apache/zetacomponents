@@ -7,39 +7,19 @@
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
- * The ezcTemplateXhtmlContext class escapes special HTML characters in the 
- * output. 
+ * The ezcTemplateXhtmlContext class escapes special HTML characters in the
+ * output.
  *
  * @package Template
  * @version //autogen//
  */
+
 class ezcTemplateXhtmlContext implements ezcTemplateOutputContext
 {
-
-//  /**
-//   * Does nothing.
-//   */
-//  public function cleanupWhitespace()
-//  {
-//  }
-//
-//  /**
-//   * Does nothing.
-//   */
-//  public function cleanupEol()
-//  {
-//  }
-//
-//  /**
-//   * Does nothing.
-//   */
-//  public function indent()
-//  {
-//  }
-
     /**
-     * Escapes special HTML characters in the output. 
+     * Escapes special HTML characters in the output.
      */
     public function transformOutput( ezcTemplateAstNode $node )
     {

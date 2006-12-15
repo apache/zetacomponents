@@ -72,7 +72,6 @@ class ezcTemplateEolCommentAstNode extends ezcTemplateStatementAstNode
      * @param string $text         Text for comment.
      * @param bool   $hasSeparator Use spacing separator or not?
      * @param int    $type         Type of EOL comment, see {@link self::$type}.
-     * @todo See if the ezcBaseTypeException can be improved with name of variable.
      */
     public function __construct( $text, $hasSeparator = true, $type = ezcTemplateEolCommentAstNode::MARKER_DOUBLE_SLASH )
     {

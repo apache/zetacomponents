@@ -236,7 +236,6 @@ abstract class ezcTemplateSourceToTstParser
             // The $finalize flag is not automatically sent to parent
             return $this->parentParser->atEnd( $cursor, $operator, false );
         }
-        // @todo Use specific exception
         throw new ezcTemplateInternalException( "atEnd() called on parser <" . get_class( $this ) . "> which has not implemented it properly." );
     }
 
@@ -293,7 +292,6 @@ abstract class ezcTemplateSourceToTstParser
     }
 
     /**
-     * @todo Use specific exception class.
      */
     protected function parseOptionalType( $type, ezcTemplateCursor $startCursor = null, $mergeElements = true )
     {
@@ -340,7 +338,6 @@ abstract class ezcTemplateSourceToTstParser
     }
 
     /**
-     * @todo Use specific exception class.
      */
     protected function parseRequiredType( $type, ezcTemplateCursor $startCursor = null, $mergeElements = true )
     {

@@ -48,7 +48,6 @@ class ezcTemplateBlockCommentAstNode extends ezcTemplateStatementAstNode
     /**
      * @param string $text         Text for comment.
      * @param bool   $hasSeparator Use spacing separator or not?
-     * @todo See if the ezcBaseTypeException can be improved with name of variable.
      */
     public function __construct( $text, $hasSeparator = true )
     {

@@ -69,7 +69,6 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
     /**
      * Appends the code element $code as a parameter to the current code element.
      * @param ezcTemplateAstNode $code The code element to append.
-     * @todo Fix exception class + doc for it
      */
     public function appendParameter( ezcTemplateAstNode $code )
     {
@@ -130,7 +129,6 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
      * Validates the parameters of the operators against their constraints.
      *
      * @throws Exception if the constraints are not met.
-     * @todo Fix exception class
      */
     public function validate()
     {
