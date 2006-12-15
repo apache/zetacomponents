@@ -308,7 +308,23 @@ class ezcQueryExpressionTest extends ezcTestCase
 
     public function testMd5()
     {
-        $reference = 'MD5( name )';
+        if ( $this->db->getName() == 'pgsql' ) 
+        {
+            $pgSQL_version = $this->db->getAttribute( PDO::ATTR_SERVER_VERSION );
+
+            if ( $pgSQL_version >= 8 ) 
+            {
+                $reference = 'MD5( name )';
+            }
+            else
+            {
+                $reference = " encode( digest( name, 'md5' ), 'hex' ) ";
+            }
+        }
+        else
+        {
+            $reference = 'MD5( name )';
+        }
         $this->assertEquals( $reference, $this->e->md5( 'name' ) );
     }
 
