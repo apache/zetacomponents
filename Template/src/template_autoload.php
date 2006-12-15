@@ -32,7 +32,6 @@ return array(
              "ezcTemplateValidationItem" => "Template/validation_item.php",
              "ezcTemplateXhtmlContext" => "Template/contexts/xhtml_context.php",
              "ezcTemplateNoContext" => "Template/contexts/no_context.php",
-             "ezcTemplateDirectResourceLocator" => "Template/locators/direct_resource_locator.php",
 
              "ezcTemplateCacheFilesystem" => "Template/cache_filesystem.php",
              
@@ -41,7 +40,6 @@ return array(
 // Global Interfaces:
              "ezcTemplateAutoloader" => "Template/interfaces/autoloader.php",
              "ezcTemplateOutputContext" => "Template/interfaces/output_context.php",
-             "ezcTemplateResourceLocator" => "Template/interfaces/resource_locator.php",
              "ezcTemplateCustomBlock" => "Template/interfaces/custom_block.php",
              "ezcTemplateCustomFunction" => "Template/interfaces/custom_function.php",
 

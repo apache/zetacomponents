@@ -33,9 +33,6 @@ require_once 'code_elements_test.php';
 require_once 'source_code_test.php';
 require_once 'compiled_code_test.php';
 
-require_once 'resource_locator_test.php';
-require_once 'direct_resource_locator_test.php';
-
 require_once 'configuration_test.php';
 
 require_once 'template_test.php';
@@ -86,9 +83,6 @@ class ezcTemplateSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcTemplateSourceCodeTest::suite() );
         $this->addTest( ezcTemplateCompiledCodeTest::suite() );
-
-        $this->addTest( ezcTemplateResourceLocatorTest::suite() );
-        $this->addTest( ezcTemplateDirectResourceLocatorTest::suite() );
 
         $this->addTest( ezcTemplateConfigurationTest::suite() );
 
