@@ -66,6 +66,29 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
             {
                 $db->exec( $query );
             }
+            else  
+            {
+                // workarounds for SQL syntax
+                // "ALTER TABLE tab ALTER col TYPE type"
+                // and "ALTER TABLE tab ADD col type NOT NULL"
+                // that works in PostgreSQL 8.x but not 
+                // supported in PostgreSQL 7.x
+
+                if ( preg_match( "/ALTER TABLE (.*) ALTER (.*) TYPE (.*) USING CAST\((.*)\)/" , $query, $matches ) ) 
+                {
+                    $tableName = $matches[1];
+                    $fieldName = $matches[2];
+                    $fieldType = $matches[3];
+                    $this->changeField( $db, $tableName, $fieldName, $fieldType );
+                }
+                else if ( preg_match( "/ALTER TABLE (.*) ADD (.*) (.*) NOT NULL/" , $query, $matches ) ) 
+                {
+                    $tableName = $matches[1];
+                    $fieldName = $matches[2];
+                    $fieldType = $matches[3];
+                    $this->addField( $db, $tableName, $fieldName, $fieldType );
+                }
+            }
         }
         $db->commit();
     }
@@ -98,6 +121,12 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
             }
         }
 
+        if ( preg_match( "/ALTER TABLE (.*) ALTER (.*) TYPE (.*)/" , $query, $matches ) ||
+             preg_match( "/ALTER TABLE (.*) ADD (.*) NOT NULL/" , $query, $matches )
+           )
+        {
+            return false;
+        }
         return true;
     }
 
@@ -153,8 +182,67 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
             {
                 $db->exec( $query );
             }
+            else
+            {
+                // workarounds for SQL syntax
+                // "ALTER TABLE tab ALTER col TYPE type"
+                // and "ALTER TABLE tab ADD col type NOT NULL"
+                // that works in PostgreSQL 8.x but not 
+                // supported in PostgreSQL 7.x
+
+                if ( preg_match( "/ALTER TABLE (.*) ALTER (.*) TYPE (.*) USING CAST\((.*)\)/" , $query, $matches ) ) 
+                {
+                    $tableName = $matches[1];
+                    $fieldName = $matches[2];
+                    $fieldType = $matches[3];
+                    $this->changeField( $db, $tableName, $fieldName, $fieldType );
+                }
+                else if ( preg_match( "/ALTER TABLE (.*) ADD (.*) (.*) NOT NULL/" , $query, $matches ) ) 
+                {
+                    $tableName = $matches[1];
+                    $fieldName = $matches[2];
+                    $fieldType = $matches[3];
+                    $this->addField( $db, $tableName, $fieldName, $fieldType );
+                }
+            }
         }
         $db->commit();
+    }
+
+    /**
+     * Performs changing field in PostgreSQL table.
+     * ( workaround for "ALTER TABLE table ALTER field TYPE fieldDefinition" 
+     * that not alowed in PostgreSQL 7.x but works in PostgreSQL 8.x ).
+     * 
+     * @param ezcDbHandler    $db
+     * @param string          $tableName
+     * @param string          $changeFieldName
+     * @param string          $changeFieldType
+     *
+     */
+    private function changeField( ezcDbHandler $db, $tableName, $changeFieldName, $changeFieldType )
+    {
+        $db->exec( "ALTER TABLE {$tableName} RENAME COLUMN {$changeFieldName} TO {$changeFieldName}_old;" );
+        $db->exec( "ALTER TABLE {$tableName} ADD COLUMN {$changeFieldName} {$changeFieldType};" );
+        $db->exec( "UPDATE {$tableName} SET  {$changeFieldName} = {$changeFieldName}_old;" );
+        $db->exec( "ALTER TABLE {$tableName} DROP COLUMN {$changeFieldName}_old;" );
+    }
+
+    /**
+     * Performs adding field in PostgreSQL table.
+     * ( workaround for "ALTER TABLE table ADD field fieldDefinition NOT NULL" 
+     * that not alowed in PostgreSQL 7.x but works in PostgreSQL 8.x ).
+     * 
+     * @param ezcDbHandler    $db
+     * @param string          $tableName
+     * @param string          $fieldName
+     * @param string          $fieldType
+     *
+     */
+    private function addField( ezcDbHandler $db, $tableName, $fieldName, $fieldType )
+    {
+        $db->exec( "ALTER TABLE {$tableName} ADD {$fieldName} {$fieldType}" );
+        $db->exec( "ALTER TABLE {$tableName} ALTER {$fieldName} SET NOT NULL" );
     }
 
     /**

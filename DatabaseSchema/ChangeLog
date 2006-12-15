@@ -10,6 +10,7 @@
 - Fixed issue #9465: Data type mapping. Based on patch by: Friedel Hill.
 - Fixed issue #9819: Let all components deal the ezcBaseAutoloadException
   properly.
+- Fixed SQL syntax issues when working with PostgreSQL 7.x.
 
 1.1beta1 - Monday 20 November 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
