@@ -325,7 +325,9 @@ class ezcTemplateParser
     public function parseIntoNodeTree()
     {
         if ( !$this->source->hasCode() )
-            throw new ezcTemplateParseException( ezcTemplateParseException::NO_SOURCE_CODE );
+        {
+            throw new ezcTemplateException( ezcTemplateSourceToTstErrorMessages::MSG_NO_SOURCE_CODE );
+        }
 
         $sourceText = $this->source->code;
         $cursor = new ezcTemplateCursor( $sourceText );

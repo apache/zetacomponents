@@ -318,7 +318,6 @@ return array(
              "ezcTemplateFileNotWriteableException" => "Template/exceptions/file_not_writeable_exception.php",
              "ezcTemplateFileFailedUnlinkException" => "Template/exceptions/file_failed_unlink_exception.php",
              "ezcTemplateFileFailedRenameException" => "Template/exceptions/file_failed_rename_exception.php",
-             "ezcTemplateParseException" => "Template/exceptions/parse_exception.php",
              "ezcTemplateSourceToTstParserException" => "Template/exceptions/element_parser_exception.php",
              "ezcTemplateTypeHintException" => "Template/exceptions/typehint_exception.php",
 

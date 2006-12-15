@@ -99,6 +99,8 @@ class ezcTemplateSourceToTstErrorMessages
 
     const MSG_CLOSING_BLOCK_NOW_ALLOWED = "This block cannot be closed.";
 
+    const MSG_NO_SOURCE_CODE = "No source code found in the source object, cannot parse it.";
+
     // Custom block specific error messages
     const MSG_EXPECT_REQUIRED_OR_OPTIONAL_PARAMETER_DEFINITION_IN_CUSTOM_BLOCK = "The custom block definition specifies the startExpressionName <%s> but this name could not be found in either the optionalParameters or the requiredParameters array.";
 
