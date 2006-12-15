@@ -24,18 +24,6 @@ class ezcUrlConfigurationTest extends ezcTestCase
         $this->assertEquals( array( '(', ')' ), $urlCfg->unorderedDelimiters );
     }
 
-    public function testPropertiesGetDefault()
-    {
-        $urlCfg = new ezcUrlConfiguration();
-        $urlCfg->defaultConfiguration();
-
-        $this->assertEquals( null, $urlCfg->basedir );
-        $this->assertEquals( 'index.php', $urlCfg->script );
-        $this->assertEquals( array(), $urlCfg->orderedParameters );
-        $this->assertEquals( array(), $urlCfg->unorderedParameters );
-        $this->assertEquals( array( '(', ')' ), $urlCfg->unorderedDelimiters );
-    }
-
     public function testPropertiesGetInvalid()
     {
         $urlCfg = new ezcUrlConfiguration();
@@ -96,6 +84,17 @@ class ezcUrlConfigurationTest extends ezcTestCase
     {
         $urlCfg = new ezcUrlConfiguration();
         $urlCfg->addUnorderedParameter( 'folder' );
+    }
+
+    public function testIsSet()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $this->assertEquals( false, isset( $urlCfg->basedir ) );
+        $this->assertEquals( false, isset( $urlCfg->script ) );
+        $this->assertEquals( true, isset( $urlCfg->unorderedDelimiters ) );
+        $this->assertEquals( true, isset( $urlCfg->orderedParameters ) );
+        $this->assertEquals( true, isset( $urlCfg->unorderedParameters ) );
+        $this->assertEquals( false, isset( $urlCfg->no_such_property ) );
     }
 
     public static function suite()

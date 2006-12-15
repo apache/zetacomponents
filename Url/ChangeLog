@@ -1,3 +1,10 @@
+1.0 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Removed the defaultConfiguration() method from ezcUrlConfiguration.
+- Added missing docblocks.
+
+
 1.0beta2 - Monday 20 November 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

@@ -10,6 +10,25 @@
  */
 
 /**
+ * ezcUrlCreator makes it easy to create urls from scratch.
+ *
+ * Holds a list of urls mapped to aliases. The aliases are used to refer to the
+ * urls stored, so the urls will not be hardcoded all over the application code.
+ *
+ * Example of use:
+ * <code>
+ * // register an url under the alias 'map'
+ * ezcUrlCreator::registerUrl( 'map', '/images/geo/%s?xsize=%d&ysize=%d&zoom=%d' );
+ *
+ * // retrieve the stored url under the alias 'map' formatted with parameters
+ * $url = ezcUrlCreator::getUrl( 'map', 'map_norway.gif', 450, 450, 4 );
+ *      // will be: "/images/geo/map_norway.gif?xsize=450&ysize=450&zoom=4"
+ *
+ * // retrieve the stored url under the alias 'map' formatted with other parameters
+ * $url = ezcUrlCreator::getUrl( 'map', 'map_sweden.gif', 450, 450, 4 );
+ *      // will be: "/images/geo/map_sweden.gif?xsize=450&ysize=450&zoom=4"
+ * </code>
+ *
  * @package Url
  * @version //autogen//
  */

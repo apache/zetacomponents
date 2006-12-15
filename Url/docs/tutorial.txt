@@ -96,49 +96,6 @@ The output will be (wrapped for clarity): ::
 Working with url configurations
 ===============================
 
-Create and use a default url configuration
-------------------------------------------
-
-The following example will create a default url configuration and use it when
-creating a new url object:
-
-.. include:: tutorial_cfg_default.php
-    :literal:
-
-The output will be: ::
-
-    object(ezcUrlConfiguration)#1 (1) {
-      ["properties:private"]=>
-      array(5) {
-        ["basedir"]=>
-        string(5) "mydir"
-        ["script"]=>
-        string(9) "index.php"
-        ["unorderedDelimiters"]=>
-        array(2) {
-          [0]=>
-          string(1) "("
-          [1]=>
-          string(1) ")"
-        }
-        ["orderedParameters"]=>
-        array(4) {
-          ["section"]=>
-          int(0)
-          ["module"]=>
-          int(1)
-          ["view"]=>
-          int(2)
-          ["branch"]=>
-          int(3)
-        }
-        ["unorderedParameters"]=>
-        array(0) {
-        }
-      }
-    }
-
-
 Create and use a custom url configuration
 -----------------------------------------
 

@@ -13,6 +13,37 @@
  * ezcUrl stores an URL both absolute and relative and contains methods to
  * retrieve the various parts of the URL and to manipulate them.
  *
+ * Example of use:
+ * <code>
+ * // create an ezcUrlConfiguration object
+ * $urlCfg = new ezcUrlConfiguration();
+ * // set the basedir and script values
+ * $urlCfg->basedir = 'mydir';
+ * $urlCfg->script = 'index.php';
+ *
+ * // define delimiters for unordered parameter names
+ * $urlCfg->unorderedDelimiters = array( '(', ')' );
+ *
+ * // define ordered parameters
+ * $urlCfg->addOrderedParameter( 'section' );
+ * $urlCfg->addOrderedParameter( 'group' );
+ * $urlCfg->addOrderedParameter( 'category' );
+ * $urlCfg->addOrderedParameter( 'subcategory' );
+ *
+ * // define unordered parameters
+ * $urlCfg->addUnorderedParameter( 'game', ezcUrlConfiguration::MULTIPLE_ARGUMENTS );
+ *
+ * // create a new ezcUrl object from a string url and use the above $urlCfg
+ * $url = new ezcUrl( 'http://www.example.com/mydir/index.php/groups/Games/Adventure/Adult/(game)/Larry/7', $urlCfg );
+ *
+ * // to get the parameter values from the url use $url->getParam():
+ * $section =  $url->getParam( 'section' ); // will be "groups"
+ * $group = $url->getParam( 'group' ); // will be "Games"
+ * $category = $url->getParam( 'category' ); // will be "Adventure"
+ * $subcategory = $url->getParam( 'subcategory' ); // will be "Adult"
+ * $game = $url->getParam( 'game' ); // will be array( "Larry", "7" )
+ * </code>
+ *
  * @property string $host
  *           Hostname or null
  * @property string $path
@@ -64,7 +95,7 @@ class ezcUrl
      * @param string $url
      * @param ezcUrlConfiguration $urlCfg
      */
-    public function __construct( $url = null, $urlCfg = null )
+    public function __construct( $url = null, ezcUrlConfiguration $urlCfg = null )
     {
         $this->parseUrl( $url );
         if ( $urlCfg != null )
@@ -219,7 +250,7 @@ class ezcUrl
      *
      * @param ezcUrlConfiguration $urlCfg
      */
-    public function applyConfiguration( $urlCfg )
+    public function applyConfiguration( ezcUrlConfiguration $urlCfg )
     {
         $this->urlCfg = $urlCfg;
         $this->basedir = $this->parsePathElement( $urlCfg->basedir, 0 );
