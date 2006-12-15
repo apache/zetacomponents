@@ -328,32 +328,5 @@ class ezcTemplate
                                     false /*(bool)$this->compiledDebugEnabled*/ . ')' ),
                              10, 36 );
     }
-
-//   /**
-//     * Locates the source template file named $source and returns an
-//     * ezcTemplateSource object which can be queried.
-//     *
-//     * @param string $source The source name of the template source to find.
-//     * @return ezcTemplateSource
-//     */
-//    public function findSource( $source )
-//    {
-//        $location = ezcTemplateResourceLocator::parseLocationString( $source );
-//        if ( $location->locator )
-//        {
-//            if ( !isset( $this->resourceLocators[$location->locator] ) )
-//                throw new ezcTemplateLocatorNotFound( $location );
-//            $locator = $this->resourceLocators[$location->locator];
-//        }
-//        else
-//        {
-//            $locator = $this->defaultLocator;
-//            // create the default if it does not exist
-//            if ( $locator === null )
-//                $locator = new ezcTemplateDirectResourceLocator();
-//        }
-//
-//        return $locator->findSource( $location->stream );
-//    }
 }
 ?>

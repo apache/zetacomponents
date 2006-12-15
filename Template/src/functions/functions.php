@@ -307,7 +307,7 @@ class ezcTemplateFunctions
 
     public static function getFunctionSubstitution( $functionName, $parameters )
     {
-        die( "Subclasses need to implement the getFunctionSubstitution method." );
+        throw new ezcTemplateInternalException( "Subclasses need to implement the getFunctionSubstitution method." );
     }
 }
 ?>

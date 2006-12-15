@@ -46,15 +46,5 @@ class ezcTemplateConditionalOperatorTstNode extends ezcTemplateOperatorTstNode
         // We never allow merging.
         return false;
     }
-
-    /**
-     *
-     * @todo Not implemented yet.
-     * @return ezcTemplateAstNode
-     */
-    public function transform()
-    {
-    }
-
 }
 ?>
