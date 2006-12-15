@@ -112,7 +112,7 @@ class ezcBaseFeatures
         {
             return self::$imageConvert;
         }
-        return ( self::$imageConvert = self::getPath( 'convert' ) );
+        return ( self::$imageConvert = self::findExecutableInPath( 'convert' ) );
     }
 
     /**
@@ -139,7 +139,7 @@ class ezcBaseFeatures
         {
             return self::$imageIdentify;
         }
-        return ( self::$imageIdentify = self::getPath( 'identify' ) );
+        return ( self::$imageIdentify = self::findExecutableInPath( 'identify' ) );
     }
 
     /**
@@ -263,7 +263,7 @@ class ezcBaseFeatures
      * @param string $fileName
      * @return string
      */
-    private static function getPath( $fileName )
+    public static function findExecutableInPath( $fileName )
     {
         if ( array_key_exists( 'PATH', $_ENV ) )
         {

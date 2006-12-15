@@ -12,6 +12,8 @@
   easier.
 - Fixed issue #9819: Let all components deal the ezcBaseAutoloadException
   properly.
+- Added the static method ezcBase::findExecutableInPath() that searches the
+  path for the given executable.
 
 
 1.2beta2 - Monday 20 November 2006
