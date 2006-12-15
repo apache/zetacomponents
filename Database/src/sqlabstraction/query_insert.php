@@ -93,6 +93,24 @@ class ezcQueryInsert extends ezcQuery
     {
         $column = $this->getIdentifier( $column );
         $expression = $this->getIdentifier( $expression );
+
+        if ( $this->db->getName() == 'oracle' )
+        {
+            // This is "quick fix" for the case of setting sequence value in Oracle.
+            // Assume that set( 'columnName', "nextval('sequenceName')") was called.
+            // Converting sequence SQL "nextval('sequenceName')" that valid for PostgreSQL
+            // to "sequenceName.nextval" that valid for Oracle.
+            
+            if ( preg_match( "/nextval\('(.*)'\)/", $expression, $matches ) )
+            {
+                $sequenceName = $matches[1];
+                $expression = $sequenceName.'.nextval';
+                $this->values[$column] = $expression;
+
+                return $this;
+            }
+        }
+
         $this->values[$column] = $expression;
         return $this;
     }

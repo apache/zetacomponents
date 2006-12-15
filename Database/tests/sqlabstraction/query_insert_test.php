@@ -206,6 +206,64 @@ class ezcQueryInsertTest extends ezcTestCase
         $this->assertEquals( 'eZ systems', $result[0][1] );
     }
 
+    public function testInsertsWithSequence()
+    {
+        $q = $this->q;
+        $db = ezcDbInstance::get();
+        $company = "eZ systems";
+        $section1 = "Norway";
+        $section2 = "Ukraine";
+
+        if ( $db->getName() == 'mysql' || $db->getName() == 'sqlite' )
+        {
+            return;  // no need to test it in MySQL and SQLite as they have autoincrement
+        }
+
+        if ( $db->getName() == 'oracle' )
+        {
+            $db->exec( "CREATE SEQUENCE query_test_id_seq start with 1 increment by 1 nomaxvalue" );
+        }
+        else if ( $db->getName() == 'pgsql' ) 
+        {
+            $db->exec( "CREATE SEQUENCE query_test_id_seq START 1" );
+        }
+
+        //row 1
+        $q->insertInto( 'query_test' )
+            ->set( 'id', 'nextval(\'query_test_id_seq\')' )
+            ->set( 'company', $q->bindParam( $company ) )
+            ->set( 'section', $q->bindParam( $section1 ) )
+            ->set( 'employees', 20 );
+
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        //row 2
+        $q->insertInto( 'query_test' )
+            ->set( 'id', 'nextval(\'query_test_id_seq\')' )
+            ->set( 'company',  $q->bindParam( $company ) )
+            ->set( 'section',  $q->bindParam( $section2 ) )
+            ->set( 'employees', 10 );
+        $stmt = $q->prepare();
+        $stmt->execute();
+        
+        // check that it was actually correctly set
+        $q = $db->createSelectQuery(); // get select query
+        $q->select( '*' )->from( 'query_test' )->where( $q->expr->eq( 'id', 2 ) );
+        $stmt = $q->prepare();
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        $this->assertEquals( 2, (int)$result[0][0] );
+        $this->assertEquals( 'eZ systems', $result[0][1] );
+        $this->assertEquals( 'Ukraine', $result[0][2] );
+        $this->assertEquals( 10, $result[0][3] );
+
+        if ( $db->getName() == 'oracle' || $db->getName() == 'pgsql' )
+        {
+            $db->exec( "DROP SEQUENCE query_test_id_seq" );
+        }
+    }
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( 'ezcQueryInsertTest' );
