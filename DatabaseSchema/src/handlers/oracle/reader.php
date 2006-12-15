@@ -71,7 +71,7 @@ class ezcDbSchemaOracleReader implements ezcDbSchemaDbReader
     {
         $schemaDefinition = array();
 
-        $tables = $this->db->query( "SELECT table_name FROM user_tables" )->fetchAll();
+        $tables = $this->db->query( "SELECT table_name FROM user_tables ORDER BY table_name" )->fetchAll();
         array_walk( $tables, create_function( '&$item,$key', '$item = $item[0];' ) );
 
         foreach ( $tables as $tableName )
