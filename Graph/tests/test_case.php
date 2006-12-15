@@ -34,6 +34,18 @@ class ezcGraphTestCase extends ezcImageTestCase
         $generatedCode = shell_exec( $executeable . ' ' . escapeshellarg( $generated ) );
         $compareCode = shell_exec( $executeable . ' ' . escapeshellarg( $compare ) );
 
+        foreach ( 
+            array(
+                'generatedCode' => $generatedCode,
+                'compareCode' => $compareCode,
+            ) as $var => $content )
+        {
+            $content = preg_replace( '/\$[sf]\d+/', '$var', $content );
+            $content = preg_replace( '[/\\*.*\\*/]i', '/* Comment irrelevant */', $content );
+
+            $$var = $content;
+        }
+
         $this->assertEquals(
             $generatedCode,
             $compareCode,
