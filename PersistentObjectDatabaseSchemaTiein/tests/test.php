@@ -127,7 +127,7 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
         $destination = $this->createTempDir( "PersObjDatSchem" );
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f xml -s $source $destination`;
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f xml -s $source $destination`;
-        file_put_contents( __FUNCTION__, $res );
+        // file_put_contents( __FUNCTION__, $res );
 
         // Sanitize because of temp dir name
         $res = explode( "\n", $res );
