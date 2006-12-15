@@ -165,9 +165,13 @@ abstract class ezcTemplateSourceToTstParser
         $this->parentParser = $parentParser;
         // Make sure program parser is set correctly
         if ( $parentParser !== null )
+        {
             $this->programParser = $parentParser->programParser;
+        }
         else
+        {
             $this->programParser = $this;
+        }
         $this->elements = array();
         $this->subParser = null;
         $this->lastParser = null;
@@ -181,7 +185,9 @@ abstract class ezcTemplateSourceToTstParser
                 $this->startCursor = clone $startCursor;
                 $this->lastCursor = clone $this->parentParser->lastCursor;
                 if ( $this->startCursor->position > $this->lastCursor->position )
+                {
                     $this->lastCursor->copy( $this->startCursor );
+                }
             }
             else
             {
@@ -226,8 +232,10 @@ abstract class ezcTemplateSourceToTstParser
     public function atEnd( ezcTemplateCursor $cursor, /*ezcTemplateTstNode*/ $operator, $finalize = true )
     {
         if ( $this->parentParser !== null )
+        {
             // The $finalize flag is not automatically sent to parent
             return $this->parentParser->atEnd( $cursor, $operator, false );
+        }
         // @todo Use specific exception
         throw new ezcTemplateInternalException( "atEnd() called on parser <" . get_class( $this ) . "> which has not implemented it properly." );
     }
@@ -247,7 +255,9 @@ abstract class ezcTemplateSourceToTstParser
     public function skipWhitespace()
     {
         if ( $this->currentCursor->atEnd() )
+        {
             return false;
+        }
 
         if ( $this->currentCursor->pregMatch( "#^(\r\n|[\r\n\t ])+#" ) === false )
         {
@@ -277,7 +287,9 @@ abstract class ezcTemplateSourceToTstParser
     {
         $this->elements[] = $element;
         if ( $report )
+        {
             $this->parser->reportElementCursor( $element->startCursor, $element->endCursor, $element );
+        }
     }
 
     /**
@@ -289,7 +301,9 @@ abstract class ezcTemplateSourceToTstParser
         {
             $className = 'ezcTemplate' . $type . 'SourceToTstParser';
             if ( !ezcBaseFeatures::classExists( $className ) )
+            {
                 throw new ezcTemplateInternalException( "Could instantiate sub-parser for type <$type>, the class <$className> does not exist" );
+            }
 
             $this->subParser = new $className( $this->parser, $this, $startCursor );
         }
@@ -309,7 +323,9 @@ abstract class ezcTemplateSourceToTstParser
             $this->currentCursor->copy( $this->subParser->endCursor );
             $this->lastCursor->copy( $this->currentCursor );
             if ( $mergeElements )
+            {
                 $this->mergeElements( $this->subParser );
+            }
             $this->subParser = null;
             return true;
         }
@@ -332,7 +348,9 @@ abstract class ezcTemplateSourceToTstParser
         {
             $className = 'ezcTemplate' . $type . 'SourceToTstParser';
             if ( !ezcBaseFeatures::classExists( $className ) )
+            {
                 throw new ezcTemplateInternalException( "Could instantiate sub-parser for type <$type>, the class <$className> does not exist" );
+            }
 
             $this->subParser = new $className( $this->parser, $this, $startCursor );
         }
@@ -352,7 +370,9 @@ abstract class ezcTemplateSourceToTstParser
             $this->currentCursor->copy( $this->subParser->endCursor );
             $this->lastCursor->copy( $this->currentCursor );
             if ( $mergeElements )
+            {
                 $this->mergeElements( $this->subParser );
+            }
             $this->subParser = null;
             return true;
         }
@@ -490,7 +510,9 @@ abstract class ezcTemplateSourceToTstParser
         $error = $this->generateErrorMessage();
 
         if ( !is_string( $error ) )
+        {
             throw new ezcTemplateInternalException( "No error message was returned from " . get_class( $this ) . "::generateErrorMessage" );
+        }
         return $error;
     }
 
@@ -622,16 +644,22 @@ abstract class ezcTemplateSourceToTstParser
         while ( !$this->currentCursor->atEnd() )
         {
             if ( !$this->skipWhitespace() )
+            {
                 return false;
+            }
 
             // Parse comments if any
             $comment = $this->skipComment();
             if ( $comment === true )
+            {
                 // We found a comment so we need to try again for new whitespace or comment
                 continue;
+            }
             elseif ( $comment === false )
+            {
                 // Comment found but failed parsing
                 return false;
+            }
 
             // all whitespace and comments are skipped
             return true;
@@ -682,7 +710,9 @@ abstract class ezcTemplateSourceToTstParser
         {
             // skip whitespace and comments
             if ( !$this->findNextElement() )
+            {
                 return false;
+            }
 
             if ( isset( $item['compound'] ) )
             {
@@ -700,7 +730,9 @@ abstract class ezcTemplateSourceToTstParser
                         }
                     }
                     if ( !$hasMatch )
+                    {
                         return false;
+                    }
                     continue;
                 }
                 elseif ( $item['compound'] == 'and' )
@@ -708,7 +740,9 @@ abstract class ezcTemplateSourceToTstParser
                     $hasMatch = false;
                     $compoundElements = $this->parseSequence( $item['compounds'] );
                     if ( $compoundElements === false )
+                    {
                         return false;
+                    }
                     continue;
                 }
                 else
@@ -720,11 +754,15 @@ abstract class ezcTemplateSourceToTstParser
             $parserClass = 'ezcTemplate' . $item['type'] . 'SourceToTstParser';
             $comment = false;
             if ( isset( $item['comment'] ) )
+            {
                 $comment = $item['comment'];
+            }
 
             $parser = new $parserClass( $this->parser, $this, null );
             if ( !$this->parseRequiredType( $parser, null, false ) )
+            {
                 return false;
+            }
             if ( $parser instanceof ezcTemplateExpressionSourceToTstParser )
             {
                 $rootOperator = $parser->currentOperator;
