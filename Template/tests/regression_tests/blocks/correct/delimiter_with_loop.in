@@ -1,0 +1,161 @@
+{var $a = 0, $b = 0}
+{foreach 1..4 as $a}
+  {$a}
+  {delimiter}
+    {foreach 1..10 as $b}
+      :{$b}:
+    {/foreach}
+  {/delimiter}
+{/foreach}
+============
+{foreach 1..4 as $a}
+  {$a}
+  {delimiter}
+    {$b = 1}
+    {while $b <= 10}
+      :{$b}:
+      {$b++}
+    {/while}
+  {/delimiter}
+{/foreach}
+============
+{foreach 1..4 as $a}
+  {$a}
+  {delimiter modulo 3}
+    {foreach 1..10 as $b}
+      :{$b}:
+    {/foreach}
+  {/delimiter}
+{/foreach}
+============
+{foreach 1..4 as $a}
+  {$a}
+  {delimiter modulo 3}
+    {$b = 1}
+    {while $b <= 10}
+      :{$b}:
+      {$b++}
+    {/while}
+  {/delimiter}
+{/foreach}
+============
+{foreach 1..4 as $a offset 1}
+  {$a}
+  {delimiter}
+    {foreach 1..10 as $b}
+      :{$b}:
+    {/foreach}
+  {/delimiter}
+{/foreach}
+============
+{foreach 1..4 as $a offset 1}
+  {$a}
+  {delimiter}
+    {$b = 1}
+    {while $b <= 10}
+      :{$b}:
+      {$b++}
+    {/while}
+  {/delimiter}
+{/foreach}
+============
+{foreach 1..4 as $a offset 1}
+  {$a}
+  {delimiter modulo 3}
+    {foreach 1..10 as $b}
+      :{$b}:
+    {/foreach}
+  {/delimiter}
+{/foreach}
+============
+{foreach 1..4 as $a offset 1}
+  {$a}
+  {delimiter modulo 3}
+    {$b = 1}
+    {while $b <= 10}
+      :{$b}:
+      {$b++}
+    {/while}
+  {/delimiter}
+{/foreach}
+============
+{foreach 1..4 as $a limit 1}
+  {$a}
+  {delimiter}
+    {foreach 1..10 as $b}
+      :{$b}:
+    {/foreach}
+  {/delimiter}
+{/foreach}
+============
+{foreach 1..4 as $a limit 1}
+  {$a}
+  {delimiter}
+    {$b = 1}
+    {while $b <= 10}
+      :{$b}:
+      {$b++}
+    {/while}
+  {/delimiter}
+{/foreach}
+============
+{foreach 1..4 as $a limit 1}
+  {$a}
+  {delimiter modulo 3}
+    {foreach 1..10 as $b}
+      :{$b}:
+    {/foreach}
+  {/delimiter}
+{/foreach}
+============
+{foreach 1..4 as $a limit 1}
+  {$a}
+  {delimiter modulo 3}
+    {$b = 1}
+    {while $b <= 10}
+      :{$b}:
+      {$b++}
+    {/while}
+  {/delimiter}
+{/foreach}
+============
+{foreach 1..4 as $a offset 1 limit 1}
+  {$a}
+  {delimiter}
+    {foreach 1..10 as $b}
+      :{$b}:
+    {/foreach}
+  {/delimiter}
+{/foreach}
+============
+{foreach 1..4 as $a offset 1 limit 1}
+  {$a}
+  {delimiter}
+    {$b = 1}
+    {while $b <= 10}
+      :{$b}:
+      {$b++}
+    {/while}
+  {/delimiter}
+{/foreach}
+============
+{foreach 1..4 as $a offset 1 limit 1}
+  {$a}
+  {delimiter modulo 3}
+    {foreach 1..10 as $b}
+      :{$b}:
+    {/foreach}
+  {/delimiter}
+{/foreach}
+============
+{foreach 1..4 as $a offset 1 limit 1}
+  {$a}
+  {delimiter modulo 3}
+    {$b = 1}
+    {while $b <= 10}
+      :{$b}:
+      {$b++}
+    {/while}
+  {/delimiter}
+{/foreach}
+============
