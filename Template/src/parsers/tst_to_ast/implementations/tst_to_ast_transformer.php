@@ -28,19 +28,13 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public $parser;
 
-    // Ast nodes
-    private $outputVar;
-
+    // Keeps track of current output and delimiter variable.
     protected $outputVariable;
-
+    protected $delimOutputVar;
+    protected $delimCounterVar;
 
     // Stuff used as parameters
     private $variableNames = array();
-
-    // Keeps track of the delimiters in the foreach loops.
-    private $delimiterStack = array();
-
-    private $writeDelimiterOutput = array(false);
 
     private $noProperty = false;
 
@@ -53,7 +47,10 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         $this->functions = new ezcTemplateFunctions( $parser );
         $this->parser = $parser;
-        $this->outputVariable = new ezcTemplateOutputVariableManager();
+
+        $this->outputVariable  = new ezcTemplateOutputVariableManager( "" );
+        $this->delimOutputVar  = new ezcTemplateOutputVariableManager( "" );
+        $this->delimCounterVar = new ezcTemplateOutputVariableManager( 0 );
     }
 
     public function __destruct()
@@ -62,16 +59,17 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
      private function getUniqueVariableName( $name )
      {
-            if ( !isset( $this->variableNames[$name] ) )
-            {
-                $this->variableNames[$name] = 1;
-            }
-            else
-            {
-                ++$this->variableNames[$name];
-            }
+         if ( !isset( $this->variableNames[$name] ) )
+         {
+             $this->variableNames[$name] = 1;
+         }
+         else
+         {
+             ++$this->variableNames[$name];
+         }
 
-            return "_ezcTemplate_" . $name . $this->variableNames[$name];
+         $ret = "_ezcTemplate_" . $name . $this->variableNames[$name];
+         return $ret;
      }
 
     private function appendOperatorRecursively( ezcTemplateOperatorTstNode $type, ezcTemplateOperatorAstNode $astNode, $currentParameterNumber = 0)
@@ -179,7 +177,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
                     }
                     else
                     {
-                        throw new ezcTemplateInternalException ("Expected an ezcTemplateStatementAstNode: " . __FILE__ . ":" . __LINE__ );
+                        throw new ezcTemplateInternalException( sprintf( "Expected an ezcTemplateStatementAstNode, got %s: " . __FILE__ . ":" . __LINE__, get_class( $ast ) ) );
                     }
 
                 }
@@ -202,12 +200,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     private function assignToOutput( $node )
     {
-        if ( $this->writeDelimiterOutput[0] && $this->delimiterStack[0]["output"] !== null )
-        {
-            return new ezcTemplateGenericStatementAstNode( new ezcTemplateConcatAssignmentOperatorAstNode( $this->delimiterStack[0]["output"], $node ) );
-        }
-        
-        return new ezcTemplateGenericStatementAstNode( new ezcTemplateConcatAssignmentOperatorAstNode( $this->outputVariable->getAst(), $node ) );
+        return $this->outputVariable->getConcatAst( $node );
     }
 
     public function visitCustomBlockTstNode( ezcTemplateCustomBlockTstNode $type )
@@ -273,6 +266,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         if ( $this->programNode === null )
         {
+            // Prepare for program run
             $this->programNode = new ezcTemplateRootAstNode();
             $this->outputVariable->push( "_ezcTemplate_output" );
 
@@ -582,19 +576,45 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         return new ezcTemplateBlockCommentAstNode ( $type->commentText );
     }
 
+    public function handleLoopInit( &$astNode, &$i, &$body )
+    {
+        if ( $this->delimOutputVar->isUsed() )
+        {
+            // Assign the delimiter variable to 0 (above foreach).
+            // $_ezcTemplate_delimiterCounter = 0
+            $astNode[$i++] = $this->delimCounterVar->getInitializationAst();
+
+            // Assign delimiter output to "" (above foreach)
+            // $_ezcTemplate_delimiterOut = ""
+            $astNode[$i++] = $this->delimOutputVar->getInitializationAst();
+
+            array_unshift( $body->statements, $this->delimOutputVar->getInitializationAst() );
+
+            $inc = new ezcTemplateIncrementOperatorAstNode( true );
+            $inc->appendParameter( $this->delimCounterVar->getAst() );
+
+            array_unshift( $body->statements,
+                           new ezcTemplateGenericStatementAstNode( $inc ) );
+
+            // output delimiter output (in foreach).
+            // $_ezcTemplate_output .= $_ezcTemplate_delimiterOut;
+            array_unshift( $body->statements,
+                           $this->outputVariable->getConcatAst( $this->delimOutputVar->getAst() ) );
+        }
+    }
+
     public function visitForeachLoopTstNode( ezcTemplateForeachLoopTstNode $type )
     {
-        $i = 0;
-        
-        $delimVar = new ezcTemplateVariableAstNode( $this->getUniqueVariableName( "delim" ) ); 
-        $delimOut = new ezcTemplateVariableAstNode(  $this->getUniqueVariableName( "delimOut" ) );
-        array_unshift( $this->delimiterStack, array("counter" => $delimVar, "output" => $delimOut, "found" => false) );
-        
+        $this->delimCounterVar->push( $this->getUniqueVariableName( "delim" ) );
+        $this->delimOutputVar->push( $this->getUniqueVariableName( "delimOut" ) );
+
         // Define the variable, _ezcTemplate_limit and set it to 0.
         $limitVar = null;
 
         // Process body.
         $body = $this->createBody( $type->elements );
+        $astNode = array();
+        $i = 0;
 
         if ( $type->limit !== null )
         {
@@ -606,32 +626,8 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $astNode[$i++] = $assign;
         }
 
+        $this->handleLoopInit( $astNode, $i, $body );
 
-        if ( $this->delimiterStack[0]["found"] )
-        {
-            // Assign the delimiter variable to 0 (above foreach).
-            // $_ezcTemplate_delimiterCounter = 0
-            $astNode[$i++] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
-                              $this->delimiterStack[0]["counter"], new ezcTemplateLiteralAstNode( 0 ) ) );
-
-            // Assign delimiter output to "" (above foreach)
-            // $_ezcTemplate_delimiterOut = ""
-            $astNode[$i++] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
-                              $this->delimiterStack[0]["output"], new ezcTemplateLiteralAstNode( "" ) ) );
-
-            array_unshift( $body->statements, new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $this->delimiterStack[0]["output"], new ezcTemplateLiteralAstNode( "" ) ) ) );
-
-            $inc = new ezcTemplateIncrementOperatorAstNode( true );
-            $inc->appendParameter( $this->delimiterStack[0]["counter"] );
-            
-            array_unshift( $body->statements, new ezcTemplateGenericStatementAstNode( $inc ) );
-
-            // output delimiter output (in foreach).
-            // $_ezcTemplate_output .= $_ezcTemplate_delimiterOut;
-            array_unshift( $body->statements, new ezcTemplateGenericStatementAstNode( new ezcTemplateConcatAssignmentOperatorAstNode( 
-                 $this->outputVariable->getAst() , $this->delimiterStack[0]["output"] ) ) );
-        }
- 
         $astNode[$i] = new ezcTemplateForeachAstNode();
 
         if ( $type->offset !== null )
@@ -665,8 +661,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $astNode[$i]->valueVariable = new ezcTemplateVariableAstNode( $type->itemVariableName, true );
         $this->declaredVariables[$type->itemVariableName] = true;
 
-        $astNode[$i]->body = $body; 
-       
+        $astNode[$i]->body = $body;
 
         // Increment by one, and do the limit check.
         if ( $type->limit !== null )
@@ -696,7 +691,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
                 $fc->typeHint = ezcTemplateAstNode::TYPE_ARRAY | ezcTemplateAstNode::TYPE_VALUE;
 
                 $astNode[$i]->body->statements[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateReferenceOperatorAstNode( new ezcTemplateVariableAstNode($var->name, true), $fc ) );
-//            $astNode[$i]->body->statements[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$".$var->name . "->increment", array() ) ); 
         }
 
         // Decrement cycle.
@@ -706,35 +700,35 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
                 $fc->typeHint = ezcTemplateAstNode::TYPE_ARRAY | ezcTemplateAstNode::TYPE_VALUE;
 
                 $astNode[$i]->body->statements[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateReferenceOperatorAstNode( new ezcTemplateVariableAstNode( $var->name, true ), $fc ) );
-
-            // $astNode[$i]->body->statements[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$".$var->name . "->decrement", array() ) ); 
         }
 
-        array_shift( $this->delimiterStack );
-                
+        // Restore previous delimiter variables
+        $this->delimOutputVar->pop();
+        $this->delimCounterVar->pop();
+
         return $astNode;
     }
 
     public function visitDelimiterTstNode( ezcTemplateDelimiterTstNode $type ) 
     {
-        $this->delimiterStack[0]["found"] = true;
-        array_unshift( $this->writeDelimiterOutput,  true);
+        // The new output will be set to  the delimiter output variable
+        // (created by foreach/while)
+        $this->outputVariable->push( $this->delimOutputVar->getName(),
+                                $this->delimOutputVar->getAst() );
 
         if ( $type->modulo === null )
         {
-            $res = array();
-            foreach ( $type->children as $child )
-            {
-                $res[] = $child->accept( $this );
-            }
+            $body = $this->createBody( $type->children );
 
-            $this->writeDelimiterOutput[0] = false;
-            return $res;
+            // Restore the output variable
+            $this->outputVariable->pop();
+
+            return array( new ezcTemplateGenericStatementAstNode( $body ) );
         }
 
         // if ( $counter % $modulo == $rest )
         $mod = new ezcTemplateModulusOperatorAstNode();
-        $mod->appendParameter( $this->delimiterStack[0]["counter"] );
+        $mod->appendParameter( $this->delimCounterVar->getAst() );
         $mod->appendParameter( $type->modulo->accept( $this ) );
 
         $eq = new ezcTemplateEqualOperatorAstNode();
@@ -745,51 +739,25 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $cb = new ezcTemplateConditionBodyAstNode();
         $cb->condition = $eq;
 
-        // { // body
-        // }
         $cb->body = $this->createBody( $type->children );
         $if->conditions[] = $cb;
 
+        // Restore the output variable
+        $this->outputVariable->pop();
 
-        array_shift( $this->writeDelimiterOutput);
         return array( $if );
     }
 
     public function visitWhileLoopTstNode( ezcTemplateWhileLoopTstNode $type )
     {
-        $delimVar = new ezcTemplateVariableAstNode( $this->getUniqueVariableName( "delim" ) ); 
-        $delimOut = new ezcTemplateVariableAstNode(  $this->getUniqueVariableName( "delimOut" ) );
-        array_unshift( $this->delimiterStack, array("counter" => $delimVar, "output" => $delimOut, "found" => false) );
+        $this->delimCounterVar->push( $this->getUniqueVariableName( "delim" ) );
+        $this->delimOutputVar->push( $this->getUniqueVariableName( "delimOut" ) );
 
-        $astNode = array();
         $body = $this->createBody( $type->elements );
-
+        $astNode = array();
         $i = 0;
-        if ( $this->delimiterStack[0]["found"] )
-        {
-            // Assign the delimiter variable to 0 (above foreach).
-            // $_ezcTemplate_delimiterCounter = 0
-            $astNode[$i++] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
-                              $this->delimiterStack[0]["counter"], new ezcTemplateLiteralAstNode( 0 ) ) );
 
-            // Assign delimiter output to "" (above foreach)
-            // $_ezcTemplate_delimiterOut = ""
-            $astNode[$i++] = new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
-                              $this->delimiterStack[0]["output"], new ezcTemplateLiteralAstNode( "" ) ) );
-
-            array_unshift( $body->statements, new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $this->delimiterStack[0]["output"], new ezcTemplateLiteralAstNode( "" ) ) ) );
-
-            $inc = new ezcTemplateIncrementOperatorAstNode( true );
-            $inc->appendParameter( $this->delimiterStack[0]["counter"] );
-            
-            array_unshift( $body->statements, new ezcTemplateGenericStatementAstNode( $inc ) );
-
-            // output delimiter output (in foreach).
-            // $_ezcTemplate_output .= $_ezcTemplate_delimiterOut;
-            array_unshift( $body->statements, new ezcTemplateGenericStatementAstNode( new ezcTemplateConcatAssignmentOperatorAstNode( 
-                 $this->outputVariable->getAst() , $this->delimiterStack[0]["output"] ) ) );
-  
-        }
+        $this->handleLoopInit( $astNode, $i, $body );
 
         $astNode[$i] = new ezcTemplateWhileAstNode();
 
@@ -797,10 +765,12 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $cb->condition = $type->condition->accept( $this );
         $cb->body = $body;
 
-        $astNode[$i]->conditionBody = $cb; 
+        $astNode[$i]->conditionBody = $cb;
 
+        // Restore previous delimiter variables
+        $this->delimOutputVar->pop();
+        $this->delimCounterVar->pop();
 
-        array_shift( $this->delimiterStack );
         return $astNode;
     }
 
@@ -861,14 +831,14 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         if ( $type->name == "skip" )
         {
             $dec = new ezcTemplateGenericStatementAstNode( new ezcTemplateDecrementOperatorAstNode( true ) );
-            $dec->expression->appendParameter( $this->delimiterStack[0]["counter"] );
+            $dec->expression->appendParameter( $this->delimCounterVar->getAst() );
 
             return array( $dec,
-                new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( 
-                              $this->delimiterStack[0]["output"], new ezcTemplateLiteralAstNode( "" ) ) ), new ezcTemplateContinueAstNode() );
+                          $this->delimOutputVar->getInitializationAst(),
+                          new ezcTemplateContinueAstNode() );
         }
         elseif( $type->name == "continue")
-        { 
+        {
             return new ezcTemplateContinueAstNode();
         }
         elseif( $type->name == "break")
@@ -1272,7 +1242,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $cb = new ezcTemplateCaseAstNode();
             $cb->match = $condition->accept( $this );
             $cb->body = new ezcTemplateBodyAstNode();
-            
+
             $res[] = $cb;
         }
 
@@ -1325,7 +1295,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
          
         // $ezcTemplate_output .= $t->process( <file> );
         $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateConcatAssignmentOperatorAstNode( 
-            /*$this->outputVar*/ $this->outputVariable->getAst(), new ezcTemplateReferenceOperatorAstNode( $t , new ezcTemplateFunctionCallAstNode( "process", array( $type->file->accept( $this ) ) ) ) ) );
+            $this->outputVariable->getAst(), new ezcTemplateReferenceOperatorAstNode( $t , new ezcTemplateFunctionCallAstNode( "process", array( $type->file->accept( $this ) ) ) ) ) );
 
         $r = new ezcTemplateReferenceOperatorAstNode( $t, new ezcTemplateIdentifierAstNode( "receive" ) );
 
@@ -1387,7 +1357,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $astNodes[] = new ezcTemplateGenericStatementAstNode( $assign );
         }
 
-        $astNodes[] = new ezcTemplateReturnAstNode( /*$this->outputVar*/ $this->outputVariable->getAst() );
+        $astNodes[] = new ezcTemplateReturnAstNode( $this->outputVariable->getAst() );
         return $astNodes;
     }
 

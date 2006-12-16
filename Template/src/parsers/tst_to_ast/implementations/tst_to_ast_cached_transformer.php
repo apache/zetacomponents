@@ -333,7 +333,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
 
 
-        $astNodes[] = new ezcTemplateReturnAstNode( /*$this->outputVar*/ $this->outputVariable->getAst() );
+        $astNodes[] = new ezcTemplateReturnAstNode( $this->outputVariable->getAst() );
         return $astNodes;
     }
     
