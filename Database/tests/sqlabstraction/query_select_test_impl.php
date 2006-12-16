@@ -328,8 +328,11 @@ class ezcQuerySelectTestImpl extends ezcTestCase
     {
         $this->q->select( $this->q->aliAs( 'id', 'other' ) )->from( 'query_test' );
         $stmt = $this->db->query( $this->q->getQuery() );
-        $meta = $stmt->getColumnMeta( 0 );
-        $this->assertEquals( 'other', $meta['name'] );
+        $result = $stmt->fetchAll();
+        if ( !isset( $result[0]['other'] ) ) 
+        {
+            $this->fail( 'Fail test testAliAs' );
+        }
     }
 
     public function testAliAsWithAlias()
@@ -337,8 +340,11 @@ class ezcQuerySelectTestImpl extends ezcTestCase
         $this->q->setAliases( array( 'identifier' => 'id', 'text' => 'company' ) );
         $this->q->select( $this->q->aliAs( 'identifier', 'other' ) )->from( 'query_test' );
         $stmt = $this->db->query( $this->q->getQuery() );
-        $meta = $stmt->getColumnMeta( 0 );
-        $this->assertEquals( 'other', $meta['name'] );
+        $result = $stmt->fetchAll();
+        if ( !isset( $result[0]['other'] ) ) 
+        {
+            $this->fail( 'Test fail testAliAsWithAlias' );
+        }
     }
 
     public function testMultipleFromInOne()

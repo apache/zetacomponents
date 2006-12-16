@@ -81,7 +81,8 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
                     ->where( $q2->expr->eq( 'company', "'IBM'" ), ' id > 2 ' );
 
         $q->select('*')->from( 'query_test' )
-                        ->where( ' id >= 1 ', $q->expr->in( 'company', $q2->getQuery() ) );
+                        ->where( ' id >= 1 ', $q->expr->in( 'company', $q2->getQuery() ) )
+                        ->orderBy( 'id' );
         
         $stmt = $q->prepare();
         $stmt->execute();
@@ -108,7 +109,8 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
                     ->where( $q2->expr->eq( 'company', $q2->bindParam( $name ) ), ' id > 2 ' );
 
         $q->select('*')->from( 'query_test' )
-                        ->where( ' id >= 1 ', $q->expr->in( 'company', $q2->getQuery() ) );
+                        ->where( ' id >= 1 ', $q->expr->in( 'company', $q2->getQuery() ) )
+                        ->orderBy( 'id' );
         
         $stmt = $q->prepare();
         $stmt->execute();
@@ -141,7 +143,8 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
                     ->where( $q2->expr->eq( 'company', $q2->bindParam( $name ) ), ' id > 2 ' );
 
         $q->select('*')->from( 'query_test' )
-                        ->where( ' id >= 1 ', $q->expr->in( 'company', $q2->getQuery() ) );
+                        ->where( ' id >= 1 ', $q->expr->in( 'company', $q2->getQuery() ) )
+                        ->orderBy( 'id' );
         
         $stmt = $q->prepare();
         $stmt->execute();

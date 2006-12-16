@@ -720,7 +720,7 @@ class ezcQueryExpressionTest extends ezcTestCase
     public function testNowImpl()
     {
         $q = $this->q;
-        $q->select( $q->expr->gt( $q->expr->now(), 0 ) ); // if it fails now() did not work
+        $q->select( $q->expr->now() ); // if it fails now() did not work
         $stmt = $this->q->prepare();
         $stmt->execute();
     }
