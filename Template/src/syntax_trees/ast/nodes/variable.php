@@ -37,25 +37,15 @@ class ezcTemplateVariableAstNode extends ezcTemplateAstNode
     /**
      * @param string $name The name of the variable.
      */
-    public function __construct( $name, $prefix = false )
+    public function __construct( $name )
     {
         parent::__construct();
         if ( !is_string( $name ) )
         {
             throw new ezcBaseValueException( "name", $name, 'string' );
         }
-
-        $this->name = $prefix ? "_ezc_" . $name : $name;
-
-        $symbolTable = ezcTemplateSymbolTable::getInstance();
-        if ( $symbolTable->getTypeHint( $this->name ) == false)
-        {
-            $this->typeHint = self::TYPE_ARRAY | self::TYPE_VALUE; 
-        }
-        else
-        {
-            $this->typeHint = $symbolTable->getTypeHint( $this->name ); 
-        }
+        $this->name = $name;
+        $this->typeHint = self::TYPE_VALUE;
     }
 }
 ?>

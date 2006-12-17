@@ -23,6 +23,17 @@ class ezcTemplateOutputVariableManager
         if ( $astNode === null )
         {
             $astNode = new ezcTemplateVariableAstNode( $name );
+
+            $symbolTable = ezcTemplateSymbolTable::getInstance();
+            if ( $symbolTable->getTypeHint( $name ) == false )
+            {
+                $astNode->typeHint = ezcTemplateAstNode::TYPE_ARRAY | ezcTemplateAstNode::TYPE_VALUE;
+            }
+            else
+            {
+                // Will this work, values from this function is different than AST contants?
+                $astNode->typeHint = $symbolTable->getTypeHint( $name );
+            }
         }
         array_push( $this->outputVariables, array( 'name'    => $name,
                                                    'ast'     => $astNode,
