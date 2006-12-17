@@ -783,7 +783,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             // Restore the output variable
             $this->outputVariable->pop();
 
-            return array( new ezcTemplateGenericStatementAstNode( $body ) );
+            return array( new ezcTemplateGenericStatementAstNode( $body, false ) );
         }
 
         // if ( $counter % $modulo == $rest )

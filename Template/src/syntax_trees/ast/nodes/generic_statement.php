@@ -24,13 +24,22 @@ class ezcTemplateGenericStatementAstNode extends ezcTemplateStatementAstNode
     public $expression;
 
     /**
+     * Flag for whether the statement should be terminated with a semicolon or not.
+     * This is true by default and can be turned off e.g. when one the expression
+     * is contains multiple sub-statements.
+     * @var bool
+     */
+    public $terminateStatement;
+
+    /**
      * Initialize with function name code and optional arguments
      */
-    public function __construct( ezcTemplateAstNode $expression = null )
+    public function __construct( ezcTemplateAstNode $expression = null, $terminateStatement = true )
     {
         parent::__construct();
 
         $this->expression = $expression;
+        $this->terminateStatement = $terminateStatement;
     }
 }
 ?>

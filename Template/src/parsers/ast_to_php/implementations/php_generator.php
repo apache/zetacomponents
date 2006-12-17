@@ -647,7 +647,10 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     public function visitGenericStatementAstNode( ezcTemplateGenericStatementAstNode $statement )
     {
         $statement->expression->accept( $this );
-        $this->write( ";\n" );
+        if ( $statement->terminateStatement )
+        {
+            $this->write( ";\n" );
+        }
     }
 
     /**
