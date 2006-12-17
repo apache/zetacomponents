@@ -581,6 +581,14 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
     public function visitTextBlockTstNode( ezcTemplateTextBlockTstNode $type )
     {
+        // @todo This should be handled by a more generic TST optimizer
+        // Check for empty texts, there is no need to generate AST nodes
+        // for them
+        if ( strlen( $type->text ) == 0 )
+        {
+            return new ezcTemplateNopAstNode();
+        }
+
         return $this->assignToOutput( new ezcTemplateLiteralAstNode( $type->text ) );
     }
 
