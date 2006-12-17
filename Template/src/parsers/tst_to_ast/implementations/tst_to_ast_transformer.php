@@ -23,11 +23,11 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     /**
      * Prefix or all internal variables, e.g. counter and output.
      */
-    const INTERNAL_PREFIX = "_ezcTemplate_";
+    const INTERNAL_PREFIX = "_";
     /**
      * Prefix or all external variables, ie. those coming from the template source.
      */
-    const EXTERNAL_PREFIX = "_ezc_";
+    const EXTERNAL_PREFIX = "t_";
 
     public $programNode = null;
 
