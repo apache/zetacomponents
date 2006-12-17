@@ -153,6 +153,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         if ( $this->programNode === null )
         {
             $this->programNode = new ezcTemplateRootAstNode();
+            $this->handleProgramHeader( $this->programNode );
             $this->outputVariable->push( self::INTERNAL_PREFIX . "output" );
 
             $this->programNode->appendStatement( $this->outputVariable->getInitializationAst() );

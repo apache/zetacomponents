@@ -20,13 +20,15 @@ class ezcTemplateRootAstNode extends ezcTemplateBodyAstNode
     public $cacheTemplate = false;
     public $cacheKeys = array();
     public $ttl = null;
+    public $startProgram = true;
 
     /**
      * Initialize with function name code and optional arguments
      */
-    public function __construct( Array $statements = null )
+    public function __construct( Array $statements = null, $startProgram = true )
     {
         parent::__construct();
+        $this->startProgram = $startProgram;
     }
 }
 ?>

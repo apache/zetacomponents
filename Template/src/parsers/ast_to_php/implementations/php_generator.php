@@ -97,8 +97,6 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $this->indentationText = '';
         $this->indentationStack = array();
         $this->newline = true;
-
-        $this->writeHeader();
     }
 
     /**
@@ -108,8 +106,6 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     {
         if ( $this->fd )
         {
-            if ( !$this->hasWrittenFooter )
-                $this->writeFooter();
             fclose( $this->fd );
             $this->fd = null;
         }
@@ -121,9 +117,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     protected function writeHeader()
     {
         fwrite( $this->fd,
-                "<?php\n" .
-                "// Generated PHP file from template code.\n" .
-                "// If you modify this file your changes will be lost when it is regenerated.\n" );
+                "<?php\n" );
     }
 
     /**
@@ -628,9 +622,17 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      */
     public function visitRootAstNode( ezcTemplateRootAstNode $body )
     {
+        if ( $body->startProgram )
+        {
+            $this->writeHeader();
+        }
         foreach ( $body->statements as $statement )
         {
             $statement->accept( $this );
+        }
+        if ( $body->startProgram )
+        {
+            $this->writeFooter();
         }
     }
 

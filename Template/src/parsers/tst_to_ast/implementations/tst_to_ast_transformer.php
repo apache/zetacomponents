@@ -306,12 +306,20 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         }
     }
 
+    protected function handleProgramHeader( $programNode )
+    {
+        $programNode->appendStatement( new ezcTemplateEolCommentAstNode( "Generated PHP file from template code." ) );
+        $programNode->appendStatement( new ezcTemplateEolCommentAstNode( "If you modify this file your changes will be lost when it is regenerated." ) );
+    }
+
     public function visitProgramTstNode( ezcTemplateProgramTstNode $type )
     {
         if ( $this->programNode === null )
         {
             // Prepare for program run
             $this->programNode = new ezcTemplateRootAstNode();
+            $this->handleProgramHeader( $this->programNode );
+
             $this->outputVariable->push( self::INTERNAL_PREFIX . "output" );
 
             $this->programNode->appendStatement( $this->outputVariable->getInitializationAst() );
