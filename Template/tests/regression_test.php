@@ -183,12 +183,12 @@ class ezcTemplateRegressionTest extends ezcTestCase
         }
     }
 
-    public function interact( $template, $tplSource, $expected, $actual, $expectedFile, $help )
+    public function interact( $template, $tplSource, $expected, $actual, $expectedFile, $help, $exceptionText )
     {
 
         while ( true )
         {
-            echo "Action (g/c/r/d/do/de/ds/dc/dta/dtt/dd/ge/ee/es/v/q/?): ";
+            echo "Action (g/c/c!/r/d/do/de/ds/dc/dta/dtt/dd/dx/ge/ee/es/ir/v/q/?): ";
 
             $reply = strtolower( trim( fgets( STDIN ) ) );
 
@@ -220,7 +220,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
                 file_put_contents( $expectedFile, $actual );
                 return;
             }
-            elseif ( $reply == "do" || $reply == "de" || $reply == "ds" || $reply == "dc" || $reply == "dta" || $reply == "dtt" || $reply == "dd" || $reply == "d" )
+            elseif ( $reply == "do" || $reply == "de" || $reply == "dx" || $reply == "ds" || $reply == "dc" || $reply == "dta" || $reply == "dtt" || $reply == "dd" || $reply == "d" )
             {
                 $displayText = false;
 
@@ -254,6 +254,14 @@ class ezcTemplateRegressionTest extends ezcTestCase
                         }
                     }
                     $displayText .= $expected;
+                }
+                if ( $reply == "dx" || $reply == "d" )
+                {
+                    if ( $reply == "d" )
+                    {
+                        $displayText .= "------Expection------\n";
+                    }
+                    $displayText .= $exceptionText;
                 }
                 if ( $reply == "dd" || $reply == "d" )
                 {
@@ -412,30 +420,31 @@ class ezcTemplateRegressionTest extends ezcTestCase
             elseif ( $reply == '?' )
             {
                 echo "The actions are:\n",
-                    "g  - Generate output file (Implies success of test)\n",
-                    "c  - Continue, Skip the current test (Implies failure of test)\n",
-                    "c! - Continue, Skip all test with a missing out file.\n",
-                    "r  - Retry the test\n",
+                    "g   - Generate output file (Implies success of test)\n",
+                    "c   - Continue, Skip the current test (Implies failure of test)\n",
+                    "c!  - Continue, Skip all test with a missing out file.\n",
+                    "r   - Retry the test\n",
 
                     "do  - Display the generated output\n",
                     "de  - Display the expected output\n",
-                    "ds - Display source template\n",
-                    "dc - Display generated/compiled PHP code\n",
-                    "d - Display all\n",
+                    "dx  - Display the exception\n",
+                    "ds  - Display source template\n",
+                    "dc  - Display generated/compiled PHP code\n",
+                    "d   - Display all\n",
 
                     "dta - Display the AST tree\n",
                     "dtt - Display the TST tree\n",
 
                     "dd  - Display difference between generated output and expected output\n",
 
-                    "v  - Display verbose template information\n",
-                    "q  - Quit\n",
+                    "v   - Display verbose template information\n",
+                    "q   - Quit\n",
 
-                    "ir - Input Rename. Rename the input file so that it won't be available in the next run.\n",
+                    "ir  - Input Rename. Rename the input file so that it won't be available in the next run.\n",
 
-                    "ge - Generate and edit the expected output file.\n";
-                    "ee - Edit the expected output file.\n";
-                    "es - Edit the source file.\n";
+                    "ge  - Generate and edit the expected output file.\n";
+                    "ee  - Edit the expected output file.\n";
+                    "es  - Edit the source file.\n";
                 continue;
             }
             else
@@ -486,6 +495,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
         }
 
         $out = "";
+        $exceptionText = "";
 
         try
         {
@@ -494,6 +504,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
         catch ( Exception $e )
         {
             $out = $e->getMessage();
+            $exceptionText = get_class( $e ) . "(" . $e->getCode() . "):\n" . $out;
 
             // Begin of the error message contains the full path. We replace this with 'mock' so that the
             // tests work on other systems as well.
@@ -501,6 +512,8 @@ class ezcTemplateRegressionTest extends ezcTestCase
             {
                 $out = "mock" . substr( $out, strlen( $directory ) );
             }
+
+            $exceptionText .= "\n" . $e->getTraceAsString();
         }
 
         $expected = substr( $directory, 0, -3 ) . ".out";
@@ -513,7 +526,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
             {
                 echo "\n", $help, "\n";
 
-                self::interact( $template, $directory, false, $out, $expected, $help );
+                self::interact( $template, $directory, false, $out, $expected, $help, $exceptionText );
                 return;
             }
             else
@@ -541,8 +554,11 @@ class ezcTemplateRegressionTest extends ezcTestCase
                     touch( $directory );
                 }
 
+                $exceptionText = get_class( $e ) . "(" . $e->getCode() . "):\n" . $e->getMessage();
+                $exceptionText .= "\n" . $e->getTraceAsString();
+
                 echo "\n", $help, "\n";
-                self::interact( $template, $directory, file_get_contents( $expected ), $out, $expected, $help );
+                self::interact( $template, $directory, file_get_contents( $expected ), $out, $expected, $help, $exceptionText );
                 return;
             }
 
