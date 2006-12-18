@@ -17,7 +17,7 @@ $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
     'Konqueror' => 474,
 ) );
 
-$graph->render( 400, 200, 'tutorial_example_28.png' );
+$graph->render( 400, 200, 'tutorial_example_29.png' );
 
 $elements = $graph->renderer->getElementReferences();
 
@@ -49,7 +49,7 @@ $elements = $graph->renderer->getElementReferences();
 ?>
         </map>
         <img
-            src="tutorial_example_28.png"
+            src="tutorial_example_29.png"
             width="400" height="200"
             usemap="#ezcGraphPieChartMap"
     </body>
