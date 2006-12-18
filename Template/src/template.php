@@ -231,13 +231,30 @@ class ezcTemplate
         $compiled = ezcTemplateCompiledCode::findCompiled( $this->properties["stream"], $config->context, $this );
         $this->properties["compiledTemplatePath"] = $compiled->path;
 
-        
-        if ( !file_exists( $compiled->path ) || (
-            $config->checkModifiedTemplates &&
-            // Do not recompile when the modification times are the same. This messes up the caching tests. 
-            file_exists( $this->properties["stream"] ) && filemtime( $this->properties["stream"] ) > filemtime( $compiled->path ) )
-        )
+        $counter = 0;
+        while ( true )
         {
+            ++$counter;
+            if ( $counter > 3 )
+            {
+                // @todo fix exception
+                throw new ezcTemplateCompilationFailedException( "Failed to create and execute compiled code after " . ($counter - 1) . " tries." );
+            }
+
+            if ( file_exists( $compiled->path ) )
+            {
+                try
+                {
+                    // execute compiled code here
+                    $this->properties["output"] = $compiled->execute();
+                    return $this->properties["output"];
+                }
+                catch ( ezcTemplateOutdatedCompilationException $e )
+                {
+                    // The compiled file cannot be used so we need to recompile it
+                }
+            }
+
             $this->createDirectory( dirname( $compiled->path ) );
 
             // get the compiled path.
@@ -260,7 +277,7 @@ class ezcTemplate
                 $this->properties["tstTree"]->accept( $cachePreparation );
 
                 $tstToAst = new ezcTemplateTstToAstCachedTransformer ( $parser, $fetchCacheInfo->cacheTst, $cachePreparation );
-            } 
+            }
             else
             {
                 $tstToAst = new ezcTemplateTstToAstTransformer ( $parser);
@@ -288,9 +305,7 @@ class ezcTemplate
         }
 
         // execute compiled code here
-        $this->properties["output"] = $compiled->execute();
-
-        return $this->properties["output"];
+        throw new ezcTemplateInternalException( "Compilation or execution failed" );
     }
 
     /**

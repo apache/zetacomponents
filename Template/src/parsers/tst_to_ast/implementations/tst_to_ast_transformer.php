@@ -310,6 +310,11 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         $programNode->appendStatement( new ezcTemplateEolCommentAstNode( "Generated PHP file from template code." ) );
         $programNode->appendStatement( new ezcTemplateEolCommentAstNode( "If you modify this file your changes will be lost when it is regenerated." ) );
+
+        // Add: $this->checkRequirements()
+        $args = array( new ezcTemplateLiteralAstNode( ezcTemplateCompiledCode::ENGINE_ID ) );
+        $call = new ezcTemplateFunctionCallAstNode( "checkRequirements", $args );
+        $programNode->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateReferenceOperatorAstNode( new ezcTemplateVariableAstNode( "this" ), $call ) ) );
     }
 
     public function visitProgramTstNode( ezcTemplateProgramTstNode $type )

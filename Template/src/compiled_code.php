@@ -24,6 +24,11 @@
  */
 class ezcTemplateCompiledCode
 {
+    /**
+     * The unique number for the template engine, this will be increased each time
+     * the compiled code needs to be recompiled at the client.
+     */
+    const ENGINE_ID = 1;
 
     /**
      * The unique identifier for the compiled file.
@@ -170,6 +175,24 @@ class ezcTemplateCompiledCode
         return include( $this->path );
     }
 
+    protected function checkRequirements( $engineID )
+    {
+        if ( $this->template->configuration->checkModifiedTemplates &&
+             // Do not recompile when the modification times are the same. This messes up the caching tests.
+             file_exists( $this->template->stream ) &&
+             filemtime( $this->template->stream ) > filemtime( $this->properties['path'] ) )
+        {
+            throw new ezcTemplateOutdatedCompilationException( "The source template file '{$this->template->stream}' is newer than '{$this->path}', will recompile." );
+        }
+
+
+        // Check if the engine ID differs
+        if ( $engineID !== self::ENGINE_ID )
+        {
+            throw new ezcTemplateOutdatedCompilationException( "The compilation file '{$this->path}' is outdated, will recompile." );
+        }
+    }
+
     /**
      * Returns a list of variable (PHP) names which are reserved when executing
      * compiled code. The compiler must make sure none of these are used when
@@ -217,7 +240,7 @@ class ezcTemplateCompiledCode
         $options = 'ezcTemplate::options(' .
                    false /*(bool)$template->outputDebugEnabled*/ . '-' .
                    false /*(bool)$template->compiledDebugEnabled*/ . ')';
-        $identifier = md5( 'ezcTemplateCompiledCode(' . $location . ')' );
+        $identifier = md5( 'ezcTemplateCompiled(' . $location . ')' );
         $name = basename( $location, '.ezt' );
 
         $path = $template->configuration->compilePath . DIRECTORY_SEPARATOR . $template->configuration->compiledTemplatesPath . DIRECTORY_SEPARATOR .

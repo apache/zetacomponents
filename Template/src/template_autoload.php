@@ -313,6 +313,8 @@ return array(
              "ezcTemplateNoManagerException" => "Template/exceptions/no_manager_exception.php",
              "ezcTemplateNoOutputContextException" => "Template/exceptions/no_output_context_exception.php",
              "ezcTemplateInvalidCompiledFileException" => "Template/exceptions/invalid_compiled_file_exception.php",
+             "ezcTemplateOutdatedCompilationException" => "Template/exceptions/outdated_compilation_exception.php",
+             "ezcTemplateCompilationFailedException" => "Template/exceptions/compilation_failed_exception.php",
              "ezcTemplateFileNotFoundException" => "Template/exceptions/file_not_found_exception.php",
              "ezcTemplateFileNotReadableException" => "Template/exceptions/file_not_readable_exception.php",
              "ezcTemplateFileNotWriteableException" => "Template/exceptions/file_not_writeable_exception.php",

@@ -58,9 +58,9 @@ class ezcTemplateCompiledCodeTest extends ezcTestCase
     public function testFindCompiled()
     {
         $templates = array( array( 'zhadum.ezt',
-                                    $this->templateCompiledPath ."/compiled_templates" . '/xhtml-updqr0/zhadum-bded3e66ba4ae58913dfd74aa6f2fb5c.php' ),
+                                    $this->templateCompiledPath ."/compiled_templates" . '/xhtml-updqr0/zhadum-d282602de179f8e7b6a24c6d96eb525d.php' ),
                             array( 'pagelayout.ezt',
-                                   $this->templateCompiledPath . "/compiled_templates" . '/xhtml-updqr0/pagelayout-251d3c0bd4de0eb2c713f974077f0618.php' ) );
+                                   $this->templateCompiledPath . "/compiled_templates" . '/xhtml-updqr0/pagelayout-ab7f51e3c7e7dab104986ad939256599.php' ) );
 
         foreach ( $templates as $templateData )
         {

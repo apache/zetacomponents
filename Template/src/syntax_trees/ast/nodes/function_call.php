@@ -35,6 +35,7 @@ class ezcTemplateFunctionCallAstNode extends ezcTemplateParameterizedAstNode
     {
         parent::__construct( 1, false );
         $this->name = $name;
+        $this->typeHint = self::TYPE_ARRAY | self::TYPE_VALUE;
 
         if ( $functionArguments !== null )
         {
