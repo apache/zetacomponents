@@ -1,59 +1,59 @@
 Setting up Oracle to work with Database component
 =================================================
 
-   Suppose you have a running Oracle instance named "orcl" which you can access
-   as user "scott" with password "tiger", and you want 
-   to run Database component on it.
-   Here are several steps to achieve this goal:
+Suppose you have a running Oracle instance named "orcl" which you can access as
+user "scott" with password "tiger", and you want to run Database component on
+it.
+
+Here are several steps to achieve this goal.
 
 Setup a database user
 ---------------------
 
-  You must make sure you have a user with the correct privileges
+You must make sure you have a user with the correct privileges, here we use the
+user "system" (DBA) with password "sys"::
 
-# Here user "system" (DBA) has password "sys".
-#################################################################
-$ cat <<EOF | sqlplus system/sys@orcl
-CREATE USER scott IDENTIFIED BY tiger QUOTA UNLIMITED ON SYSTEM;
-GRANT CREATE    SESSION   TO scott;
-GRANT CREATE    TABLE     TO scott;
-GRANT CREATE    TRIGGER   TO scott;
-GRANT CREATE    SEQUENCE  TO scott;
-GRANT CREATE    PROCEDURE TO scott;
-GRANT ALTER ANY TABLE     TO scott;
-GRANT ALTER ANY TRIGGER   TO scott;
-GRANT ALTER ANY SEQUENCE  TO scott;
-GRANT ALTER ANY PROCEDURE TO scott;
-GRANT DROP  ANY TABLE     TO scott;
-GRANT DROP  ANY TRIGGER   TO scott;
-GRANT DROP  ANY SEQUENCE  TO scott;
-GRANT DROP  ANY PROCEDURE TO scott;
-GRANT UNLIMITED TABLESPACE TO scott;
-EOF
-#################################################################
+	$ cat <<EOF | sqlplus system/sys@orcl
+	CREATE USER scott IDENTIFIED BY tiger QUOTA UNLIMITED ON SYSTEM;
+	GRANT CREATE    SESSION   TO scott;
+	GRANT CREATE    TABLE     TO scott;
+	GRANT CREATE    TRIGGER   TO scott;
+	GRANT CREATE    SEQUENCE  TO scott;
+	GRANT CREATE    PROCEDURE TO scott;
+	GRANT ALTER ANY TABLE     TO scott;
+	GRANT ALTER ANY TRIGGER   TO scott;
+	GRANT ALTER ANY SEQUENCE  TO scott;
+	GRANT ALTER ANY PROCEDURE TO scott;
+	GRANT DROP  ANY TABLE     TO scott;
+	GRANT DROP  ANY TRIGGER   TO scott;
+	GRANT DROP  ANY SEQUENCE  TO scott;
+	GRANT DROP  ANY PROCEDURE TO scott;
+	GRANT UNLIMITED TABLESPACE TO scott;
+	EOF
 
-  You will see "ORA-01920: user name 'SCOTT' conflicts with another user
-  or role name" if user scott already exists.
+You will see "ORA-01920: user name 'SCOTT' conflicts with another user
+or role name" if user scott already exists.
 
 Create procedures for retrieving md5 hash strings and current date
 ------------------------------------------------------------------
 
-  The Database component requires creating a custom procedures in the 
-  Oracle which handles md5 strings and current date. Your user will 
-  require 'CREATE PROCEDURE' permissions for this.
-  Execute: 
+The Database component requires creating a custom procedures in the 
+Oracle which handles md5 strings and current date. Your user will 
+require 'CREATE PROCEDURE' permissions for this.
+Execute::
   
-  $ sqlplus scott/tiger@orcl < Database/doc/sql/oracle_md5.sql
-  $ sqlplus scott/tiger@orcl < Database/doc/sql/oracle_now.sql
+	$ sqlplus scott/tiger@orcl < Database/doc/sql/oracle_md5.sql
+	$ sqlplus scott/tiger@orcl < Database/doc/sql/oracle_now.sql
   
-  to have necessary procedures created.
+to have necessary procedures created.
 
 Running Database unit tests.
 ----------------------------
 
-  After performing procedures above you could run Database unit tests:
-  $ php5 UnitTest/src/runtests.php -D oracle://scott:tiger@localhost/orcl Database
+After performing procedures above you could run Database unit tests::
 
-Note: It's forbidden to run unit tests in production environment as tests 
-  don't aware of existent database data. It is strongly recommended to setup
-  and use testing environment while developing your appication.
+	$ php5 UnitTest/src/runtests.php -D oracle://scott:tiger@localhost/orcl Database
+
+Note: It's forbidden to run unit tests in production environment as tests are
+aware of existing database data. It is strongly recommended to setup and use
+a testing environment while developing your application.
