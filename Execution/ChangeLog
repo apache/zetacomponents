@@ -1,4 +1,4 @@
-1.0.2 - [RELEASEDATE]
+1.0.2 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #9819: Let all components deal with the ezcBaseAutoloadException
