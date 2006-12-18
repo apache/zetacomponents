@@ -1,4 +1,4 @@
-1.0.1 - [RELEASEDATE]
+1.0.1 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented task #9604: using SQL abstraction instead of hard-coded SQL
