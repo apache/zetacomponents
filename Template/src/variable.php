@@ -52,7 +52,7 @@ class ezcTemplateVariable
     /**
      * The value of the variable.
      *
-     * @note The null type cannot be used as value since it is used to determine if
+     * Note: The null type cannot be used as value since it is used to determine if
      * the variable is initialised or not.
      * @var mixed
      */
@@ -63,7 +63,7 @@ class ezcTemplateVariable
      * used as type-hint for the template optimizer. If there is no specific type it
      * must contain null.
      *
-     * @note A variable value of null is allowed for any given type.
+     * Note: A variable value of null is allowed for any given type.
      * @var string
      */
     public $type = null;

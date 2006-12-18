@@ -248,7 +248,7 @@ class ezcTemplateWhitespaceRemoval
      *        The block which owns the text element.
      * @param array(ezcTemplateTstNode) $elements
      *        Element list to check for block objects.
-     * @note The block line is considered the first line of a text block placed
+     * Note: The block line is considered the first line of a text block placed
      */
     public function trimBlockLines( ezcTemplateTstNode $parentBlock, Array $elements )
     {
@@ -282,7 +282,7 @@ class ezcTemplateWhitespaceRemoval
      *        The block which owns the text element.
      * @param ezcTemplateTextTstNode $textElement
      *        Text element to trim.
-     * @note The block line is considered the first line of a text block placed
+     * Note: The block line is considered the first line of a text block placed
      */
     public function trimBlockLine( ezcTemplateTstNode $parentBlock, ezcTemplateTextTstNode $textElement )
     {
@@ -311,7 +311,7 @@ class ezcTemplateWhitespaceRemoval
      * by using self::$tabSize for size.
      * If the line is too short it will become an empty string.
      *
-     * @note If the indentation is stops within a vertical tab, the returned
+     * Note: If the indentation is stops within a vertical tab, the returned
      *       string will start right after the tab character.
      * @param string $line
      *        A text string contain a line but without the EOL marker.

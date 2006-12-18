@@ -53,7 +53,7 @@ class ezcTemplateCursor
 
     /**
      * Calculates the length between this cursor and the specified cursor.
-     * @note If the specified cursor is before this one it returns negative values.
+     * Note: If the specified cursor is before this one it returns negative values.
      *
      * @param ezcTemplateCursor $other The cursor to use as end position for measuring length.
      * @return int
@@ -78,7 +78,7 @@ class ezcTemplateCursor
      * Checks if the cursor is at the end of the text and returns true if it is.
      *
      * @return bool
-     * @note The cursor is considered at the end if it is placed after the last
+     * Note: The cursor is considered at the end if it is placed after the last
      *       character in the text ( ie. strlen( $text ) ), this is different
      *       from being at the last character ( strlen( $text ) - 1 ).
      */
@@ -145,7 +145,7 @@ class ezcTemplateCursor
      * Moves the cursor to the end of the current line.
      * The end of the line is considered right before the EOL marker.
      *
-     * @note If the current line is at the end of the buffer the position will
+     * Note: If the current line is at the end of the buffer the position will
      *       be placed at the end of the buffer similar to gotoEnd().
      * @see gotoLineBeginning()
      */
@@ -347,7 +347,7 @@ class ezcTemplateCursor
      * so the return matches will contain the offset as well, however the offset
      * will be relative to the starting position and not the start of the buffer.
      *
-     * @note To check that a pattern matches immediately at the start position use the
+     * Note: To check that a pattern matches immediately at the start position use the
      *       ^ in the pattern string.
      *
      *

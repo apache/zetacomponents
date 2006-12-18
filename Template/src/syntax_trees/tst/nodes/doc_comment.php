@@ -55,7 +55,7 @@ class ezcTemplateDocCommentTstNode extends ezcTemplateBlockTstNode
     */
 
     /**
-     * @inheritdocs
+     * {@inheritdoc}
      * Returns the column of the starting cursor.
      */
     public function minimumWhitespaceColumn()

@@ -83,7 +83,7 @@ abstract class ezcTemplateTextTstNode extends ezcTemplateCodeTstNode
     }
 
     /**
-     * @inheritdocs
+     * {@inheritdoc}
      * Returns the minimum whitespace column by scanning all lines of the text
      * string.
      */

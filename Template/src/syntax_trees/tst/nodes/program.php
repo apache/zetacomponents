@@ -37,7 +37,7 @@ class ezcTemplateProgramTstNode extends ezcTemplateBlockTstNode
     }
 
     /**
-     * @inheritdocs
+     * {@inheritdoc}
      * Returns the column of the starting cursor.
      */
     public function minimumWhitespaceColumn()
@@ -46,7 +46,7 @@ class ezcTemplateProgramTstNode extends ezcTemplateBlockTstNode
     }
 
     /**
-     * @inheritdocs
+     * {@inheritdoc}
      * Trims away ending whitespace for all sub-blocks, the trimming of the
      * first text block is not done since this is a program element and not a
      * standard block element.

@@ -25,7 +25,7 @@
  * The following types are not supported:
  * - resource
  *
- * @note Objects will have to implement the __set_state magic method to be
+ * Note: Objects will have to implement the __set_state magic method to be
  *       properly exported.
  *
  * <code>

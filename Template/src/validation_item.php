@@ -52,7 +52,7 @@ class ezcTemplateValidationItem
     /**
      * The line number the error or warning occured on. If this is false the location
      * is unknown.
-     * @note Line numbers start with 1.
+     * Note: Line numbers start with 1.
      * @var int
      */
     public $line = false;
@@ -60,14 +60,14 @@ class ezcTemplateValidationItem
     /**
      * The column number the error or warning occured on. If this is false the
      * location is unknown.
-     * @note Column numbers start with 0.
+     * Note: Column numbers start with 0.
      * @var int
      */
     public $column = false;
 
     /**
      * The description of the error or warning which can be shown to the end user.
-     * @note The description should not contain the line or column number, instead
+     * Note: The description should not contain the line or column number, instead
      * set the properties.
      * @var string
      */
@@ -76,7 +76,7 @@ class ezcTemplateValidationItem
     /**
      * Technical description of the error or warning which can be shown to the
      * developer.
-     * @note The description should not contain the line or column number, instead
+     * Note: The description should not contain the line or column number, instead
      * set the properties.
      * @var string
      */

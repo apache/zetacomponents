@@ -37,7 +37,7 @@ abstract class ezcTemplateExpressionTstNode extends ezcTemplateTstNode
     }
 
     /**
-     * @inheritdocs
+     * {@inheritdoc}
      * Returns the column of the starting cursor.
      */
     public function minimumWhitespaceColumn()

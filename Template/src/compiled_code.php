@@ -33,7 +33,7 @@ class ezcTemplateCompiledCode
     /**
      * The unique identifier for the compiled file.
      * @var string
-     * @note __get property
+     * Note: __get property
      */
     // private $identifier;
 
@@ -41,14 +41,14 @@ class ezcTemplateCompiledCode
      * The complete (but relative) path to the compiled file. Will be set even if it
      * does not exist.
      * @var string
-     * @note __get property
+     * Note: __get property
      */
     // private $path;
 
     /**
      * The context used for the currently compiled file.
      * @var ezcTemplateContext
-     * @note __get/__set property
+     * Note: __get/__set property
      */
     // private $context;
 
@@ -56,7 +56,7 @@ class ezcTemplateCompiledCode
      * The template template which is used when executing the template code.
      *
      * @var ezcTemplateManager
-     * @note __get/__set property
+     * Note: __get/__set property
      */
     // private $template;
 

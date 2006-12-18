@@ -21,7 +21,7 @@
  * functions must be implemented. Also a definition object must be made which
  * points to the location of the autoloader.
  *
- * @note The autoloader system will be invisible for the developer using the
+ * Note: The autoloader system will be invisible for the developer using the
  * template system.
  *
  * @package Template
@@ -33,7 +33,7 @@ class ezcTemplateAutoloader
 
     /**
      * The definition object which points to the current class.
-     * @note __get property
+     * Note: __get property
      */
     // private $definition;
 

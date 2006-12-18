@@ -111,7 +111,7 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
     /**
      * The symbol representing this operator.
      *
-     * @note This is a read-only property.
+     * Note: This is a read-only property.
      * @access public
      * @var string
      */
@@ -283,7 +283,7 @@ abstract class ezcTemplateOperatorTstNode extends ezcTemplateExpressionTstNode
      * The top-most operator is found by checking the parent operator until there
      * are no more parent operators.
      *
-     * @note If the current operator is the top-most operator $this is returned.
+     * Note: If the current operator is the top-most operator $this is returned.
      * @return ezcTemplateOperatorTstNode
      */
     public function getRoot()

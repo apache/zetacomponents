@@ -96,7 +96,7 @@ abstract class ezcTemplateTreeOutput
     /**
      * Extracts the name of the node and returns it as a string.
      *
-     * @note Reimplement this to handle the node properly.
+     * Note: Reimplement this to handle the node properly.
      *
      * @param Object $node The node to examine.
      * @return string
@@ -109,7 +109,7 @@ abstract class ezcTemplateTreeOutput
     /**
      * Extracts position data from the specified node and set in the out parameters.
      *
-     * @note Reimplement this to handle the node properly.
+     * Note: Reimplement this to handle the node properly.
      *
      * @param Object $node The node to examine.
      * @param int    $startLine   The starting line for the node.
@@ -123,7 +123,7 @@ abstract class ezcTemplateTreeOutput
     /**
      * Extracts the properties from the specified node and returns it as an array.
      *
-     * @note Reimplement this to handle the node properly.
+     * Note: Reimplement this to handle the node properly.
      *
      * @param Object $node The node to examine.
      * @return array(name=>value)

@@ -52,7 +52,7 @@ class ezcTemplateVariableCollection implements Iterator
     /**
      * Initialises an empty collection of variables.
      *
-     * @note To initialise it with existing variables pass them as the $variables
+     * Note: To initialise it with existing variables pass them as the $variables
      * parameter.
      *
      * @param array $variables An array of variables to initialise the collection

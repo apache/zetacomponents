@@ -64,21 +64,21 @@ class ezcTemplateSourceCode
     /**
      * The PHP stream path for the template source file.
      *
-     * @note Use isAvailable() to check if it actually can be read.
+     * Note: Use isAvailable() to check if it actually can be read.
      *
      * @var string
-     * @note __get/__set property
+     * Note: __get/__set property
      */
     // private $stream;
 
     /**
      * The resource string which requested this template.
      *
-     * @note Should be the same as $stream if no specific resource string is
+     * Note: Should be the same as $stream if no specific resource string is
      * known.
      *
      * @var string
-     * @note __get/__set property
+     * Note: __get/__set property
      */
     // private $resource;
 
@@ -88,7 +88,7 @@ class ezcTemplateSourceCode
      * read yet.
      *
      * @var string
-     * @note __get/__set property
+     * Note: __get/__set property
      */
     // private $code;
 
@@ -97,7 +97,7 @@ class ezcTemplateSourceCode
      * run-time behaviour.
      *
      * @var ezcTemplateContext
-     * @note __get/__set property
+     * Note: __get/__set property
      */
     // private $context;
 
@@ -194,7 +194,7 @@ class ezcTemplateSourceCode
      *
      * @see isAvailable(), isReadable()
      *
-     * @note Calling this multiple times will re-init the $source variable.
+     * Note: Calling this multiple times will re-init the $source variable.
      *
      */
     public function load()
@@ -216,10 +216,10 @@ class ezcTemplateSourceCode
      * @throws ezcTemplateFileNotWritableException if the file cannot be written to.
      *
      * @see isWriteable()
-     * @note Storing the data will not record the template file in the system or
+     * Note: Storing the data will not record the template file in the system or
      * signal the changes, call the template manager to perform these tasks.
      *
-     * @note Calling this multiple times will overwrite the file contents over and
+     * Note: Calling this multiple times will overwrite the file contents over and
      * over again. And the backup contains the same information as the original.
      */
     public function save()

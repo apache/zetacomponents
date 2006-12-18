@@ -91,7 +91,7 @@ abstract class ezcTemplateSourceToTstParser
     /**
      * The last point where the parser tried to parse a special entity. This can
      * be used to determine a more exact location of where the entity is found.
-     * @note This is initially set to same cursor location as $startCursor.
+     * Note: This is initially set to same cursor location as $startCursor.
      * @var ezcTemplateParserCursor
      */
     public $lastCursor;
@@ -99,14 +99,14 @@ abstract class ezcTemplateSourceToTstParser
     /**
      * The current position in the parsing, this is used by the parser to keep track
      * of where it is.
-     * @note This is initially set to same cursor location as $startCursor.
+     * Note: This is initially set to same cursor location as $startCursor.
      * @var ezcTemplateParserCursor
      */
     public $currentCursor;
 
     /**
      * The position where the parsing ended.
-     * @note This is initially set to same cursor location as $startCursor.
+     * Note: This is initially set to same cursor location as $startCursor.
      * @var ezcTemplateParserCursor
      */
     public $endCursor;
@@ -114,7 +114,7 @@ abstract class ezcTemplateSourceToTstParser
     /**
      * Contains the sub-parser object used by parseOptionalType() or parseRequiredType().
      *
-     * @note Do not use this after a call to the above methods, instead use
+     * Note: Do not use this after a call to the above methods, instead use
      *       $lastParser.
      * @var ezcTemplateSourceToTstParser
      * @see $lastParser
@@ -135,7 +135,7 @@ abstract class ezcTemplateSourceToTstParser
      * This value is used to generate a meaningful error message when the parser
      * fails.
      *
-     * @note The value of the state is not generic and is only known to the
+     * Note: The value of the state is not generic and is only known to the
      *       specific parser.
      * @var int
      */
@@ -145,7 +145,7 @@ abstract class ezcTemplateSourceToTstParser
      * Initialise the parser with the main parser object and the parent parser
      * (if any).
      *
-     * @note If both $parentParser and $startCursor is null then all cursor
+     * Note: If both $parentParser and $startCursor is null then all cursor
      *       objects will be null. A call to setAllCursors() is required before
      *       the parser is started.
      *
@@ -248,7 +248,7 @@ abstract class ezcTemplateSourceToTstParser
      * - space
      * - tab (\t)
      * @param ezcTemplateCursor $cursor The cursor object to process.
-     * @note The passed object will be modified.
+     * Note: The passed object will be modified.
      * @return false if the end of the buffer is reached while processing, true otherwise.
      */
     public function skipWhitespace()
@@ -391,7 +391,7 @@ abstract class ezcTemplateSourceToTstParser
      * and $endCursor will contain the position where the parser stopped. Also
      * $status will be set accordingly.
      *
-     * @note If the parsing was successful it will call handleSuccessfulResult()
+     * Note: If the parsing was successful it will call handleSuccessfulResult()
      *       which can be-reimplemented to perform cleanups or other tasks before
      *       the control passed to the caller.
      * @return bool
@@ -425,7 +425,7 @@ abstract class ezcTemplateSourceToTstParser
     /**
      * Method which is called after a successful parse result in parse().
      *
-     * @note The default code does nothing.
+     * Note: The default code does nothing.
      *
      * @param ezcTemplateCursor $lastCursor The last cursor position, copy of $this->lastCursor.
      * @param ezcTemplateCursor $cursor The current cursor position, copy of $this->currentCursor.
@@ -455,7 +455,7 @@ abstract class ezcTemplateSourceToTstParser
      * If the parse operation was a success it returns true and $cursor will
      * contain the position where the parser stopped.
      *
-     * @note The $startCursor parameter will never be modified so there is no
+     * Note: The $startCursor parameter will never be modified so there is no
      *       need to clone the passing object, while for $cursor it should be
      *       cloned since it will be modified.
      *
@@ -516,7 +516,7 @@ abstract class ezcTemplateSourceToTstParser
     /**
      * Returns the error details for the last failed parse operation
      *
-     * @note The details may be empty.
+     * Note: The details may be empty.
      * @return string
      */
     public function getErrorDetails()
@@ -537,7 +537,7 @@ abstract class ezcTemplateSourceToTstParser
      * The parser can use the $operationState variable to keep track of what went
      * wrong.
      *
-     * @note The default implementation returns false.
+     * Note: The default implementation returns false.
      *
      * @return string
      */
@@ -556,7 +556,7 @@ abstract class ezcTemplateSourceToTstParser
      * The parser can use the $operationState variable to keep track of what went
      * wrong.
      *
-     * @note The default implementation returns false.
+     * Note: The default implementation returns false.
      *
      * @return string
      */
@@ -576,7 +576,7 @@ abstract class ezcTemplateSourceToTstParser
      * - A comment was found and parsing failed, it returns false.
      * - No comment was found, it returns null.
      *
-     * @note This function can be used block parser which supports inline comments.
+     * Note: This function can be used block parser which supports inline comments.
      * @return bool/null
      */
     protected function skipComment()
@@ -693,7 +693,7 @@ abstract class ezcTemplateSourceToTstParser
      * - type - The base name of the element parser, e.g. 'Expresssion' becomes
      *          'ezcTemplateExpressionSourceToTstParser'.
      *
-     * @note The element parser is invoked by using parseRequiredType().
+     * Note: The element parser is invoked by using parseRequiredType().
      *
      * @param array(array) $sequence The expected sequence to be found.
      * @return array(ezcTemplateTstNode)

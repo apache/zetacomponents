@@ -27,7 +27,7 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
 
     /**
      * Array of all child elements.
-     * @note Temporary compatability with $children
+     * Note: Temporary compatability with $children
      *
      * @var array
      */
@@ -216,7 +216,7 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
      *
      * @param ezcTemplateTstNode $element The element object which should be checked for special handling.
      * @return bool
-     * @note This method will be called if the element could not be added as a
+     * Note: This method will be called if the element could not be added as a
      *       child or used to close the block.
      */
     public function canHandleElement( ezcTemplateTstNode $element )
@@ -241,7 +241,7 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
      * re-implement this.
      *
      * @param ezcTemplateTstNode $element The element object which should be handled.
-     * @note This method will be called if the element could not be added as a
+     * Note: This method will be called if the element could not be added as a
      *       child or used to the block.
      */
     public function handleElement( ezcTemplateTstNode $element )
@@ -281,7 +281,7 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
     }
 
     /**
-     * @inheritdocs
+     * {@inheritdoc}
      * Returns the minimum column of all children.
      */
     public function minimumWhitespaceColumn()
@@ -328,7 +328,7 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
     /**
      * Trims away the minimum indentation for the current block.
      *
-     * @note If a sub-class of this block element class uses another variable
+     * Note: If a sub-class of this block element class uses another variable
      *       than $children for child elements or uses multiple lists then it
      *       needs to re-implement this method and call
      *       $removal->trimBlockLevelIndentation() for the correct list.
@@ -347,7 +347,7 @@ class ezcTemplateBlockTstNode extends ezcTemplateCodeTstNode
      * The whitespace and EOL marker is found in the first child element
      * which must be a text block element.
      *
-     * @note If a sub-class of this block element class uses another variable
+     * Note: If a sub-class of this block element class uses another variable
      *       than $children for child elements or uses multiple lists then it
      *       needs to re-implement this method and call
      *       $removal->trimBlockLine() for the correct list.

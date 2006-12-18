@@ -73,7 +73,7 @@ class ezcTemplateArrayFetchOperatorAstNode extends ezcTemplateOperatorAstNode
  
 
     /**
-     * @inheritdocs
+     * {@inheritdoc}
      * Calls visitArrayFetchOperator() of the ezcTemplateBasicAstNodeVisitor interface.
      */
     public function accept( ezcTemplateAstNodeVisitor $visitor )

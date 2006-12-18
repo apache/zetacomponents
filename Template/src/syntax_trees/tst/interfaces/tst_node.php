@@ -121,7 +121,7 @@ abstract class ezcTemplateTstNode
     /**
      * Returns an array with all properties related to the node tree.
      *
-     * @note This must be reimplemented by sub-classes.
+     * Note: This must be reimplemented by sub-classes.
      */
     abstract public function getTreeProperties();
 

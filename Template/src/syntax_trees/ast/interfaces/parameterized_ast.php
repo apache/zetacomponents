@@ -116,7 +116,7 @@ abstract class ezcTemplateParameterizedAstNode extends ezcTemplateAstNode
     /**
      * Returns the parameters of the code element.
      *
-     * @note Not all code elements uses parameters.
+     * Note: Not all code elements uses parameters.
      *
      * @return array(ezcTemplateAstNode)
      */

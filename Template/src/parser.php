@@ -60,7 +60,7 @@ class ezcTemplateParser
 
     /**
      *
-     * @note The source code in $code must be loaded/created before passing it to this parser.
+     * Note: The source code in $code must be loaded/created before passing it to this parser.
     */
     function __construct( ezcTemplateSourceCode $source, ezcTemplate $template )
     {
@@ -78,7 +78,7 @@ class ezcTemplateParser
 
     /**
      * Creates a new cursor object with the text $sourceText and returns it.
-     * @note This must be used instead of using new operator to instantiate
+     * Note: This must be used instead of using new operator to instantiate
      *       cursors. This then allows the creation method to by testable.
      *
      * @param string $sourceText The source code.
@@ -362,7 +362,7 @@ class ezcTemplateParser
      * as parameter. This allows the block element to choose how to apply the trimming
      * process since it may have more than one child list.
      *
-     * @note This does nothing if self::$trimWhitespace is set to false.
+     * Note: This does nothing if self::$trimWhitespace is set to false.
      * @param ezcTemplateBlockTstNode $block
      *        Block element which has its children trimmed of indentation whitespace.
      */
@@ -386,7 +386,7 @@ class ezcTemplateParser
      * as parameter. This allows the block element to choose how to apply the trimming
      * process since it may have more than one child list.
      *
-     * @note This does nothing if self::$trimWhitespace is set to false.
+     * Note: This does nothing if self::$trimWhitespace is set to false.
      * @param ezcTemplateBlockTstNode $block
      *        Block element which has its child blocks trimmed of EOL whitespace.
      */

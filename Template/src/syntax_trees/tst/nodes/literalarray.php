@@ -20,7 +20,7 @@ class ezcTemplateLiteralArrayTstNode extends ezcTemplateExpressionTstNode
     /**
      * The value of the literal type.
      *
-     * @note This value contains null if it is not set yet, this means null is
+     * Note: This value contains null if it is not set yet, this means null is
      *       considered a literal type.
      * @var mixed
      */

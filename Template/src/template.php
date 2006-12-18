@@ -200,7 +200,7 @@ class ezcTemplate
     /**
      * Processes the specified template source and returns the output string.
      *
-     * @note The first time a template is accessed it needs to be compiled so the
+     * Note: The first time a template is accessed it needs to be compiled so the
      * execution time will be higher than subsequent calls.
      *
      * @return string

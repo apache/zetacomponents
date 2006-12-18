@@ -37,7 +37,7 @@ class ezcTemplateOutputBlockTstNode extends ezcTemplateBlockTstNode
 
     /**
      * Array of all child elements.
-     * @note Temporary compatability with $children
+     * Note: Temporary compatability with $children
      *
      * @var array
      */
@@ -93,7 +93,7 @@ class ezcTemplateOutputBlockTstNode extends ezcTemplateBlockTstNode
     */
 
     /**
-     * @inheritdocs
+     * {@inheritdoc}
      * Returns the column of the starting cursor.
      */
     public function minimumWhitespaceColumn()

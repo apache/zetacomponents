@@ -33,7 +33,7 @@ class ezcTemplateParenthesisTstNode extends ezcTemplateExpressionTstNode
 
     /**
      * Array of all child elements.
-     * @note Temporary compatability with $children
+     * Note: Temporary compatability with $children
      *
      * @var array
      */

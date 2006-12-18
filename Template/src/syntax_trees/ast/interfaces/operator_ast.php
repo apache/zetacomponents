@@ -25,7 +25,7 @@
  * The following types are not supported:
  * - resource
  *
- * @note Objects will have to implement the __set_state magic method to be
+ * Note: Objects will have to implement the __set_state magic method to be
  *       properly exported.
  *
  * <code>
@@ -76,7 +76,7 @@ abstract class ezcTemplateOperatorAstNode extends ezcTemplateParameterizedAstNod
     /**
      * Returns the parameters of the operator.
      *
-     * @note The values returned from this method must never be modified.
+     * Note: The values returned from this method must never be modified.
      * @return array(ezcTemplateAstNode)
      */
     public function getParameters()
@@ -85,7 +85,7 @@ abstract class ezcTemplateOperatorAstNode extends ezcTemplateParameterizedAstNod
     }
 
     /**
-     * @inheritdocs
+     * {@inheritdoc}
      * Calls visitUnaryOperator if it has one parameter, visitBinaryOperator() if it has two and visitTernaryOperator() if it has three.
      * All part of the ezcTemplateBasicAstNodeVisitor interface.
      */

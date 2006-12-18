@@ -81,7 +81,7 @@ class ezcTemplateTextBlockTstNode extends ezcTemplateTextTstNode
      *        array( 0 => "and more", 1 => false ) );
      * </code>
      *
-     * @note The last line will always have the EOL entry set to false
+     * Note: The last line will always have the EOL entry set to false
      *
      * @param string $text The string to split.
      * @return array(array)
@@ -119,7 +119,7 @@ class ezcTemplateTextBlockTstNode extends ezcTemplateTextTstNode
      *        array( 0 => "and more", 1 => false ) );
      * </code>
      *
-     * @note The last line will always have the EOL entry set to false
+     * Note: The last line will always have the EOL entry set to false
      *
      * @param array(array) $lines The lines to join together into text string.
      */
@@ -140,7 +140,7 @@ class ezcTemplateTextBlockTstNode extends ezcTemplateTextTstNode
      *        array( 0 => "and more", 1 => false ) );
      * </code>
      *
-     * @note The last line will always have the EOL entry set to false
+     * Note: The last line will always have the EOL entry set to false
      *
      * @param array(array) $lines The lines to join together into text string.
      * @return string
