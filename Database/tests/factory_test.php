@@ -105,6 +105,18 @@ class ezcDatabaseFactoryTest extends ezcTestCase
         }
     }
 
+    public function testSqliteDSN4()
+    {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'pdo_sqlite') || ezcBaseFeatures::os() !== 'Windows' )
+        {
+            $this->markTestSkipped( 'Windows only test' );
+            return;
+        }
+        $db = ezcDbFactory::create( 'sqlite:///c:\tmp\foo.sqlite' );
+        $this->assertEquals( true, file_exists( 'c:\tmp\foo.sqlite' ) );
+        unlink( 'c:\tmp\foo.sqlite' );
+    }
+
     public function testParamsSqliteDatabase1()
     {
         if ( !ezcBaseFeatures::hasExtensionSupport( 'pdo_sqlite') )

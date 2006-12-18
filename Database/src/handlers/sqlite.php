@@ -39,7 +39,7 @@ class ezcDbHandlerSqlite extends ezcDbHandler
                 case 'database':
                 case 'dbname':
                     $database = $val;
-                    if ( !empty( $database ) && $database[0] != '/' )
+                    if ( !empty( $database ) && $database[0] != '/' && ezcBaseFeatures::os() != 'Windows' )
                     {
                         $database = '/' . $database;
                     }

@@ -7,6 +7,7 @@
 - Fixed ezcQueryExpressionOracle, corrected processing subString() in Oracle.
 - Fixed bug #9439: PersistentObject doesn't handle sequence value 
   generation right for Oracle.
+- Fixed bug #9841: Sqlite file DSN on Windows added an incorrect slash.
 
 
 1.2beta2 - Monday 20 November 2006
