@@ -1,4 +1,4 @@
-1.0.3 - [RELEASEDATE]
+1.0.3 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed bug #9603: The exception message in ezcLogWriterException is now
