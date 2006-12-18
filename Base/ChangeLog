@@ -12,8 +12,10 @@
   easier.
 - Fixed issue #9819: Let all components deal the ezcBaseAutoloadException
   properly.
-- Added the static method ezcBase::findExecutableInPath() that searches the
+- Added the static method ezcBaseFeatures::findExecutableInPath() that searches the
   path for the given executable.
+- Added the static method ezcBaseFeatures::os() that returns a sanitized
+  version of the current OS' name.
 
 
 1.2beta2 - Monday 20 November 2006

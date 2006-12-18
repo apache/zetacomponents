@@ -217,11 +217,11 @@ class ezcBaseFeatures
     }
 
     /**
-     * Returns the operating system on which php is running.
+     * Returns the operating system on which PHP is running.
      *
      * @return string
      */
-    private static function os()
+    public static function os()
     {
         if ( is_null( self::$os ) )
         {
