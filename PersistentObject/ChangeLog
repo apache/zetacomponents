@@ -1,16 +1,16 @@
 1.2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed issue #9249: Save/update objects with 1:1 relations that share the
+  same ID does not work.
 - Fixed issue #9489: Check whether the PersistentObject and
   PersistentObjectDatabaseSchemaTiein tutorials are interlinked.
 - Fixed issue #9493: Convert < and > in exception messages to ' and ' for
   Cache, ConsoleTools, ImageAnalysis, ImageConversion, PersistentObject,
   PersistentObjectDatabaseSchemaTiein.
-- Fixed issue #9591: persistentsession attempts to throw non existing
+- Fixed issue #9591: ezcPersistentSession attempts to throw non existing
   exception (typo).
-- Fixed issue #9249: Save/update objects with 1:1 relations that share the
-  same ID does not work.
-- Fixed issue #9819: Let all components deal the ezcBaseAutoloadException
+- Fixed issue #9819: Let all components deal with the ezcBaseAutoloadException
   properly.
 
 

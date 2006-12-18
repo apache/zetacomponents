@@ -3,14 +3,16 @@
 
 - Added support for Oracle.
 - Fixed issue #8499: PersistentObjectDatabaseSchemaTiein rungenerator.php
-  overwrite files without warning.
-- Fixed issue #9541: Tutorial introduction incorrect.
+  overwrites files without warning.
+- Fixed issue #9465: Fixed data type mapping. Based on a patch by Friedel
+  Hill.
 - Fixed issue #9489: Check whether the PersistentObject and
   PersistentObjectDatabaseSchemaTiein tutorials are interlinked.
-- Fixed issue #9465: Data type mapping. Based on patch by: Friedel Hill.
-- Fixed issue #9819: Let all components deal the ezcBaseAutoloadException
+- Fixed issue #9541: Tutorial introduction incorrect.
+- Fixed issue #9819: Let all components deal with the ezcBaseAutoloadException
   properly.
 - Fixed SQL syntax issues when working with PostgreSQL 7.x.
+
 
 1.1beta1 - Monday 20 November 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

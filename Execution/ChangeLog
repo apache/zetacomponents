@@ -1,7 +1,7 @@
 1.0.2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue #9819: Let all components deal the ezcBaseAutoloadException
+- Fixed issue #9819: Let all components deal with the ezcBaseAutoloadException
   properly.
 
 

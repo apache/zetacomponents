@@ -1,7 +1,7 @@
 1.0.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Implemented task #9604: using sql abstraction instead of hard-coded sql
+- Implemented task #9604: using SQL abstraction instead of hard-coded SQL
   queries.
 
 

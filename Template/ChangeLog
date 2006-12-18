@@ -1,42 +1,45 @@
 1.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- Fixed issue #9601: wrong __isset implementation in Template/template.php
-- Fixed an issue that the space before 'array append' threw an exception.
-- Fixed in several parser error messages the text and cursor position.
-- Fixed issue #9607: Custom blocks without a class in the definition generate
-  broken code.
+
 - Fixed issue #9464: Weird error messages on calculations with
   multidimensional arrays.
-- Fixed an issue that a white-space in front of an array append shows an
+- Fixed issue #9491: Convert < and > in exception messages to ' and ' for
+  Template.
+- Fixed issue #9601: Wrong __isset implementation in Template/template.php.
+- Fixed issue #9607: Custom blocks without a class in the definition generate
+  broken code.
+- Fixed issue #9806: Added the ezcTemplateException class from which all
+  exception classes in Template inherit.
+- Fixed issue #9819: Let all components deal with the ezcBaseAutoloadException
+  properly.
+- The angle brackets are replaced with single quotes within the exceptions.
+- Fixed an issue that the space before 'array append' threw an exception.
+- Fixed the text and cursor position in several parser error messages.
+- Fixed an issue that white-space in front of an array append shows an
   error.
 - Fixed an issue that non-matching open and close blocks did not always show
   an error.
-- Throw an exception when {else} and {elseif} are used outside {if}.
-- Throw an exception when {case} and {default} are used outside {switch}.
-- Changed the error message of wrong {delimiter} usage.
-- The {delimiter} block can also be used inside a while.
-- Fixed an issue that some block names did could be prepended, appended with
-  garbage. eg: {vara}
-- Throw an exception when an assignment is done not to a variable. eg: {5 = 7}
-- It is not allowed to do variable modifications inside an expression. 
-  eg: {myFunc( $a = 2 )} or {$a[ $b = 2 ] += 3}
-- Replaced all exit() calls with an ezcTemplateInternalException.
-- {debug_dump} uses now var_export() for better readability.
-- Assignments are not allowed inside an expression of a control block. Eg:
-  {while $a = 3} or {if $b = 2}
-- All binary operators can be used repeatedly. Eg: {3 === 4 === 5}
-- The angle brackets are replaced with single quotes within the exceptions.
-- Variables cannot be used inside a string.
 - Fixed issues with some variables (e.g. $this) conflicts with the internal
   variables.
 - Fixed an issue that the return value from a template include was not 
   assigned to {use} variable.
 - Fixed problem with correct whitespace trimming of elements inside {if}
   block.
-- Fixed issue #9806: Added the ezcTemplateException class from which all
-  exception classes in Template inherit.
-- Fixed issue #9819: Let all components deal the ezcBaseAutoloadException
-  properly.
+- Throw an exception when {else} and {elseif} are used outside {if}.
+- Throw an exception when {case} and {default} are used outside {switch}.
+- Throw an exception when an assignment is done not to a variable. eg: {5 = 7}
+- Changed the error message of wrong {delimiter} usage.
+- The {delimiter} block can also be used inside a while.
+- Fixed an issue that some block names could be prepended, appended with
+  garbage. eg: {vara}
+- It is not allowed to do variable modifications inside an expression. 
+  eg: {myFunc( $a = 2 )} or {$a[ $b = 2 ] += 3}
+- {debug_dump} uses now var_export() for better readability.
+- Assignments are not allowed inside an expression of a control block. Eg:
+  {while $a = 3} or {if $b = 2}
+- All binary operators can be used repeatedly. Eg: {3 === 4 === 5}
+- Variables cannot be used inside a string.
+- Replaced all exit() calls with an ezcTemplateInternalException.
 
 
 1.1beta2 - Monday 20 November 2006

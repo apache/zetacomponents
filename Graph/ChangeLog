@@ -1,31 +1,31 @@
 1.0 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Renamed ezcGraphMingDriver to ezcGraphFlashDriver
+- Renamed ezcGraphMingDriver to ezcGraphFlashDriver.
 - Renamed pie chart options percentTreshHold to percentThreshold and
-  absoluteTreshHold to absoluteThreshold
-
-- Added feature #9647: Add render to output method
-- Fixed issue #9827: Use majorStep size for min/max estimating on numeric axis
-  with only one value
-- Fixed issue #9823: Failing tests with PHP 5.1, because of different
-  parameter handling in imagepng, and (string) not calling __toString method
-- Fixed issue #9795: Interferring bars, when bars count is higher then major
-  step count
-- Fixed issue #9764: 3D Pie chart segment side polygon in front of circular
-  arc
-- Fixed issue #9762: Structs don't extend ezcBaseStruct
+  absoluteTreshHold to absoluteThreshold.
+- Added feature #9647: Added the renderToOutput() method to the drivers.
+- Fixed issue #9545: Pie chart treshhold does not work if aggregated data
+  stays below treshhold.
+- Fixed issue #9549: Pie chart slices are not contiguous with the flash driver.
+- Fixed issue #9568: Division by zero warning.
+- Fixed issue #9583: Data typecasting should only be done in axis.
+- Fixed issue #9586: No data rendered with string keys on date axis.
+- Fixed issue #9588: Wrong polynoms build from data.
 - Fixed issue #9612: Element links for SVG image in the legend require you to
   click on exactly the text.
-- Fixed issue #9588: Wrong polynoms build from data
-- Fixed issue #9586: No data rendered with string keys on date axis.
-- Fixed issue #9583: Data typecasting should only be done in axis
-- Fixed issue #9568: Devision by zero warning
-- Fixed issue #9655: pieChartOffset and highlight do not work together in 2d
-  renderer
-- Fixed issue #9549: Pie chart slices not contiguous with Ming driver
-- Fixed issue #9545: pie chart tresh hold does not work if agregated data
-  stays below tresh hold
+- Fixed issue #9655: pieChartOffset and highlight do not work together in 2D
+  renderer.
+- Fixed issue #9762: Structs don't inherit from ezcBaseStruct.
+- Fixed issue #9764: 3D Pie chart segment side polygon in front of circular
+  arc.
+- Fixed issue #9795: Interferring bars, when bars count is higher then major
+  step count.
+- Fixed issue #9823: Failing tests with PHP 5.1, because of different
+  parameter handling in imagepng, and (string) not calling __toString method.
+- Fixed issue #9827: Use majorStep size for min/max estimating on numeric axis
+  with only one value.
+
 
 1.0beta2 - Monday 20 November 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

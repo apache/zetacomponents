@@ -2,7 +2,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #8499: PersistentObjectDatabaseSchemaTiein rungenerator.php
-  overwrite files without warning.
+  overwrites files without warning.
 - Fixed issue #9489: Check whether the PersistentObject and
   PersistentObjectDatabaseSchemaTiein tutorials are interlinked.
 - Fixed issue #9515: PersistentObjectDatabaseTiein tests are system dependent.

@@ -1,13 +1,13 @@
 1.2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed bug #9219: Added sql HAVING condition. Patch by Christian Michel.
-- Fixed bug #9567: query->bindValue() sets value in query->boundParameters
-- Fixed bug #9466: Oracle limit does not return $this.
-- Fixed ezcQueryExpressionOracle, corrected processing subString() in Oracle.
-- Fixed bug #9439: PersistentObject doesn't handle sequence value 
+- Fixed issue #9219: Added sql HAVING condition. Patch by Christian Michel.
+- Fixed issue #9439: PersistentObject doesn't handle sequence value 
   generation right for Oracle.
-- Fixed bug #9841: Sqlite file DSN on Windows added an incorrect slash.
+- Fixed issue #9466: Oracle limit does not return $this.
+- Fixed issue #9567: query->bindValue() sets value in query->boundParameters.
+- Fixed issue #9841: Sqlite file DSN on Windows added an incorrect slash.
+- Fixed ezcQueryExpressionOracle, corrected processing subString() in Oracle.
 
 
 1.2beta2 - Monday 20 November 2006
