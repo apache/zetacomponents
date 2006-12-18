@@ -33,7 +33,7 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
 
     /**
      * Maximum count of labels which can be displayed on one axis
-     * @TODO: Perhaps base this on the chart size
+     * @todo Perhaps base this on the chart size
      */
     const MAX_LABEL_COUNT = 10;
 

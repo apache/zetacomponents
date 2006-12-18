@@ -257,8 +257,8 @@ class ezcBaseFeatures
      * For Windows, the path is with \, not /.
      * If $fileName is not found, it returns null.
      *
-     * @todo: consider using getenv( 'PATH' ) instead of $_ENV['PATH']
-     *        (but that won't work under IIS)
+     * @todo consider using getenv( 'PATH' ) instead of $_ENV['PATH']
+     *       (but that won't work under IIS)
      *
      * @param string $fileName
      * @return string
