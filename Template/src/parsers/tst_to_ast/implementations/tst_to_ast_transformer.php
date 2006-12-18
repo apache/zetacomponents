@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcTemplateAstNodeGenerator class
+ * File containing the ezcTemplateTstToAstTransformer class
  *
  * @package Template
  * @version //autogen//
@@ -23,7 +23,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     /**
      * Prefix or all internal variables, e.g. counter and output.
      */
-    const INTERNAL_PREFIX = "_";
+    const INTERNAL_PREFIX = "i_";
     /**
      * Prefix or all external variables, ie. those coming from the template source.
      */

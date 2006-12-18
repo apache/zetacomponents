@@ -1,5 +1,21 @@
 <?php
-
+/**
+ * File containing the ezcTemplateCacheFilesystem class
+ *
+ * @package Template
+ * @version //autogen//
+ * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
+ */
+/**
+ * Write the caches to the file system. Overload this class to write it for example
+ * to a database.
+ *
+ * @package Template
+ * @version //autogen//
+ * @access private
+ */
 class ezcTemplateCacheFilesystem
 {
     private $config = null;
