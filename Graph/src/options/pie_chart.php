@@ -12,7 +12,7 @@
  *
  * @property string $label
  *           String used to label pies
- *              %$1s    Name of pie
+ *              %1$s    Name of pie
  *              %2$d    Value of pie
  *              %3$.1f  Percentage
  * @property callback $labelCallback
