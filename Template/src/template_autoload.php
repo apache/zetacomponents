@@ -124,6 +124,7 @@ return array(
              "ezcTemplateIdentifierTstNode" => "Template/syntax_trees/tst/nodes/identifier.php",
              "ezcTemplateCacheTstNode" => "Template/syntax_trees/tst/nodes/cache.php",
              "ezcTemplateDynamicBlockTstNode" => "Template/syntax_trees/tst/nodes/dynamic_block.php",
+             "ezcTemplateCacheBlockTstNode" => "Template/syntax_trees/tst/nodes/cache_block.php",
 
 
 // Syntax trees / AST
