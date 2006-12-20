@@ -76,11 +76,11 @@
  * {return $length}
  * </code>
  * 
- * @property-read ezcTemplateVariableCollection $send
+ * @property ezcTemplateVariableCollection $send
  *                Contains the variables that are send to the template.
  * @property-read ezcTemplateVariableCollection $receive
  *                Contains the variables that are returned by the template.
- * @property-read ezcTemplateConfiguration      $configuration
+ * @property ezcTemplateConfiguration      $configuration
  *                Contains the template configuration.
  * @property-read string                        $output
  *                The output of the last processed template.
