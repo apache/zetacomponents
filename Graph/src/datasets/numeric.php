@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcGraphDataSetAverage class
+ * File containing the ezcGraphNumericDataSet class
  *
  * @package Graph
  * @version //autogentag//
@@ -8,48 +8,25 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Extension of basic dataset to represent averation.
- * Algorithm: http://en.wikipedia.org/wiki/Least_squares
+ * Dataset for numeric data.
  *
- * @property int $polynomOrder
- *           Maximum order of polygon to interpolate from points
+ * Uses user defined functions for numeric data creation
+ *
+ * @property float $start
+ *           Start value for x axis values of function
+ * @property float $end
+ *           End value for x axis values of function
+ * @property callback $callback
+ *           Callback function which represents the mathmatical function to 
+ *           show
  * @property int $resolution
- *           Resolution used to draw line in graph
+ *           Steps used to draw line in graph
  *
  * @package Graph
  * @mainclass
  */
-class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet 
+class ezcGraphNumericDataSet extends ezcGraphDataSet 
 {
-
-    /**
-     * Source dataset to base averation on.
-     * 
-     * @var ezcGraphDataSet
-     */
-    protected $source;
-
-    /**
-     * Calculated averation polynom
-     * 
-     * @var ezcGraphPolynom
-     */
-    protected $polynom = false;
-
-    /**
-     * Minimum key
-     * 
-     * @var float
-     */
-    protected $min = false;
-
-    /**
-     * Maximum key
-     * 
-     * @var float
-     */
-    protected $max = false;
-
     /**
      * Position of the data iterator. Depends on the configured resolution.
      * 
@@ -67,19 +44,36 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
     /**
      * Constructor
      * 
-     * @param array $dataset Dataset to interpolate
-     * @param int $order Maximum order of interpolating polynom
+     * @param float $start Start value for x axis values of function
+     * @param float $end End value for x axis values of function
+     * @param callback $callback Callback function
      * @return void
      * @ignore
      */
-    public function __construct( ezcGraphDataSet $dataset, $order = 3 )
+    public function __construct( $start = null, $end = null, $callback = null )
     {
         parent::__construct();
 
-        $this->properties['resolution'] = 100;
-        $this->properties['polynomOrder'] = (int) $order;
+        $this->properties['start'] = null;
+        $this->properties['end'] = null;
+        $this->properties['callback'] = null;
 
-        $this->source = $dataset;
+        if ( $start !== null )
+        {
+            $this->start = $start;
+        }
+
+        if ( $end !== null )
+        {
+            $this->end = $end;
+        }
+
+        if ( $callback !== null )
+        {
+            $this->callback = $callback;
+        }
+
+        $this->properties['resolution'] = 100;
     }
 
     /**
@@ -96,16 +90,6 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
     public function __set( $propertyName, $propertyValue ) 
     {
         switch ( $propertyName ) {
-            case 'polynomOrder':
-                if ( !is_numeric( $propertyValue ) ||
-                     ( $propertyValue < 0 ) )
-                {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int > 0' );
-                }
-
-                $this->properties['polynomOrder'] = (int) $propertyValue;
-                $this->polynom = false;
-                break;
             case 'resolution':
                 if ( !is_numeric( $propertyValue ) ||
                      ( $propertyValue < 1 ) )
@@ -114,6 +98,23 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
                 }
 
                 $this->properties['resolution'] = (int) $propertyValue;
+                break;
+            case 'start':
+            case 'end':
+                if ( !is_numeric( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'float' );
+                }
+
+                $this->properties[$propertyName] = (float) $propertyValue;
+                break;
+            case 'callback':
+                if ( !is_callable( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'callback' );
+                }
+
+                $this->properties[$propertyName] = $propertyValue;
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );
@@ -139,68 +140,6 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
         }
         return parent::__get( $propertyName );
     }
-    
-    /**
-     * Build the polynom based on the given points.
-     * 
-     * @return void
-     */
-    protected function buildPolynom()
-    {
-        $points = array();
-
-        foreach ( $this->source as $key => $value )
-        {
-            if ( ( $this->min === false ) || ( $this->min > $key ) )
-            {
-                $this->min = (float) $key;
-            }
-
-            if ( ( $this->max === false ) || ( $this->max < $key ) )
-            {
-                $this->max = (float) $key;
-            }
-
-            $points[] = new ezcGraphCoordinate( (float) $key, (float) $value );
-        }
-
-        // Build transposed and normal Matrix out of coordiantes
-        $a = new ezcGraphMatrix( count( $points ), $this->polynomOrder + 1 );
-        $b = new ezcGraphMatrix( count( $points ), 1 );
-
-        for ( $i = 0; $i <= $this->properties['polynomOrder']; ++$i )
-        {
-            foreach ( $points as $nr => $point )
-            {
-                $a->set( $nr, $i, pow( $point->x, $i ) );
-                $b->set( $nr, 0, $point->y );
-            }
-        }
-
-        $at = clone $a;
-        $at->transpose();
-        
-        $left = $at->multiply( $a );
-        $right = $at->multiply( $b );
-
-        $this->polynom = $left->solveNonlinearEquatation( $right );
-    }
-
-    /**
-     * Returns a polynom of the defined order witch matches the datapoints
-     * using the least squares algorithm.
-     * 
-     * @return ezcGraphPolynom Polynom
-     */
-    public function getPolynom()
-    {
-        if ( $this->polynom === false )
-        {
-            $this->buildPolynom();
-        }
-
-        return $this->polynom;
-    }
 
     /**
      * Get the x coordinate for the current position
@@ -210,9 +149,8 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
      */
     protected function getKey()
     {
-        $polynom = $this->getPolynom();
-        return $this->min +
-            ( $this->max - $this->min ) / $this->resolution * $this->position;
+        return $this->start +
+            ( $this->end - $this->start ) / $this->resolution * $this->position;
     }
     
     /**
@@ -224,8 +162,7 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
      */
     public function offsetExists( $key )
     {
-        $polynom = $this->getPolynom();
-        return ( ( $key >= $this->min ) && ( $key <= $this->max ) );
+        return ( ( $key >= $this->start ) && ( $key <= $this->end ) );
     }
 
     /**
@@ -237,8 +174,7 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
      */
     public function offsetGet( $key )
     {
-        $polynom = $this->getPolynom();
-        return $polynom->evaluate( $key );
+        return call_user_func( $this->callback, $key );
     }
 
     /**
@@ -267,8 +203,7 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
      */
     final public function current()
     {
-        $polynom = $this->getPolynom();
-        return $polynom->evaluate( $this->getKey() );
+        return call_user_func( $this->callback, $this->getKey() );
     }
 
     /**
@@ -282,7 +217,7 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
      */
     final public function next()
     {
-        if ( $this->min === $this->max )
+        if ( $this->start === $this->end )
         {
             throw new ezcGraphDatasetAverageInvalidKeysException();
         }
@@ -322,8 +257,7 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
      */
     final public function valid()
     {
-        $polynom = $this->getPolynom();
-        return ( ( $this->getKey() >= $this->min ) && ( $this->getKey() <= $this->max ) );
+        return ( ( $this->getKey() >= $this->start ) && ( $this->getKey() <= $this->end ) );
     }
 
     /**
@@ -346,7 +280,7 @@ class ezcGraphDataSetAveragePolynom extends ezcGraphDataSet
      */
     public function count()
     {
-        return $this->resolution;
+        return $this->resolution + 1;
     }
 }
 ?>
