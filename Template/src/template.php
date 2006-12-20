@@ -19,33 +19,53 @@
  * ezcTemplate class executes directly the compiled template; thus omitting
  * the compile step.
  *
+ * A simple invocation is simply to create the template object and call the
+ * process() method, e.g.
+ * <code>
+ * $t = new ezcTemplate();
+ * echo $t->process( "page.ezt" );
+ * </code>
+ *
  * The location for the source templates and compiled templates among other things 
  * are specified in the ezcTemplateConfiguration configuration object. A default
  * configuration is always present and can be accessed via the $configuration
  * property.
- * 
+ *
  * Usually one configuration object will be enough, since most of the templates
  * will use the same configuration settings. If for some reason, other configuration
- * settings are needed:
- * 
- * - Another ezcTemplateConfiguration object can be assigned to the $configuration property.
- * - Another ezcTemplateConfiguration object can be given to the process method. This
- *   method will use the given configuration instead.
+ * settings are needed you can assign an ezcTemplateConfiguration object to the $configuration property.
  *
- * The properties $send and $receive are available to set the variables that are
- * set in and retrieved from the template. 
+ * The following example shows how to change the template and compilation
+ * directory by creating a new configuration object.
+ * <code>
+ * $t = new ezcTemplate();
+ * $t->configuration = new ezcTemplateConfiguration( "design/templates",
+ *                                                   "/tmp/compilation" );
+ * echo $t->process( "page.ezt" );
+ * </code>
+ *
+ * Another approach is to pass the ezcTemplateConfiguration object to the process method. This
+ * method will use the given configuration instead.
+ * <code>
+ * $t = new ezcTemplate();
+ * $config = new ezcTemplateConfiguration( "design/templates",
+ *                                         "/tmp/compilation" );
+ * echo $t->process( "page.ezt", $config );
+ * </code>
+ *
+ * The properties {@link ezcTemplate::send send} and
+ * {@link ezcTemplate::receive receive} are available to set the variables that
+ * are sent to and retrieved from the template.
  *
  * The next example demonstrates how a template variable is set and retrieved:
  * 
  * <code>
- * <?php
  * $t = new ezcTemplate();
  *
  * $t->send->mySentence = "Hello world";
  * echo $t->process( "calc_sentence_length.ezt" );
  *
  * $number = $t->receive->length;
- * ?>
  * </code>
  * 
  * The template code:
@@ -56,6 +76,20 @@
  * {return $length}
  * </code>
  * 
+ * @property-read ezcTemplateVariableCollection $send
+ *                Contains the variables that are send to the template.
+ * @property-read ezcTemplateVariableCollection $receive
+ *                Contains the variables that are returned by the template.
+ * @property-read ezcTemplateConfiguration      $configuration
+ *                Contains the template configuration.
+ * @property-read string                        $output
+ *                The output of the last processed template.
+ * @property-read string                        $compiledTemplatePath
+ *                The path of the compiled template.
+ * @property-read ezcTemplateTstNode            $tstTree
+ *                The generated tstTree (debug).
+ * @property-read ezcTemplateAstNode            $astTree
+ *                The generated astTree (debug).
  * @package Template
  * @version //autogen//
  */
@@ -81,13 +115,13 @@ class ezcTemplate
      *
      * The properties that can be retrieved are:
      * 
-     * - ezcTemplateVariableCollection send     : Contains the variables that are send to the template.
-     * - ezcTemplateVariableCollection receive  : Contains the variables that are returned by the template.
-     * - ezcTemplateConfiguration configuration : Contains the template configuration.
-     * - string output                          : The output of the processed template.
-     * - string compiledTemplatePath            : The path of the compiled template.
-     * - tstTree                                : The generated tstTree (debug).
-     * - astTree                                : The generated astTree (debug).
+     * - ezcTemplateVariableCollection {@link ezcTemplate::send send}     : Contains the variables that are send to the template.
+     * - ezcTemplateVariableCollection {@link ezcTemplate::receive receive}  : Contains the variables that are returned by the template.
+     * - ezcTemplateConfiguration {@link ezcTemplate::configuration configuration} : Contains the template configuration.
+     * - string {@link ezcTemplate::output output}                          : The output of the last processed template.
+     * - string {@link ezcTemplate::compiledTemplatePath compiledTemplatePath}            : The path of the compiled template.
+     * - ezcTemplateTstNode {@link ezcTemplate::tstTree tstTree}                                 : The generated tstTree (debug).
+     * - ezcTemplateAstNode {@link ezcTemplate::astTree astTree}                                : The generated astTree (debug).
      * 
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
@@ -122,7 +156,10 @@ class ezcTemplate
     }
 
     /**
-     * Returns true if the property $name is set, otherwise false.
+     * Checks if the property $name is set and returns the result.
+     *
+     * @param string $name
+     * @return bool
      */
     public function __isset( $name )
     {
@@ -143,7 +180,7 @@ class ezcTemplate
     }
 
     /**
-     * Sets the property $name to $value.
+     * Sets the property named $name to contain value of $value.
      *
      * The properties that can be set are:
      * 
@@ -189,7 +226,13 @@ class ezcTemplate
     }
 
     /**
-     * Intializes the ezcTemplate with the default settings.
+     * Intializes the ezcTemplate with a default configuration and empty
+     * $send and $receive properties.
+     *
+     * Configuration of the object must now be done through the properties:
+     * - {@link ezcTemplate::configuration configuration}
+     * - {@link ezcTemplate::send send}
+     * - {@link ezcTemplate::receive receive}
      */
     public function __construct()
     {
@@ -203,6 +246,9 @@ class ezcTemplate
      * Note: The first time a template is accessed it needs to be compiled so the
      * execution time will be higher than subsequent calls.
      *
+     * @param string $location The path to the template file to process, can be a PHP stream.
+     * @param ezcTemplateConfiguration $config Optional configuration object which overrides
+     *                                         the default one defined in this object ($configuration).
      * @return string
      *
      * @throws ezcTemplateParserException
@@ -309,7 +355,7 @@ class ezcTemplate
     }
 
     /**
-     * Creates the directory $path if it does not exist 
+     * Creates the directory $path if it does not exist.
      *
      * If the directory $path could be created the function returns true,
      * otherwise the ezcTemplateFileNotWriteableException exception is thrown.
@@ -335,6 +381,16 @@ class ezcTemplate
 
     /**
      * Generates a unique hash from the current options.
+     *
+     * For example the default values would return:
+     * <code>
+     * "updqr0"
+     * </code>
+     *
+     * Note: This is mostly useful for the template component,
+     *       relying on the output of this function is not a good idea.
+     *
+     * @return string
      */
     public function generateOptionHash()
     {
