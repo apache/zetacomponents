@@ -17,7 +17,7 @@ $graph->data['2005'] = new ezcGraphArrayDataSet( array(
 
 $graph->options->label = '%3$.1f%%';
 $graph->options->sum = 100;
-$graph->options->percentTreshHold = 0.02;
+$graph->options->percentThreshold = 0.02;
 $graph->options->summarizeCaption = 'Others';
 
 $graph->render( 400, 150, 'tutorial_example_02.svg' );
