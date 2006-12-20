@@ -11,24 +11,74 @@
 /**
  * Cursor for template parser encapsulating text and position.
  *
+ * This class takes care of traversing a text block and keeping track of
+ * {@link ezcTemplateCursor::position position}, {@link ezcTemplateCursor::line line number}
+ * and {@link ezcTemplateCursor::column column number}.
+ *
+ * Moving the cursor position is done with gotoBeginning(), gotoEnd(),
+ * gotoLineBeginning(), gotoLineEnd(), advance() and gotoPosition().
+ * Checking the position can be done with atBeginning(), atEnd(),
+ * {@link ezcTemplateCursor::position position}, {@link ezcTemplateCursor::line line}
+ * and {@link ezcTemplateCursor::column column}.
+ * Matching for strings and regular expression is done with findPosition(),
+ * current(), subString(), match(), pregMatch() and pregMatchComplete().
+ *
+ * In addition there are methods for working with cursor objects, they are
+ * copy(), cursorAt() and length().
+ *
+ * This example shows how to advance through the text with different
+ * matching methods and print the positions.
+ * <code>
+ * $text = "hello world!";
+ * $c = new ezcTemplateCursor( $text );
+ * $c->match( "hello", true );
+ * echo "position: ", $c->position, "\n";
+ * echo "line: ",     $c->line, "\n";
+ * echo "column: ",   $c->column, "\n";
+ * $c->pregMatch( "/^[ ]+world/", true );
+ * echo "position: ", $c->position, "\n";
+ * echo "line: ",     $c->line, "\n";
+ * echo "column: ",   $c->column, "\n";
+ * echo "current: '", $c->current(), "'\n";
+ * </code>
+ *
  * @package Template
  * @version //autogen//
  * @access private
  */
 class ezcTemplateCursor
 {
+    /**
+     * The text to which the cursors operates on.
+     * @var string
+     */
     public $text;
+
+    /**
+     * The byte position in the text, starts at 0.
+     * @var int
+     */
     public $position;
+
+    /**
+     * The current line number, starts at 1.
+     * @var int
+     */
     public $line;
+
+    /**
+     * The current column number, starts at 0.
+     * @var int
+     */
     public $column;
 
     /**
      * Initialise with text block and position data.
      *
      * @param string $text     Text block which the cursor position relates to.
-     * @param int    $position The string position in the text, starts at 0.
-     * @param int    $line     The line position in the text, starts at 1.
-     * @param int    $column   The column position in the text, starts at 0.
+     * @param int $position The string position in the text, starts at 0.
+     * @param int $line     The line position in the text, starts at 1.
+     * @param int $column   The column position in the text, starts at 0.
      */
     public function __construct( $text, $position = 0, $line = 1, $column = 0 )
     {
@@ -42,6 +92,7 @@ class ezcTemplateCursor
      * Copies all the properties of cursor $other to this cursor.
      *
      * @param ezcTemplateCursor $other The cursor object to copy from.
+     * @return void
      */
     public function copy( ezcTemplateCursor $other )
     {
@@ -91,6 +142,7 @@ class ezcTemplateCursor
      * Moves the cursor to the beginning of the text.
      *
      * @see atBeginning()
+     * @return void
      */
     public function gotoBeginning()
     {
@@ -103,6 +155,7 @@ class ezcTemplateCursor
      * Moves the cursor to the end of the text.
      *
      * @see atEnd()
+     * @return void
      */
     public function gotoEnd()
     {
@@ -134,6 +187,7 @@ class ezcTemplateCursor
      * Moves the cursor to the beginning of the current line.
      *
      * @see gotoLineEnd()
+     * @return void
      */
     public function gotoLineBeginning()
     {
@@ -148,6 +202,7 @@ class ezcTemplateCursor
      * Note: If the current line is at the end of the buffer the position will
      *       be placed at the end of the buffer similar to gotoEnd().
      * @see gotoLineBeginning()
+     * @return void
      */
     public function gotoLineEnd()
     {
@@ -170,6 +225,7 @@ class ezcTemplateCursor
      * Moves the cursor n steps relatively to the current position.
      *
      * @param int $delta The number of characters to advance.
+     * @return void
      */
     public function advance( $delta = 1 )
     {
@@ -180,6 +236,8 @@ class ezcTemplateCursor
      * Moves the cursor to the specified position.
      *
      * @see atBeginning(), atEnd()
+     * @throws ezcTemplateCursorsException if the position is beyond the text.
+     * @return void
      */
     function gotoPosition( $endPosition )
     {
@@ -269,7 +327,9 @@ class ezcTemplateCursor
      * the current position.
      *
      * @param string $searchString The string to find in the text (case-sensitive).
-     * @return int/false
+     * @param bool $checkEscaped If this is true then it will not match text which
+     *                           is preceded by the escape character \.
+     * @return mixed The integer value of the position or false if it is not found.
      */
     public function findPosition( $searchString, $checkEscaped = false )
     {
@@ -315,7 +375,7 @@ class ezcTemplateCursor
     public function cursorAt( $position, $newSize = false )
     {
         if ( $position < $this->position )
-            throw Exception( "Cannot move position backwards yet, sorry" );
+            throw new ezcTemplateInternalException( "Cannot move position backwards yet, sorry" );
 
         $cursor = clone $this;
         if ( $newSize !== false )
@@ -329,7 +389,7 @@ class ezcTemplateCursor
      * end it returns false.
      *
      * @param int $length The number of character to fetch from current position, negative values fetches in reverse.
-     * @return string/false
+     * @return mixed The current character/string or false if the position is beyond the text.
      * @see atEnd()
      */
     public function current( $length = 1 )
@@ -338,8 +398,6 @@ class ezcTemplateCursor
             return false;
         return substr( $this->text, $this->position, $length );
     }
-
-
 
     /**
      * Performs a preg_match() on the current position to figure out if the
@@ -350,10 +408,8 @@ class ezcTemplateCursor
      * Note: To check that a pattern matches immediately at the start position use the
      *       ^ in the pattern string.
      *
-     *
-     *
-     * @param tring $pattern The pattern which is passed to preg_match().
-     * @return The result of the preg_match() if successful or false it it failed.
+     * @param string $pattern The pattern which is passed to preg_match().
+     * @return mixed The result of the preg_match() if successful or false it it failed.
      */
     public function pregMatchComplete( $pattern )
     {
@@ -369,6 +425,10 @@ class ezcTemplateCursor
 
     /**
      * Does a pregMatchComplete and returns only the [0][0] part.
+     *
+     * @param string $pattern The pattern which is passed to preg_match().
+     * @param string $advance If true it will advance the position to after matched text.
+     * @return mixed The [0][0] entry of the preg_match() result if successful or false it it failed.
      */
     public function pregMatch( $pattern, $advance = true )
     {
@@ -387,8 +447,11 @@ class ezcTemplateCursor
         return $matches[0][0];
     }
 
-
     /**
+     * Matches the specified text with the text at the current position and returns the result.
+     *
+     * @param string $word The character/string to match at the current position.
+     * @param string $advance If true it will advance the position to after matched text.
      * @return bool  True if the $word matches, otherwise false.
      */
     public function match( $word, $advance = true)
@@ -403,9 +466,6 @@ class ezcTemplateCursor
 
         return false;
     }
-
 }
-
-
 
 ?>
