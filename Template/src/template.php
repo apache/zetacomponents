@@ -9,7 +9,7 @@
  */
 
 /**
- * The ezcTemplate class provides the main interface for processing templates.
+ * The main class for processing templates.
  *
  * The ezcTemplate class compiles a source template (*.ezt) to PHP code,
  * executes the PHP code, and returns the output. The generated PHP code 

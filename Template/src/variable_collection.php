@@ -8,7 +8,18 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Contains the template variables.
+ * Contains template variables which are sent and received from templates.
+ *
+ * The class provides a convenient way to set and get variables as normal
+ * PHP attributes. It also works as an iterator for traverals of the
+ * variables.
+ *
+ * NOTE: If you want to assign an array be VERY careful. Do NOT write:
+ * <code>
+ * $v->myProp = array();
+ * $v->myProp[] = "Hello";
+ * </code>
+ * Because 'myProp' will still be an empty array. (Stupid PHP)
  *
  * The next example sets and gets variables:
  *
@@ -21,9 +32,8 @@
  * echo "Race: " . $collection->race;
  * </code>
  *
- * The next example shows all variables using the iterator. 
+ * The next example shows all variables using the iterator.
  * <code>
- * <?php
  * $send = new ezcTemplateVariableCollection();
  *
  * $send->red = "FF0000";
@@ -32,9 +42,8 @@
  *
  * foreach ( $send as $name => $value )
  * {
- *     echo ( "$name  -> $value\n" );
+ *     echo "$name  -> $value\n";
  * }
- * ?>
  * </code>
  *
  * @package Template
@@ -43,9 +52,9 @@
 class ezcTemplateVariableCollection implements Iterator
 {
     /**
-     * The collection where all variables are stored. Each entry is an
-     * ezcTemplateVariable object and is looked up with the name of the variable.
-     * @var array
+     * The collection where all variables are stored. Each entry is a
+     * normal PHP value and is looked up with the name of the variable.
+     * @var array(string=>mixed)
      */
     private $variables;
 
@@ -55,7 +64,7 @@ class ezcTemplateVariableCollection implements Iterator
      * Note: To initialise it with existing variables pass them as the $variables
      * parameter.
      *
-     * @param array $variables An array of variables to initialise the collection
+     * @param array(string=>mixed) $variables An array of variables to initialise the collection
      * with. The default is an empty collection.
      */
     public function __construct( $variables = array() )
@@ -63,14 +72,15 @@ class ezcTemplateVariableCollection implements Iterator
         $this->variables = $variables;
     }
 
-    /** 
+    /**
      * Returns the value of the variable $name.
      *
+     * @param string $name
      * @return mixed
      */
     public function __get( $name )
     {
-        if ( isset( $this->variables[$name] ) ) 
+        if ( isset( $this->variables[$name] ) )
         {
             $value = $this->variables[$name];
             if ( is_array( $value ) )
@@ -90,15 +100,18 @@ class ezcTemplateVariableCollection implements Iterator
     }
 
     /**
-     * Sets the value $value to the variable $name.
+     * Sets the value in $value to the variable named $name.
      *
      * NOTE: If you want to assign an array be VERY careful. Do NOT write:
      * <code>
      * $v->myProp = array();
      * $v->myProp[] = "Hello";
      * </code>
-     *
      * Because 'myProp' will still be an empty array. (Stupid PHP)
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return void
      */
     public function __set( $name, $value )
     {
@@ -108,6 +121,7 @@ class ezcTemplateVariableCollection implements Iterator
     /**
      * Returns true if the variable $name is set.
      *
+     * @param string $name
      * @return bool
      */
     public function __isset( $name )
@@ -118,7 +132,7 @@ class ezcTemplateVariableCollection implements Iterator
     /**
      * Returns all variables in an array.
      *
-     * @return array(ezcTemplateVariable)
+     * @return array(string=>mixed)
      */
     public function getVariableArray()
     {
@@ -127,6 +141,7 @@ class ezcTemplateVariableCollection implements Iterator
 
     /**
      * Iterator rewind method
+     * @return void
      */
     public function rewind() 
     {
@@ -135,6 +150,7 @@ class ezcTemplateVariableCollection implements Iterator
  
     /**
      * Returns the current variable
+     * @return mixed
      */
     public function current() 
     {
@@ -143,6 +159,7 @@ class ezcTemplateVariableCollection implements Iterator
 
     /**
      * Returns the current key.
+     * @return string
      */
     public function key() 
     {
@@ -151,6 +168,7 @@ class ezcTemplateVariableCollection implements Iterator
  
     /**
      * Proceed to the next element.
+     * @return mixed
      */
     public function next() 
     {
@@ -159,6 +177,7 @@ class ezcTemplateVariableCollection implements Iterator
 
     /**
      * Returns true if the iterator is at a valid location.
+     * @return bool
      */
     public function valid() 
     {
@@ -171,6 +190,7 @@ class ezcTemplateVariableCollection implements Iterator
      * If the variable doesn't exist, it returns false.
      *
      * @param string $name The name of the variable to remove.
+     * @return bool
      */
     public function removeVariable( $name )
     {
