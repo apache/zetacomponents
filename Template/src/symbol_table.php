@@ -271,6 +271,7 @@ class ezcTemplateSymbolTable
      * Translates a symbol type to a string.
      * It returns one of the following strings: 'variable', 'cycle', or 'use'.
      *
+     * @param int $type
      * @return string
      */
     public static function symbolTypeToString( $type )

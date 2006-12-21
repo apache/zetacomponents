@@ -41,6 +41,8 @@ class ezcTemplateConfiguration
 {
     /**
      * List of global instances, looked up using the identifier string.
+     *
+     * @var array(ezcTemplateConfiguration)
      */
     static private $instanceList = array();
 
@@ -72,6 +74,8 @@ class ezcTemplateConfiguration
      * - string compilePath                     : Base path where the compiled templates are stored.
      * - bool checkModifiedTemplates            : Set to true, to recompile outdated compiled templates.
      * 
+     * @param string $name
+     *
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @return mixed
      */
@@ -106,8 +110,11 @@ class ezcTemplateConfiguration
      * - string compilePath                     : Base path where the compiled templates are stored.
      * - bool checkModifiedTemplates            : Set to true, to recompile outdated compiled templates.
      * 
+     * @param string $name  
+     * @param string $value
+     *
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
-     * @return mixed
+     * @return void
      */
     public function __set( $name, $value )
     {
@@ -140,6 +147,7 @@ class ezcTemplateConfiguration
     /**
      * Returns true if the property $name is set, otherwise false.
      *
+     * @param string $name
      * @return bool
      */
     public function __isset( $name )
@@ -170,8 +178,12 @@ class ezcTemplateConfiguration
      * 
      * All compiled templates are placed in subfolders under the compiled templates. 
      * Use an empty string to compile templates at the root of the filesystem.
+     *
+     * @param string $templatePath   Path where the source templates are stored.
+     * @param string $compilePath    Path where the compiled templates should be stored.
+     * @param ezcTemplateOutputContext $context  Context to use. Default is the ezcTemplateXhtmlContext.
      */
-    public function __construct( $templatePath = ".", $compilePath = ".", $context = null )
+    public function __construct( $templatePath = ".", $compilePath = ".", ezcTemplateOutputContext $context = null )
     {
         $this->properties["templatePath"] = $templatePath;
         $this->properties["compilePath"] = $compilePath;
@@ -187,6 +199,7 @@ class ezcTemplateConfiguration
     /**
      * Returns the unique configuration instance named $name.
      *
+     * @param string $name  Name of the configuration to use.
      * @return ezcTemplateConfiguration
      */
     public static function getInstance( $name = "default" )
