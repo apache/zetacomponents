@@ -68,7 +68,6 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
             if ( $this->lastCursor->length( $blockCursor ) > 0 )
             {
                 $textElement = new ezcTemplateTextBlockTstNode( $this->parser->source, clone $this->lastCursor, clone $blockCursor );
-                $this->parser->reportElementCursor( $textElement->startCursor, $textElement->endCursor, $textElement );
                 $this->handleElements( array( $textElement ) );
                 unset( $textElement );
             }
@@ -121,7 +120,6 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
         if ( $lastCursor->length( $cursor ) > 0 )
         {
             $textElement = new ezcTemplateTextBlockTstNode( $this->parser->source, clone $lastCursor, clone $cursor );
-            $this->parser->reportElementCursor( $textElement->startCursor, $textElement->endCursor, $textElement );
             $this->handleElements( array( $textElement ) );
         }
 

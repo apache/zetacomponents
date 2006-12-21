@@ -314,7 +314,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                         $this->currentOperator = $operator;
                     }
 
-                    $this->parser->reportElementCursor( $operator->startCursor, $operator->endCursor, $operator );
                     $this->lastCursor->copy( $cursor );
                     return true;
                 }
@@ -340,7 +339,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
             $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
 
-            $this->parser->reportElementCursor( $operator->startCursor, $operator->endCursor, $operator );
             $this->lastCursor->copy( $cursor );
 
             return true;
@@ -376,7 +374,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 $this->currentOperator = $operator;
             }
 
-            $this->parser->reportElementCursor( $operator->startCursor, $operator->endCursor, $operator );
             $this->lastCursor->copy( $cursor );
 
             return true;
@@ -446,7 +443,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 $this->checkForValidOperator( $this->currentOperator, $operator, $cursor );
 
                 $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
-                $this->parser->reportElementCursor( $operator->startCursor, $operator->endCursor, $operator );
 
                 return true;
             }
@@ -557,7 +553,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
                 $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
 
-                $this->parser->reportElementCursor( $operator->startCursor, $operator->endCursor, $operator );
                 $this->lastCursor->copy( $cursor );
 
                 // -> operator can have an identifier as the next operand

@@ -17,7 +17,6 @@
  */
 class ezcTemplateParser
 {
-
     /**
      * @var ezcTemplate
      */
@@ -59,9 +58,11 @@ class ezcTemplateParser
     public $symbolTable;
 
     /**
-     *
      * Note: The source code in $code must be loaded/created before passing it to this parser.
-    */
+     *
+     * @param ezcTemplateSourceCode $source
+     * @param ezcTemplate $template
+     */
     function __construct( ezcTemplateSourceCode $source, ezcTemplate $template )
     {
         $this->source = $source;
@@ -88,15 +89,6 @@ class ezcTemplateParser
     {
         return new ezcTemplateCursor( $sourceText );
     }
-
-    /**
-     * @todo Currently used for testing order of element creation, might not be needed.
-     */
-    public function reportElementCursor( $startCursor, $endCursor, $element )
-    {
-        // echo "element <", get_class( $element ) . ">\n";
-    }
-
 
     /**
      * Figures out the operator precedence for the new operator $newOperator
@@ -291,8 +283,8 @@ class ezcTemplateParser
      * current operator if there is one, if not it becomes the current item.
      * The element which should be the current item is returned by this function.
      *
-     * @param ezcTemplateTstNode $currentOperator The current operator/operand element, can be null.
-     * @param ezcTemplateTstNode $operand The parsed operator/operand which should be added as parameter.
+     * @param ezcTemplateTstNode $currentOperator   The current operator/operand element, can be null.
+     * @param ezcTemplateTstNode $operand           The parsed operator/operand which should be added as parameter.
      * @return ezcTemplateTstNode
      */
     public function handleOperand( /*ezcTemplateTstNode*/ $currentOperator, ezcTemplateTstNode $operand )
@@ -322,6 +314,11 @@ class ezcTemplateParser
         }
     }
 
+    /**
+     * Creates the TST tree structure from the source code.
+     *
+     * @return void
+     */
     public function parseIntoNodeTree()
     {
         if ( !$this->source->hasCode() )
@@ -365,6 +362,7 @@ class ezcTemplateParser
      * Note: This does nothing if self::$trimWhitespace is set to false.
      * @param ezcTemplateBlockTstNode $block
      *        Block element which has its children trimmed of indentation whitespace.
+     * @return void
      */
     public function trimBlockLevelIndentation( ezcTemplateBlockTstNode $block )
     {
@@ -389,6 +387,7 @@ class ezcTemplateParser
      * Note: This does nothing if self::$trimWhitespace is set to false.
      * @param ezcTemplateBlockTstNode $block
      *        Block element which has its child blocks trimmed of EOL whitespace.
+     * @return void
      */
     public function trimBlockLine( ezcTemplateBlockTstNode $block )
     {

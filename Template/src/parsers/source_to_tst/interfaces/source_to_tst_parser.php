@@ -282,13 +282,9 @@ abstract class ezcTemplateSourceToTstParser
      *
      * @param ezcTemplateTstNode $element The element object to add to list.
      */
-    public function appendElement( $element, $report = true )
+    public function appendElement( $element )
     {
         $this->elements[] = $element;
-        if ( $report )
-        {
-            $this->parser->reportElementCursor( $element->startCursor, $element->endCursor, $element );
-        }
     }
 
     /**
