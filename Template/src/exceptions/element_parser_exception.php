@@ -55,12 +55,12 @@ class ezcTemplateSourceToTstParserException extends ezcTemplateException
      * @param array $elements An array of elements which contains the start and
      *                        end cursor for the errors, needs at least one
      *                        element entry.
-     * @param ezcTemplateSourceToTstParser $parser The parser which was used when error occured, can be null.
-     * @param ezcTemplateSource $source The source code which caused the error, used for file path.
-     * @param string $errorMessage The error message.
-     * @param string $errorDetails Extra details for error.
+     *
+     * @param ezcTemplateSourceToTstParser $parser  The parser which was used when error occured, can be null.
+     * @param ezcTemplateCursor $cursor             The cursor pointing to the error.
+     * @param string $errorMessage                  The error message.
+     * @param string $errorDetails                  Extra details for error.
      */
-     
     public function __construct( /*ezcTemplateSourceToTstParser*/ $parser,
                                  ezcTemplateCursor $cursor,
                                  $errorMessage,

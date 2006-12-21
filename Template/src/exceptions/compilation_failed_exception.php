@@ -18,6 +18,8 @@ class ezcTemplateCompilationFailedException extends ezcTemplateException
     /**
      * Creates a exception for failed compilations, error message is
      * specified by caller.
+     *
+     * @param string $msg
      */
     public function __construct( $msg )
     {

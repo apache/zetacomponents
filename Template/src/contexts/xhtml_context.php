@@ -21,6 +21,7 @@ class ezcTemplateXhtmlContext implements ezcTemplateOutputContext
     /**
      * Escapes special HTML characters in the output.
      *
+     * @param ezcTemplateAstNode $node
      * @return ezcTemplateAstNode The new AST node which should replace $node.
      */
     public function transformOutput( ezcTemplateAstNode $node )

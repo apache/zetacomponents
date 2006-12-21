@@ -17,6 +17,8 @@ class ezcTemplateRuntimeException extends ezcTemplateException
 {
     /**
      * Constructs a template runtime exception with message $msg.
+     *
+     * @param string $msg
      */
     public function __construct( $msg )
     {

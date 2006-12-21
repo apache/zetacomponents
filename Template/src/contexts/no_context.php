@@ -15,11 +15,13 @@
  * @package Template
  * @version //autogen//
  */
-
 class ezcTemplateNoContext implements ezcTemplateOutputContext
 {
     /**
      *  Doesn't change the output, and returns exactly the same node.
+     *
+     *  @param ezcTemplateAstNode $node
+     *  @return ezcTemplateAstNode
      */
     public function transformOutput( ezcTemplateAstNode $node )
     {
@@ -28,6 +30,8 @@ class ezcTemplateNoContext implements ezcTemplateOutputContext
 
     /**
      * Returns the unique identifier for the context handler.
+     *
+     * @return string
      */
     public function identifier()
     {

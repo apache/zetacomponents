@@ -58,11 +58,9 @@ class ezcTemplateParserException extends ezcTemplateException
      * Initialises the exception with the failing elements, parser, source code
      * and error messages.
      *
-     * @param array $elements An array of elements which contains the start and
-     *                        end cursor for the errors, needs at least one
-     *                        element entry.
-     * @param ezcTemplateSourceToTstParser $parser The parser which was used when error occured, can be null.
-     * @param ezcTemplateSource $source The source code which caused the error, used for file path.
+     * @param ezcTemplateSource $source         The source code which caused the error, used for file path.
+     * @param ezcTemplateCursor $startCursor  
+     * @param ezcTemplateCursor $errorCursor  
      * @param string $errorMessage The error message.
      * @param string $errorDetails Extra details for error.
      */
@@ -113,7 +111,7 @@ class ezcTemplateParserException extends ezcTemplateException
      *
      * @param ezcTemplateCursor $startCursor The start point of the code to extract
      * @param ezcTemplateCursor $endCursor The ending point of the code to extract
-     * @param ezcTemplateCursor $markCursor The point in the code which should be highlighted.
+     * @param ezcTemplateCursor $errorCursor The point in the code where the error appears
      * @return string
      */
     private function getAstNodeFailure( $startCursor, $endCursor, $errorCursor )

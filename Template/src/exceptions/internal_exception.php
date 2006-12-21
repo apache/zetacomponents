@@ -17,6 +17,8 @@ class ezcTemplateInternalException extends ezcTemplateException
 {
     /**
      * Creates a template internal exception.
+     *
+     * @param string $msg
      */
     public function __construct( $msg )
     {

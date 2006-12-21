@@ -18,6 +18,8 @@ class ezcTemplateOutdatedCompilationException extends ezcTemplateException
     /**
      * Creates a exception for outdated compilations, error message is
      * specified by caller.
+     *
+     * @param string $msg
      */
     public function __construct( $msg )
     {
