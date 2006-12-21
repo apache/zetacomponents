@@ -27,6 +27,7 @@ interface ezcTemplateOutputContext
      * Transforms an expressions so it can be displayed in the current output context
      * correctly.
      *
+     * @param ezcTemplateAstNode $node
      * @return ezcTemplateAstNode The new AST node which should replace $node.
      */
     public function transformOutput( ezcTemplateAstNode $node );

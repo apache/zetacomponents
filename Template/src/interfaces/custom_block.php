@@ -18,6 +18,12 @@
  */
 interface ezcTemplateCustomBlock
 {
+    /**
+     * Return a ezcTemplateCustomBlockDefinition for the given block $name.
+     *
+     * @param string $name
+     * @return ezcTemplateCustomBlockDefinition
+     */
     public static function getCustomBlockDefinition( $name );
 }
 

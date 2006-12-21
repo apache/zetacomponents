@@ -18,6 +18,13 @@
  */
 interface ezcTemplateCustomFunction
 {
+
+    /**
+     * Return a ezcTemplateCustomFunctionDefinition for the given function $name.
+     *
+     * @param string $name
+     * @return ezcTemplateCustomFunctionDefinition
+     */
     public static function getCustomFunctionDefinition( $name );
 }
 
