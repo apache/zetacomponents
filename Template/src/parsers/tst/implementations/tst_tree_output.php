@@ -85,11 +85,6 @@ class ezcTemplateTstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
         $this->text .= $this->outputNode( $node );
     }
 
-    public function visitIntegerTstNode( ezcTemplateIntegerTstNode $node )
-    {
-        $this->text .= $this->outputNode( $node );
-    }
-
     public function visitVariableTstNode( ezcTemplateVariableTstNode $node )
     {
         $this->text .= $this->outputNode( $node );
@@ -291,11 +286,6 @@ class ezcTemplateTstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
     }
 
     public function visitLogicalNegateOperatorTstNode( ezcTemplateLogicalNegateOperatorTstNode $node )
-    {
-        $this->text .= $this->outputNode( $node );
-    }
-
-    public function visitInstanceOfOperatorTstNode( ezcTemplateInstanceOfOperatorTstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }

@@ -33,7 +33,24 @@
  * </code>
  *
  * The $context property is by default assigned to an ezcTemplateXhtmlContext object.
- * 
+ *
+ * @property ezcTemplateOutputContext $context
+ *           Contains the template context.
+ * @property string                      $templatePath
+ *           Base path where the source templates are stored.
+ * @property string                      $compilePath
+ *           Base path where the compiled templates are stored.
+ * @property bool                        $checkModifiedTemplates
+ *           Set to true, to recompile outdated compiled templates.
+ * @property string                      $cachedTemplatesPath
+ *           Relative path from the compilePath.
+ * @property string                      $compiledTemplatesPath
+ *           Relative path from the compilePath.
+ * @property ezcTemplateCustomBlockDefinition[]    $customBlock
+ *           The currently registered custom blocks.
+ * @property ezcTemplateCustomFunctionDefinition[] $customFunctions
+ *           The currently registered custom functions.
+ *
  * @package Template
  * @version //autogen//
  */
@@ -67,13 +84,7 @@ class ezcTemplateConfiguration
     /**
      * Returns the value of the property $name.
      *
-     * The properties that can be retrieved are:
-     * 
-     * - ezcTemplateOutputCollection context    : Contains the template context.
-     * - string templatePath                    : Base path where the source templates are stored.
-     * - string compilePath                     : Base path where the compiled templates are stored.
-     * - bool checkModifiedTemplates            : Set to true, to recompile outdated compiled templates.
-     * 
+     * @param string $name
      * @param string $name
      *
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
@@ -109,7 +120,9 @@ class ezcTemplateConfiguration
      * - string templatePath                    : Base path where the source templates are stored.
      * - string compilePath                     : Base path where the compiled templates are stored.
      * - bool checkModifiedTemplates            : Set to true, to recompile outdated compiled templates.
-     * 
+     *
+     * @param string $name
+     * @param mixed $value
      * @param string $name  
      * @param string $value
      *
@@ -199,6 +212,9 @@ class ezcTemplateConfiguration
     /**
      * Returns the unique configuration instance named $name.
      *
+     * Note: You only need to specify the name if you need multiple configuration
+     *       objects.
+     *
      * @param string $name  Name of the configuration to use.
      * @return ezcTemplateConfiguration
      */
@@ -212,15 +228,20 @@ class ezcTemplateConfiguration
         return self::$instanceList[$name];
     }
 
-
     /**
      * Adds custom tags or function to the customBlock or customFunction property and 
      * indirectly add the custom extension to the template language. 
      *
      * The parameter $customBlockClass expects a class that implements either 
-     * the interface ezcTemplateCustomBlock, ezcTemplateCustomFunction, or both. 
+     * the interface ezcTemplateCustomBlock, ezcTemplateCustomFunction, or both.
+     *
+     * New custom blocks are added to the
+     * {@link ezcTemplateConfiguration::customBlocks $customBlocks} property while
+     * custom functions are added to the
+     * {@link ezcTemplateConfiguration::customFunctions $customFunctions} property.
      *
      * @param string $customClass
+     * @throws ezcTemplateCustomBlockException if the $customClass parameter is not a string.
      * @return void
      */
     public function addExtension( $customClass )
@@ -250,8 +271,6 @@ class ezcTemplateConfiguration
             throw new ezcTemplateCustomBlockException( "Could not add the extension $customClass. Does it implement ezcTemplateCustomBlock or ezcTemplateCustomFunction?" );
         }
     }
-
-
 
 }
 ?>

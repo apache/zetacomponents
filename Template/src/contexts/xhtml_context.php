@@ -20,6 +20,8 @@ class ezcTemplateXhtmlContext implements ezcTemplateOutputContext
 {
     /**
      * Escapes special HTML characters in the output.
+     *
+     * @return ezcTemplateAstNode The new AST node which should replace $node.
      */
     public function transformOutput( ezcTemplateAstNode $node )
     {
@@ -28,6 +30,8 @@ class ezcTemplateXhtmlContext implements ezcTemplateOutputContext
 
     /**
      * Returns the unique identifier for the context handler.
+     *
+     * @return string
      */
     public function identifier()
     {

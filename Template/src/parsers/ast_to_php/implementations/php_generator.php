@@ -579,28 +579,6 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     }
 
     /**
-     * Visits a code element containing a dynamic function call.
-     * Function call consist of a function name expression and arguments.
-     *
-     * @param ezcTemplateFunctionCallAstNode $fcall The code element containing the dynamic function call with arguments.
-     */
-    public function visitDynamicFunctionCallAstNode( ezcTemplateDynamicFunctionCallAstNode $fcall )
-    {
-        // Generate code for function name
-        $fcall->nameExpression->accept( $this );
-
-        // Start arguments
-        $this->write( "(" );
-        foreach ( $fcall->getParameters() as $i => $parameter )
-        {
-            if ( $i > 0 )
-                $this->write( "," );
-            $parameter->accept( $this );
-        }
-        $this->write( ")" );
-    }
-
-    /**
      * Visits a code element containing a body of statements.
      * A body consists of a series of statements in sequence.
      *

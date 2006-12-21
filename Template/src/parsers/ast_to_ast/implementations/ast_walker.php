@@ -145,20 +145,6 @@ class ezcTemplateAstWalker implements ezcTemplateAstNodeVisitor
         array_shift( $this->nodePath );
     }
 
-    public function visitDynamicFunctionCallAstNode( ezcTemplateDynamicFunctionCallAstNode $fcall )
-    {
-
-        array_unshift( $this->nodePath, $fcall );
-        $this->acceptAndUpdate( $fcall->nameExpression );
-
-        foreach ( $fcall->getParameters() as $i => $parameter )
-        {
-            $this->acceptAndUpdate( $fcall->parameters[$i] ); 
-        }
-
-        array_shift( $this->nodePath );
-    }
-
     public function visitBodyAstNode( ezcTemplateBodyAstNode $body )
     {
         array_unshift( $this->nodePath, $body );

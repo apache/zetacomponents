@@ -96,7 +96,7 @@ class ezcTemplateSourceCode
      * The current context for the template code. Will be used for parsing and
      * run-time behaviour.
      *
-     * @var ezcTemplateContext
+     * @var ezcTemplateOutputContext
      * Note: __get/__set property
      */
     // private $context;
@@ -173,12 +173,12 @@ class ezcTemplateSourceCode
      * @param string $resource The requested resource string, if false $stream
      *                         is used as value.
      * @param string $code The source code for the template.
-     * @param ezcTemplateContext $context The context for the parsing and
+     * @param ezcTemplateOutputContext $context The context for the parsing and
      *                                    run-time behaviour, a value of null
      *                                    means to use the current context in
      *                                    the template manager.
      */
-    public function __construct( $stream, $resource = false, $code = false, ezcTemplateContext $context = null )
+    public function __construct( $stream, $resource = false, $code = false, ezcTemplateOutputContext $context = null )
     {
         $this->stream = $stream;
         $this->resource = $resource;

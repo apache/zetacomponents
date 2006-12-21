@@ -100,11 +100,6 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
         $this->text .= $this->outputNode( $node );
     }
 
-    public function visitDynamicFunctionCallAstNode( ezcTemplateDynamicFunctionCallAstNode $node )
-    {
-        $this->text .= $this->outputNode( $node );
-    }
-
     public function visitBodyAstNode( ezcTemplateBodyAstNode $node )
     {
         $this->text .= $this->outputNode( $node );

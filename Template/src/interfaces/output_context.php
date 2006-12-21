@@ -27,6 +27,7 @@ interface ezcTemplateOutputContext
      * Transforms an expressions so it can be displayed in the current output context
      * correctly.
      *
+     * @return ezcTemplateAstNode The new AST node which should replace $node.
      */
     public function transformOutput( ezcTemplateAstNode $node );
 
@@ -34,6 +35,8 @@ interface ezcTemplateOutputContext
      * Returns the unique identifier for the context handler. This is used to
      * uniquely identify the handler, e.g. it is included in the path of
      * compiled files.
+     *
+     * @return string
      */
     public function identifier();
 

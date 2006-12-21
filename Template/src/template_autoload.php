@@ -68,7 +68,6 @@ return array(
              "ezcTemplateModifyingBlockTstNode" => "Template/syntax_trees/tst/nodes/modifying_block.php",
              "ezcTemplateLiteralArrayTstNode" => "Template/syntax_trees/tst/nodes/literalarray.php",
              "ezcTemplateLiteralTstNode" => "Template/syntax_trees/tst/nodes/literal.php",
-             "ezcTemplateIntegerTstNode" => "Template/syntax_trees/tst/nodes/integer.php",
              "ezcTemplateVariableTstNode" => "Template/syntax_trees/tst/nodes/variable.php",
              "ezcTemplateTextBlockTstNode" => "Template/syntax_trees/tst/nodes/text_block.php",
              "ezcTemplateFunctionCallTstNode" => "Template/syntax_trees/tst/nodes/function_call.php",

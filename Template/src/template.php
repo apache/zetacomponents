@@ -113,16 +113,6 @@ class ezcTemplate
     /**
      * Returns the value of the property $name.
      *
-     * The properties that can be retrieved are:
-     * 
-     * - ezcTemplateVariableCollection {@link ezcTemplate::send send}     : Contains the variables that are send to the template.
-     * - ezcTemplateVariableCollection {@link ezcTemplate::receive receive}  : Contains the variables that are returned by the template.
-     * - ezcTemplateConfiguration {@link ezcTemplate::configuration configuration} : Contains the template configuration.
-     * - string {@link ezcTemplate::output output}                          : The output of the last processed template.
-     * - string {@link ezcTemplate::compiledTemplatePath compiledTemplatePath}            : The path of the compiled template.
-     * - ezcTemplateTstNode {@link ezcTemplate::tstTree tstTree}                                 : The generated tstTree (debug).
-     * - ezcTemplateAstNode {@link ezcTemplate::astTree astTree}                                : The generated astTree (debug).
-     * 
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @return mixed
@@ -182,11 +172,6 @@ class ezcTemplate
     /**
      * Sets the property named $name to contain value of $value.
      *
-     * The properties that can be set are:
-     * 
-     * - ezcTemplateVariableCollection send     : Contains the variables that are send to the template.
-     * - ezcTemplateConfiguration configuration : Contains the template configuration.
-     * 
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @param mixed $value
