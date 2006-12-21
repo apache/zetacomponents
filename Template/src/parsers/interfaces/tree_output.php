@@ -69,7 +69,8 @@
 abstract class ezcTemplateTreeOutput
 {
     /**
-     * @var string $text Will contain the output tree.
+     * The result of the node output.
+     * @var string $text
      */
     public $text;
 
@@ -86,6 +87,12 @@ abstract class ezcTemplateTreeOutput
      */
     public $nodeClassRegex;
 
+    /**
+     * Initialize the output class with the name of the node class and the regular expression to extract short names.
+     *
+     * @param string $nodeClass
+     * @param string $nodeClassRegex
+     */
     public function __construct( $nodeClass, $nodeClassRegex = '' )
     {
         $this->text           = '';

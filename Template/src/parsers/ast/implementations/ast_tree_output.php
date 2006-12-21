@@ -45,217 +45,346 @@ class ezcTemplateAstTreeOutput extends ezcTemplateTreeOutput implements ezcTempl
         return $treeOutput->text . "\n";
     }
 
+    /**
+     * @return void
+     */
     public function visitLiteralAstNode( ezcTemplateLiteralAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitConstantAstNode( ezcTemplateConstantAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitEolCommentAstNode( ezcTemplateEolCommentAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitBlockCommentAstNode( ezcTemplateBlockCommentAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitVariableAstNode( ezcTemplateVariableAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitDynamicVariableAstNode( ezcTemplateDynamicVariableAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitDynamicStringAstNode( ezcTemplateDynamicStringAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitArrayFetchOperatorAstNode( ezcTemplateArrayFetchOperatorAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitUnaryOperatorAstNode( ezcTemplateOperatorAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitBinaryOperatorAstNode( ezcTemplateOperatorAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitBodyAstNode( ezcTemplateBodyAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitRootAstNode( ezcTemplateBodyAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitGenericStatementAstNode( ezcTemplateGenericStatementAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitIfAstNode( ezcTemplateIfAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitDynamicBlockAstNode( ezcTemplateDynamicBlockAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
 
+    /**
+     * @return void
+     */
     public function visitWhileAstNode( ezcTemplateWhileAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitDoWhileAstNode( ezcTemplateDoWhileAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitForAstNode( ezcTemplateForAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitForeachAstNode( ezcTemplateForeachAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitBreakAstNode( ezcTemplateBreakAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitContinueAstNode( ezcTemplateContinueAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitReturnAstNode( ezcTemplateReturnAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitRequireAstNode( ezcTemplateRequireAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitRequireOnceAstNode( ezcTemplateRequireOnceAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitIncludeAstNode( ezcTemplateIncludeAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitIncludeOnceAstNode( ezcTemplateIncludeOnceAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitSwitchAstNode( ezcTemplateSwitchAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitCaseAstNode( ezcTemplateCaseAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitDefaultAstNode( ezcTemplateDefaultAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitConditionBodyAstNode( ezcTemplateConditionBodyAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitOutputAstNode( ezcTemplateOutputAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitTryAstNode( ezcTemplateTryAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitCatchAstNode( ezcTemplateCatchAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitEchoAstNode( ezcTemplateEchoAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitPrintAstNode( ezcTemplatePrintAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitIssetAstNode( ezcTemplateIssetAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitUnsetAstNode( ezcTemplateUnsetAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitEmptyAstNode( ezcTemplateEmptyAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitParenthesisAstNode( ezcTemplateParenthesisAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitCurlyBracesAstNode( ezcTemplateCurlyBracesAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitTypeCastAstNode( ezcTemplateTypeCastAstNode $node )
     {
         $this->text .= $this->outputNode( $node );
     }
 
+    /**
+     * @return void
+     */
     public function visitNopAstNode( ezcTemplateNopAstNode $node )
     {
         $this->text .= $this->outputNode( $node );

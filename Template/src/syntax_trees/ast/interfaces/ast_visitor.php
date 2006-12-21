@@ -27,6 +27,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing a builtin constant type.
      *
      * @param ezcTemplateLiteralAstNode $node The node containing the constant value.
+     * @return void
      */
     public function visitLiteralAstNode( ezcTemplateLiteralAstNode $node );
 
@@ -34,6 +35,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing an constant.
      *
      * @param ezcTemplateConstantAstNode $node The node containing the constant value.
+     * @return void
      */
     public function visitConstantAstNode( ezcTemplateConstantAstNode $node );
 
@@ -41,6 +43,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing an variable.
      *
      * @param ezcTemplateVariableAstNode $node The node containing the variable value.
+     * @return void
      */
     public function visitVariableAstNode( ezcTemplateVariableAstNode $node );
 
@@ -48,6 +51,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing a dynamic variable.
      *
      * @param ezcTemplateDynamicVariableAstNode $node The node containing the dynamic variable value.
+     * @return void
      */
     public function visitDynamicVariableAstNode( ezcTemplateDynamicVariableAstNode $node );
 
@@ -55,6 +59,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing a dynamic string.
      *
      * @param ezcTemplateDynamicStringAstNode $node The node containing the dynamic string.
+     * @return void
      */
     public function visitDynamicStringAstNode( ezcTemplateDynamicStringAstNode $node );
 
@@ -62,6 +67,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing an array fetch operator type.
      *
      * @param ezcTemplateArrayFetchOperatorAstNode $node The node containing the array fetch operator.
+     * @return void
      */
     public function visitArrayFetchOperatorAstNode( ezcTemplateArrayFetchOperatorAstNode $node );
 
@@ -70,6 +76,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Unary operators take one parameter and consist of a symbol.
      *
      * @param ezcTemplateOperatorAstNode $node The node containing the operator with parameter.
+     * @return void
      */
     public function visitUnaryOperatorAstNode( ezcTemplateOperatorAstNode $node );
 
@@ -78,6 +85,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Binary operators take two parameters and consist of a symbol.
      *
      * @param ezcTemplateOperatorAstNode $node The node containing the operator with parameters.
+     * @return void
      */
     public function visitBinaryOperatorAstNode( ezcTemplateOperatorAstNode $node );
 
@@ -86,6 +94,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Function call consist of a function name and arguments.
      *
      * @param ezcTemplateFunctionCallAstNode $node The node containing the function call with arguments.
+     * @return void
      */
     public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $node );
 
@@ -94,6 +103,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * A body consists of a series of statements in sequence.
      *
      * @param ezcTemplateBodyAstNode $node The node containing the body.
+     * @return void
      */
     public function visitBodyAstNode( ezcTemplateBodyAstNode $node );
 
@@ -101,6 +111,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits the node $node containing an output.
      *
      * @param ezcTemplateBodyAstNode 
+     * @return void
      */
     public function visitOutputAstNode( ezcTemplateOutputAstNode $node );
 
@@ -109,6 +120,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * A generic statement contains a generic code expression but is terminated with a semi-colon.
      *
      * @param ezcTemplateGenericStatementAstNode $node The node containing the generic statement.
+     * @return void
      */
     public function visitGenericStatementAstNode( ezcTemplateGenericStatementAstNode $node );
 
@@ -116,6 +128,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing if control structures.
      *
      * @param ezcTemplateIfAstNode $node The node containing the if control structure.
+     * @return void
      */
     public function visitIfAstNode( ezcTemplateIfAstNode $node );
 
@@ -130,6 +143,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing conditions for if control structures.
      *
      * @param ezcTemplateConditionBodyAstNode $node The node containing the if condition.
+     * @return void
      */
     public function visitConditionBodyAstNode( ezcTemplateConditionBodyAstNode $node );
 
@@ -137,6 +151,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing foreach control structures.
      *
      * @param ezcTemplateForeachAstNode $node The node containing the foreach control structure.
+     * @return void
      */
     public function visitForeachAstNode( ezcTemplateForeachAstNode $node );
 
@@ -144,6 +159,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing break control structures.
      *
      * @param ezcTemplateBreakAstNode $node The node containing the break control structure.
+     * @return void
      */
     public function visitBreakAstNode( ezcTemplateBreakAstNode $node );
 
@@ -151,6 +167,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing continue control structures.
      *
      * @param ezcTemplateContinueAstNode $node The node containing the continue control structure.
+     * @return void
      */
     public function visitContinueAstNode( ezcTemplateContinueAstNode $node );
 
@@ -158,6 +175,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing switch control structures.
      *
      * @param ezcTemplateSwitchAstNode $node The node containing the switch control structure.
+     * @return void
      */
     public function visitSwitchAstNode( ezcTemplateSwitchAstNode $node );
 
@@ -165,6 +183,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing case control structures.
      *
      * @param ezcTemplateCaseAstNode $node The node containing the case control structure.
+     * @return void
      */
     public function visitCaseAstNode( ezcTemplateCaseAstNode $node );
 
@@ -172,6 +191,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing default case control structures.
      *
      * @param ezcTemplateDefaultAstNode $node The node containing the default case control structure.
+     * @return void
      */
     public function visitDefaultAstNode( ezcTemplateDefaultAstNode $node );
 
@@ -179,6 +199,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing return control structures.
      *
      * @param ezcTemplateReturnAstNode $node The node containing the return control structure.
+     * @return void
      */
     public function visitReturnAstNode( ezcTemplateReturnAstNode $node );
 
@@ -186,6 +207,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing require control structures.
      *
      * @param ezcTemplateRequireAstNode $node The node containing the require control structure.
+     * @return void
      */
     public function visitRequireAstNode( ezcTemplateRequireAstNode $node );
 
@@ -193,6 +215,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing require_once control structures.
      *
      * @param ezcTemplateRequireOnceAstNode $node The node containing the require_once control structure.
+     * @return void
      */
     public function visitRequireOnceAstNode( ezcTemplateRequireOnceAstNode $node );
 
@@ -200,6 +223,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing include control structures.
      *
      * @param ezcTemplateIncludeAstNode $node The node containing the include control structure.
+     * @return void
      */
     public function visitIncludeAstNode( ezcTemplateIncludeAstNode $node );
 
@@ -207,6 +231,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing include_once control structures.
      *
      * @param ezcTemplateIncludeOnceAstNode $node The node containing the include_once control structure.
+     * @return void
      */
     public function visitIncludeOnceAstNode( ezcTemplateIncludeOnceAstNode $node );
 
@@ -214,6 +239,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing try control structures.
      *
      * @param ezcTemplateTryAstNode $node The node containing the try control structure.
+     * @return void
      */
     public function visitTryAstNode( ezcTemplateTryAstNode $node );
 
@@ -221,6 +247,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing catch control structures.
      *
      * @param ezcTemplateCatchAstNode $node The node containing the catch control structure.
+     * @return void
      */
     public function visitCatchAstNode( ezcTemplateCatchAstNode $node );
 
@@ -228,6 +255,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing echo construct.
      *
      * @param ezcTemplateEchoAstNode $node The node containing the echo construct.
+     * @return void
      */
     public function visitEchoAstNode( ezcTemplateEchoAstNode $node );
 
@@ -235,6 +263,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing print construct.
      *
      * @param ezcTemplatePrintAstNode $node The node containing the print construct.
+     * @return void
      */
     public function visitPrintAstNode( ezcTemplatePrintAstNode $node );
 
@@ -242,6 +271,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing isset construct.
      *
      * @param ezcTemplateIssetAstNode $node The node containing the isset construct.
+     * @return void
      */
     public function visitIssetAstNode( ezcTemplateIssetAstNode $node );
 
@@ -249,6 +279,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing unset construct.
      *
      * @param ezcTemplateUnsetAstNode $node The node containing the unset construct.
+     * @return void
      */
     public function visitUnsetAstNode( ezcTemplateUnsetAstNode $node );
 
@@ -256,6 +287,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing empty construct.
      *
      * @param ezcTemplateEmptyAstNode $node The node containing the empty construct.
+     * @return void
      */
     public function visitEmptyAstNode( ezcTemplateEmptyAstNode $node );
 
@@ -263,6 +295,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing type cast construct.
      *
      * @param ezcTemplateTypeCastAstNode $node The node containing the type cast construct.
+     * @return void
      */
     public function visitTypeCastAstNode( ezcTemplateTypeCastAstNode $node );
 
@@ -270,6 +303,7 @@ interface ezcTemplateAstNodeVisitor// extends ezcTemplateAstNodeVisitor
      * Visits a node containing a nop node.
      *
      * @param ezcTemplateNopAstNode $node The node containing the nop node.
+     * @return void
      */
     public function visitNopAstNode( ezcTemplateNopAstNode $node );
 }
