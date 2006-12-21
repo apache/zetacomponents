@@ -236,10 +236,12 @@ class ezcTemplateCursor
      * Moves the cursor to the specified position.
      *
      * @see atBeginning(), atEnd()
+     *
+     * @param int $endPosition
      * @throws ezcTemplateCursorsException if the position is beyond the text.
      * @return void
      */
-    function gotoPosition( $endPosition )
+    public function gotoPosition( $endPosition )
     {
         if ( $endPosition > strlen( $this->text ) )
             throw new ezcTemplateCursorsException();
