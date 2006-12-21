@@ -18,6 +18,16 @@
  * If you are unsure where the compiled file resides you can use the static
  * methods findCurrent() and findAll() to get those identifiers.
  *
+ * @property-read string identifier 
+ *              The unique identifier for the compiled file.
+ * @property-read string path       
+ *              The complete (but relative) path to the compiled file. Will
+ *              be set even if it does not exist.
+ * @property ezcTemplateOutputContext context  
+ *              The context used for the currently compiled file.
+ * @property ezcTemplate template  
+ *              The template which is used when executing the template code.
+ *
  * @package Template
  * @version //autogen//
  * @access private
@@ -31,52 +41,28 @@ class ezcTemplateCompiledCode
     const ENGINE_ID = 1;
 
     /**
-     * The unique identifier for the compiled file.
-     * @var string
-     * Note: __get property
-     */
-    // private $identifier;
-
-    /**
-     * The complete (but relative) path to the compiled file. Will be set even if it
-     * does not exist.
-     * @var string
-     * Note: __get property
-     */
-    // private $path;
-
-    /**
-     * The context used for the currently compiled file.
-     * @var ezcTemplateContext
-     * Note: __get/__set property
-     */
-    // private $context;
-
-    /**
-     * The template template which is used when executing the template code.
-     *
-     * @var ezcTemplateManager
-     * Note: __get/__set property
-     */
-    // private $template;
-
-    /**
      * An array containing the properties of this object.
-     * identifier - The unique identifier for the compiled file.
-     * path       - The complete (but relative) path to the compiled file. Will
-     *              be set even if it does not exist.
-     * context    - The context used for the currently compiled file.
-     * template    - The template which is used when executing the template
-     *              code.
+     *
+     * @var array(string=>mixed)
      */
     private $properties = array();
 
+    /**
+     * @var ezcTemplateVariableCollection
+     */
     private $send;
+
+    /**
+     * @var ezcTemplateVariableCollection
+     */
     private $receive;
 
 
     /**
      * Property get
+     *
+     * @param string $name
+     * @return mixed
      */
     public function __get( $name )
     {
@@ -94,6 +80,10 @@ class ezcTemplateCompiledCode
 
     /**
      * Property set
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return void
      */
     public function __set( $name, $value )
     {
@@ -121,6 +111,9 @@ class ezcTemplateCompiledCode
 
     /**
      * Property isset
+     *
+     * @param string $name
+     * @return bool
      */
     public function __isset( $name )
     {
@@ -141,6 +134,8 @@ class ezcTemplateCompiledCode
      *
      * @param string $identifier
      * @param string $path
+     * @param ezcTemplateOutputContext $context
+     * @param ezcTemplate $template
      */
     public function __construct( $identifier, $path,
                                  /*ezcTemplateOutputContext*/ $context = null, ezcTemplate $template = null )
@@ -159,6 +154,8 @@ class ezcTemplateCompiledCode
      * @throws ezcTemplateNoManagerException if there is no template set.
      * @throws ezcTemplateNoOutputContextException if there is no output context set.
      * @throws ezcTemplateInvalidCompiledFileException if the compiled cannot be executed.
+     *
+     * @return string
      */
     public function execute()
     {
@@ -175,6 +172,20 @@ class ezcTemplateCompiledCode
         return include( $this->path );
     }
 
+
+    /**
+     * The compiled template calls this method to see if the current template should be recompiled.
+     * Usually its the first method called in the template. 
+     *
+     * A template should be recompiled if either one of the following rules apply:
+     * - The template source is newer than the compiled template.
+     * - The ENGINE_ID in the template (and given as parameter) is different than the ezcTemplateCompiledCode::ENGINE_ID.
+     *
+     * @param int $engineID
+     *
+     * @throws ezcTemplateOutdatedCompilationException when the template should be recompiled. 
+     * @return void
+     */
     protected function checkRequirements( $engineID )
     {
         if ( $this->template->configuration->checkModifiedTemplates &&
@@ -200,11 +211,11 @@ class ezcTemplateCompiledCode
      *
      * @return array
      */
-    public static function reservedVariableNames()
+ /*   public static function reservedVariableNames()
     {
         return array( 'template', 'context', 'execution', 'this' );
     }
-
+*/
     /**
      * Returns true if the compiled code exists and is valid for execution.
      *
