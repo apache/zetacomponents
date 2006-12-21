@@ -11,6 +11,11 @@
 /**
  * Node element for parser trees.
  *
+ * @property string $originalText The text string contained within the self::$startCursor and self::$endCursor.
+ *                                This text is never modified, if the propery is false it will read from the
+ *                                source code and set before being returned.
+ * @property array(string=>mixed) $treeProperties Array of tree-properties making of the current node, mostly used for debugging.
+ *
  * @package Template
  * @version //autogen//
  * @access private
@@ -38,11 +43,8 @@ abstract class ezcTemplateTstNode
 
     /**
      * An array containing the properties of this object.
-     * originalText - The text string contained within the self::$startCursor and self::$endCursor.
-     *                This text is never modified, if the propery is false it will read from the
-     *                source code and set before being returned.
      *
-     * @var array
+     * @var array(string=>mixed)
      */
     private $properties = array( 'originalText' => false,
                                  'treeProperties' => false );
@@ -59,6 +61,9 @@ abstract class ezcTemplateTstNode
 
     /**
      * Property get
+     *
+     * @param string $name
+     * @return mixed
      */
     public function __get( $name )
     {
@@ -77,6 +82,10 @@ abstract class ezcTemplateTstNode
 
     /**
      * Property set
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return void
      */
     public function __set( $name, $value )
     {
@@ -92,6 +101,9 @@ abstract class ezcTemplateTstNode
 
     /**
      * Property isset
+     *
+     * @param string $name
+     * @return bool
      */
     public function __isset( $name )
     {
@@ -122,6 +134,8 @@ abstract class ezcTemplateTstNode
      * Returns an array with all properties related to the node tree.
      *
      * Note: This must be reimplemented by sub-classes.
+     *
+     * @return array(string=>mixed)
      */
     abstract public function getTreeProperties();
 
@@ -143,11 +157,24 @@ abstract class ezcTemplateTstNode
     abstract public function minimumWhitespaceColumn();
 
 
+    /**
+     * Called by the program parser to do custom operations on the new node $element.
+     *
+     * Note: The default implementation returns false.
+     *
+     * @return bool
+     */
     public function handleElement( ezcTemplateTstNode $element )
     {
         return false;
     }
 
+    /**
+     * Checks if the current node can be attached to the parent node $parentElement.
+     *
+     * @param ezcTemplateTstNode $parentElement
+     * @return bool
+     */
     public function canAttachToParent( $parentElement )
     {
     }
@@ -160,6 +187,8 @@ abstract class ezcTemplateTstNode
      *
      * If the current object is: ezcTemplateOutputBlockTstNode then
      * the method: $visitor->visitOutputBlockTstNode( $this ) will be called.
+     *
+     * @return ezcTemplateTstNode The result of the visit method on the visitor.
      */
     public function accept( ezcTemplateTstNodeVisitor $visitor  )
     {
