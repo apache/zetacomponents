@@ -54,67 +54,36 @@
  *
  * To check if any source code has been loaded or set use hasCode().
  *
+ * @property string stream  
+ *              The PHP stream path for the template source file.
+ * @property string resource 
+ *              The resource string which requested this template.
+ * @property string code
+ *              The original template code taken from the template file or
+ *              other resource. Contains a string with the source code or
+ *              false if no code is read yet.
+ * @property ezcTemplateOutputContext context 
+ *              The current context for the template code. Will be used for
+ *              parsing and run-time behaviour.
+ *
  * @package Template
  * @version //autogen//
  * @access private
  */
 class ezcTemplateSourceCode
 {
-
     /**
-     * The PHP stream path for the template source file.
+     * Array that stores the property values.
      *
-     * Note: Use isAvailable() to check if it actually can be read.
-     *
-     * @var string
-     * Note: __get/__set property
-     */
-    // private $stream;
-
-    /**
-     * The resource string which requested this template.
-     *
-     * Note: Should be the same as $stream if no specific resource string is
-     * known.
-     *
-     * @var string
-     * Note: __get/__set property
-     */
-    // private $resource;
-
-    /**
-     * The original template code taken from the template file or other
-     * resource. Contains a string with the source code or false if no code is
-     * read yet.
-     *
-     * @var string
-     * Note: __get/__set property
-     */
-    // private $code;
-
-    /**
-     * The current context for the template code. Will be used for parsing and
-     * run-time behaviour.
-     *
-     * @var ezcTemplateOutputContext
-     * Note: __get/__set property
-     */
-    // private $context;
-
-    /**
-     * An array containing the properties of this object.
-     * stream   - The PHP stream path for the template source file.
-     * resource - The resource string which requested this template.
-     * code     - The original template code taken from the template file or
-     *            other resource. Contains a string with the source code or
-     *            false if no code is read yet.
-     * context  - The current context for the template code. Will be used for
-     *            parsing and run-time behaviour.
+     * @var array(string=>mixed)
      */
     private $properties = array();
 
     /**
      * Property get
+     *
+     * @param string $name
+     * @return mixed
      */
     public function __get( $name )
     {
@@ -132,6 +101,10 @@ class ezcTemplateSourceCode
 
     /**
      * Property set
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return void
      */
     public function __set( $name, $value )
     {
@@ -150,6 +123,9 @@ class ezcTemplateSourceCode
 
     /**
      * Property isset
+     *
+     * @param string $name
+     * @return bool
      */
     public function __isset( $name )
     {
@@ -196,6 +172,7 @@ class ezcTemplateSourceCode
      *
      * Note: Calling this multiple times will re-init the $source variable.
      *
+     * @return void
      */
     public function load()
     {
@@ -221,6 +198,8 @@ class ezcTemplateSourceCode
      *
      * Note: Calling this multiple times will overwrite the file contents over and
      * over again. And the backup contains the same information as the original.
+     *
+     * @return void
      */
     public function save()
     {
@@ -267,6 +246,7 @@ class ezcTemplateSourceCode
      *
      * @see isAvailable()
      *
+     * @return void
      */
     public function delete()
     {

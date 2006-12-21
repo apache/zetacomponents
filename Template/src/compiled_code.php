@@ -205,18 +205,6 @@ class ezcTemplateCompiledCode
     }
 
     /**
-     * Returns a list of variable (PHP) names which are reserved when executing
-     * compiled code. The compiler must make sure none of these are used when
-     * generating local PHP variables.
-     *
-     * @return array
-     */
- /*   public static function reservedVariableNames()
-    {
-        return array( 'template', 'context', 'execution', 'this' );
-    }
-*/
-    /**
      * Returns true if the compiled code exists and is valid for execution.
      *
      * @return bool
