@@ -10,7 +10,6 @@
 
 require_once 'file_exception_test.php';
 
-require_once 'variable_test.php';
 require_once 'variable_collection_test.php';
 
 require_once 'location_test.php';
@@ -61,7 +60,6 @@ class ezcTemplateSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcTemplateFileExceptionTest::suite() );
 
-        $this->addTest( ezcTemplateVariableTest::suite() );
         $this->addTest( ezcTemplateVariableCollectionTest::suite() );
 
         $this->addTest( ezcTemplateLocationTest::suite() );
