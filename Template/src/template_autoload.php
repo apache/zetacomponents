@@ -16,7 +16,6 @@ return array(
              "ezcTemplateConfiguration" => "Template/configuration.php",
              "ezcTemplateAutoloaderDefinition" => "Template/structs/autoloader_definition.php",
              "ezcTemplateVariableCollection" => "Template/variable_collection.php",
-             "ezcTemplateLocation" => "Template/location.php",
 
              "ezcTemplateParser" => "Template/parser.php",
              "ezcTemplateCursor" => "Template/cursor.php",
