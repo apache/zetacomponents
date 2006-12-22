@@ -10,57 +10,128 @@
  */
 
 /**
+ * This class translates Template functions to PHP functions. If the function
+ * could not directly mapped to a PHP internal function, it calls a static 
+ * function from the Template component, implementing the desired behavior. 
+ *
  * @package Template
  * @version //autogen//
  * @access private
  */
 class ezcTemplateFunctions
 {
+    /**
+     * Keeps the translations from a specific regular expression match to a class name.
+     * E.g. Everything that starts with "str_" is translated to ezcTemplateStringFunctions.
+     * 
+     * The 'functions_to_class.php' is read for the translations.
+     *
+     * @var array(string=>string) $functionToClass
+     */
     protected $functionToClass;
-    protected $errorMessage = "";
+
+    /**
+     * Keeps a reference to the Template parser.
+     *
+     * @var ezcTemplateParser $parser
+     */
     private $parser = null;
 
+    /**
+     * @param ezcTemplateParser $parser
+     */
     public function __construct( ezcTemplateParser $parser )
     {
         $this->parser = $parser;
         $this->functionToClass = include( "function_to_class.php" );
     }
 
+    /**
+     * Returns (a part of) an AST-tree that makes a function call to the function $name with 
+     * the parameters $parameters. 
+     *
+     * @param string $name
+     * @param array(ezcTemplateAstNode) $parameters
+     * @return array(ezcTemplateAstNode)
+     */
     protected static function functionCall( $name, $parameters )
     {
         return array( "ezcTemplateFunctionCallAstNode", array( $name, array( "_array", $parameters ) ) );
     }
 
+    /**
+     * Returns an Literal AST-node with the value $val.
+     *
+     * @param mixed $val
+     * @return array(ezcTemplateAstNode)
+     */
     protected static function value( $val )
     {
         return array( "ezcTemplateLiteralAstNode", array( $val ) );
     }
 
+    /**
+     * Returns an Constant AST-node with the value $val.
+     *
+     * @param mixed $val
+     * @return array(ezcTemplateAstNode)
+     */
     protected static function constant( $val )
     {
         return array( "ezcTemplateConstantAstNode", array( $val ) );
     }
 
+    /**
+     * Concats (with ezcTemplateConcatOperatorAstNode) the two AST trees: $left and $right together. 
+     *
+     * @param ezcTemplateAstNode $left
+     * @param ezcTemplateAstNode $right
+     * @return array(ezcTemplateAstNode)
+     */
     protected static function concat( $left, $right )
     {
         return array( "ezcTemplateConcatOperatorAstNode", array( $left, $right ) );
     }
     
+    /**
+     * Returns true if the given parameter $parameter should be substituted with an ezcTemplateAstNode.
+     *
+     * @param string $parameter
+     * @return bool
+     */
     protected static function isSubstitution( $parameter )
     {
         return ( strpos( $parameter, "%" ) !== false );
     }
 
+    /**
+     * Returns true if the given parameter is optional.
+     *
+     * @param string $parameter
+     * @return bool
+     */
     protected static function isOptional( $parameter )
     {
         return $parameter[0] == "["; 
     }
 
+    /**
+     * Returns true if the given parameter represents one or more parameters.
+     *
+     * @param string $parameter
+     * @return bool
+     */
     protected static function isMany( $parameter )
     {
         return ( $parameter[1] == "." && $parameter[2] == "." );
     }   
 
+    /**
+     * Returns the given amount of parameters plus the optional remaining parameters.
+     *
+     * @param array(string) $parameters
+     * @return int
+     */
     protected static function countParameters( $parameters )
     {
         $total = sizeof( $parameters );
@@ -72,11 +143,17 @@ class ezcTemplateFunctions
         return $total;
     }
 
-    protected static function isVariable( $tst )
+    /**
+     * Returns true if the given AST node is a variable; thus a value can be assigned.
+     *
+     * @param ezcTemplateAstNode $ast
+     * @return bool
+     */
+    protected static function isVariable( $ast )
     {
-        if ( $tst instanceof ezcTemplateVariableAstNode ||
-            $tst instanceof ezcTemplateReferenceOperatorAstNode  ||
-            $tst instanceof ezcTemplateArrayFetchOperatorAstNode )
+        if ( $ast instanceof ezcTemplateVariableAstNode ||
+            $ast instanceof ezcTemplateReferenceOperatorAstNode  ||
+            $ast instanceof ezcTemplateArrayFetchOperatorAstNode )
         {
             return true;
         }
@@ -84,20 +161,42 @@ class ezcTemplateFunctions
         return false;
     }
 
-    protected static function checkType( $defined, $givenTst, $functionName, $parameterNumber )
+    /**
+     * Checks the type (currently only Variable) for a given AST node. 
+     * If the type doesn't match, an exception is thrown.
+     *
+     * @param string $defined
+     * @param ezcTemplateAstNode $givenAst
+     * @param string $functionName  Only important for the error message.
+     * @param int $parameterNumber  Only important for the error message.
+     *
+     * @throws ezcTemplateException if the function type is incorrect.
+     *
+     * @return void
+     */
+    protected static function checkType( $defined, $givenAst, $functionName, $parameterNumber )
     {
         $s = split( ":", $defined );
         $type = sizeof( $s ) > 1 ? $s[1] : null;
 
         if ( $type !== null && $type == "Variable" )
         {
-            if ( !self::isVariable( $givenTst ) )
+            if ( !self::isVariable( $givenAst ) )
             {
                 throw new ezcTemplateException( "The function '$functionName' expects parameter ". ($parameterNumber + 1)." to be a variable." );
             }   
         }
     } 
 
+    /**
+     * Creates a new instantation of the given $className string with the given parameters $functionParameters.
+     *
+     * If the class name is equal to "_array", it will just return the $functionParameters.
+     *
+     * @param string $className
+     * @param ezcTemplateAstNode $functionParameters
+     * @return ezcTemplateAstNode
+     */
     protected function createObject( $className, $functionParameters )
     {
         if ( $className == "_array" )
@@ -109,6 +208,7 @@ class ezcTemplateFunctions
             array( new ReflectionClass( $className ), 'newInstance' ), $functionParameters );
     }
  
+
     protected function processAst( $functionName, $struct, $parameterMap, &$usedRest )
     {
         $pOut = array();
@@ -242,7 +342,6 @@ class ezcTemplateFunctions
     public function getAstTree( $functionName, $parameters )
     {
         // Try the built-in template functions.
-        $this->errorMessage = "";
         $class = $this->getClass( $functionName );
 
         if ( $class !== null )
@@ -298,11 +397,6 @@ class ezcTemplateFunctions
         }
 
         throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_FUNCTION, $functionName ) );
-    }
-
-    public function getErrorMessage()
-    {
-        return $this->errorMessage;
     }
 
     public static function getFunctionSubstitution( $functionName, $parameters )

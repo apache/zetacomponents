@@ -10,40 +10,53 @@
  */
 
 /**
+ * This class contains a bundle of static functions, each implementing a specific
+ * function used inside the template language. 
+ *
  * @package Template
  * @version //autogen//
  * @access private
  */
 class ezcTemplateArray
 {
-
-    // array_append( $a, $v1 [, $v2 ...] ) ( QList::append() )::
-    // value count > 1 ? array_push( $a, $v1 [, $v2 ...] ) : $a[] = $v1
-    public static function array_append( $array )
+    /**
+     * Returns an array with the values $v1, [$v2, ...] prepended to the original array $array.
+     *
+     * @param array(mixed) $array
+     * @param mixed... $values
+     * @return array(mixed)
+     */
+    public static function array_append( $array, $values )
     {
-        $a = $array;
-        $arguments = func_num_args();
+        $args = func_get_args();
+        $array = array_shift( $args );
 
-        for( $i = 1; $i < $arguments; $i++)
-        {
-            $a[] = func_get_arg( $i );
-        }
-        return $a;
+        return array_merge( $array, $args );
     }
 
-    public static function array_prepend( $array )
+    /**
+     * Returns an array with the values $v1, [$v2, ...] prepended to the original array $array.
+     *
+     * @param array(mixed) $array
+     * @param mixed... $values
+     * @return array(mixed)
+     */
+    public static function array_prepend( $array, $values )
     {
-        $a = array(); 
-        $arguments = func_num_args();
+        $args = func_get_args();
+        $array = array_shift( $args );
 
-        for( $i = 1; $i < $arguments; $i++)
-        {
-            $a[] = func_get_arg( $i );
-        }
-
-        return array_merge( $a, $array );
+        return array_merge( $args, $array );
     }
 
+    /**
+     * Returns the given array with two elements: $index1 and $index2 swapped. 
+     *
+     * @param array(mixed) $array
+     * @param int $index1
+     * @param int $index2
+     * @return array(mixed)
+     */
     public static function array_swap( $array, $index1, $index2 )
     {
         $val = $array[$index1];
@@ -56,6 +69,16 @@ class ezcTemplateArray
 
     // array_find_replace( $a, $v, $vNew )::
     // $key = array_search( $v, $a ); if ( $key ) $a[$key] = $vNew;
+
+    /**
+     * Searches in the $array for the array key(s) $find and 
+     * replaces the value with $replace.
+     *
+     * @param array(mixed) $array
+     * @param string $find
+     * @param mixed $replace
+     * @return array(mixed)
+     */
     public static function array_find_replace( $array, $find, $replace )
     {
         $keys = array_keys( $array, $find ); 
@@ -68,18 +91,41 @@ class ezcTemplateArray
         return $array;
     }
 
-            //     array_extract_by_properties( $a, $pList )::
-            // 
-            //     array_sum( array_extract_by_properties( $order.items, array( 'price' ) ) )
-            // 
-            //     becomes
-            // 
-            //     foreach ( $order->items as $item )
-            //     {
-            //         $list[] = $item->price;
-            //     }
-            //     array_sum( $list )
-            //     unset( $list )
+
+    /** 
+     * Returns an array of extracted properties from an array of objects. 
+     * The properties named in the array $array. Each property becomes a new value in the resulting array.
+     *
+     * <code>
+     * {use $productsArray}
+     * {var $priceArray = array_extract_by_properties( $productsArray, array( "price" ) )}
+     * {debug_dump( $priceArray )}
+     * </code>
+     *
+     * The first line of the code above imports an array with product objects. 
+     * A product object has at least one property price. Meaning that:
+     *
+     * <code>
+     * {$productArray[0]->price}
+     * </code>
+     *
+     * returns the price of the first product in the array. 
+     * The function array_extract_by_properties goes through the whole array of products and stores the 
+     * price in the array. The output can be something like:
+     *
+     * <code>
+     * array
+     * (
+     *     [0] => 200
+     *     [1] => 199.24
+     *     [2] => 50.20
+     * )
+     * </code>
+     *
+     * @param array(mixed) $array
+     * @param array(string) $properties
+     * @return array(mixed)
+     */
     public static function array_extract_by_properties( $array, $properties )
     {
         $list = array();
@@ -95,6 +141,13 @@ class ezcTemplateArray
         return $list;
     }
  
+    /**
+     * Returns an array that contains $length times the input $array.
+     *
+     * @param array(mixed) $array
+     * @param int $length
+     * @return array(mixed)
+     */
     public static function array_repeat( $array, $length )
     {
         $out = array(); 
@@ -106,6 +159,13 @@ class ezcTemplateArray
         return $out;
     }
   
+    /**
+     * Returns a sorted array.
+     *
+     * @param array(mixed) $array
+     * @param int $flags            Contains a PHP array sort flag. Default set to SORT_REGULAR.
+     * @return array(mixed)
+     */
     public static function array_sort( $array, $flags = SORT_REGULAR )
     {
         $tmp = $array;
@@ -113,6 +173,13 @@ class ezcTemplateArray
         return $tmp;
     }
 
+    /**
+     * Returns a reversed sorted array.
+     *
+     * @param array(mixed) $array
+     * @param int $flags            Contains a PHP array sort flag. Default set to SORT_REGULAR.
+     * @return array(mixed)
+     */
     public static function array_sort_reverse( $array, $flags = SORT_REGULAR )
     {
         $tmp = $array;
@@ -120,6 +187,13 @@ class ezcTemplateArray
         return $tmp;
     }
 
+    /**
+     * Returns a sorted hash, sorted on the values.
+     *
+     * @param array(mixed) $array
+     * @param int $flags            Contains a PHP array sort flag. Default set to SORT_REGULAR.
+     * @return array(mixed)
+     */
     public static function hash_sort( $array, $flags = SORT_REGULAR )
     {
         $tmp = $array;
@@ -127,6 +201,13 @@ class ezcTemplateArray
         return $tmp;
     }
 
+    /**
+     * Returns a reversed sorted hash, sorted on the values.
+     *
+     * @param array(mixed) $array
+     * @param int $flags            Contains a PHP array sort flag. Default set to SORT_REGULAR.
+     * @return array(mixed)
+     */
     public static function hash_sort_reverse( $array, $flags = SORT_REGULAR )
     {
         $tmp = $array;
@@ -134,6 +215,13 @@ class ezcTemplateArray
         return $tmp;
     }
 
+    /**
+     * Returns a sorted hash, sorted on the keys.
+     *
+     * @param array(mixed) $array
+     * @param int $flags            Contains a PHP array sort flag. Default set to SORT_REGULAR.
+     * @return array(mixed)
+     */
     public static function hash_sort_keys( $array, $flags = SORT_REGULAR )
     {
         $tmp = $array;
@@ -141,6 +229,13 @@ class ezcTemplateArray
         return $tmp;
     }
 
+    /**
+     * Returns a reversed sorted hash, sorted on the keys.
+     *
+     * @param array(mixed) $array
+     * @param int $flags            Contains a PHP array sort flag. Default set to SORT_REGULAR.
+     * @return array(mixed)
+     */
     public static function hash_sort_keys_reverse( $array, $flags = SORT_REGULAR )
     {
         $tmp = $array;

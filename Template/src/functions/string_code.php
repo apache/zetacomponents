@@ -10,12 +10,21 @@
  */
 
 /**
+ * This class contains a bundle of static functions, each implementing a specific
+ * function used inside the template language. 
+ *
  * @package Template
  * @version //autogen//
  * @access private
  */
 class ezcTemplateString
 {
+    /**
+     * Returns the number of paragraphs found in the given string.
+     *
+     * @param string $string
+     * @return int
+     */
     public static function str_paragraph_count( $string )
     {
         $pos = 0;

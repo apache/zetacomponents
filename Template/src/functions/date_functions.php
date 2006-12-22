@@ -16,6 +16,19 @@
  */
 class ezcTemplateDateFunctions extends ezcTemplateFunctions
 {
+
+    /**
+     * Translates a function used in the Template language to a PHP function call.  
+     * The function call is represented by an array with three elements:
+     *
+     * 1. The return typehint. Is it an array, a non-array, or both.
+     * 2. The parameter input definition.
+     * 3. The AST nodes.
+     *
+     * @param string $functionName
+     * @param array(ezcTemplateAstNode) $parameters
+     * @return array(mixed)
+     */
     public static function getFunctionSubstitution( $functionName, $parameters )
     {
         switch ( $functionName )

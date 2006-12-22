@@ -10,6 +10,9 @@
  */
 
 /**
+ * This class contains a bundle of static functions, each implementing a specific
+ * function used inside the template language. 
+ 
  * @package Template
  * @version //autogen//
  * @access private
@@ -17,21 +20,32 @@
 class ezcTemplateType
 {
     /**
+     * Returns true if the given value is empty, otherwise false.
+     *
      * This method couldn't be translated directly because the parameter
      * of empty should always be a variable. 
      *
      * This wrapper function makes it possible to call: is_empty("");
+     *
+     * @param mixed $var
+     * @return bool
      */
     public static function is_empty( $var )
     {
         return empty( $var );
     }
 
+    /**
+     * Returns true if the given variable $var is an instance of the class $class. 
+     *
+     * @param mixed $var
+     * @param string $class
+     * @return bool
+     */
     public static function is_instance( $var, $class )
     {
         return ($var instanceof $class);
     }
-
 }
 
 

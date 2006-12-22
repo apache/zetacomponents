@@ -10,12 +10,21 @@
  */
 
 /**
+ * This class contains a bundle of static functions, each implementing a specific
+ * function used inside the template language. 
+ * 
  * @package Template
  * @version //autogen//
  * @access private
  */
 class ezcTemplateWeb
 {
+    /**
+     * Returns a string that contains the url build of the data $data.
+     *
+     * @param (array(string=>string) $data 
+     * @return string
+     */
     public static function url_build( $data )
     {
         $url = '';
@@ -49,7 +58,6 @@ class ezcTemplateWeb
 
         return $url;
     }
-
 }
 
 ?>

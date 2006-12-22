@@ -10,14 +10,23 @@
  */
 
 /**
+ * This class contains a bundle of static functions, each implementing a specific
+ * function used inside the template language. 
+ * 
  * @package Template
  * @version //autogen//
  * @access private
  */
 class ezcTemplateRegExp
 {
-    // preg_match( $reg, $s, $matches, $flags [, $offset] )
-    // return $matches;
+    /**
+     * Returns an array with the matching values of the performed match between the regular expression 
+     * $reg and the $string. 
+     *
+     * @param string $reg
+     * @param string $string
+     * @return array(string)
+     */
     public static function preg_match( $reg, $string )
     {
         preg_match( $reg, $string, $matches );
