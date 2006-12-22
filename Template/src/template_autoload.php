@@ -22,6 +22,8 @@ return array(
              "ezcTemplateSymbolTable" => "Template/symbol_table.php",
              "ezcTemplateCycle" => "Template/cycle.php",
 
+             "ezcTemplateStringTool" => "Template/string_tool.php",
+
              "ezcTemplateCustomBlockManager" => "Template/custom_block_manager.php",
              "ezcTemplateCustomFunctionManager" => "Template/custom_function_manager.php",
 
