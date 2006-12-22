@@ -320,10 +320,10 @@ return array(
              "ezcTemplateFileNotWriteableException" => "Template/exceptions/file_not_writeable_exception.php",
              "ezcTemplateFileFailedUnlinkException" => "Template/exceptions/file_failed_unlink_exception.php",
              "ezcTemplateFileFailedRenameException" => "Template/exceptions/file_failed_rename_exception.php",
-             "ezcTemplateSourceToTstParserException" => "Template/exceptions/element_parser_exception.php",
+             "ezcTemplateSourceToTstParserException" => "Template/exceptions/source_to_tst_parser_exception.php",
              "ezcTemplateTypeHintException" => "Template/exceptions/typehint_exception.php",
 
-             "ezcTemplateTstNodeException" => "Template/exceptions/element_exception.php",
+             "ezcTemplateTstNodeException" => "Template/exceptions/tst_node_exception.php",
              "ezcTemplateParserException" => "Template/exceptions/parser_exception.php",
              "ezcTemplateCustomBlockException" => "Template/exceptions/custom_block_exception.php",
 

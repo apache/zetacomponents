@@ -18,6 +18,7 @@
  *
  * @package Template
  * @version //autogen//
+ * @access private
  */
 class ezcTemplateTstNodeException extends ezcTemplateException
 {

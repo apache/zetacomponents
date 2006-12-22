@@ -21,6 +21,7 @@
  *
  * @package Template
  * @version //autogen//
+ * @access private
  */
 
 class ezcTemplateStringTool

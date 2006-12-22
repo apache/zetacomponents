@@ -12,6 +12,7 @@
  *
  * @package Template
  * @version //autogen//
+ * @access private
  */
 class ezcTemplateOutdatedCompilationException extends ezcTemplateException
 {
