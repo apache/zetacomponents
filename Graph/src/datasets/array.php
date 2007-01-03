@@ -18,9 +18,8 @@ class ezcGraphArrayDataSet extends ezcGraphDataSet
     /**
      * Constructor
      * 
-     * @param array $options Default option array
+     * @param mixed $options Array or Iterator containing the data
      * @return void
-     * @ignore
      */
     public function __construct( $data )
     {
@@ -29,14 +28,22 @@ class ezcGraphArrayDataSet extends ezcGraphDataSet
     }
 
     /**
-     * setData 
+     * setData
+     *
+     * Can handle data provided through an array or iterator.
      * 
-     * @param array $data 
+     * @param mixed $data 
      * @access public
      * @return void
      */
     protected function createFromArray( $data = array() ) 
     {
+        if ( !is_array( $data ) && 
+             !( $data instanceof Iterator ) )
+        {
+            throw new ezcGraphInvalidArrayDataSourceException( $data );
+        }
+
         foreach ( $data as $key => $value )
         {
             $this->data[$key] = $value;

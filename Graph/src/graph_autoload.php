@@ -85,6 +85,7 @@ return array(
 
     'ezcGraphDataSet'                           => 'Graph/datasets/base.php',
     'ezcGraphArrayDataSet'                      => 'Graph/datasets/array.php',
+    'ezcGraphInvalidArrayDataSourceException'   => 'Graph/exceptions/invalid_data_source.php',
     'ezcGraphNumericDataSet'                    => 'Graph/datasets/numeric.php',
     'ezcGraphDataSetAveragePolynom'             => 'Graph/datasets/average.php',
     'ezcGraphDatasetAverageInvalidKeysException' => 'Graph/exceptions/invalid_keys.php',

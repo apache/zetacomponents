@@ -2,6 +2,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Added feature #9402: Numeric datasets
+- Fixed issue #9916: Not documented: ArrayDataSet also can use Iterators
 - Fixed issue #9926: Float values with date axis result in date parsing
   exception
 
