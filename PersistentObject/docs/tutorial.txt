@@ -517,6 +517,8 @@ following basic persistence mapping is used and extended for each example::
     $def->properties['city']->columnName     = 'city';
     $def->properties['city']->propertyName   = 'city';
     $def->properties['city']->propertyType   = ezcPersistentObjectProperty::PHP_TYPE_STRING;
+
+    return $def;
     ?>
 
 Defining a simple relation
@@ -575,8 +577,10 @@ class in `The persistent class`_. It needs to be extended as follows::
         new ezcPersistentSingleTableMap(
             "id",
             "person_id"
-        ),
+        )
     );
+
+    // ..
     ?>
 
 A relation to another persistent object is defined in the property
@@ -617,8 +621,10 @@ you are using a persons first and last name as the primary key for the
         new ezcPersistentSingleTableMap(
             "lastname",
             "person_lastname"
-        ),
+        )
     );
+
+    return $def;
     ?>
 
 Using a relation
@@ -697,8 +703,10 @@ as follows::
         "persons_addresses"
     );
     $def->relations["Address"]->columnMap = array(
-        new ezcPersistentDoubleTableMap( "id", "person_id", "address_id", "id" ),
+        new ezcPersistentDoubleTableMap( "id", "person_id", "address_id", "id" )
     );
+
+    return $def;
     ?>
     
 In contrast to all other implementations of ezcPersistentRelation, the
@@ -735,8 +743,10 @@ example, of using a persons first and last name for the mapping: ::
     );
     $def->relations["Address"]->columnMap = array(
         new ezcPersistentDoubleTableMap( "firstname", "person_firstname", "address_id", "id" ),
-        new ezcPersistentDoubleTableMap( "lastname", "person_lastname", "address_id", "id" ),
+        new ezcPersistentDoubleTableMap( "lastname", "person_lastname", "address_id", "id" )
     );
+
+    return $def;
     ?>
 
 Using n:m relations
@@ -772,7 +782,7 @@ address, this could look like that: ::
     $def->idProperty->propertyName  = 'id';
     $def->idProperty->generator     = new ezcPersistentGeneratorDefinition( 'ezcPersistentManualGenerator' );
 
-    // ...
+    return $def;
     ?>
 
 And for the relation (defined in the definition file of the Person): ::
@@ -788,8 +798,10 @@ And for the relation (defined in the definition file of the Person): ::
         new ezcPersistentSingleTableMap(
             "id",
             "person_id"
-        ),
+        )
     );
+
+    return $def;
     ?>
 
 If you let both tables use an ezcPersistentSequenceGenerator for the same key,
@@ -835,6 +847,8 @@ example::
         new ezcPersistentDoubleTableMap( "id", "address_id", "person_id", "id" ),
     );
     $def->relations["Address"]->reverse = true;
+
+    return $def;
     ?>
 
 With the relation definition shown above, you would still be able to get the
@@ -895,6 +909,8 @@ based on the example from `Defining a simple relation`_::
         ),
     );
     $def->relations["Address"]->cascade = true;
+
+    return $def;
     ?>
 
 If you now use ::
