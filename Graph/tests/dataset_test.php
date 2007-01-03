@@ -255,6 +255,23 @@ class ezcGraphDataSetTest extends ezcTestCase
         );
     }
 
+    public function testDataSetSetSingleData()
+    {
+        $chart = new ezcGraphPieChart();
+        $chart->data['income'] = new ezcGraphArrayDataSet( array( 2000 => 2345.2, 2456.3, 2567.4 ) );
+        $chart->data['income'][2005] = 234.21;
+
+        $this->assertSame(
+            234.21,
+            $chart->data['income'][2005]
+        );
+
+        $this->assertSame(
+            2456.3,
+            $chart->data['income'][2001]
+        );
+    }
+
     public function testIteratorToDataSet()
     {
         $chart = new ezcGraphPieChart();
