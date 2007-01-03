@@ -18,7 +18,7 @@ class ezcGraphArrayDataSet extends ezcGraphDataSet
     /**
      * Constructor
      * 
-     * @param mixed $options Array or Iterator containing the data
+     * @param array|Iterator $options Array or Iterator containing the data
      * @return void
      */
     public function __construct( $data )
@@ -32,7 +32,7 @@ class ezcGraphArrayDataSet extends ezcGraphDataSet
      *
      * Can handle data provided through an array or iterator.
      * 
-     * @param mixed $data 
+     * @param array|Iterator $data 
      * @access public
      * @return void
      */
