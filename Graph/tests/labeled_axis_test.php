@@ -68,6 +68,19 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
         );
     }
 
+    public function testAutomaticLabelingMultiple2()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( 1 => 1, 3 => 3, 5 => 5, 8 => 8 ) );
+        $chart->data['sample2'] = new ezcGraphArrayDataSet( array( 1, 2, 3, 4, 5, 6, 7, 8 ) );
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            array( 0, 1, 2, 3, 4, 5, 6, 7, 8 ),
+            $this->getAttribute( $chart->xAxis, 'labels' )
+        );
+    }
+
     public function testAutomaticLabelingMultipleMixed()
     {
         $chart = new ezcGraphLineChart();
