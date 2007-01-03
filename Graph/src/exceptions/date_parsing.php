@@ -24,4 +24,3 @@ class ezcGraphErrorParsingDateException extends ezcGraphException
 }
 
 ?>
-
