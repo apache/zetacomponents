@@ -481,6 +481,26 @@ class ezcGraphDateAxisTest extends ezcGraphTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
+
+    public function testFloatDataSetKeys()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 
+            '231.1' => 12,
+            '651.2' => 324,
+            '3241.3' => 238,
+            '3292.4' => 123,
+        ) );
+        $this->chart->data['some data']->symbol = ezcGraph::DIAMOND;
+
+        $this->chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
 }
 
 ?>

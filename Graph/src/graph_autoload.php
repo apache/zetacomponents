@@ -77,6 +77,7 @@ return array(
     'ezcGraphChartElementBackground'            => 'Graph/element/background.php',
     'ezcGraphChartElementAxis'                  => 'Graph/element/axis.php',
     'ezcGraphChartElementDateAxis'              => 'Graph/axis/date.php',
+    'ezcGraphErrorParsingDateException'         => 'Graph/exceptions/date_parsing.php',
     'ezcGraphChartElementNumericAxis'           => 'Graph/axis/numeric.php',
     'ezcGraphChartElementLabeledAxis'           => 'Graph/axis/labeled.php',
     'ezcGraphChartElementLogarithmicalAxis'     => 'Graph/axis/logarithmic.php',

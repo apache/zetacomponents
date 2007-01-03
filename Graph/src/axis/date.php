@@ -152,16 +152,16 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
      */
     protected static function ensureTimestamp( $value )
     {
-        if ( is_int( $value ) || is_float( $value ) )
+        if ( is_numeric( $value ) )
         {
-            $value = (int) $value;
+            $timestamp = (int) $value;
         }
-        elseif ( ( $value = strtotime( $value ) ) === false )
+        elseif ( ( $timestamp = strtotime( $value ) ) === false )
         {
             throw new ezcGraphErrorParsingDateException( $value );
         }
 
-        return $value;
+        return $timestamp;
     }
 
     /**
