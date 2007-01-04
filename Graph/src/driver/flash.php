@@ -45,6 +45,7 @@ class ezcGraphFlashDriver extends ezcGraphDriver
      */
     public function __construct( array $options = array() )
     {
+        ezcBase::checkDependency( 'Graph', ezcBase::DEP_PHP_EXTENSION, 'ming' );
         $this->options = new ezcGraphFlashDriverOptions( $options );
     }
 

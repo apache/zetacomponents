@@ -71,6 +71,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
      */
     public function __construct( array $options = array() )
     {
+        ezcBase::checkDependency( 'Graph', ezcBase::DEP_PHP_EXTENSION, 'dom' );
         $this->options = new ezcGraphSvgDriverOptions( $options );
     }
 

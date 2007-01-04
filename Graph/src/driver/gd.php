@@ -66,6 +66,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
      */
     public function __construct( array $options = array() )
     {
+        ezcBase::checkDependency( 'Graph', ezcBase::DEP_PHP_EXTENSION, 'gd' );
         $this->options = new ezcGraphGdDriverOptions( $options );
     }
 
