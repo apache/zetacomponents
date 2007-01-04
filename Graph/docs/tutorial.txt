@@ -895,6 +895,22 @@ generated bitmap`__.
 
 __ img/tutorial_example_29.html
 
+Direct output
+=============
+
+By default a graph is rendered to a file, because you normally want to cache
+generated images. ezcGraph also provides a method for direct output of
+generated charts, but use this with caution.
+
+The ezcGraph::renderToOutput() method sends the correct Content-Type header
+for the selected output driver and writes the charts image data directly to
+the output. Pay attention not to output anything before using this method.
+
+.. include:: tutorial_example_30.php
+   :literal:
+
+This example renders the first graph of this tutorial.
+
 More Information
 ================
 
