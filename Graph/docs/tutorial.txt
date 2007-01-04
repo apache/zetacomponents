@@ -578,6 +578,29 @@ size of the matrix is equal to the point count of the used dataset. Be
 careful with data sets with large point count. Because this could mean that
 ezcGraph will consume a lot of memory and processing power.
 
+Numeric dataset
+---------------
+
+Numeric datasets are used to represent mathematical function in your chart. You
+use callbacks to PHP functions, own functions or methods which define the
+mathematical function used to create the data set.
+
+.. include:: tutorial_example_31.php
+   :literal:
+
+The numeric data set constructor receives the start value, the end value for
+the functions input and the function itself using PHPs `callback datatype`. In
+this example we create a function on runtime using create_function() which
+returns the name of the created function, which is a valid callback. The
+code of the ceated function in line 16 returns sinus values for the input in 
+degree.
+
+__ http://php.net/manual/en/language.pseudo-types.php
+
+The resolution set in line 20 defines the numer of steps used to interpolate
+the function in your graph. You should not use a bigger number then the width
+of your chart here.
+
 Renderer
 ========
 
