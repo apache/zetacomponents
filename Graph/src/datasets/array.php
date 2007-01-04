@@ -39,7 +39,7 @@ class ezcGraphArrayDataSet extends ezcGraphDataSet
     protected function createFromArray( $data = array() ) 
     {
         if ( !is_array( $data ) && 
-             !( $data instanceof Iterator ) )
+             !( $data instanceof Traversable ) )
         {
             throw new ezcGraphInvalidArrayDataSourceException( $data );
         }
