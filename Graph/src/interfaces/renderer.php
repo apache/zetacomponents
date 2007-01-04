@@ -530,10 +530,18 @@ abstract class ezcGraphRenderer
      * @param string $file Filename of destination file
      * @return void
      */
-    public function render( $file )
+    public function render( $file = null )
     {
         $this->finish();
-        $this->driver->render( $file );
+
+        if ( $file === null )
+        {
+            $this->driver->renderToOutput();
+        }
+        else
+        {
+            $this->driver->render( $file );
+        }
     }
 }
 ?>

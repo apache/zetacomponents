@@ -292,6 +292,27 @@ class ezcGraphRenderer3dTest extends ezcGraphTestCase
         );
     }
 
+    public function testRenderLineChartToOutput()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->renderer = new ezcGraphRenderer3d();
+
+        ob_start();
+        // Suppress header already sent warning
+        @$chart->renderToOutput( 500, 200 );
+        file_put_contents( $filename, ob_get_clean() );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testRenderLabeledPieSegment()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';

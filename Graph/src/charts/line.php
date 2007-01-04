@@ -283,19 +283,7 @@ class ezcGraphLineChart extends ezcGraphChart
         return ezcGraph::LINE;
     }
 
-    /**
-     * Render the line chart
-     *
-     * Renders the chart into a file or stream. The width and height are 
-     * needed to specify the dimensions of the resulting image. For direct
-     * output use 'php://stdout' as output file.
-     * 
-     * @param int $width Image width
-     * @param int $height Image height
-     * @param string $file Output file
-     * @return void
-     */
-    public function render( $width, $height, $file = null )
+    protected function renderElements( $width, $height )
     {
         if ( !count( $this->data ) )
         {
@@ -370,11 +358,44 @@ class ezcGraphLineChart extends ezcGraphChart
 
         // Render graph
         $this->renderData( $this->renderer, $boundings );
+    }
+
+    /**
+     * Render the line chart
+     *
+     * Renders the chart into a file or stream. The width and height are 
+     * needed to specify the dimensions of the resulting image. For direct
+     * output use 'php://stdout' as output file.
+     * 
+     * @param int $width Image width
+     * @param int $height Image height
+     * @param string $file Output file
+     * @return void
+     */
+    public function render( $width, $height, $file = null )
+    {
+        $this->renderElements( $width, $height );
 
         if ( !empty( $file ) )
         {
             $this->renderer->render( $file );
         }
+    }
+
+    /**
+     * Renders this chart to direct output
+     * 
+     * Does the same as ezcGraphChart::render(), but renders directly to 
+     * output and not into a file.
+     *
+     * @return void
+     */
+    public function renderToOutput( $widht, $height )
+    {
+        // @TODO: merge this function with render an deprecate ommit of third 
+        // argument in render() when API break is possible
+        $this->renderElements( $widht, $height );
+        $this->renderer->render( null );
     }
 }
 ?>

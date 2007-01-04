@@ -257,6 +257,16 @@ abstract class ezcGraphChart
      * @return void
      */
     abstract public function render( $widht, $height, $file = null );
+
+    /**
+     * Renders this chart to direct output
+     * 
+     * Does the same as ezcGraphChart::render(), but renders directly to 
+     * output and not into a file.
+     * 
+     * @return void
+     */
+    abstract public function renderToOutput( $widht, $height );
 }
 
 ?>
