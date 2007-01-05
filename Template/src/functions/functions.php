@@ -189,7 +189,7 @@ class ezcTemplateFunctions
     } 
 
     /**
-     * Creates a new instantation of the given $className string with the given parameters $functionParameters.
+     * Creates a new instantance of the given $className string with the parameters $functionParameters.
      *
      * If the class name is equal to "_array", it will just return the $functionParameters.
      *
@@ -209,6 +209,16 @@ class ezcTemplateFunctions
     }
  
 
+    /**
+     * Translates a function definition to a real AST tree. The function definition contains
+     * some virtual nodes that needs to be translated.
+     *
+     * @param string $functionName
+     * @param ezcTemplateAstNode $struct
+     * @param array(string=>ezcTemplateAstNode) $parameterMap
+     * @param bool $usedRest Initially set to false and may be set to true.
+     * @return ezcTemplateAstNode
+     */
     protected function processAst( $functionName, $struct, $parameterMap, &$usedRest )
     {
         $pOut = array();
@@ -251,6 +261,15 @@ class ezcTemplateFunctions
         return $this->createObject( $struct[0], $pOut );
     }
 
+    /**
+     * Translates a function definition to a real AST tree. The function definition contains
+     * some virtual nodes that needs to be translated.
+     *
+     * @param string $functionName
+     * @param array(mixed) $functionDefinition
+     * @param array(ezcTemplateAstNode) $processedParameters
+     * @return ezcTemplateAstNode
+     */
     protected function createAstNodes( $functionName, $functionDefinition, $processedParameters )
     {
         $index = sizeof( $functionDefinition ) == 3  ? 1 : 0;
@@ -311,6 +330,12 @@ class ezcTemplateFunctions
         return new ezcTemplateParenthesisAstNode( $ast );
     }
 
+    /**
+     * Returns the class that may implement this function $functionName.
+     *
+     * @param string $functionName
+     * @return string
+     */
     public function getClass( $functionName )
     {
         foreach ( $this->functionToClass as $func => $class )
@@ -324,6 +349,13 @@ class ezcTemplateFunctions
         return null;
     }
 
+    /**
+     * Returns a custom function definition if the given function name $name is a custom function, 
+     * otherwise return false.
+     *
+     * @param string $name
+     * @return ezcTemplateCustomFunctionDefinition
+     */
     public function getCustomFunction( $name )
     {
         foreach ( $this->parser->template->configuration->customFunctions as $class )
@@ -339,6 +371,17 @@ class ezcTemplateFunctions
         return false;
     }
 
+    /**
+     * Returns the corresponding AST tree to the function name $functionName and its parameters.
+     *
+     * The function name will, most likely, be translated from a Template function name to 
+     * the PHP function. The parameters are ordered, if needed.
+     *
+     * @param string $functionName
+     * @param array(ezcTemplateAstNode) $parameters 
+     * @throws ezcTemplateException if the parameters are not valid (Too many, not enough parameters, etc).
+     * @return ezcTemplateAstNode
+     */
     public function getAstTree( $functionName, $parameters )
     {
         // Try the built-in template functions.
@@ -392,13 +435,19 @@ class ezcTemplateFunctions
             }
 
             return $a;
-           // return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( $def->class . "::" . $def->method, array( $parameters ) ) );
-            // return array( "ezcTemplateFunctionCallAstNode", array( $name, array( "_array", $parameters ) ) );
         }
 
         throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNKNOWN_FUNCTION, $functionName ) );
     }
 
+    /**
+     * Subclasses need to implement this method.
+     *
+     * @param string $functionName
+     * @param array(ezcTemplateAstNode) $parameters
+     * @throws ezcTemplateInternalException if the subclass does not implement this method.
+     * @return array(mixed)
+     */
     public static function getFunctionSubstitution( $functionName, $parameters )
     {
         throw new ezcTemplateInternalException( "Subclasses need to implement the getFunctionSubstitution method." );

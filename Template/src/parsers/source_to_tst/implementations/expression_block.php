@@ -33,13 +33,12 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
     public $endBracket;
 
     /**
-     * The block element object which is the result of the parse operation.
-     * @var ezcTemplateOutputBlockTstNode
-     */
-
-    /**
      * Passes control to parent.
-    */
+     *
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
+     */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
         parent::__construct( $parser, $parentParser, $startCursor );
@@ -51,6 +50,11 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
     /**
      * Returns true if the current character is a curly bracket (}) which means
      * the end of the block.
+     *
+     * @param ezcTemplateCursor $cursor
+     * @param ezcTemplateTstNode $operator  
+     * @param bool $finalize
+     * @return bool
      */
     public function atEnd( ezcTemplateCursor $cursor, /*ezcTemplateTstNode*/ $operator, $finalize = true )
     {
@@ -69,6 +73,9 @@ class ezcTemplateExpressionBlockSourceToTstParser extends ezcTemplateSourceToTst
 
     /**
      * Parses the expression by using the ezcTemplateExpressionSourceToTstParser class.
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {

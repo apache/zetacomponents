@@ -32,7 +32,11 @@ class ezcTemplateArrayFetchSourceToTstParser extends ezcTemplateSourceToTstParse
 
     /**
      * Passes control to parent.
-    */
+     *
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
+     */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
         parent::__construct( $parser, $parentParser, $startCursor );
@@ -42,6 +46,9 @@ class ezcTemplateArrayFetchSourceToTstParser extends ezcTemplateSourceToTstParse
      * Parses the array fetch expression by using the generic expression parser.
      * The expression will callback the atEnd() function to figure out if the
      * end is reached or not.
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {

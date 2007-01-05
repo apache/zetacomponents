@@ -64,6 +64,9 @@ abstract class ezcTemplateSourceToTstParser
      */
     public $parentParser;
 
+    /**
+     * @var ezcTemplateSourceToTstParser
+     */
     public $programParser;
 
     /**
@@ -213,6 +216,7 @@ abstract class ezcTemplateSourceToTstParser
      * Set all cursors to the position of $cursor. This means all parsing starts
      * from this position.
      * @param ezcTemplateParser $cursor The cursor position to use.
+     * @return void
      */
     public function setAllCursors( ezcTemplateCursor $cursor )
     {
@@ -228,6 +232,11 @@ abstract class ezcTemplateSourceToTstParser
      * sub-parser which does a callback to this method.
      *
      * The default throws an exception.
+     *
+     * @param ezcTemplateCursor $cursor
+     * @param ezcTemplateTstNode $operator  
+     * @param bool $finalize
+     * @return bool
      */
     public function atEnd( ezcTemplateCursor $cursor, /*ezcTemplateTstNode*/ $operator, $finalize = true )
     {
@@ -239,7 +248,7 @@ abstract class ezcTemplateSourceToTstParser
         throw new ezcTemplateInternalException( "atEnd() called on parser <" . get_class( $this ) . "> which has not implemented it properly." );
     }
 
-    /*!
+    /**
      * Skips whitespace which is present at the current cursor position until
      * it reaches a non-whitespace character.
      *
@@ -247,9 +256,11 @@ abstract class ezcTemplateSourceToTstParser
      * - newlines (\r \r\n and \n)
      * - space
      * - tab (\t)
-     * @param ezcTemplateCursor $cursor The cursor object to process.
+     *
      * Note: The passed object will be modified.
-     * @return false if the end of the buffer is reached while processing, true otherwise.
+     *
+     * @param ezcTemplateCursor $cursor The cursor object to process.
+     * @return bool  False if the end of the buffer is reached while processing, true otherwise.
      */
     public function skipWhitespace()
     {
@@ -271,6 +282,7 @@ abstract class ezcTemplateSourceToTstParser
      * by appending them to the end of the list.
      *
      * @param ezcTemplateSourceToTstParser $parser The parser object which contains parsed elements.
+     * @return void
      */
     public function mergeElements( $parser )
     {
@@ -281,6 +293,7 @@ abstract class ezcTemplateSourceToTstParser
      * Appends the template element to the end of the current list.
      *
      * @param ezcTemplateTstNode $element The element object to add to list.
+     * @return void
      */
     public function appendElement( $element )
     {
@@ -288,6 +301,13 @@ abstract class ezcTemplateSourceToTstParser
     }
 
     /**
+     * Parses an optional type?
+     *
+     * @param mixed $type
+     * @param ezcTemplateCursor $startCursor
+     * @param bool $mergeElements
+     *
+     * @return bool
      */
     protected function parseOptionalType( $type, ezcTemplateCursor $startCursor = null, $mergeElements = true )
     {
@@ -334,6 +354,12 @@ abstract class ezcTemplateSourceToTstParser
     }
 
     /**
+     * Parses a required type.
+     *
+     * @param mixed $type
+     * @param ezcTemplateCursor $startCursor
+     * @param bool $mergeElements
+     * @return bool
      */
     protected function parseRequiredType( $type, ezcTemplateCursor $startCursor = null, $mergeElements = true )
     {
@@ -425,6 +451,7 @@ abstract class ezcTemplateSourceToTstParser
      *
      * @param ezcTemplateCursor $lastCursor The last cursor position, copy of $this->lastCursor.
      * @param ezcTemplateCursor $cursor The current cursor position, copy of $this->currentCursor.
+     * @return void
      */
     protected function handleSuccessfulResult( ezcTemplateCursor $lastCursor, ezcTemplateCursor $cursor )
     {
@@ -554,7 +581,7 @@ abstract class ezcTemplateSourceToTstParser
      *
      * Note: The default implementation returns false.
      *
-     * @return string
+     * @return bool
      */
     protected function generateErrorDetails()
     {
@@ -573,7 +600,7 @@ abstract class ezcTemplateSourceToTstParser
      * - No comment was found, it returns null.
      *
      * Note: This function can be used block parser which supports inline comments.
-     * @return bool/null
+     * @return bool
      */
     protected function skipComment()
     {
@@ -663,6 +690,8 @@ abstract class ezcTemplateSourceToTstParser
     /**
      * Finds the first character which is not-lowercase.
      * This means it is either uppercase or not alphabetical.
+     *
+     * @return bool
      */
     protected function findNonLowercase()
     {

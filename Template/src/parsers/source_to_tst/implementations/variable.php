@@ -23,12 +23,17 @@ class ezcTemplateVariableSourceToTstParser extends ezcTemplateSourceToTstParser
     /**
      * The variable name which was found while parsing or null if no variable
      * has been found yet.
+     *
      * @var string
      */
     public $variableName;
 
     /**
      * Passes control to parent.
+     *
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
      */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
@@ -40,6 +45,9 @@ class ezcTemplateVariableSourceToTstParser extends ezcTemplateSourceToTstParser
     /**
      * Parses the variable types by looking for a dollar sign followed by an
      * identifier. The identifier is parsed by using ezcTemplateIdentifierSourceToTstParser.
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {

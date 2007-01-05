@@ -19,6 +19,10 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
 {
     /**
      * Passes control to parent.
+     * 
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
     */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
@@ -27,6 +31,12 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
     }
 
 
+    /**
+     * Returns the custom block definition.
+     *
+     * @param string $name
+     * @return ezcTemplateCustomBlockDefinition
+     */
     function getCustomBlockDefinition( $name )
     {
         foreach ( $this->parser->template->configuration->customBlocks as $class )
@@ -45,6 +55,9 @@ class ezcTemplateCustomBlockSourceToTstParser extends ezcTemplateSourceToTstPars
 
     /**
      * Parses the expression by using the ezcTemplateExpressionSourceToTstParser class.
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {

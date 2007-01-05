@@ -22,12 +22,17 @@ class ezcTemplateIdentifierSourceToTstParser extends ezcTemplateLiteralSourceToT
     /**
      * The identifier which was found while parsing or null if no identifier
      * has been found yet.
+     *
      * @var string
      */
     public $identifierName;
 
     /**
      * Passes control to parent.
+     *
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
      */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
@@ -37,6 +42,9 @@ class ezcTemplateIdentifierSourceToTstParser extends ezcTemplateLiteralSourceToT
 
     /**
      * Parses the identifier types by looking for allowed characters.
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {

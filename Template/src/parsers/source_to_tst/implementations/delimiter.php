@@ -19,6 +19,9 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
 {
     /**
      * Passes control to parent.
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
      */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
@@ -28,6 +31,9 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
 
     /**
      * Parses the expression by using the ezcTemplateExpressionSourceToTstParser class.
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {

@@ -22,13 +22,18 @@ class ezcTemplateLiteralBlockSourceToTstParser extends ezcTemplateSourceToTstPar
 {
     /**
      * The block element object which is the result of the parse operation.
+     *
      * @var ezcTemplateLiteralBlockTstNode
      */
     public $block;
 
     /**
      * Passes control to parent.
-    */
+     *
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
+     */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
         parent::__construct( $parser, $parentParser, $startCursor );
@@ -37,6 +42,9 @@ class ezcTemplateLiteralBlockSourceToTstParser extends ezcTemplateSourceToTstPar
 
     /**
      * Parses the literal by using the ezcTemplateLiteralParser class.
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {

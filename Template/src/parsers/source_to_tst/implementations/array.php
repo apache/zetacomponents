@@ -22,9 +22,12 @@
  */
 class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstParser
 {
-
     /**
      * Passes control to parent.
+     * 
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
      */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
@@ -35,7 +38,9 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
      * Parses the array types by looking for 'array(...)' and then using the
      * generic expression parser (ezcTemplateExpressionSourceToTstParser) to fetch the
      * keys and values.
-     * @todo Keys and values should be allow to be expressions, switch sub-parser
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
@@ -150,6 +155,11 @@ class ezcTemplateArraySourceToTstParser extends ezcTemplateLiteralSourceToTstPar
         }
     }
 
+    /**
+     * Returns a string representing the current type.
+     *
+     * @return string
+     */
     public function getTypeName()
     {
         return "array";

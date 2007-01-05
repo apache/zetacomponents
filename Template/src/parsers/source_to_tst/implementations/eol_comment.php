@@ -22,6 +22,10 @@ class ezcTemplateEolCommentSourceToTstParser extends ezcTemplateSourceToTstParse
 {
     /**
      * Passes control to parent.
+     *
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
      */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
@@ -30,6 +34,9 @@ class ezcTemplateEolCommentSourceToTstParser extends ezcTemplateSourceToTstParse
 
     /**
      * Parses the comment by looking for the end marker \n.
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {

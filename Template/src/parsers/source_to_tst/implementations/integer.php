@@ -21,6 +21,10 @@ class ezcTemplateIntegerSourceToTstParser extends ezcTemplateLiteralSourceToTstP
 {
     /**
      * Passes control to parent.
+     *
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
      */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
@@ -29,6 +33,9 @@ class ezcTemplateIntegerSourceToTstParser extends ezcTemplateLiteralSourceToTstP
 
     /**
      * Parses the integer types by looking for numerical characters.
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
@@ -48,6 +55,11 @@ class ezcTemplateIntegerSourceToTstParser extends ezcTemplateLiteralSourceToTstP
         return false;
     }
 
+    /**
+     * Returns a string representing the current type.
+     *
+     * @return string
+     */
     public function getTypeName()
     {
         return "integer";

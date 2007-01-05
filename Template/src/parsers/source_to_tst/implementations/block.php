@@ -28,7 +28,11 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
 
     /**
      * Passes control to parent.
-    */
+     *
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
+     */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
         parent::__construct( $parser, $parentParser, $startCursor );
@@ -41,6 +45,8 @@ class ezcTemplateBlockSourceToTstParser extends ezcTemplateSourceToTstParser
      * - The block contains a generic expression in which case
      *   ezcTemplateExpressionBlockSourceToTstParser is used.
      *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {

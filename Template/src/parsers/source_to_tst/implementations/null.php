@@ -21,6 +21,10 @@ class ezcTemplateNullSourceToTstParser extends ezcTemplateLiteralSourceToTstPars
 {
     /**
      * Passes control to parent.
+     *
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
      */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
@@ -30,6 +34,9 @@ class ezcTemplateNullSourceToTstParser extends ezcTemplateLiteralSourceToTstPars
 
     /**
      * Parses the null type.
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
@@ -47,6 +54,11 @@ class ezcTemplateNullSourceToTstParser extends ezcTemplateLiteralSourceToTstPars
        return false;
     }
  
+    /**
+     * Returns a string representing the current type.
+     *
+     * @return string
+     */
     public function getTypeName()
     {
         return "null";

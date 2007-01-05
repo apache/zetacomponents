@@ -33,7 +33,11 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
 
     /**
      * Passes control to parent.
-    */
+     *
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
+     */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
         parent::__construct( $parser, $parentParser, $startCursor );
@@ -44,28 +48,17 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
      * Figures out if the end as been reached and returns true if it has.
      *
      * The end is reached when it finds the character ].
+     *
+     * @param ezcTemplateCursor $cursor
+     * @param ezcTemplateTstNode $operator  
+     * @param bool $finalize
+     * @return bool
      */
     public function atEnd( ezcTemplateCursor $cursor, /*ezcTemplateTstNode*/ $operator, $finalize = true )
     {
         if ( $cursor->current() == ')' )
         {
-//            if ( !$finalize )
-                return true;
-/*
-            $endCursor = clone $cursor;
-            $cursor->advance( 1 );
-            if ( $operator !== null )
-            {
-                $this->functionCall->endCursor = clone $operator->endCursor;
-                $this->functionCall->appendParameter( $operator );
-                $this->appendElement( $this->functionCall );
-            }
-            else
-            {
-                $this->functionCall->endCursor = $endCursor;
-            }
             return true;
-            */
         }
         else if ( $this->readingParameter && $cursor->current() == ',' )
         {
@@ -82,7 +75,9 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
      *
      * Look ahead: Identifier '('
      * Complete  : Identifier '(' ( Parameter ( ',' Parameter )* )? ')'
-     * 
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
@@ -156,7 +151,13 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
 
         }
     }
-
+    
+    /**
+     * Parse a parameter
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
+     */
     protected function parseParameter( $cursor )
     {
         // Without this, the expression parser keeps on reading.

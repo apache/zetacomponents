@@ -22,7 +22,11 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
 {
     /**
      * Passes control to parent.
-    */
+     *
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
+     */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
         parent::__construct( $parser, $parentParser, $startCursor );
@@ -32,6 +36,11 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
     /**
      * Returns true if the current character is a curly bracket (}) which means
      * the end of the block.
+     *
+     * @param ezcTemplateCursor $cursor
+     * @param ezcTemplateTstNode $operator  
+     * @param bool $finalize
+     * @return bool
      */
     public function atEnd( ezcTemplateCursor $cursor, /*ezcTemplateTstNode*/ $operator, $finalize = true )
     {
@@ -50,7 +59,10 @@ class ezcTemplateControlStructureSourceToTstParser extends ezcTemplateSourceToTs
     }
 
     /**
-     * Parses the expression by using the ezcTemplateExpressionSourceToTstParser class.
+     * Parses the statements, foreach, while, if, elseif, etc. 
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {

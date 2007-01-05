@@ -22,6 +22,10 @@ class ezcTemplateStringSourceToTstParser extends ezcTemplateLiteralSourceToTstPa
 {
     /**
      * Passes control to parent.
+     * 
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
      */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
@@ -31,6 +35,9 @@ class ezcTemplateStringSourceToTstParser extends ezcTemplateLiteralSourceToTstPa
     /**
      * Parses the string types by looking for single or double quotes to start
      * the string.
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
@@ -83,6 +90,11 @@ class ezcTemplateStringSourceToTstParser extends ezcTemplateLiteralSourceToTstPa
         return false;
     }
 
+    /**
+     * Returns a string representing the current type.
+     *
+     * @return string
+     */
     public function getTypeName()
     {
         return "string";

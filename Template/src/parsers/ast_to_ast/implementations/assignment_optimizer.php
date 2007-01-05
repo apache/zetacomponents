@@ -9,12 +9,30 @@
  * @access private
  */
 /**
+ * This class does some very basic assignment optimizations. 
+ *
+ * <code>
+ * $myVar .=  "hello";
+ * $myVar .=  " world";
+ * </code>
+ *
+ * Becomes:
+ * <code>
+ * $myVar .=  "hello world";
+ * </code>
+ *
  * @package Template
  * @version //autogen//
  * @access private
  */
 class ezcTemplateAstToAstAssignmentOptimizer extends ezcTemplateAstWalker
 {
+    /**
+     * Returns true if the given element consists of <var> = <static value>, otherwise false.
+     *
+     * @param ezcTemplateAstNode $element
+     * @return bool
+     */
     protected function isOptimizableConcat( $element )
     {
         if ( $element instanceof ezcTemplateGenericStatementAstNode )
@@ -27,16 +45,6 @@ class ezcTemplateAstToAstAssignmentOptimizer extends ezcTemplateAstWalker
                     {
                         return true;
                     }
-
-                    /*
-                    if ( $element->expression->parameters[1] instanceof ezcTemplateOutputAstNode )
-                    {
-                        if ( $element->expression->parameters[1]->expression instanceof ezcTemplateLiteralAstNode )
-                        {
-                            return true;
-                        }
-                    }
-                    */
                 }
             }
         }
@@ -44,6 +52,12 @@ class ezcTemplateAstToAstAssignmentOptimizer extends ezcTemplateAstWalker
         return false;
     }
 
+    /**
+     * Returns an optimized AST body from the original AST body $body. 
+     *
+     * @param ezcTemplateAstNode $element
+     * @return bool
+     */
     public function visitBodyAstNode( ezcTemplateBodyAstNode $body )
     {
         array_unshift( $this->nodePath, $body );

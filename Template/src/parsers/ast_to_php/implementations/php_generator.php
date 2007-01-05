@@ -37,12 +37,14 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     /**
      * Text which represents the current indentation.
      * This is automatically generated each time the indentation is changed.
+     * @var string
      */
     private $indentationText;
 
     /**
      * Stack of old indentation values.
      * When the indentation changes it is pushed to the stack and later on restored.
+     * @var array(int)
      */
     private $indentationStack;
 
@@ -68,6 +70,10 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     private $newline;
 
 
+    /**
+     * Escape the single quote in the output. Useful for the caching. 
+     * @var bool
+     */
     private $escapeSingleQuote = false;
 
 
@@ -113,6 +119,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
 
     /**
      * Writes the opening tag and some comments for the PHP file.
+     * @return void
      */
     protected function writeHeader()
     {
@@ -122,6 +129,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
 
     /**
      * Writes the ending tag for the PHP file.
+     * @return void
      */
     protected function writeFooter()
     {
@@ -141,6 +149,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * @param string $text The text string to write.
      * @param string $pre  Text to place in front of each line (after indentation).
      * @param string $post Text to place after each line (before newline character).
+     * @return void
      */
     protected function write( $text, $pre = null, $post = null )
     {
@@ -177,6 +186,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * with restoreIndentation().
      *
      * @param int $indentation The number of characters to increase the current indentation with.
+     * @return void
      */
     public function increaseIndentation( $indentation )
     {
@@ -196,6 +206,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Restores the old indentation value from the stack.
      *
      * @throws Exception if the stack is empty.
+     * @return void
      */
     public function restoreIndentation()
     {
@@ -220,6 +231,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * The name of the control structure is sent in $name
      * @param ezcTemplateAstNode $control The control structure element to get parameter from.
      * @param string $name The name of the control structure, e.g. 'break'
+     * @return void
      */
     protected function generateOptionalUnaryControl( ezcTemplateAstNode $control, $name )
     {
@@ -241,6 +253,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * The name of the control structure is sent in $name
      * @param ezcTemplateAstNode $control The control structure element to get parameter from.
      * @param string $name The name of the control structure, e.g. 'break'
+     * @return void
      */
     protected function generateUnaryControl( ezcTemplateAstNode $control, $name )
     {
@@ -256,6 +269,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * @param array(ezcTemplateAstNode) $parameters
      *        The parameters for the construct, will be written out with a comma
      *        in between.
+     * @return void
      */
     private function generateFunctionConstruct( $name, ezcTemplateAstNode $construct, Array $parameters )
     {
@@ -273,6 +287,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Exports the constant type value.
      *
      * @param ezcTemplateLiteralAstNode $type The code element containing the constant value.
+     * @return void
      */
     public function visitLiteralAstNode( ezcTemplateLiteralAstNode $type )
     {
@@ -322,6 +337,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         }
     }
 
+    /**
+     * @return void
+     */
     public function visitLiteralArrayAstNode( ezcTemplateLiteralArrayAstNode $type )
     {
         $first = true;
@@ -348,6 +366,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     }
 
 
+    /**
+     * @return void
+     */
     public function visitOutputAstNode( ezcTemplateOutputAstNode $type )
     {
         $type->expression->accept( $this );
@@ -358,6 +379,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Casts the value to the type.
      *
      * @param ezcTemplateTypeAstNode $node
+     * @return void
      */
     public function visitTypeCastAstNode( ezcTemplateTypeCastAstNode $node )
     {
@@ -370,6 +392,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Writes the constant as-is.
      *
      * @param ezcTemplateConstantAstNode $type The code element containing the constant value.
+     * @return void
      */
     public function visitConstantAstNode( ezcTemplateConstantAstNode $type )
     {
@@ -380,6 +403,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Writes the EOL comment with correct start marker.
      *
      * @param ezcTemplateEolCommentAstNode $comment The code element containing the EOL comment.
+     * @return void
      */
     public function visitEolCommentAstNode( ezcTemplateEolCommentAstNode $comment )
     {
@@ -395,6 +419,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Writes the block comment.
      *
      * @param ezcTemplateBlockCommentAstNode $comment The code element containing the block comment.
+     * @return void
      */
     public function visitBlockCommentAstNode( ezcTemplateBlockCommentAstNode $comment )
     {
@@ -415,6 +440,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Writes a dollar sign and the name of the variable.
      *
      * @param ezcTemplateVariableAstNode $var The code element containing the variable value.
+     * @return void
      */
     public function visitVariableAstNode( ezcTemplateVariableAstNode $var )
     {
@@ -425,6 +451,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Writes a dollar sign and curly braces around the sub-expression.
      *
      * @param ezcTemplateDynamicVariableAstNode $var The code element containing the variable value.
+     * @return void
      */
     public function visitDynamicVariableAstNode( ezcTemplateDynamicVariableAstNode $var )
     {
@@ -437,6 +464,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing a dynamic string.
      *
      * @param ezcTemplateDynamicStringAstNode #dynamic The code element containing the dynamic string.
+     * @return void
      */
     public function visitDynamicStringAstNode( ezcTemplateDynamicStringAstNode $dynamic )
     {
@@ -468,6 +496,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing an array fetch operator type.
      *
      * @param ezcTemplateArrayFetchOperatorAstNode $operator The code element containing the array fetch operator.
+     * @return void
      */
     public function visitArrayFetchOperatorAstNode( ezcTemplateArrayFetchOperatorAstNode $operator )
     {
@@ -499,6 +528,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Unary operators take one parameter and consist of a symbol.
      *
      * @param ezcTemplateOperatorAstNode $operator The code element containing the operator with parameter.
+     * @return void
      */
     public function visitUnaryOperatorAstNode( ezcTemplateOperatorAstNode $operator )
     {
@@ -531,6 +561,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Binary operators take two parameters and consist of a symbol.
      *
      * @param ezcTemplateOperatorAstNode $operator The code element containing the operator with parameters.
+     * @return void
      */
     public function visitBinaryOperatorAstNode( ezcTemplateOperatorAstNode $operator )
     {
@@ -564,6 +595,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Function call consist of a function name and arguments.
      *
      * @param ezcTemplateFunctionCallAstNode $fcall The code element containing the function call with arguments.
+     * @return void
      */
     public function visitFunctionCallAstNode( ezcTemplateFunctionCallAstNode $fcall )
     {
@@ -583,6 +615,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * A body consists of a series of statements in sequence.
      *
      * @param ezcTemplateBodyAstNode $body The code element containing the body.
+     * @return void
      */
     public function visitBodyAstNode( ezcTemplateBodyAstNode $body )
     {
@@ -597,6 +630,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * A body consists of a series of statements in sequence.
      *
      * @param ezcTemplateBodyAstNode $body The code element containing the body.
+     * @return void
      */
     public function visitRootAstNode( ezcTemplateRootAstNode $body )
     {
@@ -621,6 +655,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * A generic statement contains a generic code expression but is terminated with a semi-colon.
      *
      * @param ezcTemplateGenericStatementAstNode $statement The code element containing the statement.
+     * @return void
      */
     public function visitGenericStatementAstNode( ezcTemplateGenericStatementAstNode $statement )
     {
@@ -635,6 +670,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing if control structures.
      *
      * @param ezcTemplateIfAstNode $if The code element containing the if control structure.
+     * @return void
      */
     public function visitIfAstNode( ezcTemplateIfAstNode $if )
     {
@@ -663,6 +699,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         }
     }
 
+    /**
+     * @return void
+     */
     public function visitDynamicBlockAstNode( ezcTemplateDynamicBlockAstNode $statement )
     {
         $this->escapeSingleQuote = $statement->escapeSingleQuote;
@@ -678,6 +717,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing while control structures.
      *
      * @param ezcTemplateWhileAstNode $while The code element containing the while control structure.
+     * @return void
      */
     public function visitWhileAstNode( ezcTemplateWhileAstNode $while )
     {
@@ -697,6 +737,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing foreach control structures.
      *
      * @param ezcTemplateForeachAstNode $foreach The code element containing the foreach control structure.
+     * @return void
      */
     public function visitForeachAstNode( ezcTemplateForeachAstNode $foreach )
     {
@@ -722,6 +763,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing break control structures.
      *
      * @param ezcTemplateBreakAstNode $break The code element containing the break control structure.
+     * @return void
      */
     public function visitBreakAstNode( ezcTemplateBreakAstNode $break )
     {
@@ -732,6 +774,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing continue control structures.
      *
      * @param ezcTemplateContinueAstNode $continue The code element containing the continue control structure.
+     * @return void
      */
     public function visitContinueAstNode( ezcTemplateContinueAstNode $continue )
     {
@@ -742,6 +785,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing return control structures.
      *
      * @param ezcTemplateReturnAstNode $return The code element containing the return control structure.
+     * @return void
      */
     public function visitReturnAstNode( ezcTemplateReturnAstNode $return )
     {
@@ -752,6 +796,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing require control structures.
      *
      * @param ezcTemplateRequireAstNode $require The code element containing the require control structure.
+     * @return void
      */
     public function visitRequireAstNode( ezcTemplateRequireAstNode $require )
     {
@@ -762,6 +807,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing require_once control structures.
      *
      * @param ezcTemplateRequireOnceAstNode $require The code element containing the require_once control structure.
+     * @return void
      */
     public function visitRequireOnceAstNode( ezcTemplateRequireOnceAstNode $require )
     {
@@ -772,6 +818,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing include control structures.
      *
      * @param ezcTemplateIncludeAstNode $include The code element containing the include control structure.
+     * @return void
      */
     public function visitIncludeAstNode( ezcTemplateIncludeAstNode $include )
     {
@@ -782,6 +829,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing include_once control structures.
      *
      * @param ezcTemplateIncludeOnceAstNode $include The code element containing the include_once control structure.
+     * @return void
      */
     public function visitIncludeOnceAstNode( ezcTemplateIncludeOnceAstNode $include )
     {
@@ -792,6 +840,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing switch control structures.
      *
      * @param ezcTemplateSwitchAstNode $switch The code element containing the switch control structure.
+     * @return void
      */
     public function visitSwitchAstNode( ezcTemplateSwitchAstNode $switch )
     {
@@ -813,6 +862,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing case control structures.
      *
      * @param ezcTemplateCaseAstNode $case The code element containing the case control structure.
+     * @return void
      */
     public function visitCaseAstNode( ezcTemplateCaseAstNode $case )
     {
@@ -829,6 +879,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing default case control structures.
      *
      * @param ezcTemplateDefaultAstNode $default The code element containing the default case control structure.
+     * @return void
      */
     public function visitDefaultAstNode( ezcTemplateDefaultAstNode $default )
     {
@@ -842,6 +893,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing conditions for if control structures.
      *
      * @param ezcTemplateConditionBodyAstNode $cond The code element containing the if condition.
+     * @return void
      */
     public function visitConditionBodyAstNode( ezcTemplateConditionBodyAstNode $cond )
     {
@@ -852,6 +904,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing try control structures.
      *
      * @param ezcTemplateTryAstNode $try The code element containing the try control structure.
+     * @return void
      */
     public function visitTryAstNode( ezcTemplateTryAstNode $try )
     {
@@ -871,6 +924,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing catch control structures.
      *
      * @param ezcTemplateCatchAstNode $catch The code element containing the catch control structure.
+     * @return void
      */
     public function visitCatchAstNode( ezcTemplateCatchAstNode $catch )
     {
@@ -887,6 +941,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing echo construct.
      *
      * @param ezcTemplateEchoAstNode $echo The code element containing the echo construct.
+     * @return void
      */
     public function visitEchoAstNode( ezcTemplateEchoAstNode $echo )
     {
@@ -906,6 +961,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing print construct.
      *
      * @param ezcTemplatePrintAstNode $print The code element containing the print construct.
+     * @return void
      */
     public function visitPrintAstNode( ezcTemplatePrintAstNode $print )
     {
@@ -918,6 +974,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing isset construct.
      *
      * @param ezcTemplateIssetAstNode $isset The code element containing the isset construct.
+     * @return void
      */
     public function visitIssetAstNode( ezcTemplateIssetAstNode $isset )
     {
@@ -928,6 +985,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing unset construct.
      *
      * @param ezcTemplateUnsetAstNode $unset The code element containing the unset construct.
+     * @return void
      */
     public function visitUnsetAstNode( ezcTemplateUnsetAstNode $unset )
     {
@@ -938,6 +996,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a code element containing empty construct.
      *
      * @param ezcTemplateEmptyAstNode $empty The code element containing the empty construct.
+     * @return void
      */
     public function visitEmptyAstNode( ezcTemplateEmptyAstNode $empty )
     {
@@ -946,6 +1005,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $this->write( ");\n" );
     }
 
+    /**
+     * @return void
+     */
     public function visitParenthesisAstNode( ezcTemplateParenthesisAstNode $parenthesis )
     {
         $this->write( "(" );
@@ -953,6 +1015,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $this->write( ")" );
     }
 
+    /**
+     * @return void
+     */
     public function visitCurlyBracesAstNode( ezcTemplateCurlyBracesAstNode $curly )
     {
         $this->write( "{" );
@@ -960,6 +1025,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $this->write( "}" );
     }
 
+    /**
+     * @return void
+     */
     public function visitNewAstNode( ezcTemplateNewAstNode $new )
     {
         $this->write( "new " );
@@ -974,6 +1042,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $this->write( ")" );
     }
 
+    /**
+     * @return void
+     */
     public function visitCloneAstNode( ezcTemplateCloneAstNode $clone )
     {
         $this->write( "clone " );
@@ -981,11 +1052,17 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     }
 
 
+    /**
+     * @return void
+     */
     public function visitPhpCodeAstNode( ezcTemplatePhpCodeAstNode $code )
     {
         $this->write( $code->code );
     }
 
+    /**
+     * @return void
+     */
     public function visitThrowExceptionAstNode( ezcTemplateThrowExceptionAstNode $exception )
     {
         $this->write( "throw new ezcTemplateRuntimeException( ");
@@ -993,13 +1070,11 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $this->write( ")" );
     }
 
-
-
-//    public function visitReferenceOperatorAstNode( ezcTemplateReferenceOperatorAstNode $code )
-//    {
-//    }
-
-    public function visitIdentifierAstNode( $node )
+    /**
+     *
+     * @return void
+     */
+    public function visitIdentifierAstNode( ezcTemplateIdentifierAstNode $node )
     {
         $this->write( $node->name );
     }
@@ -1009,6 +1084,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      * Visits a node containing a nop node.
      *
      * @param ezcTemplateNopAstNode $node The node containing the nop node.
+     * @return void
      */
     public function visitNopAstNode( ezcTemplateNopAstNode $node )
     {

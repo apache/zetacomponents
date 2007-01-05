@@ -19,6 +19,7 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
 {
     /**
      * The program element of the parse operation if the parsing was successful.
+     *
      * @var ezcTemplateProgramTstNode
      */
     public $program;
@@ -26,12 +27,18 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
     /**
      * The last block which was processed by the parser. This is used to
      * figure out the correct nesting of block elements.
+     *
+     * @var ezcTemplateTstNode
      */
     private $lastBlock;
 
     /**
      * Passes control to parent.
-    */
+     * 
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
+     */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
         parent::__construct( $parser, $parentParser, $startCursor );
@@ -44,6 +51,9 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
      * passing control to the block parser (ezcTemplateBlockSourceToTstParser). The
      * text which is not covered by the block parser will be added as
      * text elements.
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
@@ -114,6 +124,13 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
      *
      * It also checks if the $lastBlock contains the current program parser, if it
      * does not it means the nesting in the current source code is incorrect.
+     *
+     * @param ezcTemplateCursor $lastCursor
+     * @param ezcTemplateCursor $cursor
+     *
+     * @throws ezcTemplateParserException if blocks are incorrectly nested.
+     *
+     * @return void
      */
     protected function handleSuccessfulResult( ezcTemplateCursor $lastCursor, ezcTemplateCursor $cursor )
     {
@@ -175,6 +192,12 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
         $this->parser->trimBlockLine( $this->program );
     }
 
+    /**
+     * Handles elements
+     *
+     * @param array(ezcTemplateTstNode) $elements
+     * @return void
+     */ 
     public function handleElements( $elements )
     {
         foreach ( $elements as $element )
@@ -209,6 +232,13 @@ class ezcTemplateProgramSourceToTstParser extends ezcTemplateSourceToTstParser
         }
     }
 
+    /**
+     * Matches an open with an closing block.
+     *
+     * @param ezcTemplateTstNode $element
+     * @throws ezcTemplateParserException for non matching open and close blocks.
+     * @return void
+     */ 
     protected function closeOpenBlock( $element )
     {
         // The previous element must be a block element,

@@ -32,11 +32,17 @@ class ezcTemplateLiteralSourceToTstParser extends ezcTemplateSourceToTstParser
     /**
      * The parsed element object which defines the type or null if nothing
      * was parsed.
+     *
+     * @var ezcTemplateTstNode
      */
     public $element;
 
     /**
      * Passes control to parent.
+     *
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
      */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
@@ -52,6 +58,9 @@ class ezcTemplateLiteralSourceToTstParser extends ezcTemplateSourceToTstParser
      * - ezcTemplateStringSourceToTstParser for string types.
      * - ezcTemplateBoolSourceToTstParser for boolean types.
      * - ezcTemplateArraySourceToTstParser for array types.
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {

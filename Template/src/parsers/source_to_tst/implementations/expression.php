@@ -40,14 +40,18 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
     public $rootOperator;
 
 
+    /**
+     * @var bool
+     */
     public $foundArrayAppend = false;
-
 
     /**
      * Passes control to parent.
-     * @param int $minPrecedence The minimum precedence level which is allowed
-     *                           for operators.
-    */
+     *
+     * @param ezcTemplateParser $parser
+     * @param ezcTemplateSourceToTstParser $parentParser
+     * @param ezcTemplateCursor $startCursor
+     */
     function __construct( ezcTemplateParser $parser, /*ezcTemplateSourceToTstParser*/ $parentParser, /*ezcTemplateCursor*/ $startCursor )
     {
         parent::__construct( $parser, $parentParser, $startCursor );
@@ -68,6 +72,9 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
      * to get proper order of operators in the tree.
      *
      * Look ahead: Operand 
+     *
+     * @param ezcTemplateCursor $cursor
+     * @return bool
      */
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
@@ -161,6 +168,10 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
     /**
      * Makes sure the element list contains the root operator/operand from the
      * expression.
+     *
+     * @param ezcTemplateCursor $lastCursor
+     * @param ezcTemplateCursor $cursor
+     * @return void
      */
     protected function handleSuccessfulResult( ezcTemplateCursor $lastCursor, ezcTemplateCursor $cursor )
     {
@@ -175,11 +186,27 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         $this->elements = array( $this->rootOperator );
     }
 
+    /**
+     * Returns true if the type $name can be parsed. If the $allowedTypes array is not empty, the array should also have the element $name.
+     *
+     * @param string $name 
+     * @param array(string) $allowedTypes
+     * @return bool
+     */
     protected function canParseType( $name, $allowedTypes )
     {
         return $this->parseOptionalType( $name ) && ( sizeof( $allowedTypes ) == 0  || in_array( $name, $allowedTypes )  );
     }
 
+    /**
+     * Parse an operand.
+     *
+     * @param ezcTemplateCursor $cursor 
+     * @param array(string) $allowedTypes
+     * @param bool $allowPostModification
+     * @param bool $allowArrayAppend
+     * @return string The type that is parsed.
+     */
     protected function parseOperand( $cursor, $allowedTypes = array(), $allowPostModification = true, $allowArrayAppend = false )
     {
         $parsedType = false;
@@ -252,113 +279,59 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         return $parsedType;
     }
 
-        protected function parsePreOperator( $cursor )
+    /**
+     * Parse a pre operator
+     *
+     * @param ezcTemplateCursor $cursor 
+     * @return bool
+     */
+    protected function parsePreOperator( $cursor )
+    {
+        // Check if we have -, ! operators
+        $operator = null;
+        // This will contain the name of the operator if it is found.
+        $operatorName = false;
+
+        $operatorSymbols = array( array( 1,
+                                         array( '-', '!', '+' ) ) );
+        foreach ( $operatorSymbols as $symbolEntry )
         {
-                // Check if we have -, ! operators
-                $operator = null;
-                // This will contain the name of the operator if it is found.
-                $operatorName = false;
-
-                $operatorSymbols = array( array( 1,
-                                                 array( '-', '!', '+' ) ) );
-                foreach ( $operatorSymbols as $symbolEntry )
-                {
-                    $chars = $cursor->current( $symbolEntry[0] );
-                    if ( in_array( $chars, $symbolEntry[1] ) )
-                    {
-                        $operatorName = $chars;
-                        break;
-                    }
-                }
-
-                if ( $operatorName !== false )
-                {
-                    // Ignore the unary + operator.
-                    if ( $operatorName == "+" ) 
-                    {
-                        $this->findNextElement();
-                        $cursor->advance();
-                        return true;
-                    }
-
-                    $operatorStartCursor = clone $cursor;
-                    $cursor->advance( strlen( $operatorName ) );
-                    $this->findNextElement();
-
-                    $operatorMap = array( '-' => 'NegateOperator',
-                                          '!' => 'LogicalNegateOperator' );
-                    $operatorName = $operatorMap[$operatorName];
-
-                    $function = "ezcTemplate". $operatorName . "TstNode";
-                    $operator = new $function( $this->parser->source, clone $this->lastCursor, $cursor );
-
-                    // If the min precedence has been reached we immediately stop parsing
-                    // and return a successful parse result
-                    if ( $this->minPrecedence !== false &&
-                         $operator->precedence < $this->minPrecedence )
-                    {
-                        $cursor->copy( $operatorStartCursor );
-                        return true;
-                    }
-
-                    if ( $this->currentOperator === null )
-                    {
-                        $this->currentOperator = $operator;
-                    }
-                    else
-                    {
-                        // All pre operators should not sort precedence at this
-                        // moment so just append it to the current operator.
-                        $this->currentOperator->appendParameter( $operator );
-                        $operator->parentOperator = $this->currentOperator;
-                        $this->currentOperator = $operator;
-                    }
-
-                    $this->lastCursor->copy( $cursor );
-                    return true;
-                }
-                return false;
+            $chars = $cursor->current( $symbolEntry[0] );
+            if ( in_array( $chars, $symbolEntry[1] ) )
+            {
+                $operatorName = $chars;
+                break;
+            }
         }
 
-        protected function parsePostOperator( $cursor )
+        if ( $operatorName !== false )
         {
-            if ( $cursor->match( '++' ) )
+            // Ignore the unary + operator.
+            if ( $operatorName == "+" ) 
             {
-                $operatorStartCursor = clone $cursor;
-                $operator = new ezcTemplatePostIncrementOperatorTstNode( $this->parser->source, clone $this->lastCursor, $cursor );
-            }
-            elseif(  $cursor->match( '--' ) )
-            {
-                $operatorStartCursor = clone $cursor;
-                $operator = new ezcTemplatePostDecrementOperatorTstNode( $this->parser->source, clone $this->lastCursor, $cursor );
-            }
-            else
-            {
-                return false;
+                $this->findNextElement();
+                $cursor->advance();
+                return true;
             }
 
-            $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
+            $operatorStartCursor = clone $cursor;
+            $cursor->advance( strlen( $operatorName ) );
+            $this->findNextElement();
 
-            $this->lastCursor->copy( $cursor );
+            $operatorMap = array( '-' => 'NegateOperator',
+                                  '!' => 'LogicalNegateOperator' );
+            $operatorName = $operatorMap[$operatorName];
 
-            return true;
-        }
+            $function = "ezcTemplate". $operatorName . "TstNode";
+            $operator = new $function( $this->parser->source, clone $this->lastCursor, $cursor );
 
-        protected function parsePreModifyingOperator( $cursor )
-        {
-            if ( $cursor->match( '++' ) )
+            // If the min precedence has been reached we immediately stop parsing
+            // and return a successful parse result
+            if ( $this->minPrecedence !== false &&
+                 $operator->precedence < $this->minPrecedence )
             {
-                $operatorStartCursor = clone $cursor;
-                $operator = new ezcTemplatePreIncrementOperatorTstNode( $this->parser->source, clone $this->lastCursor, $cursor );
-            }
-            elseif(  $cursor->match( '--' ) )
-            {
-                $operatorStartCursor = clone $cursor;
-                $operator = new ezcTemplatePreDecrementOperatorTstNode( $this->parser->source, clone $this->lastCursor, $cursor );
-            }
-            else
-            {
-                return false;
+                $cursor->copy( $operatorStartCursor );
+                return true;
             }
 
             if ( $this->currentOperator === null )
@@ -375,259 +348,364 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             }
 
             $this->lastCursor->copy( $cursor );
-
             return true;
         }
+        return false;
+    }
 
-
-        protected function parseArrayFetch( $cursor, $allowArrayAppend = false )
+    /**
+     * Parse a pre operator
+     *
+     * @param ezcTemplateCursor $cursor 
+     * @return bool
+     */
+    protected function parsePostOperator( $cursor )
+    {
+        if ( $cursor->match( '++' ) )
         {
-            // Try the special array fetch operator
-            $operator = null;
-            while ( $cursor->match( '[' ) )
+            $operatorStartCursor = clone $cursor;
+            $operator = new ezcTemplatePostIncrementOperatorTstNode( $this->parser->source, clone $this->lastCursor, $cursor );
+        }
+        elseif(  $cursor->match( '--' ) )
+        {
+            $operatorStartCursor = clone $cursor;
+            $operator = new ezcTemplatePostDecrementOperatorTstNode( $this->parser->source, clone $this->lastCursor, $cursor );
+        }
+        else
+        {
+            return false;
+        }
+
+        $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
+
+        $this->lastCursor->copy( $cursor );
+
+        return true;
+    }
+
+    /**
+     * Parse a pre modifying operator
+     *
+     * @param ezcTemplateCursor $cursor 
+     * @return bool
+     */
+    protected function parsePreModifyingOperator( $cursor )
+    {
+        if ( $cursor->match( '++' ) )
+        {
+            $operatorStartCursor = clone $cursor;
+            $operator = new ezcTemplatePreIncrementOperatorTstNode( $this->parser->source, clone $this->lastCursor, $cursor );
+        }
+        elseif(  $cursor->match( '--' ) )
+        {
+            $operatorStartCursor = clone $cursor;
+            $operator = new ezcTemplatePreDecrementOperatorTstNode( $this->parser->source, clone $this->lastCursor, $cursor );
+        }
+        else
+        {
+            return false;
+        }
+
+        if ( $this->currentOperator === null )
+        {
+            $this->currentOperator = $operator;
+        }
+        else
+        {
+            // All pre operators should not sort precedence at this
+            // moment so just append it to the current operator.
+            $this->currentOperator->appendParameter( $operator );
+            $operator->parentOperator = $this->currentOperator;
+            $this->currentOperator = $operator;
+        }
+
+        $this->lastCursor->copy( $cursor );
+
+        return true;
+    }
+
+
+    /**
+     * Parse the array fetch
+     *
+     * @param ezcTemplateCursor $cursor 
+     * @param bool $allowArrayAppend
+     * @return bool
+     */
+    protected function parseArrayFetch( $cursor, $allowArrayAppend = false )
+    {
+        // Try the special array fetch operator
+        $operator = null;
+        while ( $cursor->match( '[' ) )
+        {
+            $this->findNextElement();
+            
+            if ( $allowArrayAppend && $cursor->match( "]" ) )
             {
-                $this->findNextElement();
-                
-                if ( $allowArrayAppend && $cursor->match( "]" ) )
-                {
-                    $operator = new ezcTemplateArrayAppendOperatorTstNode( $this->parser->source, $this->startCursor, $cursor );
-                    $this->foundArrayAppend = true;
-
-                    $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
-                    $this->lastCursor = clone $cursor;
-
-                    return true;
-                }
-                else
-                {
-                    $operatorStartCursor = clone $cursor;
-                    if ( !$this->parseRequiredType( 'ArrayFetch' ) )
-                    {
-                        return false;
-                    }
-
-                    $this->findNextElement();
-                    if ( !$cursor->match( "]" ) )
-                    {
-                        throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_SQUARE_BRACKET_CLOSE );
-                    }
-                    
-                    $operator = $this->lastParser->fetch;
-                }
-
-                // If the min precedence has been reached we immediately stop parsing
-                // and return a successful parse result
-                if ( $this->minPrecedence !== false &&
-                $operator->precedence < $this->minPrecedence )
-                {
-                    $cursor->copy( $operatorStartCursor );
-                    return true;
-                }
+                $operator = new ezcTemplateArrayAppendOperatorTstNode( $this->parser->source, $this->startCursor, $cursor );
+                $this->foundArrayAppend = true;
 
                 $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
                 $this->lastCursor = clone $cursor;
 
+                return true;
+            }
+            else
+            {
+                $operatorStartCursor = clone $cursor;
+                if ( !$this->parseRequiredType( 'ArrayFetch' ) )
+                {
+                    return false;
+                }
+
                 $this->findNextElement();
+                if ( !$cursor->match( "]" ) )
+                {
+                    throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_SQUARE_BRACKET_CLOSE );
+                }
+                
+                $operator = $this->lastParser->fetch;
             }
 
-            return ($operator !== null); 
-        }
-
-        protected function parseAssignmentOperator( $cursor )
-        {
-            if ( $cursor->match( "=" ) )
+            // If the min precedence has been reached we immediately stop parsing
+            // and return a successful parse result
+            if ( $this->minPrecedence !== false &&
+            $operator->precedence < $this->minPrecedence )
             {
-                $function = "ezcTemplateAssignmentOperatorTstNode";
-                $operator = new $function( $this->parser->source, clone $this->lastCursor, $cursor );
-
-                $this->checkForValidOperator( $this->currentOperator, $operator, $cursor );
-
-                $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
-
+                $cursor->copy( $operatorStartCursor );
                 return true;
             }
 
+            $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
+            $this->lastCursor = clone $cursor;
+
+            $this->findNextElement();
+        }
+
+        return ($operator !== null); 
+    }
+
+    /**
+     * Parse assignment operator
+     *
+     * @param ezcTemplateCursor $cursor 
+     * @return bool
+     */
+    protected function parseAssignmentOperator( $cursor )
+    {
+        if ( $cursor->match( "=" ) )
+        {
+            $function = "ezcTemplateAssignmentOperatorTstNode";
+            $operator = new $function( $this->parser->source, clone $this->lastCursor, $cursor );
+
+            $this->checkForValidOperator( $this->currentOperator, $operator, $cursor );
+
+            $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Parse operator
+     *
+     * @param ezcTemplateCursor $cursor 
+     * @param bool $canDoAssignment
+     * @return bool
+     */
+    protected function parseOperator( $cursor, $canDoAssignment = true )
+    {
+        // Try som generic operators
+        $operator = null;
+        // This will contain the name of the operator if it is found.
+        $operatorName = false;
+
+        $operatorSymbols = array( 
+        array( 3,
+        array( '===', '!==' ) ),
+        array( 2,
+        array( '->',
+        '==', '!=',
+        '<=', '>=',
+        '&&', '||',
+        '+=', '-=', '*=', '/=', '.=', '%=',
+        '..',
+        '=>' /* To make sure that the expression ends when this token is found */,) ),
+        array( 1,
+        array( '+', '-', '.',
+        '*', '/', '%',
+        '<', '>', '=' ) ) );
+        foreach ( $operatorSymbols as $symbolEntry )
+        {
+            $chars = $cursor->current( $symbolEntry[0] );
+            if ( in_array( $chars, $symbolEntry[1] ) )
+            {
+                $operatorName = $chars;
+                break;
+            }
+        }
+
+        if ( $operatorName !== false && $operatorName == "=>" )
+        {
             return false;
         }
 
-        protected function parseOperator( $cursor, $canDoAssignment = true )
+        // Cannot do an assignment right now.
+        if ( $operatorName == "=" && !$canDoAssignment)
         {
-            // Try som generic operators
-            $operator = null;
-            // This will contain the name of the operator if it is found.
-            $operatorName = false;
+            return false;
+        }
 
-            $operatorSymbols = array( 
-            array( 3,
-            array( '===', '!==' ) ),
-            array( 2,
-            array( '->',
-            '==', '!=',
-            '<=', '>=',
-            '&&', '||',
-            '+=', '-=', '*=', '/=', '.=', '%=',
-            '..',
-            '=>' /* To make sure that the expression ends when this token is found */,) ),
-            array( 1,
-            array( '+', '-', '.',
-            '*', '/', '%',
-            '<', '>', '=' ) ) );
-            foreach ( $operatorSymbols as $symbolEntry )
+
+        if ( $operatorName !== false )
+        {
+            $operatorStartCursor = clone $cursor;
+            $cursor->advance( strlen( $operatorName ) );
+
+            $operatorMap = array( '+' => 'PlusOperator',
+            '-' => 'MinusOperator',
+            '.' => 'ConcatOperator',
+
+            '*' => 'MultiplicationOperator',
+            '/' => 'DivisionOperator',
+            '%' => 'ModuloOperator',
+
+            '->' => 'PropertyFetchOperator',
+
+            '==' => 'EqualOperator',
+            '!=' => 'NotEqualOperator',
+
+            '===' => 'IdenticalOperator',
+            '!==' => 'NotIdenticalOperator',
+
+            '<' => 'LessThanOperator',
+            '>' => 'GreaterThanOperator',
+
+            '<=' => 'LessEqualOperator',
+            '>=' => 'GreaterEqualOperator',
+
+            '&&' => 'LogicalAndOperator',
+            '||' => 'LogicalOrOperator',
+
+            '=' => 'AssignmentOperator',
+            '+=' => 'PlusAssignmentOperator',
+            '-=' => 'MinusAssignmentOperator',
+            '*=' => 'MultiplicationAssignmentOperator',
+            '/=' => 'DivisionAssignmentOperator',
+            '.=' => 'ConcatAssignmentOperator',
+            '%=' => 'ModuloAssignmentOperator',
+
+            '..' => 'ArrayRangeOperator', );
+
+            $requestedName = $operatorName;
+            $operatorName = $operatorMap[$operatorName];
+
+            $function = "ezcTemplate". $operatorName . "TstNode";
+            $operator = new $function( $this->parser->source, clone $this->lastCursor, $cursor );
+
+            // If the min precedence has been reached we immediately stop parsing
+            // and return a successful parse result
+            if ( $this->minPrecedence !== false &&
+            $operator->precedence < $this->minPrecedence )
             {
-                $chars = $cursor->current( $symbolEntry[0] );
-                if ( in_array( $chars, $symbolEntry[1] ) )
-                {
-                    $operatorName = $chars;
-                    break;
-                }
-            }
-
-            if ( $operatorName !== false && $operatorName == "=>" )
-            {
-                return false;
-            }
-
-            // Cannot do an assignment right now.
-            if ( $operatorName == "=" && !$canDoAssignment)
-            {
-                return false;
-            }
-
-
-            if ( $operatorName !== false )
-            {
-                $operatorStartCursor = clone $cursor;
-                $cursor->advance( strlen( $operatorName ) );
-
-                $operatorMap = array( '+' => 'PlusOperator',
-                '-' => 'MinusOperator',
-                '.' => 'ConcatOperator',
-
-                '*' => 'MultiplicationOperator',
-                '/' => 'DivisionOperator',
-                '%' => 'ModuloOperator',
-
-                '->' => 'PropertyFetchOperator',
-
-                '==' => 'EqualOperator',
-                '!=' => 'NotEqualOperator',
-
-                '===' => 'IdenticalOperator',
-                '!==' => 'NotIdenticalOperator',
-
-                '<' => 'LessThanOperator',
-                '>' => 'GreaterThanOperator',
-
-                '<=' => 'LessEqualOperator',
-                '>=' => 'GreaterEqualOperator',
-
-                '&&' => 'LogicalAndOperator',
-                '||' => 'LogicalOrOperator',
-
-                '=' => 'AssignmentOperator',
-                '+=' => 'PlusAssignmentOperator',
-                '-=' => 'MinusAssignmentOperator',
-                '*=' => 'MultiplicationAssignmentOperator',
-                '/=' => 'DivisionAssignmentOperator',
-                '.=' => 'ConcatAssignmentOperator',
-                '%=' => 'ModuloAssignmentOperator',
-
-                '..' => 'ArrayRangeOperator', );
-
-                $requestedName = $operatorName;
-                $operatorName = $operatorMap[$operatorName];
-
-                $function = "ezcTemplate". $operatorName . "TstNode";
-                $operator = new $function( $this->parser->source, clone $this->lastCursor, $cursor );
-
-                // If the min precedence has been reached we immediately stop parsing
-                // and return a successful parse result
-                if ( $this->minPrecedence !== false &&
-                $operator->precedence < $this->minPrecedence )
-                {
-                    $cursor->copy( $operatorStartCursor );
-                    return $operatorName;
-                }
-
-                $this->checkForValidOperator( $this->currentOperator, $operator, $operatorStartCursor );
-
-                $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
-
-                $this->lastCursor->copy( $cursor );
-
-                // -> operator can have an identifier as the next operand
-                if ( $requestedName == '->' )
-                {
-                    $this->allowIdentifier = true;
-                }
-
+                $cursor->copy( $operatorStartCursor );
                 return $operatorName;
             }
 
-            return false;
-        }
+            $this->checkForValidOperator( $this->currentOperator, $operator, $operatorStartCursor );
 
-        /**
-         *  Check whether the given operand can be the left hand side of the $operator.
-         *  For example: 4 = 5; is not allowed. But $a = 5 , and $a[0][0]->bla  is.
-         */
-        private function checkForValidOperator( $lhs, $op, $cursor )
-        {
-            if ( $op instanceof ezcTemplateModifyingOperatorTstNode)
+            $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
+
+            $this->lastCursor->copy( $cursor );
+
+            // -> operator can have an identifier as the next operand
+            if ( $requestedName == '->' )
             {
-                if ( !( $lhs instanceof ezcTemplateVariableTstNode ||
-                    $lhs instanceof ezcTemplateArrayAppendOperatorTstNode ||
-                    $lhs instanceof ezcTemplateArrayFetchOperatorTstNode ||
-                    $lhs instanceof ezcTemplatePropertyFetchOperatorTstNode ||
-                    $lhs instanceof ezcTemplateModifyingOperatorTstNode ) )
-                {
-                    if ( $op instanceof ezcTemplateOperatorTstNode )
-                    {
-                        throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
-                            sprintf( ezcTemplateSourceToTstErrorMessages::MSG_LHS_IS_NOT_VARIABLE, $op->symbol ));
-                    }
-                    else
-                    {
-                        throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
-                            ezcTemplateSourceToTstErrorMessages::MSG_LHS_IS_NOT_VARIABLE_NO_SYMBOL );
-                    }
-                }
-
-                if ( $lhs instanceof ezcTemplateModifyingOperatorTstNode )
-                {
-                    $this->checkForValidOperator( $lhs->parameters[1], $op, $cursor);
-                }
-
-                return;
+                $this->allowIdentifier = true;
             }
 
-            if ( $lhs instanceof ezcTemplateModifyingBlockTstNode )
+            return $operatorName;
+        }
+
+        return false;
+    }
+
+    /**
+     *  Check whether the given operand can be the left hand side of the $operator.
+     *  For example: 4 = 5; is not allowed. But $a = 5 , and $a[0][0]->bla  is.
+     *
+     *  @param ezcTemplateTstNode $lhs
+     *  @param ezcTemplateTstNode $op
+     *  @param ezcTemplateCursor $cursor
+     *  @throw ezcTemplateParserException if the check fails.
+     *  @return void
+     */
+    private function checkForValidOperator( $lhs, $op, $cursor )
+    {
+        if ( $op instanceof ezcTemplateModifyingOperatorTstNode)
+        {
+            if ( !( $lhs instanceof ezcTemplateVariableTstNode ||
+                $lhs instanceof ezcTemplateArrayAppendOperatorTstNode ||
+                $lhs instanceof ezcTemplateArrayFetchOperatorTstNode ||
+                $lhs instanceof ezcTemplatePropertyFetchOperatorTstNode ||
+                $lhs instanceof ezcTemplateModifyingOperatorTstNode ) )
             {
+                if ( $op instanceof ezcTemplateOperatorTstNode )
+                {
                     throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
-                          ezcTemplateSourceToTstErrorMessages::MSG_OPERATOR_LHS_IS_MODIFYING_BLOCK );
+                        sprintf( ezcTemplateSourceToTstErrorMessages::MSG_LHS_IS_NOT_VARIABLE, $op->symbol ));
+                }
+                else
+                {
+                    throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
+                        ezcTemplateSourceToTstErrorMessages::MSG_LHS_IS_NOT_VARIABLE_NO_SYMBOL );
+                }
+            }
+
+            if ( $lhs instanceof ezcTemplateModifyingOperatorTstNode )
+            {
+                $this->checkForValidOperator( $lhs->parameters[1], $op, $cursor);
             }
 
             return;
         }
 
-        private function operatorRhsCheck( $op, $rhs, $cursor )
+        if ( $lhs instanceof ezcTemplateModifyingBlockTstNode )
         {
-            if ( $rhs instanceof ezcTemplateModifyingBlockTstNode )
-            {
-                if ( $op instanceof ezcTemplateOperatorTstNode )
-                {
-                    throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
-                        sprintf( ezcTemplateSourceToTstErrorMessages::MSG_OPERATOR_RHS_IS_MODIFYING_BLOCK, $op->symbol ));
-                }
-                else
-                {
-                    throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
-                        ezcTemplateSourceToTstErrorMessages::MSG_OPERATOR_IS_MODIFYING_BLOCK );
-                }
-            }
+                throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
+                      ezcTemplateSourceToTstErrorMessages::MSG_OPERATOR_LHS_IS_MODIFYING_BLOCK );
         }
 
- 
+        return;
+    }
+
+
+    /**
+     *  @param ezcTemplateTstNode $op
+     *  @param ezcTemplateTstNode $rhs
+     *  @param ezcTemplateCursor $cursor
+     *
+     *  @throw ezcTemplateParserException if the check fails.
+     *  @return void
+     */
+    private function operatorRhsCheck( $op, $rhs, $cursor )
+    {
+        if ( $rhs instanceof ezcTemplateModifyingBlockTstNode )
+        {
+            if ( $op instanceof ezcTemplateOperatorTstNode )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
+                    sprintf( ezcTemplateSourceToTstErrorMessages::MSG_OPERATOR_RHS_IS_MODIFYING_BLOCK, $op->symbol ));
+            }
+            else
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
+                    ezcTemplateSourceToTstErrorMessages::MSG_OPERATOR_IS_MODIFYING_BLOCK );
+            }
+        }
+    }
 }
 
 ?>
