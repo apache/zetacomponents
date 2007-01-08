@@ -7,10 +7,12 @@
  * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
 /**
  * Base options class for all eZ components.
  *
  * @package Base
+ * @version //autogentag//
  */
 abstract class ezcBaseOptions implements ArrayAccess
 {
@@ -22,28 +24,16 @@ abstract class ezcBaseOptions implements ArrayAccess
     protected $properties;
 
     /**
-     * Sets an option.
-     * This method is called when an option is set.
-     * 
-     * @param string $key  The option name.
-     * @param mixed $value The option value.
-     * @ignore void
-     */
-    abstract public function __set( $propertyName, $propertyValue );
-
-    /**
      * Construct a new options object.
      * Options are constructed from an option array by default. The constructor
      * automatically passes the given options to the __set() method to set them 
      * in the class.
      * 
-     * @param array(string=>mixed) $options The initial options to set.
-     * @return void
-     *
      * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
+     *         If trying to access a non existent property.
      * @throws ezcBaseValueException
-     *         If a the value for a property is out of range.
+     *         If the value for a property is out of range.
+     * @param array(string=>mixed) $options The initial options to set.
      */
     public function __construct( array $options = array() )
     {
@@ -57,13 +47,11 @@ abstract class ezcBaseOptions implements ArrayAccess
      * Merge an array into the actual options object.
      * This method merges an array of new options into the actual options object.
      * 
-     * @param array $newOptions The new options.
-     * @return void
-     *
      * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
+     *         If trying to access a non existent property.
      * @throws ezcBaseValueException
-     *         If a the value for a property is out of range.
+     *         If the value for a property is out of range.
+     * @param array(string=>mixed) $newOptions The new options.
      */
     public function merge( array $newOptions )
     {
@@ -77,11 +65,11 @@ abstract class ezcBaseOptions implements ArrayAccess
      * Property get access.
      * Simply returns a given option.
      * 
-     * @param string $propertyName The name of the option to get.
-     * @return mixed The option value.
-     *
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of
+     * @param string $propertyName The name of the option to get.
+     * @return mixed The option value.
+     * @ignore
      */
     public function __get( $propertyName )
     {
@@ -93,11 +81,21 @@ abstract class ezcBaseOptions implements ArrayAccess
     }
     
     /**
+     * Sets an option.
+     * This method is called when an option is set.
+     * 
+     * @param string $key  The name of the option to set.
+     * @param mixed $value The option value.
+     * @ignore
+     */
+    abstract public function __set( $propertyName, $propertyValue );
+
+    /**
      * Returns if an option exists.
      * Allows isset() using ArrayAccess.
      * 
      * @param string $propertyName The name of the option to get.
-     * @return bool Wether the option exists.
+     * @return bool Whether the option exists.
      */
     public function offsetExists( $propertyName )
     {
@@ -108,11 +106,10 @@ abstract class ezcBaseOptions implements ArrayAccess
      * Returns an option value.
      * Get an option value by ArrayAccess.
      * 
+     * @throws ezcBasePropertyNotFoundException
+     *         If $propertyName is not a key in the $properties array.
      * @param string $propertyName The name of the option to get.
      * @return mixed The option value.
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
      */
     public function offsetGet( $propertyName )
     {
@@ -123,14 +120,12 @@ abstract class ezcBaseOptions implements ArrayAccess
      * Set an option.
      * Sets an option using ArrayAccess.
      * 
-     * @param string $propertyName The option to set.
-     * @param mixed $propertyValue The value for the option.
-     * @return void
-     *
      * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
+     *         If $propertyName is not a key in the $properties array.
      * @throws ezcBaseValueException
-     *         If a the value for a property is out of range.
+     *         If the value for a property is out of range.
+     * @param string $propertyName The name of the option to set.
+     * @param mixed $propertyValue The value for the option.
      */
     public function offsetSet( $propertyName, $propertyValue )
     {
@@ -141,13 +136,11 @@ abstract class ezcBaseOptions implements ArrayAccess
      * Unset an option.
      * Unsets an option using ArrayAccess.
      * 
-     * @param string $propertyName The options to unset.
-     * @return void
-     *
      * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
+     *         If $propertyName is not a key in the $properties array.
      * @throws ezcBaseValueException
      *         If a the value for a property is out of range.
+     * @param string $propertyName The name of the option to unset.
      */
     public function offsetUnset( $propertyName )
     {
