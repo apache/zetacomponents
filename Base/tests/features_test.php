@@ -74,6 +74,34 @@ class ezcBaseFeaturesTest extends ezcTestCase
         $this->assertEquals( true, ezcBaseFeatures::hasExtensionSupport( 'mysql' ) );
     }
 
+    public function testHasExtensionSupportNotFound1()
+    {
+        $this->assertEquals( false, ezcBaseFeatures::hasExtensionSupport( 'non_existent_extension' ) );
+        try
+        {
+            throw new ezcBaseExtensionNotFoundException( 'non_existent_extension', null, 'This is just a test.' );
+        }
+        catch ( ezcBaseExtensionNotFoundException $e )
+        {
+            $this->assertEquals( "The extension 'non_existent_extension' could not be found. This is just a test.",
+                                 $e->getMessage() );
+        }
+    }
+
+    public function testHasExtensionSupportNotFound2()
+    {
+        $this->assertEquals( false, ezcBaseFeatures::hasExtensionSupport( 'non_existent_extension' ) );
+        try
+        {
+            throw new ezcBaseExtensionNotFoundException( 'non_existent_extension', '1.2', 'This is just a test.' );
+        }
+        catch ( ezcBaseExtensionNotFoundException $e )
+        {
+            $this->assertEquals( "The extension 'non_existent_extension' with version '1.2' could not be found. This is just a test.",
+                                 $e->getMessage() );
+        }
+    }
+
     public function testHasFunction1()
     {
         $this->assertEquals( true, ezcBaseFeatures::hasFunction( 'function_exists' ) );
@@ -81,12 +109,32 @@ class ezcBaseFeaturesTest extends ezcTestCase
 
     public function testHasFunction2()
     {
-        $this->assertEquals( false, ezcBaseFeatures::hasFunction( 'non_existant_funtion_in_php' ) );
+        $this->assertEquals( false, ezcBaseFeatures::hasFunction( 'non_existent_function_in_php' ) );
     }
 
     public function testHasExtensionSupport2()
     {
         $this->assertEquals( true, ezcBaseFeatures::hasExtensionSupport( 'date', '5.1.0' ) );
+    }
+
+    public function testClassExists()
+    {
+        $this->assertEquals( true, ezcBaseFeatures::classExists( 'Exception', false ) );
+    }
+
+    public function testClassExistsAutoload()
+    {
+        $this->assertEquals( true, ezcBaseFeatures::classExists( 'ezcBaseFeatures' ) );
+    }
+
+    public function testClassExistsNotFound()
+    {
+        $this->assertEquals( false, ezcBaseFeatures::classExists( 'ezcBaseNonExistingClass', false ) );
+    }
+
+    public function testClassExistsNotFoundAutoload()
+    {
+        $this->assertEquals( false, ezcBaseFeatures::classExists( 'ezcBaseNonExistingClass' ) );
     }
 
     public static function suite()

@@ -193,12 +193,11 @@ class ezcBaseFeatures
     /**
      * Returns if a given class exists.
      * Checks for a given class name and returns if this class exists or not.
-     * Catches the ezcBaseAutoloadException and returns false, if it was
-     * throwen.
+     * Catches the ezcBaseAutoloadException and returns false, if it was thrown.
      * 
      * @param string $className The class to check for.
-     * @param boolean $autoload True to use __autolaod(), otherwise false.
-     * @return boolean True if the class exists. Otherwise false.
+     * @param bool $autoload True to use __autoload(), otherwise false.
+     * @return bool True if the class exists. Otherwise false.
      */
     public static function classExists( $className, $autoload = true )
     {
