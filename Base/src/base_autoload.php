@@ -19,6 +19,7 @@ return array(
 
     'ezcBaseAutoloadException'             => 'Base/exceptions/autoload.php',
     'ezcBaseDoubleClassRepositoryPrefixException' => 'Base/exceptions/double_class_repository_prefix.php',
+    'ezcBaseExtensionNotFoundException'    => 'Base/exceptions/extension_not_found.php',
     'ezcBaseFileNotFoundException'         => 'Base/exceptions/file_not_found.php',
     'ezcBaseFileIoException'               => 'Base/exceptions/file_io.php',
     'ezcBaseFilePermissionException'       => 'Base/exceptions/file_permission.php',
