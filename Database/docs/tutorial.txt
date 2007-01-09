@@ -278,8 +278,7 @@ Adding support for a new database
 
 This chapter explains the basic steps you have to go through when creating
 support for a new database. The following steps are rudimentary but should help
-you along the way. If you require additional information, feel free to ask in
-the forums_.
+you along the way.
 
 1. Check out the Database component from the eZ systems SVN server. This is
    necessary in order to use the testing system. This allows you to easily see
@@ -294,7 +293,6 @@ the forums_.
    generated SQL is correct for your database. When no tests fail: congratulations
    you are done.
 
-.. _forums: http://www.ez.no/community/forums
 
 ..
    Local Variables:
