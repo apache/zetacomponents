@@ -6,8 +6,8 @@ eZ components - DatabaseSchema
 Introduction
 ============
 
-The DatabaseSchema components provides a unified datasctructure to describe the
-structure of relational databases. DatabaseSchema can read and write these
+The DatabaseSchema components provides a unified data structure to describe 
+relational databases. DatabaseSchema can read and write these
 structure from and to several databases (like MySQL, SQLite, Oracle,...) and
 also read and write it to disc in several formats (XML, PHP,...).
 

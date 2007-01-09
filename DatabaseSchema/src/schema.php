@@ -174,7 +174,7 @@ class ezcDbSchema
      * @throws ezcDbSchemaInvalidWriterClassException if the handler associated
      *         with the $format is not a file schema writer.
      *
-     * @param string $format
+     * @param string $format  Available formats are at least: 'array' and 'xml'.
      * @param string $file
      */
     public function writeToFile( $format, $file )
