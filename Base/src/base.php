@@ -120,6 +120,7 @@ class ezcBase
             switch ( sizeof( $matches ) )
             {
                 case 4:
+                    // check for x_y_autoload.php
                     $autoloadFile = strtolower( "{$matches[2]}_{$matches[3]}_autoload.php" );
                     $fileNames[] = $autoloadFile;
                     if ( ezcBase::requireFile( $autoloadFile, $className, $matches[1] ) )
@@ -129,7 +130,16 @@ class ezcBase
                     // break intentionally missing.
 
                 case 3:
+                    // check for x_autoload.php
                     $autoloadFile = strtolower( "{$matches[2]}_autoload.php" );
+                    $fileNames[] = $autoloadFile;
+                    if ( ezcBase::requireFile( $autoloadFile, $className, $matches[1] ) )
+                    {
+                        return true;
+                    }
+
+                    // check for autoload.php
+                    $autoloadFile = 'autoload.php';
                     $fileNames[] = $autoloadFile;
                     if ( ezcBase::requireFile( $autoloadFile, $className, $matches[1] ) )
                     {

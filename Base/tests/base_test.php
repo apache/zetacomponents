@@ -349,7 +349,7 @@ class ezcBaseTest extends ezcTestCase
         catch ( ezcBaseAutoloadException $e )
         {
             $cwd = getcwd();
-            self::assertEquals( "Could not find a class to file mapping for 'trBasetestClass3'. Searched for basetest_class3_autoload.php and basetest_autoload.php in: $cwd/autoload, $cwd/autoload, $cwd/autoload, $cwd/Base/tests/test_repository/autoload_files, $cwd/Base/tests/test_repository/autoload_files", $e->getMessage() );
+            self::assertEquals( "Could not find a class to file mapping for 'trBasetestClass3'. Searched for basetest_class3_autoload.php, basetest_autoload.php, autoload.php in: $cwd/autoload, $cwd/autoload, $cwd/autoload, $cwd/Base/tests/test_repository/autoload_files, $cwd/Base/tests/test_repository/autoload_files", $e->getMessage() );
         }
 
         self::assertEquals( true, class_exists( 'trBasetestLongClass', true ) );
@@ -427,7 +427,7 @@ class ezcBaseTest extends ezcTestCase
         catch ( ezcBaseAutoloadException $e )
         {
             $cwd = getcwd();
-            self::assertEquals( "Could not find a class to file mapping for 'ezcNoSuchClass'. Searched for no_such_autoload.php and no_autoload.php in: $cwd/autoload, $cwd/autoload, $cwd/autoload, $cwd/Base/tests/test_repository/autoload_files, $cwd/Base/tests/test_repository/autoload_files, $cwd/Base/tests/extra_repository/autoload, $cwd/Base/tests/test_repository/autoload_files, $cwd/Base/tests/test_repository/autoload_files", $e->getMessage() );
+            self::assertEquals( "Could not find a class to file mapping for 'ezcNoSuchClass'. Searched for no_such_autoload.php, no_autoload.php, autoload.php in: $cwd/autoload, $cwd/autoload, $cwd/autoload, $cwd/Base/tests/test_repository/autoload_files, $cwd/Base/tests/test_repository/autoload_files, $cwd/Base/tests/extra_repository/autoload, $cwd/Base/tests/test_repository/autoload_files, $cwd/Base/tests/test_repository/autoload_files", $e->getMessage() );
         }
     }
 

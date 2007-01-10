@@ -28,7 +28,7 @@ class ezcBaseAutoloadException extends ezcBaseException
         {
             $paths[] = realpath( $dir[1] );
         }
-        parent::__construct( "Could not find a class to file mapping for '{$className}'. Searched for ". implode( ' and ', $files ) . " in: " . implode( ', ', $paths ) );
+        parent::__construct( "Could not find a class to file mapping for '{$className}'. Searched for ". implode( ', ', $files ) . " in: " . implode( ', ', $paths ) );
     }
 }
 ?>
