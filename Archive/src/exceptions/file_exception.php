@@ -4,7 +4,7 @@
  *
  * @package Archive
  * @version //autogen//
- * @copyright Copyright (C) 2005, 2006 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license BSD {@link http://ez.no/licenses/bsd}
  */
 /**
