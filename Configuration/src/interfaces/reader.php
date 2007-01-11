@@ -24,7 +24,7 @@
  * $reader = new ezcConfigurationIniReader();
  * $reader->init( 'site', 'settings' );
  * $conf = $reader->load();
- * <code>
+ * </code>
  *
  * Most readers allows even quicker initialization with the constructor. For
  * instance the INI reader allows you to specify the full path to the INI file.
