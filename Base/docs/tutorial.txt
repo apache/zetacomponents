@@ -1,4 +1,4 @@
-eZ components - Base
+eZ Components - Base
 ~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
