@@ -1,4 +1,4 @@
-eZ components - Cache
+eZ Components - Cache
 ~~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
