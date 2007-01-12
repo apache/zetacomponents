@@ -7,31 +7,29 @@ Introduction
 ============
 
 The Cache package provides a collection of lightweight classes to cache
-different kinds of data. Beside that, it provides a manager class, which takes
+different kinds of data. It provides a manager class, which takes
 care of instantiating and reusing caches.
 
 Class overview
 ==============
 
-This section gives you an overview on all classes, that are intended to be
-used directly.
+This section gives you an overview of the most important classes.
 
 ezcCacheManager
-  This is the manager, which will take care of your caches. It is optional to
-  use the manager, but recommended if your application needs to cache different
-  data for different purposes. It allows you to configure all needed caches in
-  a central place and to retrieve them through the ezcCacheManager. The cache
-  manager will store only the configurations at first and only instantiate the
-  cache object itself when you request it for use.
+  This is the optional manager, which is recommended if your application needs
+  to cache different data for different purposes. It allows you to configure
+  all caches in a central place and to retrieve them through ezcCacheManager.
+  The cache manager will store only the configurations by default, only
+  instantiating the cache object when requested.
 
 ezcCacheStorage
-  This is the base class for all cache storages (the cache classes themselves).
+  This is the base class for all cache storage (the cache classes themselves).
   All cache classes inherit from this base class.
 
 ezcCacheStorageFilePlain
-  Cache objects of this class are capable to store plain text data on the file
-  system. It utilizes the file_get_contents() and file_put_contents() functions
-  of PHP.
+  Cache objects of this class are capable of storing plain text data on the file
+  system. It utilizes the file_get_contents() and file_put_contents() PHP
+  functions.
 
 ezcCacheStorageFileArray
   In contrast to ezcCacheStorageFilePlain, objects of this class can store
@@ -41,13 +39,13 @@ ezcCacheStorageFileArray
   construct.
 
 ezcCacheStorageFileEvalArray
-  Objects of this storage class follow a similar approach like
-  ezcCacheStorageFileArray and is also capable of storing array
-  structures. The major difference between both classes is, that
-  ezcCacheStorageFileEvalArray will use PHPs eval() method to restore the
-  cached data, instead of using required() to restore the cache data. This has the effect,
-  that the stored data will not be cached again in PHP accelerators like APC_.
-  This might be desirable, if you store large amounts of data at once.
+  Objects of this storage class follow a similar approach to
+  ezcCacheStorageFileArray; they are also capable of storing array
+  structures. The major difference between both classes is that
+  ezcCacheStorageFileEvalArray will use PHP's eval() method instead of
+  require() to restore the cached data. As a result,
+  the stored data will not be cached again in PHP accelerators like APC_.
+  This might be desirable if you store large amounts of data at once.
 
 .. _APC: http://pecl.php.net/package/APC
 
@@ -59,61 +57,55 @@ Terminology
 -----------
 
 _`Cache`
-  A location that stores `cache item`_. A cache is created with the
+  A location that stores `cache item`_ s. A cache is created with
   ezcCacheManager::createCache(), preferrably at the beginning of your script.
-  A cache with it's `cache identifier`_ - the first parameter to
+  A cache with its `cache identifier`_ - the first parameter to
   ezcCacheManager::createCache() - can only be created once. After it has been
-  created at the beginning of your request you can obtain a reference to it
-  throughout the whole request by calling ezcCacheManager::getCache() with as
-  first parameter the $id with which it was created.
+  created, you can reference it by calling ezcCacheManager::getCache(), using
+  the corresponding $id as the first parameter.
 
 _`Cache identifier`
-  An identifier that uniquely identifies a `cache`_ which contains a number of
-  `cache item`_ s.
+  An identifier that uniquely identifies a `cache`_.
 
 _`Cache item`
-  One single entry stored in the `cache`_. Cache items can be stored and
+  One single entry stored in a `cache`_. Cache items can be stored and
   retrieved by using the ezcCacheStorage object that is returned by 
   calling ezcCacheManager::getCache(). Cache items use a `cache key`_ to
-  identify specific entries in the cache.
+  identify specific entries.
 
 _`Cache key`
   A string representing a single `cache item`_ in a `cache`_.
 
 _`Attribute`
-  Additional information to complement the `cache key`_ for doing operations
-  on `cache item`_ s.
+  Additional information to complement the `cache key`_ in
+  `cache item`_ s.
 
 A simple example
 ----------------
 
-This example shows how to create and use a simple cache with the
+This example shows how to create and use a simple cache with
 ezcCacheManager:
 
 .. include:: tutorial_example_01.php
    :literal:
 
-In the options for the cache to create, the time-to-life is defined. If left
-out, the cache has a lifetime of 24 hours. In this place, a lifetime of 30
-seconds is defined. On line 9 the cache configuration is stored in the cache
-manager. The `cache`_ created uses the `cache identifier` "simple" and will reside in the directory
-/tmp/cache/plain (Note: This directory must exists and must be writable to
-the user running the code, else you will get an ezcBaseFileNotFoundException or
-an ezcBaseFilePermissionException!). To store a `cache item`_, the storage
-class ezcConsoleStorageFilePlain will be used and as defined before, the stored
-data will expire after 30 seconds.
+Time-to-live is defined as 30 seconds in this case; if left
+out, the cache will have a lifespan of 24 hours. On line 9, the cache
+configuration is stored in the cache
+manager. The created `cache`_ uses the `cache identifier`_ "simple" and will reside in the directory
+/tmp/cache/plain. (Note: This directory must exist and must be writable!) To store a `cache item`_, the storage
+class ezcConsoleStorageFilePlain will be used.
 
-Line 11 defines a `cache key`_ for the data to cache. The next line defines a
+Line 11 defines a `cache key`_ for a cache item. The next line defines a
 second unique `cache key`_ for a second cache item. After that (line 14), the
-`cache`_ object is retrieved from the ezcCacheManager (the object itself
-is created right now, since we access it for the first time). The lines 16 and
-22 show how to check for cached data: The method ezcCacheStorage::restore()
-will return bool false, if no valid cache data is found for a given ID.
+newly-created `cache`_ object is retrieved from ezcCacheManager. Lines 16 and
+22 show how to check for cached data: ezcCacheStorage::restore()
+will return bool false if no valid cache data is found for the given ID.
 
-In case the cache storage did not find valid data, the data will be generated
-and stored in the cache afterwards (lines 17-18 and 24-25). The last line shows the
-data, so you can follow how it's cached for 30 seconds, by simple running the
-example multiple times in a short time frame. After 30 seconds the cache data
+If no valid data is found, the data will be generated
+and stored in the cache later (lines 17-18 and 24-25). The last line outputs the
+data, so you can follow how it's cached for 30 seconds by running the
+example multiple times in a short time frame. After 30 seconds, the cache data
 will become invalid and will be regenerated.
 
 Using multiple caches
@@ -124,54 +116,53 @@ The following example shows how the cache manager deals with multiple caches:
 .. include:: tutorial_example_02.php
    :literal:
 
-In the lines 12 and 13 you see how 2 caches are created. Each `cache`_ must
+In lines 12 and 13, two caches are created. Each `cache`_ must
 reside in its own location and must have a different `cache identifier`_. We
-use 2 different options for the lifetime of the caches to show how they act
-independently later.
+use two different options for the lifetime of the caches to show how they act
+independently.
 
 Since the first `cache`_ reuses the location already used in example 1, 
-we use a different `cache key`_ now.
+we use a different `cache key`_ here.
 Lines 15 to 25 are almost identical to the code from example 1, 
-except that the program will sleep for 2 seconds, when it generated new data for 
-the plain cache, to show different generation times in the 2 caches.
+except that the program will pause for two seconds when generating 
+the plain cache, in order to show different generation times for the two
+caches.
 
-On line 30 the second `cache`_ object is retrieved, which is capable of storing
+On line 30, the second `cache`_ object is retrieved, which is capable of storing
 arrays.  Therefore, we store the data from the plain cache here and
-additionally generate some more data, all stored in an array. Running this
-example multiple times will give you different results now after some time,
+generate some additional data to be stored in an array. Running this
+example multiple times will give you different results
 since the second cache has a longer lifetime and will therefore hold its data
 longer than the first one.
 
 Complex caching
 ---------------
 
-As the next example shows, ezcCacheStorage classes are capable of more advanced
-features. This example uses attributes to identify cached data, additionally to
-their `cache key`_:
+As the next example shows, the ezcCacheStorage class is capable of more advanced
+features. This example uses extra attributes in addition to the `cache key`_:
 
 .. include:: tutorial_example_03.php
    :literal:
 
-After the creation of an array `cache_`, some sample data is created (lines
-11-16). Each data is keyed by its `cache key`_, which is associated with an
-array.  This array will be used as the content and the attributes together
-later on. `Attribute`_ s describes a `cache item`_ in further detail. We will see,
-what to do with `attribute`_ s of a cache item later on, too.
+After the creation of an array `cache`_, some sample data is created (lines
+11-16). Data is identified by `cache key`_ s, which are associated with
+arrays. Each array will be used to store the content and the attributes
+together. `Attribute`_ s describe a `cache item`_ s in further detail.
 
-In line 20 a foreach loop starts, which stores all example data in the cache.
-After that the method ezcCacheStorageFile::countDataItems() is used to let the
-storage object count its cache items. The first parameter here would be a
+In line 20, a foreach loop starts, which stores all example data in the cache.
+After that, the method ezcCacheStorageFile::countDataItems() is used to count
+cache items that meet certain criteria. The first parameter here would be a
 `cache key`_.
 When this is set, the method should always return 1 or 0, because only one cache
-item per `cache key`_ may exist. Instead, the cache items with the specified attribute are
+item per `cache key`_ may exist. In this example, the cache items with the specified attribute are
 counted. The attributes to match are supplied as the second parameter. The
-first method call will return 3 (line 28), since we have 3 cache items which
+first method call will return 3 (line 28), since we have three cache items that
 have the attribute "section" set to "articles". The second call (line 32)
-should return 2, because 2 data items have the attribute "language" set to the
+should return 2, because two data items have the attribute "language" set to the
 value "de".
 
-On line 36 the storage object is told to delete all cache items, which have
-the `attribute`_ "language" set to "de". Therefore the next to calls to
+On line 36 the storage object is told to delete all cache items that have
+the `attribute`_ "language" set to "de". Therefore, the next calls to
 ezcCacheStorageFile::countDataItems() will return 2 and 0.
 
 More Information
