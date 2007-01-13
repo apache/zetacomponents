@@ -1,4 +1,4 @@
-eZ components - Archive
+eZ Components - Archive
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
@@ -7,8 +7,8 @@ Introduction
 ============
 
 The Archive component provides a generic API for creating and extracting
-archives.  Currently, the archive supports the Tar and Zip format. Compression
-algorithms, such as GZip or BZip2, are indirectly supported by this component.
+archives.  Currently, Archive supports the Tar and Zip formats. Compression
+algorithms, such as GZip or BZip2, are indirectly supported.
 The stream wrappers from PHP should be used to handle compressed archives.
 
 
@@ -18,17 +18,17 @@ Class overview
 The following list sums up the most important classes:
 
 ezcArchive
-  This class provides the main API for accessing or creating a non-existing
-  Tar or Zip archive. The Archive is designed that it provides methods for
-  extracting entries (files, directories, symbolic links, etc), appending
-  entries, or removing entries on the open archive. 
+  This class provides the main API for accessing or creating a
+  Tar or Zip archive. Archive provides methods for
+  extracting entries (files, directories, symbolic links and so on), appending
+  entries and removing entries. 
 
 ezcArchiveEntry
-  The ezcArchiveEntry is returned when an entry (file, directory, etc) is
-  requested from the opened archive. The ezcArchiveEntry provides file
-  information about the file path, it's access rights and whether the file is
-  an directory, symbolic link, hard link, block-file, etc. The owner name, the
-  group name, the last access time are also available. 
+  The ezcArchiveEntry class is returned when an entry (such as a file or
+  directory) is requested from the opened archive. ezcArchiveEntry provides
+  entry information about the path, its access rights and whether the entry is
+  a directory, a symbolic link, a hard link, a block-file and so on. The owner name, the
+  group name and the last access time are also available. 
  
 More information about these classes can be found in the documentation of the
 class itself. 
@@ -39,27 +39,27 @@ Usage
 
 The following examples demonstrate how to use the Archive component.
 
-Extracting a TAR-archive
+Extracting a Tar-archive
 ------------------------
 
-The TAR format has more than one standard. The most common formats are:
+The Tar format has more than one standard. The most common formats are:
 
 - Unix V7
 - Ustar
 - POSIX
 - Gnu
 
-Each format can be extracted from the archive. Appending entries to the archive
-is only available for Unix V7 and Ustar format. 
+Archive can extract from any of these formats. Appending entries to the archive
+is only available for the Unix V7 and Ustar formats. 
 
-Extracting an Archive comes in two flavors: 
+Extracting entries can occur in two ways: 
 
 - ezcArchive->extract(), extracts all entries from the archive.
 - ezcArchive->extractCurrent(), extracts only the current entry. 
 
-The Archive can be treated like an iterator.
-After opening the archive, it points to the first entry. The iterator can be
-moved using the ezcArchive->next() and ezcArchive->rewind() to move to the next
+Archive can be treated like an iterator.
+After opening the file, it points to the first entry. The iterator can be
+moved using ezcArchive->next() and ezcArchive->rewind() to move to the next
 entry or go back to the first entry.
 
 The next example demonstrates how to extract an entire archive file-by-file:
@@ -67,16 +67,16 @@ The next example demonstrates how to extract an entire archive file-by-file:
 .. include:: tutorial_extract.php
    :literal:
 
-First the tutorial_autoload.php is included. The included file loads the
-correct php files for the archive package. Hereafter the time zone is set to
-"UTC". The archive uses some date functions and without a time zone PHP may
-show some warnings.
+First, tutorial_autoload.php is included. The included file loads the
+correct php files for the Archive package. Hereafter the time zone is set to
+"UTC". The archive uses some date functions and might therefore produce errors
+if the time zone is not specified.
 
-The gzipped TAR archive is opened using the zlib stream. The while() method
-iterates over each entry, shows the name, and extracts the entry itself. 
+The gzipped Tar archive is opened using the zlib stream. The while() method
+iterates over each entry, showing the name and extracting the entry itself. 
 
-The Archive extends from the PHP Iterator class, the example above can be
-rewritten as:
+Archive extends from the PHP Iterator class, thus the above example can be
+rewritten as follows:
 
 .. include:: tutorial_iterator.php
    :literal:
@@ -86,7 +86,7 @@ Appending files to an archive
 -----------------------------
 
 Unfortunately, it is not yet possible to directly append files to a gzipped or
-bzipped Tar archive. The ZLib and BZip2 library do not support opening a file
+bzipped Tar archive. The ZLib and BZip2 libraries do not support opening a file
 for reading and writing.
 
 ezcArchive has two methods for appending files:
@@ -95,7 +95,7 @@ ezcArchive has two methods for appending files:
 - ezcArchive->appendCurrent(), appends entries after the current entry and
   removes the rest of the files from the archive.
 
-To replace also the first file, the ezcArchive->truncate() should be used.  The 
+To replace the first file as well, use ezcArchive->truncate().  The 
 next example replaces all entries from an existing Zip archive with the files
 file1.txt and file2.txt:
 
