@@ -39,6 +39,7 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
 
     /**
      * Constructs a new ezcQuerySelectSqlite object.
+     * @param PDO $db
      */
     public function __construct( PDO $db )
     {

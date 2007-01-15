@@ -110,7 +110,7 @@ class ezcDbHandlerSqlite extends ezcDbHandler
      */
     public function createExpression()
     {
-        return new ezcQueryExpressionSqlite();
+        return new ezcQueryExpressionSqlite( $this );
     }
 
     /**

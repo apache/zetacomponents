@@ -90,7 +90,7 @@ class ezcDbHandlerOracle extends ezcDbHandler
      */
     public function createExpression()
     {
-        return new ezcQueryExpressionOracle();
+        return new ezcQueryExpressionOracle( $this );
     }
 
     /**

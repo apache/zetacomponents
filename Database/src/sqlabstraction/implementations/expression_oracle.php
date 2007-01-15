@@ -19,10 +19,11 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
 {
     /**
      * Constructs an empty ezcQueryExpression
+     * @param PDO $db     
      */
-    public function __construct()
+    public function __construct( PDO $db )
     {
-        parent::__construct();
+        parent::__construct( $db );
     }
 
     /**

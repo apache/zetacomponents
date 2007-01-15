@@ -23,17 +23,17 @@ class ezcQueryExpressionPgsql extends ezcQueryExpression
      * @var int
      */
     private $version;
-
+    
     /**
-     * Constructs an empty ezcQueryExpression with the versoin $version.
-     *
-     * @todo Provide version number or a pointer to $db?
-     * @param int $version
+     * Constructs an empty ezcQueryExpression
+     * @param PDO $db
      */
-    public function __construct( $version )
+    public function __construct( PDO $db )
     {
-        parent::__construct();
-        $this->version = $version;
+        parent::__construct( $db );
+        
+        $version = $db->getAttribute( PDO::ATTR_SERVER_VERSION );
+        $this->version = substr( $version, 0, 1 );
     }
 
     /**

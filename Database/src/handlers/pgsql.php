@@ -94,8 +94,7 @@ class ezcDbHandlerPgsql extends ezcDbHandler
      */
     public function createExpression()
     {
-        $version = $this->getAttribute( PDO::ATTR_SERVER_VERSION );
-        return new ezcQueryExpressionPgsql( substr( $version, 0, 1 ) );
+        return new ezcQueryExpressionPgsql( $this );
     }
 
     /**

@@ -71,6 +71,7 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
         $name = 'IBM';
         $name2 = 'company';
         $q = new ezcQuerySelect( ezcDbInstance::get() );
+        $q->expr->setValuesQuoting( false );
 
         // subselect
         $q2 = $q->subSelect();
@@ -102,6 +103,7 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
 
         // subselect
         $q2 = $q->subSelect();
+        $q->expr->setValuesQuoting( false );
 
         // bind values
         $q2->select('company')
@@ -111,7 +113,7 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
         $q->select('*')->from( 'query_test' )
                         ->where( ' id >= 1 ', $q->expr->in( 'company', $q2->getQuery() ) )
                         ->orderBy( 'id' );
-        
+
         $stmt = $q->prepare();
         $stmt->execute();
 
@@ -127,12 +129,15 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
         $name = 'IBM';
         $name2 = 'company';
         $q = new ezcQuerySelect( ezcDbInstance::get() );
+        $q->expr->setValuesQuoting( false );
 
         // subselect
         $q2 = $q->subSelect();
 
         // sub subselect
         $q3 = $q2->subSelect();
+        $q3->expr->setValuesQuoting( false );
+
         $q3->select('*')
             ->from( 'query_test2' )
                 ->where( $q3->expr->in( 'company', 'IBM', 'eZ systems' ) );

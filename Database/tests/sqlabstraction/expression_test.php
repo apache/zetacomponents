@@ -248,14 +248,39 @@ class ezcQueryExpressionTest extends ezcTestCase
 
     public function testInSingle()
     {
-        $reference = 'id IN ( 1 )';
+        $reference = "id IN ( '1' )";
         $this->assertEquals( $reference, $this->e->in( 'id', 1 ) );
     }
 
     public function testInMulti()
     {
-        $reference = 'id IN ( 1, 2 )';
+        $reference = "id IN ( '1', '2' )";
         $this->assertEquals( $reference, $this->e->in( 'id', 1, 2 ) );
+    }
+    
+    public function testInStringQuoting()
+    {
+        if ( $this->db->getName() == 'mysql' ) 
+        {
+            $reference = "id IN ( 'That\'s should be quoted correctly' )";
+        }
+        else
+        {
+            $reference = "id IN ( 'That''s should be quoted correctly' )";
+        }
+        $this->assertEquals( $reference, $this->e->in( 'id', "That's should be quoted correctly" ) );
+    }
+
+    public function testInMultyString()
+    {
+        $reference = "id IN ( 'Hello', 'world' )";
+        $this->assertEquals( $reference, $this->e->in( 'id', 'Hello', 'world' ) );
+    }
+
+    public function testInAlreadyQuoted()
+    {
+        $reference = "id IN ( 'Hello', 'world' )";
+        $this->assertEquals( $reference, $this->e->in( 'id', "'Hello'", "'world'" ) );
     }
 
     public function testIsNull()
@@ -554,6 +579,19 @@ class ezcQueryExpressionTest extends ezcTestCase
         $this->assertEquals( 1, $rows );
     }
 
+    public function testInSingleStringImpl()
+    {
+        $this->q->select( '*' )->from( 'query_test' )
+            ->where( $this->e->in( 'section', 'Norway' ) );
+        $stmt = $this->db->query( $this->q->getQuery() );
+        $rows = 0;
+        foreach ( $stmt as $row )
+        {
+            $rows++;
+        }
+        $this->assertEquals( 2, $rows );
+    }
+
     public function testInMultiImpl()
     {
         $this->q->select( '*' )->from( 'query_test' )
@@ -565,6 +603,32 @@ class ezcQueryExpressionTest extends ezcTestCase
             $rows++;
         }
         $this->assertEquals( 2, $rows );
+    }
+
+    public function testInMultyStringImpl()
+    {
+        $this->q->select( '*' )->from( 'query_test' )
+            ->where( $this->e->in( 'section', 'Norway', 'Ukraine' ) );
+        $stmt = $this->db->query( $this->q->getQuery() );
+        $rows = 0;
+        foreach ( $stmt as $row )
+        {
+            $rows++;
+        }
+        $this->assertEquals( 3, $rows );
+    }
+
+    public function testInAlreadyQuotedImpl()
+    {
+        $this->q->select( '*' )->from( 'query_test' )
+            ->where( $this->e->in( 'section', "'Norway'", "'Ukraine'" ) );
+        $stmt = $this->db->query( $this->q->getQuery() );
+        $rows = 0;
+        foreach ( $stmt as $row )
+        {
+            $rows++;
+        }
+        $this->assertEquals( 3, $rows );
     }
 
     public function testIsNullImpl()
@@ -897,8 +961,13 @@ class ezcQueryExpressionTest extends ezcTestCase
     public function testInMultiImplWithAlias()
     {
         $this->q->setAliases( array( 'identifier' => 'id' ) );
+        $this->q->expr->setValuesQuoting( false );
+
         $this->q->select( '*' )->from( 'query_test' )
             ->where( $this->q->expr->in( 'identifier', 1 , 'identifier' ) );
+
+        $this->q->expr->setValuesQuoting( true );
+
         $stmt = $this->db->query( $this->q->getQuery() );
         $rows = 0;
         foreach ( $stmt as $row )

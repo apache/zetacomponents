@@ -24,6 +24,13 @@
 class ezcQueryExpression
 {
     /**
+     * A pointer to the database handler to use for this query.
+     *
+     * @var PDO
+     */
+    protected $db;
+
+    /**
      * The column and table name aliases.
      *
      * Format: array('alias' => 'realName')
@@ -32,10 +39,21 @@ class ezcQueryExpression
     private $aliases = null;
 
     /**
-     * Constructs an empty ezcQueryExpression
+     * The flag that switch quoting mode for
+     * values provided by user in miscelaneous SQL functions.
+     *
+     * @var boolean
      */
-    public function __construct( array $aliases = array() )
+    private $quoteValues = true;
+
+    /**
+     * Constructs an empty ezcQueryExpression
+     * @param PDO $db
+     * @param array(string=>string) $aliases     
+     */
+    public function __construct( PDO $db, array $aliases = array() )
     {
+        $this->db = $db;
         if ( !empty( $aliases ) )
         {
             $this->aliases = $aliases;
@@ -115,6 +133,36 @@ class ezcQueryExpression
         }
         return $aliasList;
     }
+
+    /**
+     * Sets the mode of quoting for parameters passed 
+     * to SQL functions and operators.
+     * 
+     * Quoting mode is set to ON by default.
+     * $q->expr->in( 'column1', 'Hello', 'world' ) will
+     * produce SQL "column1 IN ( 'Hello', 'world' )" 
+     * ( note quotes in SQL ).
+     * 
+     * User must execute setValuesQuoting( false ) before call 
+     * to function where quoting of parameters is not desirable.
+     * Example:
+     * <code>
+     * $q->expr->setValuesQuoting( false );
+     * $q->expr->in( 'column1', 'SELECT * FROM table' ) 
+     * </code>
+     * This will produce SQL "column1 IN ( SELECT * FROM table )".
+     * 
+     * Quoting mode will remain unchanged until next call 
+     * to setValuesQuoting().
+     *
+     * @param boolean $doQuoting - flag that switch quoting.
+     * @return void
+     */
+    public function setValuesQuoting( $doQuoting )
+    {
+        $this->quoteValues = $doQuoting;
+    }
+
 
     /**
      * Returns the SQL to bind logical expressions together using a logical or.
@@ -481,6 +529,11 @@ class ezcQueryExpression
      * $q->select( '*' )->from( 'table' )
      *                  ->where( $q->expr->in( 'id', 1, 2, 3 ) );
      * </code>
+     * 
+     * Optimization note: Call setQuotingValues( false ) before using in() with 
+     * big lists of numeric parameters. This avoid redundant quoting of numbers 
+     * in resulting SQL query and saves time of converting strings to 
+     * numbers inside RDBMS.
      *
      * @throws ezcDbAbstractionException if called with less than two parameters..
      * @param string $column the value that should be matched against
@@ -503,6 +556,19 @@ class ezcQueryExpression
         {
             throw new ezcQueryVariableParameterException( 'in', count( $args ), 2 );
         }
+        
+        if ( $this->quoteValues )
+        {
+            foreach ( $values as $key => $value )
+            {
+                //check if value already quoted and do nothing if it is.
+                if ( !( substr( $value, 0, 1 ) == "'" && substr( $value, -1, 1 ) == "'" ) ) 
+                {
+                    $values[$key] = $this->db->quote( $value );
+                }
+            }
+        }
+        
         return "{$column} IN ( " . join( ', ', $values ) . ' )';
     }
 

@@ -271,7 +271,7 @@ abstract class ezcDbHandler extends PDO
      */
     public function createExpression()
     {
-        return new ezcQueryExpression();
+        return new ezcQueryExpression( $this );
     }
 
     /**
