@@ -1,4 +1,4 @@
-eZ components - Configuration
+eZ Components - Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
@@ -6,52 +6,52 @@ eZ components - Configuration
 Introduction
 ============
 
-The Configuration component allows you to read settings. Those settings can
-come from any backend in theory, but currently there are only two backends
-implemented: ezcConfigurationIniReader for reading plain configuration files and
+The Configuration component allows you to read settings from configuration
+files. Those settings can come from any backend in theory, but currently there
+are two reader classes: ezcConfigurationIniReader for reading plain configuration files and
 ezcConfigurationArrayReader for reading parsed configuration files in the form of
-a PHP array. The latter is faster then the first one. 
+a PHP array.
 
 The format for the plain configuration files can be found in the section 
-`File Format`_.
+`File format`_.
 
 Class overview
 ==============
 
 ezcConfigurationManager
-  The main class of this component. It is responsible for calling the
-  configured backends to read in configuration data and return the settings to
-  the application. It implements the singleton pattern and this class can be
+  This is the main class. It is responsible for calling the
+  configured backends to read configuration data and return the settings to
+  the application. It implements the singleton pattern and can be
   used in most situations where no special handling of configuration data is
   required.
 
 ezcConfigurationIniReader and ezcConfigurationArrayReader
-  Both classes inherited from the ezcConfigurationFileReader and provide lower
-  level access to reading configuration files. They also provide a method for
+  Both classes inherit from ezcConfigurationFileReader and provide lower-level
+  access to reading configuration files. They also provide a method for
   validating configuration files.
 
 ezcConfigurationIniWriter and ezcConfigurationArrayWriter
-  Write configuration files in the format that ezcConfigurationIniReader and
-  ezcConfigurationArrayReader support.
+  These classes write configuration files in formats that
+  ezcConfigurationIniReader and ezcConfigurationArrayReader support.
 
 ezcConfiguration
-  Is the basic class to query and modify configuration settings. Objects of
+  This is the basic class to query and modify configuration settings. Objects of
   this class are returned by ezcConfigurationFileReader::getConfig() and can be
-  stored into files through the ezcConfigurationFileWriter::setConfig() method.
+  stored in files through the ezcConfigurationFileWriter::setConfig() method.
 
 
 
-Basic Usage
+Basic usage
 ===========
 
-There are two basic ways to use this component. The first one is through the
-manager class ezcConfigurationManager. This is mostly suitable for the bulk of
-your application for retrieving configuration settings.
+There are two basic ways to use Configuration. The first is through the
+manager class ezcConfigurationManager. This is suitable for most applications
+for retrieving configuration settings.
 
 The second way is through the individual reader and writer classes themselves.
 They provide you with more finegrained control over the settings.
 
-Using the Manager
+Using the manager
 -----------------
 
 In this first example you see how configuration settings stored in the file
@@ -61,100 +61,99 @@ In this first example you see how configuration settings stored in the file
     :literal:
 
 In line 4 and 5 we retrieve an instance of the ezcConfigurationManager class
-and initialize the system with the init() method. The two arguments specify the
-reader to use (ezcConfigurationIniReader) and where to find the configuration
+and initialize the system with the init() method. The two arguments specify
+which reader to use (ezcConfigurationIniReader) and where to find the configuration
 information. The second argument is the location, and its meaning is dependent
 on the reader class. 
 
 In line 7 we retrieve the setting "password" from the settings group "db" in
-the configuration named "settings". In the case of the
-ezcConfigurationIniReader and ezcConfigurationArrayReader the name of the
+the configuration named "settings". With
+ezcConfigurationIniReader and ezcConfigurationArrayReader, the name of the
 configuration corresponds to a specific file on disk.
 
-Lines 10-11 and 13-14 show two different ways on how to receive a list of
+Lines 10-11 and 13-14 show two different ways to receive a list of
 settings. The first method returns an associative array, while the second
-method returns an numerical indexed array which you can f.e. use with the
+method returns a numerical indexed array that you can use with, for example, the
 list() construct.
 
-Instead of the ezcConfigurationManager::getSetting() method there is also a
-number of additional methods that return a setting. These alternative methods
-also check whether the type of the settings is correct. See f.e. the
-ezcConfigurationManager::fetchArraySetting() description. 
+To return a setting, there is the ezcConfigurationManager::getSetting() method
+and a number of additional methods. These alternative methods
+also check whether the type of setting is correct. See, for example, the
+ezcConfigurationManager::fetchArraySetting() description in the API
+documentation. 
 
 The ezcConfigurationManager::hasSetting() method can be used to find out
 whether a specific setting exists and the
-ezcConfigurationManager::hasSettings() methods verifies if all the settings in
-the list that you give to this method exist. It is preferred to use these
-methods to see if an setting or list of settings exists before accessing them
-with one of the get*Setting() methods to prevent exceptions from being thrown.
+ezcConfigurationManager::hasSettings() method verifies whether all of the settings in
+a specific list exist. It is recommended to use these
+methods to see if a setting or list of settings exists before accessing them
+with one of the get*Setting() methods. This will prevent errors and exceptions.
 
-Using the Reader Classes Directly
+Using the reader classes directly
 ---------------------------------
 
-Instead of using the manager class, you can also simply retrieve the
+Instead of using the manager class, you can also retrieve the
 configuration data directly with the reader classes. The following example
 illustrates this:
 
 .. include:: tutorial_example_02.php
     :literal:
 
-In line 4 we instantiate an object of the ezcConfigurationIniReader class which
-we initialize in line 5. It is also possible to initialize the reader directly
+In line 4, we instantiate an object of the ezcConfigurationIniReader class and
+initialize it in line 5. It is also possible to initialize the reader directly
 through the constructor but in that case you need to specify the full file name
-to the configuration file. If you do it in the way that this example does it
-then you can simply change the classname to f.e. ezcConfigurationArrayReader
-and your code does not need any changes. The lines 7 to 12 how you can use the
-validate() method to find out if your configuration file has the correct
-format. The code in line 14 retrieves the settings from the configuration file
-and returns them as an ezcConfiguration object. With this object you can read
-settings and modify the settings. (See the API documentation of
-ezcConfiguration for those methods).
+to the configuration file. In this example, you could simply change the
+classname to ezcConfigurationArrayReader, for example. Lines 7 to 12 show how
+to use the validate() method to find out if your configuration file in in the correct
+format. Line 14 retrieves the settings from the configuration file
+and returns them as an ezcConfiguration object. You can then read
+and modify the settings. (See the API documentation of
+ezcConfiguration for the corresponding methods).
 
-Writing Configuration Files
+Writing configuration files
 ===========================
 
-After modifying an ezcConfiguration object with the designated methods there
+After modifying an ezcConfiguration object with the designated methods, there
 are multiple classes to write the configuration object back to disk. In the
-next example we write a ezcConfiguration object stored in the variable $cfg to
+next example, we write an ezcConfiguration object stored in the variable $cfg to
 disk:
 
 .. include:: tutorial_example_03.php
     :literal:
 
-In line 4 we instantiate the writer object, in the example we use the
-ezcConfigurationArrayWriter that writes the configuration data as a PHP
+In line 4 we instantiate the writer object, using
+ezcConfigurationArrayWriter to write the configuration data as a PHP
 structure. The component also provides a ezcConfigurationIniWriter class that
-writes a file that the ezcConfigurationIniReader can read. After initializing
-the object in line 5 we use the save() method in line 6 to write the
+writes a file that ezcConfigurationIniReader can read. After initializing
+the object in line 5, we use the save() method in line 6 to write the
 configuration file.
 
 
-File Format
+File format
 ===========
 
-General Information Regarding Configuration Data
+General information regarding configuration data
 ------------------------------------------------
 
 The configuration format consists of four elements:
 
-- Groups, they allow you to group similar settings into one group and it also
-  allows you to have multiple settings with the same name but in different
+- Groups allow you to group similar settings into one group and also
+  allow you to have multiple settings with the same name but in different
   groups. This means that you don't have to prefix your settings with the group
   name.
 
-- Settings, the name of the setting which identifies the setting. A setting
-  contains a value.
+- Settings contain values and are identified by names.
 
-- Values, a value can be of the following types: boolean, integers, floats,
+- Values can be of the following types: boolean, integers, floats,
   arrays and strings.
 
-- Comments, comments belongs to either a group or a setting and can be added to
+- Comments belong to either a group or a setting and can be added to
   describe what the group contains or what a setting controls.
 
 Group and setting identifiers can only contain the characters a to z, A to Z, 0
-to 9, underscore (_), dash (-) and dot (.). The case of settings are preserved
-but accessing them can be done with any case, this means you cannot have two
-settings with the same identifier only differing in case.
+to 9, underscore (_), dash (-) and dot (.). The case of settings are preserved,
+but accessing them can be done with any case. This means that you cannot have two
+identical settings identifiers that differ only in case.
 
 The following are legal names::
 
@@ -164,16 +163,16 @@ The following are legal names::
   a.simple.name
   a-simple_and.longName
 
-and these are illegal::
+The following are illegal names::
 
   A simple name
   -=A simple name=-
   
-In addition the group names may contain forward slashes (/), for instance::
+In addition, the group names may contain forward slashes (/), for instance::
 
   a/simple/groupname
 
-Ini File Format
+Ini file format
 ---------------
 
 This is the format that is written by the ezcConfigurationIniWriter class and
@@ -181,13 +180,13 @@ read by the ezcConfigurationIniReader class. The parser itself is located in
 the ezcConfigurationIniParser class.
 
 The parser will remove leading and trailing whitespace from group names,
-settings and setting values. If you wish to keep whitespace in a string it will
+settings and setting values. If you wish to keep whitespace in a string, it will
 have to be quoted.
 
 Comments are written using a # (hash) and must be placed at the start of the
 line. The whitespace block before the comment text on all the lines will be
 trimmed away while whitespace after this block is kept. Trailing whitespace is
-also trimmed. For instance the follow comments: ::
+also trimmed. For instance, the follow comments: ::
 
   # A simple comment  
   #  A simple comment
@@ -199,8 +198,8 @@ will become: ::
   # A simple comment
   #      A simple comment
 
-Multiple comment lines will be read as one comment with multiple lines, if
-there are empty lines in between comments they will be read as empty lines in
+Multiple comment lines will be read as one comment with multiple lines. If
+there are empty lines in between comments, they will be read as empty lines in
 the comment itself::
 
   # A single line comment
@@ -227,11 +226,11 @@ the comment itself::
 Comments are always placed *in front* of the group or setting. A line
 that only contains whitespace will be ignored.
 
-The files are always encoded in UTF-8 format, this means it can contain Unicode
-characters if needed or plain ASCII without specific encoding.
+Files are always encoded in UTF-8 format, meaning that they can contain Unicode
+characters or plain ASCII without specific encoding.
 
-Groups are defined by placing an identifier inside square brackets alone on the
-string. Any setting that is read after this will be placed as part of this
+Groups are defined by placing an identifier inside square brackets. Any setting
+that is read after this will be placed as part of this
 group. Settings without groups are not allowed and will cause an error to be
 issued. The group name will have its leading and trailing whitespace trimmed
 away: ::
@@ -240,22 +239,23 @@ away: ::
   [Another group]
   [ Yet another group ]
 
-Settings are defined by placing an identifier with an equal sign (=) after it,
-the value follows after the equal sign. The setting and the value must be on
-one line, it cannot span multiple lines: ::
+Settings are defined by placing an identifier followed by an equal sign (=),
+finally followed by the value. The setting identifier and corresponding value
+must be on the same line, and cannot span multiple lines: ::
 
   Setting1 = Some example string
   Setting2 = 42
 
-The values of settings are generally seen as strings with the exception of:
+The values of settings are generally strings, with the exception of:
 
-1. Booleans which can be written as *true* or *false*, if you need these
-   strings as text they must be quoted: ::
+1. Booleans, which can be written as *true* or *false*. If you need a string
+that contains the text *true* or *false* it must be quoted: ::
 
      SystemEnabled = true
      LogErrors = false
 
-2. Numbers are written using English locale and can be in the following format:
+2. Numbers, which are written using English locale and can be in the following
+formats:
 
   - decimal::
 
@@ -286,7 +286,7 @@ The values of settings are generally seen as strings with the exception of:
       Price = 10.4
       Seed = 10e5
 
-3. An explicit string which is enclosed in double quotes ("), all whitespace is
+3. An explicit string, which is enclosed in double quotes ("). All whitespace is
    kept inside the quotes and characters are read literally with the exception
    of escaped characters. The escaped characters are:
 
@@ -298,10 +298,10 @@ The values of settings are generally seen as strings with the exception of:
 
        "This contains a backslash \\"
 
-In addition it is possible to define arrays in a second way by using square
+In addition, it is possible to define arrays in a second way by using square
 brackets ([]) after the setting name and before the equal (=) character. This
 will make the setting an array and the value is parsed as explained above.
-In addition the square brackets may be enclosed around a string which turns the
+In addition, the square brackets may be enclosed around a string, turning the
 array into a hash (or associative array) with the text being used as the key. ::
 
   List[] = First string
@@ -311,14 +311,15 @@ array into a hash (or associative array) with the text being used as the key. ::
   Hash["def"] = 5
 
 
-Array File Format
+Array file format
 -----------------
 
 The *Array* format can be written using the ezcConfigurationArrayWriter class
-and read with the ezcConfigurationArrayReader class. The format is a simple `var_export`_ of the contained settings and
-for reading the PHP will parse the file. The file contains an array with two
-elements. One for the groups and settings and one for the comments.
-For instance the file could look like:
+and read with the ezcConfigurationArrayReader class. The format is a simple
+`var_export`_ of the contained settings, which will be parsed for reading by
+PHP. The file contains an array with two
+elements: one for the groups and settings and one for the comments.
+The file could be as follows:
 
 .. include:: examples/settings.php
     :literal:
