@@ -56,6 +56,9 @@ Usage
 Terminology
 -----------
 
+A `cache`_ is identified by a `cache identifier`_ and contains a number of
+`cache item`_ s.
+
 _`Cache`
   A location that stores `cache item`_ s. A cache is created with
   ezcCacheManager::createCache(), preferrably at the beginning of your script.
