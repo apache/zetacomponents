@@ -7,8 +7,8 @@ Introduction
 ============
 
 The Archive component provides a generic API for creating and extracting
-archives.  Currently, Archive supports the Tar and Zip formats. Compression
-algorithms, such as GZip or BZip2, are indirectly supported.
+archives.  Currently, the Archive component supports the Tar and Zip formats.
+Compression algorithms, such as GZip or BZip2, are indirectly supported.
 The stream wrappers from PHP should be used to handle compressed archives.
 
 
@@ -19,7 +19,7 @@ The following list sums up the most important classes:
 
 ezcArchive
   This class provides the main API for accessing or creating a
-  Tar or Zip archive. Archive provides methods for
+  Tar or Zip archive. ezcArchive provides methods for
   extracting entries (files, directories, symbolic links and so on), appending
   entries and removing entries. 
 
@@ -49,18 +49,18 @@ The Tar format has more than one standard. The most common formats are:
 - POSIX
 - Gnu
 
-Archive can extract from any of these formats. Appending entries to the archive
-is only available for the Unix V7 and Ustar formats. 
+The Archive component can extract from any of these formats. Appending entries
+to the archive is only available for the Unix V7 and Ustar formats. 
 
 Extracting entries can occur in two ways: 
 
 - ezcArchive->extract(), extracts all entries from the archive.
-- ezcArchive->extractCurrent(), extracts only the current entry. 
+- ezcArchive->extractCurrent(), extracts only the current entry.
 
-Archive can be treated like an iterator.
-After opening the file, it points to the first entry. The iterator can be
-moved using ezcArchive->next() and ezcArchive->rewind() to move to the next
-entry or go back to the first entry.
+An ezcArchive object can be used like an iterator. After opening the file, it
+points to the first entry. The iterator can be moved using ezcArchive->next()
+and ezcArchive->rewind() to move to the next entry or go back to the first
+entry.
 
 The next example demonstrates how to extract an entire archive file-by-file:
 
@@ -69,14 +69,14 @@ The next example demonstrates how to extract an entire archive file-by-file:
 
 First, tutorial_autoload.php is included. The included file loads the
 correct php files for the Archive package. Hereafter the time zone is set to
-"UTC". The archive uses some date functions and might therefore produce errors
-if the time zone is not specified.
+"UTC". The Archive component uses some date functions and might therefore
+produce warnings if the time zone is not specified.
 
 The gzipped Tar archive is opened using the zlib stream. The while() method
 iterates over each entry, showing the name and extracting the entry itself. 
 
-Archive extends from the PHP Iterator class, thus the above example can be
-rewritten as follows:
+The Archive component extends from the PHP Iterator class, thus the above
+example can be rewritten as follows:
 
 .. include:: tutorial_iterator.php
    :literal:
