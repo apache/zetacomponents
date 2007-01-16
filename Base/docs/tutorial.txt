@@ -59,9 +59,8 @@ Consider the following example:
 - The "You" component has the classes "erYourClass1" and "erYourClass2".
 
 In this case, you need to create the following files in "./repos/autoloads".
-Note that the prefix to _autoload.php in the filename is the first
-part of the classname (although its first letter is uppercase for the
-classname).
+Note that the prefix to _autoload.php ("my" and "your") in the filename is the
+first part of the classname (excluding the lowercase classname prefix - "er").
 
 Content of my_autoload.php:
 
