@@ -9,13 +9,13 @@
  */
 
 /**
- * This handler creates eZ PersistenObject definition files from a
- * DatavaseSchema.
+ * This handler creates PersistenObject definition files from a
+ * DatabaseSchema.
  *
  * @package DatabaseSchema
  * @version //autogentag//
  */
-class ezcDbschemaPersistentWriter implements ezcDbSchemaFileWriter
+class ezcDbSchemaPersistentWriter implements ezcDbSchemaFileWriter
 {
     
     /**
@@ -30,7 +30,7 @@ class ezcDbschemaPersistentWriter implements ezcDbSchemaFileWriter
     }
 
     /**
-     * Writes the schema definition in $dbSchemat to files located in $dir.
+     * Writes the schema definition in $dbSchema to files located in $dir.
      * This method dumps the given schema to PersistentObject definitions, which
      * will be located in the given directory.
      *
