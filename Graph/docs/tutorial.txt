@@ -831,8 +831,8 @@ supports Palm Format Fonts (.fdb) and can only handle a very small subset of
 JPEGs as images for the chart background. On the other hand Flash is a vector
 graphic format too, so that the images are pretty small and can be compressed
 effectively. The font size estimation is exact and it support gradients and
-all types of used shapes. Since ming only supports flash in version 4, it is
-not possible to use transparent backgrounds.
+all types of used shapes. Ming does not support SWF files using transparent
+backgrounds.
 
 .. include:: tutorial_example_27.php
    :literal:

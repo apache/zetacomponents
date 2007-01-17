@@ -5,6 +5,8 @@
 - Fixed issue #9916: Not documented: ArrayDataSet also can use Iterators
 - Fixed issue #9926: Float values with date axis result in date parsing
   exception
+- Fixed issue #10025: Wrong statement in tutorial about swf versions supported
+  by ext/ming
 
 1.0 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
