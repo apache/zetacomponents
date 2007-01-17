@@ -92,7 +92,7 @@ class ezcTranslation
      * @throws ezcTranslationParameterMissingException when not enough
      *         parameters are passed for a parameterized string
      * @param string $key
-     * @param array  $params
+     * @param array(string=>string)  $params
      * @return string
      */
     public function getTranslation( $key, array $params = array() )
