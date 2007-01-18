@@ -426,7 +426,7 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
      */
     public function getMajorStepCount()
     {
-        return (int) ( ( $this->properties['endDate'] - $this->startDate ) / $this->interval );
+        return (int) ceil( ( $this->properties['endDate'] - $this->startDate ) / $this->interval );
     }
 
     /**
