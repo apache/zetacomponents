@@ -224,8 +224,7 @@ class ezcSignalCollection
                 }
             }
         }
-
-}
+    }
 
     /**
      * Connects the signal $signal to the slot $slot.
