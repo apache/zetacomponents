@@ -1,0 +1,220 @@
+eZ component: ConsoleTools, Design, 1.3
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Tobias Schlitt
+:Revision: $Rev$
+:Date: $Date$
+:Status: Draft
+
+.. contents::
+
+Scope
+=====
+
+The scope of this document is to describe the enhancements of the ConsoleTools
+component for version 1.3 of the component.
+
+The ConsoleTools component so far provides only the possibility to interact
+with a user through console options and agruments. A `feature request`_ was
+filed with the need for another possibility of interaction with the user:
+Through STDIN.
+
+This document describes a new range of classes, which will be added to
+ConsoleTools, to fulfill this need.
+
+Design overview
+===============
+
+The following section gives a brief introduction of the concept behind this
+document.
+
+Clarification of terms
+----------------------
+
+User
+~~~~
+
+The "user" is the person using a program and interacting with it during
+runtime.
+
+Developer
+~~~~~~~~~
+
+In contrast to the "user", the term "developer" in this document refers to the
+person who creates a program, using the ConsoleTools component.
+
+Dialog
+~~~~~~
+
+The basic idea of a new mechanism to interact with the user through STDIN in
+this document is called a "dialog". 
+
+Basic design
+-------------
+
+The core of the new feature decribed in this document is a dialog. The dialog
+is an object, must have the following capabilities:
+
+- To presents itself to the user on the command line
+- Requests a result (answer) from the user through STDIN.
+- Check if the result is valid for its purpose.
+- Returning the result to the 
+
+A dialog is usually used in a loop, which displays the dialog again and again
+until it received a valid result.
+
+Class design
+============
+
+The following classes will realize the idea of dialogs in ConsoleTools.
+
+ezcConsoleDialog
+----------------
+
+This interface describes the external API, which is used in common to work with
+dialog objects. Each dialog class must implement this interface. The API looks
+as follows:
+
+__construct( ezcConsoleOutput $output, ezcConsoleDialogOptions $options )
+  The constructor of a dialog receives an instance of ezcConsoleOutput, which
+  it must use for presenting its output, when requested. In addition, it can
+  recieve an option object, which must be an instance or subclass instance of
+  ezcConsoleDialogOptions.
+hasValidResult()
+  This method must return a boolean value, which indicates, if the dialog
+  already received a result from the user, which is valid in its context.
+getResult()
+  After the hasValidResult() method returned true, this method will return the
+  value received from the dialog.
+display()
+  Using this method, the developer can instruct the dialog object to display
+  itself to the user. The dialog must use the instance of eczConsoleOutput it
+  received in the constructor for displaying.
+reset()
+  This method resets the dialog internally to the state it had directly after
+  construction, so that it can be reused by the developer.
+
+In addition to this interface, an implementation of ezcConsoleDialog can
+contain a set of static factory methods, which return a dialog in a
+preconfigured state.
+
+ezcConsoleDialogOptions
+-----------------------
+
+This is the base option class, which must be accepted by a dialog. It contains
+options, which must be valid for each dialog class. A dialog class may request,
+that the options it receives are instances of a subclass, if it expects
+additional options. Each of the options defined in ezcConsoleDialogOptions must
+also be available in this subclass. Every option defined must have a sensible
+default value, so that there is no need for the developer to change it.
+
+The base option class provides the following options:
+
+format
+  The name of the format this dialog uses to be displayed. The format
+  identifier must be defined in the ezcConsoleOutput instance submitted to the
+  constructor of the dialog.
+
+ezcConsoleDialogViewer
+----------------------
+
+The ezcConsoleDialogViewer class provides a set of static convenience methods
+that can be used by a developer that works with dialogs and by a developer that
+creates new dialogs. These methods are:
+
+displayDialog( ezcConsoleDialog $dialog )
+  This method is recommended to be used for displaying dialogs. It performs the
+  typical loop: Display the dialog over and over again until it received a
+  valid result. When this state is reached, it returns the dialogs value.
+readLine()
+  The readLine() method is commonly used in a dialog implementation to read a
+  line from standard in. It returns the input provided by a user, trimmed of
+  leading and trailing whitespaces.
+
+Dialog implementations
+======================
+
+The new feature set comes with a collection of basic dialog implementations,
+which will be described in this section.
+
+ezcConsoleQuestionDialog
+------------------------
+
+The ezcConsoleQuestionDialog is the most basic imaginable dialog. It asks the
+user a simply question and expects a free-form answer or a set of predefined
+answers. A typical output from an ezcConsoleQuestionDialog object could look
+like this: ::
+
+    Do you want to continue? (y/n) 
+
+This dialog implementation provides a set of rudimentary options, which can be
+used to customize its appearance and enhance its capabilities. For this
+purpose, it comes with a custom options class ezcConsoleQuestionDialogOptions,
+that accepts the following options in addition to those provided by
+ezcConsoleDialogOptions:
+
+text
+  This option defines the main "question" text, displayed to the user.
+type
+  Using this option, a developer can request the dialog to check the result
+  provided by the user for a given format. The format is defined usin the
+  syntax of PHPs sprintf() function (better to say: sscanf()).
+validResults
+  If this option is set, it must contain an array of expected results for this
+  dialog. The dialog will then verify, that the received result is among this
+  set.
+defaultResult
+  This option can be used to define a default value, which is used by the
+  dialog, if the user does not provide any value at all (in other words: simply
+  hits <RETURN>).
+showResults
+  If this boolean option is set to true, the dialog will display the possible
+  result values behind the question text itself. If a default value is
+  provided, it will also indicate, which one this is. For example: ::
+    
+    Do you want to continue? (y/n) [y]
+
+  While here "y" and "n" are valid results and "y" is the default result, which
+  is selected when simply skipping this question by hitting just <RETURN>.
+
+ezcConsoleMenuDialog
+--------------------
+
+The second dialog implementation shipped with ConsoleTools is the menu dialog,
+which is an enhanced version of the question dialog. The menu dialog will
+display an ordered set of options and let the user select one of these. A
+typical menu can look like this: ::
+
+    You can choose one of the following actions.
+
+    1)  Create something new
+    2)  Edit something
+    3)  Delete something
+    4)  Do something else
+
+    Please choose an action: 
+
+The menu dialog also comes with its own set of options, the
+ezcConsoleMenuDialogOptions:
+
+text
+  The text displyed before the menu.
+entries
+  An array of strings, defining the possibilities shown in the menu.
+marker
+  The character used to devide the numbering of menu entries from their text
+  representation.
+markerSpace
+  The padding of whitespaces between the number and the text representation of
+  a menu entry.
+selectText
+  The text displayed after the menu to indicate to the user that he should make
+  a selection.
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79

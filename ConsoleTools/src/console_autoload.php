@@ -47,6 +47,17 @@ return array (
     'ezcConsoleOptionMissingValueException'         => 'ConsoleTools/exceptions/option_missing_value.php',
     'ezcConsoleOptionNotExistsException'            => 'ConsoleTools/exceptions/option_not_exists.php',
     'ezcConsoleOptionTooManyValuesException'        => 'ConsoleTools/exceptions/option_too_many_values.php',
+
+    'ezcConsoleDialog'                              => 'ConsoleTools/interfaces/dialog.php',
+    'ezcConsoleDialogViewer'                        => 'ConsoleTools/dialog_viewer.php',
+    'ezcConsoleQuestionDialog'                      => 'ConsoleTools/dialog/question_dialog.php',
+    'ezcConsoleMenuDialog'                          => 'ConsoleTools/dialog/menu_dialog.php',
+    
+    'ezcConsoleDialogOptions'                       => 'ConsoleTools/options/dialog.php',
+    'ezcConsoleQuestionDialogOptions'               => 'ConsoleTools/options/question_dialog.php',
+    'ezcConsoleMenuDialogOptions'                   => 'ConsoleTools/options/menu_dialog.php',
+
+    'ezcConsoleNoValidDialogResultException'        => 'ConsoleTools/exceptions/no_valid_dialog_result.php',
 );
 
 ?>
