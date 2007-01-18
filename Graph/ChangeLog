@@ -7,6 +7,7 @@
   exception
 - Fixed issue #10025: Wrong statement in tutorial about swf versions supported
   by ext/ming
+- Fixed issue #10018: Axis scale incorrect when startDate != first day of month
 
 1.0 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

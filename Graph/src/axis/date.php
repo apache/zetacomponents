@@ -32,6 +32,12 @@
 class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
 {
     
+    const MONTH = 2629800;
+
+    const YEAR = 31536000;
+
+    const DECADE = 315360000;
+
     /**
      * Minimum inserted date
      * 
@@ -77,11 +83,11 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
         // Week
         604800      => 'W',
         // Month
-        2629800     => 'M y',
+        self::MONTH => 'M y',
         // Year
-        31536000    => 'Y',
+        self::YEAR  => 'Y',
         // Decade
-        315360000   => 'Y',
+        self::DECADE => 'Y',
     );
 
     /**
@@ -227,35 +233,50 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
      */
     protected function calculateLowerNiceDate( $min, $interval )
     {
-        $dateSteps = array( 60, 60, 24, 7, 52 );
-
-        $date = array(
-            (int) date( 's', $min ),
-            (int) date( 'i', $min ),
-            (int) date( 'H', $min ),
-            (int) date( 'd', $min ),
-            (int) date( 'm', $min ),
-            (int) date( 'Y', $min ),
-        );
-
-        $element = 0;
-        while ( ( $step = array_shift( $dateSteps ) ) &&
-                ( $interval > $step ) )
+        switch ( $interval )
         {
-            $interval /= $step;
-            $date[$element++] = (int) ( $element > 2 );
+            case self::MONTH:
+                // Special handling for months - not covered by the default 
+                // algorithm 
+                return mktime(
+                    1,
+                    0,
+                    0,
+                    (int) date( 'm', $min ),
+                    1,
+                    (int) date( 'Y', $min )
+                );
+            default:
+                $dateSteps = array( 60, 60, 24, 7, 52 );
+
+                $date = array(
+                    (int) date( 's', $min ),
+                    (int) date( 'i', $min ),
+                    (int) date( 'H', $min ),
+                    (int) date( 'd', $min ),
+                    (int) date( 'm', $min ),
+                    (int) date( 'Y', $min ),
+                );
+
+                $element = 0;
+                while ( ( $step = array_shift( $dateSteps ) ) &&
+                        ( $interval > $step ) )
+                {
+                    $interval /= $step;
+                    $date[$element++] = (int) ( $element > 2 );
+                }
+
+                $date[$element] -= $date[$element] % $interval;
+
+                return mktime(
+                    $date[2],
+                    $date[1],
+                    $date[0],
+                    $date[4],
+                    $date[3],
+                    $date[5]
+                );
         }
-
-        $date[$element] -= $date[$element] % $interval;
-
-        return mktime(
-            $date[2],
-            $date[1],
-            $date[0],
-            $date[4],
-            $date[3],
-            $date[5]
-        );
     }
 
     /**
@@ -287,7 +308,7 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
      */
     public function calculateMaximum( $min, $max )
     {
-        $this->properties['endDate'] = $this->calculateLowerNiceDate( $max, $this->interval );
+        $this->properties['endDate'] = $this->properties['startDate'];
 
         while ( $this->properties['endDate'] < $max )
         {
