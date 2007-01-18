@@ -249,13 +249,13 @@ must be on the same line, and cannot span multiple lines: ::
 The values of settings are generally strings, with the exception of:
 
 1. Booleans, which can be written as *true* or *false*. If you need a string
-that contains the text *true* or *false* it must be quoted: ::
+   that contains the text *true* or *false* it must be quoted: ::
 
      SystemEnabled = true
      LogErrors = false
 
 2. Numbers, which are written using English locale and can be in the following
-formats:
+   formats:
 
   - decimal::
 
