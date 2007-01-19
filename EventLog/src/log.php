@@ -240,6 +240,7 @@ class ezcLog
         if ( is_null( self::$instance ) )
         {
             self::$instance = new self();
+            ezcBaseInit::fetchConfig( 'ezcInitLog', self::$instance );
         }
         return self::$instance;
     }

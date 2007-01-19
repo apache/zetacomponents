@@ -8,6 +8,7 @@
  * @subpackage Tests
  */
 
+require_once( "log_delayed_init_test.php");
 require_once( "log_test.php");
 require_once( "log_message_test.php");
 require_once( "mapper/filterset_test.php");
@@ -26,6 +27,7 @@ class ezcEventLogSuite extends PHPUnit_Framework_TestSuite
         parent::__construct();
         $this->setName("EventLog");
         
+        $this->addTest( ezcLogDelayedInitTest::suite() );
         $this->addTest( ezcLogFilterSetTest::suite() );
         $this->addTest( ezcLogContextTest::suite() );
         $this->addTest( ezcLogFileWriterTest::suite() );
