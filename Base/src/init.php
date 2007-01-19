@@ -46,7 +46,7 @@
  *
  * <code>
  * <?php
- * class cfgConfigurationManager
+ * class cfgConfigurationManager implements ezcBaseConfigurationInitializer
  * {
  *     static public function configureObject( ezcConfigurationManager $cfgManagerObject )
  *     {
@@ -93,16 +93,21 @@ class ezcBaseInit
     /**
      * Uses the configured callback belonging to $identifier to configure the $object.
      *
+     * The method will return the return value of the callback method, or null
+     * in case there was no callback set for the specified $identifier.
+     *
      * @param string $identifier
      * @param object $object
+     * @returns mixed
      */
     public static function fetchConfig( $identifier, $object )
     {
         if ( isset( self::$callbackMap[$identifier] ) )
         {
             $callbackClassname = self::$callbackMap[$identifier];
-            call_user_func( array( $callbackClassname, 'configureObject' ), $object );
+            return call_user_func( array( $callbackClassname, 'configureObject' ), $object );
         }
+        return null;
     }
 }
 ?>

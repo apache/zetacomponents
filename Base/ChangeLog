@@ -5,6 +5,8 @@
   search for.
 - Added exception class ezcBaseExtensionNotFoundException to be thrown when an
   extension is required but is not found.
+- Changed the ezcBaseInit::fetchConfig() method to return the value that was 
+  returned from the callback function. 
 
 
 1.2 - Monday 18 December 2006
