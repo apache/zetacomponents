@@ -26,9 +26,9 @@ class ezcSignalSlotSuite extends PHPUnit_Framework_TestSuite
         parent::__construct();
         $this->setName("SignalSlot");
 
-        $this->addTest( ezcSignalCollectionTest::suite() );
         $this->addTest( ezcSignalStaticConnectionsTest::suite() );
         $this->addTest( ezcSignalStaticConnectionsBaseTest::suite() );
+        $this->addTest( ezcSignalCollectionTest::suite() );
     }
 
     public static function suite()

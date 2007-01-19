@@ -55,6 +55,7 @@ class ezcSignalStaticConnections implements ezcSignalStaticConnectionsBase
         if ( self::$instance === null )
         {
             self::$instance = new ezcSignalStaticConnections();
+            ezcBaseInit::fetchConfig( 'ezcInitSignalStaticConnections', self::$instance );
         }
         return self::$instance;
     }

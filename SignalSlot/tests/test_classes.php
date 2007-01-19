@@ -85,5 +85,11 @@ function slotFunction()
     TheReceiver::$globalFunctionRun = "brain damage";
 }
 
+class testDelayedInitSignalStaticConnections {
+    static function configureObject( $object )
+    {
+        $object->connect( 'TheDelayed', 'signal', 'one' );
+    }
+}
 
 ?>

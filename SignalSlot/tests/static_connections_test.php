@@ -11,7 +11,7 @@
 require_once( "test_classes.php" );
 
 /**
- * @package PhpGenerator
+ * @package SignalSlot
  * @subpackage Tests
  */
 class ezcSignalStaticConnectionsTest extends ezcTestCase
@@ -25,7 +25,21 @@ class ezcSignalStaticConnectionsTest extends ezcTestCase
         $this->receiver = new TheReceiver();
         TheReceiver::$globalFunctionRun = false;
         TheReceiver::$staticFunctionRun = false;
+    }
+
+    function tearDown()
+    {
         ezcSignalStaticConnections::getInstance()->connections = array();
+    }
+
+    public function testDelayedInitialization()
+    {
+        ezcBaseInit::setCallback( 'ezcInitSignalStaticConnections', 'testDelayedInitSignalStaticConnections' );
+        ezcSignalStaticConnections::getInstance()->connect( 'TheDelayed', 'signal', 'two' );
+        $this->assertEquals(
+            array( 1000 => array( 'two', 'one' ) ),
+            ezcSignalStaticConnections::getInstance()->getConnections( 'TheDelayed', 'signal' )
+        );
     }
 
     public function testSingleConnectionGlobalFunction()
