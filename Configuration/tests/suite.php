@@ -11,6 +11,7 @@
 /**
  * Require the tests
  */
+require_once 'configuration_manager_delayed_init_test.php';
 require_once 'configuration_test.php';
 require_once 'configuration_manager_test.php';
 require_once 'configuration_ini_parser_test.php';
@@ -29,6 +30,7 @@ class ezcConfigurationSuite extends PHPUnit_Framework_TestSuite
         parent::__construct();
         $this->setName("Configuration");
 
+        $this->addTest( ezcConfigurationManagerDelayedInitTest::suite() );
         $this->addTest( ezcConfigurationTest::suite() );
         $this->addTest( ezcConfigurationManagerTest::suite() );
         $this->addTest( ezcConfigurationIniReaderTest::suite() );

@@ -1,3 +1,12 @@
+1.2beta1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Implemented issue #9965: Support for delayed initialization through
+  ezcBaseInit.
+- Added the ezcConfigurationManager::reset() method that returns the 
+  manager to its unintialized state.
+
+
 1.1 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

@@ -96,6 +96,7 @@ class ezcConfigurationManager
         if ( is_null( self::$instance ) )
         {
             self::$instance = new ezcConfigurationManager();
+            ezcBaseInit::fetchConfig( 'ezcInitConfigurationManager', self::$instance );
         }
         return self::$instance;
     }
@@ -144,6 +145,18 @@ class ezcConfigurationManager
         $this->readerClass = $readerClass;
         $this->location = $location;
         $this->options = $options;
+    }
+
+    /**
+     * Resets the manager to the uninitialized state.
+     *
+     * @return void
+     */
+    public function reset()
+    {
+        $this->readerClass = null;
+        $this->location = null;
+        $this->options = array();
     }
 
     /**
