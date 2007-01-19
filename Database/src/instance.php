@@ -90,7 +90,17 @@ class ezcDbInstance
 
         if ( !isset( self::$Instances[$identifier] ) )
         {
-            throw new ezcDbHandlerNotFoundException( $identifier );
+            // The DatabaseInstanceFetchConfig callback should return an
+            // ezcDbHandler object which will then be set as instance.
+            $ret = ezcBaseInit::fetchConfig( 'ezcInitDatabaseInstance', $identifier );
+            if ( $ret === null )
+            {
+                throw new ezcDbHandlerNotFoundException( $identifier );
+            }
+            else
+            {
+                self::set( $ret, $identifier );
+            }
         }
 
         return self::$Instances[$identifier];

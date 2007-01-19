@@ -14,6 +14,7 @@
 require_once 'factory_test.php';
 require_once 'transactions_test.php';
 require_once 'instance_test.php';
+require_once 'instance_delayed_init_test.php';
 require_once 'handler_test.php';
 require_once 'sqlabstraction/expression_test.php';
 require_once 'sqlabstraction/query_test.php';
@@ -39,6 +40,7 @@ class ezcDatabaseSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDatabaseFactoryTest::suite() );
         $this->addTest( ezcDatabaseTransactionsTest::suite() );
         $this->addTest( ezcDatabaseInstanceTest::suite() );
+        $this->addTest( ezcDatabaseInstanceDelayedInitTest::suite() );
         $this->addTest( ezcDatabaseHandlerTest::suite() );
         $this->addTest( ezcQueryExpressionTest::suite() );
         $this->addTest( ezcQueryTest::suite() );
