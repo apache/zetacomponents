@@ -178,12 +178,13 @@ class ezcDebug
      */
     public static function getInstance()
     {
-        if ( is_null( ezcDebug::$instance ))
+        if ( is_null( self::$instance ))
         {
-            ezcDebug::$instance = new ezcDebug();
+            self::$instance = new ezcDebug();
+            ezcBaseInit::fetchConfig( 'ezcInitDebug', self::$instance );
         }
 
-        return ezcDebug::$instance;
+        return self::$instance;
     }
 
     /** 
