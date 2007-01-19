@@ -223,6 +223,7 @@ class ezcTemplateConfiguration
         if ( !isset( self::$instanceList[$name] ) )
         {
             self::$instanceList[$name] = new ezcTemplateConfiguration();
+            ezcBaseInit::fetchConfig( 'ezcInitTemplateConfiguration', self::$instanceList[$name] );
         }
 
         return self::$instanceList[$name];

@@ -8,6 +8,8 @@
  * @subpackage Tests
  */
 
+require_once 'test_classes.php';
+
 /**
  * @package Template
  * @subpackage Tests
@@ -24,6 +26,13 @@ class ezcTemplateConfigurationTest extends ezcTestCase
         $this->basePath = realpath( dirname( __FILE__ ) ) . '/';
         $this->templatePath = $this->basePath . 'templates/';
         $this->templateStorePath = $this->basePath . 'stored_templates/';
+    }
+
+    public function testDelayedInit()
+    {
+        ezcBaseInit::setCallback( 'ezcInitTemplateConfiguration', 'testDelayedInitTemplateConfiguration' );
+        $config = ezcTemplateConfiguration::getInstance();
+        $this->assertEquals( new ezcTemplateNoContext, $config->context );
     }
 
     public function testDefault()
