@@ -10,6 +10,7 @@
 ezcTestRunner::addFileToFilter( __FILE__ );
 
 require_once "data/persistent_test_object.php";
+require_once "data/persistent_test_object_no_id.php";
 
 /**
  * Tests the code manager.
@@ -235,6 +236,24 @@ class ezcPersistentSessionTest extends ezcTestCase
             $this->fail( "Save of object already saved did not fail." );
         }
         catch ( ezcPersistentObjectException $e ) {}
+    }
+
+    public function testMissingIdProperty()
+    {
+        $object = new PersistentTestObjectNoId();
+        $object->varchar = 'Finland';
+        $object->integer = 42;
+        $object->decimal = 1.42;
+        $object->text = "Finland has Nokia!";
+        try
+        {
+            $this->session->save( $object );
+        }
+        catch ( ezcPersistentDefinitionMissingIdPropertyException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on missing ID property." );
     }
 
     // Save or update

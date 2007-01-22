@@ -62,6 +62,8 @@ class ezcPersistentCodeManager extends ezcPersistentDefinitionManager
      * Returns the definition of the persistent object with the class $class.
      *
      * @throws ezcPersistentDefinitionNotFoundException if no such definition can be found.
+     * @throws ezcPersistentDefinitionMissingIdPropertyException
+     *         if the definition does not have an "idProperty" attribute.
      * @param string $class
      * @return ezcPersistentDefinition
      */
@@ -77,6 +79,10 @@ class ezcPersistentCodeManager extends ezcPersistentDefinitionManager
         {
             throw new ezcPersistentDefinitionNotFoundException( $class,
                                                                 "Searched for '" . realpath( dirname( $path ) ) . "/" . basename( $path ) . "'." );
+        }
+        if ( isset( $definition->idProperty ) === false )
+        {
+            throw new ezcPersistentDefinitionMissingIdPropertyException( $class );
         }
         $definition = $this->setupReversePropertyDefinition( $definition );
         return $definition;

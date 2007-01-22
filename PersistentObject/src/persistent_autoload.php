@@ -45,5 +45,6 @@ return array(
     'ezcPersistentMultiManager'                         => 'PersistentObject/managers/multi_manager.php',
     'ezcPersistentCodeManager'                          => 'PersistentObject/managers/code_manager.php',
     'ezcPersistentDefinitionNotFoundException'          => 'PersistentObject/exceptions/definition_not_found.php',
+    'ezcPersistentDefinitionMissingIdPropertyException' => 'PersistentObject/exceptions/definition_missing_id_property.php',
 );
 ?>

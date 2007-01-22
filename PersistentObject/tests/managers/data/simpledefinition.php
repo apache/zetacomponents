@@ -1,5 +1,7 @@
 <?php
 ezcTestRunner::addFileToFilter( __FILE__ );
 
-return new ezcPersistentObjectDefinition();
+$def = new ezcPersistentObjectDefinition();
+$def->idProperty = new ezcPersistentObjectIdProperty;
+return $def;
 ?>
