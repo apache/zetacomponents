@@ -177,8 +177,8 @@ class ezcConsoleOption
         $this->properties['long'] = $long;
         
         $this->__set( "type",      $type         !== null ? $type      : ezcConsoleInput::TYPE_NONE  );
-        $this->__set( "default",   $default      !== null ? $default   : null );
         $this->__set( "multiple",  $multiple     !== null ? $multiple  : false  );
+        $this->__set( "default",   $default      !== null ? $default   : null );
         $this->__set( "shorthelp", $shorthelp    !== null ? $shorthelp : 'No help available.' );
         $this->__set( "longhelp",  $longhelp     !== null ? $longhelp  : 'Sorry, there is no help text available for this parameter.' );
         
@@ -474,9 +474,14 @@ class ezcConsoleOption
                 }
                 break;
             case 'default':
-                if ( !is_string( $val ) && !is_numeric( $val ) && $val !== null )
+                if ( ( is_scalar( $val ) === false && $val !== null ) )
                 {
-                    throw new ezcBaseValueException( $key, $val, 'a string or a number' );
+                    // Newly allow arrays, if multiple is true
+                    if ( $this->multiple === true && is_array( $val ) === true )
+                    {
+                        break;
+                    }
+                    throw new ezcBaseValueException( $key, $val, 'a string or a number, if multiple == true also an array' );
                 }
                 break;
             case 'multiple':

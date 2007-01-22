@@ -469,6 +469,39 @@ class ezcConsoleToolsOptionTest extends ezcTestCase
         $this->assertTrue( $option->mandatory );
         $this->assertTrue( $option->isHelpOption );
     }
+
+    public function testPropertySetAccessSuccessMultipleArray()
+    {
+        $option = new ezcConsoleOption( "a", "aaa" );
+        $option->multiple = true;
+        $option->default = array( "foo", "bar" );
+
+        $this->assertEquals( array( "foo", "bar" ), $option->default );
+    }
+
+    public function testPropertySetAccessSuccessMultipleScalar()
+    {
+        $option = new ezcConsoleOption( "a", "aaa" );
+        $option->multiple = true;
+        $option->default = 10;
+
+        $this->assertEquals( 10, $option->default );
+    }
+
+    public function testPropertySetAccessFailureNoMultipleArray()
+    {
+        $option = new ezcConsoleOption( "a", "aaa" );
+        $option->multiple = false;
+        try
+        {
+            $option->default = array( "foo", "bar" );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return;
+        }
+        $this->fail( "Assigning array when multiple is false worked." );
+    }
     
     public function testPropertySetAccessFailureShort()
     {
