@@ -116,6 +116,7 @@ class ezcTemplate
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @return mixed
+     * @ignore
      */
     public function __get( $name )
     {
@@ -150,6 +151,7 @@ class ezcTemplate
      *
      * @param string $name
      * @return bool
+     * @ignore
      */
     public function __isset( $name )
     {
@@ -176,6 +178,7 @@ class ezcTemplate
      * @param string $name
      * @param mixed $value
      * @return void
+     * @ignore
      */
     public function __set( $name, $value )
     {

@@ -166,7 +166,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
      * @param string $name
      * @return ezcTemplateVariableAstNode
      */
-    private function createVariableNode( $name )
+    protected function createVariableNode( $name )
     {
         $node = new ezcTemplateVariableAstNode( $name );
         $symbolTable = ezcTemplateSymbolTable::getInstance();

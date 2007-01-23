@@ -212,12 +212,20 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             // $cb->body->statements = $type->statements;
 
 
-                  // Inside.
-        $cb->body->appendStatement( $this->_fopenCacheFileWriteMode() ); // $fp = fopen( $this->cache, "w" ); 
+            // Inside.
 
-        $cb->body->appendStatement( $this->_fwritePhpOpen() );                 // fwrite( $fp, "<" . "?php\n" );
-        $cb->body->appendStatement( $this->_assignEmptyString("total") );      // $total = ""
-        $cb->body->appendStatement( $this->_fwriteLiteral( "\$" . self::INTERNAL_PREFIX . "output = '';\n") );      // fwrite( $fp, "\\\$_ezcTemplate_output = '';\\n" );
+            /// startCaching(); 
+            
+            if ($this->template->configuration->cacheManager !== false )
+            {
+                $cb->body->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->startCaching", array( new ezcTemplateVariableAstNode("_ezcTemplateCache" ) ) ) ) );// new ezcTemplatePhpCodeAstNode( "startCaching();\n" ) );
+            }
+          
+            $cb->body->appendStatement( $this->_fopenCacheFileWriteMode() ); // $fp = fopen( $this->cache, "w" ); 
+
+            $cb->body->appendStatement( $this->_fwritePhpOpen() );                 // fwrite( $fp, "<" . "?php\n" );
+            $cb->body->appendStatement( $this->_assignEmptyString("total") );      // $total = ""
+            $cb->body->appendStatement( $this->_fwriteLiteral( "\$" . self::INTERNAL_PREFIX . "output = '';\n") );      // fwrite( $fp, "\\\$_ezcTemplate_output = '';\\n" );
 
 
 
@@ -272,15 +280,15 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
             // Outside.
         
-        // Add the 'use' statement, that is removed by the prepareCache walker.
-        // XXX can probably be an array, test it.
-        foreach ( $this->preparedCache->useVariableTst as $useVariable)
-        {
-            $use = $useVariable->accept($this);
-            $this->programNode->appendStatement( $use );
-        }
+            // Add the 'use' statement, that is removed by the prepareCache walker.
+            // XXX can probably be an array, test it.
+            foreach ( $this->preparedCache->useVariableTst as $useVariable)
+            {
+                $use = $useVariable->accept($this);
+                $this->programNode->appendStatement( $use );
+            }
 
-        
+            
             $ttlStatements = $this->cacheSystem->checkTTL();
             foreach ( $ttlStatements as $s )
             {
@@ -365,7 +373,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         {
             if (array_key_exists( $s, $this->declaredVariables ) )
             {
-                $newStatement[] = $this->_fwriteVarExportVariable( "_ezc_".$s, false, false );
+                $newStatement[] = $this->_fwriteVarExportVariable( "t_".$s, false, false );
             }
         }
         

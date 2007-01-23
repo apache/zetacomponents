@@ -78,7 +78,19 @@ class ezcTemplateCacheFilesystem
      */
     protected function notFileExistsCache()
     {
-        return new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "file_exists", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
+        if( $this->config->cacheManager !== false )
+        {
+            // !$this->config->cacheManager->isValid( $cacheName ) || !file_exist()
+            $a = new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->isValid", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
+            $b = new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "file_exists", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
+            
+           return new ezcTemplateLogicalOrOperatorAstNode( $a, $b );
+        }
+        else
+        {
+
+            return new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "file_exists", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
+        }
     }
 
 

@@ -72,6 +72,7 @@ class ezcTemplateConfiguration
      * @var array(string=>mixed)
      */
      private $properties = array( 'context' => false,
+                                  'cacheManager' => false,
                                   'templatePath' => ".",
                                   'compilePath' => ".",
                                   'cachedTemplatesPath' => null,
@@ -96,6 +97,7 @@ class ezcTemplateConfiguration
         switch ( $name )
         {
             case 'context': 
+            case 'cacheManager':
             case 'templatePath': 
             case 'compilePath': 
             case 'cachedTemplatesPath':       // Relative path to the compilePath
@@ -143,6 +145,15 @@ class ezcTemplateConfiguration
                 $this->properties[$name] = $value;
                 break;
 
+            case 'cacheManager': 
+/*                if ( !$value instanceof ezcTemplateOutputContext )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'ezcTemplateContext' );
+                }
+ */
+                $this->properties[$name] = $value;
+                break;
+
             case 'templatePath': 
             case 'compilePath': 
             case 'cachedTemplatesPath':
@@ -171,6 +182,9 @@ class ezcTemplateConfiguration
         switch ( $name )
         {
             case 'context': 
+                return true;
+
+            case 'cacheManager': 
                 return true;
 
             case 'templatePath': 

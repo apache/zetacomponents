@@ -39,7 +39,7 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
         // Disable caching.
-        return false;
+        //return false;
 
         if ( $cursor->match( "dynamic" ) )
         {
