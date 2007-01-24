@@ -1482,28 +1482,6 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         $boundings->y0 += $margin;
         $boundings->x1 -= $margin;
         $boundings->y1 -= $margin;
-
-        if ( ( $borderColor instanceof ezcGraphColor ) &&
-             ( $borderWidth > 0 ) )
-        {
-            // Draw border
-            $this->driver->drawPolygon(
-                array(
-                    new ezcGraphCoordinate( $boundings->x0, $boundings->y0 ),
-                    new ezcGraphCoordinate( $boundings->x1, $boundings->y0 ),
-                    new ezcGraphCoordinate( $boundings->x1, $boundings->y1 ),
-                    new ezcGraphCoordinate( $boundings->x0, $boundings->y1 ),
-                ),
-                $borderColor,
-                false
-            );
-
-            // Reduce local boundings by borderWidth
-            $boundings->x0 += $borderWidth;
-            $boundings->y0 += $borderWidth;
-            $boundings->x1 -= $borderWidth;
-            $boundings->y1 -= $borderWidth;
-        }
         
         if ( $background instanceof ezcGraphColor )
         {
@@ -1518,6 +1496,29 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                 $background,
                 true
             );
+        }
+
+        if ( ( $borderColor instanceof ezcGraphColor ) &&
+             ( $borderWidth > 0 ) )
+        {
+            // Draw border
+            $this->driver->drawPolygon(
+                array(
+                    new ezcGraphCoordinate( $boundings->x0, $boundings->y0 ),
+                    new ezcGraphCoordinate( $boundings->x1, $boundings->y0 ),
+                    new ezcGraphCoordinate( $boundings->x1, $boundings->y1 ),
+                    new ezcGraphCoordinate( $boundings->x0, $boundings->y1 ),
+                ),
+                $borderColor,
+                false,
+                $borderWidth
+            );
+
+            // Reduce local boundings by borderWidth
+            $boundings->x0 += $borderWidth;
+            $boundings->y0 += $borderWidth;
+            $boundings->x1 -= $borderWidth;
+            $boundings->y1 -= $borderWidth;
         }
 
         // Apply padding

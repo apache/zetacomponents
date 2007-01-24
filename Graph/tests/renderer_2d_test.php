@@ -692,7 +692,7 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
     public function testRenderBox()
     {
         $this->driver
-            ->expects( $this->at( 0 ) )
+            ->expects( $this->at( 1 ) )
             ->method( 'drawPolygon' )
             ->with(
                 $this->equalTo( array(
@@ -705,7 +705,7 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
                 $this->equalTo( false )
             );
         $this->driver
-            ->expects( $this->at( 1 ) )
+            ->expects( $this->at( 0 ) )
             ->method( 'drawPolygon' )
             ->with(
                 $this->equalTo( array(
@@ -738,7 +738,7 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
     public function testRenderBoxDifferentPadding()
     {
         $this->driver
-            ->expects( $this->at( 0 ) )
+            ->expects( $this->at( 1 ) )
             ->method( 'drawPolygon' )
             ->with(
                 $this->equalTo( array(
@@ -751,14 +751,14 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
                 $this->equalTo( false )
             );
         $this->driver
-            ->expects( $this->at( 1 ) )
+            ->expects( $this->at( 0 ) )
             ->method( 'drawPolygon' )
             ->with(
                 $this->equalTo( array(
-                    new ezcGraphCoordinate( 5., 5. ),
-                    new ezcGraphCoordinate( 395., 5. ),
-                    new ezcGraphCoordinate( 395., 195. ),
-                    new ezcGraphCoordinate( 5., 195. ),
+                    new ezcGraphCoordinate( 3., 3. ),
+                    new ezcGraphCoordinate( 397., 3. ),
+                    new ezcGraphCoordinate( 397., 197. ),
+                    new ezcGraphCoordinate( 3., 197. ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#BB0000' ) ),
                 $this->equalTo( true )
@@ -850,7 +850,7 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
     public function testRenderBoxWithTitle()
     {
         $this->driver
-            ->expects( $this->at( 0 ) )
+            ->expects( $this->at( 1 ) )
             ->method( 'drawPolygon' )
             ->with(
                 $this->equalTo( array(
@@ -863,7 +863,7 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
                 $this->equalTo( false )
             );
         $this->driver
-            ->expects( $this->at( 1 ) )
+            ->expects( $this->at( 0 ) )
             ->method( 'drawPolygon' )
             ->with(
                 $this->equalTo( array(
@@ -908,7 +908,7 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
     public function testRenderBoxWithBottomTitleAndLeftAlignement()
     {
         $this->driver
-            ->expects( $this->at( 0 ) )
+            ->expects( $this->at( 1 ) )
             ->method( 'drawPolygon' )
             ->with(
                 $this->equalTo( array(
@@ -921,7 +921,7 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
                 $this->equalTo( false )
             );
         $this->driver
-            ->expects( $this->at( 1 ) )
+            ->expects( $this->at( 0 ) )
             ->method( 'drawPolygon' )
             ->with(
                 $this->equalTo( array(
