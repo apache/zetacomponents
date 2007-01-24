@@ -9,6 +9,7 @@
   by ext/ming
 - Fixed issue #10018: Axis scale incorrect when startDate != first day of month
 - Fixed issue #9948: Make ezcGraphPolynom documentation public
+- Fixed issue #10074: Use iconv instead of mbstring
 
 1.0 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

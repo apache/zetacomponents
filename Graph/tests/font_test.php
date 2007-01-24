@@ -702,7 +702,7 @@ class ezcGraphFontTest extends ezcGraphTestCase
             true
         );
         $driver->drawTextBox(
-            mb_convert_encoding( 'öäüÖÄÜß', 'ISO-8859-15', 'UTF-8' ),
+            iconv( 'UTF-8', 'ISO-8859-15', 'öäüÖÄÜß' ),
             new ezcGraphCoordinate( 10, 10 ),
             150,
             70,
@@ -774,7 +774,7 @@ class ezcGraphFontTest extends ezcGraphTestCase
             true
         );
         $return = $driver->drawTextBox(
-            mb_convert_encoding( 'öäüÖÄÜß', 'ISO-8859-15', 'UTF-8' ),
+            iconv( 'UTF-8', 'ISO-8859-15', 'öäüÖÄÜß' ),
             new ezcGraphCoordinate( 10, 10 ),
             150,
             70,
@@ -852,7 +852,7 @@ class ezcGraphFontTest extends ezcGraphTestCase
             true
         );
         $driver->drawTextBox(
-            mb_convert_encoding( 'öäüÖÄÜß', 'ISO-8859-15', 'UTF-8' ),
+            iconv( 'UTF-8', 'ISO-8859-15', 'öäüÖÄÜß' ),
             new ezcGraphCoordinate( 10, 10 ),
             150,
             70,
