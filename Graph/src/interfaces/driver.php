@@ -80,6 +80,74 @@ abstract class ezcGraphDriver
         }
     }
 
+    protected function reducePolygonSize( array $points, $size )
+    {
+        $pointCount = count( $points );
+
+        // Build normalized vectors between polygon edge points
+        $vectors = array();
+        for ( $i = 0; $i < $pointCount; ++$i )
+        {
+            $nextPoint = ( $i + 1 ) % $pointCount;
+
+            $x = $points[$nextPoint]->x - $points[$i]->x;
+            $y = $points[$nextPoint]->y - $points[$i]->y;
+
+            $length = sqrt(
+                pow( $x, 2 ) + 
+                pow( $y, 2 )
+            );
+
+            if ( $length == 0 )
+            {
+                $vectors[$i] = new ezcGraphCoordinate( $x, $y );
+            }
+            else
+            {
+                $vectors[$i] = new ezcGraphCoordinate(
+                    $x / $length,
+                    $y / $length
+                );
+            }
+        }
+
+        // Move points to center
+        $newPoints = array();
+        for ( $i = 0; $i < $pointCount; ++$i )
+        {
+            $last = $i;
+            $next = ( $i + 1 ) % $pointCount;
+
+            // Determine one of the angles - we need to know where the smaller
+            // angle is, to determine if the inner side of the polygon is on
+            // the left or right hand.
+            //
+            // This is a valid simplification for ezcGraph(, for now).
+            //
+            // The sign of the scalar products results indicates on which site
+            // the smaller angle is, when comparing the orthogonale vector of 
+            // one of the vectors with the other. Why? .. use pen and paper ..
+            $sign = ( 
+                    -$vectors[$last]->y * $vectors[$next]->x +
+                    $vectors[$last]->x * $vectors[$next]->y 
+                ) < 0 ? 1 : -1;
+
+            // Calculate new point: Move point to the center site of the 
+            // polygon using the normalized orthogonal vectors next to the 
+            // point and the size as distance to move.
+            $newPoints[$next] = new ezcGraphCoordinate(
+                $points[$next]->x
+                    + $sign * $vectors[$last]->y * $size
+                    + $sign * $vectors[$next]->y * $size,
+                $points[$next]->y
+                    - $sign * $vectors[$last]->x * $size
+                    - $sign * $vectors[$next]->x * $size
+            );
+        }
+
+        return $newPoints;
+    }
+
     /**
      * Draws a single polygon. 
      * 

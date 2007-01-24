@@ -190,6 +190,13 @@ class ezcGraphFlashDriver extends ezcGraphDriver
     {
         $movie = $this->getDocument();
 
+        if ( !$filled )
+        {
+            // The middle of the border is on the outline of a polygon in ming, 
+            // fix that:
+            $points = $this->reducePolygonSize( $points, $thickness / 2 );
+        }
+
         $shape = new SWFShape();
 
         $this->setShapeColor( $shape, $color, $thickness, $filled );
