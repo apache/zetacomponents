@@ -985,8 +985,8 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $ellipse = $this->dom->createElement( 'ellipse' );
         $ellipse->setAttribute( 'cx', round( $center->x + $this->options->graphOffset->x, 4 ) );
         $ellipse->setAttribute( 'cy', round( $center->y + $this->options->graphOffset->y, 4 ) );
-        $ellipse->setAttribute( 'rx', round( $width / 2, 4 ) );
-        $ellipse->setAttribute( 'ry', round( $height / 2, 4 ) );
+        $ellipse->setAttribute( 'rx', round( $width / 2 - ( $filled ? 0 : .5 ), 4 ) );
+        $ellipse->setAttribute( 'ry', round( $height / 2 - ( $filled ? 0 : .5 ), 4 ) );
 
         $ellipse->setAttribute(
             'style', 

@@ -768,6 +768,13 @@ class ezcGraphFlashDriver extends ezcGraphDriver
             $this->modifyCoordinate( $center->y )
         );
 
+        // Reduce size
+        if ( !$filled )
+        {
+            $width -= 1;
+            $height -= 1;
+        }
+
         // @TODO: User SWFShape::curveTo
         for ( $angle = $this->options->circleResolution; $angle <= 360; $angle += $this->options->circleResolution )
         {
