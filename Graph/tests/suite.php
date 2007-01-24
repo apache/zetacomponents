@@ -21,6 +21,7 @@ require_once 'dataset_average_test.php';
 require_once 'dataset_numeric_test.php';
 require_once 'element_options_test.php';
 require_once 'legend_test.php';
+require_once 'background_test.php';
 require_once 'text_test.php';
 require_once 'numeric_axis_test.php';
 require_once 'labeled_axis_test.php';
@@ -64,6 +65,7 @@ class ezcGraphSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcGraphNumericDataSetTest::suite() );
         $this->addTest( ezcGraphElementOptionsTest::suite() );
         $this->addTest( ezcGraphLegendTest::suite() );
+        $this->addTest( ezcGraphBackgroundTest::suite() );
         $this->addTest( ezcGraphNumericAxisTest::suite() );
         $this->addTest( ezcGraphLabeledAxisTest::suite() );
         $this->addTest( ezcGraphLogarithmicalAxisTest::suite() );

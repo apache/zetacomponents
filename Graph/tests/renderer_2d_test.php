@@ -1729,58 +1729,6 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
         );
     }
 
-    public function testRenderPieChartWithBackgroundBottomRight()
-    {
-        $filename = $this->tempDir . __FUNCTION__ . '.svg';
-
-        $chart = new ezcGraphPieChart();
-        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
-            'Mozilla' => 4375,
-            'IE' => 345,
-            'Opera' => 1204,
-            'wget' => 231,
-            'Safari' => 987,
-        ) );
-
-        $chart->background->color = '#FFFFFFDD';
-        $chart->background->image = dirname( __FILE__ ) . '/data/ez.png';
-        $chart->background->position = ezcGraph::BOTTOM | ezcGraph::RIGHT;
-
-        $chart->driver = new ezcGraphSvgDriver();
-        $chart->render( 500, 200, $filename );
-
-        $this->compare(
-            $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
-        );
-    }
-
-    public function testRenderPieChartWithTextureBackground()
-    {
-        $filename = $this->tempDir . __FUNCTION__ . '.svg';
-
-        $chart = new ezcGraphPieChart();
-        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
-            'Mozilla' => 4375,
-            'IE' => 345,
-            'Opera' => 1204,
-            'wget' => 231,
-            'Safari' => 987,
-        ) );
-
-        $chart->background->color = '#FFFFFFDD';
-        $chart->background->image = dirname( __FILE__ ) . '/data/texture.png';
-        $chart->background->repeat = ezcGraph::HORIZONTAL | ezcGraph::VERTICAL;
-
-        $chart->driver = new ezcGraphSvgDriver();
-        $chart->render( 500, 200, $filename );
-
-        $this->compare(
-            $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
-        );
-    }
-
     public function testRenderPieChartWithOffset()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';

@@ -50,66 +50,6 @@ class ezcGraphChartTest extends ezcTestCase
         );
     }
 
-    public function testSetOptionsInvalidBackgroundImage()
-    {
-        try 
-        {
-            $pieChart = new ezcGraphPieChart();
-            $pieChart->background->image = $this->basePath . $this->testFiles['invalid'];
-        } 
-        catch ( ezcGraphInvalidImageFileException $e ) 
-        {
-            return true;
-        } 
-
-        $this->fail( 'Expected ezcGraphInvalidImageFileException' );
-    }
-
-    public function testSetOptionsNonexistantBackgroundImage()
-    {
-        try 
-        {
-            $pieChart = new ezcGraphPieChart();
-            $pieChart->background->image = $this->basePath . $this->testFiles['nonexistant'];
-        } 
-        catch ( ezcBaseFileNotFoundException $e ) 
-        {
-            return true;
-        } 
-
-        $this->fail( 'Expected ezcBaseFileNotFoundException' );
-    }
-
-    public function testSetOptionsBackground()
-    {
-        $pieChart = new ezcGraphPieChart();
-        $pieChart->background->color = '#FF0000';
-
-        $this->assertEquals( 
-            ezcGraphColor::fromHex( 'FF0000' ),
-            $pieChart->background->color
-        );
-    }
-
-    public function testSetOptionsBorder()
-    {
-        $pieChart = new ezcGraphPieChart();
-        $pieChart->background->border = '#FF0000';
-
-        $this->assertEquals( 
-            ezcGraphColor::fromHex( 'FF0000' ),
-            $pieChart->background->border
-        );
-    }
-
-    public function testSetOptionsBorderWidth()
-    {
-        $pieChart = new ezcGraphPieChart();
-        $pieChart->background->borderWidth = 3;
-
-        $this->assertSame( 3, $pieChart->background->borderWidth );
-    }
-
     public function testSetOptionsUnknown()
     {
         try
