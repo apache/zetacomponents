@@ -242,12 +242,28 @@ class ezcInputForm
      * Validates the definition array $definition.
      *
      * Before reading the values from the input source, the definition array
-     * can be validated by this function to check whether all necessary
+     * can be validated by this method to check whether all necessary
      * elements are correctly formed.
      *
+     * With the following code you can check whether the definition is valid:
+     * <code>
+     * <?php
+     * if ( ( $returnValue = ezcInputForm::validateDefinition( $definition ) ) !== true )
+     * {
+     *     // do something with the error type and error message in $returnValue
+     * }
+     * else
+     * {
+     *     // the definition was correct
+     * }
+     * ?>
+     * </code>
+     *
      * @param array $definition
-     * @return bool True if the array is correctly formed, and false in case
-     *              it was not.
+     * @return array|bool If the definition is correct the method returns
+     *                    boolean true. When an error is found the function
+     *                    returns an array where the first element is the type,
+     *                    and the second element the error message.
      */
     static public function validateDefinition( $definition )
     {
