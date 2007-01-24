@@ -1,0 +1,139 @@
+Translation File Format: Qt Linguist
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+The ezcTranslationTsBackend reads its data from Qt's Linguist files - an XML
+based format for storing original text and translated text. This document
+describes how those files are formatted.
+
+File Format
+===========
+
+Root
+----
+
+The format is an XML file containing different contexts, which contain
+translatable strings. The XML doctype is TS. Each file starts with the
+following header::
+
+    <!DOCTYPE TS>
+
+The root element of the file is also TS::
+
+    <TS>
+        ... contexts come here ...
+    </TS>
+
+The XML header is not present, and thus there is no character set definition
+either. However, it is *required* to use UTF-8 for all texts (source and
+translations) in this file.
+
+Contexts
+--------
+
+Each context consists of two or more child elements. The first element should
+always be the "name" element. After this follow one or more "message"
+elements::
+
+    <context>
+        <name>design/admin/class/classlist</name>
+        ... messages come here ...
+    </context>
+
+The context's name indicates where in an (web-) application a specific
+translatable string is used. This helps translators translate all the strings
+properly.
+
+Messages
+--------
+
+Each message contains one translatable string and its translation. The
+translatable string is stored in the "source" element, and the translation in
+the "translation" element. The translation has an optional attribute "type"
+that can either contain "obsolete" or "unfinished" as value. A simple example
+of a message is here::
+
+    <message>
+        <source>Approval</source>
+        <translation>Goedkeuring</translation>
+    </message>
+
+This message defines that the translation for "Approval" is "Goedkeuring".
+
+Unfinished
+``````````
+
+The "unfinished" value for the "type" attribute of the "translation" element is
+a specifier that tells the `Qt Linguist`_ tool that this specific translatable
+string has not been (correctly/fully) translated yet. Unfinished entries are
+created by scripts that pull out translatable strings from applications and
+templates. The future eZ Components's TemplateTranslationTiein package will
+contain scripts like this as well. An example on how an unfinished translation
+might look like is below::
+
+    <message>
+        <source>Create a copy of the &lt;%class_name&gt; class.</source>
+        <translation type="unfinished"></translation>
+    </message>
+
+.. _Qt Linguist: http://www.trolltech.com/products/qt/features/internationalization
+
+Obsolete
+````````
+
+Obsolete translations are translations of strings that were previously
+contained in your application and that contained a translation in the
+translation file. When the script was run to compare the TS file with the
+strings in the application it finds out the strings are no longer used. When
+they are no longer used the script sets the "type" attribute of the
+"translation" element to "obsolete"::
+
+    <message>
+        <source>Groups</source>
+        <translation type="obsolete">Groepen</translation>
+    </message>
+
+Parameters
+``````````
+
+Translatable strings can contain parameters that are `filled in`__ with user
+supplied data. The Translation component supports both positional parameters as
+well as named parameters. A positional parameter has the form "%" <digit> and a
+named parameter the form "%" <string>. Parameters to translated strings are
+filled in by the application, and in some cases the order in the translated
+strings differ from the order as they appear in the host language (often
+English) like in the following example::
+
+    <message>
+        <source>Search for &lt;%1&gt; returned %2 matches</source>
+        <translation>Er zijn %2 items gevonden bij het zoeken naar &lt;%1&gt;</translation>
+    </message>
+
+Another example shows how named parameters are contained in the TS file::
+
+    <message>
+        <source>Translations for &lt;%object_name&gt; [%translation_count]</source>
+        <translation>Vertalingen voor &lt;%object_name&gt; [%translation_count]</translation>
+    </message>
+
+__ http://ez.no/doc/components/view/latest/(file)/Translation/ezcTranslation.html#getTranslation
+
+
+Example
+=======
+
+A full example of an TS file can be found here__.
+
+__ http://svn.ez.no/svn/ezcomponents/trunk/Translation/tests/files/translations/nl-nl.xml
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
