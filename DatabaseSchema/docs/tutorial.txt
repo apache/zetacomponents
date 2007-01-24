@@ -1,4 +1,4 @@
-eZ components - DatabaseSchema
+eZ Components - DatabaseSchema
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
@@ -6,114 +6,114 @@ eZ components - DatabaseSchema
 Introduction
 ============
 
-The DatabaseSchema components provides a unified data structure to describe 
-relational databases. DatabaseSchema can read and write these
-structure from and to several databases (like MySQL, SQLite, Oracle,...) and
-also read and write it to disc in several formats (XML, PHP,...).
+The DatabaseSchema component provides a unified data structure to describe 
+relational databases. DatabaseSchema can read and write the
+structure from and to several databases (such as MySQL, SQLite and Oracle) and
+also read and write in two web language files (XML and PHP).
 
-Beside that, DatabaseSchema allows you to generate PersistentObject definition
-files. For further information, please refer to the documentation of
+DatabaseSchema can also generate PersistentObject definition
+files. For further information, please refer to the API documentation of
 ezcPersistentObjectDefinition and ezcPersistentObjectSchemaGenerator.
 
 Class overview
 ==============
 
-This section gives you an overview on all classes, that are intended to be
-used directly.
+This section gives you an overview of the main classes of the DatabaseSchema
+component.
 
 ezcDbSchema
-  Contains the structure of a database. A ezcDbSchema object can be created out
-  of files containing a description, or directly from the database. A
-  ezcDbSchema can also be written to a file in different formats and converted
+  This contains the structure of a database. A ezcDbSchema object can be
+  created from files containing a description or directly from the database. A
+  ezcDbSchema object can also be written to a file in different formats and converted
   to SQL DDL. It is also possible to create a database structure directly from
   an ezcDbSchema object.
 
 ezcDbSchemaComparator
-  This class provide an interface for comparing two database schema definitions
+  This class provides an interface for comparing two database schema definitions
   that are stored in the ezcDbSchema class.
 
 ezcDbSchemaDiff
   The ezcDbSchemaDiff::compareSchemas() method returns an object of
-  this class. The object can be converted to SQL DDL, stored in a file or can
-  be directly applied to a database.
+  this class. The object can be converted to SQL DDL, stored in a file or
+  directly applied to a database.
 
 ezcDbSchemaHandlerManager
   This class can be used to register different handlers for reading and writing
   ezcDbSchema and ezcDbSchemaDiff objects. Its functions to create a reader or
-  writer are used by the ezcDbSchema and ezcDbSchemaDiff classes to do the real
-  work.
+  writer are used by the ezcDbSchema and ezcDbSchemaDiff classes, where the
+  actual work occurs.
 
 ezcDbSchemaValidator
-  Provides one method that allows you to validate a ezcDbSchema class. It
-  checks whether indexes are on existing columns and if the types are used are
-  correct. It provides an easy API so that other validation checks can be
-  easily added.
+  This provides one method to validate a ezcDbSchema class. It
+  checks whether indexes are on existing columns and if the types used are
+  correct. It provides an easy-to-use API so that other validation checks can
+  be added.
 
 Usage
 =====
 
-Creating a Database Schema Definition
+Creating a database schema definition
 -------------------------------------
 
 Databases can be generated from two different types of sources. The first
 source is the file, where there are multiple format handlers available. There
-is a format for reading/writing XML files, and one for reading/writing files
+is a format for reading and writing XML files, and one for reading and writing files
 that store the ezcDbSchema structure in a PHP array. 
 
-The second source are databases directly. With the ezcDbSchema::createFromDb()
-method you can create an ezcDbSchema object directly from an already existing
+The second source is the database. With the ezcDbSchema::createFromDb()
+method, you can create an ezcDbSchema object directly from an existing
 database connection.
 
 .. include:: tutorial_example_01.php
    :literal:
 
 This example shows how to create a database schema from the two different
-sources. With the first parameter to ezcDbSchema::createFromFile() you tell the
-method which type to use ('xml' or 'array'). The second parameter is the file
-that you are reading the schema definition from.
+sources. With the first parameter in ezcDbSchema::createFromFile(), you define
+which type to use ('xml' or 'array'). The second parameter is the
+file that you are reading the schema definition from.
 
 The ezcDbSchema::createFromDb() method has only one parameter. This parameter
-is an ezcDbHandler object that was created with the ezcDbFactory.
+is an ezcDbHandler object that was created with ezcDbFactory.
 
-In both cases the methods will return an object of the class ezcDbSchema. The
-documentation for ezcDbSchemaHandlerManager documents the supported types of
+In both cases, the methods will return an object of the class ezcDbSchema. The
+documentation for ezcDbSchemaHandlerManager lists the supported types of
 readers and writers. The ezcDbSchema->getSchema() method returns the schema as
-an array of ezcDbSchemaTable objects. The ezcDbSchemaTable object then contains
-in two member variables an array of ezcDbSchemaField objects to describe the
-fields and an array of ezcDbSchemaIndex objects to describe the indices.
+an array of ezcDbSchemaTable objects. The ezcDbSchemaTable object then
+contains, in two member variables, an array of ezcDbSchemaField objects to
+describe the fields and an array of ezcDbSchemaIndex objects to describe the
+indices.
 
-Modifying a Database Schema Definition
+Modifying a database schema definition
 --------------------------------------
 
-Once a ezcDbSchema has been created its tables and fields can be manipulated in
-different ways. Tables can be created, edited and deleted. Fields can be added
-to tables, can be edited and deleted. See example below:
+Once a ezcDbSchema object has been created, its tables and fields can be
+manipulated in different ways. Tables can be created, edited and deleted.
+Fields can be added to tables, edited and deleted. See the example below:
 
 .. include:: tutorial_example_05.php
    :literal:
 
-Saving a Database Schema Definition
+Saving a database schema definition
 -----------------------------------
 
-Once a ezcDbSchema has been created it can be manipulated in whatever way you
-prefer. After manipulation there are different possibilities to save the
+Once a ezcDbSchema object has been created, it can be manipulated in any way.
+Then, there are different possible ways to save the
 database schema. The ezcDbSchema->writeToFile() method stores an ezcDbSchema
-object to a file on disk. Again you can use the xml and array formats. This you
-can see in the first part of this example:
+object to a file on disk. As stated, you can use the XML and PHP array formats.
+This is shown in the first part of this example:
 
 .. include:: tutorial_example_02.php
    :literal:
 
-The second and third methods both deal with a database directly. The second
+The second and third methods both deal directly with a database. The second
 method in the example uses the database connection $db for creating a schema.
-The method will not touch any other table besides the ones in the schema
-definition. The schemas that are defined will be overwritten. 
+This method only saves to the tables in the schema definition. The schemas that
+are defined will be overwritten. 
 
 The third method merely uses the database connection to determine which SQL DLL
-dialect to use while creating the SQL that can be used to create the schema in
-the database.
+dialect to use for the query to create the schema in the database.
 
-Comparing Database Schemas
+Comparing database schemas
 --------------------------
 
 The ezcDbSchemaComparator class provides the
@@ -124,22 +124,21 @@ The next example illustrates this:
 .. include:: tutorial_example_03.php
    :literal:
 
-First we create the two different schemas. One from the database, and one from
-a file. In line 10 we utilize the ezcDbSchemaComparator::compareSchemas()
+First, we create the two different schemas: one from the database, and one from
+a file. In line 10, we utilize the ezcDbSchemaComparator::compareSchemas()
 function to compare the two schemas. This process returns the differences as
 the $diffSchema variable.
 
-Again there are multiple ways of doing something "useful" with the generated
-differences. These three methods are explained with the inline comments in the
-above example.
+You can perform multiple actions with the generated differences. These three
+methods are explained in the inline comments in the above example.
 
-Validating Schemas
+Validating schemas
 ------------------
 
 The last feature that the DatabaseSchema component offers is the validation of
 schemas. The ezcDbSchemaValidator::validate() method accepts an ezcDbSchema
-object and returns an array of strings describing eventual problems with the
-schema. The next example shows this:
+object and returns an array of strings describing potential problems with the
+schema. This is shown in the following example:
 
 .. include:: tutorial_example_04.php
    :literal:
