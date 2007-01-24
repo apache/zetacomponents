@@ -68,7 +68,7 @@ class ezcGraphDataSetAverageTest extends ezcGraphTestCase
         $polynom = $averageDataSet->getPolynom();
 
         $this->assertEquals(
-            'x^2 + 1.00',
+            'x^2 + 1',
             $polynom->__toString()
         );
     }
@@ -90,7 +90,7 @@ class ezcGraphDataSetAverageTest extends ezcGraphTestCase
         $polynom = $averageDataSet->getPolynom();
 
         $this->assertEquals(
-            '0.00 * x^2 + -1.85 * x + 1044430783.35',
+            '8.21e-10 x^2 - 1.85 x + 1.04e+9',
             $polynom->__toString()
         );
     }
@@ -109,7 +109,7 @@ class ezcGraphDataSetAverageTest extends ezcGraphTestCase
         $polynom = $averageDataSet->getPolynom();
 
         $this->assertEquals(
-            '1.00 * x^3 + -6.21 * x^2 + 13.04 * x + -11.69',
+            'x^3 - 6.21 x^2 + 13.0 x - 11.7',
             $polynom->__toString()
         );
     }
@@ -128,7 +128,7 @@ class ezcGraphDataSetAverageTest extends ezcGraphTestCase
         $polynom = $averageDataSet->getPolynom();
 
         $this->assertEquals(
-            'x^3 + -0.21 * x^2 + 0.20 * x + -2.45',
+            'x^3 - 2.10e-1 x^2 + 2.00e-1 x - 2.45',
             $polynom->__toString()
         );
     }
@@ -143,7 +143,7 @@ class ezcGraphDataSetAverageTest extends ezcGraphTestCase
         $polynom = $averageDataSet->getPolynom();
 
         $this->assertEquals(
-            '2.00 * x + 2.67',
+            '2.00 x + 2.67',
             $polynom->__toString()
         );
     }
@@ -158,7 +158,7 @@ class ezcGraphDataSetAverageTest extends ezcGraphTestCase
         $polynom = $averageDataSet->getPolynom();
 
         $this->assertEquals(
-            'x^2 + 1.00',
+            'x^2 + 1',
             $polynom->__toString()
         );
     }
@@ -171,7 +171,7 @@ class ezcGraphDataSetAverageTest extends ezcGraphTestCase
         $polynom = $averageDataSet->getPolynom();
 
         $this->assertEquals(
-            'x^2 + 1.00',
+            'x^2 + 1',
             $polynom->__toString()
         );
     }

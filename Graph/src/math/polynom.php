@@ -16,6 +16,8 @@ class ezcGraphPolynom
 {
     protected $values;
 
+    // @TODO: Introduce precision option for string output?
+
     /**
      * Constructor
      *
@@ -156,17 +158,57 @@ class ezcGraphPolynom
             {
                 continue;
             }
-            elseif ( $factor != 1 )
+
+            $string .= ( $factor < 0 ? ' - ' : ' + ' );
+
+            $factor = abs( $factor );
+            switch ( true )
             {
-                $string .= sprintf( '%.2f * ', $factor );
+                case abs( 1 - $factor ) < .0001:
+                    // No not append, if factor is ~1
+                    break;
+                case $factor < 1:
+                case $factor >= 1000:
+                    $string .= sprintf( '%.3e ', $factor );
+                    break;
+                case $factor >= 100:
+                    $string .= sprintf( '%.0f ', $factor );
+                    break;
+                case $factor >= 10:
+                    $string .= sprintf( '%.1f ', $factor );
+                    break;
+                default:
+                    $string .= sprintf( '%.2f ', $factor );
+                    break;
             }
 
-            $string .= ( $exponent > 1 ? sprintf( 'x^%d + ', $exponent ) : 
-                        ( $exponent === 1 ? 'x + ' : '' ) 
-                    );
+            switch ( true )
+            {
+                case $exponent > 1:
+                    $string .= sprintf( 'x^%d', $exponent );
+                    break;
+                case $exponent === 1:
+                    $string .= 'x';
+                    break;
+                case $exponent === 0:
+                    if ( abs( 1 - $factor ) < .0001 )
+                    {
+                        $string .= '1';
+                    }
+                    break;
+            }
         }
 
-        return substr( $string, 0, -3 );
+        if ( substr( $string, 0, 3 ) === ' + ' )
+        {
+            $string = substr( $string, 3 );
+        }
+        else
+        {
+            $string = '-' . substr( $string, 3 );
+        }
+
+        return trim( $string );
     }
 }
 ?>

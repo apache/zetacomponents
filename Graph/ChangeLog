@@ -11,6 +11,8 @@
 - Fixed issue #9948: Make ezcGraphPolynom documentation public
 - Fixed issue #10074: Use iconv instead of mbstring
 - Fixed issue #10056: Fixed drawing order for boxes with background and border
+- Fixed issue #9950: Improved ezcGraphPolynom::__toString method for more
+  exact output
 
 1.0 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

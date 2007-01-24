@@ -315,7 +315,7 @@ class ezcGraphMatrixTest extends ezcTestCase
         $polynom = $a->solveNonlinearEquatation( $b );
 
         $this->assertEquals(
-            '-0.12 * x^2 + 0.02 * x + 0.35',
+            '-1.15e-1 x^2 + 1.92e-2 x + 3.46e-1',
             $polynom->__toString()
         );
     }
