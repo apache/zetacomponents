@@ -80,6 +80,23 @@ abstract class ezcGraphDriver
         }
     }
 
+    /**
+     * Reduces the size of a polygon
+     *
+     * The method takes a polygon defined by a list of points and reduces its 
+     * size by moving all lines to the middle by the given $size value.
+     *
+     * The detection of the inner side of the polygon depends on the angle at 
+     * each edge point. This method will always work for 3 edged polygones, 
+     * because the smaller angle will always be on the inner side. For 
+     * polygons with more then 3 edges this method may fail. For ezcGraph this
+     * is a valid simplification, because we do not have any polygones which 
+     * have an inner angle >= 180 degrees.
+     * 
+     * @param array( ezcGraphCoordinate ) $points 
+     * @param float $size 
+     * @return array( ezcGraphCoordinate )
+     */
     protected function reducePolygonSize( array $points, $size )
     {
         $pointCount = count( $points );
