@@ -65,7 +65,7 @@ class ezcGraphVectorTest extends ezcTestCase
     public function testUnifyVector()
     {
         $vector = new ezcGraphVector( 2, 0 );
-        $vector->unify();
+        $result = $vector->unify();
 
         $this->assertEquals(
             1,
@@ -76,12 +76,18 @@ class ezcGraphVectorTest extends ezcTestCase
             0,
             $vector->y
         );
+
+        $this->assertEquals(
+            $result,
+            $vector,
+            'Result should be the vector itself'
+        );
     }
 
     public function testVectorMultiplyScalar()
     {
         $vector = new ezcGraphVector( 1, 2 );
-        $vector->scalar( 2 );
+        $result = $vector->scalar( 2 );
 
         $this->assertEquals(
             2,
@@ -91,6 +97,12 @@ class ezcGraphVectorTest extends ezcTestCase
         $this->assertEquals(
             4,
             $vector->y
+        );
+
+        $this->assertEquals(
+            $result,
+            $vector,
+            'Result should be the vector itself'
         );
     }
 
@@ -119,7 +131,7 @@ class ezcGraphVectorTest extends ezcTestCase
     public function testVectorAddCoordinate()
     {
         $vector = new ezcGraphVector( 1, 2 );
-        $vector->add( new ezcGraphCoordinate( 3, 2 ) );
+        $result = $vector->add( new ezcGraphCoordinate( 3, 2 ) );
 
         $this->assertEquals(
             $vector,
@@ -130,33 +142,51 @@ class ezcGraphVectorTest extends ezcTestCase
     public function testVectorAddVector()
     {
         $vector = new ezcGraphVector( 1, 2 );
-        $vector->add( new ezcGraphVector( 3, 2 ) );
+        $result = $vector->add( new ezcGraphVector( 3, 2 ) );
 
         $this->assertEquals(
             $vector,
             new ezcGraphVector( 4, 4 )
+        );
+
+        $this->assertEquals(
+            $result,
+            $vector,
+            'Result should be the vector itself'
         );
     }
 
     public function testVectorSubCoordinate()
     {
         $vector = new ezcGraphVector( 1, 2 );
-        $vector->sub( new ezcGraphCoordinate( 3, 2 ) );
+        $result = $vector->sub( new ezcGraphCoordinate( 3, 2 ) );
 
         $this->assertEquals(
             $vector,
             new ezcGraphVector( -2, 0 )
+        );
+
+        $this->assertEquals(
+            $result,
+            $vector,
+            'Result should be the vector itself'
         );
     }
 
     public function testVectorSubVector()
     {
         $vector = new ezcGraphVector( 1, 2 );
-        $vector->sub( new ezcGraphVector( 3, 2 ) );
+        $result = $vector->sub( new ezcGraphVector( 3, 2 ) );
 
         $this->assertEquals(
             $vector,
             new ezcGraphVector( -2, 0 )
+        );
+
+        $this->assertEquals(
+            $result,
+            $vector,
+            'Result should be the vector itself'
         );
     }
 }

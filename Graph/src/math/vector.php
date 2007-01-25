@@ -26,6 +26,8 @@ class ezcGraphVector extends ezcGraphCoordinate
         $tmp = $this->x;
         $this->x = -$this->y;
         $this->y = $tmp;
+
+        return $this;
     }
 
     /**
@@ -38,6 +40,8 @@ class ezcGraphVector extends ezcGraphCoordinate
         $tmp = $this->x;
         $this->x = $this->y;
         $this->y = -$tmp;
+
+        return $this;
     }
     
     /**
@@ -55,6 +59,8 @@ class ezcGraphVector extends ezcGraphCoordinate
 
         $this->x /= $length;
         $this->y /= $length;
+
+        return $this;
     }
 
     /**
@@ -80,6 +86,8 @@ class ezcGraphVector extends ezcGraphCoordinate
     {
         $this->x *= $value;
         $this->y *= $value;
+
+        return $this;
     }
 
     /**
@@ -103,6 +111,8 @@ class ezcGraphVector extends ezcGraphCoordinate
     {
         $this->x += $vector->x;
         $this->y += $vector->y;
+
+        return $this;
     }
 
     /**
@@ -115,6 +125,8 @@ class ezcGraphVector extends ezcGraphCoordinate
     {
         $this->x -= $vector->x;
         $this->y -= $vector->y;
+
+        return $this;
     }
 
     /**
