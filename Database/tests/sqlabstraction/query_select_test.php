@@ -265,7 +265,7 @@ class ezcQuerySelectTest extends ezcTestCase
         }
         catch ( ezcQueryInvalidException $e )
         {
-            $expected = "Wrong count of arguments passed to innerJoin():1";
+            $expected = "Wrong argument count passed to innerJoin(): 1";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -308,7 +308,7 @@ class ezcQuerySelectTest extends ezcTestCase
         }
         catch ( ezcQueryInvalidException $e )
         {
-            $expected = "Wrong count of arguments passed to rightJoin():1";
+            $expected = "Wrong argument count passed to rightJoin(): 1";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -351,7 +351,7 @@ class ezcQuerySelectTest extends ezcTestCase
         }
         catch ( ezcQueryInvalidException $e )
         {
-            $expected = "Wrong count of arguments passed to leftJoin():1";
+            $expected = "Wrong argument count passed to leftJoin(): 1";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }

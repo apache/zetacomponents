@@ -2,6 +2,8 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #8240: ezcQueryExpression::in does not work with strings.
+- Fixed issue #8520: The non trivial join methods have incomplete
+  documentation.
 - Implemented enhancement #8473: Oracle Limit/Offset optimization.
 - Implemented issue #9965: Support for delayed initialization through
   ezcBaseInit.

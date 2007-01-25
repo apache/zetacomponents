@@ -169,66 +169,66 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
 
     /**
      * Returns the SQL for a right join or prepares $fromString for a right join.
+     * 
+     * This method could be used in two forms:
      *
-     * SQLite doesn't support a RIGHT JOIN directly, so it's rewrited to a
-     * LEFT JOIN of tables in reverse order.
+     * <b>rightJoin( 't2', $joinCondition )</b>
      * 
-     * This method could be used in three forms:
-     * - rightJoin( 't1', 't2', 't1.id', 't2.id' ) takes 4 string arguments and return SQL string
-     * @param string $table1 the name of the table to join with
-     * @param string $table2 the name of the table to join
-     * @param string $column1 the column to join with
-     * @param string $column2 the column to join on
-     * @return string the SQL call for a right join.
-     * 
+     * Takes 2 string arguments and returns ezcQuery.
+     *
+     * The first parameter is the name of the table to join with. The table to
+     * which is joined should have been previously set with the from() method.
+     *
+     * The second parameter should be a string containing a join condition that
+     * is returned by an ezcQueryExpression.
+     *
      * Example:
      * <code>
      * // the following code will produce the SQL
-     * // SELECT id FROM t2 LEFT JOIN t1 ON t1.id = t2.id
-     * $q->select( 'id' )->from( $q->rightJoin( 't1', 't2', 't1.id', 't2.id' ) );
-     * </code>
-     * 
-     * - rightJoin( 't2', $joinCondition )
-     * takes 2 string arguments and return ezcQuery.
-     * 
-     * @param string $table2 the name of the table to join. The name of table to 
-     * join with should be set in previous call to from().
-     * @param string $condition the string with join condition returned by ezcQueryExpression.
-     * @return ezcQuery returns a pointer to $this.
-     * Example:
-     * <code>
-     * // the following code will produce the SQL
-     * // SELECT id FROM t2 LEFT JOIN t1 ON t1.id = t2.id
+     * // SELECT id FROM t1 LEFT JOIN t2 ON t1.id = t2.id
      * $q->select( 'id' )->from( 't1' )->rightJoin( 't2', $q->expr->eq('t1.id', 't2.id' ) );
      * </code>
      *
-     * - rightJoin( 't1', 't1.id', 't2.id' ) simlified version of previous 
-     * that equals to rightJoin( 't1', $this->expr->eq('t1.id', 't2.id' ) );
+     * <b>rightJoin( 't2', 't1.id', 't2.id' )</b>
      * 
-     * takes 3 string arguments and return ezcQuery
-     * @param string $table2 the name of the table to join. The name of table to 
-     * join with should be set in previous call to from().
-     * @param string $column1 the column to join with
-     * @param string $column2 the column to join on
-     * @return ezcQuery returns a pointer to $this.
+     * Takes 3 string arguments and returns ezcQuery. This is a simplified form
+     * of the 2 parameter version.  rightJoin( 't2', 't1.id', 't2.id' ) is
+     * equal to rightJoin( 't2', $this->expr->eq('t1.id', 't2.id' ) );
+     *
+     * The first parameter is the name of the table to join with. The table to
+     * which is joined should have been previously set with the from() method.
      * 
+     * The second parameter is the name of the column on the table set
+     * previously with the from() method and the third parameter the name of
+     * the column to join with on the table that was specified in the first
+     * parameter.
+     *
      * Example:
      * <code>
      * // the following code will produce the SQL
-     * // SELECT id FROM t2 RIGHT JOIN t1 ON t1.id = t2.id
+     * // SELECT id FROM t1 LEFT JOIN t2 ON t1.id = t2.id
      * $q->select( 'id' )->from( 't1' )->rightJoin( 't2', 't1.id', 't2.id' );
      * </code>
+     *
+     * @apichange Remove 4 argument version.
+     *
+     * @throws ezcQueryInvalidException if called with inconsistent parameters or if
+     *         invoked without preceding call to from().
+     *
+     * @param string $table2,... The table to join with, followed by either the
+     *                           two join columns, or a join condition.
+     * @return ezcQuery
      */
     public function rightJoin()
     {
         $args = func_get_args();
-        $passedArgsCount = count( $args );
-        if ( $passedArgsCount != 4 && $passedArgsCount != 2 && $passedArgsCount != 3 ) 
+        $passedArgsCount = func_num_args();
+        if ( $passedArgsCount < 2 || $passedArgsCount > 4 )
         {
-            throw new ezcQueryInvalidException( 'SELECT', 'Wrong count of arguments passed to rightJoin():'.$passedArgsCount );
+            throw new ezcQueryInvalidException( 'SELECT', "Wrong argument count passed to {$type}Join(): {$passedArgsCount}" );
         }
 
-        // process old simple syntax.
+        // deprecated syntax
         if ( $passedArgsCount == 4 ) 
         {
             if ( is_string( $args[0] ) && is_string( $args[1] ) &&
@@ -266,7 +266,8 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
         if ( $passedArgsCount == 2 && is_string( $args[1] ) ) 
         {
             $condition = $args[1];
-        } else if ( $passedArgsCount == 3 && is_string( $args[1] ) && is_string( $args[2] ) ) 
+        }
+        else if ( $passedArgsCount == 3 && is_string( $args[1] ) && is_string( $args[2] ) ) 
         {
             $arg1 = $this->getIdentifier( $args[1] );
             $arg2 = $this->getIdentifier( $args[2] );
@@ -274,18 +275,17 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
             $condition = "{$arg1} = {$arg2}";
         }
 
-        // if rightJoin info entry is empty than
-        // remove last table from fromTables list 
-        // and add it at first place to the list of
-        // tables in correspondent rightJoin info entry.
-        // subsequent calls to rightJoin() without from() will just add
-        // one table and one condition to the correspondent arrays.
+        // If rightJoin info entry is empty than remove last table from
+        // fromTables list and add it at first place to the list of tables in
+        // correspondent rightJoin info entry.
+        // Subsequent calls to rightJoin() without from() will just add one
+        // table and one condition to the correspondent arrays.
 
         if ( end( $this->rightJoins ) === null ) // fill last rightJoin info entry with table name.
         {
-          $lastTable = array_pop ( $this->fromTables );
-          array_pop( $this->rightJoins );
-          $this->rightJoins[count( $this->rightJoins )]['tables'][] = $lastTable;
+            $lastTable = array_pop ( $this->fromTables );
+            array_pop( $this->rightJoins );
+            $this->rightJoins[count( $this->rightJoins )]['tables'][] = $lastTable;
         }
         
         if ( $table != '' && $condition != '' )
@@ -295,7 +295,7 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
         }
          
         // build fromString using fromTables and add right joins stuff to te end.
-        $this->fromString ='FROM '.join( ', ', $this->fromTables );
+        $this->fromString = 'FROM ' . join( ', ', $this->fromTables );
         $this->fromString .= $this->buildRightJoins();
 
         return $this;

@@ -11,7 +11,7 @@
 /**
  * Class to create select database independent SELECT queries.
  *
- * Note that this class creates queries that are syntactically independant
+ * Note that this class creates queries that are syntactically independent
  * of database. Semantically the queries still differ and so the same
  * query may produce different results on different databases. Such
  * differences are noted throughout the documentation of this class.
@@ -37,8 +37,8 @@
  * </code>
  *
  * Database independence:
- * TRUE/FALSE, MySQL accepts 0 and 1 as boolean values. Postgres does not, but accepts TRUE/FALSE.
- * @todo introduction needs explation of security etc.
+ * TRUE/FALSE, MySQL accepts 0 and 1 as boolean values. PostgreSQL does not, but accepts TRUE/FALSE.
+ * @todo introduction needs explanation of security etc.
  * @todo introduction needs examples with clone(), reusing a query and advanced binding.
  * @package Database
  * @mainclass
@@ -46,12 +46,12 @@
 class ezcQuerySelect extends ezcQuery
 {
     /**
-     * Sort the result ascendingly.
+     * Sort the result ascending.
      */
     const ASC = 'ASC';
 
     /**
-     * Sort the result descendingly.
+     * Sort the result descending.
      */
     const DESC = 'DESC';
 
@@ -273,33 +273,125 @@ class ezcQuerySelect extends ezcQuery
     }
 
     /**
-     * Returns the SQL for a inner join or prepares $fromString for a inner join.
+     * Returns the SQL for a join or prepares $fromString for a join.
      * 
-     * @throws ezcQueryInvalidException if called with incosistent parameters or if
+     * This method could be used in two forms:
+     *
+     * <b>doJoin( $joinType, 't2', $joinCondition )</b>
+     * 
+     * Takes the join type and two string arguments and returns ezcQuery.
+     *
+     * The second parameter is the name of the table to join with. The table to
+     * which is joined should have been previously set with the from() method.
+     *
+     * The third parameter should be a string containing a join condition that
+     * is returned by an ezcQueryExpression.
+     *
+     * <b>doJoin( $joinType, 't2', 't1.id', 't2.id' )</b>
+     * 
+     * Takes the join type and three string arguments and returns ezcQuery.
+     * This is a simplified form of the three parameter version.  doJoin(
+     * 'inner', 't2', 't1.id', 't2.id' ) is equal to doJoin( 'inner', 't2',
+     * $this->expr->eq('t1.id', 't2.id' ) );
+     *
+     * The second parameter is the name of the table to join with. The table to
+     * which is joined should have been previously set with the from() method.
+     * 
+     * The third parameter is the name of the column on the table set
+     * previously with the from() method and the fourth parameter the name of
+     * the column to join with on the table that was specified in the first
+     * parameter.
+     *
+     * @apichange Remove "5" argument version.
+     *
+     * @throws ezcQueryInvalidException if called with inconsistent parameters or if
      *         invoked without preceding call to from().
      *
-     * This method could be used in three forms:
-     * - innerJoin( 't1', 't2', 't1.id', 't2.id' ) takes 4 string arguments and return SQL string
-     * @param string $table1 the name of the table to join with
-     * @param string $table2 the name of the table to join
-     * @param string $column1 the column to join with
-     * @param string $column2 the column to join on
-     * @return string the SQL call for a inner join.
+     * @param string $type       The join type: inner, right or left.
+     * @param string $table2,... The table to join with, followed by either the
+     *                           two join columns, or a join condition.
+     * @return ezcQuery
+     */
+    protected function doJoin( $type )
+    {
+        $args = func_get_args();
+        // Remove the first one, as that's the $type of join.
+        array_shift( $args );
+
+        $sqlType = strtoupper( $type );
+
+        $passedArgsCount = func_num_args() - 1;
+        if ( $passedArgsCount < 2 || $passedArgsCount > 4 )
+        {
+            throw new ezcQueryInvalidException( 'SELECT', "Wrong argument count passed to {$type}Join(): {$passedArgsCount}" );
+        }
+
+        // deprecated syntax
+        if ( $passedArgsCount == 4 )
+        {
+            if ( is_string( $args[0] ) && is_string( $args[1] ) &&
+                 is_string( $args[2] ) && is_string( $args[3] )
+               )
+            {
+                $table1 = $this->getIdentifier( $args[0] );
+                $table2 = $this->getIdentifier( $args[1] );
+                $column1 = $this->getIdentifier( $args[2] );
+                $column2 = $this->getIdentifier( $args[3] );
+
+                return "{$table1} {$sqlType} JOIN {$table2} ON {$column1} = {$column2}";
+            }
+            else
+            {
+                throw new ezcQueryInvalidException( 'SELECT', "Inconsistent types of arguments passed to {$type}Join()." );
+            }
+        }
+
+        // using from()->*Join() syntax assumed, so check if last call was to from()
+        if ( $this->lastInvokedMethod != 'from' )
+        {
+            throw new ezcQueryInvalidException( 'SELECT', "Invoking {$type}Join() not immediately after from()." );
+        }
+
+        $table = '';
+        if ( !is_string( $args[0] ) )
+        {
+            throw new ezcQueryInvalidException( 'SELECT',
+                     "Inconsistent type of first argument passed to {$type}Join(). Should be string with name of table." );
+        }
+        $table = $this->getIdentifier( $args[0] );
+
+        $condition = '';
+        if ( $passedArgsCount == 2 && is_string( $args[1] ) )
+        {
+            $condition = $args[1];
+        }
+        else if ( $passedArgsCount == 3 && is_string( $args[1] ) && is_string( $args[2] ) )
+        {
+            $arg1 = $this->getIdentifier( $args[1] );
+            $arg2 = $this->getIdentifier( $args[2] );
+
+            $condition = "{$arg1} = {$arg2}";
+        }
+
+        $this->fromString .= " {$sqlType} JOIN {$table} ON {$condition}";
+        return $this;
+    }
+
+    /**
+     * Returns the SQL for an inner join or prepares $fromString for an inner join.
+     * 
+     * This method could be used in two forms:
      *
-     * Example:
-     * <code>
-     * // the following code will produce the SQL
-     * // SELECT id FROM t1 INNER JOIN t2 ON t1.id = t2.id
-     * $q->select( 'id' )->from( $q->innerJoin( 't1', 't2', 't1.id', 't2.id' ) );
-     * </code>
+     * <b>innerJoin( 't2', $joinCondition )</b>
+     * 
+     * Takes 2 string arguments and returns ezcQuery.
      *
-     * - innerJoin( 't2', $joinCondition )
-     * takes 2 string arguments and return ezcQuery.
+     * The first parameter is the name of the table to join with. The table to
+     * which is joined should have been previously set with the from() method.
      *
-     * @param string $table2 the name of the table to join. The name of table to
-     * join with should be set in previous call to from().
-     * @param string $condition the string with join condition returned by ezcQueryExpression.
-     * @return ezcQuery returns a pointer to $this.
+     * The second parameter should be a string containing a join condition that
+     * is returned by an ezcQueryExpression.
+     *
      * Example:
      * <code>
      * // the following code will produce the SQL
@@ -307,15 +399,19 @@ class ezcQuerySelect extends ezcQuery
      * $q->select( 'id' )->from( 't1' )->innerJoin( 't2', $q->expr->eq('t1.id', 't2.id' ) );
      * </code>
      *
-     * - innerJoin( 't1', 't1.id', 't2.id' ) simlified version of previous
-     * that equals to innerJoin( 't1', $this->expr->eq('t1.id', 't2.id' ) );
+     * <b>innerJoin( 't2', 't1.id', 't2.id' )</b>
+     * 
+     * Takes 3 string arguments and returns ezcQuery. This is a simplified form
+     * of the 2 parameter version.  innerJoin( 't2', 't1.id', 't2.id' ) is
+     * equal to innerJoin( 't2', $this->expr->eq('t1.id', 't2.id' ) );
      *
-     * takes 3 string arguments and return ezcQuery
-     * @param string $table2 the name of the table to join. The name of table to
-     * join with should be set in previous call to from().
-     * @param string $column1 the column to join with
-     * @param string $column2 the column to join on
-     * @return ezcQuery returns a pointer to $this.
+     * The first parameter is the name of the table to join with. The table to
+     * which is joined should have been previously set with the from() method.
+     * 
+     * The second parameter is the name of the column on the table set
+     * previously with the from() method and the third parameter the name of
+     * the column to join with on the table that was specified in the first
+     * parameter.
      *
      * Example:
      * <code>
@@ -324,93 +420,37 @@ class ezcQuerySelect extends ezcQuery
      * $q->select( 'id' )->from( 't1' )->innerJoin( 't2', 't1.id', 't2.id' );
      * </code>
      *
+     * @apichange Remove 4 argument version.
+     *
+     * @throws ezcQueryInvalidException if called with inconsistent parameters or if
+     *         invoked without preceding call to from().
+     *
+     * @param string $table2,... The table to join with, followed by either the
+     *                           two join columns, or a join condition.
+     * @return ezcQuery
      */
     public function innerJoin()
     {
         $args = func_get_args();
-        $passedArgsCount = count( $args );
-        if ( $passedArgsCount != 4 && $passedArgsCount != 2 && $passedArgsCount != 3 )
-        {
-            throw new ezcQueryInvalidException( 'SELECT', 'Wrong count of arguments passed to innerJoin():'.$passedArgsCount );
-        }
-        // process old simple syntax.
-        if ( $passedArgsCount == 4 )
-        {
-            if ( is_string( $args[0] ) && is_string( $args[1] ) &&
-                 is_string( $args[2] ) && is_string( $args[3] )
-               )
-            {
-                $table1 = $this->getIdentifier( $args[0] );
-                $table2 = $this->getIdentifier( $args[1] );
-                $column1 = $this->getIdentifier( $args[2] );
-                $column2 = $this->getIdentifier( $args[3] );
-
-                return "{$table1} INNER JOIN {$table2} ON {$column1} = {$column2}";
-            }
-            else
-            {
-                throw new ezcQueryInvalidException( 'SELECT', 'Inconsistent types of arguments passed to innerJoin().' );
-            }
-        }
-
-        // using from()->innerJoin() syntax assumed, so check if last call was to from()
-        if ( $this->lastInvokedMethod != 'from' )
-        {
-            throw new ezcQueryInvalidException( 'SELECT', 'Invoking innerJoin() not immediately after from().' );
-        }
-
-        $table = '';
-        if ( !is_string( $args[0] ) )
-        {
-            throw new ezcQueryInvalidException( 'SELECT',
-                     'Inconsistent type of first argument passed to innerJoin(). Should be string with name of table.' );
-        }
-        $table = $this->getIdentifier( $args[0] );
-
-        $condition = '';
-        if ( $passedArgsCount == 2 && is_string( $args[1] ) )
-        {
-            $condition = $args[1];
-        } else if ( $passedArgsCount == 3 && is_string( $args[1] ) && is_string( $args[2] ) )
-        {
-            $arg1 = $this->getIdentifier( $args[1] );
-            $arg2 = $this->getIdentifier( $args[2] );
-
-            $condition = "{$arg1} = {$arg2}";
-        }
-
-        $this->fromString .= " INNER JOIN {$table} ON {$condition}";
-        return $this;
+        array_unshift( $args, 'inner' );
+        return call_user_func_array( array( $this, 'doJoin' ), $args );
     }
 
     /**
      * Returns the SQL for a left join or prepares $fromString for a left join.
      * 
-     * @throws ezcQueryInvalidException if called with incosistent parameters or if
-     *         invoked without preceding call to from().
+     * This method could be used in two forms:
      *
-     * This method could be used in three forms:
-     * - leftJoin( 't1', 't2', 't1.id', 't2.id' ) takes 4 string arguments and return SQL string
-     * @param string $table1 the name of the table to join with
-     * @param string $table2 the name of the table to join
-     * @param string $column1 the column to join with
-     * @param string $column2 the column to join on
-     * @return string the SQL call for a left join.
+     * <b>leftJoin( 't2', $joinCondition )</b>
+     * 
+     * Takes 2 string arguments and returns ezcQuery.
      *
-     * Example:
-     * <code>
-     * // the following code will produce the SQL
-     * // SELECT id FROM t1 LEFT JOIN t2 ON t1.id = t2.id
-     * $q->select( 'id' )->from( $q->leftJoin( 't1', 't2', 't1.id', 't2.id' ) );
-     * </code>
+     * The first parameter is the name of the table to join with. The table to
+     * which is joined should have been previously set with the from() method.
      *
-     * - leftJoin( 't2', $joinCondition )
-     * takes 2 string arguments and return ezcQuery.
+     * The second parameter should be a string containing a join condition that
+     * is returned by an ezcQueryExpression.
      *
-     * @param string $table2 the name of the table to join. The name of table to
-     * join with should be set in previous call to from().
-     * @param string $condition the string with join condition returned by ezcQueryExpression.
-     * @return ezcQuery returns a pointer to $this.
      * Example:
      * <code>
      * // the following code will produce the SQL
@@ -418,15 +458,19 @@ class ezcQuerySelect extends ezcQuery
      * $q->select( 'id' )->from( 't1' )->leftJoin( 't2', $q->expr->eq('t1.id', 't2.id' ) );
      * </code>
      *
-     * - leftJoin( 't1', 't1.id', 't2.id' ) simlified version of previous
-     * that equals to leftJoin( 't1', $this->expr->eq('t1.id', 't2.id' ) );
+     * <b>leftJoin( 't2', 't1.id', 't2.id' )</b>
+     * 
+     * Takes 3 string arguments and returns ezcQuery. This is a simplified form
+     * of the 2 parameter version.  leftJoin( 't2', 't1.id', 't2.id' ) is
+     * equal to leftJoin( 't2', $this->expr->eq('t1.id', 't2.id' ) );
      *
-     * takes 3 string arguments and return ezcQuery
-     * @param string $table2 the name of the table to join. The name of table to
-     * join with should be set in previous call to from().
-     * @param string $column1 the column to join with
-     * @param string $column2 the column to join on
-     * @return ezcQuery returns a pointer to $this.
+     * The first parameter is the name of the table to join with. The table to
+     * which is joined should have been previously set with the from() method.
+     * 
+     * The second parameter is the name of the column on the table set
+     * previously with the from() method and the third parameter the name of
+     * the column to join with on the table that was specified in the first
+     * parameter.
      *
      * Example:
      * <code>
@@ -435,174 +479,79 @@ class ezcQuerySelect extends ezcQuery
      * $q->select( 'id' )->from( 't1' )->leftJoin( 't2', 't1.id', 't2.id' );
      * </code>
      *
+     * @apichange Remove 4 argument version.
+     *
+     * @throws ezcQueryInvalidException if called with inconsistent parameters or if
+     *         invoked without preceding call to from().
+     *
+     * @param string $table2,... The table to join with, followed by either the
+     *                           two join columns, or a join condition.
+     * @return ezcQuery
      */
     public function leftJoin()
     {
         $args = func_get_args();
-        $passedArgsCount = count( $args );
-        if ( $passedArgsCount != 4 && $passedArgsCount != 2 && $passedArgsCount != 3 )
-        {
-            throw new ezcQueryInvalidException( 'SELECT', 'Wrong count of arguments passed to leftJoin():'.$passedArgsCount );
-        }
-        // process old simple syntax.
-        if ( $passedArgsCount == 4 )
-        {
-            if ( is_string( $args[0] ) && is_string( $args[1] ) &&
-                 is_string( $args[2] ) && is_string( $args[3] )
-               )
-            {
-                $table1 = $this->getIdentifier( $args[0] );
-                $table2 = $this->getIdentifier( $args[1] );
-                $column1 = $this->getIdentifier( $args[2] );
-                $column2 = $this->getIdentifier( $args[3] );
-
-                return "{$table1} LEFT JOIN {$table2} ON {$column1} = {$column2}";
-            }
-            else
-            {
-                throw new ezcQueryInvalidException( 'SELECT', 'Inconsistent types of arguments passed to leftJoin().' );
-            }
-        }
-
-        // using from()->leftJoin() syntax assumed, so check if last call was to from()
-        if ( $this->lastInvokedMethod != 'from' )
-        {
-            throw new ezcQueryInvalidException( 'SELECT', 'Invoking leftJoin() not immediately after from().' );
-        }
-
-        $table = '';
-        if ( !is_string( $args[0] ) )
-        {
-            throw new ezcQueryInvalidException( 'SELECT',
-                     'Inconsistent type of first argument passed to leftJoin(). Should be string with name of table.' );
-        }
-        $table = $this->getIdentifier( $args[0] );
-
-        $condition = '';
-        if ( $passedArgsCount == 2 && is_string( $args[1] ) )
-        {
-            $condition = $args[1];
-        } else if ( $passedArgsCount == 3 && is_string( $args[1] ) && is_string( $args[2] ) )
-        {
-            $arg1 = $this->getIdentifier( $args[1] );
-            $arg2 = $this->getIdentifier( $args[2] );
-
-            $condition = "{$arg1} = {$arg2}";
-        }
-
-        $this->fromString .= " LEFT JOIN {$table} ON {$condition}";
-        return $this;
+        array_unshift( $args, 'left' );
+        return call_user_func_array( array( $this, 'doJoin' ), $args );
     }
 
     /**
      * Returns the SQL for a right join or prepares $fromString for a right join.
      * 
-     * @throws ezcQueryInvalidException if called with incosistent parameters or if
-     *         invoked without preceding call to from().
+     * This method could be used in two forms:
+     *
+     * <b>rightJoin( 't2', $joinCondition )</b>
      * 
-     * This method could be used in three forms:
-     * - rightJoin( 't1', 't2', 't1.id', 't2.id' ) takes 4 string arguments and return SQL string
-     * @param string $table1 the name of the table to join with
-     * @param string $table2 the name of the table to join
-     * @param string $column1 the column to join with
-     * @param string $column2 the column to join on
-     * @return string the SQL call for a right join.
+     * Takes 2 string arguments and returns ezcQuery.
+     *
+     * The first parameter is the name of the table to join with. The table to
+     * which is joined should have been previously set with the from() method.
+     *
+     * The second parameter should be a string containing a join condition that
+     * is returned by an ezcQueryExpression.
      *
      * Example:
      * <code>
      * // the following code will produce the SQL
-     * // SELECT id FROM t1 RIGHT JOIN t2 ON t1.id = t2.id
-     * $q->select( 'id' )->from( $q->rightJoin( 't1', 't2', 't1.id', 't2.id' ) );
-     * </code>
-     *
-     * - rightJoin( 't2', $joinCondition )
-     * takes 2 string arguments and return ezcQuery.
-     *
-     * @param string $table2 the name of the table to join. The name of table to
-     * join with should be set in previous call to from().
-     * @param string $condition the string with join condition returned by ezcQueryExpression.
-     * @return ezcQuery returns a pointer to $this.
-     * Example:
-     * <code>
-     * // the following code will produce the SQL
-     * // SELECT id FROM t1 RIGHT JOIN t2 ON t1.id = t2.id
+     * // SELECT id FROM t1 LEFT JOIN t2 ON t1.id = t2.id
      * $q->select( 'id' )->from( 't1' )->rightJoin( 't2', $q->expr->eq('t1.id', 't2.id' ) );
      * </code>
      *
-     * - rightJoin( 't1', 't1.id', 't2.id' ) simlified version of previous
-     * that equals to rightJoin( 't1', $this->expr->eq('t1.id', 't2.id' ) );
+     * <b>rightJoin( 't2', 't1.id', 't2.id' )</b>
+     * 
+     * Takes 3 string arguments and returns ezcQuery. This is a simplified form
+     * of the 2 parameter version.  rightJoin( 't2', 't1.id', 't2.id' ) is
+     * equal to rightJoin( 't2', $this->expr->eq('t1.id', 't2.id' ) );
      *
-     * takes 3 string arguments and return ezcQuery
-     * @param string $table2 the name of the table to join. The name of table to
-     * join with should be set in previous call to from().
-     * @param string $column1 the column to join with
-     * @param string $column2 the column to join on
-     * @return ezcQuery returns a pointer to $this.
+     * The first parameter is the name of the table to join with. The table to
+     * which is joined should have been previously set with the from() method.
+     * 
+     * The second parameter is the name of the column on the table set
+     * previously with the from() method and the third parameter the name of
+     * the column to join with on the table that was specified in the first
+     * parameter.
      *
      * Example:
      * <code>
      * // the following code will produce the SQL
-     * // SELECT id FROM t1 RIGHT JOIN t2 ON t1.id = t2.id
+     * // SELECT id FROM t1 LEFT JOIN t2 ON t1.id = t2.id
      * $q->select( 'id' )->from( 't1' )->rightJoin( 't2', 't1.id', 't2.id' );
      * </code>
      *
+     * @apichange Remove 4 argument version.
+     *
+     * @throws ezcQueryInvalidException if called with inconsistent parameters or if
+     *         invoked without preceding call to from().
+     *
+     * @param string $table2,... The table to join with, followed by either the
+     *                           two join columns, or a join condition.
+     * @return ezcQuery
      */
     public function rightJoin()
     {
         $args = func_get_args();
-        $passedArgsCount = count( $args );
-        if ( $passedArgsCount != 4 && $passedArgsCount != 2 && $passedArgsCount != 3 )
-        {
-            throw new ezcQueryInvalidException( 'SELECT', 'Wrong count of arguments passed to rightJoin():'.$passedArgsCount );
-        }
-        // process old simple syntax.
-        if ( $passedArgsCount == 4 )
-        {
-            if ( is_string( $args[0] ) && is_string( $args[1] ) &&
-                 is_string( $args[2] ) && is_string( $args[3] )
-               )
-            {
-                $table1 = $this->getIdentifier( $args[0] );
-                $table2 = $this->getIdentifier( $args[1] );
-                $column1 = $this->getIdentifier( $args[2] );
-                $column2 = $this->getIdentifier( $args[3] );
-
-                return "{$table1} RIGHT JOIN {$table2} ON {$column1} = {$column2}";
-            }
-            else
-            {
-                throw new ezcQueryInvalidException( 'SELECT', 'Inconsistent types of arguments passed to rightJoin().' );
-            }
-        }
-
-        // using from()->rightJoin() syntax assumed, so check if last call was to from()
-        if ( $this->lastInvokedMethod != 'from' )
-        {
-            throw new ezcQueryInvalidException( 'SELECT', 'Invoking rightJoin() not immediately after from().' );
-        }
-
-        $table = '';
-        if ( !is_string( $args[0] ) )
-        {
-            throw new ezcQueryInvalidException( 'SELECT',
-                     'Inconsistent type of first argument passed to rightJoin(). Should be string with name of table.' );
-        }
-        $table = $this->getIdentifier( $args[0] );
-
-        $condition = '';
-        if ( $passedArgsCount == 2 && is_string( $args[1] ) )
-        {
-            $condition = $args[1];
-        } else if ( $passedArgsCount == 3 && is_string( $args[1] ) && is_string( $args[2] ) )
-        {
-            $arg1 = $this->getIdentifier( $args[1] );
-            $arg2 = $this->getIdentifier( $args[2] );
-
-            $condition = "{$arg1} = {$arg2}";
-        }
-
-        $this->fromString .= " RIGHT JOIN {$table} ON {$condition}";
-        return $this;
+        array_unshift( $args, 'right' );
+        return call_user_func_array( array( $this, 'doJoin' ), $args );
     }
 
     /**
