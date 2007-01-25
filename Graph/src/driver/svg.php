@@ -794,10 +794,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $width /= 2;
         $height /= 2;
 
-        $Xstart = $center->x + $this->options->graphOffset->x + $width * cos( ( -$startAngle / 180 ) * M_PI );
-        $Ystart = $center->y + $this->options->graphOffset->y + $height * sin( ( $startAngle / 180 ) * M_PI );
-        $Xend = $center->x + $this->options->graphOffset->x + $width * cos( ( -( $endAngle ) / 180 ) * M_PI );
-        $Yend = $center->y + $this->options->graphOffset->y + $height * sin( ( ( $endAngle ) / 180 ) * M_PI );
+        $Xstart = $center->x + $this->options->graphOffset->x + $width * cos( -deg2rad( $startAngle ) );
+        $Ystart = $center->y + $this->options->graphOffset->y + $height * sin( deg2rad( $startAngle ) );
+        $Xend = $center->x + $this->options->graphOffset->x + $width * cos( ( -deg2rad( $endAngle ) ) );
+        $Yend = $center->y + $this->options->graphOffset->y + $height * sin( ( deg2rad( $endAngle ) ) );
         
         $arc = $this->dom->createElement( 'path' );
         $arc->setAttribute( 'd', sprintf( 'M %.2f,%.2f L %.2f,%.2f A %.2f,%.2f 0 %d,1 %.2f,%.2f z',
@@ -868,10 +868,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $width /= 2;
         $height /= 2;
 
-        $Xstart = $center->x + $this->options->graphOffset->x + $width * cos( -( $startAngle / 180 ) * M_PI );
-        $Ystart = $center->y + $this->options->graphOffset->y + $height * sin( ( $startAngle / 180 ) * M_PI );
-        $Xend = $center->x + $this->options->graphOffset->x + $width * cos( ( -( $endAngle ) / 180 ) * M_PI );
-        $Yend = $center->y + $this->options->graphOffset->y + $height * sin( ( ( $endAngle ) / 180 ) * M_PI );
+        $Xstart = $center->x + $this->options->graphOffset->x + $width * cos( -deg2rad( $startAngle ) );
+        $Ystart = $center->y + $this->options->graphOffset->y + $height * sin( deg2rad( $startAngle ) );
+        $Xend = $center->x + $this->options->graphOffset->x + $width * cos( ( -deg2rad( $endAngle ) ) );
+        $Yend = $center->y + $this->options->graphOffset->y + $height * sin( ( deg2rad( $endAngle ) ) );
         
         if ( $filled === true )
         {
