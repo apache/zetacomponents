@@ -15,8 +15,8 @@ component for version 1.3 of the component.
 
 The ConsoleTools component so far provides only the possibility to interact
 with a user through console options and arguments. A `feature request`_ was
-filed with the need for another possibility of interaction with the user:
-Through STDIN.
+filed with the need for another possibility of interaction with the user
+through STDIN.
 
 This document describes a new range of classes, which will be added to
 ConsoleTools, to fulfill this need.
