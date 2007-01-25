@@ -31,7 +31,7 @@ $log->log( "Authentication failed", ezcLog::FAILED_AUDIT, array( "source" => "se
 $log->source = "Payment"; 
 $log->log( "Connecting with the server.", ezcLog::DEBUG, array( "category" => "external connections" ) );
 
-$log->log( "Payed with creditcard.", ezcLog::SUCCESS_AUDIT, array( "category" => "shop" ) );
+$log->log( "Paid with credit card.", ezcLog::SUCCESS_AUDIT, array( "category" => "shop" ) );
 
 $log->log( "The credit card information is removed.", ezcLog::NOTICE, array( "category" => "shop" ) );
 ?>
