@@ -45,6 +45,17 @@ class PDOTest extends ezcTestCase
         $db->exec( 'DROP TABLE query_test' );
     }
 
+    // Works in PHP 5.2.1RC2, segfaults in PHP 5.1.4
+    public function testSegfaultWrongFunctionCall()
+    {
+        $db = ezcDbInstance::get();
+
+        $q = $db->prepare("INSERT INTO query_test VALUES( '', 'name', 'section', 22)" ); 
+        $q->execute();
+
+        $q->oasdfa(); // Wrong method call.
+    }
+
 
     // Works in PHP 5.1.4, Fails (hangs) in PHP 5.2.1RC2-dev.
     public function testInsertWithWrongColon()
