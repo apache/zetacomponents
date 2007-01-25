@@ -1,4 +1,4 @@
-eZ components - EventLogDatabaseTieIn
+eZ Components - EventLogDatabaseTiein
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
@@ -6,13 +6,11 @@ eZ components - EventLogDatabaseTieIn
 Introduction
 ============
 
-The EventLogDatabaseTieIn component provides an API to log events and audit
-trails using a database connection. See EventLog_ and Database_ for more
-information about the components for which this package is a tie-in.
+The EventLogDatabaseTiein component provides an API to log events and audit
+trails using a database connection. See the EventLog_ and Database_ tutorials
+for more information about the components that EventLogDatabaseTiein interacts with.
 
-The available log writers are:
-
-- ezcLogDatabaseWriter, which writes log messages to the database.
+ezcLogDatabaseWriter is the log writer that writes log messages to the database.
 
 To write log messages to the database, the Database_ component is used. The
 table to which the log is written should already exist.
@@ -21,12 +19,12 @@ table to which the log is written should already exist.
 Class overview
 ==============
 
-The following classes are most important to use, customize, or extend:
+ezcLogDatabaseWriter is the only class in EventLogDatabaseTiein:
 
 ezcLogDatabaseWriter
-  The ezcLogDatabaseWriter writes the log message to a database.
+  The ezcLogDatabaseWriter class writes the log message to a database.
  
-For more information about these classes, see the class documentation.
+For more information, see the class documentation.
 
 
 Examples
@@ -35,14 +33,14 @@ Examples
 Writing to a database
 ---------------------
 
-In this example, an MySQL database is used for writing log messages. The database
+In this example, a MySQL database is used for writing log messages. The database
 "app" and the table "log" should already exist. The table should at least contain
-the columns: time, message, severity, source, category.
+the following columns: time, message, severity, source and category.
 
 .. include:: tutorial_database.php
    :literal:
 
-An example sql query to create the table::
+An example SQL query to create the table is as follows::
 
     CREATE TABLE log (
         category varchar(255) NOT NULL,
@@ -55,7 +53,7 @@ An example sql query to create the table::
         time timestamp NOT NULL
     );
 
-The log table will have rows similar to::
+The log table will have rows similar to the following::
 
     array(16) {
       ["category"]=>
