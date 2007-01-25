@@ -38,6 +38,7 @@ require_once 'driver_flash_test.php';
 require_once 'font_test.php';
 require_once 'palette_test.php';
 require_once 'matrix_test.php';
+require_once 'vector_test.php';
 require_once 'boundings_test.php';
 require_once 'polynom_test.php';
 require_once 'struct_test.php';
@@ -82,6 +83,7 @@ class ezcGraphSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcGraphTextTest::suite() );
         $this->addTest( ezcGraphPaletteTest::suite() );
         $this->addTest( ezcGraphMatrixTest::suite() );
+        $this->addTest( ezcGraphVectorTest::suite() );
         $this->addTest( ezcGraphBoundingsTest::suite() );
         $this->addTest( ezcGraphPolynomTest::suite() );
         $this->addTest( ezcGraphStructTest::suite() );

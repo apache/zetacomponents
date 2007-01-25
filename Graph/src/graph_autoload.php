@@ -99,6 +99,7 @@ return array(
     'ezcGraphTooManyDataSetsExceptions'         => 'Graph/exceptions/too_many_datasets.php',
     'ezcGraphInvalidDisplayTypeException'       => 'Graph/exceptions/invalid_display_type.php',
 
+    'ezcGraphVector'                            => 'Graph/math/vector.php',
     'ezcGraphMatrix'                            => 'Graph/math/matrix.php',
     'ezcGraphMatrixInvalidDimensionsException'  => 'Graph/exceptions/invalid_dimensions.php',
     'ezcGraphMatrixOutOfBoundingsException'     => 'Graph/exceptions/out_of_boundings.php',
