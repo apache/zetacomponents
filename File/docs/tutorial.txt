@@ -1,4 +1,4 @@
-eZ components - File
+eZ Components - File
 ~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
@@ -6,24 +6,20 @@ eZ components - File
 Introduction
 ============
 
-The File components currently contains one class that provides a few often used
-filesystem operations that are missing from PHP.
+The File component currently contains one class, providing a few handy
+file system operations that are missing from PHP.
 
 Class overview
 ==============
 
-This section gives you an overview on all classes, that are intended to be
-used directly.
-
-ezcFile
-  The only class in this component. It only provides two static methods:
-  ezcFile::findRecursive() and ezcFile::removeRecursive().
+ezcFile is the only class in this component. It provides two static methods:
+ezcFile::findRecursive() and ezcFile::removeRecursive().
 
 
 Usage
 =====
 
-Finding Files Recursively
+Finding files recursively
 -------------------------
 
 This example shows how to use the ezcFile::findRecursive() method:
@@ -31,17 +27,16 @@ This example shows how to use the ezcFile::findRecursive() method:
 .. include:: tutorial_example_01.php
    :literal:
 
-The code in this example searched for files in the ``/dat/dev/ezcomponents``
-directory. It will only include files that match *all* patterns in the array
-that you passed as the $includeFilters parameter. Files that match *any* of the
-patterns in the array that you pass to $excludeFilters will not be returned
-either.
+The code in this example searches for files in the ``/dat/dev/ezcomponents``
+directory. It will only include files that match *all* patterns in the
+$includeFilters array (the second parameter). Files that match *any* of the
+patterns in the $excludeFilters array (the third parameter) will not be returned.
 
-In other words the code above searches for files in the ``dat/dev/ezcomponents``
-directory, that are in the ``src/`` directory and end with ``_autoload.php``.
-Except files that are in the ``/autoload/`` directory.
+In other words, the code above searches for files in the ``dat/dev/ezcomponents``
+directory, which are in the ``src/`` directory and end with ``_autoload.php``,
+except for files that are in the ``/autoload/`` directory.
 
-Removing Directories Recursively
+Removing directories recursively
 --------------------------------
 
 This example shows how to use the ezcFile::removeRecursive() method:
@@ -50,12 +45,12 @@ This example shows how to use the ezcFile::removeRecursive() method:
    :literal:
 
 This code simply removes the directory ``/dat/dev/ezcomponents/trash`` and all
-the files and directories in that directory.
+of its files and sub-directories.
 
 **Warning: Use this function with care, as it has the potential to erase
 everything that the current user has access to.**
 
-More Information
+More information
 ================
 
 For more information, see the ezcFile API documentation.
