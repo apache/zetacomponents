@@ -36,9 +36,8 @@ class ezcExecutionBasicErrorHandler implements ezcExecutionErrorHandler
     static public function onError( Exception $e = NULL )
     {
         echo <<<END
-This application stopped in an unclean way.  Please contact the maintainer of
-this system and explain him that the system doesn't work properly at the
-moment.
+This application stopped in an unclean way. Please contact the site
+administrator to report the error.
 
 Have a nice day!
 
