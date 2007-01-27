@@ -3,6 +3,8 @@
 
 - Fixed issue #9999: idProperty missing in definition file causes unclear
   error messages.
+- Fixed testcase for manual generator giving failure for postgresql on correct
+  behaviour (INSERT violating NULL contraint does give an error...)
 
 1.2 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
