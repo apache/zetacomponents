@@ -23,6 +23,7 @@ require_once( 'one_to_many_relation_test.php' );
 require_once( 'many_to_one_relation_test.php' );
 require_once( 'one_to_one_relation_test.php' );
 require_once( 'many_to_many_relation.php' );
+require_once( 'keyword_test.php' );
 
 /**
  * @package PersistentObject
@@ -46,6 +47,7 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentOneToOneRelationTest::suite() );
         $this->addTest( ezcPersistentManyToOneRelationTest::suite() );
         $this->addTest( ezcPersistentManyToManyRelationTest::suite() );
+//        $this->addTest( ezcPersistentKeywordTest::suite() );
     }
 
     public static function suite()

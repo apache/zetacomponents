@@ -36,7 +36,7 @@ class ezcPersistentManualGenerator extends ezcPersistentIdentifierGenerator
         // store id
         $this->id = $state[$def->idProperty->propertyName];
 
-                // check if there is an object with this id already
+        // check if there is an object with this id already
         $q = $db->createSelectQuery();
         $q->select( '*' )->from( $def->table )
             ->where( $q->expr->eq( $def->idProperty->columnName,
