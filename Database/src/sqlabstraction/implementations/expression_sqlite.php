@@ -45,5 +45,15 @@ class ezcQueryExpressionSqlite extends ezcQueryExpression
             return "substr( {$value}, {$from}, {$len} )";
         }
     }
+
+    /**
+     * Returns the current system date and time.
+     *
+     * @return string
+     */
+    public function now()
+    {
+        return '"' . date( 'Y-m-d H:i:s' ) . '"';
+    }
 }
 ?>

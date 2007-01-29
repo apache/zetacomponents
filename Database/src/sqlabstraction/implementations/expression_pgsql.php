@@ -114,5 +114,15 @@ class ezcQueryExpressionPgsql extends ezcQueryExpression
 
         return join( ' || ' , $cols );
     }
+
+    /**
+     * Returns the current system date and time.
+     *
+     * @return string
+     */
+    public function now()
+    {
+        return "LOCALTIMESTAMP(0)";
+    }
 }
 ?>

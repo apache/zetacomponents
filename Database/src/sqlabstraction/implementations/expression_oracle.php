@@ -72,5 +72,19 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
             return "substr( {$value}, {$from}, {$len} )";
         }
     }
+
+    /**
+     * Returns the current system date and time.
+     *
+     * Note: The returned timestamp is a SYSDATE.
+     * The format can be set after connecting with e.g.:
+     * ALTER SESSION SET NLS_TIMESTAMP_FORMAT = 'YYYY-MM-DD HH24:MI:SS'
+     *
+     * @return string
+     */
+    public function now()
+    {
+        return "LOCALTIMESTAMP";
+    }
 }
 ?>

@@ -7,6 +7,8 @@
 - Implemented enhancement #8473: Oracle Limit/Offset optimization.
 - Implemented issue #9965: Support for delayed initialization through
   ezcBaseInit.
+- Fixed issue #9526: Implemented expression now() for each database handler.
+
 
 1.2 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

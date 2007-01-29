@@ -758,7 +758,7 @@ class ezcQueryExpression
     }
 
     /**
-     * Returns the current system date.
+     * Returns the current system date and time.
      *
      * @return string
      */

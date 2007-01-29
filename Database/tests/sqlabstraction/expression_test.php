@@ -373,7 +373,29 @@ class ezcQueryExpressionTest extends ezcTestCase
 
     public function testNow()
     {
-        $reference = 'NOW()';
+        switch ( get_class( $this->db ) )
+        {
+            case 'ezcDbHandlerMysql':
+                $reference = 'NOW()';
+                break;
+
+            case 'ezcDbHandlerSqlite':
+                $reference = '"' . date( 'Y-m-d H:i:s' ) . '"';
+                break;
+
+            case 'ezcDbHandlerPgsql':
+                $reference = 'LOCALTIMESTAMP(0)';
+                break;
+
+            case 'ezcDbHandlerOracle':
+                $reference = "LOCALTIMESTAMP";
+                break;
+
+            default:
+                $reference = 'NOW()';
+                break;
+        }
+
         $this->assertEquals( $reference, $this->e->now() );
     }
 
