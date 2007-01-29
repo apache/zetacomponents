@@ -45,6 +45,25 @@ class PDOTest extends ezcTestCase
         $db->exec( 'DROP TABLE query_test' );
     }
 
+
+    // Works in 5.14 and 5.2.1RC2
+    public function testIdNotFound()
+    {
+        $db = ezcDbInstance::get();
+        $q = $db->prepare("INSERT INTO query_test VALUES( 1, 'name', 'section', 22)" );
+        $q->execute();
+
+
+        $stmt = $db->prepare('select * from `query_test` where `id`=:id');
+        $stmt->bindValue(':id', 1);
+        $stmt->execute();
+        $row = $stmt->fetchAll( PDO::FETCH_ASSOC );
+        var_dump($stmt);
+        var_dump($row);
+        $stmt->closeCursor();
+    }
+
+
     // Works in PHP 5.2.1RC2, segfaults in PHP 5.1.4
     public function testSegfaultWrongFunctionCall()
     {
