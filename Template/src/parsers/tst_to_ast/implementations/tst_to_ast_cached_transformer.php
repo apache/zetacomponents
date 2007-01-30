@@ -27,6 +27,8 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
     private $isInDynamicBlock = false;
 
+    private $cacheBaseName = null;
+
 
     public function __construct( $parser, $cacheInfo, $preparedCache ) 
     {
@@ -37,7 +39,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         
         // XXX 
         $this->template = $parser->template;
-        $this->cacheSystem = $parser->template->configuration->cacheSystem;
+        //$this->cacheSystem = $parser->template->configuration->cacheSystem;
 
     }
 
@@ -58,19 +60,19 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
     }
 
     /**
-     *  Returns the ast tree:  include( [cacheSystem->getCacheFileName()] ); 
+     *  Returns the ast tree:  include( $_ezcTemplateCache ); 
      */
     protected function _includeCache()
     {
-        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "include", array( $this->cacheSystem->getCacheFileName() ) ) ); 
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "include", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) ); 
     }
 
     /**
-     *  Returns the ast tree:  $fp = fopen( [cacheSystem->getCacheFileName()], "w");
+     *  Returns the ast tree:  $fp = fopen( $_ezcTemplateCache, "w");
      */
     protected function _fopenCacheFileWriteMode()
     {
-        return new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $this->createVariableNode( "fp" ), new ezcTemplateFunctionCallAstNode( "fopen", array( $this->cacheSystem->getCacheFileName(), new ezcTemplateLiteralAstNode( "w")  )) ) );
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $this->createVariableNode( "fp" ), new ezcTemplateFunctionCallAstNode( "fopen", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ), new ezcTemplateLiteralAstNode( "w")  )) ) );
 
     }
 
@@ -162,6 +164,71 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fclose", array( $this->createVariableNode( "fp" ) ) ) ) ;
     }
 
+    protected function getCacheBaseName()
+    {
+        if ( $this->cacheBaseName === null )
+        {
+            $rpTemplate = realpath( $this->template->configuration->templatePath );
+            $rpStream = realpath( $this->parser->template->stream );
+
+            if ( strncmp( $rpTemplate, $rpStream, strlen( $rpTemplate ) ) == 0 )
+            { 
+                $fileName = substr( $rpStream, strlen( $rpTemplate ) );
+            }
+            else
+            {
+                $fileName = $rpStream;
+            }
+
+            $this->cacheBaseName = $this->template->configuration->compilePath . DIRECTORY_SEPARATOR . $this->template->configuration->cachedTemplatesPath . DIRECTORY_SEPARATOR . str_replace( '/', "-", $fileName ); 
+        }
+
+        return $this->cacheBaseName;
+    }
+
+
+    protected function deleteOldCache()
+    {
+        $bn = $this->getCacheBaseName();
+
+        $base = basename( $bn );
+        $dir = dirname( $bn); 
+
+        if ( is_dir( $dir ) )
+        {
+            $dp = opendir( $dir );
+            while ( false !== ( $file = readdir( $dp ) ) )
+            {
+                if ( strncmp( $base, $file, strlen($base ) ) == 0 ) 
+                {
+                    unlink( $dir . DIRECTORY_SEPARATOR . $file );
+                }
+            }
+
+            closedir( $dp );
+        }
+    }
+
+    /**
+     *  Returns the ast tree:  !file_exists( [ $_ezcTemplateCache ] )
+     */
+    protected function notFileExistsCache()
+    {
+        if( $this->template->configuration->cacheManager !== false )
+        {
+            // !$this->template->configuration->cacheManager->isValid( $cacheName ) || !file_exist()
+            $a = new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->isValid", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ), new ezcTemplateLiteralAstNode( $this->parser->template->stream ) ) ) );
+            $b = new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "file_exists", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
+            
+           return new ezcTemplateLogicalOrOperatorAstNode( $a, $b );
+        }
+        else
+        {
+
+            return new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "file_exists", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
+        }
+    }
+
 
     public function visitProgramTstNode( ezcTemplateProgramTstNode $type )
     {
@@ -184,23 +251,39 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
                 $cacheKeys[] = $k->name;
             }
 
-            $this->cacheSystem->setCacheKeys( $cacheKeys );
+            //$this->cacheSystem->setCacheKeys( $cacheKeys );
 
-
+            $ttl = null;
             if ( $this->cacheInfo->ttl !== null ) 
             {
                 $ttl = $this->cacheInfo->ttl->accept($this);
-                $this->cacheSystem->setTTL( $ttl );
+                //$this->cacheSystem->setTTL( $ttl );
             }
 
-            $this->cacheSystem->setStream( $this->parser->template->stream );
-            $this->cacheSystem->initializeCache();
+            //$this->cacheSystem->setStream( $this->parser->template->stream );
+            //$this->cacheSystem->initializeCache();
+
+
+            $dir = $this->template->configuration->compilePath . DIRECTORY_SEPARATOR . $this->template->configuration->cachedTemplatesPath;
+
+            if ( !file_exists( $dir ) )
+            {
+                mkdir( $dir );
+            }
+            
+            $this->deleteOldCache();
+
+
+
 
             // $cacheFileName = "/tmp/cache/" . str_replace( '/', "-", $this->template->stream ); 
 
             // Get the code for the: 'cache exists'. Determining whether the cache data is available.
-            $cacheExists = $this->cacheSystem->getCacheExists();
-            $ifCondition = array_pop( $cacheExists ); 
+            //$cacheExists = $this->cacheSystem->getCacheExists();
+            //$ifCondition = array_pop( $cacheExists ); 
+            //
+            $ifCondition = $this->notFileExistsCache();
+
 
             // Create the if statement that checks whether the cache file exists.
             $if = new ezcTemplateIfAstNode();
@@ -213,12 +296,12 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
 
             // Inside.
+            
 
             /// startCaching(); 
-            
             if ($this->template->configuration->cacheManager !== false )
             {
-                $cb->body->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->startCaching", array( new ezcTemplateVariableAstNode("_ezcTemplateCache" ) ) ) ) );// new ezcTemplatePhpCodeAstNode( "startCaching();\n" ) );
+                $cb->body->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->startCaching", array( new ezcTemplateVariableAstNode("_ezcTemplateCache" ), new ezcTemplateLiteralAstNode( $this->parser->template->stream ) ) ) ) );
             }
           
             $cb->body->appendStatement( $this->_fopenCacheFileWriteMode() ); // $fp = fopen( $this->cache, "w" ); 
@@ -263,6 +346,14 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             // 
             // RETURN STATEMENT inside..
             // fwrite( $fp, "\\\$_ezcTemplate_output .= " . var_export( $ezcTemplate_output, true) . ";" ); 
+
+        // Close the caching.
+            if ($this->template->configuration->cacheManager !== false )
+            {
+                $cb->body->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->stopCaching", array() )));
+            }
+ 
+        
             $cb->body->appendStatement( $this->_fwriteVarExportVariable( self::INTERNAL_PREFIX . "output", true, true) );
 
             // $total .= $_ezcTemplate_output;
@@ -289,7 +380,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             }
 
             
-            $ttlStatements = $this->cacheSystem->checkTTL();
+            $ttlStatements = $this->checkTTL( $ttl, $cacheKeys );
             foreach ( $ttlStatements as $s )
             {
                 $this->programNode->appendStatement( $s );
@@ -304,6 +395,65 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
         }
     }
+    protected function createCacheVariable( $cacheKeys )
+    {
+        $code = '$_ezcTemplateCache = \'' . $this->getCacheBaseName() ."'"; 
+
+        $st = ezcTemplateSymbolTable::getInstance();
+
+        foreach ( $cacheKeys as $key )
+        {
+            // md5( var_export( is_object( $key ) && method_exists( $key,  "cacheKey" )  ? $key->cacheKey() : $key ) )
+
+            $code .=  '.\'-\'. md5( var_export( is_object( $'.$key.' ) && method_exists( $'.$key.', "cacheKey" ) ? $'.$key.'->cacheKey() : $'.  $key . ', true ) ) ';
+        }
+
+        $code .= ";\n";
+
+        return new ezcTemplatePhpCodeAstNode( $code );
+    }
+
+
+    protected function checkTTL( $ttl, $cacheKeys )
+    {
+        $statements = array();
+
+        $statements[] = $this->createCacheVariable( $cacheKeys );
+
+
+        if ( $ttl !== null )
+        {
+            // Create the if statement that checks whether the cache file exists.
+            $if = new ezcTemplateIfAstNode();
+            $if->conditions[] = $cb = new ezcTemplateConditionBodyAstNode();
+
+
+            $time = new ezcTemplateFunctionCallAstNode( "time", array() );
+            $time->checkAndSetTypeHint();
+            
+            // if ( file_exists( \$_ezcTemplateCache ) && filemtime( \$_ezcTemplateCache ) + ( /*[ TTL ]*/ ) < time() )
+            // {
+            //     echo 'REMOVE THE FILE';
+            //     // unlink( [FILE] )
+            // }\n" );
+
+            $cb->condition = new ezcTemplateLogicalAndOperatorAstNode( new ezcTemplateFunctionCallAstNode( "file_exists", array(new ezcTemplateVariableAstNode( "_ezcTemplateCache" )  ) ), new ezcTemplateLessThanOperatorAstNode( new ezcTemplateAdditionOperatorAstNode( new ezcTemplateFunctionCallAstNode( "filemtime", array(new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) )),  new ezcTemplateParenthesisAstNode( $ttl )  ) , $time ) );
+
+            $cb->body = new ezcTemplateBodyAstNode();
+
+            $cb->body->statements = array();
+            
+            $cb->body->statements[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "unlink", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
+
+            $statements[] = $if;
+        }
+
+        return $statements;
+    }
+
+
+
+
 
     public function visitReturnTstNode( ezcTemplateReturnTstNode $node )
     {
@@ -452,6 +602,22 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             return $cb;
         }
     }
+
+
+    /*
+    public function visitIncludeTstNode( ezcTemplateIncludeTstNode $type )
+    {
+        $ast = parent::visitIncludeTstNode( $type );
+
+        if ($this->template->configuration->cacheManager !== false )
+        {
+            $n = $type->file->accept( $this ); // Can go wrong, shouldn't be executed twice. TODO, XXX
+            $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->includeTemplate", array( new ezcTemplateLiteralAstNode( $n->value  ) ) ) ); 
+        }
+
+        return $ast;
+    }
+     */
 
 }
 

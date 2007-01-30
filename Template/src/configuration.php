@@ -77,7 +77,7 @@ class ezcTemplateConfiguration
                                   'compilePath' => ".",
                                   'cachedTemplatesPath' => null,
                                   'compiledTemplatesPath' => null,
-                                  'cacheSystem' =>  null,
+                                  //'cacheSystem' =>  null,
                                   'checkModifiedTemplates' => true,
                                   'customBlocks' => array(),
                                   'customFunctions' => array(),
@@ -102,7 +102,7 @@ class ezcTemplateConfiguration
             case 'compilePath': 
             case 'cachedTemplatesPath':       // Relative path to the compilePath
             case 'compiledTemplatesPath':     // Relative path to the compilePath
-            case 'cacheSystem':
+            //case 'cacheSystem':
             case 'checkModifiedTemplates':
                 return $this->properties[$name];
             case 'customBlocks':
@@ -158,7 +158,7 @@ class ezcTemplateConfiguration
             case 'compilePath': 
             case 'cachedTemplatesPath':
             case 'compiledTemplatesPath':
-            case 'cacheSystem':
+            //case 'cacheSystem':
             case 'checkModifiedTemplates': 
             case 'customBlocks': 
             case 'customFunctions': 
@@ -191,7 +191,7 @@ class ezcTemplateConfiguration
             case 'compilePath':
             case 'cachedTemplatesPath':
             case 'compiledTemplatesPath':
-            case 'cacheSystem':
+            //case 'cacheSystem':
             case 'checkModifiedTemplates':
                 return isset( $this->properties[$name] );
 
@@ -221,7 +221,7 @@ class ezcTemplateConfiguration
         $this->properties["cachedTemplatesPath"] =   "cached_templates";
         $this->properties["compiledTemplatesPath"] =  "compiled_templates";
 
-        $this->properties["cacheSystem"] = new ezcTemplateCacheFilesystem( $this );
+        //$this->properties["cacheSystem"] = new ezcTemplateCacheFilesystem( $this );
 
         $this->properties['context'] = ( $context == null ? new ezcTemplateXhtmlContext() : $context );
     }

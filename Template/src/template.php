@@ -253,7 +253,6 @@ class ezcTemplate
 
         $this->properties["tstTree"] = false;
         $this->properties["astTree"] = false;
-        $this->properties["stream"] = false;
         $this->properties["stream"] = $location;
 
         if ( strlen( $this->properties["stream"] ) > 0 && $this->properties["stream"][0] != "/" ) // Is it a relative path?
@@ -336,6 +335,13 @@ class ezcTemplate
 
             $g = new ezcTemplateAstToPhpGenerator( $compiled->path ); // Write to the file.
             $tstToAst->programNode->accept( $g );
+
+            // Add to the cache system.
+            if ($this->configuration->cacheManager !== false )
+            {
+                $this->configuration->cacheManager->includeTemplate( $this->properties["stream"]);
+            }
+ 
         }
 
         // execute compiled code here

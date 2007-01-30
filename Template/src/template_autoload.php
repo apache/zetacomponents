@@ -33,8 +33,6 @@ return array(
              "ezcTemplateXhtmlContext" => "Template/contexts/xhtml_context.php",
              "ezcTemplateNoContext" => "Template/contexts/no_context.php",
 
-             "ezcTemplateCacheFilesystem" => "Template/cache_filesystem.php",
-             
              "ezcTemplateSourceToTstErrorMessages" => "Template/error_messages.php",
 
 // Global Interfaces:
