@@ -46,20 +46,23 @@ class PDOTest extends ezcTestCase
     }
 
 
-    // Works in 5.14 and 5.2.1RC2
+    // This query probably fails when the PDO is linked to the wrong libmysql client.
+    // E.g. it must be linked against libmysqlclient12 and not libmysqlclient14 
+    // nor libmysqlclient15. 
     public function testIdNotFound()
     {
         $db = ezcDbInstance::get();
         $q = $db->prepare("INSERT INTO query_test VALUES( 1, 'name', 'section', 22)" );
         $q->execute();
 
-
         $stmt = $db->prepare('select * from `query_test` where `id`=:id');
         $stmt->bindValue(':id', 1);
         $stmt->execute();
         $row = $stmt->fetchAll( PDO::FETCH_ASSOC );
-        var_dump($stmt);
-        var_dump($row);
+
+        $this->assertEquals( "1", $row[0]["id"] ); 
+        $this->assertEquals( "name", $row[0]["company"] ); 
+        $this->assertEquals( "section", $row[0]["section"] ); 
         $stmt->closeCursor();
     }
 
