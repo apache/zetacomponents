@@ -332,7 +332,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         {
             // The middle of the border is on the outline of a polygon in SVG, 
             // fix that:
-            $points = $this->reducePolygonSize( $points, $thickness / 2 );
+            // $points = $this->reducePolygonSize( $points, $thickness / 2 );
         }
 
         $lastPoint = end( $points );
