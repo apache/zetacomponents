@@ -21,11 +21,11 @@ class ezcGraphVector extends ezcGraphCoordinate
      * 
      * @return void
      */
-    public function toLeft()
+    public function rotateCounterClockwise()
     {
         $tmp = $this->x;
-        $this->x = -$this->y;
-        $this->y = $tmp;
+        $this->x = $this->y;
+        $this->y = -$tmp;
 
         return $this;
     }
@@ -35,11 +35,11 @@ class ezcGraphVector extends ezcGraphCoordinate
      * 
      * @return void
      */
-    public function toRight()
+    public function rotateClockwise()
     {
         $tmp = $this->x;
-        $this->x = $this->y;
-        $this->y = -$tmp;
+        $this->x = -$this->y;
+        $this->y = $tmp;
 
         return $this;
     }

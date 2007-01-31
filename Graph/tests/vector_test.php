@@ -106,6 +106,40 @@ class ezcGraphVectorTest extends ezcTestCase
         );
     }
 
+    public function testVectorRotateClockwise()
+    {
+        $vector = new ezcGraphVector( 1, 2 );
+        $result = $vector->rotateClockwise();
+
+        $this->assertEquals(
+            $result,
+            new ezcGraphVector( -2, 1 )
+        );
+
+        $this->assertEquals(
+            $result,
+            $vector,
+            'Result should be the vector itself'
+        );
+    }
+
+    public function testVectorRotateCounterClockwise()
+    {
+        $vector = new ezcGraphVector( 1, 2 );
+        $result = $vector->rotateCounterClockwise();
+
+        $this->assertEquals(
+            $result,
+            new ezcGraphVector( 2, -1 )
+        );
+
+        $this->assertEquals(
+            $result,
+            $vector,
+            'Result should be the vector itself'
+        );
+    }
+
     public function testVectorMultiplyCoordinate()
     {
         $vector = new ezcGraphVector( 1, 2 );
