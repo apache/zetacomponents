@@ -106,26 +106,9 @@ abstract class ezcGraphDriver
         for ( $i = 0; $i < $pointCount; ++$i )
         {
             $nextPoint = ( $i + 1 ) % $pointCount;
-
-            $x = $points[$nextPoint]->x - $points[$i]->x;
-            $y = $points[$nextPoint]->y - $points[$i]->y;
-
-            $length = sqrt(
-                pow( $x, 2 ) + 
-                pow( $y, 2 )
-            );
-
-            if ( $length == 0 )
-            {
-                $vectors[$i] = new ezcGraphCoordinate( $x, $y );
-            }
-            else
-            {
-                $vectors[$i] = new ezcGraphCoordinate(
-                    $x / $length,
-                    $y / $length
-                );
-            }
+            $vectors[$i] = ezcGraphVector::fromCoordinate( $points[$nextPoint] )
+                            ->sub( $points[$i] )
+                            ->unify();
         }
 
         // Move points to center
@@ -148,21 +131,125 @@ abstract class ezcGraphDriver
                     -$vectors[$last]->y * $vectors[$next]->x +
                     $vectors[$last]->x * $vectors[$next]->y 
                 ) < 0 ? 1 : -1;
+            
+            // Orthogonal vector with direction based on the side of the inner
+            // angle
+            $v = clone $vectors[$next];
+            if ( $sign > 0 )
+            {
+                $v->rotateClockwise()->scalar( $size );
+            }
+            else
+            {
+                $v->rotateCounterClockwise()->scalar( $size );
+            }
 
             // Calculate new point: Move point to the center site of the 
             // polygon using the normalized orthogonal vectors next to the 
             // point and the size as distance to move.
-            $newPoints[$next] = new ezcGraphCoordinate(
-                $points[$next]->x
-                    + $sign * $vectors[$last]->y * $size
-                    + $sign * $vectors[$next]->y * $size,
-                $points[$next]->y
-                    - $sign * $vectors[$last]->x * $size
-                    - $sign * $vectors[$next]->x * $size
-            );
+            // point + v + size / tan( angle / 2 ) * startVector
+            $newPoint = clone $vectors[$next];
+            $newPoints[$next] = 
+                $v  ->add( 
+                        $newPoint
+                            ->scalar( 
+                                $size / 
+                                tan( 
+                                    $vectors[$last]
+                                        ->mul( $vectors[$next] ) /
+                                    2
+                                ) 
+                            ) 
+                    )
+                    ->add( $points[$next] );
         }
 
         return $newPoints;
+    }
+
+    /**
+     * Reduce the size of an ellipse
+     *
+     * The method returns a the edgepoints and angles for an ellipse where all 
+     * borders are moved to the inner side of the ellipse by the give $size 
+     * value.
+     *
+     * The method returns an 
+     * array (
+     *      'center' => (ezcGraphCoordinate) New center point,
+     *      'start' => (ezcGraphCoordinate) New outer start point,
+     *      'end' => (ezcGraphCoordinate) New outer end point,
+     *      'startAngle' => (float) Angle from old center point to new start point,
+     *      'endAngle' => (float) Angle from old center point to new end point,
+     * )
+     * 
+     * @param ezcGraphCoordinate $center 
+     * @param mixed $startAngle 
+     * @param mixed $endAngle 
+     * @param mixed $size 
+     * @return array
+     */
+    protected function reduceEllipseSize( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, $size )
+    {
+        $oldStartPoint = new ezcGraphVector(
+            $width * cos( deg2rad( $startAngle ) ) / 2,
+            $height * sin( deg2rad( $startAngle ) ) / 2
+        );
+
+        $oldEndPoint = new ezcGraphVector(
+            $width * cos( deg2rad( $endAngle ) ) / 2,
+            $height * sin( deg2rad( $endAngle ) ) / 2
+        );
+
+        // Calculate normalized vectors for the lines spanning the ellipse
+        $startVector = ezcGraphVector::fromCoordinate( $oldStartPoint )->unify();
+        $endVector = ezcGraphVector::fromCoordinate( $oldEndPoint )->unify();
+
+        $oldStartPoint->add( $center );
+        $oldEndPoint->add( $center );
+
+        // Use orthogonal vectors of normalized ellipse spanning vectors to 
+        $v = clone $startVector;
+        $v->rotateClockwise()->scalar( $size );
+
+        // calculate new center point
+        // center + v + size / tan( angle / 2 ) * startVector
+        $centerMovement = clone $startVector;
+        $newCenter = $v->add( $centerMovement->scalar( $size / tan( deg2rad( ( $endAngle - $startAngle ) / 2 ) ) ) )->add( $center );
+
+
+        // Use start spanning vector and its orthogonal vector to calculate 
+        // new start point
+        $newStartPoint = clone $oldStartPoint;
+
+        $innerVector = clone $startVector;
+        $innerVector->scalar( $size )->scalar( -1 );
+
+        $orthogonalVector = clone $startVector;
+        $orthogonalVector->scalar( $size )->rotateClockwise();
+
+        var_dump( '===', $newStartPoint, $innerVector, $orthogonalVector );
+        $newStartPoint->add( $innerVector)->add( $orthogonalVector );
+
+        // Use end spanning vector and its orthogonal vector to calculate 
+        // new end point
+        $newEndPoint = clone $oldEndPoint;
+
+        $innerVector = clone $endVector;
+        $innerVector->scalar( $size )->scalar( -1 );
+
+        $orthogonalVector = clone $endVector;
+        $orthogonalVector->scalar( $size )->rotateCounterClockwise();
+
+        $newEndPoint->add( $innerVector )->add( $orthogonalVector );
+
+        var_dump( $newCenter, $newStartPoint, $newEndPoint );
+
+        return array(
+            'center' => $newCenter,
+            'start' => $newStartPoint,
+            'end' => $newEndPoint,
+        );
     }
 
     /**
