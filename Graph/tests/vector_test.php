@@ -84,6 +84,28 @@ class ezcGraphVectorTest extends ezcTestCase
         );
     }
 
+    public function testUnifyNullVector()
+    {
+        $vector = new ezcGraphVector( 0, 0 );
+        $result = $vector->unify();
+
+        $this->assertEquals(
+            0,
+            $vector->x
+        );
+
+        $this->assertEquals(
+            0,
+            $vector->y
+        );
+
+        $this->assertEquals(
+            $result,
+            $vector,
+            'Result should be the vector itself'
+        );
+    }
+
     public function testVectorMultiplyScalar()
     {
         $vector = new ezcGraphVector( 1, 2 );

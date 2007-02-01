@@ -54,7 +54,7 @@ class ezcGraphVector extends ezcGraphCoordinate
         $length = $this->length();
         if ( $length == 0 )
         {
-            return false;
+            return $this;
         }
 
         $this->x /= $length;
@@ -115,10 +115,16 @@ class ezcGraphVector extends ezcGraphCoordinate
             $vector = ezcGraphVector::fromCoordinate( $vector );
         }
         
-        return acos(
-            $this->mul( $vector ) /
-            ( $this->length() * $vector->length() )
-        );
+        $factor = $this->length() * $vector->length();
+
+        if ( $factor == 0 )
+        {
+            return false;
+        }
+        else
+        {
+            return acos( $this->mul( $vector ) / $factor );
+        }
     }
 
     /**
