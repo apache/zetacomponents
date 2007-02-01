@@ -102,6 +102,26 @@ class ezcGraphVector extends ezcGraphCoordinate
     }
 
     /**
+     * Returns the angle between two vectors in radian
+     * 
+     * @param ezcGraphCoordinate $vector 
+     * @return float
+     */
+    public function angle( ezcGraphCoordinate $vector )
+    {
+        if ( !$vector instanceof ezcGraphVector )
+        {
+            // Ensure beeing a vector for calling length()
+            $vector = ezcGraphVector::fromCoordinate( $vector );
+        }
+        
+        return acos(
+            $this->mul( $vector ) /
+            ( $this->length() * $vector->length() )
+        );
+    }
+
+    /**
      * Adds a vector to another vector
      * 
      * @param ezcGraphCoordinate $vector 

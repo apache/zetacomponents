@@ -162,6 +162,32 @@ class ezcGraphVectorTest extends ezcTestCase
         );
     }
 
+    public function testVectorAngleCoordinate()
+    {
+        $vector = new ezcGraphVector( 1, 2 );
+        $result = $vector->angle( new ezcGraphCoordinate( 3, 2 ) );
+
+        $this->assertEquals(
+            $result,
+            0.51914611424652,
+            'Wrong angle returned',
+            .01
+        );
+    }
+
+    public function testVectorAngleVector()
+    {
+        $vector = new ezcGraphVector( 1, 2 );
+        $result = $vector->angle( new ezcGraphVector( 3, 2 ) );
+
+        $this->assertEquals(
+            $result,
+            0.51914611424652,
+            'Wrong angle returned',
+            .01
+        );
+    }
+
     public function testVectorAddCoordinate()
     {
         $vector = new ezcGraphVector( 1, 2 );
