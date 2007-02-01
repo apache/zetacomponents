@@ -79,7 +79,7 @@ static class methods as shown by these variations of the above example.
 
 3. static class methods
 
-.. include:: tutorial_slot_types_example2.php
+.. include:: tutorial_slot_types_example3.php
    :literal:
 
 
