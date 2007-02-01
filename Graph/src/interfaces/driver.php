@@ -179,12 +179,6 @@ abstract class ezcGraphDriver
             $newPoint = clone $vectors[$next];
             $angle = $lastVector->angle( $vectors[$next] ) / 2;
 
-            if ( $angle == 0 )
-            {
-                var_dump( $points, $vectors );
-                debug_print_backtrace();
-                die( 'Fin' );
-            }
             $newPoints[$next] = 
                 $v  ->add( 
                         $newPoint
