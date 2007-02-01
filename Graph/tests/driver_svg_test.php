@@ -139,7 +139,29 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
                 new ezcGraphCoordinate( 122, 34 ),
                 new ezcGraphCoordinate( 12, 71 ),
             ),
-            ezcGraphColor::fromHex( '#3465A4' ),
+            ezcGraphColor::fromHex( '#3465A480' ),
+            false
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testDrawPolygonThreePointsNotFilledReverse()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 12, 71 ),
+                new ezcGraphCoordinate( 122, 34 ),
+                new ezcGraphCoordinate( 45, 12 ),
+            ),
+            ezcGraphColor::fromHex( '#3465A480' ),
             false
         );
 
@@ -202,6 +224,43 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
         );
     }
 
+    public function testDrawCircleSectorBorderReducement()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $angles = array( 10, 25, 45, 90, 125, 180, 235, 340 );
+
+        $position = 0;
+        $radius = 80;
+        foreach ( $angles as $angle )
+        {
+            while ( $position < 360 )
+            {
+                $this->driver->drawCircleSector(
+                    new ezcGraphCoordinate( 100, 50 ),
+                    $radius,
+                    $radius / 2,
+                    $position,
+                    $position += $angle,
+                    ezcGraphColor::fromHex( '#3465A480' ),
+                    false
+                );
+    
+                $position += 5;
+            }
+
+            $position = 0;
+            $radius += 15;
+        }
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testDrawCircleSectorAcuteNonFilled()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
@@ -212,7 +271,29 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
             40,
             12.5,
             45,
-            ezcGraphColor::fromHex( '#3465A4' ),
+            ezcGraphColor::fromHex( '#3465A480' ),
+            false
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testDrawCircleSectorObtuseNonFilled()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->drawCircleSector(
+            new ezcGraphCoordinate( 100, 50 ),
+            80,
+            40,
+            25,
+            273,
+            ezcGraphColor::fromHex( '#3465A480' ),
             false
         );
 

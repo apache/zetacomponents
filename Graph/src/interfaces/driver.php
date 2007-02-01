@@ -109,6 +109,30 @@ abstract class ezcGraphDriver
             $vectors[$i] = ezcGraphVector::fromCoordinate( $points[$nextPoint] )
                             ->sub( $points[$i] )
                             ->unify();
+
+            if ( ( $vectors[$i]->x == $vectors[$i]->y ) && ( $vectors[$i]->x == 0 ) )
+            {
+                // Remove point from list if it the same as the next point
+                $pointCount--;
+                if ( $i === 0 ) 
+                {
+                    $points = array_slice( $points, $i + 1 );
+                }
+                else
+                {
+                    $points = array_merge(
+                        array_slice( $points, 0, $i ),
+                        array_slice( $points, $i + 1 )
+                    );
+                }
+                $i--;
+            }
+        }
+
+        // No reducements for lines
+        if ( $pointCount <= 2 )
+        {
+            return $points;
         }
 
         // Move points to center
@@ -137,27 +161,37 @@ abstract class ezcGraphDriver
             $v = clone $vectors[$next];
             if ( $sign > 0 )
             {
-                $v->rotateClockwise()->scalar( $size );
+                $v->rotateCounterClockwise()->scalar( $size );
             }
             else
             {
-                $v->rotateCounterClockwise()->scalar( $size );
+                $v->rotateClockwise()->scalar( $size );
             }
+
+            // get last vector not pointing in reverse direction
+            $lastVector = clone $vectors[$last];
+            $lastVector->scalar( -1 );
 
             // Calculate new point: Move point to the center site of the 
             // polygon using the normalized orthogonal vectors next to the 
             // point and the size as distance to move.
             // point + v + size / tan( angle / 2 ) * startVector
             $newPoint = clone $vectors[$next];
+            $angle = $lastVector->angle( $vectors[$next] ) / 2;
+
+            if ( $angle == 0 )
+            {
+                var_dump( $points, $vectors );
+                debug_print_backtrace();
+                die( 'Fin' );
+            }
             $newPoints[$next] = 
                 $v  ->add( 
                         $newPoint
                             ->scalar( 
                                 $size / 
                                 tan( 
-                                    $vectors[$last]
-                                        ->mul( $vectors[$next] ) /
-                                    2
+                                    $lastVector->angle( $vectors[$next] ) / 2
                                 ) 
                             ) 
                     )
@@ -228,7 +262,6 @@ abstract class ezcGraphDriver
         $orthogonalVector = clone $startVector;
         $orthogonalVector->scalar( $size )->rotateClockwise();
 
-        var_dump( '===', $newStartPoint, $innerVector, $orthogonalVector );
         $newStartPoint->add( $innerVector)->add( $orthogonalVector );
 
         // Use end spanning vector and its orthogonal vector to calculate 
@@ -242,8 +275,6 @@ abstract class ezcGraphDriver
         $orthogonalVector->scalar( $size )->rotateCounterClockwise();
 
         $newEndPoint->add( $innerVector )->add( $orthogonalVector );
-
-        var_dump( $newCenter, $newStartPoint, $newEndPoint );
 
         return array(
             'center' => $newCenter,
