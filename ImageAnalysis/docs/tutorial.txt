@@ -1,4 +1,4 @@
-eZ components - ImageAnalysis
+eZ Components - ImageAnalysis
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
@@ -6,19 +6,13 @@ eZ components - ImageAnalysis
 Introduction
 ============
 
-The ImageAnalysis component provides facilities to analyze certain attributes
-of an image.
+The ImageAnalysis component allows you to analyze certain image attributes.
 
 Class overview
 ==============
 
-This section gives you an overview on all classes, that are intended to be
-used directly.
-
-ezcImageAnalyzer
-  The main class of this component. It is responsible to handle the analysis of
-  image files, as well as caching the results for you.
-
+ezcImageAnalyzer is the main class for this component. It is responsible for
+handling the analysis of image files, as well as caching the results.
 
 Usage
 =====
@@ -31,9 +25,9 @@ The following example simply detects the MIME type of an image and prints it:
 .. include:: tutorial_example_01.php
    :literal:
 
-On line 5 a new ezcImageAnalyzer object is instantiated. This must be done for
-each image to analyse. In line 7 you see how to access the MIME type determined 
-from the image. Here is an example image including the output:
+On line 5, a new ezcImageAnalyzer object is instantiated. This must be done for
+each image to be analyzed. In line 7, the MIME type is determined. Here is an
+example image including the output:
 
 .. image:: img/imageanalysis_example_01.jpg
    :alt: Simple JPEG image.
@@ -45,25 +39,23 @@ from the image. Here is an example image including the output:
 Extracting further data
 -----------------------
 
-Besides the MIME type, ImageAnalysis extracts more information if you request it. 
-The following example shows how this works:
+Aside from the MIME type, ImageAnalysis can extract other image information. 
+The following example demonstrates this:
 
 .. include:: tutorial_example_02.php
    :literal:
 
 The example is basically the same as the first one, except that more data is requested
-from ezcImageAnalyzer (lines 8-11). The major difference here is, that in
-example 1, ezcImageAnalyzer has only determined the MIME type of the file and
-has not performed any further analysis. The analysis of additional data
-is performed on the first request to it (line 9). After that, the data is
-cached in the ezcImageAnalyzer object.
+from ezcImageAnalyzer (lines 8 to 11). The analysis of additional data
+begins on line 9. After that, the data is cached in the ezcImageAnalyzer object.
 
 The width, height and size values are available for every analyzable image.
-A comment is not always necessarily be available however. At least, every data has
-some sensible default value, even if it unavailable. (Note: Availability of
-some data also depends on the availability of PHPs Exif extension.)
+A comment is not always available. If an image property is not available, the
+output will be some sensible default value (such as n/a). (Note that the
+availability of some data also depends on the availability of PHP's Exif
+extension.)
 
-The example image and the output printed is shown below:
+The example image and printed output is shown below:
 
 .. image:: img/imageanalysis_example_02.jpg
 
@@ -81,34 +73,33 @@ Configuring handlers
 --------------------
 
 Like ezcImageConversion, ezcImageAnalyzer is based on handler classes, which
-allow it to utilize different back-ends for image analysis. Currently
-implemented are:
+allow it to utilize different back-ends for image analysis. The currently
+implemented handlers are:
 
 ezcImageAnalyzerHandlerPhp
-  This one uses PHP's getimagesize() function (which does not require the GD
-  extension!) and can optionally use PHP's exif extension.
+  This uses PHP's getimagesize() function (which does not require the GD
+  extension!) and can optionally use PHP's Exif extension.
 
 ezcImageAnalyzerHandlerImagemagick
   Here `ImageMagick`_'s "identify" program is used.
 
 Both handlers are activated by default and are capable of determining if their
-preconditions are fulfilled themselves.
+preconditions are fulfilled.
 
-It may happen that one needs to configure a handler, for example on some
-systems you want to assign the path to the ImageMagick_ "identify" binary,
-because it's not available in the $PATH environment variable. The following
-example shows how this is possible and what else is configurable for the
-handlers:
+You might need to configure a handler, if for example the path to the
+ImageMagick_ "identify" binary is not available in the $PATH environment
+variable. The following example shows how this is possible and what else can be
+configured for the handlers:
 
 .. _ImageMagick: http://www.imagemagick.org/script/index.php
 
 .. include:: tutorial_example_03.php
    :literal:
 
-Basically, the code is the same as in example 2, except that the
-ezcImageAnalyzer is being configured to only use its ImageMagick handler and
-not the PHP handler. Besides that, the location of the "identify" binary is set
-explicitly. See the results below:
+Basically, the code is the same as in example 2, except that ezcImageAnalyzer
+is being configured to only use its ImageMagick handler and
+not the PHP handler. In addition, the location of the "identify" binary is
+explicitly set. See the results below:
 
 .. image:: img/imageanalysis_example_03.jpg
 
@@ -119,12 +110,12 @@ explicitly. See the results below:
     Width:          320 px
     Height:         240 px
     Filesize:       26365 b
-    Comment:        San Francisco airport, Oktober 2005.
+    Comment:        San Francisco airport, October 2005.
 
-More Information
+More information
 ================
 
-For more information, see the ezcImageConverter API reference.
+For more information, see the ezcImageAnalyzer API documentation.
 
 
 ..
