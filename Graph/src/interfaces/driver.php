@@ -177,8 +177,6 @@ abstract class ezcGraphDriver
             // point and the size as distance to move.
             // point + v + size / tan( angle / 2 ) * startVector
             $newPoint = clone $vectors[$next];
-            $angle = $lastVector->angle( $vectors[$next] ) / 2;
-
             $newPoints[$next] = 
                 $v  ->add( 
                         $newPoint
