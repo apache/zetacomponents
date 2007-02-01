@@ -1,5 +1,5 @@
 =====================
-eZ components - Graph
+eZ Components - Graph
 =====================
 
 .. contents:: Table of Contents
@@ -8,69 +8,67 @@ eZ components - Graph
 Introduction
 ============
 
-The graph components enables you to create line, pie and bar charts. The
+The Graph component enables you to create line, pie and bar charts. The
 output driver mechanism allows you to create different image types from each
-chart, and the available renderers make the chart output customizeable from
-simple two dimensional charts up to beautiful three dimensional data
+chart, and the available renderers make the chart output customizable from
+simple two-dimensional charts to beautiful three-dimensional data
 projections. 
 
-ezcGraph separates different parts of the graph in chart elements, which
-display one part of a graph, like the title, the legend or one axis, which are
-all independently configurable. This design not only allows you to use
-different colors or fonts for each chart element, but also define their
+ezcGraph separates different parts of the graph into chart elements, each
+representing one part of a graph. Elements include the title, the legend or an
+axis, and are all independently configurable. This design not only allows you to use
+different colors or fonts for each chart element, but also to define their
 position and size. The main chart elements are the same for all chart types.
-For easy definition of a overall layout for your graph you can use palettes,
-which define colors, symbols, fonts and spacings.
+To define overall layouts for graphs, you can use palettes,
+which specify default colors, symbols, fonts and spacings.
 
-The data is provided through ezcGraphDataSets which are normally create from
-simple arrays, but also can perform statistical operations on the data, as you
-will see later.
+Data is provided through ezcGraphDataSet arrays. You also can perform
+statistical operations on data, as you will see later.
 
 Class overview
 ==============
 
-This section gives you an overview on all classes, that are intended to be
-used directly.
+This section gives you an overview of the most important classes.
 
 ezcGraphChart
-  Line, bar and pie chart extend this abstract class, that represents the
-  chart to be rendered. It collects the data and chart elements, gives you
-  access to all configuration settings and calls the driver and renderer for
-  creating the final output.
+  Line, bar and pie charts extend this abstract class, which represents the
+  chart to be rendered. ezcGraphChart collects the data and chart elements,
+  gives you access to all configuration settings and calls the driver and
+  renderer for creating the final output.
 
 ezcGraphDataSet
-  All data sets extend this abstract class to provide the data in a general
-  form, accessible by the chart.
+  All datasets extend this abstract class to provide the data in a general
+  form accessible by the chart.
 
 ezcGraphChartElement
-  All chart element store configuration values defining their layout. A
-  elements layout definition contains background, border, margin, padding and
-  font configuration. This class is extended by classes for Legend, Text, 
-  Background and the different axis types.
+  All chart elements store configuration values that define their layout. An
+  element's layout definition contains background, border, margin, padding and
+  font configuration. ezcGraphChartElement is extended by other classes for the
+  legend, text, background and different axis types.
 
 ezcGraphChartElementAxis
-  Extends ezcGraphChartElement and is the base class for all axis. There are
-  different axis types for different data to be displayed, like numeric axis,
-  string labeled axis or the date axis.
+  This class extends ezcGraphChartElement and is the base class for all axes.
+  There are different axis types for different data to be displayed, such as
+  numeric axis, string labeled axis or date axis.
 
 ezcGraphAxisLabelRenderer
-  Defines the rendering algorithm for labels and grid on axis. The distinction
-  is necessary, because bar charts expect their labels placed directly below
-  the data point, but numerical data in line charts should be placed next to
-  grid.
+  This class defines the rendering algorithm for labels and grids on an axis.
+  The distinction between algorithms is necessary, because bar charts have
+  labels placed directly below the data point, but numerical data in line
+  charts should be placed next to the grid.
 
 ezcGraphPalette
-  Contains color, font, symbol and spacing definitions, that are applied to
-  the complete graph.
+  ezcGraphPalette contains color, font, symbol and spacing definitions to be
+  applied to the entire graph.
 
 ezcGraphRenderer
-  The renderer transforms chart primitives, like pie chart segments, legend
-  or data lines, to image primitives. You have the choice between a two and a
-  three dimensional renderer.
+  This renderer transforms chart primitives, like pie chart segments, legend
+  or data lines, to image primitives. You have the choice between a two- and
+  three-dimensional renderer.
 
 ezcGraphDriver
-  The driver actually renders image primitives to an image. The default driver
-  will output a SVG, but you can also render JPEGs or PNGs using ext/gd.
+  This driver renders image primitives to an image. The default driver
+  will output as SVG, but you can also render JPEGs or PNGs using ext/gd.
 
 Chart types
 ===========
@@ -78,30 +76,28 @@ Chart types
 Pie charts
 ----------
 
-The following graph is a simple example how to create a pie chart using the
+The following is a simple example of how to create a pie chart using the
 default driver, palette and renderer.
 
 .. include:: tutorial_example_01.php
    :literal:
 
-You just create a new chart object, optionally set a title for the chart
-assign the data and render it. To assign data you access the dataset container
-like an array to define an identifier for your new created dataset. The
+Simply create a new chart object, optionally set a title for the chart,
+assign the data and render it. To assign data, the dataset container
+is accessed like an array to define an identifier for the dataset. The
 dataset in this example is created from an array, where the keys are used as
 the identifiers for the data points.
 
 Pie charts accept only one dataset, and the data point identifiers are used to
-create the legend. To generate the output the default SVG renderer is used
-with the default 2D renderer. For the automatic colorization colors are
-applied from the default Tango palette, which uses colors defined by the Tango
-Desktop Project: http://tango.freedesktop.org/Tango_Desktop_Project
+create the legend. To generate the output, the default SVG renderer is used
+with the default 2D renderer. By default, the colors are applied from the Tango
+palette, from the Tango Desktop Project: http://tango.freedesktop.org/Tango_Desktop_Project
 
-There are several preparations on the data sets and data points which will be
-mentioned during this tutorial, one thing you can do is highlighting one special
-data set or point. In line 15 the data point Opera is highlighted which means
-in case of pie charts, that it is moved out of the centre by a user 
-configurable value. See the renderer options class ezcGraphRendererOptions for 
-details.
+Several dataset and data point presentation styles will be mentioned in this
+tutorial. One possibility is to highlight a special dataset or point. In line
+15, the data point Opera is highlighted; in the case of pie charts, this
+segment is pulled away from the center. See the renderer options class
+ezcGraphRendererOptions for more details.
 
 .. image:: img/tutorial_example_01.svg.png
    :alt:   Sample pie chart 
@@ -109,23 +105,24 @@ details.
 Pie chart options
 ~~~~~~~~~~~~~~~~~
 
-There are several pie chart specific configuration options available. In the
-eZ components options are always accessed via public properties. For a full
-list of all available options have a look at the ezcGraphPieChartOption class.
+There are several pie chart specific configuration options available. In
+eZ Components, options are always accessed via public properties. For a full
+list of all available options, see the documentation for the
+ezcGraphPieChartOption class.
 
 .. include:: tutorial_example_02.php
    :literal:
 
-In line 16 a sprintf format string is set, which defines how the labels are
-formatted. Instead of a sprintf format string you could also set a callback
-function which takes care of the label formatting.
+In line 16, a sprintf format string is set, which defines how the labels are
+formatted. Instead of a sprintf format string, you could also set a callback
+function to do label formatting.
 
-In this example we set a custom sum to force the pie chart to show the
-complete 100%. The percentTreshHold lets the chart collect all data which has
-less percent to be aggregated in one data point. We also could define a absolute
-threshold, so that all data below a certain value would be aggregated in one
-data point, and the summarizeCaption defines the caption for this aggregated
-dataset.
+In this example, we set a custom sum to force the pie chart to show the
+complete 100%. The percentThreshold lets the chart collect all data points that
+have less than the specified percentage to be aggregated in one data point. We
+also could define an absolute threshold, so that all data below a certain value
+would be aggregated in one data point. summarizeCaption defines the caption for
+this aggregated dataset.
 
 .. image:: img/tutorial_example_02.svg.png
    :alt:   Pie chart configuration options
@@ -133,17 +130,17 @@ dataset.
 Line charts
 -----------
 
-Line charts are created the exactly same way as pie charts, only that they
-accept more then one dataset. We are using default driver, palette and
-renderer again in this example.
+Line charts are created in the same way as pie charts, only that they
+accept more then one dataset. We are using the default driver, palette and
+renderer in this example.
 
 .. include:: tutorial_example_03.php
    :literal:
 
-There are only two differences compared to the last example. In line we
-instantiate an ezcGraphLineChart object instead of a PieChart and beginning in
-line 10 we assign multiple datasets from an array we included earlier in the
-script. The array in the file tutorial_wikipedia_data.php is build like this::
+There are only two differences compared to the last example. In line 6, we
+instantiate a ezcGraphLineChart object instead of ezcGraphPieChart and beginning in
+line 10, we assign multiple datasets from an array we included earlier in the
+script. The array in the file tutorial_wikipedia_data.php is built like this::
 
     <?php
     return array(
@@ -156,13 +153,13 @@ script. The array in the file tutorial_wikipedia_data.php is build like this::
     );
     ?>
 
-The result is the simple default line chart.
+The result is a simple, default line chart.
 
 .. image:: img/tutorial_example_03.svg.png
    :alt:   Simple line chart
 
-Bar chart
----------
+Bar charts
+----------
 
 Bar charts are very similar to line charts. They accept the same datasets and
 only define another default dataset display type and axis label renderer.
@@ -170,30 +167,30 @@ only define another default dataset display type and axis label renderer.
 .. include:: tutorial_example_04.php
    :literal:
 
-As you can see in line 6 we only change the chart constructor again, and the
+As you can see in line 6, we only change the chart constructor, and the
 other default values are applied.
 
 .. image:: img/tutorial_example_04.svg.png
    :alt:   Simple bar chart
 
-Combine bar and line charts
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Combining bar and line charts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The only difference between bar and line charts is the display type of the
-dataset and the axis label renderer of the x axis. You can use one of those
-constructors and modify you chart to display one or more datasets mack to the
-other display type. The axis label renderer are described later in this
+dataset and the axis label renderer of the x-axis. You can use one of those
+constructors and modify your chart to display one or more datasets in
+either display type. The axis label renderer is described later in this
 tutorial.
 
 .. include:: tutorial_example_05.php
    :literal:
 
 After creating the datasets we modify one of the datasets in line 14 to change
-the default display type to ezcGraph::LINE. To be able to recognize the line
-we set one graph option in line 16. The options are accessed like public
+the default display type to ezcGraph::LINE. To more prominently display the
+line, we set one graph option in line 16. Options are accessed like public
 properties and in this case we set an option for the graph called "fillLines",
-which indicates what transparency value is used tu fill up the space between 
-data lines and the axis.
+which indicates what transparency value is used to fill the space underneath
+the line.
 
 .. image:: img/tutorial_example_05.svg.png
    :alt:   Combined bar and line chart
@@ -202,17 +199,17 @@ More bar chart options
 ~~~~~~~~~~~~~~~~~~~~~~
 
 There are some more options available for line and bar charts, which configure
-how the highlighting of data sets is applied to this chart type.
+the highlighting of datasets.
 
 .. include:: tutorial_example_06.php
    :literal:
 
-In line 20 the size of the highlight boxes is configured and the lines 22 to
-24 change the font configuration for the highlight boxes. The highlighting
-basically works the same way as for pie charts, but in line and bar charts it
-makes sense to highlight a complete data set and not only one single data
-point, due to the fact that there usually more then one data set in line and
-bar charts.
+In line 20, the size of the highlight boxes is specified and lines 22 to
+24 change the font configuration for the highlight boxes. Highlighting
+works in much the same way as for pie charts, but in line and bar charts it
+makes sense to highlight a complete dataset instead of only one single data
+point. This is due to the fact that there is usually more then one dataset in
+line and bar charts.
 
 .. image:: img/tutorial_example_06.svg.png
    :alt:   Configured highlight in combined line and bar chart
@@ -220,9 +217,8 @@ bar charts.
 Palettes
 ========
 
-ezcGraph offers palettes for the graphs which define the style properties of
-the charts elements. The style properties are similar to the ones you know
-from CSS:
+ezcGraph offers graph palettes to define the overall style properties of
+chart elements. The style properties are similar to the those from CSS:
 
 - color
 - background color
@@ -230,78 +226,77 @@ from CSS:
 - border width
 - padding
 - margin
-- data set symbols
+- dataset symbols
 
-There are several predefined palettes delivered with ezcGraph and you can
-easily modify them or create a palette by yourself.
+There are several predefined palettes in ezcGraph, but you can
+easily modify them or create your own palettes.
 
 Using a predefined palette
 --------------------------
 
-You can assign each class class extending ezcGraphPalette to the palette
-property of your graph. You should do this before adding data sets, because the
-datasets request there colors from the palette. If you set the palette after
-creating the data sets, the data sets will still use the colors from the 
+You can assign each class extending ezcGraphPalette to the palette
+property of your graph. You should do this before adding datasets, because the
+datasets request colors from the palette. If you set the palette after
+creating the datasets, the datasets will still use the colors from the 
 default palette.
 
 .. include:: tutorial_example_07.php
    :literal:
 
 The generated output differs quite a lot from the output using the default
-tango palette. The palette of course changes the colors of background, data
-sets and fonts. Additionally it sets a color for the major and minor grid, and
-defines a border width and color for the charts elements, defaults to a serif
-font and increases the margin between the chart elements.
+Tango palette. The colors for the background, datasets and fonts have been
+changed. Additionally, the palette sets a color for the major and minor grid, and
+defines a border width and color for the chart elements. The palette defaults
+to a sans-serif font and increases the margin between the chart elements.
 
 .. image:: img/tutorial_example_07.svg.png
    :alt:   Combined bar / line chart with non default palette
 
 You can find a complete list of the available palettes in the class tree.
 
-Modify a palette
-----------------
+Modifying a palette
+-------------------
 
-In the last example we assigned a palette object to the palette property of
+In the last example, we assigned a palette object to the palette property of
 the graph. You can of course create and modify the object before assigning it.
 
 .. include:: tutorial_example_08.php
    :literal:
 
 The palette object is created in line 6 and we overwrite some of its
-properties. An see an overview on all available properties in the class
+properties. An overview on all available properties can be found in the class
 documentation for the abstract class ezcGraphPalette. In this example we just
 set two colors for the automatic colorization of the datasets and three
-symbols for data sets.
+symbols for datasets.
 
-Since we assign more then two datasets the first assigned color will be reused
-for the third data set. You can see the usage of the symbols in the legend and
+Since we assign more then two datasets, the first assigned color will be reused
+for the third dataset. You can see the usage of the symbols in the legend and
 on the line chart. The line chart displays a symbol for each data point if the
-symbol is set to something different then ezcGraph::NO_SYMBOL which was the
-default data set symbol in the default palette.
+symbol is set to something different then ezcGraph::NO_SYMBOL.
 
 .. image:: img/tutorial_example_08.svg.png
    :alt:   Combined bar / line chart with modified palette
 
-Create a custom palette
------------------------
+Creating a custom palette
+-------------------------
 
-To fit the graphs easily in your corporate identity the easiest way will be
-to create your own palette and use it for the graphs you create. To create a
-custom palette you can either extend one of the predefined palettes and
-overwrite the properties or extend the abstract palette class.
+To style the graphs to fit a custom look, such as a corporate identity, the
+easiest way is to create your own palette.
+To create a custom palette you can either extend one of the predefined palettes and
+overwrite their properties or extend the abstract palette class.
 
 .. include:: tutorial_custom_palette.php
    :literal:
 
-Each color you do not define defaults to a complete transparent white. As you
-can see in the example definition you can define a alpha value besides the
-normal RGB values for the colors. After creating a custom palette you can use
-it like every other palette before.
+Each undefined color will default to a transparent white. As you
+can see in the example definition, you can define alpha values beside the
+normal RGB values for the colors. After creating a custom palette, you can use
+it like any predefined palette, as previously explained.
 
 .. include:: tutorial_example_09.php
    :literal:
 
-The example now uses your palette to format the output.
+The example now uses the custom palette to format the output.
 
 .. image:: img/tutorial_example_09.svg.png
    :alt:   Combined bar / line chart with custom palette
@@ -309,9 +304,8 @@ The example now uses your palette to format the output.
 Chart elements
 ==============
 
-Internally each chart consists of several chart elements which all extends
-ezcGraphChartElement. Each of this elements can be configured independently
-and represents one of the rendered chart elements. A default chart consists of
+The chart elements all extend ezcGraphChartElement. Each of the elements can be
+configured independently. A default chart consists of
 the following elements:
 
 - title
@@ -320,23 +314,23 @@ the following elements:
 - xAxis
 - yAxis
 
-The palette defines the default formatting of the elements. But you cannot
-only set foreground and background colors for all the elements, but also
-define their position in the chart, or prevent them from being rendered at
+The palette defines the default formatting of the elements. No only can you set
+foreground and background colors for all the elements, but you can also
+define their position in the chart or prevent them from being rendered at
 all.
 
 Font configuration
 ------------------
 
-Regarding the font configuration we try to fulfill two goals. We want to give
-a single point where you should be able to configure the fonts used for the
-texts in the chart. On the other hand it should be possible to configure the
-used fonts independently for each chart element.
+We try to fulfill two goals regarding font configuration. First, there should
+be a single point to configure the fonts used for the text areas in the chart.
+On the other hand, it should be possible to configure the fonts independently
+for each chart element.
 
-The used solution is, that you can modify the global font configuration by
-accessing $graph->options->font, and this takes effect on all chart elements
-until you intentionally access the font configuration of one chart element.
-The following section shows an example for this.
+The solution is that you can modify the global font configuration by
+accessing $graph->options->font. This takes effect on all chart elements
+unless you intentionally access the font configuration of an individual chart
+element. The following section shows an example of this.
 
 The chart title
 ---------------
@@ -347,18 +341,18 @@ It can be placed on top or at the bottom of the chart.
 .. include:: tutorial_example_10.php
    :literal:
 
-The chart title is simplest element, so that I can show you some more things
-here. In line 9 we change the global font configuration to use a serif font.
-In the SCG renderer only the font name is relevant, because it is up to the
-client to actually render the bitmap from the defined vector definitions.
+The chart title is the simplest element. In line 9, we change the global font
+configuration to use a serif font. In the SVG renderer, only the font name is
+relevant, because it is up to the client to actually render the bitmap from the
+defined vector definitions.
 
-In line 11 we access the font configuration of the title element and change it
-back to use a sans-serif font. From now on no change on the global font
-configuration will affect the titles font configuration. In line 14 we set a
+In line 11, we access the font configuration of the title element and change it
+back to use a sans-serif font. From now on, no change on the global font
+configuration will affect the title's font configuration. In line 14, we set a
 maximum font size, which now only affects the legend and the pie chart
 captions.
 
-Besides the font configuration we set an option available for all chart
+Aside from the font configuration, we set an option for all chart
 elements in line 11 - the background color of the current element. This
 results in a gray background only for the title element.
 
@@ -368,39 +362,37 @@ results in a gray background only for the title element.
 The background element
 ----------------------
 
-With all drivers except the ming (flash) driver you can set background images
-with the option to repeat them in the same way you know from CSS definitions.
+With all drivers except the Ming (Flash) driver, you can set background images
+with the option to repeat them in the same way as in CSS definitions.
 
 .. include:: tutorial_example_11.php
    :literal:
 
-In line 17 we set a background image, and define it's position in line 18. You
+In line 17, we set a background image, and define its position in line 18. You
 can use every combination of bottom / center / top with left / middle / right
-here, and it defaults to center | middle. In line 19 you finally set the type
+here, and it defaults to center | middle. In line 19, you set the type
 of repetition of the background image. This can be ezcGraph::NO_REPEAT or a
-combination of ezcGraph::HORIZONTAL and ezcGraph::VERTICAL. In this case we
+combination of ezcGraph::HORIZONTAL and ezcGraph::VERTICAL. In this case, we
 just want a logo to be placed at the bottom right corner of the image.
 
-In the SVG driver the image is in lined using a data URL with the base64 
-encoded content of the binary image file, so that you do not need to worry 
-about the locations of your referenced images, when you are using the SVG 
-output driver.
+With the SVG driver, the image is inlined using a data URL with the base64 
+encoded content of the binary image file. Using this driver, you do not need to
+worry about the locations of your referenced images.
 
-In the GD driver super sampling is not applied to the images, because they 
-would look blurred, what you certainly do not want for included bitmap 
-images.
+With the GD driver, super sampling is not applied to the images, as this would
+make them blurry.
 
 .. image:: img/tutorial_example_11.svg.png
    :alt:   Pie chart with logo in background
 
-Of course you could also apply settings on background color, borders, margin
-and padding on the background element, too.
+Of course, you could also apply the following settings to the background
+element: background color, borders, margin and padding.
 
 The legend
 ----------
 
-The legend is shown by default and automatically generated from the assigned
-data. If you want to disable the legend you can do this by just setting it to
+The legend is shown by default and is automatically generated from the assigned
+data. If you want to disable the legend, you can do this by setting it to
 false (line 9).
 
 .. include:: tutorial_example_12.php
@@ -412,20 +404,20 @@ false (line 9).
 Legend configuration options
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Besides just hiding the legend you have some more configurations options. It
-can be placed at the bottom, left or top in the chart, you can assign a title
-for the legend and change the symbol sizes, or the legends size.
+Other than hiding the legend, you can also place it at the bottom, left or top
+in the chart; you can assign a title for the legend and change the symbol
+sizes; you can additionally assign the legend size.
 
 .. include:: tutorial_example_13.php
    :literal:
 
-To place the legend at another position of the graph you may set the position
-property of the legend like in line 17. If the legend is placed on top or
-bottom it will automatically use a landscape format. The space consumed by the
-legend is configured by the landscapeSize for the legends in landscape format
-and and portraitSize otherwise. The assigned value is the percent of space of
-the graph size consumed by the legend. The legend only displays a title if you
-manually set it like in line 19.
+To place the legend at another position on the graph, set the position
+property of the legend, as shown in line 17. If the legend is placed at the top or
+bottom, it will automatically use a landscape format. The space consumed by the
+legend is configured by the landscapeSize setting for landscape-oriented legends
+and the portraitSize setting otherwise. The assigned value is the percent
+portion of space taken up by the legend, relative to the size of the chart. The
+legend only displays a title if you manually set it, as shown in line 19.
 
 .. image:: img/tutorial_example_13.svg.png
    :alt:   Legend configuration example
@@ -434,76 +426,74 @@ Axis
 ----
 
 The axis defines the unit scale in line and bar charts. There are always two
-axis - the x-axis and the y-axis, which value ranges are automatically 
-received from the datasets and are automatically scaled to display adequate
-values.
+axes - the x-axis and the y-axis, whose ranges are automatically 
+received from the datasets and scaled to display appropriate values.
 
-There are different types of values to display - for both, the x-axis and the
-y-axis. ezcGraph supports different axis types for different data you give the
-graph to render. For normal string keys usually the standard labeled axis is
-the right choice. The numeric axis is predestined to display numeric data,
-and the date time axis for data associated to dates or times. All of the axis 
-types can be assigned to each axis.
+There are different types of values to display for both the x-axis and the
+y-axis. ezcGraph supports different axis types for different types of data. For
+normal string keys, the standard labeled axis is usually the right choice. The
+numeric axis is predestined to display numeric data, and the date time axis is
+for data associated with dates or times. All of the axis types can be assigned
+to either axis.
 
-Labeled Axis
+Labeled axes
 ~~~~~~~~~~~~
 
-The labeled axis is default for the x-axis in both - bar and line charts. It
-is written to display string labels of datasets and uses the centered label
-renderer as default. You saw it already in all the earlier examples with bar
-and line charts, but of course it can be used for both axis, too.
+The labeled axis is default for the x-axis in both bar and line charts. It
+is intended to display string labels of datasets and uses the centered label
+renderer by default. You saw it in all the earlier examples with bar
+and line charts, but it can be used for both axes as well.
 
 .. include:: tutorial_example_14.php
    :literal:
 
-You could argue, if such a chart is really useful - but it works. Instead of
-using numeric values colors are assigned, when creating the data set. The
-labeled axis uses the values in the order they are assigned. In line 11 it is
-the first time we actually touch the axis label renderer. The axis label 
+You could argue whether such a chart is really useful - but it works. Instead of
+using numeric values, colors are assigned when creating the dataset. The
+labeled axis uses the values in the order they are assigned. Line 11 is
+the first time we actually configure the axis label renderer. The axis label 
 renderer describe how the labels are placed on the axis - the labeled axis 
 uses the centered axis label renderer by default, which places the labels 
 centered next to the steps on the axis. The setting in line 11 forces the 
 renderer to show the zero value, even though it interferes with the axis.
 
 .. image:: img/tutorial_example_14.svg.png
-   :alt:   Two labeled axis
+   :alt:   Two labeled axes
 
-Numeric Axis
+Numeric axis
 ~~~~~~~~~~~~
 
-The numeric axis is the default for the y axis. It was build to display
-numeric data and find automatically a good scaling for all values you may
-assign. Of course you can configure all scaling parameters manually.
+The numeric axis is the default for the y-axis. It displays
+numeric data and automatically determines appropriate scaling for the assigned
+values. However, you can also configure all scaling parameters manually.
 
 .. include:: tutorial_example_15.php
    :literal:
 
-In this example we force both axis to be a numeric axis in line 10 of the
-example. In the lines 12 to 15 we manually set the scaling options for the x
-axis. We don't set a minorStep size here, so it will be automatically
-calculated from the other values, as all the values are automatically
-calculated for the y axis. The we create some random data and create two
-datasets from it as usual.
+In this example, we force both axes to be numeric axes in line 10. In lines
+12 to 15, we manually set the scaling options for the x-axis. We do not set a
+minorStep size here, so it will be automatically calculated from the other
+values, as will the settings for the y-axis. Then, we create some random data
+and create two datasets from it as usual.
 
 .. image:: img/tutorial_example_15.svg.png
-   :alt:   Two numeric axis with random data
+   :alt:   Two numeric axes with random data
 
-The example shows one advantage of numeric axis over labeled axis for numeric
-data. The axis are moved away from the charts border to display the negative
-values below / left of the axis.
+The example shows one advantage of a numeric axis over a labeled axis for numeric
+data. The axes are moved away from the chart's border to display the negative
+values below and left of the axis.
 
 Date time axis
 ~~~~~~~~~~~~~~
 
-Earlier in this tutorial we used a labeled axis for date time data on the x
-axis in the wikipedia examples. This works fine for evenly distributed
-time spans. For other data you should use the date time axis.
+Earlier in this tutorial, we used a labeled axis for date time data on the
+x-axis in the wikipedia examples. This works fine for evenly-distributed
+time spans. For other data, you should use the date time axis.
 
 .. include:: tutorial_example_16.php
    :literal:
 
-You can use timestamps or date time strings as data set keys. The strings will
-be converted using PHPs strtotime() function. 
+You can use timestamps or date time strings as dataset keys. The strings will
+be converted using PHP's strtotime() function. 
 
 .. image:: img/tutorial_example_16.svg.png
    :alt:   Date axis example
@@ -511,132 +501,133 @@ be converted using PHPs strtotime() function.
 Axis label renderer
 ~~~~~~~~~~~~~~~~~~~
 
-As mentioned earlier in this tutorial the axis label renderer defines where a
-label is drawn relatively to the  step on the axis. You already saw examples 
-for all available axis label renderers, but I want to mention them again:
+As mentioned earlier in this tutorial, the axis label renderer defines where a
+label is drawn relative to the step on the axis. You already saw examples 
+for all available axis label renderers, but here is an overview:
 
 - ezcGraphAxisExactLabelRenderer
 
   This is the default renderer for the numeric axis. The labels are drawn
-  directly below the axis step. This may look strange some times, because it
-  is of course not possible to always draw all labels of one axis on one side
-  of the step, because the last or first label would exceed the available 
-  space for the axis, so that it is rendered on the other side.
+  directly below the axis step. This may look strange sometimes, because it
+  is not always possible to draw all labels of one axis on one side
+  of the step; the last or first label would exceed the available 
+  space for the axis, and be rendered on the other side.
 
 - ezcGraphAxisCenteredLabelRenderer
 
-  This renderer is default for the labeled axis in line charts and draws the
-  label centered next to the step. Therefor this renderer omits the label for
-  initial step on the axis (0, 0), but this can be forced as shown in example
-  14. The label is omitted, because it would interfere with the axis or the
-  labels of the other axis, and probably not really readable.
+  This renderer is the default for the labeled axis in line charts and draws the
+  label centered next to the step. Therefore, this renderer omits the label for
+  the initial step on the axis (0, 0) by default. However, this can be forced
+  as shown in example 14. The label is omitted because it would interfere with
+  the readability of the axis or the labels of the other axis.
 
 - ezcGraphAxisBoxedLabelRenderer
 
   This is the default renderer for the labeled axis in bar charts. The steps
-  on the axis and the grid is not drawn at the position of the label, but
-  between two labels. This helps to recognize which bars belongs together.
-  The label is rendered centered between two of those steps on the axis.
+  on the axis and the grid are not drawn at the position of the label, but
+  between two labels. This helps to recognize which bars belong together.
+  Labels are rendered centered between two steps on the axis.
 
-Data sets
-=========
+Datasets
+========
 
-The data sets receive the data from the user and offer a defined interface for
-ezcGraph to access the users data.
+The datasets receive user data and provide an interface for
+ezcGraph to access this data.
 
 Array data
 ----------
 
-The array data set was used for all examples until now, because it is the
+The array dataset was used for all examples until now, because it is the
 simplest way to provide data for ezcGraph.
 
 Average polynomial dataset
 --------------------------
 
-The average dataset uses an existing dataset with numeric keys and build a
-polynomial which interpolates the data points in the given data set using the
+The average polynomial dataset uses an existing dataset with numeric keys and
+builds a polynomial that interpolates the data points in the given dataset using the
 least squares algorithm.
 
 .. include:: tutorial_example_17.php
    :literal:
 
-We use again two numeric axis, because we only display numeric data in this
-example. First we create a normal array dataset from some random generated
-data in line 14. We assign this data set to the chart , to see how well the 
+Here we use two numeric axes, because we only display numeric data in this
+example. First, we create a normal array dataset from some random generated
+data in line 14. We assign this dataset to the chart to see how well the 
 polynomial fits the random data points.
 
-In line 20 we create a ezcGraphDataSetAveragePolynom from the random data with
-a maximum degree of the polynomial of 3 (which is also the default value). You
-can directly access the polynomial, what we use to set the name of the data set
-to the data sets polynomial, when we add the data set to the graph.
+In line 20, we create a ezcGraphDataSetAveragePolynom dataset from the random
+data with a maximum polynomial degree of 3 (which is also the default
+value). You can directly access the polynomial when we add the dataset to the
+graph. The string representation of the polynomial itself is also used as the
+name of the dataset.
 
 .. image:: img/tutorial_example_17.svg.png
    :alt:   Average polynomial example
 
-For the computation of the polynomial a equitation has to be solved where the
+For the computation of the polynomial, an equation has to be solved where the
 size of the matrix is equal to the point count of the used dataset. Be
-careful with data sets with large point count. Because this could mean that
+careful with datasets with large point counts. This could mean that
 ezcGraph will consume a lot of memory and processing power.
 
 Numeric dataset
 ---------------
 
-Numeric datasets are used to represent mathematical function in your chart. You
-use callbacks to PHP functions, own functions or methods which define the
-mathematical function used to create the data set.
+Numeric datasets are used to represent mathematical functions in your chart.
+You can use callbacks to PHP functions, or your own functions or methods to
+define the mathematical function used to create the dataset.
 
 .. include:: tutorial_example_31.php
    :literal:
 
-The numeric data set constructor receives the start value, the end value for
-the functions input and the function itself using PHPs `callback datatype`. In
-this example we create a function on runtime using create_function() which
-returns the name of the created function, which is a valid callback. The
-code of the ceated function in line 16 returns sinus values for the input in 
-degree.
+The numeric dataset constructor receives the start value, the end value for
+the functions input and the function itself using PHP's `callback datatype`__. In
+this example we create a function on runtime using create_function(), which
+returns the name of the created function (which is a valid callback). The
+code of the created function in line 16 returns sine values for the input in 
+degrees.
 
 __ http://php.net/manual/en/language.pseudo-types.php
 
-The resolution set in line 20 defines the numer of steps used to interpolate
-the function in your graph. You should not use a bigger number then the width
-of your chart here.
+The resolution set in line 20 defines the number of steps used to interpolate
+the function in your graph. You should not use a number bigger than the width
+of your chart.
 
 Renderer
 ========
 
-The renderer transform chart primitives into image primitives, that means that
-things like a pie segment including labels, highlight etc. will be transformed
+The renderer transforms chart primitives into image primitives. For example, a
+pie segment including labels, highlighting and so on will be transformed
 into some text strings, circle sectors and symbols to link the text to the
-according circle sector.
+corresponding circle sector.
 
 ezcGraph comes with the default 2D renderer used in all of the above examples
-and a 3D renderer which renders the chart elements in a pseudo 3D isometric
+and a 3D renderer that renders the chart elements in a pseudo 3D isometric
 manner.
 
 2D renderer
 -----------
 
-All examples until now used the default 2D renderer. But there are several
-renderer specific options, which were not yet shown.
+All examples until now used the default 2D renderer. There are several
+renderer-specific options that have not yet been shown.
 
 Bar chart rendering options
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-All the options specially available for bar charts are available for all
+All the options specific to bar charts are available for all
 current renderers.
 
 .. include:: tutorial_example_18.php
    :literal:
 
-As the 2d renderer is the default renderer we do not need to force this
-renderer. In the lines 28 and 29 we configure the width used fr the bars. The
+As the 2D renderer is the default renderer, we do not need to specify it. In
+lines 28 and 29, we configure the width used for the bars. The
 option barMargin defines the distance between the sets of bars associated to
-one value. The barPadding in line 29 defines the distance between bars in one
+one value. The barPadding setting in line 29 defines the distance between bars in one
 block.
 
 The option dataBorder in line 31 is available for all chart types in all
 renderers and defines the transparency used to draw darkened borders around
-bars or pie segments. In this case we do not draw any border.
+bars or pie segments. In this case, we do not draw any borders.
 
 .. image:: img/tutorial_example_18.svg.png
    :alt:   Bar chart rendering options
@@ -648,15 +639,15 @@ Pie chart rendering options
    :literal:
 
 One of the pie chart specific options is moveOut in line 21, which defines how
-much space of the pie chart is used to move the pie chart segments out the
-center on highlight. The pieChartOffset in line 23 defines the initial angle
-for the pie chart segments, which enables you to rotate the pie chart.
+much space in the pie chart is used to move the pie chart segments out from the
+center when highlighted. The pieChartOffset setting in line 23 defines the
+initial angle for the pie chart segments, which enables you to rotate the pie chart.
 
-In the lines 25 to 27 a gleam on the pie chart is defined, with a transparency
-value in line 25, which disables the gleam, when set to 0, a color in line 26
+In lines 25 to 27, a gleam on the pie chart is defined, with a transparency
+value in line 25 (which disables the gleam when set to 0), a color in line 26
 and the distance from the outer border of the pie chart in line 27.
 
-In line 29 and 30 a shadow with custom offset and color is added to the pie
+In line 29 and 30, a shadow with custom offset and color is added to the pie
 chart.
 
 .. image:: img/tutorial_example_19.svg.png
@@ -668,12 +659,12 @@ Pimp my chart
 .. include:: tutorial_example_20.php
    :literal:
 
-Besides the gleam added in the last example, you can additionally define a
-gleam for the legend symbols. In line 32 the transparency of the gleam is
-defined, and then the size of the gleam. The gleam works for all symbol types
-- except the circle, where gleam does not make sense, and the size defines the 
-percent of size of the gleam compared to the symbol size. In the last step in
-line 34 the gleam color is defined.
+Aside from the gleam added in the last example, you can define a
+gleam for the legend symbols. In line 32, the transparency of the gleam is
+defined, followed by the size of the gleam. The gleam works for all symbol
+types except the circle, where a gleam is not appropriate. The size setting
+defines the size of the gleam as a percentage of the symbol size. In the last step in
+line 34, the gleam color is defined.
 
 .. image:: img/tutorial_example_20.svg.png
    :alt:   Pimped 2D pie chart
@@ -681,72 +672,68 @@ line 34 the gleam color is defined.
 3D renderer
 -----------
 
-The three dimensional renderer can renderer all charts renderer with the 2d
-renderer, and use all the drivers used with the 2d renderer. The only
-difference is that it generates isometric three dimensional views on the data
-instead of simple two dimensional views.
+The three-dimensional renderer can render all charts that the 2D
+renderer can do, and uses all the drivers that the 2D renderer uses. The only
+difference is that it generates isometric three-dimensional views on the data
+instead of simple two-dimensional views.
 
 .. include:: tutorial_example_21.php
    :literal:
 
-This examples uses the same code like the first example with only one
-modification, the changed renderer in line 17. You can use the 3d renderer
-with all the above examples by adding this single line.
+This examples uses the same code as the first example, except for the renderer
+in line 17. You can use the 3D renderer with all of the above examples by
+adding this single line.
 
 .. image:: img/tutorial_example_21.svg.png
    :alt:   Simple 3d pie chart
 
-3D Pie charts
+3D pie charts
 ~~~~~~~~~~~~~
 
-The options in the 2d renderer example still work, so that we reuse the above
-example, using the 3d renderer and extend it with some more 3d renderer
-specific options.
+The options in the 2D renderer example still work, and we extend the example
+with some 3D renderer-specific options.
 
 .. include:: tutorial_example_22.php
    :literal:
 
-The pieChartGleamBorder option was removed, because it looks a bt strange on
-3d pie charts, but it of course works, too. In the lines 37 and 38 there are
-two new options, which configure the 3d effect of the pie chart. The first one
-defines the height of the pie and the second one defines the percent of
-shrinkage compared to the maximum possible vertical size of a pie chart.
+The pieChartGleamBorder option was removed, because it looks a bit strange on
+3D pie charts, although it would still work. In lines 37 and 38, there are
+two new options, which configure the 3D effect of the pie chart. The first one
+defines the height of the pie and the second one defines the percent shrinkage
+compared to the maximum possible vertical size of the pie chart.
 
 .. image:: img/tutorial_example_22.svg.png
    :alt:   Pimped 3D pie chart
 
-3D Bar charts
+3D bar charts
 ~~~~~~~~~~~~~
 
-3d bar charts use the symbol of the dataset as the basic shape for the
-rendered bar, so that you can renderer cylinders or cuboids in your charts
-with ezcGraph.
+3D bar charts use the symbol of the dataset as the basic shape for the
+rendered bar, so that you can render cylinders or cuboids in your charts.
 
 .. include:: tutorial_example_23.php
    :literal:
 
-The symbols for this examples are set as described earlier in this tutorial.
-Two single options are set to improve the displayed image. The
-legendSybolGleam is activated with the default color, and barChartGleam is
-activated to get more beautiful bars. You could also set the factor the top
-and sides of the bars are darkened, using the options barDarkenSide and
-barDarkenTop, but leaving them as the default value is just fine.
+The symbols for these examples are set as described earlier in this tutorial.
+Two single options are set to improve the displayed image. legendSymbolGleam is
+activated with the default color, and barChartGleam is activated to get more
+beautiful bars. You could optionally darken the tops and sides of the bars using the
+options barDarkenSide and barDarkenTop.
 
 .. image:: img/tutorial_example_23.svg.png
    :alt:   Pimped 3D bar chart
 
-3D Line charts
+3D line charts
 ~~~~~~~~~~~~~~
 
-The line chart example with 3d renderer is again quite simple. It reuses the
-example with the statistical data and the approximation polygon.
+The line chart example with the 3D renderer is again quite simple. It reuses the
+example with the statistical data and the approximated polygon.
 
 .. include:: tutorial_example_24.php
    :literal:
 
-Again the only thing which is changed compared to the example above is the use
-of the 3D renderer, and the fillLines options, which simply shows, that this
-options works here, too.
+Again, the only thing that has changed is the use of the 3D renderer and the
+fillLines option (to show that it works for 3D charts as well).
 
 .. image:: img/tutorial_example_24.svg.png
    :alt: 3D line chart example
@@ -755,27 +742,26 @@ Drivers
 =======
 
 The driver gets the image primitives from the renderer and creates the final
-image from the image primitives. Different drivers can be used depending on
-the available extensions and the wanted output format.
+image. Different drivers can be used depending on
+the available extensions and the desired output format.
 
-There are some driver specific options, you can learn about in the API
-documentation of each driver, and which are described in this section of the
-tutorial.
+There are some driver-specific options described below. You can also learn
+about them in the API documentation for each driver.
 
 SVG driver
 ----------
 
-The default driver generates SVG_ images, a standardized XML vector graphic 
-format, which most of the modern browsers can display natively, except the 
-Internet Explorer. But even for the Internet Explorer there are several 
-plugins available, from Corel [1]_, or Adobe [2]_, which enable the browser to 
-render SVGs. There are several advantages using the SVG driver. The XML 
+The default driver generates an SVG_ image, a standardized XML vector graphic 
+format, which most of the modern browsers can display natively, except for 
+Internet Explorer. Even with Internet Explorer, there are several 
+plugins available from Corel [1]_, or Adobe [2]_, which enable the browser to 
+render SVGs. There are several advantages in using the SVG driver. The XML 
 documents can easily be modified later, and compressed effectively. The driver 
-is very fast, and all shapes are displayed exactly and anti aliased. You may 
-define templates, an existing SVG document, where the generated chart is
-added into a dedicated group, and configure all rendering options of the SVG
+is very fast, and all shapes are displayed exactly and anti aliased. You can 
+define templates, using an existing SVG document, where the generated chart is
+added to a dedicated group; you can then configure all rendering options of the SVG
 document. The example below shows such a template created with Inkscape_ and a
-simple pie chart rendered into this template.
+simple pie chart rendered using this template.
 
 .. include:: tutorial_example_25.php
    :literal:
@@ -786,8 +772,8 @@ simple pie chart rendered into this template.
 .. _SVG: http://www.w3.org/TR/SVG/
 .. _Inkscape: http://inkscape.org
 
-The only drawback of SVG is, that it is impossible to determine or define the 
-exact width of text strings, so that the driver can only estimate the size of 
+The only drawback of SVG is that it is impossible to determine or define the 
+exact width of text strings. As a result, the driver can only estimate the size of 
 text in the resulting image, which will sometimes fail slightly.
 
 .. [1] Abobe SVG plugin: http://www.adobe.com/svg/viewer/install/main.html
@@ -796,25 +782,24 @@ text in the resulting image, which will sometimes fail slightly.
 GD driver
 ---------
 
-The GD driver is for now the choice to generate bitmap images. It does support
-different font types, if available on your PHP installation, like True Type
-Fonts, using the FreeType 2 library or the native TTF support, and PostScript 
-Type 1 fonts. We use super sampling to enable basic anti aliasing in the gd
-driver, what means, that the image is rendered twice as big with default
-settings and resized later back to requested size. This is used for all image
-primitives except texts and images.
+The GD driver is, for now, the choice for generating bitmap images. It supports
+different font types, if available in your PHP installation, like True Type
+Fonts (using the FreeType 2 library or native TTF support) and PostScript 
+Type 1 fonts. We use super sampling to enable basic anti aliasing in the GD
+driver, where the image is rendered twice as big and resized back to the
+requested size. This is used for all image primitives except text and images.
 
-But there are some drawbacks in the GD library we cannot work around with
-reasonable effort:
+There are some drawbacks in the GD library that we have not been able to
+overcome:
 
 - Transparent pie segments look very strange with GD
 - There is no native support for gradients in GD
-- Font anti aliasing depends on the used font extension. Use the FreeType 2
-  library if available, what also is the default behavior.
+- Font anti aliasing depends on the font extension. Use the FreeType 2
+  library if available, which is the default behavior.
 
 There are some special configuration options for the GD driver. You can
-specify the super sampling rate used, and use different output formats if
-available with your bundled GD extension, like in the lines 13 to 15 in the
+specify the super sampling rate used, and use different output formats (if
+available with your bundled GD extension) as shown in the lines 13 to 15 in the
 following example.
 
 .. include:: tutorial_example_26.php
@@ -826,21 +811,21 @@ following example.
 Ming/Flash driver
 -----------------
 
-ezcGraph can use ext/ming to generate flash swf files. This driver only
+ezcGraph can use ext/ming to generate Flash swf files. This driver only
 supports Palm Format Fonts (.fdb) and can only handle a very small subset of
-JPEGs as images for the chart background. On the other hand Flash is a vector
-graphic format too, so that the images are pretty small and can be compressed
+JPEGs as images for the chart background. On the other hand, Flash is a vector
+graphic format, so the images are rather small and can be compressed
 effectively. The font size estimation is exact and it support gradients and
-all types of used shapes. Ming does not support SWF files using transparent
-backgrounds.
+all of the used shapes. Ming does not support the generation of swf files using
+transparent backgrounds.
 
 .. include:: tutorial_example_27.php
    :literal:
 
-The ming driver does not have a lot of available options. You need to take
-care of a valid font file, like you can see in line 10, and you can set the
-compression rate used by the ming driver to compress the resulting swf. As a
-result you get a `beautiful flash image`__.
+The Ming driver does not have a lot of available options. You need to use a
+valid font file, as in line 10, and you can set the
+compression rate used by the Ming driver to compress the resulting swf. The
+result is a `beautiful Flash image`__.
 
 __ img/tutorial_example_27.swf
 
@@ -850,17 +835,16 @@ Element references
 Description
 -----------
 
-Element references describe a mechanism to later modify and reference certain
+Element references describe a mechanism to modify and reference certain
 chart elements to add links, menus or other interactive features in your 
 application. The type of the references depend on the driver you use to render
-chart. The GD driver will return points describing polygons, so that you can
+charts. The GD driver will return points describing polygons, so that you can
 generate image maps from the data, while the SVG driver will return the IDs of
-the according XML elements.
+XML elements.
 
-The element references are created in the renderer, where the renderer known
-about the context of the chart element and the driver returns the data the
-renderer should reference. This way it is also possible to reference legend
-symbols and text, data labels and of course the actual data elements.
+Element references are created in the renderer. This way it is also possible to
+reference legend symbols and text, data labels and of course the actual data
+elements.
 
 SVG example
 -----------
@@ -868,24 +852,24 @@ SVG example
 .. include:: tutorial_example_28.php
    :literal:
 
-After creating a very simple chart like in the first example we start
-modifying the document using PHPs DOM extension. First we load the document
+After creating a very simple chart like in the first example, we start
+modifying the document using PHP's DOM extension. First, we load the document
 and create a XPath query object on it. 
 
 The array returned by ezcGraphRenderer::getElementReferences() contains two
 arrays, one for the legend elements and one for the datasets. The data array
-itself contains all datasets with all data points, which contain all valid
-references depending on driver and chart type. In a svg document with a 2d
+itself contains all datasets with all data points, which in turn contain all valid
+references depending on the driver and chart type. In an SVG document with a 2D
 renderer you will receive one ezcGraphCircleSector_[0-9]+ and one 
 ezcGraphTextBox_[0-9]+ element, but this may change with other rendering 
 options.
 
-In the loop we now receive the element for the id using XPath, to modify its
+In the loop, we now receive the element ID using XPath to modify its
 attributes. $dom->getElementByID() does not work here, because these elements
 are not indexed by default for non HTML documents. We only modify the style
-attribute a bit, to change the cursor to a pointer, like expected for links
-and add a JavaScript onclick event handler to link to specified address. You
-get a resulting `SVG image`__ where you can click on the chart and legend
+attribute a bit, to change the cursor to a pointer (as expected for links)
+and add a JavaScript onclick event handler to link to the specified address.
+The result is an `SVG image`__ where you can click on the chart and legend
 elements.
 
 __ img/tutorial_example_28.svg
@@ -900,20 +884,20 @@ coordinates, which you can use to generate an image map.
 .. include:: tutorial_example_29.php
    :literal:
 
-For the sake of a short example we only link the legend elements here. After
+For the sake of brevity, we only link the legend elements here. After
 generating the basic image, we request the element references from the
-renderer and use the to create the image map starting in line 30. we just
-iterate over the legend elements, which all may contain more then one
-polygon. In this case we receive one polygon for the symbol in the legend and
+renderer and use them to create the image map starting in line 30. We iterate
+over the legend elements, which may all contain more then one
+polygon. In this case, we receive one polygon for the symbol in the legend and
 another one for the legend text.
 
-In the lines 35 to 39 we build the coordinate string image map expects from
-the coordinate pairs we receive from the gd driver. The coordinate array
-consists of ezcGraphCoordinate objects, which are a simple structure containing
-two public properties, the x and the y coordinate as float values. We use this
-coordinate string create the polygon area elements in line 41.
+In lines 35 to 39, we build the coordinate string image map from
+the coordinate pairs we receive from the GD driver. The coordinate array
+consists of ezcGraphCoordinate objects, which have a simple structure containing
+two public properties: the x and the y coordinates as float values. We use this
+coordinate string to create the polygon area elements in line 41.
 
-After assigning the image map to the image you got a `linked legend in your
+After assigning the image map to the image, the result is a `linked legend in your
 generated bitmap`__.
 
 __ img/tutorial_example_29.html
@@ -921,23 +905,23 @@ __ img/tutorial_example_29.html
 Direct output
 =============
 
-By default a graph is rendered to a file, because you normally want to cache
-generated images. ezcGraph also provides a method for direct output of
+By default, a graph is rendered to a file, as you normally want to cache
+generated images. ezcGraph also provides a method for the direct output of
 generated charts, but use this with caution.
 
 The ezcGraph::renderToOutput() method sends the correct Content-Type header
-for the selected output driver and writes the charts image data directly to
-the output. Pay attention not to output anything before using this method.
+for the selected output driver and writes the chart's image data directly to
+output. Do not output anything before using this method.
 
 .. include:: tutorial_example_30.php
    :literal:
 
 This example renders the first graph of this tutorial.
 
-More Information
+More information
 ================
 
-For more information, see the ezcGraph API reference.
+For more information, see the ezcGraph API documentation.
 
 
 ..
