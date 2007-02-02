@@ -1,0 +1,75 @@
+<?php
+require_once 'PHPUnit/Util/Filter.php';
+PHPUnit_Util_Filter::addFileToFilter(__FILE__);
+
+return array (
+	0 => array(
+		'PO_test' => 
+		ezcDbSchemaTable::__set_state(array(
+			'fields' => 
+			array (
+				'id' => 
+				ezcDbSchemaField::__set_state(array(
+					'type' => 'integer',
+					'length' => 10,
+					'notNull' => true,
+					'default' => 0,
+					'autoIncrement' => false,
+					'unsigned' => false,
+				)),
+				'type_varchar' => 
+				ezcDbSchemaField::__set_state(array(
+					'type' => 'text',
+					'length' => 20,
+					'notNull' => false,
+					'default' => NULL,
+					'autoIncrement' => false,
+					'unsigned' => false,
+				)),
+				'type_integer' => 
+				ezcDbSchemaField::__set_state(array(
+					'type' => 'integer',
+					'length' => 11,
+					'notNull' => false,
+					'default' => NULL,
+					'autoIncrement' => false,
+					'unsigned' => false,
+				)),
+				'type_decimal' => 
+				ezcDbSchemaField::__set_state(array(
+					'type' => 'float',
+					'length' => 10,
+					'notNull' => false,
+					'default' => NULL,
+					'autoIncrement' => false,
+					'unsigned' => false,
+				)),
+				'type_text' => 
+				ezcDbSchemaField::__set_state(array(
+					'type' => 'text',
+					'length' => 0,
+					'notNull' => false,
+					'default' => NULL,
+					'autoIncrement' => false,
+					'unsigned' => false,
+				)),
+			),
+			'indexes' => array (
+				0 => 
+				ezcDbSchemaIndex::__set_state(array (
+					'indexFields' => array (
+						'id' => ezcDbSchemaIndexField::__set_state(array(
+							'sorting' => NULL,
+						)),
+					),
+					'primary' => true,
+					'unique'  => false,
+					)
+				)
+			),
+		)),
+	),
+	1 => array(),
+);
+
+?>

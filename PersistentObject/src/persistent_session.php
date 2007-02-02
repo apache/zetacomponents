@@ -973,7 +973,7 @@ class ezcPersistentSession
         $idValue = $state[$def->idProperty->propertyName];
 
         // check that this object is stored to db already
-        if (  $idValue < 1 )
+        if (  $idValue === null )
         {
             throw new ezcPersistentObjectNotPersistentException( get_class( $pObject ) );
         }
