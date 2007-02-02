@@ -301,7 +301,7 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         ) );
 
         $this->session->addRelatedObject( $person, $birthday );
-        
+
         $this->session->update( $birthday );
         
         try

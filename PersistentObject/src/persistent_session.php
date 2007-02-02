@@ -972,9 +972,21 @@ class ezcPersistentSession
         $state = $this->filterAndCastState( $pObject->getState(), $def );
         $idValue = $state[$def->idProperty->propertyName];
 
-        // check that this object is stored to db already
-        if (  $idValue === null )
+        // fetch the id generator
+        $idGenerator = null;
+        if ( ezcBaseFeatures::classExists( $def->idProperty->generator->class ) )
         {
+            $idGenerator = new $def->idProperty->generator->class;
+            if ( !( $idGenerator instanceof ezcPersistentIdentifierGenerator ) )
+            {
+                throw new ezcPersistentIdentifierGenerationException( get_class( $pObject ),
+                                                                      "Could not initialize identifier generator: ". "{$def->idProperty->generator->class} ." );
+            }
+        }
+
+        if ( !$idGenerator->checkPersistence( $def, $this->database, $state ) )
+        {
+            $class = get_class( $pObject );
             throw new ezcPersistentObjectNotPersistentException( get_class( $pObject ) );
         }
 

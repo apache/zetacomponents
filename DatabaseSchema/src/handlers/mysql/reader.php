@@ -122,6 +122,7 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
     {
         $fields = array();
 
+        var_dump( "DESCRIBE $tableName" );
         $resultArray = $this->db->query( "DESCRIBE $tableName" );
         $resultArray->setFetchMode( PDO::FETCH_ASSOC );
 
