@@ -586,6 +586,11 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $params->value[] = $value->accept($this);
         }
 
+        if( $def->hasCloseTag && $def->isStatic )
+        {
+            throw new ezcTemplateParserException($type->source, $type->startCursor, $type->startCursor, "The *static* CustomBlock cannot have a open and close tag.");
+        }
+
         if ( $def->hasCloseTag )
         {
             $result = array(); // Will contain an array with AST nodes.
@@ -627,7 +632,31 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         }
         else
         {
-           return new ezcTemplateGenericStatementAstNode( 
+            // If static.
+            if( $def->isStatic )
+            {
+                $p = array();
+                
+                // Check whether all values are static.
+                for( $i = 0; $i < sizeof( $params->value ); $i++)
+                {
+                    if( !($params->value[$i] instanceof ezcTemplateLiteralAstNode ) )
+                    {
+                        throw new ezcTemplateParserException($type->source, $type->startCursor, $type->startCursor, "The *static* CustomBlock needs static parameters.");
+                    }
+
+                    $p[$params->keys[$i]->value] = $params->value[$i]->value;
+
+                }
+
+                // call the method.
+                $r = call_user_func_array( array($def->class, $def->method), array($p) );
+
+                // And assign it to the output.
+                return $this->assignToOutput( new ezcTemplateLiteralAstNode($r) );
+            }
+         
+            return new ezcTemplateGenericStatementAstNode( 
                 new ezcTemplateConcatAssignmentOperatorAstNode( $this->outputVariable->getAst(), 
                    new ezcTemplateFunctionCallAstNode( $def->class . "::".$def->method, 
                    array( $params ) ) ) ); 

@@ -50,8 +50,7 @@ class ezcTemplateSuite extends PHPUnit_Framework_TestSuite
         $this->setName( "Template" );
         $this->addTest( ezcTemplateRegressionTest::suite() );
 
-        // Caching is disabled. Check also parsers/source_to_tst/cache.php
-        //$this->addTest( ezcTemplateCacheTest::suite() );
+        $this->addTest( ezcTemplateCacheTest::suite() );
 
         $this->addTest( ezcTemplateParserTest::suite() );
 

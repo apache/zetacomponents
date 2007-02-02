@@ -341,12 +341,12 @@ class ezcTemplate
             {
                 $this->configuration->cacheManager->includeTemplate( $this->properties["stream"]);
             }
- 
         }
 
         // execute compiled code here
         throw new ezcTemplateInternalException( "Compilation or execution failed" );
     }
+
 
     /**
      * Creates the directory $path if it does not exist.

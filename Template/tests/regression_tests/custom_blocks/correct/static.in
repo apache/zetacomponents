@@ -1,0 +1,15 @@
+{static_opt_parameter}
+
+{static_opt_parameter optional="bla"}
+
+{static_req_parameter required="haha"}
+
+{static_req_opt_parameter required="haha"}
+
+{static_req_opt_parameter required="haha" optional="bla"}
+
+{static_req_startexpression "Bla"}
+
+{static_opt_startexpression "Bla"}
+
+{static_opt_startexpression}

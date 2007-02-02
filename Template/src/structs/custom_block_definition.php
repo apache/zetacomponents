@@ -109,5 +109,8 @@ class ezcTemplateCustomBlockDefinition extends ezcTemplateCustomExtension
      * @var array(string)
      */
     public $requiredParameters = array();
+
+
+    public $isStatic = false;
 }
 ?>

@@ -172,6 +172,86 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def->requiredParameters = array();
                 $def->optionalParameters = array("bla");
                 return $def;
+
+////////////////////////////
+
+            case "static_opt_parameter": 
+                $def = new ezcTemplateCustomBlockDefinition();
+                $def->class = __CLASS__;
+                $def->method = "reflectParameters";
+                $def->hasCloseTag = false;
+                $def->startExpressionName = "";
+                $def->requiredParameters = array();
+                $def->optionalParameters = array("optional");
+                $def->isStatic = true;
+                return $def;
+
+            case "static_req_parameter": 
+                $def = new ezcTemplateCustomBlockDefinition();
+                $def->class = __CLASS__;
+                $def->method = "reflectParameters";
+                $def->hasCloseTag = false;
+                $def->startExpressionName = "";
+                $def->requiredParameters = array("required");
+                $def->optionalParameters = array();
+                $def->isStatic = true;
+                return $def;
+
+            case "static_req_opt_parameter": 
+                $def = new ezcTemplateCustomBlockDefinition();
+                $def->class = __CLASS__;
+                $def->method = "reflectParameters";
+                $def->hasCloseTag = false;
+                $def->startExpressionName = "";
+                $def->requiredParameters = array("required");
+                $def->optionalParameters = array("optional");
+                $def->isStatic = true;
+                return $def;
+
+            case "static_req_startexpression": 
+                $def = new ezcTemplateCustomBlockDefinition();
+                $def->class = __CLASS__;
+                $def->method = "reflectParameters";
+                $def->hasCloseTag = false;
+                $def->startExpressionName = "start_expression";
+                $def->requiredParameters = array("start_expression");
+                $def->optionalParameters = array();
+                $def->isStatic = true;
+                return $def;
+
+            case "static_opt_startexpression": 
+                $def = new ezcTemplateCustomBlockDefinition();
+                $def->class = __CLASS__;
+                $def->method = "reflectParameters";
+                $def->hasCloseTag = false;
+                $def->startExpressionName = "start_expression";
+                $def->requiredParameters = array();
+                $def->optionalParameters = array("start_expression");
+                $def->isStatic = true;
+                return $def;
+
+            case "static_incorrect_startexpression": 
+                $def = new ezcTemplateCustomBlockDefinition();
+                $def->class = __CLASS__;
+                $def->method = "reflectParameters";
+                $def->hasCloseTag = false;
+                $def->startExpressionName = "start_expresssion";
+                $def->requiredParameters = array();
+                $def->optionalParameters = array("bla");
+                $def->isStatic = true;
+                return $def;
+
+
+            case "static_req_opt_parameter": 
+                $def = new ezcTemplateCustomBlockDefinition();
+                $def->class = __CLASS__;
+                $def->method = "reflectParameters";
+                $def->hasCloseTag = false;
+                $def->startExpressionName = "";
+                $def->requiredParameters = array("required");
+                $def->optionalParameters = array("optional");
+                $def->isStatic = true;
+                return $def;
         }
     }
 

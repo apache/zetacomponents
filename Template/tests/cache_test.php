@@ -138,16 +138,15 @@ class ezcTemplateCacheTest extends ezcTestCase
     {
         $t = new ezcTemplate( );
         $t->send->number = 22; 
-        $t->process( "cache_dynamic_var_declare.tpl");
+        $out = $t->process( "cache_dynamic_var_declare.tpl");
 
-       /* 
-        $this->assertEquals( "\n[2]\n[Bernard Black]\n[Nr 2]\n[Bernard Black]\n[Nr 3]\n[4]\n[Bernard Black]\n", $out );
+        $this->assertEquals( "\n[22]\n6\n", $out);
 
         $t->send->user = new TestUser( "Guybrush", "Threepwood", 10 );
         $out = $t->process( "cache_dynamic_advanced.tpl");
 
-        $this->assertEquals( "\n[2]\n[Bernard Black]\n[Nr 2]\n[Guybrush Threepwood]\n[Nr 3]\n[13]\n[Guybrush Threepwood]\n", $out );
-        */
+        $this->assertEquals( "\n[2]\n[Guybrush Threepwood]\n[Nr 2]\n[Guybrush Threepwood]\n[Nr 3]\n[13]\n[Guybrush Threepwood]\n", $out );
+        
     }
 
     // Declare a variable under the first dynamic block.
