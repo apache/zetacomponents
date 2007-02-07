@@ -794,35 +794,70 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $width /= 2;
         $height /= 2;
 
-        $Xstart = $center->x + $this->options->graphOffset->x + $width * cos( -deg2rad( $startAngle ) );
-        $Ystart = $center->y + $this->options->graphOffset->y + $height * sin( deg2rad( $startAngle ) );
-        $Xend = $center->x + $this->options->graphOffset->x + $width * cos( ( -deg2rad( $endAngle ) ) );
-        $Yend = $center->y + $this->options->graphOffset->y + $height * sin( ( deg2rad( $endAngle ) ) );
-        
-        $arc = $this->dom->createElement( 'path' );
-        $arc->setAttribute( 'd', sprintf( 'M %.2f,%.2f L %.2f,%.2f A %.2f,%.2f 0 %d,1 %.2f,%.2f z',
-            // Middle
-            $center->x + $this->options->graphOffset->x, $center->y + $this->options->graphOffset->y,
-            // Startpoint
-            $Xstart, $Ystart,
-            // Radius
-            $width, $height,
-            // SVG-Stuff
-            ( $endAngle - $startAngle ) > 180,
-            // Endpoint
-            $Xend, $Yend
-            )
-        );
+        // Apply offset to copy of center coordinate
+        $center = clone $center;
+        $center->x += $this->options->graphOffset->x;
+        $center->y += $this->options->graphOffset->y;
 
-        $arc->setAttribute(
-            'style', 
-            $this->getStyle( $color, $filled, 1 )
-        );
-        
-        $arc->setAttribute( 'id', $id = ( $this->options->idPrefix . 'CircleSector_' . ++$this->elementID ) );
-        $this->elements->appendChild( $arc );
-        
-        return $id;
+        if ( $filled )
+        {
+            $Xstart = $center->x + $width * cos( -deg2rad( $startAngle ) );
+            $Ystart = $center->y + $height * sin( deg2rad( $startAngle ) );
+            $Xend = $center->x + $width * cos( ( -deg2rad( $endAngle ) ) );
+            $Yend = $center->y + $height * sin( ( deg2rad( $endAngle ) ) );
+
+            $arc = $this->dom->createElement( 'path' );
+            $arc->setAttribute( 'd', sprintf( 'M %.2f,%.2f L %.2f,%.2f A %.2f,%.2f 0 %d,1 %.2f,%.2f z',
+                // Middle
+                $center->x, $center->y,
+                // Startpoint
+                $Xstart, $Ystart,
+                // Radius
+                $width, $height,
+                // SVG-Stuff
+                ( $endAngle - $startAngle ) > 180,
+                // Endpoint
+                $Xend, $Yend
+                )
+            );
+
+            $arc->setAttribute(
+                'style', 
+                $this->getStyle( $color, $filled, 1 )
+            );
+            $arc->setAttribute( 'id', $id = ( $this->options->idPrefix . 'CircleSector_' . ++$this->elementID ) );
+            $this->elements->appendChild( $arc );
+            return $id;
+        }
+        else
+        {
+            $reduced = $this->reduceEllipseSize( $center, $width * 2, $height * 2, $startAngle, $endAngle, .5 );
+
+            $arc = $this->dom->createElement( 'path' );
+            $arc->setAttribute( 'd', sprintf( 'M %.2f,%.2f L %.2f,%.2f A %.2f,%.2f 0 %d,1 %.2f,%.2f z',
+                // Middle
+                $reduced['center']->x, $reduced['center']->y,
+                // Startpoint
+                $reduced['start']->x, $reduced['start']->y,
+                // Radius
+                $width - .5, $height - .5,
+                // SVG-Stuff
+                ( $endAngle - $startAngle ) > 180,
+                // Endpoint
+                $reduced['end']->x, $reduced['end']->y
+                )
+            );
+
+            $arc->setAttribute(
+                'style', 
+                $this->getStyle( $color, $filled, 1 )
+            );
+            
+            $arc->setAttribute( 'id', $id = ( $this->options->idPrefix . 'CircleSector_' . ++$this->elementID ) );
+            $this->elements->appendChild( $arc );
+            
+            return $id;
+        }
     }
 
     /**
