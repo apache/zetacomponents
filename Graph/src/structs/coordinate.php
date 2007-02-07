@@ -53,6 +53,17 @@ class ezcGraphCoordinate extends ezcBaseStruct
         $this->x = $properties['x'];
         $this->y = $properties['y'];
     }
+
+    /**
+     * Returns simple string representation of coordinate
+     * 
+     * @return string
+     * @ignore
+     */
+    public function __toString()
+    {
+        return sprintf( '( %.2f, %.2f )', $this->x, $this->y );
+    }
 }
 
 ?>
