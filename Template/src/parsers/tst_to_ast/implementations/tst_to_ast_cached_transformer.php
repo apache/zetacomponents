@@ -217,7 +217,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         if( $this->template->configuration->cacheManager !== false )
         {
             // !$this->template->configuration->cacheManager->isValid( $cacheName ) || !file_exist()
-            $a = new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->isValid", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ), new ezcTemplateLiteralAstNode( $this->parser->template->stream ) ) ) );
+            $a = new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->isValid", array( new ezcTemplateVariableAstNode( "this->template"), new ezcTemplateLiteralAstNode( $this->parser->template->stream ), new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
             $b = new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "file_exists", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
             
            return new ezcTemplateLogicalOrOperatorAstNode( $a, $b );
@@ -244,11 +244,12 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
             $cacheKeys = array();
-            foreach ( $this->cacheInfo->keys as $key )
+            foreach ( $this->cacheInfo->keys as $key => $value )
             {
                 // Translate the 'old' variableName to the new name.
-                $k = $key->accept($this);
-                $cacheKeys[] = $k->name;
+                $k = $value->accept($this);
+
+                $cacheKeys[str_replace( "this->send->", "use:" , $k->name )] = $k->name;
             }
 
             //$this->cacheSystem->setCacheKeys( $cacheKeys );
@@ -299,9 +300,10 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             
 
             /// startCaching(); 
+            $cplen = strlen( $this->parser->template->configuration->compilePath );
             if ($this->template->configuration->cacheManager !== false )
             {
-                $cb->body->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->startCaching", array( new ezcTemplateVariableAstNode("_ezcTemplateCache" ), new ezcTemplateLiteralAstNode( $this->parser->template->stream ) ) ) ) );
+                $cb->body->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->startCaching", array( new ezcTemplateVariableAstNode("this->template"), new ezcTemplateLiteralAstNode( $this->parser->template->stream ), new ezcTemplateVariableAstNode("_ezcTemplateCache" ), new ezcTemplateVariableAstNode("_ezcCacheKeys") ) ) ) );
             }
           
             $cb->body->appendStatement( $this->_fopenCacheFileWriteMode() ); // $fp = fopen( $this->cache, "w" ); 
@@ -379,6 +381,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
                 $this->programNode->appendStatement( $use );
             }
 
+            $this->addCacheKeys( $this->programNode, $cacheKeys );
             
             $ttlStatements = $this->checkTTL( $ttl, $cacheKeys );
             foreach ( $ttlStatements as $s )
@@ -395,31 +398,44 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
         }
     }
-    protected function createCacheVariable( $cacheKeys )
+
+    protected function addCacheKeys( $programNode, $cacheKeys )
     {
-        $code = '$_ezcTemplateCache = \'' . $this->getCacheBaseName() ."'"; 
+        $hasCacheKey = false;
+        $programNode->appendStatement( new ezcTemplatePhpCodeAstNode( '$_ezcCacheKeys = array();' ."\n" ) );
 
-        $st = ezcTemplateSymbolTable::getInstance();
-
-        foreach ( $cacheKeys as $key )
+        foreach ( $cacheKeys as $key => $value )
         {
-            // md5( var_export( is_object( $key ) && method_exists( $key,  "cacheKey" )  ? $key->cacheKey() : $key ) )
+            $programNode->appendStatement( new ezcTemplatePhpCodeAstNode( '$_ezcCacheKeys[\''.$key.'\'] = '. 'is_object( $'.$value.' ) && method_exists( $'.$value.', "cacheKey" ) ? $'.$value.'->cacheKey() : $'.  $value . ";\n" ) );
 
-            $code .=  '.\'-\'. md5( var_export( is_object( $'.$key.' ) && method_exists( $'.$key.', "cacheKey" ) ? $'.$key.'->cacheKey() : $'.  $key . ', true ) ) ';
+//            $programNode->appendStatement( new ezcTemplatePhpCodeAstNode( '$_ezcCacheKeys[\''.$value.'\'] = '. 'md5( var_export( is_object( $'.$value.' ) && method_exists( $'.$value.', "cacheKey" ) ? $'.$value.'->cacheKey() : $'.  $value . ', true ) )' . ";\n" ) );
+
+             
+            $hasCacheKey = true;
         }
 
-        $code .= ";\n";
+        if( $hasCacheKey )
+        {
+            $code = '$_ezcTemplateCache = \'' . $this->getCacheBaseName() . "'" ;
+            foreach ( $cacheKeys as $key => $value )
+            {
+                $code .= " . '-'". '. md5( var_export( $_ezcCacheKeys[\''.$key.'\'], true ))';
+            }
 
-        return new ezcTemplatePhpCodeAstNode( $code );
+            $programNode->appendStatement(new ezcTemplatePhpCodeAstNode( $code . ";\n" ) );
+        }
+        else
+        {
+            $programNode->appendStatement(new ezcTemplatePhpCodeAstNode( '$_ezcTemplateCache = \'' . $this->getCacheBaseName() . "';\n" ) );
+        }
+
+        //$code = '$_ezcTemplateCache = \'' . $this->getCacheBaseName() .  '-\' '. ( $hasCacheKey ?  ' . implode("-", array_map("md5", array_map("var_export",$_ezcCacheKeys), array_fill(0, sizeof($_ezcCacheKeys), true ) ) )'  : '' ) . ";\n";
+        //$programNode->appendStatement(new ezcTemplatePhpCodeAstNode( $code ) );
     }
-
 
     protected function checkTTL( $ttl, $cacheKeys )
     {
         $statements = array();
-
-        $statements[] = $this->createCacheVariable( $cacheKeys );
-
 
         if ( $ttl !== null )
         {
@@ -602,23 +618,6 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             return $cb;
         }
     }
-
-
-    /*
-    public function visitIncludeTstNode( ezcTemplateIncludeTstNode $type )
-    {
-        $ast = parent::visitIncludeTstNode( $type );
-
-        if ($this->template->configuration->cacheManager !== false )
-        {
-            $n = $type->file->accept( $this ); // Can go wrong, shouldn't be executed twice. TODO, XXX
-            $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->includeTemplate", array( new ezcTemplateLiteralAstNode( $n->value  ) ) ) ); 
-        }
-
-        return $ast;
-    }
-     */
-
 }
 
 ?>

@@ -1,0 +1,4 @@
+{use $b}
+{cache_template keys $b}
+{$b->id} {$b->name} {$b->nickname}
+

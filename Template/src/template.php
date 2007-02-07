@@ -339,7 +339,7 @@ class ezcTemplate
             // Add to the cache system.
             if ($this->configuration->cacheManager !== false )
             {
-                $this->configuration->cacheManager->includeTemplate( $this->properties["stream"]);
+                $this->configuration->cacheManager->includeTemplate( $this, $this->properties["stream"]);
             }
         }
 
