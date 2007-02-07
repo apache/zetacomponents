@@ -227,6 +227,10 @@ abstract class ezcGraphDriver
             $height * sin( deg2rad( $endAngle ) ) / 2
         );
 
+        // We always need radian values..
+        $startAngle = deg2rad( $startAngle );
+        $endAngle = deg2rad( $endAngle );
+
         // Calculate normalized vectors for the lines spanning the ellipse
         $startVector = ezcGraphVector::fromCoordinate( $oldStartPoint )->unify();
         $endVector = ezcGraphVector::fromCoordinate( $oldEndPoint )->unify();
@@ -241,32 +245,55 @@ abstract class ezcGraphDriver
         // calculate new center point
         // center + v + size / tan( angle / 2 ) * startVector
         $centerMovement = clone $startVector;
-        $newCenter = $v->add( $centerMovement->scalar( $size / tan( deg2rad( ( $endAngle - $startAngle ) / 2 ) ) ) )->add( $center );
-
+        $newCenter = $v->add( $centerMovement->scalar( $size / tan( ( $endAngle - $startAngle ) / 2 ) ) )->add( $center );
 
         // Use start spanning vector and its orthogonal vector to calculate 
         // new start point
         $newStartPoint = clone $oldStartPoint;
 
+        // Create tangent vector from tangent angle
+        
+        // Ellipse tangent factor
+        $ellipseTangentFactor = sqrt(
+            pow( $height, 2 ) *
+                pow( cos( $startAngle ), 2 ) +
+            pow( $width, 2 ) *
+                pow( sin( $startAngle ), 2 )
+        );
+        $ellipseTangentVector = new ezcGraphVector(
+            $width * -sin( $startAngle ) / $ellipseTangentFactor,
+            $height * cos( $startAngle ) / $ellipseTangentFactor
+        );
+
+        // Reverse spanning vector
         $innerVector = clone $startVector;
         $innerVector->scalar( $size )->scalar( -1 );
 
-        $orthogonalVector = clone $startVector;
-        $orthogonalVector->scalar( $size )->rotateClockwise();
-
-        $newStartPoint->add( $innerVector)->add( $orthogonalVector );
+        $newStartPoint->add( $innerVector)->add( $ellipseTangentVector->scalar( $size ) );
 
         // Use end spanning vector and its orthogonal vector to calculate 
         // new end point
         $newEndPoint = clone $oldEndPoint;
 
+        // Create tangent vector from tangent angle
+        
+        // Ellipse tangent factor
+        $ellipseTangentFactor = sqrt(
+            pow( $height, 2 ) *
+                pow( cos( $endAngle ), 2 ) +
+            pow( $width, 2 ) *
+                pow( sin( $endAngle ), 2 )
+        );
+        $ellipseTangentVector = new ezcGraphVector(
+            $width * -sin( $endAngle ) / $ellipseTangentFactor,
+            $height * cos( $endAngle ) / $ellipseTangentFactor
+        );
+
+        // Reverse spanning vector
         $innerVector = clone $endVector;
         $innerVector->scalar( $size )->scalar( -1 );
 
-        $orthogonalVector = clone $endVector;
-        $orthogonalVector->scalar( $size )->rotateCounterClockwise();
-
-        $newEndPoint->add( $innerVector )->add( $orthogonalVector );
+        $newEndPoint->add( $innerVector )->add( $ellipseTangentVector->scalar( $size )->scalar( -1 ) );
 
         return array(
             'center' => $newCenter,
