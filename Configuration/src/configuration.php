@@ -532,9 +532,9 @@ class ezcConfiguration
      * If the settings do not already exists it will be created.
      *
      * @param string $group
-     * @param array(string)
-     * @param array(mixed)
-     * @param array(string) $comment The comment belonging to the setting
+     * @param array(string) $settings
+     * @param array(mixed)  $values
+     * @param array(string) $comments The comment belonging to the setting
      * @return void
      */
     public function setSettings( $group, $settings, $values, $comments = null )
