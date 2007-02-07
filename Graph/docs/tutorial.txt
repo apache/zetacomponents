@@ -22,8 +22,9 @@ position and size. The main chart elements are the same for all chart types.
 To define overall layouts for graphs, you can use palettes,
 which specify default colors, symbols, fonts and spacings.
 
-Data is provided through ezcGraphDataSet arrays. You also can perform
-statistical operations on data, as you will see later.
+Data is provided through ezcGraphDataSet objects, which are normally created
+from simple arrays. You also can perform statistical operations on data, as you
+will see later.
 
 Class overview
 ==============
@@ -519,7 +520,7 @@ for all available axis label renderers, but here is an overview:
   label centered next to the step. Therefore, this renderer omits the label for
   the initial step on the axis (0, 0) by default. However, this can be forced
   as shown in example 14. The label is omitted because it would interfere with
-  the readability of the axis or the labels of the other axis.
+  the axis or the labels of the other axis, and thus be difficult to read.
 
 - ezcGraphAxisBoxedLabelRenderer
 
