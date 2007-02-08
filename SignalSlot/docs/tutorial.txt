@@ -1,4 +1,4 @@
-eZ components - SignalSlot
+eZ Components - SignalSlot
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
@@ -6,16 +6,16 @@ eZ components - SignalSlot
 Introduction
 ============
 
-The SignalSlot component implements a mechanism for inter and intra object
+The SignalSlot component implements a mechanism for inter- and intra-object
 communication through the use of signals and slots. Signals are emitted through
-instances of the ezcSignalCollection class and connected to as many functions as you
-like. A function that is connected to a signal is called a slot. When the
-signal is emitted all connected slots will be run in the order they are
+instances of the ezcSignalCollection class and connected to as many functions
+as needed. A function that is connected to a signal is called a slot. When the
+signal is emitted, all connected slots will be run in the order they are
 connected or in the order of the priorities specified when connecting to the signals.
 
 The SignalSlot library supports signals with arguments that are passed on to
 the slot. Slots must accept all the parameters that are sent to it. The
-SignalSlot library also support prioritized slots. Using this mechanism you can
+SignalSlot component also supports prioritized slots. Using this mechanism, you can
 ensure that a slot is run either before or after other slots.
 
 There are many different variations of the Signal/Slot model. The original
@@ -24,19 +24,19 @@ signals or slots. This is acceptable for languages that support multiple
 inheritance. Newer implemtentations circumvent this problem by representing signals
 through one instance of the Signal class. In other words, a class that has two
 signals will have member two variables holding instances of the Signals class.
-This approach can lead to the creation of a lot signal objects which can be
-especially problematic for scripting languages. As a result our signal class
+This approach can lead to the creation of a lot of signal objects, which can be
+especially problematic for scripting languages. As a result, our signal class
 can represent several signals. 
 
 Class overview
 ==============
 
-This section gives you an overview of the main classes of in the Mail
+This section gives you an overview of the main classes in the SignalSlot
 component.
 
 ezcSignalCollection
    This class represents a collection of signals. You can emit or connect to the
-   signals using the methods available on this class.
+   signals using the methods available in this class.
 
 ezcSignalStaticConnections
    This class holds the static connections for your application. Static
@@ -61,9 +61,9 @@ The output of this example yields the classic "Hello world".
 
 Slot types
 ----------
-Slots are not limited to be normal functions only. They are specified using the
-pseudo type callback_. You can specify normal functions class methods and
-static class methods as shown by these variations of the above example.
+Slots are not limited to normal functions. They are specified using the
+pseudo type callback_. You can specify normal functions, class methods and
+static class methods, as shown by these variations of the above example.
 
 .. _callback: http://www.imc.org/rfcs.html
 
@@ -86,14 +86,14 @@ static class methods as shown by these variations of the above example.
 Signals in a class
 ------------------
 
-Typical usage of signals is to have classes emit them when certain events
-happen. The following example shows a data object that emits a signal when its
-data is changed. The signal is connected to the caching system that clears the
+The typical usage of signals is to have classes emit them when certain events
+occur. The following example shows a data object that emits a signal when its
+data is changed. The signal is connected to the caching system, which clears the
 cache when the data is changed.
 
-This example also displays how you can delay the construction of the
+This example also shows how you can delay the construction of the
 ezcSignalCollection object. This can be useful in applications where signals
-are used only rarely and you want to avoid the overhead of creating the object.
+are rarely used and you want to avoid the overhead of creating the object.
 
 .. include:: tutorial_signals_in_class_example.php
    :literal:
@@ -103,7 +103,7 @@ Signals with parameters
 -----------------------
 
 Signals can have parameters that will be passed on to the receiving slots. The
-next example is an extension of the previous example where the data object
+next example is an extension of the previous example, where the data object
 gives some information about the data that was changed. This information is
 passed to the receiving slots as a parameter.
 
@@ -111,19 +111,19 @@ passed to the receiving slots as a parameter.
    :literal:
 
 Note that slots must accept the parameters that are passed to them. You will
-get errors / warnings if you provide to few or to many parameters to the slots
+get errors / warnings if you provide too few or too many parameters to the slots
 you have connected to a signal.
 
 Also note that it is not possible to pass signal parameters by
-reference except for object types which are always references in PHP 5+.
+reference except for object types, which are always references in PHP 5+.
 
 
 Multiple slots
 --------------
 
-It is possible to connect several slots to one signal. This just a matter of
-calling connect several times. You can freely mix the different slot types.
-The following example adds another connection to our previous example that
+It is possible to connect several slots to one signal. This is just a matter of
+calling "connect" several times. You can freely mix the different slot types.
+The following example adds another connection to our previous example. It
 regenerates the cache after it has been deleted.
 
 .. include:: tutorial_multiple_slots_example.php
@@ -133,40 +133,40 @@ regenerates the cache after it has been deleted.
 Prioritized slots
 -----------------
 
-The previous example shows how to connect several slots to one signal and how
+The previous example showed how to connect several slots to one signal and how
 they are executed one after another. The example code is also dependent on the
-order the slots are executed. Normally slots are executed in the order they are
-connected. Sometimes however it is not possible to connect slots in the order
+order the slots are executed. Normally, slots are executed in the order they are
+connected. Sometimes, it is not possible to connect slots in the order
 you want them to be executed. To ensure that some slots are executed before
-others you can use the priority system. When connecting you can specify a
-priority for that connection. Connections with a higher priority will be
-executed before connections with a lower priority. Priority numbers can be 
-specified using any positive integer. The lower the number the higher the
-priority. By default connections are made with a priority of 1000.
+others, you can use the priority system. When connecting, you can specify a
+priority for that connection. Priority numbers can be 
+specified using any positive integer. The lower the number, the higher the
+priority. Higher priority connections are executed first. By default,
+connections are made with a priority of 1000.
 
-This example shows how the connections in Multiple Slots could have  been
-specified to ensure the order the slots are called.
+This example shows how the connections from the previous example could have been
+specified to ensure the order in which the slots are called.
 
 .. include:: tutorial_prioritized_slots_example.php
    :literal:
 
-Excessive usage of the priority system can lead to unmaintainable code since it
-is hard to track the various priorities that are in use in a system. We don't
+Excessive usage of the priority system can lead to unmaintainable code, since it
+is hard to track the various priorities that are in use in a system. We do not
 recommend using it unless absolutely neccessary.
 
 
 Static connections
 ------------------
 
-Sometimes it is useful to connect a signal with a specific name regardless of
-the sender ezcSignalCollection to a slot. E.g consider what would happen if the
+Sometimes it is useful to connect a signal with a specific name, regardless of
+the sender ezcSignalCollection, to a slot. Consider what would happen if the
 Data class from our previous example was extended to a DataObject class with a
-potential of thousand of instances. If you wanted the caching system to work
+potential of thousands of instances. If you wanted the caching system to work,
 you would have to connect each one to the caching system upon creation.
 
 This is both unpractical and time consuming. The solution is to use static
-connections. When creating ezcSignalCollection objects you can provide an
-identifier to the constructor. Using the ezcSignalStaticConnections you can
+connections. When creating ezcSignalCollection objects, you can provide an
+identifier to the constructor. Using ezcSignalStaticConnections, you can
 connect to all signals from a source with a specific identifier.
 
 The following example shows how to use static connections to connect the signal
@@ -176,7 +176,7 @@ The following example shows how to use static connections to connect the signal
    :literal:
 
 
-You can mix static connectons and normal connections freely. Static connections
+You can freely mix static connectons and normal connections. Static connections
 with the same priority as normal connections are executed after the normal connections.
 
 
