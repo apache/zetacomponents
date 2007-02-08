@@ -1,4 +1,4 @@
-eZ components - PhpGenerator
+eZ Components - PhpGenerator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
@@ -7,17 +7,14 @@ Introduction
 ============
 
 This component provides a class that can be used to generate simple PHP files
-for caching etc.
+for uses such as caching.
 
 Class overview
 ==============
 
-This section gives you an overview of the main classes of Persistent Object.
-
-ezcPhpGenerator
-    ezcPhpGenerator provides functionality to generate quick and simple PHP 
-    scripts.  Typical usage would be to generate caches in the form of arrays
-    that also require some logic.
+ezcPhpGenerator provides functionality to generate quick and simple PHP
+scripts. Typical usage would be to generate caches in the form of arrays that
+also require some logic.
 
 
 ..
