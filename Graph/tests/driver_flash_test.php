@@ -210,6 +210,43 @@ class ezcGraphFlashDriverTest extends ezcGraphTestCase
         );
     }
 
+    public function testDrawCircleSectorBorderReducement()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.swf';
+
+        $angles = array( 10, 25, 45, 90, 125, 180, 235, 340 );
+
+        $position = 0;
+        $radius = 80;
+        foreach ( $angles as $angle )
+        {
+            while ( $position < 360 )
+            {
+                $this->driver->drawCircleSector(
+                    new ezcGraphCoordinate( 100, 50 ),
+                    $radius,
+                    $radius / 2,
+                    $position,
+                    $position += $angle,
+                    ezcGraphColor::fromHex( '#3465A480' ),
+                    false
+                );
+    
+                $position += 5;
+            }
+
+            $position = 0;
+            $radius += 15;
+        }
+
+        $this->driver->render( $filename );
+
+        $this->swfCompare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
+        );
+    }
+
     public function testDrawMultipleBigCircleSectors()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.swf';

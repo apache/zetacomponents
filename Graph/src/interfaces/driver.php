@@ -205,8 +205,6 @@ abstract class ezcGraphDriver
      *      'center' => (ezcGraphCoordinate) New center point,
      *      'start' => (ezcGraphCoordinate) New outer start point,
      *      'end' => (ezcGraphCoordinate) New outer end point,
-     *      'startAngle' => (float) Angle from old center point to new start point,
-     *      'endAngle' => (float) Angle from old center point to new end point,
      * )
      * 
      * @param ezcGraphCoordinate $center 
@@ -232,19 +230,21 @@ abstract class ezcGraphDriver
         $endAngle = deg2rad( $endAngle );
 
         // Calculate normalized vectors for the lines spanning the ellipse
-        $startVector = ezcGraphVector::fromCoordinate( $oldStartPoint )->unify();
-        $endVector = ezcGraphVector::fromCoordinate( $oldEndPoint )->unify();
+        $unifiedStartVector = ezcGraphVector::fromCoordinate( $oldStartPoint )->unify();
+        $unifiedEndVector = ezcGraphVector::fromCoordinate( $oldEndPoint )->unify();
+        $startVector = ezcGraphVector::fromCoordinate( $oldStartPoint );
+        $endVector = ezcGraphVector::fromCoordinate( $oldEndPoint );
 
         $oldStartPoint->add( $center );
         $oldEndPoint->add( $center );
 
         // Use orthogonal vectors of normalized ellipse spanning vectors to 
-        $v = clone $startVector;
+        $v = clone $unifiedStartVector;
         $v->rotateClockwise()->scalar( $size );
 
         // calculate new center point
         // center + v + size / tan( angle / 2 ) * startVector
-        $centerMovement = clone $startVector;
+        $centerMovement = clone $unifiedStartVector;
         $newCenter = $v->add( $centerMovement->scalar( $size / tan( ( $endAngle - $startAngle ) / 2 ) ) )->add( $center );
 
         // Use start spanning vector and its orthogonal vector to calculate 
@@ -266,10 +266,12 @@ abstract class ezcGraphDriver
         );
 
         // Reverse spanning vector
-        $innerVector = clone $startVector;
+        $innerVector = clone $unifiedStartVector;
         $innerVector->scalar( $size )->scalar( -1 );
 
         $newStartPoint->add( $innerVector)->add( $ellipseTangentVector->scalar( $size ) );
+        $newStartVector = clone $startVector;
+        $newStartVector->add( $ellipseTangentVector );
 
         // Use end spanning vector and its orthogonal vector to calculate 
         // new end point
@@ -290,15 +292,19 @@ abstract class ezcGraphDriver
         );
 
         // Reverse spanning vector
-        $innerVector = clone $endVector;
+        $innerVector = clone $unifiedEndVector;
         $innerVector->scalar( $size )->scalar( -1 );
 
         $newEndPoint->add( $innerVector )->add( $ellipseTangentVector->scalar( $size )->scalar( -1 ) );
+        $newEndVector = clone $endVector;
+        $newEndVector->add( $ellipseTangentVector );
 
         return array(
             'center' => $newCenter,
             'start' => $newStartPoint,
             'end' => $newEndPoint,
+            'startAngle' => rad2deg( $startAngle + $startVector->angle( $newStartVector ) ),
+            'endAngle' => rad2deg( $endAngle - $endVector->angle( $newEndVector ) ),
         );
     }
 
