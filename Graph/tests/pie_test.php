@@ -302,10 +302,6 @@ class ezcGraphPieChartTest extends ezcGraphTestCase
 
     public function testPieRenderPieSegmentsWithLabelCallback()
     {
-        function labelCallbackFormatFunction( $label, $value, $percent ) {
-            return 'Callback: ' . $label;
-        }
-
         $chart = new ezcGraphPieChart();
         $chart->data['sample'] = new ezcGraphArrayDataSet( array(
             'Mozilla' => 4375,
@@ -317,7 +313,11 @@ class ezcGraphPieChartTest extends ezcGraphTestCase
 
         $chart->data['sample']->highlight['wget'] = true;
 
-        $chart->options->labelCallback = 'labelCallbackFormatFunction';
+        $chart->options->labelCallback = 
+            create_function( 
+                '$label, $value, $percent', 
+                "return 'Callback: ' . \$label;"
+            );
 
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
             'drawPieSegment',
