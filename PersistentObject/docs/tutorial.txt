@@ -11,7 +11,10 @@ abstraction. It does not rely on code generation and does not force a specific
 inheritance structure to work.
 
 PersistentObject is built to be fast and flexible, allowing you to build
-persistent classes in the same way as any other class in your application. 
+persistent classes in the same way as any other class in your application. It
+also utilizes the query abstraction layer of the Database component to make it
+easy to build queries. Please refer to the API documentation of ezcDatabase for
+detailed examples on how to use the query abstraction layer.
 
 The PersistentObjectDatabaseSchemaTiein component allows you to automatically
 generate the definition files needed by PersistentObject from a database schema
@@ -247,7 +250,7 @@ higher than 15, sorted by name.
 
 The find() method will fetch the complete result set and instantiate it for
 you. This is not desirable if you are fetching large numbers of objects and you
-want it to be fast and efficient. For this you can use the fetchIterator()
+want it to be fast and efficient. For this you can use the findIterator()
 method: ::
 
     <?php
@@ -266,6 +269,23 @@ method: ::
 This code will produce the same result as the first find() example. However,
 only one object will be instantiated and the data will be transferred from the
 database only when it is needed.
+
+The final example uses a find query with a logical and to find objects: ::
+
+    <?php
+    $q = $session->createFindQuery( 'Person' );
+    $q->where( 
+        $q->expr->lAnd( 
+           $q->expr->eq( 'name', $q->bindValue( 'Guybrush Threepwood' ) ), 
+           $q->expr->eq( 'age', $q->bindValue( 25 ) ) 
+        )
+    );
+    $objects = $session->findIterator( $q, 'Person' );
+    foreach( $objects as $object )
+    {
+        // ...
+    }
+    ?>
 
 Deleting objects
 -----------------
