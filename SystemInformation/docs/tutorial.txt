@@ -1,4 +1,4 @@
-eZ components - System Information
+eZ Components - SystemInformation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
@@ -6,32 +6,33 @@ eZ components - System Information
 Introduction
 ============
 
-The System Information component provides access to common system variables, 
-such as CPU type and speed, available amount of memory etc. 
-Currently, the system information supports Linux, FreeBSD and Windows systems.
+The SystemInformation component provides access to common system variables, 
+such as CPU type and speed and amount of available memory.
+Currently, SystemInformation supports Linux, FreeBSD and Windows systems.
 
 Class overview
 ==============
 
 ezcSystemInfo
   This class provides the main API for accessing common system variables.
-  Variables that ara not available from PHP directly are fetched using readers
-  specific for each supported system. The corresponding reader is automatically
-  detected, attached and forced to scan the systems information.
+  Variables that are not available directly from PHP are fetched using readers
+  specific to each supported system. The corresponding reader is automatically
+  detected and used to scan system information.
   
 ezcSystemInfoReader
-  The ezcSystemInfoReader represents a common abstract interface for OS info 
-  readers. A particular reader implements the ezcSystemInfoReader interface and 
-  scana system infoformation specifically for each supported OS.
+  ezcSystemInfoReader represents a common abstract interface for operating
+  system (OS) information readers. A particular reader implements the
+  ezcSystemInfoReader interface and scans system information specifically for
+  each supported OS.
  
 More information about these classes can be found in the documentation of the
-classes itself. 
+classes. 
 
 
 Usage
 =====
 
-The following example demonstrate how to use the System Information component.
+The following example demonstrates how to use the SystemInformation component.
 
 Getting CPU type and CPU speed for the current system
 -----------------------------------------------------
@@ -40,10 +41,10 @@ Getting CPU type and CPU speed for the current system
    :literal:
 
 
-More Information
+More information
 ================
 
-For more information, see the System Information API documentation.
+For more information, see the SystemInformation API documentation.
 
 
 ..
