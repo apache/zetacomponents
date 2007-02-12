@@ -1,4 +1,4 @@
-eZ components - Template
+eZ Components - Template
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
@@ -6,15 +6,15 @@ eZ components - Template
 Introduction
 ============
 
-The Template component, template engine, provides a manageable way to separate 
+The Template component, a template engine, provides a manageable way to separate 
 application logic from presentation data. The application logic is the PHP code
 of your application, including the call to the Template component. Presentation
-data are the templates files (containing the template code). 
+data refers to the templates files (containing the template code). 
 
-The separation of application logic and presentation data is not only easier to
-maintain, it also allows easier different people to work on one of the parts.
-(While designing the template language, we tried to make the language also easy
-for non developers.)
+The separation of application logic and presentation data not only makes the
+parts easier to maintain, it also enables different people to work separately
+on one of the parts. The template language was designed to be easy for
+non-developers.
 
 
 Class overview
@@ -23,77 +23,75 @@ Class overview
 The following list sums up the most important classes:
 
 ezcTemplate
-  This class provides the main API for processing templates. This class
-  compiles the template to PHP code, executes it, and returns the result.
+  This class provides the main API for processing templates. It
+  compiles the template to PHP code, executes it and returns the result.
 
 ezcTemplateConfiguration
-  This class configures the Template engine. Settings like: where to find the
-  source templates, where to store the compiled templates, the type of
-  context to use, are stored in this class. 
+  This class configures the Template engine. Settings stored in this class
+  include: the location of the source templates; where to store the compiled
+  templates; and the type of context to use. 
 
 ezcTemplateVariableCollection
-  The variables that should be send to the template or retrieved from the
-  template are stored in the object of the type ezcTemplateVariableCollection.
+  The variables that should be sent to or retrieved from the template are
+  stored in an object of the type ezcTemplateVariableCollection.
  
-More information about these classes can be found in the documentation of the
-class itself. 
+More information about these classes can be found in the class documentation.
 
 
 Usage
 =====
 
-The following example demonstrate how to use the Template component.
+The following examples demonstrate how to use the Template component.
 
 Getting started
 ---------------
 
-The simplest example we can come up with is writing "Hello world" to your
-standard output. Basically it consists of two steps:
+The simplest example is to write "Hello world" to your
+standard output. This consists of two steps:
 
 The first step is to create a text file "hello_world.ezt" that contains 
 only one line::
 
     Hello world
 
-and store it in the directory where your application sources reside. 
+and store it in the directory where your application source resides. 
 
-The next step is to copy the following PHP script, and check if the application
-works. 
+The next step is to use the following PHP script.
 
 .. include:: tutorial_simple.php
    :literal:
 
-If you run your application, it should write "Hello world". If it doesn't then
-check that:
+If you run your application, it should write "Hello world". If it doesn't,
+check the following:
 
-- The base class can be found. Check your 'include_path' in the PHP.ini
+- The base class can be found. Check "include_path" in the PHP.ini
   settings, and see if the components are included.
 - The template "hello_world.ezt" can be found. Write the absolute
-  path to your hello_world template in the 'process' method.
+  path to your hello_world template in the "process" method.
 - The template engine can write to the current directory. The next 
   section explains how another output directory can be specified.  
 
-From now on, we assume that the Template engine can be loaded and find the
-template files. 
+From now on, we assume that the template engine can be loaded and can locate
+the template files.
 
 
 Configuring the template engine
 -------------------------------
 
-Templates are not always stored in your local directory and neither do you
-want to store the compiled templates among your source files. Therefore we
-have to change the configuration:
+Templates are not always stored in your local directory, nor do you always
+want to store the compiled templates among your source files. This can be
+changed in the configuration:
 
 .. include:: tutorial_configuration.php
    :literal:
 
-If you try to copy/paste and run this example, you'll probably get the
+If you try to copy/paste and run this example, you will probably get the
 following output::
 
     Fatal error: Uncaught exception 'ezcTemplateFileNotFoundException' with message 
     'The requested template file </usr/share/templates/hello_world.ezt> does not exist.'
 
-This error shows that the template engine looks in the "/usr/share/templates" directory 
+This error indicates that the template engine looks in the "/usr/share/templates" directory 
 for the templates.
 
 The ezcTemplate class calls the getInstance() method from the ezcTemplateConfiguration
@@ -103,7 +101,7 @@ configurations, which is demonstrated in the next example:
 .. include:: tutorial_multi_configuration.php
    :literal:
 
-And you'll get the following output::
+You would get the following output::
 
     The requested template file <html/hello_world.ezt> does not exist.
 
@@ -112,21 +110,21 @@ And you'll get the following output::
     The requested template file <pdf/hello_world.ezt> does not exist.
 
 
-As demonstrated, the Template configuration can be set in the 'configuration' property,
-given as second parameter in the process method, or use the 'default'
+As demonstrated, the Template configuration can be set in the "configuration"
+property, given as second parameter in the process method, or by using the "default"
 getInstance configuration.
 
 
-Setting and getting template variables
---------------------------------------
+Setting and retrieving template variables
+-----------------------------------------
 
-The following template code uses the variable: $quote and returns the number
-6. Copy/paste this example and save it as 'send_receive.ezt'.
+The following template code uses the variable $quote and returns the number
+6. Copy/paste this example and save it as "send_receive.ezt".
 
 .. include:: tutorial_variable_send_receive.ezt
    :literal:
 
-The template code that sends $quote and receive $number is as follows:
+The template code that sends $quote and receives $number is as follows:
 
 .. include:: tutorial_variable_send_receive.php
    :literal:
@@ -137,7 +135,7 @@ The output for this template is::
     I am not a number, I am a free man.
 
 
-More Information
+More information
 ================
 
 For more information, see the:
@@ -147,7 +145,7 @@ For more information, see the:
 *  `API documentation`_
 
 .. _`Syntax documentation`: Template_syntax.html
-.. _`EBNF`: Template_syntax.html
+.. _`EBNF`: Template_EBNF.html
 .. _`API documentation`: classtrees_Template.html
 
 
