@@ -1,4 +1,4 @@
-eZ components - TranslationCacheTiein
+eZ Components - TranslationCacheTiein
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
@@ -6,9 +6,9 @@ eZ components - TranslationCacheTiein
 Introduction
 ============
 
-The TranslationCacheTiein ties together the Translation component with the
-Cache component.  This component only implements one class, the
-ezcTranslationCacheBackend which is a backend for the Translation component. 
+The TranslationCacheTiein component ties together the Translation component with the
+Cache component. This component only implements one class,
+ezcTranslationCacheBackend, which is a backend for the Translation component. 
 
 
 ..
