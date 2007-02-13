@@ -1,4 +1,4 @@
-eZ components - Url
+eZ Components - Url
 ~~~~~~~~~~~~~~~~~~~
 
 .. contents:: Table of Contents
@@ -6,23 +6,23 @@ eZ components - Url
 Introduction
 ============
 
-The Url package provides basic operations to handle urls (parse, build,
-get/set path parameters, get/set query, create formatted urls).
+The Url component provides basic operations to handle urls (including parse,
+build, get/set path parameters, get/set query and create formatted urls).
 
 Class overview
 ==============
 
 ezcUrl
-  The main class of this component. Contains methods for url parsing, url
-  building, get/set parameters, get/set query.
+  This is the main class of this component. It contains methods for url
+  parsing, url building, get/set parameters and get/set query.
 
 ezcUrlConfiguration
-  This class allows definition of url configurations (basedir, script,
-  ordered parameters, unordered parameters, delimiters for unordered
-  parameters names).
+  This class allows the definition of url configurations (including basedir,
+  script, ordered parameters, unordered parameters and delimiters for unordered
+  parameter names).
 
 ezcUrlCreator
-  This class allows registering an url under a alias, and then using that
+  This class allows you to register a url under an alias. You can then use that
   alias to generate another url suffixed with a value, or to create urls
   formatted using the syntax of the PHP function sprintf().
 
@@ -32,32 +32,32 @@ Notes
 Working with path, params and query parts
 -----------------------------------------
 
-Do not work with the path, params and query properties directly, because in
-PHP5.2.0 it will not work (ie. do not set/get $url->query[0], because a notice
-will be thrown: "Notice: Indirect modification of overloaded property
+Do not work with the path, params and query properties directly, because this
+will not work in PHP5.2.0 (that is, do not set/get $url->query[0], because a
+notice will be thrown: "Notice: Indirect modification of overloaded property
 ezcUrl::$query has no effect"). Instead, use the following methods.
 
 Using url configurations
 ------------------------
 
-By using the ezcUrlConfiguration class you can specify a custom configuration
-which can be used to parse urls. The properties you can set in objects of this
+By using the ezcUrlConfiguration class, you can specify a custom configuration
+that can be used to parse urls. The properties you can set in objects of this
 class are the default base directory, default script name (which will be
-hidden when building the url), delimiters for unordered parameter names,
+hidden when building the url), delimiters for unordered parameter names
 and names for accepted parameters.
 
 Working with the query part
 ===========================
 
-Get the query part
-------------------
+Getting the query part
+----------------------
 
-Examples of getting the query part of urls:
+Here is an example of getting the query part of urls:
 
 .. include:: tutorial_get_query.php
     :literal:
 
-The output will be: ::
+The output would be: ::
 
     array(1) {
       ["user"]=>
@@ -71,15 +71,15 @@ The output will be: ::
       }
     }
 
-Set the query part
-------------------
+Setting the query part
+----------------------
 
-Examples of setting the query part of urls:
+Here is an example of setting the query part of urls:
 
 .. include:: tutorial_set_query.php
     :literal:
 
-The output will be (wrapped for clarity): ::
+The output would be as follows (wrapped for clarity): ::
 
     string(139) "http://www.example.com/mydir/index.php/content/view/article/
     42/mode/print?user[name]=Bob+Smith&user[age]=47&user[sex]=M&user[dob]=
@@ -96,16 +96,16 @@ The output will be (wrapped for clarity): ::
 Working with url configurations
 ===============================
 
-Create and use a custom url configuration
------------------------------------------
+Creating and using a custom url configuration
+---------------------------------------------
 
-The following example will create a custom url configuration and use it when
+The following example creates a custom url configuration and uses it when
 creating a new url object:
 
 .. include:: tutorial_cfg_create.php
     :literal:
 
-The output will be: ::
+The output would be: ::
 
     object(ezcUrlConfiguration)#1 (1) {
       ["properties:private"]=>
@@ -143,16 +143,16 @@ The output will be: ::
 Working with parameters
 =======================
 
-Get parameters using an url configuration
------------------------------------------
+Getting parameters using a url configuration
+--------------------------------------------
 
-The following example will use the custom url configuration from before to get
+The following example uses the custom url configuration from before to get
 the parameters from the provided url:
 
 .. include:: tutorial_get_params.php
     :literal:
 
-The output will be (wrapped for clarity): ::
+The output would be as follows (wrapped for clarity): ::
 
     string(6) "groups"
     string(5) "Games"
@@ -167,16 +167,16 @@ The output will be (wrapped for clarity): ::
     string(72) "http://www.example.com/mydir/groups/Games/Adventure/Adult/
     (game)/Larry/7"
 
-Set parameters using an url configuration
------------------------------------------
+Setting parameters using a url configuration
+--------------------------------------------
 
-The following example will use the custom url configuration from before to set
+The following example uses the custom url configuration from before to set
 the parameters into the provided url:
 
 .. include:: tutorial_set_params.php
     :literal:
 
-The output will be (wrapped for clarity): ::
+The output would be as follows (wrapped for clarity): ::
 
     string(72) "http://www.example.com/mydir/groups/Games/Adventure/Adult/
     (game)/Larry/7"
@@ -184,32 +184,32 @@ The output will be (wrapped for clarity): ::
     string(79) "http://www.example.com/mydir/groups/Games/Adventure/Kids/
     (game)/Monkey_Island/3"
 
-Change an url configuration dynamically
----------------------------------------
+Changing a url configuration dynamically
+----------------------------------------
 
-The following example will use the custom url configuration from before to set
+The following example uses the custom url configuration from before to set
 the parameters into the provided url:
 
 .. include:: tutorial_cfg_change.php
     :literal:
 
-The output will be: ::
+The output would be: ::
 
     string(7) "Beatles"
 
 Using the url creator
 =====================
 
-Append a suffix to an url
--------------------------
+Appending a suffix to a url
+---------------------------
 
-With the url creator you can register an url under an alias, and then use that
-alias when you want to prepend the url to a filename.
+With the url creator, you can register a url under an alias, then use that
+alias when you want to prepend the url to a file name.
 
 .. include:: tutorial_url_creator.php
     :literal:
 
-The output will be: ::
+The output would be: ::
 
     string(53) "/images/geo/map_norway.gif?xsize=450&ysize=450&zoom=4"
 
@@ -217,16 +217,16 @@ The output will be: ::
 
     string(38) "/images/geo?xsize=450&ysize=450&zoom=4"
 
-Use formatting for an url
--------------------------
+Using formatting for a url
+--------------------------
 
-With the url creator you can register an url under an alias, and then use that
-alias when you want to apply formating to an url.
+With the url creator, you can register a url under an alias, then use that
+alias when you want to apply formatting to a url.
 
 .. include:: tutorial_url_creator_params.php
     :literal:
 
-The output will be: ::
+The output would be: ::
 
     string(53) "/images/geo/map_norway.gif?xsize=450&ysize=450&zoom=4"
 
