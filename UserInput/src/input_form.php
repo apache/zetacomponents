@@ -181,7 +181,7 @@ class ezcInputForm
      */
     static public function hasGetData()
     {
-        return count( $_GET );
+        return count( $_GET ) > 0;
     }
 
     /**
@@ -191,7 +191,7 @@ class ezcInputForm
      */
     static public function hasPostData()
     {
-        return count( $_POST );
+        return count( $_POST ) > 0;
     }
 
     /**
