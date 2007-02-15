@@ -1,14 +1,13 @@
 <?php
 
-class DbCacheManager
+class DbCacheManager implements ezcTemplateCacheManager
 {
     protected $keys = array();
     protected $depth = -1;
 
     public function startCaching($template, $templatePath, $cachePath, $cacheKeys )
     {
-
-        ezcSignalStaticConnections::getInstance()->connect( "UserBla", "ezcTemplateCacheRead", array( ezcTemplateConfiguration::getInstance()->cacheManager, "read" ) );
+        ezcSignalStaticConnections::getInstance()->connect( "UserBla", "ezcTemplateCacheRead", array( ezcTemplateConfiguration::getInstance()->cacheManager, "register" ) );
 
         // INSERT NEW cache.
         $db = ezcDbInstance::get();
@@ -17,23 +16,23 @@ class DbCacheManager
         $q->bindValue( ":cache", $cachePath );
         $q->execute();
 
-        $r = $q->fetchAll();
+        $r = $q->fetchAll(); // Strange if there is more than one result.
 
         if( sizeof( $r ) > 0 )
         {
             foreach( $r as $x )
             {
-                $id = $x["id"];
+                $id = $r[0]["id"];
 
                 // Reset the expired IDs.
                 $s = $db->prepare( "UPDATE cache_templates SET expired=0 WHERE id = :id" );
-                $s->bindValue( ":id", $x["id"] );
+                $s->bindValue( ":id", $r[0]["id"] );
                 $s->execute();
             }
         }
         else
         {
-            $q = $db->prepare("INSERT INTO cache_templates VALUES( '', :cache, '', 0)" );
+            $q = $db->prepare("INSERT INTO cache_templates VALUES( '', :cache, 0)" );
             $q->bindValue( ":cache", $cachePath );
             $q->execute();
             $id = $db->lastInsertId();
@@ -54,7 +53,7 @@ class DbCacheManager
 
     public function stopCaching()
     {
-        ezcSignalStaticConnections::getInstance()->disconnect( "UserBla", "ezcTemplateCacheRead", array( ezcTemplateConfiguration::getInstance()->cacheManager, "read" ) );
+        ezcSignalStaticConnections::getInstance()->disconnect( "UserBla", "ezcTemplateCacheRead", array( ezcTemplateConfiguration::getInstance()->cacheManager, "register" ) );
 
         $this->depth--;
         array_pop( $this->keys);
@@ -63,26 +62,19 @@ class DbCacheManager
     public function isValid( $template, $templateName, $cacheName )
     {
         $db = ezcDbInstance::get();
-        $q = $db->prepare("SELECT expired FROM cache_templates WHERE cache LIKE :cache" );
+
+        $q = $db->prepare("SELECT id, expired FROM cache_templates WHERE cache = :cache" );
         $q->bindValue( ":cache", $cacheName );
         $q->execute();
 
-        $rows = $q->fetchAll();
+        $r = $q->fetchAll(); // Expect 0 or 1 result
 
-        if( count( $rows) === 0 ) return false;
-
-        // SLOW!
-        foreach( $rows as $r )
+        if( count($r) == 0 || $r[0]["expired"] == 1 )
         {
-            if( $r["expired"] == 1 ) return false;
-        }  
+            return false;
+        }
 
-        $q = $db->prepare("SELECT id FROM cache_templates WHERE cache = :cache" );
-        $q->bindValue( ":cache", $cacheName );
-        $q->execute();
-        $r = $q->fetchAll();
-
-
+        
         $q = $db->prepare( "SELECT * FROM cache_values WHERE name = 'include' AND template_id = :id");
         $q->bindValue( ":id", $r[0]["id"] );
         $q->execute();
@@ -90,21 +82,20 @@ class DbCacheManager
         $rows = $q->fetchAll();
         foreach( $rows as $r )
         {
-            if( filemtime( $r["value"] ) > filemtime( $cacheName ) )
+            if( !file_exists( $r["value"] ) )
             {
-                return false;
+                print("The file ". $r["value"] ." doesn't exist\n\n");
+            }
+            else
+            {
+                if( filemtime( $r["value"] ) > filemtime( $cacheName ) )
+                {
+                    return false;
+                }
             }
         }
 
         return true;
-    }
-
-    public function isCached( $templateName )
-    {
-        $db = ezcDbInstance::get();
-        $q = $db->prepare("SELECT expired FROM cache_templates WHERE cache LIKE :cache" );
-        $q->bindValue( ":cache", $cacheName );
-        $q->execute();
     }
 
 
@@ -120,21 +111,18 @@ class DbCacheManager
  
     }
 
-    public function read( $name, $value )
+    public function register( $name, $value )
     {
-
-        // We don't care about reading of non-cached files.
-        if( $this->depth < 0 ) return;
-
-
-        // From user_list, when cache is created. 
-
         $db = ezcDbInstance::get();
-        $s = $db->prepare( "REPLACE INTO cache_values VALUES ( :id, :name, :value )" );
-        $s->bindValue( ":id", $this->keys[$this->depth]["template_id"] );
-        $s->bindValue( ":name", $name );
-        $s->bindValue( ":value", $value );
-        $s->execute();
+        for($i =0; $i < $this->depth; $i++)
+        { 
+            // From user_list, when cache is created. 
+            $s = $db->prepare( "REPLACE INTO cache_values VALUES ( :id, :name, :value )" );
+            $s->bindValue( ":id", $this->keys[$i]["template_id"] );
+            $s->bindValue( ":name", $name );
+            $s->bindValue( ":value", $value );
+            $s->execute();
+        }
         
         // Updated the values. If this value changes, the template should be renewed.
     }
@@ -144,7 +132,6 @@ class DbCacheManager
     {
         if( $this->depth >= 0 )
         {
-        //    echo ("DEPTH!");
             $db = ezcDbInstance::get();
             $id = $this->keys[ $this->depth ]["template_id"];
 
@@ -156,6 +143,26 @@ class DbCacheManager
             $q->execute();
         }
     }
+
+
+    public function cleanExpired() 
+    {
+        $db = ezcDbInstance::get();
+
+        $q = $db->prepare("SELECT * FROM cache_templates WHERE expired = 1" );
+        $q->execute();
+        $rows = $q->fetchAll();
+
+        foreach($rows as $r)
+        {
+            unlink( $r["cache"] );
+        }
+
+        $db->exec("DELETE FROM cache_values USING cache_values, cache_templates WHERE cache_templates.id = cache_values.template_id AND cache_templates.expired = 1  ");
+        $db->exec("DELETE FROM cache_templates WHERE cache_templates.expired = 1");
+    }
+
+
 
 }
 

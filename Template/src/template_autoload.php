@@ -44,6 +44,7 @@ return array(
              "ezcTemplateCustomExtension" => "Template/structs/custom_extension.php",
              "ezcTemplateCustomBlockDefinition" => "Template/structs/custom_block_definition.php",
              "ezcTemplateCustomFunctionDefinition" => "Template/structs/custom_function_definition.php",
+             "ezcTemplateCacheManager" => "Template/interfaces/cache_manager.php",
 
 ///////////////////////////////////////////////////////// SYNTAX TREES // ////////////////////////////////////////////////////////////////
 
