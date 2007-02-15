@@ -597,8 +597,17 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
             foreach ( $type->keys as $key )
             {
+                
                 // Translate the 'old' variableName to the new name.
                 $k = $key->accept($this);
+
+
+                if( $this->parser->symbolTable->retrieve($key->name) !== ezcTemplateSymbolTable::IMPORT)
+                {
+                    
+                    throw new ezcTemplateParserException( $type->source, $type->endCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_USE_VARIABLE );
+                }
+
                 $this->programNode->cacheKeys[] = $k->name;
             }
 

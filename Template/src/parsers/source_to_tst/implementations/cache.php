@@ -112,7 +112,6 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
                     {
                         throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
                     }
-
                     $cacheNode->keys[] = $this->lastParser->elements[0];
                     $this->findNextElement( $cursor );
                 } 

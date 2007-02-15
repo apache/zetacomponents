@@ -237,6 +237,26 @@ class ezcTemplateCacheTest extends ezcTestCase
         $this->assertEquals( "\n[Guybrush Threepwood]\n", $out );
     }
 
+
+    public function testCacheKeyFromNonUse()
+    {
+        // Should call a function, if it's defined.
+        $t = new ezcTemplate();
+        try
+        {
+            $out = $t->process( "cache_wrong_key.tpl");
+            $this->fail("Expected an exception");
+        } 
+        catch( ezcTemplateParserException $e)
+        {
+            if( strpos($e->getMessage(), ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_USE_VARIABLE) === false)
+            {
+                $this->fail("Expected an exception");
+            }
+
+        }
+    }
+
     // /////////////////////////////////////////////////////////////////////////////////////////////////
     // Test TTL
 
