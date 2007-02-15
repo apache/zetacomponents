@@ -378,7 +378,17 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             foreach ( $this->preparedCache->useVariableTst as $useVariable)
             {
                 $use = $useVariable->accept($this);
-                $this->programNode->appendStatement( $use );
+                if( is_array( $use ) )
+                {
+                    foreach ( $use as $u )
+                    {
+                        $this->programNode->appendStatement( $u );
+                    }
+                }
+                else
+                {
+                    $this->programNode->appendStatement( $use );
+                }
             }
 
             $this->addCacheKeys( $this->programNode, $cacheKeys );
