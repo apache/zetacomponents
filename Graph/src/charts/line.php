@@ -36,6 +36,22 @@
  *  $chart->render( 500, 200, 'line_chart.svg' );
  * </code>
  *
+ * Each chart consists of several chart elements which represents logical 
+ * parts of the chart and can be formatted independently. The line chart
+ * consists of:
+ *  - title ( ezcGraphChartElementText )
+ *  - legend ( ezcGraphChartElementLegend )
+ *  - background ( ezcGraphChartElementBackground )
+ *  - xAxis ( ezcGraphChartElementLabeledAxis )
+ *  - yAxis ( ezcGraphChartElementNumericAxis )
+ *
+ * The type of the axis may be changed and all elements can be configured by
+ * accessing them as properties of the chart:
+ *
+ * <code>
+ *  $chart->legend->position = ezcGraph::RIGHT;
+ * </code>
+ *
  * @package Graph
  * @mainclass
  */
