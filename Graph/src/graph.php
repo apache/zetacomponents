@@ -110,6 +110,15 @@ class ezcGraph
      * Font type definition. Used for Palm Format Fonts for Ming driver.
      */
     const PALM_FONT = 3;
+
+    /**
+     * Identifier for keys in complex dataset arrays
+     */
+    const KEY = 0;
+    /**
+     * Identifier for values in complex dataset arrays
+     */
+    const VALUE = 1;
 }
 
 ?>
