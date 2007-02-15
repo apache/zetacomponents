@@ -573,6 +573,31 @@ class ezcGraphDateAxisTest extends ezcGraphTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
+
+    public function testMonthInterval4()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 
+            strtotime( '2006-10-16' ) => 7.78507871321,
+            strtotime( '2006-10-30' ) => 7.52224503765,
+            strtotime( '2006-11-20' ) => 7.29226557153,
+            strtotime( '2006-11-28' ) => 7.06228610541,
+            strtotime( '2006-12-05' ) => 6.66803559206,
+            strtotime( '2006-12-11' ) => 6.37234770705,
+            strtotime( '2006-12-28' ) => 6.04517453799,
+        ) );
+        $this->chart->xAxis->startDate = strtotime( '2006-10-03' );
+        $this->chart->xAxis->endDate = strtotime( '2007-01-01' );
+        $this->chart->data['some data']->symbol = ezcGraph::DIAMOND;
+
+        $this->chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
 }
 
 ?>

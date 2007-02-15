@@ -218,6 +218,23 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
             }
         }
 
+        if ( ( $this->properties['startDate'] !== false ) &&
+             ( $this->properties['endDate'] !== false ) )
+        {
+            // Use interval between defined borders
+            if ( ( $diff % $interval ) > 0 )
+            {
+                // Stil use predefined date format from old interval if not set
+                if ( $this->properties['dateFormat'] === false )
+                {
+                    $this->properties['dateFormat'] = $this->predefinedIntervals[$interval];
+                }
+
+                $count = ceil( $diff / $interval );
+                $interval = round( $diff / $count, 0 );
+            }
+        }
+
         $this->properties['interval'] = $interval;
     }
 
