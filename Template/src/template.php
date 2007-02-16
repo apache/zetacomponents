@@ -306,7 +306,6 @@ class ezcTemplate
             // Check if caching is needed.
             if ( $fetchCacheInfo->cacheTst !== null )
             {
-                //XXX No cache prep.
                 $cachePreparation = new ezcTemplateCachePreparation();
                 $this->properties["tstTree"]->accept( $cachePreparation );
 
