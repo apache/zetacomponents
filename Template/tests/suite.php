@@ -37,6 +37,8 @@ require_once 'parser_test.php';
 
 require_once 'cache_test.php';
 require_once 'regression_test.php';
+require_once 'cache_test.php';
+require_once 'cache_manager_test.php';
 
 /**
  * @package Template
@@ -76,6 +78,8 @@ class ezcTemplateSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcTemplateCompiledCodeTest::suite() );
 
         $this->addTest( ezcTemplateConfigurationTest::suite() );
+        $this->addTest( ezcTemplateCacheTest::suite() );
+        $this->addTest( ezcTemplateCacheManagerTest::suite() );
 
 
         $this->addTest( ezcTemplateTest::suite() );

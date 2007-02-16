@@ -57,7 +57,7 @@ class ezcTemplateCacheTest extends ezcTestCase
             $this->fail( "Expected the directory to exists: " . $cacheDir );
         }
     }
-    
+   
     // /////////////////////////////////////////////////////////////////////////////////////////
     // Cache block is not implemented, and should give an exception.
 
@@ -74,6 +74,13 @@ class ezcTemplateCacheTest extends ezcTestCase
         catch ( ezcTemplateParserException $e )
         {
         }
+    }
+ 
+    public function testCacheBlockWithBeginText()
+    {
+        $t = new ezcTemplate( );
+        $out = $t->process( "cache_block_with_begin_text.tpl");
+        $this->assertEquals( "\nfoo <--> bar\n", $out);
     }
 
 
@@ -440,6 +447,7 @@ class ezcTemplateCacheTest extends ezcTestCase
         // $this->assertEquals( "I am rubber, you are glue.", $t->receive->quote);
     }
 
+ 
 }
 
 class TestUser

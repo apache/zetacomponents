@@ -16,7 +16,7 @@ require "fetch.php";
  * @package Template
  * @subpackage Tests
  */
-class ezcTemplateCacheTest extends ezcTestCase
+class ezcTemplateCacheManagerTest extends ezcTestCase
 {
     private $tempDir;
     private $basePath;
@@ -222,29 +222,5 @@ class ezcTemplateCacheTest extends ezcTestCase
 
 
 }
-
-
-class TestUser
-{
-    public $firstName;
-    public $lastName;
-    public $name;
-    public $id;
-
-    public function cacheKey()
-    {
-        return $this->id;
-    }
-
-    public function __construct($firstName, $lastName, $id = 1 )
-    {
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->name = $firstName . " " . $lastName;
-        $this->id = $id;
-    }
-}
-
-
 
 ?>

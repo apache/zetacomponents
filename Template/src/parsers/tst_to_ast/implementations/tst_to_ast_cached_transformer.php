@@ -248,11 +248,8 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             {
                 // Translate the 'old' variableName to the new name.
                 $k = $value->accept($this);
-
                 $cacheKeys[str_replace( "this->send->", "use:" , $k->name )] = $k->name;
             }
-
-            //$this->cacheSystem->setCacheKeys( $cacheKeys );
 
             $ttl = null;
             if ( $this->cacheInfo->ttl !== null ) 
@@ -260,10 +257,6 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
                 $ttl = $this->cacheInfo->ttl->accept($this);
                 //$this->cacheSystem->setTTL( $ttl );
             }
-
-            //$this->cacheSystem->setStream( $this->parser->template->stream );
-            //$this->cacheSystem->initializeCache();
-
 
             $dir = $this->template->configuration->compilePath . DIRECTORY_SEPARATOR . $this->template->configuration->cachedTemplatesPath;
 
@@ -275,14 +268,6 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             $this->deleteOldCache();
 
 
-
-
-            // $cacheFileName = "/tmp/cache/" . str_replace( '/', "-", $this->template->stream ); 
-
-            // Get the code for the: 'cache exists'. Determining whether the cache data is available.
-            //$cacheExists = $this->cacheSystem->getCacheExists();
-            //$ifCondition = array_pop( $cacheExists ); 
-            //
             $ifCondition = $this->notFileExistsCache();
 
 
@@ -298,7 +283,6 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
             // Inside.
             
-
             /// startCaching(); 
             $cplen = strlen( $this->parser->template->configuration->compilePath );
             if ($this->template->configuration->cacheManager !== false )
@@ -438,9 +422,6 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         {
             $programNode->appendStatement(new ezcTemplatePhpCodeAstNode( '$_ezcTemplateCache = \'' . $this->getCacheBaseName() . "';\n" ) );
         }
-
-        //$code = '$_ezcTemplateCache = \'' . $this->getCacheBaseName() .  '-\' '. ( $hasCacheKey ?  ' . implode("-", array_map("md5", array_map("var_export",$_ezcCacheKeys), array_fill(0, sizeof($_ezcCacheKeys), true ) ) )'  : '' ) . ";\n";
-        //$programNode->appendStatement(new ezcTemplatePhpCodeAstNode( $code ) );
     }
 
     protected function checkTTL( $ttl, $cacheKeys )
@@ -631,7 +612,6 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         }
         else
         {
-            var_dump ($type );
             $cb = new ezcTemplateCacheBlockAstNode( $type->elements->accept($this) );
             
             return $cb;
