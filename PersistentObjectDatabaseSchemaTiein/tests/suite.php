@@ -9,12 +9,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-/**
- * Require main test suite.
- */
-require_once 'test.php';
-/**
-    
+require_once dirname( __FILE__ ) . "/test.php";
+
 /**
  * Test suite for PersistentObjectDatabaseSchemaTiein package.
  * 
