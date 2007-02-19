@@ -39,7 +39,7 @@ class ezcPersistentManualGenerator extends ezcPersistentIdentifierGenerator
         // check if there is an object with this id already
         $q = $db->createSelectQuery();
         $q->select( '*' )->from( $def->table )
-            ->where( $q->expr->eq( $def->idProperty->columnName,
+            ->where( $q->expr->eq( $db->quoteIdentifier( $def->idProperty->columnName ),
                                    $q->bindValue( $this->id ) ) );
         try
         {
@@ -71,7 +71,7 @@ class ezcPersistentManualGenerator extends ezcPersistentIdentifierGenerator
      */
     public function preSave( ezcPersistentObjectDefinition $def, ezcDbHandler $db, ezcQueryInsert $q )
     {
-        $q->set( $def->idProperty->columnName, $q->bindValue( $this->id ) );
+        $q->set( $db->quoteIdentifier( $def->idProperty->columnName ), $q->bindValue( $this->id ) );
     }
 
     /**
