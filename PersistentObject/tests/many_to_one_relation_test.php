@@ -149,8 +149,17 @@ class ezcPersistentManyToOneRelationTest extends ezcTestCase
 
         try
         {
+            $relation->reverse = false;
+            $this->fail( "Exception not thrown on set access to ezcPersistentManyToOneRelation->reverse." );
+        }
+        catch ( ezcBasePropertyPermissionException $e )
+        {
+        }
+
+        try
+        {
             $relation->reverse = array();
-            $this->fail( "Exception not thrown on invalid value for ezcPersistentManyToOneRelation->reverse." );
+            $this->fail( "Exception not thrown on set access to ezcPersistentManyToOneRelation->reverse." );
         }
         catch ( ezcBasePropertyPermissionException $e )
         {
