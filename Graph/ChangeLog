@@ -14,6 +14,8 @@
 - Fixed issue #9950: Improved ezcGraphPolynom::__toString method for more
   exact output
 - Fixed issue #10055: Improve chart class documentation with chart elements
+- Fixed issue #10199: Use saveXML instead of save( 'php://output' ) to work
+  around PHP bug #40429
 
 1.0 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

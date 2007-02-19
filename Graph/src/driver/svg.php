@@ -1084,6 +1084,24 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     }
 
     /**
+     * Render image directly to output
+     *
+     * The method renders the image directly to the standard output. You 
+     * normally do not want to use this function, because it makes it harder 
+     * to proper cache the generated graphs.
+     * 
+     * @return void
+     */
+    public function renderToOutput()
+    {
+        $this->createDocument();  
+        $this->drawAllTexts();
+
+        header( 'Content-Type: ' . $this->getMimeType() );
+        echo $this->dom->saveXML();
+    }
+
+    /**
      * Finally save image
      * 
      * @param string $file Destination filename
