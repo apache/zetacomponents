@@ -197,9 +197,9 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
      * @param string $parameter The option parameter.
      * @return void
      */
-    protected function addFilterOption( $reference, $name, $parameter )
+    protected function addFilterOption( $reference, $name, $parameter = null )
     {
-        $this->filterOptions[$reference][] = $name . ' ' . escapeshellarg( $parameter );
+        $this->filterOptions[$reference][] = $name . ( $parameter !== null ? ' ' . escapeshellarg( $parameter ) : '' );
     }
 
     /**

@@ -25,6 +25,7 @@ return array (
     'ezcImageColorspaceFilters'                     => 'ImageConversion/interfaces/colorspace.php',
     'ezcImageEffectFilters'                         => 'ImageConversion/interfaces/effect.php',
     'ezcImageWatermarkFilters'                      => 'ImageConversion/interfaces/watermark.php',
+    'ezcImageThumbnailFilters'                      => 'ImageConversion/interfaces/thumbnail.php',
 
     'ezcImageGdHandler'                             => 'ImageConversion/handlers/gd.php',
     'ezcImageGdBaseHandler'                         => 'ImageConversion/handlers/gd_base.php',

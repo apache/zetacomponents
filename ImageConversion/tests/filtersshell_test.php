@@ -588,5 +588,53 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
     }
+    
+    public function testCropThumbnailVertical()
+    {
+        $this->handler->croppedThumbnail( 50, 50 );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
+    
+    public function testCropThumbnailHorizontal()
+    {
+        $this->handler->croppedThumbnail( 100, 50 );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
+    
+    public function testFillThumbnailVertical()
+    {
+        $this->handler->filledThumbnail( 50, 50, array( 255, 0, 0 ) );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
+    
+    public function testFillThumbnailHorizontal()
+    {
+        $this->handler->filledThumbnail( 100, 50, array( 255, 0, 0 ) );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
 }
 ?>
