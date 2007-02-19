@@ -129,7 +129,7 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
             $this->getReferencePath(),
             $dstPath,
              "Applying single filter through handler failed.",
-            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+            300
         );
     }
 
