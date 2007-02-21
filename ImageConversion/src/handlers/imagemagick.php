@@ -464,6 +464,10 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler
             {
                 break;
             }
+            if ( !is_int( $colorVal ) || $colorVal < 0 || $colorVal > 255 )
+            {
+                throw new ezcBaseValueException( "color[$id]", $color[$id], 'int > 0 and < 256' );
+            }
             $colorString .= sprintf( '%02x', $colorVal );
         }
         $this->addFilterOption(
@@ -612,6 +616,14 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler
      */
     public function croppedThumbnail( $width, $height )
     {
+        if ( !is_int( $width )  || $width < 1 )
+        {
+            throw new ezcBaseValueException( 'width', $width, 'int > 0' );
+        }
+        if ( !is_int( $height )  || $height < 1 )
+        {
+            throw new ezcBaseValueException( 'height', $height, 'int > 0' );
+        }
         $data = getimagesize( $this->getReferenceData( $this->getActiveReference(), "resource" ) );
         
         $scaleRatio  = max( $width / $data[0], $height / $data[1] );
@@ -657,6 +669,14 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler
      */
     public function filledThumbnail( $width, $height, $color = array() )
     {
+        if ( !is_int( $width )  || $width < 1 )
+        {
+            throw new ezcBaseValueException( 'width', $width, 'int > 0' );
+        }
+        if ( !is_int( $height )  || $height < 1 )
+        {
+            throw new ezcBaseValueException( 'height', $height, 'int > 0' );
+        }
         $data = getimagesize( $this->getReferenceData( $this->getActiveReference(), "resource" ) );
         
         $scaleRatio  = min( $width / $data[0], $height / $data[1] );
@@ -673,6 +693,10 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler
             if ( $i++ > 2 )
             {
                 break;
+            }
+            if ( !is_int( $colorVal )  || $colorVal < 0 || $colorVal > 255 )
+            {
+                throw new ezcBaseValueException( "color[$id]", $color[$id], 'int > 0 and < 256' );
             }
             $colorString .= sprintf( '%02x', $colorVal );
         }

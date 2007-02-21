@@ -540,6 +540,24 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
     }
+
+    public function testBorderFailures()
+    {
+        try
+        {
+            $this->handler->border( false, array( 255, 0, 0 ) );
+            $this->fail( "Border filter accepted incorrect value." );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+        try
+        {
+            $this->handler->border( 10, array( 255, false, 0 ) );
+            $this->fail( "Border filter accepted incorrect value." );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+    }
     
     public function testWatermarkAbsoluteNoScale()
     {
@@ -613,6 +631,38 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         );
     }
     
+    public function testCroppedThumbnailFailures()
+    {
+        try
+        {
+            $this->handler->croppedThumbnail( -10, 50 );
+            $this->fail( "CroppedThumbnail filter accepted incorrect value." );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+        try
+        {
+            $this->handler->croppedThumbnail( "foo", 50 );
+            $this->fail( "CroppedThumbnail filter accepted incorrect value." );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+        try
+        {
+            $this->handler->croppedThumbnail( 50, -10 );
+            $this->fail( "CroppedThumbnail filter accepted incorrect value." );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+        try
+        {
+            $this->handler->croppedThumbnail( 50, false );
+            $this->fail( "CroppedThumbnail filter accepted incorrect value." );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+    }
+    
     public function testFillThumbnailVertical()
     {
         $this->handler->filledThumbnail( 50, 50, array( 255, 0, 0 ) );
@@ -635,6 +685,52 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
             "Image not rendered as expected.",
             ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
         );
+    }
+    
+    public function testFilledThumbnailFailures()
+    {
+        try
+        {
+            $this->handler->filledThumbnail( -10, 50, array( 255, 0, 0 ) );
+            $this->fail( "FilledThumbnail filter accepted incorrect value." );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+        try
+        {
+            $this->handler->filledThumbnail( "foo", 50, array( 255, 0, 0 ) );
+            $this->fail( "FilledThumbnail filter accepted incorrect value." );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+        try
+        {
+            $this->handler->filledThumbnail( 50, -10, array( 255, 0, 0 ) );
+            $this->fail( "FilledThumbnail filter accepted incorrect value." );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+        try
+        {
+            $this->handler->filledThumbnail( 50, false, array( 255, 0, 0 ) );
+            $this->fail( "FilledThumbnail filter accepted incorrect value." );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+        try
+        {
+            $this->handler->filledThumbnail( 50, 50, array( 255, false, 0 ) );
+            $this->fail( "FilledThumbnail filter accepted incorrect value." );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
+        try
+        {
+            $this->handler->filledThumbnail( 50, 50, array( "bar", 0, 0 ) );
+            $this->fail( "FilledThumbnail filter accepted incorrect value." );
+        }
+        catch ( ezcBaseValueException $e )
+        {}
     }
 }
 ?>
