@@ -57,6 +57,9 @@ class ezcTemplateParser
      */
     public $symbolTable;
 
+
+    public $hasCacheBlocks = false;
+
     /**
      * Note: The source code in $code must be loaded/created before passing it to this parser.
      *

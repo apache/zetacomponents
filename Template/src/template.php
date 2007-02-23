@@ -297,15 +297,18 @@ class ezcTemplate
             $parser = new ezcTemplateParser( $source, $this );
             $this->properties["tstTree"] = $parser->parseIntoNodeTree();
 
-            $fetchCacheInfo = new ezcTemplateFetchCacheInformation(); 
-            $this->properties["tstTree"]->accept( $fetchCacheInfo );
 
             // $tstTreeWalker = new ezcTemplateTstWalker();
             // $this->properties["tstTree"]->accept( $tstTreeWalker );
 
             // Check if caching is needed.
-            if ( $fetchCacheInfo->cacheTst !== null )
+
+//            if ( $fetchCacheInfo->cacheTst !== null )
+            if ( $parser->hasCacheBlocks )
             {
+                $fetchCacheInfo = new ezcTemplateFetchCacheInformation(); 
+                $this->properties["tstTree"]->accept( $fetchCacheInfo );
+
                 $cachePreparation = new ezcTemplateCachePreparation();
                 $this->properties["tstTree"]->accept( $cachePreparation );
 

@@ -518,6 +518,20 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
    }
 
     /**
+     * Prepare for the program run.
+     * Caching uses this method as well.
+     */
+    protected function prepareProgram()
+    {
+        // Prepare for program run
+        $this->programNode = new ezcTemplateRootAstNode();
+        $this->handleProgramHeader( $this->programNode );
+        $this->outputVariable->push( self::INTERNAL_PREFIX . "output" );
+        $this->programNode->appendStatement( $this->outputVariable->getInitializationAst() );
+    }
+
+
+    /**
      * Visits the program TST node.
      *
      * Note: This is the first node in the TST tree.
@@ -529,13 +543,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         if ( $this->programNode === null )
         {
-            // Prepare for program run
-            $this->programNode = new ezcTemplateRootAstNode();
-            $this->handleProgramHeader( $this->programNode );
-
-            $this->outputVariable->push( self::INTERNAL_PREFIX . "output" );
-
-            $this->programNode->appendStatement( $this->outputVariable->getInitializationAst() );
+            $this->prepareProgram();
 
             foreach ( $type->elements as $element )
             {

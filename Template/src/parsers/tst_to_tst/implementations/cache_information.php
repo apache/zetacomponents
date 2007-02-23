@@ -37,9 +37,6 @@ class ezcTemplateFetchCacheInformation extends ezcTemplateTstWalker
 
         foreach ( $node->keys as $key )
         {
-            // XXX cannot translate.
-            // Translate the 'old' variableName to the new name.
-           // $k = $key->accept($this);
             $this->cacheKeys[] = $key;
         }
 
@@ -47,11 +44,7 @@ class ezcTemplateFetchCacheInformation extends ezcTemplateTstWalker
         if ( $node->ttl != null ) 
         {
             $this->hasTTL = true;
-            // XXX cannot translate.
-            // $this->programNode->ttl = $type->ttl->accept($this);
         }
-
-        // return new ezcTemplateNopAstNode();
     }
 
  

@@ -57,24 +57,38 @@ class ezcTemplateCacheTest extends ezcTestCase
             $this->fail( "Expected the directory to exists: " . $cacheDir );
         }
     }
-   
+  
     // /////////////////////////////////////////////////////////////////////////////////////////
     // Cache block is not implemented, and should give an exception.
 
+    
+    
+//    public function testCacheBlock()
+//    {
+//        $t = new ezcTemplate( );
+//        $t->send->user = new TestUser( "Bernard", "Black" );
+//
+//        try
+//        {
+//            $out = $t->process( "cache_block.tpl");
+//            $this->fail( "{cache_block} should throw an exception");
+//        }
+//        catch ( ezcTemplateParserException $e )
+//        {
+//        }
+//    }
+     
+    /*
     public function testCacheBlock()
     {
-        $t = new ezcTemplate( );
+        $t = new ezcTemplate();
         $t->send->user = new TestUser( "Bernard", "Black" );
 
-        try
-        {
-            $out = $t->process( "cache_block.tpl");
-            $this->fail( "{cache_block} should throw an exception");
-        }
-        catch ( ezcTemplateParserException $e )
-        {
-        }
+        echo "\n" . $t->configuration->compilePath . "\n";
+        $out = $t->process( "cache_block.tpl");
+        echo $out;
     }
+     */
  
     public function testCacheBlockWithBeginText()
     {
@@ -446,8 +460,6 @@ class ezcTemplateCacheTest extends ezcTestCase
         // $this->assertEquals( "4", $t->receive->calc);
         // $this->assertEquals( "I am rubber, you are glue.", $t->receive->quote);
     }
-
- 
 }
 
 class TestUser

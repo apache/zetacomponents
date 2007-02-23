@@ -355,6 +355,10 @@ class ezcTemplateTstWalker implements ezcTemplateTstNodeVisitor
     }
 
 
+    public function visitCacheBlockTstNode( ezcTemplateCacheBlockTstNode $node )
+    {
+    }
+
 
     protected function acceptAndUpdate( ezcTemplateTstNode &$node )
     {

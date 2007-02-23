@@ -64,17 +64,20 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
         $cacheNode = null;
         if ( $cursor->match( "cache_template" ) )
         {
+            $this->parser->hasCacheBlocks = true;
             $cacheNode = new ezcTemplateCacheTstNode( $this->parser->source, $this->startCursor, $cursor );
             $cacheNode->type = ezcTemplateCacheTstNode::TYPE_CACHE_TEMPLATE;
         }
-      /*elseif ($cursor->match( "cache_block" ) )
+        ////////// HERE 
+        elseif ($cursor->match( "cache_block" ) )
         {
-            $cacheNode = new ezcTemplateCacheTstNode( $this->parser->source, $this->startCursor, $cursor );
-            $cacheNode->type = ezcTemplateCacheTstNode::TYPE_CACHE_BLOCK;
+            $this->parser->hasCacheBlocks = true;
+            $cacheNode = new ezcTemplateCacheBlockTstNode( $this->parser->source, $this->startCursor, $cursor );
+            //$cacheNode->type = ezcTemplateCacheTstNode::TYPE_CACHE_BLOCK;
 
-            if ( $cacheNode->isClosingBlock )
+            if ( $this->block->isClosingBlock )
             {
-                $this->block->isClosingBlock; // Set closing block.
+                $cacheNode->isClosingBlock = true; // Set closing block.
 
                 $this->appendElement( $cacheNode );
                 $this->findNextElement( $cursor );
@@ -86,7 +89,8 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
 
                 return true;
             }
-        }*/
+        }
+        /////////// ENDHERE
         else
         {
             return false;
