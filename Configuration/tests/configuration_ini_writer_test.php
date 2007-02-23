@@ -18,6 +18,10 @@ class ezcConfigurationIniWriterTest extends ezcTestCase
 
     protected function setUp()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'posix' ) )
+        {
+            $this->markTestSkipped( 'ext/posix is required for this test.' );
+        }
         $this->tempDir = $this->createTempDir( 'ezcConfigurationIniWriterTest' );
     }
 
