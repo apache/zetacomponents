@@ -109,7 +109,7 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
     {
         if ( substr( $query, 0, 10 ) == 'DROP TABLE' )
         {
-            $tableName = substr( $query, strlen( 'DROP TABLE ' ) );
+            $tableName = trim( substr( $query, strlen( 'DROP TABLE ' ) ), '"' );
             $result = $db->query( "SELECT count(*) FROM pg_tables WHERE tablename='$tableName'" )->fetchAll();
             if ( $result[0]['count'] == 1 )
             {
@@ -192,21 +192,32 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
 
                 if ( preg_match( "/ALTER TABLE (.*) ALTER (.*) TYPE (.*) USING CAST\((.*)\)/" , $query, $matches ) ) 
                 {
-                    $tableName = $matches[1];
-                    $fieldName = $matches[2];
-                    $fieldType = $matches[3];
+                    $tableName = trim( $matches[1], '"' );
+                    $fieldName = trim( $matches[2], '"' );
+                    $fieldType = trim( $matches[3], '"' );
                     $this->changeField( $db, $tableName, $fieldName, $fieldType );
                 }
                 else if ( preg_match( "/ALTER TABLE (.*) ADD (.*) (.*) NOT NULL/" , $query, $matches ) ) 
                 {
-                    $tableName = $matches[1];
-                    $fieldName = $matches[2];
-                    $fieldType = $matches[3];
+                    $tableName = trim( $matches[1], '"' );
+                    $fieldName = trim( $matches[2], '"' );
+                    $fieldType = trim( $matches[3], '"' );
                     $this->addField( $db, $tableName, $fieldName, $fieldType );
                 }
             }
         }
         $db->commit();
+    }
+
+    /**
+     * Returns a "CREATE TABLE" SQL statement part for the table $tableName.
+     *
+     * @param string  $tableName
+     * @return string
+     */
+    protected function generateCreateTableSqlStatement( $tableName )
+    {
+        return "CREATE TABLE \"$tableName\"";
     }
 
     /**
@@ -222,10 +233,10 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     private function changeField( ezcDbHandler $db, $tableName, $changeFieldName, $changeFieldType )
     {
-        $db->exec( "ALTER TABLE {$tableName} RENAME COLUMN {$changeFieldName} TO {$changeFieldName}_old;" );
-        $db->exec( "ALTER TABLE {$tableName} ADD COLUMN {$changeFieldName} {$changeFieldType};" );
-        $db->exec( "UPDATE {$tableName} SET  {$changeFieldName} = {$changeFieldName}_old;" );
-        $db->exec( "ALTER TABLE {$tableName} DROP COLUMN {$changeFieldName}_old;" );
+        $db->exec( "ALTER TABLE \"{$tableName}\" RENAME COLUMN \"{$changeFieldName}\" TO \"{$changeFieldName}_old\";" );
+        $db->exec( "ALTER TABLE \"{$tableName}\" ADD COLUMN \"{$changeFieldName}\" {$changeFieldType};" );
+        $db->exec( "UPDATE \"{$tableName}\" SET  \"{$changeFieldName}\" = \"{$changeFieldName}_old\";" );
+        $db->exec( "ALTER TABLE \"{$tableName}\" DROP COLUMN \"{$changeFieldName}_old\";" );
     }
 
     /**
@@ -241,8 +252,8 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     private function addField( ezcDbHandler $db, $tableName, $fieldName, $fieldType )
     {
-        $db->exec( "ALTER TABLE {$tableName} ADD {$fieldName} {$fieldType}" );
-        $db->exec( "ALTER TABLE {$tableName} ALTER {$fieldName} SET NOT NULL" );
+        $db->exec( "ALTER TABLE \"{$tableName}\" ADD \"{$fieldName}\" {$fieldType}" );
+        $db->exec( "ALTER TABLE \"{$tableName}\" ALTER \"{$fieldName}\" SET NOT NULL" );
     }
 
     /**
@@ -270,7 +281,7 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     protected function generateDropTableSql( $tableName )
     {
-        $this->queries[] = "DROP TABLE $tableName";
+        $this->queries[] = "DROP TABLE \"$tableName\"";
     }
 
     /**
@@ -339,7 +350,7 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     protected function generateAddFieldSql( $tableName, $fieldName, ezcDbSchemaField $fieldDefinition )
     {
-        $this->queries[] = "ALTER TABLE $tableName ADD " . $this->generateFieldSql( $fieldName, $fieldDefinition );
+        $this->queries[] = "ALTER TABLE \"$tableName\" ADD " . $this->generateFieldSql( $fieldName, $fieldDefinition );
     }
 
     /**
@@ -354,14 +365,14 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
         $fieldType = strstr(  $this->generateFieldSql( $fieldName, $fieldDefinition ), ' ' );
         if ( $fieldDefinition->autoIncrement ) 
         {
-            $this->queries[] = "CREATE SEQUENCE {$tableName}_{$fieldName}_seq";
-            $this->queries[] = "ALTER TABLE $tableName ALTER $fieldName TYPE INTEGER";
-            $this->queries[] = "ALTER TABLE $tableName ALTER COLUMN $fieldName SET DEFAULT nextval('{$tableName}_{$fieldName}_seq')";
-            $this->queries[] = "ALTER TABLE $tableName ALTER COLUMN $fieldName SET NOT NULL";
+            $this->queries[] = "CREATE SEQUENCE \"{$tableName}_{$fieldName}_seq\"";
+            $this->queries[] = "ALTER TABLE \"$tableName\" ALTER \"$fieldName\" TYPE INTEGER";
+            $this->queries[] = "ALTER TABLE \"$tableName\" ALTER COLUMN \"$fieldName\" SET DEFAULT nextval('{$tableName}_{$fieldName}_seq')";
+            $this->queries[] = "ALTER TABLE \"$tableName\" ALTER COLUMN \"$fieldName\" SET NOT NULL";
         }
         else
         {
-            $this->queries[] = "ALTER TABLE $tableName ALTER $fieldName TYPE".$fieldType." USING CAST($fieldName AS $fieldType)";
+            $this->queries[] = "ALTER TABLE \"$tableName\" ALTER \"$fieldName\" TYPE".$fieldType." USING CAST(\"$fieldName\" AS $fieldType)";
         }
     }
 
@@ -373,7 +384,7 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     protected function generateDropFieldSql( $tableName, $fieldName )
     {
-        $this->queries[] = "ALTER TABLE $tableName DROP $fieldName";
+        $this->queries[] = "ALTER TABLE \"$tableName\" DROP \"$fieldName\"";
     }
 
     /**
@@ -385,7 +396,7 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     protected function generateFieldSql( $fieldName, ezcDbSchemaField $fieldDefinition )
     {
-        $sqlDefinition = $fieldName . ' ';
+        $sqlDefinition = "\"$fieldName\" ";
 
         $defList = array();
 
@@ -439,15 +450,15 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
             {
                 return;
             }
-            $sql = "ALTER TABLE $tableName ADD CONSTRAINT {$tableName}_pkey PRIMARY KEY";
+            $sql = "ALTER TABLE \"$tableName\" ADD CONSTRAINT \"{$tableName}_pkey\" PRIMARY KEY";
         }
         else if ( $indexDefinition->unique )
         {
-            $sql = "CREATE UNIQUE INDEX $indexName ON $tableName";
+            $sql = "CREATE UNIQUE INDEX \"$indexName\" ON \"$tableName\"";
         }
         else
         {
-            $sql = "CREATE INDEX $indexName ON $tableName";
+            $sql = "CREATE INDEX \"$indexName\" ON \"$tableName\"";
         }
 
         $sql .= " ( ";
@@ -455,7 +466,7 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
         $indexFieldSql = array();
         foreach ( $indexDefinition->indexFields as $indexFieldName => $dummy )
         {
-                $indexFieldSql[] = "$indexFieldName";
+                $indexFieldSql[] = "\"$indexFieldName\"";
         }
         $sql .= join( ', ', $indexFieldSql ) . " )";
 
@@ -472,11 +483,11 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
     {
         if ( $indexName == 'primary' ) // handling primary indexes
         {
-            $this->queries[] = "ALTER TABLE $tableName DROP CONSTRAINT {$tableName}_pkey";
+            $this->queries[] = "ALTER TABLE \"$tableName\" DROP CONSTRAINT {$tableName}_pkey";
         }
         else
         {
-            $this->queries[] = "DROP INDEX $indexName";
+            $this->queries[] = "DROP INDEX \"$indexName\"";
         }
     }
 }

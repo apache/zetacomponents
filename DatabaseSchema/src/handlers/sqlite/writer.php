@@ -94,7 +94,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
             $result = $db->query( "SELECT count(*) AS count FROM 
                                     (SELECT * FROM sqlite_master UNION ALL 
                                      SELECT * FROM sqlite_temp_master)
-                                   WHERE type='table' AND tbl_name='$tableName'" )->fetchAll();
+                                   WHERE type='table' AND tbl_name={$tableName}" )->fetchAll();
             if ( $result[0]['count'] == 1 )
             {
                 return true;
@@ -178,8 +178,8 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
                                             "Can't fetch field for droping from SQL query: $query" );
                         }
 
-                        $tableName = $matches[1];
-                        $dropFieldName = $matches[2];
+                        $tableName = trim( $matches[1], "'" );
+                        $dropFieldName = trim( $matches[2], "'" );
 
                         $this->dropField( $db, $tableName , $dropFieldName );
                     }
@@ -198,9 +198,9 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
                     try
                     {
                         preg_match( "/ALTER TABLE (.*) CHANGE (.*) (.*) (.*)/" , $query, $matches );
-                        $tableName = $matches[1];
-                        $changeFieldName = $matches[2];
-                        $changeFieldNewName = $matches[3];
+                        $tableName = trim( $matches[1], "'" );
+                        $changeFieldName = trim( $matches[2], "'" );
+                        $changeFieldNewName = trim( $matches[3], "'" );
                         $changeFieldNewType = $matches[4];
                         $this->changeField( $db, $tableName, $changeFieldName, $changeFieldNewName, $changeFieldNewType );
 
@@ -232,7 +232,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
     {
         $tmpTableName = $tableName.'_ezcbackup';
 
-        $resultArray = $db->query( "PRAGMA TABLE_INFO( $tableName )" );
+        $resultArray = $db->query( "PRAGMA TABLE_INFO( '$tableName' )" );
         $resultArray->setFetchMode( PDO::FETCH_NUM );
 
         $fieldsDefinitions = array();
@@ -245,7 +245,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
             if ( $row[1] == $changeFieldName )
             {
                 // will recreate changed field with new definition
-                $fieldsDefinitions[] = "$changeFieldNewName $changeFieldNewDefinition";
+                $fieldsDefinitions[] = "'$changeFieldNewName' $changeFieldNewDefinition";
                 $fieldsList[] = $fieldSql[0];
                 continue; 
             }
@@ -278,22 +278,22 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         if ( count( $fieldsDefinitions ) > 0 )
         {
             $fields = join( ', ', $fieldsDefinitions );
-            $tmpTableCreateSql = "CREATE TEMPORARY TABLE $tmpTableName( $fields  );";
-            $newTableCreateSql = "CREATE TABLE $tableName( $fields )" ;
+            $tmpTableCreateSql = "CREATE TEMPORARY TABLE '$tmpTableName'( $fields  );";
+            $newTableCreateSql = "CREATE TABLE '$tableName'( $fields )" ;
             if ( count($fieldsList)>0 ) 
             {
                 $db->exec( $tmpTableCreateSql );
-                $db->exec( "INSERT INTO $tmpTableName SELECT ". join( ', ', $fieldsList )." FROM $tableName;" );
-                $db->exec( "DROP TABLE $tableName;" );
+                $db->exec( "INSERT INTO '$tmpTableName' SELECT ". join( ', ', $fieldsList )." FROM '$tableName';" );
+                $db->exec( "DROP TABLE '$tableName';" );
                 $db->exec( $newTableCreateSql );
-                $db->exec( "INSERT INTO $tableName SELECT ". join( ', ', $fieldsList )." FROM $tmpTableName;" );
-                $db->exec( "DROP TABLE $tmpTableName;" );
+                $db->exec( "INSERT INTO '$tableName' SELECT ". join( ', ', $fieldsList )." FROM '$tmpTableName';" );
+                $db->exec( "DROP TABLE '$tmpTableName';" );
             }
             else
             {
                 // we had table with one column will drop table and recreate with changed column.
-                $db->exec( "DROP TABLE $tableName;" );
-                $newTableCreateSql = "CREATE TABLE $tableName( $changeFieldNewName $changeFieldNewDefinition )" ;
+                $db->exec( "DROP TABLE '$tableName';" );
+                $newTableCreateSql = "CREATE TABLE '$tableName'( $changeFieldNewName $changeFieldNewDefinition )" ;
                 $db->exec( $newTableCreateSql );
             }
         }
@@ -320,7 +320,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         foreach ( $resultArray as $row )
         {
             $fieldSql = array();
-            $fieldSql[] = $row[1]; // name
+            $fieldSql[] = "'{$row[1]}'"; // name
             if ( $row[1] == $dropFieldName )
             {
                 continue; // don't include droped fileld in temporary table
@@ -352,16 +352,16 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         }
 
         $fields = join( ', ', $fieldsDefinitions );
-        $tmpTableCreateSql = "CREATE TEMPORARY TABLE $tmpTableName( $fields  );";
-        $newTableCreateSql = "CREATE TABLE $tableName( $fields )" ;
+        $tmpTableCreateSql = "CREATE TEMPORARY TABLE '$tmpTableName'( $fields  );";
+        $newTableCreateSql = "CREATE TABLE '$tableName'( $fields )" ;
         if ( count( $fieldsList ) > 0 ) 
         {
             $db->exec( $tmpTableCreateSql );
-            $db->exec( "INSERT INTO $tmpTableName SELECT ". join( ', ', $fieldsList )." FROM $tableName;" );
-            $db->exec( "DROP TABLE $tableName;" );
+            $db->exec( "INSERT INTO '$tmpTableName' SELECT ". join( ', ', $fieldsList )." FROM '$tableName';" );
+            $db->exec( "DROP TABLE '$tableName';" );
             $db->exec( $newTableCreateSql );
-            $db->exec( "INSERT INTO $tableName SELECT ". join( ', ', $fieldsList )." FROM $tmpTableName;" );
-            $db->exec( "DROP TABLE $tmpTableName;" );
+            $db->exec( "INSERT INTO '$tableName' SELECT ". join( ', ', $fieldsList )." FROM '$tmpTableName';" );
+            $db->exec( "DROP TABLE '$tmpTableName';" );
         }
         else
         {
@@ -400,7 +400,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
     protected function generateDropTableSql( $tableName )
     {
         // use DROP TABLE and isQueryAllowed() workaround to emulate DROP TABLE IF EXISTS.
-        $this->queries[] = "DROP TABLE $tableName";
+        $this->queries[] = "DROP TABLE '$tableName'";
     }
 
     /**
@@ -427,6 +427,17 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         $type = $this->typeMap[$fieldDefinition->type];
 
         return "$type$typeAddition";
+    }
+
+    /**
+     * Returns a "CREATE TABLE" SQL statement part for the table $tableName.
+     *
+     * @param string  $tableName
+     * @return string
+     */
+    protected function generateCreateTableSqlStatement( $tableName )
+    {
+        return "CREATE TABLE '$tableName'";
     }
 
     /**
@@ -473,7 +484,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
             $fieldDefinition->default = $this->generateDefault( $fieldDefinition->type, 0 );
 
         }
-        $this->queries[] = "ALTER TABLE $tableName ADD " . $this->generateFieldSql( $fieldName, $fieldDefinition );
+        $this->queries[] = "ALTER TABLE '$tableName' ADD " . $this->generateFieldSql( $fieldName, $fieldDefinition );
     }
 
     /**
@@ -485,7 +496,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
      */
     protected function generateChangeFieldSql( $tableName, $fieldName, ezcDbSchemaField $fieldDefinition )
     {
-        $this->queries[] = "ALTER TABLE $tableName CHANGE $fieldName " . $this->generateFieldSql( $fieldName, $fieldDefinition );
+        $this->queries[] = "ALTER TABLE '$tableName' CHANGE '$fieldName' " . $this->generateFieldSql( $fieldName, $fieldDefinition );
     }
 
     /**
@@ -498,7 +509,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
      */
     protected function generateDropFieldSql( $tableName, $fieldName )
     {
-        $this->queries[] = "ALTER TABLE $tableName DROP COLUMN $fieldName";
+        $this->queries[] = "ALTER TABLE '$tableName' DROP COLUMN '$fieldName'";
     }
 
     /**
@@ -510,7 +521,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
      */
     protected function generateFieldSql( $fieldName, ezcDbSchemaField $fieldDefinition )
     {
-        $sqlDefinition = $fieldName . ' ';
+        $sqlDefinition = "'$fieldName' ";
         $defList = array();
 
         $type = $this->convertFromGenericType( $fieldDefinition );
@@ -559,15 +570,15 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
             {
                 $indexName = $tableName.'_pri';
             }
-            $sql = "CREATE UNIQUE INDEX $indexName ON $tableName";
+            $sql = "CREATE UNIQUE INDEX '$indexName' ON '$tableName'";
         }
         else if ( $indexDefinition->unique )
         {
-            $sql = "CREATE UNIQUE INDEX $indexName ON $tableName";
+            $sql = "CREATE UNIQUE INDEX '$indexName' ON '$tableName'";
         }
         else
         {
-            $sql = "CREATE INDEX $indexName ON $tableName";
+            $sql = "CREATE INDEX '$indexName' ON '$tableName'";
         }
 
         $sql .= " ( ";
@@ -575,7 +586,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         $indexFieldSql = array();
         foreach ( $indexDefinition->indexFields as $indexFieldName => $dummy )
         {
-            $indexFieldSql[] = "$indexFieldName";
+            $indexFieldSql[] = "'$indexFieldName'";
         }
         $sql .= join( ', ', $indexFieldSql ) . " )";
 

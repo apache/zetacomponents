@@ -48,6 +48,17 @@ abstract class ezcDbSchemaCommonSqlWriter
     }
 
     /**
+     * Returns a "CREATE TABLE" SQL statement part for the table $tableName.
+     *
+     * @param string  $tableName
+     * @return string
+     */
+    protected function generateCreateTableSqlStatement( $tableName )
+    {
+        return "CREATE TABLE $tableName";
+    }
+
+    /**
      * Adds a "create table" query for the table $tableName with definition $tableDefinition to the internal list of queries.
      *
      * @param string           $tableName
@@ -55,9 +66,9 @@ abstract class ezcDbSchemaCommonSqlWriter
      */
     protected function generateCreateTableSql( $tableName, ezcDbSchemaTable $tableDefinition )
     {
-        $sql = '';
+        $sql = $this->generateCreateTableSqlStatement( $tableName );
 
-        $sql .= "CREATE TABLE $tableName (\n";
+        $sql .= " (\n";
 
         // dump fields
         $fieldsSQL = array();

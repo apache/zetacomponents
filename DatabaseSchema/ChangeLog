@@ -1,3 +1,12 @@
+1.1.1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed issue #10115: Reserved keywords are not quoted when used as table
+  or field names.
+- Fixed issue #10286: Missing "throw new" before
+  ezcBaseFilePermissionException.
+
+
 1.1 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

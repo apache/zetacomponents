@@ -8,11 +8,12 @@
  * @subpackage Tests
  */
 
+require_once 'generic_diff_test.php';
 /**
  * @package DatabaseSchema
  * @subpackage Tests
  */
-class ezcDatabaseSchemaMySqlDiffTest extends ezcTestCase
+class ezcDatabaseSchemaMysqlDiffTest extends ezcDatabaseSchemaGenericDiffTest
 {
     protected function setUp()
     {
@@ -39,148 +40,46 @@ class ezcDatabaseSchemaMySqlDiffTest extends ezcTestCase
         $this->resetDb();
     }
 
-    protected function tearDown()
-    {
-        $this->removeTempDir();
-    }
-
-    private function resetDb()
+    protected function resetDb()
     {
         $tables = $this->db->query( "SHOW TABLES" )->fetchAll();
         array_walk( $tables, create_function( '&$item,$key', '$item = $item[0];' ) );
 
         foreach ( $tables as $tableName )
         {
-            $this->db->query( "DROP TABLE $tableName" );
+            $this->db->query( "DROP TABLE `$tableName`" );
         }
     }
 
-    private static function getSchema1()
+    protected function getDiffExpectations1()
     {
-        return new ezcDbSchema( array(
-            'bugdb' => new ezcDbSchemaTable(
-                array (
-                    'integerfield1' => new ezcDbSchemaField( 'integer' ),
-                )
-            ),
-            'bugdb_deleted' => new ezcDbSchemaTable(
-                array (
-                    'integerfield1' => new ezcDbSchemaField( 'integer' ),
-                )
-            ),
-            'bugdb_change' => new ezcDbSchemaTable(
-                array (
-                    'integerfield1' => new ezcDbSchemaField( 'integer' ),
-                    'integerfield3' => new ezcDbSchemaField( 'integer' ),
-                ),
-                array (
-                    'primary' => new ezcDbSchemaIndex(
-                        array(
-                            'integerfield1' => new ezcDbSchemaIndexField()
-                        ),
-                        true
-                    ),
-                    'tertiary' => new ezcDbSchemaIndex(
-                        array(
-                            'integerfield3' => new ezcDbSchemaIndexField()
-                        ),
-                        false,
-                        true
-                    )
-                )
-            ),
-        ) );
-    }
-
-    private static function getSchema2()
-    {
-        return new ezcDbSchema( array(
-            'bugdb' => new ezcDbSchemaTable(
-                array (
-                    'integerfield1' => new ezcDbSchemaField( 'integer' ),
-                )
-            ),
-            'bugdb_added' => new ezcDbSchemaTable(
-                array (
-                    'integerfield1' => new ezcDbSchemaField( 'integer' ),
-                )
-            ),
-            'bugdb_change' => new ezcDbSchemaTable(
-                array (
-                    'integerfield2' => new ezcDbSchemaField( 'integer', 0, true, 0 ),
-                    'integerfield3' => new ezcDbSchemaField( 'text', 64 ),
-                ),
-                array (
-                    'secondary' => new ezcDbSchemaIndex(
-                        array(
-                            'integerfield3' => new ezcDbSchemaIndexField()
-                        ),
-                        false,
-                        true
-                    ),
-                    'primary' => new ezcDbSchemaIndex(
-                        array(
-                            'integerfield2' => new ezcDbSchemaIndexField()
-                        ),
-                        true
-                    )
-                )
-            ),
-        ) );
-    }
-
-    private static function getSchemaDiff()
-    {
-        return ezcDbSchemaComparator::compareSchemas( self::getSchema1(), self::getSchema2() );
-    }
-
-    public function testWrite1()
-    {
-        $schema = self::getSchemaDiff();
-        $ddl = $schema->convertToDDL( $this->db );
-
         $expected = array (
-            0 => 'ALTER TABLE bugdb_change DROP INDEX `tertiary`',
-            1 => 'ALTER TABLE bugdb_change DROP INDEX `primary`',
-            2 => 'ALTER TABLE bugdb_change DROP integerfield1',
-            3 => 'ALTER TABLE bugdb_change CHANGE integerfield3 integerfield3 varchar(64)',
-            4 => 'ALTER TABLE bugdb_change ADD integerfield2 bigint NOT NULL DEFAULT 0',
-            5 => 'ALTER TABLE bugdb_change ADD PRIMARY KEY ( integerfield2 )',
-            6 => 'ALTER TABLE bugdb_change ADD UNIQUE secondary ( integerfield3 )',
-            7 => "CREATE TABLE bugdb_added (\n\tintegerfield1 bigint\n)",
-            8 => 'DROP TABLE IF EXISTS bugdb_deleted',
+            0 => "ALTER TABLE `bugdb_change` DROP INDEX `tertiary`",
+            1 => "ALTER TABLE `bugdb_change` DROP INDEX `primary`",
+            2 => "ALTER TABLE `bugdb_change` DROP `integerfield1`",
+            3 => "ALTER TABLE `bugdb_change` CHANGE `integerfield3` `integerfield3` varchar(64)",
+            4 => "ALTER TABLE `bugdb_change` ADD `integerfield2` bigint NOT NULL",
+            5 => "ALTER TABLE `bugdb_change` ADD PRIMARY KEY ( `integerfield2` )",
+            6 => "ALTER TABLE `bugdb_change` ADD UNIQUE `secondary` ( `integerfield3` )",
+            7 => "CREATE TABLE `bugdb_added` (\n\t`integerfield1` bigint\n)",
+            8 => "DROP TABLE IF EXISTS `bugdb_deleted`",
         );
-        self::assertEquals( $expected, $ddl );
+        return $expected;
     }
 
-    public function testApply1()
+    protected function getDiffExpectations2()
     {
-        $schema1 = self::getSchema1();
-        $schema1->writeToDb( $this->db );
-        $schemaDiff = self::getSchemaDiff();
-        $schemaDiff->applyToDb( $this->db );
-        $schemaInDb = ezcDbSchema::createFromDb( $this->db );
-        $this->resetDb();
-        self::assertEquals( self::getSchema2(), $schemaInDb );
-    }
-
-    // bug #8900
-    public function testTwoTablesPrimaryKey()
-    {
-        $fileNameWithout = realpath( $this->testFilesDir . 'bug8900-without-index.xml' );
-        $schemaWithout = ezcDbSchema::createFromFile( 'xml', $fileNameWithout );
-
-        $fileNameWith = realpath( $this->testFilesDir . 'bug8900.xml' );
-        $schemaWith = ezcDbSchema::createFromFile( 'xml', $fileNameWith );
-
-        $diff = ezcDbSchemaComparator::compareSchemas( $schemaWithout, $schemaWith );
-        $text = '';
-        foreach ( $diff->convertToDDL( $this->db ) as $statement )
-        {
-            $text .= $statement . ";\n";
-        }
-        $sql = file_get_contents( $this->testFilesDir . 'bug8900-diff_mysql.sql' );
-        self::assertEquals( $sql, $text );
+        $expected = array (
+            0 => "ALTER TABLE `bugdb_change` DROP INDEX `join`",
+            1 => "ALTER TABLE `bugdb_change` DROP INDEX `primary`",
+            2 => "ALTER TABLE `bugdb_change` DROP `from`",
+            3 => "ALTER TABLE `bugdb_change` ADD `group` bigint",
+            4 => "ALTER TABLE `bugdb_change` ADD PRIMARY KEY ( `group` )",
+            5 => "ALTER TABLE `bugdb_change` ADD UNIQUE `from` ( `table` )",
+            6 => "CREATE TABLE `order` (\n\t`right` bigint\n)",
+            7 => "DROP TABLE IF EXISTS `select`",
+        );
+        return $expected;
     }
 
     public static function suite()

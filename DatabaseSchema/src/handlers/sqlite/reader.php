@@ -23,6 +23,7 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
      */
     static private $typeMap = array(
         'integer' => 'integer',
+        'integer unsigned' => 'integer',
         'real' => 'float',
         'text' => 'text',
         'blob' => 'blob',
@@ -99,7 +100,7 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
     {
         $fields = array();
 
-        $resultArray = $this->db->query( "PRAGMA TABLE_INFO( $tableName )" );
+        $resultArray = $this->db->query( "PRAGMA TABLE_INFO( '$tableName' )" );
         $resultArray->setFetchMode( PDO::FETCH_NUM );
 
         foreach ( $resultArray as $row )
@@ -217,7 +218,7 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
     {
         $indexBuffer = array();
 
-        $indexNamesArray = $this->db->query( "PRAGMA INDEX_LIST ($tableName)" );
+        $indexNamesArray = $this->db->query( "PRAGMA INDEX_LIST ('$tableName')" );
 
         $primaryFound = false;
 
@@ -237,7 +238,7 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
                 $indexBuffer[$keyName]['unique'] = $row[2]?true:false;
             }
 
-            $indexArray = $this->db->query( "PRAGMA INDEX_INFO ({$row[1]})" );
+            $indexArray = $this->db->query( "PRAGMA INDEX_INFO ( '{$row[1]}' )" );
 
             foreach ( $indexArray as $indexColumnRow )
             {
@@ -246,7 +247,7 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
         }
 
         // search primary index
-        $fieldArray = $this->db->query( "PRAGMA TABLE_INFO ($tableName)" );
+        $fieldArray = $this->db->query( "PRAGMA TABLE_INFO ('$tableName')" );
         foreach ( $fieldArray as $row )
         {
             if ( $row[5] == '1' ) 

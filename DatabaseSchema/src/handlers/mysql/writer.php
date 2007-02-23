@@ -145,7 +145,7 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     protected function generateDropTableSql( $tableName )
     {
-        $this->queries[] = "DROP TABLE IF EXISTS $tableName";
+        $this->queries[] = "DROP TABLE IF EXISTS `$tableName`";
     }
 
     /**
@@ -172,6 +172,17 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
         $type = $this->typeMap[$fieldDefinition->type];
 
         return "$type$typeAddition";
+    }
+
+    /**
+     * Returns a "CREATE TABLE" SQL statement part for the table $tableName.
+     *
+     * @param string  $tableName
+     * @return string
+     */
+    protected function generateCreateTableSqlStatement( $tableName )
+    {
+        return "CREATE TABLE `$tableName`";
     }
 
     /**
@@ -213,7 +224,7 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     protected function generateAddFieldSql( $tableName, $fieldName, ezcDbSchemaField $fieldDefinition )
     {
-        $this->queries[] = "ALTER TABLE $tableName ADD " . $this->generateFieldSql( $fieldName, $fieldDefinition );
+        $this->queries[] = "ALTER TABLE `$tableName` ADD " . $this->generateFieldSql( $fieldName, $fieldDefinition );
     }
 
     /**
@@ -225,7 +236,7 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     protected function generateChangeFieldSql( $tableName, $fieldName, ezcDbSchemaField $fieldDefinition )
     {
-        $this->queries[] = "ALTER TABLE $tableName CHANGE $fieldName " . $this->generateFieldSql( $fieldName, $fieldDefinition );
+        $this->queries[] = "ALTER TABLE `$tableName` CHANGE `$fieldName` " . $this->generateFieldSql( $fieldName, $fieldDefinition );
     }
 
     /**
@@ -236,7 +247,7 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     protected function generateDropFieldSql( $tableName, $fieldName )
     {
-        $this->queries[] = "ALTER TABLE $tableName DROP $fieldName";
+        $this->queries[] = "ALTER TABLE `$tableName` DROP `$fieldName`";
     }
 
     /**
@@ -248,7 +259,7 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     protected function generateFieldSql( $fieldName, ezcDbSchemaField $fieldDefinition )
     {
-        $sqlDefinition = $fieldName . ' ';
+        $sqlDefinition = "`$fieldName` ";
 
         $defList = array();
 
@@ -286,7 +297,7 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     protected function generateAddIndexSql( $tableName, $indexName, ezcDbSchemaIndex $indexDefinition )
     {
-        $sql = "ALTER TABLE $tableName ADD ";
+        $sql = "ALTER TABLE `$tableName` ADD ";
 
         if ( $indexDefinition->primary )
         {
@@ -298,11 +309,11 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
         }
         else if ( $indexDefinition->unique )
         {
-            $sql .= "UNIQUE $indexName";
+            $sql .= "UNIQUE `$indexName`";
         }
         else
         {
-            $sql .= "INDEX $indexName";
+            $sql .= "INDEX `$indexName`";
         }
 
         $sql .= " ( ";
@@ -315,11 +326,11 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
                 isset( $this->schema[$tableName]->fields[$indexFieldName]->type ) &&
                 in_array( $this->schema[$tableName]->fields[$indexFieldName]->type, array( 'blob', 'clob' ) ) )
             {
-                $indexFieldSql[] = "{$indexFieldName}(250)";
+                $indexFieldSql[] = "`{$indexFieldName}`(250)";
             }
             else
             {
-                $indexFieldSql[] = "$indexFieldName";
+                $indexFieldSql[] = "`$indexFieldName`";
             }
         }
         $sql .= join( ', ', $indexFieldSql ) . " )";
@@ -335,7 +346,7 @@ class ezcDbSchemaMysqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
      */
     protected function generateDropIndexSql( $tableName, $indexName )
     {
-        $this->queries[] = "ALTER TABLE $tableName DROP INDEX `$indexName`";
+        $this->queries[] = "ALTER TABLE `$tableName` DROP INDEX `$indexName`";
     }
 }
 ?>

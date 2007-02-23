@@ -122,7 +122,7 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
     {
         $fields = array();
 
-        $resultArray = $this->db->query( "DESCRIBE $tableName" );
+        $resultArray = $this->db->query( "DESCRIBE `$tableName`" );
         $resultArray->setFetchMode( PDO::FETCH_ASSOC );
 
         foreach ( $resultArray as $row )
@@ -259,7 +259,7 @@ class ezcDbSchemaMysqlReader implements ezcDbSchemaDbReader
     {
         $indexBuffer = array();
 
-        $resultArray = $this->db->query( "SHOW INDEX FROM $tableName" );
+        $resultArray = $this->db->query( "SHOW INDEX FROM `$tableName`" );
         
         foreach ( $resultArray as $row )
         {

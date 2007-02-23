@@ -51,7 +51,7 @@ class ezcDbSchemaPersistentWriter implements ezcDbSchemaFileWriter
 
         if ( !is_writable( $dir ) )
         {
-            ezcBaseFilePermissionException( $dir, ezcBaseFileException::WRITE );
+            throw new ezcBaseFilePermissionException( $dir, ezcBaseFileException::WRITE );
         }
 
         $schema = $dbSchema->getSchema();
