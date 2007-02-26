@@ -97,11 +97,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
                 throw new ezcBaseValueException( 'direction', $direction, 'self::SCALE_BOTH, self::SCALE_UP, self::SCALE_DOWN' );
                 break;
         }
-        $newDim = array(
-            'x' => round( $oldDim['x'] * $ratio ),
-            'y' => round( $oldDim['y'] * $ratio ),
-        );
-        $this->performScale( $newDim );
+        $this->performScale( round( $oldDim['x'] * $ratio ), round( $oldDim['y'] * $ratio ) );
     }
 
     /**
@@ -164,7 +160,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
                 throw new ezcBaseValueException( 'direction', $direction, 'self::SCALE_BOTH, self::SCALE_UP, self::SCALE_DOWN' );
                 break;
         }
-        $this->performScale( $newDim );
+        $this->performScale( $newDim["x"], $newDim["y"] );
     }
 
     /**
@@ -227,7 +223,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
                 throw new ezcBaseValueException( 'direction', $direction, 'self::SCALE_BOTH, self::SCALE_UP, self::SCALE_DOWN' );
                 break;
         }
-        $this->performScale( $newDim );
+        $this->performScale( $newDim["x"], $newDim["y"] );
     }
 
     /**
@@ -263,11 +259,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
         }
 
         $resource = $this->getActiveResource();
-        $newDim = array(
-            'x' => round( imagesx( $resource ) * $width / 100 ),
-            'y' => round( imagesy( $resource ) * $height / 100 ),
-        );
-        $this->performScale( $newDim );
+        $this->performScale( round( imagesx( $resource ) * $width / 100 ), round( imagesy( $resource ) * $height / 100 ) );
     }
 
     /**
@@ -300,7 +292,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
         {
             throw new ezcBaseValueException( 'width', $width, 'int > 0' );
         }
-        $this->performScale( array( 'x' => $width, 'y' => $height ) );
+        $this->performScale( $width, $height );
     }
 
     /**
@@ -586,7 +578,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
         $cropOffsetX = ( $scaleWidth > $width )   ? round( ( $scaleWidth - $width ) / 2 )   : 0;
         $cropOffsetY = ( $scaleHeight > $height ) ? round( ( $scaleHeight - $height ) / 2 ) : 0;
 
-        $this->performScale( array( "x" => $scaleWidth, "y" => $scaleHeight ) );
+        $this->performScale( $scaleWidth, $scaleHeight );
         $this->performCrop( $cropOffsetX, $cropOffsetY, $width, $height );
     }
 
@@ -838,8 +830,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
         {
             return $res;
         }
-        // @TODO Fix filter name to be generic
-        throw new ezcImageFilterFailedException( 'colorspace', "Color allocation failed for color r: '{$r}', g: '{$g}', b: '{$b}'." );
+        throw new ezcImageFilterFailedException( 'allocatecolor', "Color allocation failed for color r: '{$r}', g: '{$g}', b: '{$b}'." );
     }
 
     /**
@@ -852,19 +843,17 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
      *         If no valid resource for the active reference could be found.
      * @throws ezcImageFilterFailedException.
      *         If the operation performed by the the filter failed.
-     *
-     * @todo Change signature, should be ( $width, $height )
      */
-    protected function performScale( $dimensions )
+    protected function performScale( $width, $height )
     {
         $oldResource = $this->getActiveResource();
         if ( imageistruecolor( $oldResource ) )
         {
-            $newResource = imagecreatetruecolor( $dimensions['x'], $dimensions['y'] );
+            $newResource = imagecreatetruecolor( $width, $height );
         }
         else
         {
-            $newResource = imagecreate( $dimensions['x'], $dimensions['y'] );
+            $newResource = imagecreate( $width, $height );
         }
    
         // Save transparency, if image has it
@@ -877,8 +866,8 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
             $newResource,
             $oldResource,
             0, 0, 0, 0,
-            $dimensions['x'],
-            $dimensions['y'],
+            $width,
+            $height,
             imagesx( $this->getActiveResource() ),
             imagesy( $this->getActiveResource() )
         );
