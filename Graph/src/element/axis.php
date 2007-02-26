@@ -264,7 +264,7 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 $this->getLabel( $major ),
                 array(),
                 $this->isZeroStep( $major ),
-                ( $major !== $majorSteps )
+                ( $major === $majorSteps )
             );
 
             // Do not add minor steps at major steps positions

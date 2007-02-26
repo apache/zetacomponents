@@ -31,6 +31,49 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         );
     }
 
+    public function testGetSteps()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( 2000 => 70, 12, 39, 87 ) );
+        $chart->render( 500, 200 );
+
+        $steps = $chart->yAxis->getSteps();
+
+        $position = 0.;
+        $label = 0.;
+        foreach ( $steps as $nr => $step )
+        {
+            $this->assertEquals(
+                $step->position,
+                $position,
+                "[$nr] Step position wrong.",
+                .00001
+            );
+            $position += .25;
+
+            $this->assertEquals(
+                $step->width,
+                .25,
+                "[$nr] Step width wrong.",
+                .00001
+            );
+
+            $this->assertEquals(
+                $step->label,
+                $label,
+                "[$nr] Step label wrong.",
+                .00001
+            );
+            $label += 25;
+
+            $this->assertSame(
+                count( $step->childs ),
+                4,
+                "[$nr] Step child count wrong."
+            );
+        }
+    }
+
     public function testManualScaling()
     {
         $chart = new ezcGraphLineChart();
