@@ -21,7 +21,7 @@
  * @package ImageConversion
  * @access private
  */
-class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometryFilters, ezcImageColorspaceFilters, ezcImageWatermarkFilters
+class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometryFilters, ezcImageColorspaceFilters, ezcImageWatermarkFilters, ezcImageThumbnailFilters
 {
     /**
      * Scale filter.
@@ -369,39 +369,8 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
             $height = $sourceHeight - $y;
         }
 
-        if ( imageistruecolor( $oldResource ) )
-        {
-            $newResource = imagecreatetruecolor( $width, $height  );
-        }
-        else
-        {
-            $newResource = imagecreate( $width, $height );
-        }
-        
-        // Save transparency, if image has it
-        $bgColor = imagecolorallocatealpha(  $newResource, 255, 255, 255, 127 );
-        imagealphablending(  $newResource, true );
-        imagesavealpha(  $newResource, true );
-        imagefill(  $newResource, 1, 1, $bgColor );
-        
-        $res = imagecopyresampled(
-            $newResource,           // destination resource 
-            $oldResource,           // source resource
-            0,                      // destination x coord
-            0,                      // destination y coord
-            $x,                     // source x coord
-            $y,                     // source y coord
-            $width,                 // destination width
-            $height,                // destination height
-            $width,                 // source witdh
-            $height                 // source height
-        );
-        if ( $res === false )
-        {
-            throw new ezcImageFilterFailedException( 'crop', 'Resampling of image failed.' );
-        }
-        imagedestroy( $oldResource );
-        $this->setActiveResource( $newResource );
+        $this->performCrop( $x, $y, $width, $height );
+
     }
 
     /**
@@ -585,6 +554,111 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
         // Restore original image reference
         $this->setActiveReference( $originalRef );
     }
+    
+    /**
+     * Creates a thumbnail, and crops parts of the given image to fit the range best.
+     * This filter creates a thumbnail of the given image. The image is scaled
+     * down, keeping the original ratio and keeping the image larger as the
+     * given range, if necessary. Overhead for the target range is cropped from
+     * both sides equally.
+     * 
+     * @param int $width  Width of the thumbnail.
+     * @param int $height Height of the thumbnail.
+     */
+    public function croppedThumbnail( $width, $height )
+    {
+        if ( !is_int( $width )  || $width < 1 )
+        {
+            throw new ezcBaseValueException( 'width', $width, 'int > 0' );
+        }
+        if ( !is_int( $height )  || $height < 1 )
+        {
+            throw new ezcBaseValueException( 'height', $height, 'int > 0' );
+        }
+        $resource = $this->getActiveResource();
+        $data[0] = imagesx( $resource );
+        $data[1] = imagesy( $resource );
+        
+        $scaleRatio  = max( $width / $data[0], $height / $data[1] );
+        $scaleWidth  = round( $data[0] * $scaleRatio );
+        $scaleHeight = round( $data[1] * $scaleRatio );
+        
+        $cropOffsetX = ( $scaleWidth > $width )   ? round( ( $scaleWidth - $width ) / 2 )   : 0;
+        $cropOffsetY = ( $scaleHeight > $height ) ? round( ( $scaleHeight - $height ) / 2 ) : 0;
+
+        $this->performScale( array( "x" => $scaleWidth, "y" => $scaleHeight ) );
+        $this->performCrop( $cropOffsetX, $cropOffsetY, $width, $height );
+    }
+
+    /**
+     * Creates a thumbnail, and fills up the image to fit the given range.
+     * This filter creates a thumbnail of the given image. The image is scaled
+     * down, keeping the original ratio and scaling the image smaller as the
+     * given range, if necessary. Overhead for the target range is filled with the given
+     * color on both sides equally.
+     *
+     * The color is defined by the following array format (integer values 0-255):
+     *
+     * <code>
+     * array( 
+     *      0 => <red value>,
+     *      1 => <green value>,
+     *      2 => <blue value>,
+     * );
+     * </code>
+     * 
+     * @param int $width  Width of the thumbnail.
+     * @param int $height Height of the thumbnail.
+     * @param array $color Fill color.
+     *
+     * @return void
+     */
+    public function filledThumbnail( $width, $height, $color = array() )
+    {
+        $i = 0;
+        foreach ( $color as $id => $colorVal )
+        {
+            if ( $i++ > 2 )
+            {
+                break;
+            }
+            if ( !is_int( $colorVal )  || $colorVal < 0 || $colorVal > 255 )
+            {
+                throw new ezcBaseValueException( "color[$id]", $color[$id], 'int > 0 and < 256' );
+            }
+        }
+        
+        // Sanity checks for $width and $height performed by scale() method.
+        $this->scale( $width, $height, ezcImageGeometryFilters::SCALE_BOTH );
+        
+        $oldResource = $this->getActiveResource();
+
+        $realWidth   = imagesx( $oldResource );
+        $realHeight  = imagesy( $oldResource );
+        $xOffset     = ( $width > $realWidth )   ? round( ( $width - $realWidth ) / 2 )   : 0;
+        $yOffset     = ( $height > $realHeight ) ? round( ( $height - $realHeight ) / 2 ) : 0;
+
+        $newResource = imagecreatetruecolor( $width, $height );
+        $bgColor     = $this->getColor( $newResource, $color[0], $color[1], $color[2] );
+        if ( imagefill( $newResource, 0, 0, $bgColor ) === false )
+        {
+            throw new ezcImageFilterFailedException( "filledThumbnail", "Color fill failed." );
+        }
+
+        imagecopy(
+            $newResource,
+            $oldResource,
+            $xOffset,
+            $yOffset,
+            0,
+            0,
+            $realWidth,
+            $realHeight
+        );
+
+        $this->setActiveResource( $newResource );
+        imagedestroy( $oldResource );
+    }
 
     // private
 
@@ -764,6 +838,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
         {
             return $res;
         }
+        // @TODO Fix filter name to be generic
         throw new ezcImageFilterFailedException( 'colorspace', "Color allocation failed for color r: '{$r}', g: '{$g}', b: '{$b}'." );
     }
 
@@ -777,6 +852,8 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
      *         If no valid resource for the active reference could be found.
      * @throws ezcImageFilterFailedException.
      *         If the operation performed by the the filter failed.
+     *
+     * @todo Change signature, should be ( $width, $height )
      */
     protected function performScale( $dimensions )
     {
@@ -808,6 +885,53 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometr
         if ( $res === false )
         {
             throw new ezcImageFilterFailedException( 'scale', 'Resampling of image failed.' );
+        }
+        imagedestroy( $oldResource );
+        $this->setActiveResource( $newResource );
+    }
+
+    /**
+     * General method to perform a crop operation. 
+     * 
+     * @param int $x 
+     * @param int $y 
+     * @param int $width 
+     * @param int $height 
+     * @return void
+     */
+    private function performCrop( $x, $y, $width, $height )
+    {
+        $oldResource = $this->getActiveResource();
+        if ( imageistruecolor( $oldResource ) )
+        {
+            $newResource = imagecreatetruecolor( $width, $height  );
+        }
+        else
+        {
+            $newResource = imagecreate( $width, $height );
+        }
+        
+        // Save transparency, if image has it
+        $bgColor = imagecolorallocatealpha(  $newResource, 255, 255, 255, 127 );
+        imagealphablending(  $newResource, true );
+        imagesavealpha(  $newResource, true );
+        imagefill(  $newResource, 1, 1, $bgColor );
+        
+        $res = imagecopyresampled(
+            $newResource,           // destination resource 
+            $oldResource,           // source resource
+            0,                      // destination x coord
+            0,                      // destination y coord
+            $x,                     // source x coord
+            $y,                     // source y coord
+            $width,                 // destination width
+            $height,                // destination height
+            $width,                 // source witdh
+            $height                 // source height
+        );
+        if ( $res === false )
+        {
+            throw new ezcImageFilterFailedException( 'crop', 'Resampling of image failed.' );
         }
         imagedestroy( $oldResource );
         $this->setActiveResource( $newResource );
