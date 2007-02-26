@@ -21,7 +21,11 @@
  * @package ImageConversion
  * @access private
  */
-class ezcImageGdHandler extends ezcImageGdBaseHandler implements ezcImageGeometryFilters, ezcImageColorspaceFilters, ezcImageWatermarkFilters, ezcImageThumbnailFilters
+class ezcImageGdHandler extends ezcImageGdBaseHandler
+                        implements ezcImageGeometryFilters,
+                                   ezcImageColorspaceFilters,
+                                   ezcImageWatermarkFilters,
+                                   ezcImageThumbnailFilters
 {
     /**
      * Scale filter.
