@@ -110,6 +110,7 @@ return array(
     'ezcGraphPolynom'                           => 'Graph/math/polynom.php',
     'ezcGraphBoundings'                         => 'Graph/math/boundings.php',
 
+    'ezcGraphAxisStep'                          => 'Graph/structs/step.php',
     'ezcGraphCoordinate'                        => 'Graph/structs/coordinate.php',
     'ezcGraphContext'                           => 'Graph/structs/context.php',
 );

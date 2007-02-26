@@ -243,6 +243,49 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
     abstract public function getLabel( $step );
 
     /**
+     * Return array of steps on this axis
+     * 
+     * @return array( ezcGraphAxisStep )
+     */
+    public function getSteps()
+    {
+        $majorSteps = $this->getMajorStepCount();
+        $minorStepsPerMajorStepCount = ( $this->getMinorStepCount() / $majorSteps );
+
+        $majorStepSize = 1 / $majorSteps;
+        $minorStepSize = ( $minorStepsPerMajorStepCount > 0 ? $majorStepSize / $minorStepsPerMajorStepCount : 0 );
+
+        $steps = array();
+        for ( $major = 0; $major <= $majorSteps; ++$major )
+        {
+            $majorStep = new ezcGraphAxisStep(
+                $majorStepSize * $major,
+                $majorStepSize,
+                $this->getLabel( $major ),
+                array(),
+                $this->isZeroStep( $major ),
+                ( $major !== $majorSteps )
+            );
+
+            // Do not add minor steps at major steps positions
+            if ( $minorStepsPerMajorStepCount > 0 )
+            {
+                for( $minor = 1; $minor < $minorStepsPerMajorStepCount; ++$minor )
+                {
+                    $majorStep->childs[] = new ezcGraphAxisStep(
+                        ( $majorStepSize * $major ) + ( $minorStepSize * $minor ),
+                        $minorStepSize
+                    );
+                }
+            }
+
+            $steps[] = $majorStep;
+        }
+
+        return $steps;
+    }
+
+    /**
      * Is zero step
      *
      * Returns true if the given step is the one on the initial axis position

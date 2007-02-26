@@ -227,6 +227,9 @@ class ezcGraphLineChart extends ezcGraphChart
                     }
                     break;
                 case ezcGraph::BAR:
+                    // @TODO:
+                    // - Use getSteps() to determine bar width
+                    // - throw Exception on unregular step width on x axis
                     $barCount = ( 
                         ( count ( $data ) - 1 ) > $this->elements['xAxis']->getMajorStepCount() ? 
                         ( $this->elements['xAxis']->getMajorStepCount() + 1 ) * ( $this->elements['xAxis']->getMinorStepCount() - 1 ) : 

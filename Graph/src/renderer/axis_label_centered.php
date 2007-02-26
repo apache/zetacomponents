@@ -84,34 +84,20 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
         ezcGraphChartElementAxis $axis )
     {
         // receive rendering parameters from axis
-        $this->majorStepCount = $axis->getMajorStepCount();
-        $this->minorStepCount = $axis->getMinorStepCount();
-        $minorStepsPerMajorStepCount = $this->minorStepCount / $this->majorStepCount - 1;
-        
+        $steps = $axis->getSteps();
+
+        $axisBoundings = new ezcGraphBoundings(
+            $start->x, $start->y,
+            $end->x, $end->y
+        );
+
         // Determine normalized axis direction
-        $direction = new ezcGraphCoordinate(
+        $direction = new ezcGraphVector(
             $start->x - $end->x,
             $start->y - $end->y
         );
+        $direction->unify();
         
-        $length = sqrt( pow( $direction->x, 2) + pow( $direction->y, 2 ) );
-        $direction->x /= $length;
-        $direction->y /= $length;
-        
-        // Calculate stepsizes for mjor and minor steps
-        $majorStep = new ezcGraphCoordinate(
-            ( $end->x - $start->x ) / $this->majorStepCount,
-            ( $end->y - $start->y ) / $this->majorStepCount
-        );
-
-        if ( $this->minorStepCount )
-        {
-            $minorStep = new ezcGraphCoordinate(
-                ( $end->x - $start->x ) / $this->minorStepCount,
-                ( $end->y - $start->y ) / $this->minorStepCount
-            );
-        }
-
         if ( $this->outerGrid )
         {
             $gridBoundings = $boundings;
@@ -126,107 +112,156 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
             );
         }
 
-        // Determine size of labels
-        switch ( $axis->position )
-        {
-            case ezcGraph::RIGHT:
-            case ezcGraph::LEFT:
-                $labelWidth = min( 
-                    abs( $majorStep->x ),
-                    ( $boundings->x1 - $boundings->x0 ) * $axis->axisSpace * 2
-                );
-                $labelHeight = ( $boundings->y1 - $boundings->y0 ) * $axis->axisSpace;
-                break;
-            case ezcGraph::BOTTOM:
-            case ezcGraph::TOP:
-                $labelWidth = ( $boundings->x1 - $boundings->x0 ) * $axis->axisSpace;
-                $labelHeight = min( 
-                    abs( $majorStep->y ),
-                    ( $boundings->y1 - $boundings->y0 ) * $axis->axisSpace * 2
-                );
-                break;
-        }
-
         // Draw steps and grid
-        $step = 0;
-        while ( $step <= $this->majorStepCount )
+        foreach ( $steps as $nr => $step )
         {
-            if ( ! $axis->isZeroStep( $step ) )
+            $position = new ezcGraphCoordinate(
+                $start->x + ( $end->x - $start->x ) * $step->position,
+                $start->y + ( $end->y - $start->y ) * $step->position
+            );
+            $stepSize = new ezcGraphCoordinate(
+                $axisBoundings->width * $step->width,
+                $axisBoundings->height * $step->width
+            );
+
+            if ( ! $step->isZero )
             {
                 // major grid
                 if ( $axis->majorGrid )
                 {
-                    $this->drawGrid( $renderer, $gridBoundings, $start, $majorStep, $axis->majorGrid );
+                    $this->drawGrid( 
+                        $renderer, 
+                        $gridBoundings, 
+                        $position,
+                        $stepSize,
+                        $axis->majorGrid
+                    );
                 }
                 
                 // major step
-                $this->drawStep( $renderer, $start, $direction, $axis->position, $this->majorStepSize, $axis->border );
+                $this->drawStep( 
+                    $renderer, 
+                    $position,
+                    $direction, 
+                    $axis->position, 
+                    $this->majorStepSize, 
+                    $axis->border
+                );
             }
 
             // draw label
-            if ( $this->showZeroValue || ! $axis->isZeroStep( $step ) )
+            if ( $this->showZeroValue || ! $step->isZero )
             {
-                $label = $axis->getLabel( $step );
-                switch ( $axis->position )
+                // Calculate label boundings
+                if ( abs( $direction->x ) > abs( $direction->y ) )
                 {
-                    case ezcGraph::TOP:
-                    case ezcGraph::BOTTOM:
-                        $renderer->drawText(
-                            new ezcGraphBoundings(
-                                $start->x - $labelWidth + $this->labelPadding,
-                                $start->y - $labelHeight / 2 + $this->labelPadding,
-                                $start->x - $this->labelPadding,
-                                $start->y + $labelHeight / 2 - $this->labelPadding
-                            ),
-                            $label,
-                            ezcGraph::MIDDLE | ezcGraph::RIGHT
-                        );
-                        break;
-                    case ezcGraph::LEFT:
-                    case ezcGraph::RIGHT:
-                        $renderer->drawText(
-                            new ezcGraphBoundings(
-                                $start->x - $labelWidth / 2 + $this->labelPadding,
-                                $start->y + $this->labelPadding,
-                                $start->x + $labelWidth / 2 - $this->labelPadding,
-                                $start->y + $labelHeight - $this->labelPadding
-                            ),
-                            $label,
-                            ezcGraph::CENTER | ezcGraph::TOP
-                        );
-                        break;
-                }
-            }
-
-            // second iteration for minor steps, if wanted
-            $minorStepNmbr = 0;
-            if ( $this->minorStepCount &&
-                 ( $step < $this->majorStepCount ) )
-            {
-                $minorGridPosition = new ezcGraphCoordinate(
-                    $start->x + $minorStep->x,
-                    $start->y + $minorStep->y
-                );
-
-                while ( $minorStepNmbr++ < $minorStepsPerMajorStepCount )
-                {
-                    // minor grid
-                    if ( $axis->minorGrid )
+                    // Horizontal labels
+                    switch ( true )
                     {
-                        $this->drawGrid( $renderer, $gridBoundings, $minorGridPosition, $majorStep, $axis->minorGrid );
+                        case ( $nr === 0 ):
+                            // First label
+                            $labelSize = min(
+                                $renderer->xAxisSpace * 2,
+                                $step->width * $axisBoundings->width
+                            );
+                            break;
+                        case ( $step->isLast ):
+                            // Last label
+                            $labelSize = min(
+                                $renderer->xAxisSpace * 2,
+                                $steps[$nr - 1]->width * $axisBoundings->width
+                            );
+                            break;
+                        default:
+                            $labelSize = min(
+                                $step->width * $axisBoundings->width,
+                                $steps[$nr - 1]->width * $axisBoundings->width
+                            );
+                            break;
                     }
 
-                    // minor step
-                    $this->drawStep( $renderer, $minorGridPosition, $direction, $axis->position, $this->minorStepSize, $axis->border );
+                    $labelBoundings = new ezcGraphBoundings(
+                        $position->x - $labelSize / 2 + $this->labelPadding,
+                        $position->y + $this->labelPadding,
+                        $position->x + $labelSize / 2 - $this->labelPadding,
+                        $position->y + $renderer->yAxisSpace - $this->labelPadding
+                    );
 
-                    $minorGridPosition->x += $minorStep->x;
-                    $minorGridPosition->y += $minorStep->y;
+                    $alignement = ezcGraph::CENTER | ezcGraph::TOP;
                 }
+                else
+                {
+                    // Vertical labels
+                    switch ( true )
+                    {
+                        case ( $nr === 0 ):
+                            // First label
+                            $labelSize = min(
+                                $renderer->yAxisSpace * 2,
+                                $step->width * $axisBoundings->height
+                            );
+                            break;
+                        case ( $step->isLast ):
+                            // Last label
+                            $labelSize = min(
+                                $renderer->yAxisSpace * 2,
+                                $steps[$nr - 1]->width * $axisBoundings->height
+                            );
+                            break;
+                        default:
+                            $labelSize = min(
+                                $step->width * $axisBoundings->height,
+                                $steps[$nr - 1]->width * $axisBoundings->height
+                            );
+                            break;
+                    }
+
+                    $labelBoundings = new ezcGraphBoundings(
+                        $position->x - $renderer->xAxisSpace + $this->labelPadding,
+                        $position->y - $labelSize / 2 + $this->labelPadding,
+                        $position->x - $this->labelPadding,
+                        $position->y + $labelSize / 2 - $this->labelPadding
+                    );
+
+                    $alignement = ezcGraph::MIDDLE | ezcGraph::RIGHT;
+                }
+
+                $renderer->drawText( $labelBoundings, $step->label, $alignement );
             }
 
-            $start->x += $majorStep->x;
-            $start->y += $majorStep->y;
-            ++$step;
+            // Iterate over minor steps
+            foreach ( $step->childs as $minorStep )
+            {
+                $minorStepPosition = new ezcGraphCoordinate(
+                    $start->x + ( $end->x - $start->x ) * $minorStep->position,
+                    $start->y + ( $end->y - $start->y ) * $minorStep->position
+                );
+                $minorStepSize = new ezcGraphCoordinate(
+                    $axisBoundings->width * $minorStep->width,
+                    $axisBoundings->height * $minorStep->width
+                );
+
+                if ( $axis->minorGrid )
+                {
+                    $this->drawGrid( 
+                        $renderer, 
+                        $gridBoundings, 
+                        $minorStepPosition,
+                        $minorStepSize,
+                        $axis->minorGrid
+                    );
+                }
+                
+                // major step
+                $this->drawStep( 
+                    $renderer, 
+                    $minorStepPosition,
+                    $direction, 
+                    $axis->position, 
+                    $this->minorStepSize, 
+                    $axis->border
+                );
+            }
         }
     }
 }
