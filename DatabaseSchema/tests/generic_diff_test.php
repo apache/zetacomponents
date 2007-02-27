@@ -209,7 +209,6 @@ class ezcDatabaseSchemaGenericDiffTest extends ezcTestCase
         $schema1 = self::getSchema3();
         $schema1->writeToDb( $this->db );
         $schemaDiff = self::getSchemaDiff2();
-        var_dump( $schemaDiff->convertToDDL( $this->db ) );
         $schemaDiff->applyToDb( $this->db );
         $schemaInDb = ezcDbSchema::createFromDb( $this->db );
         $this->resetDb();
