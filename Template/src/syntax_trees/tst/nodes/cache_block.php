@@ -24,6 +24,7 @@ class ezcTemplateCacheBlockTstNode extends ezcTemplateBlockTstNode
     public $isClosingBlock = false;
 
     public $keys = array();
+    public $ttl = null;
 
     /**
      *

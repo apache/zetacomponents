@@ -108,6 +108,9 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_EXPECT_CLOSING_BLOCK_COMMENT       = "Could not find the closing block comment '*}' that belongs to this opening block comment.";
     const MSG_EXPECT_CLOSING_MULTILINE_COMMENT   = "Could not find the closing comment '*/' that belongs to this opening comment.";
 
+    const MSG_CACHE_BLOCK_IN_DYNAMIC_BLOCK       = "Cache block cannot be used inside a dynamic block.";
+    const MSG_CACHE_BLOCK_IN_CACHE_BLOCK       = "Cache block cannot be used inside another cache block or inside cache_template.";
+
     // Inconsistencies with eZ publish 3.
     const LNG_INVALID_NAMESPACE_MARKER          = "The namespace marker (:) was used in template engine in eZ publish 3.x but is no longer allowed.";
     const LNG_INVALID_NAMESPACE_ROOT_MARKER = "The namespace-root marker (#) was used in the template engine of eZ publish 3.x but it's no longer allowed.";
