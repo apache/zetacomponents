@@ -69,6 +69,19 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
     }
 
     /**
+     * Returns boundings of text depending on the available font extension
+     * 
+     * @param float $size Textsize
+     * @param ezcGraphFontOptions $font Font
+     * @param string $text Text
+     * @return ezcGraphBoundings Boundings of text
+     */
+    protected function getTextBoundings( $size, ezcGraphFontOptions $font, $text )
+    {
+        return null;
+    }
+
+    /**
      * Wrties text in a box of desired size
      * 
      * @param mixed $string 
