@@ -169,7 +169,7 @@ class ezcGraphPolynom
                     break;
                 case $factor < 1:
                 case $factor >= 1000:
-                    $string .= sprintf( '%.3e ', $factor );
+                    $string .= sprintf( '%.2e ', $factor );
                     break;
                 case $factor >= 100:
                     $string .= sprintf( '%.0f ', $factor );

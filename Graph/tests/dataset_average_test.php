@@ -73,8 +73,40 @@ class ezcGraphDataSetAverageTest extends ezcGraphTestCase
         );
     }
 
+    public function testCreateDatasetFromDataset3_52()
+    {
+        if ( version_compare( phpversion(), '5.2.0', '>' ) )
+        {
+            $this->markTestSkipped( "This test is only for PHP prior 5.2.1. See PHP bug #40482." );
+        }
+
+        date_default_timezone_set( 'MET' );
+        $arrayDataSet = new ezcGraphArrayDataSet( array(
+            strtotime( 'Jun 2006' ) => 1300000,
+            strtotime( 'May 2006' ) => 1200000,
+            strtotime( 'Apr 2006' ) => 1100000,
+            strtotime( 'Mar 2006' ) => 1100000,
+            strtotime( 'Feb 2006' ) => 1000000,
+            strtotime( 'Jan 2006' ) =>  965000,
+        ) );
+
+        $averageDataSet = new ezcGraphDataSetAveragePolynom( $arrayDataSet, 2 );
+
+        $polynom = $averageDataSet->getPolynom();
+
+        $this->assertEquals(
+            '8.2e-10 x^2 - 1.85 x + 1.0e+9',
+            $polynom->__toString()
+        );
+    }
+
     public function testCreateDatasetFromDataset3()
     {
+        if ( version_compare( phpversion(), '5.2.1', '<' ) )
+        {
+            $this->markTestSkipped( "This test is only for PHP after 5.2.1. See PHP bug #40482." );
+        }
+
         date_default_timezone_set( 'MET' );
         $arrayDataSet = new ezcGraphArrayDataSet( array(
             strtotime( 'Jun 2006' ) => 1300000,
@@ -114,8 +146,37 @@ class ezcGraphDataSetAverageTest extends ezcGraphTestCase
         );
     }
 
+    public function testCreateDatasetFromDataset5_52()
+    {
+        if ( version_compare( phpversion(), '5.2.0', '>' ) )
+        {
+            $this->markTestSkipped( "This test is only for PHP prior 5.2.1. See PHP bug #40482." );
+        }
+
+        $points = array();
+        for ( $x = -3; $x <= 3; ++$x )
+        {
+            $points[$x] = pow( $x, 3 ) - .21 * pow( $x, 2 ) + .2 * $x - 2.45;
+        }
+
+        $arrayDataSet = new ezcGraphArrayDataSet( $points );
+        
+        $averageDataSet = new ezcGraphDataSetAveragePolynom( $arrayDataSet, 3 );
+        $polynom = $averageDataSet->getPolynom();
+
+        $this->assertEquals(
+            'x^3 - 2.1e-1 x^2 + 2.0e-1 x - 2.45',
+            $polynom->__toString()
+        );
+    }
+
     public function testCreateDatasetFromDataset5()
     {
+        if ( version_compare( phpversion(), '5.2.1', '<' ) )
+        {
+            $this->markTestSkipped( "This test is only for PHP after 5.2.1. See PHP bug #40482." );
+        }
+
         $points = array();
         for ( $x = -3; $x <= 3; ++$x )
         {

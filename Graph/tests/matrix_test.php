@@ -301,8 +301,37 @@ class ezcGraphMatrixTest extends ezcTestCase
         );
     }
 
+    public function testSolveNonlinearEquatation_52()
+    {
+        if ( version_compare( phpversion(), '5.2.0', '>' ) )
+        {
+            $this->markTestSkipped( "This test is only for PHP prior 5.2.1. See PHP bug #40482." );
+        }
+
+        $a = new ezcGraphMatrix( 3, 3, array(
+            array( 5, 4, 7 ),
+            array( 2, 12, 8 ),
+            array( 3, 6, 10 ),
+        ) );
+        $b = new ezcGraphMatrix( 3, 1, array( 
+            array( 1, 2, 3 ),
+        ) );
+
+        $polynom = $a->solveNonlinearEquatation( $b );
+
+        $this->assertEquals(
+            '-1.2e-1 x^2 + 1.9e-2 x + 3.5e-1',
+            $polynom->__toString()
+        );
+    }
+
     public function testSolveNonlinearEquatation()
     {
+        if ( version_compare( phpversion(), '5.2.1', '<' ) )
+        {
+            $this->markTestSkipped( "This test is only for PHP after 5.2.1. See PHP bug #40482." );
+        }
+
         $a = new ezcGraphMatrix( 3, 3, array(
             array( 5, 4, 7 ),
             array( 2, 12, 8 ),
