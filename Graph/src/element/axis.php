@@ -267,9 +267,9 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 ( $major === $majorSteps )
             );
 
-            // Do not add minor steps at major steps positions
             if ( $minorStepsPerMajorStepCount > 0 )
             {
+                // Do not add minor steps at major steps positions
                 for( $minor = 1; $minor < $minorStepsPerMajorStepCount; ++$minor )
                 {
                     $majorStep->childs[] = new ezcGraphAxisStep(

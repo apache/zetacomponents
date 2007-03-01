@@ -18,12 +18,26 @@
 class ezcGraphAxisBoxedLabelRenderer extends ezcGraphAxisLabelRenderer
 {
     /**
-     * Normalized axis direction 
+     * Store step array for later coordinate modifications
      * 
-     * @var ezcGraphCoordinate
+     * @var array( ezcGraphStep )
+     */
+    protected $steps;
+
+    /**
+     * Store direction for later coordinate modifications
+     * 
+     * @var ezcGraphVector
      */
     protected $direction;
 
+    /**
+     * Store coordinate width modifier for later coordinate modifications
+     * 
+     * @var float
+     */
+    protected $widthModifier;
+    
     /**
      * Constructor
      * 
@@ -57,24 +71,21 @@ class ezcGraphAxisBoxedLabelRenderer extends ezcGraphAxisLabelRenderer
         ezcGraphChartElementAxis $axis )
     {
         // receive rendering parameters from axis
-        $this->majorStepCount = $axis->getMajorStepCount() + 1;
+        $steps = $axis->getSteps();
+        $this->steps = $steps;
+
+        $axisBoundings = new ezcGraphBoundings(
+            $start->x, $start->y,
+            $end->x, $end->y
+        );
 
         // Determine normalized axis direction
-        $direction = new ezcGraphCoordinate(
+        $this->direction = new ezcGraphVector(
             $start->x - $end->x,
             $start->y - $end->y
         );
-        $length = sqrt( pow( $direction->x, 2) + pow( $direction->y, 2 ) );
-        $direction->x /= $length;
-        $direction->y /= $length;
-        $this->direction = $direction;
+        $this->direction->unify();
         
-        // Calculate stepsizes for mjor and minor steps
-        $majorStep = new ezcGraphCoordinate(
-            ( $end->x - $start->x ) / $this->majorStepCount,
-            ( $end->y - $start->y ) / $this->majorStepCount
-        );
-
         if ( $this->outerGrid )
         {
             $gridBoundings = $boundings;
@@ -82,88 +93,81 @@ class ezcGraphAxisBoxedLabelRenderer extends ezcGraphAxisLabelRenderer
         else
         {
             $gridBoundings = new ezcGraphBoundings(
-                $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $axis->axisSpace,
-                $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) * $axis->axisSpace,
-                $boundings->x1 - ( $boundings->x1 - $boundings->x0 ) * $axis->axisSpace,
-                $boundings->y1 - ( $boundings->y1 - $boundings->y0 ) * $axis->axisSpace
+                $boundings->x0 + $renderer->xAxisSpace,
+                $boundings->y0 + $renderer->yAxisSpace,
+                $boundings->x1 - $renderer->xAxisSpace,
+                $boundings->y1 - $renderer->yAxisSpace
             );
         }
 
-        // Determine size of labels
-        switch ( $axis->position )
-        {
-            case ezcGraph::RIGHT:
-            case ezcGraph::LEFT:
-                $labelWidth = min( 
-                    abs( $majorStep->x ),
-                    ( $boundings->x1 - $boundings->x0 ) * $axis->axisSpace * 2
-                );
-                $labelHeight = ( $boundings->y1 - $boundings->y0 ) * $axis->axisSpace;
-                break;
-            case ezcGraph::BOTTOM:
-            case ezcGraph::TOP:
-                $labelWidth = ( $boundings->x1 - $boundings->x0 ) * $axis->axisSpace;
-                $labelHeight = min( 
-                    abs( $majorStep->y ),
-                    ( $boundings->y1 - $boundings->y0 ) * $axis->axisSpace * 2
-                );
-                break;
-        }
+        // Determine additional required axis space by boxes
+        $firstStep = reset( $steps );
+        $lastStep = end( $steps );
+
+        $this->widthModifier = 1 + $firstStep->width / 2 + $lastStep->width / 2;
 
         // Draw steps and grid
-        $step = 0;
-        while ( $step <= $this->majorStepCount )
+        foreach ( $steps as $nr => $step )
         {
-            if ( ! $axis->isZeroStep( $step ) )
+            $position = new ezcGraphCoordinate(
+                $start->x + ( $end->x - $start->x ) * ( $step->position + $step->width ) / $this->widthModifier,
+                $start->y + ( $end->y - $start->y ) * ( $step->position + $step->width ) / $this->widthModifier
+            );
+    
+            $stepWidth = $step->width / $this->widthModifier;
+
+            $stepSize = new ezcGraphCoordinate(
+                $axisBoundings->width * $stepWidth,
+                $axisBoundings->height * $stepWidth
+            );
+
+            // Calculate label boundings
+            if ( abs( $this->direction->x ) > abs( $this->direction->y ) )
             {
-                // major grid
-                if ( $axis->majorGrid )
-                {
-                    $this->drawGrid( $renderer, $gridBoundings, $start, $majorStep, $axis->majorGrid );
-                }
-                
-                // major step
-                $this->drawStep( $renderer, $start, $direction, $axis->position, $this->majorStepSize, $axis->border );
+                $labelBoundings = new ezcGraphBoundings(
+                    $position->x - $stepSize->x + $this->labelPadding,
+                    $position->y + $this->labelPadding,
+                    $position->x + - $this->labelPadding,
+                    $position->y + $renderer->yAxisSpace - $this->labelPadding
+                );
+
+                $alignement = ezcGraph::CENTER | ezcGraph::TOP;
+            }
+            else
+            {
+                $labelBoundings = new ezcGraphBoundings(
+                    $position->x - $renderer->xAxisSpace + $this->labelPadding,
+                    $position->y - $stepSize->y + $this->labelPadding,
+                    $position->x - $this->labelPadding,
+                    $position->y - $this->labelPadding
+                );
+
+                $alignement = ezcGraph::MIDDLE | ezcGraph::RIGHT;
             }
 
-            // draw label
-            if ( $step < $this->majorStepCount )
-            {
-                $label = $axis->getLabel( $step );
-                switch ( $axis->position )
-                {
-                    case ezcGraph::TOP:
-                    case ezcGraph::BOTTOM:
-                        $renderer->drawText(
-                            new ezcGraphBoundings(
-                                $start->x - $labelWidth + $this->labelPadding,
-                                $start->y + $this->labelPadding,
-                                $start->x - $this->labelPadding,
-                                $start->y + $labelHeight - $this->labelPadding
-                            ),
-                            $label,
-                            ezcGraph::MIDDLE | ezcGraph::RIGHT
-                        );
-                        break;
-                    case ezcGraph::LEFT:
-                    case ezcGraph::RIGHT:
-                        $renderer->drawText(
-                            new ezcGraphBoundings(
-                                $start->x + $this->labelPadding,
-                                $start->y + $this->labelPadding,
-                                $start->x + $labelWidth - $this->labelPadding,
-                                $start->y + $labelHeight - $this->labelPadding
-                            ),
-                            $label,
-                            ezcGraph::CENTER | ezcGraph::TOP
-                        );
-                        break;
-                }
-            }
+            $renderer->drawText( $labelBoundings, $step->label, $alignement );
 
-            $start->x += $majorStep->x;
-            $start->y += $majorStep->y;
-            ++$step;
+            // major grid
+            if ( $axis->majorGrid )
+            {
+                $this->drawGrid( 
+                    $renderer, 
+                    $gridBoundings, 
+                    $position,
+                    $stepSize,
+                    $axis->majorGrid
+                );
+            }
+            
+            // major step
+            $this->drawStep( 
+                $renderer, 
+                $position,
+                $this->direction, 
+                $axis->position, 
+                $this->majorStepSize, 
+                $axis->border
+            );
         }
     }
     
@@ -177,11 +181,14 @@ class ezcGraphAxisBoxedLabelRenderer extends ezcGraphAxisLabelRenderer
      */
     public function modifyChartDataPosition( ezcGraphCoordinate $coordinate )
     {
+        $firstStep = reset( $this->steps );
+        $offset = $firstStep->width / 2 / $this->widthModifier;
+
         return new ezcGraphCoordinate(
             $coordinate->x * abs( $this->direction->y ) +
-            ( $coordinate->x * ( 1 - 1 / $this->majorStepCount ) + ( 1 / $this->majorStepCount / 2 ) ) * abs( $this->direction->x ),
+                ( $coordinate->x / $this->widthModifier + $offset ) * abs( $this->direction->x ),
             $coordinate->y * abs( $this->direction->x ) +
-            ( $coordinate->y * ( 1 - 1 / $this->majorStepCount ) + ( 1 / $this->majorStepCount / 2 ) ) * abs( $this->direction->y )
+                ( $coordinate->y / $this->widthModifier + $offset ) * abs( $this->direction->y )
         );
     }
 }
