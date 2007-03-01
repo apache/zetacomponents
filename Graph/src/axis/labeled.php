@@ -259,20 +259,6 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
      */
     public function getSteps()
     {
-        if ( $this->steps === null )
-        {
-            foreach( debug_backtrace() as $call )
-            {
-                var_dump(
-                    $call['file'],
-                    $call['line'],
-                    $call['function'],
-                    $call['class'],
-                    ''
-                );
-            }
-            exit;
-        }
         return $this->steps;
     }
 
