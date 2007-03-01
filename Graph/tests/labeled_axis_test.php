@@ -9,18 +9,40 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once dirname( __FILE__ ) . '/test_case.php';
+
 /**
  * Tests for ezcGraph class.
  * 
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphLabeledAxisTest extends ezcTestCase
+class ezcGraphLabeledAxisTest extends ezcGraphTestCase
 {
+    protected $basePath;
+
+    protected $tempDir;
+
 	public static function suite()
 	{
 		return new PHPUnit_Framework_TestSuite( "ezcGraphLabeledAxisTest" );
 	}
+
+    protected function setUp()
+    {
+        static $i = 0;
+
+        $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
+        $this->basePath = dirname( __FILE__ ) . '/data/';
+    }
+
+    protected function tearDown()
+    {
+        if ( !$this->hasFailed() )
+        {
+            $this->removeTempDir();
+        }
+    }
 
     public function testFactoryLabeledAxis()
     {
@@ -28,7 +50,7 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
 
         $this->assertTrue(
             $chart->xAxis instanceof ezcGraphChartElementLabeledAxis
-            );
+        );
     }
 
     public function testAutomaticLabelingSingle()
@@ -295,6 +317,101 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
         );
     }
 
+    public function testAutomaticLabelingWithLotsOfLabels2()
+    {
+        $labelCount = 31;
+
+        // Make this reproducible
+        mt_srand( 2 );
+
+        for ( $i = 0; $i < $labelCount; ++$i )
+        {
+            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
+        }
+
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            array(
+                2000,
+                2003,
+                2006,
+                2009,
+                2012,
+                2015,
+                2018,
+                2021,
+                2024,
+                2027,
+                2030,
+            ),
+            $this->getAttribute( $chart->xAxis, 'displayedLabels' )
+        );
+    }
+
+    public function testAutomaticLabelingWithLotsOfLabels3()
+    {
+        $labelCount = 32;
+
+        // Make this reproducible
+        mt_srand( 2 );
+
+        for ( $i = 0; $i < $labelCount; ++$i )
+        {
+            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
+        }
+
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            array(
+                2000,
+                2004,
+                2007,
+                2011,
+                2014,
+                2018,
+                2021,
+                2025,
+                2028,
+                2031,
+            ),
+            $this->getAttribute( $chart->xAxis, 'displayedLabels' )
+        );
+    }
+
+    public function testAutomaticLabelingWithLotsOfLabels4()
+    {
+        $labelCount = 165;
+
+        // Make this reproducible
+        mt_srand( 2 );
+
+        for ( $i = 0; $i < $labelCount; ++$i )
+        {
+            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
+        }
+
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            array(
+                2000,
+                2041,
+                2082,
+                2123,
+                2164,
+            ),
+            $this->getAttribute( $chart->xAxis, 'displayedLabels' )
+        );
+    }
+
     public function testGetLabel()
     {
         $chart = new ezcGraphLineChart();
@@ -318,6 +435,31 @@ class ezcGraphLabeledAxisTest extends ezcTestCase
             false,
             $chart->xAxis->getLabel( 5 ),
             'Wrong label returned for nonexisting step.'
+        );
+    }
+
+    public function testRenderUnregularLabeling()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $labelCount = 32;
+
+        // Make this reproducible
+        mt_srand( 2 );
+
+        for ( $i = 0; $i < $labelCount; ++$i )
+        {
+            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
+        }
+
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 }
