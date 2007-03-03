@@ -47,7 +47,7 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentOneToOneRelationTest::suite() );
         $this->addTest( ezcPersistentManyToOneRelationTest::suite() );
         $this->addTest( ezcPersistentManyToManyRelationTest::suite() );
-//        $this->addTest( ezcPersistentKeywordTest::suite() );
+        $this->addTest( ezcPersistentKeywordTest::suite() );
     }
 
     public static function suite()

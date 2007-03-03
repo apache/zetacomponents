@@ -8,6 +8,19 @@ CREATE TABLE `table`
   `select` integer,
   PRIMARY KEY (`from`)
 ) TYPE=InnoDB;
+
+CREATE TABLE `where`
+(
+  `like` integer unsigned not null auto_increment,
+  `update` integer,
+  PRIMARY KEY (`like`)
+) TYPE=InnoDB;
+
+CREATE TABLE `as`
+(
+   `and` integer,
+   `or` integer
+) TYPE=InnoDB;
 */
 
 class Table
@@ -32,7 +45,7 @@ class Table
     {
         $db = ezcDbInstance::get();
         $schema = ezcDbSchema::createFromDb( $db );
-//        $schema->writeToFile( 'array', dirname( __FILE__ ) . '/table.dba' );
+        $schema->writeToFile( 'array', dirname( __FILE__ ) . '/table.dba' );
     }
 
     /**
@@ -57,6 +70,8 @@ class Table
     {
         $db = ezcDbInstance::get();
         $db->exec( 'DROP TABLE' . $db->quoteIdentifier( 'table' ) );
+        $db->exec( 'DROP TABLE' . $db->quoteIdentifier( 'where' ) );
+        $db->exec( 'DROP TABLE' . $db->quoteIdentifier( 'as' ) );
         if ( $db->getName() == 'pgsql' )
         {
             $db->exec( 'DROP SEQUENCE po_test_seq' );

@@ -190,8 +190,9 @@ class ezcPersistentSession
 
         // create and execute query
         $q = $this->database->createDeleteQuery();
-        $q->deleteFrom( $def->table )
-            ->where( $q->expr->eq( $def->idProperty->columnName, $q->bindValue( $idValue ) ) );
+        $q->deleteFrom( $this->database->quoteIdentifier( $def->table ) )
+            ->where( $q->expr->eq( $this->database->quoteIdentifier( $def->idProperty->columnName ),
+                                   $q->bindValue( $idValue ) ) );
 
         try
         {
@@ -243,7 +244,7 @@ class ezcPersistentSession
         // init query
         $q = $this->database->createDeleteQuery();
         $q->setAliases( $this->generateAliasMap( $def ) );
-        $q->deleteFrom( $def->table );
+        $q->deleteFrom( $this->database->quoteIdentifier( $def->table ) );
 
         return $q;
     }
@@ -283,10 +284,6 @@ class ezcPersistentSession
      * The query is initialized to update the correct table and
      * it is only neccessary to set the correct values.
      *
-     * Example:
-     * <code>
-     * </code>
-     *
      * @throws ezcPersistentDefinitionNotFoundException if there is no such persistent class.
      * @param string $class
      * @return ezcQueryUpdate
@@ -298,7 +295,7 @@ class ezcPersistentSession
         // init query
         $q = $this->database->createUpdateQuery();
         $q->setAliases( $this->generateAliasMap( $def ) );
-        $q->update( $def->table );
+        $q->update( $this->database->quoteIdentifier( $def->table ) );
 
         return $q;
     }
@@ -354,7 +351,8 @@ class ezcPersistentSession
         // init query
         $q = $this->database->createSelectQuery();
         $q->setAliases( $this->generateAliasMap( $def ) );
-        $q->select( $this->getColumnsFromDefinition( $def ) )->from( $def->table );
+        $q->select( $this->getColumnsFromDefinition( $def ) )
+            ->from( $this->database->quoteIdentifier( $def->table ) );
 
         return $q;
     }
@@ -517,7 +515,7 @@ class ezcPersistentSession
                 }
                 break;
             case "ezcPersistentManyToManyRelation":
-                $query->from( $relation->relationTable );
+                $query->from( $this->database->quoteIdentifier( $relation->relationTable ) );
                 foreach ( $relation->columnMap as $map )
                 {
                     $query->where(
@@ -591,7 +589,7 @@ class ezcPersistentSession
                 break;
             case "ezcPersistentManyToManyRelation":
                 $q = $this->database->createInsertQuery();
-                $q->insertInto( $relation->relationTable );
+                $q->insertInto( $this->database->quoteIdentifier( $relation->relationTable ) );
                 foreach ( $relation->columnMap as $map )
                 {
                     $q->set(
@@ -665,7 +663,7 @@ class ezcPersistentSession
                 break;
             case "ezcPersistentManyToManyRelation":
                 $q = $this->database->createDeleteQuery();
-                $q->deleteFrom( $relation->relationTable );
+                $q->deleteFrom( $this->database->quoteIdentifier( $relation->relationTable ) );
                 foreach ( $relation->columnMap as $map )
                 {
                     $q->where(
@@ -782,8 +780,9 @@ class ezcPersistentSession
 
         $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) ); // propagate exception
         $q = $this->database->createSelectQuery();
-        $q->select( $this->getColumnsFromDefinition( $def ) )->from( $def->table )
-            ->where( $q->expr->eq( $def->idProperty->columnName,
+        $q->select( $this->getColumnsFromDefinition( $def ) )
+            ->from( $this->database->quoteIdentifier( $def->table ) )
+            ->where( $q->expr->eq( $this->database->quoteIdentifier( $def->idProperty->columnName ),
                                    $q->bindValue( $id ) ) );
         try
         {
@@ -888,7 +887,7 @@ class ezcPersistentSession
 
         // set up and execute the query
         $q = $this->database->createInsertQuery();
-        $q->insertInto( $def->table );
+        $q->insertInto( $this->database->quoteIdentifier( $def->table ) );
         foreach ( $state as $name => $value )
         {
             if ( $name != $def->idProperty->propertyName ) // skip the id field
@@ -992,7 +991,7 @@ class ezcPersistentSession
 
         // set up and execute the query
         $q = $this->database->createUpdateQuery();
-        $q->update( $def->table );
+        $q->update( $this->database->quoteIdentifier( $def->table ) );
         foreach ( $state as $name => $value )
         {
             if ( $name != $def->idProperty->propertyName ) // skip the id field
@@ -1001,7 +1000,8 @@ class ezcPersistentSession
                 $q->set( $this->database->quoteIdentifier( $def->properties[$name]->columnName ), $q->bindValue( $value ) );
             }
         }
-        $q->where( $q->expr->eq( $def->idProperty->columnName, $q->bindValue( $idValue ) ) );
+        $q->where( $q->expr->eq( $this->database->quoteIdentifier( $def->idProperty->columnName ),
+                                 $q->bindValue( $idValue ) ) );
         try
         {
             $stmt = $q->prepare();

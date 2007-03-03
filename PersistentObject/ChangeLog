@@ -7,6 +7,7 @@
   behaviour (INSERT violating NULL contraint does give an error...)
 - Fixed issue #010153: Persistent Object and manual generator (negative and 
   0 primary keys)
+- Fixed issue #10106: ezcPersistentManualGenerator does not quote id columnName
 	
 	
 1.2 - Monday 18 December 2006

@@ -32,7 +32,7 @@ abstract class ezcPersistentIdentifierGenerator
     /**
      * Check if the object is persistent already
      *
-     * Called in the beginning of the save process.
+     * Called in the beginning of the save and update methods.
      *
      * Persistent objects that are being saved must not exist in the database already.
      *
