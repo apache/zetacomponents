@@ -17,7 +17,7 @@
  *           Indicates wheather to show the line between pie elements and 
  *           labels.
  * @property float $symbolSize
- *           Size of symbols used concat a label with a pie.
+ *           Size of symbols used to connect a label with a pie.
  * @property float $moveOut
  *           Percent to move pie chart elements out of the middle on highlight.
  * @property int $titlePosition
