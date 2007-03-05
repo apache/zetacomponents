@@ -19,6 +19,8 @@
 - Fixed issue #10246: sprintf output modification in PHP 5.2.1
 - Fixed issue #10275: Low label count on labeled axis, when having (prime
   number > 10) + 1 labels
+- Added feature #10375: Manually reduce or increase the label count on
+  labeled axis
 
 1.0 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

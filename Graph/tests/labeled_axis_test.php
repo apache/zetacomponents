@@ -462,6 +462,119 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
+
+    public function testChartElementNumericAxisPropertyLabelCount()
+    {
+        $options = new ezcGraphChartElementLabeledAxis();
+
+        $this->assertSame(
+            null,
+            $options->labelCount,
+            'Wrong default value for property labelCount in class ezcGraphChartElementNumericAxis'
+        );
+
+        $options->labelCount = 10;
+        $this->assertSame(
+            10,
+            $options->labelCount,
+            'Setting property value did not work for property labelCount in class ezcGraphChartElementNumericAxis'
+        );
+
+        try
+        {
+            $options->labelCount = 1;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testRenderManualLabelCount1()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $labelCount = 4;
+
+        // Make this reproducible
+        mt_srand( 2 );
+
+        for ( $i = 0; $i < $labelCount; ++$i )
+        {
+            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
+        }
+
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
+
+        // Set manual label count
+        $chart->xAxis->labelCount = 3;
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testRenderManualLabelCount2()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $labelCount = 4;
+
+        // Make this reproducible
+        mt_srand( 2 );
+
+        for ( $i = 0; $i < $labelCount; ++$i )
+        {
+            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
+        }
+
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
+
+        // Set manual label count
+        $chart->xAxis->labelCount = 10;
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testRenderManualLabelCount3()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $labelCount = 35;
+
+        // Make this reproducible
+        mt_srand( 2 );
+
+        for ( $i = 0; $i < $labelCount; ++$i )
+        {
+            $data[(string) ( 2000 + $i )] = mt_rand( 500, 2000 );
+        }
+
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
+
+        // Set manual label count
+        $chart->xAxis->labelCount = 7;
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
 }
 
 ?>

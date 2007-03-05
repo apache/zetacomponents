@@ -11,6 +11,9 @@
  * Class to represent a labeled axis. Values on the x axis are considered as 
  * strings and used in the given order.
  *
+ * @property float $labelCount
+ *           Define count of displayed labels on the axis
+ * 
  * @package Graph
  * @mainclass
  */
@@ -53,9 +56,42 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
      */
     public function __construct( array $options = array() )
     {
+        $this->properties['labelCount'] = null;
+
         $this->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
 
         parent::__construct( $options );
+    }
+
+    /**
+     * __set 
+     * 
+     * @param mixed $propertyName 
+     * @param mixed $propertyValue 
+     * @throws ezcBaseValueException
+     *          If a submitted parameter was out of range or type.
+     * @throws ezcBasePropertyNotFoundException
+     *          If a the value for the property options is not an instance of
+     * @return void
+     * @ignore
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'labelCount':
+                if ( !is_numeric( $propertyValue ) ||
+                     ( $propertyValue <= 1 ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int > 1' );
+                }
+
+                $this->properties['labelCount'] = (int) $propertyValue;
+                break;
+            default:
+                parent::__set( $propertyName, $propertyValue );
+                break;
+        }
     }
 
     /**
@@ -138,48 +174,55 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
             return true;
         }
 
-        if ( $labelCount <= self::MAX_LABEL_COUNT )
+        if ( $this->properties['labelCount'] === null )
         {
-            $stepSize = 1 / $labelCount;
-
-            foreach ( $this->labels as $nr => $label )
+            if ( $labelCount <= self::MAX_LABEL_COUNT )
             {
-                $this->steps[] = new ezcGraphAxisStep(
-                    $stepSize * $nr,
-                    $stepSize,
-                    $label,
-                    array(),
-                    $nr === 0,
-                    $nr === $labelCount
-                );
-            }
-
-            // @TODO: This line is deprecated and only build for 
-            // deprecated getLabel()
-            $this->displayedLabels = $this->labels;
-
-            return true;
-        }
-
-        for ( $div = self::MAX_LABEL_COUNT; $div > 1; --$div )
-        {
-            if ( ( $labelCount % $div ) === 0 )
-            {
-                // @TODO: This part is deprecated and only build for 
-                // deprecated getLabel()
-                $step = $labelCount / $div;
+                $stepSize = 1 / $labelCount;
 
                 foreach ( $this->labels as $nr => $label )
                 {
-                    if ( ( $nr % $step ) === 0 )
-                    {
-                        $this->displayedLabels[] = $label;
-                    }
+                    $this->steps[] = new ezcGraphAxisStep(
+                        $stepSize * $nr,
+                        $stepSize,
+                        $label,
+                        array(),
+                        $nr === 0,
+                        $nr === $labelCount
+                    );
                 }
-                // End of deprecated part
 
-                break;
+                // @TODO: This line is deprecated and only build for 
+                // deprecated getLabel()
+                $this->displayedLabels = $this->labels;
+
+                return true;
             }
+
+            for ( $div = self::MAX_LABEL_COUNT; $div > 1; --$div )
+            {
+                if ( ( $labelCount % $div ) === 0 )
+                {
+                    // @TODO: This part is deprecated and only build for 
+                    // deprecated getLabel()
+                    $step = $labelCount / $div;
+
+                    foreach ( $this->labels as $nr => $label )
+                    {
+                        if ( ( $nr % $step ) === 0 )
+                        {
+                            $this->displayedLabels[] = $label;
+                        }
+                    }
+                    // End of deprecated part
+
+                    break;
+                }
+            }
+        }
+        else
+        {
+            $div = false;
         }
 
         // Build up step array
@@ -215,7 +258,15 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
         }
         else
         {
-            $floatStep = $labelCount / ( self::MAX_LABEL_COUNT - 1 );
+            if ( $this->properties['labelCount'] === null )
+            {
+                $floatStep = $labelCount / ( self::MAX_LABEL_COUNT - 1 );
+            }
+            else
+            {
+                $floatStep = $labelCount / min( $labelCount, $this->properties['labelCount'] - 1 );
+            }
+
             $position = 0;
             $minorStepSize = 1 / $labelCount;
             
