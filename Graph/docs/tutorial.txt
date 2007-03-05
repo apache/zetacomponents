@@ -297,7 +297,9 @@ it like any predefined palette, as previously explained.
 .. include:: tutorial_example_09.php
    :literal:
 
-The example now uses the custom palette to format the output.
+The example now uses the custom palette to format the output. You may include
+palettes using you applications autoload mechanism or just require them like
+shown in the example above.
 
 .. image:: img/tutorial_example_09.svg.png
    :alt:   Combined bar / line chart with custom palette
