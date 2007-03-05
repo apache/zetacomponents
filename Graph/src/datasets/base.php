@@ -11,6 +11,17 @@
 /**
  * Basic class to contain the charts data
  *
+ * @property string $label
+ *           Labels for datapoint and datapoint elements
+ * @property ezcGraphColor $color
+ *           Colors for datapoint elements
+ * @property int $symbol
+ *           Symbols for datapoint elements
+ * @property bool $highlight
+ *           Status if datapoint element is hilighted
+ * @property int $displayType
+ *           Display type of chart data
+ *
  * @package Graph
  * @access private
  */
@@ -18,40 +29,11 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
 {
 
     /**
-     * labels for datapoint and datapoint elements
+     * Property array
      * 
-     * @var ezcGraphDataSetStringProperty
+     * @var array
      */
-    protected $label;
-
-    /**
-     * Colors for datapoint elements
-     * 
-     * @var ezcGraphDataSetColorProperty
-     */
-    protected $color;
-
-    /**
-     * Symbols for datapoint elements
-     * 
-     * @var ezcGraphDataSetIntProperty
-     */
-    protected $symbol;
-
-    /**
-     * Status if datapoint element is hilighted
-     * 
-     * @var ezcGraphDataSetBooleanProperty
-     * @access protected
-     */
-    protected $highlight;
-
-    /**
-     * Display type of chart data.
-     * 
-     * @var integer
-     */
-    protected $displayType;
+    protected $properties;
 
     /**
      * Array which contains the data of the datapoint
@@ -84,13 +66,13 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
      */
     public function __construct()
     {
-        $this->label = new ezcGraphDataSetStringProperty( $this );
-        $this->color = new ezcGraphDataSetColorProperty( $this );
-        $this->symbol = new ezcGraphDataSetIntProperty( $this );
-        $this->highlight = new ezcGraphDataSetBooleanProperty( $this );
-        $this->displayType = new ezcGraphDataSetIntProperty( $this );
+        $this->properties['label'] = new ezcGraphDataSetStringProperty( $this );
+        $this->properties['color'] = new ezcGraphDataSetColorProperty( $this );
+        $this->properties['symbol'] = new ezcGraphDataSetIntProperty( $this );
+        $this->properties['highlight'] = new ezcGraphDataSetBooleanProperty( $this );
+        $this->properties['displayType'] = new ezcGraphDataSetIntProperty( $this );
 
-        $this->highlight->default = false;
+        $this->properties['highlight']->default = false;
     }
 
     /**
@@ -109,26 +91,24 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
     {
         switch ( $propertyName )
         {
-            case 'label':
-                $this->label->default = $propertyValue;
-                break;
-            case 'color':
-                $this->color->default = $propertyValue;
-                break;
-            case 'symbol':
-                $this->symbol->default = $propertyValue;
-                break;
-            case 'highlight':
             case 'hilight':
-                $this->highlight->default = $propertyValue;
-                break;
+                $propertyName = 'highlight';
+            case 'label':
+            case 'color':
+            case 'symbol':
+            case 'highlight':
             case 'displayType':
-                $this->displayType->default = $propertyValue;
+                $this->properties[$propertyName]->default = $propertyValue;
                 break;
+
             case 'palette':
                 $this->palette = $propertyValue;
                 $this->color->default = $this->palette->dataSetColor;
                 $this->symbol->default = $this->palette->dataSetSymbol;
+                break;
+
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
                 break;
         }
     }
@@ -145,9 +125,9 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
      */
     public function __get( $propertyName )
     {
-        if ( isset( $this->$propertyName ) )
+        if ( array_key_exists( $propertyName, $this->properties ) )
         {
-            return $this->$propertyName;
+            return $this->properties[$propertyName];
         }
         else 
         {
