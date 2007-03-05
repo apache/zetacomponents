@@ -52,8 +52,6 @@ class ezcTemplateSuite extends PHPUnit_Framework_TestSuite
         $this->setName( "Template" );
         $this->addTest( ezcTemplateRegressionTest::suite() );
 
-        $this->addTest( ezcTemplateCacheTest::suite() );
-
         $this->addTest( ezcTemplateParserTest::suite() );
 
         $this->addTest( ezcTemplateFileExceptionTest::suite() );

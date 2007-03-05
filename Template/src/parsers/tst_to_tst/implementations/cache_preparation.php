@@ -9,7 +9,6 @@
  * @access private
  */
 /**
- * The entire TST tree, doing nothing.
  * 
  * @package Template
  * @version //autogen//
@@ -32,10 +31,9 @@ class ezcTemplateCachePreparation extends ezcTemplateTstWalker
 
         if ( $symbolTable->retrieve( $node->variable->name ) == ezcTemplateSymbolTable::IMPORT )
         {
-            // Move the {use} nodes.
-            $this->useVariableTst[] = $this->nodePath[0]->elements[0];
-            array_splice( $this->nodePath[0]->elements, 0, 1 ); 
-
+            $this->useVariableTst[] = $this->nodePath[0]->elements[$this->statements[0] + $this->offset[0]];   //$this->nodePath[0]->elements[0];
+            array_splice( $this->nodePath[0]->elements, $this->statements[0] + $this->offset[0], 1 ); 
+            $this->offset[0] -= 1;
         }
 
         $this->acceptAndUpdate( $node->variable );
@@ -45,7 +43,6 @@ class ezcTemplateCachePreparation extends ezcTemplateTstWalker
             $this->acceptAndUpdate( $node->expression );
         }
     }
-
 }
 
 ?>

@@ -184,7 +184,28 @@ class ezcTemplateCacheManagerTest extends ezcTestCase
         $this->assertEquals( "\nCached:\n\n\n\n\n1 Raymond sunRay\n\n2 Derick Tiger\n\n3 Jan Amos\n", $r );
     }
  
+    public function testCacheBlock()
+    {
+        $t = new ezcTemplate();
+        $t->configuration->addExtension("Fetch");
 
+        $r = $t->process("show_users_cache_block.ezt");
+        $this->assertEquals( "\n\n\n\n1 Raymond sunRay\n\n2 Derick Tiger\n\n3 Jan Amos\n", $r );
+
+        // Update a single user. 
+        $db = ezcDbInstance::get(); 
+        $db->exec( 'UPDATE user SET nickname="bla" WHERE id=1' );
+
+        // Still cached.
+        $r =  $t->process("show_users_cache_block.ezt");
+        $this->assertEquals( "\n\n\n\n1 Raymond sunRay\n\n2 Derick Tiger\n\n3 Jan Amos\n", $r );
+
+        // Send a update signal to the configuration manager.
+        ezcTemplateConfiguration::getInstance()->cacheManager->update("user", 1 );
+
+        $r = $t->process("show_users_cache_block.ezt");
+        $this->assertEquals( "\n\n\n\n1 Raymond bla\n\n2 Derick Tiger\n\n3 Jan Amos\n", $r );
+    }
 
     public function testCacheKeys()
     {
@@ -194,9 +215,6 @@ class ezcTemplateCacheManagerTest extends ezcTestCase
         $t->send->id = 1;
         $t->send->name = "aaa";
         $r = $t->process("cache_manager_with_keys.tpl");
-
-
-
 
 
 /*
@@ -216,8 +234,9 @@ class ezcTemplateCacheManagerTest extends ezcTestCase
         $r = $t->process("show_users.ezt");
         $this->assertEquals( "\n\n\n\n1 Raymond bla\n\n2 Derick Tiger\n\n3 Jan Amos\n", $r );
  */
-
     }
+
+
 
 
 

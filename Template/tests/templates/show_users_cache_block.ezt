@@ -1,0 +1,11 @@
+{use $offset = 0, $limit = 4}
+
+{var $a}
+
+{cache_block keys $offset, $limit}
+{$a = fetch_user_list($offset, $limit)}
+
+{foreach $a as $b}
+	{include "user_info.ezt" send $b}
+{/foreach}
+{/cache_block}

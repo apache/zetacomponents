@@ -57,27 +57,10 @@ class ezcTemplateCacheTest extends ezcTestCase
             $this->fail( "Expected the directory to exists: " . $cacheDir );
         }
     }
-  
+    
     // /////////////////////////////////////////////////////////////////////////////////////////
-    // Cache block is not implemented, and should give an exception.
-
+    // Cache blocks
     
-    
-//    public function testCacheBlock()
-//    {
-//        $t = new ezcTemplate( );
-//        $t->send->user = new TestUser( "Bernard", "Black" );
-//
-//        try
-//        {
-//            $out = $t->process( "cache_block.tpl");
-//            $this->fail( "{cache_block} should throw an exception");
-//        }
-//        catch ( ezcTemplateParserException $e )
-//        {
-//        }
-//    }
-     
     
     public function testCacheBlock()
     {
@@ -193,33 +176,140 @@ EOM
 
         $t->send->user = new TestUser( "Bart", "Simpson" , 2); // New ID, cache key no longer valid.
         $out = $t->process( "cache_block_with_keys.tpl");
+
         $this->assertEquals( "\n[Bart Simpson]\n", $out);
     }
+
+    public function testCacheBlockWithLocalKeys()
+    {
+        $t = new ezcTemplate();
+        $t->send->user = new TestUser( "Homer", "Simpson" );
+
+        $out = $t->process( "cache_block_with_local_keys.tpl");
+        $this->assertEquals( "\n\n[Homer Simpson]\n", $out);
+
+        $t->send->user = new TestUser( "Bart", "Simpson" );
+        $out = $t->process( "cache_block_with_local_keys.tpl");
+        $this->assertEquals( "\n\n[Bart Simpson]\n", $out);  // No Id given.
+    }
+
 
     public function testCacheBlockInCacheBlock()
     {
         $t = new ezcTemplate();
         $t->send->user = new TestUser( "Homer", "Simpson" );
+        $out = $t->process( "cache_block_in_cache_block.tpl");
+        $this->assertEquals( <<<EOM
 
-        try
-        {
-            $out = $t->process( "cache_block_in_cache_block.tpl");
-            $this->fail("Expected an exception");
-        }
-        catch( ezcTemplateParserException $e )
-        {
-        }
+Outside: Homer Simpson
 
-        try
-        {
-            $out = $t->process( "cache_block_in_cache_template.tpl");
-            $this->fail("Expected an exception");
-        }
-        catch( ezcTemplateParserException $e )
-        {
-        }
+Outer: Homer Simpson
+Inner: Homer Simpson
+
+EOM
+, $out);
+
+        $this->isInCacheBlock = false;
+        
+        $t->send->user = new TestUser( "Bart", "Simpson", 2 );
+        $out = $t->process( "cache_block_in_cache_block.tpl");
+        $this->assertEquals( <<<EOM
+
+Outside: Bart Simpson
+
+Outer: Bart Simpson
+Inner: Homer Simpson
+
+EOM
+, $out);
+
+    
+        $t->send->user = new TestUser( "Lisa", "Simpson", 2); // It has the same key as the "Bart Simpson".
+        $t->send->flushInner = true;
+        $out = $t->process( "cache_block_in_cache_block.tpl");
+        $this->assertEquals( <<<EOM
+
+Outside: Lisa Simpson
+
+Outer: Bart Simpson
+Inner: Homer Simpson
+
+EOM
+, $out);
+
+        $t->send->user = new TestUser( "Lisa", "Simpson", 3); // New key
+        $t->send->flushInner = true;
+        $out = $t->process( "cache_block_in_cache_block.tpl");
+        $this->assertEquals( <<<EOM
+
+Outside: Lisa Simpson
+
+Outer: Lisa Simpson
+Inner: Lisa Simpson
+
+EOM
+, $out);
+
     }
 
+    public function testCacheBlockInCacheTemplate()
+    {
+        $t = new ezcTemplate();
+        $t->send->user = new TestUser( "Homer", "Simpson" );
+        $out = $t->process( "cache_block_in_cache_template.tpl");
+        $this->assertEquals( <<<EOM
+
+TC: Homer Simpson
+
+CB1: Homer Simpson
+CB2: Homer Simpson
+
+EOM
+, $out);
+
+        $t->send->user = new TestUser( "Bart", "Simpson", 2 );
+        $out = $t->process( "cache_block_in_cache_template.tpl");
+
+        $this->assertEquals( <<<EOM
+
+TC: Bart Simpson
+
+CB1: Homer Simpson
+CB2: Homer Simpson
+
+EOM
+, $out);
+
+        $t->send->user = new TestUser( "Lisa", "Simpson", 3 );
+        $t->send->flushCB1 = true;
+        $out = $t->process( "cache_block_in_cache_template.tpl");
+
+        $this->assertEquals( <<<EOM
+
+TC: Lisa Simpson
+
+CB1: Lisa Simpson
+CB2: Homer Simpson
+
+EOM
+, $out);
+
+        $t->send->user = new TestUser( "Marge", "Simpson", 4 );
+        $t->send->flushCB1 = 4;  // True is taken.
+        $t->send->flushCB2 = 4;
+        $out = $t->process( "cache_block_in_cache_template.tpl");
+
+        $this->assertEquals( <<<EOM
+
+TC: Marge Simpson
+
+CB1: Marge Simpson
+CB2: Marge Simpson
+
+EOM
+, $out);
+
+    }
 
 
     public function testCacheBlockIndependently()
@@ -309,6 +399,15 @@ EOM
 
 
 
+
+
+
+//        // FIX THE order of the {use} stuff.
+//        echo "\n" . $t->configuration->compilePath . "\n";
+//        exit();
+
+
+
     // /////////////////////////////////////////////////////////////////////////////////////////
     // Test the dynamic block.
     // Tested in the regression_test:
@@ -382,7 +481,7 @@ EOM
     // Declare a variable under the first dynamic block.
     public function testDynamicBlockImplicitVariableDeclaration()
     {
-        $t = new ezcTemplate( );
+        $t = new ezcTemplate();
         $t->send->number = 22; 
         $t->process( "cache_dynamic_implicit_declaration.tpl");
 

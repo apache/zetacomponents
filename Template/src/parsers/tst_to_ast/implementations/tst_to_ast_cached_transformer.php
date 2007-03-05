@@ -35,6 +35,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
      * True when in {cache_template} or inside a {cache_block}.
      */
     private $isInCacheBlock = false;
+    private $cacheLevel = 0;
 
     private $cacheBaseName = null;
 
@@ -69,6 +70,11 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         }
     }
 
+    protected function getFp()
+    {
+        return $this->createVariableNode( "fp" . $this->cacheLevel );
+    }
+
     /**
      *  Returns the ast tree:  include( $_ezcTemplateCache ); 
      */
@@ -82,7 +88,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
      */
     protected function _fopenCacheFileWriteMode()
     {
-        return new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $this->createVariableNode( "fp" ), new ezcTemplateFunctionCallAstNode( "fopen", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ), new ezcTemplateLiteralAstNode( "w")  )) ) );
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateAssignmentOperatorAstNode( $this->getFp(), new ezcTemplateFunctionCallAstNode( "fopen", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ), new ezcTemplateLiteralAstNode( "w")  )) ) );
 
     }
 
@@ -91,7 +97,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
      */
     protected function _fwritePhpOpen()
     {
-        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( $this->createVariableNode( "fp" ),  new ezcTemplateConcatOperatorAstNode( new ezcTemplateLiteralAstNode('<'), new ezcTemplateLiteralAstNode("?php\n" ) ) ) ) );
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( $this->getFp(),  new ezcTemplateConcatOperatorAstNode( new ezcTemplateLiteralAstNode('<'), new ezcTemplateLiteralAstNode("?php\n" ) ) ) ) );
     }
 
     /**
@@ -124,7 +130,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
      */
     protected function _fwriteLiteral( $literalValue )
     {
-        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( $this->createVariableNode( "fp" ), new ezcTemplateLiteralAstNode( $literalValue ) ) ) );  
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( $this->getFp(), new ezcTemplateLiteralAstNode( $literalValue ) ) ) );  
 
     }
 
@@ -133,7 +139,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
      */
     protected function _fwriteVariable( $variableName )
     {
-        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( $this->createVariableNode( "fp" ), $this->createVariableNode( $variableName ) ) ) );  
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array( $this->getFp(), $this->createVariableNode( $variableName ) ) ) );  
     }
 
 
@@ -155,7 +161,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
      */
     protected function _fwriteVarExportVariable( $variableName, $concat, $fwritePhpClose = false )
     {
-        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array($this->createVariableNode("fp"),  new ezcTemplateConcatOperatorAstNode( new ezcTemplateLiteralAstNode("\$".$variableName." ". ($concat ? ".=" : "=") ." "), new ezcTemplateConcatOperatorAstNode( new ezcTemplateFunctionCallAstNode(  "var_export", array( $this->createVariableNode("$variableName"), new ezcTemplateLiteralAstNode(true) ) ), new ezcTemplateLiteralAstNode(";\n" . ($fwritePhpClose ? " ?>" : "" )) ) ) ) ) );
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fwrite", array($this->getFp(),  new ezcTemplateConcatOperatorAstNode( new ezcTemplateLiteralAstNode("\$".$variableName." ". ($concat ? ".=" : "=") ." "), new ezcTemplateConcatOperatorAstNode( new ezcTemplateFunctionCallAstNode(  "var_export", array( $this->createVariableNode("$variableName"), new ezcTemplateLiteralAstNode(true) ) ), new ezcTemplateLiteralAstNode(";\n" . ($fwritePhpClose ? " ?>" : "" )) ) ) ) ) );
     }
 
     /**
@@ -171,7 +177,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
      */
     protected function _fclose()
     {
-        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fclose", array( $this->createVariableNode( "fp" ) ) ) ) ;
+        return new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "fclose", array( $this->getFp() ) ) ) ;
     }
 
     protected function getCacheBaseName()
@@ -246,7 +252,20 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         {
             // Translate the 'old' variableName to the new name.
             $k = $value->accept($this);
-            $cacheKeys[str_replace( "this->send->", "use:" , $k->name )] = $k->name;
+
+            $type = $this->parser->symbolTable->retrieve($k->name);
+            if( substr( $k->name, 0, 12) == "this->send->")
+            {
+                $cacheKeys[str_replace( "this->send->", "use:" , $k->name )] = $k->name;
+            }
+            elseif (substr( $k->name, 0, 2) == "t_" )
+            {
+                $cacheKeys[ "var:" . substr($k->name, 2)] = $k->name;
+            }
+            else
+            {
+                $cacheKeys[$k->name] = $k->name;
+            }
         }
 
         return $cacheKeys;
@@ -284,10 +303,8 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         $cb->appendStatement( $this->_fopenCacheFileWriteMode() ); // $fp = fopen( $this->cache, "w" ); 
 
         $cb->appendStatement( $this->_fwritePhpOpen() );                 // fwrite( $fp, "<" . "?php\n" );
-        $cb->appendStatement( $this->_assignEmptyString("total") );      // $total = ""
-        //$cb->appendStatement( $this->_fwriteLiteral( "\$" . self::INTERNAL_PREFIX . "output = '';\n") );
-        //$cb->appendStatement( $this->_assign( self::INTERNAL_PREFIX. "output") );      // $total = ""
-        $cb->appendStatement( $this->_assignEmptyString( self::INTERNAL_PREFIX. "output") );      // $total = ""
+        $cb->appendStatement( $this->_assignEmptyString("total" . $this->cacheLevel) );      // $total = ""
+        $cb->appendStatement( $this->_assignEmptyString( self::INTERNAL_PREFIX. "output") );
     }
 
     // TEST VERSION for cacheblock.
@@ -304,10 +321,8 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
         $cb->appendStatement( $this->_fwritePhpOpen() );                 // fwrite( $fp, "<" . "?php\n" );
         //$cb->appendStatement( $this->_assignEmptyString("total") );      // $total = ""
-        $cb->appendStatement( $this->_assignVariable(self::INTERNAL_PREFIX . "output", "total") );      // $total = ""
-        //$cb->appendStatement( $this->_fwriteLiteral( "\$" . self::INTERNAL_PREFIX . "output = '';\n") );
-        //$cb->appendStatement( $this->_assign( self::INTERNAL_PREFIX. "output") );      // $total = ""
-        $cb->appendStatement( $this->_assignEmptyString( self::INTERNAL_PREFIX. "output") );      // $total = ""
+        $cb->appendStatement( $this->_assignVariable(self::INTERNAL_PREFIX . "output", "total".$this->cacheLevel) );
+        $cb->appendStatement( $this->_assignEmptyString( self::INTERNAL_PREFIX. "output") );
 
     }
 
@@ -336,13 +351,13 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         $cb->appendStatement( $this->_fwriteVarExportVariable( self::INTERNAL_PREFIX . "output", true, true) );
 
         // $total .= $_ezcTemplate_output;
-        $cb->appendStatement( $this->_concatAssignVariable( self::INTERNAL_PREFIX . "output", "total") );
+        $cb->appendStatement( $this->_concatAssignVariable( self::INTERNAL_PREFIX . "output", "total".$this->cacheLevel) );
             
         // fclose($fp);  
         $cb->appendStatement( $this->_fclose() );
 
         // $_ezcTemplate_output = $total;
-        $cb->appendStatement( $this->_assignVariable( "total", self::INTERNAL_PREFIX . "output" ) );
+        $cb->appendStatement( $this->_assignVariable( "total".$this->cacheLevel, self::INTERNAL_PREFIX . "output" ) );
         if ($addReturn)
         { 
             $cb->appendStatement( new ezcTemplateReturnAstNode( $this->outputVariable->getAst()) );
@@ -356,6 +371,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         foreach ( $this->preparedCache->useVariableTst as $useVariable)
         {
             $use = $useVariable->accept($this);
+
             if( is_array( $use ) )
             {
                 foreach ( $use as $u )
@@ -381,14 +397,14 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         }
 
         // Cache the whole template.
-        $this->isInCacheBlock = true;
+        $this->cacheLevel++;
 
 
         $this->prepareProgram(); // Program operations, nothing to do with caching.
 
+        $this->addUseVariables();
         $cacheKeys = $this->translateCacheKeys($this->cacheTemplate->keys);
 
-        $this->addUseVariables();
         $this->addCacheKeys( $this->programNode, $cacheKeys );
             
         $ttl = $this->translateTTL($this->cacheTemplate->ttl);
@@ -544,13 +560,13 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         $astNodes[] = $this->_fwriteVarExportVariable( self::INTERNAL_PREFIX . "output", true, true);
 
         // $total .= $_ezcTemplate_output;
-        $astNodes[] = $this->_concatAssignVariable( self::INTERNAL_PREFIX . "output", "total");
+        $astNodes[] = $this->_concatAssignVariable( self::INTERNAL_PREFIX . "output", "total".$this->cacheLevel);
             
         // fclose($fp);  
         $astNodes[] = $this->_fclose();
 
         // $_ezcTemplate_output = $total;
-        $astNodes[] = $this->_assignVariable( "total", self::INTERNAL_PREFIX . "output" );
+        $astNodes[] = $this->_assignVariable( "total".$this->cacheLevel, self::INTERNAL_PREFIX . "output" );
 
 
 
@@ -577,7 +593,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         $newStatement[] = $this->_comment(" ---> start {dynamic}");
         
         // $total .= $_ezcTemplate_output
-        $newStatement[] = $this->_concatAssignVariable( self::INTERNAL_PREFIX . "output", "total");
+        $newStatement[] = $this->_concatAssignVariable( self::INTERNAL_PREFIX . "output", "total".$this->cacheLevel);
 
         // fwrite( $fp, "\\\<variableName> .= " . var_export( <variableName>, true) . ";" ); 
         $newStatement[] = $this->_fwriteVarExportVariable( self::INTERNAL_PREFIX . "output", true, false);
@@ -586,7 +602,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         $newStatement[] = $this->_assignEmptyString( self::INTERNAL_PREFIX . "output" );
 
         // $output .= $_ezcTemplate_output;
-        $newStatement[] = $this->_concatAssignVariable( self::INTERNAL_PREFIX . "output", "total");
+        $newStatement[] = $this->_concatAssignVariable( self::INTERNAL_PREFIX . "output", "total".$this->cacheLevel);
 
         // Place everything in the code block.
         $newStatement[] = new ezcTemplatePhpCodeAstNode( "\$code = '" );
@@ -609,7 +625,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             new ezcTemplateFunctionCallAstNode( "eval", array( $this->createVariableNode( "code" ) ) ) );
 
         // $total .= _ezcTemplate_output
-        $newStatement[] = $this->_concatAssignVariable( self::INTERNAL_PREFIX . "output", "total" ); 
+        $newStatement[] = $this->_concatAssignVariable( self::INTERNAL_PREFIX . "output", "total".$this->cacheLevel ); 
 
         // $ezcTemplate_output = "";
         $newStatement[] = $this->_assignEmptyString( self::INTERNAL_PREFIX . "output" ); 
@@ -666,12 +682,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             throw new ezcTemplateParserException( $type->source, $type->endCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_CACHE_BLOCK_IN_DYNAMIC_BLOCK );
         }
 
-        if( $this->isInCacheBlock )
-        {
-            throw new ezcTemplateParserException( $type->source, $type->endCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_CACHE_BLOCK_IN_CACHE_BLOCK );
-        }
-
-        $this->isInCacheBlock = true;
+        $this->cacheLevel++;
  
         $statements = new ezcTemplateBodyAstNode();
 
@@ -723,136 +734,10 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         //$statements->appendStatement( new ezcTemplateReturnAstNode( $this->outputVariable->getAst()) );
 
 
-        $this->isInCacheBlock = false;
+        $this->cacheLevel--;
 
         return $statements->statements;
 
-
-
-
-
-
-
-
-
-
-        /*
-        $newStatement = array();
-        $newStatement[] = $this->_comment(" ---> start {cache_block}");
-
-
-
-
-        $ifCondition = $this->notFileExistsCache();
-
-        $if = new ezcTemplateIfAstNode();
-        $if->conditions[] = $cb = new ezcTemplateConditionBodyAstNode();
-
-        $cb->condition = $ifCondition;
-        $cb->body = new ezcTemplateBodyAstNode();
-
-        foreach ( $type->elements as $element )
-        {
-            $astNode = $element->accept( $this );
-            if ( is_array( $astNode ) )
-            {
-                foreach ( $astNode as $ast )
-                {
-                    $cb->body->statements[] = $ast;
-                }
-            }
-            else
-            {
-                $cb->body->statements[] = $astNode;
-            }
-        }
-        
-        // Create the 'else' part. The else should 'include' (and execute) the cached file. 
-        $if->conditions[] = $else = new ezcTemplateConditionBodyAstNode();
-        $else->body = new ezcTemplateBodyAstNode();
-
-        $else->body->statements = array();
-        $else->body->statements[] =  $this->_includeCache();
-
-            if ($this->template->configuration->cacheManager !== false )
-            {
-                $cb->body->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->stopCaching", array() )));
-            }
- 
-        
-            $cb->body->appendStatement( $this->_fwriteVarExportVariable( self::INTERNAL_PREFIX . "output", true, true) );
-
-            // $total .= $_ezcTemplate_output;
-            $cb->body->appendStatement( $this->_concatAssignVariable( self::INTERNAL_PREFIX . "output", "total") );
-                
-            // fclose($fp);  
-            $cb->body->appendStatement( $this->_fclose() );
-
-            // $_ezcTemplate_output = $total;
-            $cb->body->appendStatement( $this->_assignVariable( "total", self::INTERNAL_PREFIX . "output" ) );
-
-
-            $cb->body->appendStatement( new ezcTemplateReturnAstNode( $this->outputVariable->getAst()) );
-
-
-// SKIP STUFF
-            $cacheKeys = array();
-            echo ("JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            $this->addCacheKeys( $myNode, $cacheKeys );
-
-            var_dump($myNode);
-
-            $newStatement[] = $if;
-
-            return $newStatement;
-
-
-
-
-
-        
-//        // $total .= $_ezcTemplate_output
-//        $newStatement[] = $this->_concatAssignVariable( self::INTERNAL_PREFIX . "output", "total");
-//
-//        // fwrite( $fp, "\\\<variableName> .= " . var_export( <variableName>, true) . ";" ); 
-//        $newStatement[] = $this->_fwriteVarExportVariable( self::INTERNAL_PREFIX . "output", true, false);
-//
-//        // $_ezcTemplate_output = "";
-//        $newStatement[] = $this->_assignEmptyString( self::INTERNAL_PREFIX . "output" );
-//
-//        // $output .= $_ezcTemplate_output;
-//        $newStatement[] = $this->_concatAssignVariable( self::INTERNAL_PREFIX . "output", "total");
-//
-//        // Place everything in the code block.
-//        $newStatement[] = new ezcTemplatePhpCodeAstNode( "\$code = '" );
-//
-//       
-//        $this->isInDynamicBlock = true;
-//        $tmp = new ezcTemplateDynamicBlockAstNode( $this->createBody( $node->elements ) );
-//        $tmp->escapeSingleQuote = true;
-//        $newStatement[] = $tmp;
-//        $this->isInDynamicBlock = false;
-//
-//        // $newStatement = array();
-//        $newStatement[] = new ezcTemplatePhpCodeAstNode( "';\n" );
-//
-//        // fwrite( $fp, $code );
-//        $newStatement[] = $this->_fwriteVariable( "code" ); 
-//
-//        // eval( $code );
-//        $newStatement[] = new ezcTemplateGenericStatementAstNode( 
-//            new ezcTemplateFunctionCallAstNode( "eval", array( $this->createVariableNode( "code" ) ) ) );
-//
-//        // $total .= _ezcTemplate_output
-//        $newStatement[] = $this->_concatAssignVariable( self::INTERNAL_PREFIX . "output", "total" ); 
-//
-//        // $ezcTemplate_output = "";
-//        $newStatement[] = $this->_assignEmptyString( self::INTERNAL_PREFIX . "output" ); 
-
-        $newStatement[] = $this->_comment(" <--- stop {/cache_block}");
-
-        return $newStatement;
-         */
     }
 
 }

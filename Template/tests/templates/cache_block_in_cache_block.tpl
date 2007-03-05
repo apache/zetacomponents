@@ -1,8 +1,10 @@
-{use $user}
+{use $user, $flushInner = false}
 
-Hello
-{cache_block}
-	{cache_block}
-		{$user->name}
-	{/cache_block}
+Outside: {$user->name}
+
+{cache_block keys $user}
+    Outer: {$user->name}
+    {cache_block keys $flushInner}
+        Inner: {$user->name}
+    {/cache_block}
 {/cache_block}
