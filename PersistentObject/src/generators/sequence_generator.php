@@ -44,16 +44,24 @@ class ezcPersistentSequenceGenerator extends ezcPersistentIdentifierGenerator
      */
     public function preSave( ezcPersistentObjectDefinition $def, ezcDbHandler $db, ezcQueryInsert $q )
     {
+        // We first had the native generator within here
+        // For BC reasons we still allow to use the seq generator with MySQL.
         if ( $db->getName() == "mysql" )
         {
             $native = new ezcPersistentNativeGenerator();
             return $native->preSave( $def, $db, $q );
         }
-        if ( ( $db->getName() == 'pgsql' || $db->getName() == 'oracle' ) &&
-            array_key_exists( 'sequence', $def->idProperty->generator->params ) )
+
+        if ( isset( $def->idProperty->generator->params["sequence"] ) )
         {
-            $seq = $def->idProperty->generator->params['sequence'];
-            $q->set( $def->idProperty->columnName, "nextval('{$seq}')" );
+            $seq = $def->idProperty->generator->params["sequence"];
+            switch ( $db->getName() )
+            {
+                case "pgsql":
+                case "oracle":
+                    $q->set( $db->quoteIdentifier( $def->idProperty->columnName ), "nextval(" . $db->quote( $db->quoteIdentifier( $seq ) ) . ")" );
+                    break;
+            }
         }
     }
 
@@ -77,7 +85,7 @@ class ezcPersistentSequenceGenerator extends ezcPersistentIdentifierGenerator
         if ( array_key_exists( 'sequence', $def->idProperty->generator->params ) &&
             $def->idProperty->generator->params['sequence'] !== null )
         {
-            $id = (int)$db->lastInsertId( $def->idProperty->generator->params['sequence'] );
+            $id = (int)$db->lastInsertId( $db->quoteIdentifier( $def->idProperty->generator->params['sequence'] ) );
         }
         else
         {

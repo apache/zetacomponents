@@ -38,7 +38,7 @@ class ezcPersistentManualGenerator extends ezcPersistentIdentifierGenerator
 
         // check if there is an object with this id already
         $q = $db->createSelectQuery();
-        $q->select( '*' )->from( $def->table )
+        $q->select( '*' )->from( $db->quoteIdentifier( $def->table ) )
             ->where( $q->expr->eq( $db->quoteIdentifier( $def->idProperty->columnName ),
                                    $q->bindValue( $this->id ) ) );
         try
