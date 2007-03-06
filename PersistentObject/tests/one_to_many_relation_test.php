@@ -522,8 +522,8 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
 
             // Check that all relations to addresses for the person got deleted
             $q = $this->session->database->createSelectQuery();
-            $q->select( "COUNT(*)" )->from( "PO_persons_addresses" )
-              ->where( $q->expr->eq( "person_id", $q->bindValue( $person->id ) ) );
+            $q->select( "COUNT(*)" )->from( $this->session->database->quoteIdentifier( "PO_persons_addresses" ) )
+              ->where( $q->expr->eq( $this->session->database->quoteIdentifier( "person_id" ), $q->bindValue( $person->id ) ) );
 
             $stmt = $q->prepare();
             $stmt->execute();
@@ -538,7 +538,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
 
         // Check that the other records are untouched
         $q = $this->session->database->createSelectQuery();
-        $q->select( "COUNT(*)" )->from( "PO_employers" );
+        $q->select( "COUNT(*)" )->from( $this->session->database->quoteIdentifier( "PO_employers" ) );
 
         $stmt = $q->prepare();
         $stmt->execute();
@@ -551,7 +551,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
         unset( $q, $stmt );
         
         $q = $this->session->database->createSelectQuery();
-        $q->select( "COUNT(*)" )->from( "PO_persons" );
+        $q->select( "COUNT(*)" )->from( $this->session->database->quoteIdentifier( "PO_persons" ) );
 
         $stmt = $q->prepare();
         $stmt->execute();
@@ -564,7 +564,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
         unset( $q, $stmt );
         
         $q = $this->session->database->createSelectQuery();
-        $q->select( "COUNT(*)" )->from( "PO_persons_addresses" );
+        $q->select( "COUNT(*)" )->from( $this->session->database->quoteIdentifier( "PO_persons_addresses" ) );
 
         $stmt = $q->prepare();
         $stmt->execute();
@@ -577,7 +577,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
         unset( $q, $stmt );
         
         $q = $this->session->database->createSelectQuery();
-        $q->select( "COUNT(*)" )->from( "PO_birthdays" );
+        $q->select( "COUNT(*)" )->from( $this->session->database->quoteIdentifier( "PO_birthdays" ) );
 
         $stmt = $q->prepare();
         $stmt->execute();

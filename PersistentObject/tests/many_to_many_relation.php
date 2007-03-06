@@ -325,10 +325,10 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
 
         $q = $this->session->database->createSelectQuery();
         $q->select( "*" )
-          ->from( "PO_persons_addresses" )
+          ->from( $this->session->database->quoteIdentifier( "PO_persons_addresses" ) )
           ->where(
-            $q->expr->eq( "person_id", 2 ),
-            $q->expr->eq( "address_id", 2 )
+            $q->expr->eq( $this->session->database->quoteIdentifier( "person_id" ), 2 ),
+            $q->expr->eq( $this->session->database->quoteIdentifier( "address_id" ), 2 )
           );
 
         $stmt = $q->prepare();

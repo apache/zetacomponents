@@ -30,21 +30,21 @@ class PersistentTestObjectNoId
     public static function insertCleanData()
     {
         $db = ezcDbInstance::get();
-        $db->exec( "insert into PO_test (id, type_varchar, type_integer,
+        $db->exec( "insert into " . $db->quoteIdentifier( "PO_test" ) . " (id, type_varchar, type_integer,
                     type_decimal, type_text )
-                    VALUES ( 1, 'Sweden', 9006405, 449.96, 'Sweden has nice girls!' )" );
+                    VALUES ( 1, 'Sweden', 9006405, 449.96, 'Sweden has nice girls!' );" );
 
-        $db->exec( "insert into PO_test (id, type_varchar, type_integer,
+        $db->exec( "insert into " . $db->quoteIdentifier( "PO_test" ) . " (id, type_varchar, type_integer,
                     type_decimal, type_text )
-                    VALUES (2, 'Norway', 4593041, 385.19, 'Norway has brown goat cheese!' )" );
+                    VALUES (2, 'Norway', 4593041, 385.19, 'Norway has brown goat cheese!' );" );
 
-        $db->exec( "insert into PO_test (id, type_varchar, type_integer,
+        $db->exec( "insert into " . $db->quoteIdentifier( "PO_test" ) . " (id, type_varchar, type_integer,
                     type_decimal, type_text )
-                    VALUES (3, 'Ukraine', 47732079, 603.70, 'Ukraine has a long coastline to the black see.' )" );
+                    VALUES (3, 'Ukraine', 47732079, 603.70, 'Ukraine has a long coastline to the black see.' );" );
 
-        $db->exec( "insert into PO_test (id, type_varchar, type_integer,
+        $db->exec( "insert into " . $db->quoteIdentifier( "PO_test" ) . " (id, type_varchar, type_integer,
                     type_decimal, type_text )
-                    VALUES (4, 'Germany', 82443000, 357.02, 'Home of the lederhosen!.' )" );
+                    VALUES (4, 'Germany', 82443000, 357.02, 'Home of the lederhosen!.' );" );
     }
 
     /**
@@ -73,7 +73,7 @@ class PersistentTestObjectNoId
         // create sequence if it is a postgres database
         if ( $db->getName() == 'pgsql' )
         {
-            $db->exec( 'CREATE SEQUENCE PO_test_seq START 5' );
+            $db->exec( "CREATE SEQUENCE " . $db->quoteIdentifier( "PO_test_seq" ) . " START 5;" );
         }
 
     }
@@ -81,10 +81,10 @@ class PersistentTestObjectNoId
     public static function cleanup()
     {
         $db = ezcDbInstance::get();
-        $db->exec( 'DROP TABLE PO_test' );
+        $db->exec( "DROP TABLE " . $db->quoteIdentifier( "PO_test" ) . ";" );
         if ( $db->getName() == 'pgsql' )
         {
-            $db->exec( 'DROP SEQUENCE po_test_seq' );
+            $db->exec( "DROP SEQUENCE " . $db->quoteIdentifier( "PO_test_seq" ) . ";" );
         }
     }
 

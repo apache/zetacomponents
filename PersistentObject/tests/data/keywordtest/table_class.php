@@ -61,7 +61,7 @@ class Table
         // create sequence if it is a postgres database
         if ( $db->getName() == 'pgsql' )
         {
-            $db->exec( 'CREATE SEQUENCE PO_test_seq START 5' );
+            $db->exec( "CREATE SEQUENCE " . $db->quoteIdentifier( "PO_test_seq" ) );
         }
 
     }
@@ -74,7 +74,7 @@ class Table
         $db->exec( 'DROP TABLE' . $db->quoteIdentifier( 'as' ) );
         if ( $db->getName() == 'pgsql' )
         {
-            $db->exec( 'DROP SEQUENCE po_test_seq' );
+            $db->exec( "DROP SEQUENCE " . $db->quoteIdentifier( "PO_test_seq" ) . ";" );
         }
     }
 
