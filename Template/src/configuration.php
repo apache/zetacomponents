@@ -73,6 +73,7 @@ class ezcTemplateConfiguration
      */
      private $properties = array( 'context' => false,
                                   'cacheManager' => false,
+                                  'disableCache' => false,
                                   'templatePath' => ".",
                                   'compilePath' => ".",
                                   'cachedTemplatesPath' => null,
@@ -98,6 +99,7 @@ class ezcTemplateConfiguration
         {
             case 'context': 
             case 'cacheManager':
+            case 'disableCache':
             case 'templatePath': 
             case 'compilePath': 
             case 'cachedTemplatesPath':       // Relative path to the compilePath
@@ -162,6 +164,7 @@ class ezcTemplateConfiguration
             case 'checkModifiedTemplates': 
             case 'customBlocks': 
             case 'customFunctions': 
+            case 'disableCache':
                 $this->properties[$name] = $value;
                 break;
 
@@ -182,9 +185,8 @@ class ezcTemplateConfiguration
         switch ( $name )
         {
             case 'context': 
-                return true;
-
             case 'cacheManager': 
+            case 'disableCache': 
                 return true;
 
             case 'templatePath': 

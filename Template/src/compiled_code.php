@@ -186,7 +186,7 @@ class ezcTemplateCompiledCode
      * @throws ezcTemplateOutdatedCompilationException when the template should be recompiled. 
      * @return void
      */
-    protected function checkRequirements( $engineID )
+    protected function checkRequirements( $engineID, $compileFlags = array() )
     {
         if ( $this->template->configuration->checkModifiedTemplates &&
              // Do not recompile when the modification times are the same. This messes up the caching tests.
@@ -196,6 +196,14 @@ class ezcTemplateCompiledCode
             throw new ezcTemplateOutdatedCompilationException( "The source template file '{$this->template->stream}' is newer than '{$this->path}', will recompile." );
         }
 
+        // Check if caching is enabled
+        if( isset( $compileFlags["disableCache"] ) )
+        {
+            if( $this->template->configuration->disableCache != $compileFlags["disableCache"] )
+            {
+                throw new ezcTemplateOutdatedCompilationException( "The compileFlag 'disableCache' has been changed, will recompile." );
+            }
+        }
 
         // Check if the engine ID differs
         if ( $engineID !== self::ENGINE_ID )

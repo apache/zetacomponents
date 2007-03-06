@@ -304,7 +304,7 @@ class ezcTemplate
             // Check if caching is needed.
 
 //            if ( $fetchCacheInfo->cacheTst !== null )
-            if ( $parser->hasCacheBlocks )
+            if ($parser->hasCacheBlocks && !$this->configuration->disableCache )
             {
                 $fetchCacheInfo = new ezcTemplateFetchCacheInformation(); 
                 $this->properties["tstTree"]->accept( $fetchCacheInfo );

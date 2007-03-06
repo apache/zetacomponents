@@ -34,6 +34,7 @@ class ezcTemplateCacheManagerTest extends ezcTestCase
         $config = ezcTemplateConfiguration::getInstance();
         $this->tempDir = $config->compilePath =  $this->createTempDir( "ezcTemplate_" );
         $config->templatePath = $this->basePath . 'templates/';
+        $config->disableCache = false;
 
         $config->cacheManager = new DbCacheManager();
 

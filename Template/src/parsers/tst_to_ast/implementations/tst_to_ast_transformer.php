@@ -408,7 +408,11 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $programNode->appendStatement( new ezcTemplateEolCommentAstNode( "If you modify this file your changes will be lost when it is regenerated." ) );
 
         // Add: $this->checkRequirements()
-        $args = array( new ezcTemplateLiteralAstNode( ezcTemplateCompiledCode::ENGINE_ID ) );
+        $compileFlags = new ezcTemplateLiteralArrayAstNode();
+        $compileFlags->keys[] = new ezcTemplateLiteralAstNode("disableCache");
+        $compileFlags->value[] = new ezcTemplateLiteralAstNode( $this->parser->template->configuration->disableCache );
+
+        $args = array( new ezcTemplateLiteralAstNode( ezcTemplateCompiledCode::ENGINE_ID ), $compileFlags );
         $call = new ezcTemplateFunctionCallAstNode( "checkRequirements", $args );
         $programNode->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateReferenceOperatorAstNode( new ezcTemplateVariableAstNode( "this" ), $call ) ) );
     }
@@ -698,22 +702,38 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
      */
 
     /**
-     * @return ezcTemplateAstNode
+     * Return NOP.
+     *
+     * @return ezcTemplateNopAstNode
      */
     public function visitCacheTstNode( ezcTemplateCacheTstNode $type )
     {
-        throw new ezcTemplateInternalException( "visitCacheTstNode is handled in the (wrong) tst_to_ast_transformer" );
+        return new ezcTemplateNopAstNode();
     }
 
 
     /**
-     * @return ezcTemplateAstNode
+     * Skips the dynamic block and process the statements inside.
+     *
+     * @return array(ezcTemplateAstNode)
      */
-    public function visitDynamicBlockTstNode( ezcTemplateDynamicBlockTstNode $type )
+    public function visitDynamicBlockTstNode( ezcTemplateDynamicBlockTstNode $node )
     {
-        throw new ezcTemplateInternalException( "visitDynamicTstNode is handled in the (wrong) tst_to_ast_transformer" );
+        $t = $this->createBody( $node->elements );
+        return $t->statements; 
     }
 
+    /**
+     * Skips the cache block and process the statements inside.
+     *
+     * @return array(ezcTemplateAstNode)
+     */
+    public function visitCacheBlockTstNode( ezcTemplateCacheBlockTstNode $node )
+    {
+        $t = $this->createBody( $node->elements );
+        return $t->statements; 
+    }
+ 
 
     /**
      * @return ezcTemplateAstNode
@@ -833,8 +853,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
      */
     public function visitLiteralArrayTstNode( ezcTemplateLiteralArrayTstNode $type )
     {
-        // return new ezcTemplateLiteralArrayAstNode();
-
         $astVal = array();
         foreach ( $type->value as $key => $val )
         {
@@ -851,7 +869,6 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         $ast = new ezcTemplateLiteralArrayAstNode();
         $ast->value = $astVal;
         $ast->keys = $astKeys;
-
 
         return $ast;
     }

@@ -29,6 +29,7 @@ class ezcTemplateCacheTest extends ezcTestCase
         $this->basePath = realpath( dirname( __FILE__ ) ) . '/';
 
         $config = ezcTemplateConfiguration::getInstance();
+        $config->disableCache = false;
         $this->tempDir = $config->compilePath =  $this->createTempDir( "ezcTemplate_" );
         $config->templatePath = $this->basePath . 'templates/';
     }
@@ -453,7 +454,6 @@ EOM
         $t = new ezcTemplate( );
         $t->send->user = new TestUser( "Bernard", "Black" );
         $out = $t->process( "cache_dynamic_single_quote.tpl");
-
         $this->assertEquals( "\n'Bernard'\n'Bernard' \\'\n", $out );
 
         $t->send->user = new TestUser( "Guybrush", "Threepwood", 10 );
@@ -767,6 +767,85 @@ EOM
         // $this->assertEquals( "Not one", $t->receive->numberStr);
         // $this->assertEquals( "4", $t->receive->calc);
         // $this->assertEquals( "I am rubber, you are glue.", $t->receive->quote);
+    }
+
+    public function testDisableCaching()
+    {
+        $t = new ezcTemplate();
+        $t->send->user = new TestUser( "Bernard", "Black" );
+        $out = $t->process( "cache_dynamic.tpl");
+        $this->assertEquals( "\n[Bernard Black]\n[Bernard Black]\n", $out );
+
+        // Change the user. The first name is cached. The second name should change.
+        $t->send->user = new TestUser( "Guybrush", "Threepwood" );
+        $out = $t->process( "cache_dynamic.tpl");
+        $this->assertEquals( "\n[Bernard Black]\n[Guybrush Threepwood]\n", $out );
+
+        $t->configuration->disableCache = true;
+        $t->send->user = new TestUser( "Guybrush", "Threepwood" );
+        $out = $t->process( "cache_dynamic.tpl");
+        $this->assertEquals( "\n[Guybrush Threepwood]\n[Guybrush Threepwood]\n", $out );
+
+        $t->send->user = new TestUser( "Bernard", "Black" );
+        $out = $t->process( "cache_dynamic.tpl");
+        $this->assertEquals( "\n[Bernard Black]\n[Bernard Black]\n", $out );
+    }
+
+    public function testDisableCachingWithCacheBlock()
+    {
+        $t = new ezcTemplate();
+        $t->send->user = new TestUser( "Bernard", "Black" );
+        $out = $t->process( "cache_block.tpl");
+        $this->assertEquals( 
+<<<EOM
+Before: [Bernard Black]
+
+Cache block 0: [Bernard Black]
+
+Between cb 0 and 1: [Bernard Black]
+
+Cache block 1: [Bernard Black]
+
+After: [Bernard Black]
+
+EOM
+, $out);
+
+
+        $t->configuration->disableCache = true;
+        $t->send->user = new TestUser( "Roger", "Rabbit" );
+        $out = $t->process( "cache_block.tpl");
+        $this->assertEquals( 
+<<<EOM
+Before: [Roger Rabbit]
+
+Cache block 0: [Roger Rabbit]
+
+Between cb 0 and 1: [Roger Rabbit]
+
+Cache block 1: [Roger Rabbit]
+
+After: [Roger Rabbit]
+
+EOM
+, $out);
+
+        $t->send->user = new TestUser( "Bernard", "Black" );
+        $out = $t->process( "cache_block.tpl");
+        $this->assertEquals( 
+<<<EOM
+Before: [Bernard Black]
+
+Cache block 0: [Bernard Black]
+
+Between cb 0 and 1: [Bernard Black]
+
+Cache block 1: [Bernard Black]
+
+After: [Bernard Black]
+
+EOM
+, $out);
     }
 }
 
