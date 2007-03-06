@@ -15,8 +15,10 @@ $def->idProperty = new ezcPersistentObjectIdProperty;
 $def->idProperty->columnName = 'id';
 $def->idProperty->propertyName = 'id';
 $def->idProperty->visibility = ezcPersistentObjectProperty::VISIBILITY_PRIVATE;
-$def->idProperty->generator = new ezcPersistentGeneratorDefinition( 'ezcPersistentSequenceGenerator',
-                                                                    array( 'sequence' => 'PO_test_seq' ) );
+$def->idProperty->generator = new ezcPersistentGeneratorDefinition(
+    'ezcPersistentSequenceGenerator',
+    array( 'sequence' => 'PO_test_id_seq' )
+);
 
 $def->properties['varchar'] = new ezcPersistentObjectProperty;
 $def->properties['varchar']->columnName = 'type_varchar';

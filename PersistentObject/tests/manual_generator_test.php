@@ -33,8 +33,8 @@ class ezcPersistentManualGeneratorTest extends ezcTestCase
             $this->markTestSkipped( 'There was no database configured' );
         }
 
-        PersistentTestObject::setupTable( false ); /* No auto increment */
-        PersistentTestObject::insertCleanData();
+        ManualGeneratorTest::setupTable();
+        ManualGeneratorTest::insertCleanData();
 //        PersistentTestObject::saveSqlSchemas();
         $this->session = new ezcPersistentSession( ezcDbInstance::get(),
                                                    new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" ) );
@@ -42,7 +42,7 @@ class ezcPersistentManualGeneratorTest extends ezcTestCase
 
     protected function tearDown()
     {
-        PersistentTestObject::cleanup();
+        ManualGeneratorTest::cleanup();
     }
 
     public static function suite()
