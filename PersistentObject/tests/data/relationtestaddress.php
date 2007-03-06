@@ -8,7 +8,10 @@ $def->class = "RelationTestAddress";
 $def->idProperty                = new ezcPersistentObjectIdProperty;
 $def->idProperty->columnName    = 'id';
 $def->idProperty->propertyName  = 'id';
-$def->idProperty->generator     = new ezcPersistentGeneratorDefinition( 'ezcPersistentSequenceGenerator' );
+$def->idProperty->generator     = new ezcPersistentGeneratorDefinition(
+    'ezcPersistentSequenceGenerator',
+    array( "sequence" => "PO_addresses_id_seq" )
+);
 
 $def->properties['street']                 = new ezcPersistentObjectProperty;
 $def->properties['street']->columnName     = 'street';
