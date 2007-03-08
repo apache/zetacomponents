@@ -115,13 +115,8 @@ class ezcPersistentSession
      *         if the object is not persistent already.
      * @throws ezcPersistentQueryException
      *         if the object could not be deleted.
-     * @param object $pObject
      *
-     * @todo Also ManyToMany relations do not support cascading, we should
-     *       delete all relation records for the deleted object.
-     * @todo Revise cascading code. So far it sends 1 delete statement per
-     *       object but we can also collect them table wise and send just 1
-     *       for each table.
+     * @param object $pObject The persistent object to delete.
      */
     public function delete( $pObject )
     {
@@ -145,40 +140,7 @@ class ezcPersistentSession
             // check for cascading relations to follow
             foreach ( $def->relations as $relatedClass => $relation )
             {
-                $this->cascadeDelete( $pObject, $relation );
-                // Remove relation records for ManyToMany relations
-                if ( $relation instanceof ezcPersistentManyToManyRelation )
-                {
-                    foreach ( $this->getRelatedObjects( $pObject, $relatedClass ) as $relatedObject )
-                    {
-                        // Need to determine the correct direction for removal
-                        if ( $relation->reverse === true  )
-                        {
-                            $this->removeRelatedObject( $relatedObject, $pObject );
-                        }
-                        else
-                        {
-                            $this->removeRelatedObject( $pObject, $relatedObject );
-                        }
-                    }
-                }
-                if ( isset( $relation->cascade ) && $relation->cascade === true )
-                {
-                    if ( isset( $relation->reverse ) && $relation->reverse === true )
-                    {
-                        throw new ezcPersistentRelationOperationNotSupported(
-                            $class,
-                            $relatedClass,
-                            "cascade on delete",
-                            "Reverse relations do not support cascading."
-                        );
-                    }
-                    // @todo {@see delete()}
-                    foreach ( $this->getRelatedObjects( $pObject, $relatedClass ) as $relatedObject )
-                    {
-                        $this->delete( $relatedObject );
-                    }
-                }
+                $this->cascadeDelete( $pObject, $relatedClass, $relation );
             }
         }
         catch ( Exception $e )
@@ -216,8 +178,55 @@ class ezcPersistentSession
         $this->database->commit();
     }
 
-    private function cascadeDelete( $object, ezcPersistentRelation $relation )
+    /**
+     * Perform the cascading of deletes on a specific relation. 
+     * This method checks a given relation of a given object for necessary
+     * actions on a cascaded delete and performs them.
+     * 
+     * @param object $object                  The persistent object.
+     * @param string $relatedClass            The class of the related persistent
+     *                                        object.
+     * @param ezcPersistentRelation $relation The relation to check.
+     * @return void
+     *
+     * @todo Revise cascading code. So far it sends 1 delete statement per
+     *       object but we can also collect them table wise and send just 1
+     *       for each table.
+     */
+    private function cascadeDelete( $object, $relatedClass, ezcPersistentRelation $relation )
     {
+        // Remove relation records for ManyToMany relations
+        if ( $relation instanceof ezcPersistentManyToManyRelation )
+        {
+            foreach ( $this->getRelatedObjects( $object, $relatedClass ) as $relatedObject )
+            {
+                // Need to determine the correct direction for removal
+                if ( $relation->reverse === true  )
+                {
+                    $this->removeRelatedObject( $relatedObject, $object );
+                }
+                else
+                {
+                    $this->removeRelatedObject( $object, $relatedObject );
+                }
+            }
+        }
+        if ( isset( $relation->cascade ) && $relation->cascade === true )
+        {
+            if ( isset( $relation->reverse ) && $relation->reverse === true )
+            {
+                throw new ezcPersistentRelationOperationNotSupported(
+                    $class,
+                    $relatedClass,
+                    "cascade on delete",
+                    "Reverse relations do not support cascading."
+                );
+            }
+            foreach ( $this->getRelatedObjects( $object, $relatedClass ) as $relatedObject )
+            {
+                $this->delete( $relatedObject );
+            }
+        }
     }
 
     /*
