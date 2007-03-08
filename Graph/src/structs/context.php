@@ -29,6 +29,13 @@ class ezcGraphContext extends ezcBaseStruct
     public $datapoint = false;
     
     /**
+     * Associated URL for datapoint
+     * 
+     * @var string
+     */
+    public $url;
+
+    /**
      * Simple constructor 
      * 
      * @param string $dataset Name of dataset
@@ -36,10 +43,11 @@ class ezcGraphContext extends ezcBaseStruct
      * @return void
      * @ignore
      */
-    public function __construct( $dataset = false, $datapoint = false )
+    public function __construct( $dataset = false, $datapoint = false, $url = null )
     {
         $this->dataset = $dataset;
         $this->datapoint = $datapoint;
+        $this->url = $url;
     }
 
     /**
@@ -53,6 +61,13 @@ class ezcGraphContext extends ezcBaseStruct
     {
         $this->dataset = (string) $properties['dataset'];
         $this->datapoint = (string) $properties['datapoint'];
+
+        // Check to keep BC
+        // @TODO: Remvove unnesecary check on next major version
+        if ( array_key_exists( 'url', $properties ) )
+        {
+            $this->url = (string) $properties['url'];
+        }
     }
 }
 

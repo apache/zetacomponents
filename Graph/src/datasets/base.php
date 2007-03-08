@@ -21,6 +21,8 @@
  *           Status if datapoint element is hilighted
  * @property int $displayType
  *           Display type of chart data
+ * @property string $url
+ *           URL associated with datapoint
  *
  * @package Graph
  * @access private
@@ -71,6 +73,7 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
         $this->properties['symbol'] = new ezcGraphDataSetIntProperty( $this );
         $this->properties['highlight'] = new ezcGraphDataSetBooleanProperty( $this );
         $this->properties['displayType'] = new ezcGraphDataSetIntProperty( $this );
+        $this->properties['url'] = new ezcGraphDataSetStringProperty( $this );
 
         $this->properties['highlight']->default = false;
     }
@@ -94,6 +97,7 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
             case 'hilight':
                 $propertyName = 'highlight';
             case 'label':
+            case 'url':
             case 'color':
             case 'symbol':
             case 'highlight':

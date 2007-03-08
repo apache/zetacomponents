@@ -49,6 +49,8 @@
  *           Offset of the graph in the svg.
  * @property string $idPrefix
  *           Prefix used for the ids in SVG documents.
+ * @property string $linkCursor
+ *           CSS value for cursor property used for linked SVG elements
  * 
  * @package Graph
  */
@@ -75,6 +77,7 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
         $this->properties['insertIntoGroup'] = false;
         $this->properties['graphOffset'] = new ezcGraphCoordinate( 0, 0 );
         $this->properties['idPrefix'] = 'ezcGraph';
+        $this->properties['linkCursor'] = 'pointer';
 
         parent::__construct( $options );
     }
@@ -233,6 +236,9 @@ class ezcGraphSvgDriverOptions extends ezcGraphDriverOptions
                 break;
             case 'encoding':
                 $this->properties['encoding'] = (string) $propertyValue;
+                break;
+            case 'linkCursor':
+                $this->properties['linkCursor'] = (string) $propertyValue;
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );

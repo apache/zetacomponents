@@ -65,6 +65,13 @@ abstract class ezcGraphChart
     protected $renderElement;
 
     /**
+     * Contains the filename of the rendered file, if rendered.
+     * 
+     * @var mixed
+     */
+    protected $renderedFile;
+
+    /**
      * Constructor
      * 
      * @param array $options Default option array
@@ -247,6 +254,16 @@ abstract class ezcGraphChart
      * @return int Display type
      */
     abstract public function getDefaultDisplayType();
+
+    /**
+     * Return filename of rendered file, and false if no file was yet rendered.
+     * 
+     * @return mixed
+     */
+    public function getRenderedFile()
+    {
+        return ( $this->renderedFile !== null ? $this->renderedFile : false );
+    }
 
     /**
      * Renders this chart

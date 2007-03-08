@@ -1594,14 +1594,32 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
         $this->assertSame(
             null,
             $options->encoding,
-            'Wrong default value for property idPrefix in class ezcGraphSvgDriverOptions'
+            'Wrong default value for property encoding in class ezcGraphSvgDriverOptions'
         );
 
         $options->encoding = 'ISO-8859-15';
         $this->assertSame(
             'ISO-8859-15',
             $options->encoding,
-            'Setting property value did not work for property idPrefix in class ezcGraphSvgDriverOptions'
+            'Setting property value did not work for property encoding in class ezcGraphSvgDriverOptions'
+        );
+    }
+
+    public function testSvgDriverOptionsPropertyLinkCursor()
+    {
+        $options = new ezcGraphSvgDriverOptions();
+
+        $this->assertSame(
+            'pointer',
+            $options->linkCursor,
+            'Wrong default value for property linkCursor in class ezcGraphSvgDriverOptions'
+        );
+
+        $options->linkCursor = 'auto';
+        $this->assertSame(
+            'auto',
+            $options->linkCursor,
+            'Setting property value did not work for property linkCursor in class ezcGraphSvgDriverOptions'
         );
     }
 }

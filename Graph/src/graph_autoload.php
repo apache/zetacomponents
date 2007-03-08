@@ -11,6 +11,9 @@
 
 return array(
     'ezcGraph'                                  => 'Graph/graph.php',
+    'ezcGraphTools'                             => 'Graph/tools.php',
+    'ezcGraphToolsIncompatibleDriverException'  => 'Graph/exceptions/incompatible_driver.php',
+    'ezcGraphToolsNotRenderedException'         => 'Graph/exceptions/not_rendered.php',
     'ezcGraphException'                         => 'Graph/exceptions/exception.php',
     
     'ezcGraphChart'                             => 'Graph/interfaces/chart.php',

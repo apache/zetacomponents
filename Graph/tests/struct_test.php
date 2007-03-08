@@ -24,7 +24,7 @@ class ezcGraphStructTest extends ezcTestCase
 
     public function testCreateContext()
     {
-        $context = new ezcGraphContext( 'set', 'point' );
+        $context = new ezcGraphContext( 'set', 'point', 'url://' );
 
         $this->assertSame(
             'set',
@@ -38,8 +38,15 @@ class ezcGraphStructTest extends ezcTestCase
             'Wrong value when reading public property datapoint in ezcGraphContext.'
         );
 
+        $this->assertSame(
+            'url://',
+            $context->url,
+            'Wrong value when reading public property url in ezcGraphContext.'
+        );
+
         $context->dataset = 'set 2';
         $context->datapoint = 'point 2';
+        $context->url = 'url://2';
 
         $this->assertSame(
             'set 2',
@@ -51,6 +58,12 @@ class ezcGraphStructTest extends ezcTestCase
             'point 2',
             $context->datapoint,
             'Wrong value when reading public property datapoint in ezcGraphContext.'
+        );
+
+        $this->assertSame(
+            'url://2',
+            $context->url,
+            'Wrong value when reading public property url in ezcGraphContext.'
         );
     }
 
@@ -106,6 +119,36 @@ class ezcGraphStructTest extends ezcTestCase
             'point',
             $context->datapoint,
             'Wrong value when reading public property datapoint in ezcGraphContext.'
+        );
+    }
+
+    public function testContextSetStateWithURL()
+    {
+        $context = new ezcGraphContext();
+
+        $context->__set_state(
+        array(
+            'dataset' => 'set',
+            'datapoint' => 'point',
+            'url' => 'url://',
+        ) );
+
+        $this->assertSame(
+            'set',
+            $context->dataset,
+            'Wrong value when reading public property dataset in ezcGraphContext.'
+        );
+
+        $this->assertSame(
+            'point',
+            $context->datapoint,
+            'Wrong value when reading public property datapoint in ezcGraphContext.'
+        );
+
+        $this->assertSame(
+            'url://',
+            $context->url,
+            'Wrong value when reading public property url in ezcGraphContext.'
         );
     }
 

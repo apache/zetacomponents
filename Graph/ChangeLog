@@ -21,6 +21,8 @@
   number > 10) + 1 labels
 - Added feature #10375: Manually reduce or increase the label count on
   labeled axis
+- Added feature #9511: Added helper functions to create image maps an link SVG
+  images in ezcGraphTools
 
 1.0 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

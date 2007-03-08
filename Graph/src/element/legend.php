@@ -167,6 +167,7 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
         {
             $this->labels[] = array(
                 'label' => $dataset->label->default,
+                'url' => $dataset->url->default,
                 'color' => $dataset->color->default,
                 'symbol' => ( $dataset->symbol->default === null ?
                               ezcGraph::NO_SYMBOL :
@@ -188,6 +189,7 @@ class ezcGraphChartElementLegend extends ezcGraphChartElement
         {
             $this->labels[] = array(
                 'label' => $label,
+                'url' => $dataset->url[$label],
                 'color' => $dataset->color[$label],
                 'symbol' => ( $dataset->symbol[$label] === null ?
                               ezcGraph::NO_SYMBOL :

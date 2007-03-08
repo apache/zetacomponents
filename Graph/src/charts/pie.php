@@ -107,7 +107,7 @@ class ezcGraphPieChart extends ezcGraphChart
 
                     $renderer->drawPieSegment(
                         $boundings,
-                        new ezcGraphContext( $datasetName, $label ),
+                        new ezcGraphContext( $datasetName, $label, $dataset->url[$label] ),
                         $dataset->color[$label],
                         $angle,
                         $angle += $value / $sum * 360,
@@ -249,6 +249,8 @@ class ezcGraphPieChart extends ezcGraphChart
         {
             $this->renderer->render( $file );
         }
+
+        $this->renderedFile = $file;
     }
 
     /**

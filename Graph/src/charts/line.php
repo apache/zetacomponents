@@ -195,7 +195,7 @@ class ezcGraphLineChart extends ezcGraphChart
 
                         $renderer->drawDataLine(
                             $boundings,
-                            new ezcGraphContext( $datasetName, $key ),
+                            new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
                             $data->color->default,
                             ( $lastPoint === false ? $point : $lastPoint ),
                             $point,
@@ -211,7 +211,7 @@ class ezcGraphLineChart extends ezcGraphChart
                         {
                             $renderer->drawDataHighlightText(
                                 $boundings,
-                                new ezcGraphContext( $datasetName, $key ),
+                                new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
                                 $point,
                                 $yAxisNullPosition,
                                 $nr[$data->displayType->default],
@@ -254,7 +254,7 @@ class ezcGraphLineChart extends ezcGraphChart
 
                         $renderer->drawBar(
                             $boundings,
-                            new ezcGraphContext( $datasetName, $key ),
+                            new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
                             $data->color->default,
                             $point = $this->elements['xAxis']->axisLabelRenderer->modifyChartDataPosition( 
                                 $this->elements['yAxis']->axisLabelRenderer->modifyChartDataPosition(
@@ -272,7 +272,7 @@ class ezcGraphLineChart extends ezcGraphChart
                         {
                             $renderer->drawDataHighlightText(
                                 $boundings,
-                                new ezcGraphContext( $datasetName, $key ),
+                                new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
                                 $point,
                                 $yAxisNullPosition,
                                 $nr[$data->displayType->default],
@@ -399,6 +399,8 @@ class ezcGraphLineChart extends ezcGraphChart
         {
             $this->renderer->render( $file );
         }
+
+        $this->renderedFile = $file;
     }
 
     /**
