@@ -14,42 +14,12 @@ $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
     'Konqueror' => 474,
 ) );
 
+$graph->data['Access statistics']->url = 'http://example.org/';
+$graph->data['Access statistics']->url['Mozilla'] = 'http://example.org/mozilla';
+
 $graph->render( 400, 200, 'tutorial_example_28.svg' );
 
-// Get element references from renderer
-$elements = $graph->renderer->getElementReferences();
-
-// Add links to charts
-$dom = new DOMDocument();
-$dom->load( 'tutorial_example_28.svg' );
-$xpath = new DomXPath( $dom );
-
-// Link chart elements
-foreach( $elements['data']['Access statistics'] as $objectName => $ids )
-{
-    foreach ( $ids as $id )
-    {
-        echo "Link: $id\n";
-        $element = $xpath->query( '//*[@id = \'' . $id . '\']' )->item( 0 );
-
-        $element->setAttribute( 'style', $element->getAttribute( 'style' ) . ' cursor: pointer;' );
-        $element->setAttribute( 'onclick', 'top.location = \'/detailedData.php?browser=' . $objectName . '\'' );
-    }
-}
-
-// Link legend elements
-foreach( $elements['legend'] as $objectName => $ids )
-{
-    foreach ( $ids as $id )
-    {
-        echo "Link: $id\n";
-        $element = $xpath->query( '//*[@id = \'' . $id . '\']' )->item( 0 );
-
-        $element->setAttribute( 'style', $element->getAttribute( 'style' ) . ' cursor: pointer;' );
-        $element->setAttribute( 'onclick', 'top.location = \'/detailedData.php?browser=' . $objectName . '\'' );
-    }
-}
-
-$dom->save( 'tutorial_example_28.svg' );
+$graph->driver->options->linkCursor = 'crosshair';
+ezcGraphTools::linkSvgElements( $graph );
 
 ?>

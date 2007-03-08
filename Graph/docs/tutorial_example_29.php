@@ -17,42 +17,25 @@ $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
     'Konqueror' => 474,
 ) );
 
-$graph->render( 400, 200, 'tutorial_example_29.png' );
+$graph->data['Access statistics']->url = 'http://example.org/';
+$graph->data['Access statistics']->url['Mozilla'] = 'http://example.org/mozilla';
 
-$elements = $graph->renderer->getElementReferences();
+$graph->render( 400, 200, 'tutorial_example_29.png' );
 
 ?>
 <html>
     <head><title>Image map example</title></head>
-    <body>
-        <map 
-            name="ezcGraphPieChartMap">
+<body>
 <?php
-    foreach ( $elements['legend'] as $objectName => $polygones )
-    {
-        foreach ( $polygones as $shape => $polygone )
-        {
-            $coordinateString = '';
-            foreach ( $polygone as $coordinate )
-            {
-                $coordinateString .= sprintf( '%d,%d,', $coordinate->x, $coordinate->y );
-            }
 
-            printf( "<area shape=\"poly\" coords=\"%s\" href=\"/detailedData.php?browser=%s\" alt=\"%s: %s\" title=\"%s: %s\" />\n",
-                substr( $coordinateString, 0, -1 ),
-                $objectName,
-                $shape, $objectName,
-                $shape, $objectName
-            );
-        }
-    }
+echo ezcGraphTools::createImageMap( $graph, 'ezcGraphPieChartMap' );
+
 ?>
-        </map>
-        <img
-            src="tutorial_example_29.png"
-            width="400" height="200"
-            usemap="#ezcGraphPieChartMap"
-    </body>
+    <img
+        src="tutorial_example_29.png"
+        width="400" height="200"
+        usemap="#ezcGraphPieChartMap" />
+</body>
 </html>
 <?php
 ?>

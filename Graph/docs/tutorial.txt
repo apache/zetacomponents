@@ -849,31 +849,23 @@ Element references are created in the renderer. This way it is also possible to
 reference legend symbols and text, data labels and of course the actual data
 elements.
 
+Since ezcGraph 1.1 you can define URLs for data sets and data points which
+will be used, when linking the elements later. You now can use the function
+provided in ezcGraphTools to create the image maps and add links into SVG
+images.
+
 SVG example
 -----------
 
 .. include:: tutorial_example_28.php
    :literal:
 
-After creating a very simple chart like in the first example, we start
-modifying the document using PHP's DOM extension. First, we load the document
-and create a XPath query object on it. 
-
-The array returned by ezcGraphRenderer::getElementReferences() contains two
-arrays, one for the legend elements and one for the datasets. The data array
-itself contains all datasets with all data points, which in turn contain all valid
-references depending on the driver and chart type. In an SVG document with a 2D
-renderer you will receive one ezcGraphCircleSector_[0-9]+ and one 
-ezcGraphTextBox_[0-9]+ element, but this may change with other rendering 
-options.
-
-In the loop, we now receive the element ID using XPath to modify its
-attributes. $dom->getElementByID() does not work here, because these elements
-are not indexed by default for non HTML documents. We only modify the style
-attribute a bit, to change the cursor to a pointer (as expected for links)
-and add a JavaScript onclick event handler to link to the specified address.
-The result is an `SVG image`__ where you can click on the chart and legend
-elements.
+Since ezcGraph 1.1 you can optionally set a custom cursor type used by the
+browser to indicate that you can click on a surface. The cursor defaults to a
+pointer normally used for links. Everything else you need to do is assigning
+URLs to the data sets or data points like in the lines 17 and 18 and then
+finally call ezcGraphTools::linkSvgElements (line 23) to modify your SVG. The
+result will be a clickable `SVG image`__.
 
 __ img/tutorial_example_28.svg
 
@@ -887,21 +879,12 @@ coordinates, which you can use to generate an image map.
 .. include:: tutorial_example_29.php
    :literal:
 
-For the sake of brevity, we only link the legend elements here. After
-generating the basic image, we request the element references from the
-renderer and use them to create the image map starting in line 30. We iterate
-over the legend elements, which may all contain more then one
-polygon. In this case, we receive one polygon for the symbol in the legend and
-another one for the legend text.
-
-In lines 35 to 39, we build the coordinate string image map from
-the coordinate pairs we receive from the GD driver. The coordinate array
-consists of ezcGraphCoordinate objects, which have a simple structure containing
-two public properties: the x and the y coordinates as float values. We use this
-coordinate string to create the polygon area elements in line 41.
-
-After assigning the image map to the image, the result is a `linked legend in your
-generated bitmap`__.
+In line 20 we associate a URL to the complete data set and in line 21 another
+URL only for the mozilla data point. Those URLs will be used to create the
+image map in line 31. As a second parameter besides the actual graph we can
+provide a name for the image map, which should be used to associate the image
+map to the image as in line 37. The result is a `linked legend and linked
+pie chart in your generated bitmap`__.
 
 __ img/tutorial_example_29.html
 
