@@ -200,7 +200,7 @@ class ezcConsoleToolsTableRowTest extends ezcTestCase
         );
     }
 
-    public function testSetAllCellsProperties_1()
+    public function testNotSetAllCellsProperties_1()
     {
         $row = new ezcConsoleTableRow();
         for ( $i = 0; $i < 10; $i++ )
@@ -210,17 +210,17 @@ class ezcConsoleToolsTableRowTest extends ezcTestCase
         
         $row->align = ezcConsoleTable::ALIGN_CENTER;
         
-        foreach ( $this as $cell )
+        foreach ( $row as $cell )
         {
             $this->assertEquals( 
-                ezcConsoleTable::ALIGN_CENTER,
+                ezcConsoleTable::ALIGN_DEFAULT,
                 $cell->align,
                 "Did not set alignment correctly for all contained cells."
             );
         }
     }
 
-    public function testSetAllCellsProperties_2()
+    public function testNotSetAllCellsProperties_2()
     {
         $row = new ezcConsoleTableRow();
         for ( $i = 0; $i < 10; $i++ )
@@ -230,10 +230,10 @@ class ezcConsoleToolsTableRowTest extends ezcTestCase
         
         $row->format = 'headline';
         
-        foreach ( $this as $cell )
+        foreach ( $row as $cell )
         {
             $this->assertEquals( 
-                'headline',
+                'default',
                 $cell->format,
                 "Did not set alignment correctly for all contained cells."
             );
