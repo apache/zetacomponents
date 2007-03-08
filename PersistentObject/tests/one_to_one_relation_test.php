@@ -291,7 +291,7 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         );
     }
  
-    public function testAddRelatedBirthdayToPerson3UpdateSuccess()
+    public function testAddRelatedBirthdayToPerson3UpdateFailure()
     {
         $person = $this->session->load( "RelationTestPerson", 3 );
         
@@ -301,15 +301,22 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         ) );
 
         $this->session->addRelatedObject( $person, $birthday );
-
-        $this->session->update( $birthday );
+        
+        try
+        {
+            $this->session->update( $birthday );
+        }
+        catch ( ezcPersistentObjectNotPersistentException $e )
+        {
+            // This exception is correct. The object is new and should not be updated.
+        }
         
         try
         {
             // The birthday record should not exist
             $birthday = $this->session->load( "RelationTestBirthday", 3 );
         }
-        catch ( Exception $e )
+        catch ( ezcPersistentQueryException $e )
         {
             return;
         }
