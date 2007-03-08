@@ -144,7 +144,7 @@ class ezcGraphTools
                 {
                     $element = $xpath->query( '//*[@id = \'' . $id . '\']' )->item( 0 );
 
-                    $element->setAttribute( 'style', $element->getAttribute( 'style' ) . ' cursor: pointer;' );
+                    $element->setAttribute( 'style', $element->getAttribute( 'style' ) . ' cursor: ' . $chart->driver->options->linkCursor . ';' );
                     $element->setAttribute( 'onclick', "top.location = '{$url}'" );
                 }
             }
@@ -164,7 +164,7 @@ class ezcGraphTools
             {
                 $element = $xpath->query( '//*[@id = \'' . $id . '\']' )->item( 0 );
 
-                $element->setAttribute( 'style', $element->getAttribute( 'style' ) . ' cursor: pointer;' );
+                $element->setAttribute( 'style', $element->getAttribute( 'style' ) . ' cursor: ' . $chart->driver->options->linkCursor . ';' );
                 $element->setAttribute( 'onclick', "top.location = '{$url}'" );
             }
         }

@@ -196,6 +196,35 @@ class ezcGraphToolsTest extends ezcGraphTestCase
         );
     }
 
+    public function testPieChartSvgLinkingCustomCursor()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->data['sample']->url = 'http://example.org/browsers';
+        $chart->data['sample']->url['Mozilla'] = 'http://example.org/browsers/mozilla';
+        $chart->data['sample']->highlight['Opera'] = true;
+
+        $chart->driver->options->linkCursor = 'crosshair';
+
+        $chart->render( 500, 200, $filename );
+
+        ezcGraphTools::linkSvgElements( $chart );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testLineChartSvgLinking()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
