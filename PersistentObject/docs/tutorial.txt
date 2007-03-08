@@ -253,7 +253,7 @@ ezcPersistentSession->createFindQuery(). To learn more about query abstraction
 and how to use it, please refer to the `specific subsection of the Database
 components tutorial`_.
 
-.. _`specific subsection of the Database components tutorial`: http://ez.no/doc/components/view/latest/(file)/introduction_Database.html#query-abstraction-usage
+.. _`specific subsection of the Database components tutorial`: introduction_Database.html#query-abstraction-usage
 
 The find() method will fetch the complete result set and instantiate it for
 you. This is not desirable if you are fetching large numbers of objects and you
