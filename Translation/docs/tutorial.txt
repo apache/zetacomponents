@@ -35,7 +35,7 @@ ezcTranslationManager
   context in the form of an ezcTranslation object.
 
 ezcTranslationCacheBackend, ezcTranslationTsBackend
-  These classes implement backends that delete data from a specific source.
+  These classes implement backends that read data from a specific source.
   ezcTranslationTsBackend reads its data from `Qt's Linguist files`_ - an
   XML-based format for storing original text and translated text. The
   ezcTranslationCacheBackend handler reads translation data through the Cache
