@@ -169,7 +169,7 @@ class ezcSignalCollection
         }
 
         // fast algorithm if there are no prioritized slots
-        if ( isset( $this->priorityConnections[$signal] ) == 0 && !$hasPriStaticConnections )
+        if ( isset( $this->priorityConnections[$signal] ) === false && !$hasPriStaticConnections )
         {
             if ( isset( $this->defaultConnections[$signal] ) )
             {
