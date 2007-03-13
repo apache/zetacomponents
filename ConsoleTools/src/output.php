@@ -346,12 +346,12 @@ class ezcConsoleOutput
         {
             if ( is_int( $this->properties['options']->autobreak ) && $this->properties['options']->autobreak > 0 )
             {
-                $textLines = explode( "\n", $text );
+                $textLines = preg_split( "(\r\n|\n|\r)", $text );
                 foreach ( $textLines as $id => $textLine )
                 {
-                    $textLines[$id] = wordwrap( $textLine, $this->properties['options']->autobreak, "\n", true );
+                    $textLines[$id] = wordwrap( $textLine, $this->properties['options']->autobreak, PHP_EOL, true );
                 }
-                $text = implode( "\n", $textLines );
+                $text = implode( PHP_EOL, $textLines );
             }
             // Initialize target, if not happened before
             if ( !isset( $this->targets[$this->formats->$format->target] ) )

@@ -680,17 +680,17 @@ class ezcConsoleInput
         // Width of righ column
         $rightColWidth = $width - $leftColWidth;
 
-        $res = 'Usage: ' . $this->getSynopsis( $params ) . "\n";
-        $res .= wordwrap( $programDesc, $width );
-        $res .= "\n\n";
+        $res = 'Usage: ' . $this->getSynopsis( $params ) . PHP_EOL;
+        $res .= wordwrap( $programDesc, $width, PHP_EOL );
+        $res .= PHP_EOL . PHP_EOL;
         foreach ( $help as $row )
         {
             $rowParts = explode( "\n", wordwrap( $row[1], $rightColWidth ) );
             $res .= sprintf( "%-{$leftColWidth}s", $row[0] );
-            $res .= $rowParts[0] . "\n";
+            $res .= $rowParts[0] . PHP_EOL;
             for ( $i = 1; $i < sizeof( $rowParts ); $i++ )
             {
-                $res .= str_repeat( ' ', $leftColWidth ) . $rowParts[$i] . "\n";
+                $res .= str_repeat( ' ', $leftColWidth ) . $rowParts[$i] . PHP_EOL;
             }
         }
         return $res;
