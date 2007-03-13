@@ -129,13 +129,15 @@ class ezcConsoleToolsProgressbarTest extends ezcTestCase
             }
             ob_end_clean();
         }
+
+        $refFile = dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . $refFile . '.dat';
         $this->assertEquals(
-            file_get_contents( dirname( __FILE__ ) . '/data/' . $refFile . '.dat' ),
-            implode( "\n", $res ),
+            file_get_contents( $refFile ),
+            implode( PHP_EOL, $res ),
             'Table not correctly generated for ' . $refFile . '.'
         );
         // Use the following line to regenerate test reference files
-        // file_put_contents( dirname( __FILE__ ) . '/data/' . $refFile . '.dat', implode( "\n", $res ) );
+        // file_put_contents( $refFile, implode( PHP_EOL, $res ) );
     }
 }
 ?>
