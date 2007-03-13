@@ -238,7 +238,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      */
     public function outputTable() 
     {
-        echo implode( "\n", $this->generateTable() );
+        echo implode( PHP_EOL, $this->generateTable() );
     }
 
     /**
