@@ -47,12 +47,12 @@ class ezcConsoleToolsProgressMonitorTest extends ezcTestCase
         $res = ob_get_contents();
         ob_end_clean();
         $this->assertEquals(
-            file_get_contents( dirname( __FILE__ ) . '/data/testProgressMonitor1.dat' ),
+            file_get_contents( dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . 'testProgressMonitor1.dat' ),
             $res,
             "Formated statusbar not generated correctly."
         );
         // To prepare test files use this:
-        //file_put_contents( dirname( __FILE__ ) . '/data/testProgressMonitor1.dat', $res );
+        //file_put_contents( dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . 'testProgressMonitor1.dat', $res );
     }
     
     public function testProgressMonitor2()
@@ -67,12 +67,12 @@ class ezcConsoleToolsProgressMonitorTest extends ezcTestCase
         $res = ob_get_contents();
         ob_end_clean();
         $this->assertEquals(
-            file_get_contents( dirname( __FILE__ ) . '/data/testProgressMonitor2.dat' ),
+            file_get_contents( dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . 'testProgressMonitor2.dat' ),
             $res,
             "Formated statusbar not generated correctly."
         );
         // To prepare test files use this:
-        // file_put_contents( dirname( __FILE__ ) . '/data/testProgressMonitor2.dat', $res );
+        // file_put_contents( dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . 'testProgressMonitor2.dat', $res );
     }
     
     public function testProgressMonitor3()
@@ -87,12 +87,12 @@ class ezcConsoleToolsProgressMonitorTest extends ezcTestCase
         $res = ob_get_contents();
         ob_end_clean();
         $this->assertEquals(
-            file_get_contents( dirname( __FILE__ ) . '/data/testProgressMonitor3.dat' ),
+            file_get_contents( dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . 'testProgressMonitor3.dat' ),
             $res,
             "Formated statusbar not generated correctly."
         );
         // To prepare test files use this:
-        // file_put_contents( dirname( __FILE__ ) . '/data/testProgressMonitor3.dat', $res );
+        // file_put_contents( dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . 'testProgressMonitor3.dat', $res );
     }
     
     public function testProgressMonitor4()
@@ -114,12 +114,12 @@ class ezcConsoleToolsProgressMonitorTest extends ezcTestCase
         $res = ob_get_contents();
         ob_end_clean();
         $this->assertEquals(
-            file_get_contents( dirname( __FILE__ ) . '/data/testProgressMonitor4.dat' ),
+            file_get_contents( dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . 'testProgressMonitor4.dat' ),
             $res,
             "Formated statusbar not generated correctly."
         );
         // To prepare test files use this:
-        // file_put_contents( dirname( __FILE__ ) . '/data/testProgressMonitor4.dat', $res );
+        // file_put_contents( dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . 'testProgressMonitor4.dat', $res );
     }
 }
 ?>
