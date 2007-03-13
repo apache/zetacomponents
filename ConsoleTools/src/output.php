@@ -412,7 +412,13 @@ class ezcConsoleOutput
      */
     public function formatText( $text, $format = 'default' ) 
     {
-        return $this->buildSequence( $format ) . $text . $this->buildSequence( 'default' );
+        switch ( ezcBaseFeatures::os() )
+        {
+            case "Windows":
+                return $text;
+            default:
+                return $this->buildSequence( $format ) . $text . $this->buildSequence( 'default' );
+        }
     }
 
     /**

@@ -122,7 +122,7 @@ class ezcConsoleToolsOutputTest extends ezcTestCase
         foreach ( $this->testFormats as $name => $inout ) 
         {
             $realRes = $this->consoleOutput->formatText( $this->testString, $name );
-            $fakeRes = sprintf( $inout['out'], $this->testString );
+            $fakeRes = ezcBaseFeatures::os() !== "Windows" ? sprintf( $inout['out'], $this->testString ) : $this->testString;
             $this->assertEquals( 
                 $realRes,
                 $fakeRes, 
@@ -144,7 +144,7 @@ class ezcConsoleToolsOutputTest extends ezcTestCase
             $this->consoleOutput->outputText( $this->testString, $name );
             $realRes = ob_get_contents();
             ob_end_clean();
-            $fakeRes = sprintf( $inout['out'], $this->testString );
+            $fakeRes = ezcBaseFeatures::os() !== "Windows" ? sprintf( $inout['out'], $this->testString ) : $this->testString;
             $this->assertEquals( 
                 $fakeRes, 
                 $realRes,
@@ -178,7 +178,7 @@ EOT;
             $realRes = ob_get_contents();
             ob_end_clean();
             
-            $fakeRes = sprintf( $inout['out'], $testResText );
+            $fakeRes = ezcBaseFeatures::os() !== "Windows" ? sprintf( $inout['out'], $testResText ) : $testResText;
             $this->assertEquals( 
                 $fakeRes, 
                 $realRes, 
