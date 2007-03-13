@@ -433,8 +433,11 @@ class ezcConsoleOutput
      */
     public function storePos() 
     {
-        echo "\0337";
-        $this->positionStored = true;
+        if ( ezcBaseFeatures::os() !== "Windows" )
+        {
+            echo "\0337";
+            $this->positionStored = true;
+        }
     }
 
     /**
@@ -451,11 +454,14 @@ class ezcConsoleOutput
      */
     public function restorePos() 
     {
-        if ( $this->positionStored === false )
+        if ( ezcBaseFeatures::os() !== "Windows" )
         {
-            throw new ezcConsoleNoPositionStoredException();
+            if ( $this->positionStored === false )
+            {
+                throw new ezcConsoleNoPositionStoredException();
+            }
+            echo "\0338";
         }
-        echo "\0338";
     }
 
     /**
@@ -469,7 +475,10 @@ class ezcConsoleOutput
      */
     public function toPos( $column = 1 ) 
     {
-        echo "\033[{$column}G";
+        if ( ezcBaseFeatures::os() !== "Windows" )
+        {
+            echo "\033[{$column}G";
+        }
     }
 
     /**
