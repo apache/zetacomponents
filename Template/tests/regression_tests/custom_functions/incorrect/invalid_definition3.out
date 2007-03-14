@@ -1,0 +1,4 @@
+mock:1:2: The definition has an optional parameter before the required parameters.
+
+{named_parameters_invalid_def3(
+ ^

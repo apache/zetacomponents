@@ -1,0 +1,4 @@
+mock:1:2: Could not find the named parameter: p4 in the function: named_parameters.
+
+{named_parameters(p1="a", p4="d
+ ^

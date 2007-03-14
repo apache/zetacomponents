@@ -82,6 +82,11 @@ class ezcTemplateSourceToTstErrorMessages
     const MSG_UNKNOWN_FUNCTION                  = "Unknown function call: '%s'";
     const MSG_EXPECT_PARAMETER                  = "Function call: '%s' has not enough parameters. Need an additional '%s' parameter.";
     const MSG_TOO_MANY_PARAMETERS               = "Function call: '%s' has too many parameters.";
+    const MSG_NAMED_PARAMETER_NOT_FOUND         = "Could not find the named parameter: %s in the function: %s.";
+
+    const MSG_INVALID_DEFINITION_PARAMETER_OPTIONAL = "Parameter %s is optional in the CustomFunction definition but required in the declared function.";
+    const MSG_INVALID_DEFINITION_PARAMETER_DOES_NOT_EXIST = "Parameter %s is specified in the CustomFunction definition but not in the declared function.";
+    const MSG_INVALID_DEFINITION_EXPECT_OPTIONAL_PARAMETER  = "The definition has an optional parameter before the required parameters.";
 
     const MSG_UNEXPECTED_BLOCK                   = "Unexpected block {%s} at this position. Some blocks can only be used inside other blocks.";
     const MSG_OPERATOR_LHS_IS_MODIFYING_BLOCK   = "Unexpected operator. The left side of this expression is not allowed to modify a variable.";
@@ -110,6 +115,10 @@ class ezcTemplateSourceToTstErrorMessages
 
     const MSG_CACHE_BLOCK_IN_DYNAMIC_BLOCK       = "Cache block cannot be used inside a dynamic block.";
     const MSG_CACHE_BLOCK_IN_CACHE_BLOCK       = "Cache block cannot be used inside another cache block or inside cache_template.";
+
+    const MSG_NAMED_PARAMETER_ALREADY_ASSIGNED   = "Named parameter: '%s' is already assigned.";
+
+
 
     // Inconsistencies with eZ publish 3.
     const LNG_INVALID_NAMESPACE_MARKER          = "The namespace marker (:) was used in template engine in eZ publish 3.x but is no longer allowed.";

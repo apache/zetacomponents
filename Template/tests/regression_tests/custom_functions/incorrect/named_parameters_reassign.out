@@ -1,0 +1,4 @@
+mock:1:41: Named parameter: 'p1' is already assigned.
+
+{named_parameters(p1="a", p2="b", p1="c")}
+                                        ^

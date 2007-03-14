@@ -948,9 +948,9 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         }
 
         $paramAst = array();
-        foreach ( $type->parameters as $parameter )
+        foreach ( $type->parameters as $name => $parameter )
         {
-            $paramAst[] = $parameter->accept( $this );
+            $paramAst[$name] = $parameter->accept( $this );
         }
 
         try

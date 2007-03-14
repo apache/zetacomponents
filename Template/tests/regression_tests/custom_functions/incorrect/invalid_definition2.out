@@ -1,0 +1,4 @@
+mock:1:2: Parameter 4 is specified in the CustomFunction definition but not in the declared function.
+
+{named_parameters_invalid_def2(
+ ^

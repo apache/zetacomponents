@@ -1,0 +1,4 @@
+mock:1:2: Parameter 1 is not given and has not a default value.
+
+{named_parameters(p3 ="b", p2="
+ ^

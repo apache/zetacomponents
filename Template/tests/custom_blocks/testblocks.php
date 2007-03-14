@@ -27,6 +27,36 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def->method = "optionalParameter";
                 $def->parameters = array( "[optional]" );
                 return $def;
+
+
+            case "named_parameters":
+                $def = new ezcTemplateCustomFunctionDefinition();
+                $def->class = __CLASS__;
+                $def->method = "namedParameters";
+                $def->parameters = array( "p1", "[p2]", "[p3]");
+                return $def;
+
+            case "named_parameters_invalid_def":
+                $def = new ezcTemplateCustomFunctionDefinition();
+                $def->class = __CLASS__;
+                $def->method = "namedParameters";
+                $def->parameters = array( "[p1]", "[p2]", "[p3]");
+                return $def;
+
+            case "named_parameters_invalid_def2":
+                $def = new ezcTemplateCustomFunctionDefinition();
+                $def->class = __CLASS__;
+                $def->method = "namedParameters";
+                $def->parameters = array( "p1", "[p2]", "[p3]", "[p4]");
+                return $def;
+ 
+            case "named_parameters_invalid_def3":
+                $def = new ezcTemplateCustomFunctionDefinition();
+                $def->class = __CLASS__;
+                $def->method = "namedParameters";
+                $def->parameters = array( "p1", "[p2]", "p3");
+                return $def;
+
         }
     }
 
@@ -44,6 +74,11 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
     public static function optionalParameter( $opt = "default" )
     {
 		return print_r( $opt, true );
+    }
+
+    public static function namedParameters($p1, $p2 = "p2", $p3 = "p3")
+    {
+        return $p1." ".$p2." ".$p3;
     }
   
     public static function getCustomBlockDefinition( $name )

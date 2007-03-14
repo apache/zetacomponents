@@ -167,7 +167,26 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
         }
 
         $this->readingParameter = true;
+        
+        
+        $startCursor = clone $cursor;
+        $namedParameter = $cursor->pregMatch( "#^[a-zA-Z_][a-zA-Z0-9_]*#" );
+        
+        if( $namedParameter !== false )
+        {
+           $this->findNextElement();
 
+           if( !$cursor->match("=") )
+           {
+               $namedParameter = false;
+           }
+        }
+
+        if( $namedParameter === false)
+        {
+            $cursor->copy($startCursor);
+        }
+        
         // Check for expression, the parser will call self::atEnd() to check for end of expression.
         $expressionStartCursor = clone $cursor;
         $expressionParser = new ezcTemplateExpressionSourceToTstParser( $this->parser, $this, null );
@@ -178,6 +197,7 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
         }
 
         $rootOperator = $this->lastParser->currentOperator;
+
         if ( $rootOperator instanceof ezcTemplateOperatorTstNode )
         {
             $rootOperator = $rootOperator->getRoot();
@@ -188,7 +208,26 @@ class ezcTemplateFunctionCallSourceToTstParser extends ezcTemplateSourceToTstPar
             throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor,  sprintf( ezcTemplateSourceToTstErrorMessages::MSG_PARAMETER_CANNOT_BE_MODIFYING_BLOCK, $this->parameterCount ) );
         }
 
-        $this->functionCall->appendParameter( $rootOperator );
+        if( $namedParameter !== false )
+        {
+
+            if( version_compare( PHP_VERSION, "5.2", "<") )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, "Named parameters are not supported in PHP versions lower than 5.2" );
+            }
+
+            if( isset( $this->functionCall->parameters[$namedParameter] ) )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, sprintf(ezcTemplateSourceToTstErrorMessages::MSG_NAMED_PARAMETER_ALREADY_ASSIGNED, $namedParameter ) );
+            }
+
+            $this->functionCall->parameters[$namedParameter] = $rootOperator;
+
+        }
+        else
+        {
+            $this->functionCall->appendParameter( $rootOperator );
+        }
 
         $this->readingParameter = false;
         return true;

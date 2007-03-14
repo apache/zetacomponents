@@ -1,0 +1,4 @@
+mock:1:2: Parameter 1 is optional in the CustomFunction definition but required in the declared function.
+
+{named_parameters_invalid_def(p
+ ^

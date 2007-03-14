@@ -371,6 +371,195 @@ class ezcTemplateFunctions
         return false;
     }
 
+
+    protected function checkDefinition( $definition, $reflectionParameters )
+    {
+        // A bug in the Reflection classes again.
+        // Need to check the current PHP version and create a different behavior. 
+        if( version_compare( PHP_VERSION, "5.2", "<") )
+        {
+            return;
+        }
+
+        if( !isset( $definition->parameters ) || $definition->parameters === false) return;
+
+        $i = 0;
+        $foundOptionalParameter = false;
+        foreach ( $definition->parameters as $p )
+        {
+            if( !isset($reflectionParameters[$i]) )
+            {
+                throw new ezcTemplateException( sprintf(ezcTemplateSourceToTstErrorMessages::MSG_INVALID_DEFINITION_PARAMETER_DOES_NOT_EXIST, $i + 1));
+            }
+            
+            if ( $p[0] == "[" )
+            {
+                if( !$reflectionParameters[$i]->isOptional() )
+                {
+                    throw new ezcTemplateException(sprintf(ezcTemplateSourceToTstErrorMessages::MSG_INVALID_DEFINITION_PARAMETER_OPTIONAL, $i + 1));
+                }
+
+                $foundOptionalParameter = true;
+            }
+            else
+            {
+                if($foundOptionalParameter)
+                {
+                    throw new ezcTemplateException(ezcTemplateSourceToTstErrorMessages::MSG_INVALID_DEFINITION_EXPECT_OPTIONAL_PARAMETER);
+                }
+            }
+
+            $i++;
+        }
+    }
+
+    protected function countRequiredParameters( $definition, $reflectionParameters )
+    {
+        $requiredParameters = 0;
+
+        if( version_compare( PHP_VERSION, "5.2", "<") )
+        {
+            if( !isset( $definition->parameters ) || $definition->parameters === false)
+            {
+                throw new ezcTemplateException("PHP 5.2 is needed when the parameter definition is omitted in the CustomFunction definition.");
+            }
+
+            foreach($definition->parameters as $p)
+            {
+                if( $p[0] !== '[' ) $requiredParameters++;
+            }
+
+            return $requiredParameters;
+        }
+        else
+        {
+            foreach($reflectionParameters as $p)
+            {
+                if( !$p->isOptional()) $requiredParameters++;
+            }
+
+            return $requiredParameters;
+        }
+    }
+
+    protected function countTotalParameters($definition, $reflectionParameters)
+    {
+        if( version_compare( PHP_VERSION, "5.2", "<") )
+        {
+            if( !isset( $definition->parameters ) || $definition->parameters === false)
+            {
+                throw new ezcTemplateException("PHP 5.2 is needed when the parameter definition is omitted in the CustomFunction definition.");
+            }
+
+            return sizeof( $definition->parameters);
+        }
+        else
+        {
+            return sizeof( $reflectionParameters );
+        }
+    }
+
+
+    protected function checkGivenParameters( $definition, $reflectionParameters, $parameters, $functionName )
+    {
+        $givenParameters = sizeof($parameters);
+
+        if ( $givenParameters < $this->countRequiredParameters($definition, $reflectionParameters) )
+        {
+            throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_PARAMETER, $functionName, $definition->parameters[$givenParameters]));
+        }
+
+        if ( $givenParameters > $this->countTotalParameters($definition, $reflectionParameters) )
+        {
+            throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_TOO_MANY_PARAMETERS, $functionName  ) );
+        }
+    }
+
+    protected function orderParameters($reflectionParameters, $parameters, $functionName)
+    {
+        // First assign the named parameters, thereafter fill in the rest.
+        $newParameters = array();
+
+        // Process the named parameters.
+        $maxNr = 0;
+       
+        foreach($parameters as $name => $value)
+        {
+            if (!is_int($name))
+            {
+                $found = false;
+                $nr = 0;
+
+                foreach( $reflectionParameters as $rp)
+                {
+                    if( $rp->getName() === $name )
+                    {
+                        $found = true;
+                        break;
+                    }
+
+                    $nr++;
+                }
+
+                if( !$found)
+                {
+                    throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_NAMED_PARAMETER_NOT_FOUND, $name, $functionName  ) );
+                }
+
+                $newParameters[$nr] = $value; 
+                $maxNr = max($nr, $maxNr);
+            }
+        }
+        ksort($newParameters, SORT_NUMERIC);
+
+        $i = 0;
+        foreach($parameters as $name => $value)
+        {
+            if (is_int($name))
+            {
+                while( isset($newParameters[$i])) $i++;
+
+                $newParameters[$i] = $value; 
+            }
+
+            $i++;
+        }
+
+        // Search for 'holes'.
+        for($i = 0; $i < $maxNr; $i++)
+        {
+            if( !isset( $newParameters[$i]) )
+            {
+                if( !$reflectionParameters[$i]->isDefaultValueAvailable() )
+                {
+                    throw new ezcTemplateException( sprintf("Parameter %s is not given and has not a default value.", $i + 1) );
+                }
+                else
+                {
+                    $newParameters[$i] = new ezcTemplateLiteralAstNode( $reflectionParameters[$i]->getDefaultValue() );
+                }
+            }
+        }
+        ksort($newParameters, SORT_NUMERIC);
+
+        return $newParameters;
+    }
+
+    protected function getReflectionParameters( $definition )
+    {
+        if( !isset($definition->class) || $definition->class  === false )
+        {
+            $rm = new ReflectionFunction( $definition->method );
+        }
+        else
+        {
+            $rc = new ReflectionClass( $definition->class );
+            $rm = $rc->getMethod($definition->method);
+        }
+        
+        return $rm->getParameters();
+    }
+
     /**
      * Returns the corresponding AST tree to the function name $functionName and its parameters.
      *
@@ -398,38 +587,17 @@ class ezcTemplateFunctions
         
         if ( $def !== false )
         {
-            $givenParameters = sizeof( $parameters);
-            $requiredParameters = 0; 
-            $optionalParameters = 0; 
-            foreach ( $def->parameters as $p )
-            {
-                if ( $p[0] == "[" )
-                {
-                    $optionalParameters++;
-                }
-                else
-                {
-                    $requiredParameters++;
-                }
+            $reflectionParameters = $this->getReflectionParameters( $def );
+            $this->checkDefinition($def, $reflectionParameters);
+            $this->checkGivenParameters($def, $reflectionParameters, $parameters, $functionName);
 
-           }
-
-            if ( $givenParameters < $requiredParameters )
-            {
-                // Works only when $requiredParameters are specified before the optionalParameters.
-                throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_PARAMETER, $functionName, $def->parameters[$givenParameters] ) );
-            }
-
-            if ( $givenParameters > sizeof( $def->parameters ) )
-            {
-                throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_TOO_MANY_PARAMETERS, $functionName  ) );
-            }
+            //$rp = $this->customFunctionParameterCheck( $def, $parameters, $functionName );
+            $parameters = $this->orderParameters( $reflectionParameters, $parameters, $functionName);
 
             $a = new ezcTemplateFunctionCallAstNode( ( $def->class ? ( $def->class . "::" ) : "" ) . $def->method);
             $a->checkAndSetTypeHint();
 
-
-            foreach ( $parameters as $p )
+            foreach( $parameters as $p)
             {
                 $a->appendParameter( $p );
             }
