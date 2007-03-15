@@ -137,7 +137,7 @@ class ezcConsoleToolsProgressbarTest extends ezcTestCase
             'Table not correctly generated for ' . $refFile . '.'
         );
         // Use the following line to regenerate test reference files
-        // file_put_contents( $refFile, implode( PHP_EOL, $res ) );
+        //file_put_contents( $refFile, implode( PHP_EOL, $res ) );
     }
 }
 ?>

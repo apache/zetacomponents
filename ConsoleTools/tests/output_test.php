@@ -170,7 +170,6 @@ than 20 characters
 and should be
 broken.
 EOT;
-        
         foreach ( $this->testFormats as $name => $inout ) 
         {
             ob_start();
