@@ -277,10 +277,7 @@ class ezcConsoleProgressbar
     public function start() 
     {
         $this->calculateMeasures();
-        if ( ezcBaseFeatures::os() !== "Windows" )
-        {
-            $this->output->storePos();
-        }
+        $this->output->storePos();
         $this->started = true;
     }
 
@@ -298,14 +295,10 @@ class ezcConsoleProgressbar
             $this->start();
         }
 
-        switch ( ezcBaseFeatures::os() )
+        $this->output->restorePos();
+        if ( ezcBaseFeatures::os() === "Windows" )
         {
-            case "Windows":
-                echo str_repeat( "\x8", $this->options->width );
-                break;
-            default:
-                $this->output->restorePos();
-                break;
+            echo str_repeat( "\x8", $this->options->width );
         }
 
         $this->generateValues();

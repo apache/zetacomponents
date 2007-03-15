@@ -23,7 +23,8 @@ ezcConsoleOutput
   It can also apply other styling information to the text, making
   it bold or underlined for example. It can automatically wrap text
   after a certain number of characters are printed (keeping words
-  intact) and handle output of different verbosity levels.
+  intact) and handle output of different verbosity levels. ATTENTION: Windows
+  does not support the styling of text.
 
 ezcConsoleInput
   Using this little tool, you can handle the options and arguments provided to

@@ -61,6 +61,10 @@
  *
  * For a list of valid colors, style attributes and background colors, please 
  * refer to {@link ezcConsoleOutputFormat}.
+ *
+ * ATTENTION: Windows operating systems do not support styling of text on the
+ * console. Therefore no styling sequences are generated on any version of
+ * this operating system.
  * 
  * @property ezcConsoleOutputOptions $options
  *           Contains the options for this class.
