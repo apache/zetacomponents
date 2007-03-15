@@ -8,6 +8,9 @@
 - Fixed issue #010153: Persistent Object and manual generator (negative and 
   0 primary keys)
 - Fixed issue #10106: ezcPersistentManualGenerator does not quote id columnName
+- Fixed issue #10369: testAddRelatedBirthdayToPerson3UpdateSuccess fails for no.
+- Fixed issue #10112: Lots of failures in PersistentObject tests with pgsql.
+
 	
 	
 1.2 - Monday 18 December 2006
