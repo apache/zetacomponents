@@ -49,73 +49,7 @@
  */
 class ezcConsoleProgressbar
 {
-    /**
-     * Container to hold the properties
-     *
-     * @var array(string=>mixed)
-     */
-    protected $properties;
-
-    /**
-     * Storage for actual values to be replaced in the format string.
-     * Actual values are stored here and will be inserted into the bar
-     * before printing it.
-     * 
-     * @var array(string => string)
-     */
-    protected $valueMap = array( 
-        'bar'       => '',
-        'fraction'  => '',
-        'act'       => '',
-        'max'       => '',
-    );
-
-    /**
-     * Stores the bar utilization.
-     *
-     * This array saves how much space a specific part of the bar utilizes to not
-     * recalculate those on every step.
-     * 
-     * @var array(string => int)
-     */
-    protected $measures = array( 
-        'barSpace'          => 0,
-        'fractionSpace'     => 0,
-        'actSpace'          => 0,
-        'maxSpace'          => 0,
-        'fixedCharSpace'    => 0,
-    );
-
-    /**
-     * The current step the progress bar should show. 
-     * 
-     * @var int
-     */
-    protected $currentStep = 0;
-
-    /**
-     * The maximum number of steps to go.
-     * Calculated once from the settings.
-     *
-     * @var int
-     */
-    protected $numSteps = 0;
-
-    /**
-     * The ezcConsoleOutput object to use.
-     *
-     * @var ezcConsoleOutput
-     */
-    protected $output;
-
-    /**
-     * Indicates if the starting point for the bar has been stored.
-     * Per default this is false to indicate that no start position has been
-     * stored, yet.
-     * 
-     * @var bool
-     */
-    protected $started = false;
+    private $delegate;
 
     /**
      * Creates a new progress bar.
@@ -129,9 +63,52 @@ class ezcConsoleProgressbar
      */
     public function __construct( ezcConsoleOutput $outHandler, $max, array $options = array() )
     {
-        $this->output = $outHandler;
-        $this->__set( 'max', $max );
-        $this->properties['options'] = new ezcConsoleProgressbarOptions( $options );
+        if ( ezcBaseFeatures::os() === "Windows" )
+        {
+            $this->delegate = new ezcConsoleProgressbarWindowsRenderer( $outHandler, $max, $options );
+        }
+        else
+        {
+            $this->delegate = new ezcConsoleProgressbarPosixRenderer( $outHandler, $max, $options );
+        }
+    }
+    
+    /**
+     * Start the progress bar
+     * Starts the progress bar and sticks it to the current line.
+     * No output will be done yet. Call {@link ezcConsoleProgressbar::output()}
+     * to print the bar.
+     * 
+     * @return void
+     */
+    public function start()
+    {
+        $this->delegate->start();
+    }
+
+    /**
+     * Draw the progress bar.
+     * Prints the progress-bar to the screen. If start() has not been called 
+     * yet, the current line is used for {@link ezcConsolProgressbar::start()}.
+     *
+     * @return void
+     */
+    public function output()
+    {
+        $this->delegate->output();
+    }
+    
+    /**
+     * Finish the progress bar.
+     * Finishes the bar (jump to 100% if not happened yet,...) and jumps
+     * to the next line to allow new output. Also resets the values of the
+     * output handler used, if changed.
+     *
+     * @return void
+     */
+    public function finish()
+    {
+        $this->delegate->finish();
     }
     
     /**
@@ -150,18 +127,7 @@ class ezcConsoleProgressbar
      */
     public function setOptions( $options ) 
     {
-        if ( is_array( $options ) ) 
-        {
-            $this->properties['options']->merge( $options );
-        } 
-        else if ( $options instanceof ezcConsoleProgressbarOptions ) 
-        {
-            $this->properties['options'] = $options;
-        }
-        else
-        {
-            throw new ezcBaseValueException( "options", $options, "instance of ezcConsoleProgressbarOptions" );
-        }
+        $this->delegate->setOptions( $options );
     }
 
     /**
@@ -172,7 +138,7 @@ class ezcConsoleProgressbar
      */
     public function getOptions()
     {
-        return $this->properties['options'];
+        return $this->delegate->getOptions();
     }
 
     /**
@@ -187,19 +153,7 @@ class ezcConsoleProgressbar
      */
     public function __get( $key )
     {
-        switch ( $key )
-        {
-            case 'options':
-                return $this->properties['options'];
-            case 'step':
-                // Step is now an option
-                return $this->properties['options']->step;
-            case 'max':
-                return $this->properties[$key];
-            default:
-                break;
-        }
-        throw new ezcBasePropertyNotFoundException( $key );
+        return $this->delegate->$key;
     }
 
     /**
@@ -216,35 +170,7 @@ class ezcConsoleProgressbar
      */
     public function __set( $key, $val )
     {
-        switch ( $key )
-        {
-            case 'options':
-                if ( !( $val instanceof ezcConsoleProgressbarOptions ) )
-                {
-                    throw new ezcBaseValueException( 'options',  $val, 'instance of ezcConsoleProgressbarOptions' );
-                };
-                break;
-            case 'max':
-                if ( ( !is_int( $val ) && !is_float( $val ) ) || $val < 0 )
-                {
-                    throw new ezcBaseValueException( $key, $val, 'number >= 0' );
-                }
-                break;
-            case 'step':
-                if ( ( !is_int( $val ) && !is_float( $val ) ) || $val < 0 )
-                {
-                    throw new ezcBaseValueException( $key, $val, 'number >= 0' );
-                }
-                // Step is now an option.
-                $this->properties['options']->step = $val;
-                return;
-            default:
-                throw new ezcBasePropertyNotFoundException( $key );
-                break;
-        }
-        // Changes settings or options, need for recalculating measures
-        $this->started = false;
-        $this->properties[$key] = $val;
+        $this->delegate->$key = $val;
     }
  
     /**
@@ -256,47 +182,7 @@ class ezcConsoleProgressbar
      */
     public function __isset( $key )
     {
-        switch ( $key )
-        {
-            case 'options':
-            case 'max':
-            case 'step':
-                return true;
-        }
-        return false;
-    }
-
-    /**
-     * Start the progress bar
-     * Starts the progress bar and sticks it to the current line.
-     * No output will be done yet. Call {@link ezcConsoleProgressbar::output()}
-     * to print the bar.
-     * 
-     * @return void
-     */
-    public function start() 
-    {
-        $this->calculateMeasures();
-        $this->output->storePos();
-        $this->started = true;
-    }
-
-    /**
-     * Draw the progress bar.
-     * Prints the progress-bar to the screen. If start() has not been called 
-     * yet, the current line is used for {@link ezcConsolProgressbar::start()}.
-     *
-     * @return void
-     */
-    public function output()
-    {
-        if ( $this->started === false )
-        {
-            $this->start();
-        }
-        $this->output->restorePos();
-        $this->generateValues();
-        echo $this->insertValues();
+        return isset( $this->delegate->$key );
     }
 
     /**
@@ -310,128 +196,8 @@ class ezcConsoleProgressbar
      */
     public function advance( $redraw = true, $step = 1 ) 
     {
-        $this->currentStep += $step;
-        if ( $redraw === true && $this->currentStep % $this->properties['options']->redrawFrequency === 0 )
-        {
-            $this->output();
-        }
+        $this->delegate->advance( $redraw, $step );
     }
 
-    /**
-     * Finish the progress bar.
-     * Finishes the bar (jump to 100% if not happened yet,...) and jumps
-     * to the next line to allow new output. Also resets the values of the
-     * output handler used, if changed.
-     *
-     * @return void
-     */
-    public function finish()
-    {
-        $this->currentStep = $this->numSteps;
-        $this->output();
-    }
-
-    /**
-     * Generate all values to be replaced in the format string. 
-     * 
-     * @return void
-     */
-    protected function generateValues()
-    {
-        // Bar
-        $barFilledSpace = ceil( $this->measures['barSpace'] / $this->numSteps * $this->currentStep );
-        // Sanitize value if it gets to large by rounding
-        $barFilledSpace = $barFilledSpace > $this->measures['barSpace'] ? $this->measures['barSpace'] : $barFilledSpace;
-        $bar = str_pad( 
-            str_pad( 
-                $this->properties['options']->progressChar, 
-                $barFilledSpace, 
-                $this->properties['options']->barChar, 
-                STR_PAD_LEFT
-            ), 
-            $this->measures['barSpace'], 
-            $this->properties['options']->emptyChar, 
-            STR_PAD_RIGHT 
-        );
-        $this->valueMap['bar'] = $bar;
-
-        // Fraction
-        $fractionVal = sprintf( 
-            $this->properties['options']->fractionFormat,
-            ( $fractionVal = ( $this->properties['options']->step * $this->currentStep ) / $this->max * 100 ) > 100 ? 100 : $fractionVal
-        );
-        $this->valueMap['fraction'] = str_pad( 
-            $fractionVal, 
-            strlen( sprintf( $this->properties['options']->fractionFormat, 100 ) ),
-            ' ',
-            STR_PAD_LEFT
-        );
-
-        // Act / max
-        $actVal = sprintf(
-            $this->properties['options']->actFormat,
-            ( $actVal = $this->currentStep * $this->properties['options']->step ) > $this->max ? $this->max : $actVal
-        );
-        $this->valueMap['act'] = str_pad( 
-            $actVal, 
-            strlen( sprintf( $this->properties['options']->actFormat, $this->max ) ),
-            ' ',
-            STR_PAD_LEFT
-        );
-        $this->valueMap['max'] = sprintf( $this->properties['options']->maxFormat, $this->max );
-    }
-
-    /**
-     * Insert values into bar format string. 
-     * 
-     * @return void
-     */
-    protected function insertValues()
-    {
-        $bar = $this->properties['options']->formatString;
-        foreach ( $this->valueMap as $name => $val )
-        {
-            $bar = str_replace( "%{$name}%", $val, $bar );
-        }
-        return $bar;
-    }
-
-    /**
-     * Calculate several measures necessary to generate a bar. 
-     * 
-     * @return void
-     */
-    protected function calculateMeasures()
-    {
-        // Calc number of steps bar goes through
-        $this->numSteps = ( int ) round( $this->max / $this->properties['options']->step );
-        // Calculate measures
-        $this->measures['fixedCharSpace'] = strlen( $this->stripEscapeSequences( $this->insertValues() ) );
-        if ( strpos( $this->properties['options']->formatString,'%max%' ) !== false )
-        {
-            $this->measures['maxSpace'] = strlen( sprintf( $this->properties['options']->maxFormat, $this->max ) );
-
-        }
-        if ( strpos( $this->properties['options']->formatString, '%act%' ) !== false )
-        {
-            $this->measures['actSpace'] = strlen( sprintf( $this->properties['options']->actFormat, $this->max ) );
-        }
-        if ( strpos( $this->properties['options']->formatString, '%fraction%' ) !== false )
-        {
-            $this->measures['fractionSpace'] = strlen( sprintf( $this->properties['options']->fractionFormat, 100 ) );
-        }
-        $this->measures['barSpace'] = $this->properties['options']->width - array_sum( $this->measures );
-    }
-
-    /**
-     * Strip all escape sequences from a string to measure it's size correctly. 
-     * 
-     * @param mixed $str 
-     * @return void
-     */
-    protected function stripEscapeSequences( $str )
-    {
-        return preg_replace( '/\033\[[0-9a-f;]*m/i', '', $str  );
-    }
 }
 ?>
