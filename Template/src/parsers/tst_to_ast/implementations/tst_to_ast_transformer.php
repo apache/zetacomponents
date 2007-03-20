@@ -410,7 +410,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         // Add: $this->checkRequirements()
         $compileFlags = new ezcTemplateLiteralArrayAstNode();
         $compileFlags->keys[] = new ezcTemplateLiteralAstNode("disableCache");
-        $compileFlags->value[] = new ezcTemplateLiteralAstNode( $this->parser->template->configuration->disableCache );
+        $compileFlags->value[] = new ezcTemplateLiteralAstNode( $this->parser->template->usedConfiguration->disableCache );
 
         $args = array( new ezcTemplateLiteralAstNode( ezcTemplateCompiledCode::ENGINE_ID ), $compileFlags );
         $call = new ezcTemplateFunctionCallAstNode( "checkRequirements", $args );
@@ -1766,10 +1766,12 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
                         new ezcTemplateReferenceOperatorAstNode( $s, new ezcTemplateIdentifierAstNode( $name ) ), 
                         $rhs ) );
         }
+
+        $usedConfigurationAst = $this->createVariableNode( "this->template->usedConfiguration" );
          
         // $ezcTemplate_output .= $t->process( <file> );
         $ast[] = new ezcTemplateGenericStatementAstNode( new ezcTemplateConcatAssignmentOperatorAstNode( 
-            $this->outputVariable->getAst(), new ezcTemplateReferenceOperatorAstNode( $t , new ezcTemplateFunctionCallAstNode( "process", array( $type->file->accept( $this ) ) ) ) ) );
+            $this->outputVariable->getAst(), new ezcTemplateReferenceOperatorAstNode( $t , new ezcTemplateFunctionCallAstNode( "process", array( $type->file->accept( $this), $usedConfigurationAst ) ) ) ) );
 
         $r = new ezcTemplateReferenceOperatorAstNode( $t, new ezcTemplateIdentifierAstNode( "receive" ) );
 

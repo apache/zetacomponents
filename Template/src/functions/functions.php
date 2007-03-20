@@ -358,7 +358,7 @@ class ezcTemplateFunctions
      */
     public function getCustomFunction( $name )
     {
-        foreach ( $this->parser->template->configuration->customFunctions as $class )
+        foreach ( $this->parser->template->usedConfiguration->customFunctions as $class )
         {
             $def = call_user_func( array( $class, "getCustomFunctionDefinition" ),  $name );
 
@@ -471,7 +471,7 @@ class ezcTemplateFunctions
 
         if ( $givenParameters > $this->countTotalParameters($definition, $reflectionParameters) )
         {
-            throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_TOO_MANY_PARAMETERS, $functionName  ) );
+            throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_TOO_MANY_PARAMETERS, $functionName ) );
         }
     }
 
@@ -483,6 +483,7 @@ class ezcTemplateFunctions
         // Process the named parameters.
         $maxNr = 0;
        
+        // Named parameters.
         foreach($parameters as $name => $value)
         {
             if (!is_int($name))
@@ -588,14 +589,22 @@ class ezcTemplateFunctions
         if ( $def !== false )
         {
             $reflectionParameters = $this->getReflectionParameters( $def );
-            $this->checkDefinition($def, $reflectionParameters);
-            $this->checkGivenParameters($def, $reflectionParameters, $parameters, $functionName);
-
-            //$rp = $this->customFunctionParameterCheck( $def, $parameters, $functionName );
-            $parameters = $this->orderParameters( $reflectionParameters, $parameters, $functionName);
 
             $a = new ezcTemplateFunctionCallAstNode( ( $def->class ? ( $def->class . "::" ) : "" ) . $def->method);
             $a->checkAndSetTypeHint();
+
+            if( isset($def->sendTemplateObject) && $def->sendTemplateObject )
+            {
+                array_shift($reflectionParameters);
+                $a->appendParameter( new ezcTemplateVariableAstNode("this->template") );
+            }
+
+            $this->checkDefinition($def, $reflectionParameters);
+            $this->checkGivenParameters($def, $reflectionParameters, $parameters, $functionName);
+
+            $parameters = $this->orderParameters( $reflectionParameters, $parameters, $functionName);
+
+
 
             foreach( $parameters as $p)
             {

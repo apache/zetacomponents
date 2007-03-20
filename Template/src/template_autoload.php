@@ -40,6 +40,7 @@ return array(
              "ezcTemplateOutputContext" => "Template/interfaces/output_context.php",
              "ezcTemplateCustomBlock" => "Template/interfaces/custom_block.php",
              "ezcTemplateCustomFunction" => "Template/interfaces/custom_function.php",
+             "ezcTemplateLocationInterface" => "Template/interfaces/location.php",
 
              "ezcTemplateCustomExtension" => "Template/structs/custom_extension.php",
              "ezcTemplateCustomBlockDefinition" => "Template/structs/custom_block_definition.php",

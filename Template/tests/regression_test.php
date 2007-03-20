@@ -21,6 +21,7 @@ include_once ("custom_blocks/testblocks.php");
 include_once ("custom_blocks/links.php");
 include_once ("custom_blocks/cblock.php");
 include_once ("custom_blocks/sha1.php");
+include_once ("override.php");
 include_once ("regression_suite.php");
 
 class ezcTemplateRegressionTest extends ezcTestCase

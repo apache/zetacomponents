@@ -82,5 +82,11 @@ class ezcTemplateCustomFunctionDefinition extends ezcTemplateCustomExtension
      * @var array(string)
      */
     public $parameters = array();
+
+
+    /**
+     *
+     */
+    public $sendTemplateObject = false;
 }
 ?>

@@ -1,0 +1,14 @@
+{named_parameters_reflection(p1="a")}
+
+{named_parameters_reflection(p2="b", p1="a")}
+
+{named_parameters_reflection(p1="a", p2="b")}
+
+{named_parameters_reflection(p3="c", p1="a", p2="b")}
+
+{named_parameters_reflection(p1="a", p3="c",  p2="b")}
+
+{named_parameters_reflection(p3="c", p1="a")}
+
+{named_parameters_reflection(p2="b", p1="a")}
+

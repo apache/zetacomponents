@@ -101,6 +101,7 @@ class ezcTemplate
      * @var array(string=>mixed)
      */
     private $properties = array( 'configuration' => null,
+                                 'usedConfiguration' => null,
                                  'send' => null,
                                  'receive' => null, 
                                  'compiledTemplatePath' => null,
@@ -128,6 +129,8 @@ class ezcTemplate
             case 'astTree':
             case 'stream':
             case 'compiledTemplatePath':
+            case 'usedConfiguration':
+
             case 'output':
                 return $this->properties[$name];
 
@@ -141,6 +144,8 @@ class ezcTemplate
                         }
                 }
                 return $this->properties[$name];
+
+
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
         }
@@ -158,6 +163,7 @@ class ezcTemplate
         switch ( $name )
         {
             case 'configuration':
+            case 'usedConfiguration':
             case 'compiledTemplatePath':
             case 'send':
             case 'receive':
@@ -208,7 +214,9 @@ class ezcTemplate
             case 'receive':
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
 
+
             default:
+                // case 'usedConfiguration':
                 throw new ezcBasePropertyNotFoundException( $name );
         }
     }
@@ -251,9 +259,17 @@ class ezcTemplate
             $config = $this->configuration;
         }
 
+        $this->properties["usedConfiguration"] = $config;
+
         $this->properties["tstTree"] = false;
         $this->properties["astTree"] = false;
         $this->properties["stream"] = $location;
+
+        if( $location instanceof ezcTemplateLocationInterface)
+        {
+            $this->properties["file"] = $location;
+            $this->properties["stream"] = $location->getPath();
+        }
 
         if ( strlen( $this->properties["stream"] ) > 0 && $this->properties["stream"][0] != "/" ) // Is it a relative path?
         {
@@ -297,14 +313,13 @@ class ezcTemplate
             $parser = new ezcTemplateParser( $source, $this );
             $this->properties["tstTree"] = $parser->parseIntoNodeTree();
 
-
             // $tstTreeWalker = new ezcTemplateTstWalker();
             // $this->properties["tstTree"]->accept( $tstTreeWalker );
 
             // Check if caching is needed.
 
 //            if ( $fetchCacheInfo->cacheTst !== null )
-            if ($parser->hasCacheBlocks && !$this->configuration->disableCache )
+            if ($parser->hasCacheBlocks && !$config->disableCache )
             {
                 $fetchCacheInfo = new ezcTemplateFetchCacheInformation(); 
                 $this->properties["tstTree"]->accept( $fetchCacheInfo );
@@ -340,9 +355,9 @@ class ezcTemplate
             $tstToAst->programNode->accept( $g );
 
             // Add to the cache system.
-            if ($this->configuration->cacheManager !== false )
+            if ($config->cacheManager !== false )
             {
-                $this->configuration->cacheManager->includeTemplate( $this, $this->properties["stream"]);
+                $config->cacheManager->includeTemplate( $this, $this->properties["stream"]);
             }
         }
 

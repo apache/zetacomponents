@@ -12,6 +12,8 @@
  * @package Template
  * @subpackage Tests
  */
+include_once("override.php");
+
 class ezcTemplateTest extends ezcTestCase
 {
     public static function suite()
@@ -42,6 +44,10 @@ class ezcTemplateTest extends ezcTestCase
         $config = ezcTemplateConfiguration::getInstance();
         $config->templatePath = $this->templatePath;
         $config->compilePath = $this->compilePath;
+
+        $config2 = ezcTemplateConfiguration::getInstance("templates");
+        $config2->templatePath = realpath( dirname( __FILE__ ) ) . '/' . 'templates';
+        $config2->compilePath = $this->compilePath;
     }
 
     /**
@@ -120,6 +126,31 @@ class ezcTemplateTest extends ezcTestCase
         {
         }
     }
+
+    public function testOverride()
+    {
+        $template = new ezcTemplate();
+
+        $o = new OverrideLocation( "override_test");
+        $out = $template->process($o, ezcTemplateConfiguration::getInstance("templates"));
+
+        $this->assertEquals("Yes\n", $out);
+    }
+
+
+    public function testOverrideInTemplate()
+    {
+        $template = new ezcTemplate();
+
+        $o = new OverrideLocation( "override_in_template");
+
+        $c = ezcTemplateConfiguration::getInstance("templates");
+        $c->addExtension("OverrideCustomFunction");
+        $out = $template->process($o, $c);
+
+        $this->assertEquals("[\nYes\n]\n", $out);
+    }
+
 
 }
 

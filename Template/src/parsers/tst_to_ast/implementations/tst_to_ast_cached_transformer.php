@@ -51,7 +51,6 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         
         // XXX 
         $this->template = $parser->template;
-        //$this->cacheSystem = $parser->template->configuration->cacheSystem;
     }
 
 
@@ -184,7 +183,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
     {
         if ( $this->cacheBaseName === null )
         {
-            $rpTemplate = realpath( $this->template->configuration->templatePath );
+            $rpTemplate = realpath( $this->template->usedConfiguration->templatePath );
             $rpStream = realpath( $this->parser->template->stream );
 
             if ( strncmp( $rpTemplate, $rpStream, strlen( $rpTemplate ) ) == 0 )
@@ -196,7 +195,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
                 $fileName = $rpStream;
             }
 
-            $this->cacheBaseName = $this->template->configuration->compilePath . DIRECTORY_SEPARATOR . $this->template->configuration->cachedTemplatesPath . DIRECTORY_SEPARATOR . str_replace( '/', "-", $fileName ); 
+            $this->cacheBaseName = $this->template->usedConfiguration->compilePath . DIRECTORY_SEPARATOR . $this->template->usedConfiguration->cachedTemplatesPath . DIRECTORY_SEPARATOR . str_replace( '/', "-", $fileName ); 
         }
 
         return $this->cacheBaseName;
@@ -230,10 +229,10 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
      */
     protected function notFileExistsCache()
     {
-        if( $this->template->configuration->cacheManager !== false )
+        if( $this->template->usedConfiguration->cacheManager !== false )
         {
-            // !$this->template->configuration->cacheManager->isValid( $cacheName ) || !file_exist()
-            $a = new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->isValid", array( new ezcTemplateVariableAstNode( "this->template"), new ezcTemplateLiteralAstNode( $this->parser->template->stream ), new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
+            // !$this->template->usedConfiguration->cacheManager->isValid( $cacheName ) || !file_exist()
+            $a = new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->usedConfiguration->cacheManager->isValid", array( new ezcTemplateVariableAstNode( "this->template"), new ezcTemplateLiteralAstNode( $this->parser->template->stream ), new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
             $b = new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "file_exists", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
             
            return new ezcTemplateLogicalOrOperatorAstNode( $a, $b );
@@ -284,7 +283,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
     protected function createCacheDir()
     {
-        $dir = $this->template->configuration->compilePath . DIRECTORY_SEPARATOR . $this->template->configuration->cachedTemplatesPath;
+        $dir = $this->template->usedConfiguration->compilePath . DIRECTORY_SEPARATOR . $this->template->usedConfiguration->cachedTemplatesPath;
         if ( !file_exists( $dir ) )
         {
             mkdir( $dir );
@@ -294,10 +293,10 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
     protected function startCaching( $cb )
     {
         /// startCaching(); 
-        $cplen = strlen( $this->parser->template->configuration->compilePath );
-        if ($this->template->configuration->cacheManager !== false )
+        $cplen = strlen( $this->parser->template->usedConfiguration->compilePath );
+        if ($this->template->usedConfiguration->cacheManager !== false )
         {
-            $cb->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->startCaching", array( new ezcTemplateVariableAstNode("this->template"), new ezcTemplateLiteralAstNode( $this->parser->template->stream ), new ezcTemplateVariableAstNode("_ezcTemplateCache" ), new ezcTemplateVariableAstNode("_ezcCacheKeys") ) ) ) );
+            $cb->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->usedConfiguration->cacheManager->startCaching", array( new ezcTemplateVariableAstNode("this->template"), new ezcTemplateLiteralAstNode( $this->parser->template->stream ), new ezcTemplateVariableAstNode("_ezcTemplateCache" ), new ezcTemplateVariableAstNode("_ezcCacheKeys") ) ) ) );
         }
       
         $cb->appendStatement( $this->_fopenCacheFileWriteMode() ); // $fp = fopen( $this->cache, "w" ); 
@@ -311,10 +310,10 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
     protected function startCachingCacheBlock( $cb )
     {
         /// startCaching(); 
-        $cplen = strlen( $this->parser->template->configuration->compilePath );
-        if ($this->template->configuration->cacheManager !== false )
+        $cplen = strlen( $this->parser->template->usedConfiguration->compilePath );
+        if ($this->template->usedConfiguration->cacheManager !== false )
         {
-            $cb->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->startCaching", array( new ezcTemplateVariableAstNode("this->template"), new ezcTemplateLiteralAstNode( $this->parser->template->stream ), new ezcTemplateVariableAstNode("_ezcTemplateCache" ), new ezcTemplateVariableAstNode("_ezcCacheKeys") ) ) ) );
+            $cb->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->usedConfiguration->cacheManager->startCaching", array( new ezcTemplateVariableAstNode("this->template"), new ezcTemplateLiteralAstNode( $this->parser->template->stream ), new ezcTemplateVariableAstNode("_ezcTemplateCache" ), new ezcTemplateVariableAstNode("_ezcCacheKeys") ) ) ) );
         }
       
         $cb->appendStatement( $this->_fopenCacheFileWriteMode() ); // $fp = fopen( $this->cache, "w" ); 
@@ -436,9 +435,9 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         $else->body->statements[] =  $this->_includeCache();
 
 
-        if ($this->template->configuration->cacheManager !== false )
+        if ($this->template->usedConfiguration->cacheManager !== false )
         {
-            $cb->body->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->stopCaching", array() )));
+            $cb->body->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->usedConfiguration->cacheManager->stopCaching", array() )));
         }
 
         $this->stopCaching($cb->body);
@@ -720,9 +719,9 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         $else->body->statements[] =  $this->_includeCache();
 
 
-        if ($this->template->configuration->cacheManager !== false )
+        if ($this->template->usedConfiguration->cacheManager !== false )
         {
-            $cb->body->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->configuration->cacheManager->stopCaching", array() )));
+            $cb->body->appendStatement( new ezcTemplateGenericStatementAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->usedConfiguration->cacheManager->stopCaching", array() )));
         }
 
         $this->stopCaching($cb->body, false);

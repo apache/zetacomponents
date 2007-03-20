@@ -36,6 +36,14 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def->parameters = array( "p1", "[p2]", "[p3]");
                 return $def;
 
+            case "named_parameters_reflection":
+                $def = new ezcTemplateCustomFunctionDefinition();
+                $def->class = __CLASS__;
+                $def->method = "namedParameters";
+                $def->parameters = array( "p1", "[p2]", "[p3]");
+                return $def;
+
+
             case "named_parameters_invalid_def":
                 $def = new ezcTemplateCustomFunctionDefinition();
                 $def->class = __CLASS__;
@@ -56,6 +64,29 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def->method = "namedParameters";
                 $def->parameters = array( "p1", "[p2]", "p3");
                 return $def;
+
+            case "named_parameters_obj":
+                $def = new ezcTemplateCustomFunctionDefinition();
+                $def->class = __CLASS__;
+                $def->method = "namedParametersObj";
+                return $def;
+
+
+            case "template_parameter":
+                $def = new ezcTemplateCustomFunctionDefinition();
+                $def->class = __CLASS__;
+                $def->method = "templateParameter";
+                $def->parameters = array( "p1", "[p2]");
+                $def->sendTemplateObject = true;
+                return $def;
+
+            case "template_parameter_reflection":
+                $def = new ezcTemplateCustomFunctionDefinition();
+                $def->class = __CLASS__;
+                $def->method = "templateParameter";
+                $def->sendTemplateObject = true;
+                return $def;
+
 
         }
     }
@@ -81,6 +112,16 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
         return $p1." ".$p2." ".$p3;
     }
   
+    public static function namedParametersObj($p1, $p2 = "p2", $p3 = array(), $p4 = null, $p5 = 5)
+    {
+        return var_export($p1, true)." ".var_export($p2, true)." ".var_export($p3, true) ." ".var_export($p4, true)." ".var_export($p5, true);
+    }
+ 
+    public static function templateParameter( $template, $p1, $p2 = "p2")
+    {
+        return get_class($template->usedConfiguration) . " ". $p1." ".$p2;
+    }
+ 
     public static function getCustomBlockDefinition( $name )
     {
         switch ( $name )
