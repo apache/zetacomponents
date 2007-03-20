@@ -17,6 +17,24 @@
  */
 class ezcDbSchemaPersistentWriter implements ezcDbSchemaFileWriter
 {
+
+    /**
+     * If files should be overwritten. 
+     * 
+     * @var boolean
+     */
+    private $overwrite;
+
+    /**
+     * Creates a new writer instance
+     *
+     * @param boolean $overwrite 
+     * @return void
+     */
+    public function __construct( $overwrite = false )
+    {
+        $this->overwrite = $overwrite;
+    }
     
     /**
      * Returns what type of schema writer this class implements.
@@ -175,11 +193,11 @@ class ezcDbSchemaPersistentWriter implements ezcDbSchemaFileWriter
      */
     private function openFile( $dir, $name )
     {
-        $filename = $dir . DIRECTORY_SEPARATOR . $name . '.php';
+        $filename = $dir . DIRECTORY_SEPARATOR . strtolower( $name ) . '.php';
         // We do not want to overwrite files
-        if ( file_exists( $filename ) )
+        if ( file_exists( $filename ) && ( $this->overwrite === false || is_writable( $filename ) === false ) )
         {
-            throw new ezcBaseFileIoException( $filename, ezcBaseFileException::WRITE, "File already exists." );
+            throw new ezcBaseFileIoException( $filename, ezcBaseFileException::WRITE, "File already exists or is not writeable. Use --overwrite to ignore existance." );
         }
         $file = @fopen( $filename, 'w' );
         if ( $file === false )

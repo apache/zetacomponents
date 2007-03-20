@@ -1,6 +1,9 @@
 1.1.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+
+- Implemented feature #9584: Switch for overwriting files.
+  (PersistentObjectDatabaseSchemaTiein)
 - Fixed issue #10115: Reserved keywords are not quoted when used as table
   or field names.
 - Fixed issue #10286: Missing "throw new" before

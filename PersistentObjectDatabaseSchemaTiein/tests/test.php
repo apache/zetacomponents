@@ -138,6 +138,25 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
 
         $this->removeTempDir();
     }
+    
+    public function testDuplicateWriteFromFileSuccess()
+    {
+        $source = dirname( __FILE__ ) . "/data/webbuilder.schema.xml";
+        $destination = $this->createTempDir( "PersObjDatSchem" );
+        $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f xml -s $source $destination`;
+        // Note "-o"!
+        $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f xml -s $source -o $destination`;
+        // file_put_contents( __FUNCTION__, $res );
+
+        // Sanitize because of temp dir name
+        $res = explode( "\n", $res );
+        unset( $res[3], $res[4] );
+        $res = implode( "\n", $res );
+        
+        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+
+        $this->removeTempDir();
+    }
 
     public function testValidFromDb()
     {

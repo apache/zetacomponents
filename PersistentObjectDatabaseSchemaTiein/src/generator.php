@@ -117,6 +117,18 @@ class ezcPersistentObjectSchemaGenerator
                 true        // mandatory
             )
         );
+        
+        $this->input->registerOption(
+            new ezcConsoleOption(
+                "o",        // short
+                "overwrite",   // long
+                ezcConsoleInput::TYPE_NONE,
+                null,       // default
+                false,      // multiple
+                "Overwrite existing files.",
+                "If this option is set, files will be overwriten if they alreday exist."
+            )
+        );
 
         $this->input->registerOption(
             new ezcConsoleOption(
@@ -203,7 +215,8 @@ class ezcPersistentObjectSchemaGenerator
 
         try
         {
-            $schema->writeToFile( 'persistent', $destination );
+            $writer = new ezcDbSchemaPersistentWriter( $this->input->getOption( "overwrite" )->value );
+            $writer->saveToFile( $destination, $schema );
         }
         catch ( ezcBaseException $e )
         {
