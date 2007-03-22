@@ -7,25 +7,29 @@ eZ component: ConsoleTools, Design, 1.3
 
 .. contents::
 
+=====
 Scope
 =====
 
 The scope of this document is to describe the enhancements of the ConsoleTools
-component for version 1.3 of the component.
+component for version 1.3 of the component. The following features are part of
+this design document:
 
-The ConsoleTools component so far provides only the possibility to interact
-with a user through console options and arguments. A `feature request`_ was
-filed with the need for another possibility of interaction with the user
-through STDIN.
+- Basic dialog system to interact with a user through STDIN.
 
 This document describes a new range of classes, which will be added to
-ConsoleTools, to fulfill this need.
+ConsoleTools, to fulfill this needs.
+
+=============
+Dialog system
+=============
 
 Design overview
 ===============
 
-The following section gives a brief introduction of the concept behind this
-document.
+The following section gives a brief introduction of the concept of a simple
+dialog system that enables the developer of a console based application to
+interact with the user through STDIN.
 
 Clarification of terms
 ----------------------
@@ -34,19 +38,24 @@ User
 ~~~~
 
 The "user" is the person using a program and interacting with it during
-runtime.
+runtime. The user has no knowledge about the internals and must be guided
+through the dialog system he is interacting with. The term "user" in case of
+this document is _not_ the developer using the described component, but the
+user who interacts with the final program.
 
 Developer
 ~~~~~~~~~
 
 In contrast to the "user", the term "developer" in this document refers to the
-person who creates a program, using the ConsoleTools component.
+person who creates a program, using the described component.
 
 Dialog
 ~~~~~~
 
 The basic idea of a new mechanism to interact with the user through STDIN in
-this document is called a "dialog". 
+this document is called a "dialog".  A dialog is presented to the user by a
+certain amount of output it generates and a certain amount of input it
+requests afterwards.
 
 Basic design
 -------------
@@ -54,12 +63,12 @@ Basic design
 The core of the new feature described in this document is a dialog. The dialog
 is an object, must have the following capabilities:
 
-- To presents itself to the user on the command line
-- Requests a result (answer) from the user through STDIN.
+- Presents itself to the user on the command line
+- Requests data  from the user through STDIN.
 - Validate the result for its purpose.
-- Returning the result to the developer.
+- Return the result to the developer.
 
-A dialog is usually used in a loop, which displays the dialog again and again
+A dialog is usually used in a loop, which displays the dialog over and over again
 until it received a valid result.
 
 Class design
@@ -70,9 +79,9 @@ The following classes will realize the idea of dialogs in ConsoleTools.
 ezcConsoleDialog
 ----------------
 
-This interface describes the external API, which is used in common to work with
-dialog objects. Each dialog class must implement this interface. The API looks
-as follows:
+This interface describes the external API, which is commonly used by developers
+and other classes to interact with a dialog object. Each dialog class must
+implement this interface.
 
 __construct( ezcConsoleOutput $output, ezcConsoleDialogOptions $options )
   The constructor of a dialog receives an instance of ezcConsoleOutput, which
@@ -114,6 +123,12 @@ format
   The name of the format this dialog uses to be displayed. The format
   identifier must be defined in the ezcConsoleOutput instance submitted to the
   constructor of the dialog.
+validator
+  An instance of ezcConsoleDialogValidator. This validator is responsible for
+  validation and manipulation of the result a dialog received from the user. An
+  implementation of ezcConsoleDialog may require a specific sub-class of
+  ezcConsoleDialogValidator here (e.g. for a menu dialog, which requires a
+  special validator object to work).
 
 ezcConsoleDialogViewer
 ----------------------
@@ -122,14 +137,14 @@ The ezcConsoleDialogViewer class provides a set of static convenience methods
 that can be used by a developer that works with dialogs and by a developer that
 creates new dialogs. These methods are:
 
-displayDialog( ezcConsoleDialog $dialog )
+displayDialog( ezcConsoleDialog $dialog ) [static]
   This method is recommended to be used for displaying dialogs. It performs the
   typical loop: Display the dialog over and over again until it received a
   valid result. When this state is reached, it returns the dialogs value.
-readLine()
+readLine( $trim = true ) [static]
   The readLine() method is commonly used in a dialog implementation to read a
-  line from standard in. It returns the input provided by a user, trimmed of
-  leading and trailing whitespaces.
+  line from standard in. It returns the input provided by a user, optionally
+  trimmed of leading and trailing white spaces.
 
 ezcConsoleDialogValidator
 -------------------------
@@ -143,10 +158,14 @@ __construct( ... )
   The signature of the constructor is left to the validator implementation to
   retrieve settings (e.g. the valid results).
 validate( mixed $result )
-  This method is responsible for validating and manipulating a given result.
-  The dialog will submit the result it received and return the manipulated
-  result back. If the result was invalid, this method will throw an exception,
-  which should be caught by the dialog.
+  This method is responsible for validating a given result.
+  The dialog will submit the result it received to this method which will
+  indicate if the result was valid by a boolean value.
+manipulate( mixed $result )
+  If a result was checked to be valid, this method will be used to perform any
+  manipulation on the object that might be supported by the validator. The
+  method will return the manipulated value and throw an exception, if the
+  result was not valid.
 
 Dialog implementations
 ======================
@@ -158,9 +177,8 @@ ezcConsoleQuestionDialog
 ------------------------
 
 The ezcConsoleQuestionDialog is the most basic imaginable dialog. It asks the
-user a simply question and expects a free-form answer or a set of predefined
-answers. A typical output from an ezcConsoleQuestionDialog object could look
-like this: ::
+user a simply question and expects a certain answer. A typical output from an
+ezcConsoleQuestionDialog object could look like this: ::
 
     Do you want to continue? (y/n) 
 
@@ -173,21 +191,43 @@ ezcConsoleDialogOptions:
 text
   This option defines the main "question" text, displayed to the user.
 validator
-  The validator is an instance of ezcConsoleDialogValidator, which expects a
-  single value for verification.
-defaultResult
-  This option can be used to define a default value, which is used by the
-  dialog, if the user does not provide any value at all (in other words: simply
-  hits <RETURN>).
+  The validator is an instance of ezcConsoleQuestionDialogValidator. For
+  implementation details, see further below.
 showResults
   If this boolean option is set to true, the dialog will display the possible
-  result values behind the question text itself. If a default value is
-  provided, it will also indicate, which one this is. For example: ::
+  result values behind the question text itself (retrieved from the validator).
+  If a default value is provided, it will also indicate, which one this is. For
+  example: ::
     
     Do you want to continue? (y/n) [y]
 
   While here "y" and "n" are valid results and "y" is the default result, which
   is selected when simply skipping this question by hitting just <RETURN>.
+
+ezcConsoleQuestionDialogValidator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The interface if ezcConsoleQuestionValidator inherits from
+ezcConsoleDialogValidator and adds the following methods:
+
+getResultString()
+  This method returns the result string to be displayed if the option
+  "showResults" is true in the ezcConsoleQuestionDialogOptions object.
+
+Concrete implementations of these interface are:
+
+ezcConsoleQuestionDialogTypeValidator
+  This validator checks the result to be of a given type (e.g. int, float). It
+  optionally checks if the result is in a given range (e.g. [0-100]).
+ezcConsoleQuestionDialogCollectionValidator
+  This validator checks the result against a given collection of pre-defined
+  values (e.g. "y" and "n"). Beside that, it can perform basic operations on
+  the result before checking it (like strtolower()).
+ezcConsoleQuestionDialogRegexValidator
+  This validator checks the result against a given regex (e.g.
+  "/([0-2]?[0-9])[:.]([0-6]?[0-9])/" for validation of a time value). In addition
+  it can perform a manipulation using this regex with a given (e.g. "\1:\2" to
+  unify the time value given).
 
 ezcConsoleMenuDialog
 --------------------
@@ -211,29 +251,29 @@ ezcConsoleMenuDialogOptions:
 
 text
   The text displayed before the menu.
-entries
-  An array of strings, defining the possibilities shown in the menu.
-marker
-  The character used to divide the numbering of menu entries from their text
-  representation.
-markerSpace
-  The padding of whitespaces between the number and the text representation of
-  a menu entry.
-selectText
+selectionText
   The text displayed after the menu to indicate to the user that he should make
   a selection.
+markerChar
+  The marker character used to divide the marker of a menu entry (e.g. the
+  number) from the menu value (the text of a menu entry).
+validator
+  The validator must be an instance of ezcConsoleMenuDialogValidator.
 
-Validator implementations
-=========================
+ezcConsoleMenuDialogValidator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-ezcConsoleDialogSingleValidator
--------------------------------
+In contrast to ezcConsoleQuestionDialogValidator, this is not an interface, but
+a concrete implementation of ezcConsoleDialogValidator. The menu validator
+offers 2 properties to determine the menu entries:
 
-This validator can check for the correctness of a single value (meant for the
-ezcConsoleQuestionDialog class). It will expect an array of valid results on
-construction, against which the answer to a question will be matched to
-validate it. Beside this, the validator can be configured to transform the
-given result to upper or lower case, before validation.
+$entries
+  An array of entries shown as the menu. The keys of this array represent the
+  markers of the menu entries, the values represent the text shown.
+
+In addition, the validator can be configured to perform a manipulation on the
+result like the ezcConsoleQuestionDialogCollectionValidator (e.g.
+strtolower()).
 
 
 
