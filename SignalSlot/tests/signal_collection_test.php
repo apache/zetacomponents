@@ -27,6 +27,8 @@ class ezcSignalCollectionTest extends ezcTestCase
         $this->receiver = new TheReceiver();
         TheReceiver::$globalFunctionRun = false;
         TheReceiver::$staticFunctionRun = false;
+        ezcSignalStaticConnections::getInstance()->connections = array();
+        ezcSignalCollection::setStaticConnectionsHolder( new EmptyStaticConnections() );
     }
 
     public function testSignalsBlocked()
@@ -200,6 +202,50 @@ class ezcSignalCollectionTest extends ezcTestCase
         $this->giver->signals->disconnect( "signal", array( $this->receiver, "slotNoParams3" ), 1 );
         $this->giver->signals->emit( "signal" );
         $this->assertEquals( array( "slotNoParams1", "slotNoParams3", "slotNoParams2" ), $this->receiver->stack );
+    }
+
+    public function testIsConnectedNoConnections()
+    {
+        $this->assertEquals( false, $this->giver->signals->isConnected( 'signal' ) );
+    }
+
+    public function testIsConnectedNormalConnection()
+    {
+        $this->giver->signals->connect( "signal", array( $this->receiver, "slotNoParams3" ) );
+        $this->assertEquals( true, $this->giver->signals->isConnected( 'signal' ) );
+    }
+
+    public function testIsConnectedNormalConnectionDisconnected()
+    {
+        $this->giver->signals->connect( "signal", array( $this->receiver, "slotNoParams3" ) );
+        $this->giver->signals->disconnect( "signal", array( $this->receiver, "slotNoParams3" ) );
+        $this->assertEquals( false, $this->giver->signals->isConnected( 'signal' ) );
+    }
+
+    public function testIsConnectedPriorityConnected()
+    {
+        $this->giver->signals->connect( "signal", array( $this->receiver, "slotNoParams3" ), 1 );
+        $this->assertEquals( true, $this->giver->signals->isConnected( 'signal' ) );
+    }
+
+    public function testIsConnectedPriorityDisconnected()
+    {
+        $this->giver->signals->connect( "signal", array( $this->receiver, "slotNoParams3" ), 1 );
+        $this->giver->signals->disconnect( "signal", array( $this->receiver, "slotNoParams3" ), 1 );
+        $this->assertEquals( false, $this->giver->signals->isConnected( 'signal' ) );
+    }
+
+    public function testIsConnectedStaticConnection()
+    {
+        ezcSignalStaticConnections::getInstance()->connect( 'TheGiver', 'signal', 'slotFunction' );
+        $this->assertEquals( true, $this->giver->signals->isConnected( 'signal' ) );
+    }
+
+    public function testIsConnectedStaticConnectionDisconnected()
+    {
+        ezcSignalStaticConnections::getInstance()->connect( 'TheGiver', 'signal', 'slotFunction' );
+        ezcSignalStaticConnections::getInstance()->disconnect( 'TheGiver', 'signal', 'slotFunction' );
+        $this->assertEquals( false, $this->giver->signals->isConnected( 'signal' ) );
     }
 
     public static function suite()

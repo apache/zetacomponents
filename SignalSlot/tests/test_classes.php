@@ -10,6 +10,18 @@
 
 ezcTestRunner::addFileToFilter( __FILE__ );
 
+/**
+ * Wrapper of normal static connection class. This is because we can't reset it to NULL after it has been set in SignalCollection
+ */
+class EmptyStaticConnections implements ezcSignalStaticConnectionsBase
+{
+    public function getConnections( $identifier, $signal )
+    {
+        return ezcSignalStaticConnections::getInstance()->getConnections( $identifier, $signal );
+    }
+}
+
+
 class TheGiver
 {
     public $signals;

@@ -9,7 +9,8 @@
 
 /**
  * ezcSignalCollection implements a mechanism for inter and intra object communication.
- * TODO: examples
+ *
+ * See the tutorial for extensive examples on how to use this class.
  *
  * @property bool $signalsBlocked     If set to true emits will not cause any slots to be called.
  *
@@ -37,7 +38,7 @@ class ezcSignalCollection
     private $defaultConnections = array();
 
     /**
-     * Holds the connections for this object with the default priority.
+     * Holds the priority connections for this object.
      *
      * @var array(string=>array(int=>array(callback)))
      */
@@ -131,6 +132,44 @@ class ezcSignalCollection
         }
     }
 
+    /**
+     * Returns true if any slots have been connected to the signal $signal.
+     * False is returned if no slots have been connected to the $signal.
+     *
+     * Note: Emitting the signal $signal may still not call any slots if
+     * the property signalsBlocked has been set.
+     *
+     * @param string
+     * @return bool
+     */
+    public function isConnected( $signal )
+    {
+        // static connections
+        if ( self::$staticConnectionsHolder == NULL ) // custom static connections class
+        {
+            if( count( ezcSignalStaticConnections::getInstance()->getConnections( $this->identifier, $signal ) ) > 0 )
+            {
+                return true;
+            }
+        }
+        else if ( count( self::$staticConnectionsHolder->getConnections( $this->identifier, $signal ) ) > 0 )
+        {
+            return true;
+        }
+        // default connections
+        if( isset( $this->defaultConnections[$signal] ) && count( $this->defaultConnections[$signal] ) > 0 )
+        {
+            return true;
+        }
+
+        // priority connections
+        if( isset( $this->priorityConnections[$signal] ) && count( $this->priorityConnections[$signal] ) > 0 )
+        {
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * Emits the signal with the name $signal
@@ -312,6 +351,11 @@ class ezcSignalCollection
                             if ( ezcSignalCallbackComparer::compareCallbacks( $slot, $callback ) )
                             {
                                 unset( $this->priorityConnections[$signal][$priority][$key] );
+                                // if the priority is empty now it should be unset
+                                if( count( $this->priorityConnections[$signal][$priority] ) == 0 )
+                                {
+                                    unset( $this->priorityConnections[$signal][$priority] );
+                                }
                                 return;
                             }
                         }
@@ -344,6 +388,11 @@ class ezcSignalCollection
                     if ( ezcSignalCallbackComparer::compareCallbacks( $slot, $callback ) )
                     {
                         unset( $this->priorityConnections[$signal][$priority][$key] );
+                        // if the priority is empty now it should be unset
+                        if( count( $this->priorityConnections[$signal][$priority] ) == 0 )
+                        {
+                            unset( $this->priorityConnections[$signal][$priority] );
+                        }
                         return;
                     }
                 }

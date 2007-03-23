@@ -3,6 +3,7 @@
 
 - Implemented issue #9965: Support for delayed initialization through
   ezcBaseInit.
+- Implemented issue #10418: SignalSlot should support checking for a signal
 
 
 1.0 - Monday 18 December 2006

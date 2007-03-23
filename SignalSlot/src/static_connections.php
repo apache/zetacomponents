@@ -18,8 +18,6 @@
  * - connect to a signal that does not yet exist. This allows you to delay initialization of the
  *   emitting object until it is needed.
  *
- * TODO: examples
- *
  * @property array $connections Holds the internal structure of signals. The format is
  *                 array( identifier => array( signalName => array(priority=>array(slots)) ) ).
  *                 It can be both read and set in order
@@ -192,6 +190,11 @@ class ezcSignalStaticConnections implements ezcSignalStaticConnectionsBase
                     if ( ezcSignalCallbackComparer::compareCallbacks( $slot, $callback ) )
                     {
                         unset( $this->properties['connections'][$identifier][$signal][$priority][$key] );
+                        // if the priority is empty now it should be unset
+                        if( count( $this->properties['connections'][$identifier][$signal][$priority] ) == 0 )
+                        {
+                            unset( $this->properties['connections'][$identifier][$signal][$priority] );
+                        }
                         return;
                     }
                 }
@@ -207,6 +210,11 @@ class ezcSignalStaticConnections implements ezcSignalStaticConnectionsBase
                     if ( ezcSignalCallbackComparer::compareCallbacks( $slot, $callback ) )
                     {
                         unset( $this->properties['connections'][$identifier][$signal][$priority][$key] );
+                        // if the priority is empty now it should be unset
+                        if( count( $this->properties['connections'][$identifier][$signal][$priority] ) == 0 )
+                        {
+                            unset( $this->properties['connections'][$identifier][$signal][$priority] );
+                        }
                         return;
                     }
                 }
