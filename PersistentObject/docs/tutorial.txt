@@ -167,7 +167,7 @@ objects. A session can be created by simply instantiating it: ::
     <?php
     $session = new ezcPersistentSession(
         ezcDbInstance::get(),
-        new ezcPersistentCodeManager( "path/to/definitions" )
+        new ezcPersistentCacheManager( new ezcPersistentCodeManager( "path/to/definitions" ) )
     );
     ?>
 
@@ -176,7 +176,9 @@ the manager from which to retrieve persistent object definitions. We are
 using ezcPersistentCodeManager to load the definitions directly from
 file. You should point it to the location where you saved the person.php
 file. If you have several directories containing definitions, you can use
-the ezcPersistentMultiManager class to add as many as you like.
+the ezcPersistentMultiManager class to add as many as you like. In addition to
+the code manager we use a cache manager. The cache manager makes sure the
+definition is loaded from disk only once.
 
 While it is possible to create a new session each time you want to manipulate a
 persistent object, you will probably want to use the same session each
@@ -185,7 +187,7 @@ ezcPersistentSessionInstance class: ::
 
    <?php
    $session = new ezcPersistentSession( ezcDbInstance::get(),
-                                        new ezcPersistentCodeManager( ... ) );
+                                        new ezcPersistentCacheManager( new ezcPersistentCodeManager( ... ) ) );
    ezcPersistentSessionInstance::set( $session ); // set default session
 
    // retrieve the session

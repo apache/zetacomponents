@@ -13,6 +13,7 @@ ezcTestRunner::addFileToFilter( __FILE__ );
  * Including the tests
  */
 require_once( 'managers/code_manager_test.php' );
+require_once( 'managers/cache_manager_test.php' );
 require_once( 'managers/multi_manager_test.php' );
 require_once( 'persistent_session_test.php' );
 require_once( 'find_iterator_test.php' );
@@ -37,6 +38,7 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->setName("PersistentObject");
 
         $this->addTest( ezcPersistentCodeManagerTest::suite() );
+        $this->addTest( ezcPersistentCacheManagerTest::suite() );
         $this->addTest( ezcPersistentMultiManagerTest::suite() );
         $this->addTest( ezcPersistentSessionTest::suite() );
         $this->addTest( ezcPersistentFindIteratorTest::suite() );
