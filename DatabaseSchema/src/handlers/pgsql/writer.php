@@ -94,7 +94,7 @@ class ezcDbSchemaPgsqlWriter extends ezcDbSchemaCommonSqlWriter implements ezcDb
     }
 
     /**
-     * Checks if sertain query allowed.
+     * Checks if certain query allowed.
      *
      * Perform testing if table exist for DROP TABLE query 
      * to avoid stoping execution while try to drop not existent table.
