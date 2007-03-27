@@ -7,6 +7,7 @@
   ezcBaseFilePermissionException.
 - Fixed issue #10365: "true" and "false" are handled incorrectly while parsing
   schemas from XML files.
+- Fixed issue #10398: Oracle tests of DatabaseSchema run into error.
 - Implemented feature #9584: Switch for overwriting files.
   (PersistentObjectDatabaseSchemaTiein)
 

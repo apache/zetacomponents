@@ -44,7 +44,7 @@ class ezcDatabaseSchemaGenericTest extends ezcTestCase
                     'email' => new ezcDbSchemaField( 'text', 32 ),
                 ),
                 array (
-                    'comment' => new ezcDbSchemaIndex( array ( 'comment' => new ezcDbSchemaIndexField() ) ),
+                    'email' => new ezcDbSchemaIndex( array ( 'email' => new ezcDbSchemaIndexField() ) ),
                 )
             ),
         );
