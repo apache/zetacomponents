@@ -16,6 +16,12 @@
  * smaller applications which don't have too many settings and does not have
  * high memory or speed requirements.
  *
+ * Many of the methods of this class that fetch settings accept one to three
+ * parameters with the following names: $name - the configuration's name. For
+ * the ini file reader, this is the name of the configuration file without the
+ * path or the extension (.ini); $group - the name of the group in which the
+ * setting is located; and $setting - the name of the setting itself.
+ *
  * Before the manager can be used it must be configured so it knows where to
  * fetch the settings, this is usually at the start of the program.
  * <code>
@@ -173,7 +179,6 @@ class ezcConfigurationManager
      *         if the manager has not been initialized with the init() method.
      *
      * @param string $name
-     * @param bool $mayFail
      * @return ezcConfigurationReader The constructed reader
      */
     private function fetchReader( $name )
@@ -225,7 +230,7 @@ class ezcConfigurationManager
     }
 
     /**
-     * Returns the configuration object for a the configuration named $name.
+     * Returns the configuration object for the configuration named $name.
      *
      * @throws ezcConfigurationUnknownConfigException if the configuration
      *         $name does not exist.
