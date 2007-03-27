@@ -44,6 +44,7 @@ require_once 'renderer_3d_test.php';
 require_once 'struct_test.php';
 require_once 'text_test.php';
 require_once 'tools_test.php';
+require_once 'transformation_test.php';
 require_once 'vector_test.php';
 
 /**
@@ -91,6 +92,7 @@ class ezcGraphSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcGraphSvgDriverTest::suite() );
         $this->addTest( ezcGraphTextTest::suite() );
         $this->addTest( ezcGraphToolsTest::suite() );
+        $this->addTest( ezcGraphTransformationTest::suite() );
         $this->addTest( ezcGraphVectorTest::suite() );
     }
 

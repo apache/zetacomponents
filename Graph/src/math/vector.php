@@ -165,6 +165,22 @@ class ezcGraphVector extends ezcGraphCoordinate
     {
         return new ezcGraphVector( $coordinate->x, $coordinate->y );
     }
+
+    /**
+     * Transform vector using transformation matrix
+     * 
+     * @param ezcGraphTransformation $transformation 
+     * @return ezcGraphVector
+     */
+    public function transform( ezcGraphTransformation $transformation )
+    {
+        $result = $transformation->transformCoordinate( $this );
+
+        $this->x = $result->x;
+        $this->y = $result->y;
+
+        return $this;
+    }
 }
 
 ?>

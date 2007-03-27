@@ -1,0 +1,143 @@
+<?php
+/**
+ * ezcGraphTransformationTest 
+ * 
+ * @package Graph
+ * @version //autogen//
+ * @subpackage Tests
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * Tests for ezcGraph class.
+ * 
+ * @package ImageAnalysis
+ * @subpackage Tests
+ */
+class ezcGraphTransformationTest extends ezcTestCase
+{
+	public static function suite()
+	{
+		return new PHPUnit_Framework_TestSuite( "ezcGraphTransformationTest" );
+	}
+
+    public function testCreateTransformation()
+    {
+        $transformation = new ezcGraphTransformation();
+        $matrix = new ezcGraphMatrix( 3, 3 );
+
+        $this->assertEquals(
+            $this->getAttribute( $matrix, 'matrix' ),
+            $this->getAttribute( $transformation, 'matrix' ),
+            'Transformation matrices are not aequivalent',
+            .0001
+        );
+    }
+
+    public function testCreateTransformation2()
+    {
+        $transformation = new ezcGraphTransformation(
+            array(
+                array( 2, 1, 0 ),
+                array( 2, 1, 0 ),
+                array( 2, 1, 0 ),
+            )
+        );
+
+        $matrix = new ezcGraphMatrix( 3, 3,
+            array(
+                array( 2, 1, 0 ),
+                array( 2, 1, 0 ),
+                array( 2, 1, 0 ),
+            )
+        );
+
+        $this->assertEquals(
+            $this->getAttribute( $matrix, 'matrix' ),
+            $this->getAttribute( $transformation, 'matrix' ),
+            'Transformation matrices are not aequivalent',
+            .0001
+        );
+    }
+
+    public function testCreateTranslation()
+    {
+        $transformation = new ezcGraphTranslation( 5, 5 );
+
+        $matrix = new ezcGraphMatrix( 3, 3,
+            array(
+                array( 1, 0, 5 ),
+                array( 0, 1, 5 ),
+                array( 0, 0, 1 ),
+            )
+        );
+
+        $this->assertEquals(
+            $this->getAttribute( $matrix, 'matrix' ),
+            $this->getAttribute( $transformation, 'matrix' ),
+            'Transformation matrices are not aequivalent',
+            .0001
+        );
+    }
+
+    public function testTranslateCoordinate()
+    {
+        $transformation = new ezcGraphTranslation( 5, 5 );
+
+        $testCoordinate = new ezcGraphCoordinate( 0, 0 );
+        $testCoordinate = $transformation->transformCoordinate( $testCoordinate );
+
+        $this->assertEquals(
+            new ezcGraphCoordinate( 5, 5 ),
+            $testCoordinate,
+            'Transformation of coordinate has wrong result.',
+            .0001
+        );
+    }
+
+    public function testCreateRotation()
+    {
+        $transformation = new ezcGraphRotation( 90 );
+
+        $matrix = new ezcGraphMatrix( 3, 3,
+            array(
+                array( 0, -1, 0 ),
+                array( 1, 0, 0 ),
+                array( 0, 0, 1 ),
+            )
+        );
+
+        $this->assertEquals(
+            $this->getAttribute( $matrix, 'matrix' ),
+            $this->getAttribute( $transformation, 'matrix' ),
+            'Transformation matrices are not aequivalent',
+            .0001
+        );
+    }
+
+    public function testCreateTranslatedRotation()
+    {
+        $transformation = new ezcGraphRotation( 90, new ezcGraphCoordinate( 10, 10 ) );
+
+        $matrix = new ezcGraphMatrix( 3, 3,
+            array(
+                array( 0, 1, 0 ),
+                array( -1, 0, 0 ),
+                array( 0, 0, 1 ),
+            )
+        );
+
+        $testCoordinate = new ezcGraphCoordinate( 0, 0 );
+        $testCoordinate = $transformation->transformCoordinate( $testCoordinate );
+
+        $this->assertEquals(
+            new ezcGraphCoordinate( 20, 0 ),
+            $testCoordinate,
+            'Transformation matrices are not aequivalent',
+            .0001
+        );
+    }
+}
+
+?>

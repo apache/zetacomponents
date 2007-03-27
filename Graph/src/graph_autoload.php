@@ -45,6 +45,7 @@ return array(
     'ezcGraphAxisExactLabelRenderer'            => 'Graph/renderer/axis_label_exact.php',
     'ezcGraphAxisCenteredLabelRenderer'         => 'Graph/renderer/axis_label_centered.php',
     'ezcGraphAxisBoxedLabelRenderer'            => 'Graph/renderer/axis_label_boxed.php',
+    'ezcGraphAxisRotatedLabelRenderer'          => 'Graph/renderer/axis_label_rotated.php',
 
     'ezcGraphDriver'                            => 'Graph/interfaces/driver.php',
     'ezcGraphFontRenderingException'            => 'Graph/exceptions/font_rendering.php',
@@ -112,6 +113,9 @@ return array(
     'ezcGraphMatrixOutOfBoundingsException'     => 'Graph/exceptions/out_of_boundings.php',
     'ezcGraphPolynom'                           => 'Graph/math/polynom.php',
     'ezcGraphBoundings'                         => 'Graph/math/boundings.php',
+    'ezcGraphTransformation'                    => 'Graph/math/transformation.php',
+    'ezcGraphTranslation'                       => 'Graph/math/translation.php',
+    'ezcGraphRotation'                          => 'Graph/math/rotation.php',
 
     'ezcGraphAxisStep'                          => 'Graph/structs/step.php',
     'ezcGraphCoordinate'                        => 'Graph/structs/coordinate.php',

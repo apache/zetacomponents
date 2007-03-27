@@ -271,6 +271,26 @@ class ezcGraphVectorTest extends ezcTestCase
             'Result should be the vector itself'
         );
     }
+
+    public function testVectorTransform()
+    {
+        $vector = new ezcGraphVector( 0, 0 );
+
+        $result = $vector->transform( new ezcGraphRotation( -90, new ezcGraphCoordinate( 15, 15 ) ) );
+
+        $this->assertEquals(
+            $vector,
+            new ezcGraphVector( 0, 30 ),
+            'Vector transformation does not have the expected result',
+            .0001
+        );
+
+        $this->assertEquals(
+            $result,
+            $vector,
+            'Result should be the vector itself'
+        );
+    }
 }
 
 ?>
