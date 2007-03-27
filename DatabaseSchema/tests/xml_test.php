@@ -108,6 +108,17 @@ class ezcDatabaseSchemaXmlTest extends ezcTestCase
         }
     }
 
+    public function testParsingTrueFalse()
+    {
+        $fileName = realpath( $this->testFilesDir . 'bug10365.xml' );
+        $schema = ezcDbSchema::createFromFile( 'xml', $fileName )->getSchema();
+        self::assertEquals( $schema['bug10365']->fields['field_notnull']->notNull, true );
+        self::assertEquals( $schema['bug10365']->fields['field_notnull']->autoIncrement, true );
+        self::assertEquals( $schema['bug10365']->fields['field_notnull']->unsigned, true );
+        self::assertEquals( $schema['bug10365']->fields['field_null']->notNull, false );
+        self::assertEquals( $schema['bug10365']->fields['field_null']->autoIncrement, false );
+        self::assertEquals( $schema['bug10365']->fields['field_null']->unsigned, false );
+    }
 
     public static function suite()
     {

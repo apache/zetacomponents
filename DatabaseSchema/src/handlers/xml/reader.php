@@ -52,10 +52,10 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
         return new ezcDbSchemaField(
             (string) $field->type,
             isset( $field->length ) ? (string) $field->length : false,
-            isset( $field->notnull ) ? (string) $field->notnull : false,
+            isset( $field->notnull ) ? ((string) $field->notnull == 'true' ? true : false ) : false,
             isset( $field->default ) ? (string) $field->default : null,
-            isset( $field->autoincrement ) ? (string) $field->autoincrement : false,
-            isset( $field->unsigned ) ? (string) $field->unsigned : false
+            isset( $field->autoincrement ) ? ((string) $field->autoincrement == 'true' ? true : false ) : false,
+            isset( $field->unsigned ) ? ((string) $field->unsigned == 'true' ? true : false ) : false
         );
     }
 

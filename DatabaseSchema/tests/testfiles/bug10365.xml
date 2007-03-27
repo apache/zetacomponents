@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<database>
+  <table>
+    <name>bug10365</name>
+    <declaration>
+      <field>
+        <name>field_notnull</name>
+        <type>integer</type>
+        <notnull>true</notnull>
+        <unsigned>true</unsigned>
+        <autoincrement>true</autoincrement>
+      </field>
+      <field>
+        <name>field_null</name>
+        <type>integer</type>
+        <notnull>false</notnull>
+        <unsigned>false</unsigned>
+        <autoincrement>false</autoincrement>
+      </field>
+    </declaration>
+  </table>
+</database>
