@@ -158,14 +158,17 @@ __construct( ... )
   The signature of the constructor is left to the validator implementation to
   retrieve settings (e.g. the valid results).
 validate( mixed $result )
-  This method is responsible for validating a given result.
-  The dialog will submit the result it received to this method which will
-  indicate if the result was valid by a boolean value.
-manipulate( mixed $result )
-  If a result was checked to be valid, this method will be used to perform any
-  manipulation on the object that might be supported by the validator. The
-  method will return the manipulated value and throw an exception, if the
-  result was not valid.
+  This method is responsible for validating a given result.  The dialog will
+  submit the result it received to this method which will indicate if the
+  result was valid by a boolean value. To manipulate / fix a retreived result,
+  the dialog implementation can call the fixup() method.
+fixup( mixed $result )
+  A validator can try to fix a given result to be valid. This manipulation can
+  be ommited by simply returning the result again. An example for a fixup would
+  be to convert a date information into a Unix timestamp using strtotime(). The
+  validate method would then expect an integer value > 0. The dialog
+  implementation is responsible for calling fixup() as it thinks is appropriate
+  (e.g. always before calling validate(), only if validate() fails, never).
 
 Dialog implementations
 ======================
