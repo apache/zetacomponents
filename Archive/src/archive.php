@@ -511,7 +511,13 @@ abstract class ezcArchive implements Iterator
                         }
                         break;
                     case ezcArchiveEntry::IS_DIRECTORY:
-                        mkdir( $fileName, octdec( $entry->getPermissions() ), true );
+                        $permissions = $entry->getPermissions();
+
+                        if( $permissions === null || $permissions === false )
+                        {
+                            $permissions = 0777;
+                        }
+                        mkdir( $fileName, octdec( $permissions ), true );
                         break;
                     case ezcArchiveEntry::IS_FILE:
                         $this->writeCurrentDataToFile( $fileName );

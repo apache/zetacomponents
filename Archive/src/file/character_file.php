@@ -306,10 +306,12 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
         $this->isValid = true;
 
         $pos = $offset;
+        /*
         if ( $whence == SEEK_END || $whence == SEEK_CUR )
         {
             if ( !$this->isEmpty() ) $pos -= 1;
         }
+         */
 
 
         if (  $this->positionSeek( $pos, $whence ) == -1 )

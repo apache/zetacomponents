@@ -258,6 +258,16 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
             case ezcArchiveStatMode::S_IFBLK: return ezcArchiveEntry::IS_BLOCK_DEVICE; break; 
             case ezcArchiveStatMode::S_IFREG: return ezcArchiveEntry::IS_FILE; break; 
             case ezcArchiveStatMode::S_IFLNK: return ezcArchiveEntry::IS_SYMBOLIC_LINK; break; 
+
+            default:
+                if( substr( $this->properties["fileName"], -1) == "/" )
+                {
+                    return ezcArchiveEntry::IS_DIRECTORY;
+                }
+                else
+                {
+                    return ezcArchiveEntry::IS_FILE;
+                }
         }
     }
 

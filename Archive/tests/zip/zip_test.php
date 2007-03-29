@@ -6,15 +6,16 @@ require_once(dirname(__FILE__) . "/../archive_test_case.php");
 class ezcArchiveZipTest extends ezcArchiveTestCase
 {
     protected $td;
+    protected $tempDir;
 
     protected function setUp()
     {
         date_default_timezone_set("UTC"); 
 
-        $tempDir = $this->createTempDir( "ezcArchive_" );
+        $this->tempDir = $this->createTempDir( "ezcArchive_" );
         $dataDir = dirname( __FILE__ ) . "/../data/";
 
-        $this->td = new ezcArchiveTestData( $dataDir, $tempDir, "zip", "infozip" ); 
+        $this->td = new ezcArchiveTestData( $dataDir, $this->tempDir, "zip", "infozip" ); 
     }
 
     protected function tearDown()
@@ -34,6 +35,151 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         return ( substr( php_uname( 's' ), 0, 7 ) == 'Windows' ) ? true : false;
     }
 
+    public function testOdtExtract()
+    {
+        $original = dirname(__FILE__) . "/../data/files_and_dirs.odt";
+        $odtFile = $this->tempDir . "/files_and_dirs.odt";
+        copy($original, $odtFile);
+        $target = $this->tempDir . "/unzipped/";
+        mkdir($target);
+
+        $archive = ezcArchive::open( $odtFile );
+        $archive->extract($target);
+
+        $this->assertTrue(file_exists( $target . "content.xml") );
+        $this->assertTrue(file_exists( $target . "Configurations2") );
+        $this->assertTrue(file_exists( $target . "Configurations2/floater") );
+
+        $this->assertFalse(file_exists( $target . "Configurations2/file_does_not_exist") );
+    }
+
+    public function testOdtSeekAndExtract()
+    {
+        $original = dirname(__FILE__) . "/../data/files_and_dirs.odt";
+        $odtFile = $this->tempDir . "/files_and_dirs.odt";
+        copy($original, $odtFile);
+        $target = $this->tempDir . "/unzipped/";
+        mkdir($target);
+
+        $archive = ezcArchive::open( $odtFile );
+
+        $archive->seek( 4 ); // 5th file.
+        $archive->extractCurrent( $target );
+        $this->assertTrue(file_exists( $target . "Configurations2/popupmenu") );
+
+    }
+
+    public function testOdtAppend()
+    {
+        $original = dirname(__FILE__) . "/../data/files_and_dirs.odt";
+        $odtFile = $this->tempDir . "/files_and_dirs.odt";
+        copy($original, $odtFile);
+        $target = $this->tempDir . "/unzipped/";
+        mkdir($target);
+
+        $archive = ezcArchive::open( $odtFile );
+
+        $archive->seek( 4 ); // 5th file.
+        file_put_contents( $this->tempDir . "myfile.txt", "Hello world");
+        $archive->appendToCurrent( $this->tempDir . "myfile.txt", $this->tempDir);
+
+        $archive->extract($target);
+
+        $this->assertTrue(file_exists( $target . "Configurations2/popupmenu") );
+        $this->assertTrue(file_exists( $target . "myfile.txt") );
+    }
+
+
+    public function testOdtMac()
+    {
+        $original = dirname(__FILE__) . "/../data/mac_odt.odt";
+        $odtFile = $this->tempDir . "/mac_odt.odt";
+        copy($original, $odtFile);
+        $target = $this->tempDir . "/unzipped/";
+        mkdir($target);
+
+        $archive = ezcArchive::open( $odtFile );
+        $archive->extract($target);
+
+        $this->assertTrue(file_exists( $target . "content.xml") );
+        $this->assertTrue(file_exists( $target . "Configurations2") );
+        $this->assertTrue(file_exists( $target . "Configurations2/floater") );
+
+        $this->assertFalse(file_exists( $target . "Configurations2/file_does_not_exist") );
+    }
+
+    public function testOdtMacImg()
+    {
+        $original = dirname(__FILE__) . "/../data/mac_odt_with_img.odt";
+        $odtFile = $this->tempDir . "/mac_odt_with_img.odt";
+        copy($original, $odtFile);
+        $target = $this->tempDir . "/unzipped/";
+        mkdir($target);
+
+        $archive = ezcArchive::open( $odtFile );
+        $archive->extract($target);
+
+        $this->assertTrue(file_exists( $target . "content.xml") );
+        $this->assertTrue(file_exists( $target . "Configurations2") );
+        $this->assertTrue(file_exists( $target . "Configurations2/floater") );
+        $this->assertTrue(file_exists( $target . "Pictures/1000000000000168000000F05D0D62C6.png") );
+
+        $this->assertFalse(file_exists( $target . "Configurations2/file_does_not_exist") );
+    }
+ 
+    public function testOdtWin()
+    {
+        $original = dirname(__FILE__) . "/../data/win_odt.odt";
+        $odtFile = $this->tempDir . "/win_odt.odt";
+        copy($original, $odtFile);
+        $target = $this->tempDir . "/unzipped/";
+        mkdir($target);
+
+        $archive = ezcArchive::open( $odtFile );
+        $archive->extract($target);
+
+        $this->assertTrue(file_exists( $target . "content.xml") );
+        $this->assertTrue(file_exists( $target . "Configurations2") );
+        $this->assertTrue(file_exists( $target . "Configurations2/floater") );
+
+        $this->assertFalse(file_exists( $target . "Configurations2/file_does_not_exist") );
+    }
+
+    public function testOdtWinImg()
+    {
+        $original = dirname(__FILE__) . "/../data/win_odt_with_img.odt";
+        $odtFile = $this->tempDir . "/win_odt_with_img.odt";
+        copy($original, $odtFile);
+        $target = $this->tempDir . "/unzipped/";
+        mkdir($target);
+
+        $archive = ezcArchive::open( $odtFile );
+        $archive->extract($target);
+
+        $this->assertTrue(file_exists( $target . "content.xml") );
+        $this->assertTrue(file_exists( $target . "Configurations2") );
+        $this->assertTrue(file_exists( $target . "Configurations2/floater") );
+        $this->assertTrue(file_exists( $target . "Pictures/10000000000001F4000001474F0889E4.jpg") );
+
+        $this->assertFalse(file_exists( $target . "Configurations2/file_does_not_exist") );
+    }
+
+
+    public function testComments()
+    {
+        $original = dirname(__FILE__) . "/../data/infozip_comment.zip";
+        $file = $this->tempDir . "/infozip_comment.zip";
+        copy($original, $file);
+        $target = $this->tempDir . "/unzipped/";
+        mkdir($target);
+
+        $archive = ezcArchive::open( $file );
+        $archive->extract( $target );
+
+        $this->assertTrue(file_exists( $target . "meta.xml") );
+        $this->assertTrue(file_exists( $target . "mimetype") );
+    }
+
     public function testEmptyArchive()
     {
         $archive = $this->td->getNewArchive( "does_not_exist" );
@@ -50,7 +196,8 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
 
         unlink( 'does_not_exist' );
     }
-
+ 
+ 
     public function testIteratorOperations()
     {
         $archive  = $this->td->getArchive( "2_textfiles" );
@@ -527,7 +674,8 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         // Compare the directories.
         $this->compareDirectories( "$dir/original", "$dir/myzip" );
     }
-
+ 
+ 
     public function unzipAndTest( $dir, $a, $b)
     {
         // They are probably not identical..
@@ -541,7 +689,7 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         $this->compareDirectories( "$dir/infozip", "$dir/ezczip" );
     }
 
-
+ 
 //        $dir =  $this->getTempDir();
 //        mkdir($dir . "/php" );
 //        mkdir($dir . "/gnu" );
@@ -554,7 +702,6 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
 //        exec("tar -xf ".$this->complexFile." -C $dir/gnu");
 //
 //        $this->compareDirectories( "$dir/gnu", "$dir/php" );
-
 
 
     public static function suite()

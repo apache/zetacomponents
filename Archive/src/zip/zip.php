@@ -84,7 +84,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         $this->fileNumber = 0;
         $this->entriesRead = 0;
 
-        if ( !$this->file->isEmpty() ) $this->readEntireArchive();
+        if ( !$this->file->isEmpty() ) $this->readCentralHeaders();
 
         $this->completed = true;
     }
@@ -114,38 +114,84 @@ class ezcArchiveZip extends ezcArchive implements Iterator
      *
      * @return void
      */
-    protected function readEntireArchive()
+    protected function readCentralHeaders()
     {
-        $this->file->rewind();
-
         $this->localHeaders = array();
         $this->centralHeaders = array();
 
-        // read the local headers.
-        $i = 0;
-        $sig = $this->file->read( 4 );
+        // read the central end headers
+        
+        $this->file->seek(-22, SEEK_END);
+        $filesize = $this->file->key() + 22;
+        $endRecordPosition = $filesize - 22;
 
-        while ( ezcArchiveLocalFileHeader::isSignature( $sig ) )
+        $sig = $this->file->read(4);
+        if ( ezcArchiveCentralDirectoryEndHeader::isSignature( $sig ) )
         {
-            $this->localHeaderPositions[$i] = $this->file->key() - 4; 
-            $this->localHeaders[$i++] = new ezcArchiveLocalFileHeader( $this->file ); 
-            
-            $sig = $this->file->read( 4 );
+            $this->endRecord = new ezcArchiveCentralDirectoryEndHeader( $this->file );
+
+
+            if( $this->endRecord->commentLength != 0 )
+            {
+                throw new ezcArchiveException("Comment length invalid.");
+            }
+        }
+        else
+        {
+            $signatureString = "PK\005\006";
+
+            $startPosition = max( $filesize - (5 * 1024), 0);
+
+            // Maybe there is a comment at the end of the archive.
+            $this->file->seek($startPosition);
+            $data = $this->file->read($filesize - $startPosition);
+
+            $pos = strpos( $data, $signatureString);
+
+            if ($pos === false)
+            {
+                throw new ezcArchiveException("Could not find the central-directory header");
+            }
+
+            $endRecordPosition = $startPosition + $pos;
+
+            $this->file->seek($endRecordPosition);
+            $sig = $this->file->read(4);
+
+            if ( ezcArchiveCentralDirectoryEndHeader::isSignature( $sig ) )
+            {
+                $this->endRecord = new ezcArchiveCentralDirectoryEndHeader( $this->file );
+            }
+            else
+            {
+                throw new ezcArchiveException("Zip file corrupt");
+            }
+
+            if( $this->endRecord->commentLength !=  $filesize - $endRecordPosition - 22)
+            {
+                throw new ezcArchiveException("Comment length invalid.");
+            }
         }
 
-        // Read the central directory headers. 
+        if( $endRecordPosition - $this->endRecord->centralDirectorySize !== $this->endRecord->centralDirectoryStart)
+        {
+            throw new ezcArchiveException("Unable to determine the central directory start.");
+        }
+        
+        $this->file->seek( $endRecordPosition - $this->endRecord->centralDirectorySize);
+        $sig = $this->file->read(4);
+
         $i = 0;
         while ( ezcArchiveCentralDirectoryHeader::isSignature( $sig ) )
         {
             $this->centralHeaderPositions[$i] = $this->file->key() - 4; 
-            $this->centralHeaders[$i++] = new ezcArchiveCentralDirectoryHeader( $this->file );
+            $this->centralHeaders[$i] = new ezcArchiveCentralDirectoryHeader( $this->file );
 
             $sig = $this->file->read( 4 );
-        }
 
-        if ( ezcArchiveCentralDirectoryEndHeader::isSignature( $sig ) )
-        {
-            $this->endRecord = new ezcArchiveCentralDirectoryEndHeader( $this->file );
+            $this->localHeaderPositions[$i] = $this->centralHeaders[$i]->relativeHeaderOffset;
+
+            $i++;
         }
 
         // Create the entries and check for symlinks.
@@ -154,9 +200,10 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         for( $i = 0; $i < $this->entriesRead; $i++ )
         {
             $struct = new ezcArchiveFileStructure(); 
-
-            $this->localHeaders[$i]->setArchiveFileStructure( $struct );
+            
+            //$this->localHeaders[$i]->setArchiveFileStructure( $struct );
             $this->centralHeaders[$i]->setArchiveFileStructure( $struct );
+
 
             // Set the symbolic links, 'cause these are written in the file data.
             if ( $this->centralHeaders[$i]->getType() == ezcArchiveEntry::IS_SYMBOLIC_LINK )
@@ -167,10 +214,11 @@ class ezcArchiveZip extends ezcArchive implements Iterator
             {
                 $struct->link = "";
             }
- 
+
             $this->entries[$i] = new ezcArchiveEntry( $struct );
         }
     }
+
 
     // Documentation is inherited.
     protected function writeCurrentDataToFile( $targetPath )
@@ -196,13 +244,35 @@ class ezcArchiveZip extends ezcArchive implements Iterator
     public function getFileData( $fileNumber )
     {
         $pos = $this->localHeaderPositions[ $fileNumber ];
-        $header = $this->localHeaders[ $fileNumber ];
+        $header = $this->getLocalHeader( $fileNumber );
 
         $newPos = $pos + $header->getHeaderSize(); 
         $this->file->seek( $newPos );
-
+        
         // Read all the data.
         return $this->file->read( $header->compressedSize );
+    }
+
+    public function getLocalHeader( $fileNumber )
+    {
+
+        if ( !isset($this->localHeaders[$fileNumber]) )
+        {
+            // Read the local header
+            //
+            $this->file->seek( $this->localHeaderPositions[$fileNumber] );
+
+            $sig = $this->file->read( 4 );
+
+            if ( !ezcArchiveLocalFileHeader::isSignature( $sig ) )
+            {
+                exit("WRONG STUFF");
+            }
+
+            $this->localHeaders[$fileNumber] = new ezcArchiveLocalFileHeader( $this->file ); 
+        }
+
+        return $this->localHeaders[$fileNumber];
     }
 
     /**
@@ -219,7 +289,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
      */
     public function writeFile( $fileNumber,  $writeTo )
     {
-        $header = $this->localHeaders[ $fileNumber ];
+        $header = $this->getLocalHeader( $fileNumber );
         $pos = $this->localHeaderPositions[ $fileNumber ] + $header->getHeaderSize();
 
         // FIXME.. don't write the entire stuff to memory.
@@ -302,7 +372,7 @@ Part: 2/2
             // Create the new headers.
             $cur = $this->key(); // Current Header.
 
-            $lh = $this->localHeaders[ $cur ];
+            $lh = $this->getLocalHeader( $cur );
             $pos = $this->localHeaderPositions[ $cur ] + $lh->getHeaderSize() + $lh->compressedSize;
             $this->file->truncate( $pos );
             $this->file->seek( $pos );
