@@ -940,19 +940,22 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
      * @param ezcGraphBoundings $boundings Boundings of text
      * @param string $text Text
      * @param int $align Alignement of text
+     * @param ezcGraphRotation $rotation
      * @return void
      */
     public function drawText(
         ezcGraphBoundings $boundings,
         $text,
-        $align = ezcGraph::LEFT )
+        $align = ezcGraph::LEFT,
+        ezcGraphRotation $rotation = null )
     {
         $this->driver->drawTextBox(
             $text,
             new ezcGraphCoordinate( $boundings->x0, $boundings->y0 ),
             $boundings->width,
             $boundings->height,
-            $align
+            $align,
+            $rotation
         );
     }
 

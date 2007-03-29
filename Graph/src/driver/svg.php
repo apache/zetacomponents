@@ -422,9 +422,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
      * @param float $width Width of text box
      * @param float $height Height of text box
      * @param int $align Alignement of text
+     * @param ezcGraphRotation $rotation
      * @return void
      */
-    public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align )
+    public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align, ezcGraphRotation $rotation = null )
     {
         $padding = $this->options->font->padding + ( $this->options->font->border !== false ? $this->options->font->borderWidth : 0 );
 
@@ -462,6 +463,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             'height' => $height,
             'align' => $align,
             'font' => $this->options->font,
+            'rotation' => $rotation,
         );
 
         return $id;
@@ -559,9 +561,19 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         foreach ( $this->strings as $text )
         {
             // Add all text elements into one group
-            $this->elements = $this->dom->createElement( 'g' );
-            $this->elements->setAttribute( 'id', $text['id'] );
-            $this->elements = $elementsRoot->appendChild( $this->elements );
+            $group = $this->dom->createElement( 'g' );
+            $group->setAttribute( 'id', $text['id'] );
+
+            if ( $text['rotation'] !== null )
+            {
+                $group->setAttribute( 'transform', sprintf( 'rotate( %.2f %.4f %.4f )',
+                    $text['rotation']->getRotation(),
+                    $text['rotation']->getCenter()->x,
+                    $text['rotation']->getCenter()->y
+                ) );
+            }
+
+            $group = $elementsRoot->appendChild( $group );
 
             $size = $text['font']->minimalUsedFont;
             $font = $text['font']->name;
@@ -651,6 +663,9 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 );
             }
 
+            // Set elements root temporary to local text group to ensure 
+            // background and border beeing elements of text group
+            $this->elements = $group;
             if ( $text['font']->background !== false )
             {
                 $this->drawPolygon( 
@@ -680,6 +695,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                     $text['font']->borderWidth
                 );
             }
+            $this->elements = $elementsRoot;
 
             // Bottom line for SVG fonts is lifted a bit
             $text['position']->y += $size * .85;
@@ -731,7 +747,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                             1 - ( $text['font']->textShadowColor->alpha / 255 )
                         )
                     );
-                    $this->elements->appendChild( $textNode );
+                    $group->appendChild( $textNode );
                 }
                 
                 // Finally draw text
@@ -752,13 +768,11 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                         1 - ( $text['font']->color->alpha / 255 )
                     )
                 );
-                $this->elements->appendChild( $textNode );
+                $group->appendChild( $textNode );
 
                 $text['position']->y += $size + $size * $this->options->lineSpacing;
             }
         }
-
-        $this->elements = $elementsRoot;
     }
 
     /**

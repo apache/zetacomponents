@@ -44,6 +44,8 @@ class ezcGraphRotation extends ezcGraphTransformation
 
         if ( $center === null )
         {
+            $this->center = new ezcGraphCoordinate( 0, 0 );
+
             $clockwiseRotation = deg2rad( $rotation );
             $rotationMatrixArray = array( 
                 array( cos( $clockwiseRotation ), -sin( $clockwiseRotation ), 0 ),
@@ -61,6 +63,26 @@ class ezcGraphRotation extends ezcGraphTransformation
         $this->multiply( new ezcGraphTranslation( $center->x, $center->y ) );
         $this->multiply( new ezcGraphRotation( $rotation ) );
         $this->multiply( new ezcGraphTranslation( -$center->x, -$center->y ) );
+    }
+
+    /**
+     * Return rotaion angle in degrees
+     * 
+     * @return float
+     */
+    public function getRotation()
+    {
+        return $this->rotation;
+    }
+
+    /**
+     * Return the center point of the current rotation
+     * 
+     * @return ezcGraphCoordinate
+     */
+    public function getCenter()
+    {
+        return $this->center;
     }
 }
 

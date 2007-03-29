@@ -14,6 +14,7 @@
 */
 require_once 'axis_centered_renderer_test.php';
 require_once 'axis_exact_renderer_test.php';
+require_once 'axis_rotated_renderer_test.php';
 require_once 'background_test.php';
 require_once 'boundings_test.php';
 require_once 'chart_test.php';
@@ -62,6 +63,7 @@ class ezcGraphSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcGraphAxisCenteredRendererTest::suite() );
         $this->addTest( ezcGraphAxisExactRendererTest::suite() );
+        $this->addTest( ezcGraphAxisRotatedRendererTest::suite() );
         $this->addTest( ezcGraphBackgroundTest::suite() );
         $this->addTest( ezcGraphBoundingsTest::suite() );
         $this->addTest( ezcGraphChartTest::suite() );

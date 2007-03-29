@@ -271,13 +271,14 @@ abstract class ezcGraphRenderer
      * @param ezcGraphBoundings $boundings Boundings of text
      * @param string $text Text
      * @param int $align Alignement of text
-     * @param int $align Alignement of text
+     * @param ezcGraphRotation $rotation
      * @return void
      */
     abstract public function drawText(
         ezcGraphBoundings $boundings,
         $text,
-        $align = ezcGraph::LEFT
+        $align = ezcGraph::LEFT,
+        ezcGraphRotation $rotation = null
     );
 
     /**

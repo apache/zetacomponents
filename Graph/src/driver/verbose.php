@@ -89,9 +89,10 @@ class ezcGraphVerboseDriver extends ezcGraphDriver
      * @param mixed $width 
      * @param mixed $height 
      * @param ezcGraphColor $color 
+     * @param ezcGraphRotation $rotation
      * @return void
      */
-    public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align )
+    public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align, ezcGraphRotation $rotation = null )
     {
         printf( "% 4d: Draw text '%s' at ( %.2f, %.2f ) with dimensions ( %d, %d ) and alignement %d.\n",
             $this->call++,

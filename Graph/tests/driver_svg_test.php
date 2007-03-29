@@ -586,6 +586,69 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
         );
     }
 
+    public function testDrawTextBoxShortStringRotated10Degrees()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $return = $this->driver->drawTextBox(
+            'Short',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT,
+            new ezcGraphRotation( 10 )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testDrawTextBoxShortStringRotated45Degrees()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $return = $this->driver->drawTextBox(
+            'Short',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT,
+            new ezcGraphRotation( 45, new ezcGraphCoordinate( 100, 50 ) )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testDrawTextBoxShortStringRotated340Degrees()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $return = $this->driver->drawTextBox(
+            'Short',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT,
+            new ezcGraphRotation( 340, new ezcGraphCoordinate( 200, 100 ) )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testDrawTextBoxLongString()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
@@ -1161,6 +1224,32 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
             150,
             70,
             ezcGraph::LEFT | ezcGraph::TOP
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testDrawRotatedTextWithMinimizedBorderAndBackgroundTopLeft()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->options->font->border = ezcGraphColor::fromHex( '#555555' );
+        $this->driver->options->font->background = ezcGraphColor::fromHex( '#DDDDDD' );
+        $this->driver->options->font->minimizeBorder = true;
+        $this->driver->options->font->padding = 2;
+
+        $this->driver->drawTextBox(
+            'Some test string',
+            new ezcGraphCoordinate( 10, 10 ),
+            150,
+            70,
+            ezcGraph::LEFT | ezcGraph::TOP,
+            new ezcGraphRotation( 15 )
         );
 
         $this->driver->render( $filename );

@@ -1569,12 +1569,14 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
      * @param ezcGraphBoundings $boundings Boundings of text
      * @param string $text Text
      * @param int $align Alignement of text
+     * @param ezcGraphRotation $rotation
      * @return void
      */
     public function drawText(
         ezcGraphBoundings $boundings,
         $text,
-        $align = ezcGraph::LEFT )
+        $align = ezcGraph::LEFT,
+        ezcGraphRotation $rotation = null )
     {
         if ( $this->depth === false )
         {
@@ -1611,7 +1613,8 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
             $topleft,
             $bottomright->x - $topleft->x,
             $bottomright->y - $topleft->y,
-            $align
+            $align,
+            $rotation
         );
     }
 

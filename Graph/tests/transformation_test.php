@@ -116,6 +116,26 @@ class ezcGraphTransformationTest extends ezcTestCase
         );
     }
 
+    public function testRotationGetCenter()
+    {
+        $transformation = new ezcGraphRotation( 90 );
+
+        $this->assertEquals(
+            new ezcGraphCoordinate( 0, 0 ),
+            $transformation->getCenter()
+        );
+    }
+
+    public function testRotationGetRotation()
+    {
+        $transformation = new ezcGraphRotation( 17 );
+
+        $this->assertEquals(
+            17.,
+            $transformation->getRotation()
+        );
+    }
+
     public function testCreateTranslatedRotation()
     {
         $transformation = new ezcGraphRotation( 90, new ezcGraphCoordinate( 10, 10 ) );

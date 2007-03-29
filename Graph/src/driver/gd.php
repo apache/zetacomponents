@@ -377,9 +377,10 @@ class ezcGraphGdDriver extends ezcGraphDriver
      * @param float $width Width of text box
      * @param float $height Height of text box
      * @param int $align Alignement of text
+     * @param ezcGraphRotation $rotation
      * @return void
      */
-    public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align )
+    public function drawTextBox( $string, ezcGraphCoordinate $position, $width, $height, $align, ezcGraphRotation $rotation = null )
     {
         $padding = $this->options->font->padding + ( $this->options->font->border !== false ? $this->options->font->borderWidth : 0 );
 
