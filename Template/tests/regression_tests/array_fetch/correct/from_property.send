@@ -1,0 +1,24 @@
+<?php
+
+class Class8239
+{
+	public $a;
+	public $b;
+	public $c;
+	public $d;
+
+	public function __construct()
+	{
+		$this->a = array("hello", "world");
+		$this->b = $this;
+		$this->c = array($this, $this);
+		$this->d = array( array($this));
+	}
+}
+
+$v = new ezcTemplateVariableCollection();
+$v->obj = new Class8239();
+
+
+return $v;
+?>

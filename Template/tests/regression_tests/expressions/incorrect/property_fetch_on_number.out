@@ -1,0 +1,4 @@
+mock:1:4: Expecting an operand without a pre- or post operator.
+
+{5->hello}
+   ^

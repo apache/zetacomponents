@@ -1,4 +1,4 @@
-mock:5:15: Calling a method from an imported object is not allowed.
+mock:5:28: Expecting a closing curly bracket: '}'
 
 Say: {$myObj->getHelloWorld(2 + 2)}
-              ^
+                           ^

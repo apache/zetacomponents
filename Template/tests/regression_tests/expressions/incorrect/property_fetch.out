@@ -1,0 +1,4 @@
+mock:3:8: Expect an identifier.
+
+{$obj->$bla}
+       ^

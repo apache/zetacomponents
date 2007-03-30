@@ -57,7 +57,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         parent::__construct( $parser, $parentParser, $startCursor );
         $this->currentOperator = null;
         $this->rootOperator = null;
-        $this->allowIdentifier = false;
         $this->minPrecedence = false;
     }
 
@@ -229,9 +228,11 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
             $this->findNextElement();
 
-            if ( $this->parseArrayFetch( $cursor, $allowArrayAppend ) )
+            while ( (($res = $this->parseArrayFetch( $cursor, $allowArrayAppend )) && $res[0]) || $this->parsePropertyFetch( $cursor) )
             {
                 $this->findNextElement();
+
+                if( !$res[1] ) break;
             }
 
             $parsedType = "Variable";
@@ -242,15 +243,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
             $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->functionCall );
             $parsedType = "FunctionCall";
-        }
-        elseif ( $this->allowIdentifier && $this->parseOptionalType( 'Identifier' ) )
-        {
-            $this->operatorRhsCheck( $this->currentOperator, $this->lastParser->element, $cursor );
- 
-            // Try parsing an identifier since it is allowed
-            $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );
-
-            $parsedType = "Identifier";
         }
         elseif( $cursor->match( '(' ) && sizeof( $allowedTypes ) == 0 )
         {
@@ -430,7 +422,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
      *
      * @param ezcTemplateCursor $cursor 
      * @param bool $allowArrayAppend
-     * @return bool
+     * @return array(bool,bool) = Continue, repeat. 
      */
     protected function parseArrayFetch( $cursor, $allowArrayAppend = false )
     {
@@ -448,14 +440,14 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
                 $this->lastCursor = clone $cursor;
 
-                return true;
+                return array(true, false);
             }
             else
             {
                 $operatorStartCursor = clone $cursor;
                 if ( !$this->parseRequiredType( 'ArrayFetch' ) )
                 {
-                    return false;
+                    return array(false, true);
                 }
 
                 $this->findNextElement();
@@ -473,7 +465,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             $operator->precedence < $this->minPrecedence )
             {
                 $cursor->copy( $operatorStartCursor );
-                return true;
+                return array(true, true);
             }
 
             $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
@@ -482,7 +474,35 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             $this->findNextElement();
         }
 
-        return ($operator !== null); 
+        return array(($operator !== null), true); 
+    }
+
+    protected function parsePropertyFetch($cursor)
+    {
+        $operator = null;
+        while ( $cursor->match( '->' ) )
+        {
+            $this->findNextElement();
+
+            $operator = new ezcTemplatePropertyFetchOperatorTstNode( $this->parser->source, $this->startCursor, $cursor );
+
+            if ( !$this->parseRequiredType( 'Identifier' ) )
+            {
+                throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, 
+                        ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_IDENTIFIER );
+            }
+
+
+            $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
+
+
+            $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->element );
+
+            $this->findNextElement();
+
+            //$operator = $this->lastParser->value;
+        }
+        return $operator !== null;
     }
 
     /**
@@ -526,7 +546,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
         array( 3,
         array( '===', '!==' ) ),
         array( 2,
-        array( '->',
+        array( 
         '==', '!=',
         '<=', '>=',
         '&&', '||',
@@ -571,8 +591,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             '*' => 'MultiplicationOperator',
             '/' => 'DivisionOperator',
             '%' => 'ModuloOperator',
-
-            '->' => 'PropertyFetchOperator',
 
             '==' => 'EqualOperator',
             '!=' => 'NotEqualOperator',
@@ -619,12 +637,6 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             $this->currentOperator = $this->parser->handleOperatorPrecedence( $this->currentOperator, $operator );
 
             $this->lastCursor->copy( $cursor );
-
-            // -> operator can have an identifier as the next operand
-            if ( $requestedName == '->' )
-            {
-                $this->allowIdentifier = true;
-            }
 
             return $operatorName;
         }
