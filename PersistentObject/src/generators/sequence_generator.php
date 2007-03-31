@@ -55,13 +55,7 @@ class ezcPersistentSequenceGenerator extends ezcPersistentIdentifierGenerator
         if ( isset( $def->idProperty->generator->params["sequence"] ) )
         {
             $seq = $def->idProperty->generator->params["sequence"];
-            switch ( $db->getName() )
-            {
-                case "pgsql":
-                case "oracle":
-                    $q->set( $db->quoteIdentifier( $def->idProperty->columnName ), "nextval(" . $db->quote( $db->quoteIdentifier( $seq ) ) . ")" );
-                    break;
-            }
+            $q->set( $db->quoteIdentifier( $def->idProperty->columnName ), "nextval(" . $db->quote( $db->quoteIdentifier( $seq ) ) . ")" );
         }
     }
 
@@ -85,7 +79,16 @@ class ezcPersistentSequenceGenerator extends ezcPersistentIdentifierGenerator
         if ( array_key_exists( 'sequence', $def->idProperty->generator->params ) &&
             $def->idProperty->generator->params['sequence'] !== null )
         {
-            $id = (int)$db->lastInsertId( $db->quoteIdentifier( $def->idProperty->generator->params['sequence'] ) );
+            switch ( $db->getName() )
+            {
+                case "oracle":
+                    $idRes = $db->query( "SELECT " . $db->quoteIdentifier( $def->idProperty->generator->params['sequence'] ) . ".CURRVAL AS id FROM " . $db->quoteIdentifier( $def->table ) )->fetch();
+                    $id = (int) $idRes["id"];
+                    break;
+                default:
+                    $id = (int)$db->lastInsertId( $db->quoteIdentifier( $def->idProperty->generator->params['sequence'] ) );
+                break;
+            }
         }
         else
         {
