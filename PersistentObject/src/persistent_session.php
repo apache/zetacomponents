@@ -1054,7 +1054,7 @@ class ezcPersistentSession
         $table = array();
         foreach ( $def->properties as $prop )
         {
-            $table[$prop->propertyName] = $prop->columnName;
+            $table[$prop->propertyName] = $this->database->quoteIdentifier( $prop->columnName );
         }
         $table[$def->class] = $def->table;
         return $table;
