@@ -15,7 +15,7 @@ $def->idProperty->columnName = 'from';
 $def->idProperty->propertyName = 'from';
 $def->idProperty->visibility = ezcPersistentObjectProperty::VISIBILITY_PRIVATE;
 $def->idProperty->generator = new ezcPersistentGeneratorDefinition( 'ezcPersistentSequenceGenerator',
-                                                                    array( 'sequence' => 'PO_test_seq' ) );
+                                                                    array( 'sequence' => 'table_from_seq' ) );
 
 $def->properties['select'] = new ezcPersistentObjectProperty;
 $def->properties['select']->columnName = 'select';
