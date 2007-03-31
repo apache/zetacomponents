@@ -10,6 +10,7 @@
 ezcTestRunner::addFileToFilter( __FILE__ );
 
 require_once "data/manual_generator_test.php";
+require_once "data/persistent_test_object.php";
 
 /**
  * Tests the code manager.
