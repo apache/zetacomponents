@@ -57,13 +57,6 @@ class Table
         // Load schema
         $schema = ezcDbSchema::createFromFile( 'array', dirname( __FILE__ ) . '/table.dba' );
         $schema->writeToDb( $db );
-
-        // create sequence if it is a postgres database
-        if ( $db->getName() == 'pgsql' )
-        {
-            $db->exec( "CREATE SEQUENCE " . $db->quoteIdentifier( "PO_test_seq" ) );
-        }
-
     }
 
     public static function cleanup()
@@ -72,9 +65,10 @@ class Table
         $db->exec( 'DROP TABLE' . $db->quoteIdentifier( 'table' ) );
         $db->exec( 'DROP TABLE' . $db->quoteIdentifier( 'where' ) );
         $db->exec( 'DROP TABLE' . $db->quoteIdentifier( 'as' ) );
-        if ( $db->getName() == 'pgsql' )
+        if ( $db->getName() === 'oracle' )
         {
-            $db->exec( "DROP SEQUENCE " . $db->quoteIdentifier( "PO_test_seq" ) . ";" );
+            $db->exec( "DROP SEQUENCE " . $db->quoteIdentifier( "table_from_seq" ) );
+            $db->exec( "DROP SEQUENCE " . $db->quoteIdentifier( "where_like_seq" ) );
         }
     }
 
