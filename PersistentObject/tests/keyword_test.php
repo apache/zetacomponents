@@ -147,7 +147,7 @@ class ezcPersistentKeywordTest extends ezcTestCase
         $this->session->save( $rel );
 
         $relation = $this->session->getRelatedObjects( $object, "Where" );
-        $this->assertNotNull( $relation );
+        $this->assertNotEquals( count( $relation ), 0 );
     }
 
     public function test1NGetRelatedObjects()
