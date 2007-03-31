@@ -388,7 +388,7 @@ class ezcPersistentSessionTest extends ezcTestCase
     public function testFindNoResult()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
-        $q->where( $q->expr->eq( 'id', 999 ) );
+        $q->where( $q->expr->eq( $this->session->database->quoteIdentifier( 'id' ), 999 ) );
         $objects = $this->session->find( $q, 'PersistentTestObject' );
         $this->assertEquals( 0, count( $objects ) );
     }
@@ -396,7 +396,7 @@ class ezcPersistentSessionTest extends ezcTestCase
     public function testFindSingleResult()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
-        $q->where( $q->expr->eq( 'id', 1 ) );
+        $q->where( $q->expr->eq( $this->session->database->quoteIdentifier( 'id' ), 1 ) );
         $objects = $this->session->find( $q, 'PersistentTestObject' );
         $this->assertEquals( 1, count( $objects ) );
     }
@@ -404,7 +404,7 @@ class ezcPersistentSessionTest extends ezcTestCase
     public function testFindMultipleResult()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
-        $q->where( $q->expr->gt( 'id', 2 ) );
+        $q->where( $q->expr->gt( $this->session->database->quoteIdentifier( 'id' ), 2 ) );
         $objects = $this->session->find( $q, 'PersistentTestObject' );
         $this->assertEquals( 2, count( $objects ) );
 
@@ -425,7 +425,7 @@ class ezcPersistentSessionTest extends ezcTestCase
     public function testFindIteratorNoResult()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
-        $q->where( $q->expr->eq( 'id', 999 ) );
+        $q->where( $q->expr->eq( $this->session->database->quoteIdentifier( 'id' ), 999 ) );
         $it = $this->session->findIterator( $q, 'PersistentTestObject' );
         $this->assertEquals( null, $it->next() );
     }
@@ -433,7 +433,7 @@ class ezcPersistentSessionTest extends ezcTestCase
     public function testFindIteratorSingleResult()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
-        $q->where( $q->expr->eq( 'id', 1 ) );
+        $q->where( $q->expr->eq( $this->session->database->quoteIdentifier( 'id' ), 1 ) );
         $it = $this->session->findIterator( $q, 'PersistentTestObject' );
         $i = 0;
         foreach ( $it as $object )
@@ -446,7 +446,7 @@ class ezcPersistentSessionTest extends ezcTestCase
     public function testFindIteratorMultipleResult()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
-        $q->where( $q->expr->gt( 'id', 2 ) );
+        $q->where( $q->expr->gt( $this->session->database->quoteIdentifier( 'id' ), 2 ) );
         $objects = $this->session->find( $q, 'PersistentTestObject' );
         $this->assertEquals( 2, count( $objects ) );
 

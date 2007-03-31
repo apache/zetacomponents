@@ -494,7 +494,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
             $q = $this->session->createFindQuery( "RelationTestPerson" );
             $q->where(
                 $q->expr->eq(
-                    "id",
+                    $this->session->database->quoteIdentifier( "id" ),
                     $q->bindValue( $person->id )
                 )
             );
@@ -509,7 +509,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
             $q = $this->session->createFindQuery( "RelationTestBirthday" );
             $q->where(
                 $q->expr->eq(
-                    "person_id",
+                    $this->session->database->quoteIdentifier( "person_id" ),
                     $q->bindValue( $person->id )
                 )
             );

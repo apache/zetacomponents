@@ -351,7 +351,7 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         $q = $this->session->createFindQuery( "RelationTestBirthday" );
         $q->where(
             $q->expr->eq(
-                "person_id",
+                $this->session->database->quoteIdentifier( "person_id" ),
                 $q->bindValue( $birthday->person )
             )
         );

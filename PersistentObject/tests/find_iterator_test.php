@@ -52,7 +52,7 @@ class ezcPersistentFindIteratorTest extends ezcTestCase
 
     public function testFaultyStmtReturnsNull()
     {
-        $it = new ezcPersistentFindIterator( $this->db->prepare( "select * from PO_test" ),
+        $it = new ezcPersistentFindIterator( $this->db->prepare( "select * from " . $this->db->quoteIdentifier( "PO_test" ) ),
                                              $this->manager->fetchDefinition( 'PersistentTestObject' ) );
         $this->assertEquals( null, $it->current() );
         $this->assertEquals( null, $it->next() );
@@ -61,7 +61,7 @@ class ezcPersistentFindIteratorTest extends ezcTestCase
 
     public function testFaultyDefinitionReturnsNull()
     {
-        $it = new ezcPersistentFindIterator( $this->db->prepare( "select * from PO_test" ),
+        $it = new ezcPersistentFindIterator( $this->db->prepare( "select * from " . $this->db->quoteIdentifier( "PO_test" ) ),
                                              new ezcPersistentObjectDefinition );
         $this->assertEquals( null, $it->current() );
         $this->assertEquals( null, $it->next() );
@@ -71,7 +71,7 @@ class ezcPersistentFindIteratorTest extends ezcTestCase
     public function testValidIsInvalidBeforeRewind()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
-        $q->where( $q->expr->gt( 'id', 2 ) );
+        $q->where( $q->expr->gt( $this->db->quoteIdentifier( 'id' ), 2 ) );
         $stmt = $q->prepare();
         $stmt->execute();
         $it = new ezcPersistentFindIterator( $stmt, $this->manager->fetchDefinition( 'PersistentTestObject' ) );
@@ -82,7 +82,7 @@ class ezcPersistentFindIteratorTest extends ezcTestCase
     public function testValidIsValidWhenNextWithoutRewind()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
-        $q->where( $q->expr->gt( 'id', 2 ) );
+        $q->where( $q->expr->gt( $this->db->quoteIdentifier( 'id' ), 2 ) );
         $stmt = $q->prepare();
         $stmt->execute();
         $it = new ezcPersistentFindIterator( $stmt, $this->manager->fetchDefinition( 'PersistentTestObject' ) );
@@ -94,7 +94,7 @@ class ezcPersistentFindIteratorTest extends ezcTestCase
     public function testValidIsValidWhenRewindIsCalled()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
-        $q->where( $q->expr->gt( 'id', 2 ) );
+        $q->where( $q->expr->gt( $this->db->quoteIdentifier( 'id' ), 2 ) );
         $stmt = $q->prepare();
         $stmt->execute();
         $it = new ezcPersistentFindIterator( $stmt, $this->manager->fetchDefinition( 'PersistentTestObject' ) );
@@ -106,7 +106,7 @@ class ezcPersistentFindIteratorTest extends ezcTestCase
     public function testValidNoResults()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
-        $q->where( $q->expr->gt( 'id', 42 ) );
+        $q->where( $q->expr->gt( $this->db->quoteIdentifier( 'id' ), 42 ) );
         $stmt = $q->prepare();
         $stmt->execute();
         $it = new ezcPersistentFindIterator( $stmt, $this->manager->fetchDefinition( 'PersistentTestObject' ) );
@@ -122,7 +122,7 @@ class ezcPersistentFindIteratorTest extends ezcTestCase
     public function testValidOneResult()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
-        $q->where( $q->expr->eq( 'id', 3 ) );
+        $q->where( $q->expr->eq( $this->db->quoteIdentifier( 'id' ), 3 ) );
         $stmt = $q->prepare();
         $stmt->execute();
         $it = new ezcPersistentFindIterator( $stmt, $this->manager->fetchDefinition( 'PersistentTestObject' ) );
@@ -141,7 +141,7 @@ class ezcPersistentFindIteratorTest extends ezcTestCase
     public function testValidManyResults()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
-        $q->where( $q->expr->gt( 'id', 2 ) );
+        $q->where( $q->expr->gt( $this->db->quoteIdentifier( 'id' ), 2 ) );
         $stmt = $q->prepare();
         $stmt->execute();
         $it = new ezcPersistentFindIterator( $stmt, $this->manager->fetchDefinition( 'PersistentTestObject' ) );
@@ -166,7 +166,7 @@ class ezcPersistentFindIteratorTest extends ezcTestCase
     public function testThatOnlyOneObjectIsUsed()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
-        $q->where( $q->expr->gt( 'id', 2 ) );
+        $q->where( $q->expr->gt( $this->db->quoteIdentifier( 'id' ), 2 ) );
         $stmt = $q->prepare();
         $stmt->execute();
         $it = new ezcPersistentFindIterator( $stmt, $this->manager->fetchDefinition( 'PersistentTestObject' ) );
