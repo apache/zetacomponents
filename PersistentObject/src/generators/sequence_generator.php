@@ -33,6 +33,12 @@
 class ezcPersistentSequenceGenerator extends ezcPersistentIdentifierGenerator
 {
     /**
+     * Native generator, if sequence generator is used with MySQL or SQLite. 
+     * 
+     * @var ezcPersistentNativeGenerator
+     */
+    private $nativeGenerator;
+    /**
      * Fetches the next sequence value for PostgreSQL and Oracle implementations.
      * Fetches the next sequence value for PostgreSQL and Oracle implementations.
      * Dispatches to {@link ezcPersistentNativeGenerator} for MySQL.
@@ -46,10 +52,13 @@ class ezcPersistentSequenceGenerator extends ezcPersistentIdentifierGenerator
     {
         // We first had the native generator within here
         // For BC reasons we still allow to use the seq generator with MySQL.
-        if ( $db->getName() == "mysql" )
+        if ( $db->getName() === "mysql" || $db->getName() === "sqlite" )
         {
-            $native = new ezcPersistentNativeGenerator();
-            return $native->preSave( $def, $db, $q );
+            if ( $this->nativeGenerator === null )
+            {
+                $this->nativeGenerator = new ezcPersistentNativeGenerator();
+            }
+            return $this->nativeGenerator->preSave( $def, $db, $q );
         }
 
         if ( isset( $def->idProperty->generator->params["sequence"] ) )
