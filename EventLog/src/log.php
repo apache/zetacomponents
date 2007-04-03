@@ -567,7 +567,7 @@ class ezcLog
      * Notice that the ezcLog component is not loaded at all when the logging is disabled.
      *
      * @param int $errno
-     * @param int $erstr
+     * @param int $errstr
      * @param string $errfile
      * @param int $errline
      */
