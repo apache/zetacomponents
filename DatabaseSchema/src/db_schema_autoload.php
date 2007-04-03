@@ -8,6 +8,9 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @ignore
  */
+
+ezcBase::checkDependency( 'DatabaseSchema', ezcBase::DEP_PHP_EXTENSION, 'simplexml' );
+
 return array(
     'ezcDbSchema'                       => 'DatabaseSchema/schema.php',
     'ezcDbSchemaDiff'                   => 'DatabaseSchema/schema_diff.php',
