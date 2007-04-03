@@ -1,6 +1,7 @@
 1.3beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed issue #8433: ezcBase::getRepositoryDirectories() problems.
 - Implemented issue #9569: Add "autoload.php" as 3rd fallback autoload file to
   search for.
 - Added exception class ezcBaseExtensionNotFoundException to be thrown when an

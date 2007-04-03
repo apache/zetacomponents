@@ -14,6 +14,8 @@ return array(
     'ezcBaseOptions'                       => 'Base/options.php',
     'ezcBaseStruct'                        => 'Base/struct.php',
 
+    'ezcBaseRepositoryDirectory'           => 'Base/structs/repository_directory.php',
+
     'ezcBaseException'                     => 'Base/exceptions/exception.php',
     'ezcBaseFileException'                 => 'Base/exceptions/file_exception.php',
 

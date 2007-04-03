@@ -381,23 +381,21 @@ class ezcBase
      * 
      * The path to the eZ components directory is always included in the result
      * array. Each element in the returned array has the format of:
-     * packageDirectory => array( $type, autoloadDirectory )
-     * The $type is either "ezc" for the eZ components directory or "external"
-     * for external repositories.
+     * packageDirectory => ezcBaseRepositoryDirectory
      *
-     * @return array(string=>array)
-     * @access private
+     * @return array(string=>ezcBaseRepositoryDirectory)
      */
     public static function getRepositoryDirectories()
     {
         $autoloadDirs = array();
         ezcBase::setPackageDir();
         $repositoryDir = self::$currentWorkingDirectory ? self::$currentWorkingDirectory : ( realpath( dirname( __FILE__ ) . '/../../' ) );
-        $autoloadDirs['ezc'] = array( 'ezc', $repositoryDir . "/autoload" );
+        $autoloadDirs['ezc'] = new ezcBaseRepositoryDirectory( ezcBaseRepositoryDirectory::TYPE_INTERNAL, $repositoryDir, $repositoryDir . "/autoload" );
 
         foreach ( ezcBase::$repositoryDirs as $extraDirKey => $extraDirArray )
         {
-            $autoloadDirs[$extraDirKey] = array( 'external', $extraDirArray['autoloadDirPath'] );
+            $repositoryDirectory = new ezcBaseRepositoryDirectory( ezcBaseRepositoryDirectory::TYPE_EXTERNAL, realpath( $extraDirArray['basePath'] ), realpath( $extraDirArray['autoloadDirPath'] ) );
+            $autoloadDirs[$extraDirKey] = $repositoryDirectory;
         }
         
         return $autoloadDirs;

@@ -309,9 +309,14 @@ class ezcBaseTest extends ezcTestCase
            $this->fail( "No packageDir found in result of getRepositoryDirectories()" );
         }
 
-        if ( !isset( $resultArray[0] ) || $resultArray[0][1] != './autoload' )
+        if ( !isset( $resultArray[0] ) || $resultArray[0]->basePath != getcwd() )
         {
-            $this->fail( "Extra autoload dir '{$resultArray['.'][1]}' is added incorrectly" );
+            $this->fail( "Extra base dir '{$resultArray[0]->basePath}' is added incorrectly" );
+        }
+
+        if ( !isset( $resultArray[0] ) || $resultArray[0]->autoloadPath != getcwd() . '/autoload' )
+        {
+            $this->fail( "Extra autoload dir '{$resultArray[0]->autoloadPath}' is added incorrectly" );
         }
     }
 
@@ -333,9 +338,9 @@ class ezcBaseTest extends ezcTestCase
            $this->fail( "No packageDir found in result of getRepositoryDirectories()" );
         }
 
-        if ( !isset( $resultArray[2] ) || $resultArray[2][1] != './Base/tests/test_repository/autoload_files' )
+        if ( !isset( $resultArray[2] ) || $resultArray[2]->autoloadPath != getcwd() . '/Base/tests/test_repository/autoload_files' )
         {
-            $this->fail( "Extra autoload dir '{$resultArray[2][1]}' is added incorrectly" );
+            $this->fail( "Extra autoload dir '{$resultArray[2]->autoloadPath}' is added incorrectly" );
         }
 
         self::assertEquals( true, class_exists( 'trBasetestClass', true ) );
@@ -395,6 +400,9 @@ class ezcBaseTest extends ezcTestCase
 
         self::assertEquals( true, array_key_exists( 'ezc', $resultArray ) );
         self::assertEquals( true, array_key_exists( 'tr', $resultArray ) );
+
+        self::assertEquals( getcwd() . '/Base/tests/test_repository', $resultArray['tr']->basePath );
+        self::assertEquals( getcwd() . '/Base/tests/test_repository/autoload_files', $resultArray['tr']->autoloadPath );
     }
 
     public function testNoPrefixAutoload()
