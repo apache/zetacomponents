@@ -72,7 +72,7 @@ The example image and printed output is shown below:
 Configuring handlers
 --------------------
 
-Like ezcImageConversion, ezcImageAnalyzer is based on handler classes, which
+Like ezcImageConverter, ezcImageAnalyzer is based on handler classes, which
 allow it to utilize different back-ends for image analysis. The currently
 implemented handlers are:
 

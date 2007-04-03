@@ -13,8 +13,8 @@ inheritance structure to work.
 PersistentObject is built to be fast and flexible, allowing you to build
 persistent classes in the same way as any other class in your application. It
 also utilizes the query abstraction layer of the Database component to make it
-easy to build queries. Please refer to the API documentation of ezcDatabase for
-detailed examples on how to use the query abstraction layer.
+easy to build queries. Please refer to the API documentation of ezcQuerySelect
+for detailed examples on how to use the query abstraction layer.
 
 The PersistentObjectDatabaseSchemaTiein component allows you to automatically
 generate the definition files needed by PersistentObject from a database schema

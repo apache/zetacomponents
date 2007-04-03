@@ -97,7 +97,7 @@ out, the cache will have a lifespan of 24 hours. On line 9, the cache
 configuration is stored in the cache
 manager. The created `cache`_ uses the `cache identifier`_ "simple" and will reside in the directory
 /tmp/cache/plain. (Note: This directory must exist and must be writable!) To store a `cache item`_, the storage
-class ezcConsoleStorageFilePlain will be used.
+class ezcCacheStorageFilePlain will be used.
 
 Line 11 defines a `cache key`_ for a cache item. The next line defines a
 second unique `cache key`_ for a second cache item. After that (line 14), the
