@@ -1,5 +1,5 @@
-{use $quote}
-{$quote}
+{use $a, $b}
 
-{var $number = 6}
-{return $number}
+{var $answer = $a + $b}
+
+{return $answer}

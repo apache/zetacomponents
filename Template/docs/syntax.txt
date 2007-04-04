@@ -4,48 +4,179 @@ eZ components - Template component
 .. contents:: Table of Contents
 
 
-Template language
-=================
+Introduction
+============
+The template component provides a manageable way to separate 
+application logic from presentation data. The application logic is the PHP code
+of your application, including the call to the Template component. Presentation
+data are the template files.
 
+The separation of application logic and presentation data is easier to
+maintain and allows different people to work on separate parts. Another
+advantage is that the template language is more suitable for non programmers and 
+web designers. The language is designed to be easier to use and contains more
+expressive constructs for repetitive tasks in the presentation data.
+
+
+Class overview
+==============
+
+The following list sums up the most important API classes:
+
+ezcTemplate
+  This class provides the main API for processing templates. This class
+  compiles the template to PHP code, executes it, and returns the result.
+
+ezcTemplateConfiguration
+  This class configures the Template engine. Settings like: where to find the
+  source templates, where to store the compiled templates, the type of
+  context to use, are stored in this class. 
+
+ezcTemplateVariableCollection
+  The variables that should be send to the template or retrieved from the
+  template are stored in the object from this class.
+ 
+More information about these classes can be found in the documentation of the
+class itself. 
+
+
+Template component
+==================
+
+This section describes how to use the template component in your PHP
+application. How to write the templates itself is described in the next
+section. 
+
+
+Getting started
+---------------
+
+The simplest example we can come up with is writing "Hello world" to your
+standard output. Basically it consists of two steps:
+
+The first step is to create a text file "hello_world.ezt" that contains 
+only one line::
+
+    Hello world
+
+and store it in the directory where your application sources reside. 
+
+The next step is to copy the following PHP script, and check if the application
+works.
+
+.. include:: tutorial_simple.php
+   :literal:
+
+If you run your application, it should print "Hello world". Otherwise
+check that:
+
+- The base class can be found. Check your 'include\_path' in the PHP.ini
+  settings, and see if the components are included.
+- The template "hello\_world.ezt" can be found. Write the absolute
+  path to your hello\_world template in the 'process' method.
+- The template engine can write to the current directory. The next 
+  section explains how another output directory can be specified.  
+
+
+Configuring the template engine
+-------------------------------
+Templates are not always stored in your local directory and neither do you
+want to store the compiled templates among your source files. Therefore we
+have to change the configuration:
+
+.. include:: tutorial_configuration.php
+   :literal:
+
+If you try to copy/paste and run this example, you'll probably get the
+following output::
+
+    Fatal error: Uncaught exception 'ezcTemplateFileNotFoundException' with message 
+    'The requested template file </usr/share/templates/hello_world.ezt> does not exist.'
+
+This error shows that the template engine looks in the "/usr/share/templates" directory 
+for the templates.
+
+The ezcTemplate class calls the getInstance() method from the ezcTemplateConfiguration
+class and retrieves the "default" configuration. It is possible to set multiple
+configurations, which is demonstrated in the next example:
+
+.. include:: tutorial_multi_configuration.php
+   :literal:
+
+Running this example will produce the following output::
+
+    The requested template file <html/hello_world.ezt> does not exist.
+
+    The requested template file <printer/hello_world.ezt> does not exist.
+
+    The requested template file <pdf/hello_world.ezt> does not exist.
+
+
+As demonstrated, the Template configuration can be set in the 'configuration' property,
+given as second parameter in the process method, or use the 'default'
+getInstance configuration.
+
+
+Send and receive template variables
+-----------------------------------
+More often than not a PHP application sends variables to the template engine.
+Commonly those variables are displayed. It is also possible to retrieve 
+variables from a template. The next example sends two variables to a template.
+The values are added and placed in a new variable that is returned. The code
+below is the PHP code needed to send the variables to the template.
+
+
+.. include:: tutorial_variable_send_receive.php
+   :literal:
+
+
+The template code is as follows:
+
+.. include:: tutorial_variable_send_receive.ezt
+   :literal:
+
+
+As you can expect the result is::
+
+    Answer: 5 
+
+
+
+Template syntax
+===============
+This section explains the syntax that can be used in the template itself.  
 
 Basic syntax
 ------------
-The template engine considers blocks, statements embedded in an open and a
-close curly brace '{ .. }', as code. Everything outside a block is parsed as
-text. The next example shows a template that does a simple calculation::
+The template engine considers statements embedded in curly braces '{ .. }' as
+code.  Everything outside a block is parsed as text. The following example
+shows a template that does a simple calculation::
 
   5 times 3 equals: { 5*3 }
 
-The sum between the braces will be calculated and printed. 
+This example consists of two parts. The first part is the text up to the
+opening curly brace. The second part is the code between the braces. Text
+outside braces will always be printed. The code inside braces will be executed.
+If the code does not modify a variable then the output of the executed code 
+will also be printed. The example will of course print::
 
-The curly braces '{..}' are used in the creation of a template block. 
-Therefore these tags cannot be used directly in plain text anymore. 
-To get around this, there are four options:
+  5 times 3 equals: 15 
 
-- Place the braces in a text string.
-- Escape the curly braces.
-- Use the {ldelim} and {rdelim} template block.
-- Use the {literal} tag.
 
-Text string
-```````````
-Place the curly braces in a single quoted or double quoted text string. The
-text string will then output the curly braces normally::
+Curly braces separate text from template code. Therefore these braces cannot be
+used in the text directly. To use curly braces there are several
+possibilities. The most common are to use escape characters or use the literal
+tag.
 
-  Draw line: {"{"} (4, 10), (3, 5) {"}"}
-
-The output of the line above is: *Draw line: { (4,10), (3, 5) }*.
-  
 
 Escape characters
 `````````````````
-A character can be escaped with a backslash (\\). In the text are three
-characters available that can be escaped. Those are the: 
+A character can be escaped with a backslash (\\). In the text, three
+characters can be escaped. Those are: 
 
-- Opening curly brace  '{' , 
-- Closing curly brace '}',
-- Newlines, and
-- The escape character, backslash itself '\\'.  
+- Open and close curly braces: '{' and '}'.
+- Newlines: '\n'.
+- The escape character, backslash: '\\'.  
 
 The next example shows how to escape those characters::
 
@@ -63,24 +194,15 @@ normally::
   Multiple lines becomes one
 
 
-{ldelim} and {rdelim} blocks
-````````````````````````````
-The specialized *ldelim* and *rdelim* blocks can be used to output,
-respectively, the '{' and '}' characters::
-
-  Draw line: {ldelim} (4, 10), (3, 5) {rdelim}
-
-The output of the line above is: *Draw line: { (4,10), (3, 5) }*. Using a
-backslash to escape the curly braces is shorter, but may be more confusing when
-the backslash is used frequently.
-
-
 Literal tags
 ````````````
-If you want to enter lots of code or text which should not be processed by the
-template language you can place the code inside *literal* blocks. Any text
-within this block is read as it is (including back slashes). Text is read until
-the *{/literal}* is reached::
+Literal tags are used when the text needs to be processed as it is (literally). The 
+curly braces don't need to be escaped and escape characters can be used.
+Usually javascript is surrounded by literal tags in the templates. The curly
+braces don't need to be escaped. 
+
+The next example demonstrates how the escaped characters from the previous example can be
+omitted with literal tags: ::
 
   {literal}
   Draw line: { (4, 10), (3, 5) }
@@ -91,13 +213,8 @@ the *{/literal}* is reached::
 Comments
 --------
 Comments are text blocks which are stripped away from the output when the
-template is executed. Comments can be standalone, spanning an entire tag, or
-placed in-line in template code.
-
-Comments are usually used to explain what or why something is done or to comment
-out code which should no longer be used.
-
-The template engine supports three types of comments:
+template is compiled and executed. The template engine supports three types 
+of comments:
 
 - Code comments start and end with, respectively, '{\*' and  '\*}' tags.
 - Multi-line in-line comment, starts with '/\*' and ends with '\*/'.
@@ -107,10 +224,10 @@ The template engine supports three types of comments:
 
 Code comments
 `````````````
-Code comments start and end with, respectively, '{\*' and  '\*}' tags.
-Everything inside is considered as comments::
+Code comments start and end with:'{\*' and  '\*}' tags, respectively.
+Everything inside those tags is considered as comment::
 
-  {* Variable $i alternates the value 0 and 1*}
+  {* Variable $i alternates the value 0 and 1 *}
   {$i = 1 - $i}
 
   {* {if $i == 0}
@@ -120,7 +237,7 @@ Everything inside is considered as comments::
      {/if}
   *}
 
-Writing only *{$i = 1 - $i}* would have the same output.
+Writing only *{$i = 1 - $i}* would have had the same output.
 
 
 Multi-line in-line comment
@@ -142,7 +259,7 @@ visible in the output::
 
   { /* var $a = 1 */ }
  
-And is of course the same as writing: *{ }*.
+And is of course the same as writing: *{ }*. The empty block will be ignored.
 
 
 Single-line in-line comment
@@ -159,8 +276,8 @@ curly brace '}'::
 This example declares the variables *$a* and *$c* and assigns in the second
 statement the value 4 to variable *$a*.
 
-Types
------
+Primitive types
+---------------
 
 The template language supports several primitive types:
 
@@ -174,19 +291,19 @@ The template language supports several primitive types:
 
 Boolean
 ```````
-The boolean type contains either the value: 'true' or the value
-'false'. The next example assigns the value 'true' to the variable $isValid::
+The boolean type contains either the value: *true* or the value
+*false*. The next example set the *$isValid* variable to *true*. ::
 
   {var $isValid = true}
 
-Some of the operators return also boolean value. For example the '==' operator
-returns always a boolean value. The Expressions_ section discusses the operators 
-in more detail. The next example uses the '==' operator:: 
+Some of the operators return boolean values. An example is the '==' operator.
+The Expressions_ section discusses the operators in more detail. The next
+example uses the '==' operator:: 
 
   {var $isValid = ($number == 6) }
 
-It checks first whether the variable $number is equal to the value 6. The
-result is either the boolean value 'true' or 'false'.  The result is assigned
+It checks first whether the variable *$number* is equal to the value 6. The
+result is either *true* or *false*.  The result is assigned
 to the variable *$isValid*.
 
 
@@ -200,20 +317,8 @@ the number needs to be converted with the appropriate function. Examples are::
     {math_hex_to_dec("1F")}
 
 See the methods: math_bin_to_dec, math_hex_to_dec, math_oct_to_dec, math_dec_to_bin,
-ath_dec_to_hex, and math_dec_to_oct.
-
-.. Integers can be specified in a decimal, hexadecimal, or octal notation. The
-.. number itself can be preceded with either a minus or a plus operator. Octal
-.. numbers start with a zero, and hexadecimal numbers start with '0x' Some
-.. examples are::
-.. 
-..   {2}     {// Decimal number}
-..   {-42}   {// Decimal number}
-..   {+100}  {// Decimal number}
-.. 
-..   {01000}  {// Octal number}
-.. 
-..   {0x1AB}  {// Hexadecimal number}
+ath_dec_to_hex, and math_dec_to_oct for more information about those
+conversions.
 
 
 Float
@@ -227,11 +332,11 @@ Floating point numbers are values that contain a real value. Some examples::
 It is also possible to express an exponent in the float. The exponent is marked
 with the character 'e' or 'E' followed by one or more digits::
 
-  {1.0e3 // 1000  }
-  {2e4   // 20000 }
-  {1e-2  // 0.01  }
-  {0.1e-2  // 0.001}
-  {-3.1e2  // -310 }
+  {1.0e3   // 1000  }
+  {2e4     // 20000 }
+  {1e-2    // 0.01  }
+  {0.1e-2  // 0.001 }
+  {-3.1e2  // -310  }
 
 
 String
@@ -242,7 +347,7 @@ quotes::
     {'a string'    // Using single quotes }
     {"hello world" // Using double quotes }
 
-In the string we use the backslash (\) as escape character. For the single
+In the string we use the backslash (\\) as escape character. For the single
 quoted string the escape characters are:
 
 +-------------+-------------+
@@ -333,13 +438,13 @@ To access the information::
   {$personInfo["last_name"] // Outputs "Black"} 
 
 
-The second method to create an array is::
+The second method to create an array is to use the *..* (dot-dot) operator ::
 
   <number1>..<number2>
 
-This method creates an array that contains the numbers from *number1* to
-<number2>. The next example creates an array with the numbers: 3, 4, 5, 6, and
-7.
+The operator creates an array that contains the numbers from *number1* to
+*number2*. The next example creates an array that contains the numbers: 3, 4, 5, 6, 
+and 7.
  
   {var $nrs = 3..7 }
   {$nrs[0] // Outputs 3} 
@@ -357,7 +462,7 @@ The Foreach_ section describes this loop in more detail.
 Object
 ``````
 Objects are only available when they are sent from the user application. It is
-not possible to create an object in the template language only. The template
+not possible to create an object inside the template language. The template
 language restricts the accessibilities from the object only to its properties;
 thus function calls are not permitted.  The next example is a part of an user
 application that sends an object to a template::
@@ -389,8 +494,8 @@ template code that belongs to the user application::
   
   {use $obj // Import the "obj" }
 
-  {$obj->Bernard // Calls the  __get method on the object and returns "Hello Bernard"} 
-  {$obj->Bernard = "Fran" // Calls the __set method on the object and throws an exception}
+  {$obj->Bernard // Calls the  __get method on the object which returns "Hello Bernard"} 
+  {$obj->Bernard = "Fran" // Calls the __set method that throws an exception}
 
 
 More information about importing objects is described in the `External variable
@@ -399,15 +504,14 @@ declaration (use)`_ section.
 
 Variables
 ---------
-Before a variable can be used for the first time it needs to be declared. A
-declaration defines a unique name that will be available from now on
-until the end of the template. The next example declares a local variable with the
-name the\_answer\_to\_life\_the\_universe\_and\_everything and assigns a value to it::
+A variable can only be used after it has been declared. A
+declaration defines a unique variable name that will be available from now 
+until the end of the template. The next example declares a local variable::
 
   {* Declare the variable *}
   {var $the_answer_to_life_the_universe_and_everything}
 
-  {* Assign the value 42 to it *}
+  {* Assign it to 42 *}
   {$the_answer_to_life_the_universe_and_everything = 42}
 
 
@@ -428,86 +532,86 @@ numbers, or underscores::
   {var $dumb&dumber *}
 
 
-The template language has three types of variable declaration:
-
-:var: Declares a local variable. (We used this in the previous examples).
-:use: Imports an external variable. 
-:cycle: Declares a cycle variable. 
+The template language has three types of variable declaration: *var*, *use* and
+*cycle*. *Var* declares a local variable as used in the previous
+example, *use* imports an external variable, and *cycle* declares a cycle 
+variable. 
 
 
 Local variable declaration (var)
 ````````````````````````````````
-The declaration of a local variable creates a variable that has no value from
-the outside. Outside can be the application that compiles and executes the 
-template. 
+The declaration of a local variable creates a variable that has only a value 
+inside the current template. 
 
 The syntax to declare a local variable is::
     
   {var $<unique_name> [ = <value> ] [ , $<unique_name2> [ = <value> ] ] }
 
 
-One or multiple variables can be declared with one {var} statement. A value can
+One or multiple variables can be declared with one *var* statement. A value can
 be assigned to the variable name, directly. If no value is given to the
-variable, then it will get the default value: null. 
+variable, then it will get the default value *null*. 
 
 The next example declares four variables at the same time::
 
   {var $a = 2, $b = "Hello World", $c = true, $d}
 
+All variables are initialized to a value. (The last variable is initialized to
+*null*.)
+
 
 External variable declaration (use)
 ```````````````````````````````````
 The declaration of an external variable creates a variable that usually has a
-value from the outside (user application). The syntax for this type of variable
+value from outside the current template. Outside the current template is, for
+example, the application that compiles and executes the template. 
+
+The syntax for this type of variable
 is as follows::
 
-  {use $<name> [ = <value> ] [ , $<name2> [ = <value> ] ] }
+  {use $<unique_name> [ = <value> ] [ , $<unique_name2> [ = <value> ] ] }
 
-As you can see, the only difference with the local variable declaration is the
-tag 'use'. 
+Besides the *use* tag it is the same syntax as a local variable declartion.
 
-The variable will be imported from the application and can be used in the
-template. If the imported variable name is not assigned to a value then it will
-get the default value from the assignment. One of the reasons that a variable
-has no value is that the variable is not made available by the user
-application.
+The variable will be imported from the user application or another template and
+is now available in the current template. If the declared *use* variable is not
+sent to the current template an exception will be raised **unless** the
+declared variable is initialized to a value.
 
-The next example shows a part of the user application, using the template
-engine::
+::
+    {use $a, $b = 2}
 
-    $a = 1;
-    $b = 2;
-    $c = 3;
+Variable *$b* will be assigned to the value *2 * if the variable is not sent to
+the template. Variable *$a* will raise an Exception when the variable is not
+sent. 
+
+
+The next example shows a part of the user application::
 
     $t = new ezcTemplate();
 
     // Send some information to the Template
-    $t->send->firstname = "Bernard"
-    $t->send->lastname = "Black";
-    $t->send->age = 31;
+    $t->send->item1 = "Toaster";
+    $t->send->item2 = "Manny";
 
-    // Process the template and echo it.
+    // Process the template and print it.
     echo $t->process();
 
 
-The variables: $username, $nickname, and $age can be 'used' by the template::
+The variables $item1 and $item2 are now available in the template if they are
+declared with *use*::
 
-  {use $firstname = "unknown", $lastname = "unknown"}
-  {use $age = 0, $length = 0}
+  {use $item1 = "unknown", $item2 = "unknown"}
 
-  {$firstname} {$lastname} his/her age is: {$age}
+  Use {$item1} on {$item2}
 
 
-The variable $length (if it was used) will get the value 0, because the user 
-application does not assign a value to it.
-
-More information about importing variables is described in the Include_ section.
 
 Cycles
 ``````
 A cycle is a special type of variable that contains a set of values. The cycle
-variable should always be assigned to an array. Retrieving a value from the
-cycle is one array element at the time. Specific control structures are available to cycle
+variable must be assigned to an array. Values are retrieved one array element at 
+the time.  Specific control structures are available to cycle
 through the set of values. The syntax for the cycle is::
 
   {cycle $<unique_name> [ = <array_value> ] [ , $<unique_name2> [ = <array_value> ] ] }
@@ -522,8 +626,8 @@ second value::
   {cycle $rgb = array( "red", "green", "blue" ) }
 
   {$rgb // Print "red"} 
-  {$rgb // Print "red" again} 
-  {increment $rgb // Go to the next element in the set}
+  {$rgb // Print "red"} 
+  {increment $rgb // Go to the next element}
 
   {$rgb // Print "green"}
 
@@ -591,7 +695,7 @@ a special tag. But expressions are also used in template blocks with a tag and
 gives merely a value. PHP quotes the expression as "Anything that gives a
 value", that is also true for the template syntax.
 
-Expressions can be a single *operands* that returns a value. It is also possible
+Expressions can be a single *operand* that returns a value. It is also possible
 to combine multiple operands with *operators*. The value returned depends
 on the used operands and operators.
 
@@ -786,8 +890,8 @@ A function call has the following syntax::
 
 An example::
 
-  {var $res = str_compare( "Hello", "Blaat" ) }
-  {$res // Contains false}
+  {var $res = str_compare( "Hello", "world" ) }
+  {$res // prints the result}
 
 
 All template functions follow these rules:
@@ -801,12 +905,12 @@ All template functions follow these rules:
 Contexts
 --------
 The purpose of the context is simplify the development of the templates and
-make the templates more secure. The Context defines the purpose of the template
-output. For example the XHTML Context should be set for the templates that
+make the templates more secure. The context defines the purpose of the template
+output. For example the XHTML context should be set for the templates that
 generate (X)HTML output. 
 
-When a template is processed and executed, it runs with a specific context. By
-default the context is set to XHTML, but it can also be specified manually. The
+When a template is processed and executed, it runs in a specific context.  The 
+context is set to XHTML by default. The
 next example shows a part of a user application that specifies the XHTML
 context::
 
@@ -863,10 +967,8 @@ See the Raw_ section for more information.
 
 No Context
 ``````````
-The No Context does not escape any characters. This context is available merely
-for testing purposes. 
-
-
+The No Context does not escape any characters. Usefull for text output and
+testing purposes.
 
 
 Control structures
@@ -939,26 +1041,20 @@ less than $b::
 
 
 The *else* construct can be used in an *if* statement. It contains a code
-fragment that will be executed if the <expression> evaluates to false::
+fragment that will be executed if the *expression* evaluates to false::
   
-  {if <expression> }
-     <code1>
+  {if expression }
+     code1
   {else}
-     <code2>
+     code2
   {/if}
 
-The <code2> is executed when the expression is false. Otherwise <code1> is
-executed. The next example outputs "$a does not contain the value 5!" if the
-expression doesn't match::
+The *code2* is executed when the expression is false. Otherwise *code1* is
+executed. 
 
-  {if $a == 5}
-      $a contains the value 5!
-  {else}
-      $a does not contain the value 5!
-  {/if}
-
-
-The *elseif* construct can also be used in an *if* statement::
+The *elseif* construct can be used in an *if* statement. It adds an extra
+expression and code block that will be evaluated and executed when the
+(previous) expression from the *if* statement does not evaluate to true::
 
     {if $weekday == 0}
         Monday
@@ -971,8 +1067,8 @@ The *elseif* construct can also be used in an *if* statement::
     {/if}
 
 
-Writing directly an *elseif* statement is the same as writing them with
-separate *if* and *else* statements::
+Writing an *elseif* statement is actually the same as writing them with
+separate *if* and *else* statements. The previous example could be written as::
 
     {if $weekday == 0}
          Monday
@@ -1005,13 +1101,13 @@ The syntax is as follows::
     {/switch}
     
 
-The case blocks::
+A *case* block has the following syntax::
 
     {case <literal> [, <literal>, ..]}
         <code>
     {/case}
 
-And the default::
+And the *default* is as follows::
 
     {default}
         <code>
@@ -1060,8 +1156,8 @@ First we'll show the basic syntax::
   {/foreach}
 
 Two foreach structures are shown. The first structure takes each element from
-the <array> and assigns it to the variable <value>. The second structure does
-the same, except that the key of the array is assigned to the variable <key>.
+the *array*> and assigns it to the variable *<value*>. The second structure does
+the same, except that the key of the array is assigned to the variable *key*.
 
 An example for each structure::
 
@@ -1092,7 +1188,7 @@ using the while_ structure. This is demonstrated next::
    Iteration {$i}
    {/foreach}
   
-This works of course because the "1..10" statement creates an array with the
+This works because the *1..10* statement creates an array with the
 values from 1 until 10. 
 
 Often a foreach is used to create some kind of table or list. Several extensions 
@@ -1164,7 +1260,7 @@ while evaluates to true. The syntax of the while loop is as follows::
     {/while}
 
 Usually the expression evaluates whether a counter reaches a certain number. In
-the <code> the counter in increased or decreased::
+the *code* the counter is increased or decreased::
 
     {var $i = 0}
     {while $i < 10}
@@ -1236,7 +1332,7 @@ iteration. If a delimiter is available in the looping structure then this
 delimiter will be added. Use the Skip_ statement to skip also the delimiter.
 
 The next example show the numbers 1 to 5 separated with a comma. After the
-numbers 1, 2, and 3 is the word "beer" appended. As the example shows, the
+numbers 1, 2, and 3 is the token # appended. As the example shows, the
 numbers higher than 3 will not execute the rest of the foreach anymore. The
 delimiter is added anyway::
 
@@ -1248,14 +1344,14 @@ delimiter is added anyway::
 
   {$i}
   {if $i > 3} {continue} {/if}
-  beer
+  #
   {/foreach}
 
 The output of the template is::
 
-  1 beer,
-  2 beer, 
-  3 beer,
+  1 #,
+  2 #, 
+  3 #,
   4 ,
   5
 
@@ -1265,7 +1361,7 @@ Skip
 ````
 The skip is the same as a continue, except that the delimiter in the loop will
 be skipped also.  The next example show the numbers 1 to 5. The number 1, 2,
-and 3 have the word "beer" appended and are  separated with a comma. 
+and 3 have the token # appended and are separated with a comma. 
 As the example shows, the numbers higher than 3 will not execute the rest of the
 foreach anymore and the delimiter is not appended::
 
@@ -1277,14 +1373,14 @@ foreach anymore and the delimiter is not appended::
 
   {$i}
   {if $i > 3} {skip} {/if}
-  beer
+  #
   {/foreach}
 
 And outputs::
 
-  1 beer,
-  2 beer,
-  3 beer
+  1 #,
+  2 #,
+  3 #,
   4
   5
 

@@ -3,14 +3,14 @@ require_once 'tutorial_autoload.php';
 
 $t = new ezcTemplate();
 
-// Send the variable: $quote to the template. 
-$t->send->quote = "I am not a number, I am a free man.";
+$t->send->a = 2;
+$t->send->b = 3;
 
 // Process it. 
-$t->process( "send_receive.ezt" );
+$t->process( "tutorial_variable_send_receive.ezt" );
 
-// Retrieve the $number variable from the template. 
-echo "You are number " . $t->receive->number . "\n";
+// Retrieve the $answer variable from the template. 
+echo "Answer: " . $t->receive->answer . "\n";
 
 // Show the output.
 echo $t->output;
