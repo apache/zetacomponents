@@ -147,7 +147,7 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
 
         $textAngle = $axisAngle + 
             deg2rad( $this->angle ) + 
-            ( $axis->position & ( ezcGraph::TOP | ezcGraph::BOTTOM ) ? deg2rad( 270 ) : $ninety = deg2rad( 90 ) );
+            ( $axis->position & ( ezcGraph::TOP | ezcGraph::BOTTOM ) ? deg2rad( 270 ) : deg2rad( 90 ) );
         $degTextAngle = rad2deg( $textAngle );
 
         $this->offset = min( 1, -cos( $textAngle ) / sin( $textAngle ) );
@@ -185,8 +185,8 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
         foreach ( $steps as $nr => $step )
         {
             $position = new ezcGraphCoordinate(
-                $start->x + ( $end->x - $start->x ) * $step->position,
-                $start->y + ( $end->y - $start->y ) * $step->position
+                $start->x + ( $end->x - $start->x ) * $step->position * abs( $this->direction->x ),
+                $start->y + ( $end->y - $start->y ) * $step->position * abs( $this->direction->y )
             );
     
             $stepSize = new ezcGraphCoordinate(
@@ -229,7 +229,7 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
                     break;
             }
 
-            $labelSize -= $labelSize * cos( deg2rad( $this->angle ) ) / 2;
+            $labelSize = $labelSize * cos( deg2rad( $this->angle ) );
 
             if ( $degTextAngle >= 90 && $degTextAngle < 270 )
             {
