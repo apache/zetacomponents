@@ -318,11 +318,25 @@ class ezcGraphGdDriver extends ezcGraphDriver
      * @param ezcGraphColor $color Font color
      * @param ezcGraphCoordinate $position Position
      * @param float $size Textsize
-     * @param ezcGraphColor $color Textcolor 
+     * @param ezcGraphRotation $rotation
+     *
      * @return void
      */
-    protected function renderText( $image, $text, $type, $path, ezcGraphColor $color, ezcGraphCoordinate $position, $size )
+    protected function renderText( $image, $text, $type, $path, ezcGraphColor $color, ezcGraphCoordinate $position, $size, ezcGraphRotation $rotation = null )
     {
+        if ( $rotation !== null )
+        {
+            // Rotation is relative to top left point of text and not relative
+            // to the bounding coordinate system
+            $rotation = new ezcGraphRotation(
+                $rotation->getRotation(),
+                new ezcGraphCoordinate(
+                    $rotation->getCenter()->x - $position->x,
+                    $rotation->getCenter()->y - $position->y
+                )
+            );
+        }
+
         switch ( $type )
         {
             case ezcGraph::PS_FONT:
@@ -333,8 +347,14 @@ class ezcGraphGdDriver extends ezcGraphDriver
                     $size, 
                     $this->allocate( $color ), 
                     1, 
-                    $position->x, 
-                    $position->y 
+                    $position->x + 
+                        ( $rotation === null ? 0 : $rotation->get( 0, 2 ) ),
+                    $position->y + 
+                        ( $rotation === null ? 0 : $rotation->get( 1, 2 ) ),
+                    0,
+                    0,
+                    ( $rotation === null ? 0 : -$rotation->getRotation() ),
+                    4
                 );
                 break;
             case ezcGraph::TTF_FONT:
@@ -344,9 +364,11 @@ class ezcGraphGdDriver extends ezcGraphDriver
                         imageFtText(
                             $image, 
                             $size,
-                            0,
-                            $position->x,
-                            $position->y,
+                            ( $rotation === null ? 0 : -$rotation->getRotation() ),
+                            $position->x + 
+                                ( $rotation === null ? 0 : $rotation->get( 0, 2 ) ),
+                            $position->y + 
+                                ( $rotation === null ? 0 : $rotation->get( 1, 2 ) ),
                             $this->allocate( $color ),
                             $path,
                             $text
@@ -356,9 +378,11 @@ class ezcGraphGdDriver extends ezcGraphDriver
                         imageTtfText(
                             $image, 
                             $size,
-                            0,
-                            $position->x,
-                            $position->y,
+                            ( $rotation === null ? 0 : -$rotation->getRotation() ),
+                            $position->x + 
+                                ( $rotation === null ? 0 : $rotation->get( 0, 2 ) ),
+                            $position->y + 
+                                ( $rotation === null ? 0 : $rotation->get( 1, 2 ) ),
                             $this->allocate( $color ),
                             $path,
                             $text
@@ -413,6 +437,7 @@ class ezcGraphGdDriver extends ezcGraphDriver
                 'height' => $height,
                 'align' => $align,
                 'font' => $this->options->font,
+                'rotation' => $rotation,
             );
         }
         else
@@ -539,6 +564,14 @@ class ezcGraphGdDriver extends ezcGraphDriver
                 );
             }
 
+            if ( $text['rotation'] !==  null )
+            {
+                foreach ( $borderPolygonArray as $nr => $point )
+                {
+                    $borderPolygonArray[$nr] = $text['rotation']->transformCoordinate( $point );
+                }
+            }
+
             if ( $text['font']->background !== false )
             {
                 $this->drawPolygon( 
@@ -587,6 +620,25 @@ class ezcGraphGdDriver extends ezcGraphDriver
                         break;
                 }
 
+                // Calculate relative modification of rotation center point
+                if ( $text['rotation'] !== null )
+                {
+                    $rotation = new ezcGraphRotation(
+                        $text['rotation']->getRotation(),
+                        new ezcGraphCoordinate(
+                            $text['rotation']->getCenter()->x + 
+                                $position->x - $text['position']->x,
+                            $text['rotation']->getCenter()->y + 
+                                $position->y - $text['position']->y
+                        )
+                    );
+                    $rotation = $text['rotation'];
+                }
+                else
+                {
+                    $rotation = null;
+                }
+
                 // Optionally draw text shadow
                 if ( $text['font']->textShadow === true )
                 {
@@ -600,7 +652,8 @@ class ezcGraphGdDriver extends ezcGraphDriver
                             $position->x + $text['font']->textShadowOffset,
                             $position->y + $text['font']->textShadowOffset
                         ),
-                        $size
+                        $size,
+                        $rotation
                     );
                 }
                 
@@ -612,7 +665,8 @@ class ezcGraphGdDriver extends ezcGraphDriver
                     $text['font']->path, 
                     $text['font']->color, 
                     $position,
-                    $size
+                    $size,
+                    $rotation
                 );
 
                 $text['position']->y += $size * $this->options->lineSpacing;
