@@ -314,6 +314,7 @@ class ezcGraphFlashDriver extends ezcGraphDriver
                 'height' => $height,
                 'align' => $align,
                 'font' => $this->options->font,
+                'rotation' => $rotation,
             );
         }
         else
@@ -334,10 +335,10 @@ class ezcGraphFlashDriver extends ezcGraphDriver
      * @param ezcGraphColor $color Font color
      * @param ezcGraphCoordinate $position Position
      * @param float $size Textsize
-     * @param ezcGraphColor $color Textcolor 
+     * @param ezcGraphRotation $rotation
      * @return void
      */
-    protected function renderText( $id, $text, $chars, $type, $path, ezcGraphColor $color, ezcGraphCoordinate $position, $size )
+    protected function renderText( $id, $text, $chars, $type, $path, ezcGraphColor $color, ezcGraphCoordinate $position, $size, $rotation = null )
     {
         $movie = $this->getDocument();
 
@@ -349,7 +350,16 @@ class ezcGraphFlashDriver extends ezcGraphDriver
         $tb->addChars( $chars );
 
         $object = $movie->add( $tb );
-        $object->moveTo( $position->x, $position->y - $size * ( 1 + $this->options->lineSpacing ) );
+        $object->rotate(
+            ( $rotation !== null ? -$rotation->getRotation() : 0 )
+        );
+        $object->moveTo( 
+            $position->x +
+                ( $rotation === null ? 0 : $this->modifyCoordinate( $rotation->get( 0, 2 ) ) ),
+            $position->y -
+                $size * ( 1 + $this->options->lineSpacing ) +
+                ( $rotation === null ? 0 : $this->modifyCoordinate( $rotation->get( 1, 2 ) ) )
+        );
         $object->setName( $id );
     }
 
@@ -483,6 +493,14 @@ class ezcGraphFlashDriver extends ezcGraphDriver
                 );
             }
 
+            if ( $text['rotation'] !==  null )
+            {
+                foreach ( $borderPolygonArray as $nr => $point )
+                {
+                    $borderPolygonArray[$nr] = $text['rotation']->transformCoordinate( $point );
+                }
+            }
+
             if ( $text['font']->background !== false )
             {
                 $this->drawPolygon( 
@@ -547,7 +565,8 @@ class ezcGraphFlashDriver extends ezcGraphDriver
                             $position->x + $this->modifyCoordinate( $text['font']->textShadowOffset ),
                             $position->y + $this->modifyCoordinate( $text['font']->textShadowOffset )
                         ),
-                        $size
+                        $size,
+                        $text['rotation']
                     );
                 }
                 
@@ -560,7 +579,8 @@ class ezcGraphFlashDriver extends ezcGraphDriver
                     $text['font']->path, 
                     $text['font']->color, 
                     $position,
-                    $size
+                    $size,
+                    $text['rotation']
                 );
 
                 $text['position']->y += $size * $this->options->lineSpacing;
