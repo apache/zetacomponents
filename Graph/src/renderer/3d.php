@@ -1606,6 +1606,15 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
                     $boundings->y1
                 ), false 
             );
+
+            // Also modify rotation accordingly
+            if ( $rotation !== null )
+            {
+                $rotation = new ezcGraphRotation(
+                    $rotation->getRotation(),
+                    $this->get3dCoordinate( $rotation->getCenter(), false )
+                );
+            }
         }
 
         $this->driver->drawTextBox(
