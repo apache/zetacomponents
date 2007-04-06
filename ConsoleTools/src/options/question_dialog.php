@@ -10,19 +10,26 @@
  */
 class ezcConsoleQuestionDialogOptions extends ezcConsoleDialogOptions
 {
+
     /**
-     * Properties.
+     * Construct a new options object.
+     * Options are constructed from an option array by default. The constructor
+     * automatically passes the given options to the __set() method to set them 
+     * in the class.
      * 
-     * @var array(string=>mixed)
+     * @throws ezcBasePropertyNotFoundException
+     *         If trying to access a non existent property.
+     * @throws ezcBaseValueException
+     *         If the value for a property is out of range.
+     * @param array(string=>mixed) $options The initial options to set.
      */
-    protected $properties = array(
-        "format"        => "default",
-        "text"          => "Please enter a value: ",
-        "type"          => ezcConsoleDialog::TYPE_STRING,
-        "validResults"  => null,
-        "defaultResult" => null,
-        "showResults"   => false,
-    );
+    public function __construct( array $options = array() )
+    {
+        $this->properties["text"]           = "Please enter a value: ";
+        $this->properties["validator"]      = new ezcConsoleQuestionDialogTypeValidator();
+        $this->properties["displayResults"] = false;
+        parent::__construct( $options );
+    }
 
     /**
      * Property set access.
@@ -46,36 +53,21 @@ class ezcConsoleQuestionDialogOptions extends ezcConsoleDialogOptions
                     );
                 }
                 break;
-            case "type":
-                if ( is_string( $propertyValue ) === false )
-                {
-                    throw new ezcBaseValueException(
-                        $propertyName,
-                        $propertyValue,
-                        "one of ezcConsoleDialog::TYPE_STRING, ezcConsoleDialog::TYPE_INT, ezcConsoleDialog::TYPE_FLOAT or custom sscanf() format"
-                    );
-                }
-                break;
-            case "validResults":
-                if ( $propertyValue !== null && is_array( $propertyValue ) === false )
-                {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, "null or array(int=>string)" );
-                }
-                break;
             case "showResults":
                 if ( is_bool( $propertyValue ) === false )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, "bool" );
                 }
                 break;
-            case "defaultResult":
-                if ( is_scalar( $propertyValue ) === false )
+            case "validator":
+                if ( ( $propertyValue instanceof ezcConsoleQuestionDialogValidator ) === false )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, "scalar" );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, "ezcConsoleQuestionDialogValidator" );
                 }
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );
+                return;
         }
         $this->properties[$propertyName] = $propertyValue;
     }

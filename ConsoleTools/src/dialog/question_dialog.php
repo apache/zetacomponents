@@ -1,4 +1,13 @@
 <?php
+/**
+ * File containing the ezcConsoleQuestionDialog class.
+ *
+ * @package ConsoleTools
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @filesource
+ */
 
 /**
  * Dialog class to ask a simple question.
@@ -8,6 +17,11 @@
  * @copyright Copyright (C) 2006 eZ systems as. All rights reserved.
  * @author  
  * @license http://ez.no/licenses/new_bsd New BSD License
+ *
+ * @property ezcConsoleQuestionDialogOptions $options
+ *           Options for the dialog.
+ * @property ezcConsoleOutput $output
+ *           Output object for displaying the dialog.
  */
 class ezcConsoleQuestionDialog implements ezcConsoleDialog
 {
@@ -39,7 +53,7 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
      */
     public function hasValidResult()
     {
-        return ( $this->result !== null );
+        return $this->result !== null;
     }
 
     /**
@@ -51,10 +65,6 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
      */
     public function getResult()
     {
-        if ( $this->result === null )
-        {
-            throw new ezcConsoleNoValidDialogResultException();
-        }
         return $this->result;
     }
 
@@ -67,25 +77,13 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
     public function display()
     {
         $this->output->outputText(
-            $this->options->text .
-                ( ( $this->options->showResults === true )
-                ? " (" . implode( "/", $this->options->validResults ) . ")" .
-                    ( ( $this->options->defaultResult !== null )
-                        ? " [{$this->options->defaultResult}]"
-                        : "" ) .
-                     " "
-                : " " ),
+            $this->options->text . ( $this->options->showResults === true ? " " . $this->options->validator->getResultString() : "" ) . " ",
             $this->options->format
         );
-        $line = ezcConsoleDialogViewer::readLine();
-        $line = ( $line === "" && $this->options->defaultResult !== null ) ? $this->options->defaultResult : $line;
-        if ( ( $resCount = sscanf( $line, $this->options->type, $res ) ) === 1
-              && ( is_array( $this->options->validResults ) === false
-                   || in_array( $res, $this->options->validResults )
-             )
-           )
+        $result = $this->options->validator->fixup( ezcConsoleDialogViewer::readLine() );
+        if ( $this->options->validator->validate( $result ) )
         {
-            $this->result = $res;
+            $this->result = $result;
         }
     }
 
@@ -97,7 +95,38 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
     public function reset()
     {
         $this->result = null;
-        $this->options = new ezcConsoleQuestionDialogOptions();
+    }
+
+    /**
+     * Returns a ready to use yes/no question dialog.
+     * Returns a question dialog, which requests the answers "y" for "yes" or
+     * "n" for "no" from the user. The answer is converted to lower-case.
+     *
+     * <code>
+     * // Would you like to proceed? (y/n) 
+     * $dialog = ezcConsoleDialog( $out, "Would you like to proceed?" );
+     *
+     * // Would you like to proceed? (y/n) [n] 
+     * $dialog = ezcConsoleDialog( $out, "Would you like to proceed?", "n" );
+     * </code>
+     * 
+     * @param ezcConsoleOutput $out  Output object.
+     * @param string $questionString Question string.
+     * @param string $default        "y" or "n", if default value is desired.
+     * @return ezcConsoleQuestionDialog The created dialog.
+     */
+    public static function YesNoQuestion( ezcConsoleOutput $out, $questionString, $default = null )
+    {
+        $opts = new ezcConsoleQuestionDialogOptions();
+        $opts->text = $questionString;
+        $opts->showResults = true;
+        $opts->validator = new ezcConsoleQuestionDialogCollectionValidator(
+            array( "y", "n" ),
+            null,
+            ezcConsoleQuestionDialogCollectionValidator::CONVERT_LOWER
+        );
+
+        return ezcConsoleQuestionDialog( $out, $opts );
     }
 
     /**
@@ -105,6 +134,7 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
      * 
      * @param string $propertyName 
      * @return void
+     * @ignore
      */
     public function __get( $propertyName )
     {
@@ -121,6 +151,7 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
      * @param string $propertyName  Name of the property to set.
      * @param string $propertyValue Value to set.
      * @return void
+     * @ignore
      */
     public function __set( $propertyName, $propertyValue )
     {

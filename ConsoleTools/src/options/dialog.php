@@ -17,6 +17,7 @@ class ezcConsoleDialogOptions extends ezcBaseOptions
      */
     protected $properties = array(
         "format"    => "default",
+        "validator" => null
     );
 
     /**
@@ -37,6 +38,11 @@ class ezcConsoleDialogOptions extends ezcBaseOptions
                     throw new ezcBaseValueException( $propertyName, $propertyValue, "string, length > 0" );
                 }
                 break;
+            case "validator":
+                if ( ( $propertyValue instanceof ezcConsoleDialogValidator ) === false )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, "ezcConsoleDialogValidator" );
+                }
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
         }

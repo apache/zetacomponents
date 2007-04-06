@@ -15,23 +15,24 @@
 interface ezcConsoleDialog
 {
 
-    const TYPE_STRING   = "%s";
-    const TYPE_INT      = "%d";
-    const TYPE_FLOAT    = "%f";
-
     /**
      * Create a new dialog object.
      * This method retrieves an ezcConsoleOutput object for printing its
-     * content.
+     * content. Additionally an instance of ezcConsoleDialogOptions or a derived
+     * class is received to configure the behaviour of the dialog. Dialog
+     * implementations may extend ezcConsoleDialogOptions and require an
+     * instance of their extended class as options.
      * 
-     * @param ezcConsoleOutput $output Output object.
+     * @param ezcConsoleOutput $output         Output object.
+     * @param ezcConsoleDialogOptions $options Options.
      * @return void
      */
-    public function __construct( ezcConsoleOutput $output, ezcConsoleDialogOptions $options = null );
+    // public function __construct( ezcConsoleOutput $output, ezcConsoleDialogOptions $options = null );
 
     /**
      * Returns if the dialog retrieved a valid result.
-     * Dialogs are displayed in a loop until they return true here.
+     * Typically a dialog is displayed in a loop until he received a valid
+     * result. What a valid result is, is determined by the dialog itself.
      * 
      * @return bool If a valid result was retrieved.
      */
@@ -40,15 +41,17 @@ interface ezcConsoleDialog
     /**
      * Returns the result retrieved.
      * If no valid result was retreived, yet, this method should throw an
-     * ezcDialogNoValidResultException.
+     * ezcDialogNoValidResultException. Otherwise this method returns the
+     * result.
      * 
      * @return mixed The retreived result.
      */
     public function getResult();
 
     /**
-     * Show the dialog.
-     * Display the dialog and retreive the desired answer from the user.
+     * Displays the dialog.
+     * Displays the dialog. Dialogs will most propably block the application until
+     * the user took some interaction.
      * 
      * @return void
      */
@@ -56,6 +59,8 @@ interface ezcConsoleDialog
 
     /**
      * Resets the dialog to its initial state. 
+     * Resets the dialog to its orginal state in respect to its internal
+     * changes. Note: Any changes you made to the options are kept in tact.
      * 
      * @return void
      */
