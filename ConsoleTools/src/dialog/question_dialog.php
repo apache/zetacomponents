@@ -65,6 +65,10 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
      */
     public function getResult()
     {
+        if ( $this->result === null )
+        {
+            throw new ezcConsoleNoValidDialogResultException();
+        }
         return $this->result;
     }
 
@@ -122,7 +126,7 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
         $opts->showResults = true;
         $opts->validator = new ezcConsoleQuestionDialogCollectionValidator(
             array( "y", "n" ),
-            null,
+            $default,
             ezcConsoleQuestionDialogCollectionValidator::CONVERT_LOWER
         );
 
