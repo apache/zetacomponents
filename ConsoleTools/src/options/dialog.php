@@ -43,6 +43,7 @@ class ezcConsoleDialogOptions extends ezcBaseOptions
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, "ezcConsoleDialogValidator" );
                 }
+                break;
             default:
                 throw new ezcBasePropertyNotFoundException( $propertyName );
         }
