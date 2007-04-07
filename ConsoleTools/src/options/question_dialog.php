@@ -12,7 +12,7 @@
  *           The question itself.
  * @property ezcConsoleQuestionDialogValidator $validator
  *           The validator to use with this dialog.
- * @property bool $displayResults
+ * @property bool $showResults
  *           Wether to display the possible results and the default selection.
  * @property string format
  *           The output format for the dialog.
@@ -36,7 +36,7 @@ class ezcConsoleQuestionDialogOptions extends ezcConsoleDialogOptions
     {
         $this->properties["text"]           = "Please enter a value: ";
         $this->properties["validator"]      = new ezcConsoleQuestionDialogTypeValidator();
-        $this->properties["displayResults"] = false;
+        $this->properties["showResults"] = false;
         parent::__construct( $options );
     }
 
