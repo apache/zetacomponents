@@ -7,6 +7,15 @@
  * @version //autogen//
  * @copyright Copyright (C) 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ *
+ * @property string $text
+ *           The question itself.
+ * @property ezcConsoleQuestionDialogValidator $validator
+ *           The validator to use with this dialog.
+ * @property bool $displayResults
+ *           Wether to display the possible results and the default selection.
+ * @property string format
+ *           The output format for the dialog.
  */
 class ezcConsoleQuestionDialogOptions extends ezcConsoleDialogOptions
 {
