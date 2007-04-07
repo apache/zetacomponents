@@ -16,6 +16,9 @@
  * @version //autogen//
  * @copyright Copyright (C) 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ *
+ * @property array $collection
+ *           The collection of valid answers.
  */
 class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionDialogValidator
 {
@@ -28,7 +31,9 @@ class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionD
      * 
      * @var array
      */
-    protected $collection;
+    protected $properties  = array(
+        "collection"    => array(),
+    );
 
     /**
      * Default value. 
@@ -110,6 +115,65 @@ class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionD
     public function getResultString()
     {
         return "(" . implode( "/", $this->collection ) . ")" . ( $this->default !== null ? " [{$this->default}]" : "" );
+    }
+    
+    /**
+     * Property read access.
+     * 
+     * @param string $key Name of the property.
+     * @return mixed Value of the property or null.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If the the desired property is not found.
+     * @ignore
+     */
+    public function __get( $propertyName )
+    {
+        if ( isset( $this->$propertyName ) )
+        {
+            return $this->properties[$propertyName];
+        }
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+
+    /**
+     * Property write access.
+     * 
+     * @param string $key Name of the property.
+     * @param mixed $val  The value for the property.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If a the value for the property options is not an instance of
+     * @throws ezcBaseValueException
+     *         If a the value for a property is out of range.
+     * @ignore
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case "collection":
+                if ( is_array( $propertyValue ) === false )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, "array" );
+                }
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+        $this->properties[$propertyName] = $propertyValue;
+    }
+
+    /**
+     * Property isset access.
+     * 
+     * @param string $key Name of the property.
+     * @return bool True is the property is set, otherwise false.
+     * @ignore
+     */
+    public function __isset( $propertyName )
+    {
+        return array_key_exists( $this->properties, $propertyName );
     }
 }
 
