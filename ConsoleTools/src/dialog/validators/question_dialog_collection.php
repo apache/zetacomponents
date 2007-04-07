@@ -19,6 +19,10 @@
  *
  * @property array $collection
  *           The collection of valid answers.
+ * @property mixed $default
+ *           Default value.
+ * @property int $conversion
+ *           ezcConsoleQuestionDialogCollectionValidator::TYPE_*.
  */
 class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionDialogValidator
 {
@@ -30,21 +34,9 @@ class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionD
      */
     protected $properties  = array(
         "collection"    => array(),
+        "default"       => null,
+        "conversion"    => self::CONVERT_NONE,
     );
-
-    /**
-     * Default value. 
-     * 
-     * @var mixed
-     */
-    protected $default;
-
-    /**
-     * Conversion for the result. One of ezcConsoleQuestionDialogCollectionValidator::CONVERT_*. 
-     * 
-     * @var int
-     */
-    protected $conversion;
 
     /**
      * Create a new question dialog collection validator. 
@@ -55,10 +47,6 @@ class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionD
      */
     public function __construct( array $collection, $default = null, $conversion = self::CONVERT_NONE )
     {
-        if ( $conversion !== self::CONVERT_NONE && $conversion !== self::CONVERT_UPPER && $conversion !== self::CONVERT_LOWER )
-        {
-            throw new ezcBaseValueException( "type", $type, "ezcConsoleQuestionDialogCollectionValidator::CONVERT_*" );
-        }
         $this->collection = $collection;
         $this->default = $default;
         $this->conversion = $conversion;
@@ -153,6 +141,18 @@ class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionD
                 if ( is_array( $propertyValue ) === false )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, "array" );
+                }
+                break;
+            case "default":
+                if ( is_scalar( $propertyValue ) === false && $propertyValue !== null )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, "scalar" );
+                }
+                break;
+            case "conversion":
+                if ( $propertyValue !== self::CONVERT_NONE && $propertyValue !== self::CONVERT_UPPER && $propertyValue !== self::CONVERT_LOWER )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, "ezcConsoleQuestionDialogCollectionValidator::CONVERT_*" );
                 }
                 break;
             default:

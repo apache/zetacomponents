@@ -130,7 +130,7 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
             ezcConsoleQuestionDialogCollectionValidator::CONVERT_LOWER
         );
 
-        return ezcConsoleQuestionDialog( $out, $opts );
+        return new ezcConsoleQuestionDialog( $out, $opts );
     }
 
     /**
