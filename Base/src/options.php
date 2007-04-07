@@ -73,7 +73,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      */
     public function __get( $propertyName )
     {
-        if ( array_key_exists( $propertyName, $this->properties ) )
+        if ( isset( $this->$propertyName ) === true )
         {
             return $this->properties[$propertyName];
         }
@@ -89,6 +89,18 @@ abstract class ezcBaseOptions implements ArrayAccess
      * @ignore
      */
     abstract public function __set( $propertyName, $propertyValue );
+
+    /**
+     * Returns if a option exists.
+     * 
+     * @param string $propertyName Option name to check for.
+     * @return void
+     * @ignore
+     */
+    public function __isset( $propertyName )
+    {
+        return array_key_exists( $propertyName, $this->properties );
+    }
 
     /**
      * Returns if an option exists.
