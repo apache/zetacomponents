@@ -28,8 +28,9 @@ class ezcConsoleMenuDialogDefaultValidator implements ezcConsoleMenuDialogValida
      * @var array
      */
     protected $properties = array(
-        "elements"  => array(),
-        "default"   => null,
+        "elements"      => array(),
+        "default"       => null,
+        "conversion"    => self::CONVERT_NONE,
     );
 
     /**
@@ -39,10 +40,11 @@ class ezcConsoleMenuDialogDefaultValidator implements ezcConsoleMenuDialogValida
      * @param mixed $default  The default value.
      * @return void
      */
-    public function __construct( array $elements = array(), $default = null )
+    public function __construct( array $elements = array(), $default = null, $conversion = self::CONVERT_NONE )
     {
-        $this->elements = $elements;
-        $this->default  = $default;
+        $this->elements     = $elements;
+        $this->default      = $default;
+        $this->conversion   = $conversion;
     }
 
     /**
@@ -69,7 +71,21 @@ class ezcConsoleMenuDialogDefaultValidator implements ezcConsoleMenuDialogValida
      */
     public function fixup( $result )
     {
-        return ( $result === "" && $this->default !== null ) ? $this->default : $result;
+        if ( $result === "" && $this->default !== null )
+        {
+            return $this->default;
+
+        }
+        switch ( $this->conversion )
+        {
+            case self::CONVERT_LOWER:
+                return strtolower( $result );
+            case self::CONVERT_UPPER:
+                return strtoupper( $result );
+            case self::CONVERT_NONE:
+            default:
+                return $result;
+        }
     }
 
     /**
@@ -139,6 +155,12 @@ class ezcConsoleMenuDialogDefaultValidator implements ezcConsoleMenuDialogValida
                 if ( is_scalar( $propertyValue ) === false && $propertyValue !== null )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, "scalar" );
+                }
+                break;
+            case "conversion":
+                if ( $propertyValue !== self::CONVERT_NONE && $propertyValue !== self::CONVERT_UPPER && $propertyValue !== self::CONVERT_LOWER )
+                {
+                    throw new ezcBaseValueException( "conversion", $conversion, "ezcConsoleMenuDialogDefaultValidator::CONVERT_*" );
                 }
                 break;
             default:
