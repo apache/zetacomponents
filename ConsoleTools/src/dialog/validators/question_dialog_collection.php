@@ -22,9 +22,6 @@
  */
 class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionDialogValidator
 {
-    const CONVERT_NONE = 0;
-    const CONVERT_LOWER = 1;
-    const CONVERT_UPPER = 2;
 
     /**
      * Collection for verification. 
@@ -173,7 +170,7 @@ class ezcConsoleQuestionDialogCollectionValidator implements ezcConsoleQuestionD
      */
     public function __isset( $propertyName )
     {
-        return array_key_exists( $this->properties, $propertyName );
+        return array_key_exists( $propertyName, $this->properties );
     }
 }
 
