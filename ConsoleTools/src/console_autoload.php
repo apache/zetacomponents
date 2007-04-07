@@ -49,18 +49,21 @@ return array (
     'ezcConsoleOptionTooManyValuesException'        => 'ConsoleTools/exceptions/option_too_many_values.php',
 
     'ezcConsoleDialog'                              => 'ConsoleTools/interfaces/dialog.php',
-    'ezcConsoleDialogValidator'                     => 'ConsoleTools/interfaces/dialog_validator.php',
-    'ezcConsoleQuestionDialogValidator'             => 'ConsoleTools/interfaces/question_dialog_validator.php',
     'ezcConsoleDialogViewer'                        => 'ConsoleTools/dialog_viewer.php',
     'ezcConsoleQuestionDialog'                      => 'ConsoleTools/dialog/question_dialog.php',
     'ezcConsoleMenuDialog'                          => 'ConsoleTools/dialog/menu_dialog.php',
     
+    'ezcConsoleDialogValidator'                     => 'ConsoleTools/interfaces/dialog_validator.php',
+    'ezcConsoleQuestionDialogValidator'             => 'ConsoleTools/interfaces/question_dialog_validator.php',
+    'ezcConsoleMenuDialogValidator'                 => 'ConsoleTools/interfaces/menu_dialog_validator.php',
+    'ezcConsoleQuestionDialogCollectionValidator'   => 'ConsoleTools/dialog/validators/question_dialog_collection.php',
+    'ezcConsoleQuestionDialogTypeValidator'         => 'ConsoleTools/dialog/validators/question_dialog_type.php',
+    'ezcConsoleMenuDialogDefaultValidator'          => 'ConsoleTools/dialog/validators/menu_dialog_default.php',
+
+    
     'ezcConsoleDialogOptions'                       => 'ConsoleTools/options/dialog.php',
     'ezcConsoleQuestionDialogOptions'               => 'ConsoleTools/options/question_dialog.php',
     'ezcConsoleMenuDialogOptions'                   => 'ConsoleTools/options/menu_dialog.php',
-
-    'ezcConsoleQuestionDialogCollectionValidator'   => 'ConsoleTools/dialog/validators/question_dialog_collection.php',
-    'ezcConsoleQuestionDialogTypeValidator'         => 'ConsoleTools/dialog/validators/question_dialog_type.php',
 
     'ezcConsoleNoValidDialogResultException'        => 'ConsoleTools/exceptions/no_valid_dialog_result.php',
 );

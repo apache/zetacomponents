@@ -12,8 +12,18 @@
 class ezcConsoleMenuDialog implements ezcConsoleDialog
 {
 
+    /**
+     * Dialog result 
+     * 
+     * @var mixed
+     */
     protected $result;
 
+    /**
+     * Properties 
+     * 
+     * @var array
+     */
     protected $properties = array(
         "options"   => null,
         "output"    => null,
@@ -67,27 +77,22 @@ class ezcConsoleMenuDialog implements ezcConsoleDialog
     public function display()
     {
         $text = "{$this->options->text}\n";
-        $results = array();
-        foreach ( $this->options->entries as $key => $entry )
+        foreach ( $this->options->validator->getElements() as $key => $entry )
         {
             $text .= sprintf(
-                "%{$this->options->markerSpace}s{$this->options->marker} %s\n",
+                $this->options->formatString,
                 $key,
                 $entry
             );
-            $results[] = $key;
         }
-        $text .= "\n{$this->options->selectText}";
+        $text .= "\n{$this->options->selectText}{$this->options->validator->getResultString()} ";
 
-        $question = new ezcConsoleQuestionDialog( $this->output );
-        $question->options->text = $text;
-        $question->options->validResults = $results;
-        $question->options->format = $this->options->format;
-        $question->display();
+        $this->output->outputText( $text, $this->options->format );
 
-        if ( $question->hasValidResult() )
+        $result = $this->options->validator->fixup( ezcConsoleDialogViewer::readLine() );
+        if ( $this->options->validator->validate( $result ) )
         {
-            $this->result = $question->getResult();
+            $this->result = $result;
         }
     }
 
