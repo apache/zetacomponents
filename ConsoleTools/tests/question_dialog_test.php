@@ -48,7 +48,7 @@ class ezcConsoleToolsQuestionDialogTest extends ezcConsoleToolsDialogTest
         $dialog->options = $optionsNew;
 
         $this->assertSame( $outputNew, $dialog->output );
-        $this->assertEquals( $optionsNew, $dialog->options );
+        $this->assertSame( $optionsNew, $dialog->options );
     }
     
     public function testSetAccessFailure()
