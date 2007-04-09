@@ -104,7 +104,6 @@ class ezcConsoleMenuDialog implements ezcConsoleDialog
     public function reset()
     {
         $this->result = null;
-        $this->options = new ezcConsoleMenuDialogOptions();
     }
 
     /**
