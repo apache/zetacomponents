@@ -16,6 +16,12 @@
  * @version //autogen//
  * @copyright Copyright (C) 2006 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ *
+ * @property int $type
+ *           One of ezcConsoleQuestionDialogTypeValidator::TYPE_*. The type to
+ *           check against and convert results to.
+ * @property mixed $default
+ *           A default value if no result given.
  */
 class ezcConsoleQuestionDialogTypeValidator implements ezcConsoleQuestionDialogValidator
 {
@@ -29,14 +35,10 @@ class ezcConsoleQuestionDialogTypeValidator implements ezcConsoleQuestionDialogV
      * 
      * @var int
      */
-    protected $type;
-
-    /**
-     * Default value according to {@see $type}. 
-     * 
-     * @var mixed
-     */
-    protected $default;
+    protected $properties = array(
+        "type"      => self::TYPE_STRING,
+        "default"   => null,
+    );
 
     /**
      * Create a new question dialog type validator. 
@@ -47,10 +49,6 @@ class ezcConsoleQuestionDialogTypeValidator implements ezcConsoleQuestionDialogV
      */
     public function __construct( $type = self::TYPE_STRING, $default = null )
     {
-        if ( $type !== self::TYPE_STRING && $type !== self::TYPE_INT && $type !== self::TYPE_FLOAT && $type !== self::TYPE_BOOL )
-        {
-            throw new ezcBaseValueException( "type", $type, "ezcConsoleQuestionDialogTypeValidator::TYPE_*" );
-        }
         $this->type = $type;
         $this->default = $default;
     }
@@ -133,6 +131,71 @@ class ezcConsoleQuestionDialogTypeValidator implements ezcConsoleQuestionDialogV
             default:
                 return sprintf( $res, "string" );
         }
+    }
+    
+    /**
+     * Property read access.
+     * 
+     * @param string $key Name of the property.
+     * @return mixed Value of the property or null.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If the the desired property is not found.
+     * @ignore
+     */
+    public function __get( $propertyName )
+    {
+        if ( isset( $this->$propertyName ) )
+        {
+            return $this->properties[$propertyName];
+        }
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+
+    /**
+     * Property write access.
+     * 
+     * @param string $key Name of the property.
+     * @param mixed $val  The value for the property.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If a the value for the property options is not an instance of
+     * @throws ezcBaseValueException
+     *         If a the value for a property is out of range.
+     * @ignore
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case "type":
+                if ( $propertyValue !== self::TYPE_STRING && $propertyValue !== self::TYPE_INT && $propertyValue !== self::TYPE_FLOAT && $propertyValue !== self::TYPE_BOOL )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, "ezcConsoleQuestionDialogTypeValidator::TYPE_*" );
+                }
+                break;
+            case "default":
+                if ( is_scalar( $propertyValue ) === false && $propertyValue !== null )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, "scalar" );
+                }
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+        $this->properties[$propertyName] = $propertyValue;
+    }
+
+    /**
+     * Property isset access.
+     * 
+     * @param string $key Name of the property.
+     * @return bool True is the property is set, otherwise false.
+     * @ignore
+     */
+    public function __isset( $propertyName )
+    {
+        return array_key_exists( $propertyName, $this->properties );
     }
 }
 
