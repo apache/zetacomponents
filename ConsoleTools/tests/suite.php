@@ -77,6 +77,16 @@ require_once 'progressmonitor_test.php';
  * Require test suite for ezcConsoleProgressMonitor class.
  */
 require_once 'progressmonitor_options_test.php';
+
+/**
+ * Require test suite for ezcConsoleQuestionDialog class. 
+ */
+require_once 'question_dialog_test.php';
+
+/**
+ * Require test suite for ezcConsoleQuestionDialogCollectionValidator class. 
+ */
+require_once 'question_dialog_collection_validator_test.php';
     
 /**
  * Test suite for ConsoleTools package.
@@ -108,6 +118,8 @@ class ezcConsoleToolsSuite extends PHPUnit_Framework_TestSuite
 		$this->addTest( ezcConsoleToolsStatusbarOptionsTest::suite() );
 		$this->addTest( ezcConsoleToolsProgressMonitorTest::suite() );
 		$this->addTest( ezcConsoleToolsProgressMonitorOptionsTest::suite() );
+		$this->addTest( ezcConsoleToolsQuestionDialogTest::suite() );
+		$this->addTest( ezcConsoleQuestionDialogCollectionValidatorTest::suite() );
 	}
 
     public static function suite()
