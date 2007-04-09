@@ -75,6 +75,17 @@ class ezcConsoleQuestionDialogTypeValidatorTest extends ezcTestCase
             $exceptionCaught = true;
         }
         $this->assertTrue( $exceptionCaught, "Exception not thrown on invalid value for property default." );
+        
+        $exceptionCaught = false;
+        try
+        {
+            $validator->foo = "Foo";
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $exceptionCaught = true;
+        }
+        $this->assertTrue( $exceptionCaught, "Exception not thrown on nonexistent property foo." );
     }
 
     public function testIssetAccess()

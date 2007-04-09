@@ -108,6 +108,17 @@ class ezcConsoleQuestionDialogOptionsTest extends ezcTestCase
             $exceptionCaught = true;
         }
         $this->assertTrue( $exceptionCaught, "Exception not thrown on invalid value for property format." );
+
+        $exceptionCaught = false;
+        try
+        {
+            $opts->foo = "Foo";
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $exceptionCaught = true;
+        }
+        $this->assertTrue( $exceptionCaught, "Exception not thrown on access of nonexistent property foo." );
     }
 
     public function testIssetAccess()

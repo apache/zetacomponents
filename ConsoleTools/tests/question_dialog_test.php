@@ -120,6 +120,19 @@ class ezcConsoleToolsQuestionDialogTest extends ezcConsoleToolsDialogTest
             $exceptionCaught = true;
         }
         $this->assertTrue( $exceptionCaught, "Excption not thrown on getResult() without result." );
+
+        $dialog->reset();
+
+        $exceptionCaught = false;
+        try
+        {
+            $dialog->getResult();
+        }
+        catch ( ezcConsoleNoValidDialogResultException $e )
+        {
+            $exceptionCaught = true;
+        }
+        $this->assertTrue( $exceptionCaught, "Excption not thrown on getResult() without result." );
     }
 
     public function testYesNoQuestionFactory()
