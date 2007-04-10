@@ -58,7 +58,7 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
     public function __construct( array $options = array() )
     {
         parent::__construct( $options );
-        $this->properties['angle'] = 45.;
+        $this->properties['angle'] = null;
     }
 
     /**
@@ -141,6 +141,37 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
             );
         }
 
+        // Determine optimal angle if none specified
+        if ( $this->angle === null )
+        {
+            $minimumStepWidth = null;
+            foreach ( $steps as $nr => $step )
+            {
+                if ( ( $minimumStepWidth === null ) || 
+                     ( $step->width < $minimumStepWidth ) )
+                {
+                    $minimumStepWidth = $step->width;
+                }
+            }
+
+            $width = abs(
+                $axisBoundings->width * $minimumStepWidth * $this->direction->x +
+                $axisBoundings->height * $minimumStepWidth * $this->direction->y
+            );
+            $height = abs(
+                $renderer->yAxisSpace * $this->direction->x +
+                $renderer->xAxisSpace * $this->direction->y
+            );
+
+            $length = sqrt( pow( $width, 2 ) + pow( $height, 2 ) );
+
+            printf( "Angles: %.2f, %.2f (%d * %d)\n",
+                $this->angle = rad2deg( asin( $width / $length ) ),
+                $this->angle = rad2deg( acos( $height / $length ) ),
+                $width, $height
+            );
+        }
+
         // Determine additional required axis space by boxes
         $firstStep = reset( $steps );
         $lastStep = end( $steps );
@@ -150,7 +181,10 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
             ( $axis->position & ( ezcGraph::TOP | ezcGraph::BOTTOM ) ? deg2rad( 270 ) : deg2rad( 90 ) );
         $degTextAngle = rad2deg( $textAngle );
 
-        $this->offset = min( 1, -cos( $textAngle ) / sin( $textAngle ) );
+        $this->offset =
+            ( $this->angle < 0 ? -1 : 1 ) *
+            ( $axis->position & ( ezcGraph::TOP | ezcGraph::LEFT ) ? 1 : -1 ) *
+            ( 1 - cos( deg2rad( $this->angle * 2 ) ) );
 
         $axisSpaceFactor = abs(
             ( $this->direction->x == 0 ? 0 :
@@ -230,47 +264,112 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
             }
 
             $labelSize = $labelSize * cos( deg2rad( $this->angle ) );
+            $lengthReducement = min(
+                abs( tan( deg2rad( $this->angle ) ) * ( $labelSize / 2 ) ),
+                abs( $labelLength / 2 )
+            );
 
-            if ( $degTextAngle >= 90 && $degTextAngle < 270 )
+            switch ( true )
             {
-                $renderer->drawText(
-                    new ezcGraphBoundings(
-                        $position->x - abs( $labelLength ),
-                        $position->y - $labelSize / 2,
+                case ( ( ( $degTextAngle >= 0 ) && 
+                         ( $degTextAngle < 90 ) &&
+                         ( ( $axis->position === ezcGraph::LEFT ) ||
+                           ( $axis->position === ezcGraph::RIGHT )
+                         )
+                       ) ||
+                       ( ( $degTextAngle >= 270 ) && 
+                         ( $degTextAngle < 360 ) &&
+                         ( ( $axis->position === ezcGraph::TOP ) ||
+                           ( $axis->position === ezcGraph::BOTTOM )
+                         )
+                       )
+                     ):
+                    $labelBoundings = new ezcGraphBoundings(
                         $position->x,
-                        $position->y + $labelSize / 2
-                    ),
-                    $step->label . ' ',
-                    ezcGraph::RIGHT | ezcGraph::MIDDLE,
-                    new ezcGraphRotation(
-                        $degTextAngle - 180,
-                        new ezcGraphCoordinate(
-                            $position->x,
-                            $position->y
-                        )
-                    )
-                );
-            }
-            else
-            {
-                $renderer->drawText(
-                    new ezcGraphBoundings(
+                        $position->y,
+                        $position->x + abs( $labelLength ) - $lengthReducement,
+                        $position->y + $labelSize
+                    );
+                    $labelAlignement = ezcGraph::LEFT | ezcGraph::TOP;
+                    $labelRotation = $degTextAngle;
+                    break;
+                case ( ( ( $degTextAngle >= 90 ) && 
+                         ( $degTextAngle < 180 ) &&
+                         ( ( $axis->position === ezcGraph::LEFT ) ||
+                           ( $axis->position === ezcGraph::RIGHT )
+                         )
+                       ) ||
+                       ( ( $degTextAngle >= 180 ) && 
+                         ( $degTextAngle < 270 ) &&
+                         ( ( $axis->position === ezcGraph::TOP ) ||
+                           ( $axis->position === ezcGraph::BOTTOM )
+                         )
+                       )
+                     ):
+                    $labelBoundings = new ezcGraphBoundings(
+                        $position->x - abs( $labelLength ) + $lengthReducement,
+                        $position->y,
                         $position->x,
-                        $position->y - $labelSize / 2,
-                        $position->x + abs( $labelLength ),
-                        $position->y + $labelSize / 2
-                    ),
-                    ' ' . $step->label, 
-                    ezcGraph::LEFT | ezcGraph::MIDDLE,
-                    new ezcGraphRotation(
-                        $degTextAngle,
-                        new ezcGraphCoordinate(
-                            $position->x,
-                            $position->y
-                        )
-                    )
-                );
+                        $position->y + $labelSize
+                    );
+                    $labelAlignement = ezcGraph::RIGHT | ezcGraph::TOP;
+                    $labelRotation = $degTextAngle - 180;
+                    break;
+                case ( ( ( $degTextAngle >= 180 ) && 
+                         ( $degTextAngle < 270 ) &&
+                         ( ( $axis->position === ezcGraph::LEFT ) ||
+                           ( $axis->position === ezcGraph::RIGHT )
+                         )
+                       ) ||
+                       ( ( $degTextAngle >= 90 ) && 
+                         ( $degTextAngle < 180 ) &&
+                         ( ( $axis->position === ezcGraph::TOP ) ||
+                           ( $axis->position === ezcGraph::BOTTOM )
+                         )
+                       )
+                     ):
+                    $labelBoundings = new ezcGraphBoundings(
+                        $position->x - abs( $labelLength ) + $lengthReducement,
+                        $position->y - $labelSize,
+                        $position->x,
+                        $position->y
+                    );
+                    $labelAlignement = ezcGraph::RIGHT | ezcGraph::BOTTOM;
+                    $labelRotation = $degTextAngle - 180;
+                    break;
+                case ( ( ( $degTextAngle >= 270 ) && 
+                         ( $degTextAngle < 360 ) &&
+                         ( ( $axis->position === ezcGraph::LEFT ) ||
+                           ( $axis->position === ezcGraph::RIGHT )
+                         )
+                       ) ||
+                       ( ( $degTextAngle >= 0 ) && 
+                         ( $degTextAngle < 90 ) &&
+                         ( ( $axis->position === ezcGraph::TOP ) ||
+                           ( $axis->position === ezcGraph::BOTTOM )
+                         )
+                       )
+                     ):
+                    $labelBoundings = new ezcGraphBoundings(
+                        $position->x,
+                        $position->y + $labelSize,
+                        $position->x + abs( $labelLength ) - $lengthReducement,
+                        $position->y
+                    );
+                    $labelAlignement = ezcGraph::LEFT | ezcGraph::BOTTOM;
+                    $labelRotation = $degTextAngle;
+                    break;
             }
+
+            $renderer->drawText(
+                $labelBoundings,
+                $step->label,
+                $labelAlignement,
+                new ezcGraphRotation(
+                    $labelRotation,
+                    $position
+                )
+            );
 
             // major grid
             if ( $axis->majorGrid )

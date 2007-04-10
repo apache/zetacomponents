@@ -58,6 +58,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
+        $chart->xAxis->axisLabelRenderer->angle = 45;
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         
@@ -103,6 +104,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
+        $chart->xAxis->axisLabelRenderer->angle = 45;
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
         $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         
@@ -148,7 +150,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
         $options = new ezcGraphAxisRotatedLabelRenderer();
 
         $this->assertSame(
-            45.,
+            null,
             $options->angle,
             'Wrong default value for property angle in class ezcGraphAxisRotatedLabelRenderer'
         );
@@ -190,7 +192,9 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
 
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
         $chart->xAxis->axisSpace = .25;
+        $chart->xAxis->axisLabelRenderer->angle = 45;
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
+        $chart->yAxis->axisLabelRenderer->angle = 45;
 
         $chart->render( 500, 200, $filename );
 
@@ -245,6 +249,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
         $chart->xAxis->labelCount = 31;
 
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
+        $chart->xAxis->axisLabelRenderer->angle = 45;
 
         $chart->render( 500, 200, $filename );
 
@@ -337,6 +342,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
         $chart->xAxis->labelCount = 31;
 
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
+        $chart->xAxis->axisLabelRenderer->angle = 45;
 
         $chart->renderer = new ezcGraphRenderer3d();
         $chart->render( 500, 200, $filename );
@@ -344,6 +350,40 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
         $this->compare(
             $filename,
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testOptimalAngleCalculation()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
+        $chart->yAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+
+        $this->assertEqual(
+            $this->xAxis->axisLabelRenderer->angle,
+            45.,
+            'Angle estimation wrong.',
+            1.
+        );
+
+        $this->assertEqual(
+            $this->yAxis->axisLabelRenderer->angle,
+            45.,
+            'Angle estimation wrong.',
+            1.
         );
     }
 }

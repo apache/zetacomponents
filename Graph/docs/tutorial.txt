@@ -531,6 +531,7 @@ for all available axis label renderers, but here is an overview:
   between two labels. This helps to recognize which bars belong together.
   Labels are rendered centered between two steps on the axis.
 
+
 Datasets
 ========
 
