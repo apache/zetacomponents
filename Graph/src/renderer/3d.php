@@ -764,6 +764,11 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         $barWidth = ( $stepSize - $margin ) / $dataCount - $padding;
         $offset = - $stepSize / 2 + $margin / 2 + ( $dataCount - $dataNumber - 1 ) * ( $padding + $barWidth ) + $padding / 2;
 
+        if ( $barWidth < 0 )
+        {
+            $offset -= $barWidth = abs( $barWidth );
+        }
+
         $startDepth = $this->options->barMargin;
         $midDepth = .5;
         $endDepth = 1 - $this->options->barMargin;

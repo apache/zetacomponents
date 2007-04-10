@@ -24,6 +24,7 @@
 - Added feature #9511: Added helper functions to create image maps an link SVG
   images in ezcGraphTools
 - Added feature #9404: Add spport for rotated texts on axis.
+- Fixed issue #10536: Bar side polygones are drawn at the wrong side.
 
 1.0 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
