@@ -164,12 +164,7 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
             );
 
             $length = sqrt( pow( $width, 2 ) + pow( $height, 2 ) );
-
-            printf( "Angles: %.2f, %.2f (%d * %d)\n",
-                $this->angle = rad2deg( asin( $width / $length ) ),
-                $this->angle = rad2deg( acos( $height / $length ) ),
-                $width, $height
-            );
+            $this->angle = rad2deg( acos( $height / $length ) );
         }
 
         // Determine additional required axis space by boxes

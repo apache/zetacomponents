@@ -70,27 +70,27 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 132.5, 152., 160., 208. ), 1. ),
-                $this->equalTo( 'sample 1 ' ),
-                $this->equalTo( ezcGraph::MIDDLE | ezcGraph::RIGHT ),
+                $this->equalTo( new ezcGraphBoundings( 146.3, 180., 160., 236.6 ), 1. ),
+                $this->equalTo( 'sample 1' ),
+                $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
                 $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 160, 180 ) ) )
             );
         $mockedRenderer
             ->expects( $this->at( 1 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 207.5, 152., 235., 208. ), 1. ),
-                $this->equalTo( 'sample 2 ' ),
-                $this->equalTo( ezcGraph::MIDDLE | ezcGraph::RIGHT ),
+                $this->equalTo( new ezcGraphBoundings( 221.3, 180., 235., 236.6 ), 1. ),
+                $this->equalTo( 'sample 2' ),
+                $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
                 $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 235, 180 ) ) )
             );
         $mockedRenderer
             ->expects( $this->at( 4 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 432.5, 152., 460., 208. ), 1. ),
-                $this->equalTo( 'sample 5 ' ),
-                $this->equalTo( ezcGraph::MIDDLE | ezcGraph::RIGHT ),
+                $this->equalTo( new ezcGraphBoundings( 446.3, 180., 460., 236.6 ), 1. ),
+                $this->equalTo( 'sample 5' ),
+                $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
                 $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 460, 180 ) ) )
             );
 
@@ -116,27 +116,27 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 132.5, 152., 160., 208. ), 1. ),
-                $this->equalTo( 'sample 1 ' ),
-                $this->equalTo( ezcGraph::MIDDLE | ezcGraph::RIGHT ),
+                $this->equalTo( new ezcGraphBoundings( 146.3, 180., 160., 236.6 ), 1. ),
+                $this->equalTo( 'sample 1' ),
+                $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
                 $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 160, 180 ) ) )
             );
         $mockedRenderer
             ->expects( $this->at( 1 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 207.5, 152., 235., 208. ), 1. ),
-                $this->equalTo( 'sample 2 ' ),
-                $this->equalTo( ezcGraph::MIDDLE | ezcGraph::RIGHT ),
+                $this->equalTo( new ezcGraphBoundings( 221.3, 180., 235., 236.6 ), 1. ),
+                $this->equalTo( 'sample 2' ),
+                $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
                 $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 235, 180 ) ) )
             );
         $mockedRenderer
             ->expects( $this->at( 4 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 432.5, 152., 460., 208. ), 1. ),
-                $this->equalTo( 'sample 5 ' ),
-                $this->equalTo( ezcGraph::MIDDLE | ezcGraph::RIGHT ),
+                $this->equalTo( new ezcGraphBoundings( 446.3, 180., 460., 236.6 ), 1. ),
+                $this->equalTo( 'sample 5' ),
+                $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
                 $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 460, 180 ) ) )
             );
 
@@ -372,16 +372,16 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
 
-        $this->assertEqual(
-            $this->xAxis->axisLabelRenderer->angle,
-            45.,
+        $this->assertEquals(
+            $chart->xAxis->axisLabelRenderer->angle,
+            76.,
             'Angle estimation wrong.',
             1.
         );
 
-        $this->assertEqual(
-            $this->yAxis->axisLabelRenderer->angle,
-            45.,
+        $this->assertEquals(
+            $chart->yAxis->axisLabelRenderer->angle,
+            53.,
             'Angle estimation wrong.',
             1.
         );
