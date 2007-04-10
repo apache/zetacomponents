@@ -175,8 +175,8 @@ class ezcQueryExpression
      * $q = ezcDbInstance::get()->createSelectQuery();
      * $e = $q->expr;
      * $q->select( '*' )->from( 'table' )
-     *                  ->where( $e->lOr( $e->eq( 'id', 1 ),
-     *                                    $e->eq( 'id', 2 ) ) );
+     *                  ->where( $e->lOr( $e->eq( 'id', $q->bindValue( 1 ) ),
+     *                                    $e->eq( 'id', $q->bindValue( 2 ) ) ) );
      * </code>
      *
      * @throws ezcDbAbstractionException if called with no parameters.
@@ -212,8 +212,8 @@ class ezcQueryExpression
      * $q = ezcDbInstance::get()->createSelectQuery();
      * $e = $q->expr;
      * $q->select( '*' )->from( 'table' )
-     *                  ->where( $e->lAnd( $e->eq( 'id', 1 ),
-     *                                     $e->eq( 'id', 2 ) ) );
+     *                  ->where( $e->lAnd( $e->eq( 'id', $q->bindValue( 1 ) ),
+     *                                     $e->eq( 'id', $q->bindValue( 2 ) ) ) );
      * </code>
      *
      * @throws ezcDbAbstractionException if called with no parameters.
@@ -394,7 +394,7 @@ class ezcQueryExpression
      * <code>
      * $q = ezcDbInstance::get()->createSelectQuery();
      * $q->select( '*' )->from( 'table' )
-     *                  ->where( $q->expr->eq( 'id', 1 ) );
+     *                  ->where( $q->expr->eq( 'id', $q->bindValue( 1 ) ) );
      * </code>
      *
      * @param string $value1 logical expression to compare
@@ -415,7 +415,7 @@ class ezcQueryExpression
      * <code>
      * $q = ezcDbInstance::get()->createSelectQuery();
      * $q->select( '*' )->from( 'table' )
-     *                  ->where( $q->expr->neq( 'id', 1 ) );
+     *                  ->where( $q->expr->neq( 'id', $q->bindValue( 1 ) ) );
      * </code>
      *
      * @param string $value1 logical expression to compare
@@ -436,7 +436,7 @@ class ezcQueryExpression
      * <code>
      * $q = ezcDbInstance::get()->createSelectQuery();
      * $q->select( '*' )->from( 'table' )
-     *                  ->where( $q->expr->gt( 'id', 1 ) );
+     *                  ->where( $q->expr->gt( 'id', $q->bindValue( 1 ) ) );
      * </code>
      *
      * @param string $value1 logical expression to compare
@@ -458,7 +458,7 @@ class ezcQueryExpression
      * <code>
      * $q = ezcDbInstance::get()->createSelectQuery();
      * $q->select( '*' )->from( 'table' )
-     *                  ->where( $q->expr->gte( 'id', 1 ) );
+     *                  ->where( $q->expr->gte( 'id', $q->bindValue( 1 ) ) );
      * </code>
      *
      * @param string $value1 logical expression to compare
@@ -479,7 +479,7 @@ class ezcQueryExpression
      * <code>
      * $q = ezcDbInstance::get()->createSelectQuery();
      * $q->select( '*' )->from( 'table' )
-     *                  ->where( $q->expr->lt( 'id', 1 ) );
+     *                  ->where( $q->expr->lt( 'id', $q->bindValue( 1 ) ) );
      * </code>
      *
      * @param string $value1 logical expression to compare
@@ -501,7 +501,7 @@ class ezcQueryExpression
      * <code>
      * $q = ezcDbInstance::get()->createSelectQuery();
      * $q->select( '*' )->from( 'table' )
-     *                  ->where( $q->expr->lte( 'id', 1 ) );
+     *                  ->where( $q->expr->lte( 'id', $q->bindValue( 1 ) ) );
      * </code>
      *
      * @param string $value1 logical expression to compare
@@ -561,11 +561,7 @@ class ezcQueryExpression
         {
             foreach ( $values as $key => $value )
             {
-                //check if value already quoted and do nothing if it is.
-                if ( !( substr( $value, 0, 1 ) == "'" && substr( $value, -1, 1 ) == "'" ) ) 
-                {
-                    $values[$key] = $this->db->quote( $value );
-                }
+                $values[$key] = $this->db->quote( $value );
             }
         }
         
@@ -579,7 +575,7 @@ class ezcQueryExpression
      * <code>
      * $q = ezcDbInstance::get()->createSelectQuery();
      * $q->select( '*' )->from( 'table' )
-     *                  ->where( $q->expr->isNull( 'id') );
+     *                  ->where( $q->expr->isNull( 'id' ) );
      * </code>
      *
      * @param string $expression the expression that should be compared to null
@@ -605,7 +601,7 @@ class ezcQueryExpression
      * <code>
      * $q = ezcDbInstance::get()->createSelectQuery();
      * $q->select( '*' )->from( 'table' )
-     *                  ->where( $q->expr->between( 'id' , 1, 5 ) );
+     *                  ->where( $q->expr->between( 'id', $q->bindValue( 1 ), $q->bindValue( 5 ) ) );
      * </code>
      *
      * @param string $expression the value to compare to
