@@ -24,6 +24,7 @@ return array(
     'ezcGraphPieChartOptions'                   => 'Graph/options/pie_chart.php',
     'ezcGraphLineChartOptions'                  => 'Graph/options/line_chart.php',
     'ezcGraphInvalidImageFileException'         => 'Graph/exceptions/invalid_image_file.php',
+    'ezcGraphUnregularStepsException'           => 'Graph/exceptions/unregular_steps.php',
 
     'ezcGraphChartDataContainer'                => 'Graph/data_container/base.php',
     'ezcGraphChartSingleDataContainer'          => 'Graph/data_container/single.php',

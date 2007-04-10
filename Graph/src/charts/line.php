@@ -162,6 +162,8 @@ class ezcGraphLineChart extends ezcGraphChart
             $count[$data->displayType->default]++;
         }
 
+        $checkedRegularSteps = false;
+
         // Display data
         foreach ( $this->data as $datasetName => $data )
         {
@@ -227,23 +229,41 @@ class ezcGraphLineChart extends ezcGraphChart
                     }
                     break;
                 case ezcGraph::BAR:
-                    // @TODO:
-                    // - Use getSteps() to determine bar width
-                    // - throw Exception on unregular step width on x axis
-                    $barCount = ( 
-                        ( count ( $data ) - 1 ) > $this->elements['xAxis']->getMajorStepCount() ? 
-                        ( $this->elements['xAxis']->getMajorStepCount() + 1 ) * ( $this->elements['xAxis']->getMinorStepCount() - 1 ) : 
-                        $this->elements['xAxis']->getMajorStepCount() 
-                    );
+                    if ( $checkedRegularSteps === false )
+                    {
+                        $steps = $this->elements['xAxis']->getSteps();
 
-                    $width = $this->elements['xAxis']->axisLabelRenderer->modifyChartDataPosition( 
-                        $this->elements['yAxis']->axisLabelRenderer->modifyChartDataPosition(
-                            new ezcGraphCoordinate(
-                                ( $boundings->x1 - $boundings->x0 ) / $barCount,
-                                0 
+                        $stepWidth = null;
+                        foreach ( $steps as $step )
+                        {
+                            if ( $stepWidth === null )
+                            {
+                                $stepWidth = $step->width;
+                            } 
+                            elseif ( $step->width !== $stepWidth )
+                            {
+                                throw new ezcGraphUnregularStepsException();
+                            }
+                        }
+
+                        $step = reset( $steps );
+                        if ( count( $step->childs ) )
+                        {
+                            // Keep this for BC reasons
+                            $barCount = ( $this->elements['xAxis']->getMajorStepCount() + 1 ) * ( $this->elements['xAxis']->getMinorStepCount() - 1 );
+                            $stepWidth = 1 / $barCount;
+                        }
+
+                        $checkedRegularSteps = true;
+                        $width = $this->elements['xAxis']->axisLabelRenderer->modifyChartDataPosition( 
+                            $this->elements['yAxis']->axisLabelRenderer->modifyChartDataPosition(
+                                new ezcGraphCoordinate(
+                                    ( $boundings->x1 - $boundings->x0 ) * $stepWidth,
+                                    0 
+                                )
                             )
-                        )
-                    )->x;
+                        )->x;
+                    }
 
                     foreach ( $data as $key => $value )
                     {
