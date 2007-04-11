@@ -97,8 +97,8 @@ class ezcConsoleMenuDialogDefaultValidator implements ezcConsoleMenuDialogValida
      */
     public function getResultString()
     {
-        return $this->default === null ? "" : " [{$this->default}]";
-    }
+        return $this->default === null ? "" : "[{$this->default}]";
+   }
 
     /**
      * Returns an array of the elements to display. 
@@ -160,7 +160,7 @@ class ezcConsoleMenuDialogDefaultValidator implements ezcConsoleMenuDialogValida
             case "conversion":
                 if ( $propertyValue !== self::CONVERT_NONE && $propertyValue !== self::CONVERT_UPPER && $propertyValue !== self::CONVERT_LOWER )
                 {
-                    throw new ezcBaseValueException( "conversion", $conversion, "ezcConsoleMenuDialogDefaultValidator::CONVERT_*" );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, "ezcConsoleMenuDialogDefaultValidator::CONVERT_*" );
                 }
                 break;
             default:
