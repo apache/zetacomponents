@@ -111,11 +111,11 @@ passed to the receiving slots as a parameter.
    :literal:
 
 Note that slots must accept the parameters that are passed to them. You will
-get errors / warnings if you provide too few or too many parameters to the slots
-you have connected to a signal.
+get errors / warnings if you provide too few parameters to the slots you have
+connected to a signal.
 
 Also note that it is not possible to pass signal parameters by
-reference except for object types, which are always references in PHP 5+.
+reference except for object types, which are always references in PHP 5.
 
 
 Multiple slots
