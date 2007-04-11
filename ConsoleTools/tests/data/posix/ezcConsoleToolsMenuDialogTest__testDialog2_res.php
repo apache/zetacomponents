@@ -9,7 +9,7 @@ return array (
   D) Selection D
   Z) Selection Z
 
-Select:  [Z] [0m',
+Select: [Z] [0m',
   1 => '[0mPlease choose a possibility:
 
   A) Selection A
@@ -18,7 +18,7 @@ Select:  [Z] [0m',
   D) Selection D
   Z) Selection Z
 
-Select:  [Z] [0m',
+Select: [Z] [0m',
   2 => 'User seletced Z
 ',
 );
