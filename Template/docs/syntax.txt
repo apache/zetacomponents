@@ -576,12 +576,11 @@ Besides the *use* tag it is the same syntax as a local variable declartion.
 The variable will be imported from the user application or another template and
 is now available in the current template. If the declared *use* variable is not
 sent to the current template an exception will be raised **unless** the
-declared variable is initialized to a value.
+declared variable is initialized to a value. ::
 
-::
     {use $a, $b = 2}
 
-Variable *$b* will be assigned to the value *2 * if the variable is not sent to
+Variable *$b* will be assigned to the value *2* if the variable is not sent to
 the template. Variable *$a* will raise an Exception when the variable is not
 sent. 
 
@@ -879,7 +878,7 @@ Examples::
 
 Functions
 ---------
-The template language has lots of build-in functions that can be called. These
+The template language has lots of build-in functions. These
 functions are categorized in a few groups: String, Array, Regular expression,
 Type information, and Arithmetic (math) functions. The functions are explained
 in the appendix.
@@ -1492,9 +1491,10 @@ custom blocks, we explain - much shorter - the custom functions.
 
 Custom blocks
 -------------
-Custom blocks (and custom functions) are used in the template language and
-implemented in PHP. We take a look at the template language, first. When it is
-clear how custom blocks are used, we explain how to add a custom block using PHP. 
+Custom blocks are extra functionality that could be used inside the template 
+language. These blocks are implemented in PHP. The next section explains how an
+custom block can be used. The sections thereafter discuss how to add a new
+custom block.
 
 
 Custom blocks in the template language
@@ -1509,7 +1509,7 @@ block. Optionally, a custom block has also a closing block::
 
     '{' '/' <name> '}'
 
-The name is the same  as the start block, but starts with a forward slash ('/'). The
+The name must be the same as the start block, but starts with a forward slash ('/'). The
 text between the open and close tag is considered as input data. Whether a 
 custom block should have a close tag is up to the developer.
 
@@ -1535,7 +1535,7 @@ Basically, it describes that a custom block can have:
 - Zero or more named parameters with a value. Between the parameter name and
   value is an optional equal sign. 
 
-Some example blocks which uses parameters:: 
+Some example blocks that use parameters:: 
 
     {link "eZ systems" to "http://ez.no"}
     {table border=true bgcolor="red"}
@@ -1543,8 +1543,12 @@ Some example blocks which uses parameters::
     {calculate 5 plus 5}
     {join array( 'Hello', "world" ) with "_"}
 
+    {header style="bold"}
+        Hello world
+    {/header}
+
 Note that the values used in the examples are just ordinary expressions.
-Therefore it also possible to write::
+Therefore it is possible to write::
 
     {link "eZ" . " systems" to 'http'. "://" . "ez.no"}
     {calculate 2 + 3 plus 1 * 2 + 3}
@@ -1552,8 +1556,8 @@ Therefore it also possible to write::
 Again, the optional and required parameters are up to the developer.
 
 
-Adding a new custom block
-`````````````````````````
+Adding a custom block
+`````````````````````
 New custom blocks are added to the template engine with the
 ezcTemplateConfiguration::addExtension() method. This method expects the class
 name which implements the new custom block. The next example adds a custom
@@ -1584,6 +1588,8 @@ ezcTemplateCustomBlockDefinition::
         public $startExpressionName;
         public $optionalParameters = array();
         public $requiredParameters = array();
+
+        public $isStatic;
     }
 
 The member variables that should be set in this class are:
@@ -1597,6 +1603,8 @@ The member variables that should be set in this class are:
     in either the optionalParameters or the requiredParameters.
 :optionalParameters: Optional named parameters for this custom block.
 :requiredParameters: Required named parameters for this custom block.
+:isStatic: The custom block is only called during compilation. At run time the
+static output from the custom block at compile time is displayed. 
  
 The following custom block creates a hyper-link from a name and an URL::
 
@@ -1646,6 +1654,7 @@ The next code demonstrates a class that implements the interface::
                     $def->class = "MyLink";
                     // 
                     // Create definition
+                    //
 
                     return $def;
             }
@@ -1655,8 +1664,8 @@ The next code demonstrates a class that implements the interface::
     }
 
 
-Handling the custom block
-`````````````````````````
+Implementing the custom block
+`````````````````````````````
 In the CB definition is specified which class and what method should produce the
 custom block output. A typical implementation to create a hyper-link would be::
 
@@ -1784,18 +1793,18 @@ And of course the template can be run like::
 Custom functions
 ----------------
 This section explains how the custom function can be implemented. Custom
-blocks and custom functions are very similar. Therefore we explain the custom
-functions much shorter.
+blocks and custom functions are very similar.
 
 
 Custom functions in the template language
 `````````````````````````````````````````
 Custom functions are extra functions that can be used in the Template 
-expressions. Some (mathematical) examples are::
+expressions. Some examples are::
 
     Greatest common divisor: {gcd(8, 12)}
     {sin( $angle ) * 2}
-    { matrix_multiply( $m1, $m2) }
+    {matrix_multiply( $m1, $m2)}
+    {fetch_from_database("items", 2)}
 
 Basically, the second line in the example runs a custom function and multiplies
 the result with two. This demonstrates that the difference between a custom
@@ -1820,20 +1829,29 @@ implements the ezcTemplateCustomFunctionDefinition::
     {
         public $class;
         public $method;
+        public $sendTemplateObject = false;
 
-        public $parameters = array();
+        // Deprecated:
+        // public $parameters = array();
     }
 
 
 The $class and $method parameter are the same as for custom blocks. The
-$parameters member variable specifies the required and optional parameters for
-the custom function.  
+$parameters variable is obsolete with version 1.2. It used to specify  
+the required and optional parameters for the custom function.  
 
 - Required parameters are named strings.
 - Optional parameters are named strings enclosed with square brackets. These
   parameters should be specified after the required parameters.
 
-As with functions in PHP the order of the parameters matter. The next example
+In version 1.2 and up it uses reflection to find the required and optional
+parameters. Due some bugs in the reflection classes it works properly in PHP
+version 5.2 and up.
+
+The variable *$sendTemplateObject* adds the possibility to send the current
+template object to the custom function. 
+
+As with functions in PHP the order of the unnamed parameters matter. The next example
 demonstrates a complete custom function implementation::
 
     class MyClass implements ezcTemplateCustomFunction
@@ -1846,7 +1864,9 @@ demonstrates a complete custom function implementation::
                     $def = new ezcTemplateCustomBlockDefinition;
                     $def->class = "MyClass";
                     $def->method = "customFunction";
-                    $def->parameters = array( "reqParam", "anotherReqParam", "[optionalParam]"); 
+
+                    // Deprecated:
+                    // $def->parameters = array( "firstParam", "secondParam", "[thirdParam]");
 
                     return $def;
             }
@@ -1855,7 +1875,7 @@ demonstrates a complete custom function implementation::
         }
 
 
-        public static function customFunction( $firstParam, $secondParam, $thirdParm = "isOptional" )
+        public static function customFunction( $firstParam, $secondParam, $thirdParam = "isOptional" )
         {
             // Implementation.
 
@@ -1878,6 +1898,68 @@ getCustomFunctionDefinition::
         public static function getCustomBlockDefinition( $name );
     }
 
+
+Named parameters
+````````````````
+New in version 1.2 of the Template engine are named parameters. The advantage
+of named parameters is that the order of the parameters are no longer important
+and that parameters can be omitted that otherwise was not possible.  The next
+example shows a common custom function retrieving items from the database::
+
+    // fetch_item ( select = "*", start = 0, limit = false, orderBy = "id", reverseOrder = false ) 
+    { fetch_item("*", 0, false, "name") } // Fetch everything but order by 'name'
+
+This example fetches everything from the items table and sorts it on "name".
+Without named parameters the problem is that only the second last parameter
+needs to be changed and therefore all the previous parameters need to be given.
+
+Named parameters are written in the form *"keyword = value"*. The keyword is
+the name of the parameter. The equal sign is used as separator because it is not
+possible to do any assignments within expressions.
+
+Using named parameters the code from the previous example is reduced to::
+
+    // fetch_item ( select = "*", start = 0, limit = false, orderBy = "id", reverseOrder = false ) 
+    { fetch_item( orderBy = "name") } // Fetch everything but order by 'name'
+
+Besides that the code is shorter, it is also more descriptive.
+
+
+Sending template objects
+````````````````````````
+In a few cases the template object is needed in the custom function
+implementation. With access to the template object, the configuration and other
+template settings could be retrieved and used.
+
+If the variable *$sendTemplateObject* is set to *true*, the first parameter in
+the function contains the template object. The following 
+
+The next example adds the custom function *templatePath*::
+
+    class MyClass implements ezcTemplateCustomFunction
+    {
+        public static function getCustomFunctionDefinition( $name )
+        {
+            switch ($name )
+            {
+                case "templatePath":
+                    $def = new ezcTemplateCustomBlockDefinition;
+                    $def->class = "MyClass";
+                    $def->method = "templatePath";
+                    $def->sendTemplateObject = true;
+
+                    return $def;
+            }
+
+            return false;
+        }
+
+
+        public static function templatePath($templateObj)
+        {
+            return $templateObj->configuration->templatePath
+        }
+    }
 
 
 
