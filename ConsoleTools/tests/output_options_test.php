@@ -84,6 +84,100 @@ class ezcConsoleOutputOptionsTest extends ezcTestCase
         $this->assertEquals( $opt["useFormats"], true );
     }
 
+    public function testGetAccessSuccess()
+    {
+        $opt = new ezcConsoleOutputOptions();
+        $this->assertEquals( 1, $opt->verbosityLevel );
+        $this->assertEquals( 0, $opt->autobreak );
+        $this->assertEquals( true, $opt->useFormats );
+    }
+
+    public function testGetAccessFailure()
+    {
+        $opt = new ezcConsoleOutputOptions();
+
+        $exceptionThrown = false;
+        try
+        {
+            echo $opt->foo;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on get access of invalid property foo." );
+    }
+
+    public function testSetAccessSuccess()
+    {
+        $opt = new ezcConsoleOutputOptions();
+        $opt->verbosityLevel = 10;
+        $opt->autobreak = 80;
+        $opt->useFormats = false;
+
+        $this->assertEquals( 10, $opt->verbosityLevel );
+        $this->assertEquals( 80, $opt->autobreak );
+        $this->assertEquals( false, $opt->useFormats );
+    }
+
+    public function testSetAccessFailure()
+    {
+        $opt = new ezcConsoleOutputOptions();
+
+        $exceptionThrown = false;
+        try
+        {
+            $opt->verbosityLevel = -1;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property verbosityLevel." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $opt->autobreak = -1;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property autobreak." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $opt->useFormats = "foo";
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property useFormats." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $opt->foo = true;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on set access of invalid property foo." );
+    }
+
+    public function testIsset()
+    {
+        $opt = new ezcConsoleOutputOptions();
+        $this->assertTrue( isset( $opt->verbosityLevel ) );
+        $this->assertTrue( isset( $opt->autobreak ) );
+        $this->assertTrue( isset( $opt->useFormats ) );
+        $this->assertFalse( isset( $opt->foo ) );
+    }
+
 }
 
 ?>

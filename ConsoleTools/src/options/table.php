@@ -126,7 +126,7 @@ class ezcConsoleTableOptions extends ezcBaseOptions
      * 
      * @throws ezcBasePropertyNotFoundException
      *         If a desired property could not be found.
-     * @throws ezcBaseSettingValueException
+     * @throws ezcBaseValueException
      *         If a desired property value is out of range.
      *
      * @param string $propertyName Name of the property.
@@ -140,31 +140,31 @@ class ezcConsoleTableOptions extends ezcBaseOptions
             case 'colWidth':
                 if ( !is_array( $val ) && is_string( $val ) && $val !== 'auto' )
                 {
-                    throw new ezcBaseSettingValueException( $propertyName, $val, 'array(int) or "auto"' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'array(int) or "auto"' );
                 }
                 break;
             case 'colWrap':
                 if ( $val !== ezcConsoleTable::WRAP_AUTO && $val !== ezcConsoleTable::WRAP_NONE && $val !== ezcConsoleTable::WRAP_CUT )
                 {
-                    throw new ezcBaseSettingValueException( $propertyName, $val, 'ezcConsoleTable::WRAP_AUTO, ezcConsoleTable::WRAP_NONE, ezcConsoleTable::WRAP_CUT' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'ezcConsoleTable::WRAP_AUTO, ezcConsoleTable::WRAP_NONE, ezcConsoleTable::WRAP_CUT' );
                 }
                 break;
             case 'defaultAlign':
                 if ( $val !== ezcConsoleTable::ALIGN_DEFAULT && $val !== ezcConsoleTable::ALIGN_LEFT && $val !== ezcConsoleTable::ALIGN_CENTER && $val !== ezcConsoleTable::ALIGN_RIGHT )
                 {
-                    throw new ezcBaseSettingValueException( $propertyName, $val, 'ezcConsoleTable::ALIGN_DEFAULT, ezcConsoleTable::ALIGN_LEFT, ezcConsoleTable::ALIGN_CENTER, ezcConsoleTable::ALIGN_RIGHT' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'ezcConsoleTable::ALIGN_DEFAULT, ezcConsoleTable::ALIGN_LEFT, ezcConsoleTable::ALIGN_CENTER, ezcConsoleTable::ALIGN_RIGHT' );
                 }
                 break;
             case 'colPadding':
                 if ( !is_string( $val ) )
                 {
-                    throw new ezcBaseSettingValueException( $propertyName, $val, 'string' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'string' );
                 }
                 break;
             case 'widthType':
                 if ( $val !== ezcConsoleTable::WIDTH_MAX && $val !== ezcConsoleTable::WIDTH_FIXED )
                 {
-                    throw new ezcBaseSettingValueException( $propertyName, $val, 'ezcConsoleTable::WIDTH_MAX, ezcConsoleTable::WIDTH_FIXED' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'ezcConsoleTable::WIDTH_MAX, ezcConsoleTable::WIDTH_FIXED' );
                 }
                 break;
             case 'lineVertical':
@@ -172,23 +172,23 @@ class ezcConsoleTableOptions extends ezcBaseOptions
             case 'corner':
                 if ( !is_string( $val ) && strlen( $val ) !== 1 )
                 {
-                    throw new ezcBaseSettingValueException( $propertyName, $val, 'string, length = 1' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'string, length = 1' );
                 }
                 break;
             case 'defaultFormat':
                 if ( !is_string( $val ) || strlen( $val ) < 1 )
                 {
-                    throw new ezcBaseSettingValueException( $propertyName, $val, 'string, length = 1' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'string, length = 1' );
                 }
                 break;
             case 'defaultBorderFormat':
                 if ( !is_string( $val ) || strlen( $val ) < 1 )
                 {
-                    throw new ezcBaseSettingValueException( $propertyName, $val, 'string, length = 1' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'string, length = 1' );
                 }
                 break;
             default:
-                throw new ezcBaseSettingNotFoundException( $propertyName );
+                throw new ezcBasePropertyNotFoundException( $propertyName );
         }
         $this->properties[$propertyName] = $val;
     }

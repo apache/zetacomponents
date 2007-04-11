@@ -47,11 +47,84 @@ class ezcConsoleProgressMonitorOptionsTest extends ezcTestCase
     public function testNewAccess()
     {
         $opt = new ezcConsoleProgressMonitorOptions();
-        $this->assertEquals( "%8.1f%% %s %s", $opt->formatString );
 
         $this->assertEquals( $opt["formatString"], "%8.1f%% %s %s" );
     }
 
+    public function testGetAccessSuccess()
+    {
+        $opt = new ezcConsoleProgressMonitorOptions();
+        $this->assertEquals( "%8.1f%% %s %s", $opt->formatString );
+    }
+
+    public function testGetAccessFailure()
+    {
+        $opt = new ezcConsoleProgressMonitorOptions();
+
+        $exceptionThrown = false;
+        try
+        {
+            echo $opt->foo;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on get access of invalid property foo." );
+    }
+
+    public function testSetAccessSuccess()
+    {
+        $opt = new ezcConsoleProgressMonitorOptions();
+        $opt->formatString = "foo %s";
+
+        $this->assertEquals( "foo %s", $opt->formatString );
+    }
+
+    public function testSetAccessFailure()
+    {
+        $opt = new ezcConsoleProgressMonitorOptions();
+
+        $exceptionThrown = false;
+        try
+        {
+            $opt->formatString = "";
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property formatString." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $opt->formatString = true;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property formatString." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $opt->foo = true;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on set access of invalid property foo." );
+    }
+
+    public function testIsset()
+    {
+        $opt = new ezcConsoleProgressMonitorOptions();
+        $this->assertTrue( isset( $opt->formatString ) );
+        $this->assertFalse( isset( $opt->foo ) );
+    }
 }
 
 ?>

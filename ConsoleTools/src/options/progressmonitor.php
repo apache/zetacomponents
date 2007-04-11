@@ -46,7 +46,7 @@ class ezcConsoleProgressMonitorOptions extends ezcBaseOptions
      * 
      * @throws ezcBasePropertyNotFoundException
      *         If a desired property could not be found.
-     * @throws ezcBaseSettingValueException
+     * @throws ezcBaseValueException
      *         If a desired property value is out of range.
      *
      * @param string $key Name of the property.
@@ -60,11 +60,11 @@ class ezcConsoleProgressMonitorOptions extends ezcBaseOptions
             case "formatString":
                 if ( strlen( $value ) < 1 )
                 {
-                    throw new ezcBaseSettingValueException( $key, $value, 'string, not empty' );
+                    throw new ezcBaseValueException( $key, $value, 'string, not empty' );
                 }
                 break;
             default:
-                throw new ezcBaseSettingNotFoundException( $key );
+                throw new ezcBasePropertyNotFoundException( $key );
         }
         $this->properties[$key] = $value;
     }

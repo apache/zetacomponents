@@ -77,7 +77,7 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
      * 
      * @throws ezcBasePropertyNotFoundException
      *         If a desired property could not be found.
-     * @throws ezcBaseSettingValueException
+     * @throws ezcBaseValueException
      *         If a desired property value is out of range.
      *
      * @param string $propertyName Name of the property.
@@ -92,17 +92,17 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
             case 'autobreak':
                 if ( !is_int( $val ) || $val < 0 )
                 {
-                    throw new ezcBaseSettingValueException( $propertyName, $val, 'int >= 0' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'int >= 0' );
                 }
                 break;
             case 'useFormats':
                 if ( !is_bool( $val ) )
                 {
-                    throw new ezcBaseSettingValueException( $propertyName, $val, 'bool' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'bool' );
                 }
                 break;
             default:
-                throw new ezcBaseSettingNotFoundException( $propertyName );
+                throw new ezcBasePropertyNotFoundException( $propertyName );
         }
         $this->properties[$propertyName] = $val;
     }
