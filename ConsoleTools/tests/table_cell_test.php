@@ -134,6 +134,17 @@ class ezcConsoleTableCellTest extends ezcTestCase
             $exceptionThrown = true;
         }
         $this->assertTrue( $exceptionThrown, "No exception thrown on invalid value for ezcConsoleTableCell->align." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $cell->foo = "nonExistent";
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "No exception thrown on set access of invalid property ezcConsoleTableCell->foo." );
     }
 
     public function testIssetAccess()
