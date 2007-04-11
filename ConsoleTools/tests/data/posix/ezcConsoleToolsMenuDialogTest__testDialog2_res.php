@@ -1,5 +1,7 @@
 <?php
 
+ezcTestRunner::addFileToFilter( __FILE__ );
+
 return array (
   0 => '[0mPlease choose a possibility:
 

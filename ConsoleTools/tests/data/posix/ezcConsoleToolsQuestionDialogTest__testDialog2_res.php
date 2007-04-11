@@ -1,5 +1,7 @@
 <?php
 
+ezcTestRunner::addFileToFilter( __FILE__ );
+
 return array (
   0 => '[0mHow old are you? (<int>) [0m',
   1 => '[0mHow old are you? (<int>) [0m',

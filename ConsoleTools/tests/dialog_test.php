@@ -1,6 +1,22 @@
 <?php
+/**
+ * ezcConsoleToolsDialogTest class.
+ * 
+ * @package ConsoleTools
+ * @subpackage Tests
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 
+ezcTestRunner::addFileToFilter( __FILE__ );
 
+/**
+ * Generic test case for ezcConsoleDialog implementations.
+ * 
+ * @package ConsoleTools
+ * @subpackage Tests
+ */
 class ezcConsoleToolsDialogTest extends ezcTestCase
 {
 
