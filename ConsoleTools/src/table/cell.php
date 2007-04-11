@@ -73,6 +73,7 @@ class ezcConsoleTableCell
         {
             return $this->properties[$key];
         }
+        throw new ezcBasePropertyNotFoundException( $key );
     }
 
     /**
@@ -96,9 +97,17 @@ class ezcConsoleTableCell
         switch ( $key )
         {
             case 'content':
+                if ( is_string( $val ) === false )
+                {
+                    throw new ezcBaseValueException( $key, $val, "string" );
+                }
+                break;
             case 'format':
-                $this->properties[$key] = $val;
-                return;
+                if ( is_string( $val ) === false || strlen( $val ) < 1 )
+                {
+                    throw new ezcBaseValueException( $key, $val, "string, length > 0" );
+                }
+                break;
             case 'align':
                 if ( $val !== ezcConsoleTable::ALIGN_LEFT 
                   && $val !== ezcConsoleTable::ALIGN_CENTER 
@@ -108,10 +117,12 @@ class ezcConsoleTableCell
                 {
                     throw new ezcBaseValueException( $key,  $val, 'ezcConsoleTable::ALIGN_DEFAULT, ezcConsoleTable::ALIGN_LEFT, ezcConsoleTable::ALIGN_CENTER, ezcConsoleTable::ALIGN_RIGHT' );
                 }
-                $this->properties['align'] = $val;
-                return;
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $key );
         }
-        throw new ezcBasePropertyNotFoundException( $key );
+        $this->properties[$key] = $val;
+        return;
     }
  
     /**

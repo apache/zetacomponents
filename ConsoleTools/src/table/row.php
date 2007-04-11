@@ -301,6 +301,7 @@ class ezcConsoleTableRow implements Countable, Iterator, ArrayAccess
         {
             return $this->properties[$key];
         }
+        throw new ezcBasePropertyNotFoundException( $key );
     }
 
     /**
@@ -325,8 +326,11 @@ class ezcConsoleTableRow implements Countable, Iterator, ArrayAccess
         {
             case 'format':
             case 'borderFormat':
-                $this->properties[$key] = $val;
-                return;
+                if ( is_string( $val ) === false || strlen( $val ) < 1 )
+                {
+                    throw new ezcBaseValueException( $key, $val, "string, length > 0" );
+                }
+                break;
             case 'align':
                 if ( $val !== ezcConsoleTable::ALIGN_LEFT 
                   && $val !== ezcConsoleTable::ALIGN_CENTER 
@@ -336,10 +340,11 @@ class ezcConsoleTableRow implements Countable, Iterator, ArrayAccess
                 {
                     throw new ezcBaseValueException( $key, $val, 'ezcConsoleTable::ALIGN_DEFAULT, ezcConsoleTable::ALIGN_LEFT, ezcConsoleTable::ALIGN_CENTER, ezcConsoleTable::ALIGN_RIGHT' );
                 }
-                $this->properties['align'] = $val;
-                return;
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $key );
         }
-        throw new ezcBasePropertyNotFoundException( $key );
+        $this->properties[$key] = $val;
     }
  
     /**
@@ -353,14 +358,13 @@ class ezcConsoleTableRow implements Countable, Iterator, ArrayAccess
     {
         switch ( $key )
         {
-            case 'content':
             case 'format':
+            case 'borderFormat':
             case 'align':
                 return true;
             default:
-                break;
+                return false;
         }
-        return false;
     }
 
 }

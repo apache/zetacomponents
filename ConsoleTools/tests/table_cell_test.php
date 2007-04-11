@@ -63,6 +63,29 @@ class ezcConsoleTableCellTest extends ezcTestCase
         $this->fail( "Exception not thrown on invalid align value." );
     }
 
+    public function testGetAccessSuccess()
+    {
+        $cell = new ezcConsoleTableCell();
+        $this->assertEquals( $cell->content, "" );
+        $this->assertEquals( $cell->format, "default" );
+        $this->assertEquals( $cell->align, ezcConsoleTable::ALIGN_DEFAULT );
+    }
+
+    public function testGetAccessFailure()
+    {
+        $cell = new ezcConsoleTableCell();
+
+        try
+        {
+            echo $cell->foo;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on get access of invalid property foo." );
+    }
+
     public function testSetAccessSuccess()
     {
         $cell = new ezcConsoleTableCell();
@@ -78,16 +101,48 @@ class ezcConsoleTableCellTest extends ezcTestCase
     public function testSetAccessFailure()
     {
         $cell = new ezcConsoleTableCell();
+
+        $exceptionThrown = false;
+        try
+        {
+            $cell->content = 23;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "No exception thrown on invalid value for ezcConsoleTableCell->content." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $cell->format = 23;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "No exception thrown on invalid value for ezcConsoleTableCell->format." );
+
+        $exceptionThrown = false;
         try
         {
             $cell->align = "nonExistent";
         }
         catch ( ezcBaseValueException $e )
         {
-            return;
+            $exceptionThrown = true;
         }
-        $this->fail( "No exception thrown on invalid value for ezcConsoleTableCell->align." );
+        $this->assertTrue( $exceptionThrown, "No exception thrown on invalid value for ezcConsoleTableCell->align." );
     }
-    
+
+    public function testIssetAccess()
+    {
+        $cell = new ezcConsoleTableCell();
+        $this->assertTrue( isset( $cell->content ) );
+        $this->assertTrue( isset( $cell->format ) );
+        $this->assertTrue( isset( $cell->align ) );
+        $this->assertFalse( isset( $cell->foo ) );
+    }
 }
 ?>

@@ -172,7 +172,7 @@ class ezcConsoleTableRowTest extends ezcTestCase
     public function testCount_1()
     {
         $row = new ezcConsoleTableRow();
-        $row[0]->content = 0;
+        $row[0]->content = "0";
         $this->assertEquals( 
             1,
             count( $row ),
@@ -183,7 +183,7 @@ class ezcConsoleTableRowTest extends ezcTestCase
     public function testCount_2()
     {
         $row = new ezcConsoleTableRow();
-        $row[1]->content = 0;
+        $row[1]->content = "0";
         $this->assertEquals( 
             2,
             count( $row ),
@@ -194,7 +194,7 @@ class ezcConsoleTableRowTest extends ezcTestCase
     public function testCount_3()
     {
         $row = new ezcConsoleTableRow();
-        $row[10]->content = 0;
+        $row[10]->content = "0";
         $this->assertEquals( 
             11,
             count( $row ),
@@ -207,7 +207,7 @@ class ezcConsoleTableRowTest extends ezcTestCase
         $row = new ezcConsoleTableRow();
         for ( $i = 0; $i < 10; $i++ )
         {
-            $row[$i]->content = $i;
+            $row[$i]->content = (string) $i;
         }
         
         $row->align = ezcConsoleTable::ALIGN_CENTER;
@@ -227,7 +227,7 @@ class ezcConsoleTableRowTest extends ezcTestCase
         $row = new ezcConsoleTableRow();
         for ( $i = 0; $i < 10; $i++ )
         {
-            $row[$i]->content = $i;
+            $row[$i]->content = (string) $i;
         }
         
         $row->format = 'headline';
@@ -242,5 +242,97 @@ class ezcConsoleTableRowTest extends ezcTestCase
         }
     }
 
+    public function testGetAccessSuccess()
+    {
+        $row = new ezcConsoleTableRow();
+        $this->assertEquals( "default", $row->borderFormat );
+        $this->assertEquals( "default", $row->format );
+        $this->assertEquals( ezcConsoleTable::ALIGN_DEFAULT, $row->align );
+    }
+
+    public function testGetAccessFailure()
+    {
+        $row = new ezcConsoleTableRow();
+        try
+        {
+            echo $row->foo;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on get access of invalid property foo." );
+    }
+
+    public function testSetAccessSuccess()
+    {
+        $row = new ezcConsoleTableRow();
+        
+        $row->borderFormat = "foo";
+        $row->format = "foo";
+        $row->align = ezcConsoleTable::ALIGN_RIGHT;
+        
+        $this->assertEquals( "foo", $row->borderFormat );
+        $this->assertEquals( "foo", $row->format );
+        $this->assertEquals( ezcConsoleTable::ALIGN_RIGHT, $row->align );
+    }
+
+    public function testSetAccessFailure()
+    {
+        $row = new ezcConsoleTableRow();
+
+        $exceptionThrown = false;
+        try
+        {
+            $row->borderFormat = 23;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property borderFormat." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $row->format = 23;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property format." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $row->align = 23;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property align." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $row->foo = 23;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on set access to invalid property foo." );
+    }
+
+    public function testIssetAccess()
+    {
+        $row = new ezcConsoleTableRow();
+        $this->assertTrue( isset( $row->format ) );
+        $this->assertTrue( isset( $row->borderFormat ) );
+        $this->assertTrue( isset( $row->align ) );
+        $this->assertFalse( isset( $row->foo ) );
+    }
 }
 ?>
