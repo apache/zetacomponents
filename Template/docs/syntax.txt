@@ -141,6 +141,38 @@ As you can expect the result is::
     Answer: 5 
 
 
+Template locations
+------------------
+Since version 1.2 it is possible to send a Location object instead of a
+*location* parameter of the *process* method. A Location object is an object
+that implements the Location interface. The interface is as follows::
+
+    interface ezcTemplateLocationInterface
+    {
+        public function getPath();
+    }
+
+The template engine calls the *getPath* method on the object implementing this
+interface when needed. The *getPath* method returns a
+string specifying the template to execute. If the return value is a relative
+path , if it does not start with a slash, then the *templatePath* from the
+configuration is prepended. 
+
+The next example executes the *hello\_world.ezt* template via a location
+object::
+
+    class MyLocation implements ezcTemplateLocationInterface
+    {
+        public function getPath()
+        {
+            return "hello_world.ezt";
+        }
+    }
+
+    $t = new ezcTemplate();
+    $t->process( new MyLocation() );
+
+
 
 Template syntax
 ===============
@@ -709,7 +741,7 @@ The operands are:
 - Functions_
 
 The operands Boolean, Integer, Float, String, and Array are described in the
-Types_ section. Variables are described in the Variables_ section. Functions
+`Primitive types`_ section. Variables are described in the Variables_ section. Functions
 will be described in the Functions_ section.
 
 Variables and functions are considered as operands since they return one
@@ -1405,9 +1437,13 @@ via the given variables.
 
 The syntax of the include is as follows::
 
-  {include <template_name> 
+  {include <template_name | location_object > 
    [ send <send_variables> ]
    [ receive <receive_variables> ]
+
+The file that needs to be included is either specified with a string
+(template\_name) or with a location object. The location object is explained in
+the section `Template locations`_.
 
 The <send\_variables> has this syntax::
 
@@ -1604,7 +1640,7 @@ The member variables that should be set in this class are:
 :optionalParameters: Optional named parameters for this custom block.
 :requiredParameters: Required named parameters for this custom block.
 :isStatic: The custom block is only called during compilation. At run time the
-static output from the custom block at compile time is displayed. 
+    static output from the custom block at compile time is displayed. 
  
 The following custom block creates a hyper-link from a name and an URL::
 
