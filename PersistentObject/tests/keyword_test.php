@@ -11,6 +11,7 @@ ezcTestRunner::addFileToFilter( __FILE__ );
 
 require_once "data/keywordtest/table_class.php";
 require_once "data/keywordtest/where_class.php";
+require_once "data/keywordtest/sequence_class.php";
 
 /**
  * These tests tests for the usage of keywords for table and column names.
@@ -134,6 +135,19 @@ class ezcPersistentKeywordTest extends ezcTestCase
         $this->session->delete( $object2 );
 
         $this->assertNull( $this->session->loadIfExists( 'Table', 1 ) );
+    }
+
+    public function testSaveAlias()
+    {
+        $object = new Sequence();
+        $object->trigger = 42;
+        $this->session->save( $object );
+
+        $this->assertEquals( 1, $object->column );
+
+        $object2 = $this->session->loadIfExists( 'Sequence', 1 );
+        $this->assertNotEquals( NULL, $object2 );
+        $this->assertEquals( 42, $object2->trigger );
     }
 
     public function test1NGetRelatedObject()
