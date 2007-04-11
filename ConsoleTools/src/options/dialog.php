@@ -33,7 +33,7 @@ class ezcConsoleDialogOptions extends ezcBaseOptions
         switch ( $propertyName )
         {
             case "format":
-                if ( !is_string( $propertyValue ) || strlen( $propertyValue ) < 1 )
+                if ( is_string( $propertyValue ) === false || strlen( $propertyValue ) < 1 )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, "string, length > 0" );
                 }

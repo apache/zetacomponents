@@ -340,7 +340,7 @@ class ezcConsoleTableTest extends ezcTestCase
         {
             $table->options->colWidth = 'test';
         } 
-        catch ( ezcBaseSettingValueException $e)
+        catch ( ezcBaseValueException $e)
         {
             $exceptionThrown = true;
         }
@@ -354,7 +354,7 @@ class ezcConsoleTableTest extends ezcTestCase
         {
             $table->options->colWrap = 100;
         } 
-        catch ( ezcBaseSettingValueException $e)
+        catch ( ezcBaseValueException $e)
         {
             $exceptionThrown = true;
         }
@@ -368,7 +368,7 @@ class ezcConsoleTableTest extends ezcTestCase
         {
             $table->options->defaultAlign = 101;
         } 
-        catch ( ezcBaseSettingValueException $e)
+        catch ( ezcBaseValueException $e)
         {
             $exceptionThrown = true;
         }
@@ -382,7 +382,7 @@ class ezcConsoleTableTest extends ezcTestCase
         {
             $table->options->colPadding = 102;
         } 
-        catch ( ezcBaseSettingValueException $e)
+        catch ( ezcBaseValueException $e)
         {
             $exceptionThrown = true;
         }
@@ -396,7 +396,7 @@ class ezcConsoleTableTest extends ezcTestCase
         {
             $table->options->widthType = 103;
         } 
-        catch ( ezcBaseSettingValueException $e)
+        catch ( ezcBaseValueException $e)
         {
             $exceptionThrown = true;
         }
@@ -410,7 +410,7 @@ class ezcConsoleTableTest extends ezcTestCase
         {
             $table->options->lineVertical = 104;
         } 
-        catch ( ezcBaseSettingValueException $e)
+        catch ( ezcBaseValueException $e)
         {
             $exceptionThrown = true;
         }
@@ -424,7 +424,7 @@ class ezcConsoleTableTest extends ezcTestCase
         {
             $table->options->lineHorizontal = 105;
         } 
-        catch ( ezcBaseSettingValueException $e)
+        catch ( ezcBaseValueException $e)
         {
             $exceptionThrown = true;
         }
@@ -438,7 +438,7 @@ class ezcConsoleTableTest extends ezcTestCase
         {
             $table->options->corner = 106;
         } 
-        catch ( ezcBaseSettingValueException $e)
+        catch ( ezcBaseValueException $e)
         {
             $exceptionThrown = true;
         }
@@ -452,7 +452,7 @@ class ezcConsoleTableTest extends ezcTestCase
         {
             $table->options->defaultFormat = array();
         } 
-        catch ( ezcBaseSettingValueException $e)
+        catch ( ezcBaseValueException $e)
         {
             $exceptionThrown = true;
         }
@@ -466,7 +466,7 @@ class ezcConsoleTableTest extends ezcTestCase
         {
             $table->options->defaultBorderFormat = true;
         }
-        catch ( ezcBaseSettingValueException $e)
+        catch ( ezcBaseValueException $e)
         {
             $exceptionThrown = true;
         }

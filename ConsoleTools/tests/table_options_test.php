@@ -324,7 +324,7 @@ class ezcConsoleTableOptionsTest extends ezcTestCase
         $exceptionThrown = false;
         try
         {
-            $opt->defaultFormat = "foo";
+            $opt->defaultFormat = 23;
         }
         catch ( ezcBaseValueException $e )
         {

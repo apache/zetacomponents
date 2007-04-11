@@ -62,7 +62,7 @@ class ezcConsoleStatusbarOptions extends ezcBaseOptions
         {
             case "successChar":
             case "failureChar":
-                if ( strlen( $value ) < 1 )
+                if ( is_string( $value ) === false || strlen( $value ) < 1 )
                 {
                     throw new ezcBaseValueException( $key, $value, 'string, not empty' );
                 }

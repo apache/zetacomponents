@@ -138,7 +138,7 @@ class ezcConsoleTableOptions extends ezcBaseOptions
         switch ( $propertyName )
         {
             case 'colWidth':
-                if ( !is_array( $val ) && is_string( $val ) && $val !== 'auto' )
+                if ( is_array( $val ) === false && ( is_string( $val ) && $val !== 'auto' ) )
                 {
                     throw new ezcBaseValueException( $propertyName, $val, 'array(int) or "auto"' );
                 }
@@ -170,19 +170,19 @@ class ezcConsoleTableOptions extends ezcBaseOptions
             case 'lineVertical':
             case 'lineHorizontal':
             case 'corner':
-                if ( !is_string( $val ) && strlen( $val ) !== 1 )
+                if ( is_string( $val ) === false || strlen( $val ) !== 1 )
                 {
                     throw new ezcBaseValueException( $propertyName, $val, 'string, length = 1' );
                 }
                 break;
             case 'defaultFormat':
-                if ( !is_string( $val ) || strlen( $val ) < 1 )
+                if ( is_string( $val ) === false || strlen( $val ) < 1 )
                 {
                     throw new ezcBaseValueException( $propertyName, $val, 'string, length = 1' );
                 }
                 break;
             case 'defaultBorderFormat':
-                if ( !is_string( $val ) || strlen( $val ) < 1 )
+                if ( is_string( $val ) === false || strlen( $val ) < 1 )
                 {
                     throw new ezcBaseValueException( $propertyName, $val, 'string, length = 1' );
                 }
