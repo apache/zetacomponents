@@ -79,9 +79,19 @@ require_once 'progressmonitor_test.php';
 require_once 'progressmonitor_options_test.php';
 
 /**
+ * Require test suite for ezcConsoleDialogOptions class. 
+ */
+require_once 'dialog_options_test.php';
+
+/**
  * Require test suite for ezcConsoleQuestionDialog class. 
  */
 require_once 'question_dialog_test.php';
+
+/**
+ * Require test suite for ezcConsoleQuestionDialogOptions class. 
+ */
+require_once 'question_dialog_options_test.php';
 
 /**
  * Require test suite for ezcConsoleQuestionDialogCollectionValidator class. 
@@ -102,6 +112,11 @@ require_once 'menu_dialog_test.php';
  * Require test suite for ezcConsoleMenuDialogOptions class. 
  */
 require_once 'menu_dialog_options_test.php';
+
+/**
+ * Require test suite for ezcConsoleMenuDialogDefaultValidator class. 
+ */
+require_once 'menu_dialog_default_validator_test.php';
     
 /**
  * Test suite for ConsoleTools package.
@@ -134,10 +149,13 @@ class ezcConsoleToolsSuite extends PHPUnit_Framework_TestSuite
 		$this->addTest( ezcConsoleToolsProgressMonitorTest::suite() );
 		$this->addTest( ezcConsoleToolsProgressMonitorOptionsTest::suite() );
 		$this->addTest( ezcConsoleToolsQuestionDialogTest::suite() );
+		$this->addTest( ezcConsoleDialogOptionsTest::suite() );
+		$this->addTest( ezcConsoleQuestionDialogOptionsTest::suite() );
 		$this->addTest( ezcConsoleQuestionDialogCollectionValidatorTest::suite() );
 		$this->addTest( ezcConsoleQuestionDialogTypeValidatorTest::suite() );
 		$this->addTest( ezcConsoleToolsMenuDialogTest::suite() );
 		$this->addTest( ezcConsoleMenuDialogOptionsTest::suite() );
+		$this->addTest( ezcConsoleMenuDialogDefaultValidatorTest::suite() );
 	}
 
     public static function suite()
