@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcConsoleToolsProgressbarOptionsTest class.
+ * ezcConsoleProgressbarOptionsTest class.
  * 
  * @package ConsoleTools
  * @subpackage Tests
@@ -17,12 +17,12 @@ ezcTestRunner::addFileToFilter( __FILE__ );
  * @package ConsoleTools
  * @subpackage Tests
  */
-class ezcConsoleToolsProgressbarOptionsTest extends ezcTestCase
+class ezcConsoleProgressbarOptionsTest extends ezcTestCase
 {
 
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsProgressbarOptionsTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcConsoleProgressbarOptionsTest" );
 	}
     
     /**

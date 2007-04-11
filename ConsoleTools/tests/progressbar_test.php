@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcConsoleToolsOutputTest class
+ * ezcConsoleOutputTest class
  * 
  * @package ConsoleTools
  * @subpackage Tests
@@ -17,11 +17,11 @@ ezcTestRunner::addFileToFilter( __FILE__ );
  * @package ConsoleTools
  * @subpackage Tests
  */
-class ezcConsoleToolsProgressbarTest extends ezcTestCase
+class ezcConsoleProgressbarTest extends ezcTestCase
 {
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsProgressbarTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcConsoleProgressbarTest" );
 	}
     
     public function testProgress1()

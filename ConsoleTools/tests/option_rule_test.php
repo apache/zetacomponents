@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcConsoleToolsOptionRuleTest class.
+ * ezcConsoleOptionRuleTest class.
  * 
  * @package ConsoleTools
  * @subpackage Tests
@@ -17,12 +17,12 @@ ezcTestRunner::addFileToFilter( __FILE__ );
  * @package ConsoleTools
  * @subpackage Tests
  */
-class ezcConsoleToolsOptionRuleTest extends ezcTestCase
+class ezcConsoleOptionRuleTest extends ezcTestCase
 {
 
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsOptionRuleTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcConsoleOptionRuleTest" );
 	}
 
     public function testGetAccessSuccess()

@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcConsoleToolsInputTest class.
+ * ezcConsoleInputTest class.
  * 
  * @package ConsoleTools
  * @subpackage Tests
@@ -17,7 +17,7 @@ ezcTestRunner::addFileToFilter( __FILE__ );
  * @package ConsoleTools
  * @subpackage Tests
  */
-class ezcConsoleToolsInputTest extends ezcTestCase
+class ezcConsoleInputTest extends ezcTestCase
 {
     private $testOptions = array( 
         array( 
@@ -172,7 +172,7 @@ class ezcConsoleToolsInputTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsInputTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcConsoleInputTest" );
 	}
 
     protected function setUp()

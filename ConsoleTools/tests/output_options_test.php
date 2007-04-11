@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcConsoleToolsOutputOptionsTest 
+ * ezcConsoleOutputOptionsTest 
  * 
  * @package ConsoleTools
  * @subpackage Tests
@@ -17,12 +17,12 @@ ezcTestRunner::addFileToFilter( __FILE__ );
  * @package ConsoleTools
  * @subpackage Tests
  */
-class ezcConsoleToolsOutputOptionsTest extends ezcTestCase
+class ezcConsoleOutputOptionsTest extends ezcTestCase
 {
 
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsOutputOptionsTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcConsoleOutputOptionsTest" );
 	}
 
     /**

@@ -22,12 +22,12 @@ require_once dirname( __FILE__ ) . "/dialog_test.php";
  * @package ConsoleTools
  * @subpackage Tests
  */
-class ezcConsoleToolsQuestionDialogTest extends ezcConsoleToolsDialogTest
+class ezcConsoleQuestionDialogTest extends ezcConsoleDialogTest
 {
 
 	public static function suite()
     {
-        return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsQuestionDialogTest" );
+        return new PHPUnit_Framework_TestSuite( "ezcConsoleQuestionDialogTest" );
     }
 
     public function testGetAccessSuccess()

@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcConsoleToolsStatusbarOptionsTest class.
+ * ezcConsoleStatusbarOptionsTest class.
  * 
  * @package ConsoleTools
  * @subpackage Tests
@@ -17,12 +17,12 @@ ezcTestRunner::addFileToFilter( __FILE__ );
  * @package ConsoleTools
  * @subpackage Tests
  */
-class ezcConsoleToolsStatusbarOptionsTest extends ezcTestCase
+class ezcConsoleStatusbarOptionsTest extends ezcTestCase
 {
 
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsStatusbarOptionsTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcConsoleStatusbarOptionsTest" );
 	}
     
     /**

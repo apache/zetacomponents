@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcConsoleToolsDialogTest class.
+ * ezcConsoleDialogTest class.
  * 
  * @package ConsoleTools
  * @subpackage Tests
@@ -17,7 +17,7 @@ ezcTestRunner::addFileToFilter( __FILE__ );
  * @package ConsoleTools
  * @subpackage Tests
  */
-class ezcConsoleToolsDialogTest extends ezcTestCase
+class ezcConsoleDialogTest extends ezcTestCase
 {
 
     protected $dataDir;

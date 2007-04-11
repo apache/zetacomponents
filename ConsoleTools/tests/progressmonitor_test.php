@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcConsoleToolsProgressMonitorTest class.
+ * ezcConsoleProgressMonitorTest class.
  * 
  * @package ConsoleTools
  * @subpackage Tests
@@ -17,7 +17,7 @@ ezcTestRunner::addFileToFilter( __FILE__ );
  * @package ConsoleTools
  * @subpackage Tests
  */
-class ezcConsoleToolsProgressMonitorTest extends ezcTestCase
+class ezcConsoleProgressMonitorTest extends ezcTestCase
 {
     private $stati = array(
         array( 'UPLOAD', '/var/upload/test.php' ),
@@ -34,7 +34,7 @@ class ezcConsoleToolsProgressMonitorTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsProgressMonitorTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcConsoleProgressMonitorTest" );
 	}
 
     public function testProgressMonitor1()

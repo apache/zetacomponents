@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcConsoleToolsProgressMonitorOptionsTest class.
+ * ezcConsoleProgressMonitorOptionsTest class.
  * 
  * @package ConsoleTools
  * @subpackage Tests
@@ -17,12 +17,12 @@ ezcTestRunner::addFileToFilter( __FILE__ );
  * @package ConsoleTools
  * @subpackage Tests
  */
-class ezcConsoleToolsProgressMonitorOptionsTest extends ezcTestCase
+class ezcConsoleProgressMonitorOptionsTest extends ezcTestCase
 {
 
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsProgressMonitorOptionsTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcConsoleProgressMonitorOptionsTest" );
 	}
     
     /**

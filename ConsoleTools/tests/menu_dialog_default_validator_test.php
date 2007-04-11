@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcConsoleToolsMenuDialogDefaultValidatorTest class.
+ * ezcConsoleMenuDialogDefaultValidatorTest class.
  * 
  * @package ConsoleTools
  * @subpackage Tests

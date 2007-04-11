@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcConsoleToolsMenuDialogTest class.
+ * ezcConsoleMenuDialogTest class.
  * 
  * @package ConsoleTools
  * @subpackage Tests
@@ -22,12 +22,12 @@ require_once dirname( __FILE__ ) . "/dialog_test.php";
  * @package ConsoleTools
  * @subpackage Tests
  */
-class ezcConsoleToolsMenuDialogTest extends ezcConsoleToolsDialogTest
+class ezcConsoleMenuDialogTest extends ezcConsoleDialogTest
 {
 
 	public static function suite()
     {
-        return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsMenuDialogTest" );
+        return new PHPUnit_Framework_TestSuite( "ezcConsoleMenuDialogTest" );
     }
 
     public function testGetAccessSuccess()

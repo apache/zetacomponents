@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcConsoleToolsOutputTest class.
+ * ezcConsoleOutputTest class.
  * 
  * @package ConsoleTools
  * @subpackage Tests
@@ -17,7 +17,7 @@ ezcTestRunner::addFileToFilter( __FILE__ );
  * @package ConsoleTools
  * @subpackage Tests
  */
-class ezcConsoleToolsStatusbarTest extends ezcTestCase
+class ezcConsoleStatusbarTest extends ezcTestCase
 {
     private $stati = array( 
         true,
@@ -49,7 +49,7 @@ class ezcConsoleToolsStatusbarTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsStatusbarTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcConsoleStatusbarTest" );
 	}
 
     public function testStatusbar1()

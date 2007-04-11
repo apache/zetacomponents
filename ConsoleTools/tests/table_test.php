@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcConsoleToolsOutputTest class.
+ * ezcConsoleOutputTest class.
  * 
  * @package ConsoleTools
  * @subpackage Tests
@@ -17,7 +17,7 @@ ezcTestRunner::addFileToFilter( __FILE__ );
  * @package ConsoleTools
  * @subpackage Tests
  */
-class ezcConsoleToolsTableTest extends ezcTestCase
+class ezcConsoleTableTest extends ezcTestCase
 {
     private $tableData1 = array( 
         array( 'Heading no. 1', 'Longer heading no. 2', 'Head 3' ),
@@ -46,7 +46,7 @@ class ezcConsoleToolsTableTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsTableTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcConsoleTableTest" );
 	}
 
     protected function setUp()

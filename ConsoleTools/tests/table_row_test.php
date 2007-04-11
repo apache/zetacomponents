@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcConsoleToolsTableRowTest class.
+ * ezcConsoleTableRowTest class.
  * 
  * @package ConsoleTools
  * @subpackage Tests
@@ -17,11 +17,11 @@ ezcTestRunner::addFileToFilter( __FILE__ );
  * @package ConsoleTools
  * @subpackage Tests
  */
-class ezcConsoleToolsTableRowTest extends ezcTestCase
+class ezcConsoleTableRowTest extends ezcTestCase
 {
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( "ezcConsoleToolsTableRowTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcConsoleTableRowTest" );
 	}
 
     public function testCtorSuccess_1()
