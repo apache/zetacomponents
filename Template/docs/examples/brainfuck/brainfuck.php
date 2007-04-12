@@ -91,7 +91,8 @@ class BrainFuck implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
         \$result = '';
 ENDL;
 
-        for ( $ip = 0; $ip < strlen( $code ); $ip++ )
+        $length = strlen( $code );
+        for ( $ip = 0; $ip < $length; $ip++ )
         {
             switch ( $code[ $ip ] )
             {
