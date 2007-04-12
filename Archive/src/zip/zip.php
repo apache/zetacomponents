@@ -266,7 +266,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
 
             if ( !ezcArchiveLocalFileHeader::isSignature( $sig ) )
             {
-                exit("WRONG STUFF");
+                throw new ezcArchiveException( "Zip file corrupt?" );
             }
 
             $this->localHeaders[$fileNumber] = new ezcArchiveLocalFileHeader( $this->file ); 
@@ -305,6 +305,10 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         */
         
         $data = $this->file->read( $header->compressedSize );
+        if( $data === false )
+        {
+            $data = "";
+        }
 /*
 Part: 2/2
 // And remove the stream filter.
