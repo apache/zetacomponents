@@ -51,7 +51,8 @@ class ezcArchiveChecksums
     public static function getTotalByteValueFromString( $data )
     {
         $total = 0;
-        for( $i = 0; $i < strlen( $data ); $i++ )
+        $length = strlen( $data );
+        for( $i = 0; $i < $length; $i++ )
         {
             $total += ord( $data[$i] );
         }
