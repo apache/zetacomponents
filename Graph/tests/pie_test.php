@@ -69,16 +69,22 @@ class ezcGraphPieChartTest extends ezcGraphTestCase
     {
         $options = new ezcGraphPieChartOptions();
 
-/* Checking for null values does not work with current ezcBaseOptions class
         $this->assertSame(
             null,
             $options->labelCallback,
             'Wrong default value for property labelCallback in class ezcGraphPieChartOptions'
-        ); */
+        );
 
         $options->labelCallback = 'printf';
         $this->assertSame(
             'printf',
+            $options->labelCallback,
+            'Setting property value did not work for property labelCallback in class ezcGraphPieChartOptions'
+        );
+
+        $options->labelCallback = array( $this, __METHOD__ );
+        $this->assertSame(
+            array( $this, __METHOD__ ),
             $options->labelCallback,
             'Setting property value did not work for property labelCallback in class ezcGraphPieChartOptions'
         );
