@@ -167,6 +167,21 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
     {
         $this->steps = array();
 
+        // Apply label format callback function
+        if ( $this->properties['labelCallback'] !==  null )
+        {
+            foreach ( $this->labels as $nr => $label )
+            {
+                $this->labels[$nr] = call_user_func_array(
+                    $this->properties['labelCallback'],
+                    array(
+                        $label,
+                        $nr
+                    )
+                );
+            }
+        }
+
         $labelCount = count( $this->labels ) - 1;
 
         if ( $labelCount === 0 )

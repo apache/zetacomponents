@@ -259,11 +259,28 @@ class ezcGraphChartElementLogarithmicalAxis extends ezcGraphChartElementAxis
      */
     public function getLabel( $step )
     {
-        return sprintf( 
-            $this->properties['logarithmicalFormatString'],
-            $this->properties['base'],
-            $this->properties['min'] + ( $step * $this->properties['majorStep'] )
-        );
+        if ( $this->properties['labelCallback'] !== null )
+        {
+            return call_user_func_array(
+                $this->properties['labelCallback'],
+                array(
+                    sprintf( 
+                        $this->properties['logarithmicalFormatString'],
+                        $this->properties['base'],
+                        $this->properties['min'] + ( $step * $this->properties['majorStep'] )
+                    ),
+                    $step,
+                )
+            );
+        }
+        else
+        {
+            return sprintf( 
+                $this->properties['logarithmicalFormatString'],
+                $this->properties['base'],
+                $this->properties['min'] + ( $step * $this->properties['majorStep'] )
+            );
+        }
     }
 
     /**

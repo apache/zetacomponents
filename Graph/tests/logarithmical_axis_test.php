@@ -399,5 +399,72 @@ class ezcGraphLogarithmicalAxisTest extends ezcGraphTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
+
+    public function testRenderedLabels()
+    {
+        try
+        {
+            $chart = new ezcGraphLineChart();
+            $chart->yAxis = new ezcGraphChartElementLogarithmicalAxis();
+            $chart->data['sample'] = new ezcGraphArrayDataSet( array( .03, 12, 43, 1023, .02, 1.5, 9823 ) );
+            $chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
+
+        $steps = $chart->yAxis->getSteps();
+
+        $expectedLabels = array(
+            '10^-2', '10^-1', '10^0', '10^1', '10^2', '10^3', '10^4',
+        );
+
+        foreach ( $steps as $nr => $step )
+        {
+            $this->assertSame(
+                $step->label,
+                $expectedLabels[$nr],
+                'Label not as expected'
+            );
+        }
+    }
+
+    public function testRenderedLabelsWithLabelFormattingCallback()
+    {
+        try
+        {
+            $chart = new ezcGraphLineChart();
+
+            $chart->yAxis = new ezcGraphChartElementLogarithmicalAxis();
+            $chart->yAxis->labelCallback = create_function(
+                '$label',
+                'return "*$label*";'
+            );
+
+            $chart->data['sample'] = new ezcGraphArrayDataSet( array( .03, 12, 43, 1023, .02, 1.5, 9823 ) );
+
+            $chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
+
+        $steps = $chart->yAxis->getSteps();
+
+        $expectedLabels = array(
+            '*10^-2*', '*10^-1*', '*10^0*', '*10^1*', '*10^2*', '*10^3*', '*10^4*',
+        );
+
+        foreach ( $steps as $nr => $step )
+        {
+            $this->assertSame(
+                $step->label,
+                $expectedLabels[$nr],
+                'Label not as expected'
+            );
+        }
+    }
 }
 ?>

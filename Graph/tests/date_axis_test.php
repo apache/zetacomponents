@@ -461,6 +461,78 @@ class ezcGraphDateAxisTest extends ezcGraphTestCase
         );
     }
 
+    public function testRenderedLabels()
+    {
+        $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 
+            '1.1.2001' => 324,
+            '1.1.2002' => 324,
+            '1.1.2003' => 324,
+            '1.1.2004' => 324,
+        ) );
+
+        try
+        {
+            $this->chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
+
+        $steps = $this->chart->xAxis->getSteps();
+
+        $expectedLabels = array(
+            '2001', '2002', '2003', '2004'
+        );
+
+        foreach ( $steps as $nr => $step )
+        {
+            $this->assertSame(
+                $step->label,
+                $expectedLabels[$nr],
+                'Label not as expected'
+            );
+        }
+    }
+
+    public function testRenderedLabelsWithLabelFormattingCallback()
+    {
+        $this->chart->data['some data'] = new ezcGraphArrayDataSet( array( 
+            '1.1.2001' => 324,
+            '1.1.2002' => 324,
+            '1.1.2003' => 324,
+            '1.1.2004' => 324,
+        ) );
+        $this->chart->xAxis->labelCallback = create_function(
+            '$label',
+            'return "*$label*";'
+        );
+
+        try
+        {
+            $this->chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
+
+        $steps = $this->chart->xAxis->getSteps();
+
+        $expectedLabels = array(
+            '*2001*', '*2002*', '*2003*', '*2004*'
+        );
+
+        foreach ( $steps as $nr => $step )
+        {
+            $this->assertSame(
+                $step->label,
+                $expectedLabels[$nr],
+                'Label not as expected'
+            );
+        }
+    }
+
     public function testStrToTimeLabelConvertionRendering()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';

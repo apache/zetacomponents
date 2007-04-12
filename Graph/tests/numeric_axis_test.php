@@ -739,5 +739,69 @@ class ezcGraphNumericAxisTest extends ezcTestCase
 
         $this->fail( 'Expected ezcBaseValueException.' );
     }
+
+    public function testRenderedLabels()
+    {
+        try
+        {
+            $chart = new ezcGraphLineChart();
+            $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+            $chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
+
+        $steps = $chart->yAxis->getSteps();
+
+        $expectedLabels = array(
+            '-100', '0', '100', '200', '300', '400',
+        );
+
+        foreach ( $steps as $nr => $step )
+        {
+            $this->assertEquals(
+                $step->label,
+                $expectedLabels[$nr],
+                'Label not as expected'
+            );
+        }
+    }
+
+    public function testRenderedLabelsWithLabelFormattingCallback()
+    {
+        try
+        {
+            $chart = new ezcGraphLineChart();
+
+            $chart->yAxis->labelCallback = create_function(
+                '$label',
+                'return "*$label*";'
+            );
+
+            $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+            $chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
+
+        $steps = $chart->yAxis->getSteps();
+
+        $expectedLabels = array(
+            '*-100*', '*0*', '*100*', '*200*', '*300*', '*400*',
+        );
+
+        foreach ( $steps as $nr => $step )
+        {
+            $this->assertSame(
+                $step->label,
+                $expectedLabels[$nr],
+                'Label not as expected'
+            );
+        }
+    }
 }
 ?>

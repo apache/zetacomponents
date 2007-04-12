@@ -35,6 +35,11 @@
  *           Maximum Size used to draw arrow heads.
  * @property ezcGraphAxisLabelRenderer $axisLabelRenderer
  *           AxisLabelRenderer used to render labels and grid on this axis.
+ * @property callback $labelCallback
+ *           Callback function to format pie chart labels.
+ *           Function will receive two parameters and should return a 
+ *           reformatted label.
+ *              string function( label, step )
  *
  * @package Graph
  */
@@ -67,6 +72,7 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         $this->properties['labelSize'] = 14;
         $this->properties['labelMargin'] = 2;
         $this->properties['maxArrowHeadSize'] = 8;
+        $this->properties['labelCallback'] = null;
 
         parent::__construct( $options );
 
@@ -184,6 +190,16 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 else
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphAxisLabelRenderer' );
+                }
+                break;
+            case 'labelCallback':
+                if ( is_callable( $propertyValue ) )
+                {
+                    $this->properties['labelCallback'] = $propertyValue;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'callback function' );
                 }
                 break;
             default:

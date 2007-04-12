@@ -875,6 +875,42 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
+    public function testChartElementAxisPropertyLabelCallback()
+    {
+        $options = new ezcGraphChartElementNumericAxis();
+
+        $this->assertSame(
+            null,
+            $options->labelCallback,
+            'Wrong default value for property labelCallback in class ezcGraphChartElementNumericAxis'
+        );
+
+        $options->labelCallback = 'printf';
+        $this->assertSame(
+            'printf',
+            $options->labelCallback,
+            'Setting property value did not work for property labelCallback in class ezcGraphChartElementNumericAxis'
+        );
+
+        $options->labelCallback = array( $this, __METHOD__ );
+        $this->assertSame(
+            array( $this, __METHOD__ ),
+            $options->labelCallback,
+            'Setting property value did not work for property labelCallback in class ezcGraphChartElementNumericAxis'
+        );
+
+        try
+        {
+            $options->labelCallback = 'undefined_function';
+        }
+        catch ( ezcBasevalueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'ezcBasevalueException expected.' );
+    }
+
     public function testChartElementTextPropertyMaxHeight()
     {
         $options = new ezcGraphChartElementText();

@@ -454,7 +454,20 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
      */
     public function getLabel( $step )
     {
-        return date( $this->properties['dateFormat'], $this->startDate + ( $step * $this->interval ) );
+        if ( $this->properties['labelCallback'] !== null )
+        {
+            return call_user_func_array(
+                $this->properties['labelCallback'],
+                array(
+                    date( $this->properties['dateFormat'], $this->startDate + ( $step * $this->interval ) ),
+                    $step,
+                )
+            );
+        }
+        else
+        {
+            return date( $this->properties['dateFormat'], $this->startDate + ( $step * $this->interval ) );
+        }
     }
 
     /**

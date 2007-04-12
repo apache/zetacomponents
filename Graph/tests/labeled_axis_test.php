@@ -575,6 +575,70 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
+
+    public function testRenderedLabels()
+    {
+        try
+        {
+            $chart = new ezcGraphLineChart();
+            $chart->data['sample'] = new ezcGraphArrayDataSet( array( 2000 => 1045, 2001 => 1300, 2004 => 1012 ) );
+            $chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
+
+        $steps = $chart->xAxis->getSteps();
+
+        $expectedLabels = array(
+            '2000', '2001', '2004'
+        );
+
+        foreach ( $steps as $nr => $step )
+        {
+            $this->assertSame(
+                $step->label,
+                $expectedLabels[$nr],
+                'Label not as expected'
+            );
+        }
+    }
+
+    public function testRenderedLabelsWithLabelFormattingCallback()
+    {
+        try
+        {
+            $chart = new ezcGraphLineChart();
+
+            $chart->xAxis->labelCallback = create_function(
+                '$label',
+                'return "*$label*";'
+            );
+
+            $chart->data['sample'] = new ezcGraphArrayDataSet( array( 2000 => 1045, 2001 => 1300, 2004 => 1012 ) );
+            $chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
+
+        $steps = $chart->xAxis->getSteps();
+
+        $expectedLabels = array(
+            '*2000*', '*2001*', '*2004*'
+        );
+
+        foreach ( $steps as $nr => $step )
+        {
+            $this->assertSame(
+                $step->label,
+                $expectedLabels[$nr],
+                'Label not as expected'
+            );
+        }
+    }
 }
 
 ?>
