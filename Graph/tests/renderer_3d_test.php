@@ -1067,6 +1067,9 @@ class ezcGraphRenderer3dTest extends ezcGraphTestCase
         $chart = new ezcGraphBarChart();
         $chart->legend = false;
 
+        $chart->xAxis = new ezcGraphChartElementNumericAxis();
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisBoxedLabelRenderer();
+
         $chart->data['dataset'] = new ezcGraphArrayDataSet( array( 12, 43, 324, 12, 43, 125, 120, 123 , 543,  12, 45, 76, 87 , 99, 834, 34, 453 ) );
         $chart->data['dataset']->color = '#3465A47F';
 
