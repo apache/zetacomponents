@@ -309,7 +309,32 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
      */
     public function calculateMinimum( $min, $max )
     {
-        $this->properties['startDate'] = $this->calculateLowerNiceDate( $min, $this->interval );
+        if ( $this->properties['endDate'] === false )
+        {
+            $this->properties['startDate'] = $this->calculateLowerNiceDate( $min, $this->interval );
+        }
+        else
+        {
+            $this->properties['startDate'] = $this->properties['endDate'];
+
+            while ( $this->properties['startDate'] > $min )
+            {
+                switch ( $this->interval )
+                {
+                    case self::MONTH:
+                        $this->properties['startDate'] = strtotime( '-1 month', $this->properties['startDate'] );
+                        break;
+                    case self::YEAR:
+                        $this->properties['startDate'] = strtotime( '-1 year', $this->properties['startDate'] );
+                        break;
+                    case self::DECADE:
+                        $this->properties['startDate'] = strtotime( '-10 years', $this->properties['startDate'] );
+                        break;
+                    default:
+                        $this->properties['startDate'] -= $this->interval;
+                }
+            }
+        }
     }
 
     /**
@@ -329,7 +354,20 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
 
         while ( $this->properties['endDate'] < $max )
         {
-            $this->properties['endDate'] += $this->interval;
+            switch ( $this->interval )
+            {
+                case self::MONTH:
+                    $this->properties['endDate'] = strtotime( '+1 month', $this->properties['endDate'] );
+                    break;
+                case self::YEAR:
+                    $this->properties['endDate'] = strtotime( '+1 year', $this->properties['endDate'] );
+                    break;
+                case self::DECADE:
+                    $this->properties['endDate'] = strtotime( '+10 years', $this->properties['endDate'] );
+                    break;
+                default:
+                    $this->properties['endDate'] += $this->interval;
+            }
         }
     }
 
@@ -468,6 +506,51 @@ class ezcGraphChartElementDateAxis extends ezcGraphChartElementAxis
         {
             return date( $this->properties['dateFormat'], $this->startDate + ( $step * $this->interval ) );
         }
+    }
+
+    /**
+     * Return array of steps on this axis
+     * 
+     * @return array( ezcGraphAxisStep )
+     */
+    public function getSteps()
+    {
+        $steps = array();
+
+        $start = $this->properties['startDate'];
+        $end = $this->properties['endDate'];
+        $distance = $end - $start;
+
+        $step = 0;
+        for ( $time = $start; $time <= $end; )
+        {
+            $steps[] = new ezcGraphAxisStep(
+                ( $time - $start ) / $distance,
+                $this->interval / $distance,
+                $this->getLabel( $step++ ),
+                array(),
+                $step === 1,
+                $time >= $end
+            );
+
+            switch ( $this->interval )
+            {
+                case self::MONTH:
+                    $time = strtotime( '+1 month', $time );
+                    break;
+                case self::YEAR:
+                    $time = strtotime( '+1 year', $time );
+                    break;
+                case self::DECADE:
+                    $time = strtotime( '+10 years', $time );
+                    break;
+                default:
+                    $time += $this->interval;
+                    break;
+            }
+        }
+
+        return $steps;
     }
 
     /**

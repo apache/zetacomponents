@@ -29,6 +29,8 @@
 - Fixed issue #10599: Pie chart label formattig callback only accepts callback
   functions but neither static nor non static methods.
 - Added feature #10470: Add support for format callback functions on all axis
+- Added feature #10017: Plot whole months on date axis respecting their
+  different length
 
 1.0 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
