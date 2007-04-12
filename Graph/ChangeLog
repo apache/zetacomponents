@@ -25,6 +25,7 @@
   images in ezcGraphTools
 - Added feature #9404: Add spport for rotated texts on axis.
 - Fixed issue #10536: Bar side polygones are drawn at the wrong side.
+- Fixed issue #10584: API Doc for ezcGraphPdoDataSet::createFromPdo() is wrong
 
 1.0 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

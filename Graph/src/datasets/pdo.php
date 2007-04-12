@@ -18,7 +18,22 @@ class ezcGraphPdoDataSet extends ezcGraphDataSet
     /**
      * Constructor
      * 
+     * Creates a ezcGraphPdoDataSet from a PDOStatement and uses the columns 
+     * defined in the definition array as keys and values for the data set. 
+     *
+     * If the definition array is empty a single column will be used as values,
+     * with two columns the first column will be used for the keys and the 
+     * second for the data set values.
+     *
+     * You may define the name of the rows used for keys and values by using 
+     * an array like:
+     *  array (
+     *      ezcGraph::KEY => 'row name',
+     *      ezcGraph::VALUE => 'row name',
+     *  );
+     *
      * @param PDOStatement $statement
+     * @param array $definition
      * @return ezcGraphPdoDataSet
      */
     public function __construct( PDOStatement $statement, array $definition = null )
@@ -30,12 +45,24 @@ class ezcGraphPdoDataSet extends ezcGraphDataSet
     }
 
     /**
-     * setData
+     * Create dataset from PDO statement
      *
-     * Can handle data provided through an array or iterator.
+     * This methods uses the values from a PDOStatement to fill up the data 
+     * sets data.
+     *
+     * If the definition array is empty a single column will be used as values,
+     * with two columns the first column will be used for the keys and the 
+     * second for the data set values.
+     *
+     * You may define the name of the rows used for keys and values by using 
+     * an array like:
+     *  array (
+     *      ezcGraph::KEY => 'row name',
+     *      ezcGraph::VALUE => 'row name',
+     *  );
      * 
-     * @param array|Iterator $data 
-     * @access public
+     * @param PDOStatement $statement
+     * @param array $definition
      * @return void
      */
     protected function createFromPdo( PDOStatement $statement, array $definition = null ) 
