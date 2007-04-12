@@ -305,10 +305,6 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         */
         
         $data = $this->file->read( $header->compressedSize );
-        if( $data === false )
-        {
-            $data = "";
-        }
 /*
 Part: 2/2
 // And remove the stream filter.
@@ -320,11 +316,14 @@ Part: 2/2
             $this->file->removeStreamFilter();
         }
         */
-        
-        switch ( $header->compressionMethod )
+       
+        if ( $data )
         {
-            case 8:  $data = gzinflate( $data ); break;    // Evil, memory consuming.
-            case 12: $data = bzdecompress( $data ); break; 
+            switch ( $header->compressionMethod )
+            {
+                case 8:  $data = gzinflate( $data ); break;    // Evil, memory consuming.
+                case 12: $data = bzdecompress( $data ); break; 
+            }
         }
         
         
