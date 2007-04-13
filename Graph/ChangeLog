@@ -31,6 +31,8 @@
 - Added feature #10470: Add support for format callback functions on all axis
 - Added feature #10017: Plot whole months on date axis respecting their
   different length
+- Fixed issue #10606: Call to undefined function imagePsLoadFont() in gd tests
+  when no t1lib is available
 
 1.0 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

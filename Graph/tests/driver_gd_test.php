@@ -754,6 +754,11 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
 
     public function testDrawTextBoxShortPSStringRotated10Degrees()
     {
+        if ( !ezcBaseFeatures::hasFunction( 'imagepstext' ) )
+        {
+            $this->markTestSkipped( 'This test needs Type 1 font support within your gd extension.' );
+        }
+
         $filename = $this->tempDir . __FUNCTION__ . '.png';
         
         $this->driver->options->font->border = ezcGraphColor::fromHex( '#555555' );
@@ -840,6 +845,11 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
 
     public function testDrawTextBoxShortPSStringRotated45Degrees()
     {
+        if ( !ezcBaseFeatures::hasFunction( 'imagepstext' ) )
+        {
+            $this->markTestSkipped( 'This test needs Type 1 font support within your gd extension.' );
+        }
+
         $filename = $this->tempDir . __FUNCTION__ . '.png';
         
         $this->driver->options->font->border = ezcGraphColor::fromHex( '#555555' );
@@ -926,6 +936,11 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
 
     public function testDrawTextBoxShortPSStringRotated340Degrees()
     {
+        if ( !ezcBaseFeatures::hasFunction( 'imagepstext' ) )
+        {
+            $this->markTestSkipped( 'This test needs Type 1 font support within your gd extension.' );
+        }
+
         $filename = $this->tempDir . __FUNCTION__ . '.png';
         
         $this->driver->options->font->border = ezcGraphColor::fromHex( '#555555' );
@@ -1769,11 +1784,6 @@ class ezcGraphGdDriverTest extends ezcImageTestCase
 
     public function testDrawSmallPsStringWithSpecialChars()
     {
-        if ( !ezcBaseFeatures::hasFunction( 'imagepstext' ) )
-        {
-            $this->markTestSkipped( 'This test needs Type 1 font support within your gd extension.' );
-        }
-
         if ( !ezcBaseFeatures::hasFunction( 'imagepstext' ) )
         {
             $this->markTestSkipped( 'This test needs Type 1 font support within your gd extension.' );
