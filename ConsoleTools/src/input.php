@@ -279,16 +279,17 @@ class ezcConsoleInput
      */
     public function registerOptionString( $optionDef ) 
     {
-        $regex = '/\[([a-z0-9-]+)([:?*+])?([^|]*)\|([a-z0-9-]+)([:?*+])?\]/';
-        if ( preg_match_all( $regex, $optionDef, $matches ) )
+        $regex = '\[([a-z0-9-]+)([:?*+])?([^|]*)\|([a-z0-9-]+)([:?*+])?\]';
+        // Check string for wellformedness
+        if ( preg_match( "/^($regex)+$/", $optionDef ) == 0 )
+        {
+            throw new ezcConsoleOptionStringNotWellformedException( "Option definition not wellformed: \"$optionDef\"" );
+        }
+        if ( preg_match_all( "/$regex/", $optionDef, $matches ) )
         {
             foreach ( $matches[1] as $id => $short )
             {
                 $option = null;
-                if ( empty( $matches[4][$id] )  ) 
-                {
-                    throw new ezcConsoleOptionStringNotWellformedException( "Missing long parameter name for short parameter '-{$short}'" );
-                }
                 $option = new ezcConsoleOption( $short, $matches[4][$id] );
                 if ( !empty( $matches[2][$id] ) || !empty( $matches[5][$id] ) )
                 {
@@ -318,7 +319,6 @@ class ezcConsoleInput
                 $this->registerOption( $option );
             }
         }
-
     }
 
     /**
