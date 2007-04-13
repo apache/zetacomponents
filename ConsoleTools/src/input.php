@@ -402,7 +402,7 @@ class ezcConsoleInput
         {
             unset( $this->optionShort[$short] );
         }
-        if ( isset( $this->optionLong[$short] ) )
+        if ( isset( $this->optionLong[$long] ) )
         {
             unset( $this->optionLong[$long] );
         }
