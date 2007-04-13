@@ -948,25 +948,32 @@ class ezcConsoleInput
                 $depVals = $dep->values;
                 if ( count( $depVals ) > 0 )
                 {
-                    if ( !in_array( $values[$dep->option->short], $depVals ) )
+                    $checkVals =  is_array( $values[$dep->option->short] ) ? $values[$dep->option->short] : array( $values[$dep->option->short] );
+                    foreach( $checkVals as $checkVal )
                     {
-                        throw new ezcConsoleOptionDependencyViolationException( $option, $dep->option, implode( ', ', $depVals )  );
+                        if ( !in_array( $checkVal, $depVals ) )
+                        {
+                            throw new ezcConsoleOptionDependencyViolationException( $option, $dep->option, implode( ', ', $depVals )  );
+                        }
                     }
                 }
             }
             // Exclusions
             foreach ( $option->getExclusions() as $exc )
             {
-                if ( isset( $values[$exc->option->short] ) && $values[$exc->option->short] !== false )
+                if ( isset( $values[$exc->option->short] ) && $values[$exc->option->short] !== false && count( $exc->values ) === 0 )
                 {
                     throw new ezcConsoleOptionExclusionViolationException( $option, $exc->option );
                 }
-                $excVals = $exc->values;
-                if ( count( $excVals ) > 0 )
+                if ( count( $exc->values ) > 0 )
                 {
-                    if ( in_array( $values[$exc->option->short], $excVals ) )
+                    $checkVals =  is_array( $values[$exc->option->short] ) ? $values[$exc->option->short] : array( $values[$exc->option->short] );
+                    foreach( $checkVals as $checkVal )
                     {
-                        throw new ezcConsoleOptionExclusionViolationException( $option, $exc->option, $option->value );
+                        if ( in_array( $checkVal, $exc->values ) )
+                        {
+                            throw new ezcConsoleOptionExclusionViolationException( $option, $exc->option, $option->value );
+                        }
                     }
                 }
             }

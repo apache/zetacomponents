@@ -11,6 +11,8 @@
 - Fixed issue #10604: ezcConsoleInput exception not thrown on invalid option
   string.
 - Fixed issue #10608: ezcConsoleInput->registerAlias( ) does not work.
+- Fixed issue #10617 ezcConsoleInput->process() bails out incorrectly on
+  option exclusion.
 
 1.2 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
