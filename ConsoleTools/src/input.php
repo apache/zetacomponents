@@ -241,18 +241,16 @@ class ezcConsoleInput
      */
     public function registerAlias( $short, $long, ezcConsoleOption $option )
     {
-        $short = $short;
-        $long = $long;
         if ( !isset( $this->optionShort[$option->short] ) || !isset( $this->optionLong[$option->long] ) )
         {
             throw new ezcConsoleOptionNotExistsException( $option->long );
         }
         if ( isset( $this->optionShort[$short] ) || isset( $optionLong[$long] ) )
         {
-            throw new ezcConsoleOptionAlreadyRegisteredException( isset( $this->optionShort[$short] ) ? $this->optionShort[$short] : $this->optionLong[$long] );
+            throw new ezcConsoleOptionAlreadyRegisteredException( isset( $this->optionShort[$short] ) ? "-$short" : "--$long" );
         }
-        $this->shortParam[$short] = $option;
-        $this->longParam[$long] = $option;
+        $this->optionShort[$short] = $option;
+        $this->optionLong[$long]   = $option;
     }
 
     /**
@@ -389,8 +387,6 @@ class ezcConsoleInput
      */
     public function unregisterAlias( $short, $long )
     {
-        $short = $short;
-        $long = $long;
         foreach ( $this->options as $id => $option )
         {
             if ( $option->short === $short )
