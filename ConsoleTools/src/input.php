@@ -772,10 +772,7 @@ class ezcConsoleInput
                     $synopsis .= "<string>";
                     break;
                 case ezcConsoleInput::TYPE_INT:
-                    $synopsis .= "<string>";
-                    break;
-                default:
-                    $synopsis .= "<unknown>";
+                    $synopsis .= "<int>";
                     break;
             }
         }
