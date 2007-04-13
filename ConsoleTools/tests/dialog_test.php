@@ -35,7 +35,7 @@ class ezcConsoleDialogTest extends ezcTestCase
     protected function setUp()
     {
         $this->dataDir = dirname( __FILE__ ) . "/data/" . ( ezcBaseFeatures::os() === "windows" ? "windows" : "posix" );
-        $this->phpPath = $_SERVER["_"];
+        $this->phpPath = isset( $_SERVER["_"] ) ? $_SERVER["_"] : "/bin/env php";
         $this->output  = new ezcConsoleOutput();
         $this->output->formats->test->color = "blue";
     }
