@@ -245,7 +245,7 @@ class ezcConsoleInput
         {
             throw new ezcConsoleOptionNotExistsException( $option->long );
         }
-        if ( isset( $this->optionShort[$short] ) || isset( $optionLong[$long] ) )
+        if ( isset( $this->optionShort[$short] ) || isset( $this->optionLong[$long] ) )
         {
             throw new ezcConsoleOptionAlreadyRegisteredException( isset( $this->optionShort[$short] ) ? "-$short" : "--$long" );
         }
