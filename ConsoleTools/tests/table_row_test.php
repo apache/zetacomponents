@@ -46,16 +46,16 @@ class ezcConsoleTableRowTest extends ezcTestCase
     
     public function testCtorFailure()
     {
-        /*
-         *  // Unneccessary, typehint!
-         * 
-        $row = new ezcConsoleTableRow( 'foo' );
-        $this->assertEquals( 
-            0,
-            count( $row ),
-            "ezcConsoleTableRow not correctly created."
-        );
-        */
+        $exceptionThrown = false;
+        try
+        {
+            $row = new ezcConsoleTableRow( new ezcConsoleTableCell(), 'foo' );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on invald constructor parameter." );
     }
     
     public function testAppend()
@@ -333,6 +333,115 @@ class ezcConsoleTableRowTest extends ezcTestCase
         $this->assertTrue( isset( $row->borderFormat ) );
         $this->assertTrue( isset( $row->align ) );
         $this->assertFalse( isset( $row->foo ) );
+    }
+
+    public function testOffsetExistsSuccess()
+    {
+        $row = new ezcConsoleTableRow( new ezcConsoleTableCell(), new ezcConsoleTableCell(), new ezcConsoleTableCell() );
+        $this->assertTrue( isset( $row[0] ) );
+        $this->assertTrue( isset( $row[1] ) );
+        $this->assertTrue( isset( $row[2] ) );
+    }
+
+    public function testOffsetExistsFailure()
+    {
+        $row = new ezcConsoleTableRow( new ezcConsoleTableCell(), new ezcConsoleTableCell(), new ezcConsoleTableCell() );
+
+        try
+        {
+            isset( $row["foo"] );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on invalid offset to offsetExists()." );
+    }
+
+    public function testOffsetGetSuccess()
+    {
+        $row = new ezcConsoleTableRow( new ezcConsoleTableCell(), new ezcConsoleTableCell(), new ezcConsoleTableCell() );
+        $this->assertType( "ezcConsoleTableCell", $row[0] );
+        $this->assertType( "ezcConsoleTableCell", $row[1] );
+        $this->assertType( "ezcConsoleTableCell", $row[2] );
+    }
+    
+    public function testOffsetGetFailure()
+    {
+        $row = new ezcConsoleTableRow( new ezcConsoleTableCell(), new ezcConsoleTableCell(), new ezcConsoleTableCell() );
+
+        try
+        {
+             var_dump( $row["foo"] );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on invalid offset to offsetGet()." );
+    }
+
+    public function testOffsetSetSuccess()
+    {
+        $row = new ezcConsoleTableRow( new ezcConsoleTableCell(), new ezcConsoleTableCell(), new ezcConsoleTableCell() );
+        $newCell = new ezcConsoleTableCell();
+
+        $row[1] = $newCell;
+        $this->assertSame( $newCell, $row[1] );
+        
+        $row[] = $newCell;
+        $this->assertSame( $newCell, $row[3] );
+    }
+    
+    public function testOffsetSetFailure()
+    {
+        $row = new ezcConsoleTableRow( new ezcConsoleTableCell(), new ezcConsoleTableCell(), new ezcConsoleTableCell() );
+
+        $exceptionThrown = false;
+        try
+        {
+            $row["foo"] = new ezcConsoleTableCell();
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on offsetSet() with invalid offset." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $row[1] = true;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on offsetSet() with invalid value." );
+    }
+
+    public function testOffsetUnsetSuccess()
+    {
+        $row = new ezcConsoleTableRow( new ezcConsoleTableCell(), new ezcConsoleTableCell(), new ezcConsoleTableCell() );
+        
+        unset( $row[1] );
+
+        $this->assertFalse( isset( $row[1] ) );
+    }
+    
+    public function testOffsetUnsetFailure()
+    {
+        $row = new ezcConsoleTableRow( new ezcConsoleTableCell(), new ezcConsoleTableCell(), new ezcConsoleTableCell() );
+        
+        try
+        {
+            unset( $row["foo"] );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on invalid offset to offsetUnset()." );
     }
 }
 ?>

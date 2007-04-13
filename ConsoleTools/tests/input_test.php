@@ -128,6 +128,11 @@ class ezcConsoleInputTest extends ezcTestCase
             'long'  => 'elvis',
             'ref'   => 'z',
         ),
+        array(
+            'short' => 'd',
+            'long'  => 'destroy',
+            'ref'   => 'd',
+        ),
     );
 
     private $testArgsSuccess = array( 
@@ -215,7 +220,7 @@ class ezcConsoleInputTest extends ezcTestCase
         unset( $this->input );
     }
 
-    public function testRegisterParam()
+    public function testRegisterOptionSuccess()
     {
         $input = new ezcConsoleInput();
         foreach ( $this->testOptions as $optionData )
@@ -238,10 +243,83 @@ class ezcConsoleInputTest extends ezcTestCase
         }
     }
 
-    public function testFromString()
+    public function testRegisterOptionFailure()
+    {
+        $input = new ezcConsoleInput();
+        foreach ( $this->testOptions as $optionData )
+        {
+            $option = $this->createFakeOption( $optionData );
+            $input->registerOption( $option );
+        }
+        foreach ( $this->testOptions as $optionData )
+        {
+            $option = $this->createFakeOption( $optionData );
+            $exceptionThrown = false;
+            try
+            {
+                $input->registerOption( $option );
+            }
+            catch ( ezcConsoleOptionAlreadyRegisteredException $e )
+            {
+                $exceptionThrown = true;
+            }
+            $this->assertTrue(
+                $exceptionThrown,
+                "Exception not thrown on double registered option " . $optionData["short"] === "" ? "determined by long name." : "determined by short name."
+            );
+        }
+    }
+
+    public function testUnregisterOptionSuccess()
+    {
+        // register aliases for testing
+        $validParams = array();
+        foreach ( $this->input->getOptions() as $param )
+        {
+            $validParams[$param->short] = $param;
+        }
+        foreach ( $this->testAliasesSuccess as $alias )
+        {
+            $this->input->registerAlias( $alias['short'], $alias['long'], $validParams[$alias['ref']]  );
+        }
+
+        // test itself
+        foreach( $this->input->getOptions() as $option )
+        {
+            $this->input->unregisterOption( $option );
+            $exceptionThrown = false;
+            try
+            {
+                $this->input->getOption( isset( $option->short ) ? $option->short : $option->long );
+            }
+            catch( ezcConsoleOptionNotExistsException $e )
+            {
+                $exceptionThrown = true;
+            }
+            $this->assertTrue( $exceptionThrown, "Exception not unregistered correctly -{$option->short}/--{$option->long}." );
+        }
+
+        $this->assertEquals( 0, count( $this->input->getOptions() ) );
+    }
+
+    public function testUnregisterOptionFailure()
+    {
+        $option = new ezcConsoleOption( "x", "execute" );
+        try
+        {
+            $this->input->unregisterOption( $option );
+        }
+        catch ( ezcConsoleOptionNotExistsException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on unregistering a non existent option." );
+    }
+
+    public function testFromStringSuccess()
     {
         $param = new ezcConsoleInput();
-        $param->registerOptionString( '[a:|all:][u?|user?][i|info][o+test|overall+]' );
+        $param->registerOptionString( '[a:|all:][u?|user?][i|info][o+test|overall+][d*|destroy*]' );
         $res['a'] = new ezcConsoleOption(
             'a', 
             'all', 
@@ -278,9 +356,36 @@ class ezcConsoleInputTest extends ezcTestCase
             array (),
             true
         );
-        $this->assertEquals( $res['a'], $param->getOption( 'a' ), 'Parameter -a not registered correctly.'  );
-        $this->assertEquals( $res['u'], $param->getOption( 'u' ), 'Parameter -u not registered correctly.'  );
-        $this->assertEquals( $res['o'], $param->getOption( 'o' ), 'Parameter -o not registered correctly.'  );
+        $res['d'] = new ezcConsoleOption(
+            'd',
+            'destroy',
+            ezcConsoleInput::TYPE_NONE,
+            null,
+            true,
+            'No help available.',
+            'Sorry, there is no help text available for this parameter.',
+            array (),
+            array (),
+            true
+        );
+        $this->assertEquals( $res['a'], $param->getOption( 'a' ), 'Option -a not registered correctly.'  );
+        $this->assertEquals( $res['u'], $param->getOption( 'u' ), 'Option -u not registered correctly.'  );
+        $this->assertEquals( $res['o'], $param->getOption( 'o' ), 'Option -o not registered correctly.'  );
+        $this->assertEquals( $res['d'], $param->getOption( 'd' ), 'Option -d not registered correctly.'  );
+    }
+
+    public function testFromStringFailure()
+    {
+        $param = new ezcConsoleInput();
+        try
+        {
+            $param->registerOptionString( '[a:]' );
+        }
+        catch ( ezcConsoleOptionStringNotWellformedException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on not wellformed option string." );
     }
 
     /**
@@ -297,14 +402,9 @@ class ezcConsoleInputTest extends ezcTestCase
         }
         foreach ( $this->testAliasesSuccess as $alias )
         {
-            try 
-            {
-                $this->input->registerAlias( $alias['short'], $alias['long'], $validParams[$alias['ref']]  );
-            }
-            catch ( ezcConsoleException $e )
-            {
-                $this->fail( $e->getMessage() );
-            }
+            $this->input->registerAlias( $alias['short'], $alias['long'], $validParams[$alias['ref']]  );
+            $this->assertTrue( $this->input->hasOption( $alias['short'] ), "Short name not available after alias registration." );
+            $this->assertTrue( $this->input->hasOption( $alias['long'] ), "Long name not available after alias registration." );
         }
     }
     
@@ -315,24 +415,71 @@ class ezcConsoleInputTest extends ezcTestCase
      */
     public function testRegisterAliasFailure()
     {
-        $exceptionCount = 0;
+        $refOption = new ezcConsoleOption( 'foo', 'bar' );
         foreach ( $this->testAliasesFailure as $alias )
         {
+            $exceptionThrown = false;
             try 
             {
-                $this->input->registerAlias( $alias['short'], $alias['long'], new ezcConsoleOption('foo', 'bar') );
+                $this->input->registerAlias( $alias['short'], $alias['long'], $refOption );
             }
             catch ( ezcConsoleOptionNotExistsException $e )
             {
-                $exceptionCount++;
+                $exceptionThrown = true;
             }
+            $this->assertTrue( $exceptionThrown, "Exception not thrown on regstering invalid alias --{$alias['short']}/--{$alias['long']}." );
         }
-        // Expect every test data set to fail
-        $this->assertEquals( 
-            $exceptionCount,
-            count( $this->testAliasesFailure ), 
-            'Alias registration succeded for ' . ( count( $this->testAliasesFailure ) - $exceptionCount ) . ' unkown parameters.' 
-        );
+        foreach ( $this->testOptions as $option )
+        {
+            $exceptionThrown = false;
+            try 
+            {
+                $this->input->registerAlias( $option['short'], $option['long'], $this->input->getOption( "t" ) );
+            }
+            catch ( ezcConsoleOptionAlreadyRegisteredException $e )
+            {
+                $exceptionThrown = true;
+            }
+            $this->assertTrue( $exceptionThrown, "Exception not thrown on regstering already existent option as alias --{$alias['short']}/--{$alias['long']}." );
+        }
+    }
+    
+    public function testUnregisterAliasSuccess()
+    {
+        // test preperation
+        $validParams = array();
+        foreach ( $this->input->getOptions() as $param )
+        {
+            $validParams[$param->short] = $param;
+        }
+        foreach ( $this->testAliasesSuccess as $alias )
+        {
+            $this->input->registerAlias( $alias['short'], $alias['long'], $validParams[$alias['ref']]  );
+        }
+
+        foreach ( $this->testAliasesSuccess as $alias )
+        {
+            $this->assertTrue( $this->input->hasOption( $alias['short'] ), "Alias incorrectly registered, cannot unregister." );
+            $this->input->unregisterAlias( $alias['short'], $alias['long'] );
+            $this->assertFalse( $this->input->hasOption( $alias['short'] ), "Alias incorrectly unregistered." );
+        }
+    }
+    
+    public function testUnregisterAliasFailure()
+    {
+        foreach ( $this->testOptions as $option )
+        {
+            $exceptionThrown = false;
+            try
+            {
+                $this->input->unregisterAlias( !empty( $option['short'] ) ? $option['short'] : "f", $option['long'] );
+            }
+            catch ( ezcConsoleOptionNoAliasException $e )
+            {
+                $exceptionThrown = true;
+            }
+            $this->assertTrue( $exceptionThrown, "Exception not trown on try to unregister an option as an alias." );
+        }
     }
 
     // Single parameter tests
@@ -397,7 +544,6 @@ class ezcConsoleInputTest extends ezcTestCase
         );
         $this->commonProcessTestFailure( $args, 'ezcConsoleOptionMissingValueException' );
     }
-
     
     public function testProcessFailureSingleLongDefault()
     {
@@ -405,12 +551,23 @@ class ezcConsoleInputTest extends ezcTestCase
             'foo.php',
             '--build'
         );
-        $res = array( 
-            'b' => 42,
-        );
         $this->commonProcessTestFailure( $args, 'ezcConsoleOptionMissingValueException' );
     }
-
+    
+    public function testProcessSuccessFromArgv()
+    {
+        $_SERVER["argv"] = array(
+            'foo.php',
+            '--build',
+            '42'
+        );
+        $this->input->process();
+        $this->assertEquals(
+            array( "b" => 42, "d" => "world" ),
+            $this->input->getOptionValues(),
+            "Processing from \$_SERVER['argv'] did not work."
+        );
+    }
 
     public function testProcessSuccessSingleShortNoValueArguments()
     {
@@ -504,7 +661,21 @@ class ezcConsoleInputTest extends ezcTestCase
         );
         $this->commonProcessTestSuccess( $args, $res );
     }
-
+    
+    public function testProcessSuccessMultipleLongValueWithEquals()
+    {
+        $args = array(
+            'foo.php',
+            '--original',
+            'bar',
+            '--build=23',
+        );
+        $res = array( 
+            'o' => 'bar',
+            'b' => 23,
+        );
+        $this->commonProcessTestSuccess( $args, $res );
+    }
 
     public function testProcessFailureMultipleShortDefault()
     {
@@ -640,6 +811,51 @@ class ezcConsoleInputTest extends ezcTestCase
             'o' => 'bar',
             'n' => true,
         );
+        $this->commonProcessTestSuccess( $args, $res );
+    }
+
+    public function testProcessSuccessDependencieValues()
+    {
+        $rule = new ezcConsoleOptionRule( $this->input->getOption( "y" ), array( "foo", "bar" ) );
+        $option = new ezcConsoleOption( "x", "execute" );
+        $option->addDependency( $rule );
+        $this->input->registerOption( $option );
+
+        $args = array(
+            'foo.php',
+            '-x',
+            '-y',
+            'bar',
+        );
+
+        $res = array(
+            'x' => true,
+            'y' => array( 'bar' ),
+        );
+
+        $this->commonProcessTestSuccess( $args, $res );
+    }
+    
+
+    public function testProcessSuccessExclusionValues()
+    {
+        $rule = new ezcConsoleOptionRule( $this->input->getOption( "y" ), array( "foo", "bar" ) );
+        $option = new ezcConsoleOption( "x", "execute" );
+        $option->addExclusion( $rule );
+        $this->input->registerOption( $option );
+
+        $args = array(
+            'foo.php',
+            '-x',
+            '-y',
+            'baz',
+        );
+
+        $res = array(
+            'x' => true,
+            'y' => array( 'baz' ),
+        );
+
         $this->commonProcessTestSuccess( $args, $res );
     }
     
@@ -823,6 +1039,23 @@ class ezcConsoleInputTest extends ezcTestCase
         );
         $this->commonProcessTestFailure( $args, 'ezcConsoleOptionDependencyViolationException' );
     }
+
+    public function testProcessFailureDependencieValues()
+    {
+        $rule = new ezcConsoleOptionRule( $this->input->getOption( "y" ), array( "foo", "bar" ) );
+        $option = new ezcConsoleOption( "x", "execute" );
+        $option->addDependency( $rule );
+        $this->input->registerOption( $option );
+
+        $args = array(
+            'foo.php',
+            '-y',
+            'baz',
+            '-x',
+        );
+
+        $this->commonProcessTestFailure( $args, 'ezcConsoleOptionDependencyViolationException' );
+    }
     
     public function testProcessFailureExclusions()
     {
@@ -835,6 +1068,23 @@ class ezcConsoleInputTest extends ezcTestCase
             23,
             '--edit'            // This one excludes -t and -y
         );
+        $this->commonProcessTestFailure( $args, 'ezcConsoleOptionExclusionViolationException' );
+    }
+
+    public function testProcessFailureExclusionValues()
+    {
+        $rule = new ezcConsoleOptionRule( $this->input->getOption( "y" ), array( "foo", "bar" ) );
+        $option = new ezcConsoleOption( "x", "execute" );
+        $option->addExclusion( $rule );
+        $this->input->registerOption( $option );
+
+        $args = array(
+            'foo.php',
+            '-y',
+            'bar',
+            '-x',
+        );
+
         $this->commonProcessTestFailure( $args, 'ezcConsoleOptionExclusionViolationException' );
     }
     
@@ -1153,17 +1403,71 @@ EOF;
         );
     }
     
+    public function testGetSynopsis3()
+    {
+        $this->assertEquals( 
+            '$ ' . $_SERVER['argv'][0] . ' [-s] [-b 42]  [[--] <args>]',
+            $this->input->getSynopsis( array( 'b', 's' ) ),
+            'Program synopsis not generated correctly.'
+        );
+    }
+    
+    public function testGetSynopsis4()
+    {
+        $this->input->registerOption(
+            new ezcConsoleOption(
+                "x",
+                "execute",
+                ezcConsoleInput::TYPE_INT
+            )
+        );
+        $this->assertEquals( 
+            '$ ' . $_SERVER['argv'][0] . ' [-s] [-x <int>]  [[--] <args>]',
+            $this->input->getSynopsis( array( 'x', 's' ) ),
+            'Program synopsis not generated correctly.'
+        );
+    }
+
+    public function testHelpOptionSet()
+    {
+        $args = array(
+            'foo.php',
+            '-h',
+        );
+        $this->input->registerOption(
+            $this->createFakeOption(
+                array( 
+                    'short'     => 'q',
+                    'long'      => 'quite',
+                    'options'   => array(
+                        'mandatory' => true,
+                    ),
+                )
+            )
+        );
+        $this->input->registerOption(
+            $this->createFakeOption(
+                array( 
+                    'short'     => 'h',
+                    'long'      => 'help',
+                    'options'   => array(
+                        'isHelpOption' => true,
+                    ),
+                )
+            )
+        );
+        $res = array( 
+            'h' => true,
+        );
+
+        $this->assertFalse( $this->input->helpOptionSet(), "Help option seems to be set, algthough nothing was processed." );
+        $this->commonProcessTestSuccess( $args, $res );
+        $this->assertTrue( $this->input->helpOptionSet(), "Help option seems not to be set, algthough it was." );
+    }
+    
     private function commonProcessTestSuccess( $args, $res )
     {
-        try 
-        {
-            $this->input->process( $args );
-        }
-        catch ( ezcConsoleException $e )
-        {
-            $this->fail( $e->getMessage() );
-            return;
-        }
+        $this->input->process( $args );
         $values = $this->input->getOptionValues();
         $this->assertTrue( count( array_diff( $res, $values ) ) == 0, 'Parameters processed incorrectly.' );
     }
@@ -1188,15 +1492,7 @@ EOF;
 
     private function argumentsProcessTestSuccess( $args, $res )
     {
-        try
-        {
-            $this->input->process( $args );
-        }
-        catch ( ezcConsoleException $e )
-        {
-            $this->fail( $e->getMessage() );
-            return;
-        }
+        $this->input->process( $args );
         $this->assertEquals(
             $res,
             $this->input->getArguments(),
