@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcConsoleNoValidDialogResultException.
+ * File containing the ezcConsoleInvalidOutputTargetException.
  *
  * @package ConsoleTools
  * @version //autogen//
@@ -9,18 +9,17 @@
  */
 
 /**
- * Thrown if {@see ezcConsoleDialog::getResult()} is called before a valid
- * result was received.
+ * Thrown if a given target {@see ezcConsoleOutputFormat} could not be opened.
  *
  * @package ConsoleTools
  * @version //autogen//
  */
-class ezcConsoleNoValidDialogResultException extends ezcConsoleException
+class ezcConsoleInvalidOutputTargetException extends ezcConsoleException
 {
     
-    public function __construct()
+    public function __construct( $target )
     {
-        parent::__construct( "The dialog did not receive a valid result, yet." );
+        parent::__construct( "The target '{$target}' could not be opened for writing." );
     }
 
 }
