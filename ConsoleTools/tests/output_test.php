@@ -65,26 +65,6 @@ class ezcConsoleOutputTest extends ezcTestCase
         ),
     );
 
-    private $testOptions = array( 
-        'set_1' => array( 
-            'verboseLevel'      => 1,
-        ),
-        'set_2' => array( 
-            'verboseLevel'      => 5,
-            'autobreak'         => 20,
-            'useFormats'        => false,
-        ),
-        'set_3' => array( 
-            'autobreak'         => 5,
-            'useFormats'        => true,
-            'format'            => array( 
-                'color' => 'blue',
-                'bgcolor' => 'green',
-                'style' => 'negative',
-            ),
-        ),
-    );
-
     /**
      * consoleOutput 
      * 
@@ -227,19 +207,173 @@ EOT;
         );
     }
 
-    /**
-     * dumpString 
-     * 
-     * @param mixed $string 
-     */
-    private function dumpString( $string )
+    public function testSetOptionsSuccess()
     {
-        echo 'Dumping string of length ' . strlen( $string ) . ":\n\n";
-        for ( $i = 0; $i < strlen( $string ); $i++ )
+        $optObj = new ezcConsoleOutputOptions();
+        $optObj->verbosityLevel = 10;
+        $optObj->autobreak      = 80;
+        $optObj->useFormats     = false;
+
+        $output = new ezcConsoleOutput();
+        $output->setOptions( $optObj );
+
+        $this->assertEquals( $optObj, $output->options );
+
+        $output = new ezcConsoleOutput();
+        $output->setOptions(
+            array(
+                "verbosityLevel" => 10,
+                "autobreak"      => 80,
+                "useFormats"     => false,
+            )
+        );
+        $this->assertEquals( $optObj, $output->options );
+    }
+
+    public function testSetOptionsFailure()
+    {
+        $output = new ezcConsoleOutput();
+        try
         {
-            echo "<{$string[$i]}> = -" . ord( $string[$i] ) . "-\n";
+            $output->setOptions( true );
         }
-        echo "Finished dumping string.\n\n";
+        catch ( ezcBaseValueException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on invalid parameter to ezcConsoleOutput->setOptions()." );
+    }
+
+    public function testGetOptions()
+    {
+        $output = new ezcConsoleOutput();
+        $this->assertEquals( new ezcConsoleOutputOptions(), $output->getOptions() );
+    }
+
+    public function testGetAccessSuccess()
+    {
+        $output = new ezcConsoleOutput();
+        $this->assertEquals( new ezcConsoleOutputOptions(), $output->options );
+        $this->assertEquals( new ezcConsoleOutputFormats(), $output->formats );
+    }
+
+    public function testGetAccessFailure()
+    {
+        $output = new ezcConsoleOutput();
+        try
+        {
+            echo $output->foo;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on get access to invalid property foo." );
+    }
+
+    public function testSetAccessSuccess()
+    {
+        $optObj = new ezcConsoleOutputOptions();
+        $forObj = new ezcConsoleOutputFormats();
+        $output = new ezcConsoleOutput();
+
+        $output->options = $optObj;
+        $output->formats = $forObj;
+
+        $this->assertSame( $optObj, $output->options );
+        $this->assertSame( $forObj, $output->formats );
+    }
+
+    public function testSetAccessFailure()
+    {
+        $output = new ezcConsoleOutput();
+
+        $exceptionThrown = false;
+        try
+        {
+            $output->options = 23;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property options." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $output->formats = 23;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property formats." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $output->foo = 23;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on set access to invalid property foo." );
+    }
+
+    public function testIssetAccess()
+    {
+        $output = new ezcConsoleOutput();
+        
+        $this->assertTrue( isset( $output->options ) );
+        $this->assertTrue( isset( $output->formats ) );
+        $this->assertFalse( isset( $output->foo ) );
+    }
+
+    public function testOutputTextFailure()
+    {
+        $output = new ezcConsoleOutput();
+        $output->formats->invalid->target = "foo://bar";
+
+        $exceptionThrown = false;
+        try
+        {
+            $output->outputText( "Foo Bar", "invalid" );
+        }
+        catch ( ezcConsoleInvalidOutputTargetException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on output to invalid output target." );
+    }
+
+    public function testToPos()
+    {
+        $output = new ezcConsoleOutput();
+        ob_start();
+        $output->outputText( "Test 123" );
+        $output->toPos( 6 );
+        $output->outputText( "456" );
+        
+        $res = ob_get_clean();
+        $exp = '[0mTest 123[0m[6G[0m456[0m';
+
+        $this->assertEquals( $exp, $res, "Position code not generated correctly." );
+    }
+
+    public function testRestorePosFailure()
+    {
+        $output = new ezcConsoleOutput();
+        try
+        {
+            $output->restorePos();
+        }
+        catch( ezcConsoleNoPositionStoredException $e )
+        {
+            return;
+        }
+        $this->fail( "Exception not thrown on restore position without stored position." );
     }
 }
 ?>

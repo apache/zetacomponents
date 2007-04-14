@@ -292,14 +292,14 @@ class ezcConsoleOutput
             case 'options':
                 if ( !( $val instanceof ezcConsoleOutputOptions ) )
                 {
-                    throw new ezcBaseValueException( $key, $val, 'ezcConsoleOutputOptions' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'ezcConsoleOutputOptions' );
                 }
                 $this->properties['options'] = $val;
                 return;
             case 'formats':
                 if ( !( $val instanceof ezcConsoleOutputFormats ) )
                 {
-                    throw new ezcBaseValueException( $key, $val, 'ezcConsoleOutputFormats' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'ezcConsoleOutputFormats' );
                 }
                 $this->properties['formats'] = $val;
                 return;
