@@ -51,11 +51,11 @@
  * $out->formats->success->color = 'green';
  * $out->formats->default->color = 'blue';
  * 
- * // This is visible, since we set verboseLevel to 10, and printed in default format (now blue)
+ * // This is visible, since we set verbosityLevel to 10, and printed in default format (now blue)
  * $out->outputText( "Some verbose output.\n", null, 10 );
- * // This is not visible, since we set verboseLevel to 10
+ * // This is not visible, since we set verbosityLevel to 10
  * $out->outputText( "Some more verbose output.\n", null, 20 );
- * // This is visible, since we set verboseLevel to 10, and printed in format 'failure'
+ * // This is visible, since we set verbosityLevel to 10, and printed in format 'failure'
  * $out->outputText( "And some not so verbose, failure output.\n", 'failure', 5 );
  * </code>
  *
