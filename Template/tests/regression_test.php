@@ -56,7 +56,7 @@ class ezcTemplateRegressionTest extends ezcTestCase
         }
         else
         {
-            // Sort it, than the file a.in will be processed first. Handy for development.
+            // Sort it, then the file a.in will be processed first. Handy for development.
             usort( $directories,
                    array( $this, 'sortTestsByName' ) );
         }
