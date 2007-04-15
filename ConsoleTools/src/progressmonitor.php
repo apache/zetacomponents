@@ -117,7 +117,7 @@ class ezcConsoleProgressMonitor
             case 'options':
                 if ( !( $val instanceof ezcConsoleProgressMonitorOptions ) )
                 {
-                    throw new ezcBaseValueException( $key, $val, 'instance of ezcConsoleProgressMonitorOptions' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'instance of ezcConsoleProgressMonitorOptions' );
                 }
                 $this->options = $val;
                 return;
