@@ -15,6 +15,8 @@
   option exclusion.
 - Fixed issue #10619: ezcConsoleOutput __set() broken.
 - Fixed issue #10620: ezcConsoleProgressMonitor->__set() issues warning.
+- Fixed issue #10624: ezcConsoleStatusbar set access to property $options
+  broken.
 
 1.2 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

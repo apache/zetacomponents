@@ -160,6 +160,13 @@ class ezcConsoleStatusbar
                     throw new ezcBaseValueException( $key, $val, 'string, not empty' );
                 }
                 break;
+            case "options":
+                if ( ( $val instanceof ezcConsoleStatusbarOptions ) === false )
+                {
+                    throw new ezcBaseValueException( $key, $val, 'ezcConsoleStatusbarOptions' );
+                }
+                $this->properties[$key] = $val;
+                return;
             default:
                 throw new ezcBasePropertyNotFoundException( $key );
         }
