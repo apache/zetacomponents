@@ -182,7 +182,7 @@ class ezcConsoleStatusbar
      */
     public function __isset( $key )
     {
-        return isset( $this->properties['options'][$key] );
+        return isset( $this->properties['options'][$key] ) || isset( $this->properties[$key] );
     }
     
     /**
