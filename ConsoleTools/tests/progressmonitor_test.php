@@ -123,5 +123,117 @@ class ezcConsoleProgressMonitorTest extends ezcTestCase
         // To prepare test files use this:
         // file_put_contents( dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . 'testProgressMonitor4.dat', $res );
     }
+
+    public function testGetAccessSuccess()
+    {
+        $out = new ezcConsoleOutput();
+        $status = new ezcConsoleProgressMonitor( $out, 7 );
+
+        $this->assertEquals( new ezcConsoleProgressMonitorOptions(), $status->options );
+    }
+
+    public function testGetAccessFailure()
+    {
+        $out = new ezcConsoleOutput();
+        $status = new ezcConsoleProgressMonitor( $out, 7 );
+
+        try
+        {
+            echo $status->foo;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return;
+        }
+        $this->fail( "ezcBasePropertyNotFoundException not thrown on get access of invalid property ezcConsoleProgressMonitor->foo." );
+    }
+
+    public function testSetAccessSuccess()
+    {
+        $out = new ezcConsoleOutput();
+        $status = new ezcConsoleProgressMonitor( $out, 7 );
+        $opt = new ezcConsoleProgressMonitorOptions();
+
+        $status->options = $opt;
+        $this->assertSame( $opt, $status->options, "Value not correctly set for property ezcConsoleProgressMonitor->options." );
+    }
+
+    public function testSetAccessFailure()
+    {
+        $out = new ezcConsoleOutput();
+        $status = new ezcConsoleProgressMonitor( $out, 7 );
+
+        $exceptionThrown = false;
+        try
+        {
+            $status->options = 23;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "ezcBaseValueException not thrown on invalid value for ezcConsoleProgressMonitor->options." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $status->foo = 23;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "ezcBaseValueException not thrown on set access of invalid property ezcConsoleProgressMonitor->options." );
+    }
+
+    public function testIssetAccess()
+    {
+        $out = new ezcConsoleOutput();
+        $status = new ezcConsoleProgressMonitor( $out, 7 );
+        
+        $this->assertTrue( isset( $status->options ) );
+        $this->assertFalse( isset( $status->foo ) );
+    }
+
+    public function testSetOptionsSuccess()
+    {
+        $out = new ezcConsoleOutput();
+        
+        $optArr = array();
+        $optArr["formatString"] = "Foo bar";
+        $optObj = new ezcConsoleProgressMonitorOptions();
+        $optObj->formatString = "Foo bar";
+
+        $status = new ezcConsoleProgressMonitor( $out, 7 );
+        $status->setOptions( $optArr );
+        $this->assertEquals( $optObj, $status->options, "Options not set correctly from array." );
+        
+        $status = new ezcConsoleProgressMonitor( $out, 7 );
+        $status->setOptions( $optObj );
+        $this->assertSame( $optObj, $status->options, "Options not set correctly from object." );
+    }
+
+    public function testSetOptionsFailure()
+    {
+        $out = new ezcConsoleOutput();
+        $status = new ezcConsoleProgressMonitor( $out, 7 );
+        try
+        {
+            $status->setOptions( 23 );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return;
+        }
+        $this->fail( "ezcBaseValueException not thrown on invalid parameter for setOptions()." );
+    }
+
+    public function testGetOptions()
+    {
+        $out = new ezcConsoleOutput();
+        $status = new ezcConsoleProgressMonitor( $out, 7 );
+        
+        $this->assertSame( $status->options, $status->getOptions() );
+    }
 }
 ?>

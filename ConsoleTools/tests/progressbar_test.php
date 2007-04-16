@@ -109,7 +109,212 @@ class ezcConsoleProgressbarTest extends ezcTestCase
     {
         $this->commonProgressbarTest( __FUNCTION__, 100, 2.5, array ( 'actFormat' => '%01.8f', 'maxFormat' => '%01.2f' ) );
     }
+
+    public function testSetOptionsSuccess()
+    {
+        $out = new ezcConsoleOutput();
+        
+        $opArr = array();
+        
+        $optArr['barChar'] = "*";
+        $optArr['emptyChar'] = "#";
+        $optArr['formatString'] = "-- %act% / %max% [%bar%] %fraction%% --";
+        $optArr['fractionFormat'] = "%f";
+        $optArr['progressChar'] = "<";
+        $optArr['redrawFrequency'] = 42;
+        $optArr['step'] = 23;
+        $optArr['width'] = 42;
+        $optArr['actFormat'] = '%f';
+        $optArr['maxFormat'] = '%f';
+        
+        $optObj = new ezcConsoleProgressbarOptions();
+        
+        $optObj->barChar = "*";
+        $optObj->emptyChar = "#";
+        $optObj->formatString = "-- %act% / %max% [%bar%] %fraction%% --";
+        $optObj->fractionFormat = "%f";
+        $optObj->progressChar = "<";
+        $optObj->redrawFrequency = 42;
+        $optObj->step = 23;
+        $optObj->width = 42;
+        $optObj->actFormat = '%f';
+        $optObj->maxFormat = '%f';
+
+        $bar = new ezcConsoleProgressbar( $out, 10 );
+        $bar->setOptions( $optArr );
+
+        $this->assertEquals( $optObj, $bar->options, "Options not set correctly from array." );
+
+        $bar = new ezcConsoleProgressbar( $out, 10 );
+        $bar->setOptions( $optObj );
+
+        $this->assertEquals( $optObj, $bar->options, "Options not set correctly from object." );
+    }
+
+    public function testSetOptionsFailure()
+    {
+        $out = new ezcConsoleOutput();
+        $bar = new ezcConsoleProgressbar( $out, 10 );
+
+        try
+        {
+            $bar->setOptions( 23 );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return;
+        }
+        $this->fail( "Exeception not thrown on invalid parameter for setOptions()." );
+    }
+
+    public function testGetOptions()
+    {
+        $out = new ezcConsoleOutput();
+        $bar = new ezcConsoleProgressbar( $out, 10 );
+        $opt = new ezcConsoleProgressbarOptions();
+
+        $bar->options = $opt;
+
+        $this->assertSame( $opt, $bar->getOptions(), "Options not correctly returned from getOptions()." );
+    }
+
+    public function testGetAccessSuccess()
+    {
+        $out = new ezcConsoleOutput();
+        $bar = new ezcConsoleProgressbar( $out, 10 );
+
+        $this->assertEquals( new ezcConsoleProgressbarOptions(), $bar->options );
+        $this->assertEquals( 10, $bar->max );
+        $this->assertEquals( 1, $bar->step );
+    }
+
+    public function testGetAccessFailure()
+    {
+        $out = new ezcConsoleOutput();
+        $bar = new ezcConsoleProgressbar( $out, 10 );
+
+        try
+        {
+            echo $bar->foo;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return;
+        }
+        $this->fail( "ezcBasePropertyNotFoundException not thrown on get access of invalid property ezcConsoleProgressbar->foo." );
+    }
+
+    public function testSetAccessSuccess()
+    {
+        $out = new ezcConsoleOutput();
+        $bar = new ezcConsoleProgressbar( $out, 10 );
+
+        $this->genericSetAccessTestSuccess( $bar, "options", new ezcConsoleProgressbarOptions() );
+        $this->genericSetAccessTestSuccess( $bar, "step", 10 );
+        $this->genericSetAccessTestSuccess( $bar, "max", 100 );
+    }
+
+    public function testSetAccessFailure()
+    {
+        $out = new ezcConsoleOutput();
+        $bar = new ezcConsoleProgressbar( $out, 10 );
+
+        $this->genericSetAccessTestFailureValue( $bar, "options", 23 );
+        $this->genericSetAccessTestFailureValue( $bar, "max", true );
+        $this->genericSetAccessTestFailureValue( $bar, "max", -23 );
+        $this->genericSetAccessTestFailureValue( $bar, "step", true );
+        $this->genericSetAccessTestFailureValue( $bar, "step", -23 );
+        $this->genericSetAccessTestFailureNonexistent( $bar );
+    }
+
+    public function testIssetAccess()
+    {
+        $out = new ezcConsoleOutput();
+        $bar = new ezcConsoleProgressbar( $out, 10 );
+
+        $this->assertTrue( isset( $bar->options ) );
+        $this->assertTrue( isset( $bar->max ) );
+        $this->assertTrue( isset( $bar->step ) );
+        $this->assertFalse( isset( $bar->foo ) );
+    }
+     public function testFinish()
+     {
+        $out = new ezcConsoleOutput();
+        $bar = new ezcConsoleProgressbar( $out, 10 );
+        
+        $res = array();
+        for ( $i = 0; $i < 5; ++$i ) 
+        {
+            ob_start();
+            $bar->advance();
+            $resTmp = ob_get_clean();
+            if ( trim( $resTmp ) !== '')
+            {
+                $res[] = $resTmp;
+            }
+        }
+        ob_start();
+        $bar->finish();
+        $res[] = ob_get_clean();
+
+        $refFile = dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . __FUNCTION__ . '.dat';
+        // Use the following line to regenerate test reference files
+        //file_put_contents( $refFile, implode( PHP_EOL, $res ) );
+        $this->assertEquals(
+            file_get_contents( $refFile ),
+            implode( PHP_EOL, $res ),
+            'Progressbar not correctly generated for ' . $refFile . '.'
+        );
+
+     }
+
+    protected function genericSetAccessTestSuccess( $object, $propertyName, $value )
+    {
+        $object->$propertyName = $value;
+        if ( is_object( $value ) )
+        {
+            $this->assertSame(
+                $value,
+                $object->$propertyName, "Property " . get_class( $object ) . "->$propertyName not set correctly on object of type " . get_class( $object ) . "."
+            );
+        }
+        else
+        {
+            $this->assertEquals(
+                $value,
+                $object->$propertyName, "Property " . get_class( $object ) . "->$propertyName not set correctly on object of type " . get_class( $object ) . "."
+            );
+        }
+    }
     
+    protected function genericSetAccessTestFailureValue( $object, $propertyName, $value )
+    {
+        try
+        {
+            $object->$propertyName = $value;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return;
+        }
+        $this->fail(
+            "ezcBaseValueException not thrown on value '" . ( is_object( $value ) ) ? get_class( $value ) : $value . "' for property " . get_class( $object ) . "->$propertyName."
+        );
+    }
+
+    protected function genericSetAccessTestFailureNonexistent( $object )
+    {
+        try
+        {
+            $object->foo = 23;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return;
+        }
+        $this->fail( "ezcBasePropertyNotFoundException not thrown on access of not existent property " . get_class( $object ) . "->foo." );
+    }
+
     private function commonProgressbarTest( $refFile, $max, $step, $options )
     {
         $out = new ezcConsoleOutput();
@@ -124,22 +329,21 @@ class ezcConsoleProgressbarTest extends ezcTestCase
             ob_start();
             $bar->advance();
 //            sleep( 1 );
-            $resTmp = ob_get_contents();
-            if (trim($resTmp) !== '')
+            $resTmp = ob_get_clean();
+            if ( trim( $resTmp ) !== '' )
             {
                 $res[] = $resTmp;
             }
-            ob_end_clean();
         }
 
         $refFile = dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . $refFile . '.dat';
+        // Use the following line to regenerate test reference files
+        //file_put_contents( $refFile, implode( PHP_EOL, $res ) );
         $this->assertEquals(
             file_get_contents( $refFile ),
             implode( PHP_EOL, $res ),
-            'Table not correctly generated for ' . $refFile . '.'
+            'Progressbar not correctly generated for ' . $refFile . '.'
         );
-        // Use the following line to regenerate test reference files
-        //file_put_contents( $refFile, implode( PHP_EOL, $res ) );
     }
 }
 ?>
