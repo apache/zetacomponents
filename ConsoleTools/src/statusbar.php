@@ -205,6 +205,11 @@ class ezcConsoleStatusbar
      */
     public function add( $status )
     {
+        if ( is_bool( $status ) === false )
+        {
+            trigger_error( 'Unknown status '.var_export( $status, true ).'.', E_USER_WARNING );
+            $status = (bool) $status;
+        }
         switch ( $status )
         {
             case true:
@@ -214,10 +219,6 @@ class ezcConsoleStatusbar
             case false:
                 $this->outputHandler->outputText( $this->properties['options']['failureChar'], 'failure' );
                 break;
-            
-            default:
-                trigger_error( 'Unknown status '.var_export( $status, true ).'.', E_USER_WARNING );
-                return;
         }
         $this->counter[$status]++;
     }
