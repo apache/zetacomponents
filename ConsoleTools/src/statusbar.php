@@ -155,10 +155,8 @@ class ezcConsoleStatusbar
             // $statusbar->successChar.
             case 'successChar':
             case 'failureChar':
-                if ( strlen( $val ) < 1 )
-                {
-                    throw new ezcBaseValueException( $key, $val, 'string, not empty' );
-                }
+                // No checks necessary here, already performed in
+                // ezcConsoleStatusbarOptions
                 break;
             case "options":
                 if ( ( $val instanceof ezcConsoleStatusbarOptions ) === false )
