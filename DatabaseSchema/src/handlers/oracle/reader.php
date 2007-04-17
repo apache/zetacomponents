@@ -128,7 +128,7 @@ class ezcDbSchemaOracleReader implements ezcDbSchemaDbReader
         {
             $fieldLength = $row['length'];
             $fieldPrecision = null;
-            $fieldType = self::convertToGenericType( $row['type'], &$fieldLength, $fieldPrecision );
+            $fieldType = self::convertToGenericType( $row['type'], $fieldLength, $fieldPrecision );
             if ( in_array( $fieldType, array( 'clob', 'blob', 'date', 'float', 'timestamp' ) ) )
             {
                     $fieldLength = false;

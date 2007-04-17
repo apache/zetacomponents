@@ -273,7 +273,7 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
      * @param ezcDbSchemaField $fieldDefinition
      * @return string
      */
-    protected function convertFromGenericType( ezcDbSchemaField &$fieldDefinition )
+    protected function convertFromGenericType( ezcDbSchemaField $fieldDefinition )
     {
         $typeAddition = '';
         if ( in_array( $fieldDefinition->type, array( 'decimal', 'text' ) ) )
@@ -433,7 +433,7 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         $sqlDefinition = '"'.$fieldName.'" ';
         $defList = array();
 
-        $type = $this->convertFromGenericType( &$fieldDefinition );
+        $type = $this->convertFromGenericType( $fieldDefinition );
         $defList[] = $type;
 
         if ( !is_null( $fieldDefinition->default ) && !$fieldDefinition->autoIncrement )
