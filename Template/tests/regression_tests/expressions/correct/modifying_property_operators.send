@@ -1,4 +1,6 @@
 <?php
+ezcTestRunner::addFileToFilter( __FILE__ );
+
 if ( !class_exists( 'ezcTemplateTestModObjOpMySubClass', false ) )
 {
   class ezcTemplateTestModObjOpMySubClass

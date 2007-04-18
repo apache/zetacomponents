@@ -1,4 +1,6 @@
 <?php
+ezcTestRunner::addFileToFilter( __FILE__ );
+
 class testDelayedInitDatabaseInstance
 {
     static function configureObject( $identifier )

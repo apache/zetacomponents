@@ -1,4 +1,6 @@
 <?php
+ezcTestRunner::addFileToFilter( __FILE__ );
+
 // Relation class for keywords test. Like is the identifier. Both values are ints.
 class Where
 {
@@ -25,5 +27,4 @@ class Where
 class Like extends Where
 {
 }
-
 ?>
