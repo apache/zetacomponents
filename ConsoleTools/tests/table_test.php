@@ -258,81 +258,89 @@ class ezcConsoleTableTest extends ezcTestCase
         $table[0];
     }
 
-    public function testSetOptions_Success1()
+    public function testSetAccessOptionsSuccess()
     {
-        $out = new ezcConsoleOutput();
-        $table = new ezcConsoleTable( $out, 100 );
-        try
-        {
-            $table->options->colWidth = array( 1, 2, 3 );
-            $table->options->colWrap = ezcConsoleTable::WRAP_CUT;
-            $table->options->defaultAlign = ezcConsoleTable::ALIGN_CENTER;
-            $table->options->colPadding = ':';
-            $table->options->widthType = ezcConsoleTable::WIDTH_FIXED;
-            $table->options->lineVertical = ':';
-            $table->options->lineHorizontal = '-';
-            $table->options->corner = 'o';
-            $table->options->defaultFormat = 'test';
-            $table->options->defaultBorderFormat = 'test2';
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( "Exception while setting valid option: {$e->getMessage()}." );
-        }
+        $table = new ezcConsoleTable( $this->output, 80 );
+        $table->options->colWidth = array( 1, 2, 3 );
+        $table->options->colWrap = ezcConsoleTable::WRAP_CUT;
+        $table->options->defaultAlign = ezcConsoleTable::ALIGN_CENTER;
+        $table->options->colPadding = ':';
+        $table->options->widthType = ezcConsoleTable::WIDTH_FIXED;
+        $table->options->lineVertical = ':';
+        $table->options->lineHorizontal = '-';
+        $table->options->corner = 'o';
+        $table->options->defaultFormat = 'test';
+        $table->options->defaultBorderFormat = 'test2';
+        
+        $this->assertEquals( array( 1, 2, 3 ), $table->options->colWidth );
+        $this->assertEquals( ezcConsoleTable::WRAP_CUT, $table->options->colWrap );
+        $this->assertEquals( ezcConsoleTable::ALIGN_CENTER, $table->options->defaultAlign );
+        $this->assertEquals( ':', $table->options->colPadding );
+        $this->assertEquals( ezcConsoleTable::WIDTH_FIXED, $table->options->widthType );
+        $this->assertEquals( ':', $table->options->lineVertical );
+        $this->assertEquals( '-', $table->options->lineHorizontal );
+        $this->assertEquals( 'o', $table->options->corner );
+        $this->assertEquals( 'test', $table->options->defaultFormat );
+        $this->assertEquals( 'test2', $table->options->defaultBorderFormat );
     }
     
-    public function testSetOptions_Success2()
+    public function testSetAccessOptionsSuccess2()
     {
-        try
-        {
-            $opt = new ezcConsoleTableOptions(
-                array( 1, 2, 3 ),
-                ezcConsoleTable::WRAP_CUT,
-                ezcConsoleTable::ALIGN_CENTER,
-                ':',
-                ezcConsoleTable::WIDTH_FIXED,
-                ':',
-                '-',
-                'o',
-                'test',
-                'test2'
-            );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( "Exception while setting valid option: {$e->getMessage()}." );
-        }
+        $opt = new ezcConsoleTableOptions(
+            array( 1, 2, 3 ),
+            ezcConsoleTable::WRAP_CUT,
+            ezcConsoleTable::ALIGN_CENTER,
+            ':',
+            ezcConsoleTable::WIDTH_FIXED,
+            ':',
+            '-',
+            'o',
+            'test',
+            'test2'
+        );
+        $this->assertEquals( array( 1, 2, 3 ), $opt->colWidth );
+        $this->assertEquals( ezcConsoleTable::WRAP_CUT, $opt->colWrap );
+        $this->assertEquals( ezcConsoleTable::ALIGN_CENTER, $opt->defaultAlign );
+        $this->assertEquals( ':', $opt->colPadding );
+        $this->assertEquals( ezcConsoleTable::WIDTH_FIXED, $opt->widthType );
+        $this->assertEquals( ':', $opt->lineVertical );
+        $this->assertEquals( '-', $opt->lineHorizontal );
+        $this->assertEquals( 'o', $opt->corner );
+        $this->assertEquals( 'test', $opt->defaultFormat );
+        $this->assertEquals( 'test2', $opt->defaultBorderFormat );
     }
 
-    public function testSetOptions_Success3()
+    public function testSetAccessOptionsSuccess3()
     {
-        try
-        {
-            $opt = new ezcConsoleTableOptions(
-                array(
-                    "colWidth" => array( 1, 2, 3 ),
-                    "colWrap" => ezcConsoleTable::WRAP_CUT,
-                    "defaultAlign" => ezcConsoleTable::ALIGN_CENTER,
-                    "colPadding" => ':',
-                    "widthType" => ezcConsoleTable::WIDTH_FIXED,
-                    "lineVertical" => ':',
-                    "lineHorizontal" => '-',
-                    "corner" => 'o',
-                    "defaultFormat" => 'test',
-                    "defaultBorderFormat" => 'test2'
-                )
-            );
-        }
-        catch ( Exception $e )
-        {
-            $this->fail( "Exception while setting valid option: {$e->getMessage()}." );
-        }
+        $opt = new ezcConsoleTableOptions(
+            array(
+                "colWidth" => array( 1, 2, 3 ),
+                "colWrap" => ezcConsoleTable::WRAP_CUT,
+                "defaultAlign" => ezcConsoleTable::ALIGN_CENTER,
+                "colPadding" => ':',
+                "widthType" => ezcConsoleTable::WIDTH_FIXED,
+                "lineVertical" => ':',
+                "lineHorizontal" => '-',
+                "corner" => 'o',
+                "defaultFormat" => 'test',
+                "defaultBorderFormat" => 'test2'
+            )
+        );
+        $this->assertEquals( array( 1, 2, 3 ), $opt->colWidth );
+        $this->assertEquals( ezcConsoleTable::WRAP_CUT, $opt->colWrap );
+        $this->assertEquals( ezcConsoleTable::ALIGN_CENTER, $opt->defaultAlign );
+        $this->assertEquals( ':', $opt->colPadding );
+        $this->assertEquals( ezcConsoleTable::WIDTH_FIXED, $opt->widthType );
+        $this->assertEquals( ':', $opt->lineVertical );
+        $this->assertEquals( '-', $opt->lineHorizontal );
+        $this->assertEquals( 'o', $opt->corner );
+        $this->assertEquals( 'test', $opt->defaultFormat );
+        $this->assertEquals( 'test2', $opt->defaultBorderFormat );
     }
 
-    public function testSetOptions_Failure()
+    public function testSetAccessOptionsFailure()
     {
-        $out = new ezcConsoleOutput();
-        $table = new ezcConsoleTable( $out, 100 );
+        $table = new ezcConsoleTable( $this->output, 80 );
     
         $exceptionThrown = false;
         
@@ -476,6 +484,346 @@ class ezcConsoleTableTest extends ezcTestCase
         }
         $exceptionThrown = false;
         
+    }
+
+    public function testConstructorFailure()
+    {
+        try
+        {
+            $table = new ezcConsoleTable( $this->output, 80, 23 );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return;
+        }
+        $this->fail( "ezcBaseValueException not thrown on invalid option parameter to constructor." );
+    }
+
+    public function testSetOptionsSuccess()
+    {
+        $optArr = array(
+            "colWidth" => array( 1, 2, 3 ),
+            "colWrap" => ezcConsoleTable::WRAP_CUT,
+            "defaultAlign" => ezcConsoleTable::ALIGN_CENTER,
+            "colPadding" => ':',
+            "widthType" => ezcConsoleTable::WIDTH_FIXED,
+            "lineVertical" => ':',
+            "lineHorizontal" => '-',
+            "corner" => 'o',
+            "defaultFormat" => 'test',
+            "defaultBorderFormat" => 'test2'
+        );
+        $optObj = new ezcConsoleTableOptions(
+            array( 1, 2, 3 ),
+            ezcConsoleTable::WRAP_CUT,
+            ezcConsoleTable::ALIGN_CENTER,
+            ':',
+            ezcConsoleTable::WIDTH_FIXED,
+            ':',
+            '-',
+            'o',
+            'test',
+            'test2'
+        );
+
+        $table = new ezcConsoleTable( $this->output, 80 );
+        $table->setOptions( $optArr );
+
+        $this->assertEquals( $optObj, $table->options );
+        
+        $table = new ezcConsoleTable( $this->output, 80 );
+        $table->setOptions( $optObj );
+
+        $this->assertSame( $optObj, $table->options );
+    }
+
+    public function testSetOptionsFailure()
+    {
+        $table = new ezcConsoleTable( $this->output, 80 );
+
+        try
+        {
+            $table->setOptions( 23 );
+        }
+        catch ( ezcBaseValueException $e  )
+        {
+            return;
+        }
+        $this->fail( "ezcBaseValueException not thrown on invalid Parameter to setOptions()." );
+    }
+
+    public function testGetOptions()
+    {
+        $optObj = new ezcConsoleTableOptions(
+            array( 1, 2, 3 ),
+            ezcConsoleTable::WRAP_CUT,
+            ezcConsoleTable::ALIGN_CENTER,
+            ':',
+            ezcConsoleTable::WIDTH_FIXED,
+            ':',
+            '-',
+            'o',
+            'test',
+            'test2'
+        );
+        $table = new ezcConsoleTable( $this->output, 80, $optObj );
+
+        $this->assertSame( $optObj, $table->getOptions() );
+    }
+
+    public function testOutputTable()
+    {
+        $table = new ezcConsoleTable( $this->output, 80 );
+
+        for ( $i = 0; $i < count( $this->tableData1 ); $i++ )
+        {
+            for ( $j = 0; $j < count( $this->tableData1[$i]); $j++ )
+            {
+                $table[$i][$j]->content = $this->tableData1[$i][$j];
+            }
+        }
+
+        $table[0][0]->format = "red";
+        $table[0]->borderFormat = "green";
+
+        ob_start();
+        $table->outputTable();
+        $res = ob_get_clean();
+
+        $refFile = dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . 'testTable1a.dat';
+        $this->assertEquals(
+            file_get_contents( $refFile ),
+            $res,
+            "Table not printed correctly on use of outputTable()"
+        );
+    }
+    
+    public function testOffsetExistsSuccess()
+    {
+        $table = new ezcConsoleTable( $this->output, 80 );
+        $table[0]->borderFormat = "green";
+
+        $this->assertTrue( isset( $table[0] ) );
+        $this->assertFalse( isset( $table[1] ) );
+    }
+
+    public function testOffsetExistsFailure()
+    {
+        $table = new ezcConsoleTable( $this->output, 80 );
+        
+        $exceptionThrown = false;
+        try
+        {
+            isset( $table[-10] );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "ezcBaseValueException not thrown on negative offset." );
+        
+        $exceptionThrown = false;
+        try
+        {
+            isset( $table["foo"] );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "ezcBaseValueException not thrown on character offset." );
+    }
+
+    public function testOffsetSetSuccess()
+    {
+        $table = new ezcConsoleTable( $this->output, 80 );
+        $table[0] = new ezcConsoleTableRow();
+        $table[] = new ezcConsoleTableRow();
+        
+        $this->assertTrue( isset( $table[0] ) );
+        $this->assertTrue( isset( $table[1] ) );
+    }
+    
+    public function testOffsetSetFailure()
+    {
+        $table = new ezcConsoleTable( $this->output, 80 );
+        
+        $exceptionThrown = false;
+        try
+        {
+            $table[-10] = new ezcConsoleTableRow();
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "ezcBaseValueException not thrown on negative offset." );
+        
+        $exceptionThrown = false;
+        try
+        {
+            $table["foo"] = new ezcConsoleTableRow();
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "ezcBaseValueException not thrown on character offset." );
+        
+        $exceptionThrown = false;
+        try
+        {
+            $table[10] = 23;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "ezcBaseValueException not thrown on invalid value." );
+    }
+
+    public function testOffsetUnsetSuccess()
+    {
+        $table = new ezcConsoleTable( $this->output, 80 );
+        $table[0] = new ezcConsoleTableRow();
+        $table[] = new ezcConsoleTableRow();
+        
+        $this->assertTrue( isset( $table[0] ) );
+        $this->assertTrue( isset( $table[1] ) );
+
+        unset( $table[0] );
+        unset( $table[1] );
+
+        $this->assertFalse( isset( $table[0] ) );
+        $this->assertFalse( isset( $table[1] ) );
+    }
+    
+    public function testOffsetUnsetFailure()
+    {
+        $table = new ezcConsoleTable( $this->output, 80 );
+        
+        $exceptionThrown = false;
+        try
+        {
+            unset( $table[-10] );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "ezcBaseValueException not thrown on negative offset." );
+        
+        $exceptionThrown = false;
+        try
+        {
+           unset( $table["foo"] );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "ezcBaseValueException not thrown on character offset." );
+    }
+
+    public function testIterator()
+    {
+        $table = new ezcConsoleTable( $this->output, 80 );
+
+        for ( $i = 0; $i < 10; ++$i )
+        {
+            $table[$i]->borderFormat = "green";
+        }
+        $refRow = new ezcConsoleTableRow();
+        $refRow->borderFormat = "green";
+        
+        $i = 0;
+        foreach ( $table as $id => $row )
+        {
+            $this->assertEquals( $i++, $id );
+            $this->assertEquals( $refRow, $row );
+        }
+        $this->assertEquals( 10, $i, "Not iterated through all rows." );
+        $this->assertEquals( 0, $table->key(), "Table not reset at and of iteration." );
+    }
+
+    public function testGetAccessSuccess()
+    {
+        $table = new ezcConsoleTable( $this->output, 100 );
+        $this->assertEquals( 100, $table->width );
+        $this->assertEquals( new ezcConsoleTableOptions(), $table->options );
+    }
+
+    public function testGetAccessFailure()
+    {
+        $table = new ezcConsoleTable( $this->output, 100 );
+        try
+        {
+            echo $table->foo;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return;
+        }
+        $this->fail( "ezcBasePropertyNotFoundException not thrown on get access to invalid property foo." );
+    }
+
+    public function testSetAccessSuccess()
+    {
+        $table = new ezcConsoleTable( $this->output, 100 );
+        $opt = new ezcConsoleTableOptions();
+        
+        $table->options = $opt;
+        $table->width = 80;
+
+        $this->assertEquals( 80, $table->width );
+        $this->assertSame( $opt, $table->options );
+    }
+
+    public function testSetAccessFailure()
+    {
+        $table = new ezcConsoleTable( $this->output, 100 );
+
+        $exceptionThrown = false;
+        try
+        {
+            $table->options = 23;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "ezcBaseValueException not thrown on invalid value for property options." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $table->width = false;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "ezcBaseValueException not thrown on invalid value for property width." );
+
+        $exceptionThrown = false;
+        try
+        {
+            $table->foo = true;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "ezcBasePropertyNotFoundException not thrown set access to invalid property foo." );
+    }
+
+    public function testIssetAccess()
+    {
+        $table = new ezcConsoleTable( $this->output, 100 );
+
+        $this->assertTrue( isset( $table->width ) );
+        $this->assertTrue( isset( $table->options ) );
+        $this->assertFalse( isset( $table->foo ) );
     }
     
     private function commonTableTest( $refFile, $tableData, $settings, $options, $headrows = array() )
