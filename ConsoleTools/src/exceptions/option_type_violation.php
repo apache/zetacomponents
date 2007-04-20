@@ -28,9 +28,6 @@ class ezcConsoleOptionTypeViolationException extends ezcConsoleOptionException
             case ezcConsoleInput::TYPE_INT:
                 $typeName = 'int';
                 break;
-            case ezcConsoleInput::TYPE_STRING:
-                $typeName = 'string';
-                break;
         }
         parent::__construct( "The option '{$option->long}' expects a value of type '{$typeName}', but received the value '{$value}'." );
     }
