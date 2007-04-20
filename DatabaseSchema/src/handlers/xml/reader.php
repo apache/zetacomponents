@@ -45,11 +45,11 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
      * 
      * @param SimpleXMLElement $field
      *
-     * @return ezcDbSchemaField
+     * @return ezcDbSchemaField or an inherited class
      */
     private function parseField( SimpleXMLElement $field )
     {
-        return new ezcDbSchemaField(
+        return ezcDbSchema::createNewField(
             (string) $field->type,
             isset( $field->length ) ? (string) $field->length : false,
             isset( $field->notnull ) ? ((string) $field->notnull == 'true' ? true : false ) : false,
@@ -64,7 +64,7 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
      * 
      * @param SimpleXMLElement $index
      *
-     * @return ezcDbSchemaIndex
+     * @return ezcDbSchemaIndex or an inherited class
      */
     private function parseIndex( SimpleXMLElement $index )
     {
@@ -74,12 +74,12 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
         {
             $indexFieldName = (string) $indexField->name;
 
-            $indexFields[$indexFieldName] = new ezcDbSchemaIndexField(
+            $indexFields[$indexFieldName] = ezcDbSchema::createNewIndexField(
                 isset( $indexField->sorting ) ? (string) $indexField->sorting : null
             );
         }
 
-        return new ezcDbSchemaIndex(
+        return ezcDbSchema::createNewIndex(
             $indexFields,
             isset( $index->primary ) ? (string) $index->primary : false,
             isset( $index->unique ) ? (string) $index->unique : false
@@ -91,7 +91,7 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
      * 
      * @param SimpleXMLElement $table
      *
-     * @return ezcDbSchemaTable
+     * @return ezcDbSchemaTable or an inherited class
      */
     private function parseTable( SimpleXMLElement $table )
     {
@@ -110,7 +110,7 @@ class ezcDbSchemaXmlReader implements ezcDbSchemaFileReader, ezcDbSchemaDiffFile
             $indexes[$indexName] = $this->parseIndex( $index );
         }
 
-        return new ezcDbSchemaTable( $fields, $indexes );
+        return ezcDbSchema::createNewTable( $fields, $indexes );
     }
 
     /**

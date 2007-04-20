@@ -15,6 +15,7 @@ return array(
     'ezcDbSchema'                       => 'DatabaseSchema/schema.php',
     'ezcDbSchemaDiff'                   => 'DatabaseSchema/schema_diff.php',
     'ezcDbSchemaHandlerManager'         => 'DatabaseSchema/handler_manager.php',
+    'ezcDbSchemaOptions'                => 'DatabaseSchema/options/schema.php',
 
     'ezcDbSchemaValidator'              => 'DatabaseSchema/validator.php',
     'ezcDbSchemaTypesValidator'         => 'DatabaseSchema/validators/types.php',
@@ -61,6 +62,7 @@ return array(
     'ezcDbSchemaException'              => 'DatabaseSchema/exceptions/exception.php',
     'ezcDbSchemaInvalidSchemaException' => 'DatabaseSchema/exceptions/invalid_schema.php',
     'ezcDbSchemaUnknownFormatException' => 'DatabaseSchema/exceptions/unknown_format.php',
+    'ezcDbSchemaInvalidParentClassException' => 'DatabaseSchema/exceptions/invalid_parent_class.php',
     'ezcDbSchemaInvalidReaderClassException' => 'DatabaseSchema/exceptions/invalid_reader_class.php',
     'ezcDbSchemaInvalidWriterClassException' => 'DatabaseSchema/exceptions/invalid_writer_class.php',
     'ezcDbSchemaInvalidDiffReaderClassException' => 'DatabaseSchema/exceptions/invalid_diff_reader_class.php',

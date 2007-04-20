@@ -80,7 +80,7 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
             $fields  = $this->fetchTableFields( $tableName );
             $indexes = $this->fetchTableIndexes( $tableName );
 
-            $schemaDefinition[$tableName] = new ezcDbSchemaTable( $fields, $indexes );
+            $schemaDefinition[$tableName] = ezcDbSchema::createNewTable( $fields, $indexes );
         }
 
         return $schemaDefinition;
@@ -131,7 +131,7 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
             // FIXME: unsigned needs to be implemented
             $fieldUnsigned = false;
 
-            $fields[$row[1]] = new ezcDbSchemaField( $fieldType, $fieldLength, $fieldNotNull, $fieldDefault, $fieldAutoIncrement, $fieldUnsigned );
+            $fields[$row[1]] = ezcDbSchema::createNewField( $fieldType, $fieldLength, $fieldNotNull, $fieldDefault, $fieldAutoIncrement, $fieldUnsigned );
         }
 
         return $fields;
@@ -242,7 +242,7 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
 
             foreach ( $indexArray as $indexColumnRow )
             {
-                $indexBuffer[$keyName]['fields'][$indexColumnRow[2]] = new ezcDbSchemaIndexField();
+                $indexBuffer[$keyName]['fields'][$indexColumnRow[2]] = ezcDbSchema::createNewIndexField();
             }
         }
 
@@ -255,7 +255,7 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
                 $keyName = 'primary';
                 $indexBuffer[$keyName]['primary'] = true;
                 $indexBuffer[$keyName]['unique'] = true;
-                $indexBuffer[$keyName]['fields'][$row[1]] = new ezcDbSchemaIndexField();
+                $indexBuffer[$keyName]['fields'][$row[1]] = ezcDbSchema::createNewIndexField();
             }
         }
 
@@ -263,7 +263,7 @@ class ezcDbSchemaSqliteReader implements ezcDbSchemaDbReader
 
         foreach ( $indexBuffer as $indexName => $indexInfo )
         {
-            $indexes[$indexName] = new ezcDbSchemaIndex( $indexInfo['fields'], $indexInfo['primary'], $indexInfo['unique'] );
+            $indexes[$indexName] = ezcDbSchema::createNewIndex( $indexInfo['fields'], $indexInfo['primary'], $indexInfo['unique'] );
         }
 
         return $indexes;

@@ -30,6 +30,8 @@ require_once 'validator_test.php';
 require_once 'comparator_test.php';
 require_once 'persistent_test.php';
 
+require_once 'custom_class_test.php';
+
 /**
  * @package DatabaseSchema
  * @subpackage Tests
@@ -80,6 +82,7 @@ class ezcDatabaseSchemaSuite extends PHPUnit_Framework_TestSuite
         }
 
         $this->addTest( ezcDatabaseSchemaPersistentTest::suite() );
+        $this->addTest( ezcDatabaseSchemaCustomClassesTest::suite() );
     }
 
     public static function suite()

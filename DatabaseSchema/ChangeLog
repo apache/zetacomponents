@@ -1,4 +1,4 @@
-1.1.1 - [RELEASEDATE]
+1.2beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #10113: Testing DatabaseSchema silently quits.
@@ -12,6 +12,7 @@
 - Fixed issue #10630: Call-time pass-by-reference warning in Oracle handler.
 - Implemented feature #9584: Switch for overwriting files.
   (PersistentObjectDatabaseSchemaTiein)
+- Implemented feature #9874: ezcDbSchema[DB]Reader custom table schema class.
 
 
 1.1 - Monday 18 December 2006

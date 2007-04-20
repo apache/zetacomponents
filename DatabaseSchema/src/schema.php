@@ -90,6 +90,13 @@ class ezcDbSchema
     );
 
     /**
+     * Contains the options that are used by creating new schemas.
+     *
+     * @var ezcDbSchemaOptions
+     */
+    static public $options;
+
+    /**
      * Constructs a new ezcDbSchema object with schema definition $schema.
      *
      * @param array(ezcDbSchemaTable) $schema
@@ -238,6 +245,92 @@ class ezcDbSchema
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * Associates an option object with this static class.
+     *
+     * @param ezcDbSchemaOptions $options
+     */
+    static public function setOptions( ezcDbSchemaOptions $options )
+    {
+        self::$options = $options;
+    }
+
+    /**
+     * Checks whether the static options have been initialized, and if not it
+     * creates a new options class and assigns it to the options statick
+     * property.
+     *
+     * Usually the option object is initialized in the constructor, but that of
+     * course does not work for static classes.
+     */
+    static private function initOptions()
+    {
+        if ( !ezcDbSchema::$options )
+        {
+            ezcDbSchema::$options = new ezcDbSchemaOptions();
+        }
+    }
+
+    /**
+     * Returns an object to represent a table in the schema.
+     *
+     * @param array(string=>ezcDbSchemaField) $fields
+     * @param array(string=>ezcDbSchemaIndex) $indexes
+     * @return ezcDbSchemaTable or an inherited class
+     */
+    static public function createNewTable( $fields, $indexes )
+    {
+        self::initOptions();
+        $className = ezcDbSchema::$options->tableClassName;
+        return new $className( $fields, $indexes );
+    }
+
+    /**
+     * Returns an object to represent a table's field in the schema.
+     *
+     * @param string  $fieldType
+     * @param integer $fieldLength
+     * @param bool    $fieldNotNull
+     * @param mixed   $fieldDefault
+     * @param bool    $fieldAutoIncrement
+     * @param bool    $fieldUnsigned
+     * @return ezcDbSchemaField or an inherited class
+     */
+    static public function createNewField( $fieldType, $fieldLength, $fieldNotNull, $fieldDefault, $fieldAutoIncrement, $fieldUnsigned )
+    {
+        self::initOptions();
+        $className = ezcDbSchema::$options->fieldClassName;
+        return new $className( $fieldType, $fieldLength, $fieldNotNull, $fieldDefault, $fieldAutoIncrement, $fieldUnsigned );
+    }
+
+    /**
+     * Returns an object to represent a table's field in the schema.
+     *
+     * @param array(string=>ezcDbSchemaIndexField) $fields
+     * @param bool  $primary
+     * @param bool  $unique
+     * @return ezcDbSchemaIndex or an inherited class
+     */
+    static public function createNewIndex( $fields, $primary, $unique )
+    {
+        self::initOptions();
+        $className = ezcDbSchema::$options->indexClassName;
+        return new $className( $fields, $primary, $unique );
+    }
+
+    /**
+     * Returns an object to represent a table's field in the schema.
+     *
+     * @var int $sorting
+     * @return ezcDbSchemaIndexField or an inherited class
+     */
+    static public function createNewIndexField( $sorting = null )
+    {
+        self::initOptions();
+        $className = ezcDbSchema::$options->indexFieldClassName;
+        return new $className( $sorting );
     }
 }
 ?>

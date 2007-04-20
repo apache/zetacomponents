@@ -106,7 +106,7 @@ class ezcDbSchemaPgsqlReader implements ezcDbSchemaDbReader
             $fields  = $this->fetchTableFields( $tableName );
             $indexes = $this->fetchTableIndexes( $tableName );
 
-            $schemaDefinition[$tableName] = new ezcDbSchemaTable( $fields, $indexes );
+            $schemaDefinition[$tableName] = ezcDbSchema::createNewTable( $fields, $indexes );
         }
 
         return $schemaDefinition;
@@ -188,7 +188,7 @@ class ezcDbSchemaPgsqlReader implements ezcDbSchemaDbReader
             // FIXME: unsigned needs to be implemented
             $fieldUnsigned = false;
 
-            $fields[$row['field']] = new ezcDbSchemaField( $fieldType, $fieldLength, $fieldNotNull, $fieldDefault, $fieldAutoIncrement, $fieldUnsigned );
+            $fields[$row['field']] = ezcDbSchema::createNewField( $fieldType, $fieldLength, $fieldNotNull, $fieldDefault, $fieldAutoIncrement, $fieldUnsigned );
         }
 
         return $fields;
@@ -332,14 +332,14 @@ class ezcDbSchemaPgsqlReader implements ezcDbSchemaDbReader
                 $indexBuffer[$keyName]['unique'] = $row['non_unique'] ? false : true;
             }
 
-            $indexBuffer[$keyName]['fields'][$row['column_name']] = new ezcDbSchemaIndexField();
+            $indexBuffer[$keyName]['fields'][$row['column_name']] = ezcDbSchema::createNewIndexField();
         }
 
         $indexes = array();
 
         foreach ( $indexBuffer as $indexName => $indexInfo )
         {
-            $indexes[$indexName] = new ezcDbSchemaIndex( $indexInfo['fields'], $indexInfo['primary'], $indexInfo['unique'] );
+            $indexes[$indexName] = ezcDbSchema::createNewIndex( $indexInfo['fields'], $indexInfo['primary'], $indexInfo['unique'] );
         }
 
         return $indexes;
