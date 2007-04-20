@@ -26,6 +26,7 @@ return array(
     'ezcBaseFileIoException'               => 'Base/exceptions/file_io.php',
     'ezcBaseFilePermissionException'       => 'Base/exceptions/file_permission.php',
     'ezcBaseInitCallbackConfiguredException' => 'Base/exceptions/init_callback_configured.php',
+    'ezcBaseInvalidParentClassException'   => 'Base/exceptions/invalid_parent_class.php',
     'ezcBasePropertyPermissionException'   => 'Base/exceptions/property_permission.php',
     'ezcBasePropertyNotFoundException'     => 'Base/exceptions/property_not_found.php',
     'ezcBaseSettingNotFoundException'      => 'Base/exceptions/setting_not_found.php',

@@ -51,6 +51,11 @@ class ezcDbSchemaOptions extends ezcBaseOptions
      * @param mixed $propertyValue 
      * @throws ezcBasePropertyNotFoundException
      *         If a property is not defined in this class
+     * @throws ezcBaseValueException
+     *         if $value is not correct for the property $name
+     * @throws ezcBaseInvalidParentClassException
+     *         if the class name passed as replacement for any of the built-in
+     *         classes do not inherit from the built-in classes.
      * @return void
      */
     public function __set( $propertyName, $propertyValue )
@@ -79,7 +84,7 @@ class ezcDbSchemaOptions extends ezcBaseOptions
                 $handlerClass = new ReflectionClass( $propertyValue );
                 if ( $parentClassMap[$propertyName] !== $propertyValue && !$handlerClass->isSubclassOf( $parentClass ) )
                 {
-                    throw new ezcDbSchemaInvalidParentClassException( $parentClassMap[$propertyName], $propertyValue );
+                    throw new ezcBaseInvalidParentClassException( $parentClassMap[$propertyName], $propertyValue );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;
