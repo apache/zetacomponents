@@ -164,6 +164,28 @@ class ezcConsoleTableTest extends ezcTestCase
             array( 1, 2 )
         );
     }
+    
+    public function testTable3c()
+    {
+        $this->commonTableTest(
+            __FUNCTION__,
+            $this->tableData3,
+            array( 'cols' => count( $this->tableData3[0] ), 'width' =>  30 ),
+            array( 'lineFormatHead' => 'magenta', 'colWrap' => ezcConsoleTable::WRAP_NONE ),
+            array( 1, 2 )
+        );
+    }
+    
+    public function testTable3d()
+    {
+        $this->commonTableTest(
+            __FUNCTION__,
+            $this->tableData3,
+            array( 'cols' => count( $this->tableData3[0] ), 'width' =>  9 ),
+            array( 'lineFormatHead' => 'magenta', 'colWrap' => ezcConsoleTable::WRAP_CUT, 'colWidth' => array( 3, 3, 3 ) ),
+            array( 1, 2 )
+        );
+    }
      
     public function testTable4a()
     {
@@ -632,6 +654,41 @@ class ezcConsoleTableTest extends ezcTestCase
             $exceptionThrown = true;
         }
         $this->assertTrue( $exceptionThrown, "ezcBaseValueException not thrown on character offset." );
+    }
+
+    public function testOffsetGetSuccess()
+    {
+        $table = new ezcConsoleTable( $this->output, 80 );
+        $table[0] = new ezcConsoleTableRow();
+
+        $this->assertEquals( new ezcConsoleTableRow(), $table[0] );
+    }
+
+    public function testOffsetGetFailure()
+    {
+        $table = new ezcConsoleTable( $this->output, 80 );
+        
+        $exceptionThrown = false;
+        try
+        {
+            echo $table["foo"];
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "ezcBaseValueException not thrown on invalid string offset." );
+        
+        $exceptionThrown = false;
+        try
+        {
+            echo $table[-23];
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "ezcBaseValueException not thrown on invalid int offset." );
     }
 
     public function testOffsetSetSuccess()
