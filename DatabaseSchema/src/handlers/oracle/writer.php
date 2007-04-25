@@ -201,6 +201,10 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
     private function addAutoIncrementField( $db, $tableName, $autoIncrementFieldName, $autoIncrementFieldType )
     {
         // fetching field info from Oracle, getting column position of autoincrement field
+
+        // @apichange This code piece would become orphan, with the new 
+        // implementation. We still need it to drop the old sequences.
+        // Remove until --END-- to not take care of them.
         $resultArray = $this->db->query( "SELECT   a.column_name AS field, " .    
                                          "         a.column_id AS field_pos " .
                                          "FROM     user_tab_columns a " .
@@ -216,17 +220,30 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         $fieldPos = $resultArray[0]['field_pos'];
 
         // emulation of autoincrement through adding sequence, trigger and constraint
-        $sequence = $this->db->query( "SELECT sequence_name FROM user_sequences WHERE sequence_name = '{$tableName}_{$fieldPos}_seq'" )->fetchAll();
+        $oldName = "{$tableName}_{$fieldPos}";
+        $sequence = $this->db->query( "SELECT sequence_name FROM user_sequences WHERE sequence_name = '{$oldName}_seq'" )->fetchAll();
         if ( count( $sequence) > 0  )
         {
-            $db->query( "DROP SEQUENCE \"{$sequenceName}\"" );
+            // assuming that if the seq exists, the trigger exists too
+            $db->query( "DROP SEQUENCE \"{$oldName}_seq\"" );
+            $db->query( "DROP TRIGGER \"{$oldName}_trg\"" );
+        }
+        // --END--
+
+        // New sequence names, using field names
+        $newName = "{$tableName}_{$autoIncrementFieldName}";
+        // Emulation of autoincrement through adding sequence, trigger and constraint
+        $sequences = $this->db->query( "SELECT sequence_name FROM user_sequences WHERE sequence_name = '{$newName}_seq'" )->fetchAll();
+        if ( count( $sequences ) > 0  )
+        {
+            $db->query( "DROP SEQUENCE \"{$newName}_seq\"" );
         }
 
-        $db->exec( "CREATE SEQUENCE \"{$tableName}_{$fieldPos}_seq\" start with 1 increment by 1 nomaxvalue" );
-        $db->exec( "CREATE OR REPLACE TRIGGER \"{$tableName}_{$fieldPos}_trg\" ".
+        $db->exec( "CREATE SEQUENCE \"{$newName}_seq\" start with 1 increment by 1 nomaxvalue" );
+        $db->exec( "CREATE OR REPLACE TRIGGER \"{$newName}_trg\" ".
                                   "before insert on \"{$tableName}\" for each row ".
                                   "begin ".
-                                  "select \"{$tableName}_{$fieldPos}_seq\".nextval into :new.\"{$fieldName}\" from dual; ".
+                                  "select \"{$newName}_seq\".nextval into :new.\"{$autoIncrementFieldName}\" from dual; ".
                                   "end;" );
 
         $constraint = $this->db->query( "SELECT constraint_name FROM user_cons_columns WHERE constraint_name = '{$tableName}_pkey'" )->fetchAll();
@@ -328,11 +345,11 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
 
             if ( $fieldDefinition->autoIncrement && !$this->context['skip_primary'] )
             {
-                $autoincrementSQL[] = "CREATE SEQUENCE \"{$tableName}_{$fieldCounter}_seq\" start with 1 increment by 1 nomaxvalue";
-                $autoincrementSQL[] = "CREATE OR REPLACE TRIGGER \"{$tableName}_{$fieldCounter}_trg\" ".
+                $autoincrementSQL[] = "CREATE SEQUENCE \"{$tableName}_{$fieldName}_seq\" start with 1 increment by 1 nomaxvalue";
+                $autoincrementSQL[] = "CREATE OR REPLACE TRIGGER \"{$tableName}_{$fieldName}_trg\" ".
                                           "before insert on \"{$tableName}\" for each row ".
                                           "begin ".
-                                          "select \"{$tableName}_{$fieldCounter}_seq\".nextval into :new.\"{$fieldName}\" from dual; ".
+                                          "select \"{$tableName}_{$fieldName}_seq\".nextval into :new.\"{$fieldName}\" from dual; ".
                                           "end;";
                 $autoincrementSQL[] = "ALTER TABLE \"{$tableName}\" ADD CONSTRAINT \"{$tableName}_pkey\" PRIMARY KEY ( \"{$fieldName}\" )";
                 $this->context['skip_primary'] = true;

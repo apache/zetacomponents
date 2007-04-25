@@ -168,7 +168,8 @@ class ezcDbSchemaOracleReader implements ezcDbSchemaDbReader
             }
 
             $fieldAutoIncrement = false;           
-            if ( in_array( $tableName.'_'.$row['field_pos'].'_seq', $sequences ) )
+            // new sequence naming included
+            if ( in_array( $tableName.'_'.$row['field_pos'].'_seq', $sequences ) || in_array( $tableName.'_'.$row['field'].'_seq', $sequences ) )
             {
                 $fieldAutoIncrement = true;
             }
