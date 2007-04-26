@@ -227,6 +227,27 @@ class ezcGraphRadarChartTest extends ezcGraphTestCase
         );
     }
 
+    public function testRadarRendererFailure()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphRadarChart();
+        $chart->palette = new ezcGraphPaletteTango();
+
+        $chart->data['sample'] = new ezcGraphArrayDataSet( $this->getRandomData( 6 ) );
+
+        try
+        {
+            $chart->renderer = new ezcGraphRenderer3d();
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBasePropertyValueException.' );
+    }
+
     public function testRadarMultiple()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
