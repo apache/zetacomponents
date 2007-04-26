@@ -14,7 +14,9 @@
  * @package Graph
  * @mainclass
  */
-class ezcGraphRenderer3d extends ezcGraphRenderer
+class ezcGraphRenderer3d 
+    extends ezcGraphRenderer
+    implements ezcGraphRadarRenderer
 {
 
     /**

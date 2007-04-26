@@ -118,6 +118,16 @@ class ezcGraphRadarChart extends ezcGraphChart
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphChartElementAxis' );
                 }
                 break;
+            case 'renderer':
+                if ( $propertyValue instanceof ezcGraphRadarRenderer )
+                {
+                    parent::__set( $propertyName, $propertyValue );
+                }
+                else 
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphRadarRenderer' );
+                }
+                break;
             default:
                 parent::__set( $propertyName, $propertyValue );
         }
