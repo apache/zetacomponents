@@ -1862,13 +1862,11 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
         }
 
         // Determine normalized direction
-        $direction = new ezcGraphCoordinate(
+        $direction = new ezcGraphVector(
             $start->x - $end->x,
             $start->y - $end->y
         );
-        $length = sqrt( pow( $direction->x, 2) + pow( $direction->y, 2 ) );
-        $direction->x /= $length;
-        $direction->y /= $length;
+        $direction->unify();
 
         $start->x += $boundings->x0;
         $start->y += $boundings->y0;

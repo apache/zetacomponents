@@ -1179,13 +1179,11 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         $end->y += $boundings->y0;
 
         // Determine normalized direction
-        $direction = new ezcGraphCoordinate(
+        $direction = new ezcGraphVector(
             $start->x - $end->x,
             $start->y - $end->y
         );
-        $length = sqrt( pow( $direction->x, 2) + pow( $direction->y, 2 ) );
-        $direction->x /= $length;
-        $direction->y /= $length;
+        $direction->unify();
 
         // Draw axis
         $this->driver->drawLine(
@@ -1204,6 +1202,9 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
             )
         );
 
+        $orthogonalDirection = clone $direction;
+        $orthogonalDirection->rotateClockwise();
+
         $this->driver->drawPolygon(
             array(
                 new ezcGraphCoordinate(
@@ -1212,18 +1213,18 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
                 ),
                 new ezcGraphCoordinate(
                     $end->x
-                        + $direction->y * $size / 2
+                        - $orthogonalDirection->x * $size / 2
                         + $direction->x * $size,
                     $end->y
-                        + $direction->x * $size / 2
+                        - $orthogonalDirection->y * $size / 2
                         + $direction->y * $size
                 ),
                 new ezcGraphCoordinate(
                     $end->x
-                        - $direction->y * $size / 2
+                        + $orthogonalDirection->x * $size / 2
                         + $direction->x * $size,
                     $end->y
-                        - $direction->x * $size / 2
+                        + $orthogonalDirection->y * $size / 2
                         + $direction->y * $size
                 ),
             ),

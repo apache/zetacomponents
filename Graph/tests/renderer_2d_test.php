@@ -1594,8 +1594,8 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
             ->with(
                 $this->equalTo( array(
                     new ezcGraphCoordinate( 450., 120. ),
-                    new ezcGraphCoordinate( 442., 116. ),
                     new ezcGraphCoordinate( 442., 124. ),
+                    new ezcGraphCoordinate( 442., 116. ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                 $this->equalTo( true )
@@ -1628,8 +1628,8 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
             ->with(
                 $this->equalTo( array(
                     new ezcGraphCoordinate( 150., 120. ),
-                    new ezcGraphCoordinate( 157., 123.5 ),
                     new ezcGraphCoordinate( 157., 116.5 ),
+                    new ezcGraphCoordinate( 157., 123.5 ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                 $this->equalTo( true )
