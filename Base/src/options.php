@@ -111,7 +111,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      */
     public function offsetExists( $propertyName )
     {
-        return isset( $this->properties[$propertyName] );
+        return isset( $this->$propertyName );
     }
 
     /**
