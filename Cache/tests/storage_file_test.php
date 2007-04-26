@@ -59,9 +59,9 @@ class ezcCacheStorageFileTest extends ezcTestCase
             $obj = new ezcCacheStorageFileArray( '/tmp', array( 'eXtEnSiOn' => '.c' ) );
             $this->fail( 'Expected exception was not thrown' );
         }
-        catch ( ezcBaseSettingNotFoundException $e )
+        catch ( ezcBasePropertyNotFoundException $e )
         {
-            $this->assertTrue( true );
+            return;
         }
     }
 
@@ -106,7 +106,9 @@ class ezcCacheStorageFileTest extends ezcTestCase
 
         $cache->store( 0, $data['attributes'], $data['content'] );
 
-        sleep( 2 );
+        $file = $cache->generateIdentifier( 0, $data['attributes'] );
+        // Fake mtime and atime
+        touch( $file, time() - 90000, time() - 90000 );
         
         $this->assertNotEquals( false, $cache->restore( 0 ) );
     }
