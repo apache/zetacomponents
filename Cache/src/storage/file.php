@@ -33,6 +33,12 @@
  */
 abstract class ezcCacheStorageFile extends ezcCacheStorage
 {
+    public function __construct( $location, $options = array() )
+    {
+        parent::__construct( $location, $options );
+        // Overwrite parent set options with new ezcCacheFileStorageOptions
+        $this->properties['options'] = new ezcCacheStorageFileOptions( $options );
+    }
     /**
      * Fetch data from the cache.
      * This method does the fetching of the data itself. In this case, the
@@ -123,6 +129,10 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
         {
             throw new ezcBaseFileIoException( $filename, ezcBaseFileException::WRITE, 'Could not write data to cache file.' );
         }
+        if ( ezcBaseFeatures::os() !== "Windows" )
+        {
+            chmod( $filename, $this->options->permissions );
+        }
         return $id;
     }
 
@@ -154,12 +164,12 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
      *         has been corrupted by external influences (file permission 
      *         change).
      */
-    public function restore( $id, $attributes = array() )
+    public function restore( $id, $attributes = array(), $search = true )
     {
         $filename = $this->properties['location'] . $this->generateIdentifier( $id, $attributes );
         if ( file_exists( $filename ) === false ) 
         {
-            if ( count( $files = $this->search( $id, $attributes ) ) === 1 ) 
+            if ( $search === true && count( $files = $this->search( $id, $attributes ) ) === 1 ) 
             {
                 $filename = $files[0];
             } 
@@ -205,7 +215,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
      *         has been corrupted by external influences (file permission 
      *         change).
      */
-    public function delete( $id = null, $attributes = array() )
+    public function delete( $id = null, $attributes = array(), $search = true )
     {
         $filename = $this->properties['location'] . $this->generateIdentifier( $id, $attributes );
         $delFiles = array();
@@ -213,7 +223,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
         {
             $delFiles[] = $filename;
         } 
-        else 
+        else if ( $search === true )
         {
             $delFiles = $this->search( $id, $attributes );
         }
@@ -399,6 +409,62 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
         return $filename . $this->properties['options']['extension'];
     }
 
+
+    /**
+     * Set new options.
+     * This method allows you to change the options of a cache file storage. Change 
+     * of options take effect directly after this method has been called. The 
+     * available options depend on the ezcCacheStorageFile implementation. All 
+     * implementations have to offer the following options:
+     *
+     * - ttl         The time-to-life. After this time span, a cache item becomes
+     *               invalid and will be purged. The 
+     *               {@link ezcCacheStorage::restore()} method will then return 
+     *               false.
+     * - extension   The "extension" for your cache items. This is usually the 
+     *               file name extension, when you deal with file system based
+     *               caches or e.g. a database ID extension.
+     * - permissions The file permissions to set for new files.
+     *
+     * The usage of ezcCacheStorageOptions and arrays for setting options is
+     * deprecated, but still supported. You should migrate to
+     * ezcCacheStorageFileOptions.
+     *
+     * @param ezcCacheStorageFileOptions $options The options to set (accepts
+     *                                            ezcCacheStorageOptions or 
+     *                                            array for compatibility 
+     *                                            reasons, too).
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         If you tried to set a non-existent option value. The accpeted 
+     *         options depend on th ezcCacheStorage implementation and my 
+     *         vary.
+     * @throws ezcBaseValueException
+     *         If the value is not valid for the desired option.
+     * @throws ezcBaseValueException
+     *         If you submit neither an instance of ezcCacheStorageFileOptions,
+     *         nor an instance of ezcCacheStorageOptions nor an array.
+     */
+    public function setOptions( $options )
+    {
+        if ( is_array( $options ) )
+        {
+            $this->properties['options']->merge( $options );
+        }
+        else if ( $options instanceof ezcCacheStorageFileOptions )
+        {
+            $this->properties['options'] = $options;
+        }
+        else if ( $options instanceof ezcCacheStorageOptions )
+        {
+            $this->properties['options']->mergeStorageOptions( $options );
+        }
+        else
+        {
+            throw new ezcBaseValueException( "options", $options, "instance of ezcCacheStorageFileOptions or (deprecated) ezcCacheStorageOptions" );
+        }
+    }
+
     /**
      * Calculates the lifetime remaining for a cache object. 
      * This calculates the time a cached object stays valid and returns it.
@@ -413,6 +479,40 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
         {
             return ( ( $lifeTime = ( time() - $modTime ) ) > 0 ) ? $lifeTime : 0;
         }
+    }
+
+    /**
+     * Property write access.
+     * 
+     * @param string $propertyName Name of the property.
+     * @param mixed $val  The value for the property.
+     *
+     * @throws ezcBaseValueException 
+     *         If a the value for the property options is not an instance of 
+     *         ezcCacheStorageOptions. 
+     * @ignore
+     */
+    public function __set( $propertyName, $val )
+    {
+        switch ( $propertyName ) 
+        {
+            case 'options':
+                if ( $val instanceof ezcCacheStorageFileOptions )
+                {
+                    $this->options = $val;
+                }
+                else if ( $val instanceof ezcCacheStorageOptions )
+                {
+                    $this->options->mergeStorageOptions( $options );
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $key, $val, 'instance of ezcCacheStorageFileOptions' );
+                }
+                $this->properties['options'] = $val;
+                return;
+        }
+        throw new ezcBasePropertyNotFoundException( $propertyName );
     }
 }
 ?>

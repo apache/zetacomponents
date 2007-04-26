@@ -142,6 +142,30 @@ class ezcCacheStorageFileTest extends ezcTestCase
         $this->removeTempDir();
     }
 
+    public function testPermissions()
+    {
+        $cache = new ezcCacheStorageFileArray(
+            $this->createTempDir( 'ezcCacheStorageFileTest' ), 
+            array( 'extension' => '.c', 'ttl' => false )
+        );
+        $data = array( 
+            'attributes' => array( 'lang' => 'en', 'section' => 'articles' ),
+            'content'    => array( 'lang' => 'en', 'section' => 'articles' ),
+        );
+
+        $cache->store( 0, $data['attributes'], $data['content'] );
+        $file = $cache->getLocation() . "/" . $cache->generateIdentifier( 0, $data['attributes'] );
+        
+        $this->assertEquals( 0644, ( fileperms( $file ) & 0777 ) );
+
+        $cache->options->permissions = 0777;
+
+        $cache->store( 1, $data['attributes'], $data['content'] );
+        $file = $cache->getLocation() . "/" . $cache->generateIdentifier( 1, $data['attributes'] );
+
+        $this->assertEquals( 0777,  ( fileperms( $file ) & 0777 ) );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcCacheStorageFileTest" );

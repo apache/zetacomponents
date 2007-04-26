@@ -13,6 +13,7 @@ return array (
     'ezcCacheManager'                       => 'Cache/manager.php',
     'ezcCacheStorage'                       => 'Cache/storage.php',
     'ezcCacheStorageOptions'                => 'Cache/options/storage.php',
+    'ezcCacheStorageFileOptions'            => 'Cache/options/storage_file.php',
     'ezcCacheStorageFile'                   => 'Cache/storage/file.php',
     'ezcCacheStorageFileArray'              => 'Cache/storage/file/array.php',
     'ezcCacheStorageFileEvalArray'          => 'Cache/storage/file/eval_array.php',

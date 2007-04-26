@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcCacheStorageOptionsTest 
+ * ezcCacheStorageFileOptionsTest 
  * 
  * @package Cache
  * @subpackage Tests
@@ -10,111 +10,112 @@
  */
 
 /**
- * Abstract base test class for ezcCacheStorageOptions tests.
+ * Abstract base test class for ezcCacheStorageFileOptions tests.
  * 
  * @package Cache
  * @subpackage Tests
  */
-class ezcCacheStorageOptionsTest extends ezcTestCase
+class ezcCacheStorageFileOptionsTest extends ezcTestCase
 {
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( "ezcCacheStorageOptionsTest" );
+		return new PHPUnit_Framework_TestSuite( "ezcCacheStorageFileOptionsTest" );
 	}
-
-    /**
-     * testConstructorNew
-     * 
-     * @access public
-     */
+    
     public function testConstructor()
     {
-        $fake = new ezcCacheStorageOptions(
+        $fake = new ezcCacheStorageFileOptions(
             array( 
-                "ttl" => 86400,
-                "extension" => ".cache",
+                "ttl"         => 86400,
+                "extension"   => ".cache",
+                "permissions" => 0644, 
             )
         );
         $this->assertEquals( 
             $fake,
-            new ezcCacheStorageOptions(),
-            'Default values incorrect for ezcCacheStorageOptions.'
+            new ezcCacheStorageFileOptions(),
+            'Default values incorrect for ezcCacheStorageFileOptions.'
         );
     }
 
     public function testNewAccess()
     {
-        $opt = new ezcCacheStorageOptions();
-
-        $this->assertEquals( $opt->ttl, 86400 );
-        $this->assertEquals( $opt->extension, ".cache" );
+        $opt = new ezcCacheStorageFileOptions();
 
         $this->assertEquals( $opt["ttl"], 86400 );
         $this->assertEquals( $opt["extension"], ".cache" );
+        $this->assertEquals( $opt["permissions"], 0644 );
     }
 
     public function testGetAccessSuccess()
     {
-        $opt = new ezcCacheStorageOptions();
+        $opt = new ezcCacheStorageFileOptions();
 
         $this->assertEquals( $opt->ttl, 86400 );
         $this->assertEquals( $opt->extension, ".cache" );
+        $this->assertEquals( $opt->permissions, 0644 );
     }
 
     public function testGetAccessFailure()
     {
-        $opt = new ezcCacheStorageOptions();
+        $opt = new ezcCacheStorageFileOptions();
         
         try
         {
-            echo $opt->permissions;
+            echo $opt->foo;
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
             return;
         }
-        $this->fail( "ezcBasePropertyNotFoundException not thrown on access to invalid property permissions." );
+        $this->fail( "ezcBasePropertyNotFoundException not thrown on access to invalid property foo." );
     }
 
     public function testSetAccessSuccess()
     {
-        $opt = new ezcCacheStorageOptions();
+        $opt = new ezcCacheStorageFileOptions();
 
         $opt->ttl = false;
         $opt->ttl = 23;
         $opt->extension = ".foo";
+        $opt->permissions = 0777;
 
         $this->assertEquals( $opt->ttl, 23 );
         $this->assertEquals( $opt->extension, ".foo" );
+        $this->assertEquals( $opt->permissions, 0777 );
     }
 
     public function testSetAccessFailure()
     {
-        $opt = new ezcCacheStorageOptions();
+        $opt = new ezcCacheStorageFileOptions();
         
         $this->genericSetFailureTest( $opt, "ttl", "foo" );
         $this->genericSetFailureTest( $opt, "ttl", true );
         $this->genericSetFailureTest( $opt, "extension", 23 );
         $this->genericSetFailureTest( $opt, "extension", true );
+        $this->genericSetFailureTest( $opt, "permissions", true );
+        $this->genericSetFailureTest( $opt, "permissions", "foo" );
+        $this->genericSetFailureTest( $opt, "permissions", -10 );
+        $this->genericSetFailureTest( $opt, "permissions", 01000 );
 
         try
         {
-            $opt->permissions = 0777;
+            $opt->foo = "bar";
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
             return;
         }
-        $this->fail( "ezcBasePropertyNotFoundException not thrown on set access to invalid property permissions." );
+        $this->fail( "ezcBasePropertyNotFoundException not thrown on set access to invalid property." );
     }
 
     public function testIssetAccess()
     {
-        $opt = new ezcCacheStorageOptions();
+        $opt = new ezcCacheStorageFileOptions();
         
         $this->assertTrue( isset( $opt->ttl ) );
         $this->assertTrue( isset( $opt->extension ) );
-        $this->assertFalse( isset( $opt->permissions ) );
+        $this->assertTrue( isset( $opt->permissions ) );
         $this->assertFalse( isset( $opt->foo ) );
     }
 
@@ -130,6 +131,5 @@ class ezcCacheStorageOptionsTest extends ezcTestCase
         }
         $this->fail( "ezcBaseValueException not thrown on invalid value '$value' for " . get_class( $obj ) . "->$property." );
     }
-
 }
 ?>

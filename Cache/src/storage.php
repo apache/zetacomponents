@@ -82,7 +82,7 @@ abstract class ezcCacheStorage
      *         performs sanity checks for the cache location. In case this 
      *         exception is thrown, your cache location has been corrupted 
      *         after the cache was configured.
-     * @throws ezcBaseSettingNotFoundException
+     * @throws ezcBasePropertyNotFoundException
      *         If you tried to set a non-existent option value. The accpeted 
      *         options depend on th ezcCacheStorage implementation and my 
      *         vary.
@@ -260,11 +260,11 @@ abstract class ezcCacheStorage
      * 
      * @param ezcCacheStorageOptions $options The options to set.
      *
-     * @throws ezcBaseSettingNotFoundException
+     * @throws ezcBasePropertyNotFoundException
      *         If you tried to set a non-existent option value. The accpeted 
      *         options depend on th ezcCacheStorage implementation and my 
      *         vary.
-     * @throws ezcBaseSettingValueException
+     * @throws ezcBaseValueException
      *         If the value is not valid for the desired option.
      * @throws ezcBaseValueException
      *         If you submit neither an array nor an instance of 
