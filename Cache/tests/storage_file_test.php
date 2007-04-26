@@ -111,6 +111,8 @@ class ezcCacheStorageFileTest extends ezcTestCase
         touch( $file, time() - 90000, time() - 90000 );
         
         $this->assertNotEquals( false, $cache->restore( 0 ) );
+
+        $this->removeTempDir();
     }
 
     public function testDeleteRecursive()
@@ -164,6 +166,8 @@ class ezcCacheStorageFileTest extends ezcTestCase
         $file = $cache->getLocation() . "/" . $cache->generateIdentifier( 1, $data['attributes'] );
 
         $this->assertEquals( 0777,  ( fileperms( $file ) & 0777 ) );
+        
+        $this->removeTempDir();
     }
 
     public static function suite()
