@@ -684,6 +684,126 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
             );
         }
     }
+
+    protected function getCoordinateFromAngleAndRadius(
+        ezcGraphBoundings $boundings,
+        ezcGraphCoordinate $center,
+        $angle,
+        $radius
+    )
+    {
+        $direction = new ezcGraphCoordinate(
+            sin( $angle ) * $boundings->width / 2,
+            -cos( $angle ) * $boundings->height / 2
+        );
+
+        $offset = new ezcGraphCoordinate(
+            sin( $angle ) * $this->xAxisSpace,
+            -cos( $angle ) * $this->yAxisSpace
+        );
+
+        $direction->x -= 2 * $offset->x;
+        $direction->y -= 2 * $offset->y;
+
+        return new ezcGraphCoordinate(
+            $boundings->x0 +
+                $center->x +
+                $offset->x +
+                $direction->x * $radius,
+            $boundings->y0 +
+                $center->y +
+                $offset->y +
+                $direction->y * $radius
+        );
+    }
+
+    /**
+     * Draw radar chart data line
+     *
+     * Draws a line as a data element in a radar chart
+     * 
+     * @param ezcGraphBoundings $boundings Chart boundings
+     * @param ezcGraphContext $context Context of call
+     * @param ezcGraphColor $color Color of line
+     * @param ezcGraphCoordinate $center Center of radar chart
+     * @param ezcGraphCoordinate $start Starting point
+     * @param ezcGraphCoordinate $end Ending point
+     * @param int $dataNumber Number of dataset
+     * @param int $dataCount Count of datasets in chart
+     * @param int $symbol Symbol to draw for line
+     * @param ezcGraphColor $symbolColor Color of the symbol, defaults to linecolor
+     * @param ezcGraphColor $fillColor Color to fill line with
+     * @param float $thickness Line thickness
+     * @return void
+     */
+    public function drawRadarDataLine(
+        ezcGraphBoundings $boundings,
+        ezcGraphContext $context,
+        ezcGraphColor $color,
+        ezcGraphCoordinate $center,
+        ezcGraphCoordinate $start,
+        ezcGraphCoordinate $end,
+        $dataNumber = 1,
+        $dataCount = 1,
+        $symbol = ezcGraph::NO_SYMBOL,
+        ezcGraphColor $symbolColor = null,
+        ezcGraphColor $fillColor = null,
+        $thickness = 1
+    )
+    {
+        // Calculate line points from chart coordinates
+        $start = $this->getCoordinateFromAngleAndRadius(
+            $boundings,
+            $center,
+            $start->x * 2 * M_PI,
+            $start->y
+        );
+        $end = $this->getCoordinateFromAngleAndRadius(
+            $boundings,
+            $center,
+            $end->x * 2 * M_PI,
+            $end->y
+        );
+
+        // Fill line
+        if ( $fillColor !== null )
+        {
+            $this->driver->drawPolygon(
+                array(
+                    $start,
+                    $end,
+                    new ezcGraphCoordinate(
+                        $boundings->x0 + $center->x,
+                        $boundings->y0 + $center->y
+                    ),
+                ),
+                $fillColor,
+                true
+            );
+        }
+
+        // Draw line
+        $this->driver->drawLine(
+            $start,
+            $end,
+            $color,
+            $thickness
+        );
+
+        if ( $symbol !== ezcGraph::NO_SYMBOL )
+        {
+            $this->drawSymbol(
+                new ezcGraphBoundings(
+                    $end->x - $this->options->symbolSize / 2,
+                    $end->y - $this->options->symbolSize / 2,
+                    $end->x + $this->options->symbolSize / 2,
+                    $end->y + $this->options->symbolSize / 2
+                ),
+                $symbolColor,
+                $symbol
+            );
+        }
+    }
     
     /**
      * Draws a highlight textbox for a datapoint.
@@ -1176,29 +1296,41 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
 
         if ( $this->xAxisSpace && $this->yAxisSpace )
         {
-            foreach ( $this->axisLabels as $axisLabel )
+            foreach ( $this->axisLabels as $nr => $axisLabel )
             {
-                switch ( $axisLabel['axis']->position )
-                {
-                    case ezcGraph::RIGHT:
-                    case ezcGraph::LEFT:
-                        $axisLabel['start']->x += $this->xAxisSpace * ( $axisLabel['start'] > $axisLabel['end'] ? -1 : 1 );
-                        $axisLabel['end']->x -= $this->xAxisSpace * ( $axisLabel['start'] > $axisLabel['end'] ? -1 : 1 );
-                        break;
-                    case ezcGraph::TOP:
-                    case ezcGraph::BOTTOM:
-                        $axisLabel['start']->y += $this->yAxisSpace * ( $axisLabel['start'] > $axisLabel['end'] ? -1 : 1 );
-                        $axisLabel['end']->y -= $this->yAxisSpace * ( $axisLabel['start'] > $axisLabel['end'] ? -1 : 1 );
-                        break;
-                }
+                $start = $axisLabel['start'];
+                $end = $axisLabel['end'];
+
+                $direction = new ezcGraphVector(
+                    $end->x - $start->x,
+                    $end->y - $start->y
+                );
+                $direction->unify();
+
+                // Convert elipse to circle for correct angle calculation
+                $direction->y *= ( $this->xAxisSpace / $this->yAxisSpace );
+                $angle = $direction->angle( new ezcGraphVector( 0, 1 ) );
+
+                $movement = new ezcGraphVector(
+                    sin( $angle ) * $this->xAxisSpace * ( $direction->x < 0 ? -1 : 1 ),
+                    cos( $angle ) * $this->yAxisSpace
+                );
+
+                $start->x += $movement->x;
+                $start->y += $movement->y;
+                $end->x -= $movement->x;
+                $end->y -= $movement->y;
 
                 $axisLabel['object']->renderLabels(
                     $this,
                     $axisLabel['boundings'],
-                    $axisLabel['start'],
-                    $axisLabel['end'],
+                    $start,
+                    $end,
                     $axisLabel['axis']
                 );
+
+                // Prevent from redrawing axis on more then 2 axis.
+                unset( $this->axisLabels[$nr] );
             }
         }
     }

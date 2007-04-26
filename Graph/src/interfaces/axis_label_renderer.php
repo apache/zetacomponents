@@ -26,6 +26,8 @@
  *           Indicates if steps are shown on the outer side of axis.
  * @property bool $outerGrid
  *           Indicates if the grid is shown on the outer side of axis.
+ * @property bool $showLables
+ *           Indicates if the labels should be shown
  * @property int $labelPadding
  *           Padding of labels.
  *
@@ -56,6 +58,7 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
         $this->properties['innerStep'] = true;
         $this->properties['outerStep'] = false;
         $this->properties['outerGrid'] = false;
+        $this->properties['showLabels'] = true;
         $this->properties['labelPadding'] = 2;
 
         parent::__construct( $options );
@@ -148,6 +151,14 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
                 }
 
                 $this->properties['outerGrid'] = (bool) $propertyValue;
+                break;
+            case 'showLabels':
+                if ( !is_bool( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
+                }
+
+                $this->properties['showLabels'] = (bool) $propertyValue;
                 break;
             case 'labelPadding':
                 if ( !is_numeric( $propertyValue ) ||

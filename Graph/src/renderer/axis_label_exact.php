@@ -106,10 +106,10 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
         else
         {
             $gridBoundings = new ezcGraphBoundings(
-                $boundings->x0 + $renderer->xAxisSpace,
-                $boundings->y0 + $renderer->yAxisSpace,
-                $boundings->x1 - $renderer->xAxisSpace,
-                $boundings->y1 - $renderer->yAxisSpace
+                $boundings->x0 + $renderer->xAxisSpace * abs( $direction->y ),
+                $boundings->y0 + $renderer->yAxisSpace * abs( $direction->x ),
+                $boundings->x1 - $renderer->xAxisSpace * abs( $direction->y ),
+                $boundings->y1 - $renderer->yAxisSpace * abs( $direction->x )
             );
         }
 
@@ -150,80 +150,83 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
                 );
             }
 
-            switch ( $axis->position )
+            if ( $this->showLabels )
             {
-                case ezcGraph::RIGHT:
-                case ezcGraph::LEFT:
-                    $labelWidth = $axisBoundings->width * 
-                        $steps[$nr - $step->isLast]->width /
-                        ( $this->showLastValue + 1 );
-                    $labelHeight = $renderer->yAxisSpace;
-                    break;
+                switch ( $axis->position )
+                {
+                    case ezcGraph::RIGHT:
+                    case ezcGraph::LEFT:
+                        $labelWidth = $axisBoundings->width * 
+                            $steps[$nr - $step->isLast]->width /
+                            ( $this->showLastValue + 1 );
+                        $labelHeight = $renderer->yAxisSpace;
+                        break;
 
-                case ezcGraph::BOTTOM:
-                case ezcGraph::TOP:
-                    $labelWidth = $renderer->xAxisSpace;
-                    $labelHeight = $axisBoundings->height * 
-                        $steps[$nr - $step->isLast]->width /
-                        ( $this->showLastValue + 1 );
-                    break;
+                    case ezcGraph::BOTTOM:
+                    case ezcGraph::TOP:
+                        $labelWidth = $renderer->xAxisSpace;
+                        $labelHeight = $axisBoundings->height * 
+                            $steps[$nr - $step->isLast]->width /
+                            ( $this->showLastValue + 1 );
+                        break;
+                }
+
+                switch ( true )
+                {
+                    case ( !$this->showLastValue && $step->isLast ):
+                        // Skip last step if showLastValue is false
+                        break;
+                    // Draw label at top left of step
+                    case ( ( $axis->position === ezcGraph::BOTTOM ) &&
+                           ( !$step->isLast ) ) ||
+                         ( ( $axis->position === ezcGraph::TOP ) &&
+                           ( $step->isLast ) ):
+                        $labelBoundings = new ezcGraphBoundings(
+                            $position->x - $labelWidth + $this->labelPadding,
+                            $position->y - $labelHeight + $this->labelPadding,
+                            $position->x - $this->labelPadding,
+                            $position->y - $this->labelPadding
+                        );
+                        $alignement = ezcGraph::RIGHT | ezcGraph::BOTTOM;
+                        break;
+                    // Draw label at bottom right of step
+                    case ( ( $axis->position === ezcGraph::LEFT ) &&
+                           ( !$step->isLast ) ) ||
+                         ( ( $axis->position === ezcGraph::RIGHT ) &&
+                           ( $step->isLast ) ):
+                        $labelBoundings = new ezcGraphBoundings(
+                            $position->x + $this->labelPadding,
+                            $position->y + $this->labelPadding,
+                            $position->x + $labelWidth - $this->labelPadding,
+                            $position->y + $labelHeight - $this->labelPadding
+                        );
+                        $alignement = ezcGraph::LEFT | ezcGraph::TOP;
+                        break;
+                    // Draw label at bottom left of step
+                    case ( ( $axis->position === ezcGraph::TOP ) &&
+                           ( !$step->isLast ) ) ||
+                         ( ( $axis->position === ezcGraph::RIGHT ) &&
+                           ( !$step->isLast ) ) ||
+                         ( ( $axis->position === ezcGraph::BOTTOM ) &&
+                           ( $step->isLast ) ) ||
+                         ( ( $axis->position === ezcGraph::LEFT ) &&
+                           ( $step->isLast ) ):
+                        $labelBoundings = new ezcGraphBoundings(
+                            $position->x - $labelWidth + $this->labelPadding,
+                            $position->y + $this->labelPadding,
+                            $position->x - $this->labelPadding,
+                            $position->y + $labelHeight - $this->labelPadding
+                        );
+                        $alignement = ezcGraph::RIGHT | ezcGraph::TOP;
+                        break;
+                }
+
+                $renderer->drawText(
+                    $labelBoundings,
+                    $step->label,
+                    $alignement
+                );
             }
-
-            switch ( true )
-            {
-                case ( !$this->showLastValue && $step->isLast ):
-                    // Skip last step if showLastValue is false
-                    break;
-                // Draw label at top left of step
-                case ( ( $axis->position === ezcGraph::BOTTOM ) &&
-                       ( !$step->isLast ) ) ||
-                     ( ( $axis->position === ezcGraph::TOP ) &&
-                       ( $step->isLast ) ):
-                    $labelBoundings = new ezcGraphBoundings(
-                        $position->x - $labelWidth + $this->labelPadding,
-                        $position->y - $labelHeight + $this->labelPadding,
-                        $position->x - $this->labelPadding,
-                        $position->y - $this->labelPadding
-                    );
-                    $alignement = ezcGraph::RIGHT | ezcGraph::BOTTOM;
-                    break;
-                // Draw label at bottom right of step
-                case ( ( $axis->position === ezcGraph::LEFT ) &&
-                       ( !$step->isLast ) ) ||
-                     ( ( $axis->position === ezcGraph::RIGHT ) &&
-                       ( $step->isLast ) ):
-                    $labelBoundings = new ezcGraphBoundings(
-                        $position->x + $this->labelPadding,
-                        $position->y + $this->labelPadding,
-                        $position->x + $labelWidth - $this->labelPadding,
-                        $position->y + $labelHeight - $this->labelPadding
-                    );
-                    $alignement = ezcGraph::LEFT | ezcGraph::TOP;
-                    break;
-                // Draw label at bottom left of step
-                case ( ( $axis->position === ezcGraph::TOP ) &&
-                       ( !$step->isLast ) ) ||
-                     ( ( $axis->position === ezcGraph::RIGHT ) &&
-                       ( !$step->isLast ) ) ||
-                     ( ( $axis->position === ezcGraph::BOTTOM ) &&
-                       ( $step->isLast ) ) ||
-                     ( ( $axis->position === ezcGraph::LEFT ) &&
-                       ( $step->isLast ) ):
-                    $labelBoundings = new ezcGraphBoundings(
-                        $position->x - $labelWidth + $this->labelPadding,
-                        $position->y + $this->labelPadding,
-                        $position->x - $this->labelPadding,
-                        $position->y + $labelHeight - $this->labelPadding
-                    );
-                    $alignement = ezcGraph::RIGHT | ezcGraph::TOP;
-                    break;
-            }
-
-            $renderer->drawText(
-                $labelBoundings,
-                $step->label,
-                $alignement
-            );
 
             if ( !$step->isLast )
             {

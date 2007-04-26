@@ -20,9 +20,11 @@ return array(
     'ezcGraphPieChart'                          => 'Graph/charts/pie.php',
     'ezcGraphLineChart'                         => 'Graph/charts/line.php',
     'ezcGraphBarChart'                          => 'Graph/charts/bar.php',
+    'ezcGraphRadarChart'                        => 'Graph/charts/radar.php',
     'ezcGraphChartOptions'                      => 'Graph/options/chart.php',
     'ezcGraphPieChartOptions'                   => 'Graph/options/pie_chart.php',
     'ezcGraphLineChartOptions'                  => 'Graph/options/line_chart.php',
+    'ezcGraphRadarChartOptions'                 => 'Graph/options/radar_chart.php',
     'ezcGraphInvalidImageFileException'         => 'Graph/exceptions/invalid_image_file.php',
     'ezcGraphUnregularStepsException'           => 'Graph/exceptions/unregular_steps.php',
 

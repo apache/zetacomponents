@@ -182,6 +182,33 @@ class ezcGraphFlashDriverTest extends ezcGraphTestCase
         );
     }
 
+    public function testDrawWideEllipse()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.swf';
+
+        $return = $this->driver->drawCircleSector(
+            new ezcGraphCoordinate( 100, 50 ),
+            80,
+            20,
+            0,
+            310,
+            ezcGraphColor::fromHex( '#3465A4' )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->swfCompare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.swf'
+        );
+        
+        $this->assertEquals(
+            'ezcGraphCircleSector_1',
+            $return,
+            'Expected flash object id as return value.'
+        );
+    }
+
     public function testDrawMultipleCircleSectors()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.swf';

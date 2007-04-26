@@ -210,6 +210,32 @@ class ezcGraphVectorTest extends ezcTestCase
         );
     }
 
+    public function testVectorAngle180Vector()
+    {
+        $vector = new ezcGraphVector( 1, 0 );
+        $result = $vector->angle( new ezcGraphVector( -1, 0 ) );
+
+        $this->assertEquals(
+            $result,
+            M_PI,
+            'Wrong angle returned',
+            .01
+        );
+    }
+
+    public function testVectorAngle180Vector2()
+    {
+        $vector = new ezcGraphVector( 0, 1 );
+        $result = $vector->angle( new ezcGraphVector( 0, -1 ) );
+
+        $this->assertEquals(
+            $result,
+            M_PI,
+            'Wrong angle returned',
+            .01
+        );
+    }
+
     public function testVectorAddCoordinate()
     {
         $vector = new ezcGraphVector( 1, 2 );

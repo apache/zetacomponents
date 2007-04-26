@@ -105,10 +105,10 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
         else
         {
             $gridBoundings = new ezcGraphBoundings(
-                $boundings->x0 + $renderer->xAxisSpace,
-                $boundings->y0 + $renderer->yAxisSpace,
-                $boundings->x1 - $renderer->xAxisSpace,
-                $boundings->y1 - $renderer->yAxisSpace
+                $boundings->x0 + $renderer->xAxisSpace * abs( $direction->y ),
+                $boundings->y0 + $renderer->yAxisSpace * abs( $direction->x ),
+                $boundings->x1 - $renderer->xAxisSpace * abs( $direction->y ),
+                $boundings->y1 - $renderer->yAxisSpace * abs( $direction->x )
             );
         }
 
@@ -150,7 +150,7 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
             }
 
             // draw label
-            if ( $this->showZeroValue || ! $step->isZero )
+            if ( $this->showLabels && ( $this->showZeroValue || ! $step->isZero ) )
             {
                 // Calculate label boundings
                 if ( abs( $direction->x ) > abs( $direction->y ) )
@@ -230,37 +230,40 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
             }
 
             // Iterate over minor steps
-            foreach ( $step->childs as $minorStep )
+            if ( !$step->isLast )
             {
-                $minorStepPosition = new ezcGraphCoordinate(
-                    $start->x + ( $end->x - $start->x ) * $minorStep->position,
-                    $start->y + ( $end->y - $start->y ) * $minorStep->position
-                );
-                $minorStepSize = new ezcGraphCoordinate(
-                    $axisBoundings->width * $minorStep->width,
-                    $axisBoundings->height * $minorStep->width
-                );
-
-                if ( $axis->minorGrid )
+                foreach ( $step->childs as $minorStep )
                 {
-                    $this->drawGrid( 
+                    $minorStepPosition = new ezcGraphCoordinate(
+                        $start->x + ( $end->x - $start->x ) * $minorStep->position,
+                        $start->y + ( $end->y - $start->y ) * $minorStep->position
+                    );
+                    $minorStepSize = new ezcGraphCoordinate(
+                        $axisBoundings->width * $minorStep->width,
+                        $axisBoundings->height * $minorStep->width
+                    );
+
+                    if ( $axis->minorGrid )
+                    {
+                        $this->drawGrid( 
+                            $renderer, 
+                            $gridBoundings, 
+                            $minorStepPosition,
+                            $minorStepSize,
+                            $axis->minorGrid
+                        );
+                    }
+                    
+                    // major step
+                    $this->drawStep( 
                         $renderer, 
-                        $gridBoundings, 
                         $minorStepPosition,
-                        $minorStepSize,
-                        $axis->minorGrid
+                        $direction, 
+                        $axis->position, 
+                        $this->minorStepSize, 
+                        $axis->border
                     );
                 }
-                
-                // major step
-                $this->drawStep( 
-                    $renderer, 
-                    $minorStepPosition,
-                    $direction, 
-                    $axis->position, 
-                    $this->minorStepSize, 
-                    $axis->border
-                );
             }
         }
     }

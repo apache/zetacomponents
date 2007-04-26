@@ -93,10 +93,10 @@ class ezcGraphAxisBoxedLabelRenderer extends ezcGraphAxisLabelRenderer
         else
         {
             $gridBoundings = new ezcGraphBoundings(
-                $boundings->x0 + $renderer->xAxisSpace,
-                $boundings->y0 + $renderer->yAxisSpace,
-                $boundings->x1 - $renderer->xAxisSpace,
-                $boundings->y1 - $renderer->yAxisSpace
+                $boundings->x0 + $renderer->xAxisSpace * abs( $this->direction->y ),
+                $boundings->y0 + $renderer->yAxisSpace * abs( $this->direction->x ),
+                $boundings->x1 - $renderer->xAxisSpace * abs( $this->direction->y ),
+                $boundings->y1 - $renderer->yAxisSpace * abs( $this->direction->x )
             );
         }
 
@@ -121,31 +121,34 @@ class ezcGraphAxisBoxedLabelRenderer extends ezcGraphAxisLabelRenderer
                 $axisBoundings->height * $stepWidth
             );
 
-            // Calculate label boundings
-            if ( abs( $this->direction->x ) > abs( $this->direction->y ) )
+            if ( $this->showLabels )
             {
-                $labelBoundings = new ezcGraphBoundings(
-                    $position->x - $stepSize->x + $this->labelPadding,
-                    $position->y + $this->labelPadding,
-                    $position->x + - $this->labelPadding,
-                    $position->y + $renderer->yAxisSpace - $this->labelPadding
-                );
+                // Calculate label boundings
+                if ( abs( $this->direction->x ) > abs( $this->direction->y ) )
+                {
+                    $labelBoundings = new ezcGraphBoundings(
+                        $position->x - $stepSize->x + $this->labelPadding,
+                        $position->y + $this->labelPadding,
+                        $position->x + - $this->labelPadding,
+                        $position->y + $renderer->yAxisSpace - $this->labelPadding
+                    );
 
-                $alignement = ezcGraph::CENTER | ezcGraph::TOP;
+                    $alignement = ezcGraph::CENTER | ezcGraph::TOP;
+                }
+                else
+                {
+                    $labelBoundings = new ezcGraphBoundings(
+                        $position->x - $renderer->xAxisSpace + $this->labelPadding,
+                        $position->y - $stepSize->y + $this->labelPadding,
+                        $position->x - $this->labelPadding,
+                        $position->y - $this->labelPadding
+                    );
+
+                    $alignement = ezcGraph::MIDDLE | ezcGraph::RIGHT;
+                }
+
+                $renderer->drawText( $labelBoundings, $step->label, $alignement );
             }
-            else
-            {
-                $labelBoundings = new ezcGraphBoundings(
-                    $position->x - $renderer->xAxisSpace + $this->labelPadding,
-                    $position->y - $stepSize->y + $this->labelPadding,
-                    $position->x - $this->labelPadding,
-                    $position->y - $this->labelPadding
-                );
-
-                $alignement = ezcGraph::MIDDLE | ezcGraph::RIGHT;
-            }
-
-            $renderer->drawText( $labelBoundings, $step->label, $alignement );
 
             // major grid
             if ( $axis->majorGrid )

@@ -478,6 +478,119 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
         );
     }
 
+    public function testRenderRadarDataLine()
+    {
+        $this->driver
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawLine' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 200., 50. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 300., 100. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
+                $this->equalTo( 1 )
+            );
+
+        $this->renderer->drawRadarDataLine( 
+            new ezcGraphBoundings( 0, 0, 400, 200 ),
+            new ezcGraphContext(),
+            ezcGraphColor::fromHex( '#FF0000' ), 
+            new ezcGraphCoordinate( 200., 100. ),
+            new ezcGraphCoordinate( 0., .5 ),
+            new ezcGraphCoordinate( .25, .5 )
+        );
+    }
+
+    public function testRenderFilledRadarDataLine()
+    {
+        $this->driver
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array(
+                    new ezcGraphCoordinate( 200., 50. ),
+                    new ezcGraphCoordinate( 300., 100. ),
+                    new ezcGraphCoordinate( 200., 100. ),
+                ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#FF0000DD' ) ),
+                $this->equalTo( true )
+            );
+        $this->driver
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawLine' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 200., 50. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 300., 100. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
+                $this->equalTo( 1 )
+            );
+
+        $this->renderer->drawRadarDataLine( 
+            new ezcGraphBoundings( 0, 0, 400, 200 ),
+            new ezcGraphContext(),
+            ezcGraphColor::fromHex( '#FF0000' ), 
+            new ezcGraphCoordinate( 200., 100. ),
+            new ezcGraphCoordinate( 0., .5 ),
+            new ezcGraphCoordinate( .25, .5 ),
+            0,
+            1,
+            ezcGraph::NO_SYMBOL,
+            null, 
+            ezcGraphColor::fromHex( '#FF0000DD' )
+        );
+    }
+
+    public function testRenderFilledRadarDataLineWithSymbol()
+    {
+        $this->driver
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array(
+                    new ezcGraphCoordinate( 200., 50. ),
+                    new ezcGraphCoordinate( 300., 100. ),
+                    new ezcGraphCoordinate( 200., 100. ),
+                ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#FF0000DD' ) ),
+                $this->equalTo( true )
+            );
+        $this->driver
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawLine' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 200., 50. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 300., 100. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
+                $this->equalTo( 1 )
+            );
+        $this->driver
+            ->expects( $this->at( 2 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array(
+                    new ezcGraphCoordinate( 300., 97. ),
+                    new ezcGraphCoordinate( 303., 100. ),
+                    new ezcGraphCoordinate( 300., 103. ),
+                    new ezcGraphCoordinate( 297., 100. ),
+                ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
+                $this->equalTo( true )
+            );
+
+        $this->renderer->drawRadarDataLine( 
+            new ezcGraphBoundings( 0, 0, 400, 200 ),
+            new ezcGraphContext(),
+            ezcGraphColor::fromHex( '#FF0000' ), 
+            new ezcGraphCoordinate( 200., 100. ),
+            new ezcGraphCoordinate( 0., .5 ),
+            new ezcGraphCoordinate( .25, .5 ),
+            0,
+            1,
+            ezcGraph::DIAMOND,
+            ezcGraphColor::fromHex( '#FF0000' ), 
+            ezcGraphColor::fromHex( '#FF0000DD' )
+        );
+    }
+
     public function testRenderSymbolNone()
     {
         $this->driver
