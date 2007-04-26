@@ -70,6 +70,16 @@ class ezcUrlTest extends ezcTestCase
             $expected = "No such property name 'no_such_property'.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
+
+        try
+        {
+            $url->configuration = "value";
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( "The value 'value' that you were trying to assign to setting 'configuration' is invalid. Allowed values are: instance of ezcUrlConfiguration.", $e->getMessage() );
+        }
     }
 
     public function testConstructor()
@@ -375,6 +385,87 @@ class ezcUrlTest extends ezcTestCase
         }
     }
 
+    public function testRemoveOrderedParameter()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addOrderedParameter( 'view' );
+
+        $url = new ezcUrl( 'http://www.example.com/doc/components', $urlCfg );
+        $this->assertEquals( array( 'section' => 0, 'module' => 1, 'view' => 2 ), $url->configuration->orderedParameters );
+        $this->assertEquals( 'doc', $url->getParam( 'section' ) );
+        $this->assertEquals( 'components', $url->getParam( 'module' ) );
+
+        $url->configuration->removeOrderedParameter( 'view' );
+        $this->assertEquals( array( 'section' => 0, 'module' => 1 ), $url->configuration->orderedParameters );
+
+        try
+        {
+            $this->assertEquals( null, $url->getParam( 'view' ) );
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcUrlInvalidParameterException $e )
+        {
+            $expected = "The parameter 'view' could not be set/get because it is not defined in the configuration.";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+
+        // try removing again - nothing bad should happen
+        $url->configuration->removeOrderedParameter( 'view' );
+        try
+        {
+            $this->assertEquals( null, $url->getParam( 'view' ) );
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcUrlInvalidParameterException $e )
+        {
+            $expected = "The parameter 'view' could not be set/get because it is not defined in the configuration.";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testRemoveUnorderedParameter()
+    {
+        $urlCfg = new ezcUrlConfiguration();
+        $urlCfg->addOrderedParameter( 'section' );
+        $urlCfg->addOrderedParameter( 'module' );
+        $urlCfg->addUnorderedParameter( 'file', ezcUrlConfiguration::MULTIPLE_ARGUMENTS );    
+
+        $url = new ezcUrl( 'http://www.example.com/doc/components/(file)/Base/ezcBase.html', $urlCfg );
+        $this->assertEquals( array( 'file' => 2 ), $url->configuration->unorderedParameters );
+        $this->assertEquals( 'doc', $url->getParam( 'section' ) );
+        $this->assertEquals( 'components', $url->getParam( 'module' ) );
+        $this->assertEquals( array( 'Base', 'ezcBase.html' ), $url->getParam( 'file' ) );
+
+        $url->configuration->removeUnorderedParameter( 'file' );
+        $this->assertEquals( array(), $url->configuration->unorderedParameters );
+
+        try
+        {
+            $this->assertEquals( null, $url->getParam( 'file' ) );
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcUrlInvalidParameterException $e )
+        {
+            $expected = "The parameter 'file' could not be set/get because it is not defined in the configuration.";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+
+        // try removing again - nothing bad should happen
+        $url->configuration->removeUnorderedParameter( 'file' );
+        try
+        {
+            $this->assertEquals( null, $url->getParam( 'file' ) );
+            $this->fail( 'Expected exception was not thrown.' );
+        }
+        catch ( ezcUrlInvalidParameterException $e )
+        {
+            $expected = "The parameter 'file' could not be set/get because it is not defined in the configuration.";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
     public function testIsSet()
     {
         $url = new ezcUrl( 'http://www.example.com' );
@@ -390,6 +481,7 @@ class ezcUrlTest extends ezcTestCase
         $this->assertEquals( true, isset( $url->params ) );
         $this->assertEquals( true, isset( $url->uparams ) );
         $this->assertEquals( true, isset( $url->query ) );
+        $this->assertEquals( false, isset( $url->configuration ) );
         $this->assertEquals( false, isset( $url->no_such_property ) );
     }
 

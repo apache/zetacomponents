@@ -3,6 +3,9 @@
 
 - Implemented feature request #10109: Added support for delayed initialization
   for ezcUrlConfiguration.
+- Implemented feature request #10444: Added removeOrderedParameter() and
+  removeUnorderedParameter() methods to ezcUrlConfiguration. Also exposed the
+  url configuration as a property of ezcUrl objects.
 
 
 1.0 - Monday 18 December 2006

@@ -41,6 +41,14 @@
  * $category = $url->getParam( 'category' ); // will be "Adventure"
  * $subcategory = $url->getParam( 'subcategory' ); // will be "Adult"
  * $game = $url->getParam( 'game' ); // will be array( "Larry", "7" )
+ *
+ * // to remove parameters from the url configuration $urlCfg
+ * $urlCfg->removeOrderedParameter( 'subcategory' );
+ * $urlCfg->removeUnorderedParameter( 'game' );
+ *
+ * // to remove parameters from the url configuration stored in the url
+ * $url->configuration->removeOrderedParameter( 'subcategory' );
+ * $url->configuration->removeUnorderedParameter( 'game' );
  * </code>
  *
  * @property string $basedir
@@ -204,6 +212,19 @@ class ezcUrlConfiguration
     }
 
     /**
+     * Removes an ordered parameter from the url configuration.
+     *
+     * @param string @name
+     */
+    public function removeOrderedParameter( $name )
+    {
+        if ( isset( $this->properties['orderedParameters'][$name] ) )
+        {
+            unset( $this->properties['orderedParameters'][$name] );
+        }
+    }
+
+    /**
      * Adds an unordered parameter to the url configuration.
      *
      * The default type is {@link SINGLE_ARGUMENT}.
@@ -218,6 +239,19 @@ class ezcUrlConfiguration
             $type = self::SINGLE_ARGUMENT;
         }
         $this->properties['unorderedParameters'][$name] = $type;
+    }
+
+    /**
+     * Removes an unordered parameter from the url configuration.
+     *
+     * @param string @name
+     */
+    public function removeUnorderedParameter( $name )
+    {
+        if ( isset( $this->properties['unorderedParameters'][$name] ) )
+        {
+            unset( $this->properties['unorderedParameters'][$name] );
+        }
     }
 }
 ?>

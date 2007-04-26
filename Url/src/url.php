@@ -68,6 +68,8 @@
  *           Complete ordered parameters as array.
  * @property string $uparams
  *           Complete unordered parameters as associative array.
+ * @property ezcUrlConfiguration $configuration
+ *           The url configuration defined for this url, or null.
  *
  * @package Url
  * @version //autogen//
@@ -83,24 +85,21 @@ class ezcUrl
     private $properties = array();
 
     /**
-     * Holds the url configuration for this url.
-     *
-     * @var ezcUrlConfiguration
-     */
-    private $urlCfg = null;
-
-    /**
      * Constructs a new ezcUrl object from the string $url.
      *
+     * If the $configuration parameter is provided, then it will apply the
+     * configuration to the url by calling {@link applyConfiguration()}.
+     *
      * @param string $url
-     * @param ezcUrlConfiguration $urlCfg
+     * @param ezcUrlConfiguration $configuration
      */
-    public function __construct( $url = null, ezcUrlConfiguration $urlCfg = null )
+    public function __construct( $url = null, ezcUrlConfiguration $configuration = null )
     {
         $this->parseUrl( $url );
-        if ( $urlCfg != null )
+        $this->configuration = $configuration;
+        if ( $configuration != null )
         {
-            $this->applyConfiguration( $urlCfg );
+            $this->applyConfiguration( $configuration );
         }
     }
 
@@ -108,7 +107,9 @@ class ezcUrl
      * Sets the property $name to $value.
      *
      * @throws ezcBasePropertyNotFoundException
-     *         if the property does not exist
+     *         if the property $name does not exist
+     * @throws ezcBaseValueException
+     *         if $value is not correct for the property $name
      * @param string $name
      * @param mixed $value
      * @ignore
@@ -132,6 +133,17 @@ class ezcUrl
                 $this->properties[$name] = $value;
                 break;
 
+            case 'configuration':
+                if ( $value === null || $value instanceof ezcUrlConfiguration )
+                {
+                    $this->properties[$name] = $value;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $name, $value, 'instance of ezcUrlConfiguration' );
+                }
+                break;
+
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
                 break;
@@ -142,7 +154,7 @@ class ezcUrl
      * Returns the property $name.
      *
      * @throws ezcBasePropertyNotFoundException
-     *         if the property does not exist
+     *         if the property $name does not exist
      * @param string $name
      * @return mixed
      * @ignore
@@ -163,6 +175,7 @@ class ezcUrl
             case 'script':
             case 'params':
             case 'uparams':
+            case 'configuration':
                 return $this->properties[$name];
 
             default:
@@ -193,6 +206,7 @@ class ezcUrl
             case 'script':
             case 'params':
             case 'uparams':
+            case 'configuration':
                 return isset( $this->properties[$name] );
 
             default:
@@ -243,20 +257,22 @@ class ezcUrl
     }
 
     /**
-     * Applies the configuration $urlCfg to the current url.
+     * Applies the url configuration $configuration to the current url.
      *
      * It fills the arrays $basedir, $script, $params and $uparams with values
      * from $path.
      *
-     * @param ezcUrlConfiguration $urlCfg
+     * It also sets the property configuration to the value of $configuration.
+     *
+     * @param ezcUrlConfiguration $configuration
      */
-    public function applyConfiguration( ezcUrlConfiguration $urlCfg )
+    public function applyConfiguration( ezcUrlConfiguration $configuration )
     {
-        $this->urlCfg = $urlCfg;
-        $this->basedir = $this->parsePathElement( $urlCfg->basedir, 0 );
-        $this->script = $this->parsePathElement( $urlCfg->script, count( $this->basedir ) );
-        $this->params = $this->parseOrderedParameters( $urlCfg->orderedParameters, count( $this->basedir ) + count( $this->script ) );
-        $this->uparams = $this->parseUnorderedParameters( $urlCfg->unorderedParameters, count( $this->basedir ) + count( $this->script ) + count( $this->params ) );
+        $this->configuration = $configuration;
+        $this->basedir = $this->parsePathElement( $configuration->basedir, 0 );
+        $this->script = $this->parsePathElement( $configuration->script, count( $this->basedir ) );
+        $this->params = $this->parseOrderedParameters( $configuration->orderedParameters, count( $this->basedir ) + count( $this->script ) );
+        $this->uparams = $this->parseUnorderedParameters( $configuration->unorderedParameters, count( $this->basedir ) + count( $this->script ) + count( $this->params ) );
     }
 
     /**
@@ -329,14 +345,14 @@ class ezcUrl
         for ( $i = $index; $i < $pathCount; $i++ )
         {
             $param = $this->path[$i];
-            if ( $param{0} == $this->urlCfg->unorderedDelimiters[0] )
+            if ( $param{0} == $this->configuration->unorderedDelimiters[0] )
             {
-                $param = trim( trim( $param, $this->urlCfg->unorderedDelimiters[0] ), $this->urlCfg->unorderedDelimiters[1] );
+                $param = trim( trim( $param, $this->configuration->unorderedDelimiters[0] ), $this->configuration->unorderedDelimiters[1] );
                 $result[$param] = array();
                 $j = 1;
-                while ( ( $i + $j ) < $pathCount && $this->path[$i + $j]{0} != $this->urlCfg->unorderedDelimiters[0] )
+                while ( ( $i + $j ) < $pathCount && $this->path[$i + $j]{0} != $this->configuration->unorderedDelimiters[0] )
                 {
-                    $result[$param][] = trim( trim( $this->path[$i + $j], $this->urlCfg->unorderedDelimiters[0] ), $this->urlCfg->unorderedDelimiters[1] );
+                    $result[$param][] = trim( trim( $this->path[$i + $j], $this->configuration->unorderedDelimiters[0] ), $this->configuration->unorderedDelimiters[1] );
                     $j++;
                 }
             }
@@ -380,7 +396,7 @@ class ezcUrl
             }
         }
 
-        if ( $this->urlCfg != null )
+        if ( $this->configuration != null )
         {
             if ( $this->basedir )
             {
@@ -424,7 +440,6 @@ class ezcUrl
         return $url;
     }
 
-
     /**
      * Returns true if this URL is relative and false if the URL is absolute.
      *
@@ -440,37 +455,37 @@ class ezcUrl
     }
 
     /**
-     * Returns the specified parameter from the url based on $urlCfg.
+     * Returns the specified parameter from the url based on the url configuration.
      *
      * @throws ezcUrlNoConfigurationException
-     *         if an $urlCfg is not defined
+     *         if an url configuration is not defined
      * @throws ezcUrlInvalidParameterException
-     *         if the specified parameter is not defined in $urlCfg
+     *         if the specified parameter is not defined in the url configuration
      * @param string $name
      * @return mixed
      */
     public function getParam( $name )
     {
-        if ( $this->urlCfg != null )
+        if ( $this->configuration != null )
         {
-            if ( !( isset( $this->urlCfg->orderedParameters[$name] ) ||
-                    isset( $this->urlCfg->unorderedParameters[$name] ) ) )
+            if ( !( isset( $this->configuration->orderedParameters[$name] ) ||
+                    isset( $this->configuration->unorderedParameters[$name] ) ) )
             {
                 throw new ezcUrlInvalidParameterException( $name );
             }
 
             $params = $this->params;
             $uparams = $this->uparams;
-            if ( isset( $this->urlCfg->orderedParameters[$name] ) &&
-                 isset( $params[$this->urlCfg->orderedParameters[$name]] ) )
+            if ( isset( $this->configuration->orderedParameters[$name] ) &&
+                 isset( $params[$this->configuration->orderedParameters[$name]] ) )
             {
-                return $params[$this->urlCfg->orderedParameters[$name]];
+                return $params[$this->configuration->orderedParameters[$name]];
             }
 
-            if ( isset( $this->urlCfg->unorderedParameters[$name] ) &&
+            if ( isset( $this->configuration->unorderedParameters[$name] ) &&
                  isset( $uparams[$name] ) )
             {
-                if ( $this->urlCfg->unorderedParameters[$name] == ezcUrlConfiguration::SINGLE_ARGUMENT )
+                if ( $this->configuration->unorderedParameters[$name] == ezcUrlConfiguration::SINGLE_ARGUMENT )
                 {
                     if ( count( $uparams[$name] ) > 0 )
                     {
@@ -488,31 +503,31 @@ class ezcUrl
     }
 
     /**
-     * Sets the specified parameter in the url based on $urlCfg.
+     * Sets the specified parameter in the url based on the url configuration.
      *
      * @throws ezcUrlNoConfigurationException
-     *         if an $urlCfg is not defined
+     *         if an url configuration is not defined
      * @throws ezcUrlInvalidParameterException
-     *         if the specified parameter is not defined in $urlCfg
+     *         if the specified parameter is not defined in the url configuration
      * @param string $name
      * @param string $value
      */
     public function setParam( $name, $value )
     {
-        if ( $this->urlCfg != null )
+        if ( $this->configuration != null )
         {
-            if ( !( isset( $this->urlCfg->orderedParameters[$name] ) ||
-                    isset( $this->urlCfg->unorderedParameters[$name] ) ) )
+            if ( !( isset( $this->configuration->orderedParameters[$name] ) ||
+                    isset( $this->configuration->unorderedParameters[$name] ) ) )
             {
                 throw new ezcUrlInvalidParameterException( $name );
             }
 
-            if ( isset( $this->urlCfg->orderedParameters[$name] ) )
+            if ( isset( $this->configuration->orderedParameters[$name] ) )
             {
-                $this->properties['params'][$this->urlCfg->orderedParameters[$name]] = $value;
+                $this->properties['params'][$this->configuration->orderedParameters[$name]] = $value;
                 return;
             }
-            if ( isset( $this->urlCfg->unorderedParameters[$name] ) )
+            if ( isset( $this->configuration->unorderedParameters[$name] ) )
             {
                 if ( is_array( $value ) )
                 {
