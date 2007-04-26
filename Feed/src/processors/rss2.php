@@ -286,7 +286,7 @@ class ezcFeedRss2 extends ezcFeedRss
                         break;
                     default:
                         // check if it's part of a known module/namespace
-                        $parts = split( ':', $tagName );
+                        $parts = explode( ':', $tagName );
                         if ( count( $parts ) == 2 && in_array( $parts[0], array_keys( $this->usedPrefixes ) ) )
                         {
                             $moduleName = $this->usedPrefixes[$parts[0]];
@@ -365,7 +365,7 @@ class ezcFeedRss2 extends ezcFeedRss
                         break;
                     default:
                         // check if it's part of a known module/namespace
-                        $parts = split( ':', $tagName );
+                        $parts = explode( ':', $tagName );
                         if ( count( $parts ) == 2 && in_array( $parts[0], array_keys( $this->usedPrefixes ) ) )
                         {
                             $moduleName = $this->usedPrefixes[$parts[0]];

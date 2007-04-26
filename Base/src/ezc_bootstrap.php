@@ -1,6 +1,6 @@
 <?php
 $dir = dirname( __FILE__ );
-$dirParts = split( '/', $dir );
+$dirParts = explode( '/', $dir );
 
 if ( $dirParts[count( $dirParts ) - 1] === 'src' )
 {

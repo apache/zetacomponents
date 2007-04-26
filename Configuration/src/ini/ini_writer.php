@@ -77,7 +77,7 @@ class ezcConfigurationIniWriter extends ezcConfigurationFileWriter
             /* Write group comment */
             if ( count( $comments ) && isset( $comments[$groupName]['#'] ) )
             {
-                fwrite( $fp, '#' . join( "\n#", split( "\n", $comments[$groupName]['#'] ) ) . "\n" );
+                fwrite( $fp, '#' . implode( "\n#", explode( "\n", $comments[$groupName]['#'] ) ) . "\n" );
             }
 
             /* Write group header */
@@ -120,7 +120,7 @@ class ezcConfigurationIniWriter extends ezcConfigurationFileWriter
         {
             if ( $commentValue )
             {
-                fwrite( $fp, '#' . join( "\n#", split( "\n", $commentValue ) ) . "\n" );
+                fwrite( $fp, '#' . implode( "\n#", explode( "\n", $commentValue ) ) . "\n" );
             }
         }
 

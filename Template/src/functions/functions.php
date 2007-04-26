@@ -176,7 +176,7 @@ class ezcTemplateFunctions
      */
     protected static function checkType( $defined, $givenAst, $functionName, $parameterNumber )
     {
-        $s = split( ":", $defined );
+        $s = explode( ":", $defined );
         $type = sizeof( $s ) > 1 ? $s[1] : null;
 
         if ( $type !== null && $type == "Variable" )
