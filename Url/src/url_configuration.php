@@ -86,6 +86,13 @@ class ezcUrlConfiguration
     private $properties = array();
 
     /**
+     * Stores the instance of this class.
+     *
+     * @var ezcUrlConfiguration
+     */
+    private static $instance = null;
+
+    /**
      * Constructs a new ezcUrlConfiguration object.
      */
     public function __construct()
@@ -95,6 +102,21 @@ class ezcUrlConfiguration
         $this->unorderedDelimiters = array( '(', ')' );
         $this->orderedParameters = array();
         $this->unorderedParameters = array();
+    }
+
+    /**
+     * Returns the instance of the class.
+     *
+     * @return ezcUrlConfiguration
+     */
+    public static function getInstance()
+    {
+        if ( is_null( self::$instance ) )
+        {
+            self::$instance = new ezcUrlConfiguration();
+            ezcBaseInit::fetchConfig( 'ezcUrlConfiguration', self::$instance );
+        }
+        return self::$instance;
     }
 
     /**

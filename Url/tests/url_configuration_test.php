@@ -97,9 +97,26 @@ class ezcUrlConfigurationTest extends ezcTestCase
         $this->assertEquals( false, isset( $urlCfg->no_such_property ) );
     }
 
+    public function testDelayedInit()
+    {
+        ezcBaseInit::setCallback( 'ezcUrlConfiguration', 'testDelayedInitUrlConfiguration' );
+        $urlCfg = ezcUrlConfiguration::getInstance();
+        $this->assertEquals( array( 'section' => 0 ), $urlCfg->orderedParameters );
+        $this->assertEquals( array( 'article' => 1 ), $urlCfg->unorderedParameters );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcUrlConfigurationTest" );
+    }
+}
+
+class testDelayedInitUrlConfiguration
+{
+    static function configureObject( $object )
+    {
+        $object->addOrderedParameter( 'section' );
+        $object->addUnorderedParameter( 'article' );
     }
 }
 ?>
