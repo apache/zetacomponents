@@ -21,7 +21,7 @@
 class ezcCacheStorageOptions extends ezcBaseOptions
 {
     /**
-     * Constructs a new options class.
+     * Constructs a new options object.
      *
      * It also sets the default values of the format property
      *
