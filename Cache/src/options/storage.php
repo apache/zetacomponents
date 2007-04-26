@@ -54,17 +54,17 @@ class ezcCacheStorageOptions extends ezcBaseOptions
             case "extension":
                 if ( !is_string( $value ) || strlen( $value ) < 1 )
                 {
-                    throw new ezcBaseSettingValueException( $key, $val, "string, size > 0" );
+                    throw new ezcBaseValueException( $key, $value, "string, size > 0" );
                 }
                 break;
             case "ttl":
                 if ( !is_int( $value ) && $value !== false )
                 {
-                    throw new ezcBaseSettingValueException( $key, $value, "int > 0 or false" );
+                    throw new ezcBaseValueException( $key, $value, "int > 0 or false" );
                 }
                 break;
             default:
-                throw new ezcBaseSettingNotFoundException( $key );
+                throw new ezcBaseNotFoundException( $key );
         }
         $this->properties[$key] = $value;
     }
