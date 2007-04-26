@@ -817,6 +817,35 @@ class ezcGraphElementOptionsTest extends ezcImageTestCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
+    public function testChartElementAxisPropertyMinArrowHeadSize()
+    {
+        $options = new ezcGraphChartElementNumericAxis();
+
+        $this->assertSame(
+            4,
+            $options->minArrowHeadSize,
+            'Wrong default value for property minArrowHeadSize in class ezcGraphChartElementNumericAxis'
+        );
+
+        $options->minArrowHeadSize = 10;
+        $this->assertSame(
+            10,
+            $options->minArrowHeadSize,
+            'Setting property value did not work for property minArrowHeadSize in class ezcGraphChartElementNumericAxis'
+        );
+
+        try
+        {
+            $options->labelMargin = false;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
     public function testChartElementAxisPropertyMaxArrowHeadSize()
     {
         $options = new ezcGraphChartElementNumericAxis();

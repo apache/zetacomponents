@@ -1196,9 +1196,12 @@ class ezcGraphRenderer2d extends ezcGraphRenderer
         );
 
         // Draw small arrowhead
-        $size = min(
-            $axis->maxArrowHeadSize,
-            abs( ceil( ( ( $end->x - $start->x ) + ( $end->y - $start->y ) ) * $axis->axisSpace / 4 ) )
+        $size = max(
+            $axis->minArrowHeadSize,
+            min(
+                $axis->maxArrowHeadSize,
+                abs( ceil( ( ( $end->x - $start->x ) + ( $end->y - $start->y ) ) * $axis->axisSpace / 4 ) )
+            )
         );
 
         $this->driver->drawPolygon(
