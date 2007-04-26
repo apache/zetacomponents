@@ -64,7 +64,7 @@ class ezcCacheStorageOptions extends ezcBaseOptions
                 }
                 break;
             default:
-                throw new ezcBaseNotFoundException( $key );
+                throw new ezcBasePropertyNotFoundException( $key );
         }
         $this->properties[$key] = $value;
     }

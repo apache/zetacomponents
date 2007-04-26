@@ -249,7 +249,7 @@ class ezcCacheManager
      *         performs sanity checks for the cache location. In case this 
      *         exception is thrown, your cache location has been corrupted 
      *         after the cache was configured.
-     * @throws ezcBaseSettingNotFoundException
+     * @throws ezcBasePropertyNotFoundException
      *         If you tried to set a non-existent option value. The accepted 
      *         options depend on the ezcCacheStorage implementation and my 
      *         vary.
