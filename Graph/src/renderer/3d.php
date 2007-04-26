@@ -1938,23 +1938,26 @@ class ezcGraphRenderer3d extends ezcGraphRenderer
             )
         );
 
+        $orthogonalDirection = clone $direction;
+        $orthogonalDirection->rotateClockwise();
+
         $this->driver->drawPolygon(
             array(
                 $axisPolygonCoordinates[1],
                 new ezcGraphCoordinate(
                     $axisPolygonCoordinates[1]->x
-                        + $direction->y * $size / 2
+                        - $orthogonalDirection->x * $size / 2
                         + $direction->x * $size,
                     $axisPolygonCoordinates[1]->y
-                        + $direction->x * $size / 2
+                        - $orthogonalDirection->y * $size / 2
                         + $direction->y * $size
                 ),
                 new ezcGraphCoordinate(
                     $axisPolygonCoordinates[1]->x
-                        - $direction->y * $size / 2
+                        + $orthogonalDirection->x * $size / 2
                         + $direction->x * $size,
                     $axisPolygonCoordinates[1]->y
-                        - $direction->x * $size / 2
+                        + $orthogonalDirection->y * $size / 2
                         + $direction->y * $size
                 ),
             ),
