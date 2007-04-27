@@ -82,6 +82,9 @@ class ezcTemplateConfiguration
                                   'checkModifiedTemplates' => true,
                                   'customBlocks' => array(),
                                   'customFunctions' => array(),
+
+                                  'sourceCharset' => "ASCII",
+                                  'targetCharset' => "ASCII//IGNORE",
                               );
     /**
      * Returns the value of the property $name.
@@ -104,7 +107,8 @@ class ezcTemplateConfiguration
             case 'compilePath': 
             case 'cachedTemplatesPath':       // Relative path to the compilePath
             case 'compiledTemplatesPath':     // Relative path to the compilePath
-            //case 'cacheSystem':
+            case 'sourceCharset':
+            case 'targetCharset':
             case 'checkModifiedTemplates':
                 return $this->properties[$name];
             case 'customBlocks':
@@ -160,6 +164,8 @@ class ezcTemplateConfiguration
             case 'compilePath': 
             case 'cachedTemplatesPath':
             case 'compiledTemplatesPath':
+            case 'sourceCharset':
+            case 'targetCharset':
             //case 'cacheSystem':
             case 'checkModifiedTemplates': 
             case 'customBlocks': 
@@ -187,6 +193,8 @@ class ezcTemplateConfiguration
             case 'context': 
             case 'cacheManager': 
             case 'disableCache': 
+            case 'sourceCharset':
+            case 'targetCharset':
                 return true;
 
             case 'templatePath': 

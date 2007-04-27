@@ -117,6 +117,13 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
      */
     protected $declaredVariables = array();
 
+
+    /**
+     *
+     */
+    protected $charset = false;
+
+
     /**
      * Initialize the transformer, after this send this object to the accept() method on a node.
      *
@@ -760,6 +767,16 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         }
 
     }
+
+    /**
+     * @return ezcTemplateNopAstNode
+     */
+    public function visitCharsetTstNode( ezcTemplateCharsetTstNode $node )
+    {
+        $this->programNode->charset = $node->name;
+        return new ezcTemplateNopAstNode();
+    }
+
 
     /**
      * @return ezcTemplateAstNode

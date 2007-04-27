@@ -118,6 +118,7 @@ return array(
              "ezcTemplateConditionBodyTstNode" => "Template/syntax_trees/tst/nodes/condition_body.php",
              "ezcTemplateDelimiterTstNode" => "Template/syntax_trees/tst/nodes/delimiter.php",
              "ezcTemplateCycleControlTstNode" => "Template/syntax_trees/tst/nodes/cycle_control.php",
+             "ezcTemplateCharsetTstNode" => "Template/syntax_trees/tst/nodes/charset.php",
              "ezcTemplateIncludeTstNode" => "Template/syntax_trees/tst/nodes/include.php",
              "ezcTemplateReturnTstNode" => "Template/syntax_trees/tst/nodes/return.php",
              "ezcTemplateIdentifierTstNode" => "Template/syntax_trees/tst/nodes/identifier.php",
@@ -273,6 +274,7 @@ return array(
              "ezcTemplateEolCommentSourceToTstParser" => "Template/parsers/source_to_tst/implementations/eol_comment.php",
              "ezcTemplateDelimiterSourceToTstParser" => "Template/parsers/source_to_tst/implementations/delimiter.php",
              "ezcTemplateCycleSourceToTstParser" => "Template/parsers/source_to_tst/implementations/cycle.php",
+             "ezcTemplateCharsetSourceToTstParser" => "Template/parsers/source_to_tst/implementations/charset.php",
              "ezcTemplateIncludeSourceToTstParser" => "Template/parsers/source_to_tst/implementations/include.php",
              "ezcTemplateCacheSourceToTstParser" => "Template/parsers/source_to_tst/implementations/cache.php",
 

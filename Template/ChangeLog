@@ -5,7 +5,13 @@
   ezcBaseInit.
 - Fixed issue #10261: Array fetch and property fetch could not be used
   together.
-
+- Fixed issue #10036: Invalid generated PHP code cannot be renewed without
+  deleting the generated template.
+- Fixed issue #10035: Block comments mixed with Javascript comments generates
+  wrong Template code.
+- Support for named parameters in the custom functions.
+- Support for dynamic locations in the template include(s).
+- Possible to send a Template Object to the custom function.
 
 1.1 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

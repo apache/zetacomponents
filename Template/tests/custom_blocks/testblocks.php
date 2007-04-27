@@ -328,6 +328,15 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
                 $def->optionalParameters = array("optional");
                 $def->isStatic = true;
                 return $def;
+
+
+            case "set_block":
+                $def = new ezcTemplateCustomBlockDefinition();
+                $def->class = __CLASS__;
+                $def->method = "setBlock";
+                $def->hasCloseTag = true;
+                $def->requiredParameters = array("variable");
+                return $def;
         }
     }
 
@@ -336,6 +345,13 @@ class TestBlocks implements ezcTemplateCustomBlock, ezcTemplateCustomFunction
 	{
 		return print_r( $parameters, true );
 	}
+
+    public static function setBlock( $parameters, $source)
+    {
+        var_dump($parameters);
+        var_dump($source);
+            
+    }
 }
 
 

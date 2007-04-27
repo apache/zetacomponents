@@ -290,8 +290,11 @@ class ezcTemplate
                 throw new ezcTemplateCompilationFailedException( "Failed to create and execute compiled code after " . ($counter - 1) . " tries." );
             }
 
-            if ( file_exists( $compiled->path ) )
+            if ( file_exists( $compiled->path ) && 
+                (!$config->checkModifiedTemplates || 
+                  filemtime( $this->properties["stream"] ) <= filemtime( $compiled->path ) ) ) 
             {
+
                 try
                 {
                     // execute compiled code here
@@ -351,7 +354,7 @@ class ezcTemplate
             // $astToAst = new ezcTemplateAstToAstCache( $this );
             // $tstToAst->programNode->accept( $astToAst );
 
-            $g = new ezcTemplateAstToPhpGenerator( $compiled->path ); // Write to the file.
+            $g = new ezcTemplateAstToPhpGenerator( $compiled->path, $config ); // Write to the file.
             $tstToAst->programNode->accept( $g );
 
             // Add to the cache system.

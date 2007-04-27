@@ -77,11 +77,16 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
     private $escapeSingleQuote = false;
 
 
+    private $charsetInTemplate = false;
+    private $sourceCharset;
+    private $targetCharset;
+
+
     /**
      * @param string $path File path for the file which should be generated.
      * @param int $indentation The default indentation to use when increasing it.
      */
-    public function __construct( $path, $indentation = 4 )
+    public function __construct( $path, $configuration, $indentation = 4 )
     {
         if ( file_exists( $path ) )
         {
@@ -103,6 +108,9 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
         $this->indentationText = '';
         $this->indentationStack = array();
         $this->newline = true;
+
+        $this->sourceCharset = $configuration->sourceCharset;
+        $this->targetCharset = $configuration->targetCharset;
     }
 
     /**
@@ -315,6 +323,12 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
             }
 
             $valueText = str_replace( $search, $replace, $type->value );
+
+            $charset = $this->charsetInTemplate === false ? $this->sourceCharset : $this->charsetInTemplate;
+            #echo "FROM",  $charset;
+            #echo "TO",  $this->targetCharset;
+            $valueText = iconv( $charset, $this->targetCharset, $valueText );
+
             $text = "\"$valueText\"";
             $this->write( $text );
         }
@@ -423,17 +437,19 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      */
     public function visitBlockCommentAstNode( ezcTemplateBlockCommentAstNode $comment )
     {
-        if ( $comment->hasSeparator )
-        {
-            $startMarker = '/* ';
-            $endMarker   = ' */';
-        }
-        else
-        {
-            $startMarker = '/*';
-            $endMarker   = '*/';
-        }
-        $this->write( $startMarker . $comment->text . $endMarker . "\n" );
+        // Comment output.
+        
+        // if ( $comment->hasSeparator )
+        // {
+        //     $startMarker = '/* ';
+        //     $endMarker   = ' */';
+        // }
+        // else
+        // {
+        //     $startMarker = '/*';
+        //     $endMarker   = '*/';
+        // }
+        // $this->write( $startMarker . $comment->text . $endMarker . "\n" );
     }
 
     /**
@@ -634,6 +650,8 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
      */
     public function visitRootAstNode( ezcTemplateRootAstNode $body )
     {
+        $this->charsetInTemplate = $body->charset;
+
         if ( $body->startProgram )
         {
             $this->writeHeader();

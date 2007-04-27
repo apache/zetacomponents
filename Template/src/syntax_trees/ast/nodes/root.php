@@ -22,6 +22,8 @@ class ezcTemplateRootAstNode extends ezcTemplateBodyAstNode
     public $ttl = null;
     public $startProgram = true;
 
+    public $charset = false;
+
     /**
      * Initialize with function name code and optional arguments
      */

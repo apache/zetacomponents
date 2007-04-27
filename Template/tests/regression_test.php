@@ -464,6 +464,8 @@ class ezcTemplateRegressionTest extends ezcTestCase
         $base = basename( $directory );
 
         $template->configuration = new ezcTemplateConfiguration( $dir, $this->getTempDir() );
+        $template->configuration->targetCharset = "Latin1"; 
+
         // $template->configuration->cachePath = $this->getTempDir() . "/cached"; 
         // $template->configuration->cachePath = "/tmp/cache";
 
