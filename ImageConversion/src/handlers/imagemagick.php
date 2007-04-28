@@ -256,13 +256,13 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler
      */
     public function crop( $x, $y, $width, $height )
     {
-        if ( !is_int( $x ) || $x < 0 )
+        if ( !is_int( $x ) )
         {
-            throw new ezcBaseValueException( 'x', $x, 'int >= 0' );
+            throw new ezcBaseValueException( 'x', $x, 'int' );
         }
-        if ( !is_int( $y ) || $y < 0 )
+        if ( !is_int( $y ) )
         {
-            throw new ezcBaseValueException( 'y', $y, 'int >= 0' );
+            throw new ezcBaseValueException( 'y', $y, 'int' );
         }
         if ( !is_int( $height ) )
         {
@@ -272,6 +272,10 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler
         {
             throw new ezcBaseValueException( 'width', $width, 'int' );
         }
+
+        $data = getimagesize( $this->getActiveResource() );
+        $x = ( $x >= 0 ) ? $x : $data[0] + $x;
+        $y = ( $y >= 0 ) ? $y : $data[1] + $y;
 
         $xStart = ( $xStart = min( $x, $x + $width ) ) >= 0 ? '+'.$xStart : $xStart;
         $yStart = ( $yStart = min( $y, $y + $height ) ) >= 0 ? '+'.$yStart : $yStart;
