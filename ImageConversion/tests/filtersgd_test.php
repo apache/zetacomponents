@@ -458,7 +458,7 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
-            50
+            150
         );
     }
 

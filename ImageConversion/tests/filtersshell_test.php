@@ -485,7 +485,7 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
-            300
+            2000
         );
     }
 
@@ -498,7 +498,7 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
-            300
+            2000
         );
     }
 
@@ -511,7 +511,7 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
             $this->getReferencePath(),
             $this->getTempPath(),
             "Image not rendered as expected.",
-            300
+            2000
         );
     }
 
