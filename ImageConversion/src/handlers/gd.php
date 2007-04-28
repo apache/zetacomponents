@@ -327,13 +327,13 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
      */
     public function crop( $x, $y, $width, $height )
     {
-        if ( !is_int( $x ) || $x < 0 )
+        if ( !is_int( $x ) )
         {
-            throw new ezcBaseValueException( 'x', $x, 'int >= 0' );
+            throw new ezcBaseValueException( 'x', $x, 'int' );
         }
-        if ( !is_int( $y ) || $y < 0 )
+        if ( !is_int( $y ) )
         {
-            throw new ezcBaseValueException( 'y', $y, 'int >= 0' );
+            throw new ezcBaseValueException( 'y', $y, 'int' );
         }
         if ( !is_int( $height ) )
         {
@@ -343,17 +343,20 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
         {
             throw new ezcBaseValueException( 'width', $width, 'int' );
         }
-
-        $x = min( $x, $x + $width );
-        $y = min( $y, $y + $height );
-       
-        $width = abs( $width );
-        $height = abs( $height );
-
+        
         $oldResource = $this->getActiveResource();
         
         $sourceWidth = imagesx( $oldResource );
         $sourceHeight = imagesy( $oldResource );
+
+        $x = ( $x >= 0 ) ? $x : $sourceWidth  + $x;
+        $y = ( $y >= 0 ) ? $y : $sourceHeight + $y;
+        
+        $x = abs( min( $x, $x + $width ) );
+        $y = abs( min( $y, $y + $height ) );
+       
+        $width = abs( $width );
+        $height = abs( $height );
 
         if ( $x + $width > $sourceWidth )
         {
@@ -363,7 +366,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
         {
             $height = $sourceHeight - $y;
         }
-
+        
         $this->performCrop( $x, $y, $width, $height );
 
     }

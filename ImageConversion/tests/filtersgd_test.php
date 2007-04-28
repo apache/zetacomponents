@@ -523,6 +523,42 @@ class ezcImageConversionFiltersGdTest extends ezcImageConversionTestCase
         );
     }
 
+    public function testCropNegativeOffset_1()
+    {
+        $this->handler->crop( -100, -100, 50, 50 );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
+
+    public function testCropNegativeOffset_2()
+    {
+        $this->handler->crop( -50, -50, 50, 50 );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
+
+    public function testCropNegativeOffset_3()
+    {
+        $this->handler->crop( -50, -50, -50, -50 );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            $this->getReferencePath(),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
+
     public function testColorspaceGrey()
     {
         $this->handler->colorspace( ezcImageColorspaceFilters::COLORSPACE_GREY );
