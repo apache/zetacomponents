@@ -592,6 +592,12 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler
             throw new ezcBaseValueException( 'height', $height, 'int/bool' );
         }
 
+        $data = getimagesize( $this->getActiveResource() );
+
+        // Negative offsets
+        $posX = ( $posX >= 0 ) ? $posX : $data[0] + $posX;
+        $posY = ( $posY >= 0 ) ? $posY : $data[1] + $posY;
+
         $this->addFilterOption(
             $this->getActiveReference(),
             '-composite',

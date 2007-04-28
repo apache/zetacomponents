@@ -619,6 +619,30 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
         );
     }
     
+    public function testWatermarkAbsoluteNoScaleNegativeOffset()
+    {
+        $this->handler->watermarkAbsolute( dirname( __FILE__ ) . "/data/watermark.png", -50, -33 );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            strtr( $this->getReferencePath(), array( "NegativeOffset" =>  "" ) ),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            ezcImageConversionTestCase::DEFAULT_SIMILARITY_GAP
+        );
+    }
+    
+    public function testWatermarkAbsoluteScaleNegativeOffset()
+    {
+        $this->handler->watermarkAbsolute( dirname( __FILE__ ) . "/data/watermark.png", -140, -103, 130, 93 );
+        $this->handler->save( $this->imageReference, $this->getTempPath() );
+        $this->assertImageSimilar(
+            strtr( $this->getReferencePath(), array( "NegativeOffset" =>  "" ) ),
+            $this->getTempPath(),
+            "Image not rendered as expected.",
+            100
+        );
+    }
+    
     public function testWatermarkPercentNoScale()
     {
         $this->handler->watermarkPercent( dirname( __FILE__ ) . "/data/watermark.png", 10, 20 );

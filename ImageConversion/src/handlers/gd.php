@@ -530,14 +530,21 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
         // Backup original image reference
         $originalRef = $this->getActiveReference();
 
+        $originalWidth  = imagesx( $this->getActiveResource() );
+        $originalHeight = imagesy( $this->getActiveResource() );
+
         $watermarkRef = $this->load( $image );
-        if ( $width !== false && $height !== false && ( imagesx( $this->getActiveResource() ) !== $width || imagesy( $this->getActiveResource() ) !== $height ) )
+        if ( $width !== false && $height !== false && ( $originalWidth !== $width || $originalHeight !== $height ) )
         {
             $this->scale( $width, $height, ezcImageGeometryFilters::SCALE_BOTH );
         }
 
+        // Negative offsets
+        $posX = ( $posX >= 0 ) ? $posX : $originalWidth  + $posX;
+        $posY = ( $posY >= 0 ) ? $posY : $originalHeight + $posY;
+
         imagecopy(
-            $this->getReferenceData( $originalRef, "resource" ),                   // resource $dst_im
+            $this->getReferenceData( $originalRef, "resource" ),                // resource $dst_im
             $this->getReferenceData( $watermarkRef, "resource" ),               // resource $src_im
             $posX,                                                              // int $dst_x
             $posY,                                                              // int $dst_y
