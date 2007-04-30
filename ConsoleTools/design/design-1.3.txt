@@ -36,7 +36,7 @@ Clarification of terms
 ----------------------
 
 User
-~~~~
+^^^^
 
 The "user" is the person using a program and interacting with it during
 runtime. The user has no knowledge about the internals and must be guided
@@ -45,13 +45,13 @@ this document is _not_ the developer using the described component, but the
 user who interacts with the final program.
 
 Developer
-~~~~~~~~~
+^^^^^^^^^
 
 In contrast to the "user", the term "developer" in this document refers to the
 person who creates a program, using the described component.
 
 Dialog
-~~~~~~
+^^^^^^
 
 The basic idea of a new mechanism to interact with the user through STDIN in
 this document is called a "dialog".  A dialog is presented to the user by a
@@ -59,7 +59,7 @@ certain amount of output it generates and a certain amount of input it
 requests afterwards.
 
 Basic design
--------------
+------------
 
 The core of the new feature described in this document is a dialog. The dialog
 is an object, must have the following capabilities:
@@ -209,7 +209,7 @@ showResults
   is selected when simply skipping this question by hitting just <RETURN>.
 
 ezcConsoleQuestionDialogValidator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The interface if ezcConsoleQuestionValidator inherits from
 ezcConsoleDialogValidator and adds the following methods:
@@ -265,7 +265,7 @@ validator
   The validator must be an instance of ezcConsoleMenuDialogValidator.
 
 ezcConsoleMenuDialogValidator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In contrast to ezcConsoleQuestionDialogValidator, this is not an interface, but
 a concrete implementation of ezcConsoleDialogValidator. The menu validator
@@ -300,16 +300,16 @@ The goal of this design section is to provide these 3 features for argument
 handling.
 
 Clarification of terms
------------------------
+----------------------
 
 Parameter
-~~~~~~~~~
+^^^^^^^^^
 
 The term parameter is a generic term, which covers options and arguments
 together.
 
 Option
-~~~~~~
+^^^^^^
 
 An option for a console based application is specified using a short or a long
 name and can (optionally) carry a value of a given type. Short names are built
@@ -324,7 +324,7 @@ Example: ::
 "-a" is a short name of an option, while this option does not carry any value.
 
 Argument
-~~~~~~~~
+^^^^^^^^
 
 In contrast to an option, an argument is not specified using a specific name, but
 by by the order of submission to the program. Arguments can only be given to a
@@ -337,14 +337,15 @@ Example: ::
 "baz" is the value of the first argument, 23 the value of the second one.
 
 Arguments separator
-~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^
 
 In some cases the semantic for specifying parameters on the console is not
 deterministic. Since the algorithm used to parse parameters cannot handle
 nondeterministic semantics, a separator must be used to determine the border
 between options and arguments. The separator used is "-- ", which indicates
 that anything following it is an argument and does not belong to the option
-before it.
+before it. The seperator is not mandatory and must only be used in cases where
+the parsing would not be deterministic.
 
 Example: ::
 
