@@ -28,13 +28,6 @@ class ezcTemplateParser
     public $source;
 
     /**
-     * Controls whether debug is displayed or not.
-     *
-     * @var bool
-     */
-    public $debug;
-
-    /**
      * Controls whether whitespace trimming is done on the parser tree or not.
      *
      * @var bool
@@ -58,6 +51,11 @@ class ezcTemplateParser
     public $symbolTable;
 
 
+    /**
+     * Is set to true if the current template has cache blocks.
+     * 
+     * @var bool
+     */
     public $hasCacheBlocks = false;
 
     /**
@@ -72,7 +70,6 @@ class ezcTemplateParser
         $this->template = $template;
         $this->textElements = array();
         $this->trimWhitespace = true;
-        $this->debug = false;
 
         $this->symbolTable = ezcTemplateSymbolTable::getInstance();
         $this->symbolTable->reset();
@@ -112,14 +109,6 @@ class ezcTemplateParser
 
         if ( !( $currentOperator instanceof ezcTemplateOperatorTstNode ) )
         {
-            if ( $this->debug )
-            {
-                // *** DEBUG START ***
-                echo "non operator added <", get_class( $currentOperator ), "> to operator <", get_class( $newOperator ), ">\n";
-                echo "non operator added as parameter, continuing on new operator\n";
-                // *** DEBUG END ***
-            }
-
             // Note this operand should be prepended (not appended) in case
             // the new operator already have some parameters set.
             $newOperator->prependParameter( $currentOperator );
@@ -128,15 +117,6 @@ class ezcTemplateParser
 
         if ( $currentOperator->precedence > $newOperator->precedence )
         {
-            if ( $this->debug )
-            {
-                // *** DEBUG START ***
-                echo "new operator <", get_class( $newOperator ), ">:", $newOperator->precedence, " has lower precedence than <", get_class( $currentOperator ), ">:", $currentOperator->precedence, "\n";
-                echo "searching for root operator\n";
-                // *** DEBUG END ***
-            }
-
-
             // Controls whether the $newOperator should be become the new root operator or not
             // This happens if all operators have a higher precedence than the new operator.
             $asRoot = false;
@@ -154,25 +134,8 @@ class ezcTemplateParser
 
             if ( $asRoot )
             {
-                if ( $this->debug )
-                {
-                    // *** DEBUG START ***
-                    echo "new operator <", get_class( $newOperator ), ">:", $newOperator->precedence, " has lower precedence than all operators\n";
-                    echo "new operator is new root with old root as parameter, continuing on new parameter\n";
-                    // *** DEBUG END ***
-                }
-
                 $newOperator->prependParameter( $currentOperator );
                 $currentOperator->parentOperator = $newOperator;
-
-                if ( $this->debug )
-                {
-                    // *** DEBUG START ***
-                    echo "\n\n\n";
-                    echo ezcTemplateTstTreeOutput::output( $newOperator );
-                    echo "\n\n\n";
-                    // *** DEBUG END ***
-                }
 
                 return $newOperator;
             }
@@ -184,51 +147,17 @@ class ezcTemplateParser
         // - The : part of a conditional operator is found
         if ( $currentOperator->canMergeParametersOf( $newOperator ) )
         {
-            if ( $this->debug )
-            {
-                // *** DEBUG START ***
-                echo "operators can merge their parameters <", get_class( $currentOperator ), "> & <", get_class( $newOperator ), ">\n";
-                echo "no swap is done, parameters are merged\n";
-                // *** DEBUG END ***
-            }
             $currentOperator->mergeParameters( $newOperator );
-
-            if ( $this->debug )
-            {
-                // *** DEBUG START ***
-                echo "\n\n\n";
-                echo ezcTemplateTstTreeOutput::output( $currentOperator );
-                echo "\n\n\n";
-                // *** DEBUG END ***
-            }
-
             return $currentOperator;
         }
 
         if ( $currentOperator->precedence < $newOperator->precedence )
         {
-            if ( $this->debug )
-            {
-                // *** DEBUG START ***
-                echo "new operator <", get_class( $newOperator ), ">:", $newOperator->precedence, " has higher precedence than <", get_class( $currentOperator ), ">:", $currentOperator->precedence, "\n";
-                echo "swapping last parameter with new operator, continuing on new parameter\n";
-                // *** DEBUG END ***
-            }
-
             $parameter = $currentOperator->getLastParameter();
             $currentOperator->setLastParameter( $newOperator );
             $newOperator->parentOperator = $currentOperator;
             if ( $parameter !== null )
                 $newOperator->prependParameter( $parameter );
-
-            if ( $this->debug )
-            {
-                // *** DEBUG START ***
-                echo "\n\n\n";
-                echo ezcTemplateTstTreeOutput::output( $currentOperator );
-                echo "\n\n\n";
-                // *** DEBUG END ***
-            }
 
             return $newOperator;
         }
@@ -236,46 +165,15 @@ class ezcTemplateParser
         // Same precedence, order must be checked
         if ( $currentOperator->precedence == $newOperator->precedence )
         {
-            if ( $this->debug )
-            {
-                // *** DEBUG START ***
-                echo "new operator <", get_class( $newOperator ), ">:", $newOperator->precedence, " is same precedence as <", get_class( $currentOperator ), ">:", $currentOperator->precedence, "\n";
-                // *** DEBUG END ***
-            }
-
-//            $currentOperator->handleEqualPrecedence( $newOperator );
-            if ( $this->debug )
-                echo "setting current operator as parameter of new operator and using its parent as new parent, continuing on new parameter\n";
-
             $parentOperator = $currentOperator->parentOperator;
             $parameter = $currentOperator->getLastParameter();
-//            $newOperator->appendParameter( $currentOperator );
             $newOperator->prependParameter( $currentOperator );
             if ( $parentOperator !== null )
                 $parentOperator->setLastParameter( $newOperator );
             $currentOperator->parentOperator = $newOperator;
             $newOperator->parentOperator = $parentOperator;
 
-            if ( $this->debug )
-            {
-                // *** DEBUG START ***
-                echo "\n\n\n";
-                echo ezcTemplateTstTreeOutput::output( $newOperator );
-                echo "\n\n\n";
-                // *** DEBUG END ***
-            }
-
             return $newOperator;
-        }
-
-        if ( $this->debug )
-        {
-            // *** DEBUG START ***
-            echo "new operator <", get_class( $newOperator ), ">:", $newOperator->precedence, " /\ <", get_class( $currentOperator ), ">:", $currentOperator->precedence, "\n";
-            echo "\n\n\n";
-            echo ezcTemplateTstTreeOutput::output( $currentOperator );
-            echo "\n\n\n";
-            // *** DEBUG END ***
         }
 
         throw new ezcTemplateInternalException( "Should not reach this place." );
@@ -294,25 +192,11 @@ class ezcTemplateParser
     {
         if ( $currentOperator !== null )
         {
-            if ( $this->debug )
-            {
-                if ( $operand instanceof ezcTemplateLiteralTstNode )
-                    echo "adding operand <" . get_class( $operand ) . ">::<" . var_export( $operand->value, true ) . "> to operator <" . get_class( $currentOperator ) . ">\n";
-                else
-                    echo "adding operand <" . get_class( $operand ) . "> to operator <" . get_class( $currentOperator ) . ">\n";
-            }
             $currentOperator->appendParameter( $operand );
             return $currentOperator;
         }
         else
         {
-            if ( $this->debug )
-            {
-                if ( $operand instanceof ezcTemplateLiteralTstNode )
-                    echo "setting operand <" . get_class( $operand ) . ">::<" . var_export( $operand->value, true ) . "> as \$currentOperator\n";
-                else
-                    echo "setting operand <" . get_class( $operand ) . "> as \$currentOperator\n";
-            }
             return $operand;
         }
     }

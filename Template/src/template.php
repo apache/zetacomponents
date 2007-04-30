@@ -316,12 +316,6 @@ class ezcTemplate
             $parser = new ezcTemplateParser( $source, $this );
             $this->properties["tstTree"] = $parser->parseIntoNodeTree();
 
-            // $tstTreeWalker = new ezcTemplateTstWalker();
-            // $this->properties["tstTree"]->accept( $tstTreeWalker );
-
-            // Check if caching is needed.
-
-//            if ( $fetchCacheInfo->cacheTst !== null )
             if ($parser->hasCacheBlocks && !$config->disableCache )
             {
                 $fetchCacheInfo = new ezcTemplateFetchCacheInformation(); 
@@ -337,10 +331,7 @@ class ezcTemplate
                 $tstToAst = new ezcTemplateTstToAstTransformer ( $parser);
             }
 
-
-            // $tstToAst = new ezcTemplateTstToAstTransformer( $parser );
             $this->properties["tstTree"]->accept( $tstToAst );
-
             $this->properties["astTree"] = $tstToAst->programNode;
 
             $astToAst = new ezcTemplateAstToAstContextAppender( $config->context );
@@ -349,10 +340,6 @@ class ezcTemplate
             // Extra optimization.
             $astToAst = new ezcTemplateAstToAstAssignmentOptimizer();
             $tstToAst->programNode->accept( $astToAst );
-
-            // Run the cacher.
-            // $astToAst = new ezcTemplateAstToAstCache( $this );
-            // $tstToAst->programNode->accept( $astToAst );
 
             $g = new ezcTemplateAstToPhpGenerator( $compiled->path, $config ); // Write to the file.
             $tstToAst->programNode->accept( $g );
