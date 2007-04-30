@@ -18,6 +18,7 @@ return array (
     'ezcImageHandler'                               => 'ImageConversion/interfaces/handler.php',
     'ezcImageHandlerSettings'                       => 'ImageConversion/structs/handler_settings.php',
     'ezcImageMethodcallHandler'                     => 'ImageConversion/interfaces/methodcall_handler.php',
+    'ezcImageSaveOptions'                           => 'ImageConversion/options/save_options.php',
 
     'ezcImageFilter'                                => 'ImageConversion/structs/filter.php',
 

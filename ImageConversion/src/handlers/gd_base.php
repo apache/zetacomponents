@@ -103,16 +103,39 @@ class ezcImageGdBaseHandler extends ezcImageMethodcallHandler
      * @throws ezcImageFileNameInvalidException 
      *         If an invalid character (", ', $) is found in the file name.
      */
-    public function save( $image, $newFile = null, $mime = null )
+    public function save( $image, $newFile = null, $mime = null, ezcImageSaveOptions $options = null )
     {
+        $options = ( $options === null ) ? new ezcImageSaveOptions() : $options;
+
         if ( $newFile !== null )
         {
             $this->checkFileName( $newFile );
         }
         $this->saveCommon( $image, isset( $newFile ) ? $newFile : null, isset( $mime ) ? $mime : null );
         $saveFunction = $this->getSaveFunction( $this->getReferenceData( $image, 'mime' ) );
+
+        $saveParams = array(
+            $this->getReferenceData( $image, 'resource' ),
+            $this->getReferenceData( $image, 'file' ),
+        );
+        switch ( $saveFunction )
+        {
+            case "imagejpeg":
+                if ( $options->quality !== null )
+                {
+                    $saveParams[] = $options->quality;
+                }
+                break;
+            case "imagepng":
+                if ( $options->compression !== null )
+                {
+                    $saveParams[] = $options->compression;
+                }
+                break;
+        }
+
         if ( !ezcBaseFeatures::hasFunction( $saveFunction ) ||
-            $saveFunction( $this->getReferenceData( $image, 'resource' ), $this->getReferenceData( $image, 'file' ) ) === false )
+            call_user_func_array( $saveFunction, $saveParams ) === false )
         {
             throw new ezcImageFileNotProcessableException( $file, "Unable to save file '{$file}' of type '{$mime}'." );
         }

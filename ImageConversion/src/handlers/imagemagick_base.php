@@ -113,14 +113,36 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
      * @throws ezcImageFileNameInvalidException 
      *         If an invalid character (", ', $) is found in the file name.
      */
-    public function save( $image, $newFile = null, $mime = null )
+    public function save( $image, $newFile = null, $mime = null, ezcImageSaveOptions $options = null )
     {
+        if ( $options === null )
+        {
+            $options = new ezcImageSaveOptions();
+        }
+
         if ( $newFile !== null )
         {
             $this->checkFileName( $newFile );
         }
         $this->saveCommon( $image, isset( $newFile ) ? $newFile : null, isset( $mime ) ? $mime : null );
         
+        switch ( $this->getReferenceData( $image, 'mime' ) )
+        {
+            case "image/jpeg":
+                if ( $options->quality !== null )
+                {
+                    $this->addFilterOption( $image, "quality", $options->quality );
+                }
+            break;
+            case "image/png":
+                if ( $options->compression !== null )
+                {
+                    // ImageMagick uses qualtiy options here and incorporates filter options
+                    $this->addFilterOption( $image, "quality", $options->compression * 10 );
+                }
+            break;
+        }
+
         // Prepare ImageMagick command
         // Here we need a work around, because older ImageMagick versions do not
         // support this option order

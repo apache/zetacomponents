@@ -708,5 +708,82 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             2000
         );
     }
+
+    public function testTransformQualityLow()
+    {
+        $mimeOut = array( "image/jpeg" );
+        $opts = new ezcImageSaveOptions();
+        $opts->quality     = 0;
+        // irrelevant, but set!
+        $opts->compression = 9;
+        $dstPath =  $this->getTempPath( "jpeg" );
+        
+        $trans = new ezcImageTransformation( $this->converter, "test", array(), $mimeOut, $opts );
+        $trans->transform( $this->testFiles["png"], $dstPath );
+
+        $this->assertThat(
+            filesize( $dstPath ),
+            $this->lessThan( 2000 ),
+            "File saved with too high quality."
+        );
+    }
+
+    public function testTransformQualityHigh()
+    {
+        $mimeOut = array( "image/jpeg" );
+        $opts = new ezcImageSaveOptions();
+        $opts->quality     = 100;
+        // irrelevant, but set!
+        $opts->compression = 9;
+        $dstPath =  $this->getTempPath( "jpeg" );
+        
+        $trans = new ezcImageTransformation( $this->converter, "test", array(), $mimeOut, $opts );
+        $trans->transform( $this->testFiles["png"], $dstPath );
+
+        $this->assertThat(
+            filesize( $dstPath ),
+            $this->greaterThan( 30000 ),
+            "File saved with too low quality."
+        );
+    }
+
+    public function testTransformCompressionLow()
+    {
+        $mimeOut = array( "image/png" );
+        $opts = new ezcImageSaveOptions();
+        $opts->compression = 0;
+        // irrelevant, but set!
+        $opts->quality     = 100;
+        $dstPath =  $this->getTempPath( "png" );
+        
+        $trans = new ezcImageTransformation( $this->converter, "test", array(), $mimeOut, $opts );
+        $trans->transform( $this->testFiles["png"], $dstPath );
+
+        $this->assertThat(
+            filesize( $dstPath ),
+            $this->greaterThan( 100000 ),
+            "File saved with too high compression."
+        );
+    }
+
+    public function testTransformCompressionHigh()
+    {
+        $mimeOut = array( "image/png" );
+        $opts = new ezcImageSaveOptions();
+        $opts->compression = 9;
+        // irrelevant, but set!
+        $opts->quality     = 100;
+        $dstPath =  $this->getTempPath( "png" );
+        
+        $trans = new ezcImageTransformation( $this->converter, "test", array(), $mimeOut, $opts );
+        $trans->transform( $this->testFiles["png"], $dstPath );
+
+        $this->assertThat(
+            filesize( $dstPath ),
+            $this->lessThan( 40000 ),
+            "File saved with too low compression."
+        );
+    }
+
 }
 ?>

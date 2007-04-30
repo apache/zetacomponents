@@ -157,5 +157,81 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
         // @ todo: Orphan! Remove!
         $this->removeTempDir();
     }
+    
+    public function testSaveNewfileQualityLow()
+    {
+        $srcPath = $this->testFiles["png"];
+        $dstPath = $this->getTempPath();
+
+        $handler = new ezcImageGdHandler( ezcImageGdHandler::defaultSettings() );
+        $ref = $handler->load( $srcPath );
+
+        $opts = new ezcImageSaveOptions();
+        $opts->quality     = 0;
+
+        $handler->save( $ref, $dstPath, "image/jpeg", $opts );
+
+        $this->assertTrue(
+            filesize( $dstPath ) < 2000,
+            "File saved with too high quality."
+        );
+    }
+
+    public function testSaveNewfileQualityHigh()
+    {
+        $srcPath = $this->testFiles["png"];
+        $dstPath = $this->getTempPath();
+
+        $handler = new ezcImageGdHandler( ezcImageGdHandler::defaultSettings() );
+        $ref = $handler->load( $srcPath );
+
+        $opts = new ezcImageSaveOptions();
+        $opts->quality     = 100;
+
+        $handler->save( $ref, $dstPath, "image/jpeg", $opts );
+
+        $this->assertTrue(
+            filesize( $dstPath ) > 30000,
+            "File saved with too low quality."
+        );
+    }
+
+    public function testSaveNewfileCompressionLow()
+    {
+        $srcPath = $this->testFiles["png"];
+        $dstPath = $this->getTempPath();
+
+        $handler = new ezcImageGdHandler( ezcImageGdHandler::defaultSettings() );
+        $ref = $handler->load( $srcPath );
+
+        $opts = new ezcImageSaveOptions();
+        $opts->compression = 0;
+
+        $handler->save( $ref, $dstPath, "image/png", $opts );
+
+        $this->assertTrue(
+            filesize( $dstPath ) > 100000,
+            "File saved with too high compression."
+        );
+    }
+
+    public function testSaveNewfileCompressionHigh()
+    {
+        $srcPath = $this->testFiles["png"];
+        $dstPath = $this->getTempPath();
+
+        $handler = new ezcImageGdHandler( ezcImageGdHandler::defaultSettings() );
+        $ref = $handler->load( $srcPath );
+
+        $opts = new ezcImageSaveOptions();
+        $opts->compression = 9;
+
+        $handler->save( $ref, $dstPath, "image/png", $opts );
+
+        $this->assertTrue(
+            filesize( $dstPath ) < 40000,
+            "File saved with too low compression."
+        );
+    }
 }
 ?>

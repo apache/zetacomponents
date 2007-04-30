@@ -98,6 +98,13 @@ class ezcImageTransformation
     protected $lastHandler;
 
     /**
+     * Options for the final save step. 
+     * 
+     * @var ezcSaveOptions
+     */
+    protected $saveOptions;
+
+    /**
      * Initialize transformation.
      *
      * @param ezcImageConverter     $converter The global converter.
@@ -110,12 +117,13 @@ class ezcImageTransformation
      * @throws ezcImageMimeTypeUnsupportedException 
      *         If the output type is unsupported.
      */
-    public function __construct( ezcImageConverter $converter, $name, array $filters = array(), array $mimeOut = array() )
+    public function __construct( ezcImageConverter $converter, $name, array $filters = array(), array $mimeOut = array(), ezcImageSaveOptions $saveOptions = null )
     {
         $this->converter = $converter;
         $this->name = $name;
         $this->setFilters( $filters );
         $this->setMimeOut( $mimeOut );
+        $this->setSaveOptions( $saveOptions !== null ? $saveOptions : new ezcImageSaveOptions() );
     }
 
     /**
@@ -279,7 +287,7 @@ class ezcImageTransformation
                 $this->lastHandler->convert( $ref, $outMime );
             }
             // Everything done, save and close
-            $this->lastHandler->save( $ref );
+            $this->lastHandler->save( $ref, null, null, $this->saveOptions );
             $this->lastHandler->close( $ref );
         }
         catch ( ezcImageException $e )
@@ -348,6 +356,21 @@ class ezcImageTransformation
             }
         }
         $this->mimeOut = $mime;
+    }
+
+    /**
+     * Sets the save options.
+     * Sets the save options, that are used for the final save step of the
+     * transformation. 
+     *
+     * {@see ezcImageSaveOptions}
+     * 
+     * @param mixed $options Save options.
+     * @return void
+     */
+    public function setSaveOptions( ezcImageSaveOptions $options )
+    {
+        $this->saveOptions = $options;
     }
 }
 ?>

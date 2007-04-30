@@ -148,12 +148,14 @@ abstract class ezcImageHandler
      * @see ezcImageHandler::load()
      * @see ezcImageHandler::close()
      *
-     * @param string $image   File reference created through.
-     * @param string $newFile Filename to save the image to.
-     * @param string $mime    New MIME type, if differs from initial one.
+     * @param string $image                File reference created through.
+     * @param string $newFile              Filename to save the image to.
+     * @param string $mime                 New MIME type, if differs from
+     *                                     initial one.
+     * @param ezcImageSaveOptions $options Options for saving.
      * @return void
      */
-    abstract public function save( $image, $newFile = null, $mime = null );
+    abstract public function save( $image, $newFile = null, $mime = null, ezcImageSaveOptions $options = null );
 
     /**
      * Close the file referenced by $image.
