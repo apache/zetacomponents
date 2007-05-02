@@ -36,6 +36,7 @@
 - Fixed issue #10675: Arrow heads on axis too small
 - Fixed issue #10693: ezcGraphChartElementAxis::getSteps returns minor steps
   after last major steps
+- Added feature #9406: Add support for radar charts
 
 1.0 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
