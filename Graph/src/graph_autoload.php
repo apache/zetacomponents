@@ -50,6 +50,7 @@ return array(
     'ezcGraphAxisCenteredLabelRenderer'         => 'Graph/renderer/axis_label_centered.php',
     'ezcGraphAxisBoxedLabelRenderer'            => 'Graph/renderer/axis_label_boxed.php',
     'ezcGraphAxisRotatedLabelRenderer'          => 'Graph/renderer/axis_label_rotated.php',
+    'ezcGraphAxisRadarLabelRenderer'            => 'Graph/renderer/axis_label_radar.php',
 
     'ezcGraphDriver'                            => 'Graph/interfaces/driver.php',
     'ezcGraphFontRenderingException'            => 'Graph/exceptions/font_rendering.php',

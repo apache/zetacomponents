@@ -59,13 +59,12 @@
 class ezcGraphRadarChart extends ezcGraphChart
 {
     /**
-     * Virtual not drawn axis for label calculation
-     * @TODO: Do we want to expose this axis to the user?
+     * Store major grid color for child axis.
      * 
-     * @var ezcGraphChartElementLabeledAxis
+     * @var ezcGraphColor
      */
-    protected $virtualYAxis;
- 
+    protected $childAxisColor;
+
     /**
      * Constructor
      * 
@@ -80,16 +79,32 @@ class ezcGraphRadarChart extends ezcGraphChart
 
         parent::__construct();
 
-        $this->virtualYAxis = new ezcGraphChartElementLabeledAxis();
+        $this->elements['rotationAxis'] = new ezcGraphChartElementLabeledAxis();
 
         $this->addElement( 'axis', new ezcGraphChartElementNumericAxis() );
         $this->elements['axis']->position = ezcGraph::BOTTOM;
-        $this->elements['axis']->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
+        $this->elements['axis']->axisLabelRenderer = new ezcGraphAxisRadarLabelRenderer();
         $this->elements['axis']->axisLabelRenderer->outerStep = true;
+
+        $this->addElement( 'rotationAxis', new ezcGraphChartElementLabeledAxis() );
 
         // Do not render axis with default method, because we need an axis for
         // each label in dataset
         $this->renderElement['axis'] = false;
+        $this->renderElement['rotationAxis'] = false;
+    }
+
+    /**
+     * Set colors and border fro this element
+     * 
+     * @param ezcGraphPalette $palette Palette
+     * @return void
+     */
+    public function setFromPalette( ezcGraphPalette $palette )
+    {
+        $this->childAxisColor = $palette->majorGridColor;
+
+        parent::setFromPalette( $palette );
     }
 
     /**
@@ -112,6 +127,19 @@ class ezcGraphRadarChart extends ezcGraphChart
                 {
                     $this->addElement( 'axis', $propertyValue );
                     $this->elements['axis']->position = ezcGraph::BOTTOM;
+                    $this->elements['axis']->axisLabelRenderer = new ezcGraphAxisRadarLabelRenderer();
+                    $this->renderElement['axis'] = false;
+                }
+                else
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcGraphChartElementAxis' );
+                }
+                break;
+            case 'rotationAxis':
+                if ( $propertyValue instanceof ezcGraphChartElementAxis )
+                {
+                    $this->addElement( 'rotationAxis', $propertyValue );
+                    $this->renderElement['rotationAxis'] = false;
                 }
                 else
                 {
@@ -131,6 +159,62 @@ class ezcGraphRadarChart extends ezcGraphChart
             default:
                 parent::__set( $propertyName, $propertyValue );
         }
+    }
+
+    /**
+     * Draws a single rotated axis
+     *
+     * Sets the axis label position depending on the axis rotation.
+     * 
+     * @param ezcGraphChartElementAxis $axis 
+     * @param float $postion 
+     * @param float $lastPosition 
+     * @return void
+     */
+    protected function drawRotatedAxis( ezcGraphChartElementAxis $axis, ezcGraphBoundings $boundings, ezcGraphCoordinate $center, $position, $lastPosition = null )
+    {
+        // Set axis position depending on angle for better axis label 
+        // positioning
+        $angle = $position * 2 * M_PI;
+        switch ( (int) ( ( $position + .125 ) * 4 ) )
+        {
+            case 0:
+            case 4:
+                $axis->position = ezcGraph::BOTTOM;
+                break;
+            case 1:
+                $axis->position = ezcGraph::LEFT;
+                break;
+            case 2:
+                $axis->position = ezcGraph::TOP;
+                break;
+            case 3:
+                $axis->position = ezcGraph::RIGHT;
+                break;
+        }
+
+        // Set last step to correctly draw grid
+        if ( $axis->axisLabelRenderer instanceof ezcGraphAxisRadarLabelRenderer )
+        {
+            $axis->axisLabelRenderer->lastStep = $lastPosition;
+        }
+
+        // Do not draw axis label for last step
+        if ( abs( $position - 1 ) <= .001 ) 
+        {
+            $axis->label = null;
+        }
+
+        $this->renderer->drawAxis(
+            $boundings,
+            clone $center,
+            $dest = new ezcGraphCoordinate(
+                $center->x + sin( $angle ) * ( $boundings->width / 2 ),
+                $center->y - cos( $angle ) * ( $boundings->height / 2 )
+            ),
+            clone $axis,
+            clone $axis->axisLabelRenderer
+        );
     }
 
     /**
@@ -159,47 +243,28 @@ class ezcGraphRadarChart extends ezcGraphChart
         $nr = $count = count( $this->data );
 
         // Draw axis at major steps of virtual axis
-        $steps = $this->virtualYAxis->getSteps();
+        $steps = $this->elements['rotationAxis']->getSteps();
+        $lastStepPosition = null;
+        $axisColor = $this->elements['axis']->border;
         foreach ( $steps as $step )
         {
-            if ( $step->isLast )
-            {
-                // Skip last axis
-                continue;
-            }
-
-            // Set axis position depending on angle for better label positioning
-            $angle = $step->position * 2 * M_PI;
-            switch ( (int) ( ( $step->position + .125 ) * 4 ) )
-            {
-                case 0:
-                case 4:
-                    $this->elements['axis']->position = ezcGraph::BOTTOM;
-                    break;
-                case 1:
-                    $this->elements['axis']->position = ezcGraph::LEFT;
-                    break;
-                case 2:
-                    $this->elements['axis']->position = ezcGraph::TOP;
-                    break;
-                case 3:
-                    $this->elements['axis']->position = ezcGraph::RIGHT;
-                    break;
-            }
-
             $this->elements['axis']->label = $step->label;
-            $this->elements['axis']->axisLabelRenderer->showLabels = $step->isZero;
+            $this->drawRotatedAxis( $this->elements['axis'], $boundings, $center, $step->position, $lastStepPosition );
+            $lastStepPosition = $step->position;
 
-            $this->renderer->drawAxis(
-                $boundings,
-                clone $center,
-                $dest = new ezcGraphCoordinate(
-                    $center->x + sin( $angle ) * ( $boundings->width / 2 ),
-                    $center->y - cos( $angle ) * ( $boundings->height / 2 )
-                ),
-                clone $this->elements['axis'],
-                clone $this->elements['axis']->axisLabelRenderer
-            );
+            if ( count( $step->childs ) )
+            {
+                foreach ( $step->childs as $childStep )
+                {
+                    $this->elements['axis']->label = null;
+                    $this->elements['axis']->border = $this->childAxisColor;
+
+                    $this->drawRotatedAxis( $this->elements['axis'], $boundings, $center, $childStep->position, $lastStepPosition );
+                    $lastStepPosition = $childStep->position;
+                }
+            }
+
+            $this->elements['axis']->border = $axisColor;
         }
 
         // Display data
@@ -223,7 +288,7 @@ class ezcGraphRadarChart extends ezcGraphChart
             foreach ( $data as $key => $value )
             {
                 $point = new ezcGraphCoordinate( 
-                    $this->virtualYAxis->getCoordinate( $key ),
+                    $this->elements['rotationAxis']->getCoordinate( $key ),
                     $this->elements['axis']->getCoordinate( $value )
                 ); 
 
@@ -308,12 +373,11 @@ class ezcGraphRadarChart extends ezcGraphChart
             }
 
             $this->elements['axis']->addData( $values );
-            $this->virtualYAxis->labelCount = count( $labels );
-            $this->virtualYAxis->addData( $labels );
+            $this->elements['rotationAxis']->addData( $labels );
         }
 
         $this->elements['axis']->calculateAxisBoundings();
-        $this->virtualYAxis->calculateAxisBoundings();
+        $this->elements['rotationAxis']->calculateAxisBoundings();
 
         // Generate legend
         $this->elements['legend']->generateFromDataSets( $this->data );
@@ -326,16 +390,6 @@ class ezcGraphRadarChart extends ezcGraphChart
         $boundings = new ezcGraphBoundings();
         $boundings->x1 = $this->options->width;
         $boundings->y1 = $this->options->height;
-
-        /*
-        // This is obsolete ...
-        // Should be replaced by radial size reducement based on axis Space
-        $boundings = $this->elements['xAxis']->axisLabelRenderer->modifyChartBoundings( 
-            $this->elements['yAxis']->axisLabelRenderer->modifyChartBoundings(
-                $boundings, new ezcGraphCoordinate( 1, 0 )
-            ), new ezcGraphCoordinate( -1, 0 )
-        );
-        */
 
         // Render subelements
         foreach ( $this->elements as $name => $element )

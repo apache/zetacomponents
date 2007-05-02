@@ -210,6 +210,50 @@ class ezcGraphRadarChartTest extends ezcGraphTestCase
         $chart->render( 500, 200 );
     }
 
+    public function testDrawGridLines()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphRadarChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( $this->getRandomData( 6 ) );
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
+            'drawGridLine',
+        ) );
+
+        $mockedRenderer
+           ->expects( $this->at( 0 ) )
+            ->method( 'drawGridLine' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 338., 93.8 ), .1 ),
+                $this->equalTo( new ezcGraphCoordinate( 300., 80. ), .1 ),
+                $this->equalTo( ezcGraphColor::fromHex( '#888A85' ) )
+            );
+        $mockedRenderer
+           ->expects( $this->at( 1 ) )
+            ->method( 'drawGridLine' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 343.75, 92.9 ), .1 ),
+                $this->equalTo( new ezcGraphCoordinate( 300., 77. ), .1 ),
+                $this->equalTo( ezcGraphColor::fromHex( '#888A8588' ) )
+            );
+
+        // Next axis
+        $mockedRenderer
+           ->expects( $this->at( 21 ) )
+            ->method( 'drawGridLine' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 323.5, 116.2 ), .1 ),
+                $this->equalTo( new ezcGraphCoordinate( 338., 93.8 ), .1 ),
+                $this->equalTo( ezcGraphColor::fromHex( '#888A85' ) )
+            );
+
+        $chart->renderer = $mockedRenderer;
+
+        $chart->render( 500, 200 );
+    }
+
     public function testRadarSimple()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
@@ -218,6 +262,45 @@ class ezcGraphRadarChartTest extends ezcGraphTestCase
         $chart->palette = new ezcGraphPaletteTango();
 
         $chart->data['sample'] = new ezcGraphArrayDataSet( $this->getRandomData( 6 ) );
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testRadarMinorAxis()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphRadarChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+
+        $chart->options->fillLines = 210;
+
+        $chart->data['sample'] = new ezcGraphArrayDataSet( $this->getRandomData( 31 ) );
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testRadarNumericRotationAxis()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphRadarChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+
+        $chart->options->fillLines = 210;
+
+        $chart->data['sample'] = new ezcGraphArrayDataSet( $this->getRandomData( 31 ) );
+        $chart->rotationAxis = new ezcGraphChartElementNumericAxis();
 
         $chart->render( 500, 200, $filename );
 
