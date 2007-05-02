@@ -1,0 +1,9 @@
+May 01 05:54:00 [Debug] [default] [default] Set variable "foo" to "bar" for execution #1 of workflow "StartEndVariableHandler" (version 1).
+May 01 05:54:00 [Info] [default] [default] Started execution #1 of workflow "StartEndVariableHandler" (version 1).
+May 01 05:54:00 [Debug] [default] [default] Activated node #1(ezcWorkflowNodeStart) for instance #1 of workflow "StartEndVariableHandler" (version 1).
+May 01 05:54:00 [Debug] [default] [default] Started thread #0 (1 sibling(s)) for execution #1 of workflow "StartEndVariableHandler" (version 1).
+May 01 05:54:00 [Debug] [default] [default] Activated node #2(ezcWorkflowNodeEnd) for instance #1 of workflow "StartEndVariableHandler" (version 1).
+May 01 05:54:00 [Debug] [default] [default] Executed node #1(ezcWorkflowNodeStart) for instance #1 of workflow "StartEndVariableHandler" (version 1).
+May 01 05:54:00 [Debug] [default] [default] Executed node #2(ezcWorkflowNodeEnd) for instance #1 of workflow "StartEndVariableHandler" (version 1).
+May 01 05:54:00 [Debug] [default] [default] Ended thread #0 for execution #1 of workflow "StartEndVariableHandler" (version 1).
+May 01 05:54:00 [Info] [default] [default] Ended execution #1 of workflow "StartEndVariableHandler" (version 1).

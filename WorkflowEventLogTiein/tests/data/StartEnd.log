@@ -1,0 +1,8 @@
+MMM DD HH:MM:SS [Info] [default] [default] Started execution #1 of workflow "StartEnd" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #1(ezcWorkflowNodeStart) for instance #1 of workflow "StartEnd" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Started thread #0 (1 sibling(s)) for execution #1 of workflow "StartEnd" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #2(ezcWorkflowNodeEnd) for instance #1 of workflow "StartEnd" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #1(ezcWorkflowNodeStart) for instance #1 of workflow "StartEnd" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #2(ezcWorkflowNodeEnd) for instance #1 of workflow "StartEnd" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Ended thread #0 for execution #1 of workflow "StartEnd" (version 1).
+MMM DD HH:MM:SS [Info] [default] [default] Ended execution #1 of workflow "StartEnd" (version 1).

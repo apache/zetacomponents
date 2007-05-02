@@ -1,0 +1,68 @@
+MMM DD HH:MM:SS [Info] [default] [default] Started execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #1(ezcWorkflowNodeStart) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Started thread #0 (1 sibling(s)) for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #3(ezcWorkflowNodeVariableSet) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #1(ezcWorkflowNodeStart) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Set variable "i" to "10" for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #3(ezcWorkflowNodeVariableSet) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Started thread #1 (1 sibling(s)) for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Set variable "i" to "9" for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Started thread #2 (parent: 1, 1 sibling(s)) for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Set variable "i" to "8" for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Started thread #3 (parent: 2, 1 sibling(s)) for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Set variable "i" to "7" for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Started thread #4 (parent: 3, 1 sibling(s)) for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Set variable "i" to "6" for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Started thread #5 (parent: 4, 1 sibling(s)) for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Set variable "i" to "5" for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Started thread #6 (parent: 5, 1 sibling(s)) for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Set variable "i" to "4" for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Started thread #7 (parent: 6, 1 sibling(s)) for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Set variable "i" to "3" for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Started thread #8 (parent: 7, 1 sibling(s)) for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Set variable "i" to "2" for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Started thread #9 (parent: 8, 1 sibling(s)) for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Set variable "i" to "1" for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #5(ezcWorkflowNodeVariableDecrement) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Started thread #10 (parent: 9, 1 sibling(s)) for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #2(ezcWorkflowNodeEnd) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #4(ezcWorkflowNodeExclusiveChoice) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #2(ezcWorkflowNodeEnd) for instance #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Ended thread #10 for execution #1 of workflow "DecrementingLoop" (version 1).
+MMM DD HH:MM:SS [Info] [default] [default] Ended execution #1 of workflow "DecrementingLoop" (version 1).
