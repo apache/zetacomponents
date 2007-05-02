@@ -1,0 +1,129 @@
+eZ publish Enterprise Component: WorkflowDatabaseTiein, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Sebastian Bergmann
+:Revision: $Revision$
+:Date: $Date$
+
+Design Description
+==================
+
+The WorkflowDatabaseTiein component provides the functionality needed to load
+and save a workflow definition from and to a relational database as well as an
+implementation of the ezcWorkflowExecution interface to suspend and resume the
+execution of a workflow to and from a relational database. It uses the
+Database component interface with the database.
+
+
+Database Schema
+===============
+
+- Workflow Definition
+
+  - Table "workflow"
+
+    When a new workflow is defined, a new row is inserted into the
+    "workflow" table. The "workflow_id" is automatically assigned
+    (AUTO_INCREMENT) and the "workflow_version" is set to "1".
+
+    When an existing workflow is changed, a new row is inserted into the
+    "workflow" table. The "workflow_id" is automatically assigned
+    (AUTO_INCREMENT) and the "workflow_version" is incremented.
+
+    The "workflow_version_is_latest" column serves as a flag for efficiently
+    fetching the latest version of a workflow.
+
+  - Table "node"
+
+    When a new workflow is defined, a new row is inserted into the "node"
+    table for every node of the workflow's graph.
+
+    When an existing workflow is changed, a new row is inserted into the
+    "node" table for every node of the workflow's graph.
+
+  - Table "node_connection"
+
+    The "node_connection" table connects the nodes from the "node" table.
+
+  - Table "execution_data_handler"
+
+    The "node_connection" stores the information about the execution data
+    handlers of a workflow.
+
+- Workflow Execution
+
+  - Table "execution"
+
+    When the execution of a workflow is started, a new row is inserted into
+    the "execution" table.
+
+    When the execution of a workflow is ended, the corresponding rows are
+    deleted from the "execution" and "execution_state" tables.
+
+  - Table "execution_state"
+
+    When the execution of a workflow is suspended, a new row is inserted into
+    the "execution_state" table for each node of the workflow that is
+    activated at the time.
+
+    When the execution of a workflow is resumed, the corresponding rows are
+    deleted from the "execution_state" table.
+
+
+Main Classes
+============
+
+- ezcWorkflowDatabaseTieinDefinition
+
+  This class saves and loads the definition of a workflow to and from a
+  relational database.
+
+    // Create a new workflow with name "Test".
+    $workflow = new ezcWorkflow( 'Test' );
+    // ...
+
+    // Establish database connection.
+    $db = ezcDbFactory::create( 'mysql://test@localhost/test' );
+    $definition = new ezcWorkflowDatabaseTieinDefinition( $db );
+
+    // Save workflow to the database (as version 1).
+    $definition->save( $workflow );
+
+    // Load (latest version of the) workflow from the database.
+    $workflow = $definition->loadByName( 'Test' );
+
+    // Save workflow to the database (as version 2).
+    $definition->save( $workflow );
+
+    // Load version 1 of the workflow from the database.
+    $workflow = $definition->loadByName( 'Test', 1 );
+
+
+- ezcWorkflowDatabaseTieinExecution
+
+  This class implements the ezcWorkflowExecution to suspend and resume the
+  execution of a workflow to and from a relational database.
+
+    // Establish database connection.
+    $db = ezcDbFactory::create( 'mysql://test@localhost/test' );
+    $definition = new ezcWorkflowDatabaseTieinDefinition( $db );
+
+    // Load (latest version of the) workflow from the database.
+    $workflow = $definition->loadByName( 'Test' );
+
+    // Start execution.
+    $execution = new ezcWorkflowDatabaseTieinExecution( $db );
+    $execution->setWorkflow( $workflow );
+    $execution->start();
+
+  The execution starts and continues until a wait state is reached (and no
+  other state can be executed). Then the execution is suspended.
+
+  The execution can be resumed once the data that the input node which caused
+  the suspension is waiting for is available:
+
+    // Establish database connection.
+    $db = ezcDbFactory::create( 'mysql://test@localhost/test' );
+
+    // Resume execution.
+    $execution = new ezcWorkflowDatabaseTieinExecution( $db );
+    $execution->resume( 1, array( 'choice' => true ) );

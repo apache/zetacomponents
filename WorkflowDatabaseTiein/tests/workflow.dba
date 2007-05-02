@@ -1,0 +1,657 @@
+<?php
+ezcTestRunner::addFileToFilter( __FILE__ );
+
+return array (
+  0 => 
+  array (
+    'ce_bad_word' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'badword_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => true,
+           'unsigned' => false,
+        )),
+        'substitution' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 255,
+           'notNull' => true,
+           'default' => ' ',
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'word' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 255,
+           'notNull' => true,
+           'default' => ' ',
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+       'indexes' => 
+      array (
+        'primary' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'badword_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => true,
+           'unique' => true,
+        )),
+      ),
+    )),
+    'ce_message_category_rel' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'category_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => '0',
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'is_shadow' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'boolean',
+           'length' => 0,
+           'notNull' => true,
+           'default' => 'true',
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'message_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => '0',
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+       'indexes' => 
+      array (
+        'message_category_rel' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'category_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+            'message_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => false,
+           'unique' => false,
+        )),
+      ),
+    )),
+    'debugger' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'session_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 32,
+           'notNull' => true,
+           'default' => ' ',
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+       'indexes' => 
+      array (
+        'session_id' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'session_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => false,
+           'unique' => false,
+        )),
+      ),
+    )),
+    'execution' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'execution_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => true,
+           'unsigned' => false,
+        )),
+        'execution_next_thread_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'execution_parent' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'execution_started' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'execution_threads' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'clob',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'execution_variables' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'clob',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'execution_waiting_for' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'clob',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'workflow_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+       'indexes' => 
+      array (
+        'execution_parent' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'execution_parent' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => false,
+           'unique' => false,
+        )),
+        'primary' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'execution_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+            'workflow_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => true,
+           'unique' => true,
+        )),
+      ),
+    )),
+    'execution_state' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'execution_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'node_activated_from' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'clob',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'node_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'node_state' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'clob',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'node_thread_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+       'indexes' => 
+      array (
+        'primary' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'execution_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+            'node_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => true,
+           'unique' => true,
+        )),
+      ),
+    )),
+    'liveuser_translations' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'description' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 255,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'language_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 2,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'name' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 50,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'section_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => '0',
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'section_type' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => '0',
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'translation_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => true,
+           'unsigned' => false,
+        )),
+      ),
+       'indexes' => 
+      array (
+        'primary' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'translation_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => true,
+           'unique' => true,
+        )),
+        'section_id' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'language_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+            'section_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+            'section_type' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => false,
+           'unique' => true,
+        )),
+      ),
+    )),
+    'node' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'node_class' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 255,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'node_configuration' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'clob',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'node_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => true,
+           'unsigned' => false,
+        )),
+        'workflow_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+       'indexes' => 
+      array (
+        'primary' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'node_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => true,
+           'unique' => true,
+        )),
+        'workflow_id' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'workflow_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => false,
+           'unique' => false,
+        )),
+      ),
+    )),
+    'node_connection' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'incoming_node_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'outgoing_node_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+       'indexes' => 
+      array (
+        'incoming_node_id' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'incoming_node_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => false,
+           'unique' => false,
+        )),
+      ),
+    )),
+    'variable_handler' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'class' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 255,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'variable' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 255,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'workflow_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+       'indexes' => 
+      array (
+        'primary' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'class' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+            'workflow_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => true,
+           'unique' => true,
+        )),
+      ),
+    )),
+    'workflow' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'workflow_created' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'workflow_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => true,
+           'unsigned' => false,
+        )),
+        'workflow_name' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 32,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'workflow_version' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => '1',
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'workflow_version_is_latest' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'boolean',
+           'length' => 0,
+           'notNull' => true,
+           'default' => 'true',
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+       'indexes' => 
+      array (
+        'name_version' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'workflow_name' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+            'workflow_version' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => false,
+           'unique' => true,
+        )),
+        'primary' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'workflow_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => true,
+           'unique' => true,
+        )),
+      ),
+    )),
+  ),
+  1 => 
+  array (
+  ),
+); ?>
