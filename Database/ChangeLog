@@ -8,6 +8,7 @@
 - Implemented issue #9965: Support for delayed initialization through
   ezcBaseInit.
 - Fixed issue #9526: Implemented expression now() for each database handler.
+- Fixed issue #10529: Tests for quoting of strings in query expressions.
 
 
 1.2 - Monday 18 December 2006

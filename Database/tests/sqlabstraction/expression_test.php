@@ -279,7 +279,21 @@ class ezcQueryExpressionTest extends ezcTestCase
 
     public function testInAlreadyQuoted()
     {
-        $reference = "id IN ( 'Hello', 'world' )";
+        if ( $this->db->getName() === 'mysql' )
+        {
+            self::markTestSkipped( 'Not for MySQL' );
+        }
+        $reference = "id IN ( '''Hello''', '''world''' )";
+        $this->assertEquals( $reference, $this->e->in( 'id', "'Hello'", "'world'" ) );
+    }
+
+    public function testInAlreadyQuotedMySQL()
+    {
+        if ( $this->db->getName() !== 'mysql' )
+        {
+            self::markTestSkipped( 'Only for MySQL' );
+        }
+        $reference = "id IN ( '\'Hello\'', '\'world\'' )";
         $this->assertEquals( $reference, $this->e->in( 'id', "'Hello'", "'world'" ) );
     }
 
@@ -642,15 +656,18 @@ class ezcQueryExpressionTest extends ezcTestCase
 
     public function testInAlreadyQuotedImpl()
     {
+        $this->db->exec( "INSERT INTO query_test VALUES ( 5, 'ACME Inc.', '''test-only''', null )" );
+        $this->db->exec( "INSERT INTO query_test VALUES ( 6, 'ACME Inc.', '\"test-only\"', null )" );
+
         $this->q->select( '*' )->from( 'query_test' )
-            ->where( $this->e->in( 'section', "'Norway'", "'Ukraine'" ) );
+            ->where( $this->e->in( 'section', "'Norway'", "'Ukraine'", "'test-only'", "\"test-only\"" ) );
         $stmt = $this->db->query( $this->q->getQuery() );
         $rows = 0;
         foreach ( $stmt as $row )
         {
             $rows++;
         }
-        $this->assertEquals( 3, $rows );
+        $this->assertEquals( 2, $rows );
     }
 
     public function testIsNullImpl()
