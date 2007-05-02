@@ -66,11 +66,14 @@ class ezcGraphNumericAxisTest extends ezcTestCase
             );
             $label += 25;
 
-            $this->assertSame(
-                count( $step->childs ),
-                4,
-                "[$nr] Step child count wrong."
-            );
+            if ( $nr < ( count( $steps ) - 1 ) )
+            {
+                $this->assertSame(
+                    count( $step->childs ),
+                    4,
+                    "[$nr] Step child count wrong."
+                );
+            }
         }
     }
 

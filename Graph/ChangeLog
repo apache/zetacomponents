@@ -34,6 +34,8 @@
 - Fixed issue #10606: Call to undefined function imagePsLoadFont() in gd tests
   when no t1lib is available
 - Fixed issue #10675: Arrow heads on axis too small
+- Fixed issue #10693: ezcGraphChartElementAxis::getSteps returns minor steps
+  after last major steps
 
 1.0 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
