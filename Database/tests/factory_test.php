@@ -45,14 +45,14 @@ class ezcDatabaseFactoryTest extends ezcTestCase
     public function testGetImplementations()
     {
         $array = ezcDbFactory::getImplementations();
-        $this->assertEquals( array( 'mysql', 'pgsql', 'oracle', 'sqlite' ), $array );
+        $this->assertEquals( array( 'mysql', 'pgsql', 'oracle', 'sqlite', 'mssql' ), $array );
     }
 
     public function testGetImplementationsAfterAddingOne()
     {
         ezcDbFactory::addImplementation( 'test', 'ezcDbHandlerTest' );
         $array = ezcDbFactory::getImplementations();
-        $this->assertEquals( array( 'mysql', 'pgsql', 'oracle', 'sqlite', 'test' ), $array );
+        $this->assertEquals( array( 'mysql', 'pgsql', 'oracle', 'sqlite', 'mssql', 'test' ), $array );
     }
 
     public function testSqliteDSN1()

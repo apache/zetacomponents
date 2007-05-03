@@ -53,7 +53,8 @@ class ezcDbFactory
     static private $implementations = array( 'mysql'  => 'ezcDbHandlerMysql',
                                              'pgsql'  => 'ezcDbHandlerPgsql',
                                              'oracle' => 'ezcDbHandlerOracle',
-                                             'sqlite' => 'ezcDbHandlerSqlite' );
+                                             'sqlite' => 'ezcDbHandlerSqlite',
+                                             'mssql' => 'ezcDbHandlerMssql', );
 
     /**
      * Adds a database implementation to the list of known implementations.
@@ -340,7 +341,6 @@ class ezcDbFactory
                 }
             }
         }
-
         return $parsed;
     }
 }

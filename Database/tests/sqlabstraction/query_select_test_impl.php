@@ -46,14 +46,14 @@ class ezcQuerySelectTestImpl extends ezcTestCase
         catch ( Exception $e ) {} // eat
 
         // insert some data
-        $this->db->exec( 'CREATE TABLE query_test ( id int, company VARCHAR(255), section VARCHAR(255), employees int )' );
+        $this->db->exec( 'CREATE TABLE query_test ( id int, company VARCHAR(255), section VARCHAR(255), employees int NULL )' );
         $this->db->exec( "INSERT INTO query_test VALUES ( 1, 'eZ systems', 'Norway', 20 )" );
         $this->db->exec( "INSERT INTO query_test VALUES ( 2, 'IBM', 'Norway', 500 )" );
         $this->db->exec( "INSERT INTO query_test VALUES ( 3, 'eZ systems', 'Ukraine', 10 )" );
         $this->db->exec( "INSERT INTO query_test VALUES ( 4, 'IBM', 'Germany', null )" );
         
         // insert some data
-        $this->db->exec( 'CREATE TABLE query_test2 ( id int, company VARCHAR(255), section VARCHAR(255), employees int )' );
+        $this->db->exec( 'CREATE TABLE query_test2 ( id int, company VARCHAR(255), section VARCHAR(255), employees int NULL )' );
         $this->db->exec( "INSERT INTO query_test2 VALUES ( 1, 'eZ systems', 'Norway', 20 )" );
         $this->db->exec( "INSERT INTO query_test2 VALUES ( 2, 'IBM', 'Norway', 500 )" );
         $this->db->exec( "INSERT INTO query_test2 VALUES ( 3, 'eZ systems', 'Ukraine', 10 )" );

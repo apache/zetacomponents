@@ -214,9 +214,9 @@ class ezcQueryInsertTest extends ezcTestCase
         $section1 = "Norway";
         $section2 = "Ukraine";
 
-        if ( $db->getName() == 'mysql' || $db->getName() == 'sqlite' )
+        if ( $db->getName() == 'mysql' || $db->getName() == 'sqlite' || $db->getName() == 'mssql')
         {
-            return;  // no need to test it in MySQL and SQLite as they have autoincrement
+            return;  // no need to test it in MySQL, SQLite and MSSQL as they have autoincrement
         }
 
         if ( $db->getName() == 'oracle' )

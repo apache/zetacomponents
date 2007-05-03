@@ -14,6 +14,7 @@
 require_once 'factory_test.php';
 require_once 'transactions_test.php';
 require_once 'instance_test.php';
+require_once 'pdo_test.php';
 require_once 'instance_delayed_init_test.php';
 require_once 'handler_test.php';
 require_once 'sqlabstraction/expression_test.php';
@@ -52,6 +53,7 @@ class ezcDatabaseSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcQueryInsertTest::suite() );
         $this->addTest( ezcQueryUpdateTest::suite() );
         $this->addTest( ezcQueryDeleteTest::suite() );
+        $this->addTest( ezcPdoTest::suite() );
 	}
 
     public static function suite()

@@ -45,7 +45,7 @@ class ezcQueryExpressionTest extends ezcTestCase
         catch ( Exception $e ) {} // eat
 
         // insert some data
-        $this->db->exec( 'CREATE TABLE query_test ( id int, company VARCHAR(255), section VARCHAR(255), employees int )' );
+        $this->db->exec( 'CREATE TABLE query_test ( id int, company VARCHAR(255), section VARCHAR(255), employees int NULL)' );
         $this->db->exec( "INSERT INTO query_test VALUES ( 1, 'eZ systems', 'Norway', 20 )" );
         $this->db->exec( "INSERT INTO query_test VALUES ( 2, 'IBM', 'Norway', 500 )" );
         $this->db->exec( "INSERT INTO query_test VALUES ( 3, 'eZ systems', 'Ukraine', 10 )" );
@@ -360,6 +360,10 @@ class ezcQueryExpressionTest extends ezcTestCase
                 $reference = " encode( digest( name, 'md5' ), 'hex' ) ";
             }
         }
+        else if ( $this->db->getName() == 'mssql' )
+        {
+            $reference = "SUBSTRING( master.dbo.fn_varbintohexstr( HashBytes( 'MD5', name ) ), 3, 32)";
+        }
         else
         {
             $reference = 'MD5( name )';
@@ -370,6 +374,10 @@ class ezcQueryExpressionTest extends ezcTestCase
     public function testLength()
     {
         $reference = 'LENGTH( name )';
+        if ( $this->db->getName() == 'mssql' )
+        {
+            $reference = 'LEN( name )';
+        }
         $this->assertEquals( $reference, $this->e->length( 'name' ) );
     }
 
@@ -382,6 +390,10 @@ class ezcQueryExpressionTest extends ezcTestCase
     public function testMod()
     {
         $reference = 'MOD( 10, 3 )';
+        if ( $this->db->getName() == 'mssql' )
+        {
+            $reference = '10 % 3';
+        }
         $this->assertEquals( $reference, $this->e->mod( 10, 3 ) );
     }
 
@@ -404,9 +416,11 @@ class ezcQueryExpressionTest extends ezcTestCase
             case 'ezcDbHandlerOracle':
                 $reference = "LOCALTIMESTAMP";
                 break;
+                
+            case 'ezcDbHandlerMssql':
 
             default:
-                $reference = 'NOW()';
+                $reference = 'GETDATE()';
                 break;
         }
 
@@ -779,14 +793,32 @@ class ezcQueryExpressionTest extends ezcTestCase
     public function testMd5Impl()
     {
         $company = 'eZ systems';
-        $this->q->select( 'company',
-                          $this->e->md5( $this->e->round( $this->e->avg( 'employees' ), 0 ) ) )
-            ->from( 'query_test' )
-            ->where( $this->e->eq( 'company', $this->q->bindParam( $company ) ) )
-            ->groupBy( 'company' );
-        $stmt = $this->q->prepare();
-        $stmt->execute();
-
+        if ( $this->db->getName() == 'mssql' ) // use a bit different test for MSSQL as it's MD5() implementation
+                                               // requires text parameter but result of round() has type int.
+        {
+            $this->q->select( 'company', $this->e->round( $this->e->avg( 'employees' ), 0 ) )
+                ->from( 'query_test' )
+                ->where( $this->e->eq( 'company', $this->q->bindParam( $company ) ) )
+                ->groupBy( 'company' );
+            $stmt = $this->q->prepare();
+            $stmt->execute();
+            
+            $tmpValue = $stmt->fetchColumn( 1 );
+            $this->q->reset();
+            $this->q->select( 0, $this->q->expr->md5( "'$tmpValue'" ) )  ;
+            $stmt = $this->q->prepare();
+            $stmt->execute();
+        }
+        else
+        {
+            $this->q->select( 'company',
+                              $this->e->md5( $this->e->round( $this->e->avg( 'employees' ), 0 ) ) )
+                ->from( 'query_test' )
+                ->where( $this->e->eq( 'company', $this->q->bindParam( $company ) ) )
+                ->groupBy( 'company' );
+            $stmt = $this->q->prepare();
+            $stmt->execute();
+        }
         $this->assertEquals( '9bf31c7ff062936a96d3c8bd1f8f2ff3',
                              $stmt->fetchColumn( 1 ) );
     }
@@ -1134,14 +1166,33 @@ class ezcQueryExpressionTest extends ezcTestCase
     {
         $this->q->setAliases( array( 'text' => 'company', 'empl' => 'employees' ) );
         $company = 'eZ systems';
-        $this->q->select( 'text',
-                          $this->q->expr->md5( $this->q->expr->round( $this->q->expr->avg( 'empl' ), 0 ) ) )
-            ->from( 'query_test' )
-            ->where( $this->q->expr->eq( 'text', $this->q->bindParam( $company ) ) )
-            ->groupBy( 'text' );
-        $stmt = $this->q->prepare();
-        $stmt->execute();
-
+        
+        if ( $this->db->getName() == 'mssql' ) // use a bit different test for MSSQL as it's MD5() implementation
+                                               // requires text parameter but result of round() has type int.
+        {
+            $this->q->select( 'text', $this->q->expr->round( $this->q->expr->avg( 'empl' ), 0 ) )
+                ->from( 'query_test' )
+                ->where( $this->q->expr->eq( 'text', $this->q->bindParam( $company ) ) )
+                ->groupBy( 'text' );
+            $stmt = $this->q->prepare();
+            $stmt->execute();
+            
+            $this->q->reset();
+            $tmpValue = $stmt->fetchColumn( 1 );
+            $this->q->select( 0, $this->q->expr->md5( "'$tmpValue'" ) )  ;
+            $stmt = $this->q->prepare();
+            $stmt->execute();
+        }
+        else
+        {
+            $this->q->select( 'text',
+                              $this->q->expr->md5( $this->q->expr->round( $this->q->expr->avg( 'empl' ), 0 ) ) )
+                ->from( 'query_test' )
+                ->where( $this->q->expr->eq( 'text', $this->q->bindParam( $company ) ) )
+                ->groupBy( 'text' );
+            $stmt = $this->q->prepare();
+            $stmt->execute();
+        }
         $this->assertEquals( '9bf31c7ff062936a96d3c8bd1f8f2ff3',
                              $stmt->fetchColumn( 1 ) );
     }

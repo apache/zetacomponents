@@ -52,6 +52,7 @@ class ezcDatabaseHandlerTest extends ezcTestCase
             case "ezcDbHandlerOracle":
             case "ezcDbHandlerPgsql":
             case "ezcDbHandlerSqlite":
+            case "ezcDbHandlerMssql":
                 $quoteChars = array( '"', '"' );
                 break;
                 
@@ -76,6 +77,7 @@ class ezcDatabaseHandlerTest extends ezcTestCase
             case "ezcDbHandlerOracle":
             case "ezcDbHandlerPgsql":
             case "ezcDbHandlerSqlite":
+            case "ezcDbHandlerMssql":
                 $quoteChars = array( '"', '"' );
                 break;
                 

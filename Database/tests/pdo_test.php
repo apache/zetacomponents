@@ -14,7 +14,7 @@
  * @package Database
  * @subpackage Tests
  */
-class PDOTest extends ezcTestCase
+class ezcPdoTest extends ezcTestCase
 {
     protected function setUp()
     {
@@ -52,6 +52,11 @@ class PDOTest extends ezcTestCase
     public function testIdNotFound()
     {
         $db = ezcDbInstance::get();
+        if ( $db->getName() != 'mysql' )
+        {
+            return;  // no need to test it in RDBMS other than MySQL
+        }
+        
         $q = $db->prepare("INSERT INTO query_test VALUES( 1, 'name', 'section', 22)" );
         $q->execute();
 
@@ -68,6 +73,7 @@ class PDOTest extends ezcTestCase
 
 
     // Works in PHP 5.2.1RC2, segfaults in PHP 5.1.4
+/*
     public function testSegfaultWrongFunctionCall()
     {
         $db = ezcDbInstance::get();
@@ -77,12 +83,15 @@ class PDOTest extends ezcTestCase
 
         $q->oasdfa(); // Wrong method call.
     }
-
-
+*/
     // Works in PHP 5.1.4, Fails (hangs) in PHP 5.2.1RC2-dev.
     public function testInsertWithWrongColon()
     {
         $db = ezcDbInstance::get();
+        if ( $db->getName() != 'mysql' )
+        {
+            return;  // no need to test it in RDBMS other than MySQL.
+        }
 
         $q = $db->prepare("INSERT INTO query_test VALUES( ':id', 'name', 'section', 22)" ); // <-- ':id' should be :id (or a string without ":")
         $q->execute();
@@ -90,7 +99,7 @@ class PDOTest extends ezcTestCase
 
     public static function suite()
     {
-         return new PHPUnit_Framework_TestSuite( "PDOTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcPdoTest" );
     }
 }
 

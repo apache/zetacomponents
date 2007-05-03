@@ -17,6 +17,7 @@ return array(
     'ezcDbHandler'                   => 'Database/handler.php',
     'ezcDbUtilities'                 => 'Database/sqlabstraction/utilities.php',
     'ezcDbFactory'                   => 'Database/factory.php',
+    'ezcDbHandlerMssql'              => 'Database/handlers/mssql.php',
     'ezcDbHandlerMysql'              => 'Database/handlers/mysql.php',
     'ezcDbHandlerOracle'             => 'Database/handlers/oracle.php',
     'ezcDbHandlerPgsql'              => 'Database/handlers/pgsql.php',

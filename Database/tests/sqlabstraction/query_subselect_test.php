@@ -104,7 +104,7 @@ class ezcQuerySubSelectTest extends ezcTestCase
             ->selectDistinct( '*' )
             ->from( 'table' )
             ->where( 
-                $this->q->expr->eq( 'id', $q2 )
+                $this->q->expr->eq( 'id', $q2->getQuery() )
             );
 
         $this->assertEquals( $reference, $this->q->getQuery() );
