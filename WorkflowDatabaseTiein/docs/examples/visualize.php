@@ -11,7 +11,7 @@ $definition = new ezcWorkflowDatabaseDefinition( $db );
 $workflow = $definition->loadByName( 'Test' );
 
 // Generate GraphViz/dot markup for workflow "Test".
-$visitor = new ezcWorkflowVisitorDot;
+$visitor = new ezcWorkflowVisitorVisualization;
 $workflow->accept( $visitor );
 print $visitor;
 ?>
