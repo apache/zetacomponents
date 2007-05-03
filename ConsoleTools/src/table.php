@@ -301,7 +301,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      * @throws ezcBaseValueException
      *         If a non numeric row ID is requested.
      * @throws ezcBaseValueException
-     *         If the provided value is not of type {@ling ezcConsoleTableRow}.
+     *         If the provided value is not of type {@link ezcConsoleTableRow}.
      */
     public function offsetSet( $offset, $value )
     {
