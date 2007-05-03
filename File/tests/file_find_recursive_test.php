@@ -20,17 +20,18 @@ class ezcFileFindRecursiveTest extends ezcTestCase
             0 => 'File/CREDITS',
             1 => 'File/ChangeLog',
             2 => 'File/DESCRIPTION',
-            3 => 'File/design/design.txt',
-            4 => 'File/design/file.xml',
-            5 => 'File/design/file_operations.png',
-            6 => 'File/design/md5.png',
-            7 => 'File/design/requirements.txt',
-            8 => 'File/src/file.php',
-            9 => 'File/src/file_autoload.php',
-            10 => 'File/tests/file_calculate_relative_path_test.php',
-            11 => 'File/tests/file_find_recursive_test.php',
-            12 => 'File/tests/file_remove_recursive_test.php',
-            13 => 'File/tests/suite.php',
+            3 => 'File/design/class_diagram.png',
+            4 => 'File/design/design.txt',
+            5 => 'File/design/file.xml',
+            6 => 'File/design/file_operations.png',
+            7 => 'File/design/md5.png',
+            8 => 'File/design/requirements.txt',
+            9 => 'File/src/file.php',
+            10 => 'File/src/file_autoload.php',
+            11 => 'File/tests/file_calculate_relative_path_test.php',
+            12 => 'File/tests/file_find_recursive_test.php',
+            13 => 'File/tests/file_remove_recursive_test.php',
+            14 => 'File/tests/suite.php',
         );
         self::assertEquals( $expected, ezcFile::findRecursive( "File", array(), array( '@/docs/@', '@svn@', '@\.swp$@' ) ) );
     }
@@ -41,17 +42,18 @@ class ezcFileFindRecursiveTest extends ezcTestCase
             0 => './File/CREDITS',
             1 => './File/ChangeLog',
             2 => './File/DESCRIPTION',
-            3 => './File/design/design.txt',
-            4 => './File/design/file.xml',
-            5 => './File/design/file_operations.png',
-            6 => './File/design/md5.png',
-            7 => './File/design/requirements.txt',
-            8 => './File/src/file.php',
-            9 => './File/src/file_autoload.php',
-            10 => './File/tests/file_calculate_relative_path_test.php',
-            11 => './File/tests/file_find_recursive_test.php',
-            12 => './File/tests/file_remove_recursive_test.php',
-            13 => './File/tests/suite.php',
+            3 => './File/design/class_diagram.png',
+            4 => './File/design/design.txt',
+            5 => './File/design/file.xml',
+            6 => './File/design/file_operations.png',
+            7 => './File/design/md5.png',
+            8 => './File/design/requirements.txt',
+            9 => './File/src/file.php',
+            10 => './File/src/file_autoload.php',
+            11 => './File/tests/file_calculate_relative_path_test.php',
+            12 => './File/tests/file_find_recursive_test.php',
+            13 => './File/tests/file_remove_recursive_test.php',
+            14 => './File/tests/suite.php',
         );
         self::assertEquals( $expected, ezcFile::findRecursive( ".", array( '@^\./File/@' ), array( '@/docs/@', '@\.svn@', '@\.swp$@' ) ) );
     }
@@ -59,8 +61,9 @@ class ezcFileFindRecursiveTest extends ezcTestCase
     public function testRecursive3()
     {
         $expected = array (
-            0 => 'File/design/file_operations.png',
-            1 => 'File/design/md5.png',
+            0 => 'File/design/class_diagram.png',
+            1 => 'File/design/file_operations.png',
+            2 => 'File/design/md5.png',
         );
         self::assertEquals( $expected, ezcFile::findRecursive( "File", array( '@\.png$@' ), array( '@\.svn@' ) ) );
     }
@@ -68,11 +71,12 @@ class ezcFileFindRecursiveTest extends ezcTestCase
     public function testRecursive4()
     {
         $expected = array (
-            0 => 'File/design/design.txt',
-            1 => 'File/design/file.xml',
-            2 => 'File/design/file_operations.png',
-            3 => 'File/design/md5.png',
-            4 => 'File/design/requirements.txt',
+            0 => 'File/design/class_diagram.png',
+            1 => 'File/design/design.txt',
+            2 => 'File/design/file.xml',
+            3 => 'File/design/file_operations.png',
+            4 => 'File/design/md5.png',
+            5 => 'File/design/requirements.txt',
         );
         self::assertEquals( $expected, ezcFile::findRecursive( "File", array( '@/design/@' ), array( '@\.svn@' ) ) );
     }
