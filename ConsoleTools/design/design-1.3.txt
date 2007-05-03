@@ -402,6 +402,13 @@ default
   not submitted, the default value will be used as the value property. If no
   default value was explicitly defined, it is null and therefore the value
   property will be null, if the argument was not submitted.
+multiple
+  This booloan property determines, if an argument can carry multiple values.
+  The default here is false. If this is set to true, no more arguments may
+  follow the current argument, since multiple defines the number of values to
+  be undefined. If arguments would follow, the parameter string would be
+  non-deterministic. For arguments with this property true, the returned value
+  is an array. The default value may be an array, too.
 value
   This property is not meant to be set by the developer directly, but by
   ezcConsoleInput while parsing the parameter string of the application. It
@@ -422,10 +429,7 @@ them:
 For these purpose, the ArrayAccess and Iterator interfaces provided by PHP will
 be implemented in this class. ArrayAccess will be used for both variants of
 access, while Iterator will iterate of the numeric order of the arguments.
-
-Since argument names must not necessarily be unique, the access by name will
-always return the last argument registered with this name. If several arguments
-with the same name are used, numeric access is recommended.
+Argument names must be unique.
 
 The class does not offer any additional methods to deal with arguments and
 purely relies on the given interfaces.
