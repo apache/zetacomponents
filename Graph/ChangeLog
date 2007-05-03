@@ -25,7 +25,6 @@
   images in ezcGraphTools
 - Added feature #9404: Add spport for rotated texts on axis.
 - Fixed issue #10536: Bar side polygones are drawn at the wrong side.
-- Fixed issue #10584: API Doc for ezcGraphPdoDataSet::createFromPdo() is wrong
 - Fixed issue #10599: Pie chart label formattig callback only accepts callback
   functions but neither static nor non static methods.
 - Added feature #10470: Add support for format callback functions on all axis

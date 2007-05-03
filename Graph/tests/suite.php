@@ -21,7 +21,6 @@ require_once 'chart_test.php';
 require_once 'color_test.php';
 require_once 'dataset_average_test.php';
 require_once 'dataset_numeric_test.php';
-require_once 'dataset_pdo_test.php';
 require_once 'dataset_test.php';
 require_once 'date_axis_test.php';
 require_once 'driver_flash_test.php';
@@ -86,7 +85,6 @@ class ezcGraphSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcGraphNumericAxisTest::suite() );
         $this->addTest( ezcGraphNumericDataSetTest::suite() );
         $this->addTest( ezcGraphPaletteTest::suite() );
-        $this->addTest( ezcGraphPdoDataSetTest::suite() );
         $this->addTest( ezcGraphPieChartTest::suite() );
         $this->addTest( ezcGraphPolynomTest::suite() );
         $this->addTest( ezcGraphRadarChartTest::suite() );

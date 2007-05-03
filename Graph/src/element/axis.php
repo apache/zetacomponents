@@ -38,7 +38,7 @@
  * @property ezcGraphAxisLabelRenderer $axisLabelRenderer
  *           AxisLabelRenderer used to render labels and grid on this axis.
  * @property callback $labelCallback
- *           Callback function to format pie chart labels.
+ *           Callback function to format chart labels.
  *           Function will receive two parameters and should return a 
  *           reformatted label.
  *              string function( label, step )
