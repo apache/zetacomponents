@@ -567,6 +567,51 @@ class ezcQuerySelectTest extends ezcTestCase
         $this->assertEquals( $reference, $this->q->getQuery() );
     }
 
+    public function testBuildFromDistinctAndNormal()
+    {
+        $reference = 'SELECT DISTINCT foo, bar FROM table';
+        $this->q->selectDistinct( 'foo' )
+                ->select( 'bar' )
+                ->from( 'table' );
+
+        $this->assertEquals( $reference, $this->q->getQuery() );
+    }
+
+    public function testBuildFromNormalAndDistinct()
+    {
+        try
+        {
+            $this->q->select( 'foo' )
+                    ->selectDistinct( 'bar' )
+                    ->from( 'table' );
+            $this->fail( 'Expected ezcQueryInvalidException.' );
+        }
+        catch ( ezcQueryInvalidException $e )
+        {
+            return true;
+        }
+    }
+
+    public function testBuildFromDistinct()
+    {
+        $reference = 'SELECT DISTINCT * FROM table';
+        $this->q->selectDistinct( '*' )
+                ->from( 'table' );
+
+        $this->assertEquals( $reference, $this->q->getQuery() );
+    }
+
+    public function testBuildFromDistinctWhereOrderLimit()
+    {
+        $reference = 'SELECT DISTINCT * FROM table WHERE true ORDER BY name LIMIT 1';
+        $this->q->selectDistinct( '*' )
+                ->from( 'table' )
+                ->where( 'true' )
+                ->orderBy( 'name' )
+                ->limit( 1 );
+        $this->assertEquals( $reference, $this->q->getQuery() );
+    }
+
     public function testGetQueryInvalid()
     {
         try

@@ -94,6 +94,23 @@ class ezcQuerySubSelectTest extends ezcTestCase
 
     }
 
+    public function testDistinctSubSelect()
+    {
+        $reference = 'SELECT DISTINCT * FROM table WHERE id = ( SELECT DISTINCT column FROM table2 )';
+
+        $q2 = $this->q->subSelect();
+        $q2->selectDistinct( 'column' )->from( 'table2' );
+        $this->q
+            ->selectDistinct( '*' )
+            ->from( 'table' )
+            ->where( 
+                $this->q->expr->eq( 'id', $q2 )
+            );
+
+        $this->assertEquals( $reference, $this->q->getQuery() );
+
+    }
+
     public function testBindAuto()
     {
         $val1 = '';

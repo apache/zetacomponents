@@ -194,7 +194,8 @@ class ezcQuerySelect extends ezcQuery
         $cols = $this->getIdentifiers( $cols );
 
         // glue string should be inserted each time but not before first entry
-        if ( $this->selectString != 'SELECT ' )
+        if ( ( $this->selectString !== 'SELECT ' ) &&
+             ( $this->selectString !== 'SELECT DISTINCT ' ) )
         {
             $this->selectString .= ', ';
         }
@@ -224,6 +225,65 @@ class ezcQuerySelect extends ezcQuery
     {
         $name = $this->getIdentifier( $name );
         return "{$name} AS {$alias}";
+    }
+
+    /**
+     * Opens the query and uses a distinct select on the columns you want to 
+     * return with the query.
+     *
+     * selectDistinct() accepts an arbitrary number of parameters. Each 
+     * parameter  must contain either the name of a column or an array 
+     * containing the names of the columns.
+     * Each call to selectDistinct() appends columns to the list of columns 
+     * that will be used in the query.
+     *
+     * Example:
+     * <code>
+     * $q->selectDistinct( 'column1', 'column2' );
+     * </code>
+     * The same could also be written
+     * <code>
+     * $columns[] = 'column1';
+     * $columns[] = 'column2;
+     * $q->selectDistinct( $columns );
+     * </code>
+     * or using several calls
+     * <code>
+     * $q->selectDistinct( 'column1' )->select( 'column2' );
+     * </code>
+     *
+     * Each of above code produce SQL clause 'SELECT DISTINCT column1, column2' 
+     * for the query.
+     *
+     * You may call select() after calling selectDistinct() which will result 
+     * in the additional columns beein added. A call of selectDistinct() after 
+     * select() will result in an ezcQueryInvalidException.
+     *
+     * @throws ezcQueryVariableParameterException if called with no parameters..
+     * @throws ezcQueryInvalidException if called after select()
+     * @param string|array(string) Either a string with a column name or an array of column names.
+     * @return ezcQuery returns a pointer to $this.
+     */
+    public function selectDistinct()
+    {
+        if ( $this->selectString == null )
+        {
+            $this->selectString = 'SELECT DISTINCT ';
+        }
+        elseif ( strpos ( $this->selectString, 'DISTINCT' ) === false )
+        {
+            throw new ezcQueryInvalidException( 
+                'SELECT',
+                'You can\'t use selectDistinct() after using select() in the same query.'
+            );
+        }
+
+        // Call ezcQuerySelect::select() to do the parameter processing
+        $args = func_get_args();
+        return call_user_func_array(
+            array( $this, 'select' ),
+            $args
+        );
     }
 
     /**

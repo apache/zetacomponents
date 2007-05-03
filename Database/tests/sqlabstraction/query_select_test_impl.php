@@ -282,6 +282,20 @@ class ezcQuerySelectTestImpl extends ezcTestCase
         $this->assertEquals( 1, $rows );
     }
 
+    public function testBuildFromDistinct()
+    {
+        $this->q->selectDistinct( 'section' )
+                ->from( 'query_test' );
+
+        $stmt = $this->db->query( $this->q->getQuery() );
+        $rows = 0;
+        foreach ( $stmt as $row )
+        {
+            $rows++;
+        }
+        $this->assertEquals( 3, $rows );
+    }
+
     // LOGIC TESTS
     public function testSelectNone()
     {

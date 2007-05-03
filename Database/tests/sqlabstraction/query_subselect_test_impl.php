@@ -58,6 +58,7 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
         $this->db->exec( "INSERT INTO query_test2 VALUES ( 2, 'IBM', 'Norway', 500 )" );
         $this->db->exec( "INSERT INTO query_test2 VALUES ( 3, 'eZ systems', 'Ukraine', 10 )" );
         $this->db->exec( "INSERT INTO query_test2 VALUES ( 4, 'IBM', 'Germany', null )" );
+        $this->db->exec( "INSERT INTO query_test2 VALUES ( 5, 'Intel', 'USA', 5000 )" );
     }
 
     protected function tearDown()
@@ -93,6 +94,35 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
         $this->assertEquals( 'Norway', $result[0]['section'] );
         $this->assertEquals( 'IBM', $result[1]['company'] );
         $this->assertEquals( 'Germany', $result[1]['section'] );
+    }
+
+    public function testInnerDistinctSubSelectBindParam()
+    {
+        $name = 'IBM';
+        $name2 = 'company';
+        $q = new ezcQuerySelect( ezcDbInstance::get() );
+
+        // subselect
+        $q2 = $q->subSelect();
+        $q->expr->setValuesQuoting( false );
+
+        // bind values
+        $q2->selectDistinct( 'section' )
+                ->from( 'query_test' );
+
+        $q->selectDistinct( 'company' )
+            ->from( 'query_test2' )
+            ->where( $q->expr->in( 'section', $q2 ) );
+
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        $result = $stmt->fetchAll();
+
+        $this->assertEquals( 'eZ systems', $result[0]['company'] );
+        $this->assertEquals( 'IBM', $result[1]['company'] );
+
+        $this->assertSame( 2, count( $result ) );
     }
 
     public function testSubSelectBindParam()
