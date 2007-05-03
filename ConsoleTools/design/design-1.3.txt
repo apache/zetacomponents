@@ -407,8 +407,9 @@ multiple
   The default here is false. If this is set to true, no more arguments may
   follow the current argument, since multiple defines the number of values to
   be undefined. If arguments would follow, the parameter string would be
-  non-deterministic. For arguments with this property true, the returned value
-  is an array. The default value may be an array, too.
+  non-deterministic. Therefore all following arguments are silently ignored.
+  For arguments with this property true, the returned value is an array. The
+  default value may be an array, too.
 value
   This property is not meant to be set by the developer directly, but by
   ezcConsoleInput while parsing the parameter string of the application. It
