@@ -408,7 +408,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             
         $ttl = $this->translateTTL($this->cacheTemplate->ttl);
 
-        $ttlStatements = $this->checkTTL( $ttl, $cacheKeys );
+        $ttlStatements = $this->checkTTL( $ttl );
         foreach ( $ttlStatements as $s )
         {
             $this->programNode->appendStatement( $s );
@@ -479,7 +479,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         }
     }
 
-    protected function checkTTL( $ttl, $cacheKeys )
+    protected function checkTTL( $ttl )
     {
         $statements = array();
 
@@ -692,7 +692,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             
         $ttl = $this->translateTTL($type->ttl);
 
-        $ttlStatements = $this->checkTTL( $ttl, $cacheKeys );
+        $ttlStatements = $this->checkTTL( $ttl);
         foreach ( $ttlStatements as $s )
         {
             $statements->appendStatement( $s );
