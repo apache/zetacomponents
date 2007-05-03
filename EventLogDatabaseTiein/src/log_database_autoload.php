@@ -10,6 +10,6 @@
  */
 
 return array(
-    'ezcLogDatabaseWriter' =>  'EventLogDatabaseTiein/writers/writer_database.php',
+    'ezcLogDatabaseWriter' => 'EventLogDatabaseTiein/writers/writer_database.php',
 );
 ?>
