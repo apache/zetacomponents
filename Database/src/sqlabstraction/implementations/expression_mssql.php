@@ -17,6 +17,19 @@
  */
 class ezcQueryExpressionMssql extends ezcQueryExpression
 {
+    /**
+     * Contains an interval map from generic intervals to MS SQL native intervals.
+     *
+     * @var array(string=>string)
+     */
+    protected $intervalMap = array(
+        'SECOND' => 'second',
+        'MINUTE' => 'minute',
+        'HOUR' => 'Hour',
+        'DAY' => 'Day',
+        'MONTH' => 'Month',
+        'YEAR' => 'Year',
+    );
 
     /**
      * Returns the remainder of the division operation
@@ -35,7 +48,7 @@ class ezcQueryExpressionMssql extends ezcQueryExpression
 
     /**
      * Returns the md5 sum of a field. 
-     * There is two variants of implementation for this feature.
+     * There are two variants of implementation for this feature.
      * Both not ideal though.
      * First don't require additional setup of MS SQL Server
      * and uses undocumented function master.dbo.fn_varbintohexstr()
@@ -43,7 +56,7 @@ class ezcQueryExpressionMssql extends ezcQueryExpression
      *
      * Second one requires the stored procedure
      * from http://www.thecodeproject.com/database/xp_md5.asp to 
-     * be installed and wrapped by the user defined function fn_md5
+     * be installed and wrapped by the user defined function fn_md5.
      *
      * @return string
      */
@@ -123,6 +136,90 @@ class ezcQueryExpressionMssql extends ezcQueryExpression
 
         $cols = $this->getIdentifiers( $cols );
         return join( ' + ', $cols );
+    }
+
+    /**
+     * Returns the SQL to locate the position of the first occurrence of a substring
+     * 
+     * @param string $substr
+     * @param string $value
+     * @return string
+     */
+    public function position( $substr, $value )
+    {
+        $value = $this->getIdentifier( $value );
+        return "CHARINDEX( '{$substr}', {$value} )";
+    }
+
+    /**
+     * Returns the SQL to calculate the next highest integer value from the number.
+     *
+     * @param string $number
+     * @return string
+     */
+    public function ceil( $number )
+    {
+        $number = $this->getIdentifier( $number );
+        return " CEILING( {$number} ) ";
+    }
+
+    /**
+     * Returns the SQL that converts a timestamp value to number of seconds since 1970-01-01 00:00:00-00.
+     *
+     * @param string $column
+     * @return string
+     */
+    public function unixTimestamp( $column )
+    {
+        $column = $this->getIdentifier( $column );
+        return " DATEDIFF(s, '19700101', {$column} ) - ".date('Z')." ";
+    }
+
+    /**
+     * Returns the SQL that subtracts an interval from a timestamp value.
+     *
+     * @param string $column
+     * @param numeric $expr
+     * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
+     * @return string
+     */
+    public function dateSub( $column, $expr, $type )
+    {
+        $type = $this->intervalMap[$type];
+
+        $column = $this->getIdentifier( $column );
+        return " CONVERT( varchar( 19 ), DATEADD( {$type}, -{$expr}, {$column} ), 120 ) ";
+    }
+
+    /**
+     * Returns the SQL that adds an interval to a timestamp value.
+     *
+     * @param string $column
+     * @param numeric $expr
+     * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
+     * @return string
+     */
+    public function dateAdd( $column, $expr, $type )
+    {
+        $type = $this->intervalMap[$type];
+
+        $column = $this->getIdentifier( $column );
+        return " CONVERT( varchar( 19 ), DATEADD( {$type}, +{$expr}, {$column} ), 120 ) ";
+    }
+
+    /**
+     * Returns the SQL that extracts parts from a timestamp value.
+     *
+     * @param string $date
+     * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
+     * @return string
+     */
+    public function dateExtract( $column, $type )
+    {
+        $type = $this->intervalMap[$type];
+
+        $column = $this->getIdentifier( $column );
+        return " DATEPART( {$type}, {$column} ) ";
     }
 }
 ?>

@@ -50,5 +50,39 @@ class ezcQuerySqliteFunctions
         $args = func_get_args();
         return join( '', $args );
     }
+
+    /**
+     * Returns the SQL to locate the position of the first occurrence of a substring
+     * 
+     * @param string $substr
+     * @param string $value
+     * @return integer
+     */
+     static public function positionImpl( $substr, $value )
+     {
+         return strpos( $value, $substr ) + 1;
+     }
+
+    /**
+     * Returns the next lowest integer value from the number
+     * 
+     * @param numeric $number
+     * @return integer
+     */
+     static public function floorImpl( $number )
+     {
+         return (int) floor( $number );
+     }
+
+     /**
+      * Returns the next highest integer value from the number
+      * 
+      * @param numeric $number
+      * @return integer
+      */
+     static public function ceilImpl( $number )
+     {
+         return (int) ceil( $number );
+     }
 }
 ?>

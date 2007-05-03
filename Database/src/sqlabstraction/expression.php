@@ -47,6 +47,20 @@ class ezcQueryExpression
     private $quoteValues = true;
 
     /**
+     * Contains an interval map from generic intervals to MySQL native intervals.
+     *
+     * @var array(string=>string)
+     */
+    protected $intervalMap = array(
+        'SECOND' => 'SECOND',
+        'MINUTE' => 'MINUTE',
+        'HOUR' => 'HOUR',
+        'DAY' => 'DAY',
+        'MONTH' => 'MONTH',
+        'YEAR' => 'YEAR',
+    );
+
+    /**
      * Constructs an empty ezcQueryExpression
      * @param PDO $db
      * @param array(string=>string) $aliases     
@@ -808,6 +822,219 @@ class ezcQueryExpression
 
         $cols = $this->getIdentifiers( $cols );
         return "CONCAT( " . join( ', ', $cols ) . ' )';
+    }
+
+    /**
+     * Returns the SQL to locate the position of the first occurrence of a substring
+     * 
+     * @param string $substr
+     * @param string $value
+     * @return string
+     */
+    public function position( $substr, $value )
+    {
+        $value = $this->getIdentifier( $value );
+        return "LOCATE( '{$substr}', {$value} )";
+    }
+
+    /**
+     * Returns the SQL to change all characters to lowercase
+     * 
+     * @param string $value
+     * @return string
+     */
+    public function lower( $value )
+    {
+        $value = $this->getIdentifier( $value );
+        return "LOWER( {$value} )";
+    }
+
+    /**
+     * Returns the SQL to change all characters to uppercase
+     * 
+     * @param string $value
+     * @return string
+     */
+    public function upper( $value )
+    {
+        $value = $this->getIdentifier( $value );
+        return "UPPER( {$value} )";
+    }
+
+    /**
+     * Returns the SQL to calculate the next lowest integer value from the number.
+     * 
+     * @param string $number
+     * @return string
+     */
+    public function floor( $number )
+    {
+        $number = $this->getIdentifier( $number );
+        return " FLOOR( {$number} ) ";
+    }
+
+    /**
+     * Returns the SQL to calculate the next highest integer value from the number.
+     *
+     * @param string $number
+     * @return string
+     */
+    public function ceil( $number )
+    {
+        $number = $this->getIdentifier( $number );
+        return " CEIL( {$number} ) ";
+    }
+
+    /**
+     * Returns the SQL that performs the bitwise AND on two values.
+     *
+     * @param string $value1
+     * @param string $value2
+     * @return string
+     */
+    public function bitAnd( $value1, $value2 )
+    {
+        $value1 = $this->getIdentifier( $value1 );
+        $value2 = $this->getIdentifier( $value2 );
+        return "( {$value1} & {$value2} )";
+    }
+
+    /**
+     * Returns the SQL that performs the bitwise OR on two values.
+     *
+     * @param string $value1
+     * @param string $value2
+     * @return string
+     */
+    public function bitOr( $value1, $value2 )
+    {
+        $value1 = $this->getIdentifier( $value1 );
+        $value2 = $this->getIdentifier( $value2 );
+        return "( {$value1} | {$value2} )";
+    }
+
+    /**
+     * Returns the SQL that performs the bitwise XOR on two values.
+     *
+     * @param string $value1
+     * @param string $value2
+     * @return string
+     */
+    public function bitXor( $value1, $value2 )
+    {
+        $value1 = $this->getIdentifier( $value1 );
+        $value2 = $this->getIdentifier( $value2 );
+        return "( {$value1} ^ {$value2} )";
+    }
+
+    /**
+     * Returns the SQL that converts a timestamp value to a unix timestamp.
+     *
+     * @param string $column
+     * @return string
+     */
+    public function unixTimestamp( $column )
+    {
+        $column = $this->getIdentifier( $column );
+        return " UNIX_TIMESTAMP( {$column} ) ";
+    }
+
+    /**
+     * Returns the SQL that subtracts an interval from a timestamp value.
+     *
+     * @param string $column
+     * @param numeric $expr
+     * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
+     * @return string
+     */
+    public function dateSub( $column, $expr, $type )
+    {
+        $type = $this->intervalMap[$type];
+
+        $column = $this->getIdentifier( $column );
+        return " {$column} - INTERVAL {$expr} {$type} ";
+    }
+
+    /**
+     * Returns the SQL that adds an interval to a timestamp value.
+     *
+     * @param string $column
+     * @param numeric $expr
+     * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
+     * @return string
+     */
+    public function dateAdd( $column, $expr, $type )
+    {
+        $type = $this->intervalMap[$type];
+
+        $column = $this->getIdentifier( $column );
+        return " {$column} + INTERVAL {$expr} {$type} ";
+    }
+
+    /**
+     * Returns the SQL that extracts parts from a timestamp value.
+     *
+     * @param string $date
+     * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
+     * @return string
+     */
+    public function dateExtract( $column, $type )
+    {
+        $type = $this->intervalMap[$type];
+
+        $column = $this->getIdentifier( $column );
+        return " EXTRACT( {$type} FROM {$column} ) ";
+    }
+
+    /**
+     * Returns a searched CASE statement.
+     *
+     * Accepts an arbitrary number of parameters. 
+     * The first parameter (array) must always be specified, the last 
+     * parameter (string) specifies the ELSE result.
+     *
+     * Example:
+     * <code>
+     * $q = ezcDbInstance::get()->createSelectQuery();
+     * $q->select(
+     *      $q->expr->searchedCase(
+     *            array( $q->expr->gte( 'column1', 20 ), 'column1' )
+     *          , array( $q->expr->gte( 'column2', 50 ), 'column2' )
+     *          , 'column3'
+     *      )
+     *  )
+     *     ->from( 'table' );
+     * </code>
+     *
+     * @throws ezcQueryVariableParameterException
+     * @return string
+     */
+    public function searchedCase()
+    {
+        $args = func_get_args();
+        if ( count( $args ) === 0 )
+        {
+            throw new ezcQueryVariableParameterException( 'searchedCase', count( $args ), 1 );
+        }
+
+        $expr = ' CASE';
+        foreach( $args as $arg )
+        {
+            if( is_array( $arg ) && count( $arg ) == 2 )
+            {
+                $column1 = $this->getIdentifier( $arg[0] );
+                $column2 = $this->getIdentifier( $arg[1] );
+                $expr .= " WHEN {$column1} THEN {$column2}";
+            }
+            else if( is_scalar( $arg ) )
+            {
+                $column = $this->getIdentifier( $arg );
+                $expr .= " ELSE {$column}";
+            }
+        }
+        $expr .= ' END ';
+
+        return $expr;
     }
 }
 ?>

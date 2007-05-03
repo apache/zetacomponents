@@ -124,5 +124,106 @@ class ezcQueryExpressionPgsql extends ezcQueryExpression
     {
         return "LOCALTIMESTAMP(0)";
     }
+
+    /**
+     * Returns the SQL to locate the position of the first occurrence of a substring
+     * 
+     * @param string $substr
+     * @param string $value
+     * @return string
+     */
+    public function position( $substr, $value )
+    {
+        $value = $this->getIdentifier( $value );
+        return "POSITION( '{$substr}' IN {$value} )";
+    }
+
+    /**
+     * Returns the SQL that performs the bitwise XOR on two values.
+     *
+     * @param string $value1
+     * @param string $value2
+     * @return string
+     */
+    public function bitXor( $value1, $value2 )
+    {
+        $value1 = $this->getIdentifier( $value1 );
+        $value2 = $this->getIdentifier( $value2 );
+        return "( {$value1} # {$value2} )";
+    }
+
+    /**
+     * Returns the SQL that converts a timestamp value to a unix timestamp.
+     *
+     * @param string $column
+     * @return string
+     */
+    public function unixTimestamp( $column )
+    {
+        $column = $this->getIdentifier( $column );
+        return " EXTRACT( EPOCH FROM CAST( {$column} AS TIMESTAMP ) ) ";
+    }
+
+    /**
+     * Returns the SQL that subtracts an interval from a timestamp value.
+     *
+     * @param string $column
+     * @param numeric $expr
+     * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
+     * @return string
+     */
+    public function dateSub( $column, $expr, $type )
+    {
+        $type = $this->intervalMap[$type];
+
+        if( $column != 'NOW()' )
+        {
+            $column = $this->getIdentifier( $column );
+            $column = "CAST( {$column} AS TIMESTAMP )";
+        }
+
+        return " {$column} - INTERVAL '{$expr} {$type}' ";
+    }
+
+    /**
+     * Returns the SQL that adds an interval to a timestamp value.
+     *
+     * @param string $column
+     * @param numeric $expr
+     * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
+     * @return string
+     */
+    public function dateAdd( $column, $expr, $type )
+    {
+        $type = $this->intervalMap[$type];
+
+        if( $column != 'NOW()' )
+        {
+            $column = $this->getIdentifier( $column );
+            $column = "CAST( {$column} AS TIMESTAMP )";
+        }
+
+        return " {$column} + INTERVAL '{$expr} {$type}' ";
+    }
+
+    /**
+     * Returns the SQL that extracts parts from a timestamp value.
+     *
+     * @param string $date
+     * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
+     * @return string
+     */
+    public function dateExtract( $column, $type )
+    {
+        $type = $this->intervalMap[$type];
+
+        if( $column != 'NOW()' )
+        {
+            $column = $this->getIdentifier( $column );
+            $column = "CAST( {$column} AS TIMESTAMP )";
+        }
+
+        return " EXTRACT( {$type} FROM {$column} ) ";
+    }
 }
 ?>

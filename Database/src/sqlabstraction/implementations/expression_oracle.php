@@ -86,5 +86,153 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
     {
         return "LOCALTIMESTAMP";
     }
+
+    /**
+     * Returns the SQL to locate the position of the first occurrence of a substring
+     * 
+     * @param string $substr
+     * @param string $value
+     * @return string
+     */
+    public function position( $substr, $value )
+    {
+        $value = $this->getIdentifier( $value );
+        return "INSTR( {$value}, '{$substr}' )";
+    }
+
+    /**
+     * Returns the SQL that performs the bitwise AND on two values.
+     *
+     * @param string $value1
+     * @param string $value2
+     * @return string
+     */
+    public function bitAnd( $value1, $value2 )
+    {
+        $value1 = $this->getIdentifier( $value1 );
+        $value2 = $this->getIdentifier( $value2 );
+        return "bitand( {$value1}, {$value2} )";
+    }
+
+    /**
+     * Returns the SQL that performs the bitwise OR on two values.
+     *
+     * @param string $value1
+     * @param string $value2
+     * @return string
+     */
+    public function bitOr( $value1, $value2 )
+    {
+        $value1 = $this->getIdentifier( $value1 );
+        $value2 = $this->getIdentifier( $value2 );
+        return "( {$value1} + {$value2} - bitand( {$value1}, {$value2} ) )";
+    }
+
+    /**
+     * Returns the SQL that performs the bitwise XOR on two values.
+     *
+     * @param string $value1
+     * @param string $value2
+     * @return string
+     */
+    public function bitXor( $value1, $value2 )
+    {
+        $value1 = $this->getIdentifier( $value1 );
+        $value2 = $this->getIdentifier( $value2 );
+        return "( {$value1} + {$value2} - bitand( {$value1}, {$value2} ) * 2 )";
+    }
+
+    /**
+     * Returns the SQL that converts a timestamp value to a unix timestamp.
+     *
+     * @param string $column
+     * @return string
+     */
+    public function unixTimestamp( $column )
+    {
+        $column = $this->getIdentifier( $column );
+
+        if( $column != 'NOW()' )
+        {
+            $column = "CAST( {$column} AS TIMESTAMP )";
+//            // alternative
+//            if( preg_match( '/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $column ) ) {
+//                $column = "TO_TIMESTAMP( {$column}, 'YYYY-MM-DD HH24:MI:SS' )";
+//            }
+        }
+
+        $date1 = "CAST( SYS_EXTRACT_UTC( {$column} ) AS DATE )";
+        $date2 = "TO_DATE( '19700101000000', 'YYYYMMDDHH24MISS' )";
+        return " ROUND( ( {$date1} - {$date2} ) / ( 1 / 86400 ) ) ";
+    }
+
+    /**
+     * Returns the SQL that subtracts an interval from a timestamp value.
+     *
+     * @param string $column
+     * @param numeric $expr
+     * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
+     * @return string
+     */
+    public function dateSub( $column, $expr, $type )
+    {
+        $type = $this->intervalMap[$type];
+        $column = $this->getIdentifier( $column );
+
+        if( $column != 'NOW()' )
+        {
+            $column = "CAST( {$column} AS TIMESTAMP )";
+        }
+
+        return " {$column} - INTERVAL '{$expr}' {$type} ";
+    }
+
+    /**
+     * Returns the SQL that adds an interval to a timestamp value.
+     *
+     * @param string $column
+     * @param numeric $expr
+     * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
+     * @return string
+     */
+    public function dateAdd( $column, $expr, $type )
+    {
+        $type = $this->intervalMap[$type];
+        $column = $this->getIdentifier( $column );
+
+        if( $column != 'NOW()' )
+        {
+            $column = "CAST( {$column} AS TIMESTAMP )";
+        }
+
+        return " {$column} + INTERVAL '{$expr}' {$type} ";
+    }
+
+    /**
+     * Returns the SQL that extracts parts from a timestamp value.
+     *
+     * @param string $date
+     * @param string $type one of SECOND, MINUTE, HOUR, DAY, MONTH, or YEAR
+     * @return string
+     */
+    public function dateExtract( $column, $type )
+    {
+        $type = $this->intervalMap[$type];
+        $column = $this->getIdentifier( $column );
+
+        if( $column != 'NOW()' )
+        {
+            $column = "CAST( {$column} AS TIMESTAMP )";
+        }
+
+        if( $type == 'SECOND' )
+        {
+            return " FLOOR( EXTRACT( {$type} FROM {$column} ) ) ";
+        }
+        else
+        {
+            return " EXTRACT( {$type} FROM {$column} ) ";
+        }
+    }
 }
 ?>

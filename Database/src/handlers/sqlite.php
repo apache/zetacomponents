@@ -68,6 +68,9 @@ class ezcDbHandlerSqlite extends ezcDbHandler
         /* Register PHP implementations of missing functions in SQLite */
         $this->sqliteCreateFunction( 'md5', array( 'ezcQuerySqliteFunctions', 'md5Impl'), 1 );
         $this->sqliteCreateFunction( 'mod', array( 'ezcQuerySqliteFunctions', 'modImpl'), 2 );
+        $this->sqliteCreateFunction( 'locate', array( 'ezcQuerySqliteFunctions', 'positionImpl'), 2 );
+        $this->sqliteCreateFunction( 'floor', array( 'ezcQuerySqliteFunctions', 'floorImpl'), 1 );
+        $this->sqliteCreateFunction( 'ceil', array( 'ezcQuerySqliteFunctions', 'ceilImpl'), 1 );        
         $this->sqliteCreateFunction( 'concat', array( 'ezcQuerySqliteFunctions', 'concatImpl') );
         $this->sqliteCreateFunction( 'now', 'time', 0 );
     }

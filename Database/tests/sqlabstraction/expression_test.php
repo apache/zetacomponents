@@ -26,6 +26,7 @@ class ezcQueryExpressionTest extends ezcTestCase
 
     protected function setUp()
     {
+        
         try {
             $this->db = ezcDbInstance::get();
         }
@@ -45,11 +46,24 @@ class ezcQueryExpressionTest extends ezcTestCase
         catch ( Exception $e ) {} // eat
 
         // insert some data
-        $this->db->exec( 'CREATE TABLE query_test ( id int, company VARCHAR(255), section VARCHAR(255), employees int NULL)' );
-        $this->db->exec( "INSERT INTO query_test VALUES ( 1, 'eZ systems', 'Norway', 20 )" );
-        $this->db->exec( "INSERT INTO query_test VALUES ( 2, 'IBM', 'Norway', 500 )" );
-        $this->db->exec( "INSERT INTO query_test VALUES ( 3, 'eZ systems', 'Ukraine', 10 )" );
-        $this->db->exec( "INSERT INTO query_test VALUES ( 4, 'IBM', 'Germany', null )" );
+        if ( $this->db->getName() === 'mssql' )
+        {
+            $this->db->exec( 'CREATE TABLE query_test ( id int, company VARCHAR(255), section VARCHAR(255), employees int NULL, somedate DATETIME NULL )' );
+        }
+        else
+        {
+            $this->db->exec( 'CREATE TABLE query_test ( id int, company VARCHAR(255), section VARCHAR(255), employees int NULL, somedate TIMESTAMP )' );
+        }
+
+        if( $this->db->getName() === 'oracle' )
+        {
+            $this->db->exec( "ALTER SESSION SET NLS_TIMESTAMP_FORMAT = 'YYYY-MM-DD HH24:MI:SS'" ); // set the timestamp format
+        }
+       
+        $this->db->exec( "INSERT INTO query_test VALUES ( 1, 'eZ systems', 'Norway', 20, '2007-05-03 11:54:17' )" );
+        $this->db->exec( "INSERT INTO query_test VALUES ( 2, 'IBM', 'Norway', 500, null )" );
+        $this->db->exec( "INSERT INTO query_test VALUES ( 3, 'eZ systems', 'Ukraine', 10, null )" );
+        $this->db->exec( "INSERT INTO query_test VALUES ( 4, 'IBM', 'Germany', null, null )" );
     }
 
     protected function tearDown()
@@ -437,10 +451,31 @@ class ezcQueryExpressionTest extends ezcTestCase
         catch ( ezcQueryVariableParameterException $e ) {}
     }
 
+    public function testSearchedCaseNone()
+    {
+        try
+        {
+            $this->e->searchedCase();
+            $this->fail( "Expected exception" );
+        }
+        catch ( ezcQueryVariableParameterException $e ) {}
+    }
+
+    public function testSearchedCase()
+    {
+        $reference = ' CASE WHEN 10 >= 20 THEN 1 WHEN 20 >= 20 THEN 2 ELSE 3 END ';
+        $result = $this->e->searchedCase(
+            array( $this->e->gte( 10, 20 ), 1 ),
+            array( $this->e->gte( 20, 20 ), 2 ),
+            3
+        );
+        $this->assertSame( $reference, $result );
+    }
+
     /**
-     * Implementation tests, these are run on a selectQuery object so we know
-     * we have the correct expression type.
-     */
+    * Implementation tests, these are run on a selectQuery object so we know
+    * we have the correct expression type.
+    */
     public function testlOrSingleImpl()
     {
         $this->q->select( '*' )->from( 'query_test' )
@@ -670,8 +705,8 @@ class ezcQueryExpressionTest extends ezcTestCase
 
     public function testInAlreadyQuotedImpl()
     {
-        $this->db->exec( "INSERT INTO query_test VALUES ( 5, 'ACME Inc.', '''test-only''', null )" );
-        $this->db->exec( "INSERT INTO query_test VALUES ( 6, 'ACME Inc.', '\"test-only\"', null )" );
+        $this->db->exec( "INSERT INTO query_test VALUES ( 5, 'ACME Inc.', '''test-only''', null, null )" );
+        $this->db->exec( "INSERT INTO query_test VALUES ( 6, 'ACME Inc.', '\"test-only\"', null, null )" );
 
         $this->q->select( '*' )->from( 'query_test' )
             ->where( $this->e->in( 'section', "'Norway'", "'Ukraine'", "'test-only'", "\"test-only\"" ) );
@@ -889,7 +924,237 @@ class ezcQueryExpressionTest extends ezcTestCase
         $this->assertEquals( 'eZ systems rocks!', $stmt->fetchColumn( 0 ) );
     }
 
-    /**
+    public function testPositionImpl()
+    {
+        $this->q->select( $this->e->position( 's', "'eZ systems'" ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( 4, (int)$stmt->fetchColumn( 0 ) );
+    }
+
+    public function testLowerImpl()
+    {
+        $this->q->select( $this->e->lower( "'eZ systems'" ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( 'ez systems', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testUpperImpl()
+    {
+        $this->q->select( $this->e->upper( "'eZ systems'" ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( 'EZ SYSTEMS', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testFloorImpl()
+    {
+        $this->q->select( $this->e->floor( 3.33 ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( 3, (int)$stmt->fetchColumn( 0 ) );
+    }
+
+    public function testCeilImpl()
+    {
+        $this->q->select( $this->e->ceil( 3.33 ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( 4, (int)$stmt->fetchColumn( 0 ) );
+    }
+
+    public function testUnixTimestampImpl()
+    {
+        $this->q->select( $this->e->unixTimestamp( "'2007-05-03 11:54:17'" ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( strtotime( '2007-05-03 11:54:17' ), (int)$stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateSubSecondImpl()
+    {
+        $this->q->select( $this->e->dateSub( "'2007-05-03 11:54:17'", 1, 'SECOND' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '2007-05-03 11:54:16', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateSubMinuteImpl()
+    {
+        $this->q->select( $this->e->dateSub( "'2007-05-03 11:54:17'", 1, 'MINUTE' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '2007-05-03 11:53:17', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateSubHourImpl()
+    {
+        $this->q->select( $this->e->dateSub( "'2007-05-03 11:54:17'", 1, 'HOUR' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '2007-05-03 10:54:17', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateSubDayImpl()
+    {
+        $this->q->select( $this->e->dateSub( "'2007-05-03 11:54:17'", 1, 'DAY' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '2007-05-02 11:54:17', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateSubMonthImpl()
+    {
+        $this->q->select( $this->e->dateSub( "'2007-05-03 11:54:17'", 1, 'MONTH' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '2007-04-03 11:54:17', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateSubYearImpl()
+    {
+        $this->q->select( $this->e->dateSub( "'2007-05-03 11:54:17'", 1, 'YEAR' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '2006-05-03 11:54:17', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateAddSecondImpl()
+    {
+        $this->q->select( $this->e->dateAdd( "'2007-05-03 11:54:17'", 1, 'SECOND' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '2007-05-03 11:54:18', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateAddMinuteImpl()
+    {
+        $this->q->select( $this->e->dateAdd( "'2007-05-03 11:54:17'", 1, 'MINUTE' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '2007-05-03 11:55:17', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateAddHourImpl()
+    {
+        $this->q->select( $this->e->dateAdd( "'2007-05-03 11:54:17'", 1, 'HOUR' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '2007-05-03 12:54:17', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateAddDayImpl()
+    {
+        $this->q->select( $this->e->dateAdd( "'2007-05-03 11:54:17'", 1, 'DAY' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '2007-05-04 11:54:17', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateAddMonthImpl()
+    {
+        $this->q->select( $this->e->dateAdd( "'2007-05-03 11:54:17'", 1, 'MONTH' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '2007-06-03 11:54:17', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateAddYearImpl()
+    {
+        $this->q->select( $this->e->dateAdd( "'2007-05-03 11:54:17'", 1, 'YEAR' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '2008-05-03 11:54:17', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateExtractSecondImpl()
+    {
+        $this->q->select( $this->e->dateExtract( "'2007-05-03 11:54:17'", 'SECOND' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '17', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateExtractMinuteImpl()
+    {
+        $this->q->select( $this->e->dateExtract( "'2007-05-03 11:54:17'", 'MINUTE' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '54', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateExtractHourImpl()
+    {
+        $this->q->select( $this->e->dateExtract( "'2007-05-03 11:54:17'", 'HOUR' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '11', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateExtractDayImpl()
+    {
+        $this->q->select( $this->e->dateExtract( "'2006-11-16 11:54:17'", 'DAY' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '16', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateExtractMonthImpl()
+    {
+        $this->q->select( $this->e->dateExtract( "'2006-11-16 11:54:17'", 'MONTH' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '11', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateExtractYearImpl()
+    {
+        $this->q->select( $this->e->dateExtract( "'2006-11-16 11:54:17'", 'YEAR' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '2006', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testSearchedCaseImpl()
+    {
+        $this->q->select(
+            $this->q->expr->searchedCase(
+                array( $this->e->gte( 10, 20 ), 1 ),
+                array( $this->e->gte( 20, 20 ), 2 ),
+                3
+            )
+        );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( 2, (int)$stmt->fetchColumn( 0 ) );
+    }
+
+    public function testBitAndImpl()
+    {
+        $this->q->select( $this->e->bitAnd( 3, 10 ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( 2, (int)$stmt->fetchColumn( 0 ) );
+    }
+
+    public function testBitOrImpl()
+    {
+        $this->q->select( $this->e->bitOr( 3, 10 ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( 11, (int)$stmt->fetchColumn( 0 ) );
+    }
+
+    public function testBitXorImpl()
+    {
+        $this->q->select( $this->e->bitXor( 3, 10 ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+       $this->assertSame( 9, (int)$stmt->fetchColumn( 0 ) );
+    }
+   
+     /**
      * Repeat of the implementation tests, but now testing with alias functionality.
      */
 // Not tested since it requires boolean field
@@ -1274,5 +1539,190 @@ class ezcQueryExpressionTest extends ezcTestCase
         $this->assertEquals( $reference, $this->q->getQuery() );
     }
 
+    public function testPositionImplWithAlias()
+    {
+        $this->q->setAliases( array( 'text' => 'company' ) );
+        $this->q->select( $this->q->expr->position( 's', 'text' ) )
+            ->from( 'query_test' );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( 4, (int)$stmt->fetchColumn( 0 ) );
+    }
+
+    public function testLowerImplWithAlias()
+    {
+        $this->q->setAliases( array( 'text' => 'company' ) );
+        $this->q->select( $this->q->expr->lower( 'text' ) )
+            ->from( 'query_test' );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( 'ez systems', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testUpperImplWithAlias()
+    {
+        $this->q->setAliases( array( 'text' => 'company' ) );
+        $this->q->select( $this->q->expr->upper( 'text' ) )
+            ->from( 'query_test' );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( 'EZ SYSTEMS', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testFloorImplWithAlias()
+    {
+        $this->q->setAliases( array( 'empl' => 'employees' ) );
+        $this->q->select( $this->q->expr->floor( 'empl' ) )
+            ->from( 'query_test' )
+            ->where( $this->q->expr->eq( 'id', 1 ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( 20, (int)$stmt->fetchColumn( 0 ) );
+    }
+
+    public function testCeilImplWithAlias()
+    {
+        $this->q->setAliases( array( 'empl' => 'employees' ) );
+        $this->q->select( $this->q->expr->ceil( 'empl' ) )
+            ->from( 'query_test' )
+            ->where( $this->q->expr->eq( 'id', 1 ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( 20, (int)$stmt->fetchColumn( 0 ) );
+    }
+
+    public function testUnixTimestampImplWithAlias()
+    {
+        $this->q->setAliases( array( 'mydate' => 'somedate' ) );
+        $this->q->select( $this->q->expr->unixTimestamp( 'mydate' ) )
+            ->from( 'query_test' )
+            ->where( $this->q->expr->eq( 'id', 1 ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( strtotime( '2007-05-03 11:54:17' ), (int)$stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateSubImplWithAlias()
+    {
+        $this->q->setAliases( array( 'mydate' => 'somedate' ) );
+        $this->q->select( $this->q->expr->dateSub( 'mydate', 1, 'SECOND' ) )
+            ->from( 'query_test' )
+            ->where( $this->q->expr->eq( 'id', 1 ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '2007-05-03 11:54:16', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateAddImplWithAlias()
+    {
+        $this->q->setAliases( array( 'mydate' => 'somedate' ) );
+        $this->q->select( $this->q->expr->dateAdd( 'mydate', 1, 'SECOND' ) )
+            ->from( 'query_test' )
+            ->where( $this->q->expr->eq( 'id', 1 ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '2007-05-03 11:54:18', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testDateExtractImplWithAlias()
+    {
+        $this->q->setAliases( array( 'mydate' => 'somedate' ) );
+        $this->q->select( $this->q->expr->dateExtract( 'mydate', 'SECOND' ) )
+            ->from( 'query_test' )
+            ->where( $this->q->expr->eq( 'id', 1 ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( '17', $stmt->fetchColumn( 0 ) );
+    }
+
+    public function testSearchedCaseImplWithAlias()
+    {
+        $this->q->setAliases( array( 'identifier' => 'id', 'empl' => 'employees' ) );
+        $this->q->select(
+            $this->q->expr->searchedCase(
+                  array( $this->q->expr->gte( 'empl', 20 ), 'empl' )
+                , 'identifier'
+            )
+        )
+            ->from( 'query_test' )
+            ->orderBy( 'query_test.id' );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $result = $stmt->fetchAll( PDO::FETCH_NUM );
+        $this->assertSame( 20, (int)$result[0][0] );
+        $this->assertSame( 500, (int)$result[1][0] );
+        $this->assertSame( 3, (int)$result[2][0] );
+        $this->assertSame( 4, (int)$result[3][0] );
+    }
+
+    public function testBitAndImplWithAlias()
+    {
+        $this->q->setAliases( array( 'empl' => 'employees' ) );
+        $this->q->select( $this->q->expr->bitAnd( 3, 'empl' ) )
+            ->from( 'query_test' )
+            ->where( $this->q->expr->eq( 'id', 3 ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( 2, (int)$stmt->fetchColumn( 0 ) );
+    }
+
+    public function testBitOrImplWithAlias()
+    {
+        $this->q->setAliases( array( 'empl' => 'employees' ) );
+        $this->q->select( $this->q->expr->bitOr( 3, 'empl' ) )
+            ->from( 'query_test' )
+            ->where( $this->q->expr->eq( 'id', 3 ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( 11, (int)$stmt->fetchColumn( 0 ) );
+    }
+
+    public function testBitXorImplWithAlias()
+    {
+        $this->q->setAliases( array( 'empl' => 'employees' ) );
+        $this->q->select( $this->q->expr->bitXor( 3, 'empl' ) )
+            ->from( 'query_test' )
+            ->where( $this->q->expr->eq( 'id', 3 ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertSame( 9, (int)$stmt->fetchColumn( 0 ) );
+    }
+
+    /**
+     * Repeat of relevant implementation tests, but now testing with ezcQueryExpression::now().
+     */
+    public function testUnixTimestampImplNow()
+    {
+        $this->q->select( $this->e->unixTimestamp( $this->q->expr->now() ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertEquals( time(), $stmt->fetchColumn( 0 ), '', 1 ); // with delta 1
+    }
+
+    public function testDateSubImplNow()
+    {
+        $this->q->select( $this->e->dateSub( $this->q->expr->now(), 1, 'MINUTE' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertEquals( time() - 60, strtotime( $stmt->fetchColumn( 0 ) ), '', 1 ); // with delta 1
+    }
+
+    public function testDateAddImplNow()
+    {
+        $this->q->select( $this->e->dateAdd( $this->q->expr->now(), 1, 'MINUTE' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $this->assertEquals( time() + 60, strtotime( $stmt->fetchColumn( 0 ) ), '', 1 ); // with delta 1
+    }
+
+    public function testDateExtractImplNow()
+    {
+        $this->q->select( $this->e->dateExtract( $this->q->expr->now(), 'SECOND' ) );
+        $stmt = $this->q->prepare();
+        $stmt->execute();
+        $result = $stmt->fetchColumn( 0 );
+        $this->assertSame( (double)$result, floor( (double)$result ) );
+        $this->assertEquals( (int)date( 's' ), (int)$result, '', 1 ); // with delta 1
+    }
 }
 ?>
