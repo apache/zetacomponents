@@ -4,7 +4,7 @@ require_once dirname( __FILE__ ) . "/test_case.php";
 
 ezcTestRunner::addFileToFilter( __FILE__ );
 
-class ezcImageConversionTestCase extends ezcImageTestCase
+class ezcImageConversionTestCase extends ezcTestImageCase
 {
     // To regenerate all test files, set this to true
     const REGENERATION_MODE = false;

@@ -2,7 +2,7 @@
 
 ezcTestRunner::addFileToFilter( __FILE__ );
 
-class ezcGraphTestCase extends ezcImageTestCase
+class ezcGraphTestCase extends ezcTestImageCase
 {
 
     /**

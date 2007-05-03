@@ -15,7 +15,7 @@
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphGdDriverTest extends ezcImageTestCase
+class ezcGraphGdDriverTest extends ezcTestImageCase
 {
     protected $driver;
 

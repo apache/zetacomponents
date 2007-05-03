@@ -15,7 +15,7 @@
  * @package ImageAnalysis
  * @subpackage Tests
  */
-class ezcGraphDriverOptionsTest extends ezcImageTestCase
+class ezcGraphDriverOptionsTest extends ezcTestImageCase
 {
 
 	public static function suite()

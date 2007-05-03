@@ -3,7 +3,7 @@ require_once 'PHPUnit/Framework/TestCase.php';
 
 ezcTestRunner::addFileToFilter( __FILE__ );
 
-abstract class ezcImageTestCase extends ezcTestCase
+abstract class ezcTestImageCase extends ezcTestCase
 {
     /**
      * Asserts that the compared images are same
