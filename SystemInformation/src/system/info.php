@@ -28,22 +28,34 @@
  * The ezcSystemInfo class has the following properties:
  *
  * Reader independent, these properties are available even if system reader was not initialized.
- * - String <b>osType</b>, OS type (e.g 'unix') or null.
- * - String <b>osName</b>, OS name (e.g 'Linux') or null.
- * - String <b>fileSystemType</b>, filesystem type (e.g 'linux') or null.
- * - String <b>lineSeparator</b>, which is used for line separators on the current OS.
- * - String <b>backupFileName</b>, backup filename for this platform, '.bak' for win32
- *   and '~' for unix and mac.
- * - Array <b>phpVersion</b>, with PHP version (e.g. array(5,1,1) ).
- * - ezcSystemInfoAccelerator <b>phpAccelerator</b>, structure with PHP accelerator info or null
+ * @property string $osType 
+ *           OS type (e.g 'unix') or null.
+ * @property string $osName
+ *           OS name (e.g 'Linux') or null.
+ * @property string $fileSystemType
+ *           Filesystem type (e.g 'linux') or null.
+ * @property string $lineSeparator
+ *           Symbols which is used for line separators on the current OS.
+ * @property string $backupFileName
+ *           Backup filename for this platform, '.bak' for win32 and '~' for unix and mac.
+ * @property array $phpVersion
+ *           Array with PHP version (e.g. array(5,1,1) ).
+ * @property ezcSystemInfoAccelerator $phpAccelerator
+ *           Structure with PHP accelerator info or null.
  * {@link ezcSystemInfoAccelerator}.
- * - Bool <b>isShellExecution</b>, flag which indicates if the script was executed over the web or the shell/command line.
+ * @property  bool $isShellExecution
+ *           The flag which indicates if the script was executed over the web or the shell/command line.
  *
  * Reader dependent, these properties are not available if reader was not initialized and didn't scan OS:
- * - Integer <b>cpuCount</b> number of CPUs in system or null.
- * - String <b>cpuType</b> CPU type string (e.g 'AMD Sempron(tm) Processor 3000+') or null.
- * - Float <b>cpuSpeed</b> CPU speed as float (e.g 1808.743) or null.
- * - Integer <b>memorySize</b> Memory Size in bytes int (e.g. 528424960) or null.
+ * @property integer $cpuCount
+ *           Number of CPUs in system or null.
+ * @property string $cpuType 
+ *           CPU type string (e.g 'AMD Sempron(tm) Processor 3000+') or null.
+ * @property float $cpuSpeed 
+ *           CPU speed as float (e.g 1808.743) or null.
+ * @property integer $memorySize
+ *           Memory Size in bytes int (e.g. 528424960) or null.
+ *
  * Example:
  *  <code>
  *  $info = ezcSystemInfo::getInstance();
