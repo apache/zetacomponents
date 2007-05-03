@@ -1,0 +1,29 @@
+eZ publish Enterprise Component: GraphDatabaseTiein, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: Kore Nordmann
+:Revision: $id$
+:Date: $Date: 2007-05-03 08:50:00 +0200 (Thu, 03 May 2007) $
+
+Design Description
+==================
+
+The GraphDatabaseTiein provides functionality to directly use PDO statements
+as basis for Datasets. You can either use result sets with one or two columns
+directly or specify in the data set constructor which columns to use as data
+set keys and values.
+
+Main Classes
+============
+
+- ezcGraphPdoDataSet extends ezcGraphDataSet
+  
+  This class receives a PDO statement and can be used as a data set for all
+  chart types.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
