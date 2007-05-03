@@ -6,11 +6,10 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package UserInput
+ * @package File
  */
 
 return array(
     'ezcFile' => 'File/file.php',
 );
-
 ?>
