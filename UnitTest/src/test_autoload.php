@@ -1,15 +1,21 @@
 <?php
-PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
+/**
+ * Autoloader definition for the UnitTest component.
+ *
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @version //autogentag//
+ * @filesource
+ * @package UnitTest
+ */
 
-return array (
-	"ezcTestRunner" => "UnitTest/test/runner.php",
-	"ezcTestCase" => "UnitTest/test/case.php",
-	"ezcImageTestCase" => "UnitTest/test/image_case.php",
-	"ezcTestPrinter" => "UnitTest/test/printer.php",
-
-	"ezcTestConstraintSimilarImage" => "UnitTest/constraint/image.php",
-
-	"ezcTestSettings" => "UnitTest/test/settings.php",
-	"ezcTestDatabaseSettings" => "UnitTest/test/database_settings.php"
+return array(
+    'ezcTestCase'                   => 'UnitTest/test/case.php',
+    'ezcTestConstraintSimilarImage' => 'UnitTest/constraint/image.php',
+    'ezcTestDatabaseSettings'       => 'UnitTest/test/database_settings.php',
+    'ezcTestImageCase'              => 'UnitTest/test/image_case.php',
+    'ezcTestPrinter'                => 'UnitTest/test/printer.php',
+    'ezcTestRunner'                 => 'UnitTest/test/runner.php',
+    'ezcTestSettings'               => 'UnitTest/test/settings.php',
 );
 ?>
