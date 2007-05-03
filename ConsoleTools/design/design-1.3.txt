@@ -429,7 +429,8 @@ them:
 For these purpose, the ArrayAccess and Iterator interfaces provided by PHP will
 be implemented in this class. ArrayAccess will be used for both variants of
 access, while Iterator will iterate of the numeric order of the arguments.
-Argument names must be unique.
+Argument names must be unique. The registration of new arguments is only
+allowed by number. The retrival is also allowed by name.
 
 The class does not offer any additional methods to deal with arguments and
 purely relies on the given interfaces.
