@@ -42,6 +42,11 @@ class ezcBase
     protected static $packageDir;
 
     /**
+     * @var string  Contains whether component preloading should be used, or not.
+     */
+    public static $preload = false;
+
+    /**
      * @var array(string=>array) Stores info with additional paths where
      *                           autoload files and classes for autoloading
      *                           could be found.  Each item of $repositoryDirs
@@ -73,7 +78,6 @@ class ezcBase
      *
      * This class caches the requested class names (including the ones who
      * failed to load).
-     *
      *
      * @param string $className  The name of the class that should be loaded.
      *
@@ -207,6 +211,7 @@ class ezcBase
      *
      * @param string $fileName    Name of the autoload file.
      * @param string $className   Name of the class that should be autoloaded.
+     * @param string $prefix      The prefix of the class repository.
      *
      * @return bool  True is returned when the file is correctly loaded.
      *                   Otherwise false is returned.
@@ -226,7 +231,20 @@ class ezcBase
             {
                 // Add the array to the cache, and include the requested file.
                 ezcBase::$autoloadArray = array_merge( ezcBase::$autoloadArray, $array );
-                ezcBase::loadFile( ezcBase::$autoloadArray[$className] );
+                if ( ezcBase::$preload && !preg_match( '/Exception$/', $className ) )
+                {
+                    foreach ( $array as $loadClassName => $file )
+                    {
+                        if ( $loadClassName !== 'ezcBase' && !class_exists( $loadClassName, false ) && !interface_exists( $loadClassName, false ) && !preg_match( '/Exception$/', $loadClassName ) /*&& !class_exists( $loadClassName, false ) && !interface_exists( $loadClassName, false )*/ )
+                        {
+                            ezcBase::loadFile( ezcBase::$autoloadArray[$loadClassName] );
+                        }
+                    }
+                }
+                else
+                {
+                    ezcBase::loadFile( ezcBase::$autoloadArray[$className] );
+                }
                 return true;
             }
         }
@@ -514,6 +532,19 @@ class ezcBase
             // add info to the list of extra dirs, and use the prefix to identify the new repository.
             ezcBase::$repositoryDirs[$prefix] = array( 'basePath' => $basePath, 'autoloadDirPath' => $autoloadDirPath );
         }
+    }
+
+    /*
+     * Turns on component preloading.
+     * 
+     * If component preloading is enabled then as soon as one of the classes
+     * of a component is request, all other classes in the component are
+     * loaded as well (except for Exception classes).
+     */
+    public static function setPreload()
+    {
+        self::$preload = true;
+        self::autoload( 'ezcBase' );
     }
 }
 ?>

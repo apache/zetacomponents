@@ -6,6 +6,8 @@
 - Fixed issue #10666: ezc_bootstrap.php fails on Windows.
 - Implemented issue #9569: Add "autoload.php" as 3rd fallback autoload file to
   search for.
+- Implemented issue #9988: Implement component preloading for better opcode
+  cache performance.
 - Added exception class ezcBaseExtensionNotFoundException to be thrown when an
   extension is required but is not found.
 - Changed the ezcBaseInit::fetchConfig() method to return the value that was 
