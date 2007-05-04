@@ -1997,34 +1997,19 @@ The next example adds the custom function *templatePath*::
         }
     }
 
+More information
+================
 
+For more information, see the:
 
-.. 
-.. Properties
-.. ----------
-.. 
-.. Use
-.. ^^^
-.. The nodes: $node and $optionalNode come from the application, and need therefore be known in the template code.
-.. If the $optionalNode is not set, it will get the default value "false"::
-.. 
-..   {use $node, $optionalNode = false}
-.. 
-.. 
-.. Accessing a property
-.. ^^^^^^^^^^^^^^^^^^^^
-.. ::
-.. 
-..   {use $node, $optionalNode = false}
-.. 
-..   Impressive title: {$node->impressiveTitle}
-.. 
-..   Norwegian title: {$node->titles["norwegian"]}
-.. 
-..   {if $optionalNode != false}
-..     Extra title: {$optionalNode->titles["norwegian"]}
-..   {/if}
-.. 
+*  `Template functions`
+*  `EBNF`_
+*  `API documentation`_
+
+.. _`Template functions`: Template_functions.html
+.. _`EBNF`: Template_EBNF.html
+.. _`API documentation`: classtrees_Template.html
+
 
 
 
