@@ -73,7 +73,8 @@ class ezcQuerySelectMssql extends ezcQuerySelect
      */
     public function orderBy( $column, $type = self::ASC )
     {
-        if($this->invertedOrderString) {
+        if ( $this->invertedOrderString )
+        {
             $this->invertedOrderString .= ', ';
         }
         else
@@ -81,7 +82,7 @@ class ezcQuerySelectMssql extends ezcQuerySelect
             $this->invertedOrderString = 'ORDER BY ';
         }
         $this->invertedOrderString .= $column . ' ' . ( $type == self::ASC ? self::DESC : self::ASC );
-        return parent::orderBy($column, $type);
+        return parent::orderBy( $column, $type );
     }
     
     /**
@@ -91,7 +92,8 @@ class ezcQuerySelectMssql extends ezcQuerySelect
      * @param string $query SQL select query
      * @return string
      */
-    static private function top($rowCount, $query) {
+    static private function top( $rowCount, $query )
+    {
         return 'SELECT TOP ' . $rowCount . substr( $query, strlen( 'SELECT' ) );
     }
 
@@ -109,11 +111,11 @@ class ezcQuerySelectMssql extends ezcQuerySelect
         $query = parent::getQuery();
         if ( $this->hasLimit )
         {
-            if( $this->offset) 
+            if ( $this->offset) 
             {
-                if(!$this->orderString) 
+                if ( !$this->orderString ) 
                 {
-                    //Uh ow. We need some columns to sort in the oposite order to make this work
+                    // Uh ow. We need some columns to sort in the oposite order to make this work
                     throw new ezcQueryInvalidException( "LIMIT workaround for MS SQL", "orderBy() was not called before getQuery()." );
                 }
                 return 'SELECT * FROM ( SELECT TOP ' . $this->limit . ' * FROM ( ' . self::top( $this->offset + $this->limit, $query ) . ' ) AS ezcDummyTable1 ' . $this->invertedOrderString . ' ) AS ezcDummyTable2 ' . $this->orderString;

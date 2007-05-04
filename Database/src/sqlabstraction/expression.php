@@ -1018,15 +1018,15 @@ class ezcQueryExpression
         }
 
         $expr = ' CASE';
-        foreach( $args as $arg )
+        foreach ( $args as $arg )
         {
-            if( is_array( $arg ) && count( $arg ) == 2 )
+            if ( is_array( $arg ) && count( $arg ) == 2 )
             {
                 $column1 = $this->getIdentifier( $arg[0] );
                 $column2 = $this->getIdentifier( $arg[1] );
                 $expr .= " WHEN {$column1} THEN {$column2}";
             }
-            else if( is_scalar( $arg ) )
+            else if ( is_scalar( $arg ) )
             {
                 $column = $this->getIdentifier( $arg );
                 $expr .= " ELSE {$column}";

@@ -152,11 +152,11 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
     {
         $column = $this->getIdentifier( $column );
 
-        if( $column != 'NOW()' )
+        if ( $column != 'NOW()' )
         {
             $column = "CAST( {$column} AS TIMESTAMP )";
 //            // alternative
-//            if( preg_match( '/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $column ) ) {
+//            if ( preg_match( '/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $column ) ) {
 //                $column = "TO_TIMESTAMP( {$column}, 'YYYY-MM-DD HH24:MI:SS' )";
 //            }
         }
@@ -179,7 +179,7 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
         $type = $this->intervalMap[$type];
         $column = $this->getIdentifier( $column );
 
-        if( $column != 'NOW()' )
+        if ( $column != 'NOW()' )
         {
             $column = "CAST( {$column} AS TIMESTAMP )";
         }
@@ -200,7 +200,7 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
         $type = $this->intervalMap[$type];
         $column = $this->getIdentifier( $column );
 
-        if( $column != 'NOW()' )
+        if ( $column != 'NOW()' )
         {
             $column = "CAST( {$column} AS TIMESTAMP )";
         }
@@ -220,12 +220,12 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
         $type = $this->intervalMap[$type];
         $column = $this->getIdentifier( $column );
 
-        if( $column != 'NOW()' )
+        if ( $column != 'NOW()' )
         {
             $column = "CAST( {$column} AS TIMESTAMP )";
         }
 
-        if( $type == 'SECOND' )
+        if ( $type == 'SECOND' )
         {
             return " FLOOR( EXTRACT( {$type} FROM {$column} ) ) ";
         }

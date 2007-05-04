@@ -176,7 +176,7 @@ class ezcQueryExpressionPgsql extends ezcQueryExpression
     {
         $type = $this->intervalMap[$type];
 
-        if( $column != 'NOW()' )
+        if ( $column != 'NOW()' )
         {
             $column = $this->getIdentifier( $column );
             $column = "CAST( {$column} AS TIMESTAMP )";
@@ -197,7 +197,7 @@ class ezcQueryExpressionPgsql extends ezcQueryExpression
     {
         $type = $this->intervalMap[$type];
 
-        if( $column != 'NOW()' )
+        if ( $column != 'NOW()' )
         {
             $column = $this->getIdentifier( $column );
             $column = "CAST( {$column} AS TIMESTAMP )";
@@ -217,7 +217,7 @@ class ezcQueryExpressionPgsql extends ezcQueryExpression
     {
         $type = $this->intervalMap[$type];
 
-        if( $column != 'NOW()' )
+        if ( $column != 'NOW()' )
         {
             $column = $this->getIdentifier( $column );
             $column = "CAST( {$column} AS TIMESTAMP )";

@@ -124,7 +124,7 @@ class ezcDbHandlerMssql extends ezcDbHandler
         $retval = true;
         if ( $this->transactionNestingLevel == 0 )
         {
-            $retval = $this->exec("BEGIN TRANSACTION");
+            $retval = $this->exec( "BEGIN TRANSACTION" );
         }
         // else NOP
 
@@ -161,13 +161,13 @@ class ezcDbHandlerMssql extends ezcDbHandler
         {
             if ( $this->transactionErrorFlag )
             {
-                $this->exec("ROLLBACK TRANSACTION");
+                $this->exec( "ROLLBACK TRANSACTION" );
                 $this->transactionErrorFlag = false; // reset error flag
                 $retval = false;
             }
             else
             {
-                $this->exec("COMMIT TRANSACTION");
+                $this->exec( "COMMIT TRANSACTION" );
             }
         }
         // else NOP
@@ -200,7 +200,7 @@ class ezcDbHandlerMssql extends ezcDbHandler
 
         if ( $this->transactionNestingLevel == 1 )
         {
-            $this->exec("ROLLBACK TRANSACTION");
+            $this->exec( "ROLLBACK TRANSACTION" );
             $this->transactionErrorFlag = false; // reset error flag
         }
         else

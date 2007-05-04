@@ -92,7 +92,7 @@ class ezcQueryExpressionSqlite extends ezcQueryExpression
      */
     public function unixTimestamp( $column )
     {
-        if( $column == 'NOW()' )
+        if ( $column == 'NOW()' )
         {
             return " strftime( '%s', 'now' ) ";
         }
@@ -166,7 +166,7 @@ class ezcQueryExpressionSqlite extends ezcQueryExpression
                 break;
         }
 
-        if( $column == 'NOW()' )
+        if ( $column == 'NOW()' )
         {
             $column = "'now'";
         }
