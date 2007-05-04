@@ -138,13 +138,13 @@ abstract class ezcGraphDriver
         // Determine one of the angles - we need to know where the smaller
         // angle is, to determine if the inner side of the polygon is on
         // the left or right hand.
-        //
+        // 
         // This is a valid simplification for ezcGraph(, for now).
-        //
+        // 
         // The sign of the scalar products results indicates on which site
         // the smaller angle is, when comparing the orthogonale vector of 
         // one of the vectors with the other. Why? .. use pen and paper ..
-        //
+        // 
         // It is sufficant to do this once before iterating over the points, 
         // because the inner side of the polygon is on the same side of the 
         // point for each point.

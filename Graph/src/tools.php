@@ -131,7 +131,7 @@ class ezcGraphTools
         // Link chart elements
         foreach ( $elements['data'] as $dataset => $datapoints )
         {
-            foreach( $datapoints as $datapoint => $ids )
+            foreach ( $datapoints as $datapoint => $ids )
             {
                 $url = $chart->data[$dataset]->url[$datapoint];
 
