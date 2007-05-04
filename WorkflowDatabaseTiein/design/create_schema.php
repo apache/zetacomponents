@@ -22,3 +22,4 @@ return array (',
     file_get_contents('../tests/workflow.dba')
   )
 );
+?>
