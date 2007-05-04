@@ -248,3 +248,4 @@ class ezcDatabaseSchemaGenericTest extends ezcTestCase
     }
 
 }
+?>
