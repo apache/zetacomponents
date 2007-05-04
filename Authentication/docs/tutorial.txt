@@ -1,0 +1,158 @@
+eZ Components - Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+Description
+-----------
+
+The purpose of the Authentication component is to provide support for different
+means of identification and authentication of users using different providers and
+protocols.
+
+
+Class overview
+==============
+
+An overview of the most important classes in the Authentication component.
+
+
+Base classes
+------------
+
+ezcAuthentication
+  Main class of Authentication. It is a container for authentication filters,
+  which will be run in sequence. The method run() returns true or false
+  depending on the success of the authentication filters.
+
+ezcAuthenticationCredentials
+  Structure which holds user credentials. Types are id credentials
+  (ezcAuthenticationIdCredentials) and id + password credentials
+  (ezcAuthenticationPasswordCredentials).
+
+
+Authentication filters
+----------------------
+
+ezcAuthenticationDatabaseFilter
+  Filter to authenticate against a database. Uses a database instance provided
+  by the Database component (via the ezcDbInstance::get() function). It depends
+  on the Database and DatabaseSchema components, so it is implemented in the
+  AuthenticationDatabaseTiein component.
+
+ezcAuthenticationGroupFilter
+  Container filter for 2 or more filters, where only one filter needs to
+  succeed in order for the group to succeed.
+
+ezcAuthenticationHtpasswdFilter
+  Filter to authenticate against a htpasswd password file. Supports the same
+  encryption methods as the Unix command htpasswd, and the encryption method is
+  detected automatically from the file.
+
+ezcAuthenticationLdapFilter
+  Filter to authenticate against an LDAP directory. For now the password can be
+  only in plain text, and SSL/TLS is not implemented yet. It depends on the PHP
+  ldap extension.
+
+ezcAuthenticationSessionFilter
+  Special filter used to store the authenticated username and the timestamp
+  between requests.
+
+ezcAuthenticationTokenFilter
+  Filter used to implement CAPTCHA tests. It basically compares the server
+  generated token with the value entered by the user, using a specified hashing
+  callback function.
+
+
+General authentication
+======================
+
+The general template for authentication is:
+
+- get the user credentials (eg. in a ezcAuthenticationPasswordCredentials
+  object)
+- create an object of class ezcAuthentication and pass the credentials object
+  to it
+- add authentication filters to the authentication object with addFilter()
+- call the run() method of the authentication object
+- call the getStatus() method of the authentication object and analyse it
+
+The following example demonstrates the above steps.
+
+.. include:: tutorial/tutorial_authentication.php
+   :literal:
+
+
+Authentication filters
+======================
+
+Database
+--------
+
+See the AuthenticationDatabaseTiein component.
+
+
+Group
+-----
+
+The following example shows how to use a group filter to authenticate against
+EITHER a database or an LDAP directory.
+
+.. include:: tutorial/tutorial_group.php
+   :literal:
+
+
+Htpasswd
+--------
+
+The following example shows how to authenticate against an htpasswd file.
+
+.. include:: tutorial/tutorial_htpasswd.php
+   :literal:
+
+
+LDAP
+----
+
+The following example shows how to authenticate agains an LDAP directory
+
+.. include:: tutorial/tutorial_ldap.php
+   :literal:
+
+
+Session
+-------
+
+The following example shows how to use the session filter to store
+authentication information (username and timestamp) between requests.
+
+.. include:: tutorial/tutorial_session.php
+   :literal:
+
+
+Token
+-----
+
+The following example shows how to create a CAPTCHA test.
+
+On the initial request:
+
+.. include:: tutorial/tutorial_token1.php
+   :literal:
+
+On the follow-up request:
+
+.. include:: tutorial/tutorial_token2.php
+   :literal:
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79 nocin

@@ -1,0 +1,63 @@
+eZ Components - Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+Description
+-----------
+
+The purpose of the Authentication component is to provide support for different
+means of identification and authentication of users using different providers and
+protocols.
+
+
+Class overview
+==============
+
+An overview of the most important classes in the Authentication component.
+
+
+Base classes
+------------
+
+ezcAuthentication
+  Main class of Authentication. It is a container for authentication filters,
+  which will be run in sequence. The method run() returns true or false
+  depending on the success of the authentication filters.
+
+ezcAuthenticationCredentials
+  Structure which holds user credentials. Types are id credentials
+  (ezcAuthenticationIdCredentials) and id + password credentials
+  (ezcAuthenticationPasswordCredentials).
+
+
+Authentication filters
+----------------------
+
+ezcAuthenticationDatabaseFilter
+  Filter to authenticate against a database. Uses a database instance provided
+  by the Database component (via the ezcDbInstance::get() function).
+
+
+Authentication filters
+======================
+
+Database
+--------
+
+The following example shows how to authenticate against a database.
+
+.. include:: tutorial/tutorial_database.php
+   :literal:
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79 nocin

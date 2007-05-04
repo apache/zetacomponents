@@ -1,0 +1,3 @@
+- follow http://www.debuntu.org/ldap-server-and-linux-ldap-clients
+- run setup_accounts.php
+- install ultrapossum-tls if ldap_start_tls() doesn't work 

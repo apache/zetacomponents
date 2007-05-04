@@ -1,0 +1,242 @@
+eZ Components - Authentication, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author:   Alexandru Stanoi
+:Revision: $Revision: $
+:Date:     $Date: $
+
+
+Introduction
+============
+
+Description
+-----------
+
+The purpose of the Authentication component is to provide support for different
+means of identification and authentication of users using different providers and
+protocols.
+
+
+Design
+======
+
+Base classes
+------------
+
+ezcAuthentication
+  Container for authentication filters. Runs all the specified filters in
+  sequence to check if all succeed or if any filter fails.
+
+ezcAuthenticationFilter
+  Abstract class which is a base class for all authentication filters. It can
+  be extended to create new filters.
+
+ezcAuthenticationCredentials
+  A structure which holds basic information to authenticate the user.
+  Developers can extend this class to include additional credentials.
+
+
+Authentication filters
+----------------------
+
+A list of supported authentication filters (plug-ins). This list can be
+extended by developers or by us in future releases:
+
+ezcAuthenticationSessionFilter
+  Support for storing authentication information in the session.
+
+ezcAuthenticationGroupFilter
+  Support for grouping two or more filters, where only one filter needs to
+  succeed for the group to succeed.
+
+ezcAuthenticationHtpasswdFilter
+  Handles authentication using a htpasswd file. Basic filter and not too secure
+  as the htpasswd file can be accessible to someone who has access to the
+  server. Should not be employed on critical application. It is used mostly as
+  an example.
+
+ezcAuthenticationTokenFilter
+  Handles authentication based on a server generated code. Similar to the
+  Ticket filter, but the code is not saved in a database, but it is generated
+  on every request. One use of such a filter is for CAPTCHA tests, or for
+  challenge responses to a server code with a user code (usually banks require
+  users to use code calculators).
+
+ezcAuthenticationLdapFilter
+  Handles authentication using an LDAP directory.
+
+ezcAuthenticationOpenidFilter
+  Handles authentication using the OpenID protocol.
+
+ezcAuthenticationTypekeyFilter
+  Handles authentication using the TypeKey protocol.
+
+
+Extended filters
+----------------
+
+A list of supported authentication filters (plug-ins). These filters will be
+implemented in a tie-in component as they depend on other components:
+
+ezcAuthenticationDatabaseFilter
+  Handles authentication using a database, by specifying the database name,
+  user and password to use the database, table name, fields to check and
+  whether to use encryption for each field or not.
+
+ezcAuthenticationTicketFilter
+  Handles authentication using a token (server generated code). It is basically
+  a database filter with only one field, and with deletion of the record after
+  authentication. One use of such a filter is for sending confirmation emails
+  to the user.
+
+
+Implementation
+==============
+
+ezcAuthentication
+-----------------
+
+Container for AuthenticationFilters. Contains these methods:
+
+run()
+  Runs through all the filters in their sequence. If all filters succeed, then
+  it will return true, otherwise returns false, and the $status property of the
+  authentication object will contain the statuses of all filters until that
+  moment.
+
+addFilter()
+  Adds a filter to the list of authentication filters.
+
+Contains these properties:
+
+status
+  A list of the error codes until the current moment (for example
+  ezcAuthenticationLdapFilter::STATUS_PASSWORD_INCORRECT).
+
+
+ezcAuthenticationFilter
+-----------------------
+
+Abstract class which is a base class for all authentication filters. It can
+be extended to create new filters. It contains these abstract methods:
+
+run()
+  Executes the filter authentication. Can return different statuses which are
+  used by the ezcAuthentication object to decide if the next filter is needed
+  to run or if the authentication process failed at the current filter.
+
+
+ezcAuthenticationSessionFilter
+------------------------------
+
+Support for storing authentication information in the session. Uses a specified
+key in the session to store if the user is authenticated or not. Cases:
+
+Login by starting a new session
+  Authentication will accept the new session and initiate authentication using
+  the other defined filters.
+
+Login by using an existing session
+  Authentication will check if the existing session is within the expiring
+  period (defined by the developer of the application using the session
+  options). If the session expired, then it will create a new session (new
+  session ID) and initiate authentication using the other defined filters. If
+  the session did not expire, then it will grant access bypassing the other
+  defined filters.
+
+Login by using another session ID than the one stored
+  Probably an attack. It will warn about the conflict, generate a new ID and
+  initiate the authentication using the other defined filters.
+
+
+ezcAuthenticationDatabaseFilter
+-------------------------------
+
+Implemented in a tie-in component as it depends on the DatabaseSchema and
+Database components. Works on an instance of ezcDbInstance. Options to specify
+include the table name and the user and password fields names.
+
+
+ezcAuthenticationTicketFilter
+-----------------------------
+
+Extends the ezcAuthenticationDatabaseFilter class. Implemented in a tie-in
+component as it depends on the Database and DatabaseSchema components.
+
+
+ezcAuthenticationTokenFilter
+----------------------------
+
+The token will be generated by a random function that the developer specifies.
+This filter just compares this token with the token entered by the user, using
+a specified function.
+
+
+Examples
+========
+
+Htpasswd authentication
+-----------------------
+
+The following example shows how to authenticate against an htpasswd file: ::
+
+    // get $user and $password from POST variables
+    $credentials = new ezcAuthenticationPasswordCredentials( $user, $password );
+    $authentication = new ezcAuthentication( $credentials );
+
+    $authentication->addFilter( new ezcAuthenticationHtpasswdFilter(
+        '/home/root/.htpasswd' ) );
+
+    if ( !$authentication->run() )
+    {
+        // return the status of the authentication,
+        // for example ezcAuthenticationHtpasswdFilter::STATUS_PASSWORD_INCORRECT
+        $status = $authentication->getStatus();
+    
+        // use the returned status to provide the user with a friendly error
+        // message, such as "The password you entered is incorect. Please try
+        // again.", and don't allow the user to see the protected content.
+    }
+    else
+    {
+        // allow the user to see the protected content
+    }
+
+
+Database authentication
+-----------------------
+
+The following example shows how to authenticate using a database, and using the
+session to cache the authentication between requests: ::
+
+    // get $user and $password from POST variables or from session
+    $credentials = new ezcAuthenticationPasswordCredentials( $user, $password );
+    $authentication = new ezcAuthentication( $credentials );
+    $authentication->session = new ezcAuthenticationSessionFilter();
+
+    $db = new ezcAuthenticationDatabaseInfo( ezcDbInstance::get(),
+        'users', array( 'user', 'password' ) );
+    $authentication->addFilter( new ezcAuthenticationDatabaseFilter( $db ) );
+
+    if ( !$authentication->run() )
+    {
+        // return the status of the authentication,
+        // for example ezcAuthenticationDatabaseFilter::STATUS_PASSWORD_INCORRECT
+        $status = $authentication->getStatus();
+    
+        // use the returned status to provide the user with a friendly error
+        // message, such as "The password you entered is incorect. Please try
+        // again.", and don't allow the user to see the protected content.
+    }
+    else
+    {
+        // allow the user to see the protected content
+    }
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79 nocin

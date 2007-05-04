@@ -1,0 +1,475 @@
+eZ Components - Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+
+Introduction
+============
+
+The purpose of this document is to provide common methods of securing online
+applications, and links to sources of information. The list of methods
+presented here is not exhaustive, but can be used as a checklist for ensuring
+protection against common attacks.
+
+
+Securing databases
+==================
+
+Store encrypted passwords
+-------------------------
+
+Don't store the passwords in plain text because anybody will be able to read
+them if they gain access to the database.
+
+Use the PHP functions `md5`_ () or `sha1`_ () to encrypt the passwords and then
+store them. When retrieving a password for the authentication, use the same
+function and compare the encrypted versions of the password.
+
+To prevent cases where two users happen to choose the same password, a salt can
+be added to the password. The salt can be the first few characters from the
+username, and it should be added in front of the password before calling the
+encrypting function.
+
+Although MySQL has it's own password() function, it is recommended to use
+PHP's md5() or sha1(), because with password() identical passwords will be
+stored as identical strings, and the passwords might be sent unencrypted between
+the web server and the MySQL database (depending on configuration).
+
+
+Securing the session
+====================
+
+For more information about the techniques discusses in this section, consult
+the articles `Session fixation`_ and `Session poisoning`_.
+
+
+Store SID in cookies
+--------------------
+
+Settings in `php.ini`_ affects how the session identifier (SID) is handled by
+the application - in a cookie or in the GET/POST request. Storing the session
+identifier in a cookie is preferred (although not entirely hack-proof).
+
+The php.ini settings are: ::
+
+  ; Whether to use cookies.
+  session.use_cookies = 1
+
+  ; This option enables administrators to make their users invulnerable to
+  ; attacks which involve passing session ids in URLs; defaults to 0.
+  session.use_only_cookies = 1
+
+  ; Don't append the SID to URLs
+  session.use_trans_id = 0
+
+Additionally, make sure PHP is not compiled with the option --enable-trans-id,
+as this will rewrite URLs to include the SID.
+
+This requires informing users to use a browser that supports and accepts
+cookies.
+
+
+Secure the SID generation
+-------------------------
+
+By modifying these settings in the `php.ini`_ file, the SID generation will
+depend on the first bytes of a file instead of the current date and time
+(default): ::
+
+  ; What file to use for SID generation
+  session.entropy_file = <path to a file>
+
+  ; How many characters to use from the entropy file
+  session.entropy_length = 10
+
+For entropy file, the Unix /dev/urandom can be used, which generates a
+pseudo-random number.
+
+
+Regenerate the SID on every request
+-----------------------------------
+
+Done by the Authentication component.
+
+
+Accept only server generated SID
+--------------------------------
+
+Done by the Authentication component.
+
+
+Time-out old SIDs
+-----------------
+
+Done by the Authentication component.
+
+
+Move the session directory
+--------------------------
+
+It is possible that attackers might get access to the /tmp directory where
+sessions are stored by default. Use the following `php.ini`_ setting to specify
+another directory for this: ::
+
+  ; where to store the sessions
+  session.save_path = <directory>
+
+The specified directory must be writable by the user under which PHP is running.
+
+
+Clean-up the session directory
+------------------------------
+
+The session garbage collector is run when a new session starts. It's behaviour
+is controlled by the `php.ini`_ options (the values specified are the default): ::
+
+  ; after how many seconds the data is seen as garbage and cleaned-up out
+  session.gc_maxlifetime = 1440
+
+  ; with what probability the garbage collector is run on every session
+  ; initialization. Use together with gc_divisor
+  session.gc_probability = 1
+
+  ; value to divide the gc_probability to obtain the garbage collector
+  ; probability to run.
+  ; Probability = gc_probability/gc_divisor (default: 1/100 = 1%)
+  session.gc_divisor = 100
+
+Change these options to values more appropiate for your needs. Note that
+running the session garbage collector more often can have negative side-effects
+on the application's performance.
+
+
+Accept only HTTP cookies
+------------------------
+
+A setting in `php.ini`_ can make cookings accessible only by HTTP and prevent the
+cookies from being read by scripting languages: ::
+
+  session.cookie_httponly = on
+
+Default is off. It is available only from PHP 5.2.0 and not all browsers
+support this (most notably Firefox). Can prevent identity theft through XSS
+(`Cross-site scripting`_ ) attacks.
+
+
+Destroy the session at logout
+-----------------------------
+
+When user logs out, the session must be destroyed to prevent reusing of the
+same SID by the attacker.
+
+
+Destroy the session if the referrer is suspicious
+-------------------------------------------------
+
+If the referrer is not the same as the website address, then an attack might be
+taking place.
+
+
+Verify the client's IP address
+------------------------------
+
+At login, the server records the IP address of the client, and then checks at
+each sensitive request if the stored address is the same as the current one.
+
+This can be problematic due to the use of proxy servers. Also the IP address
+can be spoofed.
+
+
+Verify the client's user-agent
+------------------------------
+
+At login, the server records the user-agent of the client, and then checks at
+each sensitive request if the stored user-agent is the same as the current one.
+
+The user-agent can be spoofed, so this should not be the only method to be
+relyed upon.
+
+
+Disable registering of globals
+------------------------------
+
+The `php.ini`_ setting for this is: ::
+
+  register_globals = off
+
+This can prevent attacks which use `Session poisoning`_. From PHP 4.2.0 it is
+off by default, and it is removed in PHP 6.0.0. Just make sure it isn't turned
+on by accident.
+
+
+Securing the registration and login process
+===========================================
+
+Request email confirmation
+--------------------------
+
+When users register in an online application, use an email confirmation
+process. This will prevent automated registrations from bots.
+
+The registration emails should not contain the password that the user used to
+register, as it can be seen by people or sniffers.
+
+
+Use CAPTCHAs
+------------
+
+Another way to prevent automated registrations is to use CAPTCHAs. Choose one
+implementation that does not make it too hard for humans to read, but still
+maintaining a secure enough level to prevent bots using OCR technology.
+
+
+Secure the password recovery process
+------------------------------------
+
+If using the `md5`_ () or `sha1`_ () functions in PHP to store the passwords
+(as discussed earlier), there is no way to recover the password from the
+database.
+
+In this case, the server can generate a temporary password with which the user
+can login to his account administration tool and change the password to
+something else. The temporary password can be sent to the user by email.
+
+The process of password recovery can be secured more by having the user answer
+a question which he/she specified during the registration process, such as
+"What was your pet's name?" or "What is your birthday?. This will prevent the
+case where anyone can get a new password for an account name which they found
+out.
+
+The password recovery should be limited to only a few uses to prevent attacks.
+
+
+Limit the number of login attempts
+----------------------------------
+
+Sometimes an attacker might know a partial password and will try repeteadly to
+login. Specifying a limited number of permitted login attempts can prevent
+this.
+
+Login to the application for that account should be blocked for a specified
+amount of time. It can also be blocked for a longer time and an email should be
+sent to the account owner with a link to the or to the account unlocker tool or
+to the password recovery tool.
+
+
+Time-out "Keep me logged-in"
+----------------------------
+
+When using "Remember me" or "Keep me logged-in" during login, the logged-in
+time must be limited (eg. 24 hours) to ensure attackers can't gain access when
+using a stolen computer.
+
+
+Securing the server-side
+========================
+
+Protect include files
+---------------------
+
+Do not use the extension .inc for include files, instead use .php, so that the
+files will not be displayed in the browser if they are accessed directly.
+
+
+Protect server-side code and data
+---------------------------------
+
+By adding in the `httpd.conf`_ entries for the directories that contain
+sensitive code or data of the application, attackers are prevented to see their
+contents. ::
+
+  <Directory "/home/user/http/logs/">
+    Order deny,allow
+    Deny from all
+    Allow from 127.0.0.1
+  </Directory>
+
+An alternative is to use a `.htaccess`_ file in every directory that must be
+protected. ::
+
+  Order deny,allow
+  Deny from all
+  Allow from 127.0.0.1
+
+The server will access the .htaccess files on every request. The httpd.conf
+file is accessed only on starting the Apache server. This means there is a
+small performance hit by using .htaccess files, which must be taken into
+consideration when developing large applications.
+
+
+Protect sensitive files from search engine spiders
+--------------------------------------------------
+
+You can create a file named `robots.txt`_ in the website's root directory, with
+the contents: ::
+
+  User-agent: *
+  Crawl-delay: 120
+  Disallow: /path/
+
+Write as many "Disallow: /path/" lines as necessary, with "path" being the
+directories which should not be indexed by the search engine spiders, like
+templates, compiled templates, server-side code, configuration directories, log
+directories, tmp directories, premium content directories, etc.
+
+The Crawl-delay setting (in seconds) can prevent a spider indexing the website
+too quickly (which might cause bottlenecks).
+
+There are spiders which don't follow the robots.txt (`bad bots`_). Against
+these spiders you can use a `bot trap`_ or the httpd.conf or .htaccess files to
+prevent the bad spiders to access the application directories.
+
+The robots.txt file is not needed if you used the previous method (httpd.conf or
+.htaccess files) to protect directories, as it gives away information about the
+directory structure of the application.
+
+
+Prevent directory traversal
+---------------------------
+
+More information can be found on the `Directory traversal`_ article on
+Wikipedia.
+
+
+Prevent cross-site attacks
+--------------------------
+
+Recommended reading:
+- `Cross-site request forgery`_
+- `Cross-site cooking`_
+- `Cross-site scripting`_
+- `Cross-zone scripting`_
+
+
+Secure file uploads
+-------------------
+
+Use generated names for uploaded files or mail attachments instead of the
+original names, so that attacks relying on filenames containing paths will be
+prevented.
+
+Use a maximum file size for uploads, using `php.ini`_: ::
+
+  ; maximum upload size
+  upload_max_filesize = <value in bytes>
+
+  ; maximum size for POST data
+  post_max_size = <value in bytes>
+
+  ; the temporary directory to keep the uploaded files
+  upload_tmp_dir = /tmp
+
+The temporary directory must be writable by the user under PHP is running. The
+php.ini value for memory_limit should be higher than the upload_max_filesize
+value.
+
+
+Validate and clean input
+------------------------
+
+Prevent SQL injection attacks by validating and cleaning data coming from a web
+request before running SQL queries on them.
+
+Don't rely only on client-side validation for data (although client-side
+validation can be employed to speed up validation and reduce network load).
+
+
+Do not display errors
+---------------------
+
+Displaying errors might provide attackers with security information about the
+application, such as file paths, database schema, etc. The `php.ini`_ settings for
+this are: ::
+
+  ; do not display errors
+  display_errors = off
+
+  ; do not display errors occuring during PHP's startup sequence
+  display_startup_errors = off
+
+
+Securing the client-side
+========================
+
+Sending passwords from clients
+------------------------------
+
+In order to transmit securely a password from the login page to the server
+code, the PHP functions `md5`_ () or `sha1`_ () can be used.
+
+A more secure way is to add a random number (generated by the server) to the
+password, and then apply md5() or sha1() to this string. That is because
+rainbow tables of hashes can be used by attackers to find the unhashed strings.
+
+This method requires implementing an md5() or sha1() function in JavaScript,
+or using an already made one.
+
+Since PHP 5.1.2 you can use the function `hash`_ () which has support for
+different hashing methods (MD5, SHA1, SHA256, etc). One added bonus is that the
+hash() function is faster to execute than the md5() and sha1() functions.
+
+Passwords should be enforced to contain numbers and other characters apart from
+letters, and/or be at least 8 characters in length, to make them more secure
+against dictionary and rainbow tables attacks.
+
+
+Use POST forms
+--------------
+
+Use POST requests instead of GET for operations that may involve modifying the
+data on the server (add, delete, edit). GET requests should be employed only
+for retrieving data.
+
+
+Protection from reloads
+-----------------------
+
+After a request from the client (login, delete, add, buy, etc), it is possible
+that the user reload the page, thus sending the request again. This should be
+detected and avoided.
+
+
+Use an encrypted connection
+---------------------------
+
+Use SSL/TLS to prevent sniffers from stumbling upon sensitive information like
+usernames, passwords, social security numbers or credit card numbers.
+
+
+References
+==========
+
+Configuration files
+  - `php.ini`_
+  - `.htaccess`_
+  - `httpd.conf`_
+  - `robots.txt`_
+
+
+
+.. _php.ini: http://php.net/manual/en/ini.php
+.. _.htaccess: http://httpd.apache.org/docs/2.0/howto/htaccess.html
+.. _httpd.conf: http://httpd.apache.org/docs/2.0/mod/core.html
+.. _robots.txt: http://www.robotstxt.org/wc/robots.html
+.. _md5: http://php.net/manual/en/function.md5.php
+.. _sha1: http://php.net/manual/en/function.sha1.php
+.. _hash: http://php.net/manual/en/function.hash.php
+.. _Session fixation: http://en.wikipedia.org/wiki/Session_fixation
+.. _Session poisoning: http://en.wikipedia.org/wiki/Session_poisoning
+.. _Directory traversal: http://en.wikipedia.org/wiki/Directory_traversal
+.. _Cross-site Request forgery: http://en.wikipedia.org/wiki/Cross-site_request_forgery
+.. _Cross-site Cooking: http://en.wikipedia.org/wiki/Cross-site_cooking
+.. _Cross-site Scripting: http://en.wikipedia.org/wiki/Cross-site_scripting
+.. _Cross-zone Scripting: http://en.wikipedia.org/wiki/Cross-zone_scripting
+.. _bad bots: http://www.kloth.net/internet/badbots.php
+.. _bot trap: http://www.kloth.net/internet/bottrap.php
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79 nocin
