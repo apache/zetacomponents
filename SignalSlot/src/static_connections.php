@@ -191,7 +191,7 @@ class ezcSignalStaticConnections implements ezcSignalStaticConnectionsBase
                     {
                         unset( $this->properties['connections'][$identifier][$signal][$priority][$key] );
                         // if the priority is empty now it should be unset
-                        if( count( $this->properties['connections'][$identifier][$signal][$priority] ) == 0 )
+                        if ( count( $this->properties['connections'][$identifier][$signal][$priority] ) == 0 )
                         {
                             unset( $this->properties['connections'][$identifier][$signal][$priority] );
                         }
@@ -211,7 +211,7 @@ class ezcSignalStaticConnections implements ezcSignalStaticConnectionsBase
                     {
                         unset( $this->properties['connections'][$identifier][$signal][$priority][$key] );
                         // if the priority is empty now it should be unset
-                        if( count( $this->properties['connections'][$identifier][$signal][$priority] ) == 0 )
+                        if ( count( $this->properties['connections'][$identifier][$signal][$priority] ) == 0 )
                         {
                             unset( $this->properties['connections'][$identifier][$signal][$priority] );
                         }

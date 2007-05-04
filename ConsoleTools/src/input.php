@@ -1147,7 +1147,7 @@ class ezcConsoleInput
                 if ( count( $depVals ) > 0 )
                 {
                     $checkVals =  is_array( $values[$dep->option->short] ) ? $values[$dep->option->short] : array( $values[$dep->option->short] );
-                    foreach( $checkVals as $checkVal )
+                    foreach ( $checkVals as $checkVal )
                     {
                         if ( !in_array( $checkVal, $depVals ) )
                         {
@@ -1166,7 +1166,7 @@ class ezcConsoleInput
                 if ( count( $exc->values ) > 0 )
                 {
                     $checkVals =  is_array( $values[$exc->option->short] ) ? $values[$exc->option->short] : array( $values[$exc->option->short] );
-                    foreach( $checkVals as $checkVal )
+                    foreach ( $checkVals as $checkVal )
                     {
                         if ( in_array( $checkVal, $exc->values ) )
                         {

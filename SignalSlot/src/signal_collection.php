@@ -147,7 +147,7 @@ class ezcSignalCollection
         // static connections
         if ( self::$staticConnectionsHolder == NULL ) // custom static connections class
         {
-            if( count( ezcSignalStaticConnections::getInstance()->getConnections( $this->identifier, $signal ) ) > 0 )
+            if ( count( ezcSignalStaticConnections::getInstance()->getConnections( $this->identifier, $signal ) ) > 0 )
             {
                 return true;
             }
@@ -157,13 +157,13 @@ class ezcSignalCollection
             return true;
         }
         // default connections
-        if( isset( $this->defaultConnections[$signal] ) && count( $this->defaultConnections[$signal] ) > 0 )
+        if ( isset( $this->defaultConnections[$signal] ) && count( $this->defaultConnections[$signal] ) > 0 )
         {
             return true;
         }
 
         // priority connections
-        if( isset( $this->priorityConnections[$signal] ) && count( $this->priorityConnections[$signal] ) > 0 )
+        if ( isset( $this->priorityConnections[$signal] ) && count( $this->priorityConnections[$signal] ) > 0 )
         {
             return true;
         }
@@ -352,7 +352,7 @@ class ezcSignalCollection
                             {
                                 unset( $this->priorityConnections[$signal][$priority][$key] );
                                 // if the priority is empty now it should be unset
-                                if( count( $this->priorityConnections[$signal][$priority] ) == 0 )
+                                if ( count( $this->priorityConnections[$signal][$priority] ) == 0 )
                                 {
                                     unset( $this->priorityConnections[$signal][$priority] );
                                 }
@@ -389,7 +389,7 @@ class ezcSignalCollection
                     {
                         unset( $this->priorityConnections[$signal][$priority][$key] );
                         // if the priority is empty now it should be unset
-                        if( count( $this->priorityConnections[$signal][$priority] ) == 0 )
+                        if ( count( $this->priorityConnections[$signal][$priority] ) == 0 )
                         {
                             unset( $this->priorityConnections[$signal][$priority] );
                         }

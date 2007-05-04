@@ -55,7 +55,7 @@ class ezcPersistentCacheManager extends ezcPersistentDefinitionManager
      */
     public function fetchDefinition( $class )
     {
-        if( isset( $this->cache[$class] ) )
+        if ( isset( $this->cache[$class] ) )
         {
             return $this->cache[$class];
         }
