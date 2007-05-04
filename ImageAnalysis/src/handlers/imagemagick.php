@@ -614,7 +614,7 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
         $stdOut = '';
         do
         {
-            $stdOut .= ( $stripNewlines === true ) ? rtrim( fgets( $pipes[1], 1024), "\n" ) : fgets( $pipes[1], 1024);
+            $stdOut .= ( $stripNewlines === true ) ? rtrim( fgets( $pipes[1], 1024), "\n" ) : fgets( $pipes[1], 1024 );
         } while ( !feof( $pipes[1] ) );
 
         // Read STDERR
