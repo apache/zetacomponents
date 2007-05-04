@@ -26,7 +26,6 @@ class ezcAuthenticationDatabaseTieinSuite extends PHPUnit_Framework_TestSuite
     {
         parent::__construct();
         $this->setName( "AuthenticationDatabaseTiein" );
-        ezcBase::addClassRepository( '/home/as/dev/ezcomponents/experimental', '/home/as/dev/ezcomponents/experimental/autoload' );
         
         $this->addTest( ezcAuthenticationDatabaseTest::suite() );
     }
