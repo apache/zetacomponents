@@ -241,7 +241,7 @@ abstract class ezcImageMethodcallHandler extends ezcImageHandler
         $this->setActiveReference( $image );
         call_user_func_array( array( $this, $filter->name ), $parameters );
         // Restore last active reference
-        $this->setActiveReference($oldRef);
+        $this->setActiveReference( $oldRef );
     }
 
     /**
