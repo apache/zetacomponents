@@ -21,6 +21,8 @@
   broken.
 - Fixed issue #10626: ezcConsoleStatusbar does not trigger warning on invalid
   status.
+- Implemented issue #8461: Argument help text. A completly new argument
+  handling was invented.
 
 1.2 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

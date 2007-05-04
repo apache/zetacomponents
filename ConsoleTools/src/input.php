@@ -105,6 +105,8 @@
  * @package ConsoleTools
  * @version //autogen//
  * @mainclass
+ *
+ * @property ezcConsoleArguments $argumentDefinition Optional argument definition.
  */
 class ezcConsoleInput
 {
@@ -172,10 +174,18 @@ class ezcConsoleInput
     private $helpOptionSet = false;
 
     /**
+     * Collection of arguments. 
+     * 
+     * @var mixed
+     */
+    protected $properties = array();
+
+    /**
      * Creates an input handler.
      */
     public function __construct()
     {
+        $this->argumentDefinition = null;
     }
 
     /**
@@ -491,11 +501,11 @@ class ezcConsoleInput
             // Must be the arguments
             else
             {
-                $args[$i] == '--' ? ++$i : $i;
-                $this->processArguments( $args, $i );
                 break;
             }
         }
+        isset( $args[$i] ) && $args[$i] == '--' ? ++$i : $i;
+        $this->processArguments( $args, $i );
         $this->checkRules();
     }
 
@@ -617,6 +627,29 @@ class ezcConsoleInput
                 );
             }
         }
+        if ( $this->argumentDefinition !== null )
+        {
+            $help[] = array( "Arguments:", "" );
+            if ( count( $this->argumentDefinition ) === 0 )
+            {
+                $help[] = array( "", "No arguments available." );
+            }
+            foreach ( $this->argumentDefinition as $arg )
+            {
+                $argSynopsis = "<%s:%s>";
+                switch ( $arg->type )
+                {
+                    case self::TYPE_INT:
+                        $type = "int";
+                        break;
+                    case self::TYPE_STRING:
+                        $type = "string";
+                        break;
+                }
+                $argSynopsis = sprintf( $argSynopsis, $type, $arg->name );
+                $help[] = ( $long === true ) ? array( $argSynopsis, $arg->longhelp ) : array( $argSynopsis, $arg->shorthelp );
+            }
+        }
         return $help;
     }
     
@@ -716,7 +749,15 @@ class ezcConsoleInput
                 $synopsis .= $this->createOptionSynopsis( $option, $usedOptions, $allowsArgs );
             }
         }
-        $synopsis .= " [[--] <args>]";
+        if ( $this->argumentDefinition === null )
+        {
+            // Old handling
+            $synopsis .= " [[--] <args>]";
+        }
+        else
+        {
+            $synopsis .= "[--] " . $this->createArgumentsSynopsis();
+        }
         return $synopsis;
     }
 
@@ -730,6 +771,61 @@ class ezcConsoleInput
     public function helpOptionSet()
     {
         return $this->helpOptionSet;
+    }
+
+    /**
+     * Property read access.
+     *
+     * @throws ezcBasePropertyNotFoundException 
+     *         If the the desired property is not found.
+     * 
+     * @param string $propertyName Name of the property.
+     * @return mixed Value of the property or null.
+     * @ignore
+     */
+    public function __get( $propertyName )
+    {
+        if ( !isset( $this->$propertyName ) )
+        {
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+        return $this->properties[$propertyName];
+    }
+
+    /**
+     * Property set access.
+     * 
+     * @param string $propertyName 
+     * @param string $propertyValue 
+     * @ignore
+     * @return void
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch( $propertyName )
+        {
+            case "argumentDefinition":
+                if ( ( $propertyValue instanceof ezcConsoleArguments ) === false && $propertyValue !== null )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, "ezcConsoleArguments" );
+                }
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+        $this->properties[$propertyName] = $propertyValue;
+    }
+    
+    /**
+     * Property isset access.
+     * 
+     * @param string $propertyName Name of the property.
+     * @return bool True is the property is set, otherwise false.
+     * @ignore
+     */
+    public function __isset( $propertyName )
+    {
+        return array_key_exists( $propertyName, $this->properties );
     }
 
     /**
@@ -798,6 +894,43 @@ class ezcConsoleInput
     }
 
     /**
+     * Generate synopsis for arguments. 
+     * 
+     * @return string The synopsis string.
+     */
+    private function createArgumentsSynopsis()
+    {
+        $mandatory = true;
+        $synopsises = array();
+        foreach( $this->argumentDefinition as $arg )
+        {
+            $argSynopsis = "";
+            if ( $arg->mandatory === false )
+            {
+                $mandatory = false;
+            }
+            $argSynopsis .= "<%s:%s>";
+            switch ( $arg->type )
+            {
+                case self::TYPE_INT:
+                    $type = "int";
+                    break;
+                case self::TYPE_STRING:
+                    $type = "string";
+                    break;
+            }
+            $argSynopsis = sprintf( $argSynopsis, $type, $arg->name );
+            $synopsises[] = $mandatory === false ? "[$argSynopsis]" : $argSynopsis;
+            if ( $arg->multiple === true )
+            {
+                $synopsises[] = "[$argSynopsis ...]";
+                break;
+            }
+        }
+        return implode( " ", $synopsises );
+    }
+
+    /**
      * Process an option.
      *
      * This method does the processing of a single option. 
@@ -847,7 +980,7 @@ class ezcConsoleInput
         if ( isset( $args[$i] ) && substr( $args[$i], 0, 1 ) !== '-' )
         {
             // Type check
-            if ( $this->isCorrectType( $option, $args[$i] ) === false )
+            if ( $this->isCorrectType( $option->type, $args[$i] ) === false )
             {
                 throw new ezcConsoleOptionTypeViolationException( $option, $args[$i] );
             }
@@ -884,9 +1017,74 @@ class ezcConsoleInput
      */
     private function processArguments( array $args, &$i )
     {
-        while ( $i < count( $args ) )
+        if ( $this->argumentDefinition === null )
         {
-            $this->arguments[] = $args[$i++];
+            // Old argument handling
+            while ( $i < count( $args ) )
+            {
+                $this->arguments[] = $args[$i++];
+            }
+        }
+        else
+        {
+            $mandatory = true;
+            foreach( $this->argumentDefinition as $arg )
+            {
+                // Check if all followinga arguments are optional
+                if ( $arg->mandatory === false )
+                {
+                    $mandatory = false;
+                }
+
+                // Check if the current argument is present and mandatory
+                if ( $mandatory === true )
+                {
+                    if ( !isset( $args[$i] ) )
+                    {
+                        throw new ezcConsoleArgumentMandatoryViolationException( $arg );
+                    }
+                }
+                else
+                {
+                    // Arguments are optional, if no more left: return.
+                    if ( !isset( $args[$i] ) )
+                    {
+                        return;
+                    }
+                }
+
+                if ( $arg->multiple === true )
+                {
+                    $arg->value = array();
+                    for ( $i = $i; $i < count( $args ); ++$i )
+                    {
+                        if ( $this->isCorrectType( $arg->type, $args[$i] ) === false )
+                        {
+                            throw new ezcConsoleArgumentTypeViolationException( $arg, $args[$i] );
+                        }
+                        $arg->value = array_merge( $arg->value, array( $args[$i] ) );
+                        // Keep old handling, too
+                        $this->arguments[] = $args[$i];
+                    }
+                    return;
+                }
+                else
+                {
+                    if ( $this->isCorrectType( $arg->type, $args[$i] ) === false )
+                    {
+                        throw new ezcConsoleArgumentTypeViolationException( $arg, $args[$i] );
+                    }
+                    $arg->value = $args[$i];
+                    // Keep old handling, too
+                    $this->arguments[] = $args[$i];
+                }
+                ++$i;
+            }
+
+            if ( $i < count( $args ) )
+            {
+                throw new ezcConsoleTooManyArgumentsException( $args, $i );
+            }
         }
     }
 
@@ -989,14 +1187,14 @@ class ezcConsoleInput
      * Checks if a value is of a given type. Converts the value to the
      * correct PHP type on success.
      *  
-     * @param ezcConsoleOption $option The option.
-     * @param string $val              The value to check.
+     * @param int $type   The type to check for. One of self::TYPE_*.
+     * @param string $val The value to check. Will possibly altered!
      * @return bool True on succesful check, otherwise false.
      */
-    private function isCorrectType( ezcConsoleOption $option, &$val )
+    private function isCorrectType( $type, &$val )
     {
         $res = false;
-        switch ( $option->type )
+        switch ( $type )
         {
             case ezcConsoleInput::TYPE_STRING:
                 $res = true;

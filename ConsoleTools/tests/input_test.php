@@ -482,6 +482,55 @@ class ezcConsoleInputTest extends ezcTestCase
         }
     }
 
+    public function testGetAccessSuccess()
+    {
+        $this->assertNull( $this->input->argumentDefinition );
+    }
+
+    public function testGetAccessFailure()
+    {
+        try
+        {
+            echo $this->input->foo;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            return;
+        }
+        $this->fail( "ezcBasePropertyNotFoundException not thrown on get access to invalid property foo." );
+    }
+
+    public function testSetAccessSuccess()
+    {
+        $this->assertSetProperty(
+            $this->input,
+            "argumentDefinition",
+            array( new ezcConsoleArguments(), null )
+        );
+    }
+
+    public function testSetAccessFailure()
+    {
+        $this->assertSetPropertyFails(
+            $this->input,
+            "argumentDefinition",
+            array( "", "foo", 23, true, array(), new stdClass() ),
+            "ezcBaseValueException"
+        );
+        $this->assertSetPropertyFails(
+            $this->input,
+            "foo",
+            array( "" ),
+            "ezcBasePropertyNotFoundException"
+        );
+    }
+
+    public function testIssetAccess()
+    {
+        $this->assertTrue( isset( $this->input->argumentDefinition ) );
+        $this->assertFalse( isset( $this->input->foo ) );
+    }
+
     // Single parameter tests
     public function testProcessSuccessSingleShortNoValue()
     {
@@ -940,6 +989,447 @@ class ezcConsoleInputTest extends ezcTestCase
         $this->commonProcessTestSuccess( $args, $res );
     }
 
+    public function testProcessSuccessNewArgumentsSimple()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+
+        $this->input->process(
+            array( "foo.php", "'some file'", "file" )
+        );
+
+        $this->assertEquals( "some file", $this->input->argumentDefinition["file1"]->value );
+        $this->assertEquals( "file", $this->input->argumentDefinition["file2"]->value );
+    }
+
+    public function testProcessFailureNewArgumentsSimple()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+
+        $args = array( "foo.php" );
+
+        $this->commonProcessTestFailure( $args, 'ezcConsoleArgumentMandatoryViolationException' );
+    }
+
+    public function testProcessFailureNewArgumentsTooMany()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+
+        $args = array( "foo.php", "'test'", "'foo'", "'bar'" );
+
+        $this->commonProcessTestFailure( $args, 'ezcConsoleTooManyArgumentsException' );
+    }
+
+    public function testProcessSuccessNewArgumentsOptionalAvailable()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+        $this->input->argumentDefinition[1]->mandatory = false;
+
+        $this->input->process(
+            array( "foo.php", "'some file'", "file" )
+        );
+
+        $this->assertEquals( "some file", $this->input->argumentDefinition["file1"]->value );
+        $this->assertEquals( "file", $this->input->argumentDefinition["file2"]->value );
+    }
+
+    public function testProcessFailureNewArgumentsOptionalAvailable()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+        $this->input->argumentDefinition[1]->mandatory = false;
+
+        $args = array( "foo.php" );
+
+        $this->commonProcessTestFailure( $args, 'ezcConsoleArgumentMandatoryViolationException' );
+    }
+
+    public function testProcessSuccessNewArgumentsAutoOptionalAvailable()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+        $this->input->argumentDefinition[1]->mandatory = false;
+        $this->input->argumentDefinition[2] = new ezcConsoleArgument( "file3" );
+
+        $this->input->process(
+            array( "foo.php", "'some file'", "file", "\"another file\"" )
+        );
+
+        $this->assertEquals( "some file", $this->input->argumentDefinition["file1"]->value );
+        $this->assertEquals( "file", $this->input->argumentDefinition["file2"]->value );
+        $this->assertEquals( "another file", $this->input->argumentDefinition["file3"]->value );
+    }
+
+    public function testProcessFailureNewArgumentsAutoOptionalAvailable()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+        $this->input->argumentDefinition[1]->mandatory = false;
+        $this->input->argumentDefinition[2] = new ezcConsoleArgument( "file3" );
+
+        $args = array( "foo.php" );
+
+        $this->commonProcessTestFailure( $args, 'ezcConsoleArgumentMandatoryViolationException' );
+    }
+
+    public function testProcessSuccessNewArgumentsOptionalNotAvailable()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+        $this->input->argumentDefinition[1]->mandatory = false;
+
+        $this->input->process(
+            array( "foo.php", "'some file'" )
+        );
+
+        $this->assertEquals( "some file", $this->input->argumentDefinition["file1"]->value );
+        $this->assertEquals( null, $this->input->argumentDefinition["file2"]->value );
+    }
+
+    public function testProcessFailureNewArgumentsOptionalNotAvailable()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+        $this->input->argumentDefinition[1]->mandatory = false;
+
+        $args = array( "foo.php" );
+
+        $this->commonProcessTestFailure( $args, 'ezcConsoleArgumentMandatoryViolationException' );
+    }
+
+    public function testProcessSuccessNewArgumentsAutoOptionalNotAvailable()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+        $this->input->argumentDefinition[1]->mandatory = false;
+        $this->input->argumentDefinition[2] = new ezcConsoleArgument( "file3" );
+
+        $this->input->process(
+            array( "foo.php", "'some file'" )
+        );
+
+        $this->assertEquals( "some file", $this->input->argumentDefinition["file1"]->value );
+        $this->assertEquals( null, $this->input->argumentDefinition["file2"]->value );
+        $this->assertEquals( null, $this->input->argumentDefinition["file3"]->value );
+    }
+
+    public function testProcessFailureNewArgumentsAutoOptionalNotAvailable()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+        $this->input->argumentDefinition[1]->mandatory = false;
+        $this->input->argumentDefinition[2] = new ezcConsoleArgument( "file3" );
+
+        $args = array( "foo.php" );
+
+        $this->commonProcessTestFailure( $args, 'ezcConsoleArgumentMandatoryViolationException' );
+    }
+
+    public function testProcessSuccessNewArgumentsMultipleOne()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[0]->multiple = true;
+
+        $this->input->process(
+            array( "foo.php", "'some file'", "file", "\"another file\"" )
+        );
+
+        $this->assertEquals( array( "some file", "file", "another file" ), $this->input->argumentDefinition["file1"]->value );
+    }
+
+    public function testProcessFailureNewArgumentsMultipleOne()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[0]->multiple = true;
+
+        $args = array( "foo.php" );
+
+        $this->commonProcessTestFailure( $args, 'ezcConsoleArgumentMandatoryViolationException' );
+    }
+
+    public function testProcessSuccessNewArgumentsMultipleMultiple()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+        $this->input->argumentDefinition[1]->multiple = true;
+
+        $this->input->process(
+            array( "foo.php", "'some file'", "file", "\"another file\"" )
+        );
+
+        $this->assertEquals( "some file", $this->input->argumentDefinition["file1"]->value );
+        $this->assertEquals( array( "file", "another file" ), $this->input->argumentDefinition["file2"]->value );
+    }
+
+    public function testProcessFailureNewArgumentsMultipleMultiple()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+        $this->input->argumentDefinition[1]->multiple = true;
+
+        $args = array( "foo.php", "'test'" );
+
+        $this->commonProcessTestFailure( $args, 'ezcConsoleArgumentMandatoryViolationException' );
+    }
+
+    public function testProcessSuccessNewArgumentsMultipleOptionalAvailable()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+        $this->input->argumentDefinition[1]->multiple  = true;
+        $this->input->argumentDefinition[1]->mandatory = false;
+
+        $this->input->process(
+            array( "foo.php", "'some file'", "file", "\"another file\"" )
+        );
+
+        $this->assertEquals( "some file", $this->input->argumentDefinition["file1"]->value );
+        $this->assertEquals( array( "file", "another file" ), $this->input->argumentDefinition["file2"]->value );
+        
+        // Old handling
+        $this->assertEquals( array( "some file", "file", "another file" ), $this->input->getArguments() );
+    }
+
+    public function testProcessSuccessNewArgumentsMultipleOptionalNotAvailable()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+        $this->input->argumentDefinition[1]->multiple  = true;
+        $this->input->argumentDefinition[1]->mandatory = false;
+
+        $this->input->process(
+            array( "foo.php", "'some file'" )
+        );
+
+        $this->assertEquals( "some file", $this->input->argumentDefinition["file1"]->value );
+        $this->assertEquals( null, $this->input->argumentDefinition["file2"]->value );
+        
+        // Old handling
+        $this->assertEquals( array( "some file" ), $this->input->getArguments() );
+    }
+
+    public function testProcessSuccessNewArgumentsMultipleAutoOptionalAvailable()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[0]->mandatory = false;
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+        $this->input->argumentDefinition[1]->multiple  = true;
+
+        $this->input->process(
+            array( "foo.php", "'some file'", "file", "\"another file\"" )
+        );
+
+        $this->assertEquals( "some file", $this->input->argumentDefinition["file1"]->value );
+        $this->assertEquals( array( "file", "another file" ), $this->input->argumentDefinition["file2"]->value );
+        
+        // Old handling
+        $this->assertEquals( array( "some file", "file", "another file" ), $this->input->getArguments() );
+    }
+
+    public function testProcessSuccessNewArgumentsMultipleAutoOptionalNotAvailable()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[0]->mandatory = false;
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+        $this->input->argumentDefinition[1]->multiple  = true;
+
+        $this->input->process(
+            array( "foo.php", "'some file'" )
+        );
+
+        $this->assertEquals( "some file", $this->input->argumentDefinition["file1"]->value );
+        $this->assertEquals( null, $this->input->argumentDefinition["file2"]->value );
+        
+        // Old handling
+        $this->assertEquals( array( "some file" ), $this->input->getArguments() );
+    }
+
+    public function testProcessSuccessNewArgumentsMultipleIgnore()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "file1" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "file2" );
+        $this->input->argumentDefinition[0]->multiple = true;
+
+        $this->input->process(
+            array( "foo.php", "'some file'", "file", "\"another file\"" )
+        );
+
+        $this->assertEquals( array( "some file", "file", "another file" ), $this->input->argumentDefinition["file1"]->value );
+        $this->assertEquals( null, $this->input->argumentDefinition["file2"]->value );
+        
+        // Old handling
+        $this->assertEquals( array( "some file", "file", "another file" ), $this->input->getArguments() );
+    }
+
+    public function testProcessSuccessNewArgumentsTypeInt()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[0]->type = ezcConsoleInput::TYPE_INT;
+
+        $this->input->process(
+            array( "foo.php", 23 )
+        );
+
+        $this->assertEquals( 23, $this->input->argumentDefinition["number"]->value );
+        
+        // Old handling
+        $this->assertEquals( array( 23 ), $this->input->getArguments() );
+    }
+
+    public function testProcessFailureNewArgumentsTypeInt()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[0]->type = ezcConsoleInput::TYPE_INT;
+
+        $args = array( "foo.php", "'test'" );
+
+        $this->commonProcessTestFailure( $args, 'ezcConsoleArgumentTypeViolationException' );
+    }
+
+    public function testProcessSuccessNewArgumentsMultipleTypeInt()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[0]->type = ezcConsoleInput::TYPE_INT;
+        $this->input->argumentDefinition[0]->multiple = true;
+
+        $this->input->process(
+            array( "foo.php", 23, 42 )
+        );
+
+        $this->assertEquals( array( 23, 42 ), $this->input->argumentDefinition["number"]->value );
+        
+        // Old handling
+        $this->assertEquals( array( 23, 42 ), $this->input->getArguments() );
+    }
+
+    public function testProcessFailureNewArgumentsMultipleTypeInt()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[0]->type = ezcConsoleInput::TYPE_INT;
+        $this->input->argumentDefinition[0]->multiple = true;
+
+        $args = array( "foo.php", 23, "test" );
+
+        $this->commonProcessTestFailure( $args, 'ezcConsoleArgumentTypeViolationException' );
+    }
+
+    public function testProcessSuccessNewArgumentsComplex()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[0]->type = ezcConsoleInput::TYPE_INT;
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "string" );
+        $this->input->argumentDefinition[2] = new ezcConsoleArgument( "array" );
+        $this->input->argumentDefinition[2]->multiple = true;
+
+        $args = array( "foo.php", "-o", "'test file'", "-b", "23", "42", "'test string'", "val1", "val2" );
+
+        $res = array( 
+            'o' => "test file",
+            'b' => 23,
+        );
+        $this->commonProcessTestSuccess( $args, $res );
+
+        $this->assertEquals( 42, $this->input->argumentDefinition["number"]->value );
+        $this->assertEquals( "test string", $this->input->argumentDefinition["string"]->value );
+        $this->assertEquals( array( "val1", "val2" ), $this->input->argumentDefinition["array"]->value );
+        
+        // Old handling
+        $this->assertEquals( array( 42, "test string", "val1", "val2"), $this->input->getArguments() );
+    }
+
+    public function testProcessFailureNewArgumentsComplexType()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[0]->type = ezcConsoleInput::TYPE_INT;
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "string" );
+        $this->input->argumentDefinition[2] = new ezcConsoleArgument( "array" );
+        $this->input->argumentDefinition[2]->multiple = true;
+
+        $args = array( "foo.php", "-o", "'test file'", "-b", "23", "foo", "'test string'", "val1", "val2" );
+
+        $res = array( 
+            'o' => "test file",
+            'b' => 23,
+        );
+        $this->commonProcessTestFailure( $args, 'ezcConsoleArgumentTypeViolationException' );
+    }
+
+    public function testProcessFailureNewArgumentsComplexMissing()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[0]->type = ezcConsoleInput::TYPE_INT;
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "string" );
+        $this->input->argumentDefinition[2] = new ezcConsoleArgument( "array" );
+        $this->input->argumentDefinition[2]->multiple = true;
+
+        $args = array( "foo.php", "-o", "'test file'", "-b", "23", "42" );
+
+        $res = array( 
+            'o' => "test file",
+            'b' => 23,
+        );
+        $this->commonProcessTestFailure( $args, 'ezcConsoleArgumentMandatoryViolationException' );
+    }
+
+    public function testProcessFailureNewArgumentsComplexMissing_2()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[0]->type = ezcConsoleInput::TYPE_INT;
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "string" );
+        $this->input->argumentDefinition[2] = new ezcConsoleArgument( "array" );
+        $this->input->argumentDefinition[2]->multiple = true;
+
+        $args = array( "foo.php", "-o", "'test file'", "-b", "23", "42", "'test string'" );
+
+        $res = array( 
+            'o' => "test file",
+            'b' => 23,
+        );
+        $this->commonProcessTestFailure( $args, 'ezcConsoleArgumentMandatoryViolationException' );
+    }
+
+    public function testProcessFailureNewArgumentsSwitchedOff()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[0]->type = ezcConsoleInput::TYPE_INT;
+
+        $args = array( "foo.php", "-v", "--", 23 );
+
+        $this->commonProcessTestFailure( $args, 'ezcConsoleOptionArgumentsViolationException' );
+    }
+
     public function testProcessFailureExistance_1()
     {
         $args = array(
@@ -1175,7 +1665,86 @@ class ezcConsoleInputTest extends ezcTestCase
             'Help array was not generated correctly.'
         );
     }
-    
+
+    public function testGetHelpNewArgs()
+    {
+        $res = array( 
+            array( 
+                '-t / --testing',
+                'No help available.',
+            ),
+            array( 
+                '-s / --subway',
+                'No help available.',
+            ),
+            array( 
+                '--carry',
+                'No help available.',
+            ),
+            array( 
+                '-v / --visual',
+                'No help available.',
+            ),
+            array( 
+                '-o / --original',
+                'No help available.',
+            ),
+            array( 
+                '-b / --build',
+                'No help available.',
+            ),
+            array( 
+                '-d / --destroy',
+                'No help available.',
+            ),
+            array( 
+                '-y / --yank',
+                'Some stupid short text.',
+            ),
+            array( 
+                '-c / --console',
+                'Some stupid short text.',
+            ),
+            array( 
+                '-e / --edit',
+                'No help available.',
+            ),
+            array( 
+                '-n / --new',
+                'No help available.',
+            ),
+            array(
+                "Arguments:",
+                "",
+            ),
+            array(
+                '<string:text>',
+                'A text.',
+            ),
+            array(
+                '<int:number>',
+                'A number.',
+            ),
+        );
+
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "text" );
+        $this->input->argumentDefinition[0]->shorthelp = 'A text.';
+        $this->input->argumentDefinition[0]->longhelp = 'This argument is a simple text.';
+
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[1]->type = ezcConsoleInput::TYPE_INT;
+        $this->input->argumentDefinition[1]->shorthelp = 'A number.';
+        $this->input->argumentDefinition[1]->longhelp = 'This argument is a number.';
+
+        $this->assertEquals( 
+            $res,
+            $this->input->getHelp(),
+            'Help array was not generated correctly.'
+        );
+    }
+
     public function testGetHelp2()
     {
         $res = array( 
@@ -1224,6 +1793,86 @@ class ezcConsoleInputTest extends ezcTestCase
                 'Sorry, there is no help text available for this parameter.',
             ),
         );
+        $this->assertEquals( 
+            $res,
+            $this->input->getHelp( true ),
+            'Help array was not generated correctly.'
+        );
+        
+    }
+    
+    public function testGetHelp2NewArgs()
+    {
+        $res = array( 
+            array( 
+                '-t / --testing',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '-s / --subway',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '--carry',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '-v / --visual',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '-o / --original',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '-b / --build',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '-d / --destroy',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '-y / --yank',
+                'Some even more stupid, but somewhat longer long describtion.',
+            ),
+            array( 
+                '-c / --console',
+                'Some even more stupid, but somewhat longer long describtion.',
+            ),
+            array( 
+                '-e / --edit',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array( 
+                '-n / --new',
+                'Sorry, there is no help text available for this parameter.',
+            ),
+            array(
+                "Arguments:",
+                "",
+            ),
+            array(
+                '<string:text>',
+                'This argument is a simple text.',
+            ),
+            array(
+                '<int:number>',
+                'This argument is a number.',
+            ),
+        );
+
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "text" );
+        $this->input->argumentDefinition[0]->shorthelp = 'A text.';
+        $this->input->argumentDefinition[0]->longhelp = 'This argument is a simple text.';
+
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[1]->type = ezcConsoleInput::TYPE_INT;
+        $this->input->argumentDefinition[1]->shorthelp = 'A number.';
+        $this->input->argumentDefinition[1]->longhelp = 'This argument is a number.';
+
         $this->assertEquals( 
             $res,
             $this->input->getHelp( true ),
@@ -1291,6 +1940,66 @@ class ezcConsoleInputTest extends ezcTestCase
     {
         $this->assertEquals( 
             '$ '.$_SERVER['argv'][0].' [-t] [-s] [--carry] [-v] [-o <string>] [-b 42] [-d "world"] [-y <string>] [-c] [-e] [-n]  [[--] <args>]',
+            $this->input->getSynopsis(),
+            'Program synopsis not generated correctly.'
+        );
+    }
+    
+    public function testGetSynopsisNewArgumentsSimple()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "text" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[1]->type = ezcConsoleInput::TYPE_INT;
+
+        $this->assertEquals( 
+            '$ '.$_SERVER['argv'][0].' [-t] [-s] [--carry] [-v] [-o <string>] [-b 42] [-d "world"] [-y <string>] [-c] [-e] [-n] [--] <string:text> <int:number>',
+            $this->input->getSynopsis(),
+            'Program synopsis not generated correctly.'
+        );
+    }
+    
+    public function testGetSynopsisNewArgumentsMultiple()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "text" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[1]->type = ezcConsoleInput::TYPE_INT;
+        $this->input->argumentDefinition[1]->multiple = true;
+
+        $this->assertEquals( 
+            '$ '.$_SERVER['argv'][0].' [-t] [-s] [--carry] [-v] [-o <string>] [-b 42] [-d "world"] [-y <string>] [-c] [-e] [-n] [--] <string:text> <int:number> [<int:number> ...]',
+            $this->input->getSynopsis(),
+            'Program synopsis not generated correctly.'
+        );
+    }
+    
+    public function testGetSynopsisNewArgumentsOptional()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "text" );
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[1]->type = ezcConsoleInput::TYPE_INT;
+        $this->input->argumentDefinition[1]->mandatory = false;
+
+        $this->assertEquals( 
+            '$ '.$_SERVER['argv'][0].' [-t] [-s] [--carry] [-v] [-o <string>] [-b 42] [-d "world"] [-y <string>] [-c] [-e] [-n] [--] <string:text> [<int:number>]',
+            $this->input->getSynopsis(),
+            'Program synopsis not generated correctly.'
+        );
+    }
+    
+    public function testGetSynopsisNewArgumentsMultipleOptional()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "text" );
+        $this->input->argumentDefinition[0]->mandatory = false;
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[1]->type = ezcConsoleInput::TYPE_INT;
+        $this->input->argumentDefinition[1]->multiple = true;
+
+        $this->assertEquals( 
+            '$ '.$_SERVER['argv'][0].' [-t] [-s] [--carry] [-v] [-o <string>] [-b 42] [-d "world"] [-y <string>] [-c] [-e] [-n] [--] [<string:text>] [<int:number>] [<int:number> ...]',
             $this->input->getSynopsis(),
             'Program synopsis not generated correctly.'
         );

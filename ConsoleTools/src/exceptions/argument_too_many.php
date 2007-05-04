@@ -1,0 +1,26 @@
+<?php
+/**
+ * File containing the ezcConsoleTooManyArgumentsException.
+ * 
+ * @package ConsoleTools
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * Thrown if only a certain number of arguments were expected, but more were submitted.
+ * This exception can be caught using {@link ezcConsoleOptionException}.
+ *
+ * @package ConsoleTools
+ * @version //autogen//
+ */
+class ezcConsoleTooManyArgumentsException extends ezcConsoleArgumentException
+{
+    function __construct( $args, $i )
+    {
+        parent::__construct( "Only " . ( $i - 1 ) . " arguments are expected, but " . ( count( $args ) - 1 ) . " were submitted." );
+    }
+}
+
+?>

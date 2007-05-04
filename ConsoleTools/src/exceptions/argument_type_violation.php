@@ -1,0 +1,33 @@
+<?php
+/**
+ * File containing the ezcConsoleArgumenntTypeViolationException.
+ * 
+ * @package ConsoleTools
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * An argument was submitted with an illigal type.
+ * This exception can be caught using {@link ezcConsoleArgumentException}.
+ *
+ * @package ConsoleTools
+ * @version //autogen//
+ */
+class ezcConsoleArgumentTypeViolationException extends ezcConsoleArgumentException
+{
+    function __construct( ezcConsoleArgument $arg, $value )
+    {
+        $typeName = 'unknown';
+        switch ( $arg->type )
+        {
+            case ezcConsoleInput::TYPE_INT:
+                $typeName = 'int';
+                break;
+        }
+        parent::__construct( "The argument '{$arg->name}' expects a value of type '{$typeName}', but received the value '{$value}'." );
+    }
+}
+
+?>

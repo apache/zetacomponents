@@ -25,6 +25,7 @@ require_once 'output_formats_test.php';
  * Require test suite for ezcConsoleOutputOptions class.
  */
 require_once 'output_options_test.php';
+
 /**
  * Require test suite for ezcConsoleInput class.
  */
@@ -37,6 +38,15 @@ require_once 'option_test.php';
  * Require test suite for ezcConsoleOptionRule class.
  */
 require_once 'option_rule_test.php';
+/**
+ * Require test suite for ezcConsoleArgument class. 
+ */
+require_once 'argument_test.php';
+/**
+ * Require test suite for ezcConsoleArguments class. 
+ */
+require_once 'arguments_test.php';
+
 /**
  * Require test suite for ezcConsoleTable class.
  */
@@ -53,6 +63,7 @@ require_once 'table_row_test.php';
  * Require test suite for ezcConsoleTable class.
  */
 require_once 'table_cell_test.php';
+
 /**
  * Require test suite for ezcConsoleProgressbar class.
  */
@@ -61,6 +72,7 @@ require_once 'progressbar_test.php';
  * Require test suite for ezcConsoleProgressbar class.
  */
 require_once 'progressbar_options_test.php';
+
 /**
  * Require test suite for ezcConsoleStatusbar class.
  */
@@ -69,6 +81,7 @@ require_once 'statusbar_test.php';
  * Require test suite for ezcConsoleStatusbarOptions class.
  */
 require_once 'statusbar_options_test.php';
+
 /**
  * Require test suite for ezcConsoleProgressMonitor class.
  */
@@ -82,37 +95,30 @@ require_once 'progressmonitor_options_test.php';
  * Require test suite for ezcConsoleDialogOptions class. 
  */
 require_once 'dialog_options_test.php';
-
 /**
  * Require test suite for ezcConsoleQuestionDialog class. 
  */
 require_once 'question_dialog_test.php';
-
 /**
  * Require test suite for ezcConsoleQuestionDialogOptions class. 
  */
 require_once 'question_dialog_options_test.php';
-
 /**
  * Require test suite for ezcConsoleQuestionDialogCollectionValidator class. 
  */
 require_once 'question_dialog_collection_validator_test.php';
-
 /**
  * Require test suite for ezcConsoleQuestionDialogCollectionValidator class. 
  */
 require_once 'question_dialog_type_validator_test.php';
-
 /**
  * Require test suite for ezcConsoleMenuDialog class. 
  */
 require_once 'menu_dialog_test.php';
-
 /**
  * Require test suite for ezcConsoleMenuDialogOptions class. 
  */
 require_once 'menu_dialog_options_test.php';
-
 /**
  * Require test suite for ezcConsoleMenuDialogDefaultValidator class. 
  */
@@ -135,19 +141,27 @@ class ezcConsoleToolsSuite extends PHPUnit_Framework_TestSuite
 		$this->addTest( ezcConsoleOutputFormatTest::suite() );
 		$this->addTest( ezcConsoleOutputFormatsTest::suite() );
 		$this->addTest( ezcConsoleOutputOptionsTest::suite() );
+
 		$this->addTest( ezcConsoleInputTest::suite() );
 		$this->addTest( ezcConsoleOptionTest::suite() );
 		$this->addTest( ezcConsoleOptionRuleTest::suite() );
+		$this->addTest( ezcConsoleArgumentTest::suite() );
+		$this->addTest( ezcConsoleArgumentsTest::suite() );
+
 		$this->addTest( ezcConsoleTableCellTest::suite() );
 		$this->addTest( ezcConsoleTableRowTest::suite() );
 		$this->addTest( ezcConsoleTableTest::suite() );
 		$this->addTest( ezcConsoleTableOptionsTest::suite() );
+
 		$this->addTest( ezcConsoleProgressbarTest::suite() );
 		$this->addTest( ezcConsoleProgressbarOptionsTest::suite() );
+
 		$this->addTest( ezcConsoleStatusbarTest::suite() );
 		$this->addTest( ezcConsoleStatusbarOptionsTest::suite() );
+
 		$this->addTest( ezcConsoleProgressMonitorTest::suite() );
 		$this->addTest( ezcConsoleProgressMonitorOptionsTest::suite() );
+
 		$this->addTest( ezcConsoleQuestionDialogTest::suite() );
 		$this->addTest( ezcConsoleDialogOptionsTest::suite() );
 		$this->addTest( ezcConsoleQuestionDialogOptionsTest::suite() );
