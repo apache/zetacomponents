@@ -513,7 +513,7 @@ abstract class ezcArchive implements Iterator
                     case ezcArchiveEntry::IS_DIRECTORY:
                         $permissions = $entry->getPermissions();
 
-                        if( $permissions === null || $permissions === false )
+                        if ( $permissions === null || $permissions === false )
                         {
                             $permissions = 0777;
                         }

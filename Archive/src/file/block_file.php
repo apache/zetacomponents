@@ -304,7 +304,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
         {
             if ( !$this->isEmpty && !$this->isValid ) 
             {
-                throw new ezcArchiveInternalException ("Not at a valid block position to append");
+                throw new ezcArchiveInternalException( "Not at a valid block position to append" );
             }
         }
     }
@@ -383,7 +383,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
 
         $this->switchWriteMode();
 
-        $localFile = @fopen( $fileName, "rb");
+        $localFile = @fopen( $fileName, "rb" );
         if ( !$localFile ) 
         {
             throw new ezcArchiveException( "Cannot open the file: <$fileName> for reading." );
@@ -553,7 +553,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
             {
                 if ( $whence == SEEK_CUR )
                 {
-                    throw new ezcArchiveException("Cannot seek SEEK_CUR with an invalid block position");
+                    throw new ezcArchiveException( "Cannot seek SEEK_CUR with an invalid block position" );
                 }
 
                 $this->rewind();
@@ -565,7 +565,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
                 while ( $this->next() ); 
             }
 
-            switch ($whence )
+            switch ( $whence )
             {
                 case SEEK_CUR:  $searchBlock = $this->blockNumber += $blockOffset; break;
                 case SEEK_END:  $searchBlock = $this->lastBlock += $blockOffset; break;

@@ -121,42 +121,42 @@ class ezcArchiveZip extends ezcArchive implements Iterator
 
         // read the central end headers
         
-        $this->file->seek(-22, SEEK_END);
+        $this->file->seek( -22, SEEK_END );
         $filesize = $this->file->key() + 22;
         $endRecordPosition = $filesize - 22;
 
-        $sig = $this->file->read(4);
+        $sig = $this->file->read( 4 );
         if ( ezcArchiveCentralDirectoryEndHeader::isSignature( $sig ) )
         {
             $this->endRecord = new ezcArchiveCentralDirectoryEndHeader( $this->file );
 
 
-            if( $this->endRecord->commentLength != 0 )
+            if ( $this->endRecord->commentLength != 0 )
             {
-                throw new ezcArchiveException("Comment length invalid.");
+                throw new ezcArchiveException( "Comment length invalid." );
             }
         }
         else
         {
             $signatureString = "PK\005\006";
 
-            $startPosition = max( $filesize - (5 * 1024), 0);
+            $startPosition = max( $filesize - ( 5 * 1024 ), 0 );
 
             // Maybe there is a comment at the end of the archive.
-            $this->file->seek($startPosition);
-            $data = $this->file->read($filesize - $startPosition);
+            $this->file->seek( $startPosition );
+            $data = $this->file->read( $filesize - $startPosition );
 
-            $pos = strpos( $data, $signatureString);
+            $pos = strpos( $data, $signatureString );
 
-            if ($pos === false)
+            if ( $pos === false )
             {
-                throw new ezcArchiveException("Could not find the central-directory header");
+                throw new ezcArchiveException( "Could not find the central-directory header" );
             }
 
             $endRecordPosition = $startPosition + $pos;
 
-            $this->file->seek($endRecordPosition);
-            $sig = $this->file->read(4);
+            $this->file->seek( $endRecordPosition );
+            $sig = $this->file->read( 4 );
 
             if ( ezcArchiveCentralDirectoryEndHeader::isSignature( $sig ) )
             {
@@ -164,22 +164,22 @@ class ezcArchiveZip extends ezcArchive implements Iterator
             }
             else
             {
-                throw new ezcArchiveException("Zip file corrupt");
+                throw new ezcArchiveException( "Zip file corrupt" );
             }
 
-            if( $this->endRecord->commentLength !=  $filesize - $endRecordPosition - 22)
+            if ( $this->endRecord->commentLength !=  $filesize - $endRecordPosition - 22 )
             {
-                throw new ezcArchiveException("Comment length invalid.");
+                throw new ezcArchiveException( "Comment length invalid." );
             }
         }
 
-        if( $endRecordPosition - $this->endRecord->centralDirectorySize !== $this->endRecord->centralDirectoryStart)
+        if ( $endRecordPosition - $this->endRecord->centralDirectorySize !== $this->endRecord->centralDirectoryStart )
         {
-            throw new ezcArchiveException("Unable to determine the central directory start.");
+            throw new ezcArchiveException( "Unable to determine the central directory start." );
         }
         
-        $this->file->seek( $endRecordPosition - $this->endRecord->centralDirectorySize);
-        $sig = $this->file->read(4);
+        $this->file->seek( $endRecordPosition - $this->endRecord->centralDirectorySize );
+        $sig = $this->file->read( 4 );
 
         $i = 0;
         while ( ezcArchiveCentralDirectoryHeader::isSignature( $sig ) )
@@ -201,7 +201,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         {
             $struct = new ezcArchiveFileStructure(); 
             
-            //$this->localHeaders[$i]->setArchiveFileStructure( $struct );
+            // $this->localHeaders[$i]->setArchiveFileStructure( $struct );
             $this->centralHeaders[$i]->setArchiveFileStructure( $struct );
 
 
@@ -256,10 +256,10 @@ class ezcArchiveZip extends ezcArchive implements Iterator
     public function getLocalHeader( $fileNumber )
     {
 
-        if ( !isset($this->localHeaders[$fileNumber]) )
+        if ( !isset( $this->localHeaders[$fileNumber] ) )
         {
             // Read the local header
-            //
+            // 
             $this->file->seek( $this->localHeaderPositions[$fileNumber] );
 
             $sig = $this->file->read( 4 );

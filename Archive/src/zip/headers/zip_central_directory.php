@@ -260,7 +260,7 @@ class ezcArchiveCentralDirectoryHeader extends ezcArchiveLocalFileHeader
             case ezcArchiveStatMode::S_IFLNK: return ezcArchiveEntry::IS_SYMBOLIC_LINK; break; 
 
             default:
-                if( substr( $this->properties["fileName"], -1) == "/" )
+                if ( substr( $this->properties["fileName"], -1) == "/" )
                 {
                     return ezcArchiveEntry::IS_DIRECTORY;
                 }
