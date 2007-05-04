@@ -86,6 +86,18 @@ class TheReceiver
         array_push( $this->stack, "{$param1}{$param2}{$param3}" );
     }
 
+    public function slotZeroOrMoreParams()
+    {
+        $params = func_get_args();
+        array_push( $this->stack, join( ' ', $params ) );
+    }
+
+    public function slotOneOrMoreParams( $param1 )
+    {
+        $params = func_get_args();
+        array_push( $this->stack, join( ' ', $params ) );
+    }
+
     public static function slotStatic()
     {
         self::$staticFunctionRun = "have a cigar";

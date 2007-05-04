@@ -3,7 +3,9 @@
 
 - Implemented issue #9965: Support for delayed initialization through
   ezcBaseInit.
-- Implemented issue #10418: SignalSlot should support checking for a signal
+- Implemented issue #10418: SignalSlot should support checking for a signal.
+- Implemented issue #10592: Add tests for passing more parameters to a slot
+  then the slot function accepts.
 
 
 1.0 - Monday 18 December 2006

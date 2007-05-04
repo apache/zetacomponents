@@ -67,6 +67,20 @@ class ezcSignalCollectionTest extends ezcTestCase
         $this->assertEquals( array( "awaysorrowmoney" ), $this->receiver->stack );
     }
 
+    public function testSingleSignalsZeroOrMoreParamsNoPri()
+    {
+        $this->giver->signals->connect( "signal", array( $this->receiver, "slotZeroOrMoreParams" ) );
+        $this->giver->signals->emit( "signal", "A", "great", "day", "comrades,", "we", "sail", "into", "history!" );
+        $this->assertEquals( array( "A great day comrades, we sail into history!" ), $this->receiver->stack );
+    }
+
+    public function testSingleSignalsOneOrMoreParamsNoPri()
+    {
+        $this->giver->signals->connect( "signal", array( $this->receiver, "slotOneOrMoreParams" ) );
+        $this->giver->signals->emit( "signal", "Understanding", "is", "a", "three-edged", "sword." );
+        $this->assertEquals( array( "Understanding is a three-edged sword." ), $this->receiver->stack );
+    }
+
     public function testThreeSignalsNoParamNoPri()
     {
         $this->giver->signals->connect( "signal1", array( $this->receiver, "slotNoParams1" ) );
