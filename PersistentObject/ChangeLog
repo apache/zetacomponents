@@ -11,6 +11,7 @@
 - Fixed issue #10369: testAddRelatedBirthdayToPerson3UpdateSuccess fails for no.
 - Fixed issue #10112: Lots of failures in PersistentObject tests with pgsql.
 - Implemented issue #10166: Cache PO-definitions
+- Implemented issue #8487: an Interface for Persistent Objects.
 	
 	
 1.2 - Monday 18 December 2006
