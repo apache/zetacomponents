@@ -1,12 +1,12 @@
-1.3 - [RELEASEDATE]
+1.3beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Implemented feature #9564: Watermark (and perhaps other filters) should allow
-  image placements from opposite corners. Crop filters support negative
-  offsets now, too.
 - Implemented feature #8589: JPEG quality transform for ImageConversion. A new
-  option class ezcImageSaveOptions supports setting a quality indicator for
-  JPEG and a compression indicator for PNG images.
+  option class ezcImageSaveOptions supports setting a quality indicator for JPEG
+  and a compression indicator for PNG images.
+- Implemented feature #9564: Watermark (and perhaps other filters) should
+  allow image placements from opposite corners. Crop filters support negative
+  offsets now, too.
 
 
 1.2 - Monday 18 December 2006

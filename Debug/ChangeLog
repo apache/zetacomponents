@@ -1,7 +1,7 @@
 1.1beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Implemented issue #9965: Support for delayed initialization through
+- Implemented feature #9965: Support for delayed initialization through
   ezcBaseInit.
 
 

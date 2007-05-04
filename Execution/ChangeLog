@@ -1,6 +1,8 @@
 1.0.3 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- Fixed issue #010108: Grammar in default Execution error message needs fixing
+
+- Fixed issue #010108: Grammar in default Execution error message needs
+  fixing.
 
 
 1.0.2 - Monday 18 December 2006

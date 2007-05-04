@@ -4,16 +4,17 @@
 - Fixed issue #8240: ezcQueryExpression::in does not work with strings.
 - Fixed issue #8520: The non trivial join methods have incomplete
   documentation.
-- Implemented enhancement #8473: Oracle Limit/Offset optimization.
-- Implemented issue #9965: Support for delayed initialization through
-  ezcBaseInit.
 - Fixed issue #9526: Implemented expression now() for each database handler.
 - Fixed issue #10529: Tests for quoting of strings in query expressions.
-- Added feature #8448: Select Distinct not supported
-- Added feature #7772: SQL Server implementation for the Database package. 
-                Based on contributions by Joel Arvidsson and Friedel Hill.
-- Added feature #9960 [Database] sql abstraction.
-                Based on contributions by Joel Arvidsson and Friedel Hill.
+- Implemented feature #7772: SQL Server implementation for the Database package.
+  Based on contributions by Joel Arvidsson and Friedel Hill.
+- Implemented feature #8473: Oracle Limit/Offset optimization.
+- Implemented feature #8448: Select Distinct not supported
+- Implemented feature #9960 [Database] sql abstraction.  Based on contributions by
+  Joel Arvidsson and Friedel Hill.
+- Implemented feature #9965: Support for delayed initialization through
+  ezcBaseInit.
+
 
 1.2 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

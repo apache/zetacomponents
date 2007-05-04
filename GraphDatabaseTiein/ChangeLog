@@ -1,0 +1,6 @@
+1.0beta1 - [RELEASEDATE]
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Implemented feature #9405: Allow creation of datasets directly from PDO
+  statements.

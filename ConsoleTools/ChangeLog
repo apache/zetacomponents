@@ -3,7 +3,7 @@
 
 - Fixed issue #9857: Multi-option and default value. Arrays are now allowed in
   default value, if multiple-option is set to true.
-- Fixed issue #9902: [ConsoleTools] Problems on Windows.
+- Fixed issue #9902: Problems on Windows.
 - Fixed issue #10594: ezcConsole*Options throw incorrect exceptions.
 - Fixed issue #10595: ezcConsole*Options perform improper string checks.
 - Fixed issue #10596: ezcConsoleTable* classes do not perform proper property
@@ -21,8 +21,9 @@
   broken.
 - Fixed issue #10626: ezcConsoleStatusbar does not trigger warning on invalid
   status.
-- Implemented issue #8461: Argument help text. A completly new argument
+- Implemented issue #8461: Argument help text. A completely new argument
   handling was invented.
+
 
 1.2 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

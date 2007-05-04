@@ -1,41 +1,45 @@
 1.1beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Added feature #9402: Numeric datasets
-- Fixed issue #9916: Not documented: ArrayDataSet also can use Iterators
+- Fixed issue #9916: Not documented: ArrayDataSet also can use Iterators.
 - Fixed issue #9926: Float values with date axis result in date parsing
-  exception
-- Fixed issue #10025: Wrong statement in tutorial about swf versions supported
-  by ext/ming
-- Fixed issue #10018: Axis scale incorrect when startDate != first day of month
-- Fixed issue #9948: Make ezcGraphPolynom documentation public
-- Fixed issue #10074: Use iconv instead of mbstring
-- Fixed issue #10056: Fixed drawing order for boxes with background and border
+  exception.
+- Fixed issue #9948: Make ezcGraphPolynom documentation public.
 - Fixed issue #9950: Improved ezcGraphPolynom::__toString method for more
-  exact output
-- Fixed issue #10055: Improve chart class documentation with chart elements
+  exact output.
+- Fixed issue #10018: Axis scale incorrect when startDate != first day of
+  month.
+- Fixed issue #10025: Wrong statement in tutorial about swf versions supported
+  by ext/ming.
+- Fixed issue #10074: Use iconv instead of mbstring.
+- Fixed issue #10055: Improve chart class documentation with chart elements.
+- Fixed issue #10056: Fixed drawing order for boxes with background and
+  border.
 - Fixed issue #10199: Use saveXML instead of save( 'php://output' ) to work
-  around PHP bug #40429
-- Fixed issue #10246: sprintf output modification in PHP 5.2.1
+  around PHP bug #40429.
+- Fixed issue #10246: sprintf output modification in PHP 5.2.1.
 - Fixed issue #10275: Low label count on labeled axis, when having (prime
-  number > 10) + 1 labels
-- Added feature #10375: Manually reduce or increase the label count on
-  labeled axis
-- Added feature #9511: Added helper functions to create image maps an link SVG
-  images in ezcGraphTools
-- Added feature #9404: Add spport for rotated texts on axis.
-- Fixed issue #10536: Bar side polygones are drawn at the wrong side.
-- Fixed issue #10599: Pie chart label formattig callback only accepts callback
+  number > 10) + 1 labels.
+- Fixed issue #10536: Bar side polygons are drawn at the wrong side.
+- Fixed issue #10599: Pie chart label formatting callback only accepts callback
   functions but neither static nor non static methods.
-- Added feature #10470: Add support for format callback functions on all axis
-- Added feature #10017: Plot whole months on date axis respecting their
-  different length
 - Fixed issue #10606: Call to undefined function imagePsLoadFont() in gd tests
-  when no t1lib is available
-- Fixed issue #10675: Arrow heads on axis too small
+  when no t1lib is available.
+- Fixed issue #10675: Arrow heads on axis too small.
 - Fixed issue #10693: ezcGraphChartElementAxis::getSteps returns minor steps
-  after last major steps
-- Added feature #9406: Add support for radar charts
+  after last major steps.
+- Implemented feature #9402: Numeric datasets.
+- Implemented feature #9404: Add support for rotated texts on axis.
+- Implemented feature #9406: Add support for radar charts.
+- Implemented feature #9511: Added helper functions to create image maps an link SVG
+  images in ezcGraphTools.
+- Implemented feature #10017: Plot whole months on date axis respecting their
+  different length.
+- Implemented feature #10375: Manually reduce or increase the label count on
+  labeled axis.
+- Implemented feature #10470: Add support for format callback functions on all
+  axis.
+
 
 1.0 - Monday 18 December 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
