@@ -24,6 +24,7 @@ class ezcTemplateCachePreparation extends ezcTemplateTstWalker
 
     /* Move the USE variable to the top of the program.
      */
+    /*
     public function visitDeclarationTstNode( ezcTemplateDeclarationTstNode $node )
     {
         $symbolTable = ezcTemplateSymbolTable::getInstance();
@@ -43,6 +44,7 @@ class ezcTemplateCachePreparation extends ezcTemplateTstWalker
             $this->acceptAndUpdate( $node->expression );
         }
     }
+     */
 }
 
 ?>

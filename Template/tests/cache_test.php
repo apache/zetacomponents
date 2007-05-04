@@ -194,6 +194,22 @@ EOM
         $this->assertEquals( "\n\n[Bart Simpson]\n", $out);  // No Id given.
     }
 
+    public function testCacheBlockWithFunctionKeys()
+    {
+        $t = new ezcTemplate();
+        $t->send->user = new TestUser( "Bart", "Simpson" );
+
+        $out = $t->process( "cache_block_with_function_key.tpl");
+        $this->assertEquals( "\n[Bart Simpson]\n", $out);
+
+        $t->send->user = new TestUser( "Lisa", "Simpson" );
+        $out = $t->process( "cache_block_with_function_key.tpl");
+        $this->assertEquals( "\n[Bart Simpson]\n", $out);  // No Id given.
+
+        $t->send->user = new TestUser( "Homer", "Simpson" );
+        $out = $t->process( "cache_block_with_function_key.tpl");
+        $this->assertEquals( "\n[Homer Simpson]\n", $out);  // No Id given.
+    }
 
     public function testCacheBlockInCacheBlock()
     {
@@ -411,8 +427,46 @@ EOM
 
     // /////////////////////////////////////////////////////////////////////////////////////////
     // Test the dynamic block.
+    // Test the use variables.
     // Tested in the regression_test:
     // - Variable declaration in the dynamic block.
+
+
+    public function testWrongOrder()
+    {
+        $t = new ezcTemplate( );
+        $t->send->user = new TestUser( "Bernard", "Black" );
+
+        try
+        {
+            $out = $t->process( "cache_template_wrong_order.tpl");
+            $this->fail("Expected an exception");
+        } 
+        catch( Exception $e)
+        {
+        }
+    }
+
+    public function testFunctionAsKey()
+    {
+        $t = new ezcTemplate( );
+        $t->send->user = new TestUser( "Bernard", "Black" );
+        $out = $t->process( "cache_template_keys_function.tpl");
+        $this->assertEquals( "\nHello world\n", $out );
+    }
+
+
+    // Test if a string before and after the {cache_template} works.
+    public function testPartialCalc()
+    {
+        $t = new ezcTemplate( );
+        $t->send->user = new TestUser( "Bernard", "Black" );
+
+        $out = $t->process( "cache_template.tpl");
+        $this->assertEquals( "\nBefore\n\n\nAfter\n", $out );
+    }
+
+
 
     // Test whether the dynamic block changes when the {use} variable changes.
     public function testDynamicBlock()
@@ -566,25 +620,6 @@ EOM
         $this->assertEquals( "\n[Guybrush Threepwood]\n", $out );
     }
 
-
-    public function testCacheKeyFromNonUse()
-    {
-        // Should call a function, if it's defined.
-        $t = new ezcTemplate();
-        try
-        {
-            $out = $t->process( "cache_wrong_key.tpl");
-            $this->fail("Expected an exception");
-        } 
-        catch( ezcTemplateParserException $e)
-        {
-            if( strpos($e->getMessage(), ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_USE_VARIABLE) === false)
-            {
-                $this->fail("Expected an exception");
-            }
-
-        }
-    }
 
     // /////////////////////////////////////////////////////////////////////////////////////////////////
     // Test TTL

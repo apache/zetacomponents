@@ -559,30 +559,20 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             foreach ( $type->elements as $element )
             {
                 $astNode = $element->accept( $this );
-                if ( is_array( $astNode ) )
+                if ( !is_array( $astNode ) )
                 {
-                    foreach ( $astNode as $ast )
-                    {
-                        if ( $ast instanceof ezcTemplateStatementAstNode )
-                        {
-                            $this->programNode->appendStatement( $ast );
-                        }
-                        else
-                        {
-                            throw new ezcTemplateInternalException ("Expected an ezcTemplateStatementAstNode: ". __FILE__ . ":" . __LINE__ );
-
-                        }
-                    }
+                    $astNode = array($astNode);
                 }
-                else
+
+                foreach ( $astNode as $ast )
                 {
-                    if ( $astNode instanceof ezcTemplateStatementAstNode )
+                    if ( $ast instanceof ezcTemplateStatementAstNode )
                     {
-                        $this->programNode->appendStatement( $astNode );
+                        $this->programNode->appendStatement( $ast );
                     }
                     else
                     {
-                        throw new ezcTemplateInternalException ("Expected an ezcTemplateStatementAstNode: ". __FILE__ . ":" . __LINE__  );
+                        throw new ezcTemplateInternalException ("Expected an ezcTemplateStatementAstNode: ". __FILE__ . ":" . __LINE__ );
                     }
                 }
             }
@@ -1638,7 +1628,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
     {
         $this->declaredVariables[ $type->variable->name ] = true;
 
-        if ( $this->parser->symbolTable->retrieve( $type->variable->name ) == ezcTemplateSymbolTable::CYCLE ) 
+        if ( $this->parser->symbolTable->retrieve( $type->variable->name ) == ezcTemplateSymbolTable::CYCLE )
         {
             $this->noProperty = true;
             $var = $type->variable->accept( $this );

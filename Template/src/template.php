@@ -321,10 +321,7 @@ class ezcTemplate
                 $fetchCacheInfo = new ezcTemplateFetchCacheInformation(); 
                 $this->properties["tstTree"]->accept( $fetchCacheInfo );
 
-                $cachePreparation = new ezcTemplateCachePreparation();
-                $this->properties["tstTree"]->accept( $cachePreparation );
-
-                $tstToAst = new ezcTemplateTstToAstCachedTransformer ( $parser, $fetchCacheInfo->cacheTst, $cachePreparation );
+                $tstToAst = new ezcTemplateTstToAstCachedTransformer ( $parser, $fetchCacheInfo->cacheTst);
             }
             else
             {

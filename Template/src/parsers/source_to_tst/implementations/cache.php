@@ -112,7 +112,7 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
                 {
                     $this->findNextElement( $cursor );
 
-                    if ( ! $this->parseOptionalType( "Variable", $this->currentCursor, false ) )
+                    if ( ! $this->parseOptionalType( "Expression", $this->currentCursor, false ) )
                     {
                         throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_VARIABLE );
                     }
