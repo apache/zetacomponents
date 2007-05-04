@@ -39,7 +39,7 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
     protected function parseCurrent( ezcTemplateCursor $cursor )
     {
         // Disable caching.
-        //return false;
+        // return false;
 
         if ( $cursor->match( "dynamic" ) )
         {
@@ -68,12 +68,12 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
             $cacheNode = new ezcTemplateCacheTstNode( $this->parser->source, $this->startCursor, $cursor );
             $cacheNode->type = ezcTemplateCacheTstNode::TYPE_CACHE_TEMPLATE;
         }
-        ////////// HERE 
+        // //////// HERE 
         elseif ($cursor->match( "cache_block" ) )
         {
             $this->parser->hasCacheBlocks = true;
             $cacheNode = new ezcTemplateCacheBlockTstNode( $this->parser->source, $this->startCursor, $cursor );
-            //$cacheNode->type = ezcTemplateCacheTstNode::TYPE_CACHE_BLOCK;
+            // $cacheNode->type = ezcTemplateCacheTstNode::TYPE_CACHE_BLOCK;
 
             if ( $this->block->isClosingBlock )
             {
@@ -90,7 +90,7 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
                 return true;
             }
         }
-        /////////// ENDHERE
+        // ///////// ENDHERE
         else
         {
             return false;

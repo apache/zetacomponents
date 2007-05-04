@@ -197,9 +197,9 @@ class ezcTemplateCompiledCode
         }
 
         // Check if caching is enabled
-        if( isset( $compileFlags["disableCache"] ) )
+        if ( isset( $compileFlags["disableCache"] ) )
         {
-            if( $this->template->configuration->disableCache != $compileFlags["disableCache"] )
+            if ( $this->template->configuration->disableCache != $compileFlags["disableCache"] )
             {
                 throw new ezcTemplateOutdatedCompilationException( "The compileFlag 'disableCache' has been changed, will recompile." );
             }

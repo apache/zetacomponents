@@ -171,7 +171,7 @@ interface ezcTemplateCacheManager
      * // One result and make sure the query is terminated.
      * $r = $q->fetchAll();
      *
-     * if( sizeof( $r ) > 0 ) // Do we have any results?
+     * if ( sizeof( $r ) > 0 ) // Do we have any results?
      * {
      *     // Unexpire the cache_file.
      *     $s = $db->prepare( "UPDATE cache_files SET expired=0 WHERE id = :id" );
@@ -258,7 +258,7 @@ interface ezcTemplateCacheManager
      *
      * $r = $q->fetchAll(); // Expect 0 or 1 result
      *
-     * if( count($r) == 0 || $r[0]["expired"] == 1 )
+     * if ( count($r) == 0 || $r[0]["expired"] == 1 )
      * {
      *     return false;
      * }
@@ -270,9 +270,9 @@ interface ezcTemplateCacheManager
      * $q->execute();
      *
      * $r = $q->fetchAll();
-     * foreach( $r as $a )
+     * foreach ( $r as $a )
      * {
-     *     if( filemtime( $a["value"] ) > filemtime( $cacheName ) )
+     *     if ( filemtime( $a["value"] ) > filemtime( $cacheName ) )
      *     {
      *         return false;
      *     }
@@ -352,7 +352,7 @@ interface ezcTemplateCacheManager
      * registers all the included templates and relates them to the cache file in creation.
      *
      * <code>
-     * if( $this->depth >= 0 )
+     * if ( $this->depth >= 0 )
      * {
      *     $db = ezcDbInstance::get();
      *     $id = $this->keys[ $this->depth ]["cache_id"];
@@ -388,7 +388,7 @@ interface ezcTemplateCacheManager
      * $q->execute();
      * $rows = $q->fetchAll();
      *
-     * foreach($rows as $r)
+     * foreach ($rows as $r)
      * {
      *     unlink( $r["cache"] );
      * }

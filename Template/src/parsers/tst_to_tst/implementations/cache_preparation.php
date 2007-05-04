@@ -31,7 +31,7 @@ class ezcTemplateCachePreparation extends ezcTemplateTstWalker
 
         if ( $symbolTable->retrieve( $node->variable->name ) == ezcTemplateSymbolTable::IMPORT )
         {
-            $this->useVariableTst[] = $this->nodePath[0]->elements[$this->statements[0] + $this->offset[0]];   //$this->nodePath[0]->elements[0];
+            $this->useVariableTst[] = $this->nodePath[0]->elements[$this->statements[0] + $this->offset[0]];   // $this->nodePath[0]->elements[0];
             array_splice( $this->nodePath[0]->elements, $this->statements[0] + $this->offset[0], 1 ); 
             $this->offset[0] -= 1;
         }

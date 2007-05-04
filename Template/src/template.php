@@ -265,7 +265,7 @@ class ezcTemplate
         $this->properties["astTree"] = false;
         $this->properties["stream"] = $location;
 
-        if( $location instanceof ezcTemplateLocationInterface)
+        if ( $location instanceof ezcTemplateLocationInterface)
         {
             $this->properties["file"] = $location;
             $this->properties["stream"] = $location->getPath();

@@ -232,7 +232,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             {
                 $this->findNextElement();
 
-                if( !$res[1] ) break;
+                if ( !$res[1] ) break;
             }
 
             $parsedType = "Variable";
@@ -500,7 +500,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
             $this->findNextElement();
 
-            //$operator = $this->lastParser->value;
+            // $operator = $this->lastParser->value;
         }
         return $operator !== null;
     }

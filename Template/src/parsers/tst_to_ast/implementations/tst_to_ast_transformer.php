@@ -605,7 +605,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
             $params->value[] = $value->accept($this);
         }
 
-        if( $def->hasCloseTag && $def->isStatic )
+        if ( $def->hasCloseTag && $def->isStatic )
         {
             throw new ezcTemplateParserException($type->source, $type->startCursor, $type->startCursor, "The *static* CustomBlock cannot have a open and close tag.");
         }
@@ -652,14 +652,14 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         else
         {
             // If static.
-            if( $def->isStatic )
+            if ( $def->isStatic )
             {
                 $p = array();
                 
                 // Check whether all values are static.
                 for( $i = 0; $i < sizeof( $params->value ); $i++)
                 {
-                    if( !($params->value[$i] instanceof ezcTemplateLiteralAstNode ) )
+                    if ( !($params->value[$i] instanceof ezcTemplateLiteralAstNode ) )
                     {
                         throw new ezcTemplateParserException($type->source, $type->startCursor, $type->startCursor, "The *static* CustomBlock needs static parameters.");
                     }

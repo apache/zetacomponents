@@ -376,25 +376,25 @@ class ezcTemplateFunctions
     {
         // A bug in the Reflection classes again.
         // Need to check the current PHP version and create a different behavior. 
-        if( version_compare( PHP_VERSION, "5.2", "<") )
+        if ( version_compare( PHP_VERSION, "5.2", "<") )
         {
             return;
         }
 
-        if( !isset( $definition->parameters ) || $definition->parameters === false) return;
+        if ( !isset( $definition->parameters ) || $definition->parameters === false) return;
 
         $i = 0;
         $foundOptionalParameter = false;
         foreach ( $definition->parameters as $p )
         {
-            if( !isset($reflectionParameters[$i]) )
+            if ( !isset($reflectionParameters[$i]) )
             {
                 throw new ezcTemplateException( sprintf(ezcTemplateSourceToTstErrorMessages::MSG_INVALID_DEFINITION_PARAMETER_DOES_NOT_EXIST, $i + 1));
             }
             
             if ( $p[0] == "[" )
             {
-                if( !$reflectionParameters[$i]->isOptional() )
+                if ( !$reflectionParameters[$i]->isOptional() )
                 {
                     throw new ezcTemplateException(sprintf(ezcTemplateSourceToTstErrorMessages::MSG_INVALID_DEFINITION_PARAMETER_OPTIONAL, $i + 1));
                 }
@@ -403,7 +403,7 @@ class ezcTemplateFunctions
             }
             else
             {
-                if($foundOptionalParameter)
+                if ($foundOptionalParameter)
                 {
                     throw new ezcTemplateException(ezcTemplateSourceToTstErrorMessages::MSG_INVALID_DEFINITION_EXPECT_OPTIONAL_PARAMETER);
                 }
@@ -417,25 +417,25 @@ class ezcTemplateFunctions
     {
         $requiredParameters = 0;
 
-        if( version_compare( PHP_VERSION, "5.2", "<") )
+        if ( version_compare( PHP_VERSION, "5.2", "<") )
         {
-            if( !isset( $definition->parameters ) || $definition->parameters === false)
+            if ( !isset( $definition->parameters ) || $definition->parameters === false)
             {
                 throw new ezcTemplateException("PHP 5.2 is needed when the parameter definition is omitted in the CustomFunction definition.");
             }
 
-            foreach($definition->parameters as $p)
+            foreach ($definition->parameters as $p)
             {
-                if( $p[0] !== '[' ) $requiredParameters++;
+                if ( $p[0] !== '[' ) $requiredParameters++;
             }
 
             return $requiredParameters;
         }
         else
         {
-            foreach($reflectionParameters as $p)
+            foreach ($reflectionParameters as $p)
             {
-                if( !$p->isOptional()) $requiredParameters++;
+                if ( !$p->isOptional()) $requiredParameters++;
             }
 
             return $requiredParameters;
@@ -444,9 +444,9 @@ class ezcTemplateFunctions
 
     protected function countTotalParameters($definition, $reflectionParameters)
     {
-        if( version_compare( PHP_VERSION, "5.2", "<") )
+        if ( version_compare( PHP_VERSION, "5.2", "<") )
         {
-            if( !isset( $definition->parameters ) || $definition->parameters === false)
+            if ( !isset( $definition->parameters ) || $definition->parameters === false)
             {
                 throw new ezcTemplateException("PHP 5.2 is needed when the parameter definition is omitted in the CustomFunction definition.");
             }
@@ -484,16 +484,16 @@ class ezcTemplateFunctions
         $maxNr = 0;
        
         // Named parameters.
-        foreach($parameters as $name => $value)
+        foreach ($parameters as $name => $value)
         {
             if (!is_int($name))
             {
                 $found = false;
                 $nr = 0;
 
-                foreach( $reflectionParameters as $rp)
+                foreach ( $reflectionParameters as $rp)
                 {
-                    if( $rp->getName() === $name )
+                    if ( $rp->getName() === $name )
                     {
                         $found = true;
                         break;
@@ -502,7 +502,7 @@ class ezcTemplateFunctions
                     $nr++;
                 }
 
-                if( !$found)
+                if ( !$found)
                 {
                     throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_NAMED_PARAMETER_NOT_FOUND, $name, $functionName  ) );
                 }
@@ -514,11 +514,11 @@ class ezcTemplateFunctions
         ksort($newParameters, SORT_NUMERIC);
 
         $i = 0;
-        foreach($parameters as $name => $value)
+        foreach ($parameters as $name => $value)
         {
             if (is_int($name))
             {
-                while( isset($newParameters[$i])) $i++;
+                while ( isset($newParameters[$i])) $i++;
 
                 $newParameters[$i] = $value; 
             }
@@ -529,9 +529,9 @@ class ezcTemplateFunctions
         // Search for 'holes'.
         for($i = 0; $i < $maxNr; $i++)
         {
-            if( !isset( $newParameters[$i]) )
+            if ( !isset( $newParameters[$i]) )
             {
-                if( !$reflectionParameters[$i]->isDefaultValueAvailable() )
+                if ( !$reflectionParameters[$i]->isDefaultValueAvailable() )
                 {
                     throw new ezcTemplateException( sprintf("Parameter %s is not given and has not a default value.", $i + 1) );
                 }
@@ -548,7 +548,7 @@ class ezcTemplateFunctions
 
     protected function getReflectionParameters( $definition )
     {
-        if( !isset($definition->class) || $definition->class  === false )
+        if ( !isset($definition->class) || $definition->class  === false )
         {
             $rm = new ReflectionFunction( $definition->method );
         }
@@ -593,7 +593,7 @@ class ezcTemplateFunctions
             $a = new ezcTemplateFunctionCallAstNode( ( $def->class ? ( $def->class . "::" ) : "" ) . $def->method);
             $a->checkAndSetTypeHint();
 
-            if( isset($def->sendTemplateObject) && $def->sendTemplateObject )
+            if ( isset($def->sendTemplateObject) && $def->sendTemplateObject )
             {
                 array_shift($reflectionParameters);
                 $a->appendParameter( new ezcTemplateVariableAstNode("this->template") );
@@ -606,7 +606,7 @@ class ezcTemplateFunctions
 
 
 
-            foreach( $parameters as $p)
+            foreach ( $parameters as $p)
             {
                 $a->appendParameter( $p );
             }

@@ -316,7 +316,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
                               "\\r",
                               "\\n" );
 
-            if( $this->escapeSingleQuote ) 
+            if ( $this->escapeSingleQuote ) 
             {
                 $search[] = "'";
                 $replace[] = "\\'";

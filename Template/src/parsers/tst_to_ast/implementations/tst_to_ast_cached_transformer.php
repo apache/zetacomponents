@@ -229,7 +229,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
      */
     protected function notFileExistsCache()
     {
-        if( $this->template->usedConfiguration->cacheManager !== false )
+        if ( $this->template->usedConfiguration->cacheManager !== false )
         {
             // !$this->template->usedConfiguration->cacheManager->isValid( $cacheName ) || !file_exist()
             $a = new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->usedConfiguration->cacheManager->isValid", array( new ezcTemplateVariableAstNode( "this->template"), new ezcTemplateLiteralAstNode( $this->parser->template->stream ), new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
@@ -253,7 +253,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             $k = $value->accept($this);
 
             $type = $this->parser->symbolTable->retrieve($k->name);
-            if( substr( $k->name, 0, 12) == "this->send->")
+            if ( substr( $k->name, 0, 12) == "this->send->")
             {
                 $cacheKeys[str_replace( "this->send->", "use:" , $k->name )] = $k->name;
             }
@@ -292,7 +292,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
 
     protected function startCaching( $cb )
     {
-        /// startCaching(); 
+        // / startCaching(); 
         $cplen = strlen( $this->parser->template->usedConfiguration->compilePath );
         if ($this->template->usedConfiguration->cacheManager !== false )
         {
@@ -309,7 +309,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
     // TEST VERSION for cacheblock.
     protected function startCachingCacheBlock( $cb )
     {
-        /// startCaching(); 
+        // / startCaching(); 
         $cplen = strlen( $this->parser->template->usedConfiguration->compilePath );
         if ($this->template->usedConfiguration->cacheManager !== false )
         {
@@ -319,7 +319,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         $cb->appendStatement( $this->_fopenCacheFileWriteMode() ); // $fp = fopen( $this->cache, "w" ); 
 
         $cb->appendStatement( $this->_fwritePhpOpen() );                 // fwrite( $fp, "<" . "?php\n" );
-        //$cb->appendStatement( $this->_assignEmptyString("total") );      // $total = ""
+        // $cb->appendStatement( $this->_assignEmptyString("total") );      // $total = ""
         $cb->appendStatement( $this->_assignVariable(self::INTERNAL_PREFIX . "output", "total".$this->cacheLevel) );
         $cb->appendStatement( $this->_assignEmptyString( self::INTERNAL_PREFIX. "output") );
 
@@ -371,7 +371,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         {
             $use = $useVariable->accept($this);
 
-            if( is_array( $use ) )
+            if ( is_array( $use ) )
             {
                 foreach ( $use as $u )
                 {
@@ -463,7 +463,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
             $hasCacheKey = true;
         }
 
-        if( $hasCacheKey )
+        if ( $hasCacheKey )
         {
             $code = '$_ezcTemplateCache = \'' . $this->getCacheBaseName() . $cacheBlock ."'" ;
             foreach ( $cacheKeys as $key => $value )
@@ -648,7 +648,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
                 $k = $key->accept($this);
 
 
-                if( $this->parser->symbolTable->retrieve($key->name) !== ezcTemplateSymbolTable::IMPORT)
+                if ( $this->parser->symbolTable->retrieve($key->name) !== ezcTemplateSymbolTable::IMPORT)
                 {
                     
                     throw new ezcTemplateParserException( $type->source, $type->endCursor, $type->endCursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_USE_VARIABLE );
@@ -667,7 +667,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         }
         else
         {
-            //$cb = new ezcTemplateCacheBlockAstNode( $type->elements->accept($this) );
+            // $cb = new ezcTemplateCacheBlockAstNode( $type->elements->accept($this) );
             
             return $cb;
         }
@@ -730,7 +730,7 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
         $statements->appendStatement( $if );
 
         // RETURN STATEMENT outside..
-        //$statements->appendStatement( new ezcTemplateReturnAstNode( $this->outputVariable->getAst()) );
+        // $statements->appendStatement( new ezcTemplateReturnAstNode( $this->outputVariable->getAst()) );
 
 
         $this->cacheLevel--;
