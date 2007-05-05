@@ -1045,13 +1045,12 @@ class ezcPersistentSession
 
     /**
      * Returns a hash map between property and column name for the given definition $def.
-     *
      * The alias map can be used with the query classes.
      *
-     * @param ezcPersistentObjectDefinition $def
+     * @param ezcPersistentObjectDefinition $def Definition.
      * @return array(string=>string)
      */
-    private function generateAliasMap( ezcPersistentObjectDefinition $def )
+    public function generateAliasMap( ezcPersistentObjectDefinition $def )
     {
         $table = array();
         foreach ( $def->properties as $prop )
@@ -1065,10 +1064,10 @@ class ezcPersistentSession
     /**
      * Returns all the columns defined in the persistent object.
      *
-     * @param ezcPersistentObjectDefinition $def
-     * @return array(string)
+     * @param ezcPersistentObjectDefinition $def Defintion.
+     * @return array(int=>string)
      */
-    private function getColumnsFromDefinition( ezcPersistentObjectDefinition $def )
+    public function getColumnsFromDefinition( ezcPersistentObjectDefinition $def )
     {
         $columns = array();
         $columns[] = $this->database->quoteIdentifier( $def->idProperty->columnName );
