@@ -15,6 +15,8 @@
 - Implemented feature #9584: Switch for overwriting files.
   (PersistentObjectDatabaseSchemaTiein)
 - Implemented feature #9874: ezcDbSchema[DB]Reader custom table schema class.
+- Implemented feature #8418: Generate class files as well.
+  (PersistentObjectDatabaseSchemaTiein)
 
 
 1.1 - Monday 18 December 2006

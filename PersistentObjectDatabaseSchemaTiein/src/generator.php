@@ -132,6 +132,22 @@ class ezcPersistentObjectSchemaGenerator
 
         $this->input->registerOption(
             new ezcConsoleOption(
+                "p",        // short
+                "prefix",   // long
+                ezcConsoleInput::TYPE_STRING,
+                null,       // default
+                false,      // multiple
+                "Class prefix.",
+                "Unique prefix that will be prepended to all class names.",
+                array(),    // dependencies
+                array(),    // exclusions
+                true,       // arguments
+                false       // mandatory
+            )
+        );
+
+        $this->input->registerOption(
+            new ezcConsoleOption(
                 "h",        // short
                 "help",     // long
                 ezcConsoleInput::TYPE_NONE,
@@ -146,6 +162,17 @@ class ezcPersistentObjectSchemaGenerator
                 true        // help option
             )
         );
+
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "def dir" );
+        $this->input->argumentDefinition[0]->shorthelp = "PersistentObject definition directory.";
+        $this->input->argumentDefinition[0]->longhelp  = "Directory where PersistentObject definitions will be stored.";
+
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "class dir" );
+        $this->input->argumentDefinition[1]->mandatory = false;
+        $this->input->argumentDefinition[1]->shorthelp = "Class directory.";
+        $this->input->argumentDefinition[1]->longhelp  = "Directory where PHP classes will be stored. Classes will not be generated if this argument is ommited.";
         
         $this->output->outputLine( 'eZ components PersistentObject definition generator', 'info' );
         $this->output->outputLine();
@@ -163,7 +190,7 @@ class ezcPersistentObjectSchemaGenerator
         {
             $this->input->process();
         }
-        catch ( ezcConsoleOptionException $e )
+        catch ( ezcConsoleException $e )
         {
             $this->raiseError( "Error while processing your options: {$e->getMessage()}", true );
         }
@@ -181,12 +208,8 @@ class ezcPersistentObjectSchemaGenerator
             exit( 0 );
         }
 
-        if ( sizeof( ( $args =  $this->input->getArguments() ) ) < 1 )
-        {
-            $this->raiseError( "The directory to save the PersistentObject definitions to is required as an argument.", true );
-        }
-
-        $destination = $args[0];
+        $defDir   = $this->input->argumentDefinition["def dir"]->value;
+        $classDir = $this->input->argumentDefinition["class dir"]->value;
 
         $schema = null;
         try
@@ -215,15 +238,30 @@ class ezcPersistentObjectSchemaGenerator
 
         try
         {
-            $writer = new ezcDbSchemaPersistentWriter( $this->input->getOption( "overwrite" )->value );
-            $writer->saveToFile( $destination, $schema );
+            $writer = new ezcDbSchemaPersistentWriter(
+                $this->input->getOption( "overwrite" )->value,
+                    $this->input->getOption( "prefix" )->value
+            );
+            $writer->saveToFile( $defDir, $schema );
+            if ( $classDir !== null )
+            {
+                $writer = new ezcDbSchemaPersistentClassWriter(
+                    $this->input->getOption( "overwrite" )->value,
+                    $this->input->getOption( "prefix" )->value
+                );
+                $writer->saveToFile( $classDir, $schema );
+            }
         }
         catch ( ezcBaseException $e )
         {
             $this->raiseError( "Error writing schema: {$e->getMessage()}" );
         }
 
-        $this->output->outputLine( "PersistentObject definition successfully written to {$destination}.", 'info' );
+        $this->output->outputLine( "PersistentObject definition successfully written to {$defDir}.", 'info' );
+        if ( $classDir !== null )
+        {
+            $this->output->outputLine( "Class files successfully written to {$classDir}.", 'info' );
+        }
     }
 
     /**

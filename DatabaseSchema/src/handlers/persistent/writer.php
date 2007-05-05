@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDbSchemaPersistentObjectWriter class.
+ * File containing the ezcDbSchemaPersistentWriter class.
  *
  * @package DatabaseSchema
  * @version //autogentag//
@@ -9,7 +9,7 @@
  */
 
 /**
- * This handler creates PersistenObject definition files from a
+ * This handler creates PHP classes to be used with PersistentObject from a
  * DatabaseSchema.
  *
  * @package DatabaseSchema
@@ -26,14 +26,23 @@ class ezcDbSchemaPersistentWriter implements ezcDbSchemaFileWriter
     private $overwrite;
 
     /**
+     * Class prefix. 
+     * 
+     * @var string
+     */
+    private $prefix;
+
+    /**
      * Creates a new writer instance
      *
-     * @param boolean $overwrite 
+     * @param boolean $overwrite   Overwrite existsing files?
+     * @param string  $classPrefix Prefix for class names.
      * @return void
      */
-    public function __construct( $overwrite = false )
+    public function __construct( $overwrite = false, $classPrefix = null )
     {
         $this->overwrite = $overwrite;
+        $this->prefix    = ( $classPrefix === null ) ? "" : $classPrefix;
     }
     
     /**
@@ -165,7 +174,7 @@ class ezcDbSchemaPersistentWriter implements ezcDbSchemaFileWriter
 
         fwrite( $file, "\$def = new ezcPersistentObjectDefinition();\n" );
         fwrite( $file, "\$def->table = '$tableName';\n" );
-        fwrite( $file, "\$def->class = '$tableName';\n" );
+        fwrite( $file, "\$def->class = '{$this->prefix}$tableName';\n" );
 
         $primaries = $this->determinePrimaries( $table->indexes );
 

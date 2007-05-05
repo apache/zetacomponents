@@ -2,6 +2,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented feature #9584: Switch for overwriting files.
+- Implemented feature #8418: Generate class files as well.
 
 
 1.1 - Monday 18 December 2006

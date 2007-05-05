@@ -48,6 +48,7 @@ return array(
     'ezcDbSchemaOracleReader'                    => 'DatabaseSchema/handlers/oracle/reader.php',
     'ezcDbSchemaOracleWriter'                    => 'DatabaseSchema/handlers/oracle/writer.php',
     'ezcDbSchemaPersistentWriter'                => 'DatabaseSchema/handlers/persistent/writer.php',
+    'ezcDbSchemaPersistentClassWriter'           => 'DatabaseSchema/handlers/persistent/class_writer.php',
     'ezcDbSchemaPgsqlReader'                     => 'DatabaseSchema/handlers/pgsql/reader.php',
     'ezcDbSchemaPgsqlWriter'                     => 'DatabaseSchema/handlers/pgsql/writer.php',
     'ezcDbSchemaPhpArrayReader'                  => 'DatabaseSchema/handlers/php_array/reader.php',
