@@ -558,16 +558,17 @@ class ezcConsoleInput
      * does not contain any parameter, which value is 'false' (meaning: the
      * parameter was not submitted).
      * 
+     * @param bool $longnames Wheather to use longnames for indexing.
      * @return array(string=>mixed)
      */
-    public function getOptionValues()
+    public function getOptionValues( $longnames = false )
     {
         $res = array();
         foreach ( $this->options as $param )
         {
             if ( $param->value !== false ) 
             {
-                $res[$param->short] = $param->value;
+                $res[( $longnames === true ) ? $param->long : $param->short] = $param->value;
             }
         }
         return $res;

@@ -617,6 +617,21 @@ class ezcConsoleInputTest extends ezcTestCase
             "Processing from \$_SERVER['argv'] did not work."
         );
     }
+    
+    public function testProcessSuccessGetOptionValuesLongnames()
+    {
+        $_SERVER["argv"] = array(
+            'foo.php',
+            '--build',
+            '42'
+        );
+        $this->input->process();
+        $this->assertEquals(
+            array( "build" => 42, "destroy" => "world" ),
+            $this->input->getOptionValues( true ),
+            "Processing from \$_SERVER['argv'] did not work."
+        );
+    }
 
     public function testProcessSuccessSingleShortNoValueArguments()
     {
