@@ -170,6 +170,37 @@ class ezcCacheStorageFileTest extends ezcTestCase
         $this->removeTempDir();
     }
 
+    public function testRestoreWithoutSearch()
+    {
+        $cache = new ezcCacheStorageFileArray(
+            $this->createTempDir( 'ezcCacheStorageFileTest' ), 
+            array( 'extension' => '.c', 'ttl' => false )
+        );
+
+        $id = "test";
+        $keys = array( 10000, 1, 10, 100, 1000 );
+        
+        // Store
+        foreach ( $keys as $key )
+        {
+            // No cache may exist!
+            $this->assertFalse(
+                $cache->restore( $id, array( 0 => $key, 1 => "en" ), false )
+            );
+            $cache->store( $id, "ID=$key&LANG=en", array( 0 => $key, 1 => "en" ) );
+        }
+
+        // Restore
+        foreach( $keys as $key )
+        {
+            $this->assertEquals(
+                $cache->restore( $id, array( 0 => $key, 1 => "en" ), false ),
+                "ID=$key&LANG=en"
+            );
+        }
+
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcCacheStorageFileTest" );

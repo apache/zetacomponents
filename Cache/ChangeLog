@@ -4,6 +4,8 @@
 - Implemented issue #9383: Ability to set file permissions on created files.
 - Added ezcCacheStorageFileOptions class.
 - Fixed issue #10678: ezcCacheStorageOptions throws incorrect exceptions.
+- Fixed issue #10577: ezcCacheStorageFile::restore searches for files and
+  returns the wrong data.
 
 
 1.1.4 - Monday 18 December 2006
