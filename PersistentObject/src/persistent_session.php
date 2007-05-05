@@ -486,16 +486,18 @@ class ezcPersistentSession
 
     /**
      * Returns the base query for retrieving related objects.
-     * See {@see getRelatedObject()} and {@see getRelatedObjects()}.
+     * See {@see getRelatedObject()} and {@see getRelatedObjects()}. Can be
+     * modified by additional where conditions and simply be used with
+     * {@see find()} and the related class name.
      * 
-     * @param object $object 
-     * @param string $relatedClass 
+     * @param object $object       Object to find related objects for.
+     * @param string $relatedClass Class of the related objects to find. 
      * @return ezcDbSelectQuery
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
      */
-    private function createRelationFindQuery( $object, $relatedClass )
+    public function createRelationFindQuery( $object, $relatedClass )
     {
         $def = $this->definitionManager->fetchDefinition( ( $class = get_class( $object ) ) );
         if ( !isset( $def->relations[$relatedClass] ) )

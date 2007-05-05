@@ -15,6 +15,8 @@
   no apparant reason.
 - Implemented feature #8487: An interface for Persistent Objects.
 - Implemented feature #10166: Cache PO-definitions.
+- Implemented feature #9967: PersistentObject: getRelationQuery() method. This
+  method is now called createRelationFindQuery() and is public now.
 	
 	
 1.2 - Monday 18 December 2006
