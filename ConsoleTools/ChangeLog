@@ -21,6 +21,8 @@
   broken.
 - Fixed issue #10626: ezcConsoleStatusbar does not trigger warning on invalid
   status.
+- Fixed issue #10710: ezcConsoleTable reports fatal error on example
+  $table[][0]->content = "foo".
 - Implemented issue #8461: Argument help text. A completely new argument
   handling was invented.
 - Implemented issue #9216: ezcConsoleInput::getOptionValues I want long names.

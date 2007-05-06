@@ -706,6 +706,8 @@ class ezcConsoleTableTest extends ezcTestCase
         $table[0] = new ezcConsoleTableRow();
 
         $this->assertEquals( new ezcConsoleTableRow(), $table[0] );
+        // Test for bug #10710
+        $this->assertEquals( "test", ( $table[][0]->format = "test" ) );
     }
 
     public function testOffsetGetFailure()

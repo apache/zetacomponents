@@ -278,6 +278,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      */
     public function offsetGet( $offset )
     {
+        $offset = ( $offset === null ) ? count( $this->rows ) : $offset;
         if ( !is_int( $offset ) || $offset < 0  )
         {
             throw new ezcBaseValueException( 'offset', $offset, 'int >= 0 or null' );
