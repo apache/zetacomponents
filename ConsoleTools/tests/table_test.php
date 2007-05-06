@@ -220,6 +220,50 @@ class ezcConsoleTableTest extends ezcTestCase
         );
     }
     
+    public function testTableWithoutBorders()
+    {
+        $this->commonTableTest(
+            __FUNCTION__,
+            $this->tableData4,
+            array( 'cols' => count( $this->tableData4[0] ), 'width' =>  120 ),
+            array( 'lineVertical' => null, 'lineHorizontal' => null, 'corner' => null ),
+            array( 0 )
+        );
+    }
+    
+    public function testTableWithSpaceBorders()
+    {
+        $this->commonTableTest(
+            __FUNCTION__,
+            $this->tableData4,
+            array( 'cols' => count( $this->tableData4[0] ), 'width' =>  120 ),
+            array( 'lineVertical' => ' ', 'lineHorizontal' => ' ', 'corner' => ' ' ),
+            array( 0 )
+        );
+    }
+    
+    public function testTableWithoutVerticalBorders()
+    {
+        $this->commonTableTest(
+            __FUNCTION__,
+            $this->tableData4,
+            array( 'cols' => count( $this->tableData4[0] ), 'width' =>  120 ),
+            array( 'lineVertical' => null ),
+            array( 0 )
+        );
+    }
+    
+    public function testTableWithoutHorizontalBorders()
+    {
+        $this->commonTableTest(
+            __FUNCTION__,
+            $this->tableData4,
+            array( 'cols' => count( $this->tableData4[0] ), 'width' =>  120 ),
+            array( 'lineHorizontal' => null ),
+            array( 0 )
+        );
+    }
+    
     public function testTableConfigurationFailure1 ()
     {
         // Missing 'cols' setting
@@ -928,7 +972,7 @@ class ezcConsoleTableTest extends ezcTestCase
         
         $refFile = dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . $refFile . '.dat';
         // To prepare test files, uncomment this block
-        //file_put_contents( $refFile, implode( PHP_EOL, $table->getTable() ) );
+        // file_put_contents( $refFile, implode( PHP_EOL, $table->getTable() ) );
         
         // For test assertion, uncomment this block
         $this->assertEquals(

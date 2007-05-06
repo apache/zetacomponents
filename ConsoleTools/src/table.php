@@ -278,9 +278,9 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
      */
     public function offsetGet( $offset )
     {
-        if ( !is_int( $offset ) || $offset < 0 )
+        if ( !is_int( $offset ) || $offset < 0  )
         {
-            throw new ezcBaseValueException( 'offset', $offset, 'int >= 0' );
+            throw new ezcBaseValueException( 'offset', $offset, 'int >= 0 or null' );
         }
         if ( !isset( $this->rows[$offset] ) )
         {
@@ -508,7 +508,10 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
     {
         $colWidth = $this->getColWidths();
         $table = array();
-        $table[] = $this->generateBorder( $colWidth, $this[0]->borderFormat );
+        if ( $this->options->lineVertical !== null )
+        {
+            $table[] = $this->generateBorder( $colWidth, $this[0]->borderFormat );
+        }
         // Rows submitted by the user
         for ( $i = 0;  $i < count( $this->rows ); $i++ )
         {
@@ -518,7 +521,10 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
                 $table[] = $this->generateRow( $brkCells, $colWidth, $this->rows[$i] );
             }
             $afterBorderFormat = isset( $this->rows[$i + 1] ) && $this->rows[$i + 1]->borderFormat != 'default' ? $this->rows[$i + 1]->borderFormat : $this->rows[$i]->borderFormat;
-            $table[] = $this->generateBorder( $colWidth, $afterBorderFormat );
+            if ( $this->options->lineVertical !== null )
+            {
+                $table[] = $this->generateBorder( $colWidth, $afterBorderFormat );
+            }
         }
         return $table; 
     }
@@ -534,9 +540,10 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
         $border = '';
         foreach ( $colWidth as $col => $width )
         {
-            $border .= $this->properties['options']->corner . str_repeat( $this->properties['options']->lineVertical, $width + ( 2 * strlen( $this->properties['options']->colPadding ) ) );
+            $border .= ( $this->options->lineHorizontal !== null ? $this->properties['options']->corner : '' )
+                    . str_repeat( $this->properties['options']->lineVertical, $width + ( 2 * strlen( $this->properties['options']->colPadding ) ) );
         }
-        $border .= $this->properties['options']->corner;
+        $border .= ( $this->options->lineHorizontal !== null ? $this->properties['options']->corner : '' );
 
         return $this->outputHandler->formatText( $border, $format );
     }

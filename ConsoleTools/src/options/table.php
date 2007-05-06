@@ -31,11 +31,11 @@
  * @property int $widthType
  *           Type of the given table width (fixed or maximal value).
  * @property string $lineVertical
- *           Character to use for drawing vertical lines.
+ *           Character to use for drawing vertical lines. Null to switch off.
  * @property string $lineHorizontal
- *           Character to use for drawing horizontal lines.
+ *           Character to use for drawing horizontal lines. Null to switch off.
  * @property string $corner
- *           Character to use for drawing line corners.
+ *           Character to use for drawing line corners. Null to switch off.
  * @property string $defaultFormat
  *           Standard column content format, applied to cells that have
  *           "default" as the content format.
@@ -170,9 +170,9 @@ class ezcConsoleTableOptions extends ezcBaseOptions
             case 'lineVertical':
             case 'lineHorizontal':
             case 'corner':
-                if ( is_string( $val ) === false || strlen( $val ) !== 1 )
+                if ( ( is_string( $val ) === false || strlen( $val ) !== 1 ) && $val !== null )
                 {
-                    throw new ezcBaseValueException( $propertyName, $val, 'string, length = 1' );
+                    throw new ezcBaseValueException( $propertyName, $val, 'string, length = 1, or null' );
                 }
                 break;
             case 'defaultFormat':
