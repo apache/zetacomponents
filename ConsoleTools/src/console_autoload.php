@@ -11,7 +11,11 @@
 
 return array(
     'ezcConsoleException'                           => 'ConsoleTools/exceptions/exception.php',
+    'ezcConsoleArgumentException'                   => 'ConsoleTools/exceptions/argument.php',
     'ezcConsoleOptionException'                     => 'ConsoleTools/exceptions/option.php',
+    'ezcConsoleArgumentAlreadyRegisteredException'  => 'ConsoleTools/exceptions/argument_already_registered.php',
+    'ezcConsoleArgumentMandatoryViolationException' => 'ConsoleTools/exceptions/argument_mandatory_violation.php',
+    'ezcConsoleArgumentTypeViolationException'      => 'ConsoleTools/exceptions/argument_type_violation.php',
     'ezcConsoleInvalidOptionNameException'          => 'ConsoleTools/exceptions/invalid_option_name.php',
     'ezcConsoleInvalidOutputTargetException'        => 'ConsoleTools/exceptions/invalid_output_target.php',
     'ezcConsoleNoPositionStoredException'           => 'ConsoleTools/exceptions/no_position_stored.php',
@@ -27,7 +31,7 @@ return array(
     'ezcConsoleOptionStringNotWellformedException'  => 'ConsoleTools/exceptions/option_string_not_wellformed.php',
     'ezcConsoleOptionTooManyValuesException'        => 'ConsoleTools/exceptions/option_too_many_values.php',
     'ezcConsoleOptionTypeViolationException'        => 'ConsoleTools/exceptions/option_type_violation.php',
-    'ezcConsoleArgumentAlreadyRegisteredException'  => 'ConsoleTools/exceptions/argument_already_registered.php',
+    'ezcConsoleTooManyArgumentsException'           => 'ConsoleTools/exceptions/argument_too_many.php',
     'ezcConsoleDialogValidator'                     => 'ConsoleTools/interfaces/dialog_validator.php',
     'ezcConsoleQuestionDialogValidator'             => 'ConsoleTools/interfaces/question_dialog_validator.php',
     'ezcConsoleDialog'                              => 'ConsoleTools/interfaces/dialog.php',
@@ -60,9 +64,5 @@ return array(
     'ezcConsoleTableCell'                           => 'ConsoleTools/table/cell.php',
     'ezcConsoleTableOptions'                        => 'ConsoleTools/options/table.php',
     'ezcConsoleTableRow'                            => 'ConsoleTools/table/row.php',
-    'ezcConsoleArgumentException'                   => 'ConsoleTools/exceptions/argument.php',
-    'ezcConsoleArgumentTypeViolationException'      => 'ConsoleTools/exceptions/argument_type_violation.php',
-    'ezcConsoleArgumentMandatoryViolationException' => 'ConsoleTools/exceptions/argument_mandatory_violation.php',
-    'ezcConsoleTooManyArgumentsException'           => 'ConsoleTools/exceptions/argument_too_many.php',
 );
 ?>

@@ -14,7 +14,7 @@
  * @package ConsoleTools
  * @version //autogen//
  */
-class ezcConsoleargumentAlreadyRegisteredException extends ezcConsoleException
+class ezcConsoleArgumentAlreadyRegisteredException extends ezcConsoleException
 {
     /**
      * The name of the argument is already in use.
