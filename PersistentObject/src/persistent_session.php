@@ -784,11 +784,6 @@ class ezcPersistentSession
      */
     public function loadIntoObject( $pObject, $id )
     {
-        if ( !is_numeric( $id ) )
-        {
-            throw new ezcPersistentQueryException( "The parameter 'id' was not a valid integer." );
-        }
-
         $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) ); // propagate exception
         $q = $this->database->createSelectQuery();
         $q->select( $this->getColumnsFromDefinition( $def ) )
@@ -826,7 +821,7 @@ class ezcPersistentSession
         else
         {
             $class = get_class( $pObject );
-            throw new ezcPersistentQueryException( "No such object $class with id $id." );
+            throw new ezcPersistentQueryException( "No object of class '$class' with id '$id'." );
         }
     }
 
@@ -946,6 +941,7 @@ class ezcPersistentSession
      * If the object is a new object an INSERT INTO query will be executed. If the
      * object is persistent already it will be updated with an UPDATE query.
      *
+     * @throws ezcPersistentDefinitionNotFoundException if the definition of the persistent object could not be loaded
      * @throws ezcPersistentException if $pObject is not of a valid persistent object type.
      * @throws ezcPersistentException if any of the definition requirements are not met.
      * @throws ezcPersistentException if the insert or update query failed.
@@ -956,8 +952,20 @@ class ezcPersistentSession
     {
         $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) );// propagate exception
         $state = $pObject->getState();
-        $idValue = $state[$def->idProperty->propertyName];
-        if ( $idValue === null )
+
+        // fetch the id generator
+        $idGenerator = null;
+        if ( ezcBaseFeatures::classExists( $def->idProperty->generator->class ) )
+        {
+            $idGenerator = new $def->idProperty->generator->class;
+            if ( !( $idGenerator instanceof ezcPersistentIdentifierGenerator ) )
+            {
+                throw new ezcPersistentIdentifierGenerationException( get_class( $pObject ),
+                                                                      "Could not initialize identifier generator: ". "{$def->idProperty->generator->class} ." );
+            }
+        }
+
+        if ( !$idGenerator->checkPersistence( $def, $this->database, $state ) )
         {
             $this->save( $pObject );
         }
@@ -1095,7 +1103,8 @@ class ezcPersistentSession
             {
                 if ( $value !== null )
                 {
-                    $typedState[$name] = (int) $value;
+                    /* TODO, default to int */
+                    $typedState[$name] = $value;
                     continue;
                 }
             }

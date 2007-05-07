@@ -301,7 +301,6 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         ) );
 
         $this->session->addRelatedObject( $person, $birthday );
-        
         try
         {
             $this->session->update( $birthday );
@@ -310,7 +309,6 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
         {
             // This exception is correct. The object is new and should not be updated.
         }
-        
         try
         {
             // The birthday record should not exist

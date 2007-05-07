@@ -1,4 +1,10 @@
-1.3beta1 - [RELEASEDATE]
+1.3rc1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed issue: #010152: Persistent Object and manual generator: string primary keys
+	
+	
+1.3beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed testcase for manual generator giving failure for postgresql on correct
