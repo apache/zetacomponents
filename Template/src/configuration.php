@@ -83,8 +83,8 @@ class ezcTemplateConfiguration
                                   'customBlocks' => array(),
                                   'customFunctions' => array(),
 
-                                  'sourceCharset' => "ASCII",
-                                  'targetCharset' => "ASCII//IGNORE",
+                                  'sourceCharset' => "UTF-8",
+                                  'targetCharset' => "UTF-8",
                               );
     /**
      * Returns the value of the property $name.
