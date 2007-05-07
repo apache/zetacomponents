@@ -33,6 +33,19 @@ class ezcAuthenticationLdapTest extends ezcTestCase
         {
             $this->markTestSkipped( "PHP must be compiled with --with-ldap." );
         }
+        try
+        {
+            $credentials = new ezcAuthenticationPasswordCredentials( 'zhang.san', 'asdfgh' );
+            $ldap = new ezcAuthenticationLdapInfo( self::$host, self::$format, self::$base, self::$port );
+            $authentication = new ezcAuthentication( $credentials );
+            $authentication->addFilter( new ezcAuthenticationLdapFilter( $ldap ) );
+            $authentication->run();
+        }
+        catch ( ezcAuthenticationLdapException $e )
+        {
+            // this will be changed later when we will have a test server with LDAP
+            $this->markTestSkipped( "Cannot connect to LDAP. Probably you didn't setup the LDAP enviroment." );
+        }
     }
 
     public function tearDown()
