@@ -35,6 +35,7 @@ return array(
     'ezcPersistentManyToOneRelation'                      => 'PersistentObject/relations/many_to_one.php',
     'ezcPersistentMultiManager'                           => 'PersistentObject/managers/multi_manager.php',
     'ezcPersistentNativeGenerator'                        => 'PersistentObject/generators/native_generator.php',
+    'ezcPersistentObject'                                 => 'PersistentObject/interfaces/persistent_object.php',
     'ezcPersistentObjectDefinition'                       => 'PersistentObject/structs/persistent_object_definition.php',
     'ezcPersistentObjectIdProperty'                       => 'PersistentObject/structs/persistent_object_id_property.php',
     'ezcPersistentObjectProperty'                         => 'PersistentObject/structs/persistent_object_property.php',
