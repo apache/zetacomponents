@@ -25,11 +25,11 @@
   $table[][0]->content = "foo".
 - Implemented issue #8461: Argument help text. A completely new argument
   handling was invented.
+- Implemented issue #8471: Disable borders for ezcConsoleTable. Borders can be
+  disabled by setting the line and corner properties to null.
 - Implemented issue #9216: ezcConsoleInput::getOptionValues I want long names.
   ezcConsoleInput->getOptionsValues() can now be configured to index the
   returning array with option long names.
-- Implemented issue #8471: Disable borders for ezcConsoleTable. Borders can be
-  disabled by setting the line and corner properties to null.
 
 
 1.2 - Monday 18 December 2006
