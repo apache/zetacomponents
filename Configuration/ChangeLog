@@ -6,7 +6,7 @@
 - Implemented issue #10457: Unclear what $name in getSetting() of
   Configuration component means.
 - Added the ezcConfigurationManager::reset() method that returns the 
-  manager to its unintialized state.
+  manager to its uninitialized state.
 - Fixed issue #10110: Warnings in configuration tests with the posix extension
   is not enabled.
 
