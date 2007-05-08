@@ -5,7 +5,9 @@
 - Fixed issue #010725: PersistentObject saveOrUpdate() using manualgenerator
   will trigger one extra query to check if an object is persistent (save() and
   update() do this as well just moments later...).
-
+- Fixed issue #10331: PersistentObject: Exceptions should become more verbose.
+  ezcPersistentQueryException now contains the SQL query in its message, if
+  appropriate.
 	
 1.3beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

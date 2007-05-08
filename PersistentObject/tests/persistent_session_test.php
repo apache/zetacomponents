@@ -493,6 +493,25 @@ class ezcPersistentSessionTest extends ezcTestCase
         $this->assertEquals( 0, count( $objects ) );
     }
 
+    public function testDeleteFromQueryFail()
+    {
+        $q = $this->session->createDeleteQuery( 'PersistentTestObject' );
+        $q->where( $q->expr->neq( 'foobar', 0 ) );
+        
+        try
+        {
+            $this->session->deleteFromQuery( $q );
+            $this->fail( "ezcPersistentQueryException not thrown on invalid query." );
+        }
+        catch ( ezcPersistentQueryException $e )
+        {
+            $this->assertEquals(
+                "A query failed internally in Persistent Object: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'foobar' in 'where clause' Query: 'DELETE FROM `PO_test` WHERE foobar <> 0'",
+                $e->getMessage()
+            );
+        }
+    }
+
     // public funciton testDeleteFrom with forced error
 
     // updateFromQuery

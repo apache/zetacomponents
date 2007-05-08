@@ -162,7 +162,7 @@ class ezcPersistentSession
             $stmt->execute();
             if ( $stmt->errorCode() != 0 )
             {
-                throw new ezcPersistentQueryException( "The delete query failed." );
+                throw new ezcPersistentQueryException( "The delete query failed.", $q );
             }
         }
         catch ( PDOException $e )
@@ -170,7 +170,7 @@ class ezcPersistentSession
             // Need to rollbak manually here, if we are on the first transaction
             // level
             $this->database->rollback();
-            throw new ezcPersistentQueryException( $e->getMessage() );
+            throw new ezcPersistentQueryException( $e->getMessage(), $q );
         }
         
         // After recursion of cascades everything should be fine here, or this
@@ -283,7 +283,7 @@ class ezcPersistentSession
         }
         catch ( PDOException $e )
         {
-            throw new ezcPersistentQueryException( $e->getMessage() );
+            throw new ezcPersistentQueryException( $e->getMessage(), $query );
         }
     }
 
@@ -334,7 +334,7 @@ class ezcPersistentSession
         }
         catch ( PDOException $e )
         {
-            throw new ezcPersistentQueryException( $e->getMessage() );
+            throw new ezcPersistentQueryException( $e->getMessage(), $query );
         }
     }
 
@@ -401,7 +401,7 @@ class ezcPersistentSession
         }
         catch ( PDOException $e )
         {
-            throw new ezcPersistentQueryException( $e->getMessage() );
+            throw new ezcPersistentQueryException( $e->getMessage(), $query );
         }
 
         // convert all the rows states and then objects
@@ -722,7 +722,7 @@ class ezcPersistentSession
         }
         catch ( PDOException $e )
         {
-            throw new ezcPersistentQueryException( $e->getMessage() );
+            throw new ezcPersistentQueryException( $e->getMessage(), $query );
         }
         return new ezcPersistentFindIterator( $stmt, $def );
     }
@@ -797,7 +797,7 @@ class ezcPersistentSession
         }
         catch ( PDOException $e )
         {
-            throw new ezcPersistentQueryException( $e->getMessage() );
+            throw new ezcPersistentQueryException( $e->getMessage(), $q );
         }
 
         $row = $stmt->fetch( PDO::FETCH_ASSOC );
@@ -1064,7 +1064,7 @@ class ezcPersistentSession
         }
         catch ( PDOException $e )
         {
-            throw new ezcPersistentQueryException( $e->getMessage() );
+            throw new ezcPersistentQueryException( $e->getMessage(), $q );
         }
     }
 

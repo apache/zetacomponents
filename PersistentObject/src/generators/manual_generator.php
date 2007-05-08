@@ -48,7 +48,7 @@ class ezcPersistentManualGenerator extends ezcPersistentIdentifierGenerator
         }
         catch ( PDOException $e )
         {
-            throw new ezcPersistentQueryException( $e->getMessage() );
+            throw new ezcPersistentQueryException( $e->getMessage(), $q );
         }
 
         $row = $stmt->fetch( PDO::FETCH_ASSOC );

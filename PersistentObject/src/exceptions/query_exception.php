@@ -22,9 +22,12 @@ class ezcPersistentQueryException extends ezcPersistentObjectException
      * @param string $class
      * @return void
      */
-    public function __construct( $msg )
+    public function __construct( $msg, $query = null )
     {
-        parent::__construct( "A query failed internally in Persistent Object: {$msg}" );
+        parent::__construct(
+            "A query failed internally in Persistent Object: {$msg}"
+            . ( $query !== null ? " Query: '{$query->getQuery()}'" : "" )
+        );
     }
 }
 ?>
