@@ -89,7 +89,7 @@ class ezcPersistentSessionTest extends ezcTestCase
             $object = $this->session->load( 'NoSuchClass', 1 );
             $this->fail( "load() called with invalid class. Did not get an exception" );
         }
-        catch ( ezcPersistentObjectException $e ) {}
+        catch ( ezcPersistentDefinitionNotFoundException $e ) {}
     }
 
     // no such object id
@@ -100,8 +100,12 @@ class ezcPersistentSessionTest extends ezcTestCase
             $object = $this->session->load( 'PersistentTestObject', 999 );
             $this->fail( "load() called with invalid object id. Did not get an exception" );
         }
-        catch ( ezcPersistentObjectException $e )
+        catch ( ezcPersistentQueryException $e )
         {
+            $this->assertEquals(
+                "A query failed internally in Persistent Object: No object of class 'PersistentTestObject' with id '999'.",
+                $e->getMessage()
+            );
             return;
         }
     }
@@ -134,7 +138,10 @@ class ezcPersistentSessionTest extends ezcTestCase
             $object = $this->session->loadIntoObject( new Exception(), 1 );
             $this->fail( "loadIntoObject() called with invalid class. Did not get an exception" );
         }
-        catch ( ezcPersistentObjectException $e ) {}
+        catch ( ezcPersistentDefinitionNotFoundException $e )
+        {
+            return;    
+        }
     }
 
     // no such object id
@@ -145,7 +152,13 @@ class ezcPersistentSessionTest extends ezcTestCase
             $object = $this->session->loadIntoObject( new PersistentTestObject(), 999 );
             $this->fail( "loadIntoObject() called with invalid class. Did not get an exception" );
         }
-        catch ( ezcPersistentObjectException $e ) {}
+        catch ( ezcPersistentQueryException $e )
+        {
+            $this->assertEquals(
+                "A query failed internally in Persistent Object: No object of class 'PersistentTestObject' with id '999'.",
+                $e->getMessage()
+            );
+        }
     }
 
     // update
@@ -176,7 +189,9 @@ class ezcPersistentSessionTest extends ezcTestCase
             $this->session->update( new Exception() );
             $this->fail( "Update of non-persistent object did not throw exception" );
         }
-        catch ( ezcPersistentObjectException $e ) {}
+        catch ( ezcPersistentObjectException $e ) 
+        {
+        }
     }
 
     // object is a new persistent object
@@ -187,7 +202,7 @@ class ezcPersistentSessionTest extends ezcTestCase
             $this->session->update( new PersistentTestObject() );
             $this->fail( "Update of object not in database did not fail." );
         }
-        catch ( ezcPersistentObjectException $e ) {}
+        catch ( ezcPersistentObjectNotPersistentException $e ) {}
     }
 
     // save
@@ -217,7 +232,7 @@ class ezcPersistentSessionTest extends ezcTestCase
             $this->session->save( new Exception() );
             $this->fail( "Save of non-persistent object did not throw exception" );
         }
-        catch ( ezcPersistentObjectException $e ) {}
+        catch ( ezcPersistentDefinitionNotFoundException $e ) {}
     }
 
     // the object is already persistent
@@ -235,7 +250,7 @@ class ezcPersistentSessionTest extends ezcTestCase
             $this->session->save( $object );
             $this->fail( "Save of object already saved did not fail." );
         }
-        catch ( ezcPersistentObjectException $e ) {}
+        catch ( ezcPersistentObjectAlreadyPersistentException $e ) {};
     }
 
     public function testMissingIdProperty()
@@ -301,7 +316,7 @@ class ezcPersistentSessionTest extends ezcTestCase
             $this->session->saveOrUpdate( new Exception() );
             $this->fail( "SaveorUpdate of non-persistent object did not throw exception" );
         }
-        catch ( ezcPersistentObjectException $e ) {}
+        catch ( ezcPersistentDefinitionNotFoundException $e ) {}
     }
 
     // refresh
@@ -327,7 +342,7 @@ class ezcPersistentSessionTest extends ezcTestCase
             $this->session->refresh( new Exception() );
             $this->fail( "refresh of non-persistent object did not throw exception" );
         }
-        catch ( ezcPersistentObjectException $e ) {}
+        catch ( ezcPersistentDefinitionNotFoundException $e ) {}
     }
 
     public function testRefreshNotPersistent()
@@ -337,7 +352,7 @@ class ezcPersistentSessionTest extends ezcTestCase
             $this->session->refresh( new PersistentTestObject() );
             $this->fail( "refresh of non-persistent object did not throw exception" );
         }
-        catch ( ezcPersistentObjectException $e ) {}
+        catch ( ezcPersistentObjectNotPersistentException $e ) {}
     }
 
     // delete
@@ -358,7 +373,13 @@ class ezcPersistentSessionTest extends ezcTestCase
             $this->session->load( 'PersistentTestObject', 5 );
             $this->fail( "Fetching a deleted object did not throw exception." );
         }
-        catch ( ezcPersistentObjectException $e ) {}
+        catch ( ezcPersistentQueryException $e ) 
+        {
+            $this->assertEquals(
+                "A query failed internally in Persistent Object: No object of class 'PersistentTestObject' with id '5'.",
+                $e->getMessage()
+            );
+        }
     }
 
     // not persistent class
@@ -369,7 +390,7 @@ class ezcPersistentSessionTest extends ezcTestCase
             $this->session->delete( new Exception() );
             $this->fail( "Deleting a non persistent object did not throw exception." );
         }
-        catch ( ezcPersistentObjectException $e ) {}
+        catch ( ezcPersistentDefinitionNotFoundException $e ) {}
     }
 
     // deleting an object that is not persistent yet
@@ -380,7 +401,7 @@ class ezcPersistentSessionTest extends ezcTestCase
             $this->session->delete( new PersistentTestObject() );
             $this->fail( "Deleting an object that is not yet persistent did not throw exception." );
         }
-        catch ( ezcPersistentObjectException $e ) {}
+        catch ( ezcPersistentObjectNotPersistentException $e ) {}
     }
 
     // find
@@ -519,7 +540,9 @@ class ezcPersistentSessionTest extends ezcTestCase
         {
             $session->database = $db;
             $this->fail( "Did not get exception when expected" );
-        }catch( ezcBasePropertyPermissionException $e ){
+        }
+        catch( ezcBasePropertyPermissionException $e )
+        {
         }
     }
 
@@ -533,7 +556,9 @@ class ezcPersistentSessionTest extends ezcTestCase
         {
             $session->definitionManager = $manager;
             $this->fail( "Did not get exception when expected" );
-        }catch( ezcBasePropertyPermissionException $e ){
+        }
+        catch( ezcBasePropertyPermissionException $e )
+        {
         }
     }
 
