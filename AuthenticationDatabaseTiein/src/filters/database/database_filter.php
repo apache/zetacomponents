@@ -172,13 +172,15 @@ class ezcAuthenticationDatabaseFilter extends ezcAuthenticationFilter
      */
     public function run( $credentials )
     {
+        $db = $this->database->instance;
+
         // see if username exists
-        $query = new ezcQuerySelect( $this->database->instance );
+        $query = new ezcQuerySelect( $db );
         $e = $query->expr;
-        $query->select( 'COUNT(*)' )
-              ->from( $this->database->table )
+        $query->select( 'COUNT( ' . $db->quoteIdentifier( $this->database->fields[0] ) . ' )' )
+              ->from( $db->quoteIdentifier( $this->database->table ) )
               ->where(
-                  $e->eq( $this->database->fields[0], $query->bindValue( $credentials->id ) )
+                  $e->eq( $db->quoteIdentifier( $this->database->fields[0] ), $query->bindValue( $credentials->id ) )
                      );
         $rows = $query->prepare();
         $rows->execute();
@@ -189,13 +191,13 @@ class ezcAuthenticationDatabaseFilter extends ezcAuthenticationFilter
         }
 
         // see if username has the specified password
-        $query = new ezcQuerySelect( $this->database->instance );
+        $query = new ezcQuerySelect( $db );
         $e = $query->expr;
-        $query->select( 'COUNT(*)' )
-              ->from( $this->database->table )
+        $query->select( 'COUNT( ' . $db->quoteIdentifier( $this->database->fields[0] ) . '  )' )
+              ->from( $db->quoteIdentifier( $this->database->table ) )
               ->where( $e->lAnd(
-                  $e->eq( $this->database->fields[0], $query->bindValue( $credentials->id ) ),
-                  $e->eq( $this->database->fields[1], $query->bindValue( $credentials->password ) )
+                  $e->eq( $db->quoteIdentifier( $this->database->fields[0] ), $query->bindValue( $credentials->id ) ),
+                  $e->eq( $db->quoteIdentifier( $this->database->fields[1] ), $query->bindValue( $credentials->password ) )
                      ) );
         $rows = $query->prepare();
         $rows->execute();
