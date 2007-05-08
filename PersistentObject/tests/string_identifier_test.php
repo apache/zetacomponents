@@ -91,7 +91,6 @@ class ezcPersistentStringIdentifierTest extends ezcTestCase
         $object->id = "id";
         $object->data = "42";
         $this->session->saveOrUpdate( $object );
-
         $this->assertEquals( "id", $object->id );
 
         $object2 = $this->session->loadIfExists( 'MainTable', "id" );
@@ -111,7 +110,6 @@ class ezcPersistentStringIdentifierTest extends ezcTestCase
         $object2 = $this->session->loadIfExists( 'MainTable', "id" );
         $this->assertNotEquals( NULL, $object2 );
         $this->assertEquals( "42", $object2->data );
-
         $object2->data = "99";
         $this->session->saveOrUpdate( $object2 );
 

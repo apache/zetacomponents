@@ -2,6 +2,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue: #010152: Persistent Object and manual generator: string primary keys
+- Fixed issue: #010725: PersistentObject saveOrUpdate() using manualgenerator will trigger one extra query to check if an object is persistent (save() and update() do this as well just moments later...)
 	
 	
 1.3beta1 - Monday 07 May 2007

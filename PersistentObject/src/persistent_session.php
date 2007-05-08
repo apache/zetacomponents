@@ -868,13 +868,31 @@ class ezcPersistentSession
      */
     public function save( $pObject )
     {
+        $this->saveInternal( $pObject );
+    }
+
+    /**
+     * Saves the new persistent object $pObject to the database using an INSERT INTO query.
+     *
+     * If $doPersistenceCheck is set this function will check if the object is persistent before
+     * saving. If not, the check is omitted. The correct ID is set to $pObject.
+     *
+     * @throws ezcPersistentException if $pObject is not of a valid persistent object type.
+     * @throws ezcPersistentException if $pObject is already stored to the database.
+     * @throws ezcPersistentException if it was not possible to generate a unique identifier for the new object
+     * @throws ezcPersistentException if the insert query failed.
+     * @param object $pObject
+     * @param boolean $doPersistentCheck
+     * @return void
+     */
+    private function saveInternal( $pObject, $doPersistenceCheck = true, $idGenerator = null )
+    {
         $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) );// propagate exception
         $state = $this->filterAndCastState( $pObject->getState(), $def );
         $idValue = $state[$def->idProperty->propertyName];
 
         // fetch the id generator
-        $idGenerator = null;
-        if ( ezcBaseFeatures::classExists( $def->idProperty->generator->class ) )
+        if ( $idGenerator == null && ezcBaseFeatures::classExists( $def->idProperty->generator->class ) )
         {
             $idGenerator = new $def->idProperty->generator->class;
             if ( !( $idGenerator instanceof ezcPersistentIdentifierGenerator ) )
@@ -884,7 +902,7 @@ class ezcPersistentSession
             }
         }
 
-        if ( $idGenerator->checkPersistence( $def, $this->database, $state ) )
+        if ( $doPersistenceCheck == true && $idGenerator->checkPersistence( $def, $this->database, $state ) )
         {
             $class = get_class( $pObject );
             throw new ezcPersistentObjectAlreadyPersistentException( $class );
@@ -967,11 +985,11 @@ class ezcPersistentSession
 
         if ( !$idGenerator->checkPersistence( $def, $this->database, $state ) )
         {
-            $this->save( $pObject );
+            $this->saveInternal( $pObject, false, $idGenerator );
         }
         else
         {
-            $this->update( $pObject );
+            $this->updateInternal( $pObject, false );
         }
     }
 
@@ -985,6 +1003,24 @@ class ezcPersistentSession
      * @return void
      */
     public function update( $pObject )
+    {
+        $this->updateInternal( $pObject );
+    }
+
+    /**
+     * Saves the new persistent object $pObject to the database using an UPDATE query.
+     *
+     * If $doPersistenceCheck is set this function will check if the object is persistent before
+     * saving. If not, the check is omitted.
+     *
+     * @throws ezcPersistentDefinitionNotFoundException if $pObject is not of a valid persistent object type.
+     * @throws ezcPersistentObjectNotPersistentException if $pObject is not stored in the database already.
+     * @throws ezcPersistentQueryException
+     * @param object $pObject
+     * @param boolean $pObject
+     * @return void
+     */
+    private function updateInternal( $pObject, $doPersistenceCheck = true )
     {
         $def = $this->definitionManager->fetchDefinition( get_class( $pObject ) ); // propagate exception
         $state = $this->filterAndCastState( $pObject->getState(), $def );
@@ -1002,7 +1038,7 @@ class ezcPersistentSession
             }
         }
 
-        if ( !$idGenerator->checkPersistence( $def, $this->database, $state ) )
+        if ( $doPersistenceCheck == true && !$idGenerator->checkPersistence( $def, $this->database, $state ) )
         {
             $class = get_class( $pObject );
             throw new ezcPersistentObjectNotPersistentException( get_class( $pObject ) );
