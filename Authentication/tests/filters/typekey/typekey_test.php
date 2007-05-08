@@ -16,6 +16,7 @@
 class ezcAuthenticationTypekeyTest extends ezcTestCase
 {
     public static $token = '391jbj25WAQANzJrKvb5';
+
     public static $response = array(
         'name' => 'ezc',
         'nick' => 'ezctest',
@@ -235,6 +236,12 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
         {
             $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
         }
+    }
+
+    public function testTypekeyExceptions()
+    {
+        $e = new ezcAuthenticationTypekeyException( "Could not connect to host 'localhost'." );
+        $this->assertEquals( "Could not connect to host 'localhost'.", $e->getMessage() );
     }
 }
 ?>

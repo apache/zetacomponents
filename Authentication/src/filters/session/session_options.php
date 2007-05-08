@@ -70,7 +70,7 @@ class ezcAuthenticationSessionOptions extends ezcAuthenticationFilterOptions
                 {
                     throw new ezcBaseValueException( $name, $value, 'int >= 1' );
                 }
-                $this->properties[$name] = (int) $value;
+                $this->properties[$name] = $value;
                 break;
 
             default:

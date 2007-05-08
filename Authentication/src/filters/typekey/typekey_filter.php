@@ -346,7 +346,7 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
      * The format of the returned array is:
      *   array( 'p' => p_val, 'g' => g_val, 'q' => q_val, 'pub_key' => pub_key_val )
      *
-     * @todo Implement caching to speed up the filter
+     * @todo Implement caching to hold the fetched keys
      *
      * @throws ezcAuthenticationTypekeyException
      *         if the keys from the TypeKey public keys file could not be fetched

@@ -14,6 +14,7 @@
  *
  * @package Authentication
  * @version //autogen//
+ * @mainclass
  */
 class ezcAuthenticationPasswordCredentials extends ezcAuthenticationCredentials
 {

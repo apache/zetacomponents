@@ -19,21 +19,13 @@ class ezcAuthenticationTypekeyException extends ezcAuthenticationException
 {
     /**
      * Constructs a new ezcAuthenticationTypekeyException with error message
-     * $message and error code $code.
+     * $message.
      *
      * @param string $message Message to throw
-     * @param int $code Error code
      */
-    public function __construct( $message, $code = false )
+    public function __construct( $message )
     {
-        if ( $code === false )
-        {
-            parent::__construct( $message );
-        }
-        else
-        {
-            parent::__construct( $message . " ({$code})" );
-        }
+        parent::__construct( $message );
     }
 }
 ?>

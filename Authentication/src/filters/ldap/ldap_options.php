@@ -73,7 +73,7 @@ class ezcAuthenticationLdapOptions extends ezcAuthenticationFilterOptions
                 {
                     throw new ezcBaseValueException( $name, $value, 'int' );
                 }
-                $this->properties[$name] = (int) $value;
+                $this->properties[$name] = $value;
                 break;
 
             default:

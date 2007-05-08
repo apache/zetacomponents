@@ -75,7 +75,7 @@ class ezcAuthenticationTypekeyOptions extends ezcAuthenticationFilterOptions
                 {
                     throw new ezcBaseValueException( $name, $value, 'int >= 0' );
                 }
-                $this->properties[$name] = (int) $value;
+                $this->properties[$name] = $value;
                 break;
 
             default:
