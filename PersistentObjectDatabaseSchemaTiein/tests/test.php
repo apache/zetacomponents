@@ -43,12 +43,14 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
         $res = `php {$dir}/PersistentObjectDatabaseSchemaTiein/src/rungenerator.php`;
         chdir( $oldDir );
 
+        // file_put_contents( __FUNCTION__, substr( $res, 0, 203 ) );
         $this->assertEquals( $this->results[__FUNCTION__], substr( $res, 0, 203 ), "Error output incorrect with no parameters." );
     }
 
     public function testNoParameters()
     {
         $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php`;
+        // file_put_contents( __FUNCTION__, $res );
         $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
     }
 
