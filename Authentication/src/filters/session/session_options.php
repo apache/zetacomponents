@@ -17,6 +17,8 @@
  * // create an options object
  * $options = new ezcAuthenticationSessionOptions();
  * $options->validity = 60;
+ * $options->idKey = 'xxx';
+ * $options->timestampKey = 'yyy';
  *
  * // use the options object when creating a new Session filter
  * $filter = new ezcAuthenticationSessionFilter( $options );
@@ -28,6 +30,11 @@
  *
  * @property int $validity
  *           The amount of seconds the session can be idle.
+ * @property string $idKey
+ *           The key to use in $_SESSION to hold the user ID of the user who is
+ *           logged in.
+ * @property string $timestampKey
+ *           The key to use in $_SESSION to hold the authentication timestamp.
  *
  * @package Authentication
  * @version //autogen//
@@ -46,6 +53,8 @@ class ezcAuthenticationSessionOptions extends ezcAuthenticationFilterOptions
     public function __construct( array $options = array() )
     {
         $this->validity = 1200; // seconds
+        $this->idKey = 'ezcAuth_id';
+        $this->timestampKey = 'ezcAuth_timestamp';
 
         parent::__construct( $options );
     }
@@ -69,6 +78,15 @@ class ezcAuthenticationSessionOptions extends ezcAuthenticationFilterOptions
                 if ( !is_numeric( $value ) || ( $value < 1 ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'int >= 1' );
+                }
+                $this->properties[$name] = $value;
+                break;
+
+            case 'idKey':
+            case 'timestampKey':
+                if ( !is_string( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'string' );
                 }
                 $this->properties[$name] = $value;
                 break;

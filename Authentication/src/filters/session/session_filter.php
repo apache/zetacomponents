@@ -82,20 +82,6 @@ class ezcAuthenticationSessionFilter extends ezcAuthenticationFilter implements 
     const STATUS_EXPIRED = 2;
 
     /**
-     * The key to use in $_SESSION to hold the user ID of the user who is logged in.
-     *
-     * var string
-     */
-    private $sessionKey = 'ezcAuth_id';
-
-    /**
-     * The key to use in $_SESSION to hold the authentication timestamp.
-     *
-     * var string
-     */
-    private $timestampKey = 'ezcAuth_timestamp';
-
-    /**
      * Creates a new object of this class.
      *
      * @param ezcAuthenticationSessionOptions $options Options for the authentication filter
@@ -114,8 +100,8 @@ class ezcAuthenticationSessionFilter extends ezcAuthenticationFilter implements 
     public function run( $credentials )
     {
         $this->start();
-        if ( isset( $_SESSION[$this->timestampKey] ) && 
-             time() - $_SESSION[$this->timestampKey] >= $this->options->validity )
+        if ( isset( $_SESSION[$this->options->timestampKey] ) && 
+             time() - $_SESSION[$this->options->timestampKey] >= $this->options->validity )
         {
             $this->destroy();
             $this->regenerateId();
@@ -148,20 +134,20 @@ class ezcAuthenticationSessionFilter extends ezcAuthenticationFilter implements 
      */
     public function load()
     {
-        return isset( $_SESSION[$this->sessionKey] ) ? $_SESSION[$this->sessionKey] :
-                                                       null;
+        return isset( $_SESSION[$this->options->idKey] ) ? $_SESSION[$this->options->idKey] :
+                                                                null;
     }
 
     /**
      * Saves the authenticated username and the current timestamp in the session
      * variables.
      *
-     * @param string $sessionInfo Information to save in the session, usually username
+     * @param string $data Information to save in the session, usually username
      */
-    public function save( $sessionInfo )
+    public function save( $data )
     {
-        $_SESSION[$this->sessionKey] = $sessionInfo;
-        $_SESSION[$this->timestampKey] = time();
+        $_SESSION[$this->options->idKey] = $data;
+        $_SESSION[$this->options->timestampKey] = time();
     }
 
     /**
@@ -169,8 +155,8 @@ class ezcAuthenticationSessionFilter extends ezcAuthenticationFilter implements 
      */
     public function destroy()
     {
-        unset( $_SESSION[$this->sessionKey] );
-        unset( $_SESSION[$this->timestampKey] );
+        unset( $_SESSION[$this->options->idKey] );
+        unset( $_SESSION[$this->options->timestampKey] );
     }
     
     /**

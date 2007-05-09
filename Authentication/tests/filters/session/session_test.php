@@ -16,6 +16,8 @@
 class ezcAuthenticationSessionTest extends ezcTestCase
 {
     public static $id = 'john.doe';
+    public static $idKey = 'ezcAuth_id';
+    public static $timestampKey = 'ezcAuth_timestamp';
 
     public static function suite()
     {
@@ -34,7 +36,7 @@ class ezcAuthenticationSessionTest extends ezcTestCase
 
     public function testSessionEmpty()
     {
-        $_SESSION['ezcAuth_timestamp'] = time();
+        $_SESSION[self::$timestampKey] = time();
         $credentials = new ezcAuthenticationIdCredentials( self::$id );
         $authentication = new ezcAuthentication( $credentials );
         $options = new ezcAuthenticationSessionOptions();
@@ -45,7 +47,7 @@ class ezcAuthenticationSessionTest extends ezcTestCase
 
     public function testSessionEmptyExpired()
     {
-        $_SESSION['ezcAuth_timestamp'] = time() - 5;
+        $_SESSION[self::$timestampKey] = time() - 5;
         $credentials = new ezcAuthenticationIdCredentials( self::$id );
         $authentication = new ezcAuthentication( $credentials );
         $options = new ezcAuthenticationSessionOptions();
@@ -56,8 +58,8 @@ class ezcAuthenticationSessionTest extends ezcTestCase
 
     public function testSessionValid()
     {
-        $_SESSION['ezcAuth_timestamp'] = time();
-        $_SESSION['ezcAuth_id'] = self::$id;
+        $_SESSION[self::$timestampKey] = time();
+        $_SESSION[self::$idKey] = self::$id;
         $credentials = new ezcAuthenticationIdCredentials( self::$id );
         $authentication = new ezcAuthentication( $credentials );
         $options = new ezcAuthenticationSessionOptions();
@@ -68,18 +70,18 @@ class ezcAuthenticationSessionTest extends ezcTestCase
 
     public function testSessionValidExpired()
     {
-        $_SESSION['ezcAuth_timestamp'] = time() - 5;
-        $_SESSION['ezcAuth_id'] = self::$id;
+        $_SESSION[self::$timestampKey] = time() - 5;
+        $_SESSION[self::$idKey] = self::$id;
         $credentials = new ezcAuthenticationIdCredentials( self::$id );
         $authentication = new ezcAuthentication( $credentials );
         $options = new ezcAuthenticationSessionOptions();
         $options->validity = 1;
         $authentication->session = new ezcAuthenticationSessionFilter( $options );
-        $this->assertEquals( true, isset( $_SESSION['ezcAuth_timestamp'] ) );
-        $this->assertEquals( true, isset( $_SESSION['ezcAuth_id'] ) );
+        $this->assertEquals( true, isset( $_SESSION[self::$timestampKey] ) );
+        $this->assertEquals( true, isset( $_SESSION[self::$idKey] ) );
         $this->assertEquals( false, $authentication->run() );
-        $this->assertEquals( false, isset( $_SESSION['ezcAuth_timestamp'] ) );
-        $this->assertEquals( false, isset( $_SESSION['ezcAuth_id'] ) );
+        $this->assertEquals( false, isset( $_SESSION[self::$timestampKey] ) );
+        $this->assertEquals( false, isset( $_SESSION[self::$idKey] ) );
     }
 
     public function testOptions()
@@ -94,6 +96,26 @@ class ezcAuthenticationSessionTest extends ezcTestCase
         catch ( ezcBaseValueException $e )
         {
             $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'validity' is invalid. Allowed values are: int >= 1.", $e->getMessage() );
+        }
+
+        try
+        {
+            $options->idKey = array();
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( "The value 'a:0:{}' that you were trying to assign to setting 'idKey' is invalid. Allowed values are: string.", $e->getMessage() );
+        }
+
+        try
+        {
+            $options->timestampKey = null;
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( "The value '' that you were trying to assign to setting 'timestampKey' is invalid. Allowed values are: string.", $e->getMessage() );
         }
 
         try
