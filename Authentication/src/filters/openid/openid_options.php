@@ -12,6 +12,28 @@
 /**
  * Class containing the options for the OpenID authentication filter.
  *
+ * Example of use:
+ * <code>
+ * // create an options object
+ * $options = new ezcAuthenticationOpenidOptions();
+ * $options->timeout = 5;
+ * $options->timeoutOpen = 3;
+ *
+ * // use the options object when creating a new OpenID filter
+ * $filter = new ezcAuthenticationOpenidFilter( $options );
+ *
+ * // alternatively, you can set the options to an existing filter
+ * $filter = new ezcAuthenticationSessionFilter();
+ * $filter->setOptions( $options );
+ * </code>
+ *
+ * @property int $timeout
+ *           The amount of seconds allowed as timeout for fetching content
+ *           during HTML or Yadis discovery.
+ * @property int $timeoutOpen
+ *           The amount of seconds allowed as timeout when creating a connection
+ *           with fsockopen() for the HTML or Yadis discovery.
+ *
  * @package Authentication
  * @version //autogen//
  */
