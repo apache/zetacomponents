@@ -172,15 +172,15 @@ class ezcAuthenticationDatabaseFilter extends ezcAuthenticationFilter
      */
     public function run( $credentials )
     {
-        $db = $this->database->instance;
+        $db = $this->database;
 
         // see if username exists
-        $query = new ezcQuerySelect( $db );
+        $query = new ezcQuerySelect( $db->instance );
         $e = $query->expr;
-        $query->select( 'COUNT( ' . $db->quoteIdentifier( $this->database->fields[0] ) . ' )' )
-              ->from( $db->quoteIdentifier( $this->database->table ) )
+        $query->select( 'COUNT( ' . $db->instance->quoteIdentifier( $db->fields[0] ) . ' )' )
+              ->from( $db->instance->quoteIdentifier( $db->table ) )
               ->where(
-                  $e->eq( $db->quoteIdentifier( $this->database->fields[0] ), $query->bindValue( $credentials->id ) )
+                  $e->eq( $db->instance->quoteIdentifier( $db->fields[0] ), $query->bindValue( $credentials->id ) )
                      );
         $rows = $query->prepare();
         $rows->execute();
@@ -191,13 +191,13 @@ class ezcAuthenticationDatabaseFilter extends ezcAuthenticationFilter
         }
 
         // see if username has the specified password
-        $query = new ezcQuerySelect( $db );
+        $query = new ezcQuerySelect( $db->instance );
         $e = $query->expr;
-        $query->select( 'COUNT( ' . $db->quoteIdentifier( $this->database->fields[0] ) . '  )' )
-              ->from( $db->quoteIdentifier( $this->database->table ) )
+        $query->select( 'COUNT( ' . $db->instance->quoteIdentifier( $db->fields[0] ) . '  )' )
+              ->from( $db->instance->quoteIdentifier( $db->table ) )
               ->where( $e->lAnd(
-                  $e->eq( $db->quoteIdentifier( $this->database->fields[0] ), $query->bindValue( $credentials->id ) ),
-                  $e->eq( $db->quoteIdentifier( $this->database->fields[1] ), $query->bindValue( $credentials->password ) )
+                  $e->eq( $db->instance->quoteIdentifier( $db->fields[0] ), $query->bindValue( $credentials->id ) ),
+                  $e->eq( $db->instance->quoteIdentifier( $db->fields[1] ), $query->bindValue( $credentials->password ) )
                      ) );
         $rows = $query->prepare();
         $rows->execute();

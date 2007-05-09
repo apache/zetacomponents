@@ -53,6 +53,22 @@ The following example shows how to authenticate against a database.
 .. include:: tutorial/tutorial_database.php
    :literal:
 
+First, a credentials object is created with username jan.modaal and password
+'b1b3773a05c0ed0176787a4f1574ff0075f7521e' (sha1() hash).
+
+An authentication object is created using the credentials object, and a
+Database filter is added to it. The $database structure specifies the database
+instance (ezcDbInstance::get()), the table name ('users') and the username and
+password fields in the table ('user', 'password').
+
+After running the authentication (line 7), if the username and the password do
+not pass through the Database filter, then the credentials are incorrect and
+the user must be informed. The getStatus() method is used for this. The values
+in the status returned must be cycled through and for each value a response is
+created for the user ("Username incorrect", "Password incorrect").
+
+If run() returned true (line 34) then the user is logged-in and he can see his
+content.
 
 
 ..

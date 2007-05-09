@@ -3,6 +3,7 @@ $credentials = new ezcAuthenticationPasswordCredentials( 'jan.modaal', 'b1b3773a
 $database = new ezcAuthenticationDatabaseInfo( ezcDbInstance::get(), 'users', array( 'user', 'password' ) );
 $authentication = new ezcAuthentication( $credentials );
 $authentication->addFilter( new ezcAuthenticationDatabaseFilter( $database ) );
+// add other filters if needed
 if ( !$authentication->run() )
 {
     // authentication did not succeed, so inform the user
