@@ -22,6 +22,7 @@ class ezcAuthenticationGroupTest extends ezcTestCase
     {
         self::$path = dirname( __FILE__ ) . '/../htpasswd/data/htpasswd';
         self::$empty = dirname( __FILE__ ) . '/../htpasswd/data/htpasswd_empty';
+
         return new PHPUnit_Framework_TestSuite( "ezcAuthenticationGroupTest" );
     }
 
@@ -35,7 +36,7 @@ class ezcAuthenticationGroupTest extends ezcTestCase
 
     }
 
-    public function testGroupEmpty()
+    public function testGroupOrEmpty()
     {
         $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
         $authentication = new ezcAuthentication( $credentials );
@@ -45,7 +46,19 @@ class ezcAuthenticationGroupTest extends ezcTestCase
         $this->assertEquals( true, $authentication->run() );
     }
 
-    public function testGroupHtpasswdPass()
+    public function testGroupAndEmpty()
+    {
+        $optionsGroup = new ezcAuthenticationGroupOptions();
+        $optionsGroup->mode = ezcAuthenticationGroupFilter::MODE_AND;
+        $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationHtpasswdOptions();
+        $options->plain = true;
+        $authentication->addFilter( new ezcAuthenticationGroupFilter( array(), $optionsGroup ) );
+        $this->assertEquals( true, $authentication->run() );
+    }
+
+    public function testGroupOrHtpasswdPass()
     {
         $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
         $authentication = new ezcAuthentication( $credentials );
@@ -61,7 +74,25 @@ class ezcAuthenticationGroupTest extends ezcTestCase
         $this->assertEquals( true, $authentication->run() );
     }
 
-    public function testGroupHtpasswFail()
+    public function testGroupAndHtpasswdPass()
+    {
+        $optionsGroup = new ezcAuthenticationGroupOptions();
+        $optionsGroup->mode = ezcAuthenticationGroupFilter::MODE_AND;
+        $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationHtpasswdOptions();
+        $options->plain = true;
+        $authentication->addFilter(
+            new ezcAuthenticationGroupFilter(
+                array(
+                    new ezcAuthenticationHtpasswdFilter( self::$path, $options )
+                    ), $optionsGroup
+                )
+            );
+        $this->assertEquals( true, $authentication->run() );
+    }
+
+    public function testGroupOrHtpasswFail()
     {
         $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'wrong password' );
         $authentication = new ezcAuthentication( $credentials );
@@ -77,7 +108,25 @@ class ezcAuthenticationGroupTest extends ezcTestCase
         $this->assertEquals( false, $authentication->run() );
     }
 
-    public function testGroupHtpasswdPassHtpasswdPass()
+    public function testGroupAndHtpasswFail()
+    {
+        $optionsGroup = new ezcAuthenticationGroupOptions();
+        $optionsGroup->mode = ezcAuthenticationGroupFilter::MODE_AND;
+        $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'wrong password' );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationHtpasswdOptions();
+        $options->plain = true;
+        $authentication->addFilter(
+            new ezcAuthenticationGroupFilter(
+                array(
+                    new ezcAuthenticationHtpasswdFilter( self::$path, $options )
+                    ), $optionsGroup
+                )
+            );
+        $this->assertEquals( false, $authentication->run() );
+    }
+
+    public function testGroupOrHtpasswdPassHtpasswdPass()
     {
         $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
         $authentication = new ezcAuthentication( $credentials );
@@ -94,7 +143,26 @@ class ezcAuthenticationGroupTest extends ezcTestCase
         $this->assertEquals( true, $authentication->run() );
     }
 
-    public function testGroupHtpasswdPassHtpasswdPassAddFilter()
+    public function testGroupAndHtpasswdPassHtpasswdPass()
+    {
+        $optionsGroup = new ezcAuthenticationGroupOptions();
+        $optionsGroup->mode = ezcAuthenticationGroupFilter::MODE_AND;
+        $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationHtpasswdOptions();
+        $options->plain = true;
+        $authentication->addFilter(
+            new ezcAuthenticationGroupFilter(
+                array(
+                    new ezcAuthenticationHtpasswdFilter( self::$path, $options ),
+                    new ezcAuthenticationHtpasswdFilter( self::$path, $options )
+                    ), $optionsGroup
+                )
+            );
+        $this->assertEquals( true, $authentication->run() );
+    }
+
+    public function testGroupOrHtpasswdPassHtpasswdPassAddFilter()
     {
         $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
         $authentication = new ezcAuthentication( $credentials );
@@ -110,7 +178,25 @@ class ezcAuthenticationGroupTest extends ezcTestCase
         $this->assertEquals( true, $authentication->run() );
     }
 
-    public function testGroupHtpasswdPassHtpasswdFail()
+    public function testGroupAndHtpasswdPassHtpasswdPassAddFilter()
+    {
+        $optionsGroup = new ezcAuthenticationGroupOptions();
+        $optionsGroup->mode = ezcAuthenticationGroupFilter::MODE_AND;
+        $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationHtpasswdOptions();
+        $options->plain = true;
+        $group = new ezcAuthenticationGroupFilter(
+                    array(
+                        new ezcAuthenticationHtpasswdFilter( self::$path, $options )
+                        ), $optionsGroup
+                    );
+        $group->addFilter( new ezcAuthenticationHtpasswdFilter( self::$path, $options ) );
+        $authentication->addFilter( $group );
+        $this->assertEquals( true, $authentication->run() );
+    }
+
+    public function testGroupOrHtpasswdPassHtpasswdFail()
     {
         $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
         $authentication = new ezcAuthentication( $credentials );
@@ -127,7 +213,26 @@ class ezcAuthenticationGroupTest extends ezcTestCase
         $this->assertEquals( true, $authentication->run() );
     }
 
-    public function testGroupHtpasswdFailHtpasswdPass()
+    public function testGroupAndHtpasswdPassHtpasswdFail()
+    {
+        $optionsGroup = new ezcAuthenticationGroupOptions();
+        $optionsGroup->mode = ezcAuthenticationGroupFilter::MODE_AND;
+        $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationHtpasswdOptions();
+        $options->plain = true;
+        $authentication->addFilter(
+            new ezcAuthenticationGroupFilter(
+                array(
+                    new ezcAuthenticationHtpasswdFilter( self::$path, $options ),
+                    new ezcAuthenticationHtpasswdFilter( self::$empty, $options )
+                    ), $optionsGroup
+                )
+            );
+        $this->assertEquals( false, $authentication->run() );
+    }
+
+    public function testGroupOrHtpasswdFailHtpasswdPass()
     {
         $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
         $authentication = new ezcAuthentication( $credentials );
@@ -144,7 +249,26 @@ class ezcAuthenticationGroupTest extends ezcTestCase
         $this->assertEquals( true, $authentication->run() );
     }
 
-    public function testGroupHtpasswdFailHtpasswdFail()
+    public function testGroupAndHtpasswdFailHtpasswdPass()
+    {
+        $optionsGroup = new ezcAuthenticationGroupOptions();
+        $optionsGroup->mode = ezcAuthenticationGroupFilter::MODE_AND;
+        $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationHtpasswdOptions();
+        $options->plain = true;
+        $authentication->addFilter(
+            new ezcAuthenticationGroupFilter(
+                array(
+                    new ezcAuthenticationHtpasswdFilter( self::$empty, $options ),
+                    new ezcAuthenticationHtpasswdFilter( self::$path, $options )
+                    ), $optionsGroup
+                )
+            );
+        $this->assertEquals( false, $authentication->run() );
+    }
+
+    public function testGroupOrHtpasswdFailHtpasswdFail()
     {
         $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
         $authentication = new ezcAuthentication( $credentials );
@@ -161,9 +285,58 @@ class ezcAuthenticationGroupTest extends ezcTestCase
         $this->assertEquals( false, $authentication->run() );
     }
 
+    public function testGroupAndHtpasswdFailHtpasswdFail()
+    {
+        $optionsGroup = new ezcAuthenticationGroupOptions();
+        $optionsGroup->mode = ezcAuthenticationGroupFilter::MODE_AND;
+        $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationHtpasswdOptions();
+        $options->plain = true;
+        $authentication->addFilter(
+            new ezcAuthenticationGroupFilter(
+                array(
+                    new ezcAuthenticationHtpasswdFilter( self::$empty, $options ),
+                    new ezcAuthenticationHtpasswdFilter( self::$empty, $options )
+                    ), $optionsGroup
+                )
+            );
+        $this->assertEquals( false, $authentication->run() );
+    }
+
     public function testOptions()
     {
         $options = new ezcAuthenticationGroupOptions();
+
+        try
+        {
+            $options->mode = 'wrong value';
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'mode' is invalid. Allowed values are: 1, 2.", $e->getMessage() );
+        }
+
+        try
+        {
+            $options->mode = '1';
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( "The value '1' that you were trying to assign to setting 'mode' is invalid. Allowed values are: 1, 2.", $e->getMessage() );
+        }
+
+        try
+        {
+            $options->mode = 1000;
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( "The value '1000' that you were trying to assign to setting 'mode' is invalid. Allowed values are: 1, 2.", $e->getMessage() );
+        }
 
         try
         {

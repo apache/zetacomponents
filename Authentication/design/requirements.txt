@@ -94,10 +94,11 @@ Session
   session).
 
 Group
-  A generic filter which is used to group two or more filters, where only one
-  filter needs to succeed in order to continue the authentication. Example:
-  grouping the LDAP and Database filters; only one of the filters needs to
-  succeed for the group to succeed.
+  A generic filter which is used to group two or more filters. Depending on
+  configuration, at least one filter needs to succeed in order for the group
+  to succeed, or all filters need to succeed in order for the group to succeed.
+  Example: grouping one LDAP and one Database filter and configuring that at
+  least one of the filters needs to succeed for the group to succeed.
 
 Htpasswd file
   Uses a Unix htpasswd file to authenticate users. Basic filter and not too
@@ -221,8 +222,9 @@ The Session filter is responsible for:
 Grouping of filters
 -------------------
 
-The developer of the application can group similar filters together, where only
-one filter needs to succeed for the filter group to succeed.
+The developer of the application can group similar filters together, where at
+least one filter needs to succeed for the filter group to succeed, or all
+filters need to succeed for the filter group to succeed.
 
 For example: the user credentials can be checked against the local database or
 an LDAP provider, but it needs not be present in both providers. In this case

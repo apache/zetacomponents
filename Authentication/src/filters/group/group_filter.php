@@ -10,10 +10,28 @@
  */
 
 /**
- * Group authentication filters together, where only one filter needs to succeed
- * in order for the group to succeed.
+ * Group authentication filters together.
  *
- * Example:
+ * If there are no filters in the group, then the run() method will return
+ * STATUS_OK.
+ *
+ * The way of grouping the filters is specified with the mode option:
+ * - ezcAuthenticationGroupFilter::MODE_OR (default): at least one filter
+ *   in the group needs to succeed in order for the group to succeed.
+ * - ezcAuthenticationGroupFilter::MODE_AND: all filters in the group
+ *   need to succeed in order for the group to succeed.
+ *
+ * Example of using the mode option:
+ * <code>
+ * $options = new ezcAuthenticationGroupOptions();
+ * $options->mode = ezcAuthenticationGroupFilter::MODE_AND;
+ *
+ * // $filter1 and $filter2 are authentication filters which all need to succeed
+ * // in order for the group to succeed
+ * $filter = new ezcAuthenticationGroupFilter( array( $filter1, $filter2 ), $options );
+ * </code>
+ *
+ * Example of using the group filter with LDAP and Database filters:
  * <code>
  * $credentials = new ezcAuthenticationPasswordCredentials( 'jan.modaal', 'qwerty' );
  *
@@ -26,8 +44,8 @@
  * $ldapFilter = new ezcAuthenticationLdapFilter( $ldap );
  * $authentication = new ezcAuthentication( $credentials );
  *
- * // use the database and LDAP filters in paralel (only one needs to succeed in
- * // order for the user to be authenticated
+ * // use the database and LDAP filters in paralel (at least one needs to succeed in
+ * // order for the user to be authenticated)
  * $authentication->addFilter( new ezcAuthenticationGroupFilter( array( $databaseFilter, $ldapFilter ) ) );
  * // add more filters if needed
  * if ( !$authentication->run() )
@@ -73,6 +91,9 @@
  * }
  * </code>
  *
+ * @property ezcAuthenticationStatus $status
+ *           The status object which holds the status of the run filters.
+ *
  * @package Authentication
  * @version //autogen//
  * @mainclass
@@ -80,9 +101,27 @@
 class ezcAuthenticationGroupFilter extends ezcAuthenticationFilter
 {
     /**
-     * All the filters in the group failed.
+     * All or some of the filters in the group failed (depeding on the mode
+     * option).
      */
     const STATUS_GROUP_FAILED = 1;
+
+    /**
+     * At least one filter needs to succeed in order for the group to succeed.
+     */
+    const MODE_OR = 1;
+
+    /**
+     * All the filters need to succeed in order for the group to succeed.
+     */
+    const MODE_AND = 2;
+
+    /**
+     * Authentication filters.
+     * 
+     * @var array(ezcAuthenticationFilter)
+     */
+    protected $filters = array();
 
     /**
      * The properties of this class.
@@ -90,14 +129,6 @@ class ezcAuthenticationGroupFilter extends ezcAuthenticationFilter
      * @var array(string=>mixed)
      */
     private $properties = array();
-
-    /**
-     * Authentication filters, where only one filter needs to succeed in order for
-     * the group to succeed.
-     * 
-     * @var array(ezcAuthenticationFilter)
-     */
-    private $filters = array();
 
     /**
      * Creates a new object of this class.
@@ -195,16 +226,42 @@ class ezcAuthenticationGroupFilter extends ezcAuthenticationFilter
         {
             return self::STATUS_OK;
         }
-        foreach ( $this->filters as $filter )
+
+        $success = false;
+
+        if ( $this->options->mode === self::MODE_OR )
         {
-            $code = $filter->run( $credentials );
-            $this->status->append( get_class( $filter ), $code );
-            if ( $code === self::STATUS_OK )
+            $success = false;
+            foreach ( $this->filters as $filter )
             {
-                return self::STATUS_OK;
+                $code = $filter->run( $credentials );
+                $this->status->append( get_class( $filter ), $code );
+                if ( $code === self::STATUS_OK )
+                {
+                    $success = true;
+                }
             }
         }
-        return self::STATUS_GROUP_FAILED;
+
+        if ( $this->options->mode === self::MODE_AND )
+        {
+            $success = true;
+            foreach ( $this->filters as $filter )
+            {
+                $code = $filter->run( $credentials );
+                $this->status->append( get_class( $filter ), $code );
+                if ( $code !== self::STATUS_OK )
+                {
+                    $success = false;
+                }
+            }
+        }
+
+        // other modes are not possible due to the way mode is set in __set()
+        // in the options class
+
+        return ( $success === true ) ? self::STATUS_OK :
+                                       self::STATUS_GROUP_FAILED;
     }
 
     /**

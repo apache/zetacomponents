@@ -45,8 +45,9 @@ ezcAuthenticationSessionFilter
   Support for storing authentication information in the session.
 
 ezcAuthenticationGroupFilter
-  Support for grouping two or more filters, where only one filter needs to
-  succeed for the group to succeed.
+  Container filter for 2 or more filters. Depending on configuration, at least
+  one filter needs to succeed in order for the group to succeed, or all filters
+  need to succeed in order for the group to succeed.
 
 ezcAuthenticationHtpasswdFilter
   Handles authentication using a htpasswd file. Basic filter and not too secure
