@@ -57,6 +57,10 @@ ezcAuthenticationLdapFilter
   Filter to authenticate against an LDAP directory. For now the password can be
   only in plain text. It depends on the PHP ldap extension.
 
+ezcAuthenticationOpenidFilter
+  Filter to authenticate against OpenID. For now the OpenID version 1.1 is
+  supported.
+
 ezcAuthenticationSessionFilter
   Special filter used to store the authenticated username and the timestamp
   between requests.
@@ -187,6 +191,44 @@ If run() returned true (line 34) then the user is logged-in and he can see his
 content.
 
 
+OpenID
+------
+
+The following example shows how to authenticate against OpenID.
+
+.. include:: tutorial/tutorial_openid.php
+   :literal:
+
+A session filter is created and used to start the PHP session. The OpenID
+identifier (provided by the user through a GET form) is fetched and used to
+create a credentials object. On subsequent requests to the page, the token is
+loaded from session instead of the GET form. OpenID specifications recommend
+the name 'openid_identifier' for the text field of the form in which users type
+their OpenID identifier (so that browser can prefill the field if user chooses
+this).
+
+An authentication object is created using the credentials object, and the
+session filter is added to it.
+
+If the user is at logout (line 13), then the session is destroyed, which means
+the user will see the login form.
+
+If the user is not at logout (line 17), then an OpenID filter is created with
+the credentials object.
+
+After running the authentication (line 23), if the OpenID server did not
+authorize the identifier, then the credentials are incorrect and the user must
+be informed. The getStatus() method is used for this. The values in the status
+returned must be cycled through and for each value a response is created for
+the user ("Signature incorrect", "Session expired"). At line 53 a simple HTML
+form is displayed, as example. The form displays the OpenID logo (as suggested
+by the OpenID specifications).
+
+If run() returned true (line 75) then the user is logged-in and he can see his
+content. Line 79 contains an example of how to implement a logout option for
+the application.
+
+
 Session
 -------
 
@@ -268,7 +310,7 @@ create a credentials object. On subsequent requests to the page, the token is
 loaded from session instead of the GET form.
 
 An authentication object is created using the credentials object, and a
-TypeKey filter is added to it.
+TypeKey filter is added to it, along with the session filter.
 
 After running the authentication (line 19), if the TypeKey server did not
 authorize the token, then the credentials are incorrect and the user must be

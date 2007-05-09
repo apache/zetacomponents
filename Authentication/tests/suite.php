@@ -17,6 +17,7 @@ require_once( "general/authentication_test.php" );
 require_once( "filters/group/group_test.php" );
 require_once( "filters/htpasswd/htpasswd_test.php" );
 require_once( "filters/ldap/ldap_test.php" );
+require_once( "filters/openid/openid_test.php" );
 require_once( "filters/session/session_test.php" );
 require_once( "filters/token/token_test.php" );
 require_once( "filters/typekey/typekey_test.php" );
@@ -37,6 +38,7 @@ class ezcAuthenticationSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcAuthenticationGroupTest::suite() );
         $this->addTest( ezcAuthenticationHtpasswdTest::suite() );
         $this->addTest( ezcAuthenticationLdapTest::suite() );
+        $this->addTest( ezcAuthenticationOpenidTest::suite() );
         $this->addTest( ezcAuthenticationSessionTest::suite() );
         $this->addTest( ezcAuthenticationTokenTest::suite() );
         $this->addTest( ezcAuthenticationTypekeyTest::suite() );
