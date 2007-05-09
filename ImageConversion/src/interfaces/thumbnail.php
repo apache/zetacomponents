@@ -1,8 +1,26 @@
 <?php
+/**
+ * File containing the ezcImageThumbnailFilters interface.
+ *
+ * @package ImageConversion
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @filesource
+ */
 
+/**
+ * This interface has to implemented by ezcImageFilters classes to
+ * support thumbnail filters.
+ *
+ * @see ezcImageHandler
+ * @see ezcImageTransformation
+ * @see ezcImageFiltersInterface
+ *
+ * @package ImageConversion
+ */
 interface ezcImageThumbnailFilters
 {
-
     /**
      * Creates a thumbnail, and crops parts of the given image to fit the range best.
      * This filter creates a thumbnail of the given image. The image is scaled
@@ -38,7 +56,6 @@ interface ezcImageThumbnailFilters
      * @return void
      */
     public function filledThumbnail( $width, $height, $color = array() );
-
 }
 
 ?>
