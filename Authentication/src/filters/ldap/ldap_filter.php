@@ -12,8 +12,6 @@
 /**
  * Filter to authenticate against an LDAP directory.
  *
- * For now passwords can only be specified in plain text.
- *
  * This filter depends on the PHP ldap extension. If this extension is not
  * installed then the constructor will throw an ezcExtensionNotFoundException.
  *
@@ -56,6 +54,10 @@
  *     // authentication succeeded, so allow the user to see his content
  * }
  * </code>
+ *
+ * RFC: {@link http://www.faqs.org/rfcs/rfc4510.html}
+ *
+ * @todo Encoded passwords (for now passwords can only be sent to LDAP in plain text)
  *
  * @property ezcAuthenticationLdapInfo $ldap
  *           Structure which holds the LDAP server hostname, entry format and base,
@@ -236,6 +238,7 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter
                 ldap_close( $connection );
                 return self::STATUS_USERNAME_INCORRECT;
             }
+
             // username exists, so check if we can bind with the provided password
             if ( @ldap_bind( $connection, str_replace( '%id%', $credentials->id, $this->ldap->format ) . ',' . $this->ldap->base, $credentials->password ) )
             {

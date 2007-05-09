@@ -36,6 +36,7 @@ if ( !$authentication->run() )
                     $err["password"] = "<span class='error'>Password incorrect</span>";
                 }
                 break;
+
             case 'ezcAuthenticationLdapFilter':
                 if ( $value === ezcAuthenticationLdapFilter::STATUS_USERNAME_INCORRECT )
                 {

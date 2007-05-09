@@ -78,25 +78,25 @@
 class ezcAuthentication
 {
     /**
-     * The properties of this class.
-     * 
-     * @var array(string=>mixed)
-     */
-    private $properties = array();
-
-    /**
      * The filter queue of the authentication process.
      * 
      * @var array(ezcAuthenticationFilter)
      */
-    private $filters = array();
+    protected $filters = array();
 
     /**
      * Options for the Authentication object.
      * 
      * @var ezcAuthenticationOptions
      */
-    private $options;
+    protected $options;
+
+    /**
+     * The properties of this class.
+     * 
+     * @var array(string=>mixed)
+     */
+    private $properties = array();
 
     /**
      * Creates a new object of this class.

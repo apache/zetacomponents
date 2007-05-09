@@ -32,6 +32,7 @@ if ( !$authentication->run() )
                     $err["password"] = "<span class='error'>Password incorrect</span>";
                 }
                 break;
+
             case 'ezcAuthenticationSessionFilter':
                 if ( $value === ezcAuthenticationSessionFilter::STATUS_EXPIRED )
                 {

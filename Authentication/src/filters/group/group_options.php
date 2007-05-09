@@ -24,11 +24,11 @@
  *
  * @property int $mode
  *           The way of grouping the authentication filters. Possible values:
- *           - ezcAuthenticationGroupFilter::MODE_OR (default): at least one
- *             filter in the group needs to succeed in order for the group to
- *             succeed.
- *           - ezcAuthenticationGroupFilter::MODE_AND: all filters in the group
- *             need to succeed in order for the group to succeed.
+ *            - ezcAuthenticationGroupFilter::MODE_OR (default): at least one
+ *              filter in the group needs to succeed in order for the group to
+ *              succeed.
+ *            - ezcAuthenticationGroupFilter::MODE_AND: all filters in the group
+ *              need to succeed in order for the group to succeed.
  *
  * @package Authentication
  * @version //autogen//

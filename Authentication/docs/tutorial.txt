@@ -10,8 +10,8 @@ Description
 -----------
 
 The purpose of the Authentication component is to provide support for different
-means of identification and authentication of users using different providers and
-protocols.
+means of identification and authentication of users using different providers
+and protocols.
 
 
 Class overview
@@ -55,8 +55,7 @@ ezcAuthenticationHtpasswdFilter
 
 ezcAuthenticationLdapFilter
   Filter to authenticate against an LDAP directory. For now the password can be
-  only in plain text, and SSL/TLS is not implemented yet. It depends on the PHP
-  ldap extension.
+  only in plain text. It depends on the PHP ldap extension.
 
 ezcAuthenticationSessionFilter
   Special filter used to store the authenticated username and the timestamp
@@ -86,6 +85,21 @@ The following example demonstrates the above steps.
 .. include:: tutorial/tutorial_authentication.php
    :literal:
 
+First, a credentials object is created with username jan.modaal and password
+'b1b3773a05c0ed0176787a4f1574ff0075f7521e' (sha1() hash).
+
+An authentication object is created using the credentials object, and a
+htpasswd filter (using the /etc/htpasswd file) is added to it.
+
+After running the authentication (line 6), if the username and the password do
+not pass through the htpasswd filter, then the credentials are incorrect and
+the user must be informed. The getStatus() method is used for this. The values
+in the status returned must be cycled through and for each value a response is
+created for the user ("Username incorrect", "Password incorrect").
+
+If run() returned true (line 33) then the user is logged-in and he can see his
+content.
+
 
 Authentication filters
 ======================
@@ -105,6 +119,22 @@ EITHER a database or an LDAP directory.
 .. include:: tutorial/tutorial_group.php
    :literal:
 
+First, a credentials object is created with username 'jan.modaal' and password
+'qwerty'.
+
+An authentication object is created using the credentials object. A group
+filter is added to it, consisting of a Database filter and an LDAP filter.
+
+After running the authentication (line 17), if the username and the password do
+not pass through any of the filters in the group, then the credentials are
+incorrect and the user must be informed. The getStatus() method is used for
+this. The values in the status returned must be cycled through and for each
+value a response is created for the user ("Username incorrect", "Password
+incorrect").
+
+If run() returned true (line 55) then the user is logged-in and he can see his
+content.
+
 
 Htpasswd
 --------
@@ -114,14 +144,47 @@ The following example shows how to authenticate against an htpasswd file.
 .. include:: tutorial/tutorial_htpasswd.php
    :literal:
 
+First, a credentials object is created with username jan.modaal and password
+'b1b3773a05c0ed0176787a4f1574ff0075f7521e' (sha1() hash).
+
+An authentication object is created using the credentials object, and a
+htpasswd filter (using the /etc/htpasswd file) is added to it.
+
+After running the authentication (line 7), if the username and the password do
+not pass through the htpasswd filter, then the credentials are incorrect and
+the user must be informed. The getStatus() method is used for this. The values
+in the status returned must be cycled through and for each value a response is
+created for the user ("Username incorrect", "Password incorrect").
+
+If run() returned true (line 34) then the user is logged-in and he can see his
+content.
+
 
 LDAP
 ----
 
-The following example shows how to authenticate agains an LDAP directory
+The following example shows how to authenticate agains an LDAP directory.
 
 .. include:: tutorial/tutorial_ldap.php
    :literal:
+
+First, a credentials object is created with username jan.modaal and password
+'qwerty'.
+
+An authentication object is created using the credentials object, and an
+LDAP filter is added to it. The $ldap structure specifies the LDAP host
+(localhost), the format of the directory entry (%id% is a placeholder which
+will be replaced by the actual value at bind time), the base of the directory
+entry ('dc=example,dc=com') and the port on which to connect to the host (389).
+
+After running the authentication (line 7), if the username and the password do
+not pass through the LDAP filter, then the credentials are incorrect and
+the user must be informed. The getStatus() method is used for this. The values
+in the status returned must be cycled through and for each value a response is
+created for the user ("Username incorrect", "Password incorrect").
+
+If run() returned true (line 34) then the user is logged-in and he can see his
+content.
 
 
 Session
@@ -132,6 +195,24 @@ authentication information (username and timestamp) between requests.
 
 .. include:: tutorial/tutorial_session.php
    :literal:
+
+A session filter is created and used to start the PHP session. The username and
+password (provided by the user through a POST form) are fetched and used to
+create a credentials object.
+
+An authentication object is created using the credentials object, and the
+session filter is added to the authentication object. In addition an htpasswd
+filter (using the /etc/htpasswd file) is added to the authentication object.
+
+After running the authentication (line 12), if the username and the password do
+not pass through the session or the htpasswd filter, then the credentials are
+incorrect and the user must be informed. The getStatus() method is used for
+this. The values in the status returned must be cycled through and for each
+value a response is created for the user ("Username incorrect", "Password
+incorrect", "Session expired").
+
+If run() returned true (line 47) then the user is logged-in and he can see his
+content.
 
 
 Token
@@ -144,10 +225,61 @@ On the initial request:
 .. include:: tutorial/tutorial_token1.php
    :literal:
 
+A 6 characters random token is created and encrypted using sha1(). The token
+must be saved somewhere for the follow-up request to be able to use it. An
+image must be generated from the unencrypted token to be displayed to the user.
+
+
 On the follow-up request:
 
 .. include:: tutorial/tutorial_token2.php
    :literal:
+
+The token generated on the initial request is fetched from the POST form, and
+the CAPTCHA value entered by the user is fetched as well.
+
+A credentials object is created from the CAPTCHA value, and it is used to
+create an authentication object.
+
+A Token filter is created from the token value, and it is added to the
+authentication object. The second argument of the Token constructor indicates
+that the CAPTCHA value will be hashed with sha1() before comparing it with the
+token value.
+
+After calling run() on the authentication object (line 9), if the token and
+CAPTCHA values don't match, then the CAPTCHA test was incorrect. The developer
+decides how to handle this situation (user tries again, user is banned, etc).
+
+If the values match (line 14) then it means the user passed the CAPTCHA test
+(or the bots managed to OCR the image).
+
+
+TypeKey
+-------
+
+The following example shows how to authenticate against TypeKey.
+
+.. include:: tutorial/tutorial_typekey.php
+   :literal:
+
+A session filter is created and used to start the PHP session. The TypeKey
+token (provided by the user through a GET form) is fetched and used to
+create a credentials object. On subsequent requests to the page, the token is
+loaded from session instead of the GET form.
+
+An authentication object is created using the credentials object, and a
+TypeKey filter is added to it.
+
+After running the authentication (line 19), if the TypeKey server did not
+authorize the token, then the credentials are incorrect and the user must be
+informed. The getStatus() method is used for this. The values in the status
+returned must be cycled through and for each value a response is created for
+the user ("Signature incorrect", "Session expired"). At line 53 an HTML form is
+displayed, as example on how to attach the TypeKey token to the _return hidded
+field which will be sent to the TypeKey server.
+
+If run() returned true (line 60) then the user is logged-in and he can see his
+content.
 
 
 

@@ -16,10 +16,10 @@
  * STATUS_OK.
  *
  * The way of grouping the filters is specified with the mode option:
- * - ezcAuthenticationGroupFilter::MODE_OR (default): at least one filter
- *   in the group needs to succeed in order for the group to succeed.
- * - ezcAuthenticationGroupFilter::MODE_AND: all filters in the group
- *   need to succeed in order for the group to succeed.
+ *  - ezcAuthenticationGroupFilter::MODE_OR (default): at least one filter
+ *    in the group needs to succeed in order for the group to succeed.
+ *  - ezcAuthenticationGroupFilter::MODE_AND: all filters in the group
+ *    need to succeed in order for the group to succeed.
  *
  * Example of using the mode option:
  * <code>
