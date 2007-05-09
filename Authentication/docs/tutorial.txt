@@ -324,6 +324,16 @@ If run() returned true (line 60) then the user is logged-in and he can see his
 content.
 
 
+Securing applications
+=====================
+
+`Securing applications`_ - A guide to improve the security of online
+applications. It is not exhaustive, but it provides solutions against common
+attacks.
+
+.. _Securing applications: Authentication_security.html
+
+
 
 ..
    Local Variables:
