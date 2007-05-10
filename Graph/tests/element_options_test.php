@@ -415,6 +415,35 @@ class ezcGraphElementOptionsTest extends ezcTestImageCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
+    public function testChartElementLegendPropertyPadding()
+    {
+        $options = new ezcGraphChartElementLegend();
+
+        $this->assertSame(
+            0,
+            $options->padding,
+            'Wrong default value for property padding in class ezcGraphChartElementLegend'
+        );
+
+        $options->padding = 1;
+        $this->assertSame(
+            1,
+            $options->padding,
+            'Setting property value did not work for property padding in class ezcGraphChartElementLegend'
+        );
+
+        try
+        {
+            $options->padding = false;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
     public function testChartElementLegendPropertyPortraitSize()
     {
         $options = new ezcGraphChartElementLegend();
@@ -492,7 +521,7 @@ class ezcGraphElementOptionsTest extends ezcTestImageCase
 
         try
         {
-            $options->landscapeSize = false;
+            $options->symbolSize = false;
         }
         catch ( ezcBaseValueException $e )
         {
@@ -521,7 +550,7 @@ class ezcGraphElementOptionsTest extends ezcTestImageCase
 
         try
         {
-            $options->landscapeSize = 42;
+            $options->minimumSymbolSize = 42;
         }
         catch ( ezcBaseValueException $e )
         {
@@ -550,7 +579,7 @@ class ezcGraphElementOptionsTest extends ezcTestImageCase
 
         try
         {
-            $options->landscapeSize = false;
+            $options->spacing = false;
         }
         catch ( ezcBaseValueException $e )
         {
