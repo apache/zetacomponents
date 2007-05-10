@@ -2001,52 +2001,54 @@ The next example adds the custom function *templatePath*::
 Caching
 =======
 The purpose of the template cache is to speed up the processing time of a
-template by storing its output to a file. If this file, the cache-file, is
-available for the requested template, the cached output will be loaded instead
-of regenerating or executing the template. Time consuming calls like complex
-computations or requests from a database can be omitted or reduced by returning 
-the cached result instead. 
+template by storing its output to a file. This file is known as the
+*cache file*. When the same template is requested later on, the cached contents
+is displayed without processing the template first. The time consuming
+instructions, like computations and requests to a database, can then be reduced 
+or omitted.
 
-Caching can truely reduce the processing time of a template, but it needs to be
-handled with care. The developer needs to:
+Caching can truely reduce the processing time of the templates, but caching needs 
+to be handled with care. The developer needs to:
 
 - Add caching at the correct, time consuming, spots in the template.
-- Make sure that the cache is renewed in time.
-- Remove outdated or unused cache files.
+- Make sure that the cache is expired and renewed in time.
+- Clean up the unused cache files.
 
-A cached template comes with a bit of overhead. It needs to check if the cache
-file is there, whether it is still valid, optionally regenerate the cache, and
-eventually execute this instead of the original template. If the template is
-always different, the cache is always regenerated. An always regenerating cache
-is slower than no cache at all. The same may apply for a very small, non time
-consuming template. 
+Each cached template has a bit of overhead in comparison with an uncached
+template. The extra work is to check if the cache file exists and if it's
+valid, optionally regenerate the cache, and execute the cache. If the cache
+file needs to be regenerated too often, the template is probably processed 
+quicker without caching at all. The same applies for small, non-time consuming 
+templates. 
 
-Another important issue the developer needs to keep in mind, is that the cache
-needs to be renewed in time. The cache renewing can be bound to a certain time
-(Time to Live) or when a specific value or object changes. These triggers need
-to be available in the template. 
+Another issue the developer should keep in mind is that the cache
+needs to be expired and renewed in time. Usually a template cache is valid for
+a limited time. This can be a time out (e.g. after 2 hours) or a trigger (an
+object changes) that expires the cache. The triggers and time outs need to be
+available in the template.
 
-The last issue is that outdated or unused cache files needs to be discarded.
-Without an proper implementation of the cache clean up, the system will
-eventually fill up with unused cache files. It is the responsibility from the
-developer to remove those cache files.
+The last issue is that unused cache files need to be discarded.
+Without a proper cache clean up mechanism the system will
+eventually flood with unused cache files. It is the developer's responsibility 
+to remove those files.
 
 
 Configuration
 -------------
 The template cache is enabled by default and activated when cache blocks are 
-used inside the templates. The template configuration
-(ezcTemplateConfiguration) gives more control at which location the cache files
-should be stored and which mechanism should cleanup the outdated cache files. 
+present in the templates. The template configuration, 
+*ezcTemplateConfiguration* controls the locations where the cache files
+are stored and the mechanism that cleans up the unused cache files.
 The configuration has the following properties relevant to caching:
 
-:cachedTemplatesPath:  The location where cached templates should be stored. 
-    The compiledPath and the cachedTemplatePath form together the complete cache path. 
+- *cachedTemplatesPath*: The location where the cached templates should be stored. 
+  The *compiledPath* and the *cachedTemplatePath* properties together form the
+  complete cache path. 
 
-:cacheManager: This property is assigned to a cache manager object that keeps track of
-    the generated cache files and clean up.
+- *cacheManager*: This property is assigned to a cache manager object that
+  keeps track of the generated cache files and is responsible for its clean up.
 
-:disableCache: Disables all caching. Useful during development.
+- *disableCache*: Disables all caching, useful during development.
 
 
 The next code demonstrates an example configuration: ::
@@ -2067,20 +2069,20 @@ The engine will process the following template: ::
 
     "/mydir/templates/hello_world.ezt"
 
-The compiled template and the cached template will be stored in: ::
+The compiled template and the cached template will then be stored in: ::
 
     "/mydir/templates_bin/compiled_templates/"
     "/mydir/templates_bin/CACHE/"
 
 The 'compiled_templates' is a default setting. The cache manager that will be
-used in the DatabaseCacheManager. Details about the cache manager are explained 
+used is the *DatabaseCacheManager*. Details about the cache manager are explained 
 later.
 
 
 Cache tags
 ----------
 There are two methods to enable caching: *cache_block* and *cache_template*.
-The *cache_block* starts caching and it stops at the close tag::
+The *cache_block* enables caching between the open and close tag::
 
     {"dynamic"}
 
@@ -2093,12 +2095,12 @@ The *cache_block* starts caching and it stops at the close tag::
     {"dynamic"}
 
 
-The example caches the result from the *foreach*-loop. The strings *"dynamic"*
-are not cached. 
+This example caches the *foreach*-loop. The strings that contains *"dynamic"*
+are outside the cache block; thus not cached. 
 
 The *cache_template* starts caching after this tag until the end of the
-template. For example in the next example everything is cached except the
-string *"dynamic"*::
+template. In the next example everything is cached except the
+string that contains *"dynamic"*::
 
     {"dynamic"}
 
@@ -2111,12 +2113,13 @@ string *"dynamic"*::
     {"cached"}
 
 
-Sometimes the whole template needs to be cached with the exception of a small
-block of template code. Take for instance a static page with in the corner the
+
+Sometimes a large block needs to be cached with the exception of a small block
+of template code. Take for instance a relatively static page with in the corner the
 current time. The *dynamic* block is a block that can only be used inside a
-cache_block or after the cache_template. The code inside the *dynamic* block
-will always be executed. The next example creates a cached template that
-displays the current time::
+*cache_block* or after the *cache_template*. The code inside the *dynamic* block
+is not cached and will always be executed. The next example uses the *dynamic*
+block by displaying the current time: ::
 
     {cache_template}
 
@@ -2128,31 +2131,31 @@ displays the current time::
 
 
 Note that the example above is only for demonstration purposes. The template is
-so simple that it is probably quicker to not use any caching at all.
+so simple that it is probably quicker to use no caching at all.
 
 
 Cache renewal
 -------------
 Usually cached templates are valid for a limited time. A certain page is known
-to be valid for some hours or until a value changes in the database, for
-example. The template engine supports three mechanisms to outdate the cache:
-*cache keys*, *time to live* (TTL), and the *cache manager*. 
+to be valid for some hours or until a value changes in the database. The 
+template engine supports three mechanisms to expire the cache:
+*cache-keys*, *time-to-live* (TTL), and a *cache manager*. 
 
-The cache keys and TTL are set inside the the cache tags in the template. These
-tags will do the checking if the cache is still valid, and if needed create a
-new version. The cache manager needs to be programmed manually. It gives a
-better control over the cache and can remove cache that is not longer valid.
-Removing an existing and used cache file results in a cache renewal at a
-request.
+The cache-keys and TTL are both parameters of the cache syntax. These
+parameters check whether the cache is still valid and if needed create a
+new version. 
+
+The cache manager needs to be programmed manually. It gives a
+better control over the cache and can also remove old cache files.
 
 
 Cache keys
 ``````````
-The *cache_block* and *cache_template* blocks have a *keys* parameter. This
+Both *cache_block* and *cache_template*  have a *keys* parameter. This
 parameter can be used to define the uniqueness of a cache block. When the value
-changes, the cache block will be renewed. The keys parameter can be an
+changes, the cache block will be renewed. The *keys* parameter can be an
 expression but is usually limited to a variable or function call. The next example 
-renews two cache blocks when the user ID changes: ::
+creates new cache files when the user ID changes: ::
 
     {use $user_id}
     {cache_block keys $user_id}
@@ -2164,20 +2167,19 @@ renews two cache blocks when the user ID changes: ::
     {/cache_block}
 
 
-The first cache_block relies on the imported $user_id. The second cache_block
-uses a custom function that returns the ID.
+The first cache_block relies on the imported *$user_id*. The second
+*cache_block* uses a custom function that returns the ID.
 
-The given cache key can be of any type. When the key value is a scalar type:
-boolean, integer, float, or string, the value is compared as a string.
-When the cache key is an array, the array is compared with a checksum of the
-dumped structure.
-For an object, the comparation consists of two steps. First will be checked if
+The given cache key can be of any type. If the type is a scalar (boolean, 
+integer, float, or string) then the value is compared as a string.
+For arrays, it's compared with the checksum of the dumped structure.
+For  object, the comparison consists of two steps. First will be checked if
 the object has the method: *cacheKey*. If this method exists on the object then
 this value will be used. Otherwise the checksum of the object dump will be
 used.
 
 The example below uses an user object as cache key. The name property of this
-object will be displayed. :: 
+object will be shown: :: 
 
     {use $userObj}
     {cache_template keys $userObj}
@@ -2209,7 +2211,7 @@ The user object can be implemented like: ::
     }
 
 
-And the application calling the template: ::
+And the application calling the template is done like this: ::
 
     $t = new ezcTemplate();
     $t->send->userObj = new User("Bernard", "Black");
@@ -2217,11 +2219,13 @@ And the application calling the template: ::
  
     
 
-Time to live
+Time-to-live
 ````````````
-The *ttl* parameter makes it possible to manually specify how long a cache
-block should live in number of seconds. The cache is removed after timeout and
-is different than the cache keys that will create a new version. 
+The *ttl* parameter makes it possible to specify how long a cache
+block should live in number of seconds. The cache is removed after the time
+out. Note that this behavior is slightly different than the *cache-key*. The
+*cache-key* creates a new version of the cache but does not remove any cache
+files.
 
 The next example creates a cache block that is valid for two hours::
 
@@ -2230,12 +2234,15 @@ The next example creates a cache block that is valid for two hours::
     {/cache_block}
 
 
-Via a clever custom function the TTL can be used to renew the cache at certain
-periods: ::
+Via a custom function the TTL can be used to renew the cache at certain
+predefined timestamps: ::
 
     {cache_block TTL getRemainingTime(minute=0, hour=6)}
         Updated each morning at 6 o'clock
     {/cache_block}
+
+The custom function *getRemainingTime* calculates the remaining seconds until
+it is 6 o'clock in the morning. 
 
 
 Cache manager
@@ -2631,7 +2638,21 @@ problem. The following sections will explain other problems that can be solved
 using the cache manager.
 
 
+Signal-slots
+````````````
+TODO
 
+
+
+Including templates
+```````````````````
+TODO
+
+
+
+Discarding unused cache files
+`````````````````````````````
+TODO
 
 
 More information
