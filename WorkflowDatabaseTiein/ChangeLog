@@ -1,3 +1,6 @@
+- Fixed issue #010761: Wrong table name in
+  ezcWorkflowDatabaseTieinTestCase::cleanupTables().
+
 1.0beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

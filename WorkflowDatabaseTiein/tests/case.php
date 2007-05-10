@@ -61,7 +61,7 @@ abstract class ezcWorkflowDatabaseTieinTestCase extends ezcWorkflowTestCase
         $this->db->exec( 'DROP TABLE IF EXISTS workflow;' );
         $this->db->exec( 'DROP TABLE IF EXISTS node;' );
         $this->db->exec( 'DROP TABLE IF EXISTS node_connection;' );
-        $this->db->exec( 'DROP TABLE IF EXISTS execution_data_handler;' );
+        $this->db->exec( 'DROP TABLE IF EXISTS variable_handler;' );
         $this->db->exec( 'DROP TABLE IF EXISTS execution;' );
         $this->db->exec( 'DROP TABLE IF EXISTS execution_state;' );
     }
