@@ -254,6 +254,226 @@ class ezcGraphRadarChartTest extends ezcGraphTestCase
         $chart->render( 500, 200 );
     }
 
+    public function testRadarChartOptionsPropertyFillRadars()
+    {
+        $options = new ezcGraphRadarChartOptions();
+
+        $this->assertSame(
+            false,
+            $options->fillLines,
+            'Wrong default value for property fillLines in class ezcGraphRadarChartOptions'
+        );
+
+        $options->fillLines = 230;
+        $this->assertSame(
+            230,
+            $options->fillLines,
+            'Setting property value did not work for property fillLines in class ezcGraphRadarChartOptions'
+        );
+
+        $options->fillLines = false;
+        $this->assertSame(
+            false,
+            $options->fillLines,
+            'Setting property value did not work for property fillLines in class ezcGraphRadarChartOptions'
+        );
+
+        try
+        {
+            $options->fillLines = true;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testRadarChartOptionsPropertySymbolSize()
+    {
+        $options = new ezcGraphRadarChartOptions();
+
+        $this->assertSame(
+            8,
+            $options->symbolSize,
+            'Wrong default value for property symbolSize in class ezcGraphRadarChartOptions'
+        );
+
+        $options->symbolSize = 10;
+        $this->assertSame(
+            10,
+            $options->symbolSize,
+            'Setting property value did not work for property symbolSize in class ezcGraphRadarChartOptions'
+        );
+
+        try
+        {
+            $options->symbolSize = false;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testRadarChartOptionsPropertyHighlightFont()
+    {
+        $options = new ezcGraphRadarChartOptions();
+
+        $options->highlightFont = $file = $this->basePath . 'font.ttf';
+        $this->assertSame(
+            $file,
+            $options->highlightFont->path,
+            'Setting property value did not work for property highlightFont in class ezcGraphRadarChartOptions'
+        );
+
+        $this->assertSame(
+            true,
+            $options->highlightFontCloned,
+            'Font should be cloned now.'
+        );
+
+        $fontOptions = new ezcGraphFontOptions();
+        $fontOptions->path = $this->basePath . 'font2.ttf';
+
+        $options->highlightFont = $fontOptions;
+        $this->assertSame(
+            $fontOptions,
+            $options->highlightFont,
+            'Setting property value did not work for property highlightFont in class ezcGraphRadarChartOptions'
+        );
+
+        try
+        {
+            $options->highlightFont = false;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testRadarChartOptionsPropertyHighlightSize()
+    {
+        $options = new ezcGraphRadarChartOptions();
+
+        $this->assertSame(
+            14,
+            $options->highlightSize,
+            'Wrong default value for property highlightSize in class ezcGraphRadarChartOptions'
+        );
+
+        $options->highlightSize = 20;
+        $this->assertSame(
+            20,
+            $options->highlightSize,
+            'Setting property value did not work for property highlightSize in class ezcGraphRadarChartOptions'
+        );
+
+        try
+        {
+            $options->highlightSize = false;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testRadarChartOptionsPropertyHighlightRadars()
+    {
+        $options = new ezcGraphRadarChartOptions();
+
+        $this->assertSame(
+            false,
+            $options->highlightRadars,
+            'Wrong default value for property highlightRadars in class ezcGraphRadarChartOptions'
+        );
+
+        $options->highlightRadars = true;
+        $this->assertSame(
+            true,
+            $options->highlightRadars,
+            'Setting property value did not work for property highlightRadars in class ezcGraphRadarChartOptions'
+        );
+
+        try
+        {
+            $options->highlightRadars = 42;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testRadarChartElementAxis()
+    {
+        $chart = new ezcGraphRadarChart();
+
+        $this->assertSame(
+            true,
+            $chart->axis instanceof ezcGraphChartElementNumericAxis,
+            'Wrong default value for chart element axis in class ezcGraphRadarChart'
+        );
+
+        $chart->axis = new ezcGraphChartElementLogarithmicalAxis();
+        $this->assertSame(
+            true,
+            $chart->axis instanceof ezcGraphChartElementLogarithmicalAxis,
+            'Setting element value for chart element axis in class ezcGraphRadarChart'
+        );
+
+        try
+        {
+            $chart->axis = 42;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testRadarChartElementRotationAxis()
+    {
+        $chart = new ezcGraphRadarChart();
+
+        $this->assertSame(
+            true,
+            $chart->rotationAxis instanceof ezcGraphChartElementLabeledAxis,
+            'Wrong default value for chart element axis in class ezcGraphRadarChart'
+        );
+
+        $chart->rotationAxis = new ezcGraphChartElementLogarithmicalAxis();
+        $this->assertSame(
+            true,
+            $chart->rotationAxis instanceof ezcGraphChartElementLogarithmicalAxis,
+            'Setting element value for chart element axis in class ezcGraphRadarChart'
+        );
+
+        try
+        {
+            $chart->rotationAxis = 42;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
     public function testRadarSimple()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
@@ -271,6 +491,25 @@ class ezcGraphRadarChartTest extends ezcGraphTestCase
         );
     }
 
+    public function testRadarSimpleNoDataFailure()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphRadarChart();
+        $chart->palette = new ezcGraphPaletteTango();
+
+        try
+        {
+            $chart->render( 500, 200, $filename );
+        }
+        catch ( ezcGraphNoDataException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphNoDataException.' );
+    }
+
     public function testRadarMinorAxis()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
@@ -283,6 +522,26 @@ class ezcGraphRadarChartTest extends ezcGraphTestCase
         $chart->data['sample'] = new ezcGraphArrayDataSet( $this->getRandomData( 31 ) );
 
         $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testRenderLineChartToOutput()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphRadarChart();
+        $chart->palette = new ezcGraphPaletteTango();
+
+        $chart->data['sample'] = new ezcGraphArrayDataSet( $this->getRandomData( 6 ) );
+
+        ob_start();
+        // Suppress header already sent warning
+        @$chart->renderToOutput( 500, 200 );
+        file_put_contents( $filename, ob_get_clean() );
 
         $this->compare(
             $filename,
@@ -343,6 +602,28 @@ class ezcGraphRadarChartTest extends ezcGraphTestCase
         $chart->data['sample 1'] = new ezcGraphArrayDataSet( $this->getRandomData( 8 ) );
         $chart->data['sample 2'] = new ezcGraphArrayDataSet( $this->getRandomData( 8, 250, 1000, 12 ) );
         $chart->data['sample 3'] = new ezcGraphArrayDataSet( $this->getRandomData( 8, 0, 500, 42 ) );
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testRadarLogarithmicalAxis()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphRadarChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+
+        $chart->axis = new ezcGraphChartElementLogarithmicalAxis();
+
+        $chart->options->fillLines = 210;
+
+        $chart->data['sample 1'] = new ezcGraphArrayDataSet( $this->getRandomData( 8, 1, 1000000 ) );
+        $chart->data['sample 2'] = new ezcGraphArrayDataSet( $this->getRandomData( 8, 1, 1000000, 42 ) );
 
         $chart->render( 500, 200, $filename );
 
