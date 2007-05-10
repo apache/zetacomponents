@@ -38,7 +38,7 @@ abstract class ezcPersistentRelation
     );
 
     /**
-     * Validates an {@see ezcPersistentRelation::$columnMap} property.
+     * Validates an {@link ezcPersistentRelation::$columnMap} property.
      * Checks is the given array represents a valid $columnMap property. Has
      * to be implemented by all derived classes.
      * 

@@ -14,7 +14,7 @@
  * This class binds the matching part of the filter rule together with a container.
  * The container contains the value bound to the filter.
  *
- * {@see __construct()}
+ * {@link __construct()}
  * 
  * @package EventLog
  * @version //autogentag//

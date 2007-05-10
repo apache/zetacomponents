@@ -36,8 +36,8 @@ class ezcPersistentSingleTableMap extends ezcBaseStruct
     /**
      * Create a new ezcPersistentSingleTableMap. 
      * 
-     * @param string $sourceColumn      {@see $sourceColumn}
-     * @param string $destinationColumn {@see $destinationColumn}
+     * @param string $sourceColumn      {@link $sourceColumn}
+     * @param string $destinationColumn {@link $destinationColumn}
      */
     public function __construct( $sourceColumn, $destinationColumn )
     {

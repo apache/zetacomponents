@@ -299,7 +299,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage
     /**
      * Search the storage for data recursively. 
      * 
-     * @param string $pattern  Pattern used with {@see glob()}.
+     * @param string $pattern  Pattern used with {@link glob()}.
      * @param mixed $directory Directory to search in.
      * @return array(int=>string) Found cache items.
      */

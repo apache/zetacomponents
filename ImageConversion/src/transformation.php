@@ -363,7 +363,7 @@ class ezcImageTransformation
      * Sets the save options, that are used for the final save step of the
      * transformation. 
      *
-     * {@see ezcImageSaveOptions}
+     * {@link ezcImageSaveOptions}
      * 
      * @param mixed $options Save options.
      * @return void

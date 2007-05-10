@@ -106,8 +106,8 @@ class ezcPersistentSession
      * objects with this relation will be deleted, too.
      *
      * Relations that support cascading are:
-     * - {@see ezcPersistenOneToManyRelation}
-     * - {@see ezcPersistenOneToOne}
+     * - {@link ezcPersistenOneToManyRelation}
+     * - {@link ezcPersistenOneToOne}
      *
      * @throws ezcPersistentDefinitionNotFoundxception
      *         if $the object is not recognized as a persistent object.
@@ -418,9 +418,9 @@ class ezcPersistentSession
     /**
      * Returns the related objects of a given class for an object.
      * This method returns the related objects of type $relatedClass for the
-     * object $object. This method (in contrast to {@see getRelatedObject()})
+     * object $object. This method (in contrast to {@link getRelatedObject()})
      * always returns an array of result objects, no matter if only 1 object
-     * was found (e.g. {@see ezcPersistentManyToOneRelation}).
+     * was found (e.g. {@link ezcPersistentManyToOneRelation}).
      *
      * Example:
      * <code>
@@ -430,8 +430,8 @@ class ezcPersistentSession
      * </code>
      *
      * Relations that should preferably be used with this method are:
-     * - {@see ezcPersistentOneToManyRelation}
-     * - {@see ezcPersistentManyToManyRelation}
+     * - {@link ezcPersistentOneToManyRelation}
+     * - {@link ezcPersistentManyToManyRelation}
      *
      * @param mixed $object         The object to fetch related objects for.
      * @param mixed $relatedClass   The class of the related objects to fetch.
@@ -449,9 +449,9 @@ class ezcPersistentSession
     /**
      * Returns the related object of a given class for an object.
      * This method returns the related object of type $relatedClass for the
-     * object $object. This method (in contrast to {@see getRelatedObjects()})
+     * object $object. This method (in contrast to {@link getRelatedObjects()})
      * always a single result object, no matter if more objects could be found
-     * (e.g. {@see ezcPersistentOneToManyRelation}).
+     * (e.g. {@link ezcPersistentOneToManyRelation}).
      *
      * Example:
      * <code>
@@ -486,9 +486,9 @@ class ezcPersistentSession
 
     /**
      * Returns the base query for retrieving related objects.
-     * See {@see getRelatedObject()} and {@see getRelatedObjects()}. Can be
+     * See {@link getRelatedObject()} and {@link getRelatedObjects()}. Can be
      * modified by additional where conditions and simply be used with
-     * {@see find()} and the related class name.
+     * {@link find()} and the related class name.
      *
      * @param object $object       Object to find related objects for.
      * @param string $relatedClass Class of the related objects to find.
@@ -625,9 +625,9 @@ class ezcPersistentSession
     /**
      * Removes the relation between $object and $relatedObject.
      * This method is used to delete an existing relation between 2 objects. Like
-     * {@see addRelatedObject} this method does not store the related object
+     * {@link addRelatedObject} this method does not store the related object
      * after removing its relation properties (unset), except for
-     * {@see ezcPersistentManyToManyRelation}s, for which the relation record
+     * {@link ezcPersistentManyToManyRelation}s, for which the relation record
      * is deleted from the database.
      *
      * @param object $object        Source object of the relation.

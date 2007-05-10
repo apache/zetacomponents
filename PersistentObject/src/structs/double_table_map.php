@@ -51,10 +51,10 @@ class ezcPersistentDoubleTableMap extends ezcBaseStruct
     /**
      * Create a new ezcPersistentDoubleTableMap. 
      * 
-     * @param string $sourceColumn              {@see $sourceColumn}
-     * @param string $relationSourceColumn      {@see $relationSourceColumn}
-     * @param string $relationDestinationColumn {@see $relationDestinationColumn}
-     * @param string $destinationColumn         {@see $destinationColumn}
+     * @param string $sourceColumn              {@link $sourceColumn}
+     * @param string $relationSourceColumn      {@link $relationSourceColumn}
+     * @param string $relationDestinationColumn {@link $relationDestinationColumn}
+     * @param string $destinationColumn         {@link $destinationColumn}
      */
     public function __construct( $sourceColumn,
                                  $relationSourceColumn, $relationDestinationColumn,

@@ -33,7 +33,7 @@ interface ezcPersistentObject
     /**
      * Sets the state of the object.
      * This method sets the state of the object accoring to a given array,
-     * which must conform to the standards defined at {@see getState()}.
+     * which must conform to the standards defined at {@link getState()}.
      * 
      * @param array $state The new state for the object.
      * @return void

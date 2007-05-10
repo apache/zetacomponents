@@ -26,7 +26,7 @@ interface ezcTranslationBackend
      *
      * $configurationData should be an implementation of ezcBaseOptions (or, for
      * sake of backwards compatibility an associative array). See 
-     * {@see ezcTranslationTsBackend} for an example implementation.
+     * {@link ezcTranslationTsBackend} for an example implementation.
      *
      * Each implementor must document the options that it accepts and throw an
      * {@link ezcBaseConfigException} with the

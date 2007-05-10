@@ -26,10 +26,10 @@ class ezcPersistentOneToManyRelation extends ezcPersistentRelation
     );
 
     /**
-     * Validates an {@see ezcPersistentRelation::$columnMap} property.
+     * Validates an {@link ezcPersistentRelation::$columnMap} property.
      * Checks is the given array represents a valid $columnMap property. Column
      * maps for this kind of relation may only contain instances of
-     * {@see ezcPersistentSingleTableMap} and have to at least contain 1
+     * {@link ezcPersistentSingleTableMap} and have to at least contain 1
      * instance.
      *  
      * @param array $columnMap The column map to check.
