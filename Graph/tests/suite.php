@@ -39,6 +39,7 @@ require_once 'numeric_axis_test.php';
 require_once 'palette_test.php';
 require_once 'pie_test.php';
 require_once 'polynom_test.php';
+require_once 'radar_axis_test.php';
 require_once 'radar_chart.php';
 require_once 'renderer_2d_test.php';
 require_once 'renderer_3d_test.php';
@@ -87,6 +88,7 @@ class ezcGraphSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcGraphPaletteTest::suite() );
         $this->addTest( ezcGraphPieChartTest::suite() );
         $this->addTest( ezcGraphPolynomTest::suite() );
+        $this->addTest( ezcGraphRadarChartAxisTest::suite() );
         $this->addTest( ezcGraphRadarChartTest::suite() );
         $this->addTest( ezcGraphRenderer2dTest::suite() );
         $this->addTest( ezcGraphRenderer3dTest::suite() );
