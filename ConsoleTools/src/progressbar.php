@@ -61,7 +61,7 @@ class ezcConsoleProgressbar
      * Actual values are stored here and will be inserted into the bar
      * before printing it.
      * 
-     * @var array(string => string)
+     * @var array(string=>string)
      */
     protected $valueMap = array( 
         'bar'       => '',
@@ -76,7 +76,7 @@ class ezcConsoleProgressbar
      * This array saves how much space a specific part of the bar utilizes to not
      * recalculate those on every step.
      * 
-     * @var array(string => int)
+     * @var array(string=>int)
      */
     protected $measures = array( 
         'barSpace'          => 0,
