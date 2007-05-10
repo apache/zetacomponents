@@ -29,14 +29,14 @@ class ezcPersistentCacheManager extends ezcPersistentDefinitionManager
     /**
      * Holds the persistent object definitions that are currently cached.
      *
-     * @var array( 'className' => ezcPerssitentDefinition )
+     * @var array($className=>ezcPerssitentDefinition)
      */
     private $cache = array();
 
     /**
      * Constructs a new definition cache.
      *
-     * @param (ezcPersistentDefinitionManager $manager
+     * @param ezcPersistentDefinitionManager $manager
      */
     public function __construct( ezcPersistentDefinitionManager $manager )
     {
