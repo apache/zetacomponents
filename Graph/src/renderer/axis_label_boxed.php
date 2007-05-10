@@ -124,27 +124,50 @@ class ezcGraphAxisBoxedLabelRenderer extends ezcGraphAxisLabelRenderer
             if ( $this->showLabels )
             {
                 // Calculate label boundings
-                if ( abs( $this->direction->x ) > abs( $this->direction->y ) )
+                switch ( true )
                 {
-                    $labelBoundings = new ezcGraphBoundings(
-                        $position->x - $stepSize->x + $this->labelPadding,
-                        $position->y + $this->labelPadding,
-                        $position->x + - $this->labelPadding,
-                        $position->y + $renderer->yAxisSpace - $this->labelPadding
-                    );
+                    case ( abs( $this->direction->x ) > abs( $this->direction->y ) ) &&
+                         ( $this->direction->x <= 0 ):
+                        $labelBoundings = new ezcGraphBoundings(
+                            $position->x - $stepSize->x + $this->labelPadding,
+                            $position->y + $this->labelPadding,
+                            $position->x - $this->labelPadding,
+                            $position->y + $renderer->yAxisSpace - $this->labelPadding
+                        );
 
-                    $alignement = ezcGraph::CENTER | ezcGraph::TOP;
-                }
-                else
-                {
-                    $labelBoundings = new ezcGraphBoundings(
-                        $position->x - $renderer->xAxisSpace + $this->labelPadding,
-                        $position->y - $stepSize->y + $this->labelPadding,
-                        $position->x - $this->labelPadding,
-                        $position->y - $this->labelPadding
-                    );
+                        $alignement = ezcGraph::CENTER | ezcGraph::TOP;
+                    break;
+                    case ( abs( $this->direction->x ) > abs( $this->direction->y ) ) &&
+                         ( $this->direction->x > 0 ):
+                        $labelBoundings = new ezcGraphBoundings(
+                            $position->x + $this->labelPadding,
+                            $position->y + $this->labelPadding,
+                            $position->x + $stepSize->x - $this->labelPadding,
+                            $position->y + $renderer->yAxisSpace - $this->labelPadding
+                        );
 
-                    $alignement = ezcGraph::MIDDLE | ezcGraph::RIGHT;
+                        $alignement = ezcGraph::CENTER | ezcGraph::TOP;
+                    break;
+                    case ( $this->direction->y <= 0 ):
+                        $labelBoundings = new ezcGraphBoundings(
+                            $position->x - $renderer->xAxisSpace + $this->labelPadding,
+                            $position->y - $stepSize->y + $this->labelPadding,
+                            $position->x - $this->labelPadding,
+                            $position->y - $this->labelPadding
+                        );
+
+                        $alignement = ezcGraph::MIDDLE | ezcGraph::RIGHT;
+                        break;
+                    case ( $this->direction->y > 0 ):
+                        $labelBoundings = new ezcGraphBoundings(
+                            $position->x - $renderer->xAxisSpace + $this->labelPadding,
+                            $position->y + $this->labelPadding,
+                            $position->x - $this->labelPadding,
+                            $position->y + $stepSize->y - $this->labelPadding
+                        );
+
+                        $alignement = ezcGraph::MIDDLE | ezcGraph::RIGHT;
+                        break;
                 }
 
                 $renderer->drawText( $labelBoundings, $step->label, $alignement );

@@ -7,6 +7,8 @@
   second last value if showLastValue is disabled
 - Fixed issue #10747: axisLabelRotatedRenderer accesses unitialised variables
   for Angles % 90 != 0
+- Fixed issue #10745 (BaxedAxisLabelRenderer wrong label positions for angles:
+  (135 <= $angle <= 325)
 
 1.1beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
