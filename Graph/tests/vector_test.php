@@ -210,6 +210,18 @@ class ezcGraphVectorTest extends ezcTestCase
         );
     }
 
+    public function testVectorAngleVectorZero()
+    {
+        $vector = new ezcGraphVector( 1, 2 );
+        $result = $vector->angle( new ezcGraphVector( 0, 0 ) );
+
+        $this->assertSame(
+            $result,
+            false,
+            'Expected false because no angle could be calculated.'
+        );
+    }
+
     public function testVectorAngle180Vector()
     {
         $vector = new ezcGraphVector( 1, 0 );
