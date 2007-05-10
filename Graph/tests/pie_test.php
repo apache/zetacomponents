@@ -413,6 +413,24 @@ class ezcGraphPieChartTest extends ezcGraphTestCase
         );
     }
 
+    public function testRenderSmallPieChartToOutput()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->data['Skien'] = new ezcGraphArrayDataSet( array( 'Norwegian' => 10, 'Dutch' => 3, 'German' => 2, 'French' => 2, 'Hindi' => 1, 'Taiwanese' => 1, 'Brazilian' => 1, 'Venezuelan' => 1, 'Japanese' => 1, 'Czech' => 1, 'Hungarian' => 1, 'Romanian' => 1 ) );
+
+        ob_start();
+        // Suppress header already sent warning
+        @$chart->renderToOutput( 500, 200 );
+        file_put_contents( $filename, ob_get_clean() );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testRenderPieChartWithLotsOfLabels()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
