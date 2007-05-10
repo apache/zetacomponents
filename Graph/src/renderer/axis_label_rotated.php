@@ -174,7 +174,13 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
         $textAngle = $axisAngle + 
             deg2rad( $this->angle ) + 
             ( $axis->position & ( ezcGraph::TOP | ezcGraph::BOTTOM ) ? deg2rad( 270 ) : deg2rad( 90 ) );
+
+        // Ensure angle between 0 and 360 degrees
         $degTextAngle = rad2deg( $textAngle );
+        while ( $degTextAngle < 0 )
+        {
+            $degTextAngle += 360.;
+        }
 
         $this->offset =
             ( $this->angle < 0 ? -1 : 1 ) *

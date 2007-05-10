@@ -5,6 +5,8 @@
   descriptive
 - Fixed issue #10744: ExactAxisLabelRenderer shows last value at position of
   second last value if showLastValue is disabled
+- Fixed issue #10747: axisLabelRotatedRenderer accesses unitialised variables
+  for Angles % 90 != 0
 
 1.1beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
