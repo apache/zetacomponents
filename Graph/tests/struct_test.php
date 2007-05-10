@@ -238,5 +238,67 @@ class ezcGraphStructTest extends ezcTestCase
             'Wrong value when reading public property y in ezcGraphCoordinate.'
         );
     }
+
+    public function testCoordinateToString()
+    {
+        $coordinate = new ezcGraphCoordinate( 2, 5 );
+
+        $this->assertSame(
+            '( 2.00, 5.00 )',
+            (string) $coordinate,
+            'Wrong value when converting ezcGraphCoordinate to string.'
+        );
+    }
+
+    public function testStepSetState()
+    {
+        $step = new ezcGraphAxisStep();
+
+        $step->__set_state(
+        array(
+            'position' => .4,
+            'width' => .2,
+            'label' => 'Label',
+            'childs' => array(),
+            'isZero' => true,
+            'isLast' => false,
+        ) );
+
+        $this->assertSame(
+            .4,
+            $step->position,
+            'Wrong value when reading public property position in ezcGraphContext.'
+        );
+
+        $this->assertSame(
+            .2,
+            $step->width,
+            'Wrong value when reading public property width in ezcGraphContext.'
+        );
+
+        $this->assertSame(
+            'Label',
+            $step->label,
+            'Wrong value when reading public property label in ezcGraphContext.'
+        );
+
+        $this->assertSame(
+            array(),
+            $step->childs,
+            'Wrong value when reading public property childs in ezcGraphContext.'
+        );
+
+        $this->assertSame(
+            true,
+            $step->isZero,
+            'Wrong value when reading public property isZero in ezcGraphContext.'
+        );
+
+        $this->assertSame(
+            false,
+            $step->isLast,
+            'Wrong value when reading public property isLast in ezcGraphContext.'
+        );
+    }
 }
 ?>
