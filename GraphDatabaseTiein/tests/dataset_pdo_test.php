@@ -348,6 +348,27 @@ class ezcGraphDatabaseTest extends ezcTestCase
         
         $this->fail( 'Expected ezcGraphDatabaseStatementNotExecutedException.' );
     }
+
+    public function testDataSetCount()
+    {
+        $db = ezcDbInstance::get();
+
+        $statement = $db->prepare( 'SELECT * FROM graph_pdo_test' );
+        $statement->execute();
+
+        $dataset = new ezcGraphDatabaseDataSet(
+            $statement,
+            array(
+                ezcGraph::VALUE => 'hits',
+            )
+        );
+
+        $this->assertEquals(
+            count( $dataset ),
+            6,
+            'Wrong data set item count returned'
+        );
+    }
 }
 
 ?>
