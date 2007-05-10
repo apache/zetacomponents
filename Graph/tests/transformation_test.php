@@ -81,6 +81,26 @@ class ezcGraphTransformationTest extends ezcTestCase
         );
     }
 
+    public function testTranslateMultiplicationInvalidDimension()
+    {
+        $a = new ezcGraphTranslation( 3, 2 );
+        $b = new ezcGraphMatrix( 4, 3, array(
+            array( 1, 2, 3 ),
+            array( 4, 5, 6 ),
+        ) );
+
+        try
+        {
+            $a->multiply( $b );
+        }
+        catch ( ezcGraphMatrixInvalidDimensionsException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphMatrixInvalidDimensionsException.' );
+    }
+
     public function testTranslateCoordinate()
     {
         $transformation = new ezcGraphTranslation( 5, 5 );
