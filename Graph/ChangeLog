@@ -13,7 +13,7 @@
   and dataset properties
 - Fixed issue #10746: Border size reducement algorithm fails for polygones
   with edge lengths < reducement
-
+- Fixed issue #10750: SVG drivers output broken with wrong LC_NUMERIC
 
 1.1beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

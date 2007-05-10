@@ -166,7 +166,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                     // Start of linear gradient
                     $stop = $this->dom->createElement( 'stop' );
                     $stop->setAttribute( 'offset', 0 );
-                    $stop->setAttribute( 'style', sprintf( 'stop-color: #%02x%02x%02x; stop-opacity: %.2f;',
+                    $stop->setAttribute( 'style', sprintf( 'stop-color: #%02x%02x%02x; stop-opacity: %.2F;',
                         $color->startColor->red,
                         $color->startColor->green,
                         $color->startColor->blue,
@@ -178,7 +178,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                     // End of linear gradient
                     $stop = $this->dom->createElement( 'stop' );
                     $stop->setAttribute( 'offset', 1 );
-                    $stop->setAttribute( 'style', sprintf( 'stop-color: #%02x%02x%02x; stop-opacity: %.2f;',
+                    $stop->setAttribute( 'style', sprintf( 'stop-color: #%02x%02x%02x; stop-opacity: %.2F;',
                         $color->endColor->red,
                         $color->endColor->green,
                         $color->endColor->blue,
@@ -189,10 +189,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
 
                     $gradient = $this->dom->createElement( 'linearGradient' );
                     $gradient->setAttribute( 'id', $color->__toString() );
-                    $gradient->setAttribute( 'x1', round( $color->startPoint->x, 4 ) );
-                    $gradient->setAttribute( 'y1', round( $color->startPoint->y, 4 ) );
-                    $gradient->setAttribute( 'x2', round( $color->endPoint->x, 4 ) );
-                    $gradient->setAttribute( 'y2', round( $color->endPoint->y, 4 ) );
+                    $gradient->setAttribute( 'x1', sprintf( '%.4F', $color->startPoint->x ) );
+                    $gradient->setAttribute( 'y1', sprintf( '%.4F', $color->startPoint->y ) );
+                    $gradient->setAttribute( 'x2', sprintf( '%.4F', $color->endPoint->x ) );
+                    $gradient->setAttribute( 'y2', sprintf( '%.4F', $color->endPoint->y ) );
                     $gradient->setAttribute( 'gradientUnits', 'userSpaceOnUse' );
                     $gradient->setAttributeNS( 
                         'http://www.w3.org/1999/xlink', 
@@ -217,7 +217,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                     // Start of linear gradient
                     $stop = $this->dom->createElement( 'stop' );
                     $stop->setAttribute( 'offset', 0 );
-                    $stop->setAttribute( 'style', sprintf( 'stop-color: #%02x%02x%02x; stop-opacity: %.2f;',
+                    $stop->setAttribute( 'style', sprintf( 'stop-color: #%02x%02x%02x; stop-opacity: %.2F;',
                         $color->startColor->red,
                         $color->startColor->green,
                         $color->startColor->blue,
@@ -229,7 +229,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                     // End of linear gradient
                     $stop = $this->dom->createElement( 'stop' );
                     $stop->setAttribute( 'offset', 1 );
-                    $stop->setAttribute( 'style', sprintf( 'stop-color: #%02x%02x%02x; stop-opacity: %.2f;',
+                    $stop->setAttribute( 'style', sprintf( 'stop-color: #%02x%02x%02x; stop-opacity: %.2F;',
                         $color->endColor->red,
                         $color->endColor->green,
                         $color->endColor->blue,
@@ -240,10 +240,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
 
                     $gradient = $this->dom->createElement( 'radialGradient' );
                     $gradient->setAttribute( 'id', $color->__toString() );
-                    $gradient->setAttribute( 'cx', round( $color->center->x, 4 ) );
-                    $gradient->setAttribute( 'cy', round( $color->center->y, 4 ) );
-                    $gradient->setAttribute( 'fx', round( $color->center->x, 4 ) );
-                    $gradient->setAttribute( 'fy', round( $color->center->y, 4 ) );
+                    $gradient->setAttribute( 'cx', sprintf( '%.4F', $color->center->x ) );
+                    $gradient->setAttribute( 'cy', sprintf( '%.4F', $color->center->y ) );
+                    $gradient->setAttribute( 'fx', sprintf( '%.4F', $color->center->x ) );
+                    $gradient->setAttribute( 'fy', sprintf( '%.4F', $color->center->y ) );
                     $gradient->setAttribute( 'r', max( $color->height, $color->width ) );
                     $gradient->setAttribute( 'gradientUnits', 'userSpaceOnUse' );
                     $gradient->setAttributeNS( 
@@ -286,7 +286,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             }
             else
             {
-                return sprintf( 'fill: #%02x%02x%02x; fill-opacity: %.2f; stroke: none;',
+                return sprintf( 'fill: #%02x%02x%02x; fill-opacity: %.2F; stroke: none;',
                     $color->red,
                     $color->green,
                     $color->blue,
@@ -302,7 +302,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             }
             else
             {
-                return sprintf( 'fill: none; stroke: #%02x%02x%02x; stroke-width: %d; stroke-opacity: %.2f; stroke-linecap: %s; stroke-linejoin: %s;',
+                return sprintf( 'fill: none; stroke: #%02x%02x%02x; stroke-width: %d; stroke-opacity: %.2F; stroke-linecap: %s; stroke-linejoin: %s;',
                     $color->red,
                     $color->green,
                     $color->blue,
@@ -342,14 +342,14 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         }
 
         $lastPoint = end( $points );
-        $pointString = sprintf( ' M %.4f,%.4f', 
+        $pointString = sprintf( ' M %.4F,%.4F', 
             $lastPoint->x + $this->options->graphOffset->x, 
             $lastPoint->y + $this->options->graphOffset->y
         );
 
         foreach ( $points as $point )
         {
-            $pointString .= sprintf( ' L %.4f,%.4f', 
+            $pointString .= sprintf( ' L %.4F,%.4F', 
                 $point->x + $this->options->graphOffset->x,
                 $point->y + $this->options->graphOffset->y
             );
@@ -382,7 +382,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
     {
         $this->createDocument();  
         
-        $pointString = sprintf( ' M %.4f,%.4f L %.4f,%.4f', 
+        $pointString = sprintf( ' M %.4F,%.4F L %.4F,%.4F', 
             $start->x + $this->options->graphOffset->x, 
             $start->y + $this->options->graphOffset->y,
             $end->x + $this->options->graphOffset->x, 
@@ -572,7 +572,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
 
             if ( $text['rotation'] !== null )
             {
-                $group->setAttribute( 'transform', sprintf( 'rotate( %.2f %.4f %.4f )',
+                $group->setAttribute( 'transform', sprintf( 'rotate( %.2F %.4F %.4F )',
                     $text['rotation']->getRotation(),
                     $text['rotation']->getCenter()->x,
                     $text['rotation']->getCenter()->y
@@ -738,13 +738,13 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 {
                     $textNode = $this->dom->createElement( 'text', $this->encode( $string ) );
                     $textNode->setAttribute( 'id', $text['id'] . '_shadow' );
-                    $textNode->setAttribute( 'x', round( $position->x + $this->options->graphOffset->x + $text['font']->textShadowOffset, 4 ) );
-                    $textNode->setAttribute( 'text-length', round( $this->getTextWidth( $string, $size ), 4 ) . 'px' );
-                    $textNode->setAttribute( 'y', round( $position->y + $this->options->graphOffset->y + $text['font']->textShadowOffset, 4 ) );
+                    $textNode->setAttribute( 'x', sprintf( '%.4F', $position->x + $this->options->graphOffset->x + $text['font']->textShadowOffset ) );
+                    $textNode->setAttribute( 'text-length', sprintf( '%.4Fpx', $this->getTextWidth( $string, $size ) ) );
+                    $textNode->setAttribute( 'y', sprintf( '%.4F', $position->y + $this->options->graphOffset->y + $text['font']->textShadowOffset ) );
                     $textNode->setAttribute( 
                         'style', 
                         sprintf(
-                            'font-size: %dpx; font-family: %s; fill: #%02x%02x%02x; fill-opacity: %.2f; stroke: none;',
+                            'font-size: %dpx; font-family: %s; fill: #%02x%02x%02x; fill-opacity: %.2F; stroke: none;',
                             $size,
                             $text['font']->name,
                             $text['font']->textShadowColor->red,
@@ -759,13 +759,13 @@ class ezcGraphSvgDriver extends ezcGraphDriver
                 // Finally draw text
                 $textNode = $this->dom->createElement( 'text', $this->encode( $string ) );
                 $textNode->setAttribute( 'id', $text['id'] . '_text' );
-                $textNode->setAttribute( 'x', round( $position->x + $this->options->graphOffset->x, 4 ) );
-                $textNode->setAttribute( 'text-length', round( $this->getTextWidth( $string, $size ), 4 ) . 'px' );
-                $textNode->setAttribute( 'y', round( $position->y + $this->options->graphOffset->y, 4 ) );
+                $textNode->setAttribute( 'x', sprintf( '%.4F', $position->x + $this->options->graphOffset->x ) );
+                $textNode->setAttribute( 'text-length', sprintf( '%.4Fpx', $this->getTextWidth( $string, $size ) ) );
+                $textNode->setAttribute( 'y', sprintf( '%.4F', $position->y + $this->options->graphOffset->y ) );
                 $textNode->setAttribute( 
                     'style', 
                     sprintf(
-                        'font-size: %dpx; font-family: %s; fill: #%02x%02x%02x; fill-opacity: %.2f; stroke: none;',
+                        'font-size: %dpx; font-family: %s; fill: #%02x%02x%02x; fill-opacity: %.2F; stroke: none;',
                         $size,
                         $text['font']->name,
                         $text['font']->color->red,
@@ -827,7 +827,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             $Yend = $center->y + $height * sin( ( deg2rad( $endAngle ) ) );
 
             $arc = $this->dom->createElement( 'path' );
-            $arc->setAttribute( 'd', sprintf( 'M %.2f,%.2f L %.2f,%.2f A %.2f,%.2f 0 %d,1 %.2f,%.2f z',
+            $arc->setAttribute( 'd', sprintf( 'M %.2F,%.2F L %.2F,%.2F A %.2F,%.2F 0 %d,1 %.2F,%.2F z',
                 // Middle
                 $center->x, $center->y,
                 // Startpoint
@@ -860,7 +860,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             }
 
             $arc = $this->dom->createElement( 'path' );
-            $arc->setAttribute( 'd', sprintf( 'M %.2f,%.2f L %.2f,%.2f A %.2f,%.2f 0 %d,1 %.2f,%.2f z',
+            $arc->setAttribute( 'd', sprintf( 'M %.2F,%.2F L %.2F,%.2F A %.2F,%.2F 0 %d,1 %.2F,%.2F z',
                 // Middle
                 $reduced['center']->x, $reduced['center']->y,
                 // Startpoint
@@ -937,7 +937,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         if ( $filled === true )
         {
             $arc = $this->dom->createElement( 'path' );
-            $arc->setAttribute( 'd', sprintf( 'M %.2f,%.2f A %.2f,%.2f 0 %d,0 %.2f,%.2f L %.2f,%.2f A %.2f,%2f 0 %d,1 %.2f,%.2f z',
+            $arc->setAttribute( 'd', sprintf( 'M %.2F,%.2F A %.2F,%.2F 0 %d,0 %.2F,%.2F L %.2F,%.2F A %.2F,%2f 0 %d,1 %.2F,%.2F z',
                 // Endpoint low
                 $Xend, $Yend + $size,
                 // Radius
@@ -960,7 +960,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         else
         {
             $arc = $this->dom->createElement( 'path' );
-            $arc->setAttribute( 'd', sprintf( 'M %.2f,%.2f  A %.2f,%.2f 0 %d,1 %.2f,%.2f',
+            $arc->setAttribute( 'd', sprintf( 'M %.2F,%.2F  A %.2F,%.2F 0 %d,1 %.2F,%.2F',
                 // Startpoint
                 $Xstart, $Ystart,
                 // Radius
@@ -998,7 +998,7 @@ class ezcGraphSvgDriver extends ezcGraphDriver
             );
 
             $arc = $this->dom->createElement( 'path' );
-            $arc->setAttribute( 'd', sprintf( 'M %.2f,%.2f A %.2f,%.2f 0 %d,0 %.2f,%.2f L %.2f,%.2f A %.2f,%2f 0 %d,1 %.2f,%.2f z',
+            $arc->setAttribute( 'd', sprintf( 'M %.2F,%.2F A %.2F,%.2F 0 %d,0 %.2F,%.2F L %.2F,%.2F A %.2F,%2F 0 %d,1 %.2F,%.2F z',
                 // Endpoint low
                 $Xend, $Yend + $size,
                 // Radius
@@ -1044,10 +1044,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $this->createDocument();  
         
         $ellipse = $this->dom->createElement( 'ellipse' );
-        $ellipse->setAttribute( 'cx', round( $center->x + $this->options->graphOffset->x, 4 ) );
-        $ellipse->setAttribute( 'cy', round( $center->y + $this->options->graphOffset->y, 4 ) );
-        $ellipse->setAttribute( 'rx', round( $width / 2 - ( $filled ? 0 : .5 ), 4 ) );
-        $ellipse->setAttribute( 'ry', round( $height / 2 - ( $filled ? 0 : .5 ), 4 ) );
+        $ellipse->setAttribute( 'cx', sprintf( '%.4F', $center->x + $this->options->graphOffset->x ) );
+        $ellipse->setAttribute( 'cy', sprintf( '%.4F', $center->y + $this->options->graphOffset->y ) );
+        $ellipse->setAttribute( 'rx', sprintf( '%.4F', $width / 2 - ( $filled ? 0 : .5 ) ) );
+        $ellipse->setAttribute( 'ry', sprintf( '%.4F', $height / 2 - ( $filled ? 0 : .5 ) ) );
 
         $ellipse->setAttribute(
             'style', 
@@ -1080,10 +1080,10 @@ class ezcGraphSvgDriver extends ezcGraphDriver
         $data = getimagesize( $file );
         $image = $this->dom->createElement( 'image' );
 
-        $image->setAttribute( 'x', round( $position->x + $this->options->graphOffset->x, 4 ) );
-        $image->setAttribute( 'y', round( $position->y + $this->options->graphOffset->y, 4 ) );
-        $image->setAttribute( 'width', round( $width, 4 ) . 'px' );
-        $image->setAttribute( 'height', round( $height, 4 ) . 'px' );
+        $image->setAttribute( 'x', sprintf( '%.4F', $position->x + $this->options->graphOffset->x ) );
+        $image->setAttribute( 'y', sprintf( '%.4F', $position->y + $this->options->graphOffset->y ) );
+        $image->setAttribute( 'width', sprintf( '%.4Fpx', $width ) );
+        $image->setAttribute( 'height', sprintf( '%.4Fpx', $height ) );
         $image->setAttributeNS( 
             'http://www.w3.org/1999/xlink', 
             'xlink:href', 
