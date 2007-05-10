@@ -319,22 +319,6 @@ class ezcGraphRadarChart extends ezcGraphChart
                     $this->options->lineThickness
                 );
 
-                if ( $data->highlight[$key] )
-                {
-                    $renderer->drawDataHighlightText(
-                        $boundings,
-                        new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
-                        $point,
-                        $yAxisNullPosition,
-                        $nr[$data->displayType->default],
-                        $count[$data->displayType->default],
-                        $this->options->highlightFont,
-                        $value,
-                        $this->options->highlightSize,
-                        ( $this->options->highlightLines ? $data->color[$key] : null )
-                    );
-                }
-
                 $lastPoint = $point;
             }
         }
