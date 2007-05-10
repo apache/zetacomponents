@@ -1997,6 +1997,643 @@ The next example adds the custom function *templatePath*::
         }
     }
 
+
+Caching
+=======
+The purpose of the template cache is to speed up the processing time of a
+template by storing its output to a file. If this file, the cache-file, is
+available for the requested template, the cached output will be loaded instead
+of regenerating or executing the template. Time consuming calls like complex
+computations or requests from a database can be omitted or reduced by returning 
+the cached result instead. 
+
+Caching can truely reduce the processing time of a template, but it needs to be
+handled with care. The developer needs to:
+
+- Add caching at the correct, time consuming, spots in the template.
+- Make sure that the cache is renewed in time.
+- Remove outdated or unused cache files.
+
+A cached template comes with a bit of overhead. It needs to check if the cache
+file is there, whether it is still valid, optionally regenerate the cache, and
+eventually execute this instead of the original template. If the template is
+always different, the cache is always regenerated. An always regenerating cache
+is slower than no cache at all. The same may apply for a very small, non time
+consuming template. 
+
+Another important issue the developer needs to keep in mind, is that the cache
+needs to be renewed in time. The cache renewing can be bound to a certain time
+(Time to Live) or when a specific value or object changes. These triggers need
+to be available in the template. 
+
+The last issue is that outdated or unused cache files needs to be discarded.
+Without an proper implementation of the cache clean up, the system will
+eventually fill up with unused cache files. It is the responsibility from the
+developer to remove those cache files.
+
+
+Configuration
+-------------
+The template cache is enabled by default and activated when cache blocks are 
+used inside the templates. The template configuration
+(ezcTemplateConfiguration) gives more control at which location the cache files
+should be stored and which mechanism should cleanup the outdated cache files. 
+The configuration has the following properties relevant to caching:
+
+:cachedTemplatesPath:  The location where cached templates should be stored. 
+    The compiledPath and the cachedTemplatePath form together the complete cache path. 
+
+:cacheManager: This property is assigned to a cache manager object that keeps track of
+    the generated cache files and clean up.
+
+:disableCache: Disables all caching. Useful during development.
+
+
+The next code demonstrates an example configuration: ::
+
+    $config = ezcTemplateConfiguration::getInstance();
+    $config->templatePath = '/mydir/templates/';
+    $config->compilePath = "'/mydir/templates_bin/';
+    $config->cachedTemplatesPath = "CACHE";
+    $config->disableCache = false;
+
+    $config->cacheManager = new DatabaseCacheManager();
+
+    $template = new ezcTemplate();
+    $template->process( "hello_world.ezt" );
+
+
+The engine will process the following template: ::
+
+    "/mydir/templates/hello_world.ezt"
+
+The compiled template and the cached template will be stored in: ::
+
+    "/mydir/templates_bin/compiled_templates/"
+    "/mydir/templates_bin/CACHE/"
+
+The 'compiled_templates' is a default setting. The cache manager that will be
+used in the DatabaseCacheManager. Details about the cache manager are explained 
+later.
+
+
+Cache tags
+----------
+There are two methods to enable caching: *cache_block* and *cache_template*.
+The *cache_block* starts caching and it stops at the close tag::
+
+    {"dynamic"}
+
+    {cache_block}
+        {foreach 1..10 as $i}
+            {$i}
+        {/foreach}
+    {/cache_block}
+
+    {"dynamic"}
+
+
+The example caches the result from the *foreach*-loop. The strings *"dynamic"*
+are not cached. 
+
+The *cache_template* starts caching after this tag until the end of the
+template. For example in the next example everything is cached except the
+string *"dynamic"*::
+
+    {"dynamic"}
+
+    {cache_template}
+
+    {foreach 1..10 as $i}
+        {$i}
+    {/foreach}
+
+    {"cached"}
+
+
+Sometimes the whole template needs to be cached with the exception of a small
+block of template code. Take for instance a static page with in the corner the
+current time. The *dynamic* block is a block that can only be used inside a
+cache_block or after the cache_template. The code inside the *dynamic* block
+will always be executed. The next example creates a cached template that
+displays the current time::
+
+    {cache_template}
+
+    The current time is: 
+
+    {dynamic}
+        {date_format_timestamp("H:i:s")}
+    {/dynamic}
+
+
+Note that the example above is only for demonstration purposes. The template is
+so simple that it is probably quicker to not use any caching at all.
+
+
+Cache renewal
+-------------
+Usually cached templates are valid for a limited time. A certain page is known
+to be valid for some hours or until a value changes in the database, for
+example. The template engine supports three mechanisms to outdate the cache:
+*cache keys*, *time to live* (TTL), and the *cache manager*. 
+
+The cache keys and TTL are set inside the the cache tags in the template. These
+tags will do the checking if the cache is still valid, and if needed create a
+new version. The cache manager needs to be programmed manually. It gives a
+better control over the cache and can remove cache that is not longer valid.
+Removing an existing and used cache file results in a cache renewal at a
+request.
+
+
+Cache keys
+``````````
+The *cache_block* and *cache_template* blocks have a *keys* parameter. This
+parameter can be used to define the uniqueness of a cache block. When the value
+changes, the cache block will be renewed. The keys parameter can be an
+expression but is usually limited to a variable or function call. The next example 
+renews two cache blocks when the user ID changes: ::
+
+    {use $user_id}
+    {cache_block keys $user_id}
+        Show user information.
+    {/cache_block}
+
+    {cache_block keys getUserId()}
+        Show user information, again.
+    {/cache_block}
+
+
+The first cache_block relies on the imported $user_id. The second cache_block
+uses a custom function that returns the ID.
+
+The given cache key can be of any type. When the key value is a scalar type:
+boolean, integer, float, or string, the value is compared as a string.
+When the cache key is an array, the array is compared with a checksum of the
+dumped structure.
+For an object, the comparation consists of two steps. First will be checked if
+the object has the method: *cacheKey*. If this method exists on the object then
+this value will be used. Otherwise the checksum of the object dump will be
+used.
+
+The example below uses an user object as cache key. The name property of this
+object will be displayed. :: 
+
+    {use $userObj}
+    {cache_template keys $userObj}
+
+    {$userObj->name}
+
+
+The user object can be implemented like: ::
+
+    class User
+    {
+        public $firstName;
+        public $lastName;
+        public $name;
+        public $id;
+
+        public function cacheKey()
+        {
+            return $this->id;
+        }
+
+        public function __construct($firstName, $lastName, $id = 1 )
+        {
+            $this->firstName = $firstName;
+            $this->lastName = $lastName;
+            $this->name = $firstName . " " . $lastName;
+            $this->id = $id;
+        }
+    }
+
+
+And the application calling the template: ::
+
+    $t = new ezcTemplate();
+    $t->send->userObj = new User("Bernard", "Black");
+    echo $t->process("my_template.ezt");
+ 
+    
+
+Time to live
+````````````
+The *ttl* parameter makes it possible to manually specify how long a cache
+block should live in number of seconds. The cache is removed after timeout and
+is different than the cache keys that will create a new version. 
+
+The next example creates a cache block that is valid for two hours::
+
+    {cache_block TTL 2*60*60}
+        News that changes not too often.
+    {/cache_block}
+
+
+Via a clever custom function the TTL can be used to renew the cache at certain
+periods: ::
+
+    {cache_block TTL getRemainingTime(minute=0, hour=6)}
+        Updated each morning at 6 o'clock
+    {/cache_block}
+
+
+Cache manager
+-------------
+In the previous sections is already hinted about the cache manager. The cache
+manager is a slightly complex and powerful mechanism to control the cached
+pages. The cache manager is an interface that needs to be implemented and
+assigned to the template engine. The implementation gives the application the
+possibilities to: 
+
+- Mark cache files invalid based on certain criteria in your application.
+- Remove old cache files.
+- Keep track of the cache dependencies.
+
+The user application and the template engine communicate via method call on 
+the cache manager implementation.
+
+
+ezcTemplateCacheManager interface
+`````````````````````````````````
+The cache manager interface has the following methods: ::
+
+    interface ezcTemplateCacheManager
+    {
+        public function startCaching($template, $templatePath, $cachePath, $cacheKeys );
+        public function stopCaching();
+        public function isValid( $template, $templateName, $cacheName );
+        public function register( $name, $value );
+        public function update( $name, $value );
+        public function includeTemplate( $template, $templatePath );
+        public function cleanExpired();
+    }
+
+The Template engine calls the following methods while processing a template:
+
+:startCaching:
+    When a new or existing cache file is going to be (over)written.
+:stopCaching:
+    After the cache file is created.
+:isValid:
+    To check whether the given cache file is still valid. 
+:includeTemplate:
+    A sub template is included.
+
+
+The remaining methods from the interface can be called by the user application.
+The method names are included in the interface to get more consistent cache
+managers. For the functionality it does not matter with what methods the
+application calls the cache manager.
+
+:register:  Register a value that is related to the cache file currently created. 
+:update:    A registered value is updated. This **may** indicate that a cache file is outdated. 
+ 
+
+A typical cache creation process is as follows. This process gives
+insight how the cache manager is used:
+
+1. The user application calls $t->process("my_template.ezt").
+
+2. The template "my_template.ezt" uses {cache_template}. A custom function {fetch} retrieves
+   query results from the database and returns the results in one or an array of objects. The idea
+   behind this is that when the cache is enabled, the expensive {fetch} query will be omitted.
+
+3. If a cache file exists for the requested template, the template component calls 
+   CacheManager::isValid() to see whether the cache file is still correct. If the 
+   cache file is still correct, it will execute it and return. Otherwise it will (over)write
+   the cache file.
+
+4. When the cache file needs to be recreated, it calls CacheManager::startCaching() first.
+   The CacheManager is now informed that the operations in the user application originate from
+   the template that is creating the cache. For example, the operations performed on the database  
+   are (indirectly) invoked, via a custom block or function, by the Template engine.
+   
+5. The application code that returns the requested data should also inform the Cache Manager via the
+   CacheManager::register() method. For example, the Custom Function {fetch} calls 
+   CacheManager::register( "user", $userID ) for each requested user.
+
+   The CacheManager::register() method stores the values in the database and relates it to the cache file 
+   currently in creation. When one of these values changes, the cache file would be outdated.
+
+6. The CacheManager::includeTemplate() is called when another template is included. Relate the current
+   cache with the included template and store it (for example in the database). The 
+   CacheManager::isValid() can then also outdate the cache when a sub template is modified.
+    
+7. The CacheManager::stopCaching() is called when the cache file is created.
+
+8. The user application should call the CacheManager::update() method when a change in the database or 
+   application may affect any of the caches.
+
+
+Keeping track of the values used in the caches can probably best stored in a database. Using the 
+file system is also possible but makes things more complicated. 
+
+
+Database storage
+````````````````
+The database is a good medium to keep track of all the generated caches. It can
+quickly mark lots of cache files as outdated. The removal of the cache files
+can be done at times the server load is low. 
+
+In which database tables the cache information is stored depends on the implementation of
+the cache manager. In our example we will use two tables: *cache_files* and
+*cache_values*.  The table *cache_files* has at least the following fields:
+
++---------------+------------------+------+-----+---------+----------------+
+| Field         | Type             | Null | Key | Default | Extra          |
++===============+==================+======+=====+=========+================+
+| id            | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
++---------------+------------------+------+-----+---------+----------------+
+| cache         | varchar(255)     | NO   | MUL |         |                |
++---------------+------------------+------+-----+---------+----------------+
+| expired       | tinyint(4)       | NO   |     | 0       |                |
++---------------+------------------+------+-----+---------+----------------+
+
+The fields store:
+
+:id: Is the unique cache identifier. 
+:cache: The relative path to the cache file. 
+:expired: Has the value 0 if the cache is valid, otherwise 1.
+
+
+The table *cache_values* has the following fields:
+
++-------------+------------------+------+-----+---------+-------+
+| **Field**   | Type             | Null | Key | Default | Extra |
++=============+==================+======+=====+=========+=======+
+| cache_id    | int(10) unsigned | NO   | PRI |         |       |
++-------------+------------------+------+-----+---------+-------+
+| name        | varchar(50)      | NO   | PRI |         |       |
++-------------+------------------+------+-----+---------+-------+
+| value       | varchar(255)     | NO   | PRI |         |       |
++-------------+------------------+------+-----+---------+-------+
+
+The fields store:
+
+:cache_id: The relation to *cache_files.id*.
+:name: Name of the value that is stored. 
+:value: The value that belongs to the name. Name, value combination is up to user application.
+
+Another table can also store the cache keys that belong to the cache. The structure
+of this table is similar to the table *cache_values*.
+
+
+Database fetch
+``````````````
+Often a database result needs to be shown in a template. Two techniques are
+commonly used:
+
+- Do the database queries inside the application. Send the result to the
+  template.
+- Implement a custom function or block that can retrieve database information
+  inside the template.
+
+The first solution has arguably a better separation between application
+and layout code. The second solution has the main advantage that it is easier
+to optimize. In this section we will continue with the second form.
+
+
+The following template code shows the user information of a single user. The
+template uses a custom function db_fetch that retrieves the user information an
+object: ::
+
+    {use $userID}
+    {cache_template keys $userID}
+    {var $userObj = db_fetch(object="user", id=$userID)}
+
+    Name: {$userObj->name} <br/>
+    Name: {$userObj->address} <br/>
+    Email:{$userObj->email}<br/>
+
+
+The caching system will create a separate cache file for each user ID. This
+template works perfectly... until information changes. If UserID: 1 changes its
+e-mail address, the Template Engine will still use the old cache file. The
+solution for this problem is that the application informs the Template Engine
+via the Cache Manager about this update. 
+
+
+When the template is run for the first time and thus created it calls the
+following methods in order:
+
+1.  startCaching( $template, $templatePath, $cachePath, $cacheKeys). The
+    current template will be cached. The $cachePath should be stored in the
+    cache_files database. The following code could be a implementation of the
+    startCaching method: ::
+
+        public function startCaching( $template, $templatePath, $cachePath, $cacheKeys )
+        {
+            // Get the current database handler.
+            $db = ezcDbInstance::get();
+
+            // Get the current cache ID, if it does exist. 
+            $q = $db->prepare("SELECT id FROM cache_files WHERE cache = :cache" );
+            $q->bindValue( ":cache", $cachePath );
+            $q->execute();
+
+            // One result and make sure the query is terminated.
+            $r = $q->fetchAll();
+
+            if ( sizeof( $r ) > 0 ) // Do we have any results?
+            {
+                $id = $r[0]["id"];
+
+                // Renew the cache_file.
+                $s = $db->prepare( "UPDATE cache_files SET expired=0 WHERE id = :id" );
+                $s->bindValue( ":id", $id );
+                $s->execute();
+            }
+            else
+            {
+                // Insert the new cache file
+                $q = $db->prepare("INSERT INTO cache_files VALUES( '', :cache, '', 0)" );
+                $q->bindValue( ":cache", $cachePath );
+                $q->execute();
+                $id = $db->lastInsertId();
+            }
+
+            // Mark that the template is currently creating a cache.
+            $this->isCaching = true;
+            $this->template_id = $id;
+        }
+
+    The code checks whether the cache file is already registered. If the cache file is available set
+    the expired status to 0. Otherwise add the cache to the table, with a new id and expired set to 0. 
+
+    The *cache_files* table contains something like: 
+
+    == ================================== =======
+    cache_files
+    ---------------------------------------------
+    id cache                              expired
+    == ================================== =======
+    01 compiles/cache/user.ezt-9dsafa0    0
+    02 compiles/cache/user.ezt-84fdvj2    0
+    == ================================== =======
+
+
+2.  register( $name, $value ). This function is called by the user application
+    **during** cache creation. In our example the fetch function which returns the 
+    user object should call the register function. ::
+
+        public static function fetch( $object, $id )
+        {
+            $db = ezcDbInstance::get();
+            $s = $db->createSelectQuery();
+            $s->select("*")->from($object)->where( $s->expr->eq( "id", $id ) );
+
+            $statement = $s->prepare();
+            $statement->execute();
+
+            $result = $statement->fetchAll();
+
+            // Inform the cache manager
+            ezcTemplateConfiguration::getInstance()->cacheManager->register($object, $result[0]["id"] );
+        }
+
+    An example implementation of the register method is as follows: ::
+
+        public function register( $name, $value )
+        {
+            if ( $this->isCaching )
+            {
+                $db = ezcDbInstance::get();
+                $s = $db->prepare( "REPLACE INTO cache_values VALUES ( :id, :name, :value )" );
+                $s->bindValue( ":id", $this->template_id );
+                $s->bindValue( ":name", $name );
+                $s->bindValue( ":value", $value );
+                $s->execute();
+            }
+        }
+
+
+    After registration the *cache_values* table contains something like: 
+
+    == ======= =======
+    cache_values
+    ------------------
+    id name    value
+    == ======= =======
+    01 user    1
+    02 user    2
+    == ======= =======
+
+    Via the *cache_files* table, we know that the user ID 1 is bound to the cache file: 
+    compiles/cache/user.ezt-9dsafa0 and is not expired.
+
+   
+3.  stopCaching(). The method is called when the caching is done. The
+    only thing that needs to be done, is to set *isCaching* to *false*. ::
+        
+        public function stopCaching()
+        {
+            $this->isCaching = false;
+        }
+
+
+
+Right now, the cache file is created. The database contains the user
+ID's requested during the cache creation. Since the cache file is availabe, the
+template engine will also call the *isValid()* method on the next request. If
+this method returns *true* then the values used in the cache are unaltered.
+Let's continue with the example and assume that the user application does
+change the data of one user.  
+
+4.  update( $name, $value ). The user application calls this method when a
+    value changes that is possibly used inside the templates. The snippet below 
+    modifies the user name. :: 
+
+        $db = ezcDbInstance::get();
+        $q = $db->createUpdateQuery();
+
+        $q->update( "user" )->set( "email", $q->bindValue( "bernard@example.com" ) )->where( $q->expr->eq( 'id', $id ) );
+        $st = $q->prepare();
+        $st->execute();
+
+        // Update the users.
+        ezcTemplateConfiguration::getInstance()->cacheManager->update("user", $id );
+
+    Most important is the last line, updating the user with the ID: $id. The
+    update method can be implemented like: ::
+
+         public function update($name, $value)
+         {
+             $db = ezcDbInstance::get();
+
+             $qry = "UPDATE cache_files, cache_values SET cache_files.expired=1 ".
+                    "WHERE cache_files.id = cache_values.cache_id AND 
+                    cache_values.name = :name AND cache_values.value = :value";
+
+             $s = $db->prepare( $qry ); 
+             $s->bindValue( ":name", $name );
+             $s->bindValue( ":value", $value );
+             $s->execute();
+         }
+
+    This method expires all the cache files that have the matching cache
+    values: $name and $value. If we assume that user ID: 1 changes the e-mail
+    address, the *cache_files* table is:
+
+    == ================================== =======
+    cache_files
+    ---------------------------------------------
+    id cache                              expired
+    == ================================== =======
+    01 compiles/cache/user.ezt-9dsafa0    1
+    02 compiles/cache/user.ezt-84fdvj2    0
+    == ================================== =======
+
+    And the *cache_values* table remains the same:
+
+    == ======= =======
+    cache_values
+    ------------------
+    id name    value
+    == ======= =======
+    01 user    1
+    02 user    2
+    == ======= =======
+
+
+5.  isValid( $template, $templateName, $cacheName ). The template engine calls
+    this method to find out whether the cache is still valid. The code below is
+    an example implementation of this method: ::
+
+        public function isValid( $template, $templateName, $cacheName )
+        {
+            $db = ezcDbInstance::get();
+            
+            // Check whether the cache is registered and if it's expired.
+            $q = $db->prepare("SELECT id, expired FROM cache_files WHERE cache = :cache" );
+            $q->bindValue( ":cache", $cacheName );
+            $q->execute();
+            
+            $r = $q->fetchAll(); // Expect 0 or 1 result
+            
+            if ( count($r) == 0 || $r[0]["expired"] == 1 )
+            {
+                return false;
+            }
+
+            return true;
+        }
+         
+    When the cache file does not exist or when the cache file is marked as
+    *expired*, the function returns *false*, otherwise *true*. The template
+    engine regenerates the cache if this method returns *false*. Otherwise the
+    cache is displayed.
+
+
+In this section we have discussed how to expire the cache when values in the
+database change. The implementation of the cache manager is limited to the
+problem. The following sections will explain other problems that can be solved
+using the cache manager.
+
+
+
+
+
 More information
 ================
 
