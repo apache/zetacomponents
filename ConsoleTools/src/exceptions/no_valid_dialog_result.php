@@ -9,7 +9,7 @@
  */
 
 /**
- * Thrown if {@see ezcConsoleDialog::getResult()} is called before a valid
+ * Thrown if {@link ezcConsoleDialog::getResult()} is called before a valid
  * result was received.
  *
  * @package ConsoleTools

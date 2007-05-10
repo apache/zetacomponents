@@ -336,7 +336,7 @@ class ezcConsoleOutput
      * {@link ezcConsoleOutput$formats} or 'none' to print without any styling.
      *
      * @throws ezcConsoleInvalidOutputTargetException
-     *         If the given target ({@see ezcConsoleOutputFormat}) could not 
+     *         If the given target ({@link ezcConsoleOutputFormat}) could not 
      *         be opened for writing or writing failed.
      *
      * @param string $text        The text to print.

@@ -10,7 +10,7 @@
  */
 
 /**
- * Collection class for ezcConsoleArgument objects. Used in {@see ezcConsoleInput}.
+ * Collection class for ezcConsoleArgument objects. Used in {@link ezcConsoleInput}.
  * 
  * @package ConsoleTools
  * @version //autogen//

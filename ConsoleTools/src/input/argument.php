@@ -23,7 +23,7 @@
  * @property mixed $default    A default value, if not mandatory.
  * @property bool $multiple    Whether the argument accepts multiple values.
  * @property-read mixed $value The value parsed from the parameter string, using
- *                             {@see ezcConsoleInput::process()}.
+ *                             {@link ezcConsoleInput::process()}.
  */
 class ezcConsoleArgument
 {
@@ -42,10 +42,10 @@ class ezcConsoleArgument
      * Creates a new console argument object.
      * Creates a new console argument object, which represents a single
      * argument on the shell. Arguments are stored insiede 
-     * {@see ezcConsoleArguments} which is used with {@see ezcConsoleInput}.
+     * {@link ezcConsoleArguments} which is used with {@link ezcConsoleInput}.
      *
-     * For the type property see {@see ezcConsoleInput::TYPE_STRING} and
-     * {ezcConsoleInput::TYPE_INT}. If 1 argument is defined as optional
+     * For the type property see {@link ezcConsoleInput::TYPE_STRING} and
+     * {@link ezcConsoleInput::TYPE_INT}. If 1 argument is defined as optional
      * ($mandatory = false), all following arguments are autolamtically
      * considered optional, too.
      * 

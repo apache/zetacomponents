@@ -3,7 +3,7 @@
 /**
  * Interface that every console dialog class must implement.
  * Console dialogs can either be used on their own or using the
- * {@see ezcConsoleDialogViewer} (recommended). In the dialog viewer, a dialog
+ * {@link ezcConsoleDialogViewer} (recommended). In the dialog viewer, a dialog
  * is instanciated and displayed in a loop, until it receives a valid result
  * value.
  * 

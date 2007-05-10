@@ -9,7 +9,7 @@
  */
 
 /**
- * Thrown if a given target {@see ezcConsoleOutputFormat} could not be opened.
+ * Thrown if a given target {@link ezcConsoleOutputFormat} could not be opened.
  *
  * @package ConsoleTools
  * @version //autogen//
