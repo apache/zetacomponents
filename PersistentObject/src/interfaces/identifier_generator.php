@@ -69,7 +69,7 @@ abstract class ezcPersistentIdentifierGenerator
     abstract public function preSave( ezcPersistentObjectDefinition $def, ezcDbHandler $db, ezcQueryInsert $q );
 
     /**
-     * Returns the integer value of the generated identifier for the new object.
+     * Returns the value of the generated identifier for the new object.
      *
      * Called right after execution of the insert query.
      * Returns null if it was not possible to generate a new ID.

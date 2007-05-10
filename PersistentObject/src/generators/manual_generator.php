@@ -75,7 +75,7 @@ class ezcPersistentManualGenerator extends ezcPersistentIdentifierGenerator
     }
 
     /**
-     * Returns the integer value of the generated identifier for the new object.
+     * Returns the value of the generated identifier for the new object.
      *
      * Called right after execution of the insert query.
      *
