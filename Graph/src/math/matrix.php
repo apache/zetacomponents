@@ -292,7 +292,7 @@ class ezcGraphMatrix
      * matrix.
      *
      * @param ezcGraphMatrix $matrix Second factor
-     * @returns ezcGraphMatrix Result matrix
+     * @return ezcGraphMatrix Result matrix
      */
     public function multiply( ezcGraphMatrix $matrix ) 
     {
