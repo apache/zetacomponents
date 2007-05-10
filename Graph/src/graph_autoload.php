@@ -12,6 +12,7 @@
 return array(
     'ezcGraphException'                             => 'Graph/exceptions/exception.php',
     'ezcGraphDatasetAverageInvalidKeysException'    => 'Graph/exceptions/invalid_keys.php',
+    'ezcGraphReducementFailedException'             => 'Graph/exceptions/reducement_failed.php',
     'ezcGraphErrorParsingDateException'             => 'Graph/exceptions/date_parsing.php',
     'ezcGraphFlashBitmapBoundingsException'         => 'Graph/exceptions/flash_bitmap_boundings.php',
     'ezcGraphFlashBitmapTypeException'              => 'Graph/exceptions/flash_bitmap_type.php',

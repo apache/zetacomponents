@@ -11,6 +11,8 @@
   (135 <= $angle <= 325)
 - Fixed issue #10759: Unset implementation broken in array access in datasets
   and dataset properties
+- Fixed issue #10746: Border size reducement algorithm fails for polygones
+  with edge lengths < reducement
 
 
 1.1beta1 - [RELEASEDATE]

@@ -261,6 +261,72 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
         );
     }
 
+    public function testDrawCircleSectorBorderReducementWithSmallAngle()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->drawCircleSector(
+            new ezcGraphCoordinate( 100, 50 ),
+            80,
+            40,
+            10,
+            10.2,
+            ezcGraphColor::fromHex( '#3465A480' ),
+            false
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/empty.svg'
+        );
+    }
+
+    public function testDrawCircleSectorBorderReducementWithSlightlyBiggerAngle()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->drawCircleSector(
+            new ezcGraphCoordinate( 100, 50 ),
+            80,
+            40,
+            10,
+            10.72,
+            ezcGraphColor::fromHex( '#3465A480' ),
+            false
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/empty.svg'
+        );
+    }
+
+    public function testDrawPolygonBorderReducementWithShortEdge()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 45, 12 ),
+                new ezcGraphCoordinate( 122, 34 ),
+                new ezcGraphCoordinate( 122, 33.8 ),
+            ),
+            ezcGraphColor::fromHex( '#3465A4' ),
+            false
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/empty.svg'
+        );
+    }
+
     public function testDrawCircleSectorAcuteNonFilled()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';

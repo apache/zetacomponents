@@ -95,6 +95,7 @@ abstract class ezcGraphDriver
      * 
      * @param array( ezcGraphCoordinate ) $points 
      * @param float $size 
+     * @throws ezcGraphReducementFailedException
      * @return array( ezcGraphCoordinate )
      */
     protected function reducePolygonSize( array $points, $size )
@@ -107,8 +108,14 @@ abstract class ezcGraphDriver
         {
             $nextPoint = ( $i + 1 ) % $pointCount;
             $vectors[$i] = ezcGraphVector::fromCoordinate( $points[$nextPoint] )
-                            ->sub( $points[$i] )
-                            ->unify();
+                            ->sub( $points[$i] );
+
+            // Throw exception if polygon is too small to reduce
+            if ( $vectors[$i]->length() < $size )
+            {
+                throw new ezcGraphReducementFailedException();
+            }
+            $vectors[$i]->unify();
 
             if ( ( $vectors[$i]->x == $vectors[$i]->y ) && ( $vectors[$i]->x == 0 ) )
             {
@@ -218,6 +225,7 @@ abstract class ezcGraphDriver
      * @param mixed $startAngle 
      * @param mixed $endAngle 
      * @param mixed $size 
+     * @throws ezcGraphReducementFailedException
      * @return array
      */
     protected function reduceEllipseSize( ezcGraphCoordinate $center, $width, $height, $startAngle, $endAngle, $size )
@@ -253,6 +261,49 @@ abstract class ezcGraphDriver
         // center + v + size / tan( angle / 2 ) * startVector
         $centerMovement = clone $unifiedStartVector;
         $newCenter = $v->add( $centerMovement->scalar( $size / tan( ( $endAngle - $startAngle ) / 2 ) ) )->add( $center );
+
+        // Test if center is still inside the ellipse, otherwise the sector 
+        // was to small to be reduced
+        $innerBoundingBoxSize = 0.7 * min( $width, $height );
+        if ( ( $newCenter->x < ( $center->x + $innerBoundingBoxSize ) ) &&
+             ( $newCenter->x > ( $center->x - $innerBoundingBoxSize ) ) &&
+             ( $newCenter->y < ( $center->y + $innerBoundingBoxSize ) ) &&
+             ( $newCenter->y > ( $center->y - $innerBoundingBoxSize ) ) )
+        {
+            // Point is in inner bounding box -> everything is OK
+        }
+        elseif ( ( $newCenter->x < ( $center->x - $width ) ) ||
+                 ( $newCenter->x > ( $center->x + $width ) ) ||
+                 ( $newCenter->y < ( $center->y - $height ) ) ||
+                 ( $newCenter->y > ( $center->y + $height ) ) )
+        {
+            // Quick bounding box check
+            throw new ezcGraphReducementFailedException();
+        }
+        else
+        {
+            // Perform exact check
+            $distance = new ezcGraphVector(
+                $newCenter->x - $center->x,
+                $newCenter->y - $center->y
+            );
+
+            // Convert elipse to circle for correct angle calculation
+            $direction = clone $distance;
+            $direction->y *= ( $width / $height );
+            $angle = $direction->angle( new ezcGraphVector( 0, 1 ) );
+
+            $outerPoint = new ezcGraphVector(
+                sin( $angle ) * $width,
+                cos( $angle ) * $height
+            );
+
+            // Point is not in ellipse any more
+            if ( $distance->x > $outerPoint->x )
+            {
+                throw new ezcGraphReducementFailedException();
+            }
+        }
 
         // Use start spanning vector and its orthogonal vector to calculate 
         // new start point

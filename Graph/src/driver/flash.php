@@ -194,7 +194,14 @@ class ezcGraphFlashDriver extends ezcGraphDriver
         {
             // The middle of the border is on the outline of a polygon in ming, 
             // fix that:
-            $points = $this->reducePolygonSize( $points, $thickness / 2 );
+            try
+            {
+                $points = $this->reducePolygonSize( $points, $thickness / 2 );
+            }
+            catch( ezcGraphReducementFailedException $e )
+            {
+                return false;
+            }
         }
 
         $shape = new SWFShape();
@@ -616,7 +623,14 @@ class ezcGraphFlashDriver extends ezcGraphDriver
 
         if ( !$filled )
         {
-            $reduced = $this->reduceEllipseSize( $center, $width, $height, $startAngle, $endAngle, .5 );
+            try
+            {
+                $reduced = $this->reduceEllipseSize( $center, $width, $height, $startAngle, $endAngle, .5 );
+            }
+            catch( ezcGraphReducementFailedException $e )
+            {
+                return false;
+            }
 
             $startAngle = $reduced['startAngle'];
             $endAngle = $reduced['endAngle'];
