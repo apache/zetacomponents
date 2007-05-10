@@ -741,5 +741,24 @@ class ezcGraphLineChartTest extends ezcTestCase
 
         $this->fail( 'Expected ezcBaseValueException.' );
     }
+    
+    public function testLineChartNoDataFailure()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteTango();
+
+        try
+        {
+            $chart->render( 500, 200, $filename );
+        }
+        catch ( ezcGraphNoDataException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphNoDataException.' );
+    }
 }
 ?>
