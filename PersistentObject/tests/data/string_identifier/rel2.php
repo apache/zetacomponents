@@ -13,6 +13,7 @@ $def->class = "Rel2";
 $def->idProperty = new ezcPersistentObjectIdProperty;
 $def->idProperty->columnName = 'id';
 $def->idProperty->propertyName = 'id';
+$def->idProperty->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
 $def->idProperty->visibility = ezcPersistentObjectProperty::VISIBILITY_PRIVATE;
 $def->idProperty->generator = new ezcPersistentGeneratorDefinition( 'ezcPersistentManualGenerator' );
 

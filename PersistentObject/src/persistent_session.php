@@ -1135,23 +1135,23 @@ class ezcPersistentSession
         $typedState = array();
         foreach ( $state as $name => $value )
         {
+            $type = null;
             if ( $name == $def->idProperty->propertyName )
             {
-                if ( $value !== null )
+                $type = $def->idProperty->propertyType;
+            }
+            else
+            {
+                if ( !isset( $def->properties[$name] ) )
                 {
-                    /* TODO, default to int */
-                    $typedState[$name] = $value;
                     continue;
                 }
-            }
-            else if ( !isset( $def->properties[$name] ) )
-            {
-                continue;
+                $type = $def->properties[$name]->propertyType;
             }
 
             if ( !is_null( $value ) )
             {
-                switch ( $def->properties[$name]->propertyType )
+                switch ( $type )
                 {
                     case ezcPersistentObjectProperty::PHP_TYPE_INT:
                     {
@@ -1161,6 +1161,11 @@ class ezcPersistentSession
                     case ezcPersistentObjectProperty::PHP_TYPE_FLOAT:
                     {
                         $value = (float) $value;
+                        break;
+                    }
+                    case ezcPersistentObjectProperty::PHP_TYPE_STRING:
+                    {
+                        $value = (string) $value;
                         break;
                     }
                 }

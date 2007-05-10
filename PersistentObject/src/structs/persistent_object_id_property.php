@@ -32,6 +32,11 @@ class ezcPersistentObjectIdProperty extends ezcBaseStruct
     public $propertyName;
 
     /**
+     * The type of the PHP property..
+     */
+    public $propertyType = null;
+
+    /**
      * The visibility of the field. Can be either VISIBILITY_PRIVATE, VISIBILITY_PROTECTED or VISIBILITY_PUBLIC.
      *
      * @var int
@@ -57,12 +62,14 @@ class ezcPersistentObjectIdProperty extends ezcBaseStruct
     public function __construct( $columnName = '',
                                  $propertyName = '',
                                  $visibility = '',
-                                 ezcPersistentGeneratorDefinition $generator = null )
+                                 ezcPersistentGeneratorDefinition $generator = null,
+                                 $propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT )
     {
         $this->columnName = $columnName;
         $this->propertyName = $propertyName;
         $this->visibility = $visibility;
         $this->generator = $generator;
+        $this->propertyType = $propertyType;
     }
 
     /**
