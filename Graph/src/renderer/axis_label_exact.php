@@ -171,10 +171,12 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
                         break;
                 }
 
+                $showLabel = true;
                 switch ( true )
                 {
                     case ( !$this->showLastValue && $step->isLast ):
                         // Skip last step if showLastValue is false
+                        $showLabel = false;
                         break;
                     // Draw label at top left of step
                     case ( ( $axis->position === ezcGraph::BOTTOM ) &&
@@ -221,11 +223,14 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
                         break;
                 }
 
-                $renderer->drawText(
-                    $labelBoundings,
-                    $step->label,
-                    $alignement
-                );
+                if ( $showLabel )
+                {
+                    $renderer->drawText(
+                        $labelBoundings,
+                        $step->label,
+                        $alignement
+                    );
+                }
             }
 
             if ( !$step->isLast )
