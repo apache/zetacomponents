@@ -9,6 +9,9 @@
   for Angles % 90 != 0
 - Fixed issue #10745 (BaxedAxisLabelRenderer wrong label positions for angles:
   (135 <= $angle <= 325)
+- Fixed issue #10759: Unset implementation broken in array access in datasets
+  and dataset properties
+
 
 1.1beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

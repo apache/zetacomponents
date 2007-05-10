@@ -81,7 +81,7 @@ class ezcGraphChartDataContainer implements ArrayAccess, Iterator, Countable
      */
     public function offsetGet( $key )
     {
-        if ( !isset( $key ) )
+        if ( !isset( $this->data[$key] ) )
         {
             throw new ezcGraphNoSuchDataSetException( $key );
         }
@@ -123,7 +123,7 @@ class ezcGraphChartDataContainer implements ArrayAccess, Iterator, Countable
      */
     public function offsetUnset( $key )
     {
-        if ( !isset( $key ) )
+        if ( !isset( $this->data[$key] ) )
         {
             throw new ezcGraphNoSuchDataSetException( $key );
         }

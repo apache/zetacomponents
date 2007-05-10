@@ -159,7 +159,7 @@ abstract class ezcGraphDataSetProperty implements ArrayAccess
      */
     final public function offsetUnset( $key )
     {
-        if ( isset( $this->dataset[$value] ) )
+        if ( isset( $this->dataset[$key] ) )
         {
             unset( $this->dataValue[$key] );
         }
