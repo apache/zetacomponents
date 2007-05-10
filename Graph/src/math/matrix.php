@@ -43,7 +43,7 @@ class ezcGraphMatrix
      *      )
      *  )
      * 
-     * @var array( array( float ) )
+     * @var array(array(float))
      */
     protected $matrix;
 

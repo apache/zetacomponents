@@ -38,7 +38,7 @@ class ezcGraphAxisStep
     /**
      * Childrens of step 
      * 
-     * @var array( ezcGraphAxisStep )
+     * @var array(ezcGraphAxisStep)
      */
     public $childs = array();
 

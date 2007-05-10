@@ -23,7 +23,7 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
     /**
      * Store step array for later coordinate modifications
      * 
-     * @var array( ezcGraphStep )
+     * @var array(ezcGraphStep)
      */
     protected $steps;
 

@@ -43,7 +43,7 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
     /**
      * Precalculated steps on the axis
      * 
-     * @var array( ezcGraphAxisStep )
+     * @var array(ezcGraphAxisStep)
      */
     protected $steps;
 

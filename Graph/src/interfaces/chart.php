@@ -25,7 +25,7 @@ abstract class ezcGraphChart
     /**
      * Contains subelelemnts of the chart like legend and axes
      * 
-     * @var array( ezcGraphChartElement )
+     * @var array(ezcGraphChartElement)
      */
     protected $elements = array();
 
