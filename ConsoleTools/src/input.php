@@ -132,8 +132,8 @@ class ezcConsoleInput
      * the options.
      *
      * For lookup of an option after its short or long values the attributes
-     * @link ezcConsoleInput::$optionShort
-     * @link ezcConsoleInput::$optionLong
+     * {@link ezcConsoleInput::$optionShort}
+     * {@link ezcConsoleInput::$optionLong}
      * are used.
      * 
      * @var array(int=>array)
