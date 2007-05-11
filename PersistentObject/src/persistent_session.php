@@ -621,8 +621,15 @@ class ezcPersistentSession
                         $insertColumns[] = $map->relationDestinationColumn;
                     }
                 }
-                $stmt = $q->prepare();
-                $stmt->execute();
+                try
+                {
+                    $stmt = $q->prepare();
+                    $stmt->execute();
+                }
+                catch ( PDOException $e )
+                {
+                    throw new ezcPersistentQueryException( $e->getMessage(), $q );
+                }
                 break;
         }
 
@@ -695,8 +702,15 @@ class ezcPersistentSession
                         )
                     );
                 }
-                $stmt = $q->prepare();
-                $stmt->execute();
+                try
+                {
+                    $stmt = $q->prepare();
+                    $stmt->execute();
+                }
+                catch ( PDOException $e )
+                {
+                    throw new ezcPersistentQueryException( $e->getMessage(), $q );
+                }
                 break;
         }
 

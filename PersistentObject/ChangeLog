@@ -11,6 +11,8 @@
 - Fixed #10726: Should definition contain type info on primary keys
 - Fixed #10552: ManyToMany relations with multiple columns. Mapping works
   correctly now.
+- Fixed issue #10770: PersistentObject: Throws PDOException in some cases.
+  Throws correct ezcPersistentQueryException now.
 	
 1.3beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
