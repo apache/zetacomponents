@@ -8,8 +8,8 @@
 - Fixed issue #10331: PersistentObject: Exceptions should become more verbose.
   ezcPersistentQueryException now contains the SQL query in its message, if
   appropriate.
-- Fixed #10726: Should definition contain type info on primary keys
-- Fixed #10552: ManyToMany relations with multiple columns. Mapping works
+- Fixed issue #10726: Should definition contain type info on primary keys
+- Fixed issue #10552: ManyToMany relations with multiple columns. Mapping works
   correctly now.
 - Fixed issue #10770: PersistentObject: Throws PDOException in some cases.
   Throws correct ezcPersistentQueryException now.
