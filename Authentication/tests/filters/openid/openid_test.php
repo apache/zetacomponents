@@ -43,6 +43,8 @@ class ezcAuthenticationOpenidTest extends ezcTestCase
         'openid_mode' => 'check_authentication'
         );
 
+    public static $requestEmpty = null;
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( "ezcAuthenticationOpenidTest" );
@@ -50,7 +52,7 @@ class ezcAuthenticationOpenidTest extends ezcTestCase
 
     public function setUp()
     {
-
+        $_GET = self::$requestEmpty;
     }
 
     public function tearDown()
@@ -72,7 +74,7 @@ class ezcAuthenticationOpenidTest extends ezcTestCase
         }
         catch ( ezcAuthenticationOpenidException $e )
         {
-            $expected = "Could not redirect to 'http://www.myopenid.com/server?openid.return_to=http%3A%2F%2F&openid.trust_root=http%3A%2F%2F&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.mode=checkid_setup'. Most probably your browser does not support redirection or JavaScript.";
+            $expected = "Could not redirect to 'https://www.myopenid.com/server?openid.return_to=http%3A%2F%2F&openid.trust_root=http%3A%2F%2F&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.mode=checkid_setup'. Most probably your browser does not support redirection or JavaScript.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -123,8 +125,16 @@ class ezcAuthenticationOpenidTest extends ezcTestCase
         $filter = new ezcAuthenticationOpenidWrapper();
         $result = $filter->discoverYadis( self::$url );
         $expected = array(
-            'openid.server' => array( 0 => 'http://www.myopenid.com/server' ),
-            'openid.delegate' => array( 0 => 'http://ezc.myopenid.com/' )
+            'openid.server' => array( 0 => 'https://www.myopenid.com/server',
+                                      1 => 'http://www.myopenid.com/server',
+                                      2 => 'https://www.myopenid.com/server',
+                                      3 => 'http://www.myopenid.com/server',
+                                      4 => 'https://www.myopenid.com/server',
+                                      5 => 'http://www.myopenid.com/server'
+                                    ),
+            'openid.delegate' => array( 0 => 'http://ezc.myopenid.com/',
+                                        1 => 'http://ezc.myopenid.com/'
+                                      )
                          );
         $this->assertEquals( $expected, $result );
     }
@@ -134,8 +144,16 @@ class ezcAuthenticationOpenidTest extends ezcTestCase
         $filter = new ezcAuthenticationOpenidWrapper();
         $result = $filter->discoverYadis( self::$urlIncomplete );
         $expected = array(
-            'openid.server' => array( 0 => 'http://www.myopenid.com/server' ),
-            'openid.delegate' => array( 0 => 'http://ezc.myopenid.com/' )
+            'openid.server' => array( 0 => 'https://www.myopenid.com/server',
+                                      1 => 'http://www.myopenid.com/server',
+                                      2 => 'https://www.myopenid.com/server',
+                                      3 => 'http://www.myopenid.com/server',
+                                      4 => 'https://www.myopenid.com/server',
+                                      5 => 'http://www.myopenid.com/server'
+                                    ),
+            'openid.delegate' => array( 0 => 'http://ezc.myopenid.com/',
+                                        1 => 'http://ezc.myopenid.com/'
+                                      )
                          );
         $this->assertEquals( $expected, $result );
     }

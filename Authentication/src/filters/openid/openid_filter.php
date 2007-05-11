@@ -127,6 +127,8 @@
  * @todo add support for OpenID 2.0 (openid.ns=http://specs.openid.net/auth/2.0),
  *       and add support for XRI identifiers and discovery
  *       Question: is 2.0 already out or is it still a draft?
+ * @todo make OpenID 1.0 support better.
+ *       Question: is 1.0 still used?
  *
  * @package Authentication
  * @version //autogen//
@@ -186,6 +188,8 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
                     return self::STATUS_URL_INCORRECT;
                 }
                 $provider = $providers['openid.server'][0];
+
+                // if a delegate is found, it is used instead of the credentials
                 $identity = isset( $providers['openid.delegate'][0] ) ? $providers['openid.delegate'][0] :
                                                                         $credentials->id;
                 $host = isset( $_SERVER["HTTP_HOST"] ) ? $_SERVER["HTTP_HOST"] : null;
@@ -227,6 +231,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
                     $c = $_GET['openid_' . $signed[$i]];
                     $params['openid.' . $s] = isset( $params['openid.' . $s] ) ? $params['openid.' . $s] : urlencode( $c );
                 }
+                // @todo add support for OpenID 1.0 optional and required parameters
 
                 // @todo cache this somewhere (in the request URL for example)
                 $providers = $this->discover( $credentials->id );
@@ -331,7 +336,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
         // @todo check the regexp in this function, maybe they should be rewritten
 
         // get the OpenID servers
-        $pattern = "#<URI>(.*?)</URI>#s";
+        $pattern = "#<URI[^>]*>(.*?)</URI>#s";
         preg_match_all( $pattern, $src, $matches );
         $count = count( $matches[0] );
         for ( $i = 0; $i ^ $count; ++$i )
