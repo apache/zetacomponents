@@ -16,6 +16,7 @@
 class ezcAuthenticationTypekeyTest extends ezcTestCase
 {
     public static $token = '391jbj25WAQANzJrKvb5';
+    public static $keysFile = 'http://www.typekey.com/extras/regkeys.txt';
 
     public static $response = array(
         'name' => 'ezc',
@@ -64,7 +65,7 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
         $credentials = new ezcAuthenticationIdCredentials( self::$token );
         $authentication = new ezcAuthentication( $credentials );
         $filter = new ezcAuthenticationTypekeyFilter();
-        $filter->method = array( $filter, 'gmpCheck' );
+        $filter->lib = ezcAuthenticationMath::createBignumLibrary( 'gmp' );
         $authentication->addFilter( $filter );
         $this->assertEquals( true, $authentication->run() );
     }
@@ -79,7 +80,7 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
         $credentials = new ezcAuthenticationIdCredentials( self::$token );
         $authentication = new ezcAuthentication( $credentials );
         $filter = new ezcAuthenticationTypekeyFilter();
-        $filter->method = array( $filter, 'gmpCheck' );
+        $filter->lib = ezcAuthenticationMath::createBignumLibrary( 'gmp' );
         $authentication->addFilter( $filter );
         $this->assertEquals( false, $authentication->run() );
     }
@@ -94,7 +95,7 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
         $credentials = new ezcAuthenticationIdCredentials( self::$token );
         $authentication = new ezcAuthentication( $credentials );
         $filter = new ezcAuthenticationTypekeyFilter();
-        $filter->method = array( $filter, 'gmpCheck' );
+        $filter->lib = ezcAuthenticationMath::createBignumLibrary( 'gmp' );
         $authentication->addFilter( $filter );
         $this->assertEquals( false, $authentication->run() );
     }
@@ -109,7 +110,7 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
         $credentials = new ezcAuthenticationIdCredentials( self::$token );
         $authentication = new ezcAuthentication( $credentials );
         $filter = new ezcAuthenticationTypekeyFilter();
-        $filter->method = array( $filter, 'bcmathCheck' );
+        $filter->lib = ezcAuthenticationMath::createBignumLibrary( 'bcmath' );
         $authentication->addFilter( $filter );
         $this->assertEquals( true, $authentication->run() );
     }
@@ -124,7 +125,7 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
         $credentials = new ezcAuthenticationIdCredentials( self::$token );
         $authentication = new ezcAuthentication( $credentials );
         $filter = new ezcAuthenticationTypekeyFilter();
-        $filter->method = array( $filter, 'bcmathCheck' );
+        $filter->lib = ezcAuthenticationMath::createBignumLibrary( 'bcmath' );
         $authentication->addFilter( $filter );
         $this->assertEquals( false, $authentication->run() );
     }
@@ -139,7 +140,7 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
         $credentials = new ezcAuthenticationIdCredentials( self::$token );
         $authentication = new ezcAuthentication( $credentials );
         $filter = new ezcAuthenticationTypekeyFilter();
-        $filter->method = array( $filter, 'bcmathCheck' );
+        $filter->lib = ezcAuthenticationMath::createBignumLibrary( 'bcmath' );
         $authentication->addFilter( $filter );
         $this->assertEquals( false, $authentication->run() );
     }
@@ -170,9 +171,70 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
         $this->assertEquals( false, $authentication->run() );
     }
 
+    public function testTypekeyPublicKeysFileLocal()
+    {
+        $tempDir = $this->createTempDir( 'ezcAuthenticationTypekeyTest' );
+        $path = $tempDir . "/keys.txt";
+        file_put_contents( $path, file_get_contents( self::$keysFile ) );
+        $credentials = new ezcAuthenticationIdCredentials( self::$token );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationTypekeyOptions();
+        $options->keysFile = $path;
+        $filter = new ezcAuthenticationTypekeyFilter( $options );
+        $authentication->addFilter( $filter );
+        $this->assertEquals( true, $authentication->run() );
+        $this->removeTempDir();
+    }
+
+    public function testTypekeyPublicKeysFileEmpty()
+    {
+        $tempDir = $this->createTempDir( 'ezcAuthenticationTypekeyTest' );
+        $path = $tempDir . "/keys_empty.txt";
+        file_put_contents( $path, '' );
+        $credentials = new ezcAuthenticationIdCredentials( self::$token );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationTypekeyOptions();
+        $options->keysFile = $path;
+        $filter = new ezcAuthenticationTypekeyFilter( $options );
+        $authentication->addFilter( $filter );
+        try
+        {
+            $authentication->run();
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcAuthenticationTypekeyException $e )
+        {
+            $expected = "Could not fetch public keys from '{$path}'.";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+        $this->removeTempDir();
+    }
+    public function testTypekeyPublicKeysFileBroken()
+    {
+        $tempDir = $this->createTempDir( 'ezcAuthenticationTypekeyTest' );
+        $path = $tempDir . "/keys_empty.txt";
+        file_put_contents( $path, 'xxx' );
+        $credentials = new ezcAuthenticationIdCredentials( self::$token );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationTypekeyOptions();
+        $options->keysFile = $path;
+        $filter = new ezcAuthenticationTypekeyFilter( $options );
+        $authentication->addFilter( $filter );
+        try
+        {
+            $authentication->run();
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcAuthenticationTypekeyException $e )
+        {
+            $expected = "The data retrieved from '{$path}' is invalid.";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+        $this->removeTempDir();
+    }
+
     public function testTypekeyOptions()
     {
-        $_GET = self::$response;
         $options = new ezcAuthenticationTypekeyOptions();
 
         try
@@ -183,6 +245,16 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
         catch ( ezcBaseValueException $e )
         {
             $this->assertEquals( "The value 'wrong option value' that you were trying to assign to setting 'validity' is invalid. Allowed values are: int >= 0.", $e->getMessage() );
+        }
+
+        try
+        {
+            $options->keysFile = null;
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( "The value '' that you were trying to assign to setting 'keysFile' is invalid. Allowed values are: string.", $e->getMessage() );
         }
 
         try
@@ -202,19 +274,18 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
 
     public function testTypekeyProperties()
     {
-        $_GET = self::$response;
         $filter = new ezcAuthenticationTypekeyFilter();
-        $this->assertEquals( true, isset( $filter->method ) );
+        $this->assertEquals( true, isset( $filter->lib ) );
         $this->assertEquals( false, isset( $filter->no_such_property ) );
 
         try
         {
-            $filter->method = array();
+            $filter->lib = 'wrong value';
             $this->fail( "Expected exception was not thrown." );
         }
         catch ( ezcBaseValueException $e )
         {
-            $this->assertEquals( "The value 'a:0:{}' that you were trying to assign to setting 'method' is invalid. Allowed values are: callback.", $e->getMessage() );
+            $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'lib' is invalid. Allowed values are: instance of ezcAuthenticationBignumLibrary.", $e->getMessage() );
         }
 
         try
@@ -236,12 +307,6 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
         {
             $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
         }
-    }
-
-    public function testTypekeyExceptions()
-    {
-        $e = new ezcAuthenticationTypekeyException( "Could not connect to host 'localhost'." );
-        $this->assertEquals( "Could not connect to host 'localhost'.", $e->getMessage() );
     }
 }
 ?>

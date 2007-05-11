@@ -163,12 +163,11 @@
  * ?>
  * </code>
  *
- * @property string $method
- *           Which PHP extension to use for big number operations (bcmath or gmp).
- *           Depending on which extension is installed, the value of this property
- *           will be filled in automatically, but the value can be overriden.
- *           before calling run().
- *
+ * @property ezcAuthenticationBignumLibrary $lib
+ *           The wrapper for the PHP extension to use for big number operations.
+ *           This will be autodetected in the constructor, but you can specify
+ *           your own wrapper before calling run().
+ *           
  * @package Authentication
  * @version //autogen//
  * @mainclass
@@ -191,11 +190,6 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
     const STATUS_SIGNATURE_EXPIRED = 3;
 
     /**
-     * The file containing the TypeKey public keys.
-     */
-    const PUBLIC_KEYS_URL = 'http://www.typekey.com/extras/regkeys.txt';
-
-    /**
      * Holds the properties of this class.
      *
      * @var array(string=>mixed)
@@ -211,23 +205,8 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
      */
     public function __construct( ezcAuthenticationTypekeyOptions $options = null )
     {
-        if ( !ezcBaseFeatures::hasExtensionSupport( 'bcmath' ) )
-        {
-            if ( !ezcBaseFeatures::hasExtensionSupport( 'gmp' ) )
-            {
-                throw new ezcBaseExtensionNotFoundException( 'gmp | bcmath', null, "PHP not compiled with --enable-bcmath or --with-gmp." );
-            }
-            else
-            {
-                $this->method = array( $this, 'gmpCheck' );
-            }
-        }
-        else
-        {
-            $this->method = array( $this, 'bcmathCheck' );
-        }
-
         $this->options = ( $options === null ) ? new ezcAuthenticationTypekeyOptions() : $options;
+        $this->lib = ezcAuthenticationMath::createBignumLibrary();
     }
 
     /**
@@ -245,14 +224,14 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
     {
         switch ( $name )
         {
-            case 'method':
-                if ( is_callable( $value ) )
+            case 'lib':
+                if ( $value instanceof ezcAuthenticationBignumLibrary )
                 {
                     $this->properties[$name] = $value;
                 }
                 else
                 {
-                    throw new ezcBaseValueException( $name, $value, 'callback' );
+                    throw new ezcBaseValueException( $name, $value, 'instance of ezcAuthenticationBignumLibrary' );
                 }
                 break;
 
@@ -274,7 +253,7 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
     {
         switch ( $name )
         {
-            case 'method':
+            case 'lib':
                 return $this->properties[$name];
 
             default:
@@ -293,7 +272,7 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
     {
         switch ( $name )
         {
-            case 'method':
+            case 'lib':
                 return isset( $this->properties[$name] );
 
             default:
@@ -329,11 +308,11 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
         {
             return self::STATUS_SIGNATURE_EXPIRED;
         }
-        $keys = $this->fetchPublicKeys();
+        $keys = $this->fetchPublicKeys( $this->options->keysFile );
         $msg = "{$mail}::{$id}::{$nick}::{$timestamp}";
         $signature = rawurldecode( urlencode( $signature ) );
         list( $r, $s ) = explode( ':', $signature );
-        if ( call_user_func( $this->method, $msg, $r, $s, $keys ) )
+        if ( $this->checkSignature( $msg, $r, $s, $keys ) )
         {
             return self::STATUS_OK;
         }
@@ -341,36 +320,47 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
     }
 
     /**
-     * Fetches the public keys from the TypeKey server.
+     * Fetches the public keys from the specified file or URL $file.
+     *
+     * The file must be composed of space-separated values for p, g, q, and
+     * pub_key, like this:
+     *   p=<value> g=<value> q=<value> pub_key=<value>
      *
      * The format of the returned array is:
+     * <code>
      *   array( 'p' => p_val, 'g' => g_val, 'q' => q_val, 'pub_key' => pub_key_val )
+     * </code>
      *
-     * @todo Implement caching to hold the fetched keys
+     * @todo file_exist() and is_readable() tests before reading from $file
+     *       Question: are this tests reliable for URLs also? accessing a broken
+     *       URL results in a 404 document which exists and is readable.
      *
      * @throws ezcAuthenticationTypekeyException
      *         if the keys from the TypeKey public keys file could not be fetched
      * @return array(string=>string)
      */
-    protected function fetchPublicKeys()
+    protected function fetchPublicKeys( $file )
     {
-        $data = @file_get_contents( self::PUBLIC_KEYS_URL );
-        if ( $data === false )
+        $data = @file_get_contents( $file );
+        if ( empty( $data ) )
         {
-            throw new ezcAuthenticationTypekeyException( "Could not fetch public keys from " . self::PUBLIC_KEYS_URL . "." );
+            throw new ezcAuthenticationTypekeyException( "Could not fetch public keys from '{$file}'." );
         }
         $lines = explode( ' ', trim( $data ) );
         foreach ( $lines as $line )
         {
             $val = explode( '=', $line );
+            if ( count( $val ) < 2 )
+            {
+                throw new ezcAuthenticationTypekeyException( "The data retrieved from '{$file}' is invalid." );
+            }
             $keys[$val[0]] = $val[1];
         }
         return $keys;
     }
 
     /**
-     * Checks the information returned by the TypeKey server using the PHP gmp
-     * extension.
+     * Checks the information returned by the TypeKey server.
      *
      * @param string $msg Plain text signature which needs to be verified
      * @param string $r First part of the signature retrieved from TypeKey
@@ -378,174 +368,32 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
      * @param array(string=>string) $keys Public keys retrieved from TypeKey
      * @return bool
      */
-    protected function gmpCheck( $msg, $r, $s, $keys )
+    protected function checkSignature( $msg, $r, $s, $keys )
     {
+        $lib = $this->lib;
+
         $r = base64_decode( $r );
         $s = base64_decode( $s );
+
         foreach ( $keys as $key => $value )
         {
-            $keys[$key] = gmp_init( $value );
+            $keys[$key] = $lib->init( (string) $value );
         }
-        $s1 = gmp_init( $this->gmpBinToDec( $r ) );
-        $s2 = gmp_init( $this->gmpBinToDec( $s ) );
-        $w = gmp_invert( $s2, $keys['q'] );
-        $msg = gmp_init( '0x' . sha1( $msg ) );
-        $u1 = gmp_mod( gmp_mul( $msg, $w ), $keys['q'] );
-        $u2 = gmp_mod( gmp_mul( $s1, $w ), $keys['q'] );
-        $v = gmp_mul( gmp_powm( $keys['g'], $u1, $keys['p'] ), gmp_powm( $keys['pub_key'], $u2, $keys['p'] ) );
-        $v = gmp_mod( gmp_mod( $v, $keys['p'] ), $keys['q'] );
-        return ( gmp_cmp( $v, $s1 ) === 0 );
-    }
 
-    /**
-     * Converts a binary value to a decimal value using gmp functions.
-     *
-     * @param string $bin Binary value
-     * @return string
-     */
-    protected function gmpBinToDec( $bin )
-    {
-        $dec = gmp_init( 0 );
-        while ( strlen( $bin ) )
-        {
-            $i = ord( substr( $bin, 0, 1 ) );
-            $dec = gmp_add( gmp_mul( $dec, 256 ), $i );
-            $bin = substr( $bin, 1 );
-        }
-        return gmp_strval( $dec );
-    }
+        $s1 = $lib->init( $lib->binToDec( $r ) );
+        $s2 = $lib->init( $lib->binToDec( $s ) );
 
-    /**
-     * Checks the information returned by the TypeKey server using the PHP bcmath
-     * extension.
-     *
-     * @param string $msg Plain text signature which needs to be verified
-     * @param string $r First part of the signature retrieved from TypeKey
-     * @param string $s Second part of the signature retrieved from TypeKey
-     * @param array(string=>string) $keys Public keys retrieved from TypeKey
-     * @return bool
-     */
-    protected function bcmathCheck( $msg, $r, $s, $keys )
-    {
-        $r = base64_decode( $r );
-        $s = base64_decode( $s );
+        $w = $lib->invert( $s2, $keys['q'] );
 
-        $s1 = $this->bcmathBinToDec( $r );
-        $s2 = $this->bcmathBinToDec( $s );
+        $msg = $lib->hexToDec( sha1( $msg ) );
 
-        $w = $this->bcmathInvert( $s2, $keys['q'] );
-        $msg = $this->bcmathHexToDec( sha1( $msg ) );
+        $u1 = $lib->mod( $lib->mul( $msg, $w ), $keys['q'] );
+        $u2 = $lib->mod( $lib->mul( $s1, $w ), $keys['q'] );
 
-        $u1 = bcmod( bcmul( $msg, $w ), $keys['q'] );
-        $u2 = bcmod( bcmul( $s1, $w ), $keys['q'] );
+        $v = $lib->mul( $lib->powmod( $keys['g'], $u1, $keys['p'] ), $lib->powmod( $keys['pub_key'], $u2, $keys['p'] ) );
+        $v = $lib->mod( $lib->mod( $v, $keys['p'] ), $keys['q'] );
 
-        $v = bcmul( bcmod( bcpowmod( $keys['g'], $u1, $keys['p'] ), $keys['p'] ), bcmod( bcpowmod( $keys['pub_key'], $u2, $keys['p'] ), $keys['p'] ) );
-        $v = bcmod( bcmod( $v, $keys['p'] ), $keys['q'] );
-        return ( bccomp( $v, $s1 ) === 0 );
-    }
-
-    /**
-     * Converts a binary value to a decimal value using bcmath functions.
-     *
-     * @param string $bin Binary value
-     * @return string
-     */
-    protected function bcmathBinToDec( $bin )
-    {
-        $dec = '0';
-        while ( strlen( $bin ) )
-        {
-            $i = ord( substr( $bin, 0, 1 ) );
-            $dec = bcadd( bcmul( $dec, 256 ), $i );
-            $bin = substr( $bin, 1 );
-        }
-        return $dec;
-    }
-
-    /**
-     * Converts an hexadecimal value to a decimal value using bcmath functions.
-     *
-     * @param string $hex Hexadecimal value
-     * @return string
-     */
-    protected function bcmathHexToDec( $hex )
-    {
-        $dec = '0';
-        while ( strlen( $hex ) )
-        {
-            $i = hexdec( substr( $hex, 0, 4 ) );
-            $dec = bcadd( bcmul( $dec, 65536 ), $i );
-            $hex = substr( $hex, 4 );
-        }
-        return $dec;
-    }
-
-    /**
-     * Inverts two values using bcmath functions.
-     *
-     * @param string $x First value
-     * @param string $y Second value
-     * @return string
-     */
-    protected function bcmathInvert( $x, $y )
-    {
-        while ( bccomp( $x, 0 ) < 0 )
-        { 
-            $x = bcadd( $x, $y );
-        }
-        $r = $this->bcmathGcd( $x, $y );
-        if ( (int)$r[2] === 1 )
-        {
-            $a = $r[0];
-            while ( bccomp( $a, 0 ) < 0 )
-            {
-                $a = bcadd( $a, $y );
-            }
-            return $a;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    /**
-     * Finds the greatest common denominator of two numbers using the extended
-     * Euclidean algorithm and bcmath functions.
-     *
-     * The returned array is ( a0, b0, gcd( x, y ) ), where
-     *     a0 * x + b0 * y = gcd( x, y )
-     *
-     * @param string $x First number
-     * @param string $y Second number
-     * @return array(string)
-     */
-    protected function bcmathGcd( $x, $y )
-    {
-        $a0 = 1;
-        $a1 = 0;
-
-        $b0 = 0;
-        $b1 = 1;
-
-        while ( $y > 0 )
-        {
-            $q = bcdiv( $x, $y, 0 );
-            $r = bcmod( $x, $y );
-
-            $x = $y;
-            $y = $r;
-
-            $a2 = bcsub( $a0, bcmul( $q, $a1 ) );
-            $b2 = bcsub( $b0, bcmul( $q, $b1 ) );
-
-            $a0 = $a1;
-            $a1 = $a2;
-
-            $b0 = $b1;
-            $b1 = $b2;
-        }
-        return array( $a0, $b0, $x );
+        return ( $lib->cmp( $v, $s1 ) === 0 );
     }
 }
 ?>

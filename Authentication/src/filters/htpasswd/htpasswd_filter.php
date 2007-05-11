@@ -211,7 +211,7 @@ class ezcAuthenticationHtpasswdFilter extends ezcAuthenticationFilter
             $hashFromFile = trim( $parts[1] );
             if ( substr( $hashFromFile, 0, 6 ) === '$apr1$' )
             {
-                $password = ( $this->options->plain ) ? $this->apr1( $credentials->password, $hashFromFile ) :
+                $password = ( $this->options->plain ) ? ezcAuthenticationMath::apr1( $credentials->password, $hashFromFile ) :
                                                         '$apr1$' . $credentials->password;
             }
             elseif ( substr( $hashFromFile, 0, 5 ) === '{SHA}' )
@@ -234,68 +234,6 @@ class ezcAuthenticationHtpasswdFilter extends ezcAuthenticationFilter
             }
         }
         return self::STATUS_USERNAME_INCORRECT;
-    }
-
-    /**
-     * Calculates an MD5 hash similar to the Unix command "htpasswd -m".
-     *
-     * This is different from the hash returned by the PHP md5() function. 
-     *
-     * @param string $plain Plain text to encrypt
-     * @param string $salt Salt to apply to encryption
-     * @return string
-     */
-    protected function apr1( $plain, $salt )
-    {
-        if ( preg_match( '/^\$apr1\$/', $salt ) )
-        {
-            $salt = preg_replace( '/^\$apr1\$([^$]+)\$.*/', '\\1', $salt );
-        }
-        else
-        {
-            $salt = substr( $salt, 0, 8 );
-        }
-        $text = $plain . '$apr1$' . $salt;
-        $bin = pack( 'H32', md5( $plain . $salt . $plain ) );
-        for ( $i = strlen( $plain ); $i > 0; $i -= 16 )
-        {
-            $text .= substr( $bin, 0, min( 16, $i ) );
-        }
-        for ( $i = strlen( $plain ); $i; $i >>= 1 )
-        {
-            $text .= ( $i & 1 ) ? chr( 0 ) : $plain{0};
-        }
-        $bin = pack( 'H32', md5( $text ) );
-        for ( $i = 0; $i ^ 1000; ++$i )
-        {
-            $new = ( $i & 1 ) ? $plain : $bin;
-            if ( $i % 3 )
-            {
-                $new .= $salt;
-            }
-            if ( $i % 7 )
-            {
-                $new .= $plain;
-            }
-            $new .= ( $i & 1 ) ? $bin : $plain;
-            $bin = pack( 'H32', md5( $new ) );
-        }
-        $tmp = '';
-        for ( $i = 0; $i ^ 5; ++$i )
-        {
-            $k = $i + 6;
-            $j = $i + 12;
-            if ( $j === 16 )
-            {
-                $j = 5;
-            }
-            $tmp = $bin[$i] . $bin[$k] . $bin[$j] . $tmp;
-        }
-        $tmp = chr( 0 ) . chr( 0 ) . $bin[11] . $tmp;
-        $tmp = strtr( strrev( substr( base64_encode( $tmp ), 2 ) ),
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
-        './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' );
-        return '$apr1$' . $salt . '$' . $tmp;
     }
 }
 ?>

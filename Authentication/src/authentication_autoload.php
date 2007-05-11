@@ -11,11 +11,14 @@
 
 return array(
     'ezcAuthenticationException'           => 'Authentication/exceptions/authentication_exception.php',
+    'ezcAuthenticationBignumLibrary'       => 'Authentication/math/bignum_library.php',
     'ezcAuthenticationCredentials'         => 'Authentication/credentials/credentials.php',
     'ezcAuthenticationFilter'              => 'Authentication/interfaces/authentication_filter.php',
     'ezcAuthenticationFilterOptions'       => 'Authentication/options/filter_options.php',
     'ezcAuthenticationSession'             => 'Authentication/interfaces/authentication_session.php',
     'ezcAuthentication'                    => 'Authentication/authentication.php',
+    'ezcAuthenticationBcmathLibrary'       => 'Authentication/math/bcmath_library.php',
+    'ezcAuthenticationGmpLibrary'          => 'Authentication/math/gmp_library.php',
     'ezcAuthenticationGroupFilter'         => 'Authentication/filters/group/group_filter.php',
     'ezcAuthenticationGroupOptions'        => 'Authentication/filters/group/group_options.php',
     'ezcAuthenticationHtpasswdFilter'      => 'Authentication/filters/htpasswd/htpasswd_filter.php',
@@ -25,6 +28,7 @@ return array(
     'ezcAuthenticationLdapFilter'          => 'Authentication/filters/ldap/ldap_filter.php',
     'ezcAuthenticationLdapInfo'            => 'Authentication/filters/ldap/ldap_info.php',
     'ezcAuthenticationLdapOptions'         => 'Authentication/filters/ldap/ldap_options.php',
+    'ezcAuthenticationMath'                => 'Authentication/math/math.php',
     'ezcAuthenticationOpenidException'     => 'Authentication/filters/openid/openid_exception.php',
     'ezcAuthenticationOpenidFilter'        => 'Authentication/filters/openid/openid_filter.php',
     'ezcAuthenticationOpenidOptions'       => 'Authentication/filters/openid/openid_options.php',

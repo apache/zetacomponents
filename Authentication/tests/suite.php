@@ -21,6 +21,7 @@ require_once( "filters/openid/openid_test.php" );
 require_once( "filters/session/session_test.php" );
 require_once( "filters/token/token_test.php" );
 require_once( "filters/typekey/typekey_test.php" );
+require_once( "math/bignum_test.php" );
 
 /**
  * @package Authentication
@@ -42,6 +43,7 @@ class ezcAuthenticationSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcAuthenticationSessionTest::suite() );
         $this->addTest( ezcAuthenticationTokenTest::suite() );
         $this->addTest( ezcAuthenticationTypekeyTest::suite() );
+        $this->addTest( ezcAuthenticationBignumTest::suite() );
     }
 
     public static function suite()
