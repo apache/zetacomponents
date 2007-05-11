@@ -17,7 +17,7 @@
  */
 class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
 {
-    /** 
+    /**
      * ezcDbHandler instance to be used.
      *
      * @var ezcDbHandler
@@ -25,15 +25,28 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
     protected $db;
 
     /**
+     * Flag that indicates whether the execution has been loaded.
+     *
+     * @var boolean
+     */
+    protected $loaded = false;
+
+    /**
      * Construct a new database execution.
      *
      * This constructor is a tie-in.
      *
      * @param ezcDbHandler $db
+     * @param integer $executionId
      */
-    public function __construct ( ezcDbHandler $db )
+    public function __construct ( ezcDbHandler $db, $executionId = null )
     {
         $this->db = $db;
+
+        if ( is_int( $executionId ) )
+        {
+            $this->loadExecution( $executionId );
+        }
     }
 
     /**
@@ -106,83 +119,9 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
     {
         $this->db->beginTransaction();
 
-        $query = $this->db->createSelectQuery();
-
-        $query->select( 'workflow_id, execution_variables, execution_threads,
-                         execution_next_thread_id, execution_waiting_for' )
-              ->from( 'execution' )
-              ->where( $query->expr->eq( 'execution_id',
-                                          $query->bindValue( $executionId ) ) );
-
-        $stmt = $query->prepare();
-        $stmt->execute();
-
-        $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
-
-        if ( $result === false )
+        if ( !$this->loaded )
         {
-            throw new ezcWorkflowExecutionException(
-              'Could not resume execution.'
-            );
-        }
-
-        $this->id = $executionId;
-        $this->nextThreadId = $result[0]['execution_next_thread_id'];
-
-        $this->threads = ezcWorkflowDatabaseUtil::unserialize( $result[0]['execution_threads'] );
-        $this->variables = ezcWorkflowDatabaseUtil::unserialize( $result[0]['execution_variables'] );
-        $this->waitingFor = ezcWorkflowDatabaseUtil::unserialize( $result[0]['execution_waiting_for'] );
-
-        $definition = new ezcWorkflowDatabaseDefinition( $this->db );
-
-        $workflowId     = $result[0]['workflow_id'];
-        $this->workflow = $definition->loadById( $workflowId );
-
-        $query = $this->db->createSelectQuery();
-
-        $query->select( 'node_id, node_state, node_activated_from, node_thread_id' )
-              ->from( 'execution_state' )
-              ->where( $query->expr->eq( 'execution_id',
-                                          $query->bindValue( $executionId ) ) );
-
-        $stmt = $query->prepare();
-        $stmt->execute();
-
-        $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
-
-        $activatedNodes = array();
-
-        if ( $result !== false )
-        {
-            foreach ( $result as $row )
-            {
-                $activatedNodes[$row['node_id']] = array(
-                  'state' => $row['node_state'],
-                  'activated_from' => $row['node_activated_from'],
-                  'thread_id' => $row['node_thread_id']
-                );
-            }
-        }
-        else
-        {
-            throw new ezcWorkflowExecutionException(
-              'Could not resume execution.'
-            );
-        }
-
-        foreach ( $this->workflow->getNodes() as $node )
-        {
-            $nodeId = $node->getId();
-
-            if ( isset( $activatedNodes[$nodeId] ) )
-            {
-                $this->activate( $node );
-
-                $node->setActivationState( ezcWorkflowNode::WAITING_FOR_EXECUTION );
-                $node->setThreadId( $activatedNodes[$nodeId]['thread_id'] );
-                $node->setState( ezcWorkflowDatabaseUtil::unserialize( $activatedNodes[$nodeId]['state'], null ) );
-                $node->setActivatedFrom( ezcWorkflowDatabaseUtil::unserialize( $activatedNodes[$nodeId]['activated_from'] ) );
-            }
+            $this->loadExecution( $executionId );
         }
 
         $this->cleanupTable( 'execution_state' );
@@ -234,6 +173,96 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
 
         $statement = $query->prepare();
         $statement->execute();
+    }
+
+    /**
+     * Load execution state.
+     *
+     * @param integer $executionId  ID of the execution to load.
+     * @throws ezcWorkflowExecutionException
+     */
+    protected function loadExecution( $executionId )
+    {
+        $query = $this->db->createSelectQuery();
+
+        $query->select( 'workflow_id, execution_variables, execution_threads,
+                         execution_next_thread_id, execution_waiting_for' )
+              ->from( 'execution' )
+              ->where( $query->expr->eq( 'execution_id',
+                                          $query->bindValue( $executionId ) ) );
+
+        $stmt = $query->prepare();
+        $stmt->execute();
+
+        $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+        if ( $result === false )
+        {
+            throw new ezcWorkflowExecutionException(
+              'Could not load execution state.'
+            );
+        }
+
+        $this->id = $executionId;
+        $this->nextThreadId = $result[0]['execution_next_thread_id'];
+
+        $this->threads = ezcWorkflowDatabaseUtil::unserialize( $result[0]['execution_threads'] );
+        $this->variables = ezcWorkflowDatabaseUtil::unserialize( $result[0]['execution_variables'] );
+        $this->waitingFor = ezcWorkflowDatabaseUtil::unserialize( $result[0]['execution_waiting_for'] );
+
+        $definition = new ezcWorkflowDatabaseDefinition( $this->db );
+
+        $workflowId     = $result[0]['workflow_id'];
+        $this->workflow = $definition->loadById( $workflowId );
+
+        $query = $this->db->createSelectQuery();
+
+        $query->select( 'node_id, node_state, node_activated_from, node_thread_id' )
+              ->from( 'execution_state' )
+              ->where( $query->expr->eq( 'execution_id',
+                                          $query->bindValue( $executionId ) ) );
+
+        $stmt = $query->prepare();
+        $stmt->execute();
+
+        $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+        $activatedNodes = array();
+
+        if ( $result !== false )
+        {
+            foreach ( $result as $row )
+            {
+                $activatedNodes[$row['node_id']] = array(
+                  'state' => $row['node_state'],
+                  'activated_from' => $row['node_activated_from'],
+                  'thread_id' => $row['node_thread_id']
+                );
+            }
+        }
+        else
+        {
+            throw new ezcWorkflowExecutionException(
+              'Could not load execution state.'
+            );
+        }
+
+        foreach ( $this->workflow->getNodes() as $node )
+        {
+            $nodeId = $node->getId();
+
+            if ( isset( $activatedNodes[$nodeId] ) )
+            {
+                $this->activate( $node );
+
+                $node->setActivationState( ezcWorkflowNode::WAITING_FOR_EXECUTION );
+                $node->setThreadId( $activatedNodes[$nodeId]['thread_id'] );
+                $node->setState( ezcWorkflowDatabaseUtil::unserialize( $activatedNodes[$nodeId]['state'], null ) );
+                $node->setActivatedFrom( ezcWorkflowDatabaseUtil::unserialize( $activatedNodes[$nodeId]['activated_from'] ) );
+            }
+        }
+
+        $this->loaded = true;
     }
 }
 ?>
