@@ -1,14 +1,14 @@
 1.3rc1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue #010152: Persistent Object and manual generator: string primary keys
-- Fixed issue #010725: PersistentObject saveOrUpdate() using manualgenerator
+- Fixed issue #10152: Persistent Object and manual generator: string primary keys
+- Fixed issue #10725: PersistentObject saveOrUpdate() using manualgenerator
   will trigger one extra query to check if an object is persistent (save() and
   update() do this as well just moments later...).
 - Fixed issue #10331: PersistentObject: Exceptions should become more verbose.
   ezcPersistentQueryException now contains the SQL query in its message, if
   appropriate.
-- Fixed #010726: Should definition contain type info on primary keys
+- Fixed #10726: Should definition contain type info on primary keys
 - Fixed #10552: ManyToMany relations with multiple columns. Mapping works
   correctly now.
 	
