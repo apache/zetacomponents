@@ -222,7 +222,7 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
         if ( $workflowVersion == 0 )
         {
             // Load the latest version of the workflow definition by default.
-            $query->where( $query->expr->eq( 'workflow_version_is_latest', 1 ) );
+            $query->where( $query->expr->eq( 'workflow_version_is_latest', $query->bindValue( true ) ) );
         }
         else
         {
@@ -278,8 +278,8 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
 
             $query->update( 'workflow' )
                   ->where( $query->expr->eq( 'workflow_name', $name ) )
-                  ->where( $query->expr->eq( 'workflow_version_is_latest', 1 ) )
-                  ->set( 'workflow_version_is_latest', 0 );
+                  ->where( $query->expr->eq( 'workflow_version_is_latest', $query->bindValue( true ) ) )
+                  ->set( 'workflow_version_is_latest', $query->bindValue( false ) );
 
             $statement = $query->prepare();
             $statement->execute();
