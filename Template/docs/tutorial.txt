@@ -2248,22 +2248,24 @@ it is 6 o'clock in the morning.
 Cache manager
 -------------
 In the previous sections is already hinted about the cache manager. The cache
-manager is a slightly complex and powerful mechanism to control the cached
+manager is a slightly complex but powerful mechanism to control the cached
 pages. The cache manager is an interface that needs to be implemented and
 assigned to the template engine. The implementation gives the application the
 possibilities to: 
 
-- Mark cache files invalid based on certain criteria in your application.
+- Mark expired cache files based on application criteria.
 - Remove old cache files.
 - Keep track of the cache dependencies.
 
-The user application and the template engine communicate via method call on 
-the cache manager implementation.
+The solutions above need to be implemented from the cache manager interface.
+This implementation allows the developer to make an application dependent
+solution. 
 
-
-ezcTemplateCacheManager interface
-`````````````````````````````````
-The cache manager interface has the following methods: ::
+The cache manager interface
+```````````````````````````
+The user application and the template engine communicate via method calls on 
+the cache manager implementation. The cache manager interface has the following 
+methods: ::
 
     interface ezcTemplateCacheManager
     {
@@ -2276,61 +2278,47 @@ The cache manager interface has the following methods: ::
         public function cleanExpired();
     }
 
-The Template engine calls the following methods while processing a template:
+The Template Engine calls the following methods on the interface. Usually those
+methods are not called from the user application. 
 
-:startCaching:
-    When a new or existing cache file is going to be (over)written.
-:stopCaching:
-    After the cache file is created.
-:isValid:
-    To check whether the given cache file is still valid. 
-:includeTemplate:
-    A sub template is included.
+- *startCaching*: When a cache file is going to be created. 
+- *stopCaching*: After the cache file is created. 
+- *isValid*: To check whether the given cache file is still valid. 
+- *includeTemplate*: Notify the cache manager that a sub template is included.
 
+The remaining methods from the interface are called from the user application:
 
-The remaining methods from the interface can be called by the user application.
-The method names are included in the interface to get more consistent cache
-managers. For the functionality it does not matter with what methods the
-application calls the cache manager.
-
-:register:  Register a value that is related to the cache file currently created. 
-:update:    A registered value is updated. This **may** indicate that a cache file is outdated. 
+- *register*: Register a value that is related to the cache file currently created. 
+- *update*: A registered value is updated. This **may** indicate that a cache file is outdated. 
+- *cleanExpired*: Removes the expired cache files.
  
 
-A typical cache creation process is as follows. This process gives
-insight how the cache manager is used:
+Typically the cache creation procedure is as follows. This procedure gives
+insight how the cache manager can be used:
 
-1. The user application calls $t->process("my_template.ezt").
+1. The user application calls the method: *$t->process("my_template.ezt")*.
 
-2. The template "my_template.ezt" uses {cache_template}. A custom function {fetch} retrieves
-   query results from the database and returns the results in one or an array of objects. The idea
-   behind this is that when the cache is enabled, the expensive {fetch} query will be omitted.
+2. The template *"my_template.ezt"* caches parts of the page. 
 
 3. If a cache file exists for the requested template, the template component calls 
-   CacheManager::isValid() to see whether the cache file is still correct. If the 
-   cache file is still correct, it will execute it and return. Otherwise it will (over)write
-   the cache file.
+   *CacheManager::isValid()* to see whether the cache file is still correct. If
+   it is then the cache result can be returned. Otherwise a new cache file will
+   be created and returned.
 
-4. When the cache file needs to be recreated, it calls CacheManager::startCaching() first.
-   The CacheManager is now informed that the operations in the user application originate from
-   the template that is creating the cache. For example, the operations performed on the database  
-   are (indirectly) invoked, via a custom block or function, by the Template engine.
+4. When a cache file is going to be created, the *CacheManager::startCaching()* method is called.
+   The Cache Manager is now informed that all following function calls in the
+   application are used inside the cache. 
    
-5. The application code that returns the requested data should also inform the Cache Manager via the
-   CacheManager::register() method. For example, the Custom Function {fetch} calls 
-   CacheManager::register( "user", $userID ) for each requested user.
+5. Application code returning data which may be modified in the future
+   should be registered to the cache manager. This is done via the
+   *CacheManager::register()* method. 
 
-   The CacheManager::register() method stores the values in the database and relates it to the cache file 
-   currently in creation. When one of these values changes, the cache file would be outdated.
-
-6. The CacheManager::includeTemplate() is called when another template is included. Relate the current
-   cache with the included template and store it (for example in the database). The 
-   CacheManager::isValid() can then also outdate the cache when a sub template is modified.
+6. The *CacheManager::includeTemplate()* is called when another template is included. 
     
-7. The CacheManager::stopCaching() is called when the cache file is created.
+7. The *CacheManager::stopCaching()* is called when the cache file is created.
 
-8. The user application should call the CacheManager::update() method when a change in the database or 
-   application may affect any of the caches.
+8. The user application should call the *CacheManager::update()* method when a
+   change in the database or application may affect any of the caches.
 
 
 Keeping track of the values used in the caches can probably best stored in a database. Using the 
@@ -2340,8 +2328,8 @@ file system is also possible but makes things more complicated.
 Database storage
 ````````````````
 The database is a good medium to keep track of all the generated caches. It can
-quickly mark lots of cache files as outdated. The removal of the cache files
-can be done at times the server load is low. 
+quickly mark lots of cache files as expired. The real removal of the cache files
+from the file system can then be done when the server load is low. 
 
 In which database tables the cache information is stored depends on the implementation of
 the cache manager. In our example we will use two tables: *cache_files* and
@@ -2380,7 +2368,7 @@ The fields store:
 
 :cache_id: The relation to *cache_files.id*.
 :name: Name of the value that is stored. 
-:value: The value that belongs to the name. Name, value combination is up to user application.
+:value: The value that belongs to the name.
 
 Another table can also store the cache keys that belong to the cache. The structure
 of this table is similar to the table *cache_values*.
@@ -2402,8 +2390,8 @@ to optimize. In this section we will continue with the second form.
 
 
 The following template code shows the user information of a single user. The
-template uses a custom function db_fetch that retrieves the user information an
-object: ::
+template uses a custom function *db_fetch* that retrieves the user information
+as an object: ::
 
     {use $userID}
     {cache_template keys $userID}
@@ -2414,20 +2402,20 @@ object: ::
     Email:{$userObj->email}<br/>
 
 
-The caching system will create a separate cache file for each user ID. This
-template works perfectly... until information changes. If UserID: 1 changes its
-e-mail address, the Template Engine will still use the old cache file. The
+The caching system creates a separate cache file for each *userID*. This
+cache file is valid, until information changes. If *userID* 1 changes 
+its e-mail address, the Template Engine will still use the old cache file. The
 solution for this problem is that the application informs the Template Engine
-via the Cache Manager about this update. 
+via the Cache Manager about this information update. 
 
 
-When the template is run for the first time and thus created it calls the
+When the template is run for the first time, it calls the
 following methods in order:
 
-1.  startCaching( $template, $templatePath, $cachePath, $cacheKeys). The
+1.  *startCaching( $template, $templatePath, $cachePath, $cacheKeys)*. The
     current template will be cached. The $cachePath should be stored in the
-    cache_files database. The following code could be a implementation of the
-    startCaching method: ::
+    *cache_files* database. The following code could be an implementation of the
+    *startCaching* method: ::
 
         public function startCaching( $template, $templatePath, $cachePath, $cacheKeys )
         {
@@ -2466,7 +2454,8 @@ following methods in order:
         }
 
     The code checks whether the cache file is already registered. If the cache file is available set
-    the expired status to 0. Otherwise add the cache to the table, with a new id and expired set to 0. 
+    the *expired* status to 0. Otherwise add the cache to the table, with a new
+    id and *expired* set to 0. 
 
     The *cache_files* table contains something like: 
 
@@ -2480,9 +2469,9 @@ following methods in order:
     == ================================== =======
 
 
-2.  register( $name, $value ). This function is called by the user application
+2.  *register( $name, $value )*. This function is called by the user application
     **during** cache creation. In our example the fetch function which returns the 
-    user object should call the register function. ::
+    user object should call the *register* function. ::
 
         public static function fetch( $object, $id )
         {
@@ -2530,7 +2519,7 @@ following methods in order:
     compiles/cache/user.ezt-9dsafa0 and is not expired.
 
    
-3.  stopCaching(). The method is called when the caching is done. The
+3.  *stopCaching()*. The method is called when the caching is done. The
     only thing that needs to be done, is to set *isCaching* to *false*. ::
         
         public function stopCaching()
@@ -2547,7 +2536,7 @@ this method returns *true* then the values used in the cache are unaltered.
 Let's continue with the example and assume that the user application does
 change the data of one user.  
 
-4.  update( $name, $value ). The user application calls this method when a
+4.  *update( $name, $value )*. The user application calls this method when a
     value changes that is possibly used inside the templates. The snippet below 
     modifies the user name. :: 
 
@@ -2603,7 +2592,7 @@ change the data of one user.
     == ======= =======
 
 
-5.  isValid( $template, $templateName, $cacheName ). The template engine calls
+5.  *isValid( $template, $templateName, $cacheName )*. The template engine calls
     this method to find out whether the cache is still valid. The code below is
     an example implementation of this method: ::
 
