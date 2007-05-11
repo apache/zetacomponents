@@ -111,11 +111,89 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
         
         $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
 
-        foreach ( glob( dirname( __FILE__ ) . "/data/*.php" ) as $file )
+        foreach ( glob( dirname( __FILE__ ) . "/data/definition_only/definitions/*.php" ) as $file )
         {
             $this->assertEquals(
                 file_get_contents( $file ),
                 file_get_contents( $destination . "/" . basename( $file ) ),
+                "Geneator generated an invalid persistent object definition file."
+            );
+        }
+
+        $this->removeTempDir();
+    }
+
+    public function testValidFromFileWithClasses()
+    {
+        $source = dirname( __FILE__ ) . "/data/webbuilder.schema.xml";
+        $destination = $this->createTempDir( "PersObjDatSchem" );
+
+        mkdir( "$destination/definitions" );
+        mkdir( "$destination/classes" );
+        
+        $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f xml -s $source "$destination/definitions" "$destination/classes"`;
+        // file_put_contents( __FUNCTION__, $res );
+
+        // Sanitize because of temp dir name
+        $res = explode( "\n", $res );
+        unset( $res[3], $res[4] );
+        $res = implode( "\n", $res );
+        
+        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+
+        foreach ( glob( dirname( __FILE__ ) . "/data/definition_class/definitions/*.php" ) as $file )
+        {
+            $this->assertEquals(
+                file_get_contents( $file ),
+                file_get_contents( $destination . "/definitions/" . basename( $file ) ),
+                "Geneator generated an invalid persistent object definition file."
+            );
+        }
+
+        foreach ( glob( dirname( __FILE__ ) . "/data/definition_class/classes/*.php" ) as $file )
+        {
+            $this->assertEquals(
+                file_get_contents( $file ),
+                file_get_contents( $destination . "/classes/" . basename( $file ) ),
+                "Geneator generated an invalid persistent object definition file."
+            );
+        }
+
+        $this->removeTempDir();
+    }
+
+    public function testValidFromFileWithClassesAndPrefix()
+    {
+        $source = dirname( __FILE__ ) . "/data/webbuilder.schema.xml";
+        $destination = $this->createTempDir( "PersObjDatSchem" );
+
+        mkdir( "$destination/definitions" );
+        mkdir( "$destination/classes" );
+        
+        $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -p ezcapp -f xml -s $source "$destination/definitions" "$destination/classes"`;
+        // file_put_contents( __FUNCTION__, $res );
+
+        // Sanitize because of temp dir name
+        $res = explode( "\n", $res );
+        unset( $res[3], $res[4] );
+        $res = implode( "\n", $res );
+        
+        $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
+
+        foreach ( glob( dirname( __FILE__ ) . "/data/definition_class_prefix/definitions/*.php" ) as $file )
+        {
+            $this->assertEquals(
+                file_get_contents( $file ),
+                file_get_contents( $destination . "/definitions/" . basename( $file ) ),
+                "Geneator generated an invalid persistent object definition file."
+            );
+        }
+
+        foreach ( glob( dirname( __FILE__ ) . "/data/definition_class_prefix/classes/*.php" ) as $file )
+        {
+            $this->assertEquals(
+                file_get_contents( $file ),
+                file_get_contents( $destination . "/classes/" . basename( $file ) ),
                 "Geneator generated an invalid persistent object definition file."
             );
         }
@@ -189,7 +267,7 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
         
         $this->assertEquals( $this->results[__FUNCTION__], $res, "Error output incorrect with no parameters." );
 
-        foreach ( glob( dirname( __FILE__ ) . "/data/*.php" ) as $file )
+        foreach ( glob( dirname( __FILE__ ) . "/data/definition_only/definitions/*.php" ) as $file )
         {
             $this->assertEquals(
                 file_get_contents( $file ),

@@ -139,6 +139,16 @@ $res['testInvalidFromDb'] = '[34;1meZ components PersistentObject definition ge
 [0m[0m[0m[m
 [0m[31;1mError reading schema: ';
 
+$res['testValidFromFileWithClasses'] = '[34;1meZ components PersistentObject definition generator[0m[m
+[0m[0m[0m[m
+[0m[34;1mPersistentObject definition successfully written to
+[0m';
+
+$res['testValidFromFileWithClassesAndPrefix'] = '[34;1meZ components PersistentObject definition generator[0m[m
+[0m[0m[0m[m
+[0m[34;1mPersistentObject definition successfully written to
+[0m';
+
 return $res;
 
 ?>
