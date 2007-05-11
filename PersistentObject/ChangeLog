@@ -9,6 +9,8 @@
   ezcPersistentQueryException now contains the SQL query in its message, if
   appropriate.
 - Fixed #010726: Should definition contain type info on primary keys
+- Fixed #10552: ManyToMany relations with multiple columns. Mapping works
+  correctly now.
 	
 1.3beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -601,22 +601,29 @@ class ezcPersistentSession
             case "ezcPersistentManyToManyRelation":
                 $q = $this->database->createInsertQuery();
                 $q->insertInto( $this->database->quoteIdentifier( $relation->relationTable ) );
+                $insertColumns = array();
                 foreach ( $relation->columnMap as $map )
                 {
-                    $q->set(
-                        $this->database->quoteIdentifier( $map->relationSourceColumn ),
-                        $q->bindValue( $objectState[$def->columns[$map->sourceColumn]->propertyName] )
-                    );
-                    $q->set(
-                        $this->database->quoteIdentifier( $map->relationDestinationColumn ),
-                        $q->bindValue( $relatedObjectState[$relatedDef->columns[$map->destinationColumn]->propertyName] )
-                    );
+                    if ( in_array( $map->relationSourceColumn, $insertColumns ) === false )
+                    {
+                        $q->set(
+                            $this->database->quoteIdentifier( $map->relationSourceColumn ),
+                            $q->bindValue( $objectState[$def->columns[$map->sourceColumn]->propertyName] )
+                        );
+                        $insertColumns[] = $map->relationSourceColumn;
+                    }
+                    if ( in_array( $map->relationDestinationColumn, $insertColumns ) === false )
+                    {
+                        $q->set(
+                            $this->database->quoteIdentifier( $map->relationDestinationColumn ),
+                            $q->bindValue( $relatedObjectState[$relatedDef->columns[$map->destinationColumn]->propertyName] )
+                        );
+                        $insertColumns[] = $map->relationDestinationColumn;
+                    }
                 }
                 $stmt = $q->prepare();
                 $stmt->execute();
                 break;
-            case "ezcPersistentManyToOneRelation":
-                throw new Exception( "Still in development, not implemented, yet!" );
         }
 
         $relatedObject->setState( $relatedObjectState );

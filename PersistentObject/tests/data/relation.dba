@@ -248,6 +248,62 @@ return array (
         )),
       ),
     )),
+    'PO_secondpersons_addresses' => 
+    ezcDbSchemaTable::__set_state(array(
+       'fields' => 
+      array (
+        'address_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 0,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'person_firstname' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 100,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+        'person_surname' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'text',
+           'length' => 100,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
+      ),
+       'indexes' => 
+      array (
+        'primary' => 
+        ezcDbSchemaIndex::__set_state(array(
+           'indexFields' => 
+          array (
+            'address_id' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+            'person_firstname' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+            'person_surname' => 
+            ezcDbSchemaIndexField::__set_state(array(
+               'sorting' => NULL,
+            )),
+          ),
+           'primary' => true,
+           'unique' => true,
+        )),
+      ),
+    )),
   ),
   1 => 
   array (

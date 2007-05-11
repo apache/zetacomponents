@@ -11,6 +11,7 @@ ezcTestRunner::addFileToFilter( __FILE__ );
 
 require_once dirname( __FILE__ ) . "/data/relation_test_address.php";
 require_once dirname( __FILE__ ) . "/data/relation_test_person.php";
+require_once dirname( __FILE__ ) . "/data/relation_test_second_person.php";
 
 /**
  * Tests ezcPersistentManyToManyRelation class.
@@ -288,6 +289,24 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
         );
     }
 
+    public function testGetRelatedObjectFromSecondPerson()
+    {
+        $person = $this->session->load( "RelationTestSecondPerson", 1 );
+        $res =  RelationTestAddress::__set_state(array(
+            'id' => '1',
+            'street' => 'Httproad 23',
+            'zip' => '12345',
+            'city' => 'Internettown',
+            'type' => 'work',
+        ));
+
+        $this->assertEquals(
+            $res,
+            $this->session->getRelatedObject( $person, "RelationTestAddress" ),
+            "Related RelationTestPerson objects not fetched correctly."
+        );
+    }
+
     public function testGetRelatedPersonsFromAddress1()
     {
         $address = $this->session->load( "RelationTestAddress", 1 );
@@ -339,6 +358,41 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
             0 => '2',
             'person_id' => '2',
             1 => '2',
+        );
+
+        $this->assertEquals(
+            $res,
+            $stmt->fetch(),
+            "Relation not established correctly."
+        );
+    }
+    
+    public function testAddRelatedObjectToSecondPerson()
+    {
+        $person  = $this->session->load( "RelationTestSecondPerson",  2 );
+        $address = $this->session->load( "RelationTestAddress", 2 );
+
+        $this->session->addRelatedObject( $person, $address );
+
+        $q = $this->session->database->createSelectQuery();
+        $q->select( "*" )
+          ->from( $this->session->database->quoteIdentifier( "PO_secondpersons_addresses" ) )
+          ->where(
+            $q->expr->eq( $this->session->database->quoteIdentifier( "person_firstname" ), $q->bindValue( "Frederick" ) ),
+            $q->expr->eq( $this->session->database->quoteIdentifier( "person_surname" ), $q->bindValue( "Ajax" ) ),
+            $q->expr->eq( $this->session->database->quoteIdentifier( "address_id" ), 2 )
+          );
+
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        $res =array (
+            'address_id' => '2',
+            0 => '2',
+            'person_firstname' => 'Frederick',
+            1 => 'Frederick',
+            'person_surname' => 'Ajax',
+            2 => 'Ajax',
         );
 
         $this->assertEquals(
@@ -418,6 +472,26 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
             $res,
             $this->session->getRelatedObjects( $person, "RelationTestAddress" ),
             "Related RelationTestPerson objects not deleted correctly."
+        );
+    }
+
+    public function testRemoveRelatedObjectFromSecondPerson()
+    {
+        $person = $this->session->load( "RelationTestSecondPerson", 1 );
+        $address =  RelationTestAddress::__set_state(array(
+            'id' => '1',
+            'street' => 'Httproad 23',
+            'zip' => '12345',
+            'city' => 'Internettown',
+            'type' => 'work',
+        ));
+
+        $this->session->removeRelatedObject( $person, $address );
+
+        $this->assertEquals(
+            array(),
+            $this->session->getRelatedObjects( $person, "RelationTestAddress" ),
+            "Related RelationTestSecondPerson object not removed correctly."
         );
     }
 
