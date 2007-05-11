@@ -274,10 +274,8 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
         {
             $query = $this->db->createUpdateQuery();
 
-            $name = $query->bindValue( $workflow->getName() );
-
             $query->update( 'workflow' )
-                  ->where( $query->expr->eq( 'workflow_name', $name ) )
+                  ->where( $query->expr->eq( 'workflow_name', $query->bindValue( $workflow->getName() ) ) )
                   ->where( $query->expr->eq( 'workflow_version_is_latest', $query->bindValue( true ) ) )
                   ->set( 'workflow_version_is_latest', $query->bindValue( false ) );
 
@@ -288,12 +286,10 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
         // Write workflow table row.
         $query = $this->db->createInsertQuery();
 
-        $name = $query->bindValue( $workflow->getName() );
-
         $query->insertInto( 'workflow' )
-              ->set( 'workflow_name', $name )
-              ->set( 'workflow_version', $workflowVersion )
-              ->set( 'workflow_created', time() );
+              ->set( 'workflow_name', $query->bindValue( $workflow->getName() ) )
+              ->set( 'workflow_version', $query->bindValue( $workflowVersion ) )
+              ->set( 'workflow_created', $query->bindValue( time() ) );
 
         $statement = $query->prepare();
         $statement->execute();
@@ -307,15 +303,12 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
         {
             $query = $this->db->createInsertQuery();
 
-            $nodeClass = $query->bindValue( get_class( $node ) );
-            $nodeConfiguration = $query->bindValue(
-              ezcWorkflowDatabaseUtil::serialize( $node->getConfiguration() )
-            );
-
             $query->insertInto( 'node' )
                   ->set( 'workflow_id', $workflow->getId() )
-                  ->set( 'node_class', $nodeClass )
-                  ->set( 'node_configuration', $nodeConfiguration );
+                  ->set( 'node_class', $query->bindValue( get_class( $node ) ) )
+                  ->set( 'node_configuration', $query->bindValue(
+                    ezcWorkflowDatabaseUtil::serialize( $node->getConfiguration() ) )
+                  );
 
             $statement = $query->prepare();
             $statement->execute();
@@ -331,8 +324,8 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
                 $query = $this->db->createInsertQuery();
 
                 $query->insertInto( 'node_connection' )
-                      ->set( 'incoming_node_id', $node->getId() )
-                      ->set( 'outgoing_node_id', $outNode->getId() );
+                      ->set( 'incoming_node_id', $query->bindValue( $node->getId() ) )
+                      ->set( 'outgoing_node_id', $query->bindValue( $outNode->getId() ) );
 
                 $statement = $query->prepare();
                 $statement->execute();
@@ -344,13 +337,10 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
         {
             $query = $this->db->createInsertQuery();
 
-            $class    = $query->bindValue( $class );
-            $variable = $query->bindValue( $variable );
-
             $query->insertInto( 'variable_handler' )
-                  ->set( 'workflow_id', $workflow->getId() )
-                  ->set( 'variable', $variable )
-                  ->set( 'class', $class );
+                  ->set( 'workflow_id', $query->bindValue( $workflow->getId() ) )
+                  ->set( 'variable', $query->bindValue( $variable ) )
+                  ->set( 'class', $query->bindValue( $class ) );
 
             $statement = $query->prepare();
             $statement->execute();
