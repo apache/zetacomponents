@@ -1380,6 +1380,79 @@ class ezcConsoleInputTest extends ezcTestCase
         $this->assertEquals( array( 42, "test string", "val1", "val2"), $this->input->getArguments() );
     }
 
+    public function testProcessSuccessNewArgumentsHelpOptionSet()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[0]->type = ezcConsoleInput::TYPE_INT;
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "string" );
+        $this->input->argumentDefinition[2] = new ezcConsoleArgument( "array" );
+        $this->input->argumentDefinition[2]->multiple = true;
+
+        $this->input->getOption( 't' )->isHelpOption = true;
+
+        $args = array( "foo.php", "-t" );
+
+        $res = array( 
+            't' => true,
+        );
+        $this->commonProcessTestSuccess( $args, $res );
+
+        $this->assertNull( $this->input->argumentDefinition["number"]->value );
+        $this->assertNull( $this->input->argumentDefinition["string"]->value );
+        $this->assertNull( $this->input->argumentDefinition["array"]->value );
+
+        $this->assertTrue( $this->input->helpOptionSet() );
+        
+        // Old handling
+        $this->assertEquals( array(), $this->input->getArguments() );
+    }
+
+    public function testProcessSuccessNewArgumentsDisallowedSuccess()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[0]->type = ezcConsoleInput::TYPE_INT;
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "string" );
+        $this->input->argumentDefinition[2] = new ezcConsoleArgument( "array" );
+        $this->input->argumentDefinition[2]->multiple = true;
+
+        $this->input->getOption( 't' )->arguments = false;
+
+        $args = array( "foo.php", "-t" );
+
+        $res = array( 
+            't' => true,
+        );
+        $this->commonProcessTestSuccess( $args, $res );
+
+        $this->assertNull( $this->input->argumentDefinition["number"]->value );
+        $this->assertNull( $this->input->argumentDefinition["string"]->value );
+        $this->assertNull( $this->input->argumentDefinition["array"]->value );
+
+        // Old handling
+        $this->assertEquals( array(), $this->input->getArguments() );
+    }
+
+    public function testProcessSuccessNewArgumentsDisallowedFailure()
+    {
+        $this->input->argumentDefinition = new ezcConsoleArguments();
+        $this->input->argumentDefinition[0] = new ezcConsoleArgument( "number" );
+        $this->input->argumentDefinition[0]->type = ezcConsoleInput::TYPE_INT;
+        $this->input->argumentDefinition[1] = new ezcConsoleArgument( "string" );
+        $this->input->argumentDefinition[2] = new ezcConsoleArgument( "array" );
+        $this->input->argumentDefinition[2]->multiple = true;
+
+        $this->input->getOption( 't' )->arguments = false;
+
+        $args = array( "foo.php", "-t", "--", "23" );
+
+        $res = array( 
+            't' => true,
+        );
+        $this->commonProcessTestFailure( $args, "ezcConsoleOptionArgumentsViolationException" );
+    }
+
     public function testProcessFailureNewArgumentsComplexType()
     {
         $this->input->argumentDefinition = new ezcConsoleArguments();

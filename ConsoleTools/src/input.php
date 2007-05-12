@@ -504,7 +504,14 @@ class ezcConsoleInput
                 break;
             }
         }
+        // Move pointer
         isset( $args[$i] ) && $args[$i] == '--' ? ++$i : $i;
+
+        if ( $this->helpOptionSet() )
+        {
+            // No need to parse arguments
+            return;
+        }
         $this->processArguments( $args, $i );
         $this->checkRules();
     }
@@ -1018,9 +1025,9 @@ class ezcConsoleInput
      */
     private function processArguments( array $args, &$i )
     {
-        if ( $this->argumentDefinition === null )
+        if ( $this->argumentDefinition === null || $this->argumentsAllowed() === false )
         {
-            // Old argument handling
+            // Old argument handling, also used of a set option sets disallowing arguments
             while ( $i < count( $args ) )
             {
                 $this->arguments[] = $args[$i++];
@@ -1087,6 +1094,23 @@ class ezcConsoleInput
                 throw new ezcConsoleTooManyArgumentsException( $args, $i );
             }
         }
+    }
+
+    /**
+     * Returns if arguments are allowed with the current option submition.
+     * 
+     * @return bool If arguments allowed.
+     */
+    protected function argumentsAllowed()
+    {
+        foreach ( $this->options as $id => $option )
+        {
+            if ( $option->value !== false && $option->arguments === false )
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

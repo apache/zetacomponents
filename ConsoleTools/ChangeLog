@@ -1,6 +1,14 @@
 1.3beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed issue #10782: ConsoleTools: Argument mandatoryness applies always. If
+  help option is set, arguments are not checked anymore and old argument
+  checking is used, if arguments are disallowed (to assure this is checked
+  correctly).
+
+1.3beta1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 - Fixed issue #9857: Multi-option and default value. Arrays are now allowed in
   default value, if multiple-option is set to true.
 - Fixed issue #9902: Problems on Windows.
