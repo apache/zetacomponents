@@ -1,4 +1,4 @@
-1.3beta1 - [RELEASEDATE]
+1.3rc1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #10782: ConsoleTools: Argument mandatoryness applies always. If
