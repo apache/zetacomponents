@@ -131,6 +131,7 @@ class ezcConsoleQuestionDialogTypeValidatorTest extends ezcTestCase
         $validator->type = ezcConsoleQuestionDialogTypeValidator::TYPE_FLOAT;
 
         $this->assertTrue( $validator->validate( 23.42 ) );
+        $this->assertTrue( $validator->validate( 7E-10 ) );
         $this->assertFalse( $validator->validate( true ) );
         $this->assertFalse( $validator->validate( "" ) );
         
@@ -180,6 +181,9 @@ class ezcConsoleQuestionDialogTypeValidatorTest extends ezcTestCase
         $this->assertEquals( "foo", $validator->fixup( "foo" ) );
         $this->assertEquals( 23.42, $validator->fixup( "23.42" ) );
         $this->assertEquals( -23.42, $validator->fixup( "-23.42" ) );
+        $this->assertEquals( 7E-10, $validator->fixup( "7E-10" ) );
+        $this->assertEquals( 7e-10, $validator->fixup( "7e-10" ) );
+        $this->assertEquals( 4E3, $validator->fixup( "4E3" ) );
         $this->assertEquals( "true", $validator->fixup( "true" ) );
         $this->assertEquals( "false", $validator->fixup( "false" ) );
         $this->assertEquals( 1, $validator->fixup( "1" ) );

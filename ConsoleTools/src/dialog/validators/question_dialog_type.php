@@ -97,7 +97,7 @@ class ezcConsoleQuestionDialogTypeValidator implements ezcConsoleQuestionDialogV
             case self::TYPE_INT:
                 return ( preg_match( "/^[0-9\-]+$/", $result ) !== 0 ) ? (int) $result : $result;
             case self::TYPE_FLOAT:
-                return ( preg_match( "/^[0-9.\-]+$/", $result ) !== 0 ) ? (float) $result : $result;
+                return ( preg_match( "/^[0-9.E\-]+$/i", $result ) !== 0 ) ? (float) $result : $result;
             case self::TYPE_BOOL:
                 switch ( $result )
                 {

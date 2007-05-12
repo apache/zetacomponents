@@ -5,6 +5,8 @@
   help option is set, arguments are not checked anymore and old argument
   checking is used, if arguments are disallowed (to assure this is checked
   correctly).
+- Fixed issue #10766: ezcConsoleQuestionDialogTypeValidator with TYPE_FLOAT
+  does not accept numbers like 4E3.
 
 1.3beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
