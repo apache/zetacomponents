@@ -208,7 +208,7 @@ class ezcArchiveV7Header
         $total -= ezcArchiveChecksums::getTotalByteValueFromString( substr( $rawHeader, self::CHECKSUM_OFFSET, self::CHECKSUM_SIZE ) );
         $total += ezcArchiveChecksums::getTotalByteValueFromString( str_repeat( " ", self::CHECKSUM_SIZE ) );
 
-        return( $checksum == $total );
+        return (strcmp( sprintf( "%08x", $checksum), sprintf( "%08x", $total) ) == 0);
     }
 
     /** 
