@@ -57,7 +57,7 @@ abstract class ezcBaseOptions implements ArrayAccess
     {
         foreach ( $newOptions as $key => $value )
         {
-            $this->__set( $key, $value );
+            $this->$key = $value;
         }
     }
     
