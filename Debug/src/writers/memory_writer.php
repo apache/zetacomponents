@@ -69,7 +69,7 @@ class ezcDebugMemoryWriter implements ezcLogWriter
         {
             foreach ( $extraInfo as $key => $val )
             {
-                $log->__set( $key, $val );
+                $log->$key = $val;
             }
         }
 
