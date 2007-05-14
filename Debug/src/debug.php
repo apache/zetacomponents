@@ -205,7 +205,7 @@ class ezcDebug
      *
      * If no formatter is set {@link ezcDebugHtmlReporter} will be used by default.
      *
-     * @param ezcDebugReporter $reporter
+     * @param ezcDebugOutputFormatter $formatter
      * @return void
      */
     public function setOutputFormatter( ezcDebugOutputFormatter $formatter )
