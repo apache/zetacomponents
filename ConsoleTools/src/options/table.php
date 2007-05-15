@@ -48,6 +48,19 @@
  */
 class ezcConsoleTableOptions extends ezcBaseOptions
 {
+    protected $properties = array(
+        'colWidth'            => 'auto',
+        'colWrap'             => ezcConsoleTable::WRAP_AUTO,
+        'defaultAlign'        => ezcConsoleTable::ALIGN_LEFT,
+        'colPadding'          => ' ',
+        'widthType'           => ezcConsoleTable::WIDTH_MAX,
+        'lineVertical'        => '-',
+        'lineHorizontal'      => '|',
+        'corner'              => '+',
+        'defaultFormat'       => 'default',
+        'defaultBorderFormat' => 'default',
+    );
+
     /**
      * Construct a new options object.
      *
@@ -64,17 +77,6 @@ class ezcConsoleTableOptions extends ezcBaseOptions
      */
     public function __construct()
     {
-        $this->properties['colWidth'] = 'auto';
-        $this->properties['colWrap'] = ezcConsoleTable::WRAP_AUTO;
-        $this->properties['defaultAlign'] = ezcConsoleTable::ALIGN_LEFT;
-        $this->properties['colPadding'] = ' ';
-        $this->properties['widthType'] = ezcConsoleTable::WIDTH_MAX;
-        $this->properties['lineVertical'] = '-';
-        $this->properties['lineHorizontal'] = '|';
-        $this->properties['corner'] = '+';
-        $this->properties['defaultFormat'] = 'default';
-        $this->properties['defaultBorderFormat'] = 'default';
-
         $args = func_get_args();
         if ( func_num_args() === 1 && is_array( $args[0] ) && !is_int( key( $args[0] ) ) )
         {

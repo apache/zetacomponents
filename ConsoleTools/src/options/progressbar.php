@@ -39,34 +39,19 @@
  */
 class ezcConsoleProgressbarOptions extends ezcBaseOptions
 {
-    /**
-     * Construct a new options object.
-     * Options are constructed from an option array by default. The constructor
-     * automatically passes the given options to the __set() method to set them 
-     * in the class.
-     * 
-     * @param array(string=>mixed) $options The initial options to set.
-     * @return void
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
-     * @throws ezcBaseValueException
-     *         If a the value for a property is out of range.
-     */
-    public function __construct( array $options = array() )
-    {
-        $this->properties['barChar'] = "+";
-        $this->properties['emptyChar'] = "-";
-        $this->properties['formatString'] = "%act% / %max% [%bar%] %fraction%%";
-        $this->properties['fractionFormat'] = "%01.2f";
-        $this->properties['progressChar'] = ">";
-        $this->properties['redrawFrequency'] = 1;
-        $this->properties['step'] = 1;
-        $this->properties['width'] = 78;
-        $this->properties['actFormat'] = '%.0f';
-        $this->properties['maxFormat'] = '%.0f';
-        parent::__construct( $options );
-    }
+
+    protected $properties = array(
+        'barChar'         => "+",
+        'emptyChar'       => "-",
+        'formatString'    => "%act% / %max% [%bar%] %fraction%%",
+        'fractionFormat'  => "%01.2f",
+        'progressChar'    => ">",
+        'redrawFrequency' => 1,
+        'step'            => 1,
+        'width'           => 78,
+        'actFormat'       => '%.0f',
+        'maxFormat'       => '%.0f',
+    );
 
     /**
      * Option write access.

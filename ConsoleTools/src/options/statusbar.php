@@ -23,26 +23,10 @@
  */
 class ezcConsoleStatusbarOptions extends ezcBaseOptions
 {
-    /**
-     * Construct a new options object.
-     * Options are constructed from an option array by default. The constructor
-     * automatically passes the given options to the __set() method to set them 
-     * in the class.
-     * 
-     * @param array(string=>mixed) $options The initial options to set.
-     * @return void
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
-     * @throws ezcBaseValueException
-     *         If a the value for a property is out of range.
-     */
-    public function __construct( array $options = array() )
-    {
-        $this->properties['successChar'] = "+";
-        $this->properties['failureChar'] = "-";
-        parent::__construct( $options );
-    }
+    protected $properties = array(
+        'successChar' => "+",
+        'failureChar' => "-",
+    );
 
     /**
      * Option write access.

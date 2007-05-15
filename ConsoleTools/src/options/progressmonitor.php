@@ -21,25 +21,9 @@
  */
 class ezcConsoleProgressMonitorOptions extends ezcBaseOptions
 {
-    /**
-     * Construct a new options object.
-     * Options are constructed from an option array by default. The constructor
-     * automatically passes the given options to the __set() method to set them 
-     * in the class.
-     * 
-     * @param array(string=>mixed) $options The initial options to set.
-     * @return void
-     *
-     * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
-     * @throws ezcBaseValueException
-     *         If a the value for a property is out of range.
-     */
-    public function __construct( array $options = array() )
-    {
-        $this->properties['formatString'] = '%8.1f%% %s %s';
-        parent::__construct( $options );
-    }
+    protected $properties = array(
+        'formatString' => '%8.1f%% %s %s',
+    );
 
     /**
      * Option write access.
