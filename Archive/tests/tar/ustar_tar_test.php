@@ -197,13 +197,27 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest
         $archive = ezcArchive::getTarInstance( $bf, $this->tarMimeFormat ); 
 
         // Appending an character device.
-        // FIXME, will fail under windows.
-        $archive->appendToCurrent( "/dev/zero", "/dev/" );
-        $archive->close();
-        
-        // Do the same with gnu tar.
-        exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C /dev/ zero");
-        $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents( $chartar ) );
+        try
+        {
+            $archive->appendToCurrent( "/dev/zero", "/dev/" );
+            $archive->close();
+            
+            // Do the same with gnu tar.
+            exec("tar -cf $dir/gnutar.tar --format=".$this->tarFormat." -C /dev/ zero");
+            $this->assertEquals( file_get_contents( "$dir/gnutar.tar" ), file_get_contents( $chartar ) );
+        } catch( ezcArchiveException $e)
+        {
+            if( $e->getMessage() != "Cannot add a device to the TAR because the device type cannot be determined. Your system / PHP version does not support 'st_blksize'.") 
+            {
+                $this->fail("Unexpected exception: " . $e->getMessage());
+            }
+            
+            $s = stat("/dev/zero");
+            if( $s["rdev"] != -1 )
+            {
+                $this->fail("This exception is only valid when the stat()['rdev'] is not available.");
+            }
+        }
     }
 
     public function testAppendToCurrentFifo()

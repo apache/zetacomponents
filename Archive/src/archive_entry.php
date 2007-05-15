@@ -468,9 +468,6 @@ class ezcArchiveEntry
         $struct->mode = decoct( $stat["mode"] & ezcArchiveStatMode::S_PERM_MASK ); // First bits describe the type.
         $struct->ino = $stat["ino"];
 
-        $struct->major = ( int ) ( $stat["rdev"] / 256 );
-        $struct->minor = ( int ) ( $stat["rdev"] % 256 );
-
         $struct->type = self::getLinkType( $stat );
 
         if ( $struct->type == ezcArchiveEntry::IS_FILE )
@@ -487,6 +484,20 @@ class ezcArchiveEntry
         {
             $struct->link = readlink( $file );
         }
+
+        $rdev = $stat["rdev"];
+        if ( $rdev == -1 )
+        {
+            if( $struct->type == ezcArchiveEntry::IS_BLOCK_DEVICE || $struct->type == ezcArchiveEntry::IS_CHARACTER_DEVICE)
+            {
+                throw new ezcArchiveException("Cannot add a device to the TAR because the device type cannot be determined. Your system / PHP version does not support 'st_blksize'.");
+            }
+
+            $rdev = 0;
+        }
+
+        $struct->major = ( int ) ( $rdev / 256 );
+        $struct->minor = ( int ) ( $rdev % 256 );
 
 
         return $struct;
