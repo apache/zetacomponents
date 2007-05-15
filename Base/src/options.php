@@ -39,7 +39,7 @@ abstract class ezcBaseOptions implements ArrayAccess
     {
         foreach ( $options as $option => $value )
         {
-            $this->$option = $value;
+            $this->__set( $option, $value );
         }
     }
 
@@ -57,7 +57,7 @@ abstract class ezcBaseOptions implements ArrayAccess
     {
         foreach ( $newOptions as $key => $value )
         {
-            $this->$key = $value;
+            $this->__set( $key, $value );
         }
     }
     
@@ -73,7 +73,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      */
     public function __get( $propertyName )
     {
-        if ( isset( $this->$propertyName ) === true )
+        if ( $this->__isset( $propertyName ) === true )
         {
             return $this->properties[$propertyName];
         }
@@ -111,7 +111,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      */
     public function offsetExists( $propertyName )
     {
-        return isset( $this->$propertyName );
+        return $this->__isset( $propertyName );
     }
 
     /**
@@ -125,7 +125,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      */
     public function offsetGet( $propertyName )
     {
-        return $this->$propertyName;
+        return $this->__get( $propertyName );
     }
 
     /**
@@ -141,7 +141,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      */
     public function offsetSet( $propertyName, $propertyValue )
     {
-        $this->$propertyName = $propertyValue;
+        $this->__set( $propertyName, $propertyValue );
     }
 
     /**
@@ -156,7 +156,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      */
     public function offsetUnset( $propertyName )
     {
-        $this->$propertyName = null;
+        $this->__set( $propertyName, null );
     }
 }
 ?>
