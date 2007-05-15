@@ -327,16 +327,16 @@ Part: 2/2
         }
         
         
-        if ( crc32( $data ) == $header->crc )
+        if ( strcmp( sprintf("%u", crc32( $data )) ,sprintf("%u", $header->crc)) == 0 )
         {
-            $newFile = new ezcArchiveCharacterFile( $writeTo, true );
-            $newFile->write( $data );
-            unset( $newFile );
-         }
-         else
-         {
-             throw new ezcArchiveChecksumException( $writeTo );
-         }
+           $newFile = new ezcArchiveCharacterFile( $writeTo, true );
+           $newFile->write( $data );
+           unset( $newFile );
+        }
+        else
+        {
+            throw new ezcArchiveChecksumException( $writeTo );
+        }
     }
  
     // Documentation is inherited.
