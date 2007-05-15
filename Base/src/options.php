@@ -125,7 +125,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      */
     public function offsetGet( $propertyName )
     {
-        return $this->__get( $propertyName );
+        return $this->$propertyName;
     }
 
     /**
@@ -141,7 +141,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      */
     public function offsetSet( $propertyName, $propertyValue )
     {
-        $this->__set( $propertyName, $propertyValue );
+        $this->$propertyName = $propertyValue;
     }
 
     /**
@@ -156,7 +156,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      */
     public function offsetUnset( $propertyName )
     {
-        $this->__set( $propertyName, null );
+        $this->$propertyName = null;
     }
 }
 ?>
