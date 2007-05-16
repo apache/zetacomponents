@@ -202,7 +202,7 @@ class ezcDbSchemaPersistentWriter implements ezcDbSchemaFileWriter
      */
     private function openFile( $dir, $name )
     {
-        $filename = $dir . DIRECTORY_SEPARATOR . strtolower( $name ) . '.php';
+        $filename = $dir . DIRECTORY_SEPARATOR . strtolower( $this->prefix ) . strtolower( $name ) . '.php';
         // We do not want to overwrite files
         if ( file_exists( $filename ) && ( $this->overwrite === false || is_writable( $filename ) === false ) )
         {

@@ -143,7 +143,7 @@ class ezcDbSchemaPersistentClassWriter implements ezcDbSchemaFileWriter
         fwrite( $file, "     *\n" );
         fwrite( $file, "     * @return array(string=>mixed) The state of the object.\n" );
         fwrite( $file, "     */\n" );
-        fwrite( $file, "     public function getState( array \$state )\n" );
+        fwrite( $file, "     public function getState()\n" );
         fwrite( $file, "     {\n" );
         fwrite( $file, "         return array(\n" );
         foreach ( $fields as $fieldName => $field )

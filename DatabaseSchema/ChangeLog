@@ -1,3 +1,13 @@
+1.2rc1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed issue #10768: PersistentObjectDatabaseSchemaTiein: Class prefix not
+  reflected in definition file names.
+- Fixed issue #10769: PersistentObjectDatabaseSchemaTiein: Generated
+  getState() expects parameter.
+
+
+
 1.2beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
