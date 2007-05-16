@@ -15,7 +15,7 @@
   with edge lengths < reducement
 - Fixed issue #10750: SVG drivers output broken with wrong LC_NUMERIC
 
-1.1beta1 - [RELEASEDATE]
+1.1beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #9916: Not documented: ArrayDataSet also can use Iterators.

@@ -1,4 +1,4 @@
-1.3beta1 - [RELEASEDATE]
+1.3beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #8240: ezcQueryExpression::in does not work with strings.

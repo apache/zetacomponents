@@ -8,7 +8,7 @@
 - Fixed issue #10766: ezcConsoleQuestionDialogTypeValidator with TYPE_FLOAT
   does not accept numbers like 4E3.
 
-1.3beta1 - [RELEASEDATE]
+1.3beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #9857: Multi-option and default value. Arrays are now allowed in

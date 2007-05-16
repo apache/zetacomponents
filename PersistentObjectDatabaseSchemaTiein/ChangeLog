@@ -7,7 +7,7 @@
 - Fixed issue #10769: PersistentObjectDatabaseSchemaTiein: Generated
   getState() expects parameter.
 
-1.2beta1 - [RELEASEDATE]
+1.2beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented feature #9584: Switch for overwriting files.

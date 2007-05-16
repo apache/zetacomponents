@@ -1,4 +1,4 @@
-1.2beta1 - [RELEASEDATE]
+1.2beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #10035: Block comments mixed with Javascript comments generates
