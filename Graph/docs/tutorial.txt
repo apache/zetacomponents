@@ -249,12 +249,12 @@ axis.
 
 The settings on the graph will be explained later in the tutorial in detail.
 In line 11 the type of the rotation axis is set to a numeric axis, which is
-explained in "Chart elements" -> "Axis".
+explained in `Chart elements`_ -> `Axis`_.
 
 For line 15 to 23 a first data set is added with some random data. On the base
 of this data a new data set is build which calculates a polynomial
 interpolation function on the data. This is described in more detail in the
-section "Datasets" -> "Average polynomial dataset". Finally the default colors
+section `Datasets`_ -> `Average polynomial dataset`_. Finally the default colors
 and symbols from the palette are modified.
 
 .. image:: img/tutorial_complex_radar_chart.svg.png
