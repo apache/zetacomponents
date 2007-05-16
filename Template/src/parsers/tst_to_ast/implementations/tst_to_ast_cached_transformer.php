@@ -228,10 +228,10 @@ class ezcTemplateTstToAstCachedTransformer extends ezcTemplateTstToAstTransforme
     {
         if ( $this->template->usedConfiguration->cacheManager !== false )
         {
-            // !$this->template->usedConfiguration->cacheManager->isValid( $cacheName ) || !file_exist()
-            $a = new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->usedConfiguration->cacheManager->isValid", array( new ezcTemplateVariableAstNode( "this->template"), new ezcTemplateLiteralAstNode( $this->parser->template->stream ), new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
-            $b = new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "file_exists", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
-            
+            // !file_exists() || !$this->template->usedConfiguration->cacheManager->isValid( $cacheName )
+            $a = new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "file_exists", array( new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
+            $b = new ezcTemplateLogicalNegationOperatorAstNode( new ezcTemplateFunctionCallAstNode( "\$this->template->usedConfiguration->cacheManager->isValid", array( new ezcTemplateVariableAstNode( "this->template"), new ezcTemplateLiteralAstNode( $this->parser->template->stream ), new ezcTemplateVariableAstNode( "_ezcTemplateCache" ) ) ) );
+           
            return new ezcTemplateLogicalOrOperatorAstNode( $a, $b );
         }
         else

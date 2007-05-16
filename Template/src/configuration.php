@@ -78,7 +78,6 @@ class ezcTemplateConfiguration
                                   'compilePath' => ".",
                                   'cachedTemplatesPath' => null,
                                   'compiledTemplatesPath' => null,
-                                  // 'cacheSystem' =>  null,
                                   'checkModifiedTemplates' => true,
                                   'customBlocks' => array(),
                                   'customFunctions' => array(),
@@ -152,11 +151,11 @@ class ezcTemplateConfiguration
                 break;
 
             case 'cacheManager': 
-/*                if ( !$value instanceof ezcTemplateOutputContext )
+                if ( !($value instanceof ezcTemplateCacheManager) )
                 {
-                    throw new ezcBaseValueException( $name, $value, 'ezcTemplateContext' );
+                    throw new ezcBaseValueException( $name, $value, 'ezcTemplateCacheManager' );
                 }
- */
+
                 $this->properties[$name] = $value;
                 break;
 

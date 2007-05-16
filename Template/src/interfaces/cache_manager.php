@@ -173,9 +173,10 @@ interface ezcTemplateCacheManager
      *
      * if ( sizeof( $r ) > 0 ) // Do we have any results?
      * {
+     *     $id = $r[0]["id"];
      *     // Unexpire the cache_file.
      *     $s = $db->prepare( "UPDATE cache_files SET expired=0 WHERE id = :id" );
-     *     $s->bindValue( ":id", $r[0]["id"] );
+     *     $s->bindValue( ":id", $id );
      *     $s->execute();
      * }
      * else

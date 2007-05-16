@@ -2593,8 +2593,8 @@ change the data of one user.
 
 
 5.  *isValid( $template, $templateName, $cacheName )*. The template engine calls
-    this method to find out whether the cache is still valid. The code below is
-    an example implementation of this method: ::
+    this method to check whether the cache is still valid. See an example
+    implementation below::
 
         public function isValid( $template, $templateName, $cacheName )
         {
@@ -2616,20 +2616,20 @@ change the data of one user.
         }
          
     When the cache file does not exist or when the cache file is marked as
-    *expired*, the function returns *false*, otherwise *true*. The template
+    *expired* the function returns *false*, otherwise *true*. The template
     engine regenerates the cache if this method returns *false*. Otherwise the
     cache is displayed.
 
 
 In this section we have discussed how to expire the cache when values in the
-database change. The implementation of the cache manager is limited to the
-problem. The following sections will explain other problems that can be solved
+database change. The implementation of the cache manager is limited to this
+problem for now. The following sections explain other problems that can be solved
 using the cache manager.
 
 
 Signal-slots
 ````````````
-TODO
+The previous section did not use any  
 
 
 
