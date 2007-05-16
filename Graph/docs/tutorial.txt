@@ -286,7 +286,7 @@ easiest way is to create your own palette.
 To create a custom palette you can either extend one of the predefined palettes and
 overwrite their properties or extend the abstract palette class.
 
-.. include:: tutorial_custom_palette_palette.php
+.. include:: tutorial/tutorial_custom_palette_palette.php
    :literal:
 
 Each undefined color will default to a transparent white. As you
