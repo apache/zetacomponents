@@ -20,7 +20,7 @@ $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
 $graph->data['Access statistics']->url = 'http://example.org/';
 $graph->data['Access statistics']->url['Mozilla'] = 'http://example.org/mozilla';
 
-$graph->render( 400, 200, 'tutorial_example_29.png' );
+$graph->render( 400, 200, 'tutorial_reference_gd.png' );
 
 ?>
 <html>
@@ -32,7 +32,7 @@ echo ezcGraphTools::createImageMap( $graph, 'ezcGraphPieChartMap' );
 
 ?>
     <img
-        src="tutorial_example_29.png"
+        src="tutorial_reference_gd.png"
         width="400" height="200"
         usemap="#ezcGraphPieChartMap" />
 </body>

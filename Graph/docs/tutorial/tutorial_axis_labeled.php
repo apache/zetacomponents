@@ -26,6 +26,6 @@ $graph->data['colors'] = new ezcGraphArrayDataSet(
     )
 );
 
-$graph->render( 400, 150, 'tutorial_example_14.svg' );
+$graph->render( 400, 150, 'tutorial_axis_labeled.svg' );
 
 ?>

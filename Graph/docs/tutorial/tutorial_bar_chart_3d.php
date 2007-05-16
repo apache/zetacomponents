@@ -21,6 +21,6 @@ $graph->renderer = new ezcGraphRenderer3d();
 $graph->renderer->options->legendSymbolGleam = .5;
 $graph->renderer->options->barChartGleam = .5;
 
-$graph->render( 400, 150, 'tutorial_example_23.svg' );
+$graph->render( 400, 150, 'tutorial_bar_chart_3d.svg' );
 
 ?>

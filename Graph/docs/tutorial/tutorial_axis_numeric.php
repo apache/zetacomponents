@@ -27,6 +27,6 @@ for ( $i = -10; $i <= 10; $i++ )
 $graph->data['random blue'] = new ezcGraphArrayDataSet( $data[0] );
 $graph->data['random green'] = new ezcGraphArrayDataSet( $data[1] );
 
-$graph->render( 400, 150, 'tutorial_example_15.svg' );
+$graph->render( 400, 150, 'tutorial_axis_numeric.svg' );
 
 ?>

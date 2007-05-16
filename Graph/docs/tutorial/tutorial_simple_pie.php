@@ -14,8 +14,6 @@ $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
 ) );
 $graph->data['Access statistics']->highlight['Opera'] = true;
 
-$graph->renderer = new ezcGraphRenderer3d();
-
-$graph->render( 400, 150, 'tutorial_example_21.svg' );
+$graph->render( 400, 150, 'tutorial_simple_pie.svg' );
 
 ?>

@@ -28,6 +28,6 @@ $graph->data['Machine 2'] = new ezcGraphArrayDataSet( array(
 $graph->data['Machine 1']->symbol = ezcGraph::BULLET;
 $graph->data['Machine 2']->symbol = ezcGraph::BULLET;
 
-$graph->render( 400, 150, 'tutorial_example_16.svg' );
+$graph->render( 400, 150, 'tutorial_axis_datetime.svg' );
 
 ?>

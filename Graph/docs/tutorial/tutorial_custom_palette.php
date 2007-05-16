@@ -1,10 +1,11 @@
 <?php
 
 require_once 'tutorial_autoload.php';
+require_once 'tutorial_custom_palette_palette.php';
 $wikidata = include 'tutorial_wikipedia_data.php';
 
 $graph = new ezcGraphBarChart();
-$graph->palette = new ezcGraphPaletteBlack();
+$graph->palette = new tutorialCustomPalette();
 $graph->title = 'Wikipedia articles';
 
 // Add data
@@ -16,6 +17,6 @@ $graph->data['German']->displayType = ezcGraph::LINE;
 
 $graph->options->fillLines = 210;
 
-$graph->render( 400, 150, 'tutorial_example_07.svg' );
+$graph->render( 400, 150, 'tutorial_custom_palette.svg' );
 
 ?>

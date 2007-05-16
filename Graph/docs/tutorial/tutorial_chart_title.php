@@ -21,6 +21,6 @@ $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
     'Konqueror' => 474,
 ) );
 
-$graph->render( 400, 150, 'tutorial_example_10.svg' );
+$graph->render( 400, 150, 'tutorial_chart_title.svg' );
 
 ?>

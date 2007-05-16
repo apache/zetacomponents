@@ -17,7 +17,7 @@ $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
 $graph->data['Access statistics']->url = 'http://example.org/';
 $graph->data['Access statistics']->url['Mozilla'] = 'http://example.org/mozilla';
 
-$graph->render( 400, 200, 'tutorial_example_28.svg' );
+$graph->render( 400, 200, 'tutorial_reference_svg.svg' );
 
 $graph->driver->options->linkCursor = 'crosshair';
 ezcGraphTools::linkSvgElements( $graph );

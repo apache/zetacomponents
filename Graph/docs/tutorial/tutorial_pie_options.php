@@ -20,6 +20,6 @@ $graph->options->sum = 100;
 $graph->options->percentThreshold = 0.02;
 $graph->options->summarizeCaption = 'Others';
 
-$graph->render( 400, 150, 'tutorial_example_02.svg' );
+$graph->render( 400, 150, 'tutorial_pie_options.svg' );
 
 ?>

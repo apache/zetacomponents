@@ -26,6 +26,6 @@ $graph->renderer->options->dataBorder = false;
 $graph->renderer->options->pieChartHeight = 16;
 $graph->renderer->options->legendSymbolGleam = .5;
 
-$graph->render( 400, 200, 'tutorial_example_27.swf' );
+$graph->render( 400, 200, 'tutorial_driver_flash.swf' );
 
 ?>

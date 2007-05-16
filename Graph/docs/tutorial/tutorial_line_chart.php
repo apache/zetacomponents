@@ -3,7 +3,7 @@
 require_once 'tutorial_autoload.php';
 $wikidata = include 'tutorial_wikipedia_data.php';
 
-$graph = new ezcGraphBarChart();
+$graph = new ezcGraphLineChart();
 $graph->title = 'Wikipedia articles';
 
 // Add data
@@ -11,10 +11,7 @@ foreach ( $wikidata as $language => $data )
 {
     $graph->data[$language] = new ezcGraphArrayDataSet( $data );
 }
-$graph->data['German']->displayType = ezcGraph::LINE;
 
-$graph->options->fillLines = 210;
-
-$graph->render( 400, 150, 'tutorial_example_05.svg' );
+$graph->render( 400, 150, 'tutorial_line_chart.svg' );
 
 ?>

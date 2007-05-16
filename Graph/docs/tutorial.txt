@@ -80,7 +80,7 @@ Pie charts
 The following is a simple example of how to create a pie chart using the
 default driver, palette and renderer.
 
-.. include:: tutorial_example_01.php
+.. include:: tutorial/tutorial_simple_pie.php
    :literal:
 
 Simply create a new chart object, optionally set a title for the chart,
@@ -100,7 +100,7 @@ tutorial. One possibility is to highlight a special dataset or point. In line
 segment is pulled away from the center. See the renderer options class
 ezcGraphRendererOptions for more details.
 
-.. image:: img/tutorial_example_01.svg.png
+.. image:: img/tutorial_simple_pie.svg.png
    :alt:   Sample pie chart 
 
 Pie chart options
@@ -111,7 +111,7 @@ eZ Components, options are always accessed via public properties. For a full
 list of all available options, see the documentation for the
 ezcGraphPieChartOption class.
 
-.. include:: tutorial_example_02.php
+.. include:: tutorial/tutorial_pie_options.php
    :literal:
 
 In line 16, a sprintf format string is set, which defines how the labels are
@@ -125,7 +125,7 @@ also could define an absolute threshold, so that all data below a certain value
 would be aggregated in one data point. summarizeCaption defines the caption for
 this aggregated dataset.
 
-.. image:: img/tutorial_example_02.svg.png
+.. image:: img/tutorial_pie_options.svg.png
    :alt:   Pie chart configuration options
 
 Line charts
@@ -135,7 +135,7 @@ Line charts are created in the same way as pie charts, only that they
 accept more then one dataset. We are using the default driver, palette and
 renderer in this example.
 
-.. include:: tutorial_example_03.php
+.. include:: tutorial/tutorial_line_chart.php
    :literal:
 
 There are only two differences compared to the last example. In line 6, we
@@ -156,7 +156,7 @@ script. The array in the file tutorial_wikipedia_data.php is built like this::
 
 The result is a simple, default line chart.
 
-.. image:: img/tutorial_example_03.svg.png
+.. image:: img/tutorial_line_chart.svg.png
    :alt:   Simple line chart
 
 Bar charts
@@ -165,13 +165,13 @@ Bar charts
 Bar charts are very similar to line charts. They accept the same datasets and
 only define another default dataset display type and axis label renderer.
 
-.. include:: tutorial_example_04.php
+.. include:: tutorial/tutorial_bar_chart.php
    :literal:
 
 As you can see in line 6, we only change the chart constructor, and the
 other default values are applied.
 
-.. image:: img/tutorial_example_04.svg.png
+.. image:: img/tutorial_bar_chart.svg.png
    :alt:   Simple bar chart
 
 Combining bar and line charts
@@ -183,7 +183,7 @@ constructors and modify your chart to display one or more datasets in
 either display type. The axis label renderer is described later in this
 tutorial.
 
-.. include:: tutorial_example_05.php
+.. include:: tutorial/tutorial_bar_line_chart.php
    :literal:
 
 After creating the datasets we modify one of the datasets in line 14 to change
@@ -193,7 +193,7 @@ properties and in this case we set an option for the graph called "fillLines",
 which indicates what transparency value is used to fill the space underneath
 the line.
 
-.. image:: img/tutorial_example_05.svg.png
+.. image:: img/tutorial_bar_line_chart.svg.png
    :alt:   Combined bar and line chart
 
 More bar chart options
@@ -202,7 +202,7 @@ More bar chart options
 There are some more options available for line and bar charts, which configure
 the highlighting of datasets.
 
-.. include:: tutorial_example_06.php
+.. include:: tutorial/tutorial_bar_options.php
    :literal:
 
 In line 20, the size of the highlight boxes is specified and lines 22 to
@@ -212,7 +212,7 @@ makes sense to highlight a complete dataset instead of only one single data
 point. This is due to the fact that there is usually more then one dataset in
 line and bar charts.
 
-.. image:: img/tutorial_example_06.svg.png
+.. image:: img/tutorial_bar_options.svg.png
    :alt:   Configured highlight in combined line and bar chart
 
 Palettes
@@ -241,7 +241,7 @@ datasets request colors from the palette. If you set the palette after
 creating the datasets, the datasets will still use the colors from the 
 default palette.
 
-.. include:: tutorial_example_07.php
+.. include:: tutorial/tutorial_user_palette.php
    :literal:
 
 The generated output differs quite a lot from the output using the default
@@ -250,7 +250,7 @@ changed. Additionally, the palette sets a color for the major and minor grid, an
 defines a border width and color for the chart elements. The palette defaults
 to a sans-serif font and increases the margin between the chart elements.
 
-.. image:: img/tutorial_example_07.svg.png
+.. image:: img/tutorial_user_palette.svg.png
    :alt:   Combined bar / line chart with non default palette
 
 You can find a complete list of the available palettes in the class tree.
@@ -261,7 +261,7 @@ Modifying a palette
 In the last example, we assigned a palette object to the palette property of
 the graph. You can of course create and modify the object before assigning it.
 
-.. include:: tutorial_example_08.php
+.. include:: tutorial/tutorial_modified_palette.php
    :literal:
 
 The palette object is created in line 6 and we overwrite some of its
@@ -275,7 +275,7 @@ for the third dataset. You can see the usage of the symbols in the legend and
 on the line chart. The line chart displays a symbol for each data point if the
 symbol is set to something different then ezcGraph::NO_SYMBOL.
 
-.. image:: img/tutorial_example_08.svg.png
+.. image:: img/tutorial_modified_palette.svg.png
    :alt:   Combined bar / line chart with modified palette
 
 Creating a custom palette
@@ -286,7 +286,7 @@ easiest way is to create your own palette.
 To create a custom palette you can either extend one of the predefined palettes and
 overwrite their properties or extend the abstract palette class.
 
-.. include:: tutorial_custom_palette.php
+.. include:: tutorial_custom_palette_palette.php
    :literal:
 
 Each undefined color will default to a transparent white. As you
@@ -294,14 +294,14 @@ can see in the example definition, you can define alpha values beside the
 normal RGB values for the colors. After creating a custom palette, you can use
 it like any predefined palette, as previously explained.
 
-.. include:: tutorial_example_09.php
+.. include:: tutorial/tutorial_custom_palette.php
    :literal:
 
 The example now uses the custom palette to format the output. You may include
 palettes using you applications autoload mechanism or just require them like
 shown in the example above.
 
-.. image:: img/tutorial_example_09.svg.png
+.. image:: img/tutorial_custom_palette.svg.png
    :alt:   Combined bar / line chart with custom palette
 
 Chart elements
@@ -341,7 +341,7 @@ The chart title
 The chart title element will only be rendered if you manually assign a title.
 It can be placed on top or at the bottom of the chart.
 
-.. include:: tutorial_example_10.php
+.. include:: tutorial/tutorial_chart_title.php
    :literal:
 
 The chart title is the simplest element. In line 9, we change the global font
@@ -359,7 +359,7 @@ Aside from the font configuration, we set an option for all chart
 elements in line 11 - the background color of the current element. This
 results in a gray background only for the title element.
 
-.. image:: img/tutorial_example_10.svg.png
+.. image:: img/tutorial_chart_title.svg.png
    :alt:   Font and title configuration in pie chart
 
 The background element
@@ -368,7 +368,7 @@ The background element
 With all drivers except the Ming (Flash) driver, you can set background images
 with the option to repeat them in the same way as in CSS definitions.
 
-.. include:: tutorial_example_11.php
+.. include:: tutorial/tutorial_chart_background.php
    :literal:
 
 In line 17, we set a background image, and define its position in line 18. You
@@ -385,7 +385,7 @@ worry about the locations of your referenced images.
 With the GD driver, super sampling is not applied to the images, as this would
 make them blurry.
 
-.. image:: img/tutorial_example_11.svg.png
+.. image:: img/tutorial_chart_background.svg.png
    :alt:   Pie chart with logo in background
 
 Of course, you could also apply the following settings to the background
@@ -398,10 +398,10 @@ The legend is shown by default and is automatically generated from the assigned
 data. If you want to disable the legend, you can do this by setting it to
 false (line 9).
 
-.. include:: tutorial_example_12.php
+.. include:: tutorial/tutorial_chart_legend.php
    :literal:
 
-.. image:: img/tutorial_example_12.svg.png
+.. image:: img/tutorial_chart_legend.svg.png
    :alt:   Pie chart without legend
 
 Legend configuration options
@@ -411,7 +411,7 @@ Other than hiding the legend, you can also place it at the bottom, left or top
 in the chart; you can assign a title for the legend and change the symbol
 sizes; you can additionally assign the legend size.
 
-.. include:: tutorial_example_13.php
+.. include:: tutorial/tutorial_legend_options.php
    :literal:
 
 To place the legend at another position on the graph, set the position
@@ -422,7 +422,7 @@ and the portraitSize setting otherwise. The assigned value is the percent
 portion of space taken up by the legend, relative to the size of the chart. The
 legend only displays a title if you manually set it, as shown in line 19.
 
-.. image:: img/tutorial_example_13.svg.png
+.. image:: img/tutorial_legend_options.svg.png
    :alt:   Legend configuration example
 
 Axis
@@ -447,7 +447,7 @@ is intended to display string labels of datasets and uses the centered label
 renderer by default. You saw it in all the earlier examples with bar
 and line charts, but it can be used for both axes as well.
 
-.. include:: tutorial_example_14.php
+.. include:: tutorial/tutorial_axis_labeled.php
    :literal:
 
 You could argue whether such a chart is really useful - but it works. Instead of
@@ -459,7 +459,7 @@ uses the centered axis label renderer by default, which places the labels
 centered next to the steps on the axis. The setting in line 11 forces the 
 renderer to show the zero value, even though it interferes with the axis.
 
-.. image:: img/tutorial_example_14.svg.png
+.. image:: img/tutorial_axis_labeled.svg.png
    :alt:   Two labeled axes
 
 Numeric axis
@@ -469,7 +469,7 @@ The numeric axis is the default for the y-axis. It displays
 numeric data and automatically determines appropriate scaling for the assigned
 values. However, you can also configure all scaling parameters manually.
 
-.. include:: tutorial_example_15.php
+.. include:: tutorial/tutorial_axis_numeric.php
    :literal:
 
 In this example, we force both axes to be numeric axes in line 10. In lines
@@ -478,7 +478,7 @@ minorStep size here, so it will be automatically calculated from the other
 values, as will the settings for the y-axis. Then, we create some random data
 and create two datasets from it as usual.
 
-.. image:: img/tutorial_example_15.svg.png
+.. image:: img/tutorial_axis_numeric.svg.png
    :alt:   Two numeric axes with random data
 
 The example shows one advantage of a numeric axis over a labeled axis for numeric
@@ -492,13 +492,13 @@ Earlier in this tutorial, we used a labeled axis for date time data on the
 x-axis in the wikipedia examples. This works fine for evenly-distributed
 time spans. For other data, you should use the date time axis.
 
-.. include:: tutorial_example_16.php
+.. include:: tutorial/tutorial_axis_datetime.php
    :literal:
 
 You can use timestamps or date time strings as dataset keys. The strings will
 be converted using PHP's strtotime() function. 
 
-.. image:: img/tutorial_example_16.svg.png
+.. image:: img/tutorial_axis_datetime.svg.png
    :alt:   Date axis example
 
 Axis label renderer
@@ -551,7 +551,7 @@ The average polynomial dataset uses an existing dataset with numeric keys and
 builds a polynomial that interpolates the data points in the given dataset using the
 least squares algorithm.
 
-.. include:: tutorial_example_17.php
+.. include:: tutorial/tutorial_dataset_average.php
    :literal:
 
 Here we use two numeric axes, because we only display numeric data in this
@@ -565,7 +565,7 @@ value). You can directly access the polynomial when we add the dataset to the
 graph. The string representation of the polynomial itself is also used as the
 name of the dataset.
 
-.. image:: img/tutorial_example_17.svg.png
+.. image:: img/tutorial_dataset_average.svg.png
    :alt:   Average polynomial example
 
 For the computation of the polynomial, an equation has to be solved where the
@@ -580,7 +580,7 @@ Numeric datasets are used to represent mathematical functions in your chart.
 You can use callbacks to PHP functions, or your own functions or methods to
 define the mathematical function used to create the dataset.
 
-.. include:: tutorial_example_31.php
+.. include:: tutorial/tutorial_dataset_numeric.php
    :literal:
 
 The numeric dataset constructor receives the start value, the end value for
@@ -595,6 +595,9 @@ __ http://php.net/manual/en/language.pseudo-types.php
 The resolution set in line 20 defines the number of steps used to interpolate
 the function in your graph. You should not use a number bigger than the width
 of your chart.
+
+.. image:: img/tutorial_dataset_numeric.svg.png
+   :alt:   Example numeric dataset
 
 Renderer
 ========
@@ -620,7 +623,7 @@ Bar chart rendering options
 All the options specific to bar charts are available for all
 current renderers.
 
-.. include:: tutorial_example_18.php
+.. include:: tutorial/tutorial_bar_chart_options.php
    :literal:
 
 As the 2D renderer is the default renderer, we do not need to specify it. In
@@ -633,13 +636,13 @@ The option dataBorder in line 31 is available for all chart types in all
 renderers and defines the transparency used to draw darkened borders around
 bars or pie segments. In this case, we do not draw any borders.
 
-.. image:: img/tutorial_example_18.svg.png
+.. image:: img/tutorial_bar_chart_options.svg.png
    :alt:   Bar chart rendering options
 
 Pie chart rendering options
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. include:: tutorial_example_19.php
+.. include:: tutorial/tutorial_pie_chart_options.php
    :literal:
 
 One of the pie chart specific options is moveOut in line 21, which defines how
@@ -654,13 +657,13 @@ and the distance from the outer border of the pie chart in line 27.
 In line 29 and 30, a shadow with custom offset and color is added to the pie
 chart.
 
-.. image:: img/tutorial_example_19.svg.png
+.. image:: img/tutorial_pie_chart_options.svg.png
    :alt:   Pie chart rendering options
 
 Pimp my chart
 ~~~~~~~~~~~~~
 
-.. include:: tutorial_example_20.php
+.. include:: tutorial/tutorial_pie_chart_pimped.php
    :literal:
 
 Aside from the gleam added in the last example, you can define a
@@ -670,7 +673,7 @@ types except the circle, where a gleam is not appropriate. The size setting
 defines the size of the gleam as a percentage of the symbol size. In the last step in
 line 34, the gleam color is defined.
 
-.. image:: img/tutorial_example_20.svg.png
+.. image:: img/tutorial_pie_chart_pimped.svg.png
    :alt:   Pimped 2D pie chart
 
 3D renderer
@@ -681,14 +684,14 @@ renderer can do, and uses all the drivers that the 2D renderer uses. The only
 difference is that it generates isometric three-dimensional views on the data
 instead of simple two-dimensional views.
 
-.. include:: tutorial_example_21.php
+.. include:: tutorial/tutorial_renderer_3d.php
    :literal:
 
 This examples uses the same code as the first example, except for the renderer
 in line 17. You can use the 3D renderer with all of the above examples by
 adding this single line.
 
-.. image:: img/tutorial_example_21.svg.png
+.. image:: img/tutorial_renderer_3d.svg.png
    :alt:   Simple 3d pie chart
 
 3D pie charts
@@ -697,7 +700,7 @@ adding this single line.
 The options in the 2D renderer example still work, and we extend the example
 with some 3D renderer-specific options.
 
-.. include:: tutorial_example_22.php
+.. include:: tutorial/tutorial_pie_chart_3d.php
    :literal:
 
 The pieChartGleamBorder option was removed, because it looks a bit strange on
@@ -706,7 +709,7 @@ two new options, which configure the 3D effect of the pie chart. The first one
 defines the height of the pie and the second one defines the percent shrinkage
 compared to the maximum possible vertical size of the pie chart.
 
-.. image:: img/tutorial_example_22.svg.png
+.. image:: img/tutorial_pie_chart_3d.svg.png
    :alt:   Pimped 3D pie chart
 
 3D bar charts
@@ -715,7 +718,7 @@ compared to the maximum possible vertical size of the pie chart.
 3D bar charts use the symbol of the dataset as the basic shape for the
 rendered bar, so that you can render cylinders or cuboids in your charts.
 
-.. include:: tutorial_example_23.php
+.. include:: tutorial/tutorial_bar_chart_3d.php
    :literal:
 
 The symbols for these examples are set as described earlier in this tutorial.
@@ -724,7 +727,7 @@ activated with the default color, and barChartGleam is activated to get more
 beautiful bars. You could optionally darken the tops and sides of the bars using the
 options barDarkenSide and barDarkenTop.
 
-.. image:: img/tutorial_example_23.svg.png
+.. image:: img/tutorial_bar_chart_3d.svg.png
    :alt:   Pimped 3D bar chart
 
 3D line charts
@@ -733,13 +736,13 @@ options barDarkenSide and barDarkenTop.
 The line chart example with the 3D renderer is again quite simple. It reuses the
 example with the statistical data and the approximated polygon.
 
-.. include:: tutorial_example_24.php
+.. include:: tutorial/tutorial_line_chart_3d.php
    :literal:
 
 Again, the only thing that has changed is the use of the 3D renderer and the
 fillLines option (to show that it works for 3D charts as well).
 
-.. image:: img/tutorial_example_24.svg.png
+.. image:: img/tutorial_line_chart_3d.svg.png
    :alt: 3D line chart example
 
 Drivers
@@ -767,10 +770,10 @@ added to a dedicated group; you can then configure all rendering options of the 
 document. The example below shows such a template created with Inkscape_ and a
 simple pie chart rendered using this template.
 
-.. include:: tutorial_example_25.php
+.. include:: tutorial/tutorial_driver_svg.php
    :literal:
 
-.. image:: img/tutorial_example_25.svg.png
+.. image:: img/tutorial_driver_svg.svg.png
    :alt:   SVG driver example with template
 
 .. _SVG: http://www.w3.org/TR/SVG/
@@ -806,10 +809,10 @@ specify the super sampling rate used, and use different output formats (if
 available with your bundled GD extension) as shown in the lines 13 to 15 in the
 following example.
 
-.. include:: tutorial_example_26.php
+.. include:: tutorial/tutorial_driver_gd.php
    :literal:
 
-.. image:: img/tutorial_example_26.jpg
+.. image:: img/tutorial_driver_gd.jpg
    :alt:   GD driver example jpeg
 
 Ming/Flash driver
@@ -823,7 +826,7 @@ effectively. The font size estimation is exact and it support gradients and
 all of the used shapes. Ming does not support the generation of swf files using
 transparent backgrounds.
 
-.. include:: tutorial_example_27.php
+.. include:: tutorial/tutorial_driver_flash.php
    :literal:
 
 The Ming driver does not have a lot of available options. You need to use a
@@ -831,7 +834,7 @@ valid font file, as in line 10, and you can set the
 compression rate used by the Ming driver to compress the resulting swf. The
 result is a `beautiful Flash image`__.
 
-__ img/tutorial_example_27.swf
+__ img/tutorial_driver_flash.swf
 
 Element references
 ==================
@@ -858,7 +861,7 @@ images.
 SVG example
 -----------
 
-.. include:: tutorial_example_28.php
+.. include:: tutorial/tutorial_reference_svg.php
    :literal:
 
 Since ezcGraph 1.1 you can optionally set a custom cursor type used by the
@@ -868,7 +871,7 @@ URLs to the data sets or data points like in the lines 17 and 18 and then
 finally call ezcGraphTools::linkSvgElements (line 23) to modify your SVG. The
 result will be a clickable `SVG image`__.
 
-__ img/tutorial_example_28.svg
+__ img/tutorial_reference_svg.svg
 
 GD example
 ----------
@@ -877,7 +880,7 @@ In the case of GD we want to generate an image map instead of modifying the
 generated image. The driver returns polygons described by their edge
 coordinates, which you can use to generate an image map.
 
-.. include:: tutorial_example_29.php
+.. include:: tutorial/tutorial_reference_gd.php
    :literal:
 
 In line 20 we associate a URL to the complete data set and in line 21 another
@@ -887,7 +890,7 @@ provide a name for the image map, which should be used to associate the image
 map to the image as in line 37. The result is a `linked legend and linked
 pie chart in your generated bitmap`__.
 
-__ img/tutorial_example_29.html
+__ img/tutorial_reference_gd.html
 
 Direct output
 =============
@@ -900,7 +903,7 @@ The ezcGraph::renderToOutput() method sends the correct Content-Type header
 for the selected output driver and writes the chart's image data directly to
 output. Do not output anything before using this method.
 
-.. include:: tutorial_example_30.php
+.. include:: tutorial/tutorial_output.php
    :literal:
 
 This example renders the first graph of this tutorial.

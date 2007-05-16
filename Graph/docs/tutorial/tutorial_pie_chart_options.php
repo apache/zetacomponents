@@ -3,9 +3,9 @@
 require_once 'tutorial_autoload.php';
 
 $graph = new ezcGraphPieChart();
-$graph->palette = new ezcGraphPaletteBlack();
+$graph->palette = new ezcGraphPaletteEzRed();
 $graph->title = 'Access statistics';
-$graph->options->label = '%2$d (%3$.1f%%)';
+$graph->legend = false;
 
 $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
     'Mozilla' => 19113,
@@ -26,15 +26,9 @@ $graph->renderer->options->pieChartGleam = .3;
 $graph->renderer->options->pieChartGleamColor = '#FFFFFF';
 $graph->renderer->options->pieChartGleamBorder = 2;
 
-$graph->renderer->options->pieChartShadowSize = 3;
-$graph->renderer->options->pieChartShadowColor = '#000000';
+$graph->renderer->options->pieChartShadowSize = 5;
+$graph->renderer->options->pieChartShadowColor = '#BABDB6';
 
-$graph->renderer->options->legendSymbolGleam = .5;
-$graph->renderer->options->legendSymbolGleamSize = .9;
-$graph->renderer->options->legendSymbolGleamColor = '#FFFFFF';
-
-$graph->renderer->options->pieChartSymbolColor = '#BABDB688';
-
-$graph->render( 400, 150, 'tutorial_example_20.svg' );
+$graph->render( 400, 150, 'tutorial_pie_chart_options.svg' );
 
 ?>

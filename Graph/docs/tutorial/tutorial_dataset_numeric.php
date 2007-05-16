@@ -19,6 +19,6 @@ $graph->data['sinus'] = new ezcGraphNumericDataSet(
 
 $graph->data['sinus']->resolution = 120;
 
-$graph->render( 400, 150, 'tutorial_example_31.svg' );
+$graph->render( 400, 150, 'tutorial_dataset_numeric.svg' );
 
 ?>

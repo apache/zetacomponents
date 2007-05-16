@@ -23,6 +23,13 @@ $graph->options->highlightFont->background = '#EEEEEC88';
 $graph->options->highlightFont->border = '#000000';
 $graph->options->highlightFont->borderWidth = 1;
 
-$graph->render( 400, 150, 'tutorial_example_06.svg' );
+// $graph->renderer = new ezcGraphRenderer2d();
+
+$graph->renderer->options->barMargin = .2;
+$graph->renderer->options->barPadding = .2;
+
+$graph->renderer->options->dataBorder = 0;
+
+$graph->render( 400, 150, 'tutorial_bar_chart_options.svg' );
 
 ?>

@@ -3,6 +3,7 @@
 require_once 'tutorial_autoload.php';
 
 $graph = new ezcGraphPieChart();
+$graph->palette = new ezcGraphPaletteEz();
 $graph->title = 'Access statistics';
 
 $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
@@ -12,8 +13,11 @@ $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
     'Safari' => 652,
     'Konqueror' => 474,
 ) );
-$graph->data['Access statistics']->highlight['Opera'] = true;
 
-$graph->render( 400, 150, 'tutorial_example_01.svg' );
+$graph->legend->position = ezcGraph::BOTTOM;
+$graph->legend->landscapeSize = .3;
+$graph->legend->title = 'Legend';
+
+$graph->render( 400, 150, 'tutorial_legend_options.svg' );
 
 ?>
