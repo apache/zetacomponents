@@ -215,6 +215,55 @@ line and bar charts.
 .. image:: img/tutorial_bar_options.svg.png
    :alt:   Configured highlight in combined line and bar chart
 
+Radar charts
+------------
+
+Radar charts are very similar to line charts, but only with one axis, which
+will be drawn multiple times, rotated around the center point of the chart.
+
+.. include:: tutorial/tutorial_radar_chart.php
+   :literal:
+
+This again is one of the simplest ways to create a radar chart. Nearly all
+options described later are also available in radar charts. The basic
+difference is, that a ezcGraphRadarChart object is created in line 6. The
+radar charts accept multiple data sets, like bar and line charts. In line 14
+the first element of the data set is reassigned as the last element to close
+the circle. You may also not reassign this value to get a radar chart where
+the tails do join.
+
+.. image:: img/tutorial_radar_chart.svg.png
+   :alt:   Simple radar chart
+
+Controlling radar axis
+~~~~~~~~~~~~~~~~~~~~~~
+
+Instead of having a x and a y axis the radar chart has a main axis, which is
+the aequivalent to the y axis in the other charts, and a rotation axis, the
+aequivalent of the x axis. The steps on the rotation axis define the positions
+of the rotated main axis. This way you may use all available data sets and
+axis.
+
+.. include:: tutorial/tutorial_complex_radar_chart.php
+   :literal:
+
+The settings on the graph will be explained later in the tutorial in detail.
+In line 11 the type of the rotation axis is set to a numeric axis, which is
+explained in "Chart elements" -> "Axis".
+
+For line 15 to 23 a first data set is added with some random data. On the base
+of this data a new data set is build which calculates a polynomial
+interpolation function on the data. This is described in more detail in the
+section "Datasets" -> "Average polynomial dataset". Finally the default colors
+and symbols from the palette are modified.
+
+.. image:: img/tutorial_complex_radar_chart.svg.png
+   :alt:   Complex radar chart
+
+The resulting radar chart shows how minor steps on the rotation axis are drawn
+as grayed out axis and major steps as regular axis. It also obvious that all
+types of data sets can be drawn using radar charts.
+
 Palettes
 ========
 
