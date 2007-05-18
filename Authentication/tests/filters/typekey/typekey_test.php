@@ -17,6 +17,8 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
 {
     public static $token = '391jbj25WAQANzJrKvb5';
     public static $keysFile = 'http://www.typekey.com/extras/regkeys.txt';
+    public static $keysFileMissing = '/tmp/this file cannot possibly exist';
+    public static $keysFileUrlMissing = 'http://localhost/this file cannot possibly exist';
 
     public static $response = array(
         'name' => 'ezc',
@@ -233,6 +235,59 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
         $this->removeTempDir();
     }
 
+    public function testTypekeyPublicKeysFileMissing()
+    {
+        $path = self::$keysFileMissing;
+        $options = new ezcAuthenticationTypekeyOptions();
+        try
+        {
+            $options->keysFile = $path;
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseFileNotFoundException $e )
+        {
+            $expected = "The file '{$path}' could not be found.";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testTypekeyPublicKeysFileUrlMissing()
+    {
+        $path = self::$keysFileUrlMissing;
+        $options = new ezcAuthenticationTypekeyOptions();
+        try
+        {
+            $options->keysFile = $path;
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseFileNotFoundException $e )
+        {
+            $expected = "The file '{$path}' could not be found.";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testTypekeyPublicKeysFileNoPermission()
+    {
+        $tempDir = $this->createTempDir( 'ezcAuthenticationTypekeyTest' );
+        $path = $tempDir . "/keys_unreadable.txt";
+        $fh = fopen( $path, "wb" );
+        fwrite( $fh, "some contents" );
+        fclose( $fh );
+        chmod( $path, 0 );
+        try
+        {
+            $options = new ezcAuthenticationTypekeyOptions();
+            $options->keysFile = $path;
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseFilePermissionException $e )
+        {
+            $this->assertEquals( "The file '{$path}' can not be opened for reading.", $e->getMessage() );
+        }
+        $this->removeTempDir();
+    }
+
     public function testTypekeyOptions()
     {
         $options = new ezcAuthenticationTypekeyOptions();
@@ -255,6 +310,16 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
         catch ( ezcBaseValueException $e )
         {
             $this->assertEquals( "The value '' that you were trying to assign to setting 'keysFile' is invalid. Allowed values are: string.", $e->getMessage() );
+        }
+
+        try
+        {
+            $options->requestSource = null;
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( "The value '' that you were trying to assign to setting 'requestSource' is invalid. Allowed values are: array.", $e->getMessage() );
         }
 
         try

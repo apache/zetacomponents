@@ -18,6 +18,7 @@
  * $options = new ezcAuthenticationTypekeyOptions();
  * $options->validity = 60;
  * $options->keysFile = '/tmp/typekey_keys.txt';
+ * $options->requestSource = $_POST;
  *
  * // use the options object when creating a new TypeKey filter
  * $filter = new ezcAuthenticationTypekeyFilter( $options );
@@ -41,6 +42,9 @@
  *           Developers can save the file locally once per day to improve the
  *           speed of the TypeKey authentication (which reads this file
  *           at every authentication attempt).
+ * @property array(string=>mixed) $requestSource
+ *           From where to get the parameters returned by the TypeKey server.
+ *           Default is $_GET.
  *
  * @package Authentication
  * @version //autogen//
@@ -54,12 +58,17 @@ class ezcAuthenticationTypekeyOptions extends ezcAuthenticationFilterOptions
      *         if $options contains a property not defined
      * @throws ezcBaseValueException
      *         if $options contains a property with a value not allowed
+     * @throws ezcBaseFileNotFoundException
+     *         if the $value file does not exist
+     * @throws ezcBaseFilePermissionException
+     *         if the $value file cannot be opened for reading
      * @param array(string=>mixed) $options
      */
     public function __construct( array $options = array() )
     {
         $this->validity = 0; // seconds
         $this->keysFile = 'http://www.typekey.com/extras/regkeys.txt';
+        $this->requestSource = ( $_GET !== null ) ? $_GET : array();
 
         parent::__construct( $options );
     }
@@ -71,6 +80,10 @@ class ezcAuthenticationTypekeyOptions extends ezcAuthenticationFilterOptions
      *         if the property $name is not defined
      * @throws ezcBaseValueException
      *         if $value is not correct for the property $name
+     * @throws ezcBaseFileNotFoundException
+     *         if the $value file does not exist
+     * @throws ezcBaseFilePermissionException
+     *         if the $value file cannot be opened for reading
      * @param string $name
      * @param mixed $value
      * @ignore
@@ -91,6 +104,37 @@ class ezcAuthenticationTypekeyOptions extends ezcAuthenticationFilterOptions
                 if ( !is_string( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'string' );
+                }
+
+                if ( strpos( $value, '://' ) === false )
+                {
+                    // if $value is not an URL
+                    if ( !file_exists( $value ) )
+                    {
+                        throw new ezcBaseFileNotFoundException( $value );
+                    }
+
+                    if ( !is_readable( $value ) )
+                    {
+                        throw new ezcBaseFilePermissionException( $value, ezcBaseFileException::READ );
+                    }
+                }
+                else
+                {
+                    // if $value is an URL
+                    $headers = @get_headers( $value );
+                    if ( strpos( $headers[0], '404 Not Found' ) !== false )
+                    {
+                        throw new ezcBaseFileNotFoundException( $value );
+                    }
+                }
+                $this->properties[$name] = $value;
+                break;
+
+            case 'requestSource':
+                if ( !is_array( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'array' );
                 }
                 $this->properties[$name] = $value;
                 break;

@@ -55,7 +55,7 @@
  *        server's timestamp to make sure the login is in a reasonable
  *        time window (specified by the validity option). Don't use a too small
  *        value for validity, because servers are not always synchronized.
- *   email = sha1 hash of "mailto:{$mail}", where $mail is the mail address
+ *   email = sha1 hash of "mailto:$mail", where $mail is the mail address
  *           used to register with TypeKey.
  *   nick = TypeKey nickname/display name.
  *   sig = signature which must be validated by the TypeKey filter.
@@ -290,14 +290,15 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
      */
     public function run( $credentials )
     {
-        if ( isset( $_GET['name'] ) && isset( $_GET['email'] ) && isset( $_GET['nick'] ) && isset( $_GET['ts'] ) && isset( $_GET['sig'] ) )
+        $source = $this->options->requestSource;
+        if ( isset( $source['name'] ) && isset( $source['email'] ) && isset( $source['nick'] ) && isset( $source['ts'] ) && isset( $source['sig'] ) )
         {
             // parse the response URL sent by the TypeKey server
-            $id = isset( $_GET['name'] ) ? $_GET['name'] : null;
-            $mail = isset( $_GET['email'] ) ? $_GET['email'] : null;
-            $nick = isset( $_GET['nick'] ) ? $_GET['nick'] : null;
-            $timestamp = isset( $_GET['ts'] ) ? $_GET['ts'] : null;
-            $signature = isset( $_GET['sig'] ) ? $_GET['sig'] : null;
+            $id = isset( $source['name'] ) ? $source['name'] : null;
+            $mail = isset( $source['email'] ) ? $source['email'] : null;
+            $nick = isset( $source['nick'] ) ? $source['nick'] : null;
+            $timestamp = isset( $source['ts'] ) ? $source['ts'] : null;
+            $signature = isset( $source['sig'] ) ? $source['sig'] : null;
         }
         else
         {
@@ -317,46 +318,6 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
             return self::STATUS_OK;
         }
         return self::STATUS_SIGNATURE_INCORRECT;
-    }
-
-    /**
-     * Fetches the public keys from the specified file or URL $file.
-     *
-     * The file must be composed of space-separated values for p, g, q, and
-     * pub_key, like this:
-     *   p=<value> g=<value> q=<value> pub_key=<value>
-     *
-     * The format of the returned array is:
-     * <code>
-     *   array( 'p' => p_val, 'g' => g_val, 'q' => q_val, 'pub_key' => pub_key_val )
-     * </code>
-     *
-     * @todo file_exist() and is_readable() tests before reading from $file
-     *       Question: are this tests reliable for URLs also? accessing a broken
-     *       URL results in a 404 document which exists and is readable.
-     *
-     * @throws ezcAuthenticationTypekeyException
-     *         if the keys from the TypeKey public keys file could not be fetched
-     * @return array(string=>string)
-     */
-    protected function fetchPublicKeys( $file )
-    {
-        $data = @file_get_contents( $file );
-        if ( empty( $data ) )
-        {
-            throw new ezcAuthenticationTypekeyException( "Could not fetch public keys from '{$file}'." );
-        }
-        $lines = explode( ' ', trim( $data ) );
-        foreach ( $lines as $line )
-        {
-            $val = explode( '=', $line );
-            if ( count( $val ) < 2 )
-            {
-                throw new ezcAuthenticationTypekeyException( "The data retrieved from '{$file}' is invalid." );
-            }
-            $keys[$val[0]] = $val[1];
-        }
-        return $keys;
     }
 
     /**
@@ -394,6 +355,42 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
         $v = $lib->mod( $lib->mod( $v, $keys['p'] ), $keys['q'] );
 
         return ( $lib->cmp( $v, $s1 ) === 0 );
+    }
+
+    /**
+     * Fetches the public keys from the specified file or URL $file.
+     *
+     * The file must be composed of space-separated values for p, g, q, and
+     * pub_key, like this:
+     *   p=<value> g=<value> q=<value> pub_key=<value>
+     *
+     * The format of the returned array is:
+     * <code>
+     *   array( 'p' => p_val, 'g' => g_val, 'q' => q_val, 'pub_key' => pub_key_val )
+     * </code>
+     *
+     * @throws ezcAuthenticationTypekeyException
+     *         if the keys from the TypeKey public keys file could not be fetched
+     * @return array(string=>string)
+     */
+    protected function fetchPublicKeys( $file )
+    {
+        $data = @file_get_contents( $file );
+        if ( empty( $data ) )
+        {
+            throw new ezcAuthenticationTypekeyException( "Could not fetch public keys from '{$file}'." );
+        }
+        $lines = explode( ' ', trim( $data ) );
+        foreach ( $lines as $line )
+        {
+            $val = explode( '=', $line );
+            if ( count( $val ) < 2 )
+            {
+                throw new ezcAuthenticationTypekeyException( "The data retrieved from '{$file}' is invalid." );
+            }
+            $keys[$val[0]] = $val[1];
+        }
+        return $keys;
     }
 }
 ?>
