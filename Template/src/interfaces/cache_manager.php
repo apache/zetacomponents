@@ -135,17 +135,13 @@ interface ezcTemplateCacheManager
      *
      * The startCaching method commonly performs the following steps, of course it's up to your application:
      *
-     * 1. Make sure that the CacheManager::register() method is called when certain values (e.g. from the database) 
-     *    are requested. A small speed up could be to only call the register() method when the cache files are 
-     *    created. The ezcSignalSlot component is suitable for this purpose.
-     *
-     * 2  Register the cache file in the cache_file table of the database. If the cache file is available set
+     * 1  Register the cache file in the cache_file table of the database. If the cache file is available set
      *    the expired status to 0. Otherwise add the cache to the table, with a new id and expired set to 0.
      *
-     * 3. Push the current cache information: cacheKeys, templatePath, Template object on an internal stack. Other
+     * 2. Push the current cache information: cacheKeys, templatePath, Template object on an internal stack. Other
      *    CacheManager methods need this information.
      *
-     * 4. Store the current template path in a database table that handles the included templates. The current
+     * 3. Store the current template path in a database table that handles the included templates. The current
      *    template includes 'itself'. This makes it easier to mark the this cache outdated.
      *
      *
@@ -153,16 +149,10 @@ interface ezcTemplateCacheManager
      * signals to the register method:
      *
      * <code>
-     * // (1)
-     * // Connects the signal "ezcTemplateCacheRead" emited by the ezcSignalCollection 
-     * // with the identifier "TemplateCaching" to the CacheManager::register() slot.
-     * ezcSignalStaticConnections::getInstance()->connect( "TemplateCaching", "ezcTemplateCacheRead", 
-     *     array( ezcTemplateConfiguration::getInstance()->cacheManager, "register" ) );
-     *
      * // Get the current database handler.
      * $db = ezcDbInstance::get();
      *
-     * // (2)
+     * // (1)
      * // Get the current cache ID, if it does exist. 
      * $q = $db->prepare("SELECT id FROM cache_files WHERE cache = :cache" );
      * $q->bindValue( ":cache", $cachePath );
@@ -187,7 +177,7 @@ interface ezcTemplateCacheManager
      *     $q->execute();
      *     $id = $db->lastInsertId();
      *
-     *     // (4)
+     *     // (3)
      *     // Insert your own template in the value table.
      *     $q = $db->prepare("REPLACE INTO cache_values VALUES(:id, :name, :value)" ); 
      *     $q->bindValue( ":id", $id );
@@ -196,7 +186,7 @@ interface ezcTemplateCacheManager
      *     $q->execute();
      * }
      *
-     * // (3)
+     * // (2)
      * // Depth keeps track of the amount of caches stored on the stack.
      * $this->depth++;
      * array_push( $this->keys, array( "cache_path" => $cachePath, "cache_id" => $id));
@@ -218,14 +208,9 @@ interface ezcTemplateCacheManager
      * The stopCaching method is called by the Template Engine when the cache file is created.
      *
      * The current cache information: cacheKeys, templatePath, Template object can be popped from the 
-     * internal stack. If you use an ezcSignalSlot approach, disconnect the signals to the register() method.
-     * Both steps are demonstrated in the following code:
+     * internal stack. This is demonstrated in the following code:
      *
      * <code>
-     * // Disconnect
-     * ezcSignalStaticConnections::getInstance()->disconnect( "TemplateCaching", "ezcTemplateCacheRead", 
-     *     array( ezcTemplateConfiguration::getInstance()->cacheManager, "register" ) );
-     *
      * // Remove the current template cache in process.
      * $this->depth--;
      * array_pop( $this->keys );
@@ -298,7 +283,7 @@ interface ezcTemplateCacheManager
      *
      * <code>
      * $db = ezcDbInstance::get();
-     * for($i = 0; $i < $this->depth; $i++)
+     * for($i = 0; $i <= $this->depth; $i++)
      * { 
      *     $s = $db->prepare( "REPLACE INTO cache_values VALUES ( :id, :name, :value )" );
      *     $s->bindValue( ":id", $this->keys[$i]["cache_id"] );
@@ -312,7 +297,7 @@ interface ezcTemplateCacheManager
      * created. Notice that the amount of cache files on the stack only increases with a 'template include' to another
      * cache file.
      *
-     * In the cache_values table maps a name, value to an id. The update() method uses this information.
+     * In the cache_values table maps a name, value to an ID. The update() method uses this information.
      *
      * @param string $name
      * @param string $value

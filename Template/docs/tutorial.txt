@@ -2540,18 +2540,21 @@ change the data of one user.
     value changes that is possibly used inside the templates. The snippet below 
     modifies the user name. :: 
 
-        $db = ezcDbInstance::get();
-        $q = $db->createUpdateQuery();
+        public static function updateUser($id)
+        {
+            $db = ezcDbInstance::get();
+            $q = $db->createUpdateQuery();
 
-        $q->update( "user" )->set( "email", $q->bindValue( "bernard@example.com" ) )->where( $q->expr->eq( 'id', $id ) );
-        $st = $q->prepare();
-        $st->execute();
+            $q->update( "user" )->set( "email", $q->bindValue( "bernard@example.com" ) )->where( $q->expr->eq( 'id', $id ) );
+            $st = $q->prepare();
+            $st->execute();
 
-        // Update the users.
-        ezcTemplateConfiguration::getInstance()->cacheManager->update("user", $id );
+            // Update the users.
+            ezcTemplateConfiguration::getInstance()->cacheManager->update("user", $id );
+        }
 
     Most important is the last line, updating the user with the ID: $id. The
-    update method can be implemented like: ::
+    *CacheManager::update* method can be implemented like: ::
 
          public function update($name, $value)
          {
@@ -2627,10 +2630,100 @@ problem for now. The following sections explain other problems that can be solve
 using the cache manager.
 
 
-Signal-slots
-````````````
-The previous section did not use any  
+Loose coupling
+``````````````
+In the previous section we explained that the cache manager should be informed
+when data used in the templates is requested or altered. This requirement
+enforces strong dependencies, everywhere in the application code are function
+calls to the cache manager. 
 
+The previous section uses the following two example functions inside the user
+application to update the cache manager:: 
+
+        public static function fetch( $object, $id )
+        {
+            $db = ezcDbInstance::get();
+            $s = $db->createSelectQuery();
+            $s->select("*")->from($object)->where( $s->expr->eq( "id", $id ) );
+
+            $statement = $s->prepare();
+            $statement->execute();
+
+            $result = $statement->fetchAll();
+
+            // Inform the cache manager
+            ezcTemplateConfiguration::getInstance()->cacheManager->register($object, $result[0]["id"] );
+        }
+
+        public static function updateUser( $id )
+        {
+            $db = ezcDbInstance::get();
+            $q = $db->createUpdateQuery();
+
+            $q->update( "user" )->set( "email", $q->bindValue( "bernard@example.com" ) )->where( $q->expr->eq( 'id', $id ) );
+            $st = $q->prepare();
+            $st->execute();
+
+            // Update the users.
+            ezcTemplateConfiguration::getInstance()->cacheManager->update("user", $id );
+        }
+
+
+The call to the *register* and *update* methods are making dependencies with the
+cache manager. These method calls can be replaced with a signal from the SignalSlot
+component. See the following example code::
+
+        public static function fetch( $object, $id )
+        {
+            $db = ezcDbInstance::get();
+            // ...
+            $result = $statement->fetchAll();
+
+            if( $object == "user")
+            {
+                User::signals()->emit("fetched", "user", $results[0]["id"]);
+            }
+        }
+
+        public static function updateUser( $id )
+        {
+            $db = ezcDbInstance::get();
+            // ... 
+            $st->execute();
+
+            User::signals()->emit("updated", "user", $id);
+        }
+
+The emitted signal describes what just has happened. E.g. There is a user
+updated with id number $id. This signal can be used not only for the cache
+manager but also for e.g. logging.
+
+The *User::signals()* method returns an ezcSignalCollection that belongs to the
+User objects. Everytime a user is read or changed a signal is sent. The
+*signals* method can be implemented as follows::
+
+    public static function signals()
+    {
+        if( self::$signals == null )
+        {
+            self::$signals = new ezcSignalCollection(__CLASS__);
+        }
+
+        return self::$signals;
+    }
+
+
+The next step is to connect the signals to the cache manager. The connection
+should be done at a place before the Template is processed. For example in the
+*index.php* file. Creating the connections can be done like::
+
+    $tc = ezcTemplateConfiguration::getInstance();
+    User::signals()->connect( "fetched", array($tc->cacheManager, "register") );
+    User::signals()->connect( "updated", array($tc->cacheManager, "update") );
+
+The signal *fetched* from the *User* object is connected to the *register*
+method from the cache manager. And the *update* signal is connected to the *update*
+method from the cache manager.
 
 
 Including templates
