@@ -29,6 +29,39 @@ and the Base component.
 Usage
 =====
 
+Debugging
+---------
+
+By default the ezcBase component's autoload mechanism will not throw an
+exception when an autoload class can not be found. In some cases (during
+development) it is useful to have an exception with detailed information
+about which autoload files where search for, and in which directories.
+ezcBase supports an option that enables this behavior::
+
+    <?php
+    $options = new ezcBaseAutoloadOptions;
+    $options->debug = true;
+    ezcBase::setOptions( $options );
+    ?>
+
+Preloading
+----------
+
+The default autoload policy of the eZ Components is to load every class
+file on demand only. It is also possible to load all classes of one
+component at the same time, when one of the component's classes is 
+requested for the first time. You can change this behavior with the
+"preload" option that is available through the ezcBaseAutoloadOptions option
+class. You can turn preloading on with::
+
+    <?php
+    $options = new ezcBaseAutoloadOptions;
+    $options->preload = true;
+    ezcBase::setOptions( $options );
+    ?>
+
+Please note that preloading will *not* be done for Exception classes.
+
 Adding class repositories located outside eZ Components to autoload system
 --------------------------------------------------------------------------
 
