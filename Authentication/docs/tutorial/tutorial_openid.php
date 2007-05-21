@@ -24,50 +24,23 @@ if ( !$authentication->run() )
 {
     // authentication did not succeed, so inform the user
     $status = $authentication->getStatus();
-    $err = array();
-    $err["user"] = "";
-    $err["session"] = "";
+    $err = array(
+             ezcAuthenticationOpenidFilter::STATUS_SIGNATURE_INCORRECT => 'OpenID said the provided identifier was incorrect',
+             ezcAuthenticationOpenidFilter::STATUS_CANCELLED => 'The OpenID authentication was cancelled',
+             ezcAuthenticationOpenidFilter::STATUS_URL_INCORRECT => 'The identifier you provided is invalid',
+             ezcAuthenticationSessionFilter::STATUS_EXPIRED => 'Session expired'
+             );
     for ( $i = 0; $i < count( $status ); $i++ )
     {
         list( $key, $value ) = each( $status[$i] );
-        switch ( $key )
-        {
-            case 'ezcAuthenticationOpenidFilter':
-                if ( $value === ezcAuthenticationOpenidFilter::STATUS_SIGNATURE_INCORRECT )
-                {
-                    $err["user"] = "<span class='error'>OpenID said the provided identifier was incorrect.</span>";
-                }
-                if ( $value === ezcAuthenticationOpenidFilter::STATUS_CANCELLED )
-                {
-                    $err["user"] = "<span class='error'>The OpenID authentication was cancelled, please re-login.</span>";
-                }
-                if ( $value === ezcAuthenticationOpenidFilter::STATUS_URL_INCORRECT )
-                {
-                    $err["user"] = "<span class='error'>The identifier you provided is empty or invalid. It must be a URL (eg. www.example.com or http://www.example.com)</span>";
-                }
-                break;
-
-            case 'ezcAuthenticationSessionFilter':
-                if ( $value === ezcAuthenticationSessionFilter::STATUS_EXPIRED )
-                {
-                    $err["session"] = "<span class='error'>Session expired</span>";
-                }
-                break;
-        }
+        echo $err[$value];
     }
 ?>
-
-<style>
-.error {
-    color: #FF0000;
-}
-</style>
 Please login with your OpenID identifier (an URL, eg. www.example.com or http://www.example.com):
 <form method="GET" action="">
 <input type="hidden" name="action" value="login" />
 <img src="http://openid.net/login-bg.gif" /> <input type="text" name="openid_identifier" />
 <input type="submit" value="Login" />
-<?php echo $err["user"]; ?> <?php echo $err["session"]; ?>
 </form>
 
 <?php

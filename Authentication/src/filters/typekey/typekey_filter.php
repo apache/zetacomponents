@@ -83,36 +83,17 @@
  *
  * if ( !$authentication->run() )
  * {
- *     echo "<b>Not logged-in</b>. ";
  *     // authentication did not succeed, so inform the user
  *     $status = $authentication->getStatus();
+ *     $err = array(
+ *              ezcAuthenticationTypekeyFilter::STATUS_SIGNATURE_INCORRECT => 'Signature returned by TypeKey is incorrect',
+ *              ezcAuthenticationTypekeyFilter::STATUS_SIGNATURE_EXPIRED => 'The signature returned by TypeKey expired',
+ *              ezcAuthenticationSessionFilter::STATUS_EXPIRED => 'Session expired'
+ *              );
  *     for ( $i = 0; $i < count( $status ); $i++ )
  *     {
  *         list( $key, $value ) = each( $status[$i] );
- *         switch ( $key )
- *         {
- *             case 'ezcAuthenticationTypekeyFilter':
- *                 if ( $value === ezcAuthenticationTypekeyFilter::STATUS_SIGNATURE_INCORRECT )
- *                 {
- *                     echo "Signature returned by TypeKey is incorrect.";
- *                 }
- *                 if ( $value === ezcAuthenticationTypekeyFilter::STATUS_SIGNATURE_EXPIRED )
- *                 {
- *                     echo "Did not login in a reasonable amount of time. The application server and the TypeKey server might be desynchronized.";
- *                 }
- *                 break;
- * 
- *             case 'ezcAuthenticationSessionFilter':
- *                 if ( $value === ezcAuthenticationSessionFilter::STATUS_EXPIRED )
- *                 {
- *                     echo "Session expired.";
- *                 }
- *                 if ( $value === ezcAuthenticationSessionFilter::STATUS_EMPTY )
- *                 {
- *                     echo "Session empty.";
- *                 }
- *                 break;
- *         }
+ *         echo $err[$value];
  *     }
  * ?>
  * <!-- OnSubmit hack to append the value of t to the _return value, to pass

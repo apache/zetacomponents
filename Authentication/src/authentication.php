@@ -23,7 +23,7 @@
  *
  * The credentials property will be passed to all the filters in the queue.
  *
- * Example:
+ * Example (using the Htpasswd filter):
  * <code>
  * $credentials = new ezcAuthenticationPasswordCredentials( 'jan.modaal', 'b1b3773a05c0ed0176787a4f1574ff0075f7521e' );
  * $authentication = new ezcAuthentication( $credentials );
@@ -34,28 +34,15 @@
  * {
  *     // authentication did not succeed, so inform the user
  *     $status = $authentication->getStatus();
- *     $err = array();
- *     $err["user"] = "";
- *     $err["password"] = "";
+ *     $err = array(
+ *              ezcAuthenticationHtpasswdFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
+ *              ezcAuthenticationHtpasswdFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password'
+ *              );
  *     for ( $i = 0; $i < count( $status ); $i++ )
  *     {
  *         list( $key, $value ) = each( $status[$i] );
- *         switch ( $key )
- *         {
- *             case 'ezcAuthenticationHtpasswdFilter':
- *                 if ( $value === ezcAuthenticationHtpasswdFilter::STATUS_USERNAME_INCORRECT )
- *                 {
- *                     $err["user"] = "<span class='error'>Username incorrect</span>";
- *                 }
- *                 if ( $value === ezcAuthenticationHtpasswdFilter::STATUS_PASSWORD_INCORRECT )
- *                 {
- *                     $err["password"] = "<span class='error'>Password incorrect</span>";
- *                 }
- *                 break;
- *         }
+ *         echo $err[$value];
  *     }
- *     // use $err array (with a Template object for example) to display the login form
- *     // to the user with "Password incorrect" message next to the password field, etc...
  * }
  * else
  * {
@@ -107,7 +94,6 @@ class ezcAuthentication
     public function __construct( ezcAuthenticationCredentials $credentials, ezcAuthenticationOptions $options = null )
     {
         $this->credentials = $credentials;
-        $this->sessionSkip = false;
         $this->status = new ezcAuthenticationStatus();
         $this->options = ( $options === null ) ? new ezcAuthenticationOptions() : $options;
     }
@@ -160,10 +146,6 @@ class ezcAuthentication
                 }
                 break;
 
-            case 'sessionSkip':
-                $this->properties[$name] = $value;
-                break;
-
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
         }
@@ -185,7 +167,6 @@ class ezcAuthentication
             case 'session':
             case 'status':
             case 'credentials':
-            case 'sessionSkip':
                 return $this->properties[$name];
 
             default:
@@ -207,7 +188,6 @@ class ezcAuthentication
             case 'session':
             case 'status':
             case 'credentials':
-            case 'sessionSkip':
                 return isset( $this->properties[$name] );
 
             default:
@@ -243,12 +223,12 @@ class ezcAuthentication
     public function run()
     {
         $code = ezcAuthenticationFilter::STATUS_OK;
-        if ( isset( $this->session ) && $this->sessionSkip === false )
+        if ( isset( $this->session ) )
         {
             $code = $this->session->run( $this->credentials );
             $this->status->append( get_class( $this->session ), $code );
         }
-        if ( !isset( $this->session ) || $code === ezcAuthenticationSessionFilter::STATUS_EMPTY || $this->sessionSkip === true )
+        if ( !isset( $this->session ) || $code === ezcAuthenticationSessionFilter::STATUS_EMPTY )
         {
             foreach ( $this->filters as $filter )
             {

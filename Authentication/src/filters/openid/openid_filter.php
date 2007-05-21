@@ -54,50 +54,23 @@
  * {
  *     // authentication did not succeed, so inform the user
  *     $status = $authentication->getStatus();
- *     $err = array();
- *     $err["user"] = "";
- *     $err["session"] = "";
+ *     $err = array(
+ *              ezcAuthenticationOpenidFilter::STATUS_SIGNATURE_INCORRECT => 'OpenID said the provided identifier was incorrect',
+ *              ezcAuthenticationOpenidFilter::STATUS_CANCELLED => 'The OpenID authentication was cancelled',
+ *              ezcAuthenticationOpenidFilter::STATUS_URL_INCORRECT => 'The identifier you provided is invalid',
+ *              ezcAuthenticationSessionFilter::STATUS_EXPIRED => 'Session expired'
+ *              );
  *     for ( $i = 0; $i < count( $status ); $i++ )
  *     {
  *         list( $key, $value ) = each( $status[$i] );
- *         switch ( $key )
- *         {
- *             case 'ezcAuthenticationOpenidFilter':
- *                 if ( $value === ezcAuthenticationOpenidFilter::STATUS_SIGNATURE_INCORRECT )
- *                 {
- *                     $err["user"] = "<span class='error'>OpenID said the provided identifier was incorrect.</span>";
- *                 }
- *                 if ( $value === ezcAuthenticationOpenidFilter::STATUS_CANCELLED )
- *                 {
- *                     $err["user"] = "<span class='error'>The OpenID authentication was cancelled, please re-login.</span>";
- *                 }
- *                 if ( $value === ezcAuthenticationOpenidFilter::STATUS_URL_INCORRECT )
- *                 {
- *                     $err["user"] = "<span class='error'>The identifier you provided is empty or invalid. It must be a URL (eg. www.example.com or http://www.example.com)</span>";
- *                 }
- *                 break;
- *
- *             case 'ezcAuthenticationSessionFilter':
- *                 if ( $value === ezcAuthenticationSessionFilter::STATUS_EXPIRED )
- *                 {
- *                     $err["session"] = "<span class='error'>Session expired</span>";
- *                 }
- *                 break;
- *         }
+ *         echo $err[$value];
  *     }
  * ?>
- *
- * <style>
- * .error {
- *     color: #FF0000;
- * }
- * </style>
  * Please login with your OpenID identifier (an URL, eg. www.example.com or http://www.example.com):
  * <form method="GET" action="">
  * <input type="hidden" name="action" value="login" />
  * <img src="http://openid.net/login-bg.gif" /> <input type="text" name="openid_identifier" />
  * <input type="submit" value="Login" />
- * <?php echo $err["user"]; ?> <?php echo $err["session"]; ?>
  * </form>
  *
  * <?php
@@ -114,6 +87,7 @@
  * </code>
  *
  * Specifications:
+ *  - OpenID 1.0: {@link http://openid.net/specs/openid-simple-registration-extension-1_0.html}
  *  - OpenID 1.1: {@link http://openid.net/specs/openid-authentication-1_1.html}
  *  - OpenID 2.0: {@link http://openid.net/specs/openid-authentication-2_0-11.html}
  *  - Yadis  1.0: {@link http://yadis.org}
@@ -172,7 +146,8 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
      */
     public function run( $credentials )
     {
-        $mode = isset( $_GET['openid_mode'] ) ? strtolower( $_GET['openid_mode'] ) : null;
+        $source = $this->options->requestSource;
+        $mode = isset( $source['openid_mode'] ) ? strtolower( $source['openid_mode'] ) : null;
         switch ( $mode )
         {
             case null:
@@ -210,11 +185,11 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
                 break;
 
             case 'id_res':
-                $assocHandle = isset( $_GET['openid_assoc_handle'] ) ? $_GET['openid_assoc_handle'] : null;
-                $identity = isset( $_GET['openid_identity'] ) ? $_GET['openid_identity'] : null;
-                $returnTo = isset( $_GET['openid_return_to'] ) ? $_GET['openid_return_to'] : null;
-                $sig = isset( $_GET['openid_sig'] ) ? $_GET['openid_sig'] : null;
-                $signed = isset( $_GET['openid_signed'] ) ? $_GET['openid_signed'] : null;
+                $assocHandle = isset( $source['openid_assoc_handle'] ) ? $source['openid_assoc_handle'] : null;
+                $identity = isset( $source['openid_identity'] ) ? $source['openid_identity'] : null;
+                $returnTo = isset( $source['openid_return_to'] ) ? $source['openid_return_to'] : null;
+                $sig = isset( $source['openid_sig'] ) ? $source['openid_sig'] : null;
+                $signed = isset( $source['openid_signed'] ) ? $source['openid_signed'] : null;
 
                 $params = array(
                     'openid.assoc_handle' => urlencode( $assocHandle ),
@@ -223,23 +198,30 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
                     'openid.mode' => 'check_authentication'
                 );
 
-                // send only required parameters to confirm validity
         		$signed = explode( ',', str_replace( 'sreg.', 'sreg_', $signed ) );
                 for ( $i = 0; $i < count( $signed ); $i++ )
                 {
                     $s = str_replace( 'sreg_', 'sreg.', $signed[$i] );
-                    $c = $_GET['openid_' . $signed[$i]];
+                    $c = $source['openid_' . $signed[$i]];
                     $params['openid.' . $s] = isset( $params['openid.' . $s] ) ? $params['openid.' . $s] : urlencode( $c );
                 }
                 // @todo add support for OpenID 1.0 optional and required parameters
 
-                // @todo cache this somewhere (in the request URL for example)
-                $providers = $this->discover( $credentials->id );
-                if ( !isset( $providers['openid.server'][0] ) )
+                if ( isset( $source['openid_op_endpoint'] ) )
                 {
-                    return self::STATUS_URL_INCORRECT;
+                    // if the endpoint is available then use it, otherwise discover it
+                    $provider = $source['openid_op_endpoint'];
                 }
-                $provider = $providers['openid.server'][0];
+                else
+                {
+                    // @todo cache this somewhere (in the request URL for example)
+                    $providers = $this->discover( $credentials->id );
+                    if ( !isset( $providers['openid.server'][0] ) )
+                    {
+                        return self::STATUS_URL_INCORRECT;
+                    }
+                    $provider = $providers['openid.server'][0];
+                }
 
                 if ( $this->checkSignature( $provider, $params ) )
                 {
@@ -314,13 +296,13 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
         $path = isset( $parts['path'] ) ? $parts['path'] : '/';
         $port = isset( $parts['port'] ) ? $parts['port'] : 80;
 
-        $connection = @fsockopen( $host, $port, $errno, $errstr, 3 );
+        $connection = @fsockopen( $host, $port, $errno, $errstr, $this->options->timeoutOpen );
         if ( $connection === false )
         {
             throw new ezcAuthenticationOpenidException( "Could not connect to host {$host}:{$port}: {$errstr}." );
         }
 
-        stream_set_timeout( $connection, 3 );
+        stream_set_timeout( $connection, $this->options->timeout );
         $headers = array( "GET {$path} HTTP/1.0", "HOST: {$host}", "Accept: application/xrds+xml", "Connection: Close" );
         fputs( $connection, implode( "\r\n", $headers ) . "\r\n\r\n" );
 
@@ -383,13 +365,13 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
         $path = isset( $parts['path'] ) ? $parts['path'] : '/';
         $port = isset( $parts['port'] ) ? $parts['port'] : 80;
 
-        $connection = @fsockopen( $host, $port, $errno, $errstr, 3 );
+        $connection = @fsockopen( $host, $port, $errno, $errstr, $this->options->timeoutOpen );
         if ( $connection === false )
         {
             throw new ezcAuthenticationOpenidException( "Could not connect to host {$host}:{$port}: {$errstr}." );
         }
 
-        stream_set_timeout( $connection, 3 );
+        stream_set_timeout( $connection, $this->options->timeout );
         $headers = array( "GET {$path} HTTP/1.0", "HOST: {$host}", "Connection: Close" );
         fputs( $connection, implode( "\r\n", $headers ) . "\r\n\r\n" );
 
@@ -433,7 +415,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
      *
      * @throws ezcAuthenticationOpenidException
      *         if redirection could not be performed
-     * @param string $provider The OpenID provider
+     * @param string $provider The OpenID provider (discovered in HTML or Yadis)
      * @param array(string=>string) $params OpenID parameters for checkid_setup
      */
     protected function redirectToOpenidProvider( $provider, array $params )
@@ -474,7 +456,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
      *
      * @throws ezcAuthenticationOpenidException
      *         if connection to the OpenID provider could not be opened
-     * @param string $provider The OpenID provider (discovered in HTML or XRDF)
+     * @param string $provider The OpenID provider (discovered in HTML or Yadis)
      * @param array(string=>string) $params OpenID parameters for check_authentication mode
      * @param string $method The method to connect to the provider (default GET)
      * @return bool
@@ -486,14 +468,14 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter
         $host = isset( $parts['host'] ) ? $parts['host'] : null;
         $port = 443;
 
-        $connection = @fsockopen( 'ssl://' . $host, $port, $errno, $errstr, 3 ); // Connection timeout is 3 seconds
+        $connection = @fsockopen( 'ssl://' . $host, $port, $errno, $errstr, $this->options->timeoutOpen );
         if ( !$connection )
         {
             throw new ezcAuthenticationOpenidException( "Could not connect to host {$host}:{$port}: {$errstr}." );
 		}
         else
         {
-            stream_set_timeout( $connection, 3 ); // Connection response timeout is 4 seconds
+            stream_set_timeout( $connection, $this->options->timeout );
             $url = $path . '?' . urldecode( http_build_query( $params ) );
             $headers = array( "{$method} {$url} HTTP/1.0", "Host: {$host}", "Connection: close" );
             fputs( $connection, implode( "\r\n", $headers ) . "\r\n\r\n" );

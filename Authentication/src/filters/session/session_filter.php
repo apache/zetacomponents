@@ -13,11 +13,22 @@
  * Support for session authentication and saving of authentication information
  * between requests.
  *
- * Example:
+ * Contains the methods:
+ * - start - starts the session, calling the PHP function session_start()
+ * - load - returns the information stored in the session key ezcAuth_id
+ * - save - saves information in the session key ezcAuth_id and also saves
+ *          the current timestamp in the session key ezcAuth_timestamp
+ * - destroy - deletes the information stored in the session keys ezcAuth_id
+ *             and ezcAuth_timestamp
+ * - regenerateId - regenerates the PHPSESSID value
+ *
+ * Example of use (combined with the Htpasswd filter):
  * <code>
  * // no headers should be sent before calling $session->start()
  * $session = new ezcAuthenticationSessionFilter();
  * $session->start();
+ *
+ * // retrieve the POST request information
  * $user = isset( $_POST['user'] ) ? $_POST['user'] : $session->load();
  * $password = isset( $_POST['password'] ) ? $_POST['password'] : null;
  * $credentials = new ezcAuthenticationPasswordCredentials( $user, $password );
@@ -29,35 +40,16 @@
  * {
  *     // authentication did not succeed, so inform the user
  *     $status = $authentication->getStatus();
- *     $err = array();
- *     $err["user"] = "";
- *     $err["password"] = "";
- *     $err["session"] = "";
+ *     $err = array(
+ *              ezcAuthenticationHtpasswdFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
+ *              ezcAuthenticationHtpasswdFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password',
+ *              ezcAuthenticationSessionFilter::STATUS_EXPIRED => 'Session expired'
+ *              );
  *     for ( $i = 0; $i < count( $status ); $i++ )
  *     {
  *         list( $key, $value ) = each( $status[$i] );
- *         switch ( $key )
- *         {
- *             case 'ezcAuthenticationHtpasswdFilter':
- *                 if ( $value === ezcAuthenticationHtpasswdFilter::STATUS_USERNAME_INCORRECT )
- *                 {
- *                     $err["user"] = "<span class='error'>Username incorrect</span>";
- *                 }
- *                 if ( $value === ezcAuthenticationHtpasswdFilter::STATUS_PASSWORD_INCORRECT )
- *                 {
- *                     $err["password"] = "<span class='error'>Password incorrect</span>";
- *                 }
- *                 break;
- *             case 'ezcAuthenticationSessionFilter':
- *                 if ( $value === ezcAuthenticationSessionFilter::STATUS_EXPIRED )
- *                 {
- *                     $err["session"] = "<span class='error'>Session expired</span>";
- *                 }
- *                 break;
- *         }
+ *         echo $err[$value];
  *     }
- *     // use $err array (with a Template object for example) to display the login form
- *     // to the user with "Password incorrect" message next to the password field, etc...
  * }
  * else
  * {

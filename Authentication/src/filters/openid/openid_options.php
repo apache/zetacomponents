@@ -18,6 +18,7 @@
  * $options = new ezcAuthenticationOpenidOptions();
  * $options->timeout = 5;
  * $options->timeoutOpen = 3;
+ * $options->requestSource = $_POST;
  *
  * // use the options object when creating a new OpenID filter
  * $filter = new ezcAuthenticationOpenidFilter( $options );
@@ -33,6 +34,9 @@
  * @property int $timeoutOpen
  *           The amount of seconds allowed as timeout when creating a connection
  *           with fsockopen() for the HTML or Yadis discovery.
+ * @property array(string=>mixed) $requestSource
+ *           From where to get the parameters returned by the OpenID provider.
+ *           Default is $_GET.
  *
  * @package Authentication
  * @version //autogen//
@@ -52,6 +56,7 @@ class ezcAuthenticationOpenidOptions extends ezcAuthenticationFilterOptions
     {
         $this->timeout = 3; // seconds
         $this->timeoutOpen = 3; // seconds
+        $this->requestSource = ( $_GET !== null ) ? $_GET : array();
 
         parent::__construct( $options );
     }
@@ -79,7 +84,15 @@ class ezcAuthenticationOpenidOptions extends ezcAuthenticationFilterOptions
                 }
                 $this->properties[$name] = $value;
                 break;
-                
+
+            case 'requestSource':
+                if ( !is_array( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'array' );
+                }
+                $this->properties[$name] = $value;
+                break;
+
             default:
                 parent::__set( $name, $value );
         }

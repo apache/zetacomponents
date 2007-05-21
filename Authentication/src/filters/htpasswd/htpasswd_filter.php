@@ -36,28 +36,15 @@
  * {
  *     // authentication did not succeed, so inform the user
  *     $status = $authentication->getStatus();
- *     $err = array();
- *     $err["user"] = "";
- *     $err["password"] = "";
+ *     $err = array(
+ *              ezcAuthenticationHtpasswdFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
+ *              ezcAuthenticationHtpasswdFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password'
+ *              );
  *     for ( $i = 0; $i < count( $status ); $i++ )
  *     {
  *         list( $key, $value ) = each( $status[$i] );
- *         switch ( $key )
- *         {
- *             case 'ezcAuthenticationHtpasswdFilter':
- *                 if ( $value === ezcAuthenticationHtpasswdFilter::STATUS_USERNAME_INCORRECT )
- *                 {
- *                     $err["user"] = "<span class='error'>Username incorrect</span>";
- *                 }
- *                 if ( $value === ezcAuthenticationHtpasswdFilter::STATUS_PASSWORD_INCORRECT )
- *                 {
- *                     $err["password"] = "<span class='error'>Password incorrect</span>";
- *                 }
- *                 break;
- *         }
+ *         echo $err[$value];
  *     }
- *     // use $err array (with a Template object for example) to display the login form
- *     // to the user with "Password incorrect" message next to the password field, etc...
  * }
  * else
  * {
@@ -94,6 +81,12 @@ class ezcAuthenticationHtpasswdFilter extends ezcAuthenticationFilter
     /**
      * Creates a new object of this class.
      *
+     * @throws ezcBaseValueException
+     *         if $value is not correct for the property $name
+     * @throws ezcBaseFileNotFoundException
+     *         if the $value file does not exist
+     * @throws ezcBaseFilePermissionException
+     *         if the $value file cannot be opened for reading
      * @param string $file The path and file name of the htpasswd file to use
      * @param ezcAuthenticationHtpasswdOptions $options Options for this class
      */

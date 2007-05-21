@@ -31,7 +31,8 @@ class ezcAuthenticationOpenidTest extends ezcTestCase
         'openid.sig' => 'SkaCB2FA9EysKoDkybyBD46zb0E%3D',
         'openid.return_to' => 'http://localhost',
         'openid.identity' => 'http://ezc.myopenid.com',
-        'openid.mode' => 'check_authentication'
+        'openid.op_endpoint' => 'http://www.myopenid.com/server',
+        'openid.mode' => 'check_authentication',
         );
 
     public static $requestCheckAuthenticationGet = array(
@@ -40,7 +41,17 @@ class ezcAuthenticationOpenidTest extends ezcTestCase
         'openid_sig' => 'SkaCB2FA9EysKoDkybyBD46zb0E=',
         'openid_return_to' => 'http://localhost',
         'openid_identity' => 'http://ezc.myopenid.com',
-        'openid_mode' => 'check_authentication'
+        'openid_op_endpoint' => 'http://www.myopenid.com/server',
+        'openid_mode' => 'check_authentication',
+        );
+
+    public static $requestCheckAuthenticationGetNoEndPoint = array(
+        'openid_assoc_handle' => '{HMAC-SHA1}{4640581a}{3X/rrw==}',
+        'openid_signed' => 'return_to,mode,identity',
+        'openid_sig' => 'SkaCB2FA9EysKoDkybyBD46zb0E=',
+        'openid_return_to' => 'http://localhost',
+        'openid_identity' => 'http://ezc.myopenid.com',
+        'openid_mode' => 'check_authentication',
         );
 
     public static $requestEmpty = null;
@@ -74,7 +85,7 @@ class ezcAuthenticationOpenidTest extends ezcTestCase
         }
         catch ( ezcAuthenticationOpenidException $e )
         {
-            $expected = "Could not redirect to 'https://www.myopenid.com/server?openid.return_to=http%3A%2F%2F&openid.trust_root=http%3A%2F%2F&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.mode=checkid_setup'. Most probably your browser does not support redirection or JavaScript.";
+            $expected = "Could not redirect to 'http://www.myopenid.com/server?openid.return_to=http%3A%2F%2F&openid.trust_root=http%3A%2F%2F&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.mode=checkid_setup'. Most probably your browser does not support redirection or JavaScript.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
     }
@@ -125,15 +136,12 @@ class ezcAuthenticationOpenidTest extends ezcTestCase
         $filter = new ezcAuthenticationOpenidWrapper();
         $result = $filter->discoverYadis( self::$url );
         $expected = array(
-            'openid.server' => array( 0 => 'https://www.myopenid.com/server',
-                                      1 => 'http://www.myopenid.com/server',
-                                      2 => 'https://www.myopenid.com/server',
-                                      3 => 'http://www.myopenid.com/server',
-                                      4 => 'https://www.myopenid.com/server',
-                                      5 => 'http://www.myopenid.com/server'
+            'openid.server' => array( 'http://www.myopenid.com/server',
+                                      'http://www.myopenid.com/server',
+                                      'http://www.myopenid.com/server'
                                     ),
-            'openid.delegate' => array( 0 => 'http://ezc.myopenid.com/',
-                                        1 => 'http://ezc.myopenid.com/'
+            'openid.delegate' => array( 'http://ezc.myopenid.com/',
+                                        'http://ezc.myopenid.com/'
                                       )
                          );
         $this->assertEquals( $expected, $result );
@@ -144,15 +152,12 @@ class ezcAuthenticationOpenidTest extends ezcTestCase
         $filter = new ezcAuthenticationOpenidWrapper();
         $result = $filter->discoverYadis( self::$urlIncomplete );
         $expected = array(
-            'openid.server' => array( 0 => 'https://www.myopenid.com/server',
-                                      1 => 'http://www.myopenid.com/server',
-                                      2 => 'https://www.myopenid.com/server',
-                                      3 => 'http://www.myopenid.com/server',
-                                      4 => 'https://www.myopenid.com/server',
-                                      5 => 'http://www.myopenid.com/server'
+            'openid.server' => array( 'http://www.myopenid.com/server',
+                                      'http://www.myopenid.com/server',
+                                      'http://www.myopenid.com/server'
                                     ),
-            'openid.delegate' => array( 0 => 'http://ezc.myopenid.com/',
-                                        1 => 'http://ezc.myopenid.com/'
+            'openid.delegate' => array( 'http://ezc.myopenid.com/',
+                                        'http://ezc.myopenid.com/'
                                       )
                          );
         $this->assertEquals( $expected, $result );
@@ -216,9 +221,19 @@ class ezcAuthenticationOpenidTest extends ezcTestCase
         $this->assertEquals( ezcAuthenticationOpenidFilter::STATUS_SIGNATURE_INCORRECT, $result );
     }
 
-    public function testOpenidWrapperRunModeIdResUrlNoOpenid()
+    public function testOpenidWrapperRunModeIdResNoEndPoint()
     {
-        $_GET = self::$requestCheckAuthenticationGet;
+        $_GET = self::$requestCheckAuthenticationGetNoEndPoint;
+        $_GET['openid_mode'] = 'id_res';
+        $credentials = new ezcAuthenticationIdCredentials( self::$url );
+        $filter = new ezcAuthenticationOpenidWrapper();
+        $result = $filter->run( $credentials );
+        $this->assertEquals( ezcAuthenticationOpenidFilter::STATUS_SIGNATURE_INCORRECT, $result );
+    }
+
+    public function testOpenidWrapperRunModeIdResNoEndPointUrlNoOpenid()
+    {
+        $_GET = self::$requestCheckAuthenticationGetNoEndPoint;
         $_GET['openid_mode'] = 'id_res';
         $credentials = new ezcAuthenticationIdCredentials( self::$urlNoOpenid );
         $filter = new ezcAuthenticationOpenidWrapper();
@@ -306,6 +321,16 @@ class ezcAuthenticationOpenidTest extends ezcTestCase
         catch ( ezcBaseValueException $e )
         {
             $this->assertEquals( "The value '0' that you were trying to assign to setting 'timeoutOpen' is invalid. Allowed values are: int >= 1.", $e->getMessage() );
+        }
+
+        try
+        {
+            $options->requestSource = null;
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( "The value '' that you were trying to assign to setting 'requestSource' is invalid. Allowed values are: array.", $e->getMessage() );
         }
 
         try
