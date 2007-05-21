@@ -12,7 +12,7 @@
  * Holds database instances for global access throughout an application.
  *
  * It is common for many application to use only one or very few database connections.
- * This class holds a single database connection name or a list of datbases
+ * This class holds a single database connection name or a list of databases
  * identified by a handle. The database connections can be retrieved from anywhere
  * within your code through the static methods.
  * This eliminates the need to pass the connection handle around.
