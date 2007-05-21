@@ -388,7 +388,7 @@ return array (
            'type' => 'boolean',
            'length' => 0,
            'notNull' => true,
-           'default' => 'true',
+           'default' => true,
            'autoIncrement' => false,
            'unsigned' => false,
         )),

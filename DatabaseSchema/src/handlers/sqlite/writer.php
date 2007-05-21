@@ -22,7 +22,7 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
      */
     private $typeMap = array(
         'integer' => 'integer',
-        'boolean' => 'boolean',
+        'boolean' => 'integer',
         'float' => 'real',
         'decimal' => 'numeric',
         'date' => 'date',
@@ -401,6 +401,32 @@ class ezcDbSchemaSqliteWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
     {
         // use DROP TABLE and isQueryAllowed() workaround to emulate DROP TABLE IF EXISTS.
         $this->queries[] = "DROP TABLE '$tableName'";
+    }
+
+    /**
+     * Returns an appropriate default value for $type with $value.
+     *
+     * @param string $type
+     * @param mixed  $value
+     * @return string
+     */
+    protected function generateDefault( $type, $value )
+    {
+        switch ( $type )
+        {
+            case 'boolean':
+                return ( $value && $value !== 'false' ) ? '1' : '0';
+
+            case 'integer':
+                return (int) $value;
+
+            case 'float':
+            case 'decimal':
+                return (float) $value;
+
+            default:
+                return "'$value'";
+        }
     }
 
     /**
