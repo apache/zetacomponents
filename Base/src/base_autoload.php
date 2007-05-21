@@ -26,12 +26,13 @@ return array(
     'ezcBaseSettingValueException'                => 'Base/exceptions/setting_value.php',
     'ezcBaseValueException'                       => 'Base/exceptions/value.php',
     'ezcBaseWhateverException'                    => 'Base/exceptions/whatever.php',
+    'ezcBaseOptions'                              => 'Base/options.php',
     'ezcBaseStruct'                               => 'Base/struct.php',
     'ezcBase'                                     => 'Base/base.php',
+    'ezcBaseAutoloadOptions'                      => 'Base/options/autoload.php',
     'ezcBaseConfigurationInitializer'             => 'Base/interfaces/configuration_initializer.php',
     'ezcBaseFeatures'                             => 'Base/features.php',
     'ezcBaseInit'                                 => 'Base/init.php',
-    'ezcBaseOptions'                              => 'Base/options.php',
     'ezcBaseRepositoryDirectory'                  => 'Base/structs/repository_directory.php',
 );
 ?>

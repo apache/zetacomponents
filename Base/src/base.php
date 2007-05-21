@@ -42,11 +42,6 @@ class ezcBase
     protected static $packageDir;
 
     /**
-     * @var string  Contains whether component preloading should be used, or not.
-     */
-    public static $preload = false;
-
-    /**
      * @var array(string=>array) Stores info with additional paths where
      *                           autoload files and classes for autoloading
      *                           could be found.  Each item of $repositoryDirs
@@ -71,6 +66,22 @@ class ezcBase
      *             is loaded, their files are added to this array.
      */
     protected static $externalAutoloadArray = array();
+
+    /**
+     * Options for the ezcBase class
+     * @var ezcBaseOptions
+     */
+    static private $options;
+
+    /**
+     * Associates an option object with this static class.
+     *
+     * @param ezcBaseAutoloadOptions $options
+     */
+    static public function setOptions( ezcBaseAutoloadOptions $options )
+    {
+        self::$options = $options;
+    }
 
     /**
      * Tries to autoload the given className. If the className could be found
@@ -231,7 +242,7 @@ class ezcBase
             {
                 // Add the array to the cache, and include the requested file.
                 ezcBase::$autoloadArray = array_merge( ezcBase::$autoloadArray, $array );
-                if ( ezcBase::$preload && !preg_match( '/Exception$/', $className ) )
+                if ( ezcBase::$options !== null && ezcBase::$options->preload && !preg_match( '/Exception$/', $className ) )
                 {
                     foreach ( $array as $loadClassName => $file )
                     {
@@ -532,19 +543,6 @@ class ezcBase
             // add info to the list of extra dirs, and use the prefix to identify the new repository.
             ezcBase::$repositoryDirs[$prefix] = array( 'basePath' => $basePath, 'autoloadDirPath' => $autoloadDirPath );
         }
-    }
-
-    /*
-     * Turns on component preloading.
-     * 
-     * If component preloading is enabled then as soon as one of the classes
-     * of a component is request, all other classes in the component are
-     * loaded as well (except for Exception classes).
-     */
-    public static function setPreload()
-    {
-        self::$preload = true;
-        self::autoload( 'ezcBase' );
     }
 }
 ?>
