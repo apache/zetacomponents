@@ -439,6 +439,48 @@ class ezcBaseTest extends ezcTestCase
         }
     }
 
+    public function testDebug()
+    {
+        try
+        {
+            class_exists( 'ezcTestingOne' );
+            self::fail( "There should have been an exception" );
+        }
+        catch ( ezcBaseAutoloadException $e )
+        {
+        }
+    }
+
+    public function testNoDebug()
+    {
+        try
+        {
+            $options = new ezcBaseAutoloadOptions;
+            $options->debug = false;
+            ezcBase::setOptions( $options );
+
+            class_exists( 'ezcTestingOne' );
+        }
+        catch ( Exception $e )
+        {
+            self::fail( "There should not have been an exception" );
+        }
+    }
+
+    public function setup()
+    {
+        $options = new ezcBaseAutoloadOptions;
+        $options->debug = true;
+        ezcBase::setOptions( $options );
+    }
+
+    public function teardown()
+    {
+        $options = new ezcBaseAutoloadOptions;
+        $options->debug = true;
+        ezcBase::setOptions( $options );
+    }
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite("ezcBaseTest");

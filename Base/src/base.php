@@ -179,7 +179,10 @@ class ezcBase
         }
 
         $dirs = self::getRepositoryDirectories();
-        throw new ezcBaseAutoloadException( $className, $fileNames, $dirs );
+        if ( ezcBase::$options && ezcBase::$options->debug )
+        {
+            throw new ezcBaseAutoloadException( $className, $fileNames, $dirs );
+        }
 
         return false;
     }

@@ -1,3 +1,12 @@
+1.3RC1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed issue #10704: Autoload fails on class not found. The exception is now
+  off by default, but can be turned on through the "debug" property of the
+  ezcBaseAutoloadOptions class. This option class can be set with
+  ezcBase::setOptions().
+
+
 1.3beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

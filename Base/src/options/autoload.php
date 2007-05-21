@@ -15,6 +15,9 @@
  *           If component preloading is enabled then as soon as one of the
  *           classes of a component is request, all other classes in the
  *           component are loaded as well (except for Exception classes).
+ * @property bool $debug
+ *           If debug is enabled then the autoload method will show exceptions
+ *           when a class can not be found.
  *
  * @package Base
  * @version //autogen//
@@ -33,6 +36,7 @@ class ezcBaseAutoloadOptions extends ezcBaseOptions
     public function __construct( array $options = array() )
     {
         $this->preload = false;
+        $this->debug = false;
 
         parent::__construct( $options );
     }
@@ -52,6 +56,7 @@ class ezcBaseAutoloadOptions extends ezcBaseOptions
     {
         switch ( $name )
         {
+            case 'debug':
             case 'preload':
                 if ( !is_bool( $value ) )
                 {
