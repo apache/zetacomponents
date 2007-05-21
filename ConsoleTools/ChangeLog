@@ -7,6 +7,8 @@
   correctly).
 - Fixed issue #10766: ezcConsoleQuestionDialogTypeValidator with TYPE_FLOAT
   does not accept numbers like 4E3.
+- Fixed issue #10767: Class ezcConsoleQuestionDialogRegexValidator described
+  in the design document is missing.
 
 1.3beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

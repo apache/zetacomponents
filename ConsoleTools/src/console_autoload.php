@@ -57,6 +57,7 @@ return array(
     'ezcConsoleQuestionDialog'                      => 'ConsoleTools/dialog/question_dialog.php',
     'ezcConsoleQuestionDialogCollectionValidator'   => 'ConsoleTools/dialog/validators/question_dialog_collection.php',
     'ezcConsoleQuestionDialogOptions'               => 'ConsoleTools/options/question_dialog.php',
+    'ezcConsoleQuestionDialogRegexValidator'        => 'ConsoleTools/dialog/validators/question_dialog_regex.php',
     'ezcConsoleQuestionDialogTypeValidator'         => 'ConsoleTools/dialog/validators/question_dialog_type.php',
     'ezcConsoleStatusbar'                           => 'ConsoleTools/statusbar.php',
     'ezcConsoleStatusbarOptions'                    => 'ConsoleTools/options/statusbar.php',
