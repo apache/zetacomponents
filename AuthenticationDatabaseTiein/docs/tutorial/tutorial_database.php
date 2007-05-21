@@ -3,33 +3,19 @@ $credentials = new ezcAuthenticationPasswordCredentials( 'jan.modaal', 'b1b3773a
 $database = new ezcAuthenticationDatabaseInfo( ezcDbInstance::get(), 'users', array( 'user', 'password' ) );
 $authentication = new ezcAuthentication( $credentials );
 $authentication->addFilter( new ezcAuthenticationDatabaseFilter( $database ) );
-// add other filters if needed
 if ( !$authentication->run() )
 {
     // authentication did not succeed, so inform the user
     $status = $authentication->getStatus();
-    $err = array();
-    $err["user"] = "";
-    $err["password"] = "";
+    $err = array(
+             ezcAuthenticationDatabaseFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
+             ezcAuthenticationDatabaseFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password'
+             );
     for ( $i = 0; $i < count( $status ); $i++ )
     {
         list( $key, $value ) = each( $status[$i] );
-        switch ( $key )
-        {
-            case 'ezcAuthenticationDatabaseFilter':
-                if ( $value === ezcAuthenticationDatabaseFilter::STATUS_USERNAME_INCORRECT )
-                {
-                    $err["user"] = "<span class='error'>Username incorrect</span>";
-                }
-                if ( $value === ezcAuthenticationDatabaseFilter::STATUS_PASSWORD_INCORRECT )
-                {
-                    $err["password"] = "<span class='error'>Password incorrect</span>";
-                }
-                break;
-        }
+        echo $err[$value];
     }
-    // use $err array (with a Template object for example) to display the login form
-    // to the user with "Password incorrect" message next to the password field, etc...
 }
 else
 {
