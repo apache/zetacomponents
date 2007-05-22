@@ -8,12 +8,14 @@
  * @subpackage Tests
  */
 
+include_once( 'AuthenticationDatabaseTiein/tests/test.php' );
+
 /**
  * @package AuthenticationDatabaseTiein
  * @version //autogen//
  * @subpackage Tests
  */
-class ezcAuthenticationDatabaseTest extends ezcTestCase
+class ezcAuthenticationDatabaseTest extends ezcAuthenticationDatabaseTieinTest
 {
     public static $table = 'authusers';
     public static $fieldId = 'uniqueid';
@@ -31,6 +33,11 @@ class ezcAuthenticationDatabaseTest extends ezcTestCase
         try
         {
             $this->db = ezcDbInstance::get();
+            if ( $this->db === false )
+            {
+                $this->markTestSkipped( "You must provide a database to runtests.php." );
+            }
+
             $tables = array( self::$table => new ezcDbSchemaTable(
                                 array (
                                     self::$fieldId       => new ezcDbSchemaField( 'integer', false, true, null, true ),
@@ -47,6 +54,11 @@ class ezcAuthenticationDatabaseTest extends ezcTestCase
         {
             // Oracle seems to skip every other test if the next line is enabled
             // $this->markTestSkipped( "Cannot create test table '" . self::$table . "'. " . $e->getMessage() );
+        }
+
+        if ( !isset( $this->db ) )
+        {
+            $this->markTestSkipped( "You must provide a database to runtests.php. Run runtests.php --help to see how to specify a database." );
         }
 
         try
@@ -197,15 +209,12 @@ class ezcAuthenticationDatabaseTest extends ezcTestCase
     {
         $options = new ezcAuthenticationDatabaseOptions();
 
-        try
-        {
-            $options->no_such_option = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_option'.", $e->getMessage() );
-        }
+        $this->missingPropertyTest( $options, 'no_such_option' );
+    }
+
+    public function testDatabaseOptionsGetSet()
+    {
+        $options = new ezcAuthenticationDatabaseOptions();
 
         $database = new ezcAuthenticationDatabaseInfo( $this->db, self::$table, array( self::$fieldUser, self::$fieldPassword ) );
         $filter = new ezcAuthenticationDatabaseFilter( $database );
@@ -217,38 +226,18 @@ class ezcAuthenticationDatabaseTest extends ezcTestCase
     {
         $database = new ezcAuthenticationDatabaseInfo( $this->db, self::$table, array( self::$fieldUser, self::$fieldPassword ) );
         $filter = new ezcAuthenticationDatabaseFilter( $database );
-        $this->assertEquals( true, isset( $filter->database ) );
-        $this->assertEquals( false, isset( $filter->no_such_property ) );
 
-        try
-        {
-            $filter->no_such_property = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
+        $this->invalidPropertyTest( $filter, 'database', 'wrong value', 'ezcAuthenticationDatabaseInfo' );
+        $this->missingPropertyTest( $filter, 'no_such_property' );
+    }
 
-        try
-        {
-            $filter->database = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'database' is invalid. Allowed values are: instance of ezcAuthenticationDatabaseInfo.", $e->getMessage() );
-        }
+    public function testDatabasePropertiesIsSet()
+    {
+        $database = new ezcAuthenticationDatabaseInfo( $this->db, self::$table, array( self::$fieldUser, self::$fieldPassword ) );
+        $filter = new ezcAuthenticationDatabaseFilter( $database );
 
-        try
-        {
-            $value = $filter->no_such_property;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
+        $this->issetPropertyTest( $filter, 'database', true );
+        $this->issetPropertyTest( $filter, 'no_such_property', false );
     }
 }
 ?>

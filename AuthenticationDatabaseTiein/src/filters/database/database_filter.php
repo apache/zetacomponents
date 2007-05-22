@@ -102,7 +102,7 @@ class ezcAuthenticationDatabaseFilter extends ezcAuthenticationFilter
                 }
                 else
                 {
-                    throw new ezcBaseValueException( $name, $value, 'instance of ezcAuthenticationDatabaseInfo' );
+                    throw new ezcBaseValueException( $name, $value, 'ezcAuthenticationDatabaseInfo' );
                 }
                 break;
 
