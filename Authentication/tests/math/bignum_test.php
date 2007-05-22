@@ -8,12 +8,14 @@
  * @subpackage Tests
  */
 
+include_once( 'Authentication/tests/test.php' );
+
 /**
  * @package Authentication
  * @version //autogen//
  * @subpackage Tests
  */
-class ezcAuthenticationBignumTest extends ezcTestCase
+class ezcAuthenticationBignumTest extends ezcAuthenticationTest
 {
     public static $tables = array( 'add', 'sub', 'mul', 'div', 'pow', 'mod', 'invert' );
 

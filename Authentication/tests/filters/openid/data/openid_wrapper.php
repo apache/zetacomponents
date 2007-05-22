@@ -7,6 +7,7 @@
  * @filesource
  * @package Authentication
  * @version //autogen//
+ * @subpackage Tests
  */
 
 ezcTestRunner::addFileToFilter( __FILE__ );
@@ -18,6 +19,7 @@ ezcTestRunner::addFileToFilter( __FILE__ );
  *
  * @package Authentication
  * @version //autogen//
+ * @subpackage Tests
  * @access private
  */
 class ezcAuthenticationOpenidWrapper extends ezcAuthenticationOpenidFilter

@@ -8,12 +8,14 @@
  * @subpackage Tests
  */
 
+include_once( 'Authentication/tests/test.php' );
+
 /**
  * @package Authentication
  * @version //autogen//
  * @subpackage Tests
  */
-class ezcAuthenticationLdapTest extends ezcTestCase
+class ezcAuthenticationLdapTest extends ezcAuthenticationTest
 {
     public static $host = 'localhost';
     public static $format = 'uid=%id%';
@@ -235,15 +237,13 @@ class ezcAuthenticationLdapTest extends ezcTestCase
     {
         $options = new ezcAuthenticationLdapOptions();
 
-        try
-        {
-            $options->no_such_option = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_option'.", $e->getMessage() );
-        }
+        $this->invalidPropertyTest( $options, 'protocol', 'wrong value', '1, 2' );
+        $this->missingPropertyTest( $options, 'no_such_option' );
+    }
+
+    public function testLdapOptionsGetSet()
+    {
+        $options = new ezcAuthenticationLdapOptions();
 
         $ldap = new ezcAuthenticationLdapInfo( self::$host, self::$format, self::$base, self::$port );
         $filter = new ezcAuthenticationLdapFilter( $ldap );
@@ -255,38 +255,18 @@ class ezcAuthenticationLdapTest extends ezcTestCase
     {
         $ldap = new ezcAuthenticationLdapInfo( self::$host, self::$format, self::$base, self::$port );
         $filter = new ezcAuthenticationLdapFilter( $ldap );
-        $this->assertEquals( true, isset( $filter->ldap ) );
-        $this->assertEquals( false, isset( $filter->no_such_property ) );
 
-        try
-        {
-            $filter->ldap = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'ldap' is invalid. Allowed values are: instance of ezcAuthenticationLdapInfo.", $e->getMessage() );
-        }
+        $this->invalidPropertyTest( $filter, 'ldap', 'wrong value', 'ezcAuthenticationLdapInfo' );
+        $this->missingPropertyTest( $filter, 'no_such_property' );
+    }
 
-        try
-        {
-            $filter->no_such_property = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
+    public function testLdapPropertiesIsSet()
+    {
+        $ldap = new ezcAuthenticationLdapInfo( self::$host, self::$format, self::$base, self::$port );
+        $filter = new ezcAuthenticationLdapFilter( $ldap );
 
-        try
-        {
-            $value = $filter->no_such_property;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
+        $this->issetPropertyTest( $filter, 'ldap', true );
+        $this->issetPropertyTest( $filter, 'no_such_property', false );
     }
 
     public function testLdapExceptions()

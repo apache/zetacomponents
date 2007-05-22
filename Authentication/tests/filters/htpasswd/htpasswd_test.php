@@ -8,22 +8,27 @@
  * @subpackage Tests
  */
 
+include_once( 'Authentication/tests/test.php' );
+
 /**
  * @package Authentication
  * @version //autogen//
  * @subpackage Tests
  */
-class ezcAuthenticationHtpasswdTest extends ezcTestCase
+class ezcAuthenticationHtpasswdTest extends ezcAuthenticationTest
 {
     private static $path = null;
     private static $empty = null;
     private static $nopass = null;
+    private static $missing = null;
 
     public static function suite()
     {
         self::$path = dirname( __FILE__ ) . '/data/htpasswd';
         self::$empty = dirname( __FILE__ ) . '/data/htpasswd_empty';
         self::$nopass = dirname( __FILE__ ) . '/data/htpasswd_no_passwords';
+        self::$missing = dirname( __FILE__ ) . '/data/htpassw';
+
         return new PHPUnit_Framework_TestSuite( "ezcAuthenticationHtpasswdTest" );
     }
 
@@ -211,104 +216,49 @@ class ezcAuthenticationHtpasswdTest extends ezcTestCase
 
     public function testHtpasswdFileNotFound()
     {
-        $path = dirname( __FILE__ ) . '/data/htpassw';
-        try
-        {
-            $filter = new ezcAuthenticationHtpasswdFilter( $path );
-            $this->fail( "Expected exception was not thrown" );
-        }
-        catch ( ezcBaseFileNotFoundException $e )
-        {
-            $this->assertEquals( "The file '{$path}' could not be found.", $e->getMessage() );
-        }
+        $filter = new ezcAuthenticationHtpasswdFilter( self::$path );
+
+        $this->missingFileTest( $filter, 'file', self::$missing );
     }
 
     public function testHtpasswdFileNoPermission()
     {
-        $tempDir = $this->createTempDir( 'ezcAuthenticationHtpasswdTest' );
-        $path = $tempDir . "/htpasswd_unreadable";
-        $fh = fopen( $path, "wb" );
-        fwrite( $fh, "john.doe:wpeE20wyWHnLE" );
-        fclose( $fh );
-        chmod( $path, 0 );
-        try
-        {
-            $filter = new ezcAuthenticationHtpasswdFilter( $path );
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseFilePermissionException $e )
-        {
-            $this->assertEquals( "The file '{$path}' can not be opened for reading.", $e->getMessage() );
-        }
-        $this->removeTempDir();
+        $filter = new ezcAuthenticationHtpasswdFilter( self::$path );
+
+        $this->unreadableFileTest( $filter, 'file', 'htpasswd_unreadable' );
     }
 
     public function testHtpasswdOptions()
     {
         $options = new ezcAuthenticationHtpasswdOptions();
 
-        try
-        {
-            $options->plain = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'plain' is invalid. Allowed values are: bool.", $e->getMessage() );
-        }
+        $this->invalidPropertyTest( $options, 'plain', 'wrong value', 'bool' );
+        $this->missingPropertyTest( $options, 'no_such_option' );
+    }
 
-        try
-        {
-            $options->no_such_option = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_option'.", $e->getMessage() );
-        }
+    public function testHtpasswdOptionsGetSet()
+    {
+        $options = new ezcAuthenticationHtpasswdOptions();
 
         $filter = new ezcAuthenticationHtpasswdFilter( self::$path );
         $filter->setOptions( $options );
         $this->assertEquals( $options, $filter->getOptions() );
-
     }
 
-    public function testProperties()
+    public function testHtpasswdProperties()
     {
         $filter = new ezcAuthenticationHtpasswdFilter( self::$path );
-        $this->assertEquals( true, isset( $filter->file ) );
-        $this->assertEquals( false, isset( $filter->no_such_property ) );
 
-        try
-        {
-            $filter->file = 0;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $expected = "The value '0' that you were trying to assign to setting 'file' is invalid. Allowed values are: string.";
-            $this->assertEquals( $expected, $e->getMessage() );
-        }
+        $this->invalidPropertyTest( $filter, 'file', 0, 'string' );
+        $this->missingPropertyTest( $filter, 'no_such_property' );
+    }
 
-        try
-        {
-            $filter->no_such_property = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
+    public function testHtpasswdPropertiesIsSet()
+    {
+        $filter = new ezcAuthenticationHtpasswdFilter( self::$path );
 
-        try
-        {
-            $value = $filter->no_such_property;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
+        $this->issetPropertyTest( $filter, 'file', true );
+        $this->issetPropertyTest( $filter, 'no_such_property', false );
     }
 }
 ?>

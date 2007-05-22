@@ -8,12 +8,15 @@
  * @subpackage Tests
  */
 
+include_once( 'Authentication/tests/test.php' );
+include_once( 'data/typekey_wrapper.php' );
+
 /**
  * @package Authentication
  * @version //autogen//
  * @subpackage Tests
  */
-class ezcAuthenticationTypekeyTest extends ezcTestCase
+class ezcAuthenticationTypekeyTest extends ezcAuthenticationTest
 {
     public static $token = '391jbj25WAQANzJrKvb5';
     public static $keysFile = 'http://www.typekey.com/extras/regkeys.txt';
@@ -193,15 +196,12 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
         $tempDir = $this->createTempDir( 'ezcAuthenticationTypekeyTest' );
         $path = $tempDir . "/keys_empty.txt";
         file_put_contents( $path, '' );
-        $credentials = new ezcAuthenticationIdCredentials( self::$token );
-        $authentication = new ezcAuthentication( $credentials );
-        $options = new ezcAuthenticationTypekeyOptions();
-        $options->keysFile = $path;
-        $filter = new ezcAuthenticationTypekeyFilter( $options );
-        $authentication->addFilter( $filter );
+
+        $filter = new ezcAuthenticationTypekeyWrapper();
+
         try
         {
-            $authentication->run();
+            $filter->fetchPublicKeys( $path );
             $this->fail( "Expected exception was not thrown." );
         }
         catch ( ezcAuthenticationTypekeyException $e )
@@ -209,6 +209,7 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
             $expected = "Could not fetch public keys from '{$path}'.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
+
         $this->removeTempDir();
     }
     public function testTypekeyPublicKeysFileBroken()
@@ -216,15 +217,12 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
         $tempDir = $this->createTempDir( 'ezcAuthenticationTypekeyTest' );
         $path = $tempDir . "/keys_empty.txt";
         file_put_contents( $path, 'xxx' );
-        $credentials = new ezcAuthenticationIdCredentials( self::$token );
-        $authentication = new ezcAuthentication( $credentials );
-        $options = new ezcAuthenticationTypekeyOptions();
-        $options->keysFile = $path;
-        $filter = new ezcAuthenticationTypekeyFilter( $options );
-        $authentication->addFilter( $filter );
+
+        $filter = new ezcAuthenticationTypekeyWrapper();
+
         try
         {
-            $authentication->run();
+            $filter->fetchPublicKeys( $path );
             $this->fail( "Expected exception was not thrown." );
         }
         catch ( ezcAuthenticationTypekeyException $e )
@@ -232,105 +230,45 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
             $expected = "The data retrieved from '{$path}' is invalid.";
             $this->assertEquals( $expected, $e->getMessage() );
         }
+
         $this->removeTempDir();
     }
 
     public function testTypekeyPublicKeysFileMissing()
     {
-        $path = self::$keysFileMissing;
         $options = new ezcAuthenticationTypekeyOptions();
-        try
-        {
-            $options->keysFile = $path;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseFileNotFoundException $e )
-        {
-            $expected = "The file '{$path}' could not be found.";
-            $this->assertEquals( $expected, $e->getMessage() );
-        }
+
+        $this->missingFileTest( $options, 'keysFile', self::$keysFileMissing );
     }
 
     public function testTypekeyPublicKeysFileUrlMissing()
     {
-        $path = self::$keysFileUrlMissing;
         $options = new ezcAuthenticationTypekeyOptions();
-        try
-        {
-            $options->keysFile = $path;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseFileNotFoundException $e )
-        {
-            $expected = "The file '{$path}' could not be found.";
-            $this->assertEquals( $expected, $e->getMessage() );
-        }
+
+        $this->missingFileTest( $options, 'keysFile', self::$keysFileUrlMissing );
     }
 
     public function testTypekeyPublicKeysFileNoPermission()
     {
-        $tempDir = $this->createTempDir( 'ezcAuthenticationTypekeyTest' );
-        $path = $tempDir . "/keys_unreadable.txt";
-        $fh = fopen( $path, "wb" );
-        fwrite( $fh, "some contents" );
-        fclose( $fh );
-        chmod( $path, 0 );
-        try
-        {
-            $options = new ezcAuthenticationTypekeyOptions();
-            $options->keysFile = $path;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseFilePermissionException $e )
-        {
-            $this->assertEquals( "The file '{$path}' can not be opened for reading.", $e->getMessage() );
-        }
-        $this->removeTempDir();
+        $options = new ezcAuthenticationTypekeyOptions();
+
+        $this->unreadableFileTest( $options, 'keysFile', 'keys_unreadable.txt' );
     }
 
     public function testTypekeyOptions()
     {
         $options = new ezcAuthenticationTypekeyOptions();
 
-        try
-        {
-            $options->validity = 'wrong option value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value 'wrong option value' that you were trying to assign to setting 'validity' is invalid. Allowed values are: int >= 0.", $e->getMessage() );
-        }
+        $this->invalidPropertyTest( $options, 'validity', 'wrong value', 'int >= 0' );
+        $this->invalidPropertyTest( $options, 'validity', -1, 'int >= 0' );
+        $this->invalidPropertyTest( $options, 'keysFile', null, 'string' );
+        $this->invalidPropertyTest( $options, 'requestSource', null, 'array' );
+        $this->missingPropertyTest( $options, 'no_such_option' );
+    }
 
-        try
-        {
-            $options->keysFile = null;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value '' that you were trying to assign to setting 'keysFile' is invalid. Allowed values are: string.", $e->getMessage() );
-        }
-
-        try
-        {
-            $options->requestSource = null;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value '' that you were trying to assign to setting 'requestSource' is invalid. Allowed values are: array.", $e->getMessage() );
-        }
-
-        try
-        {
-            $options->wrong_option = 'wrong option value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'wrong_option'.", $e->getMessage() );
-        }
+    public function testTypekeyOptionsGetSet()
+    {
+        $options = new ezcAuthenticationTypekeyOptions();
 
         $filter = new ezcAuthenticationTypekeyFilter();
         $filter->setOptions( $options );
@@ -340,38 +278,17 @@ class ezcAuthenticationTypekeyTest extends ezcTestCase
     public function testTypekeyProperties()
     {
         $filter = new ezcAuthenticationTypekeyFilter();
-        $this->assertEquals( true, isset( $filter->lib ) );
-        $this->assertEquals( false, isset( $filter->no_such_property ) );
 
-        try
-        {
-            $filter->lib = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'lib' is invalid. Allowed values are: instance of ezcAuthenticationBignumLibrary.", $e->getMessage() );
-        }
+        $this->invalidPropertyTest( $filter, 'lib', 'wrong value', 'ezcAuthenticationBignumLibrary' );
+        $this->missingPropertyTest( $filter, 'no_such_property' );
+    }
 
-        try
-        {
-            $filter->no_such_property = "value";
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
+    public function testTypekeyPropertiesIsSet()
+    {
+        $filter = new ezcAuthenticationTypekeyFilter();
 
-        try
-        {
-            $value = $filter->no_such_property;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
+        $this->issetPropertyTest( $filter, 'lib', true );
+        $this->issetPropertyTest( $filter, 'no_such_property', false );
     }
 }
 ?>

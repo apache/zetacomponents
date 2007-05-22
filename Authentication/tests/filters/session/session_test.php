@@ -8,12 +8,14 @@
  * @subpackage Tests
  */
 
+include_once( 'Authentication/tests/test.php' );
+
 /**
  * @package Authentication
  * @version //autogen//
  * @subpackage Tests
  */
-class ezcAuthenticationSessionTest extends ezcTestCase
+class ezcAuthenticationSessionTest extends ezcAuthenticationTest
 {
     public static $id = 'john.doe';
     public static $idKey = 'ezcAuth_id';
@@ -84,49 +86,20 @@ class ezcAuthenticationSessionTest extends ezcTestCase
         $this->assertEquals( false, isset( $_SESSION[self::$idKey] ) );
     }
 
-    public function testOptions()
+    public function testSessionOptions()
     {
         $options = new ezcAuthenticationSessionOptions();
 
-        try
-        {
-            $options->validity = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'validity' is invalid. Allowed values are: int >= 1.", $e->getMessage() );
-        }
+        $this->invalidPropertyTest( $options, 'validity', 'wrong value', 'int >= 1' );
+        $this->invalidPropertyTest( $options, 'validity', 0, 'int >= 1' );
+        $this->invalidPropertyTest( $options, 'idKey', array(), 'string' );
+        $this->invalidPropertyTest( $options, 'timestampKey', array(), 'string' );
+        $this->missingPropertyTest( $options, 'no_such_option' );
+    }
 
-        try
-        {
-            $options->idKey = array();
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value 'a:0:{}' that you were trying to assign to setting 'idKey' is invalid. Allowed values are: string.", $e->getMessage() );
-        }
-
-        try
-        {
-            $options->timestampKey = null;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value '' that you were trying to assign to setting 'timestampKey' is invalid. Allowed values are: string.", $e->getMessage() );
-        }
-
-        try
-        {
-            $options->no_such_option = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_option'.", $e->getMessage() );
-        }
+    public function testSessionOptionsGetSet()
+    {
+        $options = new ezcAuthenticationSessionOptions();
 
         $filter = new ezcAuthenticationSessionFilter();
         $filter->setOptions( $options );

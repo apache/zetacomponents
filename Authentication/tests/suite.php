@@ -35,7 +35,7 @@ class ezcAuthenticationSuite extends PHPUnit_Framework_TestSuite
         parent::__construct();
         $this->setName( "Authentication" );
         
-        $this->addTest( ezcAuthenticationTest::suite() );
+        $this->addTest( ezcAuthenticationGeneralTest::suite() );
         $this->addTest( ezcAuthenticationGroupTest::suite() );
         $this->addTest( ezcAuthenticationHtpasswdTest::suite() );
         $this->addTest( ezcAuthenticationLdapTest::suite() );

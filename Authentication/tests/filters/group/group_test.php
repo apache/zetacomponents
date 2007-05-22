@@ -8,12 +8,14 @@
  * @subpackage Tests
  */
 
+include_once( 'Authentication/tests/test.php' );
+
 /**
  * @package Authentication
  * @version //autogen//
  * @subpackage Tests
  */
-class ezcAuthenticationGroupTest extends ezcTestCase
+class ezcAuthenticationGroupTest extends ezcAuthenticationTest
 {
     private static $path = null;
     private static $empty = null;
@@ -304,90 +306,39 @@ class ezcAuthenticationGroupTest extends ezcTestCase
         $this->assertEquals( false, $authentication->run() );
     }
 
-    public function testOptions()
+    public function testGroupOptions()
     {
         $options = new ezcAuthenticationGroupOptions();
 
-        try
-        {
-            $options->mode = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'mode' is invalid. Allowed values are: 1, 2.", $e->getMessage() );
-        }
+        $this->invalidPropertyTest( $options, 'mode', 'wrong value', '1, 2' );
+        $this->invalidPropertyTest( $options, 'mode', '1', '1, 2' );
+        $this->invalidPropertyTest( $options, 'mode', 1000, '1, 2' );
+        $this->missingPropertyTest( $options, 'no_such_option' );
+    }
 
-        try
-        {
-            $options->mode = '1';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value '1' that you were trying to assign to setting 'mode' is invalid. Allowed values are: 1, 2.", $e->getMessage() );
-        }
-
-        try
-        {
-            $options->mode = 1000;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value '1000' that you were trying to assign to setting 'mode' is invalid. Allowed values are: 1, 2.", $e->getMessage() );
-        }
-
-        try
-        {
-            $options->no_such_option = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_option'.", $e->getMessage() );
-        }
+    public function testGroupOptionsGetSet()
+    {
+        $options = new ezcAuthenticationGroupOptions();
 
         $filter = new ezcAuthenticationGroupFilter( array() );
         $filter->setOptions( $options );
         $this->assertEquals( $options, $filter->getOptions() );
     }
 
-    public function testProperties()
+    public function testGroupProperties()
     {
         $filter = new ezcAuthenticationGroupFilter( array() );
-        $this->assertEquals( true, isset( $filter->status ) );
-        $this->assertEquals( false, isset( $filter->no_such_property ) );
 
-        try
-        {
-            $filter->status = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'status' is invalid. Allowed values are: ezcAuthenticationStatus.", $e->getMessage() );
-        }
+        $this->invalidPropertyTest( $filter, 'status', 'wrong value', 'ezcAuthenticationStatus' );
+        $this->missingPropertyTest( $filter, 'no_such_property' );
+    }
 
-        try
-        {
-            $filter->no_such_property = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
+    public function testGroupPropertiesIsSet()
+    {
+        $filter = new ezcAuthenticationGroupFilter( array() );
 
-        try
-        {
-            $value = $filter->no_such_property;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
+        $this->issetPropertyTest( $filter, 'status', true );
+        $this->issetPropertyTest( $filter, 'no_such_property', false );
     }
 }
 ?>

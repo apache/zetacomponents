@@ -69,9 +69,13 @@ class ezcAuthenticationLdapOptions extends ezcAuthenticationFilterOptions
         switch ( $name )
         {
             case 'protocol':
-                if ( !is_numeric( $value ) )
+                $allowedValues = array(
+                                        ezcAuthenticationLdapFilter::PROTOCOL_PLAIN,
+                                        ezcAuthenticationLdapFilter::PROTOCOL_TLS
+                                      );
+                if ( !in_array( $value, $allowedValues, true ) )
                 {
-                    throw new ezcBaseValueException( $name, $value, 'int' );
+                    throw new ezcBaseValueException( $name, $value, implode( ', ', $allowedValues ) );
                 }
                 $this->properties[$name] = $value;
                 break;

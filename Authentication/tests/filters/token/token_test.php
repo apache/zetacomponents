@@ -8,12 +8,15 @@
  * @subpackage Tests
  */
 
+include_once( 'Authentication/tests/test.php' );
+include_once( 'data/encryption.php' );
+
 /**
  * @package Authentication
  * @version //autogen//
  * @subpackage Tests
  */
-class ezcAuthenticationTokenTest extends ezcTestCase
+class ezcAuthenticationTokenTest extends ezcAuthenticationTest
 {
     public static function suite()
     {
@@ -74,7 +77,7 @@ class ezcAuthenticationTokenTest extends ezcTestCase
     {
         $credentials = new ezcAuthenticationIdCredentials( 'foobar' );
         $authentication = new ezcAuthentication( $credentials );
-        $authentication->addFilter( new ezcAuthenticationTokenFilter( 'xxIh4TUllUASg', array( 'Encryption', 'uncrackable' ) ) );
+        $authentication->addFilter( new ezcAuthenticationTokenFilter( 'xxIh4TUllUASg', array( 'EncryptionTest', 'uncrackable' ) ) );
         $this->assertEquals( true, $authentication->run() );
     }
 
@@ -82,97 +85,45 @@ class ezcAuthenticationTokenTest extends ezcTestCase
     {
         $credentials = new ezcAuthenticationIdCredentials( 'foobar' );
         $authentication = new ezcAuthentication( $credentials );
-        $authentication->addFilter( new ezcAuthenticationTokenFilter( 'wrong value', array( 'Encryption', 'uncrackable' ) ) );
+        $authentication->addFilter( new ezcAuthenticationTokenFilter( 'wrong value', array( 'EncryptionTest', 'uncrackable' ) ) );
         $this->assertEquals( false, $authentication->run() );
     }
 
-    public function testOptions()
+    public function testTokenOptions()
     {
         $options = new ezcAuthenticationTokenOptions();
 
-        try
-        {
-            $options->no_such_option = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_option'.", $e->getMessage() );
-        }
+        $this->missingPropertyTest( $options, 'no_such_option' );
+    }
+
+    public function testTokenOptionsGetSet()
+    {
+        $options = new ezcAuthenticationTokenOptions();
 
         $filter = new ezcAuthenticationTokenFilter( '', 'md5' );
         $filter->setOptions( $options );
         $this->assertEquals( $options, $filter->getOptions() );
     }
 
-    public function testProperties()
+    public function testTokenProperties()
     {
         $token = '';
         $filter = new ezcAuthenticationTokenFilter( $token, 'md5' );
-        $this->assertEquals( true, isset( $filter->token ) );
-        $this->assertEquals( true, isset( $filter->function ) );
-        $this->assertEquals( false, isset( $filter->no_such_property ) );
 
-        try
-        {
-            $filter->token = array();
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $expected = "The value 'a:0:{}' that you were trying to assign to setting 'token' is invalid. Allowed values are: string || int.";
-            $this->assertEquals( $expected, $e->getMessage() );
-        }
-
-        try
-        {
-            $filter->function = 'no_such_function';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $expected = "The value 'no_such_function' that you were trying to assign to setting 'function' is invalid. Allowed values are: callback.";
-            $this->assertEquals( $expected, $e->getMessage() );
-        }
-
-        try
-        {
-            $filter->function = array( 'Encryption', 'no_such_function' );
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $expected = "The value 'a:2:{i:0;s:10:\"Encryption\";i:1;s:16:\"no_such_function\";}' that you were trying to assign to setting 'function' is invalid. Allowed values are: callback.";
-            $this->assertEquals( $expected, $e->getMessage() );
-        }
-
-        try
-        {
-            $filter->no_such_property = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
-
-        try
-        {
-            $value = $filter->no_such_property;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
+        $this->invalidPropertyTest( $filter, 'token', array(), 'string || int' );
+        $this->invalidPropertyTest( $filter, 'function', 'no_such_function', 'callback' );
+        $this->invalidPropertyTest( $filter, 'function', array( 'EncryptionTest', 'no_such_function' ), 'callback' );
+        $this->missingPropertyTest( $filter, 'no_such_property' );
     }
-}
 
-class Encryption
-{
-    public static function uncrackable( $s )
+    public function testTokenPropertiesIsSet()
     {
-        return crypt( $s, 'xx' );
+        $token = '';
+        $filter = new ezcAuthenticationTokenFilter( $token, 'md5' );
+
+        $this->issetPropertyTest( $filter, 'token', true );
+        $this->issetPropertyTest( $filter, 'function', true );
+        $this->issetPropertyTest( $filter, 'no_such_property', false );
     }
 }
 ?>

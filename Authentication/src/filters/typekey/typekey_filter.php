@@ -213,7 +213,7 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter
                 }
                 else
                 {
-                    throw new ezcBaseValueException( $name, $value, 'instance of ezcAuthenticationBignumLibrary' );
+                    throw new ezcBaseValueException( $name, $value, 'ezcAuthenticationBignumLibrary' );
                 }
                 break;
 

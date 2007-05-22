@@ -8,16 +8,18 @@
  * @subpackage Tests
  */
 
+include_once( 'Authentication/tests/test.php' );
+
 /**
  * @package Authentication
  * @version //autogen//
  * @subpackage Tests
  */
-class ezcAuthenticationTest extends ezcTestCase
+class ezcAuthenticationGeneralTest extends ezcAuthenticationTest
 {
     public static function suite()
     {
-        return new PHPUnit_Framework_TestSuite( "ezcAuthenticationTest" );
+        return new PHPUnit_Framework_TestSuite( "ezcAuthenticationGeneralTest" );
     }
 
     public function testGeneralNoFilters()
@@ -65,15 +67,13 @@ class ezcAuthenticationTest extends ezcTestCase
     public function testGeneralOptions()
     {
         $options = new ezcAuthenticationOptions();
-        try
-        {
-            $options->no_such_option = 'wrong value';
-            $this->fail( "Expected exception was not thrown" );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_option'.", $e->getMessage() );
-        }
+
+        $this->missingPropertyTest( $options, 'no_such_option' );
+    }
+
+    public function testGeneralOptionsGetSet()
+    {
+        $options = new ezcAuthenticationOptions();
 
         $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
         $authentication = new ezcAuthentication( $credentials );
@@ -81,64 +81,26 @@ class ezcAuthenticationTest extends ezcTestCase
         $this->assertEquals( $options, $authentication->getOptions() );
     }
 
-    public function testProperties()
+    public function testGeneralProperties()
     {
         $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
         $authentication = new ezcAuthentication( $credentials );
-        $this->assertEquals( true, isset( $authentication->credentials ) );
-        $this->assertEquals( true, isset( $authentication->status ) );
-        $this->assertEquals( false, isset( $authentication->session ) );
-        $this->assertEquals( false, isset( $authentication->no_such_property ) );
 
-        try
-        {
-            $authentication->credentials = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'credentials' is invalid. Allowed values are: ezcAuthenticationCredentials.", $e->getMessage() );
-        }
+        $this->invalidPropertyTest( $authentication, 'credentials', 'wrong value', 'ezcAuthenticationCredentials' );
+        $this->invalidPropertyTest( $authentication, 'session', 'wrong value', 'ezcAuthenticationSessionFilter' );
+        $this->invalidPropertyTest( $authentication, 'status', 'wrong value', 'ezcAuthenticationStatus' );
+        $this->missingPropertyTest( $authentication, 'no_such_property' );
+    }
 
-        try
-        {
-            $authentication->session = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'session' is invalid. Allowed values are: ezcAuthenticationSessionFilter.", $e->getMessage() );
-        }
+    public function testGeneralPropertiesIsSet()
+    {
+        $credentials = new ezcAuthenticationPasswordCredentials( 'john.doe', 'foobar' );
+        $authentication = new ezcAuthentication( $credentials );
 
-        try
-        {
-            $authentication->status = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'status' is invalid. Allowed values are: ezcAuthenticationStatus.", $e->getMessage() );
-        }
-
-        try
-        {
-            $authentication->no_such_property = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
-
-        try
-        {
-            $value = $authentication->no_such_property;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_property'.", $e->getMessage() );
-        }
+        $this->issetPropertyTest( $authentication, 'credentials', true );
+        $this->issetPropertyTest( $authentication, 'status', true );
+        $this->issetPropertyTest( $authentication, 'session', false );
+        $this->issetPropertyTest( $authentication, 'no_such_property', false );
     }
 }
 ?>

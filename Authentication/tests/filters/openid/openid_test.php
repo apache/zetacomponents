@@ -8,6 +8,7 @@
  * @subpackage Tests
  */
 
+include_once( 'Authentication/tests/test.php' );
 include_once( 'data/openid_wrapper.php' );
 
 /**
@@ -15,7 +16,7 @@ include_once( 'data/openid_wrapper.php' );
  * @version //autogen//
  * @subpackage Tests
  */
-class ezcAuthenticationOpenidTest extends ezcTestCase
+class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 {
     public static $url = "http://ezc.myopenid.com";
     public static $urlIncomplete = "ezc.myopenid.com";
@@ -283,65 +284,17 @@ class ezcAuthenticationOpenidTest extends ezcTestCase
     {
         $options = new ezcAuthenticationOpenidOptions();
 
-        try
-        {
-            $options->timeout = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'timeout' is invalid. Allowed values are: int >= 1.", $e->getMessage() );
-        }
+        $this->invalidPropertyTest( $options, 'timeout', 'wrong value', 'int >= 1' );
+        $this->invalidPropertyTest( $options, 'timeout', 0, 'int >= 1' );
+        $this->invalidPropertyTest( $options, 'timeoutOpen', 'wrong value', 'int >= 1' );
+        $this->invalidPropertyTest( $options, 'timeoutOpen', 0, 'int >= 1' );
+        $this->invalidPropertyTest( $options, 'requestSource', null, 'array' );
+        $this->missingPropertyTest( $options, 'no_such_option' );
+    }
 
-        try
-        {
-            $options->timeout = 0;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value '0' that you were trying to assign to setting 'timeout' is invalid. Allowed values are: int >= 1.", $e->getMessage() );
-        }
-
-        try
-        {
-            $options->timeoutOpen = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'timeoutOpen' is invalid. Allowed values are: int >= 1.", $e->getMessage() );
-        }
-
-        try
-        {
-            $options->timeoutOpen = 0;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value '0' that you were trying to assign to setting 'timeoutOpen' is invalid. Allowed values are: int >= 1.", $e->getMessage() );
-        }
-
-        try
-        {
-            $options->requestSource = null;
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $this->assertEquals( "The value '' that you were trying to assign to setting 'requestSource' is invalid. Allowed values are: array.", $e->getMessage() );
-        }
-
-        try
-        {
-            $options->no_such_option = 'wrong value';
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $this->assertEquals( "No such property name 'no_such_option'.", $e->getMessage() );
-        }
+    public function testOpenidOptionsGetSet()
+    {
+        $options = new ezcAuthenticationOpenidOptions();
 
         $filter = new ezcAuthenticationOpenidFilter();
         $filter->setOptions( $options );

@@ -69,12 +69,12 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter
     /**
      * Use plain-text password and no encryption for the connection (default).
      */
-    const PROTOCOL_PLAIN = 0;
+    const PROTOCOL_PLAIN = 1;
 
     /**
      * Use plain-text password and TLS connection.
      */
-    const PROTOCOL_TLS = 1;
+    const PROTOCOL_TLS = 2;
 
     /**
      * Holds the properties of this class.
@@ -124,7 +124,7 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter
                 }
                 else
                 {
-                    throw new ezcBaseValueException( $name, $value, 'instance of ezcAuthenticationLdapInfo' );
+                    throw new ezcBaseValueException( $name, $value, 'ezcAuthenticationLdapInfo' );
                 }
                 break;
 
