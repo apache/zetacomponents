@@ -39,7 +39,7 @@ abstract class ezcAuthenticationFilter
     protected $options;
 
     /**
-     * Sets the options to $options.
+     * Sets the options of this class to $options.
      *
      * @param ezcAuthenticationFilterOptions $options Options for this class
      */

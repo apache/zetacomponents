@@ -196,7 +196,7 @@ class ezcAuthentication
     }
 
     /**
-     * Sets the options to $options.
+     * Sets the options of this class to $options.
      *
      * @param ezcAuthenticationOptions $options Options for this class
      */
@@ -208,7 +208,7 @@ class ezcAuthentication
     /**
      * Returns the options of this class.
      *
-     * @return ezcAuthenticationFilterOptions
+     * @return ezcAuthenticationOptions
      */
     public function getOptions()
     {
