@@ -58,6 +58,7 @@
  *              ezcAuthenticationOpenidFilter::STATUS_SIGNATURE_INCORRECT => 'OpenID said the provided identifier was incorrect',
  *              ezcAuthenticationOpenidFilter::STATUS_CANCELLED => 'The OpenID authentication was cancelled',
  *              ezcAuthenticationOpenidFilter::STATUS_URL_INCORRECT => 'The identifier you provided is invalid',
+ *              ezcAuthenticationSessionFilter::STATUS_EMPTY => '',
  *              ezcAuthenticationSessionFilter::STATUS_EXPIRED => 'Session expired'
  *              );
  *     for ( $i = 0; $i < count( $status ); $i++ )

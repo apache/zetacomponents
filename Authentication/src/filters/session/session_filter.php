@@ -43,6 +43,7 @@
  *     $err = array(
  *              ezcAuthenticationHtpasswdFilter::STATUS_USERNAME_INCORRECT => 'Incorrect username',
  *              ezcAuthenticationHtpasswdFilter::STATUS_PASSWORD_INCORRECT => 'Incorrect password',
+ *              ezcAuthenticationSessionFilter::STATUS_EMPTY => '',
  *              ezcAuthenticationSessionFilter::STATUS_EXPIRED => 'Session expired'
  *              );
  *     for ( $i = 0; $i < count( $status ); $i++ )
