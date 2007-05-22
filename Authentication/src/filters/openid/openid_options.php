@@ -28,15 +28,6 @@
  * $filter->setOptions( $options );
  * </code>
  *
- * @property int $mode
- *           The OpenID mode to use for authentication. It is either dumb
- *           (ezcAuthenticationOpenidFilter::MODE_DUMB, default) or smart
- *           (ezcAuthenticationOpenidFilter::MODE_SMART). In dumb mode
- *           the OpenID server does most of the work, but an extra check
- *           is required (check_authentication step). In smart mode the
- *           server and the OpenIP provider establish a shared secret (with
- *           an expiry period) that is used to sign the responses, so the
- *           check_authentication step is not required.
  * @property int $timeout
  *           The amount of seconds allowed as timeout for fetching content
  *           during HTML or Yadis discovery.
@@ -63,7 +54,6 @@ class ezcAuthenticationOpenidOptions extends ezcAuthenticationFilterOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->mode = ezcAuthenticationOpenidFilter::MODE_DUMB; // stateless mode
         $this->timeout = 3; // seconds
         $this->timeoutOpen = 3; // seconds
         $this->requestSource = ( $_GET !== null ) ? $_GET : array();
@@ -86,18 +76,6 @@ class ezcAuthenticationOpenidOptions extends ezcAuthenticationFilterOptions
     {
         switch ( $name )
         {
-            case 'mode':
-                $allowedValues = array(
-                                        ezcAuthenticationOpenidFilter::MODE_DUMB,
-                                        ezcAuthenticationOpenidFilter::MODE_SMART
-                                      );
-                if ( !is_numeric( $value ) || ( in_array( $value, $allowedValues ) )
-                {
-                    throw new ezcBaseValueException( $name, $value, implode( ', ', $allowedModes ) );
-                }
-                $this->properties[$name] = $value;
-                break;
-
             case 'timeout':
             case 'timeoutOpen':
                 if ( !is_numeric( $value ) || ( $value < 1 ) )
