@@ -1,6 +1,4 @@
 <?php
-require_once '../../../Workflow/docs/examples/common.php';
-
 // Create new workflow of name "Test".
 $workflow = new ezcWorkflow( 'Test' );
 
@@ -19,7 +17,7 @@ $input = new ezcWorkflowNodeInput(
 // as an outgoing node to the start node.
 $start->addOutNode( $input );
 
-// Create a new Exclusive Choice node and add it as an
+// Create a new Exclusive Choice node and add it as an 
 // outgoing node to the previously created Input node.
 $branch = new ezcWorkflowNodeExclusiveChoice;
 $branch->addInNode( $input );
@@ -55,13 +53,4 @@ $merge = new ezcWorkflowNodeSimpleMerge;
 $merge->addInNode( $true );
 $merge->addInNode( $false );
 $merge->addOutNode( $end );
-
-// Set up database connection.
-$db = ezcDbFactory::create( 'mysql://test@localhost/test' );
-
-// Set up workflow definition storage (database).
-$definition = new ezcWorkflowDatabaseDefinition( $db );
-
-// Save workflow definition to database.
-$definition->save( $workflow );
 ?>

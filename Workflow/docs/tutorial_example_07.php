@@ -1,6 +1,4 @@
 <?php
-require_once '../../../Workflow/docs/examples/common.php';
-
 // Set up database connection.
 $db = ezcDbFactory::create( 'mysql://test@localhost/test' );
 
@@ -17,5 +15,5 @@ $execution = new ezcWorkflowDatabaseExecution( $db );
 $execution->setWorkflow( $workflow );
 
 // Start workflow execution.
-$execution->start();
+$id = $execution->start();
 ?>
