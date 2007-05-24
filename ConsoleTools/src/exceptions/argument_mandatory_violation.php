@@ -17,7 +17,14 @@
  */
 class ezcConsoleArgumentMandatoryViolationException extends ezcConsoleArgumentException
 {
-    function __construct( ezcConsoleArgument $arg )
+
+    /**
+     * Creates a new exception object. 
+     * 
+     * @param ezcConsoleArgument $arg The argument object, the violation occured for.
+     * @return void
+     */
+    public function __construct( ezcConsoleArgument $arg )
     {
         parent::__construct( "Argument with name '{$arg->name}' is mandatory but was not submitted." );
     }

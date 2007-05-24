@@ -16,7 +16,13 @@
  */
 class ezcConsoleOptionAlreadyRegisteredException extends ezcConsoleException
 {
-    function __construct( $name )
+    /**
+     * Creates a new exception object. 
+     * 
+     * @param string $name Name of the affected option.
+     * @return void
+     */
+    public function __construct( $name )
     {
         parent::__construct( "An option with the name '{$name}' is already registered." );
     }

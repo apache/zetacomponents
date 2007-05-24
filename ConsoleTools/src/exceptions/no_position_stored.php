@@ -16,7 +16,12 @@
  */
 class ezcConsoleNoPositionStoredException extends ezcConsoleException
 {
-    function __construct()
+    /**
+     * Creates a new exception object.
+     * 
+     * @return void
+     */
+    public function __construct()
     {
         parent::__construct( 'Cannot restore position, if no position has been stored before.' );
     }

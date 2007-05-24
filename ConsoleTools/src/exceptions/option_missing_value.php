@@ -17,7 +17,13 @@
  */
 class ezcConsoleOptionMissingValueException extends ezcConsoleOptionException
 {
-    function __construct( ezcConsoleOption $option )
+    /**
+     * Creates a new exception object. 
+     * 
+     * @param ezcConsoleOption $option The option the value is missing for The option the value is missing for.. 
+     * @return void
+     */
+    public function __construct( ezcConsoleOption $option )
     {
         parent::__construct( "The option '{$option->long}' expects a value, but none was submitted." );
     }

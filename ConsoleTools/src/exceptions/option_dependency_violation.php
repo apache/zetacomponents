@@ -17,7 +17,15 @@
  */
 class ezcConsoleOptionDependencyViolationException extends ezcConsoleOptionException
 {
-    function __construct( ezcConsoleOption $dependingOption, ezcConsoleOption $dependantOption, $valueRange = null )
+    /**
+     * Creates a new exception object. 
+     * 
+     * @param ezcConsoleOption $dependingOption The depending option.
+     * @param ezcConsoleOption $dependantOption The option depended on.
+     * @param mixed $valueRange                 The dependend value range.
+     * @return void
+     */
+    public function __construct( ezcConsoleOption $dependingOption, ezcConsoleOption $dependantOption, $valueRange = null )
     {
         $message  = "The option '{$dependingOption->long}' depends on the option '{$dependantOption->long}' ";
         if ( $valueRange !== null )

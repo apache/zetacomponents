@@ -17,7 +17,13 @@
  */
 class ezcConsoleOptionArgumentsViolationException extends ezcConsoleOptionException
 {
-    function __construct( ezcConsoleOption $option )
+    /**
+     * Creates a new exception object.
+     * 
+     * @param ezcConsoleOption $option The violating option. 
+     * @return void
+     */
+    public function __construct( ezcConsoleOption $option )
     {
         parent::__construct( "The option with long name '{$option->long}' excludes the usage of arguments, but arguments have been submitted." );
     }

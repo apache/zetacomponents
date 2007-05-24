@@ -18,6 +18,11 @@
 class ezcConsoleNoValidDialogResultException extends ezcConsoleException
 {
     
+    /**
+     * Creates a new exception object.
+     * 
+     * @return void
+     */
     public function __construct()
     {
         parent::__construct( "The dialog did not receive a valid result, yet." );

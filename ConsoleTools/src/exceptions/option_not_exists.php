@@ -9,7 +9,7 @@
  */
 
 /**
- * The requested option is not registered.
+ * Occurs if the requested option is not registered.
  * This exception can be caught using {@link ezcConsoleOptionException}.
  *
  * @package ConsoleTools
@@ -17,7 +17,13 @@
  */
 class ezcConsoleOptionNotExistsException extends ezcConsoleOptionException
 {
-    function __construct( $name )
+    /**
+     * Creates a new exception object. 
+     * 
+     * @param string $name Name of the already existing option.
+     * @return void
+     */
+    public function __construct( $name )
     {
         parent::__construct( "The referenced parameter '{$name}' is not registered." );
     }

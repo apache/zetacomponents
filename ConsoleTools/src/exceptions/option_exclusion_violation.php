@@ -17,7 +17,15 @@
  */
 class ezcConsoleOptionExclusionViolationException extends ezcConsoleOptionException
 {
-    function __construct( ezcConsoleOption $excludingOption, ezcConsoleOption $excludedOption, $valueRange = null )
+    /**
+     * Creates a new exception object. 
+     * 
+     * @param ezcConsoleOption $excludingOption The excluding option.
+     * @param ezcConsoleOption $excludedOption  The excluded option.
+     * @param mixed $valueRange                 The excluded value range.
+     * @return void
+     */
+    public function __construct( ezcConsoleOption $excludingOption, ezcConsoleOption $excludedOption, $valueRange = null )
     {
         $message = "The option '{$excludingOption->long}' excludes the option '{$excludedOption->long}'" ;
         if ( $valueRange !== null )

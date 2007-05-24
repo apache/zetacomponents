@@ -26,7 +26,18 @@ class ezcConsoleArgumentAlreadyRegisteredException extends ezcConsoleException
      */
     const ORDERED = 2;
 
-    function __construct( $offset, $type )
+    /**
+     * Creates a new exception object.
+     * The $type parameter can either be
+     * {@link ezcConsoleArgumentAlreadyRegisteredException::NAMED} or
+     * {@link ezcConsoleArgumentAlreadyRegisteredException::ORDERED}, indicating
+     * if the name of the parameter or its place are already taken.
+     * 
+     * @param int $offset Offset of the already reagistered argument.
+     * @param int $type   Type of the offset.
+     * @return void
+     */
+    public function __construct( $offset, $type )
     {
         switch ( $type )
         {

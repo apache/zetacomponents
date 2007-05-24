@@ -17,7 +17,13 @@
  */
 class ezcConsoleOptionMandatoryViolationException extends ezcConsoleOptionException
 {
-    function __construct( ezcConsoleOption $option )
+    /**
+     * Creates a new exception object. 
+     * 
+     * @param ezcConsoleOption $option The violating option.
+     * @return void
+     */
+    public function __construct( ezcConsoleOption $option )
     {
         parent::__construct( "Option with long name '{$option->long}' is mandatory but was not submitted." );
     }

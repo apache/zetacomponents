@@ -17,7 +17,14 @@
  */
 class ezcConsoleArgumentTypeViolationException extends ezcConsoleArgumentException
 {
-    function __construct( ezcConsoleArgument $arg, $value )
+    /**
+     * Creates a new exception object. 
+     * 
+     * @param ezcConsoleArgument $arg The violated argument.
+     * @param mixed $value            The incorrect value.
+     * @return void
+     */
+    public function __construct( ezcConsoleArgument $arg, $value )
     {
         $typeName = 'unknown';
         switch ( $arg->type )

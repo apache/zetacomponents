@@ -9,14 +9,20 @@
  */
 
 /**
- * The alias you tried to unregister is a real option.
+ * Occurs if the alias you tried to unregister is not an alias, but a real option.
  *
  * @package ConsoleTools
  * @version //autogen//
  */
 class ezcConsoleOptionNoAliasException extends ezcConsoleException
 {
-    function __construct( $name )
+    /**
+     * Creates a new exception object. 
+     * 
+     * @param string $name The name of the option which is not an alias.
+     * @return void
+     */
+    public function __construct( $name )
     {
         parent::__construct( "The option name '{$name}' refers to a real parameter, not to an alias." );
     }

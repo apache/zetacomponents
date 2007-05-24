@@ -17,7 +17,14 @@
  */
 class ezcConsoleTooManyArgumentsException extends ezcConsoleArgumentException
 {
-    function __construct( $args, $i )
+    /**
+     * Creates a new exception object. 
+     * 
+     * @param array(int=>string) $args Arguments array.
+     * @param int $i                   Index in the arguments array.
+     * @return void
+     */
+    public function __construct( $args, $i )
     {
         parent::__construct( "Only " . ( $i - 1 ) . " arguments are expected, but " . ( count( $args ) - 1 ) . " were submitted." );
     }

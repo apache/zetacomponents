@@ -17,7 +17,14 @@
  */
 class ezcConsoleOptionTypeViolationException extends ezcConsoleOptionException
 {
-    function __construct( ezcConsoleOption $option, $value )
+    /**
+     * Creates a new exception object. 
+     * 
+     * @param ezcConsoleOption $option The option affected by the violation.
+     * @param mixed $value             The violating value            The violating value..
+     * @return void
+     */
+    public function __construct( ezcConsoleOption $option, $value )
     {
         $typeName = 'unknown';
         switch ( $option->type )
