@@ -34,23 +34,30 @@
  *
  * The $context property is by default assigned to an ezcTemplateXhtmlContext object.
  *
- * @property ezcTemplateOutputContext $context
+ * @property ezcTemplateOutputContext                   $context
  *           Contains the template context.
- * @property string                      $templatePath
+ * @property string                                     $templatePath
  *           Base path where the source templates are stored.
- * @property string                      $compilePath
+ * @property string                                     $compilePath
  *           Base path where the compiled templates are stored.
- * @property bool                        $checkModifiedTemplates
+ * @property bool                                       $checkModifiedTemplates
  *           Set to true, to recompile outdated compiled templates.
- * @property string                      $cachedTemplatesPath
+ * @property string                                     $cachedTemplatesPath
  *           Relative path from the compilePath.
- * @property string                      $compiledTemplatesPath
+ * @property string                                     $compiledTemplatesPath
  *           Relative path from the compilePath.
- * @property ezcTemplateCustomBlockDefinition[]    $customBlock
+ * @property array(ezcTemplateCustomBlockDefinition)    $customBlock
  *           The currently registered custom blocks.
- * @property ezcTemplateCustomFunctionDefinition[] $customFunctions
+ * @property array(ezcTemplateCustomFunctionDefinition) $customFunctions
  *           The currently registered custom functions.
- *
+ * @property ezcTemplateCacheManager                    $chacheManager
+ *           The object to use for caching of compile templates.
+ * @property bool                                       $disableCache
+ *           Disable caching for development purposes.
+ * @property string                                     $sourceCharset
+ *           Charset of the literals in the original template file.
+ * @property string                                     $targetCharset
+ *           Desired charset of literals in the compiled.
  * @package Template
  * @version //autogen//
  */
