@@ -394,6 +394,54 @@ class ezcGraphPieChartTest extends ezcGraphTestCase
         $chart->render( 400, 200 );
     }
 
+    public function testInavlidValues()
+    {
+        try
+        {
+            $chart = new ezcGraphPieChart();
+            $chart->data['Skien'] = new ezcGraphArrayDataSet( array() );
+            $chart->render( 500, 200 );
+        }
+        catch ( ezcGraphInvalidDataException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphInvalidDataException.' );
+    }
+
+    public function testInvalidValues()
+    {
+        try
+        {
+            $chart = new ezcGraphPieChart();
+            $chart->data['Skien'] = new ezcGraphArrayDataSet( array() );
+            $chart->render( 500, 200 );
+        }
+        catch ( ezcGraphInvalidDataException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphInvalidDataException.' );
+    }
+
+    public function testEmptyDataSet()
+    {
+        try
+        {
+            $chart = new ezcGraphPieChart();
+            $chart->data['Skien'] = new ezcGraphArrayDataSet( array() );
+            $chart->render( 500, 200 );
+        } 
+        catch ( ezcGraphInvalidDataException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcGraphInvalidDataException.' );
+    }
+
     public function testRenderSmallPieChart()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';

@@ -36,6 +36,7 @@ return array(
     'ezcGraphUnknownColorDefinitionException'       => 'Graph/exceptions/unknown_color_definition.php',
     'ezcGraphUnknownFontTypeException'              => 'Graph/exceptions/font_type.php',
     'ezcGraphUnregularStepsException'               => 'Graph/exceptions/unregular_steps.php',
+    'ezcGraphInvalidDataException'                  => 'Graph/exceptions/invalid_data.php',
     'ezcGraphChart'                                 => 'Graph/interfaces/chart.php',
     'ezcGraphChartElement'                          => 'Graph/interfaces/element.php',
     'ezcGraphChartOptions'                          => 'Graph/options/chart.php',

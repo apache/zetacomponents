@@ -86,13 +86,23 @@ class ezcGraphPieChart extends ezcGraphChart
 
         // Calculate sum of all values to be able to calculate percentage
         $sum = 0;
-        foreach ( $dataset as $value )
+        foreach ( $dataset as $name => $value )
         {
+            if ( $value <= 0 )
+            {
+                throw new ezcGraphInvalidDataException( "Values > 0 required, '$name' => '$value'." );
+            }
+
             $sum += $value;
         }
         if ( $this->options->sum !== false )
         {
             $sum = max( $sum, $this->options->sum );
+        }
+
+        if ( $sum <= 0 )
+        {
+            throw new ezcGraphInvalidDataException( "Pie charts require a value sum > 0, your value: '$sum'." );
         }
 
         $angle = 0;

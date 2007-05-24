@@ -44,9 +44,15 @@ class ezcGraphArrayDataSet extends ezcGraphDataSet
             throw new ezcGraphInvalidArrayDataSourceException( $data );
         }
 
+        $this->data = array();
         foreach ( $data as $key => $value )
         {
             $this->data[$key] = $value;
+        }
+
+        if ( !count( $this->data ) )
+        {
+            throw new ezcGraphInvalidDataException( 'Data sets should contain some values.' );
         }
     }
 
