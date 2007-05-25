@@ -117,9 +117,9 @@ abstract class ezcGraphDriver
             }
             $vectors[$i]->unify();
 
+            // Remove point from list if it the same as the next point
             if ( ( $vectors[$i]->x == $vectors[$i]->y ) && ( $vectors[$i]->x == 0 ) )
             {
-                // Remove point from list if it the same as the next point
                 $pointCount--;
                 if ( $i === 0 ) 
                 {
@@ -132,6 +132,29 @@ abstract class ezcGraphDriver
                         array_slice( $points, $i + 1 )
                     );
                 }
+                $i--;
+            }
+        }
+
+        // Remove vectors and appendant point, if local angle equals zero 
+        // dergrees.
+        for ( $i = 0; $i < $pointCount; ++$i ) 
+        {
+            $nextPoint = ( $i + 1 ) % $pointCount;
+
+            if ( ( abs( $vectors[$i]->x - $vectors[$nextPoint]->x ) < .0001 ) &&
+                 ( abs( $vectors[$i]->y - $vectors[$nextPoint]->y ) < .0001 ) )
+            {
+                $pointCount--;
+
+                $points = array_merge(
+                    array_slice( $points, 0, $i + 1 ),
+                    array_slice( $points, $i + 2 )
+                );
+                $vectors = array_merge(
+                    array_slice( $vectors, 0, $i + 1 ),
+                    array_slice( $vectors, $i + 2 )
+                );
                 $i--;
             }
         }

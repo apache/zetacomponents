@@ -327,6 +327,29 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
         );
     }
 
+    public function testDrawPolygonBorderReducementWithRedundantPoints()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->drawPolygon(
+            array( 
+                new ezcGraphCoordinate( 10, 10 ),
+                new ezcGraphCoordinate( 10, 15 ),
+                new ezcGraphCoordinate( 10, 50 ),
+                new ezcGraphCoordinate( 10, 55 ),
+            ),
+            ezcGraphColor::fromHex( '#3465A4' ),
+            false
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testDrawCircleSectorAcuteNonFilled()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';

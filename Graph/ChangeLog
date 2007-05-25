@@ -17,6 +17,8 @@
 - Fixed issue #10842: Pie charts fatal error with datasets with value sum <= 0
 - Fixed issue #10848: Missing pie segment labels in pie charts with 3d
   renderer
+- Fixed issue #10846: Division by zero in polygon size reducement algorithm
+  for edges with an angle equals 0 degree.
 
 1.1beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
