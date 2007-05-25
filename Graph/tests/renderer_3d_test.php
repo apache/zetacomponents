@@ -1670,5 +1670,22 @@ class ezcGraphRenderer3dTest extends ezcGraphTestCase
 
         $this->fail( 'Expected ezcBaseValueException.' );
     }
+
+    public function testRenderer3dPieChartMissingLabels()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->data['TestCase'] = new ezcGraphArrayDataSet( array( 'Big' => 2.9, 'Small 1' => 0.03, 'Small 2' => 0.04, 'Small 3' => 0.03, 'Last' => 1 ) );
+
+        $chart->renderer = new ezcGraphRenderer3d();
+        $chart->renderer->options->dataBorder = false;
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
 }
 ?>

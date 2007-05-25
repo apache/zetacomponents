@@ -15,6 +15,8 @@
   with edge lengths < reducement
 - Fixed issue #10750: SVG drivers output broken with wrong LC_NUMERIC
 - Fixed issue #10842: Pie charts fatal error with datasets with value sum <= 0
+- Fixed issue #10848: Missing pie segment labels in pie charts with 3d
+  renderer
 
 1.1beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
