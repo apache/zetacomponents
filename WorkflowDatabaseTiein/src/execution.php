@@ -47,6 +47,8 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
         {
             $this->loadExecution( $executionId );
         }
+
+        $this->properties['definitionHandler'] = new ezcWorkflowDatabaseDefinition( $db );
     }
 
     /**
@@ -247,7 +249,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
             );
         }
 
-        foreach ( $this->workflow->getNodes() as $node )
+        foreach ( $this->workflow->nodes as $node )
         {
             $nodeId = $node->getId();
 

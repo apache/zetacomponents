@@ -157,11 +157,6 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
             $workflow->id = (int)$workflowId;
             $workflow->version = (int)$workflowVersion;
 
-            foreach ( $result as $node )
-            {
-                $nodes[$node['node_id']]->setWorkflow( $workflow );
-            }
-
             // Query the database for the variable handlers.
             $query = $this->db->createSelectQuery();
 
@@ -282,7 +277,7 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
         $workflow->version = (int)$workflowVersion;
 
         // Write node table rows.
-        foreach ( $workflow->getNodes() as $node )
+        foreach ( $workflow->nodes as $node )
         {
             $query = $this->db->createInsertQuery();
 
@@ -300,7 +295,7 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
         }
 
         // Connect node table rows.
-        foreach ( $workflow->getNodes() as $node )
+        foreach ( $workflow->nodes as $node )
         {
             foreach ( $node->getOutNodes() as $outNode )
             {
