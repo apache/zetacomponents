@@ -66,7 +66,11 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
         $query->insertInto( 'execution' )
               ->set( 'workflow_id',       $query->bindValue( $this->workflow->id ) )
               ->set( 'execution_parent',  $query->bindValue( $parentId ) )
-              ->set( 'execution_started', $query->bindValue( time() ) );
+              ->set( 'execution_started', $query->bindValue( time() ) )
+              ->set( 'execution_variables', $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $this->variables ) ) )
+              ->set( 'execution_waiting_for', $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $this->waitingFor ) ) )
+              ->set( 'execution_threads', $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $this->threads ) ) )
+              ->set( 'execution_next_thread_id', $query->bindValue( $this->nextThreadId ) );
 
         $statement = $query->prepare();
         $statement->execute();
