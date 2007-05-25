@@ -153,9 +153,9 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
 
             // Create workflow object and add the node objects to it.
             $workflow = new ezcWorkflow( $workflowName, $startNode, $defaultEndNode );
-            $workflow->setDefinition( $this );
-            $workflow->setId( $workflowId );
-            $workflow->setVersion( $workflowVersion );
+            $workflow->definitionHandler = $this;
+            $workflow->id = (int)$workflowId;
+            $workflow->version = (int)$workflowVersion;
 
             foreach ( $result as $node )
             {
@@ -214,22 +214,19 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
         // Query the database for the workflow ID.
         $query = $this->db->createSelectQuery();
 
+        // Load the current version of the workflow.
+        if ( $workflowVersion == 0 )
+        {
+            $workflowVersion = $this->getCurrentVersionNumber( $workflowName );
+        }
+
+        // Query for the workflow_id.
         $query->select( 'workflow_id' )
               ->from( 'workflow' )
               ->where( $query->expr->eq( 'workflow_name',
-                                          $query->bindValue( $workflowName ) ) );
-
-        if ( $workflowVersion == 0 )
-        {
-            // Load the latest version of the workflow definition by default.
-            $query->where( $query->expr->eq( 'workflow_version_is_latest', $query->bindValue( true ) ) );
-        }
-        else
-        {
-            // Load the specified version of the workflow.
-            $query->where( $query->expr->eq( 'workflow_version',
-                                             $query->bindValue( $workflowVersion ) ) );
-        }
+                                          $query->bindValue( $workflowName ) ) )
+              ->where( $query->expr->eq( 'workflow_version',
+                                         $query->bindValue( $workflowVersion ) ) );
 
         $stmt = $query->prepare();
         $stmt->execute();
@@ -267,36 +264,22 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
         $this->db->beginTransaction();
 
         // Calculate new version number.
-        $workflowVersion = $this->getCurrentVersionNumber( $workflow->getName() ) + 1;
-
-        // Mark the version that is currently the latest version as old.
-        if ( $workflowVersion > 1 )
-        {
-            $query = $this->db->createUpdateQuery();
-
-            $query->update( 'workflow' )
-                  ->where( $query->expr->eq( 'workflow_name', $query->bindValue( $workflow->getName() ) ) )
-                  ->where( $query->expr->eq( 'workflow_version_is_latest', $query->bindValue( true ) ) )
-                  ->set( 'workflow_version_is_latest', $query->bindValue( false ) );
-
-            $statement = $query->prepare();
-            $statement->execute();
-        }
+        $workflowVersion = $this->getCurrentVersionNumber( $workflow->name ) + 1;
 
         // Write workflow table row.
         $query = $this->db->createInsertQuery();
 
         $query->insertInto( 'workflow' )
-              ->set( 'workflow_name', $query->bindValue( $workflow->getName() ) )
+              ->set( 'workflow_name', $query->bindValue( $workflow->name ) )
               ->set( 'workflow_version', $query->bindValue( $workflowVersion ) )
               ->set( 'workflow_created', $query->bindValue( time() ) );
 
         $statement = $query->prepare();
         $statement->execute();
 
-        $workflow->setDefinition( $this );
-        $workflow->setId( $this->db->lastInsertId() );
-        $workflow->setVersion( $workflowVersion );
+        $workflow->definitionHandler = $this;
+        $workflow->id = (int)$this->db->lastInsertId();
+        $workflow->version = (int)$workflowVersion;
 
         // Write node table rows.
         foreach ( $workflow->getNodes() as $node )
@@ -304,7 +287,7 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
             $query = $this->db->createInsertQuery();
 
             $query->insertInto( 'node' )
-                  ->set( 'workflow_id', $workflow->getId() )
+                  ->set( 'workflow_id', $workflow->id )
                   ->set( 'node_class', $query->bindValue( get_class( $node ) ) )
                   ->set( 'node_configuration', $query->bindValue(
                     ezcWorkflowDatabaseUtil::serialize( $node->getConfiguration() ) )
@@ -338,7 +321,7 @@ class ezcWorkflowDatabaseDefinition implements ezcWorkflowDefinition
             $query = $this->db->createInsertQuery();
 
             $query->insertInto( 'variable_handler' )
-                  ->set( 'workflow_id', $query->bindValue( $workflow->getId() ) )
+                  ->set( 'workflow_id', $query->bindValue( $workflow->id ) )
                   ->set( 'variable', $query->bindValue( $variable ) )
                   ->set( 'class', $query->bindValue( $class ) );
 

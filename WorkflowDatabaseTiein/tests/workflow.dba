@@ -383,15 +383,6 @@ return array (
            'autoIncrement' => false,
            'unsigned' => false,
         )),
-        'workflow_version_is_latest' => 
-        ezcDbSchemaField::__set_state(array(
-           'type' => 'boolean',
-           'length' => 0,
-           'notNull' => true,
-           'default' => true,
-           'autoIncrement' => false,
-           'unsigned' => false,
-        )),
       ),
        'indexes' => 
       array (

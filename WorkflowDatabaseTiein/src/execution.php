@@ -62,7 +62,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
         $query = $this->db->createInsertQuery();
 
         $query->insertInto( 'execution' )
-              ->set( 'workflow_id',       $query->bindValue( $this->workflow->getId() ) )
+              ->set( 'workflow_id',       $query->bindValue( $this->workflow->id ) )
               ->set( 'execution_parent',  $query->bindValue( $parentId ) )
               ->set( 'execution_started', $query->bindValue( time() ) );
 
