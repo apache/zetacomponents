@@ -243,7 +243,7 @@ class ezcGraphRenderer3d
 
             // Split labels up into left a right site and index them on their
             // y position
-            $this->pieSegmentLabels[(int) ($pieSegmentCenter->x > $center->x)][$pieSegmentCenter->y] = array(
+            $this->pieSegmentLabels[(int) ($pieSegmentCenter->x > $center->x)][(int) ( $pieSegmentCenter->y * 100 )] = array(
                 new ezcGraphCoordinate(
                     $center->x + cos( deg2rad( $direction ) ) * $radius * 2 / 3 * ( 1 - $this->options->moveOut ),
                     $center->y + sin( deg2rad( $direction ) ) * ( $radius - $this->options->pieChartHeight ) * 2 / 3 * ( 1 - $this->options->moveOut ) * $this->options->pieChartRotation
@@ -321,6 +321,8 @@ class ezcGraphRenderer3d
 
             foreach ( $labelPart as $height => $label )
             {
+                $height = (int) ( $height / 100 );
+
                 if ( ( $height - $labelHeight / 2 ) > $minHeight )
                 {
                     $share = min( $toShare, ( $height - $labelHeight / 2) - $minHeight );
