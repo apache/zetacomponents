@@ -52,7 +52,7 @@
  * @property string $cpuType 
  *           CPU type string (e.g 'AMD Sempron(tm) Processor 3000+') or null.
  * @property float $cpuSpeed 
- *           CPU speed as float (e.g 1808.743) or null.
+ *           CPU speed as float (e.g 1808.743) in Mhz or null.
  * @property integer $memorySize
  *           Memory Size in bytes int (e.g. 528424960) or null.
  *
