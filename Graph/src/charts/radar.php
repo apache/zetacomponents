@@ -6,17 +6,16 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @access private
  */
 /**
  * Class for line charts. Can make use of an unlimited amount of datasets and 
  * will display them as lines by default.
- * X axis:
+ * Rotation axis:
  *  - Labeled axis
  *  - Centered axis label renderer
- * Y axis:
+ * Axis:
  *  - Numeric axis
- *  - Exact axis label renderer
+ *  - radar axis label renderer
  *
  * <code>
  *  // Create a new line chart
@@ -34,7 +33,7 @@
  *  );
  *
  *  // Render chart with default 2d renderer and default SVG driver
- *  $chart->render( 500, 200, 'line_chart.svg' );
+ *  $chart->render( 500, 200, 'radar_chart.svg' );
  * </code>
  *
  * Each chart consists of several chart elements which represents logical 
@@ -44,6 +43,7 @@
  *  - legend ( ezcGraphChartElementLegend )
  *  - background ( ezcGraphChartElementBackground )
  *  - axis ( ezcGraphChartElementNumericAxis )
+ *  - ratation axis ( ezcGraphChartElementLabeledAxis )
  *
  * The type of the axis may be changed and all elements can be configured by
  * accessing them as properties of the chart:
@@ -53,7 +53,6 @@
  * </code>
  *
  * @package Graph
- * @access private
  * @mainclass
  */
 class ezcGraphRadarChart extends ezcGraphChart

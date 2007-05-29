@@ -19,6 +19,7 @@
   renderer
 - Fixed issue #10846: Division by zero in polygon size reducement algorithm
   for edges with an angle equals 0 degree.
+- Fixed issue #10852: Fixed radar chart documentation
 
 1.1beta1 - Monday 07 May 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
